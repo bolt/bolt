@@ -1,0 +1,5 @@
+vendor/
+composer.phar
+composer.lock
+app/config.php
+debug.log
