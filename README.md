@@ -1,5 +1,5 @@
 Pilex
-===============
+=====
 
 A simple CMS, based on [Silex](http://silex.sensiolabs.org/). 
 
