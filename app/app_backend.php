@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 $checkLogin = function(Request $request) use ($app) {
     
-    if (!$app['session']->has('username')) {
+    if (!$app['session']->has('user')) {
         return $app->redirect('/pilex/login');
     }
     
@@ -37,7 +37,7 @@ $app->get("/pilex", function(Silex\Application $app) {
 /**
  * Login page
  */
-$app->get("/pilex/login", function(Silex\Application $app, Request $request) {
+$app->match("/pilex/login", function(Silex\Application $app, Request $request) {
 
 
     $twigvars = array();
@@ -45,6 +45,9 @@ $app->get("/pilex/login", function(Silex\Application $app, Request $request) {
 
     
     if ($request->request->get('username') == "admin" && $request->request->get('password') == "password") {
+        
+        $app['session']->start();
+        $app['session']->set('user', array('username' => $request->request->get('username')));
         
         return $app->redirect('/pilex');
         
@@ -61,11 +64,19 @@ $app->get("/pilex/login", function(Silex\Application $app, Request $request) {
 })->method('GET|POST');
 
 
-$app->before(function(Request $request) {
+/**
+ * Login page
+ */
+$app->get("/pilex/logout", function(Silex\Application $app) {
+
+
+    $app['session']->remove('user');
     
-    
-    
+    return $app->redirect('/pilex');
+        
 });
+
+
 
 use Symfony\Component\HttpFoundation\Response;
 
