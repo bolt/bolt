@@ -1,5 +1,23 @@
 <?php
 
+if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
+    echo "<p>The file <tt>vendor/autoload.php</tt> doesn't exist. Make sure you've installed the Silex/Pilex components with Composer. See the README.md file.</p>";
+    die();
+}
+
+require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/lib.php';
+
+
+// Read the config
+$yamlparser = new Symfony\Component\Yaml\Parser();
+$config = $yamlparser->parse(file_get_contents(__DIR__.'/config/config.yml'));
+
+// echo "<pre>";
+// print_r($config);
+// echo "</pre>";
+
+
 $app = new Silex\Application();
 
 $app['debug'] = true;
@@ -17,45 +35,20 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 $app['twig']->addExtension(new Twig_Extension_Debug());
 
+
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options'            => array(
-        'driver'    => 'pdo_mysql',
-        'host'      => $config['db_host'],
-        'dbname'    => $config['db_dbname'],
-        'user'      => $config['db_user'],
-        'password'  => $config['db_password'],
+        'driver'    => (isset($config['database']['driver']) ? $config['database']['driver'] : 'pdo_mysql'),
+        'host'      => (isset($config['database']['host']) ? $config['database']['host'] : 'localhost'),
+        'dbname'    => $config['database']['databasename'],
+        'user'      => $config['database']['username'],
+        'password'  => $config['database']['password'],
+        'port'      => (isset($config['database']['host']) ? $config['database']['host'] : '3306'),
     )
 ));
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Foutmelding
- */
-$app->error(function(Exception $e) use ($app) {
 
-    $app['monolog']->addError(json_encode(array(
-        'class' => get_class($e),
-        'message' => $e->getMessage(),
-        'code' => $e->getCode(),
-        'trace' => $e->getTrace()
-        )));
+require_once __DIR__.'/app_backend.php';
 
-    $twigvars = array();
-
-    $twigvars['class'] = get_class($e);
-    $twigvars['message'] = $e->getMessage();
-    $twigvars['code'] = $e->getCode();
-
-	$trace = $e->getTrace();;
-
-	unset($trace[0]['args']);
-
-    $twigvars['trace'] = print_r($trace[0], true);
-
-    $twigvars['title'] = "Een error!";
-
-    return $app['twig']->render('error.twig', $twigvars);
-
-});
+require_once __DIR__.'/app_frontend.php';
