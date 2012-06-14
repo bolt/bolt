@@ -29,7 +29,7 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 ));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path'       => dirname(__DIR__).'/view',
+    'twig.path'       => __DIR__.'/view',
     'twig.options' => array('debug'=>true), 
 ));
 

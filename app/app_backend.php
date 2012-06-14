@@ -1,5 +1,19 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * Middleware function to check whether a user is logged on.
+ */
+$checkLogin = function(Request $request) use ($app) {
+    
+    if (!$app['session']->has('username')) {
+        return $app->redirect('/pilex/login');
+    }
+    
+};
+
+
 /**
  * "root"
  */
@@ -15,10 +29,44 @@ $app->get("/pilex", function(Silex\Application $app) {
     return $app['twig']->render('index.twig', $twigvars);
 
 
+})->before($checkLogin);
+
+
+
+
+/**
+ * Login page
+ */
+$app->get("/pilex/login", function(Silex\Application $app, Request $request) {
+
+
+    $twigvars = array();
+    
+
+    
+    if ($request->request->get('username') == "admin" && $request->request->get('password') == "password") {
+        
+        return $app->redirect('/pilex');
+        
+    } else {
+        
+        $twigvars['message'] = "Username or password not correct. Please check your input.";
+        
+    }
+    
+
+    return $app['twig']->render('login.twig', $twigvars);
+
+
+})->method('GET|POST');
+
+
+$app->before(function(Request $request) {
+    
+    
+    
 });
 
-// todo: Move the error function to app_backend.php
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
