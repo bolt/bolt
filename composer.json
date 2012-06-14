@@ -5,6 +5,6 @@
         "doctrine/dbal": "2.2.*",
         "monolog/monolog": ">=1.0.0",
         "twig/twig": ">=1.8,<2.0-dev",
-        "symfony/yaml": "*"
+        "symfony/yaml": "2.1.*"
     }
 }
