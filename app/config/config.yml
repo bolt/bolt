@@ -1,8 +1,9 @@
 
 database:
-    username: pilex
-    password: pilex%1
-    databasename: pilex
+  username: pilex
+  password: pilex%1
+  databasename: pilex
 
-title: A sample Pilex site.     
+
+sitename: A sample Pilex site.     
     

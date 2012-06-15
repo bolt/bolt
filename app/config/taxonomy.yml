@@ -1,0 +1,21 @@
+tags:
+    name: Tags
+    slug: tags
+    singular-slug: tag
+    behaves-like: tags
+    multiple: 1
+
+categories:
+    name: Categories
+    slug: categories
+    singular-slug: category
+    behaves-like: categories
+    multiple: 1
+    options: news, events, movies, music, books
+
+chapters:
+    name: Chapters
+    slug: chapters
+    singular-slug: chapter
+    behaves-like: grouping
+    multiple: 0
