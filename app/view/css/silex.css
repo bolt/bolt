@@ -27,11 +27,11 @@ h1, h2, h3, h4, h5, h6 {
 
 	background-image: none;
 	background: transparent;
-	background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
-	background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
-	background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
-	background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
-	background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
 
     background-repeat: repeat-x;
     border-radius: 4px 4px 4px 4px;
@@ -47,6 +47,19 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 38px;
 	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
+}
+
+.navbar .nav > li > a {
+    color: #DDD;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navbar .nav .active > a, 
+.navbar .nav .active > a:hover {
+    color: white;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 footer  {    

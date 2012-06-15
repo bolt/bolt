@@ -31,7 +31,7 @@ $app->get("/pilex", function(Silex\Application $app) {
     $twigvars['content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.";
 
     if (!$app['storage']->checkTablesIntegrity()) {
-        $app['session']->setFlash('error', "The database needs to be updated / repaired. 'Go to Settings' > 'Check Database' to do this now.");   
+        $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");   
     }
 
     
@@ -94,7 +94,7 @@ $app->get("/pilex/dbupdate", function(Silex\Application $app) {
 	
 	$twigvars['title'] = "Database check / update";
 	
-	$twigvars['content'] = "Pompidom";
+	$twigvars['content'] = "If you didn't get any errors, the DB should be up to date now. ";
 	
 	$app['storage']->repairTables();
 	
