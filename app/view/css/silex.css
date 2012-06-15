@@ -1,11 +1,58 @@
+
+/**
+ * Colour scheme: 
+ * - #a5d2db - light green/blue
+ * - #4c808b - darker green/blue
+ * - #434341 - dark gray
+ * - #ebe9dd - Sand light
+
+ 
+ */
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3) ;
+}
+
+
 .navbar-fixed-top, .navbar-fixed-bottom  {    
     position: static;
     margin-bottom: 20px;
+    background-image: url(/app/view/img/dust_scratch.png);
+}
+
+
+.navbar-inner {
+
+	background-image: none;
+	background: transparent;
+	background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.4) 10%, rgba(0, 0, 0, 0.0) 80%);
+
+    background-repeat: repeat-x;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
+    min-height: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+.navbar .brand {
+	color: #EEE;
+	font-size: 38px;
+	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
 }
 
 footer  {    
     display: block;
     border-top: 1px solid #CCC; 
+    background-color: #DDD;
 }
 
 
@@ -14,3 +61,4 @@ footer  {
     margin: 20px;
 
 }
+

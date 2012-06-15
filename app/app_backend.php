@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Middleware function to check whether a user is logged on.
@@ -14,6 +15,10 @@ $checkLogin = function(Request $request) use ($app) {
 };
 
 
+
+
+
+
 /**
  * "root"
  */
@@ -24,6 +29,10 @@ $app->get("/pilex", function(Silex\Application $app) {
     $twigvars['title'] = "Silex skeleton app";
 
     $twigvars['content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.";
+
+    if (!$app['storage']->checkTablesIntegrity()) {
+        $app['session']->setFlash('error', "The database needs to be updated / repaired. 'Go to Settings' > 'Check Database' to do this now.");   
+    }
 
     
     return $app['twig']->render('index.twig', $twigvars);
@@ -39,49 +48,64 @@ $app->get("/pilex", function(Silex\Application $app) {
  */
 $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
 
-
     $twigvars = array();
     
 
+    if ($request->server->get('REQUEST_METHOD') == "POST") {
     
-    if ($request->request->get('username') == "admin" && $request->request->get('password') == "password") {
-        
-        $app['session']->start();
-        $app['session']->set('user', array('username' => $request->request->get('username')));
-        
-        return $app->redirect('/pilex');
-        
-    } else {
-        
-        $twigvars['message'] = "Username or password not correct. Please check your input.";
-        
+	    if ($request->request->get('username') == "admin" && $request->request->get('password') == "password") {
+	        
+	        $app['session']->start();
+	        $app['session']->set('user', array('username' => $request->request->get('username')));
+	        $app['session']->setFlash('success', "You've been logged on successfully.");    
+	        
+	        return $app->redirect('/pilex');
+	        
+	    } else {
+	        $app['session']->setFlash('error', 'Username or password not correct. Please check your input.');    
+	    }
+    
     }
     
-
     return $app['twig']->render('login.twig', $twigvars);
-
 
 })->method('GET|POST');
 
 
 /**
- * Login page
+ * Logout page
  */
 $app->get("/pilex/logout", function(Silex\Application $app) {
 
-
+	$app['session']->setFlash('info', 'You have been logged out.');
     $app['session']->remove('user');
     
-    return $app->redirect('/pilex');
+    return $app->redirect('/pilex/login');
         
 });
 
 
 
-use Symfony\Component\HttpFoundation\Response;
+
+$app->get("/pilex/dbupdate", function(Silex\Application $app) {
+	
+	
+	$twigvars = array();
+	
+	$twigvars['title'] = "Database check / update";
+	
+	$twigvars['content'] = "Pompidom";
+	
+	$app['storage']->repairTables();
+	
+	return $app['twig']->render('base.twig', $twigvars);
+	
+})->before($checkLogin);
+
+
 
 /**
- * Foutmelding
+ * Error page.
  */
 $app->error(function(Exception $e) use ($app) {
 

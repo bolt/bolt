@@ -27,12 +27,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="/">Pilex</a>
+      <a class="brand" href="/"><strong>Pilex</strong> {% if app.config.general.sitename is defined %}- {{app.config.general.sitename}}{% endif %} </a>
       <div class="nav-collapse">
         <ul class="nav">
           <li class="active"><a href="/">Home</a></li>
           <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li><a href="/contact">Settings</a></li>
+          <li>{% if app.session.get('user') is not null %}
+          		<a href="/pilex/logout">Logout {{ app.session.get('user').username }}</a> 
+          	{% else %}
+          		<a href="/pilex/login">Login</a> 
+          	{% endif %}
+          </li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -40,3 +46,21 @@
 </div>
 
 <div id="main">
+
+{% if app.session.hasFlash('info') %}
+	<div class="alert alert-info">
+		{{ app.session.flash('info') }}
+	</div>
+{% endif %}
+
+{% if app.session.hasFlash('error') %}
+	<div class="alert alert-error">
+		{{ app.session.flash('error') }}
+	</div>
+{% endif %}
+
+{% if app.session.hasFlash('success') %}
+	<div class="alert alert-success">
+		{{ app.session.flash('success') }}
+	</div>
+{% endif %}

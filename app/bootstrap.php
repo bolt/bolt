@@ -7,11 +7,14 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/lib.php';
-
+require_once __DIR__.'/storage.php';
 
 // Read the config
 $yamlparser = new Symfony\Component\Yaml\Parser();
-$config = $yamlparser->parse(file_get_contents(__DIR__.'/config/config.yml'));
+$config = array();
+$config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/config.yml'));
+$config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
+$config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
 
 // echo "<pre>";
 // print_r($config);
@@ -21,6 +24,8 @@ $config = $yamlparser->parse(file_get_contents(__DIR__.'/config/config.yml'));
 $app = new Silex\Application();
 
 $app['debug'] = true;
+
+$app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider());
 
@@ -36,17 +41,20 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 $app['twig']->addExtension(new Twig_Extension_Debug());
 
 
+$configdb = $config['general']['database'];
+
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'db.options'            => array(
-        'driver'    => (isset($config['database']['driver']) ? $config['database']['driver'] : 'pdo_mysql'),
-        'host'      => (isset($config['database']['host']) ? $config['database']['host'] : 'localhost'),
-        'dbname'    => $config['database']['databasename'],
-        'user'      => $config['database']['username'],
-        'password'  => $config['database']['password'],
-        'port'      => (isset($config['database']['host']) ? $config['database']['host'] : '3306'),
+    'db.options' => array(
+        'driver'    => (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql'),
+        'host'      => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
+        'dbname'    => $configdb['databasename'],
+        'user'      => $configdb['username'],
+        'password'  => $configdb['password'],
+        'port'      => (isset($configdb['host']) ? $configdb['host'] : '3306'),
     )
 ));
 
+$app['storage'] = new Storage($app);
 
 
 require_once __DIR__.'/app_backend.php';

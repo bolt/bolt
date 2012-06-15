@@ -173,14 +173,14 @@ function safeString($str, $strict=false, $extrachars="") {
 
 
 /**
- * Modify a string, so that we can use it for URI's. Like
+ * Modify a string, so that we can use it for slugs. Like
  * safeString, but using hyphens instead of underscores.
  *
  * @param string $str
  * @param string $type
  * @return string
  */
-function makeURI($str, $type='entry') {
+function makeSlug($str) {
 
     $str = safeString($str);
 
@@ -190,19 +190,33 @@ function makeURI($str, $type='entry') {
 
     $str = substr($str,0,64); // 64 chars ought to be long enough.
 
-    // Make sure the URI isn't numeric. We can't have that, because it'll get
-    // confused with the uids.
-    if (is_numeric($str)) {
-        if ($type == 'entry') {
-            $str = "e-".$str;
-        } elseif ($type == 'page') {
-            $str = "p-".$str;
-        } else {
-            $str = "x-".$str;
-        }
-    }
-
     return $str;
 
 }
 
+/**
+ * Make a simple array consisting of key=>value pairs, that can be used
+ * in select-boxes in forms.
+ *
+ * @param array $array
+ * @param string $key
+ * @param string $value
+ */
+function makeValuepairs($array, $key, $value) {
+
+        $temp_array = array();
+
+        if (is_array($array)) {
+                foreach($array as $item) {
+                        if (empty($key)) {
+                            $temp_array[] = $item[$value];
+                        } else {
+                            $temp_array[$item[$key]] = $item[$value];
+                        }
+
+                }
+        }
+
+        return $temp_array;
+
+}
