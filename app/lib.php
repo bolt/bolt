@@ -220,3 +220,67 @@ function makeValuepairs($array, $key, $value) {
         return $temp_array;
 
 }
+
+
+
+/**
+ * Trim a text to a given length, taking html entities into account.
+ *
+ * Formerly we first removed entities (using unentify), cut the text at the
+ * wanted length and then added the entities again (using entify). This caused
+ * lot of problems so now we are using a trick from
+ * http://www.greywyvern.com/code/php/htmlwrap.phps
+ * where entities are replaced by the ACK (006) ASCII symbol, the text cut and
+ * then the entities reinserted.
+ *
+ * @param string $str string to trim
+ * @param int $length position where to trim
+ * @param boolean $nbsp whether to replace spaces by &nbsp; entities
+ * @param boolean $hellip whether to add … at the end
+ *
+ * @return string trimmed string
+ */
+function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true) {
+
+    if ($striptags) {
+        $str = strip_tags($str);
+    }
+
+    $str = trim($str);
+
+    // Use the ACK (006) ASCII symbol to replace all HTML entities temporarily
+    $str = str_replace("\x06", "", $str);
+    preg_match_all("/&([a-z\d]{2,7}|#\d{2,5});/i", $str, $ents);
+    $str = preg_replace("/&([a-z\d]{2,7}|#\d{2,5});/i", "\x06", $str);
+
+    if (function_exists('mb_strwidth') ) {
+        if (mb_strwidth($str)>$length) {
+            $str = mb_strimwidth($str,0,$length+1, '', 'UTF-8');
+            if ($hellip) {
+                $str .= '…';
+            }
+        }
+    } else {
+        if (strlen($str)>$length) {
+            $str = substr($str,0,$length+1);
+            if ($hellip) {
+                $str .= '…';
+            }
+        }
+    }
+
+    if ($nbsp==true) {
+        $str=str_replace(" ", "&nbsp;", $str);
+    }
+
+    $str=str_replace("http://", "", $str);
+
+    // Put captured HTML entities back into the string
+    foreach ($ents[0] as $ent) {
+        $str = preg_replace("/\x06/", $ent, $str, 1);
+    }
+
+    return $str;
+
+}
+

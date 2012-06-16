@@ -38,8 +38,8 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.options' => array('debug'=>true), 
 ));
 
-$app['twig']->addExtension(new Twig_Extension_Debug());
-
+// Add the Pilex Twig functions, filters and tags.
+require_once __DIR__.'/twig_pilex.php';
 
 $configdb = $config['general']['database'];
 
@@ -55,6 +55,11 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 ));
 
 $app['storage'] = new Storage($app);
+
+
+use Silex\Provider\FormServiceProvider;
+
+$app->register(new FormServiceProvider());
 
 
 require_once __DIR__.'/app_backend.php';

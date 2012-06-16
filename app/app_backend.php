@@ -26,16 +26,23 @@ $app->get("/pilex", function(Silex\Application $app) {
 
     $twigvars = array();
 
-    $twigvars['title'] = "Silex skeleton app";
-
     $twigvars['content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.";
 
     if (!$app['storage']->checkTablesIntegrity()) {
         $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");   
     }
 
+    // get the 'latest' from each of the content types. 
+    foreach ($app['config']['contenttypes'] as $key => $contenttype) {
+        
+        $twigvars['latest'][$key] = $app['storage']->getContent($key, array('limit' => 5, 'order' => 'datechanged DESC'));
+        
+    }
+
     
-    return $app['twig']->render('index.twig', $twigvars);
+
+    
+    return $app['twig']->render('dashboard.twig', $twigvars);
 
 
 })->before($checkLogin);
@@ -86,21 +93,114 @@ $app->get("/pilex/logout", function(Silex\Application $app) {
 
 
 
-
+/**
+ * Check the database, create tables, add missing/new columns to tables
+ */
 $app->get("/pilex/dbupdate", function(Silex\Application $app) {
 	
 	
 	$twigvars = array();
 	
 	$twigvars['title'] = "Database check / update";
+
 	
-	$twigvars['content'] = "If you didn't get any errors, the DB should be up to date now. ";
 	
-	$app['storage']->repairTables();
+	$output = $app['storage']->repairTables();
+	
+	if (empty($output)) {
+    	$twigvars['content'] = "<p>Your database is already up to date.<p>";
+	} else {
+    	$twigvars['content'] = "<p>Modifications made to the database:<p>";
+    	$twigvars['content'] .= implode("<br>", $output);
+    	$twigvars['content'] .= "<p>Your database is now up to date.<p>";
+
+	}
+	
+	$twigvars['content'] .= "<br><br><p><a href='/pilex/prefill'>Fill the database</a> with Loripsum.</p>";
 	
 	return $app['twig']->render('base.twig', $twigvars);
 	
 })->before($checkLogin);
+
+
+
+
+/**
+ * Check the database, create tables, add missing/new columns to tables
+ */
+$app->get("/pilex/prefill", function(Silex\Application $app) {
+	
+	
+	$twigvars = array();
+	
+	$twigvars['title'] = "Database prefill";
+
+	
+	$twigvars['content'] = $app['storage']->preFill();
+
+	
+	return $app['twig']->render('base.twig', $twigvars);
+	
+})->before($checkLogin);
+
+
+
+/**
+ * Check the database, create tables, add missing/new columns to tables
+ */
+$app->get("/pilex/overview/{contenttype}", function(Silex\Application $app, $contenttype) {
+	
+	
+	$twigvars = array();
+	
+	$twigvars['contenttype'] = $contenttype;
+
+	$twigvars['multiplecontent'] = $app['storage']->getContent($contenttype, array('limit' => 100, 'order' => 'datechanged DESC'));
+        
+
+
+	return $app['twig']->render('overview.twig', $twigvars);
+	
+})->before($checkLogin);
+
+
+/**
+ * Check the database, create tables, add missing/new columns to tables
+ */
+$app->get("/pilex/edit/{contenttype}/{id}", function(Silex\Application $app, $contenttype, $id) {
+	
+	
+	$twigvars = array();
+	
+	$twigvars['contenttype'] = $contenttype;
+
+	if (empty($id)) {
+    	$content = array();
+	} else {
+      	$content = $app['storage']->getSingleContent($contenttype, array('where' => 'id = '.$id));
+	}
+
+	$form = $app['form.factory']->createBuilder('form', $content);
+	
+	$fields = $app['config']['contenttypes'][$contenttype];
+	
+	echo "<pre>";
+	print_r($fields);
+	echo "</pre>";
+	
+	
+	
+
+        
+
+
+	return $app['twig']->render('editcontent.twig', $twigvars);
+	
+})->before($checkLogin)->assert('id', '\d*');
+
+
+
+
 
 
 

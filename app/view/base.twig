@@ -3,7 +3,10 @@
 
 <h1>{{title}}</h1>
 
-{{content}}
+{% autoescape false %}
+    {{content}}
+{% endautoescape %}
+
 
 
 {% include '_footer.twig' %}

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -30,21 +30,36 @@
             </a>
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li class="active"><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
+                    <li class="active"><a href="/pilex">Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content
+                            <b class="caret"></b>
+                            </a>
+                        <ul class="dropdown-menu">
+                            {% for slug, contenttype in app.config.contenttypes %}
+                            <li><a href="/pilex/overview/{{slug}}">View {{ contenttype.name }}</a></li>
+                            <li><a href="/pilex/edit/{{slug}}">New {{ contenttype.singular_name }}</a></li>
+                            <li class="divider"></li>
+                            {% endfor %}
+                            
+                        </ul>
+                    </li>                    
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings
                             <b class="caret"></b>
                             </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Configuration</li>
-                            <li><a href="#">Link</a></li>
-                            <li><a href="#">Link</a></li>
+                            <li><a href="/pilex/users">Users</a></li>
+                            <li><a href="/pilex/contenttypes">Contenttypes</a></li>
+                            <li><a href="/pilex/taxonomy">Taxonomy</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Maintenance</li>
                             <li><a href="/pilex/dbupdate">Check database</a></li>
                         </ul>
                     </li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="/">View site</a></li>                    
                     <li class="divider-vertical"></li>
                     <li>
                         {% if app.session.get('user') is not null %}
@@ -59,7 +74,7 @@
     </div>
 </div>
 
-<div id="main">
+<div class="container-fluid">
 
 {% if app.session.hasFlash('info') %}
 	<div class="alert alert-info">

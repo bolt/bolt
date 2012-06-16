@@ -1,7 +1,6 @@
 entries:
     name: Entries
-    slug: entries
-    singular-slug: entry
+    singular_name: Entry
     fields:
         title:
             type: text
@@ -13,13 +12,11 @@ entries:
         body:
             type: html
     taxonomy:
-        type: categories
-        type: tags
+        type: categories, tags
 
 pages:
     name: Pages
-    slug: pages
-    singular-slug: page
+    singular_name: Page
     fields:
         title:
             type: text
@@ -36,12 +33,13 @@ pages:
             type: templateselect	
     taxonomy:
        type: chapters
+       
 
 # possible field types:
 # text - varchar(256) - input type text
 # templateselect - varchar(256) - select with template filenames
 # image - varchar(256) - image select/upload widget, stored as filename
-# html - varchar(32768) - wysiwyg element
+# html - text (65kb) - wysiwyg element
 # textarea - varchar(32768) - <textarea>
 # datetime - datetime - date and time selector widget
 # date - datetime - date selector widget
