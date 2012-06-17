@@ -36,6 +36,10 @@ a:hover {
     color: #662010;    
 }
 
+tt {
+    color: #666;
+}
+
 .navbar-inner {
 
 	background-image: none;
@@ -177,6 +181,18 @@ aside section p {
     margin: 4px 0;
 }
 
+
+/**
+ * Editing content ..
+ */ 
+#editcontent input.large {
+    font-size: 125%;
+    width: 90%;
+}
+
+#editcontent textarea {
+    height: 300px;
+}
 
 
 /* //////////// Structure Mobile first ! /////////// */

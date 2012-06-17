@@ -4,7 +4,59 @@
 <div class="row-fluid">
     <div class="span9">
 
-    {{ printr(content) }}
+
+        
+    <form method="post" id="editcontent">
+        
+    {%for key, fields in contenttype.fields %}
+    
+        {% if fields.type == "text" %}
+        <label><b>{{ key|ucfirst}}</b></label>
+        <input type="text" name="{{key}}" id="{{key}}"
+            value='{% if content[key] is defined %}{{ content[key] }}{% endif %}'
+            class='{% if fields.class is defined %}{{ fields.class }}{% endif %}'>
+        {% endif %}
+        
+        {% if fields.type == "slug" %}
+        <label>
+        Permalink: <tt>/{{contenttype.singular_slug}}/<input type="text" name="{{key}}"  id="{{key}}"
+            value='{% if content[key] is defined %}{{ content[key] }}{% endif %}'
+            class='editslug'></tt>
+        </label>
+            
+<script type="text/javascript"> 
+    $("#title").slug({ slug:'editslug', hide: true });
+</script>
+        {% endif %}
+        
+    
+        {% if fields.type == "html" %}
+        <label><b>{{ key|ucfirst}}</b></label>
+        <textarea name="{{key}}" class='{% if fields.class is defined %}{{ fields.class }}{% endif %} redactor'
+            style='{% if fields.height is defined %}height: {{ fields.height }} !important;{% endif %}'
+        >
+            {% if content[key] is defined %}{{ content[key] }}{% endif %}
+        </textarea>
+        {% endif %}
+                
+    
+    {% endfor %}
+        
+        <label>Id</label>
+        <input type='text' readonly=readonly name='id' value='{% if content.id is defined %}{{ content.id }}{% endif %}'>
+        
+        <label>Created on:</label>
+        <input type='text' readonly name='id' value='{% if content.datecreated is defined %}{{ content.datecreated }}{% endif %}'>
+        
+        <label>Last edited:</label>
+        <input type='text' readonly name='id' value='{% if content.datechanged is defined %}{{ content.datechanged }}{% endif %}'>
+        
+    
+        <button type="submit" class="btn">Save</button>
+        
+    </form>
+        
+    {{ printr(contenttype) }}        
         
     </div><!-- /span9 -->
     <aside class="span3">

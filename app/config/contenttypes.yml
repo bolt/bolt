@@ -4,13 +4,16 @@ entries:
     fields:
         title:
             type: text
+            class: large
         slug:
             type: slug
             uses: title
         teaser:
             type: html
+            height: 150px
         body:
             type: html
+            height: 300px
     taxonomy:
         type: categories, tags
 
@@ -25,7 +28,7 @@ pages:
         slug:
             type: slug
             uses: title
-        teaser:
+        introduction:
             type: html
         body:
             type: html

@@ -165,32 +165,31 @@ $app->get("/pilex/overview/{contenttype}", function(Silex\Application $app, $con
 
 
 /**
- * Check the database, create tables, add missing/new columns to tables
+ * Edit a unit of content, or create a new one.
  */
-$app->get("/pilex/edit/{contenttype}/{id}", function(Silex\Application $app, $contenttype, $id) {
-	
-	
-	$twigvars = array();
-	
-	$twigvars['contenttype'] = $contenttype;
+$app->get("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, Silex\Application $app, Request $request) {
+        
+        
+    $twigvars = array();
+    
+    $twigvars['contenttype'] = $contenttypeslug;
+
+
 
 	if (empty($id)) {
     	$content = array();
 	} else {
-      	$content = $app['storage']->getSingleContent($contenttype, array('where' => 'id = '.$id));
+      	$content = $app['storage']->getSingleContent($contenttypeslug, array('where' => 'id = '.$id));
 	}
 
-	$form = $app['form.factory']->createBuilder('form', $content);
+	// borken..
+	// $form = $app['form.factory']->createBuilder('form', $content);
 	
-	$fields = $app['config']['contenttypes'][$contenttype];
+	$contenttype = $app['config']['contenttypes'][$contenttypeslug];
+	$contenttype['singular_slug'] = makeSlug($contenttype['singular_name']);
 	
-	echo "<pre>";
-	print_r($fields);
-	echo "</pre>";
-	
-	
-	
-
+    $twigvars['contenttype'] = $contenttype;
+    $twigvars['content'] = $content;
         
 
 
