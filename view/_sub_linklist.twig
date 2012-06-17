@@ -1,0 +1,5 @@
+<ul>
+{% for content in contentgroup %}
+    <li><a href="/{{contenttype.slug}}/{{content.slug}}">{{ content.title }}</a></li>
+{% endfor %}
+</ul>

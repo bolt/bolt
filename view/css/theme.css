@@ -1,0 +1,65 @@
+body {
+    background-color: #EEE;    
+    
+}
+
+header {
+    border: 1px solid #CCC;
+    background-color: #DDD;
+    font-size: 32px;
+    padding: 16px;
+    text-align: center;
+}
+
+footer {
+    border: 1px solid #DDD;
+    background-color: #F8F8F8;
+    color: #777;
+    font-size: 14px;
+    padding: 8px;
+    text-align: center;
+}
+
+#main {
+    float: left; 
+    width: 60%;
+}
+
+aside {
+    float: left; 
+    width: 35%;
+    padding-left: 20px;
+    margin: 20px 0 0 20px;
+    border-left: 2px solid #DDD;
+}
+
+#container {
+    border: 2px solid #F8F8F8;
+    background-color: #FFF;
+    padding: 10px 20px;
+    margin: 10px 20px;
+}
+
+.cleaner { 
+    clear:both;
+    font-size: 0px;
+    line-height: 0px;
+    
+}
+
+section.teaser {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.meta {
+    border: 1px dashed #BBB;
+    background-color: #DDF;
+    padding: 4px;
+    font-size: 80%;
+    margin: 5px 0px;
+}
+
+.meta p {
+    margin: 2px 0;
+}

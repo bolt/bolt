@@ -1,0 +1,32 @@
+{% include '_header.twig' %}
+
+
+<h1>{{ content.title}}</h1>
+
+<h2>{{ content.subtitle}}</h1>
+
+
+<section class='teaser'>
+
+    {{ content.introduction|raw }}
+
+</section>
+
+<hr />
+
+<section>
+
+    {{ content.body|raw }}
+ 
+</section>
+
+<section class="meta">
+    <p>Author: {{ content.username }}</p>
+    <p>Created: {{ content.datecreated }}</p>
+    <p>Edited: {{ content.datechanged }}</p>
+    
+</section>
+
+
+
+{% include '_footer.twig' %}

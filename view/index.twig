@@ -1,0 +1,16 @@
+{% include '_header.twig' %}
+
+
+
+<h1>{{ app.config.general.sitename }}</h1>
+
+<section class='weblog'>
+
+     {{ render("/weblog/entries") }}
+
+</section>
+
+
+
+
+{% include '_footer.twig' %}

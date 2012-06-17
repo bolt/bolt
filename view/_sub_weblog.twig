@@ -1,0 +1,11 @@
+
+{% for content in contentgroup %}
+    <h3><a href="/entry/{{content.slug}}">{{content.title}}</a></h3>
+    
+    <p>{{ content.teaser|raw }}</p>
+    
+    <p class="meta">
+        Author: {{ content.username }} - Posted: {{ content.datecreated }}
+    <p>
+<hr>    
+{% endfor %}

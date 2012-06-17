@@ -1,0 +1,28 @@
+{% include '_header.twig' %}
+
+
+
+<h1>{{ content.title}}</h1>
+
+<section class='teaser'>
+
+    {{ content.teaser|raw }}
+
+</section>
+<section>
+
+    {{ content.body|raw }}
+
+</section>
+
+<section class="meta">
+    <p>Author: {{ content.username }}</p>
+    <p>Created: {{ content.datecreated }}</p>
+    <p>Edited: {{ content.datechanged }}</p>
+    
+</section>
+
+{# {{ printr(content) }} #}
+
+
+{% include '_footer.twig' %}
