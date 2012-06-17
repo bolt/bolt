@@ -273,7 +273,7 @@ class Storage {
                     if (in_array($field, array('teaser', 'introduction', 'excerpt', 'intro'))) {
                         $params = 'medium/decorate/link/1';
                     } else {
-                        $params = 'long/decorate/link/ol/ul/dl/bq/code/5';
+                        $params = 'medium/decorate/link/ol/ul/3';
                         //$params = 'long/1';
 
                     }
@@ -411,7 +411,6 @@ class Storage {
 
         $query = "SELECT * FROM $tablename";
         
-        
         // Order 
         if (!empty($parameters['order'])) {
             $query .= " ORDER BY " . safeString($parameters['order']);
@@ -424,8 +423,6 @@ class Storage {
         
         // Add the limit
         $query .= " LIMIT $limit";
-
-        // echo "q: $query";
 
         $content = $this->db->fetchAll($query);
         

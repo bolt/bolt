@@ -5,17 +5,56 @@
  */
 $app->get("/", function(Silex\Application $app) {
 
-    $twigvars = array();
-
-    $twigvars['title'] = "Frontpage";
-
-    $twigvars['content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.";
-
     
-    return $app['twig']->render('index.twig', $twigvars);
+    return $app['twig']->render('index.twig');
 
 
 });
+
+
+
+$app->get('/weblog/{contenttypeslug}', function (Silex\Application $app, $contenttypeslug ) {
+    
+    $contenttype = $app['storage']->getContentType($contenttypeslug);
+    
+    
+    if (!$contenttype) {
+        $app->abort(404, "Page /weblog/$contenttypeslug not found.");
+    }
+    
+    $contentgroup =  $app['storage']->getContent($contenttype['slug'], array('limit' => "10", 'order' => "datecreated DESC"));
+    
+    return $app['twig']->render('_sub_weblog.twig', array(
+        'contentgroup' => $contentgroup, 
+        'contenttype' => $contenttype
+    ));
+    
+    
+});
+
+
+
+
+$app->get('/linklist/{contenttypeslug}', function (Silex\Application $app, $contenttypeslug ) {
+    
+    $contenttype = $app['storage']->getContentType($contenttypeslug);
+    
+    
+    if (!$contenttype) {
+        $app->abort(404, "Page /linklist/$contenttypeslug not found.");
+    }
+    
+    $contentgroup =  $app['storage']->getContent($contenttype['slug'], array('limit' => "10", 'order' => "datecreated DESC"));
+    
+    return $app['twig']->render('_sub_linklist.twig', array(
+        'contentgroup' => $contentgroup, 
+        'contenttype' => $contenttype
+    ));
+    
+    
+});
+
+
 
 
 $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $contenttypeslug, $slug) {
@@ -51,3 +90,5 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
     
     
 });
+
+

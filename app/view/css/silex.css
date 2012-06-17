@@ -58,17 +58,25 @@ tt {
     background-repeat: repeat-x;
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
-    min-height: 60px;
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 0px;
+    min-height: 60px;
 
 }
 
 .navbar .brand {
+    position: absolute;
+    top: 0px;
+    left: 20px;
 	color: #FFF;
 	font-size: 38px;
 	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
+}
+
+.navbar .brand span {
+    font-size: 70%;
 }
 
 .navbar .nav > li > a {
@@ -84,13 +92,24 @@ tt {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+.navbar .nav-collapse .nav.pull-right {
+    margin-top: 10px;
+} 
+
 footer  {    
-    display: block;
+    margin-top: 30px;
+    position: fixed;
+    bottom: 0;
     border-top: 1px solid #CCC; 
     background-color: #DDD;
+    color: #999;
+    width:100%; 
+    padding: 4px 10px;
 }
 
-
+.container-fluid {
+    min-height: 100%;
+}
 
 
 /**
@@ -124,22 +143,31 @@ footer  {
     background-color: #FAFAF4;
 }
 
+.dashboardlisting tr.unpublished *,
+.dashboardlisting tr.held * {
+    background-color: #F8F8F8;
+    color: #CCC !important;
+}
+
 .dashboardlisting td {
     border: 1px solid #DDD;
     padding: 5px;
-    overflow: hidden; 
     vertical-align: top;
     line-height: 18px;
     font-size: 13px;    
 }
 
 .dashboardlisting td.id, 
-.dashboardlisting td.username {
+.dashboardlisting td.username,
+.dashboardlisting td.actions  {
     white-space: nowrap;
     text-align: center;
     color: #666;    
 }
 
+.dashboardlisting td.actions {
+    min-width: 60px;
+}
 
 .dashboardlisting td.excerpt span {
     height: 36px;
@@ -148,7 +176,9 @@ footer  {
     overflow: hidden;
 }
 
-
+ul.dropdown-menu li {
+    text-align: left;
+}
 
 
 aside section {
@@ -215,58 +245,5 @@ label span.left {
     height: 300px;
 }
 
-
-/* //////////// Structure Mobile first ! /////////// */
-
-html {
-	-webkit-text-size-adjust: 100%; 
-	-ms-text-size-adjust: none;	
-}
-
-/* A hack for HTML5 contenteditable attribute on mobile */
-	textarea[contenteditable] {
-	-webkit-appearance: none;
-}
-
-body:after {
-    content: "mobile 320/480 portrait and landscape";
-    font-size: 100%;
-    font-weight: bold;
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    text-align: center;
-    background-color: hsla(1,60%,40%,0.7);
-    color: #000000;
-} 
-
-/* ///////////////////////////////////////////////////////////////////////////////////////////////                                                                   
-END general css, start media query based additions */
-
-
-/* ///////////////////////////////////////////////////////////////////////////////////////////////
-Start Query above 768 ////////////////////////////////////// */
-
-@media all and (min-width: 768px) {
-
-	body:after {
-	    content: "768px: Ipad portrait to desktop 1024px";
-	    background-color: hsla(270,60%,40%,0.7);
-	}
-}
-
-/* ///////////////////////////////////////////////////////////////////////////////////////////////                                                                   
-END general css, start media query based additions */
-
-/* ///////////////////////////////////////////////////////////////////////////////////////////////
-Start Query above 1024 ////////////////////////////////////// */
-
-@media all and (min-width: 1024px) {
-
-	body:after {
-	    content: "1024px: desktop min 1024px";
-	    background-color: hsla(270,60%,40%,0.7);
-	}
-}
 
 

@@ -55,17 +55,16 @@
         
         <label><span class='left'>Status: {{ content.status }}</span>
         <select name="status">
-            <option value="pom">Pom</option>
             <option value="published" {% if content.status == "published" %}selected{% endif %}>Published</option>
-            <option value="held">Not published</option>
-            <option value="timed">Timed publish</option>            
-            <option value="draft">Draft</option>
-            <option value="unpublished">Depublished</option>
+            <option value="held" {% if content.status == "held" %}selected{% endif %}>Not published</option>
+            <option value="timed" {% if content.status == "timed" %}selected{% endif %}>Timed publish</option>            
+            <option value="draft" {% if content.status == "draft" %}selected{% endif %}>Draft</option>
+            <option value="unpublished" {% if content.status == "unpublished" %}selected{% endif %}>Depublished</option>
             
         </select>
         </label>
     
-        <button type="submit" class="btn btn-primary">Save {{ contenttype.singular_name }}</button> 
+        <button type="submit" class="btn btn-primary" id="savebutton">Save {{ contenttype.singular_name }}</button> 
         
     </form>
         
@@ -76,7 +75,26 @@
     <aside class="span3">
 
     <section>
-    <h2>consectetur adipiscing elit</h2>
+    <h2>Actions for this {{ contenttype.singular_name }}</h2>
+    
+    <a class="btn btn-primary" id="sidebarsave">Save {{ contenttype.singular_name }}</a>
+    <a class="btn btn-info" id="sidebarview" href="" target="_blank">View {{ contenttype.singular_name }}</a>
+    <script>
+        $('#sidebarsave').bind('click', function(){ $('#savebutton').trigger('click'); });
+        
+        $('#sidebarview').bind('click', function(){ 
+            
+            var link = "/{{contenttype.singular_slug}}/" + $('input[name=slug]').val();
+            
+            $('#sidebarview').attr('href', link);
+            
+        });
+    
+    
+    </script>
+    
+    
+    
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Haec mihi videtur delicatior, ut ita dicam, molliorque ratio, quam virtutis vis gravitasque postulat. Ergo opifex plus sibi proponet ad formarum quam civis excellens ad factorum pulchritudinem? Hic Speusippus, hic Xenocrates, hic eius auditor Polemo, cuius illa ipsa sessio fuit, quam videmus. </p>
     </section>
     

@@ -1,0 +1,55 @@
+
+/* //////////// Structure Mobile first ! /////////// */
+
+html {
+	-webkit-text-size-adjust: 100%; 
+	-ms-text-size-adjust: none;	
+}
+
+/* A hack for HTML5 contenteditable attribute on mobile */
+	textarea[contenteditable] {
+	-webkit-appearance: none;
+}
+
+body:after {
+    content: "mobile 320/480 portrait and landscape";
+    font-size: 100%;
+    font-weight: bold;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    background-color: hsla(1,60%,40%,0.7);
+    color: #000000;
+} 
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////                                                                   
+END general css, start media query based additions */
+
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////
+Start Query above 768 ////////////////////////////////////// */
+
+@media all and (min-width: 768px) {
+
+	body:after {
+	    content: "768px: Ipad portrait to desktop 1024px";
+	    background-color: hsla(270,60%,40%,0.7);
+	}
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////                                                                   
+END general css, start media query based additions */
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////
+Start Query above 1024 ////////////////////////////////////// */
+
+@media all and (min-width: 1024px) {
+
+	body:after {
+	    content: "1024px: desktop min 1024px";
+	    background-color: hsla(270,60%,40%,0.7);
+	}
+}
+
+

@@ -1,24 +1,27 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>{% if content.title is defined %}{{ content.title }} - {% endif %}{{ app.config.general.sitename }}</title>
 
-    <title>Silex Boilerplate {% if title is defined %}- {{title}}{% endif %}</title>
-    
-    <link rel="stylesheet" href="view/css/bootstrap.css" />
-    <link rel="stylesheet" href="view/css/bootstrap-responsive.css" />
-    <link rel="stylesheet" href="view/css/silex.css" />
-    <script src="view/js/jquery-1.7.2.min.js"></script>
-    <script src="view/js/bootstrap.js"></script>
-    <script src="view/js/silex.js"></script>
+	<link rel="stylesheet" href="/view/css/style.css">
+	<link rel="stylesheet" href="/view/css/theme.css">
 
+	<script src="js/libs/modernizr-2.5.3.min.js"></script>
 </head>
 <body>
+
+<div id="container">
+
+    <header>
+      <a href="/">{{ app.config.general.sitename }}</a>
+    </header>
     
-
-
-
-<div id="main">
+    <div role="main" id="main">
