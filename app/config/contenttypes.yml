@@ -23,15 +23,18 @@ pages:
     fields:
         title:
             type: text
-        subtitle:
-            type: text            
+            class: large   
         slug:
             type: slug
-            uses: title
+            uses: title                    
+        subtitle:
+            type: text 
         introduction:
             type: html
+            height: 150px
         body:
             type: html
+            height: 300px
         template:
             type: templateselect	
     taxonomy:

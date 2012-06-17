@@ -4,7 +4,7 @@
 <div class="row-fluid">
     <div class="span9">
 
-        <h1>Overview » {{contenttype }} </h1>
+        <h1>Overview » {{contenttype.name }} </h1>
 
     
     
@@ -15,7 +15,7 @@
         
         <tr class="fitlisting">
             <td class='id'>№ {{content.id}}</td>
-            <td class='excerpt'><span> <strong><a href="/pilex/edit/entries/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} <span></td>
+            <td class='excerpt'><span> <strong><a href="/pilex/edit/{{contenttype.slug}}/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} <span></td>
             <td class='username'> {{ content.username }} <br> {{ content.datecreated|date('d/m/Y') }} </td>
     
         </tr>

@@ -23,7 +23,7 @@
         
         <tr class="fitlisting">
             <td class='id'>№ {{content.id}}</td>
-            <td class='excerpt'><span> <strong><a href="/pilex/edit/entries/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} <span></td>
+            <td class='excerpt'><span> <strong><a href="/pilex/edit/entries/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} </span></td>
             <td class='username'> {{ content.username }} <br> {{ content.datecreated|date('d/m/Y') }} </td>
     
         </tr>

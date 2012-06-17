@@ -382,7 +382,7 @@ class Storage {
         // Add the limit
         $query .= " LIMIT $limit";
 
-        //echo "q: $query";
+        // echo "q: $query";
 
         $content = $this->db->fetchAll($query);
         
@@ -390,6 +390,23 @@ class Storage {
         
         
     }
+    
+    
+    public function getContentType($contenttype) {
+    
+        if (!isset($this->config['contenttypes'][$contenttype])) {
+            return false;
+        }
+    
+        $contenttype = $this->config['contenttypes'][$contenttype];
+    
+        $contenttype['slug'] = makeSlug($contenttype['name']);
+        $contenttype['singular_slug'] = makeSlug($contenttype['singular_name']);
+    
+        return $contenttype;
+    
+    }
+    
     
     public function getSingleContent($contenttype, $parameters) {
         

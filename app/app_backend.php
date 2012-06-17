@@ -153,7 +153,8 @@ $app->get("/pilex/overview/{contenttype}", function(Silex\Application $app, $con
 	
 	$twigvars = array();
 	
-	$twigvars['contenttype'] = $contenttype;
+    $twigvars['contenttype'] = $app['storage']->getContentType($contenttype);
+
 
 	$twigvars['multiplecontent'] = $app['storage']->getContent($contenttype, array('limit' => 100, 'order' => 'datechanged DESC'));
         
@@ -167,29 +168,25 @@ $app->get("/pilex/overview/{contenttype}", function(Silex\Application $app, $con
 /**
  * Edit a unit of content, or create a new one.
  */
-$app->get("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, Silex\Application $app, Request $request) {
+$app->get("/pilex/edit/{contenttype}/{id}", function($contenttype, $id, Silex\Application $app, Request $request) {
         
         
     $twigvars = array();
     
-    $twigvars['contenttype'] = $contenttypeslug;
-
+    $twigvars['contenttype'] = $app['storage']->getContentType($contenttype);
 
 
 	if (empty($id)) {
     	$content = array();
 	} else {
-      	$content = $app['storage']->getSingleContent($contenttypeslug, array('where' => 'id = '.$id));
+      	$content = $app['storage']->getSingleContent($contenttype, array('where' => 'id = '.$id));
 	}
 
 	// borken..
 	// $form = $app['form.factory']->createBuilder('form', $content);
 	
-	$contenttype = $app['config']['contenttypes'][$contenttypeslug];
-	$contenttype['singular_slug'] = makeSlug($contenttype['singular_name']);
-	
-    $twigvars['contenttype'] = $contenttype;
-    $twigvars['content'] = $content;
+
+	$twigvars['content'] = $content;
         
 
 

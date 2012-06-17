@@ -18,7 +18,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
 	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-	margin-bottom: 0.5em;
+	margin: 0.5em 0;
 }
 
 
@@ -39,6 +39,8 @@ a:hover {
 tt {
     color: #666;
 }
+
+
 
 .navbar-inner {
 
@@ -104,7 +106,7 @@ footer  {
     line-height: 10px;
     position: relative;
     right: 0;
-    top: 12px;
+    top: 15px;
 }
 
 .dashboardlisting {
@@ -113,57 +115,47 @@ footer  {
     box-shadow:  1px 1px 1px 0px rgba(0, 0, 0, 0.2);
     -moz-border-radius: 3px;
     border-radius: 3px;     
-
-           
-}
-
-.dashboardlisting td {
-    border: 1px solid #DDD;
-    padding: 2px;
-    overflow: hidden; 
-    vertical-align: top;
-
-    line-height: 15px;
-}
-
-.dashboardlisting td.id {
-    min-width: 32px;
-    text-align: center;
-}
-
-
-.dashboardlisting td.excerpt span {
-    height: 31px;
-    display: block;
-    line-height: 15px;
-    font-size: 12px;
-    color: #555;
-}
-
-.dashboardlisting td.excerpt a {
-    font-size: 13px;
-}
-
-.dashboardlisting td.username {
-    min-width: 66px;
-    font-size: 90%;
-    text-align: center;
 }
 
 .dashboardlisting tr:nth-child(odd) {
     background-color: #FAFAF4;
 }
 
+.dashboardlisting td {
+    border: 1px solid #DDD;
+    padding: 5px;
+    overflow: hidden; 
+    vertical-align: top;
+    line-height: 18px;
+    font-size: 13px;    
+}
+
+.dashboardlisting td.id, 
+.dashboardlisting td.username {
+    white-space: nowrap;
+    text-align: center;
+    color: #666;    
+}
+
+
+.dashboardlisting td.excerpt span {
+    height: 36px;
+    display: block;
+    color: #666;
+    overflow: hidden;
+}
+
+
 
 
 aside section {
     background-color: #ebe9dd;
-    border: 1px solid #CCC;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow:  1px 1px 1px 0px rgba(0, 0, 0, 0.2);
-    box-shadow:  1px 1px 1px 0px rgba(0, 0, 0, 0.2);
-    padding: 8px;
+    border: 1px solid #CCB;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    -webkit-box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    padding: 10px;
     margin-bottom: 15px;
 }
 
@@ -185,9 +177,23 @@ aside section p {
 /**
  * Editing content ..
  */ 
+label {
+    margin: 1em 0 0.5em;
+}
+
+label.permalink {
+    margin: 0 0 0.5em;
+}
+
+
 #editcontent input.large {
-    font-size: 125%;
-    width: 90%;
+    font-size: 133%;
+    width: 95%;
+}
+
+#editcontent input {
+    font-size: 100%;
+    width: 95%;
 }
 
 #editcontent textarea {
