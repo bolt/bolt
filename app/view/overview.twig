@@ -14,7 +14,7 @@
         {% for content in multiplecontent %}
         
         <tr class="{{ content.status }}">
-            <td class='id'>№ {{content.id}} {{ content.status }}</td>
+            <td class='id'>№ {{content.id}}</td>
             <td class='excerpt'><span> <strong><a href="/pilex/edit/{{contenttype.slug}}/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} <span></td>
             <td class='username'> {{ content.username }} <br> {{ content.datecreated|date('d/m/Y') }} </td>
             <td class='actions'>

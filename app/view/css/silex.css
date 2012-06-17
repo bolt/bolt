@@ -146,7 +146,7 @@ footer  {
 .dashboardlisting tr.unpublished *,
 .dashboardlisting tr.held * {
     background-color: #F8F8F8;
-    color: #CCC !important;
+    color: #BBB !important;
 }
 
 .dashboardlisting td {
