@@ -1,12 +1,15 @@
 
 /**
  * Colour scheme: 
- * - #a5d2db - light green/blue
- * - #4c808b - darker green/blue
+ * - #214968 - base blue
+ * - #194770 - links, slightly blueer
+ 
  * - #434341 - dark gray
  * - #ebe9dd - Sand light
  
  * not used: 
+ * - #a5d2db - light green/blue
+ * - #4c808b - darker green/blue 
  * - #8B694C - light brown, complementary to green/blue
  * - #3E2815 - brown, complementary to green/blue
  */
@@ -29,11 +32,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    color: #AE311A;
+    color: #194770; /* #AE311A; */
 }
 
 a:hover {
-    color: #662010;    
+        color: #103060;    
 }
 
 tt {
@@ -49,7 +52,7 @@ tt {
 	background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
 	background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
 	background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
-	background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
+	background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
 	background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 80%);
 
     background-repeat: repeat-x;
@@ -78,7 +81,7 @@ tt {
 .navbar .nav .active > a:hover {
     color: white;
     text-decoration: none;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 footer  {    
@@ -155,17 +158,19 @@ aside section {
     border-radius: 7px;
     -webkit-box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1);
     box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 0 10px 10px;
+    margin-bottom: 20px;
 }
 
 aside section h2 {
     font-size: 14px;
     line-height: 18px;
-    margin: 0 0 4px;
+    margin: 8px 0 4px;
 	text-shadow: none;
 	color: #333;    
 }
+
+
 
 aside section p {
     font-size: 12px;
@@ -185,10 +190,20 @@ label.permalink {
     margin: 0 0 0.5em;
 }
 
+label span.left {
+    display: block;
+    float: left;
+    min-width: 100px;
+}
 
 #editcontent input.large {
     font-size: 133%;
     width: 95%;
+}
+
+#editcontent input.narrow {
+    width: 30%;
+    min-width: 200px;
 }
 
 #editcontent input {

@@ -4,8 +4,6 @@
 <div class="row-fluid">
     <div class="span9">
 
-
-        
     <form method="post" id="editcontent">
         
     {%for key, fields in contenttype.fields %}
@@ -13,14 +11,14 @@
         {% if fields.type == "text" %}
         <label><b>{{ key|ucfirst}}</b></label>
         <input type="text" name="{{key}}" id="{{key}}"
-            value='{% if content[key] is defined %}{{ content[key] }}{% endif %}'
+            value='{{ content[key] }}'
             class='{% if fields.class is defined %}{{ fields.class }}{% endif %}'>
         {% endif %}
         
         {% if fields.type == "slug" %}
         <label class='permalink'>
         Permalink: <tt>/{{contenttype.singular_slug}}/<input type="text" name="{{key}}"  id="{{key}}"
-            value='{% if content[key] is defined %}{{ content[key] }}{% endif %}'
+            value='{{ content[key] }}'
             class='editslug'></tt>
         </label>
             
@@ -33,8 +31,7 @@
         {% if fields.type == "html" %}
         <label><b>{{ key|ucfirst}}</b></label>
         <textarea name="{{key}}" class='{% if fields.class is defined %}{{ fields.class }}{% endif %} redactor'
-            style='{% if fields.height is defined %}height: {{ fields.height }} !important;{% endif %}'
-        >
+            style='{% if fields.height is defined %}height: {{ fields.height }} !important;{% endif %}'>
             {% if content[key] is defined %}{{ content[key] }}{% endif %}
         </textarea>
         {% endif %}
@@ -42,22 +39,39 @@
     
     {% endfor %}
         
-        <label>Id</label>
-        <input type='text' readonly=readonly name='id' value='{% if content.id is defined %}{{ content.id }}{% endif %}'>
+        <label><span class='left'>Id:</span>
+        <input type='text' readonly=readonly name='id' value='{{ content.id }}' class="narrow">
+        </label>
         
-        <label>Created on:</label>
-        <input type='text' readonly name='id' value='{% if content.datecreated is defined %}{{ content.datecreated }}{% endif %}'>
+        <label><span class='left'>Created on:</span>
+        <input type='text' readonly name=' class="narrow"' 
+            value='{{ content.datecreated }}' class="narrow">
+        </label>
         
-        <label>Last edited:</label>
-        <input type='text' readonly name='id' value='{% if content.datechanged is defined %}{{ content.datechanged }}{% endif %}'>
+        <label><span class='left'>Last edited:</span>
+        <input type='text' readonly name='datechanged' 
+            value='{{ content.datechanged }}' class="narrow">
+        </label>
         
+        <label><span class='left'>Status: {{ content.status }}</span>
+        <select name="status">
+            <option value="pom">Pom</option>
+            <option value="published" {% if content.status == "published" %}selected{% endif %}>Published</option>
+            <option value="held">Not published</option>
+            <option value="timed">Timed publish</option>            
+            <option value="draft">Draft</option>
+            <option value="unpublished">Depublished</option>
+            
+        </select>
+        </label>
     
-        <button type="submit" class="btn">Save</button>
+        <button type="submit" class="btn btn-primary">Save {{ contenttype.singular_name }}</button> 
         
     </form>
         
-    {{ printr(contenttype) }}        
-        
+{#   {{ printr(contenttype) }}   #}
+
+
     </div><!-- /span9 -->
     <aside class="span3">
 

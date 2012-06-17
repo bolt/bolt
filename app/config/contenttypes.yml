@@ -16,6 +16,7 @@ entries:
             height: 300px
     taxonomy:
         type: categories, tags
+    template: entry.twig
 
 pages:
     name: Pages
@@ -39,6 +40,7 @@ pages:
             type: templateselect	
     taxonomy:
        type: chapters
+    template: page.twig
        
 
 # possible field types:

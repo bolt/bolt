@@ -80,7 +80,7 @@ class Storage {
             $myTable->addColumn("password", "string", array("length" => 32));
             $myTable->addColumn("lastseen", "datetime");                        
             $myTable->addColumn("lastip", "string", array("length" => 32));
-            $myTable->addColumn("slug", "string", array("length" => 32));
+            $myTable->addColumn("slug", "string", array("length" => 64));
             $myTable->addColumn("displayname", "string", array("length" => 32));
             $myTable->addColumn("fullname", "string", array("length" => 64));
             
@@ -102,7 +102,8 @@ class Storage {
             $myTable->addColumn("content_id", "integer", array("unsigned" => true));
             $myTable->addColumn("contenttype", "string", array("length" => 32));
             $myTable->addColumn("taxonomytype", "string", array("length" => 32));
-            $myTable->addColumn("value", "datetime", array("length" => 64));                        
+            $myTable->addColumn("slug", "datetime", array("length" => 64));   
+            $myTable->addColumn("name", "datetime", array("length" => 64));                        
             
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
@@ -124,10 +125,12 @@ class Storage {
                 $myTable = $schema->createTable($tablename); 
                 $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
                 $myTable->setPrimaryKey(array("id"));
-                $myTable->addColumn("slug", "string", array("length" => 32));
+                $myTable->addColumn("slug", "string", array("length" => 128));
                 $myTable->addColumn("datecreated", "datetime");    
                 $myTable->addColumn("datechanged", "datetime"); 
                 $myTable->addColumn("username", "string", array("length" => 32));
+                $myTable->addColumn("status", "string", array("length" => 32));
+
 
                 $queries = $schema->toSql($this->db->getDatabasePlatform());
                 $queries = implode("; ", $queries);
@@ -228,13 +231,29 @@ class Storage {
         $title = "";
         
         $content['contenttype'] = $key;
-        $content['datecreated'] = date('Y-m-d H:m:s', time() - rand(0, 365*24*60*60));
+        $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
         
 
         //todo: fix this, use a random name.
         $content['username'] = "admin";
 
-        
+        switch(rand(1,10)) {
+            case 1: 
+                $content['status'] = "held";
+                break;
+            case 2: 
+                $content['status'] = "timed";
+                break;
+            case 3: 
+                $content['status'] = "draft";
+                break;
+            case 4: 
+                $content['status'] = "unpublished";
+                break;
+            default:
+                $content['status'] = "published";
+                break;
+        }
 
         foreach($contenttype['fields'] as $field => $values) {
             
@@ -263,7 +282,7 @@ class Storage {
                     
                 case 'datetime':
                 case 'date':
-                    $content[$field] = date('Y-m-d H:m:s', time() - rand(-365*24*60*60, 365*24*60*60));
+                    $content[$field] = date('Y-m-d H:i:s', time() - rand(-365*24*60*60, 365*24*60*60));
                     break; 
                     
             }
@@ -281,17 +300,21 @@ class Storage {
     }
     
     
-    public function saveContent($content) {
-        
-        if (empty($content['contenttype'])) {
+    public function saveContent($content, $contenttype="") {
+              
+        if (empty($contenttype) && !empty($content['contenttype'])) {
+            $contenttype = $content['contenttype'];
+        }
+       
+        if (empty($contenttype)) {
             echo "Contenttype is required.";
-            die();
+            return false;
         }
         
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username');
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status');
         // add the fields for this contenttype, 
-        foreach ($this->config['contenttypes'][$content['contenttype']]['fields'] as $key => $values) {
+        foreach ($this->config['contenttypes'][$contenttype]['fields'] as $key => $values) {
 
             $allowedcolumns[] = $key;
             
@@ -303,28 +326,26 @@ class Storage {
         }
         
         // Set datechanged
-        $content['datechanged'] = date('Y-m-d H:m:s');
+        $content['datechanged'] = date('Y-m-d H:i:s');
         
         // Decide whether to insert a new record, or update an existing one.
         
-        //echo "<pre>";
-        //print_r($content);
-        //echo "</pre>";
-        
         
         if (empty($content['id'])) {
-            $this->insertContent($content, $allowedcolumns);
+            return $this->insertContent($content, $contenttype, $allowedcolumns);
         } else {
-            $this->updateContent($content, $allowedcolumns);
+            return $this->updateContent($content, $contenttype, $allowedcolumns);
         }
         
     }
     
     
-    protected function insertContent($content, $allowedcolumns) {
+    protected function insertContent($content, $contenttype, $allowedcolumns) {
         
-        $slug = makeSlug($content['contenttype']);
-        $tablename = $this->prefix . $slug;
+        $tablename = $this->prefix . $contenttype;
+        
+        $content['datecreated'] = date('Y-m-d H:i:s');
+        
         
         // unset columns we don't need to store..
         foreach($content as $key => $value) {
@@ -333,15 +354,14 @@ class Storage {
             }
         }
         
-        $this->db->insert($tablename, $content);
+        return $this->db->insert($tablename, $content);
         
     }
     
     
-    protected function updateContent($content, $allowedcolumns) {
-        
-        $slug = makeSlug($content['contenttype']);
-        $tablename = $this->prefix . $slug;
+    protected function updateContent($content, $contenttype, $allowedcolumns) {
+
+        $tablename = $this->prefix . $contenttype;
         
         // unset columns we don't need to store..
         foreach($content as $key => $value) {
@@ -349,18 +369,41 @@ class Storage {
                 unset($content[$key]);
             }
         }
+        unset($content['datecreated']);
         
-        // $this->db->update($tablename, $content);
+
+        return $this->db->update($tablename, $content, array('id' => $content['id']));
         
     }
         
+        
+    public function getEmptyContent($contenttype) {
+        
+        $contenttype = $this->getContentType($contenttype);
+        
+        $content = array(
+            'id' => '',
+            'slug' => '',
+            'datecreated' => '',
+            'datechanged' => '',
+            'username' => '',
+            'status' => ''
+        );
+        
+        
+        foreach ($contenttype['fields'] as $key => $field) {
+            $content[$key] = '';
+        }
+        
+        return $content;
+        
+    
+        
+        
+    }
     
     public function getContent($contenttype, $parameters) {
-        
-        //echo "<pre>";
-        //print_r($parameters);
-        //echo "</pre>";
-        
+               
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 10;
         
         $slug = makeSlug($contenttype);
@@ -392,21 +435,6 @@ class Storage {
     }
     
     
-    public function getContentType($contenttype) {
-    
-        if (!isset($this->config['contenttypes'][$contenttype])) {
-            return false;
-        }
-    
-        $contenttype = $this->config['contenttypes'][$contenttype];
-    
-        $contenttype['slug'] = makeSlug($contenttype['name']);
-        $contenttype['singular_slug'] = makeSlug($contenttype['singular_name']);
-    
-        return $contenttype;
-    
-    }
-    
     
     public function getSingleContent($contenttype, $parameters) {
         
@@ -414,6 +442,7 @@ class Storage {
         $parameters['limit'] = 1;
         
         $result = $this->getContent($contenttype, $parameters);
+    
         
         if (isset($result[0])) {
             return $result[0];
@@ -422,7 +451,46 @@ class Storage {
         }
         
     }
+        
     
+    
+    public function getContentType($contenttypeslug) {
+    
+    
+        $contenttypeslug = makeSlug($contenttypeslug);
+
+        // Return false if empty, can't find it..
+        if (empty($contenttypeslug)) {
+            return false;
+        }  
+        
+        // See if we've either given the correct contenttype, or try to find it by name or singular_name.
+        if (isset($this->config['contenttypes'][$contenttypeslug])) {
+            $contenttype = $this->config['contenttypes'][$contenttypeslug];
+        } else {
+            foreach($this->config['contenttypes'] as $key => $ct) {
+                if ($contenttypeslug == makeSlug($ct['singular_name']) || $contenttypeslug == makeSlug($ct['name'])) {
+                    $contenttype = $this->config['contenttypes'][$key];
+                }
+            }
+            
+        }
+    
+        if (!empty($contenttype)) {
+    
+            $contenttype['slug'] = makeSlug($contenttype['name']);
+            $contenttype['singular_slug'] = makeSlug($contenttype['singular_name']);
+    
+            return $contenttype;
+        
+        } else {
+            return false;
+        }
+    
+    
+    }
+    
+
     
     /**
      * Get an associative array with the pilex_tables tables and columns in the DB.

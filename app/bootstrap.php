@@ -16,10 +16,6 @@ $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/confi
 $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
 $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
 
-// echo "<pre>";
-// print_r($config);
-// echo "</pre>";
-
 
 $app = new Silex\Application();
 
@@ -33,8 +29,17 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile'       => __DIR__.'/debug.log',
 ));
 
+// I don't think i can set Twig's path in runtime, so we have to resort to hackishness to set the 
+// path.. if the request URI starts with '/pilex' in the URL, we assume we're in the Backend.. Yeah..
+if (strpos($_SERVER['REQUEST_URI'], "/pilex") === 0) {
+    $twigpath = __DIR__.'/view';
+} else {
+    $twigpath = __DIR__.'/../view';
+}
+
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path'       => __DIR__.'/view',
+    'twig.path' => $twigpath,
     'twig.options' => array('debug'=>true), 
 ));
 

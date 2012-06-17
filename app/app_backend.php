@@ -168,31 +168,46 @@ $app->get("/pilex/overview/{contenttype}", function(Silex\Application $app, $con
 /**
  * Edit a unit of content, or create a new one.
  */
-$app->get("/pilex/edit/{contenttype}/{id}", function($contenttype, $id, Silex\Application $app, Request $request) {
-        
+$app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, Silex\Application $app, Request $request) {
         
     $twigvars = array();
     
-    $twigvars['contenttype'] = $app['storage']->getContentType($contenttype);
-
-
-	if (empty($id)) {
-    	$content = array();
-	} else {
-      	$content = $app['storage']->getSingleContent($contenttype, array('where' => 'id = '.$id));
-	}
-
-	// borken..
-	// $form = $app['form.factory']->createBuilder('form', $content);
-	
-
-	$twigvars['content'] = $content;
+    $twigvars['contenttype'] = $contenttype = $app['storage']->getContentType($contenttypeslug);        
         
+    if ($request->server->get('REQUEST_METHOD') == "POST") {
+        
+        // $app['storage']->saveContent($contenttypeslug)
+        if ($app['storage']->saveContent($request->request->all(), $contenttypeslug)) {
+        
+            if (!empty($id)) {
+                $app['session']->setFlash('success', "The changes to this " . $contenttype['singular_name'] . " have been saved."); 
+            } else {
+                $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " have been saved."); 
+            }
+            return $app->redirect('/pilex/overview/'.$contenttypeslug);
+        
+        } else {
+        
+            $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . "."); 
+        
+        } 
+    
+    }      
+      
+	if (!empty($id)) {
+      	$twigvars['content'] = $app['storage']->getSingleContent($contenttypeslug, array('where' => 'id = '.$id));
+	} else {
+    	$twigvars['content'] = $app['storage']->getEmptyContent($contenttypeslug);
+	}
+      
 
+
+	// b0rken..
+	// $form = $app['form.factory']->createBuilder('form', $content);
 
 	return $app['twig']->render('editcontent.twig', $twigvars);
 	
-})->before($checkLogin)->assert('id', '\d*');
+})->before($checkLogin)->assert('id', '\d*')->method('GET|POST');;
 
 
 
