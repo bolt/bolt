@@ -140,7 +140,7 @@ footer  {
 }
 
 .dashboardlisting tr:nth-child(odd) {
-    background-color: #F8F801; 
+    background-color: #F0F0E8; /* #FAFAF4; */
 }
 
 .dashboardlisting tr.unpublished *,
