@@ -1,5 +1,5 @@
 vendor/
 composer.phar
 composer.lock
-app/config.php
+app/config/config.yml
 debug.log
