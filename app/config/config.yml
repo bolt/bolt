@@ -3,6 +3,7 @@ database:
   username: pilex
   password: pilex%1
   databasename: pilex
+  host: twokings.eu
 
 
 sitename: A sample Pilex site.     

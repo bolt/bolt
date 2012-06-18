@@ -176,7 +176,7 @@ RTOOLBAR['default'] =
 		func: 'show',
 		separator: true		
 	},
-	justifyleft:
+/*	justifyleft:
 	{	
 		exec: 'JustifyLeft', 
 		name: 'JustifyLeft', 
@@ -199,7 +199,7 @@ RTOOLBAR['default'] =
 		exec: 'justifyfull', 
 		name: 'justifyfull', 
 		title: RLANG.align_justify, separator: true
-	},	
+	},	*/
 	horizontalrule: 
 	{
 		exec: 'inserthorizontalrule', 

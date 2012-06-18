@@ -107,10 +107,6 @@ footer  {
     padding: 4px 10px;
 }
 
-.container-fluid {
-    min-height: 100%;
-}
-
 
 /**
  * Dashboard specific stuff
@@ -136,7 +132,8 @@ footer  {
     -webkit-box-shadow:  1px 1px 1px 0px rgba(0, 0, 0, 0.2);
     box-shadow:  1px 1px 1px 0px rgba(0, 0, 0, 0.2);
     -moz-border-radius: 3px;
-    border-radius: 3px;     
+    border-radius: 3px;  
+    margin-bottom: 10px;   
 }
 
 .dashboardlisting tr:nth-child(odd) {
@@ -145,7 +142,7 @@ footer  {
 
 .dashboardlisting tr.unpublished *,
 .dashboardlisting tr.held * {
-    background-color: #F8F8FF;
+    background-color: #F8F8FB;
     color: #BBB !important;
 }
 
@@ -246,4 +243,11 @@ label span.left {
 }
 
 
+@media (max-width: 768px) {
 
+  body {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+
+}

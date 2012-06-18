@@ -26,8 +26,6 @@ $app->get("/pilex", function(Silex\Application $app) {
 
     $twigvars = array();
 
-    $twigvars['content'] = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.";
-
     if (!$app['storage']->checkTablesIntegrity()) {
         $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");   
     }
@@ -60,19 +58,19 @@ $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
 
     if ($request->server->get('REQUEST_METHOD') == "POST") {
       
-      $username = strtolower(trim($request->request->get('username')));
+        $username = strtolower(trim($request->request->get('username')));
     
-	    if ($username == "admin" && $request->request->get('password') == "password") {
-	        
-	        $app['session']->start();
-	        $app['session']->set('user', array('username' => $request->request->get('username')));
-	        $app['session']->setFlash('success', "You've been logged on successfully.");    
-	        
-	        return $app->redirect('/pilex');
-	        
-	    } else {
-	        $app['session']->setFlash('error', 'Username or password not correct. Please check your input.');    
-	    }
+        if ($username == "admin" && $request->request->get('password') == "password") {
+            
+            $app['session']->start();
+            $app['session']->set('user', array('username' => $request->request->get('username')));
+            $app['session']->setFlash('success', "You've been logged on successfully.");    
+            
+            return $app->redirect('/pilex');
+            
+        } else {
+            $app['session']->setFlash('error', 'Username or password not correct. Please check your input.');    
+        }
     
     }
     

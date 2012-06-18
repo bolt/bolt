@@ -53,7 +53,7 @@
             value='{{ content.datechanged }}' class="narrow">
         </label>
         
-        <label><span class='left'>Status: {{ content.status }}</span>
+        <label><span class='left'>Status:</span>
         <select name="status">
             <option value="published" {% if content.status == "published" %}selected{% endif %}>Published</option>
             <option value="held" {% if content.status == "held" %}selected{% endif %}>Not published</option>
