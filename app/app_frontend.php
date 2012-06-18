@@ -1,10 +1,21 @@
 <?php
 
 /**
- * "root"
+ * Homepage..
  */
 $app->get("/", function(Silex\Application $app) {
 
+    
+    $template = !empty($app['config']['general']['homepage_template']) ? 
+            $app['config']['general']['homepage_template'] : "index.twig";
+
+    if (!empty($app['config']['general']['homepage_template'])) {
+        $content = $app['storage']->getSingleContent($app['config']['general']['homepage']);
+    } else {
+        $content = false;
+    }
+
+    
     
     return $app['twig']->render('index.twig');
 

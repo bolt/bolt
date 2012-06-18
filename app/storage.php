@@ -431,9 +431,19 @@ class Storage {
         
     }
     
-    
-    
-    public function getSingleContent($contenttype, $parameters) {
+    /**
+     * Get a single unit of content:
+     * 
+     * examples: 
+     * $content = $app['storage']->getSingleContent("page/1");
+     * $content = $app['storage']->getSingleContent("entry", array('where' => "slug = 'lorem-ipsum'"));
+     * $content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => "id = '$slug'"));
+     *
+     */
+    public function getSingleContent($contenttype, $parameters=array()) {
+        
+        // Special case: if $contenttype has a slash, like 'entry/1', we'll assume we need to get entry #1. 
+//        if ()
         
         // Make sure limit is 1
         $parameters['limit'] = 1;
