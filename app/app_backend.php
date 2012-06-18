@@ -176,11 +176,26 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
 
 	return $app['twig']->render('editcontent.twig', array('contenttype' => $contenttype, 'content' => $content));
 	
-})->before($checkLogin)->assert('id', '\d*')->method('GET|POST');;
+})->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
 
 
+$app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Request $request) {
+      
+    $data = array(
+        'name' => 'Your name',
+        'email' => 'Your email',
+    );
 
+    $form = $app['form.factory']->createBuilder('form', $data)
+        ->add('name')
+        ->add('username')
+        ->add('password')
+        
+        ->getForm();
 
+    return $app['twig']->render('edituser.twig', array('form' => $form->createView()));      
+      
+})->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
 
 
 

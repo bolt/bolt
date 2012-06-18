@@ -43,9 +43,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.options' => array('debug'=>true), 
 ));
 
-// Add the Pilex Twig functions, filters and tags.
-require_once __DIR__.'/twig_pilex.php';
-
 $configdb = $config['general']['database'];
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
@@ -59,13 +56,22 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     )
 ));
 
-$app['storage'] = new Storage($app);
-
 
 use Silex\Provider\FormServiceProvider;
-
 $app->register(new FormServiceProvider());
 
+// Loading stub functions for when intl / IntlDateFormatter isn't available.
+if (!function_exists('intl_get_error_code')) {
+    require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+    require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+}
+
+
+
+// Add the Pilex Twig functions, filters and tags.
+require_once __DIR__.'/twig_pilex.php';
+
+$app['storage'] = new Storage($app);
 
 require_once __DIR__.'/app_backend.php';
 
