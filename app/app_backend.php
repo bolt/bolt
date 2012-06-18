@@ -125,11 +125,11 @@ $app->get("/pilex/prefill", function(Silex\Application $app) {
 /**
  * Check the database, create tables, add missing/new columns to tables
  */
-$app->get("/pilex/overview/{contenttype}", function(Silex\Application $app, $contenttype) {
+$app->get("/pilex/overview/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
 	
-    $contenttype = $app['storage']->getContentType($contenttype);
+    $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-	$multiplecontent = $app['storage']->getContent($contenttype, array('limit' => 100, 'order' => 'datechanged DESC'));
+	$multiplecontent = $app['storage']->getContent($contenttype['slug'], array('limit' => 100, 'order' => 'datechanged DESC'));
 
 	return $app['twig']->render('overview.twig', array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent));
 	
@@ -148,7 +148,7 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
     if ($request->server->get('REQUEST_METHOD') == "POST") {
         
         // $app['storage']->saveContent($contenttypeslug)
-        if ($app['storage']->saveContent($request->request->all(), $contenttypeslug)) {
+        if ($app['storage']->saveContent($request->request->all(), $contenttype['slug'])) {
         
             if (!empty($id)) {
                 $app['session']->setFlash('success', "The changes to this " . $contenttype['singular_name'] . " have been saved."); 
