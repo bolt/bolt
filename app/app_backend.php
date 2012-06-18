@@ -20,27 +20,21 @@ $checkLogin = function(Request $request) use ($app) {
 
 
 /**
- * "root"
+ * Dashboard or "root".
  */
 $app->get("/pilex", function(Silex\Application $app) {
 
-    $twigvars = array();
-
+    // Check DB-tables integrity
     if (!$app['storage']->checkTablesIntegrity()) {
         $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");   
     }
 
     // get the 'latest' from each of the content types. 
-    foreach ($app['config']['contenttypes'] as $key => $contenttype) {
-        
-        $twigvars['latest'][$key] = $app['storage']->getContent($key, array('limit' => 5, 'order' => 'datechanged DESC'));
-        
+    foreach ($app['config']['contenttypes'] as $key => $contenttype) { 
+        $latest[$key] = $app['storage']->getContent($key, array('limit' => 5, 'order' => 'datechanged DESC'));   
     }
 
-    
-
-    
-    return $app['twig']->render('dashboard.twig', $twigvars);
+    return $app['twig']->render('dashboard.twig', array('latest' => $latest));
 
 
 })->before($checkLogin);
@@ -49,12 +43,9 @@ $app->get("/pilex", function(Silex\Application $app) {
 
 
 /**
- * Login page
+ * Login page.
  */
 $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
-
-    $twigvars = array();
-    
 
     if ($request->server->get('REQUEST_METHOD') == "POST") {
       
@@ -74,13 +65,13 @@ $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
     
     }
     
-    return $app['twig']->render('login.twig', $twigvars);
+    return $app['twig']->render('login.twig');
 
 })->method('GET|POST');
 
 
 /**
- * Logout page
+ * Logout page.
  */
 $app->get("/pilex/logout", function(Silex\Application $app) {
 
@@ -98,51 +89,37 @@ $app->get("/pilex/logout", function(Silex\Application $app) {
  */
 $app->get("/pilex/dbupdate", function(Silex\Application $app) {
 	
-	
-	$twigvars = array();
-	
-	$twigvars['title'] = "Database check / update";
+	$title = "Database check / update";
 
-	
-	
 	$output = $app['storage']->repairTables();
 	
 	if (empty($output)) {
-    	$twigvars['content'] = "<p>Your database is already up to date.<p>";
+    	$content = "<p>Your database is already up to date.<p>";
 	} else {
-    	$twigvars['content'] = "<p>Modifications made to the database:<p>";
-    	$twigvars['content'] .= implode("<br>", $output);
-    	$twigvars['content'] .= "<p>Your database is now up to date.<p>";
-
+    	$content = "<p>Modifications made to the database:<p>";
+    	$content .= implode("<br>", $output);
+    	$content .= "<p>Your database is now up to date.<p>";
 	}
 	
-	$twigvars['content'] .= "<br><br><p><a href='/pilex/prefill'>Fill the database</a> with Loripsum.</p>";
+	$content .= "<br><br><p><a href='/pilex/prefill'>Fill the database</a> with Loripsum.</p>";
 	
-	return $app['twig']->render('base.twig', $twigvars);
+	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
 	
 })->before($checkLogin);
-
-
 
 
 /**
- * Check the database, create tables, add missing/new columns to tables
+ * Generate some lipsum in the DB.
  */
 $app->get("/pilex/prefill", function(Silex\Application $app) {
 	
-	
-	$twigvars = array();
-	
-	$twigvars['title'] = "Database prefill";
+	$title = "Database prefill";
 
+	$content = $app['storage']->preFill();
 	
-	$twigvars['content'] = $app['storage']->preFill();
-
-	
-	return $app['twig']->render('base.twig', $twigvars);
+	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
 	
 })->before($checkLogin);
-
 
 
 /**
@@ -150,17 +127,11 @@ $app->get("/pilex/prefill", function(Silex\Application $app) {
  */
 $app->get("/pilex/overview/{contenttype}", function(Silex\Application $app, $contenttype) {
 	
-	
-	$twigvars = array();
-	
-    $twigvars['contenttype'] = $app['storage']->getContentType($contenttype);
+    $contenttype = $app['storage']->getContentType($contenttype);
 
+	$multiplecontent = $app['storage']->getContent($contenttype, array('limit' => 100, 'order' => 'datechanged DESC'));
 
-	$twigvars['multiplecontent'] = $app['storage']->getContent($contenttype, array('limit' => 100, 'order' => 'datechanged DESC'));
-        
-
-
-	return $app['twig']->render('overview.twig', $twigvars);
+	return $app['twig']->render('overview.twig', array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent));
 	
 })->before($checkLogin);
 
@@ -172,7 +143,7 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
         
     $twigvars = array();
     
-    $twigvars['contenttype'] = $contenttype = $app['storage']->getContentType($contenttypeslug);        
+    $contenttype = $app['storage']->getContentType($contenttypeslug);        
         
     if ($request->server->get('REQUEST_METHOD') == "POST") {
         
@@ -195,17 +166,15 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
     }      
       
 	if (!empty($id)) {
-      	$twigvars['content'] = $app['storage']->getSingleContent($contenttypeslug, array('where' => 'id = '.$id));
+      	$content = $app['storage']->getSingleContent($contenttypeslug, array('where' => 'id = '.$id));
 	} else {
-    	$twigvars['content'] = $app['storage']->getEmptyContent($contenttypeslug);
+    	$content = $app['storage']->getEmptyContent($contenttypeslug);
 	}
-      
-
 
 	// b0rken..
 	// $form = $app['form.factory']->createBuilder('form', $content);
 
-	return $app['twig']->render('editcontent.twig', $twigvars);
+	return $app['twig']->render('editcontent.twig', array('contenttype' => $contenttype, 'content' => $content));
 	
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST');;
 
@@ -239,7 +208,7 @@ $app->error(function(Exception $e) use ($app) {
 
     $twigvars['trace'] = print_r($trace[0], true);
 
-    $twigvars['title'] = "Een error!";
+    $twigvars['title'] = "An error has occured!";
 
     return $app['twig']->render('error.twig', $twigvars);
 

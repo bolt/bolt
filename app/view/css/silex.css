@@ -1,7 +1,7 @@
 
 /**
  * Colour scheme: 
- * - #214968 - base blue
+ * - #214968 - base blue / #244055
  * - #194770 - links, slightly blueer
  
  * - #434341 - dark gray
@@ -28,8 +28,9 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-fixed-top, .navbar-fixed-bottom  {    
     position: static;
     margin-bottom: 20px;
-    background-image: url(/app/view/img/dust_scratch.png);
-}
+    background-image: url(/app/view/img/dust_scratch.png); 
+    background-color: #244055;
+} 
 
 a {
     color: #194770; /* #AE311A; */
