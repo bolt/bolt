@@ -59,8 +59,10 @@ $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
     
 
     if ($request->server->get('REQUEST_METHOD') == "POST") {
+      
+      $username = strtolower(trim($request->request->get('username')));
     
-	    if ($request->request->get('username') == "admin" && $request->request->get('password') == "password") {
+	    if ($username == "admin" && $request->request->get('password') == "password") {
 	        
 	        $app['session']->start();
 	        $app['session']->set('user', array('username' => $request->request->get('username')));
