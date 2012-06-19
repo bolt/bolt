@@ -179,23 +179,68 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
 
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 $app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Request $request) {
-      
+    
+    
     $data = array(
-        'name' => 'Your name',
+        'id' => '33',
+        'username' => 'Your name',
+        'password' => 'Your name',
+        'password_verification' => 'Your name',
         'email' => 'Your email',
+        'displayname' => 'Display name:',
+        'userlevel' => 'Userlevel:',
+        'enabled' => 'User is allowed to log in:',
+        'lastseen' => '2012-06-18 10:10:20',
+        'lastip' => '1.2.3.4'
+
     );
 
+    
+    
     $form = $app['form.factory']->createBuilder('form', $data)
-        ->add('name')
-        ->add('username')
+        ->add('id', 'hidden')
+        ->add('username', 'text', array(
+            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
+        ))
         ->add('password')
-        
+        ->add('password_verification')
+        ->add('email', 'text', array(
+            'constraints' => new Assert\Email()
+        ))
+        ->add('displayname', 'text', array(
+            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
+        ))
+        ->add('userlevel')
+        ->add('enabled', 'choice', array(
+            'choices' => array(1 => 'yes', 0 => 'no'), 
+            'expanded' => false,
+            'constraints' => new Assert\Choice(array(0, 1)) 
+        ))
+        ->add('lastseen', 'text', array('disabled' => true))
+        ->add('lastip', 'text', array('disabled' => true))
         ->getForm();
 
     return $app['twig']->render('edituser.twig', array('form' => $form->createView()));      
       
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
+
+
+
+/**
+ * Check the database, create tables, add missing/new columns to tables
+ */
+$app->get("/pilex/users", function(Silex\Application $app) {
+	
+	$title = "Users";
+    $users = $app['users']->getUsers();
+    
+	return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title));
+	
+})->before($checkLogin);
+
 
 
 

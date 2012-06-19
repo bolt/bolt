@@ -8,6 +8,7 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/lib.php';
 require_once __DIR__.'/storage.php';
+require_once __DIR__.'/users.php';
 
 // Read the config
 $yamlparser = new Symfony\Component\Yaml\Parser();
@@ -60,6 +61,11 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 use Silex\Provider\FormServiceProvider;
 $app->register(new FormServiceProvider());
 
+$app->register(new Silex\Provider\ValidatorServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+    'translator.messages' => array(),
+));
+
 // Loading stub functions for when intl / IntlDateFormatter isn't available.
 if (!function_exists('intl_get_error_code')) {
     require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/functions.php';
@@ -72,6 +78,8 @@ if (!function_exists('intl_get_error_code')) {
 require_once __DIR__.'/twig_pilex.php';
 
 $app['storage'] = new Storage($app);
+
+$app['users'] = new Users($app);
 
 require_once __DIR__.'/app_backend.php';
 

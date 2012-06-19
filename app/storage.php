@@ -77,12 +77,13 @@ class Storage {
             $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("username", "string", array("length" => 32));
-            $myTable->addColumn("password", "string", array("length" => 32));
+            $myTable->addColumn("password", "string", array("length" => 64));
+            $myTable->addColumn("email", "string", array("length" => 64));
             $myTable->addColumn("lastseen", "datetime");                        
             $myTable->addColumn("lastip", "string", array("length" => 32));
-            $myTable->addColumn("slug", "string", array("length" => 64));
             $myTable->addColumn("displayname", "string", array("length" => 32));
-            $myTable->addColumn("fullname", "string", array("length" => 64));
+            $myTable->addColumn("userlevel", "integer");
+            $myTable->addColumn("enabled", "boolean");
             
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
