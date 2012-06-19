@@ -19,26 +19,6 @@ entries:
     template: entry.twig
 
 
-voorstellingen:
-    name: Voorstellingen
-    singular_name: Voorstelling
-    fields:
-        title:
-            type: text
-            class: large
-        slug:
-            type: slug
-            uses: title
-        teaser:
-            type: html
-            height: 150px
-        body:
-            type: html
-            height: 300px
-    taxonomy:
-        type: categories, tags
-    template: entry.twig
-
 pages:
     name: Pages
     singular_name: Page

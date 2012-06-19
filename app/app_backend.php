@@ -7,10 +7,36 @@ use Symfony\Component\HttpFoundation\Response;
  * Middleware function to check whether a user is logged on.
  */
 $checkLogin = function(Request $request) use ($app) {
+      
+    // There's an active session, we're all good.
+    if ($app['session']->has('user')) {
+        return;
+    } 
+
+    // If the users table is present, but there are no users, and we're on /pilex/users/edit,
+    // we let the user stay, because they need to set up the first user. 
+    if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/pilex/users/edit/") {
     
-    if (!$app['session']->has('user')) {
-        return $app->redirect('/pilex/login');
+        
+        return;
+        
+    } 
+
+    // If there are no users in the users table, or the table doesn't exist. Repair 
+    // the DB, and let's add a new user. 
+    if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+        
+        $app['storage']->repairTables();
+    
+        $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");   
+            
+        return $app->redirect('/pilex/users/edit');
+        
     }
+
+    return $app->redirect('/pilex/login');
+    
+    
     
 };
 
@@ -50,20 +76,12 @@ $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
       
         $username = makeSlug($request->get('username'));
   
-        echo "<pre>\n" . print_r($request->get('username') , true) . "</pre>\n";
+        // echo "<pre>\n" . print_r($request->get('username') , true) . "</pre>\n";
     
         $result = $app['users']->login($request->get('username'), $request->get('password'));
         
-        if ($username == "admin" && $request->request->get('password') == "password") {
-            
-            $app['session']->start();
-            $app['session']->set('user', array('username' => $request->request->get('username')));
-            $app['session']->setFlash('success', "You've been logged on successfully.");    
-            
+        if ($result) {
             return $app->redirect('/pilex');
-            
-        } else {
-            $app['session']->setFlash('error', 'Username or password not correct. Please check your input.');    
         }
     
     }
@@ -189,7 +207,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 $app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Request $request) {
     
     // Get the user we want to edit (if any)    
-    $user = $app['users']->getUser($id);
+    if (!empty($id)) {
+        $user = $app['users']->getUser($id);
+        $title = "Edit a user";
+    } else {
+        $user = $app['users']->getEmptyUser();
+        $title = "Create a new user";
+    }
+    
+    $userlevels = $app['users']->getUserLevels();
+    $enabledoptions = array(1 => 'yes', 0 => 'no');
+    // If we're creating the first user, we should make sure that we can only create
+    // a user that's allowed to log on.
+    if(!$app['users']->getUsers()) {
+        $userlevels = array_slice($userlevels, -1);
+        $enabledoptions = array(1 => 'yes');
+        $title = "Create the first user";        
+    }
     
     // Start building the form..
     $form = $app['form.factory']->createBuilder('form', $user)
@@ -226,14 +260,14 @@ $app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Requ
             'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
         ))
         ->add('userlevel', 'choice', array(
-            'choices' => array('editor' => 'editor', 'admin' => 'admin', 'developer' => 'developer'), 
+            'choices' => $userlevels, 
             'expanded' => false,
-            'constraints' => new Assert\Choice(array('editor', 'admin', 'developer')) 
+            'constraints' => new Assert\Choice(array_keys($userlevels)) 
         ))
         ->add('enabled', 'choice', array(
-            'choices' => array(1 => 'yes', 0 => 'no'), 
+            'choices' => $enabledoptions, 
             'expanded' => false,
-            'constraints' => new Assert\Choice(array(0, 1)), 
+            'constraints' => new Assert\Choice(array_keys($enabledoptions)), 
             'label' => "User is enabled",
         ))
         ->add('lastseen', 'text', array('disabled' => true))
@@ -277,7 +311,10 @@ $app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Requ
         }
     }
 
-    return $app['twig']->render('edituser.twig', array('form' => $form->createView()));      
+    return $app['twig']->render('edituser.twig', array(
+        'form' => $form->createView(),
+        'title' => $title
+        ));      
       
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
 

@@ -17,6 +17,28 @@ class Storage {
         
     }
   
+    /** 
+     * Check if just the users table is present.
+     *
+     * @return boolean
+     */ 
+    function checkUserTableIntegrity() {
+        
+        $sm = $this->db->getSchemaManager();
+
+        $tables = $this->getTables();
+        
+        // Check the users table..
+        if (!isset($tables[$this->prefix."users"])) {
+            return false;            
+        }
+        
+        return true;    
+        
+    }
+  
+  
+  
     /**
      * Check if all required tables and columns are present in the DB
      *

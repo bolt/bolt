@@ -8,6 +8,7 @@ class Users {
     var $config;
     var $prefix;
     var $users;
+    var $session;
   
     function __construct($app) {
     
@@ -15,6 +16,7 @@ class Users {
         $this->config = $app['config'];
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "pilex_";
         $this->users = array();
+        $this->session = $app['session'];
 
     }
       
@@ -60,18 +62,15 @@ class Users {
         $user = $this->getUser($user);
         
         if (empty($user)) {
+            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');    
             return false;
         }
         
         require_once(__DIR__."/classes/phpass/PasswordHash.php");
         $hasher = new PasswordHash(8, TRUE);
-
-        echo "<pre>\n" . print_r($user, true) . "</pre>\n";
-
        
         if ($hasher->CheckPassword($password, $user['password'])) {
-            echo "ja!";
-            
+
             $update = array(
                 'lastseen' => date('Y-m-d H:i:s'),
                 'lastip' => $_SERVER['REMOTE_ADDR']
@@ -80,10 +79,17 @@ class Users {
             $tablename = $this->prefix . "users";
             
             $this->db->update($tablename, $update, array('id' => $user['id']));
+
+            $user = $this->getUser($user['id']);
+
+            $this->session->start();
+            $this->session->set('user', $user);
+            $this->session->setFlash('success', "You've been logged on successfully.");    
             
             return true;
             
-        } else {
+        } else {      
+            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');    
             return false;
         }
         
@@ -132,11 +138,8 @@ class Users {
         if (is_numeric($id)) {
            $user = $this->db->fetchAssoc("SELECT * FROM $tablename where id = :id", array("id" => $id));
         } else {
-            echo "[b $id ]";
            $user = $this->db->fetchAssoc("SELECT * FROM $tablename where username = :username", array("username" => $id));
         }
-
-        
         
         return $user;
         
@@ -144,7 +147,23 @@ class Users {
     }
         
     
-    
+    /**
+     * get an associative array of the current userlevels.
+     *
+     * Should we move this to a 'constants.yml' file? 
+     * @return array
+     */
+    public function getUserLevels() {
+       
+        $userlevels = array(
+            'editor' => "Editor",
+            'administrator' => "Administrator",
+            'developer' => "Developer"        
+        );
+        
+        return $userlevels;
+        
+    }
         
     
   
