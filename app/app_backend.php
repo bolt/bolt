@@ -36,7 +36,6 @@ $app->get("/pilex", function(Silex\Application $app) {
 
     return $app['twig']->render('dashboard.twig', array('latest' => $latest));
 
-
 })->before($checkLogin);
 
 
@@ -47,10 +46,14 @@ $app->get("/pilex", function(Silex\Application $app) {
  */
 $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
 
-    if ($request->server->get('REQUEST_METHOD') == "POST") {
+    if ($request->getMethod() == "POST") {
       
-        $username = strtolower(trim($request->request->get('username')));
+        $username = makeSlug($request->get('username'));
+  
+        echo "<pre>\n" . print_r($request->get('username') , true) . "</pre>\n";
     
+        $result = $app['users']->login($request->get('username'), $request->get('password'));
+        
         if ($username == "admin" && $request->request->get('password') == "password") {
             
             $app['session']->start();
@@ -145,7 +148,7 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
     
     $contenttype = $app['storage']->getContentType($contenttypeslug);        
         
-    if ($request->server->get('REQUEST_METHOD') == "POST") {
+    if ($request->getMethod() == "POST") {
         
         // $app['storage']->saveContent($contenttypeslug)
         if ($app['storage']->saveContent($request->request->all(), $contenttype['slug'])) {
@@ -171,57 +174,108 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
     	$content = $app['storage']->getEmptyContent($contenttypeslug);
 	}
 
-	// b0rken..
-	// $form = $app['form.factory']->createBuilder('form', $content);
-
 	return $app['twig']->render('editcontent.twig', array('contenttype' => $contenttype, 'content' => $content));
 	
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
 
 
+
+// use Symfony\Component\Form\AbstractType;
+// use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 $app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Request $request) {
     
+    // Get the user we want to edit (if any)    
+    $user = $app['users']->getUser($id);
     
-    $data = array(
-        'id' => '33',
-        'username' => 'Your name',
-        'password' => 'Your name',
-        'password_verification' => 'Your name',
-        'email' => 'Your email',
-        'displayname' => 'Display name:',
-        'userlevel' => 'Userlevel:',
-        'enabled' => 'User is allowed to log in:',
-        'lastseen' => '2012-06-18 10:10:20',
-        'lastip' => '1.2.3.4'
-
-    );
-
-    
-    
-    $form = $app['form.factory']->createBuilder('form', $data)
+    // Start building the form..
+    $form = $app['form.factory']->createBuilder('form', $user)
         ->add('id', 'hidden')
         ->add('username', 'text', array(
             'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
-        ))
-        ->add('password')
-        ->add('password_verification')
-        ->add('email', 'text', array(
-            'constraints' => new Assert\Email()
+        ));
+        
+    // If we're adding a new user, the password will be mandatory. If we're
+    // editing an existing user, we can leave it blank
+    if (empty($id)) {
+        $form->add('password', 'password', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(6)),
+            ))
+            ->add('password_confirmation', 'password', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(6)),
+                'label' => "Password (confirmation)"
+            ));
+    } else {
+        $form->add('password', 'password', array(
+                'required' => false
+            ))
+            ->add('password_confirmation', 'password', array(
+                'required' => false,
+                'label' => "Password (confirmation)"
+            ));        
+    }
+        
+    // Contiue with the rest of the fields.
+    $form->add('email', 'text', array(
+            'constraints' => new Assert\Email(),
         ))
         ->add('displayname', 'text', array(
             'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
         ))
-        ->add('userlevel')
+        ->add('userlevel', 'choice', array(
+            'choices' => array('editor' => 'editor', 'admin' => 'admin', 'developer' => 'developer'), 
+            'expanded' => false,
+            'constraints' => new Assert\Choice(array('editor', 'admin', 'developer')) 
+        ))
         ->add('enabled', 'choice', array(
             'choices' => array(1 => 'yes', 0 => 'no'), 
             'expanded' => false,
-            'constraints' => new Assert\Choice(array(0, 1)) 
+            'constraints' => new Assert\Choice(array(0, 1)), 
+            'label' => "User is enabled",
         ))
         ->add('lastseen', 'text', array('disabled' => true))
-        ->add('lastip', 'text', array('disabled' => true))
-        ->getForm();
+        ->add('lastip', 'text', array('disabled' => true));
+        
+    // Make sure the passwords are identical with a custom validator..
+    $form->addValidator(new CallbackValidator(function($form) {
+    
+        $pass1 = $form['password']->getData();
+        $pass2 = $form['password_confirmation']->getData();
+    
+        // Some checks for the passwords.. 
+        if (!empty($pass1) && strlen($pass1)<6 ) {
+            $form['password']->addError(new FormError('This value is too short. It should have 6 characters or more.'));
+        } else if ($pass1 != $pass2 ) {
+            $form['password_confirmation']->addError(new FormError('Passwords must match.'));
+        }
+                    
+    }));
+        
+    $form = $form->getForm();
+       
+    // Check if the form was POST-ed, and valid. If so, store the user.
+    if ($request->getMethod() == "POST") {
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            
+            $user = $form->getData();
+        
+            $res = $app['users']->saveUser( $user );
+            
+            if ($res) {
+                $app['session']->setFlash('success', "User " . $user['username'] . " has been saved."); 
+            } else {
+                $app['session']->setFlash('error', "User " . $user['username'] . " could not be saved, or nothing was changed."); 
+            }
+            
+            return $app->redirect('/pilex/users');
+            
+        }
+    }
 
     return $app['twig']->render('edituser.twig', array('form' => $form->createView()));      
       

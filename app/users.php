@@ -19,62 +19,88 @@ class Users {
     }
       
     
-    protected function insertContent($content, $contenttype, $allowedcolumns) {
+    public function saveUser($user) {
+             
+        $tablename = $this->prefix . "users";
         
-        $tablename = $this->prefix . $contenttype;
-        
-        $content['datecreated'] = date('Y-m-d H:i:s');
-        
+        // Make an array with the allowed columns. these are the columns that are always present.
+        $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled');
         
         // unset columns we don't need to store..
-        foreach($content as $key => $value) {
+        foreach($user as $key => $value) {
             if (!in_array($key, $allowedcolumns)) {
-                unset($content[$key]);
+                unset($user[$key]);
             }
         }
         
-        return $this->db->insert($tablename, $content);
-        
-    }
-    
-    
-    protected function updateContent($content, $contenttype, $allowedcolumns) {
-
-        $tablename = $this->prefix . $contenttype;
-        
-        // unset columns we don't need to store..
-        foreach($content as $key => $value) {
-            if (!in_array($key, $allowedcolumns)) {
-                unset($content[$key]);
-            }
+        if (!empty($user['password'])) {
+           require_once(__DIR__."/classes/phpass/PasswordHash.php");
+           $hasher = new PasswordHash(8, TRUE);
+           $user['password'] = $hasher->HashPassword($user['password']);           
+        } else {
+            unset($user['password']);
         }
-        unset($content['datecreated']);
         
+        // make sure the username is slug-like
+        $user['username'] = makeSlug($user['username']);
+        
+        // Decide whether to insert a new record, or update an existing one.
+        if (empty($user['id'])) {
+            return $this->db->insert($tablename, $user);
+        } else {
+            return $this->db->update($tablename, $user, array('id' => $user['id']));
+        }
+        
+    }      
+    
+        
+    public function login($user, $password) {
+     
+        $user = makeSlug($user);
+        $user = $this->getUser($user);
+        
+        if (empty($user)) {
+            return false;
+        }
+        
+        require_once(__DIR__."/classes/phpass/PasswordHash.php");
+        $hasher = new PasswordHash(8, TRUE);
 
-        return $this->db->update($tablename, $content, array('id' => $content['id']));
+        echo "<pre>\n" . print_r($user, true) . "</pre>\n";
+
+       
+        if ($hasher->CheckPassword($password, $user['password'])) {
+            echo "ja!";
+            
+            $update = array(
+                'lastseen' => date('Y-m-d H:i:s'),
+                'lastip' => $_SERVER['REMOTE_ADDR']
+            );
+                
+            $tablename = $this->prefix . "users";
+            
+            $this->db->update($tablename, $update, array('id' => $user['id']));
+            
+            return true;
+            
+        } else {
+            return false;
+        }
+        
         
     }
         
         
     public function getEmptyUser() {
         
-        $contenttype = $this->getContentType($contenttype);
-        
-        $content = array(
+        $user = array(
             'id' => '',
-            'slug' => '',
-            'datecreated' => '',
-            'datechanged' => '',
             'username' => '',
-            'status' => ''
+            'password' => ''
         );
         
         
-        foreach ($contenttype['fields'] as $key => $field) {
-            $content[$key] = '';
-        }
-        
-        return $content;
+        return $user;
         
     
         
@@ -89,10 +115,37 @@ class Users {
         
         $users = $this->db->fetchAll($query);
         
+        foreach($users as $key => $user) {
+            $users[$key]['password'] = "**dontchange**";
+        }
+        
         return $users;
         
         
     }
+    
+    
+    public function getUser($id) {
+               
+        $tablename = $this->prefix . "users";
+
+        if (is_numeric($id)) {
+           $user = $this->db->fetchAssoc("SELECT * FROM $tablename where id = :id", array("id" => $id));
+        } else {
+            echo "[b $id ]";
+           $user = $this->db->fetchAssoc("SELECT * FROM $tablename where username = :username", array("username" => $id));
+        }
+
         
+        
+        return $user;
+        
+        
+    }
+        
+    
+    
+        
+    
   
 }

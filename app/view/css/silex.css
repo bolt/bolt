@@ -141,8 +141,7 @@ footer  {
     background-color: #F2F2EC; /* #FAFAF4; */
 }
 
-.dashboardlisting tr.unpublished *,
-.dashboardlisting tr.held * {
+.dashboardlisting tr.dim * {
     background-color: #F8F8FB;
     color: #BBB !important;
 }

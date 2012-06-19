@@ -82,7 +82,7 @@ class Storage {
             $myTable->addColumn("lastseen", "datetime");                        
             $myTable->addColumn("lastip", "string", array("length" => 32));
             $myTable->addColumn("displayname", "string", array("length" => 32));
-            $myTable->addColumn("userlevel", "integer");
+            $myTable->addColumn("userlevel", "string", array("length" => 32));
             $myTable->addColumn("enabled", "boolean");
             
             $queries = $schema->toSql($this->db->getDatabasePlatform());
@@ -238,17 +238,14 @@ class Storage {
         //todo: fix this, use a random name.
         $content['username'] = "admin";
 
-        switch(rand(1,10)) {
+        switch(rand(1,8)) {
             case 1: 
-                $content['status'] = "held";
-                break;
-            case 2: 
                 $content['status'] = "timed";
                 break;
-            case 3: 
+            case 2: 
                 $content['status'] = "draft";
                 break;
-            case 4: 
+            case 3: 
                 $content['status'] = "unpublished";
                 break;
             default:
