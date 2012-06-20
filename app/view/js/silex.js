@@ -14,5 +14,7 @@ jQuery(function($) {
 		$('.redactor').redactor({ autoresize: false, resize: true, cleanUp: true, css: 'style_pilex.css' });
 	}
 
+	
+
 });
-cleanUp: false
+

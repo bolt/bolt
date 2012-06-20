@@ -30,19 +30,51 @@
     
         {% if fields.type == "image" %}
         <div class="image-right">
-            <div class='imageholder' data-for="{{key}}">
-                {% if content[key] is not null %}
+            <div class='imageholder' id="thumbnail-{{key}}">
+                {% if content[key]!="" %}
                 <img src="/thumbs/120x120c/{{ content[key] }}" width="120" height="120">
                 {% endif %}
             </div>
         </div>
-        <div class="image-container">
+        <div class="image-container" id="container-{{key}}">
 
             <label><b>{{ key|ucfirst}}</b></label>
             
-            <input type="text" name="{{key}}" id="{{key}}"
+            <input type="text" name="{{key}}" id="field-{{key}}"
                 value='{{ content[key] }}'
                 class='{% if fields.class is defined %}{{ fields.class }}{% endif %} imageinput'>
+
+<!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-info fileinput-button">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Upload Image</span>
+                    <input id="fileupload-{{key}}" type="file" name="files[]" data-url="/app/classes/upload/" multiple>
+                </span>
+                
+<link rel="stylesheet" href="/app/view/lib/upload/jquery.fileupload-ui.css">
+<script src="/app/view/lib/upload/jquery.ui.widget.js"></script>
+<script src="/app/view/lib/upload/jquery.iframe-transport.js"></script>
+<script src="/app/view/lib/upload/jquery.fileupload.js"></script>
+<script>
+$(function () {
+    $('#fileupload-{{key}}').fileupload({
+        dataType: 'json',
+        dropZone: $("#container-{{key}}"),
+        done: function (e, data) {
+            $.each(data.result, function (index, file) {
+                $('#field-{{key}}').val(file.name);
+                $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI(file.name)+"' width='120' height='120'>");
+            });
+        }
+    });
+});
+</script>
+<style>
+
+
+
+</style>
+
 
         </div>
         {% endif %}

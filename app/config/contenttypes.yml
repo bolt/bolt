@@ -9,7 +9,7 @@ entries:
             type: slug
             uses: title
         image:
-            type: image            
+            type: image                        
         teaser:
             type: html
             height: 150px

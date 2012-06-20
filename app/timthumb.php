@@ -35,7 +35,8 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
 }
 
 
-$_GET['src'] = "../files/".$matches[4];
+
+$_GET['src'] = "../files/".urldecode($matches[4]);
 
 $_GET['w'] = $matches[1];
 $_GET['h'] = $matches[2];
@@ -55,6 +56,8 @@ switch ($matches[3]) {
         $_GET['zc'] = 1; 
         break;
 }
+
+
 
 
 /*
