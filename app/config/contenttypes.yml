@@ -8,6 +8,8 @@ entries:
         slug:
             type: slug
             uses: title
+        image:
+            type: image            
         teaser:
             type: html
             height: 150px
@@ -34,6 +36,8 @@ pages:
         introduction:
             type: html
             height: 150px
+        image:
+            type: image            
         body:
             type: html
             height: 300px

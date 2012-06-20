@@ -461,14 +461,26 @@ class Storage {
      *
      */
     public function getSingleContent($contenttype, $parameters=array()) {
-        
+                
         // Special case: if $contenttype has a slash, like 'entry/1', we'll assume we need to get entry #1. 
-//        if ()
+        if (strpos($contenttype, "/")>0) {
+            list ($contenttype, $id) = explode("/", $contenttype);
+            
+            
+            
+            if (is_numeric($id)) {
+               $parameters = array('where' => "id = ".$id);
+            } else {
+               $parameters = array('where' => "slug = ".makeSlug($id));
+            }
+        }
+        
+        $contenttype = $this->getContentType($contenttype);
         
         // Make sure limit is 1
         $parameters['limit'] = 1;
         
-        $result = $this->getContent($contenttype, $parameters);
+        $result = $this->getContent($contenttype['slug'], $parameters);
     
         
         if (isset($result[0])) {

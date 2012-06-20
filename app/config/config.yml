@@ -6,5 +6,5 @@ database:
 
 
 sitename: A sample Pilex site.     
-homepage: page/1
+homepage: page/39
 homepage_template: index.twig    
