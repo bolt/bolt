@@ -67,12 +67,14 @@ $(function () {
             $.each(data.result, function (index, file) {
                 $('#field-{{key}}').val(file.name);
                 $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI(file.name)+"' width='120' height='120'>");
-                $('#progress-{{key}} div.bar').css('width', "100%");
-                window.setTimeout(function(){ $('#progress-{{key}}').fadeOut('slow'); }, 1000);
+                $('#progress-{{key}} div.bar').css('width', "60%");
+                // window.setTimeout(function(){ $('#progress-{{key}}').fadeOut('slow'); }, 1000);
             });
         }
     });
     
+    $('#progress-{{key}}').show();
+    $('#progress-{{key}} div.bar').css('width', "60%");
 
     $('#fileupload-{{key}}').bind('fileuploadprogress', function (e, data) {
         // Log the current bitrate for this upload:
