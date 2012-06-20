@@ -243,6 +243,27 @@ label span.left {
     height: 300px;
 }
 
+#editcontent div.image-container {
+    height: 120px;
+    padding-right: 130px;
+}
+
+#editcontent div.image-right {
+    float: right;
+    width: 122px;    
+}
+
+#editcontent .imageholder {
+    border: 1px solid #BBB;
+    width: 120px;
+    height: 120px;
+}
+
+#editcontent .imageinput {
+    border: 1px solid #BBB;
+}
+
+
 
 @media (max-width: 768px) {
 

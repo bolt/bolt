@@ -16,28 +16,19 @@ $checkLogin = function(Request $request) use ($app) {
     // If the users table is present, but there are no users, and we're on /pilex/users/edit,
     // we let the user stay, because they need to set up the first user. 
     if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/pilex/users/edit/") {
-    
-        
         return;
-        
     } 
 
     // If there are no users in the users table, or the table doesn't exist. Repair 
     // the DB, and let's add a new user. 
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-        
         $app['storage']->repairTables();
-    
-        $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");   
-            
+        $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
         return $app->redirect('/pilex/users/edit');
-        
     }
 
     return $app->redirect('/pilex/login');
-    
-    
-    
+
 };
 
 

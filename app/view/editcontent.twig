@@ -26,7 +26,27 @@
     $("#title").slug({ slug:'editslug', hide: true });
 </script>
         {% endif %}
-        
+    
+    
+        {% if fields.type == "image" %}
+        <div class="image-right">
+            <div class='imageholder' data-for="{{key}}">
+                {% if content[key] is not null %}
+                <img src="/thumbs/120x120c/{{ content[key] }}" width="120" height="120">
+                {% endif %}
+            </div>
+        </div>
+        <div class="image-container">
+
+            <label><b>{{ key|ucfirst}}</b></label>
+            
+            <input type="text" name="{{key}}" id="{{key}}"
+                value='{{ content[key] }}'
+                class='{% if fields.class is defined %}{{ fields.class }}{% endif %} imageinput'>
+
+        </div>
+        {% endif %}
+                
     
         {% if fields.type == "html" %}
         <label><b>{{ key|ucfirst}}</b></label>
