@@ -50,6 +50,9 @@
                     <span>Upload Image</span>
                     <input id="fileupload-{{key}}" type="file" name="files[]" data-url="/app/classes/upload/" multiple>
                 </span>
+                <div class="progress progress-striped active" id="progress-{{key}}" style="width: 50%; display: none;">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
                 
 <link rel="stylesheet" href="/app/view/lib/upload/jquery.fileupload-ui.css">
 <script src="/app/view/lib/upload/jquery.ui.widget.js"></script>
@@ -67,6 +70,21 @@ $(function () {
             });
         }
     });
+    
+$('#fileupload-{{key}}').bind('fileuploadprogress', function (e, data) {
+    // Log the current bitrate for this upload:
+    var progress = data.progressInterval
+    
+    console.log(data.progressInterval);
+    $('#progress-{{key}}').show();
+    $('#progress-{{key}} div.bar').css('width', progress+"%");
+    if (progress == 100) {
+        window.setTimeout(function(){ $('#progress-{{key}}').fadeOut('slow'); }, 1000);
+        window.setTimeout(function(){ $('#progress-{{key}} div.bar').css('width', "0%"); }, 3000);
+    }
+    
+});    
+    
 });
 </script>
 <style>
