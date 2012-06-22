@@ -55,6 +55,8 @@ class Storage {
             return false;            
         }
         
+        
+        
         // Check the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {
             return false;              
@@ -77,7 +79,8 @@ class Storage {
             }
             
         }
-        
+
+         
         return true;    
         
     }
@@ -96,7 +99,7 @@ class Storage {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
             $myTable = $schema->createTable($this->prefix."users"); 
-            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true, 'default' => 1));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("password", "string", array("length" => 64));
@@ -111,10 +114,13 @@ class Storage {
             $queries = implode("; ", $queries);
             $this->db->query($queries);
             
+            // echo "<pre>\n" . print_r($queries, true) . "</pre>\n";
+            
             $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
             
         }
         
+         
         // Check the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {
 

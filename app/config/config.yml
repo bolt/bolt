@@ -4,7 +4,6 @@ database:
   password: pilex%1
   databasename: pilex
 
-
 sitename: A sample Pilex site.     
-homepage: page/39
+homepage: page/1
 homepage_template: index.twig    

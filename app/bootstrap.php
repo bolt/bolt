@@ -9,13 +9,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/lib.php';
 require_once __DIR__.'/storage.php';
 require_once __DIR__.'/users.php';
-
-// Read the config
-$yamlparser = new Symfony\Component\Yaml\Parser();
-$config = array();
-$config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/config.yml'));
-$config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
-$config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
+require_once __DIR__.'/config.php';
 
 
 $app = new Silex\Application();
@@ -30,33 +24,14 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile'       => __DIR__.'/debug.log',
 ));
 
-// I don't think i can set Twig's path in runtime, so we have to resort to hackishness to set the 
-// path.. if the request URI starts with '/pilex' in the URL, we assume we're in the Backend.. Yeah..
-if (strpos($_SERVER['REQUEST_URI'], "/pilex") === 0) {
-    $twigpath = __DIR__.'/view';
-} else {
-    $twigpath = __DIR__.'/../view';
-}
-
-
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => $twigpath,
+    'twig.path' => $config['twigpath'],
     'twig.options' => array('debug'=>true), 
 ));
 
-$configdb = $config['general']['database'];
-
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'db.options' => array(
-        'driver'    => (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql'),
-        'host'      => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
-        'dbname'    => $configdb['databasename'],
-        'user'      => $configdb['username'],
-        'password'  => $configdb['password'],
-        'port'      => (isset($configdb['host']) ? $configdb['host'] : '3306'),
-    )
+    'db.options' => $dboptions
 ));
-
 
 use Silex\Provider\FormServiceProvider;
 $app->register(new FormServiceProvider());
@@ -74,13 +49,11 @@ if (!function_exists('intl_get_error_code')) {
 
 
 
-// Add the Pilex Twig functions, filters and tags.
-require_once __DIR__.'/twig_pilex.php';
-
 $app['storage'] = new Storage($app);
 
 $app['users'] = new Users($app);
 
+// Add the Pilex Twig functions, filters and tags.
+require_once __DIR__.'/twig_pilex.php';
 require_once __DIR__.'/app_backend.php';
-
 require_once __DIR__.'/app_frontend.php';

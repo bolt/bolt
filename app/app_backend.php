@@ -27,12 +27,16 @@ $checkLogin = function(Request $request) use ($app) {
         return $app->redirect('/pilex/users/edit');
     }
 
+    $app['session']->setFlash('info', "Please log on.");
     return $app->redirect('/pilex/login');
 
 };
 
 
-
+// Temporary hack. Silex should start session on demand.
+$app->before(function() use ($app) {
+    $app['session']->start();
+});
 
 
 
