@@ -33,12 +33,6 @@ $checkLogin = function(Request $request) use ($app) {
 };
 
 
-// Temporary hack. Silex should start session on demand.
-$app->before(function() use ($app) {
-    $app['session']->start();
-});
-
-
 
 /**
  * Dashboard or "root".
@@ -330,6 +324,95 @@ $app->get("/pilex/users", function(Silex\Application $app) {
 
 
 
+// http://srcmvn.com/blog/2011/11/10/doctrine-dbal-query-logging-with-monolog-in-silex/
+if ( $app['debug'] ) {
+    $logger = new Doctrine\DBAL\Logging\DebugStack();
+    $app['db.config']->setSQLLogger($logger);
+    $app->error(function(\Exception $e, $code) use ($app, $logger) {
+        if ( $e instanceof PDOException and count($logger->queries) ) {
+            // We want to log the query as an ERROR for PDO exceptions!
+            $query = array_pop($logger->queries);
+            $app['monolog']->err($query['sql'], array(
+                'params' => $query['params'],
+                'types' => $query['types']
+            ));
+        }
+    });
+    
+    $app->after(function(Request $request, Response $response) use ($app, $logger) {
+        // Log all queries as DEBUG.
+        foreach ( $logger->queries as $query ) {
+            $app['monolog']->debug($query['sql'], array(
+                'params' => $query['params'],
+                'types' => $query['types']
+            ));
+        }
+    });
+}
+
+
+
+
+// Temporary hack. Silex should start session on demand.
+$app->before(function() use ($app) {
+    $app['session']->start();
+});
+
+// On 'finish' attach the debug-bar, if debug is enabled..
+$app->finish(function(Request $request, Response $response) use ($app, $logger) {
+    global $pilex_name, $pilex_version;
+
+    // echo $response;
+
+// print_r($app['twig']);
+
+
+    
+    // echo "<pre>\n" . print_r($query, true) . "</pre>\n";   
+
+    if ($app['debug']) {
+
+        $queries = array();
+        $querycount = 0;
+        $querytime = 0;
+           
+        foreach ( $logger->queries as $query ) {
+            $queries[] = array(
+                'query' => $query['sql'], 
+                'params' => $query['params'],
+                'types' => $query['types'], 
+                'duration' => $query['executionMS']
+            );
+            
+            $querycount++;
+            $querytime += $query['executionMS'];
+            
+        }    
+
+           //  $PIVOTX['template']->assign('timetaken', timeTaken() );
+    // $PIVOTX['template']->assign('memtaken', getMem() );
+     
+        echo $app['twig']->render('debugbar.twig', array(
+            'pilex_name' => $pilex_name,
+            'pilex_version' => $pilex_version,
+            'timetaken' => timeTaken(),
+            'memtaken' => getMem(),
+            'querycount' => $querycount,
+            'querytime' => sprintf("%0.2f", $querytime)
+            
+        ));
+    
+    } 
+//     echo "<pre>\n" . print_r($queries, true) . "</pre>\n";
+
+
+
+});
+
+
+
+
+
 /**
  * Error page.
  */
@@ -359,3 +442,5 @@ $app->error(function(Exception $e) use ($app) {
     return $app['twig']->render('error.twig', $twigvars);
 
 });
+
+

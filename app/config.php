@@ -38,5 +38,5 @@ if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite") ) {
 if (strpos($_SERVER['REQUEST_URI'], "/pilex") === 0) {
     $config['twigpath'] = __DIR__.'/view';
 } else {
-    $$config['twigpath'] = __DIR__.'/../view';
+    $config['twigpath'] = array(__DIR__.'/../view', __DIR__.'/view');
 }

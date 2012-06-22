@@ -1,0 +1,22 @@
+
+
+<div id='pilex-nipple'></div>  
+<div id='pilex-debugbar'>      
+<ul>
+    <li class='pd-pilex'><strong>Pilex {{pilex_version}}</strong>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</li>
+    <li class='pd-timer'>{{timetaken}} sec / {{memtaken}}</li>
+    <li class='pd-variables'>Variables</li> 
+    <li class='pd-log'>Logfile</li>
+    <li class='pd-queries'>
+        {% if querycount==0 %}
+            No queries
+        {% elseif querycount==1 %}
+            1 query ({{querytime}} sec)
+        {% else %}
+            {{querycount}} queries ({{querytime}} sec)
+        {% endif %}</li>
+    <li class='pd-server'>pilex.localhost</li></ul>  
+</div>
+<script type="text/javascript">!window.jQuery && document.write('<script src="/app/view/js/jquery-1.7.2.min.js"><\/script>')</script>
+<script src="/app/view/js/debugbar.js"></script>
+<link rel='stylesheet' href='/app/view/css/debugbar.css' />

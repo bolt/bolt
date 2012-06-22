@@ -5,12 +5,19 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     die();
 }
 
+$pilex_version = "0.1";
+$pilex_name = "Preview";
+
+
+
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/lib.php';
 require_once __DIR__.'/classes/storage.php';
 require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/config.php';
 
+// Start the timer:
+$starttime=getMicrotime();
 
 $app = new Silex\Application();
 
@@ -46,6 +53,9 @@ if (!function_exists('intl_get_error_code')) {
     require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/functions.php';
     require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
 }
+
+
+
 
 
 

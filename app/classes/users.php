@@ -36,7 +36,7 @@ class Users {
         }
         
         if (!empty($user['password'])) {
-           require_once(__DIR__."/classes/phpass/PasswordHash.php");
+           require_once(__DIR__."/phpass/PasswordHash.php");
            $hasher = new PasswordHash(8, TRUE);
            $user['password'] = $hasher->HashPassword($user['password']);           
         } else {
@@ -66,7 +66,7 @@ class Users {
             return false;
         }
         
-        require_once(__DIR__."/classes/phpass/PasswordHash.php");
+        require_once(__DIR__."/phpass/PasswordHash.php");
         $hasher = new PasswordHash(8, TRUE);
        
         if ($hasher->CheckPassword($password, $user['password'])) {

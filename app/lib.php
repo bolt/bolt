@@ -42,8 +42,67 @@ function makeDir($name) {
 
 }
 
+/**
+ * Gets current Unix timestamp (in seconds) with microseconds, as a float.
+ *
+ * @return float
+ */
+function getMicrotime(){
+    list($usec, $sec) = explode(" ",microtime());
+    return ((float)$usec + (float)$sec);
+}
+
+/**
+ * Calculates time that was needed for execution.
+ *
+ * @param integer $precision§
+ * @return string
+ */
+function timeTaken($precision = 2) {
+    global $starttime;
+    $endtime = getMicrotime();
+    $time_taken = $endtime - $starttime;
+    $time_taken= number_format($time_taken, $precision); 
+    
+    return $time_taken;
+
+}
 
 
+/**
+ * Get the amount of used memory, if memory_get_usage is defined.
+ *
+ * @return string
+ */
+function getMem() {
+
+    if (function_exists('memory_get_usage')) {
+        $mem = memory_get_usage();
+        return formatFilesize($mem);
+    } else {
+        return "unknown";
+    }
+}
+
+
+
+/**
+ * Format a filesize like '10.3 kb' or '2.5 mb'
+ *
+ * @param integer $size
+ * @return string
+ */
+function formatFilesize($size) {
+
+    if ($size > 1024*1024 ) {
+        return sprintf("%0.2f mb", ($size/1024/1024));
+    } else if ($size > 1024 ) {
+        return sprintf("%0.2f kb", ($size/1024));
+    } else {
+        return $size." b";
+    }
+
+}
 
 
 /**

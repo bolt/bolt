@@ -1,0 +1,71 @@
+#pilex-debugbar {
+    position: fixed;
+    right: 0;
+    bottom: 5px;  
+    height: 28px;
+    background-image: linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
+    background-image: -o-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
+    background-image: -moz-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
+    background-image: -webkit-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
+    background-image: -ms-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
+    box-shadow:  -1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+    border: 1px solid #CCC;
+    display: none;    
+    z-index: 1000;    
+}
+
+
+#pilex-nipple {
+    position: fixed;
+    right: 0;
+    bottom: 0;  
+    background: transparent url('/app/view/img/debug-nipple.png') no-repeat right bottom;
+    width: 60px;
+    height: 60px;
+    z-index: 1001;    
+}
+
+#pilex-debugbar ul {
+    margin: 0;
+    padding: 0;
+    padding-right: 60px;
+}
+
+#pilex-debugbar ul li {
+    display: block;
+    float: left;
+    padding: 2px 4px;
+    font: normal 13px/13px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-right: 1px solid #CCC;    
+    padding: 7px 6px 7px 28px;
+}
+
+#pilex-debugbar ul li.pd-pilex {
+    background-color: #244055;
+    color: #F2F2F2;
+    padding-left: 6px;
+}
+
+
+#pilex-debugbar ul li.pd-timer {
+    background: transparent url('/app/view/img/debug-clock.png') no-repeat 6px 6px;
+}
+
+
+#pilex-debugbar ul li.pd-variables {
+    background: transparent url('/app/view/img/debug-variables.png') no-repeat 6px 6px;
+}
+
+#pilex-debugbar ul li.pd-log {
+    background: transparent url('/app/view/img/debug-log.png') no-repeat 6px 6px;
+}
+
+
+#pilex-debugbar ul li.pd-queries {
+    background: transparent url('/app/view/img/debug-queries.png') no-repeat 6px 6px;
+}
+
+
+#pilex-debugbar ul li.pd-server {
+    background: transparent url('/app/view/img/debug-server.png') no-repeat 6px 6px;
+}
