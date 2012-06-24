@@ -362,13 +362,6 @@ $app->before(function() use ($app) {
 $app->finish(function(Request $request, Response $response) use ($app, $logger) {
     global $pilex_name, $pilex_version;
 
-    // echo $response;
-
-// print_r($app['twig']);
-
-
-    
-    // echo "<pre>\n" . print_r($query, true) . "</pre>\n";   
 
     if ($app['debug']) {
 
@@ -381,7 +374,7 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
                 'query' => $query['sql'], 
                 'params' => $query['params'],
                 'types' => $query['types'], 
-                'duration' => $query['executionMS']
+                'duration' => sprintf("%0.2f", $query['executionMS'])
             );
             
             $querycount++;
@@ -389,8 +382,32 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
             
         }    
 
-           //  $PIVOTX['template']->assign('timetaken', timeTaken() );
-    // $PIVOTX['template']->assign('memtaken', getMem() );
+        $twig = $app['twig.loader'];
+        
+        foreach($twig as $key => $val) {
+            echo "<pre><b>KEYL</b>:";
+            print_r($val);
+            echo "</pre>";
+            
+        }
+        
+        echo "<pre>twig: ";
+        var_dump($twig);
+        echo "</pre>";
+        
+
+        
+        $servervars = array(
+            'cookies' => $request->cookies->all(),
+            'headers' => makeValuepairs($request->headers->all(), '', '0'),
+            'query' => $request->query->all(),
+            'request' => $request->request->all(),
+            'session' => $request->getSession()->all(),
+            'server' => $request->server->all(),
+            'response' => makeValuepairs($response->headers->all(), '', '0'),
+            'statuscode' => $response->getStatusCode()
+        );
+        
      
         echo $app['twig']->render('debugbar.twig', array(
             'pilex_name' => $pilex_name,
@@ -398,12 +415,13 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
             'timetaken' => timeTaken(),
             'memtaken' => getMem(),
             'querycount' => $querycount,
-            'querytime' => sprintf("%0.2f", $querytime)
-            
+            'querytime' => sprintf("%0.2f", $querytime),
+            'queries' => $queries,
+            'servervars' => $servervars
+   
         ));
     
     } 
-//     echo "<pre>\n" . print_r($queries, true) . "</pre>\n";
 
 
 

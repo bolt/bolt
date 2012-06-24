@@ -3,20 +3,41 @@
 <div id='pilex-nipple'></div>  
 <div id='pilex-debugbar'>      
 <ul>
-    <li class='pd-pilex'><strong>Pilex {{pilex_version}}</strong>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</li>
-    <li class='pd-timer'>{{timetaken}} sec / {{memtaken}}</li>
-    <li class='pd-variables'>Variables</li> 
-    <li class='pd-log'>Logfile</li>
-    <li class='pd-queries'>
+    <li id='pd-pilex'><strong>Pilex {{pilex_version}}</strong><small>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</small></li>
+    <li id='pd-timer'>{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></li>
+    <li id='pd-variables'>Var<span class='narrow'>iables</span></li> 
+    <li id='pd-log'>Log<span class='narrow'>file</span></li>
+    <li id='pd-queries'>
         {% if querycount==0 %}
-            No queries
+            No Q<span class='narrow'>ueries</span>
         {% elseif querycount==1 %}
-            1 query ({{querytime}} sec)
+            <a href="#" data-for="pilex-queriespanel">1 Q<span class='narrow'>uery</span></a> <small>({{querytime}} sec)</small>
         {% else %}
-            {{querycount}} queries ({{querytime}} sec)
+            <a href="#" data-for="pilex-queriespanel">{{querycount}} Q<span class='narrow'>ueries</span></a> <small>({{querytime}} sec)</small>
         {% endif %}</li>
-    <li class='pd-server'>pilex.localhost</li></ul>  
+    <li id='pd-server'><a href="#" data-for="pilex-serverpanel"><span class='narrow'>pilex.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
+</ul>  
 </div>
+
+<div id='pilex-queriespanel' class='pilex-debugpanel'>      
+<pre>{% for query in queries %}
+{{loop.index }}. {{ query.query}} <small>({{ query.duration }} sec.)</small>
+{% endfor %}
+</pre>
+</div>
+
+
+<div id='pilex-serverpanel' class='pilex-debugpanel'>      
+<pre>{% for key, var in servervars %}
+<strong>{{key}}:</strong>
+{{ printr(var, true) }}
+{% endfor %}
+</pre>
+</div>
+
+{% debug %}
+
+
 <script type="text/javascript">!window.jQuery && document.write('<script src="/app/view/js/jquery-1.7.2.min.js"><\/script>')</script>
 <script src="/app/view/js/debugbar.js"></script>
 <link rel='stylesheet' href='/app/view/css/debugbar.css' />

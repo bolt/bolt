@@ -28,44 +28,147 @@
 #pilex-debugbar ul {
     margin: 0;
     padding: 0;
-    padding-right: 60px;
+    padding-right: 46px;
 }
 
 #pilex-debugbar ul li {
     display: block;
     float: left;
-    padding: 2px 4px;
     font: normal 13px/13px "Helvetica Neue", Helvetica, Arial, sans-serif;
     border-right: 1px solid #CCC;    
     padding: 7px 6px 7px 28px;
+    color: #333;    
 }
 
-#pilex-debugbar ul li.pd-pilex {
+#pilex-debugbar ul li#pd-pilex {
     background-color: #244055;
     color: #F2F2F2;
     padding-left: 6px;
 }
 
+#pilex-debugbar ul li a, #pilex-debugbar ul li a:hover, #pilex-debugbar ul li a:active, #pilex-debugbar ul li a:visited {
+    text-decoration: underline;
+    color: #333;
+    
+}
 
-#pilex-debugbar ul li.pd-timer {
+#pilex-debugbar ul li#pd-pilex small {
+    color: #F2F2F2;
+}
+
+#pilex-debugbar ul li#pd-timer {
     background: transparent url('/app/view/img/debug-clock.png') no-repeat 6px 6px;
 }
 
 
-#pilex-debugbar ul li.pd-variables {
+#pilex-debugbar ul li#pd-variables {
     background: transparent url('/app/view/img/debug-variables.png') no-repeat 6px 6px;
 }
 
-#pilex-debugbar ul li.pd-log {
+#pilex-debugbar ul li#pd-log {
     background: transparent url('/app/view/img/debug-log.png') no-repeat 6px 6px;
 }
 
 
-#pilex-debugbar ul li.pd-queries {
+#pilex-debugbar ul li#pd-queries {
     background: transparent url('/app/view/img/debug-queries.png') no-repeat 6px 6px;
 }
 
 
-#pilex-debugbar ul li.pd-server {
+#pilex-debugbar ul li#pd-server {
     background: transparent url('/app/view/img/debug-server.png') no-repeat 6px 6px;
+}
+
+.pilex-debugpanel {
+    background-color: #F2F2F2;
+    border: 1px solid #ccc;    
+    position: fixed;
+    right: 10px;
+    bottom: 34px;  
+    height: 300px;
+    width: 700px;
+    box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+    z-index: 999;    
+    overflow-y: auto;
+    display: none;
+    padding: 4px 6px;
+}
+
+.pilex-debugpanel code, 
+.pilex-debugpanel pre {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 12px;
+  line-height: 15px;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre;
+  white-space: pre-wrap;
+  color: #444;
+  border: 0;
+  padding: 0;
+}
+
+#pilex-debugbar small,
+.pilex-debugpanel small {
+    font-size: 11px;
+    color: #666;
+}
+
+.narrowonly {
+    display: none;
+}
+
+
+
+@media all and (max-width: 800px) {
+
+
+    #pilex-debugbar small,
+    .pilex-debugpanel small {
+        display: none;
+        line-height: 0;
+    }
+    
+    .pilex-debugpanel {
+        width: 540px;
+    }    
+
+    .pilex-debugpanel code, 
+    .pilex-debugpanel pre {
+      font-size: 11px;
+      line-height: 14px !important;
+    }
+
+}
+
+
+
+@media all and (max-width: 660px) {
+
+
+    .narrow {
+        display: none;
+    }
+
+    .narrowonly {
+        display: inline;
+    }
+    
+    #pilex-debugbar ul li {
+        background-position-x: 2px !important;
+        padding: 7px 4px 7px 20px;
+
+    }
+
+    .pilex-debugpanel {
+        width: 300px;
+    }    
+
+    .pilex-debugpanel code, 
+    .pilex-debugpanel pre {
+      font-size: 10px;
+      line-height: 13px !important;
+    }
+
+
 }

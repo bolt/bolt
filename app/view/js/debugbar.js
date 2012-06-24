@@ -15,11 +15,26 @@ jQuery(function($) {
         // $.cookie('pivotx-debugbar-hide', 1);
         
         if ($('#pilex-debugbar').is(":visible")) {
-            $('#pilex-debugbar').fadeOut();
+            $('#pilex-debugbar, .pilex-debugpanel').fadeOut();
             $.cookie('pilex-debugbar-show', '');
         } else {
             $('#pilex-debugbar').fadeIn();
             $.cookie('pilex-debugbar-show', 1);
+        }
+        
+    });
+    
+    $('#pilex-debugbar li a').bind('click', function(e){
+        e.preventDefault();
+        
+        var forthis = "#" + $(this).data('for');
+        
+        $('.pilex-debugpanel').not(forthis).fadeOut();
+        
+        if ($(forthis).is(":visible")) {
+            $(forthis).fadeOut();
+        } else {
+            $(forthis).fadeIn();
         }
         
     });

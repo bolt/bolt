@@ -2,11 +2,17 @@
 
 $app['twig']->addFunction('printr', new Twig_Function_Function('twig_printr', array('is_safe' => array('html'))));
 
-function twig_printr($var) {
+function twig_printr($var, $skippre=false) {
     
-    $output = "<pre class='printr'>\n";
+    $output = "";
+    
+    if (!$skippre) {
+        $output .= "<pre class='printr'>\n";
+    }
     $output .= print_r($var, true);
-    $output .= "</pre>\n";
+    if (!$skippre) {
+        $output .= "</pre>\n";
+    }
     
     return $output;
     
