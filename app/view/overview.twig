@@ -15,15 +15,13 @@
         
         <tr class="{% if content.status=='unpublished' %}dim{% endif %}">
             <td class='id'>№ {{content.id}}</td>
+
+            <td class='excerpt large'><span> <strong><a href="/pilex/edit/{{contenttype.slug}}/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} <span></td>
             {% if content.image is defined %}
-            <td class='listthumb'>{% if content.image!="" %}
-                <img src="/thumbs/70x50c/{{ content.image }}" width="70" height="50">
-                {% else %}
-                &nbsp;
-                {% endif %}
+            <td class='listthumb'>
+                {{content.image|shadowbox(80, 60, 'c')}}
             </td>
-            {% endif %}
-            <td class='excerpt'><span> <strong><a href="/pilex/edit/{{contenttype.slug}}/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} <span></td>
+            {% endif %}            
             <td class='username'> {{ content.username }} <br> {{ content.datecreated|date('d/m/Y') }} </td>
             <td class='actions'>
     <div class="btn-group">

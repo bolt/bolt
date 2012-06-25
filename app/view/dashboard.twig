@@ -20,15 +20,13 @@
         {% for content in multiplecontent %}
         <tr class="{{ content.status }}">
             <td class='id'>№ {{content.id}}</td>
+                   
+            <td class='excerpt'><span> <strong><a href="/pilex/edit/entries/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 180) }} </span></td>
             {% if content.image is defined %}
-            <td class='listthumb'>{% if content.image!="" %}
-                <img src="/thumbs/48x36c/{{ content.image }}" width="54" height="42">
-                {% else %}
-                &nbsp;
-                {% endif %}
+            <td class='listthumb'>
+                {{content.image|shadowbox(54, 42, 'c')}}
             </td>
-            {% endif %}            
-            <td class='excerpt'><span> <strong><a href="/pilex/edit/entries/{{ content.id }}">{{content.title}}</a></strong> {{ excerpt(content, 200) }} </span></td>
+            {% endif %} 
             <td class='username'> {{ content.username }} <br> {{ content.datecreated|date('d/m/Y') }} </td>
     
         </tr>

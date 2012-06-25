@@ -62,6 +62,32 @@ function twig_thumbnail($filename, $width=100, $height=100, $crop="") {
         $filename
         );
     
-    return ucfirst($thumbnail);
+    return $thumbnail;
     
 }
+
+
+
+$app['twig']->addFilter('shadowbox', new Twig_Filter_Function('twig_shadowbox', array('is_safe' => array('html'))));
+
+function twig_shadowbox($filename="", $width=100, $height=100, $crop="") {
+    
+    if (!empty($filename)) {
+
+        $thumbnail = twig_thumbnail($filename, $width, $height, $crop);
+        $large = twig_thumbnail($filename, 1000, 1000, 'r');
+    
+        $shadowbox = sprintf('<a href="%s" rel="shadowbox" title="Image: %s">
+                <img src="%s" width="%s" height="%s"></a>', 
+                $large, $filename, $thumbnail, $width, $height );
+
+        return $shadowbox;
+
+                        
+    } else {
+        return "&nbsp;";
+    }
+    
+    
+}
+

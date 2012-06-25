@@ -176,6 +176,10 @@ footer  {
     overflow: hidden;
 }
 
+.dashboardlisting td.excerpt.large span {
+    height: 54px;
+}
+
 ul.dropdown-menu li {
     text-align: left;
 }
