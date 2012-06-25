@@ -8,8 +8,6 @@ jQuery.cookie=function(name,value,options){if(typeof value!='undefined'){options
 
 jQuery(function($) {
     
-    console.log( $.cookie('pilex-debugbar-show') );
-    
     $('#pilex-nipple').bind('click', function(){
         
         if ($('#pilex-debugbar').is(":visible")) {

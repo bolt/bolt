@@ -40,6 +40,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
 
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+
+
 use Silex\Provider\FormServiceProvider;
 $app->register(new FormServiceProvider());
 

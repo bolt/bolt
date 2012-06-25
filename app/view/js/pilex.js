@@ -5,9 +5,10 @@ try { console.assert(1); } catch(e) { console = { log: function() {}, assert: fu
 
 jQuery(function($) {
 
-    // Do stuff.
-
-
+    // Any link with a class='confirm' gets a confirmation dialog.. 
+    $('a.confirm').click(function(){
+        return confirm( $(this).data('confirm') );
+    }); 
 
     // For editing content.. 
     if ($('.redactor').is('*')) {

@@ -39,21 +39,21 @@ Shadowbox.init({ animate: true, overlayColor: "#DDD", overlayOpacity: 0.7, viewp
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/pilex">
+            <a class="brand" href="{{ path('dashboard') }}">
                 <strong>Pilex</strong> <span class="hidden-phone"> {% if app.config.general.sitename is defined %}- {{app.config.general.sitename}}{% endif %}</span>
             </a>
             <div class="nav-collapse">
                 <ul class="nav pull-right">
-                    <li class="active"><a href="/pilex">Dashboard</a></li>
+                    <li class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content
                             <b class="caret"></b>
                             </a>
                         <ul class="dropdown-menu">
                             {% for slug, contenttype in app.config.contenttypes %}
-                            <li><a href="/pilex/overview/{{slug}}">View {{ contenttype.name }}</a></li>
-                            <li><a href="/pilex/edit/{{slug}}">New {{ contenttype.singular_name }}</a></li>
-                            <li class="divider"></li>
+                            <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">View {{ contenttype.name }}</a></li>
+                            <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">New {{ contenttype.singular_name }}</a></li>
+                            {% if not loop.last %}<li class="divider"></li>{% endif %}
                             {% endfor %}
                             
                         </ul>
@@ -64,12 +64,12 @@ Shadowbox.init({ animate: true, overlayColor: "#DDD", overlayOpacity: 0.7, viewp
                             </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Configuration</li>
-                            <li><a href="/pilex/users">Users</a></li>
-                            <li><a href="/pilex/contenttypes">Contenttypes</a></li>
-                            <li><a href="/pilex/taxonomy">Taxonomy</a></li>
+                            <li><a href="{{ path('users') }}">Users</a></li>
+                            <li><a href="">Contenttypes</a></li>
+                            <li><a href="">Taxonomy</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Maintenance</li>
-                            <li><a href="/pilex/dbupdate">Check database</a></li>
+                            <li><a href="{{ path('dbupdate') }}">Check database</a></li>
                         </ul>
                     </li>
                     <li class="divider-vertical"></li>
@@ -77,9 +77,9 @@ Shadowbox.init({ animate: true, overlayColor: "#DDD", overlayOpacity: 0.7, viewp
                     <li class="divider-vertical"></li>
                     <li>
                         {% if app.session.get('user') is not null %}
-                        <a href="/pilex/logout">Logout {{ app.session.get('user').username }}</a> 
+                        <a href="{{ path('logout') }}">Logout {{ app.session.get('user').username }}</a> 
                         {% else %}
-                        <a href="/pilex/login">Login</a> 
+                        <a href="{{ path('login') }}">Login</a> 
                         {% endif %}
                     </li>
                 </ul>

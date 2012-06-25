@@ -20,15 +20,22 @@
             <td><strong>{{ user.userlevel }} </td>
             <td class='actions'>
     <div class="btn-group">
-    <button class="btn btn-mini"><a href="/pilex/users/edit/{{user.id}}">Edit</a></button>
+    <button class="btn btn-mini"><a href="{{ path('useredit', { 'id' : user.id }) }}">Edit</a></button>
     <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
     <span class="caret"></span>
     </button>
     <ul class="dropdown-menu pull-right">
         
+
+        {% if user.enabled %}
+        <li><a href="{{ path('useraction', { 'action': 'disable', 'id': user.id }) }}">Disable {{user.username}}</a></li>
+        {% else %}
+        <li><a href="{{ path('useraction', { 'action': 'enable', 'id': user.id }) }}">Enable {{user.username}}</a></li>
+        {% endif %}        
+        <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id }) }}" class="confirm" data-confirm="Are you sure you want to delete '{{user.displayname}}'?">Delete {{user.username}}</a></li>
         <li class="divider"></li>
-        <li><a href="#">Disable {{user.username}}</a></li>
-        <li><a href="#">Delete {{user.username}}</a></li>
+        <li><a>Last seen: <strong>{% if user.lastip!="" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
+        <li><a>Last known IP: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
     </ul>
     </div>
             

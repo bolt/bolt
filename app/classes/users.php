@@ -55,11 +55,27 @@ class Users {
         
     }      
     
+    
+    public function deleteUser($id) {
+        
+        $tablename = $this->prefix . "users";
+        
+        $user = $this->getUser($id);
+        
+        if (empty($user['id'])) {
+            $this->session->setFlash('error', 'That user does not exist.');    
+            return false;
+        } else {
+            return $this->db->delete($tablename, array('id' => $user['id']));
+        }
+        
+    }
+    
         
     public function login($user, $password) {
      
         $user = makeSlug($user);
-        $user = $this->getUser($user);
+        $user = $this->getUser($user, true);
         
         if (empty($user)) {
             $this->session->setFlash('error', 'Username or password not correct. Please check your input.');    
@@ -70,6 +86,11 @@ class Users {
         $hasher = new PasswordHash(8, TRUE);
        
         if ($hasher->CheckPassword($password, $user['password'])) {
+
+            if (!$user['enabled']) {
+                $this->session->setFlash('error', 'Your account is disabled. Sorry about that.');    
+                return false;
+            }
 
             $update = array(
                 'lastseen' => date('Y-m-d H:i:s'),
@@ -131,7 +152,7 @@ class Users {
     }
     
     
-    public function getUser($id) {
+    public function getUser($id, $includepassword=false) {
                
         $tablename = $this->prefix . "users";
 
@@ -141,8 +162,27 @@ class Users {
            $user = $this->db->fetchAssoc("SELECT * FROM $tablename where username = :username", array("username" => $id));
         }
         
+        if (!$includepassword) {
+            unset($user['password']);
+        }
+        
         return $user;
         
+    }
+        
+        
+        
+    public function setEnabled($id, $enabled=1) {
+        
+        $user = $this->getUser($id);
+        
+        if (empty($user)) {
+            return false;
+        }
+        
+        $user['enabled'] = $enabled;
+        
+        return $this->saveUser($user);
         
     }
         

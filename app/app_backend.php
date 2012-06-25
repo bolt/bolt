@@ -51,7 +51,7 @@ $app->get("/pilex", function(Silex\Application $app) {
 
     return $app['twig']->render('dashboard.twig', array('latest' => $latest));
 
-})->before($checkLogin);
+})->before($checkLogin)->bind('dashboard');
 
 
 
@@ -77,7 +77,7 @@ $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
     
     return $app['twig']->render('login.twig');
 
-})->method('GET|POST');
+})->method('GET|POST')->bind('login');
 
 
 /**
@@ -90,7 +90,7 @@ $app->get("/pilex/logout", function(Silex\Application $app) {
     
     return $app->redirect('/pilex/login');
         
-});
+})->bind('logout');
 
 
 
@@ -115,7 +115,7 @@ $app->get("/pilex/dbupdate", function(Silex\Application $app) {
 	
 	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
 	
-})->before($checkLogin);
+})->before($checkLogin)->bind('dbupdate');
 
 
 /**
@@ -129,7 +129,7 @@ $app->get("/pilex/prefill", function(Silex\Application $app) {
 	
 	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
 	
-})->before($checkLogin);
+})->before($checkLogin)->bind('prefill');
 
 
 /**
@@ -143,7 +143,7 @@ $app->get("/pilex/overview/{contenttypeslug}", function(Silex\Application $app, 
 
 	return $app['twig']->render('overview.twig', array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent));
 	
-})->before($checkLogin);
+})->before($checkLogin)->bind('overview');
 
 
 /**
@@ -183,7 +183,7 @@ $app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id
 
 	return $app['twig']->render('editcontent.twig', array('contenttype' => $contenttype, 'content' => $content));
 	
-})->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
+})->before($checkLogin)->assert('id', '\d*')->method('GET|POST')->bind('editcontent');
 
 
 
@@ -305,12 +305,12 @@ $app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Requ
         'title' => $title
         ));      
       
-})->before($checkLogin)->assert('id', '\d*')->method('GET|POST');
+})->before($checkLogin)->assert('id', '\d*')->method('GET|POST')->bind('useredit');
 
 
 
 /**
- * Check the database, create tables, add missing/new columns to tables
+ * Show a list of all available users.
  */
 $app->get("/pilex/users", function(Silex\Application $app) {
 	
@@ -319,7 +319,60 @@ $app->get("/pilex/users", function(Silex\Application $app) {
     
 	return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title));
 	
-})->before($checkLogin);
+})->before($checkLogin)->bind('users');
+
+
+/**
+ * Show a list of all available users.
+ */
+$app->get("/pilex/user/{action}/{id}", function(Silex\Application $app, $action, $id) {
+
+
+    $user = $app['users']->getUser($id);
+    
+    if (!$user) {
+        $app['session']->setFlash('error', "No such user.");
+        return $app->redirect('/pilex/users'); 
+    }
+
+    switch ($action) {
+        
+        case "disable":
+            if ($app['users']->setEnabled($id, 0)) {
+                $app['session']->setFlash('info', "User '{$user['displayname']}' is disabled.");
+            } else {
+                $app['session']->setFlash('info', "User '{$user['displayname']}' could not be disabled.");
+            }
+            return $app->redirect('/pilex/users'); 
+            break;
+        
+        case "enable":
+            if ($app['users']->setEnabled($id, 1)) {
+                $app['session']->setFlash('info', "User '{$user['displayname']}' is enabled.");
+            } else {
+                $app['session']->setFlash('info', "User '{$user['displayname']}' could not be enabled.");        
+            }
+            return $app->redirect('/pilex/users'); 
+            break;
+                    
+        case "delete":
+            if ($app['users']->deleteUser($id)) {    
+                $app['session']->setFlash('info', "User '{$user['displayname']}' is deleted.");
+            } else {
+                $app['session']->setFlash('info', "User '{$user['displayname']}' could not be deleted.");    
+            }
+            return $app->redirect('/pilex/users');         
+            break;
+                
+        default:
+            $app['session']->setFlash('error', "No such action for user '{$user['displayname']}'.");
+            return $app->redirect('/pilex/users'); 
+        
+    }
+
+	
+})->before($checkLogin)->bind('useraction');
+
 
 
 
