@@ -40,6 +40,10 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
 
+$app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
+    'http_cache.cache_dir' => __DIR__.'/cache/',
+));
+
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 

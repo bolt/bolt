@@ -1,5 +1,8 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Homepage..
  */
@@ -17,7 +20,9 @@ $app->get("/", function(Silex\Application $app) {
 
     
     
-    return $app['twig']->render('index.twig');
+    $body = $app['twig']->render('index.twig');
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+    
 
 
 });
@@ -35,10 +40,11 @@ $app->get('/weblog/{contenttypeslug}', function (Silex\Application $app, $conten
     
     $contentgroup =  $app['storage']->getContent($contenttype['slug'], array('limit' => "10", 'order' => "datecreated DESC"));
     
-    return $app['twig']->render('_sub_weblog.twig', array(
+    $body = $app['twig']->render('_sub_weblog.twig', array(
         'contentgroup' => $contentgroup, 
         'contenttype' => $contenttype
     ));
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     
     
 });
@@ -57,10 +63,12 @@ $app->get('/linklist/{contenttypeslug}', function (Silex\Application $app, $cont
     
     $contentgroup =  $app['storage']->getContent($contenttype['slug'], array('limit' => "10", 'order' => "datecreated DESC"));
     
-    return $app['twig']->render('_sub_linklist.twig', array(
+    $body = $app['twig']->render('_sub_linklist.twig', array(
         'contentgroup' => $contentgroup, 
         'contenttype' => $contenttype
     ));
+    
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     
     
 });
@@ -94,8 +102,10 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
     } 
    
 
+    $body = $app['twig']->render($contenttype['template'], array('content' => $content));
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     
-    return $app['twig']->render($contenttype['template'], array('content' => $content));
+    // return $app['twig']->render($contenttype['template'], array('content' => $content));
     
 
     

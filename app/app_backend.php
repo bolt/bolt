@@ -7,11 +7,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Middleware function to check whether a user is logged on.
  */
 $checkLogin = function(Request $request) use ($app) {
-      
+   
+
+    $route = $request->get('_route');
+    
+    
+          
     // There's an active session, we're all good.
     if ($app['session']->has('user')) {
         return;
     } 
+    
+
 
     // If the users table is present, but there are no users, and we're on /pilex/users/edit,
     // we let the user stay, because they need to set up the first user. 
@@ -32,12 +39,15 @@ $checkLogin = function(Request $request) use ($app) {
 
 };
 
+use Silex\ControllerCollection;
+
+$backend = new ControllerCollection($app['route_factory']);
 
 
 /**
  * Dashboard or "root".
  */
-$app->get("/pilex", function(Silex\Application $app) {
+$backend->get("/", function(Silex\Application $app) {
 
     // Check DB-tables integrity
     if (!$app['storage']->checkTablesIntegrity()) {
@@ -55,11 +65,10 @@ $app->get("/pilex", function(Silex\Application $app) {
 
 
 
-
 /**
  * Login page.
  */
-$app->match("/pilex/login", function(Silex\Application $app, Request $request) {
+$backend->match("/login", function(Silex\Application $app, Request $request) {
 
     if ($request->getMethod() == "POST") {
       
@@ -83,7 +92,7 @@ $app->match("/pilex/login", function(Silex\Application $app, Request $request) {
 /**
  * Logout page.
  */
-$app->get("/pilex/logout", function(Silex\Application $app) {
+$backend->get("/logout", function(Silex\Application $app) {
 
 	$app['session']->setFlash('info', 'You have been logged out.');
     $app['session']->remove('user');
@@ -97,7 +106,7 @@ $app->get("/pilex/logout", function(Silex\Application $app) {
 /**
  * Check the database, create tables, add missing/new columns to tables
  */
-$app->get("/pilex/dbupdate", function(Silex\Application $app) {
+$backend->get("/dbupdate", function(Silex\Application $app) {
 	
 	$title = "Database check / update";
 
@@ -121,7 +130,7 @@ $app->get("/pilex/dbupdate", function(Silex\Application $app) {
 /**
  * Generate some lipsum in the DB.
  */
-$app->get("/pilex/prefill", function(Silex\Application $app) {
+$backend->get("/prefill", function(Silex\Application $app) {
 	
 	$title = "Database prefill";
 
@@ -135,7 +144,7 @@ $app->get("/pilex/prefill", function(Silex\Application $app) {
 /**
  * Check the database, create tables, add missing/new columns to tables
  */
-$app->get("/pilex/overview/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
+$backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
 	
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -149,7 +158,7 @@ $app->get("/pilex/overview/{contenttypeslug}", function(Silex\Application $app, 
 /**
  * Edit a unit of content, or create a new one.
  */
-$app->match("/pilex/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, Silex\Application $app, Request $request) {
+$backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, Silex\Application $app, Request $request) {
         
     $twigvars = array();
     
@@ -193,7 +202,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Validator\Constraints as Assert;
 
-$app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Request $request) {
+$backend->match("/users/edit/{id}", function($id, Silex\Application $app, Request $request) {
     
     // Get the user we want to edit (if any)    
     if (!empty($id)) {
@@ -312,7 +321,7 @@ $app->match("/pilex/users/edit/{id}", function($id, Silex\Application $app, Requ
 /**
  * Show a list of all available users.
  */
-$app->get("/pilex/users", function(Silex\Application $app) {
+$backend->get("/users", function(Silex\Application $app) {
 	
 	$title = "Users";
     $users = $app['users']->getUsers();
@@ -325,7 +334,7 @@ $app->get("/pilex/users", function(Silex\Application $app) {
 /**
  * Show a list of all available users.
  */
-$app->get("/pilex/user/{action}/{id}", function(Silex\Application $app, $action, $id) {
+$backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $id) {
 
 
     $user = $app['users']->getUser($id);
@@ -392,6 +401,7 @@ if ( $app['debug'] ) {
         }
     });
     
+    /*
     $app->after(function(Request $request, Response $response) use ($app, $logger) {
         // Log all queries as DEBUG.
         foreach ( $logger->queries as $query ) {
@@ -401,6 +411,7 @@ if ( $app['debug'] ) {
             ));
         }
     });
+    */
 }
 
 
@@ -439,14 +450,17 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
         $twig = $app['twig.loader'];
         $templates = hackislyParseRegexTemplates($twig);
         
+        $route = $request->get('_route') ;
+        $route_params = $request->get('_route_params') ;
+        
         
         $servervars = array(
-            'cookies' => $request->cookies->all(),
+            'cookies <small>($_COOKIES)</small>' => $request->cookies->all(),
             'headers' => makeValuepairs($request->headers->all(), '', '0'),
-            'query' => $request->query->all(),
-            'request' => $request->request->all(),
-            'session' => $request->getSession()->all(),
-            'server' => $request->server->all(),
+            'query <small>($_GET)</small>' => $request->query->all(),
+            'request <small>($_POST)</small>' => $request->request->all(),
+            'session <small>($_SESSION)</small>' => $request->getSession()->all(),
+            'server <small>($_SERVER)</small>' => $request->server->all(),
             'response' => makeValuepairs($response->headers->all(), '', '0'),
             'statuscode' => $response->getStatusCode()
         );
@@ -457,11 +471,14 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
             'pilex_version' => $pilex_version,
             'timetaken' => timeTaken(),
             'memtaken' => getMem(),
+            'memtaken' => getMaxMem(),
             'querycount' => $querycount,
             'querytime' => sprintf("%0.2f", $querytime),
             'queries' => $queries,
             'servervars' => $servervars,
-            'templates' => $templates
+            'templates' => $templates,
+            'route' => "/".$route,
+            'route_params' => json_encode($route_params)
         ));
     
     } 
@@ -504,4 +521,6 @@ $app->error(function(Exception $e) use ($app) {
 
 });
 
+
+$app->mount('/pilex', $backend);
 

@@ -85,8 +85,8 @@
     position: fixed;
     right: 10px;
     bottom: 34px;  
-    height: 300px;
-    width: 700px;
+    max-height: 300px;
+    width: 640px;
     box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
     z-index: 999;    
     overflow-y: auto;
@@ -106,6 +106,7 @@
   color: #444;
   border: 0;
   padding: 0;
+  margin: 0;
 }
 
 #pilex-debugbar small,
@@ -130,7 +131,7 @@
     }
     
     .pilex-debugpanel {
-        width: 540px;
+        width: 500px;
     }    
 
     .pilex-debugpanel code, 
@@ -154,12 +155,12 @@
         display: inline;
     }
     
-    #pilex-debugbar ul li {
+/*    #pilex-debugbar ul li {
         background-position-x: 2px !important;
         padding: 7px 4px 7px 20px;
 
     }
-
+*/
     .pilex-debugpanel {
         width: 300px;
     }    

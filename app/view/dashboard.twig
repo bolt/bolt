@@ -18,7 +18,7 @@
     
     <table class='dashboardlisting'>
         {% for content in multiplecontent %}
-        <tr class="{{ content.status }}">
+        <tr class="{% if content.status!='published' %}dim{% endif %}">
             <td class='id'>№ {{content.id}}</td>
                    
             <td class='excerpt'><span> <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">{{content.title}}</a></strong> {{ excerpt(content, 180) }} </span></td>

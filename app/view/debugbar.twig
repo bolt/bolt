@@ -4,8 +4,7 @@
 <div id='pilex-debugbar'>      
 <ul>
     <li id='pd-pilex'><strong>Pilex {{pilex_version}}</strong><small>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</small></li>
-    <li id='pd-timer'>{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></li>
-    <li id='pd-variables'><a href="#" data-for="pilex-varpanel">Var<span class='narrow'>iables</span></a></li> 
+    <li id='pd-variables'><a href="#" data-for="pilex-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
     <li id='pd-log'>Log<span class='narrow'>file</span></li>
     <li id='pd-queries'>
         {% if querycount==0 %}
@@ -19,6 +18,23 @@
 </ul>  
 </div>
 
+
+<div id='pilex-varpanel' class='pilex-debugpanel'> 
+<pre>
+<strong>Time taken:</strong> {{timetaken}} sec. / <strong>Memory</strong> {{memtaken}}.
+
+<strong>Used templates:</strong>
+<pre>{% for template in templates %}
+{{loop.index }}. {{template}}
+{% endfor %}
+
+<strong>Route:</strong> {{ route }}
+<strong>Parameters:</strong> {{ route_params }}
+<strong>Request URI:</strong> {{ servervars['server <small>($_SERVER)</small>']['REQUEST_URI'] }}
+</pre>
+</div>
+
+
 <div id='pilex-queriespanel' class='pilex-debugpanel'>      
 <pre>{% for query in queries %}
 {{loop.index }}. {{ query.query}} <small>({{ query.duration }} sec.)</small>
@@ -29,20 +45,12 @@
 
 <div id='pilex-serverpanel' class='pilex-debugpanel'>      
 <pre>{% for key, var in servervars %}
-<strong>{{key}}:</strong>
+<strong>{{key|raw}}:</strong>
 {{ printr(var, true) }}
 {% endfor %}
 </pre>
 </div>
 
-
-<div id='pilex-varpanel' class='pilex-debugpanel'>      
-<strong>Used templates:</strong>
-<pre>{% for template in templates %}
-{{loop.index }}. {{template}}
-{% endfor %}
-</pre>
-</div>
 
 
 

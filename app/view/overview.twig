@@ -14,7 +14,7 @@
         {% for content in multiplecontent %}
         
         <tr class="{% if content.status!='published' %}dim{% endif %}">
-            <td class='id'>№ {{content.id}}</td>
+            <td class='id'>№ {{content.id}} {{ content.status }}</td>
             <td class='excerpt large'><span> <strong>
                 <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}</a></strong> 
                 {{ excerpt(content, 200) }} <span></td>

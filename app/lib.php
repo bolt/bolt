@@ -87,6 +87,23 @@ function getMem() {
 
 
 /**
+ * Get the maximum amount of used memory, if memory_get_usage is defined.
+ *
+ * @return string
+ */
+function getMaxMem() {
+
+    if (function_exists('memory_get_peak_usage')) {
+        $mem = memory_get_peak_usage();
+        return formatFilesize($mem);
+    } else {
+        return "unknown";
+    }
+}
+
+
+
+/**
  * Format a filesize like '10.3 kb' or '2.5 mb'
  *
  * @param integer $size
