@@ -18,9 +18,7 @@
 
 <link rel="stylesheet" type="text/css" href="/app/view/lib/shadowbox/shadowbox.css">
 <script type="text/javascript" src="/app/view/lib/shadowbox/shadowbox.js"></script>
-<script type="text/javascript">
-Shadowbox.init({ animate: true, overlayColor: "#DDD", overlayOpacity: 0.7, viewportPadding: 40 });
-</script>
+
     
     <script src="/app/view/js/pilex.js"></script>
 
@@ -32,7 +30,8 @@ Shadowbox.init({ animate: true, overlayColor: "#DDD", overlayOpacity: 0.7, viewp
 </head>
 <body>
     
-
+{% if active is not defined %}{% set active="dashboard" %}{% endif %}
+    
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -44,8 +43,8 @@ Shadowbox.init({ animate: true, overlayColor: "#DDD", overlayOpacity: 0.7, viewp
             </a>
             <div class="nav-collapse">
                 <ul class="nav pull-right">
-                    <li class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
-                    <li class="dropdown">
+                    <li {% if active in ["", "dashboard"] %}class="active"{% endif %}><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                    <li {% if active=="content" %}class="active"{% endif %}class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content
                             <b class="caret"></b>
                             </a>
