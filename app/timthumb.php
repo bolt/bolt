@@ -31,7 +31,7 @@ $requesturi = $_SERVER['REQUEST_URI'];
 $res = preg_match("^thumbs/([0-9]+)x([0-9]+)([a-z]?)/(.*)^i", $requesturi , $matches);
 
 if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {    
-    die("Malformed thumbnail URL. Should look like '/thumbs/320x240c/filename.jpg'.");
+    //die("Malformed thumbnail URL. Should look like '/thumbs/320x240c/filename.jpg'.");
 }
 
 
@@ -57,7 +57,8 @@ switch ($matches[3]) {
         break;
 }
 
-
+// Implode back to _SERVER['QUERY_STRING'], because that's used for the cache filename generation, around line 313 or so
+$_SERVER['QUERY_STRING'] = http_build_query($_GET);
 
 
 /*
@@ -99,7 +100,7 @@ if(! defined('MAX_HEIGHT') ) 			define ('MAX_HEIGHT', 1500);								// Maximum i
 if(! defined('NOT_FOUND_IMAGE') )		define ('NOT_FOUND_IMAGE', '');								// Image to serve if any 404 occurs 
 if(! defined('ERROR_IMAGE') )			define ('ERROR_IMAGE', '');									// Image to serve if an error occurs instead of showing error message 
 if(! defined('PNG_IS_TRANSPARENT') ) 	define ('PNG_IS_TRANSPARENT', FALSE);  //42 Define if a png image should have a transparent background color. Use False value if you want to display a custom coloured canvas_colour 
-if(! defined('DEFAULT_Q') )				define ('DEFAULT_Q', 80);									// Default image quality. Allows overrid in timthumb-config.php
+if(! defined('DEFAULT_Q') )				define ('DEFAULT_Q', 90);									// Default image quality. Allows overrid in timthumb-config.php
 if(! defined('DEFAULT_ZC') )			define ('DEFAULT_ZC', 1);									// Default zoom/crop setting. Allows overrid in timthumb-config.php
 if(! defined('DEFAULT_F') )				define ('DEFAULT_F', '');									// Default image filters. Allows overrid in timthumb-config.php
 if(! defined('DEFAULT_S') )				define ('DEFAULT_S', 0);									// Default sharpen value. Allows overrid in timthumb-config.php
