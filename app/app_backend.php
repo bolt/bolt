@@ -382,20 +382,10 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
             
         }    
 
-        $twig = $app['twig.loader'];
-        
-        foreach($twig as $key => $val) {
-            echo "<pre><b>KEYL</b>:";
-            print_r($val);
-            echo "</pre>";
-            
-        }
-        
-        echo "<pre>twig: ";
-        var_dump($twig);
-        echo "</pre>";
-        
 
+        $twig = $app['twig.loader'];
+        $templates = hackislyParseRegexTemplates($twig);
+        
         
         $servervars = array(
             'cookies' => $request->cookies->all(),
@@ -417,8 +407,8 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
             'querycount' => $querycount,
             'querytime' => sprintf("%0.2f", $querytime),
             'queries' => $queries,
-            'servervars' => $servervars
-   
+            'servervars' => $servervars,
+            'templates' => $templates
         ));
     
     } 

@@ -343,3 +343,22 @@ function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true) {
 
 }
 
+
+function hackislyParseRegexTemplates($obj) {
+    
+    $str = print_r($obj, true);
+    
+    preg_match_all('/(\/[a-z0-9_\/]+\.twig)/i', $str, $matches);
+    
+    //echo "<pre>\n" . print_r($$matches, true) . "</pre>\n";
+    
+    foreach($matches[1] as $match) {
+        $templates[] = basename(dirname($match)) . "/" . basename($match);
+    }
+    
+    return $templates;
+    
+}
+
+
+
