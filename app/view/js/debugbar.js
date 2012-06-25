@@ -11,8 +11,6 @@ jQuery(function($) {
     console.log( $.cookie('pilex-debugbar-show') );
     
     $('#pilex-nipple').bind('click', function(){
-
-        // $.cookie('pivotx-debugbar-hide', 1);
         
         if ($('#pilex-debugbar').is(":visible")) {
             $('#pilex-debugbar, .pilex-debugpanel').fadeOut();
@@ -39,31 +37,6 @@ jQuery(function($) {
         
     });
     
-    /*
-    $('#pxdb-bar-open').bind('click', function(){
-        $('#pxdb-bar div').not('#pxdb-bar-open').show();
-        $('#pxdb-bar-open').hide();
-        $.cookie('pivotx-debugbar-hide', '');
-    });    
-    
-    // modifiers, queries, log and server boxes..
-    $('#pxdb-bar-modifiers, #pxdb-bar-queries, #pxdb-bar-log, #pxdb-bar-server').bind('click', function(e){
-        e.preventDefault();
-        
-        // Set the 'active' state.
-        $('#pxdb-bar div').removeClass('active');
-        $(this).addClass('active');
-        
-        var boxid = $(this).attr('id');
-        boxid = boxid.replace('-bar-', '-box-');
-        $('#pxdb-box-modifiers, #pxdb-box-queries, #pxdb-box-log, #pxdb-box-server').not('#'+boxid).removeClass('pivotx-visible')
-        if ( $('#'+boxid).hasClass('pivotx-visible') ) {
-            $('#'+boxid).removeClass('pivotx-visible');
-        } else {
-            $('#'+boxid).addClass('pivotx-visible');
-        }
-    });
-    */
 
     // Initialise the debugbar and open it, if there's a cookie set..
     if ($.cookie('pilex-debugbar-show')==1) {

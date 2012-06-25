@@ -153,10 +153,16 @@ footer  {
 
 .dashboardlisting td.id, 
 .dashboardlisting td.username,
-.dashboardlisting td.actions  {
+.dashboardlisting td.actions,
+.dashboardlisting td.listthumb  {
     white-space: nowrap;
     text-align: center;
     color: #666;    
+
+}
+
+.dashboardlisting td.listthumb {
+    padding: 2px;
 }
 
 .dashboardlisting td.actions {
