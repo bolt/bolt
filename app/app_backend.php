@@ -69,8 +69,8 @@ $backend->get("/", function(Silex\Application $app) {
  */
 $backend->get("/dashboardnews", function(Silex\Application $app) {
 
-    $guzzleclient = new Guzzle\Service\Client('http://news.pilex.net/');
-    
+    $guzzleclient = new Guzzle\Http\Client('http://news.pilex.net/');
+        
     $news = $guzzleclient->get("/")->send()->getBody(true);
 
     $news = json_decode($news);
@@ -78,10 +78,8 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
     // For now, just use the most current item.
     $news = current($news);
 
-    return $app['twig']->render('dashboard-news.twig', array('news' => $news ));
-
-    // echo "<pre>\n" . print_r($news, true) . "</pre>\n";
-
+    $body = $app['twig']->render('dashboard-news.twig', array('news' => $news ));
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkLogin)->bind('dashboardnews');
 

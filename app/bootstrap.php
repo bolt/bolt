@@ -27,10 +27,12 @@ $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider());
 
+
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__.'/cache/debug.log',
     'monolog.name' => "Pilex"
 ));
+
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],

@@ -423,16 +423,16 @@ class Storage {
         
         return $content;
         
-    
-        
-        
+
     }
     
-    public function getContent($contenttype, $parameters) {
+    public function getContent($contenttypeslug, $parameters) {
                
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 10;
         
-        $slug = makeSlug($contenttype);
+        $slug = makeSlug($contenttypeslug);
+        $contenttype = $this->getContentType($contenttypeslug);
+        
         $tablename = $this->prefix . $slug;
 
         $query = "SELECT * FROM $tablename";
@@ -442,15 +442,47 @@ class Storage {
             $query .= " ORDER BY " . safeString($parameters['order']);
         }
         
-        // Where 
-        if (!empty($parameters['where'])) {
-            $query .= " WHERE " . $parameters['where'];
+        // Make sure 'where' is an array.. 
+        if (empty($parameters['where'])) {
+            $where = array();
+        } else if (!is_array($parameters['where'])) {
+            $where = array($parameters['where']);
+        } else {
+            $where = $parameters['where'];
+        }
+        
+        // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
+        foreach($parameters as $key => $value) {
+            if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
+                continue; // Skip this one..
+            }
+            if (!in_array($key, $this->getContentTypeFields($slug))) {
+                continue; // Also skip if 'key' isn't a field in the contenttype.
+            }
+            
+            $operator = "=";
+            $where[] = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));    
+    
+        }
+        
+        
+        // implode 'where'
+        if (!empty($where)) {
+            $query .= " WHERE (" . implode(" AND ", $where) . ")";
         }        
         
         // Add the limit
-        $query .= " LIMIT $limit";
+        $query .= " LIMIT $limit;";
+
 
         $content = $this->db->fetchAll($query);
+        
+        // Make sure all content has information about its contenttype
+        
+        foreach($content as $key => $value) {
+            $content[$key]['contenttype'] = $contenttype;
+        }
+        
         
         return $content;
         
@@ -471,9 +503,7 @@ class Storage {
         // Special case: if $contenttype has a slash, like 'entry/1', we'll assume we need to get entry #1. 
         if (strpos($contenttype, "/")>0) {
             list ($contenttype, $id) = explode("/", $contenttype);
-            
-            
-            
+
             if (is_numeric($id)) {
                $parameters = array('where' => "id = ".$id);
             } else {
@@ -532,6 +562,19 @@ class Storage {
             return false;
         }
     
+    
+    }
+    
+    
+    public function getContentTypeFields($contenttypeslug) {
+        
+        $contenttype = $this->getContentType($contenttypeslug);
+        
+        if (empty($contenttype['fields'])) {
+            return array();
+        } else {
+           return array_keys($contenttype['fields']);        
+        }
     
     }
     

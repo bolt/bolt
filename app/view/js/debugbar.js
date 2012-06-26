@@ -40,10 +40,8 @@ jQuery(function($) {
 
     // Initialise the debugbar and open it, if there's a cookie set..
     if ($.cookie('pilex-debugbar-show')==1) {
-        setTimeout( function(){ $('#pilex-debugbar').fadeIn(); }, 250 ); 
-    } else {
-        setTimeout( function(){ $('#pilex-debugbar').fadeOut(); }, 250 ); 
+        $('#pilex-debugbar').show(); 
+        $('#pilex-footer').hide();
     }
-    
 
 });

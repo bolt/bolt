@@ -17,7 +17,7 @@
             <td class='id'>№ {{content.id}} </td>
             <td class='excerpt large'><span> <strong>
                 <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}</a></strong> 
-                {{ excerpt(content, 200) }} <span></td>
+                {{ content|excerpt(200) }} <span></td>
             {% if content.image is defined %}
             <td class='listthumb'>
                 {{content.image|shadowbox(80, 60, 'c')}}
