@@ -28,12 +28,13 @@ $app['config'] = $config;
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile'       => __DIR__.'/debug.log',
+    'monolog.logfile' => __DIR__.'/cache/debug.log',
+    'monolog.name' => "Pilex"
 ));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],
-    'twig.options' => array('debug'=>true), 
+    'twig.options' => array('debug'=>true, 'cache' => __DIR__.'/cache/' ), 
 ));
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(

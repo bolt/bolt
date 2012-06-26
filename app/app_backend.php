@@ -122,7 +122,11 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
 	
 	$content .= "<br><br><p><a href='/pilex/prefill'>Fill the database</a> with Loripsum.</p>";
 	
-	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
+	return $app['twig']->render('base.twig', array(
+	   'title' => $title, 
+	   'content' => $content,
+	   'active' => "settings"
+	   ));
 	
 })->before($checkLogin)->bind('dbupdate');
 
@@ -317,6 +321,19 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST')->bind('useredit');
 
 
+/**
+ * Show the 'about' page */
+$backend->get("/about", function(Silex\Application $app) {
+	
+	$title = "About";
+    $users = $app['users']->getUsers();
+    
+	return $app['twig']->render('base.twig', array('users' => $users, 'title' => $title));
+	
+})->before($checkLogin)->bind('about');
+
+
+
 
 /**
  * Show a list of all available users.
@@ -419,15 +436,19 @@ if ( $app['debug'] ) {
 
 // Temporary hack. Silex should start session on demand.
 $app->before(function() use ($app) {
+    global $pilex_name, $pilex_version;
+    
     $app['session']->start();
+    
+    $app['twig']->addGlobal('pilex_name', $pilex_name);
+    $app['twig']->addGlobal('pilex_version', $pilex_version);
+    
 });
 
-// On 'finish' attach the debug-bar, if debug is enabled..
-$app->finish(function(Request $request, Response $response) use ($app, $logger) {
-    global $pilex_name, $pilex_version;
-
-
-    if ($app['debug']) {
+if ($app['debug']) {
+    
+    // On 'finish' attach the debug-bar, if debug is enabled..
+    $app->finish(function(Request $request, Response $response) use ($app, $logger) {
 
         $queries = array();
         $querycount = 0;
@@ -467,8 +488,6 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
         
      
         echo $app['twig']->render('debugbar.twig', array(
-            'pilex_name' => $pilex_name,
-            'pilex_version' => $pilex_version,
             'timetaken' => timeTaken(),
             'memtaken' => getMem(),
             'memtaken' => getMaxMem(),
@@ -481,13 +500,13 @@ $app->finish(function(Request $request, Response $response) use ($app, $logger) 
             'route_params' => json_encode($route_params)
         ));
     
-    } 
+    
 
+    
+    
+    });
 
-
-});
-
-
+} 
 
 
 

@@ -34,9 +34,11 @@
         
         <li><a href="#">Change status to 'depublished'</a></li>
         <li><a href="#">Change status to 'draft'</a></li>
-        <li class="divider"></li>
         <li><a href="#">Duplicate {{contenttype.singular_name}}</a></li>
         <li><a href="#">Delete {{contenttype.singular_name}}</a></li>
+        <li class="divider"></li>
+        <li><a class="nolink">Created on: <strong>{{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
+        <li><a class="nolink">Last edited on: <strong>{{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
     </ul>
     </div>
             

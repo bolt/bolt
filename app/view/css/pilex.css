@@ -90,12 +90,19 @@ tt {
 .navbar .nav .active > a:hover {
     color: white;
     text-decoration: none;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .navbar .nav-collapse .nav.pull-right {
     margin-top: 10px;
 } 
+
+.navbar .divider-vertical {
+    background-color: #666;
+    border-right: 1px solid #888;
+    height: 40px;
+    margin: 0 4px;    
+}
 
 footer  {    
     margin-top: 30px;
@@ -183,6 +190,12 @@ footer  {
 ul.dropdown-menu li {
     text-align: left;
 }
+
+ul.dropdown-menu li a.nolink {
+    background-color: transparent !important;
+    color: #333;
+}
+
 
 
 aside section {
@@ -280,4 +293,35 @@ label span.left {
     padding-left: 6px;
   }
 
+}
+
+
+@media (max-width: 979px) {
+    
+    .nav-collapse, .nav-collapse.collapse {
+        margin-left: 14px;
+        margin-right: 14px;
+    }
+    
+    ul.dropdown-menu li {
+        float: left;
+        padding: 0;
+    }
+
+    .nav-collapse .nav > li {
+        clear: both;
+        
+    }
+    
+    .nav-collapse .nav .nav-header {
+        clear: both;
+        float: none;
+        padding: 5px 12px;
+    }    
+        
+    .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
+        padding: 5px 12px;
+        color: #CCC;
+    }        
+        
 }

@@ -4,8 +4,8 @@
 
 <br><br>
 
-<footer class="hidden-phone">
-    Pilex: simple and easy CMS. - bla bla - <a>about</a> - <a>another link</a> - Some debug info, perhaps.
+<footer id="pilex-footer" class="hidden-phone">
+    Pilex {{pilex_version}}</strong><small>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}: simple and easy CMS - <a href="{{ path('about') }}">About</a> - <a href="http://pilex.net" target="_blank">Pilex.net</a>
 </footer>
 
 </body>

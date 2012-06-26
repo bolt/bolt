@@ -12,9 +12,11 @@ jQuery(function($) {
         
         if ($('#pilex-debugbar').is(":visible")) {
             $('#pilex-debugbar, .pilex-debugpanel').fadeOut();
+            $('#pilex-footer').fadeIn(); 
             $.cookie('pilex-debugbar-show', '');
         } else {
             $('#pilex-debugbar').fadeIn();
+            $('#pilex-footer').fadeOut(); 
             $.cookie('pilex-debugbar-show', 1);
         }
         

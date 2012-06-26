@@ -43,8 +43,8 @@
             </a>
             <div class="nav-collapse">
                 <ul class="nav pull-right">
-                    <li {% if active in ["", "dashboard"] %}class="active"{% endif %}><a href="{{ path('dashboard') }}">Dashboard</a></li>
-                    <li {% if active=="content" %}class="active"{% endif %}class="dropdown">
+                    <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                    <li class="{% if active=='content' %}active {% endif %}dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content
                             <b class="caret"></b>
                             </a>
@@ -57,7 +57,7 @@
                             
                         </ul>
                     </li>                    
-                    <li class="dropdown">
+                    <li class="{% if active=='settings' %}active {% endif %}dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings
                             <b class="caret"></b>
                             </a>
