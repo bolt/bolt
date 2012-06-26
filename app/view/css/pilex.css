@@ -288,20 +288,16 @@ label span.left {
 
 @media (max-width: 768px) {
 
-  body {
-    padding-right: 6px;
-    padding-left: 6px;
+  .container-fluid {
+    margin-right: -12px;
+    margin-left: -12px;
   }
+  
 
 }
 
 
 @media (max-width: 979px) {
-    
-    .nav-collapse, .nav-collapse.collapse {
-        margin-left: 14px;
-        margin-right: 14px;
-    }
     
     ul.dropdown-menu li {
         float: left;
