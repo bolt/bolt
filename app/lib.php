@@ -369,6 +369,8 @@ function hackislyParseRegexTemplates($obj) {
     
     //echo "<pre>\n" . print_r($$matches, true) . "</pre>\n";
     
+    $templates = array();
+    
     foreach($matches[1] as $match) {
         $templates[] = basename(dirname($match)) . "/" . basename($match);
     }

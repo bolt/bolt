@@ -64,6 +64,29 @@ $backend->get("/", function(Silex\Application $app) {
 })->before($checkLogin)->bind('dashboard');
 
 
+/**
+ * News.
+ */
+$backend->get("/dashboardnews", function(Silex\Application $app) {
+
+    $guzzleclient = new Guzzle\Service\Client('http://news.pilex.net/');
+    
+    $news = $guzzleclient->get("/")->send()->getBody(true);
+
+    $news = json_decode($news);
+
+    // For now, just use the most current item.
+    $news = current($news);
+
+    return $app['twig']->render('dashboard-news.twig', array('news' => $news ));
+
+    // echo "<pre>\n" . print_r($news, true) . "</pre>\n";
+
+
+})->before($checkLogin)->bind('dashboardnews');
+
+
+
 
 /**
  * Login page.

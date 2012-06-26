@@ -99,7 +99,7 @@ class Storage {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
             $myTable = $schema->createTable($this->prefix."users"); 
-            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true, 'default' => 1));
+            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("password", "string", array("length" => 64));

@@ -1,0 +1,6 @@
+{% if news.title is defined %}
+    <section class="news">
+    <h2>{{news.title}}</h2>
+    {{news.teaser|raw}}
+    </section>
+{% endif %}
