@@ -43,6 +43,7 @@ function twig_ucfirst($str, $param="") {
 
 
 $app['twig']->addFilter('link', new Twig_Filter_Function('twig_link'));
+$app['twig']->addFunction('link', new Twig_Function_Function('twig_link'));
 
 function twig_link($content, $param="") {
     
