@@ -22,6 +22,22 @@ body {
 	outline: none;
 }
 
+a {
+	color: #15c;
+}
+
+object,
+embed,
+video,
+iframe {
+	width: auto;
+	max-width: 100%;
+}
+video,
+iframe {
+	height: auto;
+}
+
 ::selection {
 	background-color: #333;
 	color: #fff;

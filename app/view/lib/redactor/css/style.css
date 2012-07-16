@@ -18,6 +18,22 @@ body {
 	outline: none;
 }
 
+a {
+	color: #15c;
+}
+
+object,
+embed,
+video,
+iframe {
+	width: auto;
+	max-width: 100%;
+}
+video,
+iframe {
+	height: auto;
+}
+
 ::selection {
 	background-color: #333;
 	color: #fff;
@@ -100,7 +116,7 @@ h1 {
 }
 h2 {
 	font-size: 30px;
-	line-height: 36px;	
+	line-height: 38px;	
 	margin-bottom: 15px;	
 }
 h3 {
@@ -113,7 +129,7 @@ h4 {
 	line-height: 24px;	
 	margin-bottom: 10px;	
 }
-h4 {
+h5 {
 	font-size: 1em;
 	margin-bottom: 10px;	
 }
