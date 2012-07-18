@@ -197,7 +197,6 @@ ul.dropdown-menu li a.nolink {
 }
 
 
-
 aside section {
     background-color: #ebe9dd;
     border: 1px solid #CCB;
@@ -283,6 +282,23 @@ label span.left {
 #editcontent .imageinput {
     border: 1px solid #BBB;
 }
+
+#editcontent .dropzone {
+    margin-top: 8px;
+    height: 130px;
+}
+
+#editcontent .dropzone.hover, #editcontent .dropzone.in  {
+    background: #DEF;
+}
+
+#editcontent .dropzone.hover *, #editcontent .dropzone.in *  {
+    opacity: 0.7;
+}
+
+
+
+
 
 
 
