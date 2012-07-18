@@ -26,16 +26,19 @@ jQuery.fn.slug = function(options) {
 	
     	var slugcontent = $this.val().toLowerCase();
     	
-    	// remove accents, swap ρ for n, etc
-    	var from = "ΰαδβεθιλκμνοξςσφτψωϊόϋρη·/_,:;",
+    	// remove accents, swap Γ± for n, etc
+    	var from = "Γ Γ΅Γ¤ΓΆΓ¥Γ¨Γ©Γ«ΓªΓ¬Γ­Γ―Γ®Γ²Γ³Γ¶Γ΄ΓΈΓΉΓΊΓΌΓ»Γ±Γ§Β·/_,:;",
             to   = "aaaaaeeeeiiiiooooouuuunc------";
         for (var i=0, l=from.length ; i<l ; i++) {
+            console.log('from: ', from[i], ' to ', to[i] );
             slugcontent = slugcontent.replace(from[i], to[i]);
         }
 		
-		var slugcontent = slugcontent.replace(/\s/g,'-');
-		var slugcontent = slugcontent.replace(/[^a-zA-Z0-9\-]/g,'');
-		var slugcontent = slugcontent.replace(/[-]+/g,'-');
+		slugcontent = slugcontent.replace(/\s/g,'-')
+		          .replace(/[^a-zA-Z0-9\-]/g,'')
+		          .replace(/[-]+/g,'-')
+		          .replace(/^[\s|-]+|[\s|-]+$/g, '');
+		
 		jQuery('input.' + settings.slug).val(slugcontent);
 		jQuery('span.' + settings.slug).text(slugcontent);
 		// console.log('slug : ',finishedslug); 
