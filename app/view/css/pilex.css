@@ -296,9 +296,17 @@ label span.left {
     opacity: 0.7;
 }
 
+.CodeMirror-scroll {
+  height: auto !important;
+  overflow-y: hidden;
+  overflow-x: auto;
+  border: 1px solid #CCC;
+}
 
-
-
+.CodeMirror-gutter {
+    background-color: #F2F2F2 !important;
+    border-right: 1px solid #CCC !important;
+}
 
 
 

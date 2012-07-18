@@ -6,7 +6,7 @@
 <form action="#" method="post" class="form-inline" autocomplete="off">
 
 <div>
-<textarea id="form_contents" name="form[contents]" required="required" style="width: 400px; height: 400px;">{{ form.vars.value.contents }}</textarea>
+<textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll">{{ form.vars.value.contents }}</textarea>
 </div>
 
     {{ form_row(form._token) }}
@@ -14,6 +14,12 @@
     <input type="submit" name="submit" value="Save" class="btn btn-primary" />
 </form>
 
+<link rel="stylesheet" href="/app/view/lib/codemirror/codemirror.css">
+<script src="/app/view/lib/codemirror/codemirror.js"></script>
+<script src="/app/view/lib/codemirror/mode/yaml/yaml.js"></script>
 
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), { lineNumbers: true, autofocus: true });
+</script>
 
 {% include '_footer.twig' %}
