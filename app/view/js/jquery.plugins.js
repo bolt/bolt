@@ -1,6 +1,7 @@
 //
 //	jQuery Slug Generation Plugin by Perry Trinier (perrytrinier@gmail.com)
 //  Licensed under the GPL: http://www.gnu.org/copyleft/gpl.html
+//  Modified for Pilex by Bob den Otter
 
 jQuery.fn.slug = function(options) {
 	var settings = {
@@ -30,7 +31,6 @@ jQuery.fn.slug = function(options) {
     	var from = "àáäâåèéëêìíïîòóöôøùúüûñç·/_,:;",
             to   = "aaaaaeeeeiiiiooooouuuunc------";
         for (var i=0, l=from.length ; i<l ; i++) {
-            console.log('from: ', from[i], ' to ', to[i] );
             slugcontent = slugcontent.replace(from[i], to[i]);
         }
 		
@@ -41,10 +41,8 @@ jQuery.fn.slug = function(options) {
 		
 		jQuery('input.' + settings.slug).val(slugcontent);
 		jQuery('span.' + settings.slug).text(slugcontent);
-		// console.log('slug : ',finishedslug); 
 	}
 		
-	// jQuery(this).keyup(makeSlug);
 	jQuery(this).bind('keyup', function(){ makeSlug() });
 		
 	return $this;
