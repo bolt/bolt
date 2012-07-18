@@ -21,6 +21,7 @@ entries:
     taxonomy:
         type: categories, tags
     template: entry.twig
+    sort: datecreated DESC
 
 
 pages:
@@ -44,10 +45,16 @@ pages:
             type: html
             height: 300px
         template:
-            type: templateselect	
+            type: templateselect    
+        datetime:
+            label: datum en tijd
+            type: datetime
+        date:
+            type: date
     taxonomy:
        type: chapters
     template: page.twig
+    sort: title
        
 
 # possible field types:

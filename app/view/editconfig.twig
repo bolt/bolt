@@ -19,7 +19,13 @@
 <script src="/app/view/lib/codemirror/mode/yaml/yaml.js"></script>
 
 <script>
-  var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), { lineNumbers: true, autofocus: true });
+  var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), { 
+    lineNumbers: true, 
+    autofocus: true, 
+    tabSize: 4,
+    indentUnit: 4,
+    indentWithTabs: false
+    });
 </script>
 
 {% include '_footer.twig' %}

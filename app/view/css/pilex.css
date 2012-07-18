@@ -165,7 +165,10 @@ footer  {
     white-space: nowrap;
     text-align: center;
     color: #666;    
+}
 
+.dashboardlisting td.username {
+    text-align: left;
 }
 
 .dashboardlisting td.listthumb {
@@ -301,11 +304,23 @@ label span.left {
   overflow-y: hidden;
   overflow-x: auto;
   border: 1px solid #CCC;
+  background-color: #FFF;
 }
 
 .CodeMirror-gutter {
     background-color: #F2F2F2 !important;
     border-right: 1px solid #CCC !important;
+}
+.cm-tab:after {
+    content: "\21e5";
+    display: -moz-inline-block;
+    display: -webkit-inline-block;
+    display: inline-block;
+    width: 0px;
+    position: relative;
+    overflow: visible;
+    left: -1.4em;
+    color: #aaa;
 }
 
 

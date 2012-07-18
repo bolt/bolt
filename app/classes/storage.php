@@ -355,8 +355,7 @@ class Storage {
         $content['datechanged'] = date('Y-m-d H:i:s');
         
         // Decide whether to insert a new record, or update an existing one.
-        
-        
+
         if (empty($content['id'])) {
             return $this->insertContent($content, $contenttype, $allowedcolumns);
         } else {

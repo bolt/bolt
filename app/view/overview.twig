@@ -1,13 +1,9 @@
 {% include '_header.twig' with { 'active':'content' } %}
 
-
 <div class="row-fluid">
     <div class="span9">
 
         <h1>Overview » {{contenttype.name }} </h1>
-
-    
-    
     
 
     <table class='dashboardlisting'>
@@ -23,7 +19,11 @@
                 {{content.image|shadowbox(80, 60, 'c')}}
             </td>
             {% endif %}            
-            <td class='username'> {{ content.username }} <br> {{ content.datecreated|date('d/m/Y') }} </td>
+            <td class='username'>
+                {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
+                <br><tt>*</tt> {{ content.datecreated|date('d/m/Y') }} 
+                <br><tt>Δ</tt> {{ content.datechanged|date('d/m/Y') }} 
+            </td>
             <td class='actions'>
     <div class="btn-group">
     <button class="btn btn-mini"><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">Edit</a></button>

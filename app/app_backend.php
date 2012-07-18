@@ -167,8 +167,14 @@ $backend->get("/prefill", function(Silex\Application $app) {
 $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
 	
     $contenttype = $app['storage']->getContentType($contenttypeslug);
+    
+    $order = 'datechanged DESC';
+    
+    if (!empty($contenttype['sort'])) {
+        $order = $contenttype['sort'];
+    }
 
-	$multiplecontent = $app['storage']->getContent($contenttype['slug'], array('limit' => 100, 'order' => 'datechanged DESC'));
+	$multiplecontent = $app['storage']->getContent($contenttype['slug'], array('limit' => 100, 'order' => $order));
 
 	return $app['twig']->render('overview.twig', array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent));
 	
@@ -210,7 +216,19 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
     	$content = $app['storage']->getEmptyContent($contenttypeslug);
 	}
 
-	return $app['twig']->render('editcontent.twig', array('contenttype' => $contenttype, 'content' => $content));
+	// Set the users and the current owner of this content.
+	if (!empty($content['username'])) {
+    	$contentowner = $content['username'];
+	} else {
+    	$user = $app['session']->get('user');
+    	$contentowner = $user['username'];
+	}
+
+	return $app['twig']->render('editcontent.twig', array(
+    	   'contenttype' => $contenttype, 
+    	   'content' => $content, 
+    	   'contentowner' => $contentowner
+	   ));
 	
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST')->bind('editcontent');
 
@@ -456,22 +474,23 @@ $backend->match("/config/edit/{file}", function($file, Silex\Application $app, R
         if ($form->isValid()) {
             
             $data = $form->getData();
+            $contents = str_replace("\t", "    ", $data['contents']);
             
             $yamlparser = new Symfony\Component\Yaml\Parser();
             try {
-                $result = $yamlparser->parse($data['contents']);
+                $result = $yamlparser->parse($contents);
             } catch (Exception $e) {
                 $result = false;
             }
         
             if ($result) {
-                file_put_contents(__DIR__."/config/".$file.".yml", $data['contents']);
+                file_put_contents(__DIR__."/config/".$file.".yml", $contents);
                 $app['session']->setFlash('success', "File '" .$file.".yml' has been saved."); 
             } else {
                 $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML."); 
             }
             
-            //return $app->redirect('/pilex/users');
+            return $app->redirect('/pilex/config/edit/'. $file);
             
         }
     }
@@ -498,6 +517,7 @@ $app->before(function() use ($app) {
     
     $app['twig']->addGlobal('pilex_name', $pilex_name);
     $app['twig']->addGlobal('pilex_version', $pilex_version);
+    $app['twig']->addGlobal('users', $app['users']->getUsers());
     
 });
 

@@ -140,9 +140,12 @@ class Users {
 
         $query = "SELECT * FROM $tablename";
         
-        $users = $this->db->fetchAll($query);
+        $tempusers = $this->db->fetchAll($query);
+        $users = array();
         
-        foreach($users as $key => $user) {
+        foreach($tempusers as $user) {
+            $key = $user['username'];
+            $users[$key] = $user;
             $users[$key]['password'] = "**dontchange**";
         }
         

@@ -102,6 +102,15 @@
         </select>
         </label>
     
+        <label><span class='left'>Owner:</span>
+        <select name="username">
+            {% for user in users %}
+                <option value="{{ user.username }}" {% if user.username == contentowner %}selected{% endif %}>{{user.displayname}}</option>
+            {% endfor %}
+        </select>
+        </label>    
+
+    
         <button type="submit" class="btn btn-primary" id="savebutton">Save {{ contenttype.singular_name }}</button> 
         
     </form>

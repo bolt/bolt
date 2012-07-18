@@ -27,7 +27,10 @@
                 {{content.image|shadowbox(54, 42, 'c')}}
             </td>
             {% endif %} 
-            <td class='username'> {{ content.username }} <br> {{ content.datecreated|date('d/m/Y') }} </td>
+            <td class='username'>
+                {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
+                <br><tt>*</tt>  {{ content.datecreated|date('d/m/Y') }} 
+            </td>
     
         </tr>
     

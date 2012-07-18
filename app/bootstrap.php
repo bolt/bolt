@@ -36,7 +36,7 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],
-    'twig.options' => array('debug'=>true, 'cache' => __DIR__.'/cache/' ), 
+    'twig.options' => array('debug'=>true, 'cache' => __DIR__.'/cache/' ),
 ));
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
