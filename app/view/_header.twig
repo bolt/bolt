@@ -74,8 +74,9 @@
                         <ul class="dropdown-menu">
                             <li class="nav-header">Configuration</li>
                             <li><a href="{{ path('users') }}">Users</a></li>
-                            <li><a href="">Contenttypes</a></li>
-                            <li><a href="">Taxonomy</a></li>
+                            <li><a href="{{ path('configedit', { 'file': 'config'}) }}">Configuration</a></li>
+                            <li><a href="{{ path('configedit', { 'file': 'contenttypes'}) }}">Contenttypes</a></li>
+                            <li><a href="{{ path('configedit', { 'file': 'taxonomy'}) }}">Taxonomy</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Maintenance</li>
                             <li><a href="{{ path('dbupdate') }}">Check database</a></li>

@@ -1,0 +1,19 @@
+{% include '_header.twig' with { 'active':'settings' } %}
+
+
+<h1>{{title}}</h1>
+
+<form action="#" method="post" class="form-inline" autocomplete="off">
+
+<div>
+<textarea id="form_contents" name="form[contents]" required="required" style="width: 400px; height: 400px;">{{ form.vars.value.contents }}</textarea>
+</div>
+
+    {{ form_row(form._token) }}
+<br />
+    <input type="submit" name="submit" value="Save" class="btn btn-primary" />
+</form>
+
+
+
+{% include '_footer.twig' %}

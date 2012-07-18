@@ -9,7 +9,9 @@ entries:
             type: slug
             uses: title
         image:
-            type: image                        
+            type: image     
+        imagetitle:
+            type: text
         teaser:
             type: html
             height: 150px
@@ -53,6 +55,6 @@ pages:
 # templateselect - varchar(256) - select with template filenames
 # image - varchar(256) - image select/upload widget, stored as filename
 # html - text (65kb) - wysiwyg element
-# textarea - varchar(32768) - <textarea>
+# textarea - varchar(32768) - < textarea >
 # datetime - datetime - date and time selector widget
 # date - datetime - date selector widget

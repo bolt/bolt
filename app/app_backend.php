@@ -8,18 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 $checkLogin = function(Request $request) use ($app) {
    
-
     $route = $request->get('_route');
-    
-    
           
     // There's an active session, we're all good.
     if ($app['session']->has('user')) {
         return;
     } 
     
-
-
     // If the users table is present, but there are no users, and we're on /pilex/users/edit,
     // we let the user stay, because they need to set up the first user. 
     if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/pilex/users/edit/") {
@@ -424,33 +419,73 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
 
 
 
-// http://srcmvn.com/blog/2011/11/10/doctrine-dbal-query-logging-with-monolog-in-silex/
-if ( $app['debug'] ) {
-    $logger = new Doctrine\DBAL\Logging\DebugStack();
-    $app['db.config']->setSQLLogger($logger);
-    $app->error(function(\Exception $e, $code) use ($app, $logger) {
-        if ( $e instanceof PDOException and count($logger->queries) ) {
-            // We want to log the query as an ERROR for PDO exceptions!
-            $query = array_pop($logger->queries);
-            $app['monolog']->err($query['sql'], array(
-                'params' => $query['params'],
-                'types' => $query['types']
-            ));
-        }
-    });
+
+
+$backend->match("/config/edit/{file}", function($file, Silex\Application $app, Request $request) {
     
-    /*
-    $app->after(function(Request $request, Response $response) use ($app, $logger) {
-        // Log all queries as DEBUG.
-        foreach ( $logger->queries as $query ) {
-            $app['monolog']->debug($query['sql'], array(
-                'params' => $query['params'],
-                'types' => $query['types']
-            ));
+    $title = "Edit file '$file.yml'.";
+
+    $filename = __DIR__."/config/".$file.".yml";
+    
+    if (!file_exists($filename) || !is_readable($filename)) {
+        $error = sprintf("file '%s/config/%s.yml' doesn't exist, or is not readable." , basename(__DIR__), $file);
+        $app->abort(404, $error);
+    }
+
+    if (!is_writable($filename)) {
+        $error = sprintf("file '%s/config/%s.yml' is not writable." , basename(__DIR__), $file);
+        $app->abort(404, $error);
+    }
+    
+
+    $data['contents'] = file_get_contents(__DIR__."/config/".$file.".yml");
+
+    $form = $app['form.factory']->createBuilder('form', $data)
+        ->add('contents', 'textarea', array(
+            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(10))
+        ));
+        
+
+
+    $form = $form->getForm();
+       
+    // Check if the form was POST-ed, and valid. If so, store the user.
+    if ($request->getMethod() == "POST") {
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            
+            $data = $form->getData();
+            
+            $yamlparser = new Symfony\Component\Yaml\Parser();
+            try {
+                $result = $yamlparser->parse($data['contents']);
+            } catch (Exception $e) {
+                $result = false;
+            }
+        
+            if ($result) {
+                file_put_contents(__DIR__."/config/".$file.".yml", $data['contents']);
+                $app['session']->setFlash('success', "File '" .$file.".yml' has been saved."); 
+            } else {
+                $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML."); 
+            }
+            
+            //return $app->redirect('/pilex/users');
+            
         }
-    });
-    */
-}
+    }
+    
+
+    return $app['twig']->render('editconfig.twig', array(
+        'form' => $form->createView(),
+        'title' => $title
+        ));      
+      
+})->before($checkLogin)->assert('file', '[a-z]+')->method('GET|POST')->bind('configedit');
+
+
+
 
 
 
@@ -466,9 +501,26 @@ $app->before(function() use ($app) {
     
 });
 
+
+// On 'finish' attach the debug-bar, if debug is enabled..
 if ($app['debug']) {
     
-    // On 'finish' attach the debug-bar, if debug is enabled..
+    // http://srcmvn.com/blog/2011/11/10/doctrine-dbal-query-logging-with-monolog-in-silex/
+
+    $logger = new Doctrine\DBAL\Logging\DebugStack();
+    $app['db.config']->setSQLLogger($logger);
+    $app->error(function(\Exception $e, $code) use ($app, $logger) {
+        if ( $e instanceof PDOException and count($logger->queries) ) {
+            // We want to log the query as an ERROR for PDO exceptions!
+            $query = array_pop($logger->queries);
+            $app['monolog']->err($query['sql'], array(
+                'params' => $query['params'],
+                'types' => $query['types']
+            ));
+        }
+    });
+        
+    
     $app->finish(function(Request $request, Response $response) use ($app, $logger) {
 
         $queries = array();
@@ -523,8 +575,6 @@ if ($app['debug']) {
     
     
 
-    
-    
     });
 
 } 
