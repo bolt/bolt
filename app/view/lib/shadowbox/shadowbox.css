@@ -34,3 +34,5 @@ div.sb-message a:link,div.sb-message a:visited{color:#fff;text-decoration:underl
  */
 #sb-title-inner,#sb-info-inner,#sb-loading-inner,div.sb-message{font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;color:#000; text-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.5);} 
 #sb-wrapper-inner{border:0px; padding: 4px; background-color: #FFF; box-shadow:  1px 1px 5px 0px rgba(0, 0, 0, 0.3);}
+#sb-nav { background: #FFF; box-shadow:  1px 1px 5px 0px rgba(0, 0, 0, 0.3); }
+#sb-title-inner { background: #FFF; display: inline; padding: 3px 5px; margin: 0; width: auto; box-shadow:  1px 1px 5px 0px rgba(0, 0, 0, 0.3); }
