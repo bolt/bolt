@@ -23,13 +23,23 @@ jQuery.fn.slug = function(options) {
 	});
 	
 	makeSlug = function() {
-			var slugcontent = $this.val();
-			var slugcontent_hyphens = slugcontent.replace(/\s/g,'-');
-			var finishedslug = slugcontent_hyphens.replace(/[^a-zA-Z0-9\-]/g,'');
-			jQuery('input.' + settings.slug).val(finishedslug.toLowerCase());
-			jQuery('span.' + settings.slug).text(finishedslug.toLowerCase());
-			console.log('slug : ',finishedslug); 
-		}
+	
+    	var slugcontent = $this.val().toLowerCase();
+    	
+    	// remove accents, swap ס for n, etc
+    	var from = "אבהגוטיכךלםןמעףצפרשתüûסח·/_,:;",
+            to   = "aaaaaeeeeiiiiooooouuuunc------";
+        for (var i=0, l=from.length ; i<l ; i++) {
+            slugcontent = slugcontent.replace(from[i], to[i]);
+        }
+		
+		var slugcontent = slugcontent.replace(/\s/g,'-');
+		var slugcontent = slugcontent.replace(/[^a-zA-Z0-9\-]/g,'');
+		var slugcontent = slugcontent.replace(/[-]+/g,'-');
+		jQuery('input.' + settings.slug).val(slugcontent);
+		jQuery('span.' + settings.slug).text(slugcontent);
+		// console.log('slug : ',finishedslug); 
+	}
 		
 	// jQuery(this).keyup(makeSlug);
 	jQuery(this).bind('keyup', function(){ makeSlug() });
