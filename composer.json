@@ -1,7 +1,7 @@
 {
     "name": "bobdenotter/pilex",
     "require": {
-        "silex/silex": "dev-master",
+        "silex/silex": "1.0.*",
         "symfony/yaml": "2.1.*",
         "symfony/form": "2.1.*",
         "symfony/validator": "2.1.*",
@@ -12,5 +12,6 @@
         "monolog/monolog": ">=1.0.0",
         "twig/twig": ">=1.8,<2.0-dev",
         "guzzle/guzzle": ">=2.6.2"
-    }
+    },
+    "minimum-stability": "dev"
 }

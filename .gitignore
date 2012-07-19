@@ -3,6 +3,6 @@ composer.phar
 composer.lock
 app/config/config.yml
 debug.log
-app/cache
+app/cache/*
 files/*
 
