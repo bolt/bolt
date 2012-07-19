@@ -42,6 +42,70 @@ function makeDir($name) {
 
 }
 
+function clearCache() {
+    
+    $result = array(
+        'successfiles' => 0,
+        'failedfiles' => 0,
+        'successfolders' => 0,
+        'failedfolders' => 0,
+        'log' => ''
+    );
+      
+    clearCacheHelper('', $result);
+    
+    return $result;   
+    
+}
+
+
+function clearCacheHelper($additional, &$result) {
+    
+    $basefolder = __DIR__."/cache/";
+    
+    $currentfolder = realpath($basefolder."/".$additional);
+    
+    if (!file_exists($currentfolder)) {
+        $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
+        return;
+    }
+    
+    $d = dir($currentfolder);
+
+    while (false !== ($entry = $d->read())) {
+       
+       if ($entry == "." || $entry == ".." || $entry == "index.html" ) {
+           continue;
+       }
+       
+       if (is_file($currentfolder."/".$entry)) {
+           if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
+               $result['successfiles']++;
+           } else {
+               $result['failedfiles']++;
+           }          
+       }
+       
+       if (is_dir($currentfolder."/".$entry)) {
+          
+           clearCacheHelper($additional."/".$entry, $result);
+
+           if (is_writable($currentfolder."/".$entry) && @unlink($currentfolder."/".$entry)) {
+               $result['successfolders']++;
+           } else {
+               $result['failedfolders']++;
+           }
+           
+       }
+              
+       
+    }
+    
+    $d->close();
+    
+}
+
+
 /**
  * Gets current Unix timestamp (in seconds) with microseconds, as a float.
  *

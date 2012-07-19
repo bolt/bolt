@@ -147,6 +147,31 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
 })->before($checkLogin)->bind('dbupdate');
 
 
+
+
+/**
+ * Clear the cache.
+ */
+$backend->get("/clearcache", function(Silex\Application $app) {
+	
+	$result = clearCache();
+		
+	$output = sprintf("Deleted %s files from cache.", $result['successfiles']);
+	
+	if (!empty($result['failedfiles'])) {
+    	$output .= sprintf(" %s files could not be deleted. You should delete them manually.", $result['failedfiles']);
+    	$app['session']->setFlash('error', $output);
+	} else {
+    	$app['session']->setFlash('success', $output);
+	}
+	
+	return $app->redirect('/pilex/');
+	
+	
+})->before($checkLogin)->bind('clearcache');
+
+
+
 /**
  * Generate some lipsum in the DB.
  */
