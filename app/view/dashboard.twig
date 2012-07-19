@@ -27,9 +27,35 @@
                 {{content.image|shadowbox(54, 42, 'c')}}
             </td>
             {% endif %} 
-            <td class='username'>
-                {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
-                <br><tt>*</tt>  {{ content.datecreated|date('d/m/Y') }} 
+
+            <td class='actions'>
+                <div class="btn-group">
+                <button class="btn btn-mini"><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">Edit</a></button>
+                <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                <span class="caret"></span>
+                </button>
+                
+                <ul class="dropdown-menu pull-right">
+                    {% if content.status != "depublished" %}
+                    <li><a href="{{ path('contentaction', { 'action': 'depublish', 'contenttypeslug': contenttype,  'id': content.id }) }}">Change status to 'depublished'</a></li>
+                    {% endif %}
+                    {% if content.status != "published" %}
+                    <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype,  'id': content.id }) }}">Change status to 'published'</a></li>
+                    {% endif %}
+                    {% if content.status != "draft" %}
+                    <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype,  'id': content.id }) }}">Change status to 'draft'</a></li>
+                    {% endif %}
+                    <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id, 'duplicate': 1 }) }}">
+                        Duplicate {{app.config.contenttypes[contenttype].singular_name}}</a></li>
+                    <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype,  'id': content.id }) }}">
+                        Delete {{app.config.contenttypes[contenttype].singular_name}}</a></li>
+                    <li class="divider"></li>
+                    <li><a class="nolink">Current status: <strong>{{ content.status }}</strong></a></li>
+                    <li><a class="nolink">Created on: <strong>{{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
+                    <li><a class="nolink">Last edited on: <strong>{{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
+                </ul>
+                </div>
+            
             </td>
     
         </tr>
