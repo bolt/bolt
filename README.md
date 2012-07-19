@@ -7,7 +7,8 @@ Installation:
 
 Create a new folder, and clone from github. Then use composer to get the Silex micro-framework and components:
 
-    git clone git://github.com/bobdenotter/pilex.git .
+    git clone git://github.com/bobdenotter/pilex.git pilex
+    cd pilex 
     curl -s http://getcomposer.org/installer | php
     php composer.phar install
 

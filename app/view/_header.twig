@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/app/view/css/bootstrap-responsive.css" />
     <link rel="stylesheet" href="/app/view/css/pilex.css" />
     <script src="/app/view/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/app/view/css/font-awesome.css" />
 
     {# <link rel="stylesheet" href="/app/view/css/responsivebar.css" /> #}
     
@@ -53,44 +54,47 @@
             </a>
             <div class="nav-collapse">
                 <ul class="nav pull-right">
-                    <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                    <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
+                        <i class="icon-home"></i> Dashboard</a></li>
                     <li class="{% if active=='content' %}active {% endif %}dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Content
-                            <b class="caret"></b>
-                            </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-sitemap"></i> Content <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
                             {% for slug, contenttype in app.config.contenttypes %}
-                            <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">View {{ contenttype.name }}</a></li>
-                            <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">New {{ contenttype.singular_name }}</a></li>
+                            <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
+                                <i class="icon-tasks"></i>View {{ contenttype.name }}</a></li>
+                            <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
+                                <i class="icon-plus"></i>New {{ contenttype.singular_name }}</a></li>
                             {% if not loop.last %}<li class="divider"></li>{% endif %}
                             {% endfor %}
                             
                         </ul>
                     </li>                    
                     <li class="{% if active=='settings' %}active {% endif %}dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cogs"></i> Settings
                             <b class="caret"></b>
                             </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Configuration</li>
-                            <li><a href="{{ path('users') }}">Users</a></li>
-                            <li><a href="{{ path('configedit', { 'file': 'config'}) }}">Configuration</a></li>
-                            <li><a href="{{ path('configedit', { 'file': 'contenttypes'}) }}">Contenttypes</a></li>
-                            <li><a href="{{ path('configedit', { 'file': 'taxonomy'}) }}">Taxonomy</a></li>
+                            <li><a href="{{ path('users') }}"><i class="icon-group"></i>Users</a></li>
+                            <li><a href="{{ path('configedit', { 'file': 'config'}) }}"><i class="icon-cog"></i>Configuration</a></li>
+                            <li><a href="{{ path('configedit', { 'file': 'contenttypes'}) }}"><i class="icon-cog"></i>Contenttypes</a></li>
+                            <li><a href="{{ path('configedit', { 'file': 'taxonomy'}) }}"><i class="icon-tags"></i>Taxonomy</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Maintenance</li>
-                            <li><a href="{{ path('dbupdate') }}">Check database</a></li>
-                            <li><a href="{{ path('clearcache') }}">Clear the cache</a></li>
+                            <li><a href="{{ path('dbupdate') }}"><i class="icon-wrench"></i>Check database</a></li>
+                            <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i>Clear the cache</a></li>
                         </ul>
                     </li>
                     <li class="divider-vertical"></li>
-                    <li><a href="/" target="_blank">View site</a></li>                    
+                    <li><a href="/" target="_blank"><i class="icon-external-link"></i> View site</a></li>                    
                     <li class="divider-vertical"></li>
                     <li>
                         {% if app.session.get('user') is not null %}
-                        <a href="{{ path('logout') }}">Logout {{ app.session.get('user').username }}</a> 
+                        <a href="{{ path('logout') }}"><i class="icon-signout"></i> Logout {{ app.session.get('user').username }}</a> 
                         {% else %}
-                        <a href="{{ path('login') }}">Login</a> 
+                        <a href="{{ path('login') }}"><i class="icon-signin"></i>Login</a> 
                         {% endif %}
                     </li>
                 </ul>

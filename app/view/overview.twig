@@ -20,33 +20,43 @@
             </td>
             {% endif %}            
             <td class='username'>
-                {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
-                <br><tt>*</tt> {{ content.datecreated|date('d/m/Y') }} 
-                <br><tt>Δ</tt> {{ content.datechanged|date('d/m/Y') }} 
+                <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
+                <br><i class="icon-asterisk"></i> {{ content.datecreated|date('d/m/Y') }} 
+                <br><i class="icon-refresh"></i> {{ content.datechanged|date('d/m/Y') }} 
             </td>
             <td class='actions'>
                 <div class="btn-group">
-                <button class="btn btn-mini"><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">Edit</a></button>
+                <button class="btn btn-mini"><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
+                    <i class="icon-edit"></i> Edit</a></button>
                 <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                 <span class="caret"></span>
                 </button>
                 
                 <ul class="dropdown-menu pull-right">
-                    {% if content.status != "depublished" %}
-                    <li><a href="{{ path('contentaction', { 'action': 'depublish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Change status to 'depublished'</a></li>
-                    {% endif %}
+                    {% if content.status != "depublished" and content.status != "draft"  %}
+                    <li><a href="{{ path('contentaction', { 'action': 'depublish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
+                        <i class="icon-star"></i> Change status to 'depublished'</a></li>
+                    <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
+                        <i class="icon-pencil"></i> Change status to 'draft'</a></li>
+                    {% endif %}                    
                     {% if content.status != "published" %}
-                    <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Change status to 'published'</a></li>
+                    <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
+                        <i class="icon-star-empty"></i> Change status to 'published'</a></li>
                     {% endif %}
-                    {% if content.status != "draft" %}
-                    <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Change status to 'draft'</a></li>
-                    {% endif %}
-                    <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">Duplicate {{contenttype.singular_name}}</a></li>
-                    <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Delete {{contenttype.singular_name}}</a></li>
+                    <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
+                        <i class="icon-copy"></i> Duplicate {{contenttype.singular_name}}</a></li>
+                    <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
+                        <i class="icon-trash"></i> Delete {{contenttype.singular_name}}</a></li>
                     <li class="divider"></li>
-                    <li><a class="nolink">Current status: <strong>{{ content.status }}</strong></a></li>
-                    <li><a class="nolink">Created on: <strong>{{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
-                    <li><a class="nolink">Last edited on: <strong>{{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
+                    <li><a class="nolink">Author: <strong><i class="icon-user"></i>
+                        {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}
+                        <s>{{ content.username }}</s>{% endif %}</strong></a></li>
+                    <li><a class="nolink">Current status: 
+                        <strong>{{ content.status }}</strong></a></li>
+                    <li><a class="nolink">Created on: 
+                        <strong><i class="icon-asterisk"></i>{{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
+                    <li><a class="nolink">Last edited on: 
+                        <strong><i class="icon-refresh"></i>{{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
                 </ul>
                 </div>
             
@@ -67,7 +77,9 @@
         
  
 
-    <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': '' }) }}">New {{ contenttype.singular_name }}</a>
+    <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': '' }) }}">
+        <i class="icon-plus"></i> New {{ contenttype.singular_name }}
+    </a>
     
     <h2>Filtering:</h2>
     

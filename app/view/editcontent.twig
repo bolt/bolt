@@ -49,7 +49,7 @@
 
 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-info fileinput-button">
-                    <i class="icon-upload icon-white"></i>
+                    <i class="icon-upload"></i>
                     <span>Upload Image</span>
                     <input id="fileupload-{{key}}" type="file" name="files[]" data-url="/app/classes/upload/" multiple>
                 </span>
@@ -111,7 +111,9 @@
         </label>    
 
     
-        <button type="submit" class="btn btn-primary" id="savebutton">Save {{ contenttype.singular_name }}</button> 
+        <button type="submit" class="btn btn-primary" id="savebutton">
+            <i class="icon-flag"></i> Save {{ contenttype.singular_name }}
+        </button> 
         
     </form>
         
@@ -122,8 +124,8 @@
     <section>
     <h2>Actions for this {{ contenttype.singular_name }}</h2>
     
-    <a class="btn btn-primary" id="sidebarsave">Save {{ contenttype.singular_name }}</a>
-    <a class="btn btn-info" id="sidebarview" href="" target="_blank">View {{ contenttype.singular_name }}</a>
+    <a class="btn btn-primary" id="sidebarsave"><i class="icon-flag"></i> Save {{ contenttype.singular_name }}</a>
+    <a class="btn btn-info" id="sidebarview" href="" target="_blank"><i class="icon-external-link"></i> View {{ contenttype.singular_name }}</a>
     <script>
         $('#sidebarsave').bind('click', function(){ $('#savebutton').trigger('click'); });
         
