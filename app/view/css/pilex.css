@@ -196,7 +196,9 @@ ul.dropdown-menu li {
 
 ul.dropdown-menu li a.nolink {
     background-color: transparent !important;
-    color: #333;
+    color: #666;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 

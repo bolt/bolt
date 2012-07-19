@@ -50,6 +50,7 @@
                     <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype,  'id': content.id }) }}">
                         Delete {{app.config.contenttypes[contenttype].singular_name}}</a></li>
                     <li class="divider"></li>
+                    <li><a class="nolink">Author: <strong>{% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}</strong></a></li>
                     <li><a class="nolink">Current status: <strong>{{ content.status }}</strong></a></li>
                     <li><a class="nolink">Created on: <strong>{{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
                     <li><a class="nolink">Last edited on: <strong>{{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
