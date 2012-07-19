@@ -217,7 +217,6 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
         
     if ($request->getMethod() == "POST") {
         
-        // $app['storage']->saveContent($contenttypeslug)
         if ($app['storage']->saveContent($request->request->all(), $contenttype['slug'])) {
         
             if (!empty($id)) {
@@ -225,20 +224,26 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
             } else {
                 $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " have been saved."); 
             }
-            return $app->redirect('/pilex/overview/'.$contenttypeslug);
+            return $app->redirect('/pilex/overview/'.$contenttype['slug']);
         
         } else {
-        
             $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . "."); 
-        
         } 
     
     }      
       
 	if (!empty($id)) {
-      	$content = $app['storage']->getSingleContent($contenttypeslug, array('where' => 'id = '.$id));
+      	$content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => 'id = '.$id));
 	} else {
-    	$content = $app['storage']->getEmptyContent($contenttypeslug);
+    	$content = $app['storage']->getEmptyContent($contenttype['slug']);
+	}
+
+	if (!empty($_GET['duplicate'])) {
+    	$content['id']="";
+    	$content['datecreated']="";
+    	$content['datechanged']="";
+    	$content['username']="";
+    	$app['session']->setFlash('info', "Content was duplicated. Click 'Save " . $contenttype['singular_name'] . "' to finalize."); 
 	}
 
 	// Set the users and the current owner of this content.
@@ -256,6 +261,68 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 	   ));
 	
 })->before($checkLogin)->assert('id', '\d*')->method('GET|POST')->bind('editcontent');
+
+
+
+
+
+/**
+ * Perform actions on content.
+ */
+$backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Application $app, $action, $contenttypeslug, $id) {
+
+    $contenttype = $app['storage']->getContentType($contenttypeslug);    
+
+    $content = "";
+
+    switch ($action) {
+        
+        case "depublish":
+            if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'depublished')) {
+                $app['session']->setFlash('info', "Content 'pompidom' is depublished.");
+            } else {
+                $app['session']->setFlash('info', "Content 'pompidom' could not be depublished.");
+            }
+            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
+            break;
+        
+        case "publish":
+            if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'published')) {
+                $app['session']->setFlash('info', "Content 'pompidom' is published.");
+            } else {
+                $app['session']->setFlash('info', "Content 'pompidom' could not be published.");
+            }
+            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
+            break;
+            
+        case "draft":
+            if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'draft')) {
+                $app['session']->setFlash('info', "Content 'pompidom' is published.");
+            } else {
+                $app['session']->setFlash('info', "Content 'pompidom' could not be published.");
+            }
+            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
+            break;            
+                    
+        case "delete":
+            if ($app['storage']->deleteContent($contenttype['slug'], $id)) {
+                $app['session']->setFlash('info', "Content 'pompidom' has been deleted.");
+            } else {
+                $app['session']->setFlash('info', "Content 'pompidom' could not be deleted.");    
+            }
+            return $app->redirect('/pilex/overview/'.$contenttype['slug']);         
+            break;
+                
+        default:
+            $app['session']->setFlash('error', "No such action for content.");
+            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
+        
+    }
+
+	
+})->before($checkLogin)->bind('contentaction');
+
+
 
 
 
@@ -408,7 +475,7 @@ $backend->get("/users", function(Silex\Application $app) {
 
 
 /**
- * Show a list of all available users.
+ * Perform actions on users.
  */
 $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $id) {
 

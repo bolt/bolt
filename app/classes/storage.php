@@ -350,12 +350,8 @@ class Storage {
             } 
             
         }
-        
-        // Set datechanged
-        $content['datechanged'] = date('Y-m-d H:i:s');
-        
+            
         // Decide whether to insert a new record, or update an existing one.
-
         if (empty($content['id'])) {
             return $this->insertContent($content, $contenttype, $allowedcolumns);
         } else {
@@ -365,12 +361,48 @@ class Storage {
     }
     
     
+    public function changeContent($contenttype="", $id, $column, $value) {
+    
+        if (empty($contenttype)) {
+            echo "Contenttype is required.";
+            return false;
+        }
+        
+        // Make an array with the allowed columns. these are the columns that are always present.
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status');
+        // add the fields for this contenttype, 
+        foreach ($this->config['contenttypes'][$contenttype]['fields'] as $key => $values) {
+            $allowedcolumns[] = $key;
+        }        
+        
+        $content = array('id' => $id, $column => $value); 
+        
+        return $this->updateContent($content, $contenttype, $allowedcolumns);
+        
+    }
+    
+    
+    
+    public function deleteContent($contenttype="", $id) {
+    
+        if (empty($contenttype)) {
+            echo "Contenttype is required.";
+            return false;
+        }
+               
+        $tablename = $this->prefix . $contenttype;
+                
+        return $this->db->delete($tablename, array('id' => $id));
+        
+    }
+        
+    
     protected function insertContent($content, $contenttype, $allowedcolumns) {
         
         $tablename = $this->prefix . $contenttype;
         
         $content['datecreated'] = date('Y-m-d H:i:s');
-        
+        $content['datechanged'] = date('Y-m-d H:i:s');
         
         // unset columns we don't need to store..
         foreach($content as $key => $value) {
@@ -394,8 +426,9 @@ class Storage {
                 unset($content[$key]);
             }
         }
-        unset($content['datecreated']);
         
+        unset($content['datecreated']);
+        $content['datechanged'] = date('Y-m-d H:i:s');
 
         return $this->db->update($tablename, $content, array('id' => $content['id']));
         

@@ -30,13 +30,21 @@
     <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
     <span class="caret"></span>
     </button>
+    
     <ul class="dropdown-menu pull-right">
-        
-        <li><a href="#">Change status to 'depublished'</a></li>
-        <li><a href="#">Change status to 'draft'</a></li>
-        <li><a href="#">Duplicate {{contenttype.singular_name}}</a></li>
-        <li><a href="#">Delete {{contenttype.singular_name}}</a></li>
+        {% if content.status != "depublished" %}
+        <li><a href="{{ path('contentaction', { 'action': 'depublish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Change status to 'depublished'</a></li>
+        {% endif %}
+        {% if content.status != "published" %}
+        <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Change status to 'published'</a></li>
+        {% endif %}
+        {% if content.status != "draft" %}
+        <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Change status to 'draft'</a></li>
+        {% endif %}
+        <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">Duplicate {{contenttype.singular_name}}</a></li>
+        <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">Delete {{contenttype.singular_name}}</a></li>
         <li class="divider"></li>
+        <li><a class="nolink">Current status: <strong>{{ content.status }}</strong></a></li>
         <li><a class="nolink">Created on: <strong>{{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
         <li><a class="nolink">Last edited on: <strong>{{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
     </ul>
