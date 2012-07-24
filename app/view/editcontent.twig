@@ -6,9 +6,6 @@
 
     <form method="post" id="editcontent">
         
-    {% include '_sub_edittaxonomies.twig' %}    
-
-        
     {% for key, fields in contenttype.fields %}
     
         {% if fields.type == "text" %}
@@ -79,22 +76,26 @@
                 
     
     {% endfor %}
+      
+        <hr>
         
-        <label><span class='left'>Id:</span>
+        {% include '_sub_edittaxonomies.twig' %}    
+             
+        <label><b><span class='left'>Id:</span></b>
         <input type='text' readonly=readonly name='id' value='{{ content.id }}' class="narrow">
         </label>
         
-        <label><span class='left'>Created on:</span>
-        <input type='text' readonly name=' class="narrow"' 
+        <label><b><span class='left'>Created on:</span></b>
+        <input type='text' readonly name='datecreated'
             value='{{ content.datecreated }}' class="narrow">
         </label>
         
-        <label><span class='left'>Last edited:</span>
+        <label><b><span class='left'>Last edited:</span></b>
         <input type='text' readonly name='datechanged' 
             value='{{ content.datechanged }}' class="narrow">
         </label>
         
-        <label><span class='left'>Status:</span>
+        <label><b><span class='left'>Status:</span></b>
         <select name="status">
             <option value="published" {% if content.status == "published" %}selected{% endif %}>Published</option>
             <option value="held" {% if content.status == "held" %}selected{% endif %}>Not published</option>
@@ -105,7 +106,7 @@
         </select>
         </label>
     
-        <label><span class='left'>Owner:</span>
+        <label><b><span class='left'>Owner:</span></b>
         <select name="username">
             {% for user in users %}
                 <option value="{{ user.username }}" {% if user.username == contentowner %}selected{% endif %}>{{user.displayname}}</option>

@@ -3,7 +3,6 @@ tags:
     slug: tags
     singular_slug: tag
     behaves_like: tags
-    multiple: 1
 
 categories:
     name: Categories
@@ -18,4 +17,4 @@ chapters:
     slug: chapters
     singular_slug: chapter
     behaves_like: grouping
-    multiple: 0
+    options: [ main, meta, other ]

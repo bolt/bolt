@@ -113,9 +113,7 @@ class Storage {
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
             $this->db->query($queries);
-            
-            // echo "<pre>\n" . print_r($queries, true) . "</pre>\n";
-            
+                        
             $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
             
         }
@@ -131,8 +129,8 @@ class Storage {
             $myTable->addColumn("content_id", "integer", array("unsigned" => true));
             $myTable->addColumn("contenttype", "string", array("length" => 32));
             $myTable->addColumn("taxonomytype", "string", array("length" => 32));
-            $myTable->addColumn("slug", "datetime", array("length" => 64));   
-            $myTable->addColumn("name", "datetime", array("length" => 64));                        
+            $myTable->addColumn("slug", "string", array("length" => 64));   
+            $myTable->addColumn("name", "string", array("length" => 64));                        
             
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
@@ -336,11 +334,7 @@ class Storage {
             echo "Contenttype is required.";
             return false;
         }
-        
-        echo "<pre>\n" . print_r($content, true) . "</pre>\n";
-        
-        // die();
-        
+                        
         // Make an array with the allowed columns. these are the columns that are always present.
         $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status');
         // add the fields for this contenttype, 
@@ -420,19 +414,16 @@ class Storage {
             }
         }
         
-        $this->db->insert($tablename, $content);
+        $res = $this->db->insert($tablename, $content);
         
         $id = $this->db->lastInsertId();
 
-        
-        var_dump($id);
-        
+        // Add the taxonomies, if present.
         if (isset($taxonomy)) {
-            $this->updateTaxonomy($id, $contenttype, $taxonomy);
+            $this->updateTaxonomy($contenttype, $id, $taxonomy);
         }
-        die();
         
-        return $id;
+        return $res;
         
     }
     
@@ -440,6 +431,11 @@ class Storage {
     protected function updateContent($content, $contenttype, $allowedcolumns) {
 
         $tablename = $this->prefix . $contenttype;
+        
+        // Update the taxonomies, if present.
+        if (isset($content['taxonomy'])) {
+            $this->updateTaxonomy($contenttype, $content['id'], $content['taxonomy']);
+        }
         
         // unset columns we don't need to store..
         foreach($content as $key => $value) {
@@ -529,13 +525,20 @@ class Storage {
 
 
         $content = $this->db->fetchAll($query);
-        
+
         // Make sure all content has information about its contenttype
-        
         foreach($content as $key => $value) {
             $content[$key]['contenttype'] = $contenttype;
         }
-        
+                
+                
+        // Make sure all content has their taxonomies
+        foreach($content as $key => $value) {
+            $content[$key]['taxonomy'] = $this->getTaxonomy($contenttype['slug'], $value['id']);
+        }
+
+                
+
         
         return $content;
         
@@ -632,36 +635,62 @@ class Storage {
     
     }
     
+    
+    protected function getTaxonomy($contenttype, $content_id) {
+        
+        $tablename = $this->prefix . "taxonomy";
+        
+        $taxonomy = array();
+        
+        $query = "SELECT * FROM $tablename WHERE content_id=? AND contenttype=?";
+        $rows = $this->db->fetchAll($query, array($content_id, $contenttype));
+        
+        foreach($rows as $key => $row) {
+            $taxonomy[ $row['taxonomytype'] ][] = $row['slug'];
+        }
+        
+        return $taxonomy;
+        
+    }
 
 
-    protected function updateTaxonomy($id, $contenttype, $taxonomy) {
+    protected function updateTaxonomy($contenttype, $content_id, $taxonomy) {
     
         $tablename = $this->prefix . "taxonomy";
-    
-        echo "<pre>id:\n" . print_r($id, true) . "</pre>\n";
-        
-        foreach($taxonomy as $taxonomytype => $values) {
-            if (!is_array($values)) {
-                $values = explode(",", $values);
+            
+        foreach($taxonomy as $taxonomytype => $newvalues) {
+            if (!is_array($newvalues)) {
+                $newvalues = explode(",", $newvalues);
             }
             
-            echo "<pre>$taxonomytype\n" . print_r($values, true) . "</pre>\n";
+            // Get the current values from the DB..
+            $query = "SELECT id, slug FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=?";
+            $currentvalues = $this->db->fetchAll($query, array($content_id, $contenttype, $taxonomytype));
+            $currentvalues = makeValuePairs($currentvalues, 'id', 'slug');
+                        
+            // Add the ones not yet present.. 
+            foreach($newvalues as $value) {
             
-            foreach($values as $value) {
-            
-                // check if it's already present..
-                $query = "SELECT id FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=? AND slug=?";
-                $result = $this->db->executeQuery($query, array($id, $contenttype, $taxonomytype, $value))->fetch();
-                
-                echo "<pre>res:\n" . print_r($result, true) . "</pre>\n";
-                
-                if (empty($res)) {
+                if (!in_array($value, $currentvalues)) {
                     // Insert it! 
-                    $row = array('content_id' => $id, 'contenttype' => $contenttype, 'taxonomytype' => $taxonomytype, 'slug' => $value);
+                    $row = array('content_id' => $content_id, 'contenttype' => $contenttype, 'taxonomytype' => $taxonomytype, 'slug' => $value);
                     $this->db->insert($tablename, $row);
+                    //echo "insert: $content_id, $value<br />";
                 }
                 
             }
+            
+            // Delete the ones that have been removed. 
+            // Add the ones not yet present.. 
+            foreach($currentvalues as $id => $value) {
+            
+                if (!in_array($value, $newvalues)) {
+                    // Delete it! 
+                    $row = array('content_id' => $content_id, 'contenttype' => $contenttype, 'taxonomytype' => $taxonomytype, 'slug' => $value);
+                    $this->db->delete($tablename, array('id' => $id));
+                    //echo "delete: $id, $value<br />";
+                }
+            }            
             
         }
     

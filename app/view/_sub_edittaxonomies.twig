@@ -7,28 +7,77 @@
 {% for taxonomyslug in taxonomies %}
 
     {% if config.taxonomy[taxonomyslug] is defined %}
+    
         {% set taxonomy = config.taxonomy[taxonomyslug] %}
     
-        {{ printr(taxonomy) }}
+        
+        {# ---------- tags ---------- #}
         
         {% if taxonomy.behaves_like == "tags" %}
         
-        <label for='taxonomy-{{taxonomy.slug}}'><b>{{ taxonomy.name }}</b></label>
-        
-        <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' />
-        
-        <script>
-        $('#taxonomy-{{taxonomy.slug}}').tagit({
-			    // availableTags: sampleTags,
-			    singleField: true,
-                singleFieldNode: $('#taxonomy-{{taxonomy.slug}}'),
-                animate: false
-		    });
-	    </script>
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name }}:</span></b></label>
+            
+            {% if content.taxonomy[taxonomy.slug] is defined %}
+                {% set tags = content.taxonomy[taxonomy.slug]|join(",") %}
+            {% else %}
+                {% set tags = "" %}
+            {% endif %}
+            
+            <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" />
+            
+            <script>
+            $('#taxonomy-{{taxonomy.slug}}').tagit({
+    			    // availableTags: sampleTags,
+    			    singleField: true,
+                    singleFieldNode: $('#taxonomy-{{taxonomy.slug}}'),
+                    animate: false
+    		    });
+    	    </script>
         
         {% endif %}
+        
+        {# ---------- categories ---------- #}
+        
+        {% if taxonomy.behaves_like == "categories" %}
+        
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name }}:</span></b></label>
+            
+            {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
+            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' multiple>
+            {% else %}
+            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
+                <option value="">(no category)</option>
+            {% endif %}
+            
+            {% for cat in taxonomy.options %}
+                <option value='{{cat}}' {% if content.taxonomy[taxonomy.slug] is defined and cat in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
+            {% endfor %}
+            
+            </select>
+        
+        {% endif %}       
+        
+        {# ---------- grouping ---------- #}
+        
+        {% if taxonomy.behaves_like == "grouping" %}
+        
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name }}:</span></b></label>
+            
+        
+            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
+                <option value="">(no group)</option>
+
+            {% for group in taxonomy.options %}
+                <option value='{{group}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
+            {% endfor %}
+            
+            </select>
+        
+        {% endif %}                
         
     {% endif %}
 
 {% endfor %}
+
+<hr>
 {% endif %}
