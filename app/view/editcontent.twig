@@ -6,7 +6,10 @@
 
     <form method="post" id="editcontent">
         
-    {%for key, fields in contenttype.fields %}
+    {% include '_sub_edittaxonomies.twig' %}    
+
+        
+    {% for key, fields in contenttype.fields %}
     
         {% if fields.type == "text" %}
         <label><b>{{ key|ucfirst}}</b></label>
@@ -145,6 +148,9 @@
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Haec mihi videtur delicatior, ut ita dicam, molliorque ratio, quam virtutis vis gravitasque postulat. Ergo opifex plus sibi proponet ad formarum quam civis excellens ad factorum pulchritudinem? Hic Speusippus, hic Xenocrates, hic eius auditor Polemo, cuius illa ipsa sessio fuit, quam videmus. </p>
     </section>
     
+{{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
+    
+       
     
     <section>
     <h2>Haec mihi videtur delicatior</h2>

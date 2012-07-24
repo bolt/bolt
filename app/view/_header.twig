@@ -10,6 +10,8 @@
 
     <!-- jQuery -->
     <script src="/app/view/js/jquery-1.7.2.min.js"></script>
+    <script src="/app/view/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/app/view/css/flick/jquery-ui-1.8.22.custom.css">
     <script src="/app/view/js/jquery.plugins.js"></script>
     
     <!-- Bootstrap -->
@@ -35,6 +37,10 @@
     <script src="/app/view/lib/upload/jquery.iframe-transport.js"></script>
     <script src="/app/view/lib/upload/jquery.fileupload.js"></script>
 
+    <!-- tagit -->
+    <link rel="stylesheet" type="text/css" href="/app/view/lib/tag-it/jquery.tagit.css">
+    <script src="/app/view/lib/tag-it/tag-it.js" type="text/javascript" charset="utf-8"></script>
+        
     <script src="/app/view/js/pilex.js"></script>
 
     
@@ -54,6 +60,7 @@
             </a>
             <div class="nav-collapse">
                 <ul class="nav pull-right">
+                {% if app.session.get('user') is not null %}
                     <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                         <i class="icon-home"></i> Dashboard</a></li>
                     <li class="{% if active=='content' %}active {% endif %}dropdown">
@@ -91,12 +98,13 @@
                     <li><a href="/" target="_blank"><i class="icon-external-link"></i> View site</a></li>                    
                     <li class="divider-vertical"></li>
                     <li>
-                        {% if app.session.get('user') is not null %}
                         <a href="{{ path('logout') }}"><i class="icon-signout"></i> Logout {{ app.session.get('user').username }}</a> 
-                        {% else %}
-                        <a href="{{ path('login') }}"><i class="icon-signin"></i>Login</a> 
-                        {% endif %}
                     </li>
+                {% else %}
+                    <li>
+                        <a href="{{ path('login') }}"><i class="icon-signin"></i> Login</a> 
+                    </li>
+                {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

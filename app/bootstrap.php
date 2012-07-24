@@ -21,7 +21,7 @@ $starttime=getMicrotime();
 
 $app = new Silex\Application();
 
-$app['debug'] = true;
+$app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
 
 $app['config'] = $config;
 

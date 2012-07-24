@@ -18,8 +18,7 @@ entries:
         body:
             type: html
             height: 300px
-    taxonomy:
-        type: categories, tags
+    taxonomy: [ categories, tags ]
     template: entry.twig
     sort: datecreated DESC
 
@@ -51,8 +50,7 @@ pages:
             type: datetime
         date:
             type: date
-    taxonomy:
-       type: chapters
+    taxonomy: [ chapters ]
     template: page.twig
     sort: title
        

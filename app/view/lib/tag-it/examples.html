@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tag-it! example</title>
+
+    <!-- These few CSS files are just to make this example page look nice. You can ignore them. -->
+    <xlink rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset-fonts/reset-fonts.css">
+    <xlink rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/base/base-min.css">
+    <xlink href='http://fonts.googleapis.com/css?family=Brawler' rel='stylesheet' type='text/css'>
+    <xlink href="css/master.css" rel="stylesheet" type="text/css">
+    <xlink href="css/examples.css" rel="stylesheet" type="text/css">
+    <!-- /ignore -->
+
+
+    <!-- These 2 CSS files are required: any 1 jQuery UI theme CSS, plus the Tag-it base CSS. -->
+    <xlink rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="jquery.tagit.css">
+
+    <!-- This is an optional CSS theme that only applies to this widget. Use it in addition to the jQuery UI theme. -->
+
+
+    <!-- jQuery and jQuery UI are required dependencies. -->
+    <script src="../../js/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-ui-1.8.22.custom.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- The real deal -->
+	<script src="tag-it.js" type="text/javascript" charset="utf-8"></script>
+
+	<script>
+	    $(function(){
+            var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
+
+            //-------------------------------
+            // Minimal
+            //-------------------------------
+            $('#myTags').tagit();
+
+            //-------------------------------
+            // Single field
+            //-------------------------------
+		    $('#singleFieldTags').tagit({
+			    availableTags: sampleTags,
+			    // This will make Tag-it submit a single form value, as a comma-delimited field.
+			    singleField: true,
+                singleFieldNode: $('#mySingleField'),
+                animate: false
+		    });
+
+            // singleFieldTags2 is an INPUT element, rather than a UL as in the other 
+            // examples, so it automatically defaults to singleField.
+		    $('#singleFieldTags2').tagit({
+			    availableTags: sampleTags,
+			    animate: false
+		    });
+
+
+            //-------------------------------
+            // Preloading data in markup
+            //-------------------------------
+            $('#myULTags').tagit({
+			    availableTags: sampleTags, // this param is of course optional. it's for autocomplete.
+			    // configure the name of the input field (will be submitted with form), default: item[tags]
+			    itemName: 'item',
+			    fieldName: 'tags'
+		    });
+
+            //-------------------------------
+            // Tag events
+            //-------------------------------
+            var eventTags = $('#eventTags');
+            eventTags.tagit({
+                availableTags: sampleTags,
+                onTagRemoved: function(evt, tag) {
+                    console.log(evt);
+                    alert('This tag is being removed: ' + eventTags.tagit('tagLabel', tag));
+                },
+                onTagClicked: function(evt, tag) {
+                    console.log(tag);
+                    alert('This tag was clicked: ' + eventTags.tagit('tagLabel', tag));
+                }
+            }).tagit('option', 'onTagAdded', function(evt, tag) {
+                // Add this callbackafter we initialize the widget,
+                // so that onTagAdded doesn't get called on page load.
+                alert('This tag is being added: ' + eventTags.tagit('tagLabel', tag));
+            });
+
+            //-------------------------------
+            // Tag-it methods
+            //-------------------------------
+            $('#methodTags').tagit({
+			    availableTags: sampleTags
+		    });
+
+            //-------------------------------
+            // Allow spaces without quotes.
+            //-------------------------------
+            $('#allowSpacesTags').tagit({
+                availableTags: sampleTags,
+                allowSpaces: true
+            });
+
+            //-------------------------------
+            // Remove confirmation
+            //-------------------------------
+            $('#removeConfirmationTags').tagit({
+                availableTags: sampleTags,
+                removeConfirmation: true
+            });
+            
+	    });
+	</script>
+
+</head>
+<body>
+
+<a href="http://github.com/aehlke/tag-it"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
+
+<div id="wrapper"> 
+	<div id="header"> 
+		<h2>Tag-it! Usage Examples</h2> 
+		
+		<ul id="nav">
+            <li><a href="http://aehlke.github.com/tag-it">&laquo; back to widget home</a></li>
+		</ul>
+	</div>
+	
+    <div id="content">
+        <p>These demo various features of Tag-it. View the source to see how each works.</p>
+
+        <hr>
+        <h3>Minimal</h3>
+   	    <form>
+            <p>
+                Vanilla example &mdash; the absolute minimum amount of code required, no configuration. No autocomplete, either. See the other examples for that.
+            </p>
+		    <ul id="myTags"></ul>
+	        <input type="submit" value="Submit">
+	    </form>
+
+        <hr>
+        <h3>Single Input Field</h3>
+   	    <form>
+		    <p>
+                Example using a single input form field to hold all the tag values, instead of one per tag (see settings.singleField).
+                This method is particularly useful if you have a form with one input field for comma-delimited tags that you want to trivially "upgrade" to this fancy jQuery UI widget.
+                This configuration will also degrade nicely as well for browsers without JS &mdash; the default behavior is to have one input per tag, which does not degrade as well as one comma-delimited input.
+            </p>
+            <p>
+                Normally this input field will be hidden &mdash; we leave it visible here so you can see how it is manipulated by the widget:
+                <input name="tags" id="mySingleField" value="Apple, Orange" disabled="true"> <!-- only disabled for demonstration purposes -->
+            </p>
+		    <ul id="singleFieldTags"></ul>
+			<input type="submit" value="Submit">
+	    </form>
+
+        <hr>
+        <h3><a name="graceful-degredation"></a>Single Input Field (2)</h3>
+   	    <form>
+		    <p>
+                If you instantiate Tag-it on an INPUT element, it will default to being singleField, with that INPUT element as the singleFieldNode. This is the simplest way to have a gracefully-degrading tag widget.
+            </p>
+            <input name="tags" id="singleFieldTags2" value="Apple, Orange">
+			<input type="submit" value="Submit">
+	    </form>
+
+        <hr>
+        <h3>Spaces Allowed Without Quotes</h3>
+        <p>You can already do multiword tags with spaces in them by default, but those must be wrapped in quotes. This option lets you use spaces without requiring the user to quote the input.</p>
+        <p>There are normally 5 ways to insert a tag after inputting some text: space, comma, enter, selecting an autocomplete option, or defocusing the widget. With the "allowSpaces" option set to true, space no longer inserts a tag, it just adds a space to the current tag input.</p>
+   	    <form>
+			<p></p>
+			<ul id="allowSpacesTags"></ul>
+			<input type="submit" value="Submit">
+	    </form>
+
+        <hr>
+        <h3>Preloading Data in Markup</h3>
+   	    <form>
+            <p>
+                Using a UL in HTML to prefill the widget with some tags.
+            </p>
+		    <ul id="myULTags">
+			    <!-- Existing list items will be pre-added to the tags. -->
+			    <li>Tag1</li>
+			    <li>Tag2</li>
+		    </ul>
+	        <input type="submit" value="Submit">
+	    </form>
+
+        <hr>
+        <h3>Events</h3>
+   	    <form>
+			<p>Example of tag events. Try adding or removing a tag, or clicking on a tag's label.</p>
+			<ul id="eventTags">
+                <li>Click my label</li>
+                <li>Remove me</li>
+            </ul>
+			<input type="submit" value="Submit">
+	    </form>
+
+        <hr>
+        <h3>Methods</h3>
+   	    <form>
+			<p>Demos the available widget methods. Click the links below the widget to try them.</p>
+			<ul id="methodTags"></ul>
+            <p><a href="#" onclick="var inp=prompt('Enter a tag value to test the createTag method.');$('#methodTags').tagit('createTag', inp);return false;">Create tag</a></p>
+            <p><a href="#" onclick="$('#methodTags').tagit('removeAll');return false;">Clear tags</a></p>
+			<input type="submit" value="Submit">
+	    </form>
+
+        <hr>
+        <h3>Remove Confirmation</h3>
+   	    <form>
+			<p>
+                When removeConfirmation is enabled the user has to press the backspace key twice to remove the last tag.
+            </p>
+			<ul id="removeConfirmationTags">
+                <li>backspace me</li>
+                <li>me too</li>
+            </ul>
+			<input type="submit" value="Submit">
+	    </form>
+
+    </div>
+
+
+
+	<div id="footer"> 
+        <div class="left">
+	        <p>Built with <a href="http://jquery.com/" target="_blank">jQuery</a> and <a href="http://jqueryui.com/" target="_blank">jQuery UI</a>.</p>
+	        <p>Originally created by <a href="http://levycarneiro.com/">Levy Carneiro Jr</a>. Currently maintained by <a href="http://github.com/aehlke">Alex Ehlke</a>.</p>
+        </div>
+		<p class="right weak">Template adopted from <a href="http://orderedlist.com/demos/fancy-zoom-jquery/">orderedlist.com</a></p>
+		<br class="clear"/>
+	</div> 
+</div>
+</body>
+</html>

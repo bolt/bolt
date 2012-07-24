@@ -80,6 +80,26 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 
 
 
+/**
+ * Latest {contenttype} to show a small listing in the sidebars..
+ */
+$backend->get("/lastmodified/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
+
+    // Get the proper contenttype..
+    $contenttype = $app['storage']->getContentType($contenttypeslug);
+    
+    // get the 'latest' from the requested contenttype. 
+    $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));   
+
+    $body = $app['twig']->render('sidebar-lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
+
+})->before($checkLogin)->bind('lastmodified');
+
+
+
+
+
 
 /**
  * Login page.
@@ -610,6 +630,7 @@ $app->before(function() use ($app) {
     $app['twig']->addGlobal('pilex_name', $pilex_name);
     $app['twig']->addGlobal('pilex_version', $pilex_version);
     $app['twig']->addGlobal('users', $app['users']->getUsers());
+    $app['twig']->addGlobal('config', $app['config']);
     
 });
 

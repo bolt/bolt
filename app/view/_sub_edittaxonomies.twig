@@ -1,0 +1,34 @@
+
+{# taxonomies for the contenttype that this record is part of. #} 
+{% if contenttype.taxonomy is defined %}
+{% set taxonomies = contenttype.taxonomy %}
+   
+
+{% for taxonomyslug in taxonomies %}
+
+    {% if config.taxonomy[taxonomyslug] is defined %}
+        {% set taxonomy = config.taxonomy[taxonomyslug] %}
+    
+        {{ printr(taxonomy) }}
+        
+        {% if taxonomy.behaves_like == "tags" %}
+        
+        <label for='taxonomy-{{taxonomy.slug}}'><b>{{ taxonomy.name }}</b></label>
+        
+        <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' />
+        
+        <script>
+        $('#taxonomy-{{taxonomy.slug}}').tagit({
+			    // availableTags: sampleTags,
+			    singleField: true,
+                singleFieldNode: $('#taxonomy-{{taxonomy.slug}}'),
+                animate: false
+		    });
+	    </script>
+        
+        {% endif %}
+        
+    {% endif %}
+
+{% endfor %}
+{% endif %}

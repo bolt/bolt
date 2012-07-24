@@ -213,8 +213,8 @@ aside section {
 }
 
 aside section h2 {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 16px;
+    line-height: 20px;
     margin: 8px 0 4px;
 	text-shadow: none;
 	color: #333;    
@@ -226,6 +226,12 @@ aside section p {
     font-size: 12px;
     line-height: 16px;
     margin: 4px 0;
+}
+
+
+aside ul {
+    margin-left: 18px;
+    
 }
 
 

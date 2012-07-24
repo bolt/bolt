@@ -1,0 +1,13 @@
+<section>
+    <h2>Last modified {{contenttype.name}}</h2>
+    <ul>
+    {% for content in latest %}
+        <li>
+           № {{content.id}}. <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}</a>    
+        </li>
+    {% else %}
+        <li><em>No latest content</em></li>
+    {% endfor %}
+    </ul>
+</section>
+    
