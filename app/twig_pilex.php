@@ -4,6 +4,7 @@ $app['twig']->addFunction('printr', new Twig_Function_Function('twig_printr', ar
 
 function twig_printr($var, $skippre=false) {
     
+    /*
     $output = "";
     
     if (!$skippre) {
@@ -13,6 +14,9 @@ function twig_printr($var, $skippre=false) {
     if (!$skippre) {
         $output .= "</pre>\n";
     }
+    */
+    
+    $output = util::var_dump($var, true);
     
     return $output;
     

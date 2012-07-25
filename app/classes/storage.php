@@ -336,7 +336,7 @@ class Storage {
         }
                         
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status');
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status', 'taxonomy');
         // add the fields for this contenttype, 
         foreach ($this->config['contenttypes'][$contenttype]['fields'] as $key => $values) {
 
@@ -348,6 +348,21 @@ class Storage {
             } 
             
         }
+            
+        
+        foreach($content as $key => $value) {
+        
+            if (!in_array($key, $allowedcolumns)) {
+                // unset columns we don't need to store..
+                unset($content[$key]);
+            } else {
+                // Trim strings..
+                if (is_string($content[$key])) {
+                    $content[$key] = trim($content[$key]);
+                }
+            }
+        }            
+        
             
         // Decide whether to insert a new record, or update an existing one.
         if (empty($content['id'])) {
@@ -405,15 +420,9 @@ class Storage {
         // Keep taxonomy for later.
         if (isset($content['taxonomy'])) {
             $taxonomy = $content['taxonomy'];
+            unset($content['taxonomy']);
         }
-        
-        // unset columns we don't need to store..
-        foreach($content as $key => $value) {
-            if (!in_array($key, $allowedcolumns)) {
-                unset($content[$key]);
-            }
-        }
-        
+
         $res = $this->db->insert($tablename, $content);
         
         $id = $this->db->lastInsertId();
@@ -432,16 +441,14 @@ class Storage {
 
         $tablename = $this->prefix . $contenttype;
         
+        //echo "<pre>\n" . print_r($content, true) . "</pre>\n";
+        
+        // die();
+        
         // Update the taxonomies, if present.
         if (isset($content['taxonomy'])) {
             $this->updateTaxonomy($contenttype, $content['id'], $content['taxonomy']);
-        }
-        
-        // unset columns we don't need to store..
-        foreach($content as $key => $value) {
-            if (!in_array($key, $allowedcolumns)) {
-                unset($content[$key]);
-            }
+            unset($content['taxonomy']);
         }
         
         unset($content['datecreated']);

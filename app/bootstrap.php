@@ -14,6 +14,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/lib.php';
 require_once __DIR__.'/classes/storage.php';
 require_once __DIR__.'/classes/users.php';
+require_once __DIR__.'/classes/util.php';
 require_once __DIR__.'/config.php';
 
 // Start the timer:
