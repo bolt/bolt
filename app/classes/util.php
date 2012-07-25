@@ -311,6 +311,7 @@ if ( ! class_exists( 'util' ) ) {
                 'white-space: pre-wrap;' .
                 'word-wrap: break-word;' .
                 'color: #333;' .
+                'text-align: left;' .
                 'font-family: Menlo,Monaco,Consolas,\'Courier New\',monospace;">';
             $html .= self::var_dump_plain( $var );
             $html .= '</pre>';

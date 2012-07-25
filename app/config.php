@@ -8,6 +8,16 @@ $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/confi
 $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
 $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
 
+// Clean up taxonomies
+foreach( $config['taxonomy'] as $key => $value ) {
+    if (!isset($config['taxonomy'][$key]['name'])) {
+        $config['taxonomy'][$key]['name'] = ucwords($config['taxonomy'][$key]['slug']);
+    }
+    if (!isset($config['taxonomy'][$key]['singular_name'])) {
+        $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+    }
+}
+
 $configdb = $config['general']['database'];
 
 if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite") ) {

@@ -54,12 +54,21 @@
                     <li><a class="nolink">Current status: 
                         <strong>{{ content.status }}</strong></a></li>
                     <li><a class="nolink">Created on: 
-                        <strong><i class="icon-asterisk"></i>{{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
+                        <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
                     <li><a class="nolink">Last edited on: 
-                        <strong><i class="icon-refresh"></i>{{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
+                        <strong><i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
+                    {% for taxonomyslug, values in content.taxonomy %} 
+                        {% if values|length > 1 %}
+                            <li><a class="nolink">{{ config.taxonomy[taxonomyslug].name }}: 
+                                <strong><i class="icon-tag"></i> {{ values|join(", ") }}</strong></a></li>
+                        {% else %}
+                            <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}: 
+                                <strong><i class="icon-tag"></i> {{ values.0 }}</strong></a></li>
+                        {% endif %}                            
+                    {% endfor %}           
                 </ul>
                 </div>
-            
+                
             </td>
         </tr>
     
