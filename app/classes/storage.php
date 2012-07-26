@@ -649,9 +649,12 @@ class Storage {
         
         $contenttype = $content[ util::array_first_key($content) ]['contenttype']['slug'];
 
-        $query = sprintf("SELECT * FROM $tablename WHERE content_id IN (%s) AND contenttype=%s", 
+        $taxonomytypes = array_keys($this->config['taxonomy']);
+
+        $query = sprintf("SELECT * FROM $tablename WHERE content_id IN (%s) AND contenttype=%s AND taxonomytype IN ('%s')", 
                 implode(", ", $ids), 
-                $this->db->quote($contenttype)
+                $this->db->quote($contenttype),
+                implode("', '", $taxonomytypes)
             );
         $rows = $this->db->fetchAll($query);
 
