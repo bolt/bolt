@@ -531,22 +531,20 @@ class Storage {
         $query .= " LIMIT $limit;";
 
 
-        $content = $this->db->fetchAll($query);
+        $rows = $this->db->fetchAll($query);
 
-        // Make sure all content has information about its contenttype
-        foreach($content as $key => $value) {
-            $content[$key]['contenttype'] = $contenttype;
+        $content = array();
+
+        // Make sure content is set, and all content has information about its contenttype
+        foreach($rows as $key => $value) {
+            $content[ $value['id'] ] = $value;
+            $content[ $value['id'] ]['contenttype'] = $contenttype;
+            $content[ $value['id'] ]['taxonomy'] = array();
         }
-                
                 
         // Make sure all content has their taxonomies
-        foreach($content as $key => $value) {
-            $content[$key]['taxonomy'] = $this->getTaxonomy($contenttype['slug'], $value['id']);
-        }
+        $content = $this->getTaxonomy($content);
 
-                
-
-        
         return $content;
         
         
@@ -583,8 +581,8 @@ class Storage {
         $result = $this->getContent($contenttype['slug'], $parameters);
     
         
-        if (isset($result[0])) {
-            return $result[0];
+        if (util::array_first_key($result)) {
+            return util::array_first($result);
         } else {
             return false;
         }
@@ -643,20 +641,26 @@ class Storage {
     }
     
     
-    protected function getTaxonomy($contenttype, $content_id) {
+    protected function getTaxonomy($content) {
         
         $tablename = $this->prefix . "taxonomy";
         
-        $taxonomy = array();
+        $ids = util::array_pluck($content, 'id');
         
-        $query = "SELECT * FROM $tablename WHERE content_id=? AND contenttype=?";
-        $rows = $this->db->fetchAll($query, array($content_id, $contenttype));
-        
+        $contenttype = $content[ util::array_first_key($content) ]['contenttype']['slug'];
+
+        $query = sprintf("SELECT * FROM $tablename WHERE content_id IN (%s) AND contenttype=%s", 
+                implode(", ", $ids), 
+                $this->db->quote($contenttype)
+            );
+        $rows = $this->db->fetchAll($query);
+
         foreach($rows as $key => $row) {
-            $taxonomy[ $row['taxonomytype'] ][] = $row['slug'];
+            $content[ $row['content_id'] ]['taxonomy'][ $row['taxonomytype'] ][] = $row['slug'];
         }
         
-        return $taxonomy;
+
+        return $content;
         
     }
 

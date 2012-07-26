@@ -256,7 +256,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
       	$content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => 'id = '.$id));
 	} else {
     	$content = $app['storage']->getEmptyContent($contenttype['slug']);
-	}
+    }
 
 	if (!empty($_GET['duplicate'])) {
     	$content['id']="";
