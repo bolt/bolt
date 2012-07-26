@@ -44,6 +44,10 @@ tt {
     color: #666;
 }
 
+small { 
+    font-size: 85%; 
+}
+
 
 
 .navbar-inner {
