@@ -5,7 +5,7 @@
 <ul>
     <li id='pd-pilex'><strong>Pilex {{pilex_version}}</strong><small>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</small></li>
     <li id='pd-variables'><a href="#" data-for="pilex-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
-    <li id='pd-log'>Log<span class='narrow'>file</span></li>
+    {# <li id='pd-log'>Log<span class='narrow'>file</span></li> --- hidden for now #}
     <li id='pd-queries'>
         {% if querycount==0 %}
             No Q<span class='narrow'>ueries</span>
@@ -46,7 +46,7 @@
 <div id='pilex-serverpanel' class='pilex-debugpanel'>      
 <pre>{% for key, var in servervars %}
 <strong>{{key|raw}}:</strong>
-{{ printr(var, true) }}
+{{ printr(var) }}
 {% endfor %}
 </pre>
 </div>
