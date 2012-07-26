@@ -28,10 +28,11 @@ $app['twig']->addFilter('excerpt', new Twig_Filter_Function('twig_excerpt'));
 
 function twig_excerpt($content, $length=200) {
 
-    unset($content['id'], $content['slug'], $content['datecreated'], $content['datechanged'], $content['username'], $content['title'], $content['contenttype'], $content['status'], $content['taxonomy']);  
-    
-    $output = implode(" ", $content);
-    $output = trimText(strip_tags($output), $length) ;
+    if (is_array($content)) {
+        unset($content['id'], $content['slug'], $content['datecreated'], $content['datechanged'], $content['username'], $content['title'], $content['contenttype'], $content['status'], $content['taxonomy']);  
+        $content = implode(" ", $content);
+    }
+    $output = trimText(strip_tags($content), $length) ;
     
     return $output;
     
