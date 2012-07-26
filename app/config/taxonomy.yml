@@ -17,3 +17,4 @@ categories:
     behaves_like: categories
     multiple: 1
     options: [ news, events, movies, music, books ]
+     
