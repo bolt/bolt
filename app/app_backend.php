@@ -470,11 +470,8 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
 /**
  * Show the 'about' page */
 $backend->get("/about", function(Silex\Application $app) {
-	
-	$title = "About";
-    $users = $app['users']->getUsers();
-    
-	return $app['twig']->render('base.twig', array('users' => $users, 'title' => $title));
+	   
+	return $app['twig']->render('about.twig');
 	
 })->before($checkLogin)->bind('about');
 
