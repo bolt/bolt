@@ -51,7 +51,6 @@ small {
 
 
 .navbar-inner {
-
 	background-image: none;
 	background: transparent;
 	background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
@@ -117,6 +116,7 @@ footer  {
     color: #999;
     width:100%; 
     padding: 4px 10px;
+    z-index: 1000;
 }
 
 
@@ -312,9 +312,7 @@ label span.left {
 }
 
 .CodeMirror-scroll {
-  height: auto !important;
-  overflow-y: hidden;
-  overflow-x: auto;
+  min-height: 200px;
   border: 1px solid #CCC;
   background-color: #FFF;
 }
