@@ -71,7 +71,7 @@ var CodeMirror = (function() {
 
     // Check for problem with IE innerHTML not working when we have a
     // P (or similar) parent node.
-    try { stringWidth("x"); }
+    try { charWidth(); }
     catch (e) {
       if (e.message.match(/runtime/i))
         e = new Error("A CodeMirror inside a P-style element does not work in Internet Explorer. (innerHTML bug)");
@@ -92,7 +92,7 @@ var CodeMirror = (function() {
     var sel = {from: {line: 0, ch: 0}, to: {line: 0, ch: 0}, inverted: false};
     // Selection-related flags. shiftSelecting obviously tracks
     // whether the user is holding shift.
-    var shiftSelecting, lastClick, lastDoubleClick, lastScrollTop = 0, lastScrollLeft = 0, draggingText,
+    var shiftSelecting, lastClick, lastDoubleClick, lastScrollTop = 0, draggingText,
         overwrite = false, suppressEdits = false;
     // Variables used by startOperation/endOperation to track what
     // happened during the operation.
@@ -105,7 +105,7 @@ var CodeMirror = (function() {
     var bracketHighlighted;
     // Tracks the maximum line length so that the horizontal scrollbar
     // can be kept static when scrolling.
-    var maxLine = "", updateMaxLine = false, maxLineChanged = true;
+    var maxLine = getLine(0), updateMaxLine = false, maxLineChanged = true;
     var tabCache = {};
 
     // Initialize the content.
@@ -120,8 +120,8 @@ var CodeMirror = (function() {
     // which point we can't mess with it anymore. Context menu is
     // handled in onMouseDown for Gecko.
     if (!gecko) connect(scroller, "contextmenu", onContextMenu);
-    connect(scroller, "scroll", onScroll);
-    connect(scrollbar, "scroll", onScroll);
+    connect(scroller, "scroll", onScrollMain);
+    connect(scrollbar, "scroll", onScrollBar);
     connect(scrollbar, "mousedown", function() {if (focused) setTimeout(focusInput, 0);});
     connect(scroller, "mousewheel", onMouseWheel);
     connect(scroller, "DOMMouseScroll", onMouseWheel);
@@ -183,7 +183,8 @@ var CodeMirror = (function() {
         else if (option == "lineWrapping" && oldVal != value) operation(wrappingChanged)();
         else if (option == "tabSize") updateDisplay(true);
         else if (option == "keyMap") keyMapChanged();
-        if (option == "lineNumbers" || option == "gutter" || option == "firstLineNumber" || option == "theme") {
+        if (option == "lineNumbers" || option == "gutter" || option == "firstLineNumber" ||
+            option == "theme" || option == "lineNumberFormatter") {
           gutterChanged();
           updateDisplay(true);
         }
@@ -339,7 +340,7 @@ var CodeMirror = (function() {
       },
       scrollTo: function(x, y) {
         if (x != null) scroller.scrollLeft = x;
-        if (y != null) scrollbar.scrollTop = y;
+        if (y != null) scrollbar.scrollTop = scroller.scrollTop = y;
         updateDisplay([]);
       },
       getScrollInfo: function() {
@@ -353,6 +354,7 @@ var CodeMirror = (function() {
         }
         if (width != null) wrapper.style.width = interpret(width);
         if (height != null) scroller.style.height = interpret(height);
+        this.refresh();
       },
 
       operation: function(f){return operation(f)();},
@@ -387,18 +389,21 @@ var CodeMirror = (function() {
       return text.join(lineSep || "\n");
     }
 
-    function onScroll(e) {
-      if (scroller.scrollTop) {
-        scrollbar.scrollTop += scroller.scrollTop;
-        scroller.scrollTop = 0;
-      }
-      if (lastScrollTop != scrollbar.scrollTop || lastScrollLeft != scroller.scrollLeft) {
-        lastScrollTop = scrollbar.scrollTop;
-        lastScrollLeft = scroller.scrollLeft;
+    function onScrollBar(e) {
+      if (scrollbar.scrollTop != scroller.scrollTop)
+        scroller.scrollTop = scrollbar.scrollTop;
+    }
+
+    function onScrollMain(e) {
+      if (options.fixedGutter && gutter.style.left != scroller.scrollLeft + "px")
+        gutter.style.left = scroller.scrollLeft + "px";
+      if (scroller.scrollTop != lastScrollTop) {
+        lastScrollTop = scroller.scrollTop;
+        if (scrollbar.scrollTop != lastScrollTop)
+          scrollbar.scrollTop = lastScrollTop;
         updateDisplay([]);
-        if (options.fixedGutter) gutter.style.left = scroller.scrollLeft + "px";
-        if (options.onScroll) options.onScroll(instance);
       }
+      if (options.onScroll) options.onScroll(instance);
     }
 
     function onMouseDown(e) {
@@ -703,40 +708,19 @@ var CodeMirror = (function() {
       setTimeout(function() {if (!focused) shiftSelecting = null;}, 150);
     }
 
-    function chopDelta(delta) {
-      // Make sure we always scroll a little bit for any nonzero delta.
-      if (delta > 0.0 && delta < 1.0) return 1;
-      else if (delta > -1.0 && delta < 0.0) return -1;
-      else return Math.round(delta);
-    }
-
     function onMouseWheel(e) {
-      var deltaX = 0, deltaY = 0;
-      if (e.type == "DOMMouseScroll") { // Firefox
-        var delta = -e.detail * 8.0;
-        if (e.axis == e.HORIZONTAL_AXIS) deltaX = delta;
-        else if (e.axis == e.VERTICAL_AXIS) deltaY = delta;
-      } else if (e.wheelDeltaX !== undefined && e.wheelDeltaY !== undefined) { // WebKit
-        deltaX = e.wheelDeltaX / 3.0;
-        deltaY = e.wheelDeltaY / 3.0;
-      } else if (e.wheelDelta !== undefined) { // IE or Opera
-        deltaY = e.wheelDelta / 3.0;
+      var dx = e_wheelDeltaX(e), dy = e_wheelDeltaY(e);
+      if (dx) {
+        var ndx = Math.round(normalizeWheelDelta(dx) * 20);
+        if (!ndx) ndx = dx > 0 ? 1 : -1;
+        scroller.scrollLeft += ndx;
       }
-
-      var scrolled = false;
-      deltaX = chopDelta(deltaX);
-      deltaY = chopDelta(deltaY);
-      if ((deltaX > 0 && scroller.scrollLeft > 0) ||
-          (deltaX < 0 && scroller.scrollLeft + scroller.clientWidth < scroller.scrollWidth)) {
-        scroller.scrollLeft -= deltaX;
-        scrolled = true;
+      if (dy) {
+        var ndy = Math.round(normalizeWheelDelta(dy) * 20);
+        if (!ndy) ndy = dy > 0 ? 1 : -1;
+        scrollbar.scrollTop += ndy;
       }
-      if ((deltaY > 0 && scrollbar.scrollTop > 0) ||
-          (deltaY < 0 && scrollbar.scrollTop + scrollbar.clientHeight < scrollbar.scrollHeight)) {
-        scrollbar.scrollTop -= deltaY;
-        scrolled = true;
-      }
-      if (scrolled) e_stop(e);
+      if (dx || dy) e_stop(e);
     }
 
     // Replace the range from from to to by the strings in newText.
@@ -771,7 +755,7 @@ var CodeMirror = (function() {
 
     function updateLinesNoUndo(from, to, newText, selFrom, selTo) {
       if (suppressEdits) return;
-      var recomputeMaxLength = false, maxLineLength = maxLine.length;
+      var recomputeMaxLength = false, maxLineLength = maxLine.text.length;
       if (!options.lineWrapping)
         doc.iter(from.line, to.line + 1, function(line) {
           if (!line.hidden && line.text.length == maxLineLength) {recomputeMaxLength = true; return true;}
@@ -831,7 +815,7 @@ var CodeMirror = (function() {
         doc.iter(from.line, from.line + newText.length, function(line) {
           var l = line.text;
           if (!line.hidden && l.length > maxLineLength) {
-            maxLine = l; maxLineLength = l.length; maxLineChanged = true;
+            maxLine = line; maxLineLength = l.length; maxLineChanged = true;
             recomputeMaxLength = false;
           }
         });
@@ -874,12 +858,14 @@ var CodeMirror = (function() {
       var scrollHeight = needsScrollbar();
       scrollbar.style.display = scrollHeight ? "block" : "none";
       if (scrollHeight) {
-        scrollbarInner.style.height = scrollHeight + "px";
-        scrollbar.style.height = scroller.offsetHeight + "px";
+        scrollbarInner.style.height = code.style.minHeight = scrollHeight + "px";
+        scrollbar.style.height = scroller.clientHeight + "px";
         if (scrollTop != null) scrollbar.scrollTop = scrollTop;
+      } else {
+        code.style.minHeight = "";
       }
       // Position the mover div to align with the current virtual scroll position
-      mover.style.top = (displayOffset * textHeight() - scrollbar.scrollTop) + "px";
+      mover.style.top = displayOffset * textHeight() + "px";
     }
   
     // On Mac OS X Lion and up, detect whether the mouse is plugged in by measuring 
@@ -901,12 +887,12 @@ var CodeMirror = (function() {
     }
 
     function computeMaxLength() {
-      var maxLineLength = 0; 
-      maxLine = ""; maxLineChanged = true;
-      doc.iter(0, doc.size, function(line) {
+      maxLine = getLine(0); maxLineChanged = true;
+      var maxLineLength = maxLine.text.length; 
+      doc.iter(1, doc.size, function(line) {
         var l = line.text;
         if (!line.hidden && l.length > maxLineLength) {
-          maxLineLength = l.length; maxLine = l;
+          maxLineLength = l.length; maxLine = line;
         }
       });
       updateMaxLine = false;
@@ -1031,17 +1017,16 @@ var CodeMirror = (function() {
       return {x: x, y: cursor.y, yBot: cursor.yBot};
     }
     function scrollIntoView(x1, y1, x2, y2) {
-      var scrollPos = calculateScrollPos(x1, y1, x2, y2), scrolled = false;
-      if (scrollPos.scrollLeft != null) {scroller.scrollLeft = scrollPos.scrollLeft; scrolled = true;}
-      if (scrollPos.scrollTop != null) {scrollbar.scrollTop = scrollPos.scrollTop; scrolled = true;}
-      if (scrolled && options.onScroll) options.onScroll(instance);
+      var scrollPos = calculateScrollPos(x1, y1, x2, y2);
+      if (scrollPos.scrollLeft != null) {scroller.scrollLeft = scrollPos.scrollLeft;}
+      if (scrollPos.scrollTop != null) {scrollbar.scrollTop = scroller.scrollTop = scrollPos.scrollTop;}
     }
     function calculateScrollPos(x1, y1, x2, y2) {
       var pl = paddingLeft(), pt = paddingTop();
       y1 += pt; y2 += pt; x1 += pl; x2 += pl;
       var screen = scroller.clientHeight, screentop = scrollbar.scrollTop, result = {};
-      var docBottom = scroller.scrollHeight;
-      var atTop = y1 < pt + 10, atBottom = y2 + pt > docBottom - 10;;
+      var docBottom = scrollbar.scrollHeight;
+      var atTop = y1 < pt + 10, atBottom = y2 + pt > docBottom - 10;
       if (y1 < screentop) result.scrollTop = atTop ? 0 : Math.max(0, y1);
       else if (y2 > screentop + screen) result.scrollTop = (atBottom ? docBottom : y2) - screen;
 
@@ -1506,14 +1491,12 @@ var CodeMirror = (function() {
           var guess = Math.ceil(line.text.length / perLine) || 1;
           if (guess != 1) updateLineHeight(line, guess);
         });
-        lineSpace.style.width = code.style.width = "";
-        widthForcer.style.left = "";
+        lineSpace.style.minWidth = widthForcer.style.left = "";
       } else {
         wrapper.className = wrapper.className.replace(" CodeMirror-wrap", "");
-        maxLine = ""; maxLineChanged = true;
+        computeMaxLength();
         doc.iter(0, doc.size, function(line) {
           if (line.height != 1 && !line.hidden) updateLineHeight(line, 1);
-          if (line.text.length > maxLine.length) maxLine = line.text;
         });
       }
       changes.push({from: 0, to: doc.size});
@@ -1641,11 +1624,10 @@ var CodeMirror = (function() {
         if (line.hidden != hidden) {
           line.hidden = hidden;
           if (!options.lineWrapping) {
-            var l = line.text;
-            if (hidden && l.length == maxLine.length) {
+            if (hidden && line.text.length == maxLine.text.length) {
               updateMaxLine = true;
-            } else if (!hidden && l.length > maxLine.length) {
-              maxLine = l; updateMaxLine = false;
+            } else if (!hidden && line.text.length > maxLine.text.length) {
+              maxLine = line; updateMaxLine = false;
             }
           }
           updateLineHeight(line, hidden ? 0 : 1);
@@ -1677,11 +1659,6 @@ var CodeMirror = (function() {
               markerClass: marker && marker.style, lineClass: line.className, bgClass: line.bgClassName};
     }
 
-    function stringWidth(str) {
-      measure.innerHTML = "<pre><span>x</span></pre>";
-      measure.firstChild.firstChild.firstChild.nodeValue = str;
-      return measure.firstChild.firstChild.offsetWidth || 10;
-    }
     // These are used to go from pixel positions to character
     // positions, taking varying character widths into account.
     function charFromX(line, x) {
@@ -1769,7 +1746,10 @@ var CodeMirror = (function() {
       if (estX < x) {from = estimated; fromX = estX;}
       // Do a binary search between these bounds.
       for (;;) {
-        if (to - from <= 1) return {line: lineNo, ch: (toX - x > x - fromX) ? from : to};
+        if (to - from <= 1) {
+          var dleft = x - fromX, dright = toX - x;
+          return {line: lineNo, ch: (Math.max(dright, dleft) > cw * 2 || dleft < dright) ? from : to};
+        }
         var middle = Math.ceil((from + to) / 2), middleX = getX(middle);
         if (middleX > x) {to = middle; toX = middleX;}
         else {from = middle; fromX = middleX;}
@@ -1799,7 +1779,8 @@ var CodeMirror = (function() {
     function charWidth() {
       if (scroller.clientWidth == cachedWidthFor) return cachedWidth;
       cachedWidthFor = scroller.clientWidth;
-      return (cachedWidth = stringWidth("x"));
+      measure.innerHTML = "<pre><span>x</span></pre>";
+      return (cachedWidth = measure.firstChild.firstChild.offsetWidth || 10);
     }
     function paddingTop() {return lineSpace.offsetTop;}
     function paddingLeft() {return lineSpace.offsetLeft;}
@@ -2000,7 +1981,7 @@ var CodeMirror = (function() {
     function endOperation() {
       if (updateMaxLine) computeMaxLength();
       if (maxLineChanged && !options.lineWrapping) {
-        var cursorWidth = widthForcer.offsetWidth, left = stringWidth(maxLine);
+        var cursorWidth = widthForcer.offsetWidth, left = measureLine(maxLine, maxLine.text.length).left;
         widthForcer.style.left = left + "px";
         lineSpace.style.minWidth = (left + cursorWidth) + "px";
         maxLineChanged = false;
@@ -2241,6 +2222,10 @@ var CodeMirror = (function() {
     function lookup(map) {
       map = getKeyMap(map);
       var found = map[name];
+      if (found === false) {
+        if (stop) stop();
+        return true;
+      }
       if (found != null && handle(found)) return true;
       if (map.nofallthrough) {
         if (stop) stop();
@@ -2616,29 +2601,27 @@ var CodeMirror = (function() {
     // Produces an HTML fragment for the line, taking selection,
     // marking, and highlighting into account.
     getHTML: function(makeTab, wrapAt, wrapId, wrapWBR) {
-      var html = [], first = true, col = 0;
+      var html = [], first = true, col = 0, specials = /[\t\u0000-\u0019\u200b\u2028\u2029\uFEFF]/;
       function span_(text, style) {
         if (!text) return;
         // Work around a bug where, in some compat modes, IE ignores leading spaces
         if (first && ie && text.charAt(0) == " ") text = "\u00a0" + text.slice(1);
         first = false;
-        if (text.indexOf("\t") == -1) {
+        if (!specials.test(text)) {
           col += text.length;
           var escaped = htmlEscape(text);
         } else {
           var escaped = "";
-          for (var pos = 0;;) {
-            var idx = text.indexOf("\t", pos);
-            if (idx == -1) {
-              escaped += htmlEscape(text.slice(pos));
-              col += text.length - pos;
-              break;
-            } else {
-              col += idx - pos;
+          for (var pos = 0; pos < text.length; ++pos) {
+            var ch = text.charAt(pos);
+            if (ch == "\t") {
               var tab = makeTab(col);
-              escaped += htmlEscape(text.slice(pos, idx)) + tab.html;
+              escaped += tab.html;
               col += tab.width;
-              pos = idx + 1;
+            } else {
+              col += 1;
+              escaped += specials.test(ch) ? '<span class="cm-invalidchar" title="\\u' + ch.charCodeAt(0).toString(16) +
+                '">\u2022</span>' : htmlEscape(ch);
             }
           }
         }
@@ -3017,6 +3000,34 @@ var CodeMirror = (function() {
   function e_prop(e, prop) {
     var overridden = e.override && e.override.hasOwnProperty(prop);
     return overridden ? e.override[prop] : e[prop];
+  }
+
+  var normalizeWheelDelta = function() {
+    var distribution = [];
+    return function(n) {
+      var abs = Math.abs(n);
+      outer: do { // Just used for break goto
+        for (var i = 0; i < distribution.length; ++i) {
+          if (abs <= distribution[i]) {
+            distribution.splice(i, 0, abs);
+            break outer;
+          }
+        }
+        distribution.push(abs);
+      } while (false);
+      var factor = 1 / distribution[Math.floor(distribution.length / 3)];
+      if (distribution.length == 500)
+        normalizeWheelDelta = function(n) {return n * factor;};
+      return n * factor;
+    };
+  }();
+  function e_wheelDeltaX(e) {
+    if (e.detail && e.axis == e.HORIZONTAL_AXIS) return e.detail;
+    return -(e.wheelDeltaX || 0);
+  }
+  function e_wheelDeltaY(e) {
+    if (e.detail && e.axis == e.VERTICAL_AXIS) return e.detail;
+    return -(e.wheelDeltaY || e.wheelDelta || 0);
   }
 
   // Event handler registration. If disconnect is true, it'll return a

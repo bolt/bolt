@@ -69,10 +69,6 @@
   white-space: pre;
   cursor: text;
 }
-.CodeMirror-lines * {
-  /* Necessary for throw-scrolling to decelerate properly on Safari. */
-  pointer-events: none;
-}
 
 .CodeMirror pre {
   -moz-border-radius: 0;
@@ -164,6 +160,8 @@ span.cm-header, span.cm-strong {font-weight: bold;}
 span.cm-em {font-style: italic;}
 span.cm-emstrong {font-style: italic; font-weight: bold;}
 span.cm-link {text-decoration: underline;}
+
+span.cm-invalidchar {color: #f00;}
 
 div.CodeMirror span.CodeMirror-matchingbracket {color: #0f0;}
 div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
