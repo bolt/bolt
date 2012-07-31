@@ -1,0 +1,48 @@
+{% include '_header.twig' %}
+
+
+<h1>Files: {{path}}</h1>
+
+{{ printr(folders) }}
+
+
+{% if folders|length > 0 %}
+<table>
+    <tr><th>Name</th><th>Modified</th></tr>
+{% for folder in folders %}
+    <tr>
+        <td><a href="{{ path('files', { 'path': folder.newpath }) }}">{{ folder.foldername }}/</a></td>
+        <td>{{ folder.modified }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endif %}
+
+
+{% if files|length > 0 %}
+<table>
+    <tr><th>Name</th><th>Filesize</th><th>Modified</th></tr>
+{% for file in files %}
+    <tr>
+        <td>
+            {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
+                <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" rel='shadowbox' title="Image: {{ file.filename }}">
+                    {{ file.filename }}</a>    
+            {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
+                <a href="{{ path('fileedit', { 'file': file.newpath}) }}">
+                    {{ file.filename }}</a>                      
+            {% else %}
+                <a href="/{{file.newpath}}" target="_blank">{{ file.filename }}</a>
+            {% endif %}
+        </td>
+        <td>{{ file.filesize }}</td>
+        <td>{{ file.modified }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{{ printr(files) }}
+
+
+{% include '_footer.twig' %}

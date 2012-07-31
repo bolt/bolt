@@ -424,14 +424,19 @@ function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true) {
 
 }
 
-
+/**
+ * parse the used .twig templates from the Twig Loader object, using
+ * regular expressions. 
+ * We use this for showing them in the debug toolbar. 
+ *
+ * @param object $obj
+ *
+ */
 function hackislyParseRegexTemplates($obj) {
     
     $str = print_r($obj, true);
     
-    preg_match_all('/(\/[a-z0-9_\/]+\.twig)/i', $str, $matches);
-    
-    //echo "<pre>\n" . print_r($$matches, true) . "</pre>\n";
+    preg_match_all('/(\/[a-z0-9_\/-]+\.twig)/i', $str, $matches);
     
     $templates = array();
     

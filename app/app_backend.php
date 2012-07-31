@@ -440,7 +440,8 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
        
     // Check if the form was POST-ed, and valid. If so, store the user.
     if ($request->getMethod() == "POST") {
-        $form->bindRequest($request);
+        //$form->bindRequest($request);
+        $form->bind($app['request']->get($form->getName()));
 
         if ($form->isValid()) {
             
@@ -544,18 +545,80 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
 
 
 
+$backend->get("/files/{path}", function($path, Silex\Application $app, Request $request) {
 
-
-
-
-$backend->match("/config/edit/{file}", function($file, Silex\Application $app, Request $request) {
+    $files = array();
+    $folders = array();
     
-    $title = "Edit file '$file.yml'.";
+    $basefolder = __DIR__."/../";
+    $path = str_replace("..", "", $path);
+    $currentfolder = realpath($basefolder.$path);
+    
+    $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+    
+    if (file_exists($currentfolder)) {
+    
+        $d = dir($currentfolder);
+    
+        while (false !== ($entry = $d->read())) {
+           
+            if (in_array($entry, $ignored)) { continue; }
+            
+            $fullfilename = $currentfolder."/".$entry;
+                        
+            if (is_file($fullfilename)) {
+                $files[$entry] = array(
+                    'path' => $path,
+                    'filename' => $entry,
+                    'newpath' => $path . "/" . $entry,
+                    'writable' => is_writable($fullfilename),
+                    'type' => getExtension($entry),
+                    'filesize' => formatFilesize(filesize($fullfilename)),
+                    'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
+                );      
+            }
+            
+            if (is_dir($fullfilename)) {
+                $folders[$entry] = array(
+                    'path' => $path,
+                    'foldername' => $entry,
+                    'newpath' => $path . "/" . $entry,
+                    'writable' => is_writable($fullfilename),
+                    'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
+                );      
+            }
+                  
+           
+        }
+        
+        $d->close();
+    
+    
+    } else {
+        $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
+        $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML."); 
+    }
 
-    $filename = __DIR__."/config/".$file.".yml";
+
+    return $app['twig']->render('files.twig', array(
+        'path' => $path,
+        'files' => $files,
+        'folders' => $folders
+        ));          
+
+})->before($checkLogin)->assert('path', '.+')->bind('files');
+
+
+
+$backend->match("/file/edit/{file}", function($file, Silex\Application $app, Request $request) {
+    
+    $title = "Edit file '$file'.";
+
+    $filename = realpath(__DIR__."/../".$file);
+    $type = getExtension($filename);
     
     if (!file_exists($filename) || !is_readable($filename)) {
-        $error = sprintf("file '%s/config/%s.yml' doesn't exist, or is not readable." , basename(__DIR__), $file);
+        $error = sprintf("file '%s/config/%s' doesn't exist, or is not readable." , basename(__DIR__), $file);
         $app->abort(404, $error);
     }
 
@@ -565,41 +628,46 @@ $backend->match("/config/edit/{file}", function($file, Silex\Application $app, R
     }
     
 
-    $data['contents'] = file_get_contents(__DIR__."/config/".$file.".yml");
+    $data['contents'] = file_get_contents($filename);
 
     $form = $app['form.factory']->createBuilder('form', $data)
         ->add('contents', 'textarea', array(
             'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(10))
         ));
         
-
-
     $form = $form->getForm();
        
     // Check if the form was POST-ed, and valid. If so, store the user.
     if ($request->getMethod() == "POST") {
-        $form->bindRequest($request);
+        //$form->bindRequest($request);
+        $form->bind($app['request']->get($form->getName()));
 
         if ($form->isValid()) {
             
             $data = $form->getData();
             $contents = str_replace("\t", "    ", $data['contents']);
             
-            $yamlparser = new Symfony\Component\Yaml\Parser();
-            try {
-                $result = $yamlparser->parse($contents);
-            } catch (Exception $e) {
-                $result = false;
-            }
-        
-            if ($result) {
-                file_put_contents(__DIR__."/config/".$file.".yml", $contents);
-                $app['session']->setFlash('success', "File '" .$file.".yml' has been saved."); 
-            } else {
-                $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML."); 
+            $ok = true;
+            
+            if ($type == "yml") {
+                $yamlparser = new Symfony\Component\Yaml\Parser();
+                try {
+                    $ok = $yamlparser->parse($contents);
+                } catch (Exception $e) {
+                    $ok = false;
+                    $app['session']->setFlash('error', "File '" .$file."' could not be saved: not valid YAML.");
+                }
             }
             
-            return $app->redirect('/pilex/config/edit/'. $file);
+            if ($ok) {
+                if (file_put_contents($filename, $contents)) {
+                    $app['session']->setFlash('success', "File '" .$file."' has been saved."); 
+                } else {
+                    $app['session']->setFlash('error', "File '" .$file."' could not be saved, for some reason."); 
+                }
+            }
+            
+            return $app->redirect('/pilex/file/edit/'. $file);
             
         }
     }
@@ -607,10 +675,11 @@ $backend->match("/config/edit/{file}", function($file, Silex\Application $app, R
 
     return $app['twig']->render('editconfig.twig', array(
         'form' => $form->createView(),
-        'title' => $title
+        'title' => $title,
+        'filetype' => $type
         ));      
       
-})->before($checkLogin)->assert('file', '[a-z]+')->method('GET|POST')->bind('configedit');
+})->before($checkLogin)->assert('file', '.+')->method('GET|POST')->bind('fileedit');
 
 
 

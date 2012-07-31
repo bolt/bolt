@@ -85,13 +85,20 @@
                         <ul class="dropdown-menu">
                             <li class="nav-header">Configuration</li>
                             <li><a href="{{ path('users') }}"><i class="icon-group"></i>Users</a></li>
-                            <li><a href="{{ path('configedit', { 'file': 'config'}) }}"><i class="icon-cog"></i>Configuration</a></li>
-                            <li><a href="{{ path('configedit', { 'file': 'contenttypes'}) }}"><i class="icon-cog"></i>Contenttypes</a></li>
-                            <li><a href="{{ path('configedit', { 'file': 'taxonomy'}) }}"><i class="icon-tags"></i>Taxonomy</a></li>
+                            <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
+                                <i class="icon-cog"></i>Configuration</a></li>
+                            <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
+                                <i class="icon-cog"></i>Contenttypes</a></li>
+                            <li><a href="{{ path('fileedit', { 'file': 'app/config/taxonomy.yml'}) }}">
+                                <i class="icon-tags"></i>Taxonomy</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Maintenance</li>
                             <li><a href="{{ path('dbupdate') }}"><i class="icon-wrench"></i>Check database</a></li>
                             <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i>Clear the cache</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">File Management</li>
+                            <li><a href="{{ path('files', { 'path': 'view'}) }}"><i class="icon-file"></i>View / edit Templates</a></li>
+                            <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-file"></i>Uploaded files</a></li>
                         </ul>
                     </li>
                     <li class="divider-vertical"></li>

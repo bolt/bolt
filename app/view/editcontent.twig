@@ -36,7 +36,7 @@
             <div class="image-right">
                 <div class='imageholder' id="thumbnail-{{key}}">
                     {% if content[key]!="" %}
-                    <img src="/thumbs/120x120c/{{ content[key] }}" width="120" height="120">
+                    <img src="{{ content[key]|thumbnail(120, 120, 'c') }}" width="120" height="120">
                     {% endif %}
                 </div>
             </div>
