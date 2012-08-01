@@ -105,6 +105,64 @@ function clearCacheHelper($additional, &$result) {
     
 }
 
+function findFiles() {
+    
+    $files = array();
+    
+    findFilesHelper('', $files);
+    
+    return $files;
+    
+}
+
+function findFilesHelper($additional, &$files) {
+    
+    $basefolder = __DIR__."/../files/";
+    
+    $currentfolder = realpath($basefolder."/".$additional);
+    
+    echo "<pre>curr: \n" . util::var_dump($currentfolder, true) . "</pre>\n";
+    
+    $d = dir($currentfolder);
+    
+    while (false !== ($entry = $d->read())) {
+        
+        if ($entry == "." || $entry == ".." ) {
+            continue;
+        }
+        
+        if (is_file($currentfolder."/".$entry)) {        
+            
+            if (!empty($additional)) { 
+                $filename = $additional . "/" . $entry; 
+            
+            } else {
+                $filename = $entry;
+            }
+            
+            $files[] = $filename;       
+        }
+        
+        /*
+        if (is_dir($currentfolder."/".$entry)) {
+        
+        clearCacheHelper($additional."/".$entry, $result);
+        
+        if (is_writable($currentfolder."/".$entry) && @unlink($currentfolder."/".$entry)) {
+        $result['successfolders']++;
+        } else {
+        $result['failedfolders']++;
+        }
+        
+        }*/
+        
+        
+        }
+        
+    $d->close();    
+    
+    }
+
 
 /**
  * Gets current Unix timestamp (in seconds) with microseconds, as a float.

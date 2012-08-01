@@ -141,8 +141,12 @@ footer  {
 
 .dashboardlisting {
     background-color: #FFF;
-    box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, 0.3);
+    box-shadow:  0px 1px 0px -2px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;   
+}
+
+.dashboardlisting tr:first-child {
+    border-top: 1px solid #DDD;
 }
 
 .dashboardlisting tr:nth-child(odd) {
@@ -150,12 +154,15 @@ footer  {
 }
 
 .dashboardlisting tr.dim * {
-    background-color: #F8F8FB;
     color: #BBB !important;
 }
 
+.dashboardlisting tr.dim img {
+    opacity: 0.5;
+}
+
 .dashboardlisting td {
-    border: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
     padding: 5px;
     vertical-align: top;
     line-height: 18px;
@@ -176,7 +183,7 @@ footer  {
 }
 
 .dashboardlisting td.listthumb {
-    padding: 2px;
+    padding: 4px 2px 2px;
 }
 
 .dashboardlisting td.actions {

@@ -685,6 +685,17 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
 
 
 
+$backend->get("/filesautocomplete", function(Silex\Application $app, Request $request) {
+
+    $term = $request->get('term');
+
+    echo "<pre>\n" . util::var_dump($term, true) . "</pre>\n";
+
+    $files = findFiles();
+    
+    echo "<pre>\n" . util::var_dump($files, true) . "</pre>\n";
+
+})->before($checkLogin);
 
 
 // Temporary hack. Silex should start session on demand.

@@ -60,6 +60,12 @@
                 
 <script type="text/javascript">
     bindFileUpload('{{key}}');
+    
+    $("#field-{{key}}").autocomplete({
+			source: "/pilex/filesautocomplete",
+			minLength: 2
+		});
+		
 </script>
 
             </div>
