@@ -318,6 +318,12 @@ label span.left {
     opacity: 0.7;
 }
 
+.progress {
+    width: 50%; 
+    display: none; 
+    margin-bottom: 0;
+}
+
 .CodeMirror-scroll {
   min-height: 200px;
   border: 1px solid #CCC;

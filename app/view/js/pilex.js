@@ -58,7 +58,7 @@ function bindFileUpload(key) {
                 $('#field-' + key).val(file.name);
                 $('#thumbnail-' + key).html("<img src='/thumbs/120x120c/"+encodeURI(file.name)+"' width='120' height='120'>");
                 $('#progress-' + key + ' div.bar').css('width', "100%");
-                $('#progress-' + key).removeClass('progress-striped');
+                $('#progress-' + key).removeClass('progress-striped active');
                 window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 3000);
             });
         }
@@ -66,7 +66,7 @@ function bindFileUpload(key) {
     
     $('#fileupload-' + key).bind('fileuploadprogress', function (e, data) {        
         var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
-        $('#progress-' + key).show().addClass('progress-striped');
+        $('#progress-' + key).show().addClass('progress-striped active');
         $('#progress-' + key + ' div.bar').css('width', progress+"%");
     });
           

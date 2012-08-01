@@ -105,37 +105,52 @@ function clearCacheHelper($additional, &$result) {
     
 }
 
-function findFiles() {
+function findFiles($term, $extensions="") {
+    
+    if (is_string($extensions)) {
+        $extensions = explode(",", $extensions);
+    }
     
     $files = array();
     
-    findFilesHelper('', $files);
+    findFilesHelper('', $files, strtolower($term), $extensions);
+    
+    // Sort the array, and only keep the values, not the keys. 
+    natcasesort($files);
+    $files = array_values($files);
     
     return $files;
     
 }
 
-function findFilesHelper($additional, &$files) {
+function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
     
     $basefolder = __DIR__."/../files/";
     
     $currentfolder = realpath($basefolder."/".$additional);
-    
-    echo "<pre>curr: \n" . util::var_dump($currentfolder, true) . "</pre>\n";
-    
+
     $d = dir($currentfolder);
+    
+    $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
     
     while (false !== ($entry = $d->read())) {
         
-        if ($entry == "." || $entry == ".." ) {
-            continue;
-        }
+        if (in_array($entry, $ignored)) { continue; }
         
-        if (is_file($currentfolder."/".$entry)) {        
+        if (is_file($currentfolder."/".$entry) && is_readable($currentfolder."/".$entry)) {        
+            
+            // Check for 'term'..
+            if (!empty($term) && (strpos(strtolower($currentfolder."/".$entry), $term) === false)) {
+                continue; // skip this one..
+            }
+            
+            // Check for correct extensions.. 
+            if (!empty($extensions) && !in_array(getExtension($entry), $extensions)) {
+                continue; // Skip files without correct extension..
+            }
             
             if (!empty($additional)) { 
                 $filename = $additional . "/" . $entry; 
-            
             } else {
                 $filename = $entry;
             }
@@ -143,21 +158,12 @@ function findFilesHelper($additional, &$files) {
             $files[] = $filename;       
         }
         
-        /*
         if (is_dir($currentfolder."/".$entry)) {
-        
-        clearCacheHelper($additional."/".$entry, $result);
-        
-        if (is_writable($currentfolder."/".$entry) && @unlink($currentfolder."/".$entry)) {
-        $result['successfolders']++;
-        } else {
-        $result['failedfolders']++;
+            findFilesHelper($additional."/".$entry, $files, $term, $extensions);
         }
         
-        }*/
         
-        
-        }
+    }
         
     $d->close();    
     

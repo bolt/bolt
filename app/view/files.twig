@@ -3,12 +3,9 @@
 
 <h1>Files: {{path}}</h1>
 
-{{ printr(folders) }}
-
-
 {% if folders|length > 0 %}
-<table>
-    <tr><th>Name</th><th>Modified</th></tr>
+<table class='dashboardlisting'>
+    <tr><th>Folders</th><th>Modified</th></tr>
 {% for folder in folders %}
     <tr>
         <td><a href="{{ path('files', { 'path': folder.newpath }) }}">{{ folder.foldername }}/</a></td>
@@ -18,10 +15,9 @@
 </table>
 {% endif %}
 
-
 {% if files|length > 0 %}
-<table>
-    <tr><th>Name</th><th>Filesize</th><th>Modified</th></tr>
+<table class='dashboardlisting'>
+    <tr><th>Files</th><th>Filesize</th><th>Modified</th><th>&nbsp;</th></tr>
 {% for file in files %}
     <tr>
         <td>
@@ -37,12 +33,33 @@
         </td>
         <td>{{ file.filesize }}</td>
         <td>{{ file.modified }}</td>
+        <td class='actions'>
+            <div class="btn-group">
+            <button class="btn btn-mini">
+                <i class="icon-edit"></i> Options</button>
+            <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+            <span class="caret"></span>
+            </button>
+            
+            <ul class="dropdown-menu pull-right">
+                <li><a href="#">
+                    <i class="icon-ban-circle"></i> Delete {{ file.filename }}</a></li>
+                <li><a href="#">
+                    <i class="icon-copy"></i> Duplicate {{ file.filename }}</a></li>
+                <li class="divider"></li>
+                <li><a class="nolink">Permissions: 
+                        <strong><tt>rw-r--r--</tt></strong></a></li>      
+                <li><a class="nolink">Owner / group: 
+                        <strong><tt>apache staff</strong></a></li>      
+                                  
+            </ul>
+            </div>
+        
+        </td>
     </tr>
 {% endfor %}
 </table>
 {% endif %}
-
-{{ printr(files) }}
 
 
 {% include '_footer.twig' %}

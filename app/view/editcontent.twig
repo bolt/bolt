@@ -54,18 +54,21 @@
                     <span>Upload Image</span>
                     <input id="fileupload-{{key}}" type="file" name="files[]" data-url="/app/classes/upload/" multiple>
                 </span>
-                <div class="progress active" id="progress-{{key}}" style="width: 50%; display: none;">
+                <div class="progress progress-striped active" id="progress-{{key}}">
                     <div class="bar" style="width: 0%;"></div>
                 </div>
+                <div style="clear: left;" /><small>Use the button to upload a file. To select a previously uploaded file, you can <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
                 
 <script type="text/javascript">
     bindFileUpload('{{key}}');
     
     $("#field-{{key}}").autocomplete({
-			source: "/pilex/filesautocomplete",
-			minLength: 2
-		});
-		
+		source: "/pilex/filesautocomplete",
+		minLength: 2,
+		close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>"); }
+	});
+	
+
 </script>
 
             </div>

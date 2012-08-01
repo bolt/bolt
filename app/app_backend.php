@@ -689,11 +689,12 @@ $backend->get("/filesautocomplete", function(Silex\Application $app, Request $re
 
     $term = $request->get('term');
 
-    echo "<pre>\n" . util::var_dump($term, true) . "</pre>\n";
 
-    $files = findFiles();
+    $files = findFiles($term, 'jpg,jpeg,gif,png');
     
-    echo "<pre>\n" . util::var_dump($files, true) . "</pre>\n";
+    $app['debug'] = false;
+ 
+    return $app->json($files);
 
 })->before($checkLogin);
 
@@ -732,6 +733,11 @@ if ($app['debug']) {
         
     
     $app->finish(function(Request $request, Response $response) use ($app, $logger) {
+
+        // Make sure debug is _still_ enabled..
+        if (!$app['debug']) {
+            return "";
+        }
 
         $queries = array();
         $querycount = 0;
