@@ -167,8 +167,145 @@ function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
         
     $d->close();    
     
-    }
+}
 
+
+function getFilePermissions($filename) {
+        
+    $perms = fileperms($filename);
+    
+    if (($perms & 0xC000) == 0xC000) {
+        $info = 's'; // Socket
+    } elseif (($perms & 0xA000) == 0xA000) {
+        $info = 'l'; // Symbolic Link
+    } elseif (($perms & 0x8000) == 0x8000) {
+        $info = '-'; // Regular
+    } elseif (($perms & 0x6000) == 0x6000) {
+        $info = 'b'; // Block special
+    } elseif (($perms & 0x4000) == 0x4000) {
+        $info = 'd'; // Directory
+    } elseif (($perms & 0x2000) == 0x2000) {
+        $info = 'c'; // Character special
+    } elseif (($perms & 0x1000) == 0x1000) {
+        $info = 'p'; // FIFO pipe
+    } else {
+        $info = 'u'; // Unknown
+    }
+    
+    // Owner
+    $info .= (($perms & 0x0100) ? 'r' : '-');
+    $info .= (($perms & 0x0080) ? 'w' : '-');
+    $info .= (($perms & 0x0040) ?
+                (($perms & 0x0800) ? 's' : 'x' ) :
+                (($perms & 0x0800) ? 'S' : '-'));
+    
+    // Group
+    $info .= (($perms & 0x0020) ? 'r' : '-');
+    $info .= (($perms & 0x0010) ? 'w' : '-');
+    $info .= (($perms & 0x0008) ?
+                (($perms & 0x0400) ? 's' : 'x' ) :
+                (($perms & 0x0400) ? 'S' : '-'));
+    
+    // World
+    $info .= (($perms & 0x0004) ? 'r' : '-');
+    $info .= (($perms & 0x0002) ? 'w' : '-');
+    $info .= (($perms & 0x0001) ?
+                (($perms & 0x0200) ? 't' : 'x' ) :
+                (($perms & 0x0200) ? 'T' : '-'));
+    
+    return $info;    
+    
+}
+
+// http://pastebin.com/iKky8Vtu
+// http://www.php.net/manual/en/function.fileperms.php#98437
+function mkperms($perms, $return_as_string = false, $filename = '') {
+    $perms = explode(',', $perms);
+    $generated = array('u'=>array(),'g'=>array(),'o'=>array());
+    if(!empty($filename)) {
+        $fperms = substr(decoct(fileperms($filename)), 3); // Credits to jchris dot fillionr at kitware dot com
+       // Fill array $generated
+        $fperms = str_split($fperms);
+        $fperms['u'] = $fperms[0]; unset($fperms[0]);
+        $fperms['g'] = $fperms[1]; unset($fperms[1]);
+        $fperms['o'] = $fperms[2]; unset($fperms[2]);
+        foreach($fperms as $key=>$fperm) {
+            if($fperm >= 4) {
+               $generated[$key]['r'] = true;
+               $fperm -= 4;
+            }
+            if($fperm >= 2) {
+               $generated[$key]['w'] = true;
+               $fperm -= 2;
+            }
+            if($fperm >= 1) {
+               $generated[$key]['x'] = true;
+               $fperm--;
+            } 
+        }
+    }
+    foreach($perms as $perm) {
+         if(!preg_match('#^([ugo]*)([\+=-])([rwx]+|[\-])$#i', $perm, $matches)) {
+             trigger_error('Wrong input format for mkperms'); return 0644;
+             // Wrong format => generate default 
+         }
+         $targets = str_split($matches[1]);
+         $addrem = $matches[2];
+         $perms_ = str_split($matches[3]);
+         $fromTheLoop = 0; // To make sure we clear it only once for direct affectation
+         foreach($targets as $target) {
+                 foreach($perms_ as $perms__) {
+                     if($addrem == '=') {
+                         if(!$fromTheLoop) {
+                             unset($generated[$target]['r']);
+                             unset($generated[$target]['w']);
+                             unset($generated[$target]['x']);
+                         }
+                         $fromTheLoop++;
+                         $addrem = '+';
+                     }
+                     if($perms__ == '-') {
+                         unset($generated[$target]['r']);
+                         unset($generated[$target]['w']);
+                         unset($generated[$target]['x']);
+                     } else {
+                         if($addrem == '+') {
+                             $generated[$target][$perms__] = true;
+                         } elseif($addrem == '-') {
+                             unset($generated[$target][$perms__]);
+                         } elseif($addrem == '=') {
+                             
+                         }
+                     }
+                 }
+         }
+    }
+    $generated_chars    = array(0, 0, 0);
+    $corresponding      = array('u'=>0, 'g'=>1, 'o'=>2);
+    $correspondingperms = array('r'=>4, 'w'=>2, 'x'=>1);
+
+    foreach($generated as $key=>$generated_) {
+        foreach($generated_ as $generated__=>$useless) {
+            $generated_chars[$corresponding[$key]] += $correspondingperms[$generated__];
+        }
+    }
+    if($return_as_string) return implode($generated_chars);
+ else return base_convert(implode($generated_chars), 8, 10);
+}
+
+
+/**
+ * Ensures that a path has no trailing slash
+ *
+ * @param string $path
+ * @return string
+ */
+function stripTrailingSlash($path) {
+    if(substr($path,-1,1) == "/") {
+        $path = substr($path,0,-1);
+    }
+    return $path;   
+}
 
 /**
  * Gets current Unix timestamp (in seconds) with microseconds, as a float.

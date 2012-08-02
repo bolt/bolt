@@ -551,10 +551,21 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
     $folders = array();
     
     $basefolder = __DIR__."/../";
-    $path = str_replace("..", "", $path);
+    $path = stripTrailingSlash(str_replace("..", "", $path));
     $currentfolder = realpath($basefolder.$path);
     
     $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+    
+    // Get the pathsegments, so we can show the path..
+    $pathsegments = array();
+    $cumulative = "";
+    if (!empty($path)) {
+        foreach(explode("/", $path) as $segment) {
+            $cumulative .= $segment . "/";
+            $pathsegments[ $cumulative ] = $segment;
+        }
+    }
+    
     
     if (file_exists($currentfolder)) {
     
@@ -574,8 +585,14 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
                     'writable' => is_writable($fullfilename),
                     'type' => getExtension($entry),
                     'filesize' => formatFilesize(filesize($fullfilename)),
-                    'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
-                );      
+                    'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
+                    'permissions' => getFilePermissions($fullfilename)
+                );   
+                
+                if (in_array(getExtension($entry), array('gif', 'jpg', 'png', 'jpeg'))) {
+                    $size = getimagesize($fullfilename);
+                    $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
+                }
             }
             
             if (is_dir($fullfilename)) {
@@ -603,7 +620,8 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
     return $app['twig']->render('files.twig', array(
         'path' => $path,
         'files' => $files,
-        'folders' => $folders
+        'folders' => $folders,
+        'pathsegments' => $pathsegments
         ));          
 
 })->before($checkLogin)->assert('path', '.+')->bind('files');

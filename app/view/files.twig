@@ -3,12 +3,21 @@
 
 <h1>Files: {{path}}</h1>
 
+{% if pathsegments|length > 1 %}
+    <p>Path: 
+    {% for path, segment in pathsegments %}
+    {% if not loop.first %} / {% endif %}
+    <a href="{{ path('files', { 'path': path }) }}">{{segment}}</a>
+    {% endfor %}
+    </p>
+{% endif %}
+
 {% if folders|length > 0 %}
 <table class='dashboardlisting'>
     <tr><th>Folders</th><th>Modified</th></tr>
 {% for folder in folders %}
     <tr>
-        <td><a href="{{ path('files', { 'path': folder.newpath }) }}">{{ folder.foldername }}/</a></td>
+        <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><b>{{ folder.foldername }}/</b></a></td>
         <td>{{ folder.modified }}</td>
     </tr>
 {% endfor %}
@@ -17,21 +26,22 @@
 
 {% if files|length > 0 %}
 <table class='dashboardlisting'>
-    <tr><th>Files</th><th>Filesize</th><th>Modified</th><th>&nbsp;</th></tr>
+    <tr><th>Files</th><th>Filesize</th><th>&nbsp;</th><th>Modified</th><th>&nbsp;</th></tr>
 {% for file in files %}
     <tr>
         <td>
             {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
                 <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" rel='shadowbox' title="Image: {{ file.filename }}">
-                    {{ file.filename }}</a>    
+                    <b>{{ file.filename }}</b></a>    
             {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
                 <a href="{{ path('fileedit', { 'file': file.newpath}) }}">
-                    {{ file.filename }}</a>                      
+                    <b>{{ file.filename }}</b></a>                      
             {% else %}
-                <a href="/{{file.newpath}}" target="_blank">{{ file.filename }}</a>
+                <a href="/{{file.newpath}}" target="_blank"><b>{{ file.filename }}</b></a>
             {% endif %}
         </td>
-        <td>{{ file.filesize }}</td>
+        <td>{{ file.filesize }}.</td>
+        <td>{% if file.imagesize is defined %}{{ file.imagesize }} px.{% endif %}</td>
         <td>{{ file.modified }}</td>
         <td class='actions'>
             <div class="btn-group">
@@ -42,15 +52,13 @@
             </button>
             
             <ul class="dropdown-menu pull-right">
-                <li><a href="#">
+                <li><a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
                     <i class="icon-ban-circle"></i> Delete {{ file.filename }}</a></li>
-                <li><a href="#">
+                <li><a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
                     <i class="icon-copy"></i> Duplicate {{ file.filename }}</a></li>
                 <li class="divider"></li>
                 <li><a class="nolink">Permissions: 
-                        <strong><tt>rw-r--r--</tt></strong></a></li>      
-                <li><a class="nolink">Owner / group: 
-                        <strong><tt>apache staff</strong></a></li>      
+                        <strong><tt>{{ file.permissions }}</tt></strong></a></li>          
                                   
             </ul>
             </div>

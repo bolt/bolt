@@ -19,7 +19,7 @@ jQuery(function($) {
 	   animate: true, 
 	   overlayColor: "#DDD", 
 	   overlayOpacity: 0.7, 
-	   viewportPadding: 40 
+	   viewportPadding: 40
     });
 	
     // Show 'dropzone' for jQuery file uploader. 
