@@ -274,6 +274,11 @@ label span.left {
     min-width: 200px;
 }
 
+#editcontent input.datepicker {
+    width: 30%;
+    min-width: 200px;   
+}
+
 #editcontent input {
     font-size: 100%;
     width: 95%;

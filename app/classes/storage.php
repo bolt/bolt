@@ -348,9 +348,15 @@ class Storage {
             } 
             
         }
-            
-        
+   
+
         foreach($content as $key => $value) {
+        
+            // parse 'formatted dates'.. Wednesday, 15 August 2012 -> 2012-08-15
+            if (strpos($key, "-dateformatted") !== false) {
+                $newkey = str_replace("-dateformatted", "", $key);
+                $content[$newkey] = DateTime::createFromFormat("l, d M Y", $value)->format('Y-m-d 00:00:00');
+            }
         
             if (!in_array($key, $allowedcolumns)) {
                 // unset columns we don't need to store..
@@ -362,7 +368,6 @@ class Storage {
                 }
             }
         }            
-        
             
         // Decide whether to insert a new record, or update an existing one.
         if (empty($content['id'])) {
@@ -440,10 +445,6 @@ class Storage {
     protected function updateContent($content, $contenttype, $allowedcolumns) {
 
         $tablename = $this->prefix . $contenttype;
-        
-        //echo "<pre>\n" . print_r($content, true) . "</pre>\n";
-        
-        // die();
         
         // Update the taxonomies, if present.
         if (isset($content['taxonomy'])) {

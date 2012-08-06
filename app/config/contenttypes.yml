@@ -12,6 +12,11 @@ entries:
             type: image     
         imagetitle:
             type: text
+        releasedate:
+            type: date
+        dummydate:
+            type: datetime
+            default: "now"
         teaser:
             type: html
             height: 150px
