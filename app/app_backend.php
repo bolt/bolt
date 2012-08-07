@@ -242,7 +242,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
             if (!empty($id)) {
                 $app['session']->setFlash('success', "The changes to this " . $contenttype['singular_name'] . " have been saved."); 
             } else {
-                $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " have been saved."); 
+                $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " has been saved."); 
             }
             return $app->redirect('/pilex/overview/'.$contenttype['slug']);
         
