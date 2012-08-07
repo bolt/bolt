@@ -88,33 +88,29 @@
                 
                 
         {% if fields.type == "date" %}
-        <label><b>{{ key|ucfirst}}</b></label>
-        <input type="text" name="{{key}}-dateformatted" id="{{key}}" 
-            value='{% if content[key] %}{{ content[key]|date('l, d M Y') }}{% elseif fields.default == "now" %}{{ "now"|date('l, d M Y') }}{% elseif fields.default %}{{fields.default}}{% endif %}'
+        <label><b>{{ key|ucfirst}}</b></label>{{ content[key] }} - {{ "0000-01-01"|date('l, d F Y') }}
+        <input type="text" name="{{key}}-dateformatted" id="{{key}}-date" 
+            value='{% if content[key] %}{{ content[key]|date('l, d F Y') }}{% endif %}'
             class='{% if fields.class is defined %}{{ fields.class }}{% endif %} datepicker'>
-<script type="text/javascript">
-    $("#{{key}}").datepicker({ dateFormat: "DD, d MM yy" });
-</script>
         {% endif %}         
+    
     
                 
         {% if fields.type == "datetime" %}
         <label><b>{{ key|ucfirst}}</b></label>
         <input type="text" name="{{key}}-dateformatted" id="{{key}}-date" 
-            value='{% if content[key] %}{{ content[key]|date('l, d M Y') }}{% elseif fields.default == "now" %}{{ "now"|date('l, d M Y') }}{% elseif fields.default %}{{fields.default}}{% endif %}'
+            value='{% if content[key] %}{{ content[key]|date('l, d F Y') }}{% endif %}'
             class='{% if fields.class is defined %}{{ fields.class }}{% endif %} datepicker'>
         <input type="text" name="{{key}}-timeformatted" id="{{key}}-time" 
-            value='{% if content[key] %}{{ content[key]|date('H:i') }}{% elseif fields.default == "now" %}{{ "now"|date('H:i') }}{% elseif fields.default %}{{fields.default}}{% endif %}'
-            class='{% if fields.class is defined %}{{ fields.class }}{% endif %} datepicker'>            
-<script type="text/javascript">
-    $("#{{key}}-date").datepicker({ dateFormat: "DD, d MM yy" });
-    $("#{{key}}-time").timepicker({});
-</script>
+            value='{% if content[key] %}{{ content[key]|date('H:i') }}{% endif %}'
+            class='{% if fields.class is defined %}{{ fields.class }}{% endif %} timepicker'>      
         {% endif %}         
         
     
     {% endfor %}
       
+      
+      {{ printr(content) }}
         <hr>
         
         {% include '_sub_edittaxonomies.twig' %}    

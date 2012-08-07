@@ -43,6 +43,16 @@ jQuery(function($) {
         }, 100);
     });
 
+    // Add Date and Timepickers..
+    $(".datepicker").datepicker({ dateFormat: "DD, d MM yy" });
+
+    $.mask.definitions['2']='[0-2]';
+    $.mask.definitions['5']='[0-5]';
+
+    $(".timepicker").mask("29:59");
+
+
+
 });
 
 /**

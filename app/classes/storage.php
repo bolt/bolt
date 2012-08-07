@@ -12,7 +12,7 @@ class Storage {
     
         $this->db = $app['db'];
         $this->config = $app['config'];
-        
+        $this->monolog = $app['monolog'];
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "pilex_";
         
     }
@@ -349,13 +349,28 @@ class Storage {
             
         }
    
-
+        // Clean up fields, check unneeded columns.
         foreach($content as $key => $value) {
         
             // parse 'formatted dates'.. Wednesday, 15 August 2012 -> 2012-08-15
             if (strpos($key, "-dateformatted") !== false) {
                 $newkey = str_replace("-dateformatted", "", $key);
-                $content[$newkey] = DateTime::createFromFormat("l, d M Y", $value)->format('Y-m-d 00:00:00');
+                
+                // See if we need to add the time..
+                if (isset($content[$newkey.'-timeformatted']) && !empty($content[$newkey.'-timeformatted'])) {
+                    $value .= " - " . $content[$newkey.'-timeformatted'];
+                } else {
+                    $value .= " - 00:00";
+                }
+                
+                $timestamp = DateTime::createFromFormat("l, d F Y - H:i", $value);
+
+                if ($timestamp instanceof DateTime) {
+                    $content[$newkey] = $timestamp->format('Y-m-d H:i:00');
+                } else {
+                    $content[$newkey] = "";
+                }
+
             }
         
             if (!in_array($key, $allowedcolumns)) {
@@ -368,6 +383,7 @@ class Storage {
                 }
             }
         }            
+            
             
         // Decide whether to insert a new record, or update an existing one.
         if (empty($content['id'])) {
@@ -476,8 +492,18 @@ class Storage {
         
         foreach ($contenttype['fields'] as $key => $field) {
             $content[$key] = '';
+            
+            // Set the default values. 
+            if (isset($field['default'])) {
+                $content[$key] = $field['default'];
+            } else {
+                $content[$key] = '';
+            }
+            
         }
         
+        // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
+                
         return $content;
         
 

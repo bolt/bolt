@@ -5,6 +5,7 @@ entries:
         title:
             type: text
             class: large
+            default: Pompidom
         slug:
             type: slug
             uses: title
@@ -14,9 +15,10 @@ entries:
             type: text
         releasedate:
             type: date
+            default: today
         dummydate:
             type: datetime
-            default: "now"
+            default: now
         teaser:
             type: html
             height: 150px
