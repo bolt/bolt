@@ -289,11 +289,14 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 /**
  * Perform actions on content.
  */
-$backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Application $app, $action, $contenttypeslug, $id) {
+$backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);    
 
     $content = "";
+
+    $token = getToken();
+    
 
     switch ($action) {
         
@@ -325,7 +328,8 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
             break;            
                     
         case "delete":
-            if ($app['storage']->deleteContent($contenttype['slug'], $id)) {
+            
+            if (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
                 $app['session']->setFlash('info', "Content 'pompidom' has been deleted.");
             } else {
                 $app['session']->setFlash('info', "Content 'pompidom' could not be deleted.");    
@@ -526,7 +530,8 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
             break;
                     
         case "delete":
-            if ($app['users']->deleteUser($id)) {    
+            
+            if (checkToken() && $app['users']->deleteUser($id)) {    
                 $app['session']->setFlash('info', "User '{$user['displayname']}' is deleted.");
             } else {
                 $app['session']->setFlash('info', "User '{$user['displayname']}' could not be deleted.");    

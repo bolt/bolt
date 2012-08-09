@@ -61,6 +61,23 @@ function twig_link($content, $param="") {
 
 
 
+$app['twig']->addFunction('token', new Twig_Function_Function('twig_token'));
+
+/**
+ * get a simple CSRF-like token
+ *
+ * @see getToken()
+ * @return string 
+ */
+function twig_token() {
+        
+    return getToken();
+    
+}
+
+
+
+
 
 // Stubs for the 'trans' and 'transchoice' filters.
 $app['twig']->addFilter('trans', new Twig_Filter_Function('twig_trans'));

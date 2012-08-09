@@ -42,6 +42,42 @@ function makeDir($name) {
 
 }
 
+/** 
+ * generate a CSRF-like token, to use in GET requests for stuff that ought to be POST-ed forms.
+ *
+ * @return string $token
+ */
+function getToken() {
+   $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['PHPSESSID'];
+   $token = substr(md5($seed), 0, 8);
+   return $token;
+}
+
+
+/**
+ * Check if a given token matches the current (correct) CSRF-like token
+ * 
+ * @param string $token
+ *
+ * @return bool
+ */
+function checkToken($token="") {
+    global $app;
+
+    if (empty($token)) { 
+        $token = $app['request']->get('token');
+    }
+
+    if ($token === getToken()) {
+        return true;
+    } else {
+        $app['session']->setFlash('error', "The security token was incorrect. Please try again.");
+        return false;
+    }
+
+}
+
+
 function clearCache() {
     
     $result = array(

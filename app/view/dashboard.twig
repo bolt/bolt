@@ -1,6 +1,5 @@
 {% include '_header.twig' %}
 
-
 <div class="row-fluid">
     <div class="span9">
 
@@ -51,7 +50,9 @@
                     {% endif %}
                     <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id, 'duplicate': 1 }) }}">
                         <i class="icon-copy"></i> Duplicate {{app.config.contenttypes[contenttype].singular_name}}</a></li>
-                    <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype,  'id': content.id }) }}">
+                       
+                    <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype,  'id': content.id, token: token() }) }}"
+                        data-confirm="Are you sure you want to delete '{{content.title}}'?" class="confirm">
                         <i class="icon-trash"></i> Delete {{app.config.contenttypes[contenttype].singular_name}}</a></li>
                     <li class="divider"></li>
                     <li><a class="nolink">Author: <strong><i class="icon-user"></i>

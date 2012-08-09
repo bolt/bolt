@@ -667,7 +667,13 @@ class Storage {
     
     }
     
-    
+    /**
+     * Get the taxonomy for one or more units of content, return the array with the taxonomy attached.
+     *
+     * @param array $content
+     * 
+     * @return array $content
+     */
     protected function getTaxonomy($content) {
         
         $tablename = $this->prefix . "taxonomy";
@@ -695,10 +701,17 @@ class Storage {
     }
 
 
+    /**
+     * Update / insert taxonomy for a given content-unit.
+     * 
+     * @param string $contenttype
+     * @param integer $content_id
+     * @param array $taxonomy
+     */
     protected function updateTaxonomy($contenttype, $content_id, $taxonomy) {
     
         $tablename = $this->prefix . "taxonomy";
-            
+
         foreach($taxonomy as $taxonomytype => $newvalues) {
             if (!is_array($newvalues)) {
                 $newvalues = explode(",", $newvalues);
@@ -708,15 +721,20 @@ class Storage {
             $query = "SELECT id, slug FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=?";
             $currentvalues = $this->db->fetchAll($query, array($content_id, $contenttype, $taxonomytype));
             $currentvalues = makeValuePairs($currentvalues, 'id', 'slug');
-                        
+     
             // Add the ones not yet present.. 
             foreach($newvalues as $value) {
             
-                if (!in_array($value, $currentvalues)) {
+                if (!in_array($value, $currentvalues) && (!empty($value))) {
                     // Insert it! 
-                    $row = array('content_id' => $content_id, 'contenttype' => $contenttype, 'taxonomytype' => $taxonomytype, 'slug' => $value);
+                    $row = array(
+                            'content_id' => $content_id, 
+                            'contenttype' => $contenttype, 
+                            'taxonomytype' => $taxonomytype, 
+                            'slug' => $value
+                        );
                     $this->db->insert($tablename, $row);
-                    //echo "insert: $content_id, $value<br />";
+                    // echo "insert: $content_id, $value<br />";
                 }
                 
             }
@@ -727,9 +745,14 @@ class Storage {
             
                 if (!in_array($value, $newvalues)) {
                     // Delete it! 
-                    $row = array('content_id' => $content_id, 'contenttype' => $contenttype, 'taxonomytype' => $taxonomytype, 'slug' => $value);
+                    $row = array(
+                            'content_id' => $content_id, 
+                            'contenttype' => $contenttype, 
+                            'taxonomytype' => $taxonomytype, 
+                            'slug' => $value
+                        );
                     $this->db->delete($tablename, array('id' => $id));
-                    //echo "delete: $id, $value<br />";
+                    // echo "delete: $id, $value<br />";
                 }
             }            
             

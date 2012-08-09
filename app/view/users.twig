@@ -32,7 +32,7 @@
         {% else %}
         <li><a href="{{ path('useraction', { 'action': 'enable', 'id': user.id }) }}">Enable {{user.username}}</a></li>
         {% endif %}        
-        <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id }) }}" class="confirm" data-confirm="Are you sure you want to delete '{{user.displayname}}'?">Delete {{user.username}}</a></li>
+        <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id, token: token() }) }}" class="confirm" data-confirm="Are you sure you want to delete '{{user.displayname}}'?">Delete {{user.username}}</a></li>
         <li class="divider"></li>
         <li class="nolink"><a>Last seen: <strong>{% if user.lastip!="" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
         <li class="nolink"><a>Last known IP: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
