@@ -78,6 +78,26 @@ function twig_token() {
 
 
 
+$app['twig']->addFunction('showpager', new Twig_Function_Function('twig_showpager', array('needs_environment' => true)));
+
+/**
+ * output a simple pager, for paged pages.
+ *
+ * @param array $pager
+ * @return string HTML
+ */
+function twig_showpager(Twig_Environment $env, $pager) {
+        
+    echo $env->render('_sub_pager.twig', array('pager' => $pager));
+        
+}
+
+
+
+
+
+
+
 
 // Stubs for the 'trans' and 'transchoice' filters.
 $app['twig']->addFilter('trans', new Twig_Filter_Function('twig_trans'));

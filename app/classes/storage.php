@@ -509,20 +509,22 @@ class Storage {
 
     }
     
-    public function getContent($contenttypeslug, $parameters) {
+    public function getContent($contenttypeslug, $parameters, &$pager = array()) {
                
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 10;
+        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+        $offset = ($page - 1) * $limit;
         
         $slug = makeSlug($contenttypeslug);
         $contenttype = $this->getContentType($contenttypeslug);
         
         $tablename = $this->prefix . $slug;
 
-        $query = "SELECT * FROM $tablename";
+        $queryparams = "";
         
         // Order 
         if (!empty($parameters['order'])) {
-            $query .= " ORDER BY " . safeString($parameters['order']);
+            $queryparams .= " ORDER BY " . safeString($parameters['order']);
         }
         
         // Make sure 'where' is an array.. 
@@ -551,12 +553,25 @@ class Storage {
         
         // implode 'where'
         if (!empty($where)) {
-            $query .= " WHERE (" . implode(" AND ", $where) . ")";
+            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
         }        
         
+        
+        // Make the query for the pager..
+        $query = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+        $rowcount = $this->db->executeQuery($query)->fetch();
+        $pager['count'] = $rowcount['count'];
+        $pager['totalpages'] = ceil($pager['count'] / $limit);
+        $pager['current'] = $page;
+        
+        
         // Add the limit
-        $query .= " LIMIT $limit;";
+        $queryparams .= sprintf(" LIMIT %s, %s;", ($page-1)*$limit, $limit);
 
+        // Make the query to get the results..
+        $query = "SELECT * FROM $tablename" . $queryparams;
+
+        // echo "<pre>\n" . util::var_dump($query, true) . "</pre>\n";
 
         $rows = $this->db->fetchAll($query);
 
@@ -571,6 +586,11 @@ class Storage {
                 
         // Make sure all content has their taxonomies
         $content = $this->getTaxonomy($content);
+
+        // Add 'showing_from' and 'showing_to' to the pager.
+        $pager['showing_from'] = ($page-1)*$limit;
+        $pager['showing_to'] = ($page-1)*$limit + count($content);
+         
 
         return $content;
         

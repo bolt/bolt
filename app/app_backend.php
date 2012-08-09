@@ -219,9 +219,13 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
         $order = $contenttype['sort'];
     }
 
-	$multiplecontent = $app['storage']->getContent($contenttype['slug'], array('limit' => 100, 'order' => $order));
+    $pager = array();
 
-	return $app['twig']->render('overview.twig', array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent));
+	$multiplecontent = $app['storage']->getContent($contenttype['slug'], array('limit' => 10, 'order' => $order, 'page' => 2), $pager);
+
+	return $app['twig']->render('overview.twig', 
+	       array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent, 'pager' => $pager)
+	   );
 	
 })->before($checkLogin)->bind('overview');
 

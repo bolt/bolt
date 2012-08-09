@@ -1,0 +1,19 @@
+<div class="pagination">
+  <ul>
+{% if pager.current > 1 %}
+    <li><a href="#">&laquo;</a></li>
+    <li><a href="#">&lsaquo; </a></li>
+{% endif %}
+
+{% for i in 1..pager.totalpages %}
+    <li {% if i==pager.current %}class='active'{%endif%}><a href="#">{{i}}</a></li>
+{% endfor %}    
+    
+{% if pager.current > pager.totalpages %}
+    <li><a href="#">&rsaquo;</a></li>
+    <li><a href="#">&raquo; </a></li>
+{% endif %}
+  </ul>
+</div>
+
+{{ printr(pager) }}
