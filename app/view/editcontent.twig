@@ -88,7 +88,7 @@
                 
                 
         {% if fields.type == "date" %}
-        <label><b>{{ key|ucfirst}}</b></label>{{ content[key] }} - {{ "0000-01-01"|date('l, d F Y') }}
+        <label><b>{{ key|ucfirst}}</b></label>
         <input type="text" name="{{key}}-dateformatted" id="{{key}}-date" 
             value='{% if content[key] %}{{ content[key]|date('l, d F Y') }}{% endif %}'
             class='{% if fields.class is defined %}{{ fields.class }}{% endif %} datepicker'>
@@ -109,8 +109,7 @@
     
     {% endfor %}
       
-      
-      {{ printr(content) }}
+
         <hr>
         
         {% include '_sub_edittaxonomies.twig' %}    
