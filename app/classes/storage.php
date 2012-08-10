@@ -522,10 +522,6 @@ class Storage {
 
         $queryparams = "";
         
-        // Order 
-        if (!empty($parameters['order'])) {
-            $queryparams .= " ORDER BY " . safeString($parameters['order']);
-        }
         
         // Make sure 'where' is an array.. 
         if (empty($parameters['where'])) {
@@ -550,12 +546,36 @@ class Storage {
     
         }
         
+        // If we need to filter, add the WHERE for that.
+        // InnoDB doesn't support full text search. WTF is up with that shit? 
+        if (!empty($parameters['filter'])){
+            
+            $filter = safeString($parameters['filter']);
+        
+            $filter_where = array();
+            
+            foreach($contenttype['fields'] as $key => $value) {
+                if (in_array($value['type'], array('text', 'textarea', 'html'))) {
+                    $filter_where[] = sprintf("`%s` LIKE '%%%s%%'", $key, $filter);
+                }
+            }
+            
+            if (!empty($filter_where)) {
+                $where[] = "(" . implode(" OR ", $filter_where) . ")";
+            }
+            
+        }
+        
         
         // implode 'where'
         if (!empty($where)) {
             $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
         }        
         
+        // Order 
+        if (!empty($parameters['order'])) {
+            $queryparams .= " ORDER BY " . safeString($parameters['order']);
+        }
         
         // Make the query for the pager..
         $query = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
@@ -571,7 +591,7 @@ class Storage {
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        // echo "<pre>\n" . util::var_dump($query, true) . "</pre>\n";
+        
 
         $rows = $this->db->fetchAll($query);
 

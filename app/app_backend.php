@@ -49,9 +49,11 @@ $backend->get("/", function(Silex\Application $app) {
         $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");   
     }
 
+    $limit = $app['config']['general']['contentperdashboardwidget'];
+
     // get the 'latest' from each of the content types. 
     foreach ($app['config']['contenttypes'] as $key => $contenttype) { 
-        $latest[$key] = $app['storage']->getContent($key, array('limit' => 5, 'order' => 'datechanged DESC'));   
+        $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));   
     }
 
     return $app['twig']->render('dashboard.twig', array('latest' => $latest));
@@ -212,16 +214,23 @@ $backend->get("/prefill", function(Silex\Application $app) {
 $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
 	
     $contenttype = $app['storage']->getContentType($contenttypeslug);
-    
+
+    $order = $app['request']->query->get('order');
+        
     $order = 'datechanged DESC';
     
     if (!empty($contenttype['sort'])) {
         $order = $contenttype['sort'];
     }
 
-    $pager = array();
+    $page = $app['request']->query->get('page');
+    $filter = $app['request']->query->get('filter');
 
-	$multiplecontent = $app['storage']->getContent($contenttype['slug'], array('limit' => 10, 'order' => $order, 'page' => 2), $pager);
+    $limit = $app['config']['general']['contentperpage'];
+
+
+	$multiplecontent = $app['storage']->getContent($contenttype['slug'], 
+	       array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter), $pager);
 
 	return $app['twig']->render('overview.twig', 
 	       array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent, 'pager' => $pager)

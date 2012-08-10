@@ -86,10 +86,42 @@ $app['twig']->addFunction('showpager', new Twig_Function_Function('twig_showpage
  * @param array $pager
  * @return string HTML
  */
-function twig_showpager(Twig_Environment $env, $pager) {
+function twig_showpager(Twig_Environment $env, $pager, $surr=4, $class="") {
         
-    echo $env->render('_sub_pager.twig', array('pager' => $pager));
+    echo $env->render('_sub_pager.twig', array('pager' => $pager, 'surr' => $surr, 'class' => $class));
         
+}
+
+
+
+
+$app['twig']->addFunction('max', new Twig_Function_Function('twig_max'));
+
+/**
+ * return the 'max' of two values..
+ *
+ * @param mixed $a
+ * @param mixed $b
+ * @return mixed
+ */
+function twig_max($a, $b) {
+    return max($a, $b);        
+}
+
+
+
+
+$app['twig']->addFunction('min', new Twig_Function_Function('twig_min'));
+
+/**
+ * return the 'min' of two values..
+ *
+ * @param mixed $a
+ * @param mixed $b
+ * @return mixed
+ */
+function twig_min($a, $b) {
+    return min($a, $b);        
 }
 
 

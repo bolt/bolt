@@ -3,10 +3,8 @@
 <div class="row-fluid">
     <div class="span9">
 
-        <h1>Overview » {{contenttype.name }} </h1>
+        <h1>Overview » {{contenttype.name }} <span>{% if pager.totalpages > 1 %}Page: {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
     
-    {{ showpager(pager) }}
-
     <table class='dashboardlisting'>
         {% for content in multiplecontent %}
         
@@ -79,6 +77,10 @@
     </table>
     
   
+  
+    {{ showpager(pager) }}
+
+
     
     </div><!-- /span9 -->
     <aside class="span3">
@@ -95,6 +97,11 @@
     <h2>Filtering:</h2>
     
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Haec mihi videtur delicatior, ut ita dicam, molliorque ratio, quam virtutis vis gravitasque postulat. Ergo opifex plus sibi proponet ad formarum quam civis excellens ad factorum pulchritudinem? Hic Speusippus, hic Xenocrates, hic eius auditor Polemo, cuius illa ipsa sessio fuit, quam videmus. </p>
+    
+    {{ showpager(pager, 2, 'narrow') }}
+
+    
+    
     </section>
     
 {{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}

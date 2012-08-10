@@ -18,6 +18,19 @@ foreach( $config['taxonomy'] as $key => $value ) {
     }
 }
 
+// Assume some sensible defaults for some options
+$defaultconfig = array(
+    'sitename' => 'Default Pilex site',
+    'homepage' => 'page/*',
+    'homepage_template' => 'index.twig',
+    'contentperpage' => 10,
+    'contentperdashboardwidget' => 5,
+    'debug' => false,
+);
+$config['general'] = array_merge($defaultconfig, $config['general']);
+
+// echo "<pre>\n" . util::var_dump($config['general'], true) . "</pre>\n";
+
 $configdb = $config['general']['database'];
 
 if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite") ) {
