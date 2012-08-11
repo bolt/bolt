@@ -256,6 +256,10 @@ class UploadHandler
                 $file_name = $this->upcount_name($file_name);
             }
         }
+        
+        // Added for Pilex: Make sure we don't have quotes or other characters we don't want in filenames.
+        $file_name = safeString($file_name, false, "[]{}()");
+        
         return $file_name;
     }
 
@@ -352,6 +356,7 @@ class UploadHandler
     public function get() {
         $file_name = isset($_REQUEST['file']) ?
             basename(stripslashes($_REQUEST['file'])) : null;
+            
         if ($file_name) {
             $info = $this->get_file_object($file_name);
         } else {
