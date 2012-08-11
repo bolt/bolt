@@ -720,6 +720,10 @@ class Storage {
         
         $ids = util::array_pluck($content, 'id');
         
+        if (empty($ids)) {
+            return $content;
+        }
+        
         $contenttype = $content[ util::array_first_key($content) ]['contenttype']['slug'];
 
         $taxonomytypes = array_keys($this->config['taxonomy']);

@@ -65,8 +65,9 @@ function bindFileUpload(key) {
         dropZone: $('#dropzone-' + key),
         done: function (e, data) {
             $.each(data.result, function (index, file) {
-                $('#field-' + key).val(file.name);
-                $('#thumbnail-' + key).html("<img src='/thumbs/120x120c/"+encodeURI(file.name)+"' width='120' height='120'>");
+                var filename = decodeURI(file.url).replace("/files/", "");
+                $('#field-' + key).val(filename);
+                $('#thumbnail-' + key).html("<img src='/thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
                 $('#progress-' + key + ' div.bar').css('width', "100%");
                 $('#progress-' + key).removeClass('progress-striped active');
                 window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 3000);

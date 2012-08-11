@@ -86,7 +86,7 @@
     <aside class="span3">
 
     <section>
-    <h2>Actions for {{contenttype.name}} </h2>
+    <h2>Actions for {{contenttype.name}}:</h2>
         
  
 
@@ -96,8 +96,14 @@
     
     <h2>Filtering:</h2>
     
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Haec mihi videtur delicatior, ut ita dicam, molliorque ratio, quam virtutis vis gravitasque postulat. Ergo opifex plus sibi proponet ad formarum quam civis excellens ad factorum pulchritudinem? Hic Speusippus, hic Xenocrates, hic eius auditor Polemo, cuius illa ipsa sessio fuit, quam videmus. </p>
+<form class="form-search">
+  <input type="text" class="input-medium search-query" value="{{ request('filter') }}" name="filter">
+  <button type="submit" class="btn">Filter</button>
+      {% if request('filter') %}<p><a href="?">Clear filter</a></p>{% endif %}
+</form>
+
     
+
     {{ showpager(pager, 2, 'narrow') }}
 
     

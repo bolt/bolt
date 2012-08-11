@@ -128,6 +128,34 @@ function twig_min($a, $b) {
 
 
 
+$app['twig']->addFunction('request', new Twig_Function_Function('twig_request'));
+
+/**
+ * return the requested parameter from $_REQUEST, $_GET or $_POST..
+ *
+ * @param string $parameter
+ * @param string $first
+ * @return mixed
+ */
+function twig_request($parameter, $first="") {
+
+    if ($first=="get" && isset($_GET[$parameter])) {
+        return $_GET[$parameter];
+    } else if ($first=="post" && isset($_POST[$parameter])) {
+        return $_POST[$parameter];
+    } else if (isset($_REQUEST[$parameter])) {
+        return $_REQUEST[$parameter];
+    } else {
+        return false;
+    }
+
+    
+}
+
+
+
+
+
 
 
 
