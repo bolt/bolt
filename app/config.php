@@ -8,16 +8,6 @@ $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/confi
 $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
 $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
 
-// Clean up taxonomies
-foreach( $config['taxonomy'] as $key => $value ) {
-    if (!isset($config['taxonomy'][$key]['name'])) {
-        $config['taxonomy'][$key]['name'] = ucwords($config['taxonomy'][$key]['slug']);
-    }
-    if (!isset($config['taxonomy'][$key]['singular_name'])) {
-        $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
-    }
-}
-
 // Assume some sensible defaults for some options
 $defaultconfig = array(
     'sitename' => 'Default Pilex site',
@@ -28,6 +18,20 @@ $defaultconfig = array(
     'debug' => false,
 );
 $config['general'] = array_merge($defaultconfig, $config['general']);
+
+
+// Clean up taxonomies
+foreach( $config['taxonomy'] as $key => $value ) {
+    if (!isset($config['taxonomy'][$key]['name'])) {
+        $config['taxonomy'][$key]['name'] = ucwords($config['taxonomy'][$key]['slug']);
+    }
+    if (!isset($config['taxonomy'][$key]['singular_name'])) {
+        $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+    }
+}
+
+// Clean up taxonomies
+
 
 // echo "<pre>\n" . util::var_dump($config['general'], true) . "</pre>\n";
 

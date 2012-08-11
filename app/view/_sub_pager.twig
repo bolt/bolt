@@ -5,7 +5,14 @@
     {% set filter = "" %}
 {% endif %}
 
-{% set link = "?" ~ filter ~ "page=" %}
+{% if "order" in app.request.query.all|keys %}
+    {% set order = "order=" ~ app.request.query.all.order ~ "&" %}
+{% else %}
+    {% set order = "" %}
+{% endif %}
+
+
+{% set link = "?" ~ filter ~ order ~ "page=" %}
 
 {% if pager.totalpages > 1 %}
 <div class="pagination pagination-centered {{class}}">

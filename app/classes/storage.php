@@ -522,7 +522,6 @@ class Storage {
 
         $queryparams = "";
         
-        
         // Make sure 'where' is an array.. 
         if (empty($parameters['where'])) {
             $where = array();
@@ -591,6 +590,7 @@ class Storage {
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
+        //echo "<pre>" . util::var_dump($query, true) . "</pre>";
         
 
         $rows = $this->db->fetchAll($query);

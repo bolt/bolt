@@ -41,7 +41,11 @@ pages:
             type: slug
             uses: title                    
         subtitle:
+            label: Ondertitel
             type: text 
+        template:
+            type: templateselect 
+            filter: '*.twig'   
         introduction:
             type: html
             height: 150px
@@ -50,13 +54,6 @@ pages:
         body:
             type: html
             height: 300px
-        template:
-            type: templateselect    
-        datetime:
-            label: datum en tijd
-            type: datetime
-        date:
-            type: date
     taxonomy: [ chapters ]
     template: page.twig
     sort: title

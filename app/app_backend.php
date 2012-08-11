@@ -215,12 +215,12 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
 	
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-    $order = $app['request']->query->get('order');
-        
-    $order = 'datechanged DESC';
-    
-    if (!empty($contenttype['sort'])) {
+    if (!empty($_GET['order'])) {
+        $order = $_GET['order']; 
+    } else if (!empty($contenttype['sort'])) {
         $order = $contenttype['sort'];
+    } else { 
+        $order = 'datechanged DESC';
     }
 
     $page = $app['request']->query->get('page');

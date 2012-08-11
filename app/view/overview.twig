@@ -4,9 +4,27 @@
     <div class="span9">
 
         <h1>Overview » {{contenttype.name }} <span>{% if pager.totalpages > 1 %}Page: {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
-    
     <table class='dashboardlisting'>
-        {% for content in multiplecontent %}
+        {% for content in multiplecontent %}        
+        
+        {% if loop.first %}
+        {% if "filter" in app.request.query.all|keys %}
+            {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
+        {% else %}
+            {% set filter = "" %}
+        {% endif %}
+        
+        {% set link = "?" ~ filter ~ "order=" %}
+        <tr>
+            <th><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+            <th><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
+            {% if content.image is defined %}
+                <th>&nbsp;</th>
+            {% endif %}
+            <th><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
+            <th><a href='?'>Actions</a></th>
+        </tr>
+        {% endif %}
         
         <tr class="{% if content.status!='published' %}dim{% endif %}">
             <td class='id'>№ {{content.id}} </td>
@@ -93,6 +111,9 @@
     <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': '' }) }}">
         <i class="icon-plus"></i> New {{ contenttype.singular_name }}
     </a>
+    {% if request('filter') or request('order') %}
+    <a class="btn" href="?">Clear sort/filter</a>
+    {% endif %}
     
     <h2>Filtering:</h2>
     
@@ -102,11 +123,6 @@
       {% if request('filter') %}<p><a href="?">Clear filter</a></p>{% endif %}
 </form>
 
-    
-
-    {{ showpager(pager, 2, 'narrow') }}
-
-    
     
     </section>
     

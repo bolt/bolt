@@ -77,6 +77,57 @@ function twig_token() {
 
 
 
+$app['twig']->addFunction('listtemplates', new Twig_Function_Function('twig_listtemplates'));
+
+/**
+ * lists templates, optionallyfiltered by $filter
+ *
+ * @param string $filter
+ * @return string 
+ */
+function twig_listtemplates($filter="") {
+        
+    $files = array();
+
+    $foldername = realpath(__DIR__.'/../view');
+
+    $d = dir($foldername);
+    
+    $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+    
+    while (false !== ($file = $d->read())) {
+        
+        if (in_array($file, $ignored)) { continue; }
+        
+        if (is_file($foldername."/".$file) && is_readable($foldername."/".$file)) {        
+            
+            if (!empty($filter) && !fnmatch($filter, $file)) {
+                continue;   
+            }
+            
+            // Skip filenames that start with _ 
+            if ($file[0] == "_") {
+                continue;
+            }
+            
+            
+            
+            
+            $files['view/'.$file] = $file;       
+        }
+        
+        
+    }
+        
+    $d->close();    
+
+    return $files;
+    
+}
+
+
+
+
 
 $app['twig']->addFunction('showpager', new Twig_Function_Function('twig_showpager', array('needs_environment' => true)));
 

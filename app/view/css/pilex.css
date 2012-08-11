@@ -151,6 +151,14 @@ footer  {
     margin-bottom: 10px;   
 }
 
+.dashboardlisting th {
+    background-color: #EEE;
+    text-align: left;
+    font-weight: bold;
+    color: #888;
+    padding: 3px 5px;
+}
+
 .dashboardlisting tr:first-child {
     border-top: 1px solid #DDD;
 }
@@ -370,6 +378,7 @@ label span.left {
 .pagination li.disabled a {
     padding: 0 10px;
     background-color: rgba(220, 220, 220, 0.35);
+    line-height: 28px;
 }
 
 .pagination li:first-child a {
