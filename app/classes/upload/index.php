@@ -24,13 +24,14 @@ if (!isset($_SESSION['_sf2_attributes']['user']['id'])) {
     die();
 }                    
 
-
+// Make sure the folder exists.
+makeDir(__DIR__.'/../../../files/'.date('Y-m'));
 
 require('upload.class.php');
 
 $upload_handler = new UploadHandler(array(
-    'upload_dir' => dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))).'/files/',
-    'upload_url' => '/files/',
+    'upload_dir' => dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))).'/files/'.date('Y-m')."/",
+    'upload_url' => '/files/'.date('Y-m')."/",
     'accept_file_types' => '/\.(gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?)$/i'
 ));
 

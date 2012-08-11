@@ -1,5 +1,5 @@
 /*
- * jQuery File Upload Plugin 5.12
+ * jQuery File Upload Plugin 5.14
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -447,6 +447,9 @@
             if (options.type !== 'POST' && options.type !== 'PUT') {
                 options.type = 'POST';
             }
+            if (!options.formAcceptCharset) {
+                options.formAcceptCharset = options.form.attr('accept-charset');
+            }
         },
 
         _getAJAXSettings: function (data) {
@@ -530,6 +533,10 @@
                         ub + i * mcs,
                         ub + (i + 1) * mcs
                     );
+                    // Expose the chunk index:
+                    o.chunkIndex = i;
+                    // Expose the number of chunks:
+                    o.chunksNumber = n;
                     // Store the current chunk size, as the blob itself
                     // will be dereferenced after data processing:
                     o.chunkSize = o.blob.size;
