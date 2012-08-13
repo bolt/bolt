@@ -226,7 +226,12 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
     $page = $app['request']->query->get('page');
     $filter = $app['request']->query->get('filter');
 
-    $limit = $app['config']['general']['contentperpage'];
+    // Set the amount of items to show per page. 
+    if (!empty($contenttype['contentperpage'])) {
+        $limit = $contenttype['contentperpage'];
+    } else {
+        $limit = $app['config']['general']['contentperpage'];    
+    }
 
 
 	$multiplecontent = $app['storage']->getContent($contenttype['slug'], 

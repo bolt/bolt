@@ -607,9 +607,36 @@ class Storage {
         // Make sure all content has their taxonomies
         $content = $this->getTaxonomy($content);
 
+        $have_grouping = false;
+
+        // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
+        // If so, iterate over the content, and set ['grouping'] for each unit of content.
+        $taxonomy = $this->getContentTypeTaxonomy($slug);
+        foreach($taxonomy as $taxokey => $taxo) {
+            if ($taxo['behaves_like']=="grouping") {
+                $have_grouping = true;
+                foreach($content as $key => $value) {
+                    if (!empty($value['taxonomy'][$taxokey][0])) {
+                        $content[$key]['group'] = $value['taxonomy'][$taxokey][0];
+                    } else {
+                        $content[$key]['group'] = "(none)";
+                    }
+                }
+                break;
+            }
+        }
+
+        if ($have_grouping) {
+            uasort($content, function($a, $b) { 
+                if ($a['group'] == $b['group']) { return 0; }
+                return ($a['group'] < $b['group']) ? -1 : 1;
+            });
+        }
+
         // Add 'showing_from' and 'showing_to' to the pager.
         $pager['showing_from'] = ($page-1)*$limit;
         $pager['showing_to'] = ($page-1)*$limit + count($content);
+         
          
 
         return $content;
@@ -695,6 +722,12 @@ class Storage {
     }
     
     
+    /** 
+     * Get an array of the available fields for a given contenttype
+     *
+     * @param string $contenttypeslug
+     * @return array $fields
+     */   
     public function getContentTypeFields($contenttypeslug) {
         
         $contenttype = $this->getContentType($contenttypeslug);
@@ -706,6 +739,32 @@ class Storage {
         }
     
     }
+    
+    /** 
+     * Get an array of the available taxonomytypes for a given contenttype
+     *
+     * @param string $contenttypeslug
+     * @return array $taxonomy
+     */
+    public function getContentTypeTaxonomy($contenttypeslug) {
+        
+        $contenttype = $this->getContentType($contenttypeslug);
+        
+        if (empty($contenttype['taxonomy'])) {
+            return array();
+        } else {
+            $taxokeys = $contenttype['taxonomy'];
+            
+            $taxonomy = array();
+            
+            foreach ($taxokeys as $key) {
+                $taxonomy[$key] = $this->config['taxonomy'][$key];
+            }
+            
+            return $taxonomy;        
+        }
+    
+    }    
     
     /**
      * Get the taxonomy for one or more units of content, return the array with the taxonomy attached.

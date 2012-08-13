@@ -4,9 +4,19 @@
     <div class="span9">
 
         <h1>Overview » {{contenttype.name }} <span>{% if pager.totalpages > 1 %}Page: {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
+        
+        {% set lastgroup = "" %}
+        
     <table class='dashboardlisting'>
         {% for content in multiplecontent %}        
         
+        {# If we have 'grouping', print the row with the groupname.. #}
+        {% if content.group is defined and content.group != lastgroup %}
+        <tr class="grouping"><th colspan="5"><h2>{{ content.group }}</th></tr>
+        {% set lastgroup = content.group %}
+        {% endif %}
+                
+        {# print the header for the first row.. #}
         {% if loop.first %}
         {% if "filter" in app.request.query.all|keys %}
             {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}

@@ -57,6 +57,7 @@ pages:
     taxonomy: [ chapters ]
     template: page.twig
     sort: title
+    contentperpage: 100
        
 
 # possible field types:
