@@ -8,7 +8,7 @@ homepage: page/1
 homepage_template: index.twig
 
 debug: true
-contentperpage: 4
+contentperpage: 10
 
 # Date and Time formats
 shortdate: j M ’ye
