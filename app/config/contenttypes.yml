@@ -43,17 +43,23 @@ pages:
         subtitle:
             label: Ondertitel
             type: text 
-        template:
-            type: templateselect 
-            filter: '*.twig'   
+        image:
+            type: image            
+        file:
+            type: file-download
+            label: File available for download     
         introduction:
             type: html
             height: 150px
-        image:
-            type: image            
         body:
             type: html
             height: 300px
+        more:
+            type: textarea
+            height: 300px            
+        template:
+            type: templateselect 
+            filter: '*.twig'   
     taxonomy: [ chapters ]
     template: page.twig
     sort: title

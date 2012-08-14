@@ -607,30 +607,33 @@ class Storage {
         // Make sure all content has their taxonomies
         $content = $this->getTaxonomy($content);
 
-        $have_grouping = false;
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // If so, iterate over the content, and set ['grouping'] for each unit of content.
-        $taxonomy = $this->getContentTypeTaxonomy($slug);
-        foreach($taxonomy as $taxokey => $taxo) {
-            if ($taxo['behaves_like']=="grouping") {
-                $have_grouping = true;
-                foreach($content as $key => $value) {
-                    if (!empty($value['taxonomy'][$taxokey][0])) {
-                        $content[$key]['group'] = $value['taxonomy'][$taxokey][0];
-                    } else {
-                        $content[$key]['group'] = "(none)";
+        // But only if we're not sorting manually (i.e. hace a ?order=.. parameter
+        if (empty($_GET['order'])) {
+            $have_grouping = false;
+            $taxonomy = $this->getContentTypeTaxonomy($slug);
+            foreach($taxonomy as $taxokey => $taxo) {
+                if ($taxo['behaves_like']=="grouping") {
+                    $have_grouping = true;
+                    foreach($content as $key => $value) {
+                        if (!empty($value['taxonomy'][$taxokey][0])) {
+                            $content[$key]['group'] = $value['taxonomy'][$taxokey][0];
+                        } else {
+                            $content[$key]['group'] = "(none)";
+                        }
                     }
+                    break;
                 }
-                break;
             }
-        }
-
-        if ($have_grouping) {
-            uasort($content, function($a, $b) { 
-                if ($a['group'] == $b['group']) { return 0; }
-                return ($a['group'] < $b['group']) ? -1 : 1;
-            });
+    
+            if ($have_grouping) {
+                uasort($content, function($a, $b) { 
+                    if ($a['group'] == $b['group']) { return 0; }
+                    return ($a['group'] < $b['group']) ? -1 : 1;
+                });
+            }
         }
 
         // Add 'showing_from' and 'showing_to' to the pager.

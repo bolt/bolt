@@ -94,6 +94,16 @@ close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+en
 </textarea>
 {% endif %}
         
+{# --------------- textarea --------------- #}
+
+{% if field.type == "textarea" %}
+<label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+<textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
+    style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>
+    {% if content[key] is defined %}{{ content[key] }}{% endif %}
+</textarea>
+{% endif %}
+                
         
 {# --------------- date --------------- #}
                 
