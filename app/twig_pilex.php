@@ -1,21 +1,9 @@
 <?php
 
-$app['twig']->addFunction('printr', new Twig_Function_Function('twig_printr', array('is_safe' => array('html'))));
+$app['twig']->addFunction('print', new Twig_Function_Function('twig_print', array('is_safe' => array('html'))));
 
-function twig_printr($var, $skippre=false) {
-    
-    /*
-    $output = "";
-    
-    if (!$skippre) {
-        $output .= "<pre class='printr'>\n";
-    }
-    $output .= print_r($var, true);
-    if (!$skippre) {
-        $output .= "</pre>\n";
-    }
-    */
-    
+function twig_print($var) {
+        
     $output = util::var_dump($var, true);
     
     return $output;
