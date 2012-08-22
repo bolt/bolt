@@ -16,6 +16,7 @@
 
 body {
     background-image: url(/app/view/img/background.png);
+    font-size: 13px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -55,6 +56,9 @@ h1 span {
     margin-top: 0.2em;
 }
 
+.btn {
+    font-size: 13px;
+}
 
 .navbar-inner {
 	background-image: none;
@@ -81,18 +85,25 @@ h1 span {
     left: 20px;
 	color: #FFF;
 	font-size: 38px;
+	line-height: 38px;
 	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
+	padding-top: 8px
 }
 
 .navbar .brand span {
     font-size: 70%;
 }
 
+.navbar .nav > li {
+    line-height: 19px;
+}
+
 .navbar .nav > li > a {
     color: #DDD;
     font-weight: bold;
     text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25);
+    padding: 9px 10px 11px;    
 }
 
 .navbar .nav .active > a, 
@@ -124,6 +135,8 @@ footer  {
     padding: 4px 10px;
     z-index: 1000;
 }
+
+
 
 
 /**
@@ -243,8 +256,9 @@ ul.dropdown-menu li {
 }
 
 ul.dropdown-menu li a.nolink {
-    background-color: transparent !important;
-    color: #666;
+    background-color: #FFF !important;
+    background-image: none !important;
+    color: #888 !important;
     padding-top: 1px;
     padding-bottom: 1px;
 }
