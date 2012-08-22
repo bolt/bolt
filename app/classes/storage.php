@@ -231,6 +231,9 @@ class Storage {
 
         $output = "";
         
+        // get a list of images..
+        $this->images = findFiles('', 'jpg,jpeg,png');
+        
         foreach ($this->config['contenttypes'] as $key => $contenttype) {
             
             $amount = isset($contenttype['prefill']) ? $contenttype['prefill'] : 5;
@@ -265,7 +268,7 @@ class Storage {
         //todo: fix this, use a random name.
         $content['username'] = "admin";
 
-        switch(rand(1,8)) {
+        switch(rand(1,12)) {
             case 1: 
                 $content['status'] = "timed";
                 break;
@@ -290,7 +293,10 @@ class Storage {
                     break;
                     
                 case 'image':
-                    // todo: make something clever for this.
+                    // Get a random image..
+                    if (!empty($this->images)) {
+                        $content[$field] = $this->images[array_rand($this->images)];
+                    }
                     break;
                     
                 case 'html':
@@ -311,9 +317,17 @@ class Storage {
                     break; 
                     
             }
+                        
+        }
+
+        foreach($contenttype['taxonomy'] as $taxonomy) {
+
+            if (isset($this->config['taxonomy'][$taxonomy]['options'])) {
+                $options = $this->config['taxonomy'][$taxonomy]['options'];
+                $content['taxonomy'][$taxonomy] = $options[array_rand($options)];
+            }
             
-            
-            
+        
         }
 
         $this->saveContent($content);        

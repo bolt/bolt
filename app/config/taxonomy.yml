@@ -16,5 +16,5 @@ categories:
     singular_slug: category
     behaves_like: categories
     multiple: 1
-    options: [ news, events, movies, music, books ]
+    options: [ news, events, movies, music, books, life, love, fun ]
      
