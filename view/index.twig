@@ -1,100 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-		<meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-        <title></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
-        <meta name="author" content="" />
-        <link rel="shortcut icon" href="../favicon.ico"> 
-		<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="view/css/style.css" />
-		<script type="text/javascript" src="view/js/modernizr-2.5.3-min.js"></script>
-		<script src="view/js/ios-orientationchange-fix.js"></script>
-		<!--[if lte IE 8]>
-			 <link rel="stylesheet" type="text/css" href="css/simple.css" />
-		<![endif]-->
-    </head>
-    <body>
-        <div class="container">
-		
-			<header class="d-all">
-				<div id="logo" class="d1"><a href="/">{{ app.config.general.sitename }}</a>
-</div>
-				<nav>
-					<ul>
-					<li>Menu item 1</li>
-					<li>Menu item 2</li>
-					<li>Menu item 3</li>
-					<li>Menu item 4</li>
-				</ul>
-				<select>
-					<option value="" selected="selected">Select</option>
-					<option value="/">Menu item 1</option>
-					<option value="/">Menu item 2</option>
-					<option value="/">Menu item 3</option>
-					<option value="/">Menu item 4</option>
-				</select>
-				</nav>
-			</header>
-            
-            <section class="d1 main">
-	            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
-	            <p><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed haec quidem liberius ab eo dicuntur et saepius. Egone non intellego, quid sit don Graece, Latine voluptas? Cetera illa 					adhibebat, quibus demptis negat se Epicurus intellegere quid sit bonum. Et quod est munus, quod opus sapientiae? Duo Reges: constructio interrete. Quod quidem iam fit etiam in Academia.
-	            </strong></p>
+{% include '_header.twig' %}
 
-	            <p>An ea, quae per vinitorem antea consequebatur, per se ipsa curabit? Inde sermone vario sex illa a Dipylo stadia confecimus. Non laboro, inquit, de nomine. Cur ipse Pythagoras et Aegyptum 					lustravit et Persarum magos adiit? Rhetorice igitur, inquam, nos mavis quam dialectice disputare? Sed ea mala virtuti magnitudine obruebantur.</p>
 
-	            <p>Cum autem in quo sapienter dicimus, id a primo rectissime dicitur. Sed virtutem ipsam inchoavit, nihil amplius. Dolere malum est: in crucem qui agitur, beatus esse non potest. 
-	            Ne discipulum abducam, times. Hanc ergo intuens debet institutum illud quasi signum absolvere. Respondent extrema primis, media utrisque, omnia omnibus. Eam stabilem appellas. </p>
+{% set entries = content('entries', {'limit': 3, 'order': 'datecreated desc'}) %}
 
-	            <p>Amicitiam autem adhibendam esse censent, quia sit ex eo genere, quae prosunt. Quid de Pythagora? Eam si varietatem diceres, intellegerem, ut etiam non dicente te intellego; 
-	            Scio enim esse quosdam, qui quavis lingua philosophari possint; An vero, inquit, quisquam potest probare, quod perceptfum, quod. </p>
+{% for entry in entries %}
+<article>
+    {% if entry.image is defined and entry.image!="" %}
+        <div class='imageholder'><img src="{{ entry.image|thumbnail(120, 120) }}"></div>
+    {% endif %}
+    
+    <h2><a href="{{ entry|link }}">{{ entry.title }}</a></h2>
+    
+    {{ entry.teaser|raw }}
 
-	            <p>An me, inquam, nisi te audire vellem, censes haec dicturum fuisse? Quae contraria sunt his, malane? Dolor ergo, id est summum malum, metuetur semper, etiamsi non aderit; 
-	            Quae cum dixisset paulumque institisset, Quid est? Erat enim res aperta. Quid, quod res alia tota est? Non autem hoc: igitur ne illud quidem. Estne, quaeso, inquam, sitienti in bibendo voluptas? 				Quid iudicant sensus? </p>
-            </section>
-			
-			<aside class="d2 sidebar">
-				<h2>An me, inquam, nisi te audire vellem,</h2>
-				<p>censes haec dicturum fuisse? Quae contraria sunt his, malane? Dolor ergo, id est summum malum, metuetur semper, etiamsi non aderit; Quae cum dixisset paulumque institisset, 
-				Quid est? Erat enim res aperta. Quid, quod res alia tota est? Non autem hoc: igitur ne illud quidem. Estne, quaeso, inquam, sitienti in bibendo voluptas? Quid iudicant sensus? </p>
-				
-				<h2>censes haec dicturum</h2>
-				<p>An me, inquam, nisi te audire vellem, censes haec dicturum fuisse? Quae contraria sunt his, malane? Dolor ergo, id est summum malum, metuetur semper, etiamsi non aderit; 
-				Quae cum dixisset paulumque institisset, Quid est? Erat enim res aperta. Quid, quod res alia tota est? Non autem hoc: igitur ne illud quidem. Estne, quaeso, inquam, sitienti in bibendo voluptas? 				Quid iudicant sensus? </p>
-			</aside>
-			
-			<aside class="d3">
-				<nav>
-				<ul>
-					<li>Menu item 1</li>
-					<li>Menu item 2</li>
-					<li>Menu item 3</li>
-					<li>Menu item 4</li>
-				</ul>
-				<select>
-					<option value="" selected="selected">Select</option>
-					<option value="/">Menu item 1</option>
-					<option value="/">Menu item 2</option>
-					<option value="/">Menu item 3</option>
-					<option value="/">Menu item 4</option>
-				</select>
-				</nav>
+    <p class="meta"><a href="{{ entry|link }}">Link</a> - Posted by {{ entry.username }} on {{ entry.datecreated|date("M d, ’y")}}</p>
+    
+</article>    
+{% endfor %}
 
-				<div class="box">
-					<h3>Newsletter</h3>
-					<input type="email" placeholder="Your email" />
-					<input type="submit" value="Send" />
-				</div>
-			</aside>
-			
-			<footer class="d-all">
-				&nbsp;
-			</footer>
-			
-        </div>
-	</body>
-</html>
+{% include '_footer.twig' %}

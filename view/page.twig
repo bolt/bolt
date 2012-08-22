@@ -1,31 +1,19 @@
 {% include '_header.twig' %}
 
 
-<h1>{{ content.title}}</h1>
+<article>
 
-<h2>{{ content.subtitle}}</h1>
-
-
-<section class='teaser'>
-
+    <h1><a href="{{ content|link }}">{{ content.title }}</a></h1>
+    
+    <h2>{{ content.subtitle }}</h2>
+    
     {{ content.introduction|raw }}
 
-</section>
-
-<hr />
-
-<section>
-
     {{ content.body|raw }}
- 
-</section>
 
-<section class="meta">
-    <p>Author: {{ content.username }}</p>
-    <p>Created: {{ content.datecreated }}</p>
-    <p>Edited: {{ content.datechanged }}</p>
+    <p class="meta">Posted by {{ content.username }} on {{ content.datecreated|date("M d, ’y")}}</p>
     
-</section>
+</article>  
 
 
 

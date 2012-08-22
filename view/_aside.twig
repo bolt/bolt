@@ -1,35 +1,31 @@
 <aside>
+    <div>
+        {# assume there's a page with slug='about' #}
+        {% set about = content('page', {'slug': 'about'}) %}
+    
+        <h3>{{ about.title }}</h3>
+        {{ about.introduction|raw }}
+    
+        <a href="{{ about|link }}">link</a>
+        
+        <h3>Recent pages</h3>
+        {% set pages = content('pages', {'limit': 5, 'order': 'datecreated desc'}) %}
+        <ul>
+        {% for page in pages %}
+        <li><a href="{{ page|link }}">{{ page.title }}</a></li>
+        {% endfor %}
+        </ul>
+    
+    
+        <h3>Recent entries</h3>
+        {% set entries = content('entries', {'limit': 5, 'order': 'datecreated desc'}) %}
+        <ul>
+        {% for entry in entries %}
+        <li><a href="{{ entry|link }}">{{ entry.title }}</a></li>
+        {% endfor %}
+        </ul>
 
-    {# assume there's a page with slug='about' #}
-
-    {% set about = content('page', {'slug': 'about'}) %}
-
-    <h3>{{ about.title }}</h3>
-    {{ about.introduction|raw }}
-
-    <a href="{{ link(about) }}">link</a>
-    <a href="{{ about|link }}">link</a>
-
-
-    <h3>Recent pages</h3>
-    {% set pages = content('pages', {'limit': 5, 'order': 'datecreated desc'}) %}
-    <ul>
-    {% for page in pages %}
-    <li><a href="{{ page|link }}">{{ page.title }}</a></li>
-    {% endfor %}
-    </ul>
-
-
-    <h3>Recent entries</h3>
-    {% set entries = content('entries', {'limit': 5, 'order': 'datecreated desc'}) %}
-    <ul>
-    {% for entry in entries %}
-    <li><a href="{{ entry|link }}">{{ entry.title }}</a></li>
-    {% endfor %}
-    </ul>
-
-
+    </div>
 
 </aside>
 
-<div class="cleaner">&nbsp;</div>
