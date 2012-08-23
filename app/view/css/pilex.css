@@ -28,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: 30px;
     line-height: 36px;
+    margin-top: 0;
 }
 
 .navbar-fixed-top, .navbar-fixed-bottom  {    
@@ -36,6 +37,11 @@ h1 {
     background-image: url(/app/view/img/dust_scratch.png); 
     background-color: #244055;
 } 
+
+.navbar-fixed-top .container {
+    width: auto;
+    margin-right: 20px;
+}
 
 a {
     color: #194770; /* #AE311A; */
@@ -72,13 +78,8 @@ h1 span {
 	background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
 	background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
 	background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
-
     background-repeat: repeat-x;
-    border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 0px;
     min-height: 60px;
 
 }
@@ -92,7 +93,8 @@ h1 span {
 	line-height: 38px;
 	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
-	padding-top: 8px
+	margin: 0;
+	padding: 8px 0 0 0;
 }
 
 .navbar .brand span {
@@ -259,12 +261,19 @@ ul.dropdown-menu li {
     text-align: left;
 }
 
+
+
+
+ul.dropdown-menu li a {
+    font-size: 13px;
+    padding: 2px 14px;
+}
+
+
 ul.dropdown-menu li a.nolink {
     background-color: #FFF !important;
     background-image: none !important;
     color: #888 !important;
-    padding-top: 1px;
-    padding-bottom: 1px;
 }
 
 
@@ -444,18 +453,29 @@ label span.left {
 
 @media (max-width: 768px) {
 
-  .container-fluid {
-    margin-right: -12px;
-    margin-left: -12px;
-  }
-  
+    .container-fluid {
+        margin-right: -12px;
+        margin-left: -12px;
+    }
+    
+    .navbar .brand {
+        left: 8px;
+    }
+    
+    th.username, td.username {
+        display: none;
+    }
 
 }
 
 
 @media (max-width: 979px) {
     
-    ul.dropdown-menu li {
+    .navbar-inner {
+        min-height: 50px;
+    }    
+    
+    .navbar-inner ul.dropdown-menu li {
         float: left;
         padding: 0;
     }
