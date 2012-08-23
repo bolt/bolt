@@ -208,7 +208,7 @@ class Storage {
                             break;
                         
                         default: 
-                            $output[] = "Type <tt>" .  $values['type'] . "<tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename<tt>.";
+                            $output[] = "Type <tt>" .  $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
                         
                     }
                 
