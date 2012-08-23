@@ -25,6 +25,10 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 0.5em 0;
 }
 
+h1 {
+    font-size: 30px;
+    line-height: 36px;
+}
 
 .navbar-fixed-top, .navbar-fixed-bottom  {    
     position: static;
