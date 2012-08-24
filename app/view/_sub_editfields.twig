@@ -1,6 +1,8 @@
 
 {% for key, field in contenttype.fields %}
 
+ 
+
 {# --------------- text --------------- #}
 
 {% if field.type == "text" %}
@@ -9,7 +11,7 @@
     value='{{ content[key] }}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
 {% endif %}
-    
+        
     
 {# --------------- slug --------------- #}
     
@@ -127,6 +129,14 @@ close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+en
     class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>      
 {% endif %}         
 
+
+{# --------------- divider --------------- #}
+
+{% if field.type == "divider" %}
+{% if field.line is defined %}<hr>{%endif%}
+{% if field.label is defined %}<p><b>{{field.label}}</b></p>{%endif%}
+{% endif %}
+   
 
 {% endfor %}
   

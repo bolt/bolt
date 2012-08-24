@@ -19,6 +19,12 @@ entries:
         dummydate:
             type: datetime
             default: now
+        divider:
+            type: divider
+            label: "This is a divider"
+        divider2:
+            type: divider
+            line: true
         teaser:
             type: html
             height: 150px
