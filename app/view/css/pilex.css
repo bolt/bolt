@@ -31,6 +31,10 @@ h1 {
     margin-top: 0;
 }
 
+h3 {
+    margin-bottom: 0;
+}
+
 .navbar-fixed-top, .navbar-fixed-bottom  {    
     position: static;
     margin-bottom: 20px;
@@ -161,7 +165,7 @@ footer  {
     line-height: 10px;
     position: relative;
     right: 0;
-    top: 15px;
+    top: 19px;
 }
 
 .dashboardlisting {
