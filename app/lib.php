@@ -171,7 +171,7 @@ function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
     
     while (false !== ($entry = $d->read())) {
         
-        if (in_array($entry, $ignored)) { continue; }
+        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) { continue; }
         
         if (is_file($currentfolder."/".$entry) && is_readable($currentfolder."/".$entry)) {        
             
