@@ -11,7 +11,7 @@ jQuery(function($) {
 
     // For editing content.. 
     if ($('.redactor').is('*')) {
-		$('.redactor').redactor({ autoresize: false, resize: true, cleanUp: true, css: 'style_pilex.css' });
+		$('.redactor').redactor({ autoresize: false, css: 'style_pilex.css' });
 	}
 
 	// Initialize the Shadowbox shizzle.

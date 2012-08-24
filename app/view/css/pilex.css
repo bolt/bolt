@@ -340,12 +340,12 @@ label span.left {
 
 #editcontent input.datepicker {
     width: 30%;
-    min-width: 150px;   
+    min-width: 200px;   
 }
 
 #editcontent input.timepicker {
     width: 10%;
-    min-width: 75px;   
+    min-width: 80px;   
 }
 
 #editcontent input {
@@ -397,6 +397,22 @@ label span.left {
     display: none; 
     margin-bottom: 0;
 }
+
+
+
+/** Overrides for Redactor */
+.redactor_editor, .redactor_editor:focus {
+    padding: 10px !important;
+}
+
+
+.redactor_editor p {
+    margin: 0 0 10px !important;
+}
+
+
+
+/** Overrides for CodeMirror */
 
 .CodeMirror-scroll {
   min-height: 200px;
