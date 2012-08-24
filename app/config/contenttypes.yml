@@ -19,10 +19,10 @@ entries:
         dummydate:
             type: datetime
             default: now
-        divider:
+        divider2:
             type: divider
             label: "This is a divider"
-        divider2:
+        divider:
             type: divider
             line: true
         teaser:
