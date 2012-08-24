@@ -293,6 +293,7 @@ $app['twig']->addFunction('ismobileclient', new Twig_Function_Function('twig_ism
  */
 function twig_ismobileclient() {
 
+    return true;
     if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i', 
         $_SERVER['HTTP_USER_AGENT'])) {
         return true;       

@@ -355,6 +355,8 @@ label span.left {
 
 #editcontent textarea {
     height: 300px;
+    width: 96%;
+    padding-right: 0;
 }
 
 #editcontent div.image-container {
@@ -382,6 +384,7 @@ label span.left {
 #editcontent .dropzone {
     margin-top: 8px;
     height: 130px;
+    width: 97%;    
 }
 
 #editcontent .dropzone.hover, #editcontent .dropzone.in  {
@@ -401,6 +404,11 @@ label span.left {
 
 
 /** Overrides for Redactor */
+
+.redactor_box {
+    width: 97%;
+}
+
 .redactor_editor, .redactor_editor:focus {
     padding: 10px !important;
 }
@@ -418,6 +426,7 @@ label span.left {
   min-height: 200px;
   border: 1px solid #CCC;
   background-color: #FFF;
+  width: 100%;
 }
 
 .CodeMirror-gutter {
