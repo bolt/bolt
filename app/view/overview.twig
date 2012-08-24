@@ -31,7 +31,7 @@
             {% if content.image is defined %}
                 <th>&nbsp;</th>
             {% endif %}
-            <th><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
+            <th class='username'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
             <th><a href='?'>Actions</a></th>
         </tr>
         {% endif %}

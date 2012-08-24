@@ -3,6 +3,7 @@
 
 <h1>{{title}}</h1>
 
+
 <form action="#" method="post" class="form-inline" autocomplete="off">
 
 <div>
@@ -14,34 +15,36 @@
     <input type="submit" name="submit" value="Save" class="btn btn-primary" />
 </form>
 
-<link rel="stylesheet" href="/app/view/lib/codemirror/codemirror.css">
-<script src="/app/view/lib/codemirror/codemirror.js"></script>
-{% if filetype in ['twig', 'html', 'htm'] %}
-<script src="/app/view/lib/codemirror/mode/xml/xml.js"></script>
-<script src="/app/view/lib/codemirror/mode/javascript/javascript.js"></script>
-<script src="/app/view/lib/codemirror/mode/css/css.js"></script>
-<script src="/app/view/lib/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-{% elseif filetype == "yml" %}
-<script src="/app/view/lib/codemirror/mode/yaml/yaml.js"></script>
-{% elseif filetype == "md" %}
-<script src="/app/view/lib/codemirror/mode/markdown/markdown.js"></script>
-{% elseif filetype in ['css', 'less'] %}
-<script src="/app/view/lib/codemirror/mode/css/css.js"></script>
-{% elseif filetype == "js" %}
-<script src="/app/view/lib/codemirror/mode/javascript/javascript.js"></script>
+{% if not ismobileclient() %}
+    <link rel="stylesheet" href="/app/view/lib/codemirror/codemirror.css">
+    <script src="/app/view/lib/codemirror/codemirror.js"></script>
+    {% if filetype in ['twig', 'html', 'htm'] %}
+    <script src="/app/view/lib/codemirror/mode/xml/xml.js"></script>
+    <script src="/app/view/lib/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/app/view/lib/codemirror/mode/css/css.js"></script>
+    <script src="/app/view/lib/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    {% elseif filetype == "yml" %}
+    <script src="/app/view/lib/codemirror/mode/yaml/yaml.js"></script>
+    {% elseif filetype == "md" %}
+    <script src="/app/view/lib/codemirror/mode/markdown/markdown.js"></script>
+    {% elseif filetype in ['css', 'less'] %}
+    <script src="/app/view/lib/codemirror/mode/css/css.js"></script>
+    {% elseif filetype == "js" %}
+    <script src="/app/view/lib/codemirror/mode/javascript/javascript.js"></script>
+    {% endif %}
+    
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), { 
+            lineNumbers: true, 
+            autofocus: true, 
+            tabSize: 4,
+            indentUnit: 4,
+            indentWithTabs: false
+        });
+    
+        editor.setSize(null, $(window).height() - 250);
+    
+    </script>
 {% endif %}
-
-<script>
-    var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), { 
-        lineNumbers: true, 
-        autofocus: true, 
-        tabSize: 4,
-        indentUnit: 4,
-        indentWithTabs: false
-    });
-
-    editor.setSize(null, $(window).height() - 250);
-
-</script>
 
 {% include '_footer.twig' %}

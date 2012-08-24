@@ -195,9 +195,6 @@ function twig_request($parameter, $first="") {
 
 
 
-
-
-
 // Stubs for the 'trans' and 'transchoice' filters.
 $app['twig']->addFilter('trans', new Twig_Filter_Function('twig_trans'));
 $app['twig']->addFilter('transchoice', new Twig_Filter_Function('twig_trans'));
@@ -284,3 +281,26 @@ function twig_content($contenttypeslug, $params) {
     return $content; 
     
 }
+
+
+
+$app['twig']->addFunction('ismobileclient', new Twig_Function_Function('twig_ismobileclient'));
+
+/**
+ * Check if we're on an ipad, iphone or android device..
+ *
+ * @return boolean
+ */
+function twig_ismobileclient() {
+
+    return true;
+    if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i', 
+        $_SERVER['HTTP_USER_AGENT'])) {
+        return true;       
+    } else {
+        return false;        
+    }
+}
+
+
+
