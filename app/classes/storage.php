@@ -73,6 +73,12 @@ class Storage {
             
             // Check if all the fields are present in the DB..
             foreach($contenttype['fields'] as $field => $values) {
+
+                // Skip over 'divider' fields.
+                if ($values['type'] == "divider") {
+                    continue;
+                }
+            
                 if (!isset($tables[$tablename][$field])) {
                     return false;
                 }
@@ -204,6 +210,7 @@ class Storage {
                         case 'datecreated':
                         case 'datechanged':
                         case 'username':
+                        case 'divider':
                             // These are the default columns. Don't try to add these. 
                             break;
                         
