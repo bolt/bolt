@@ -192,7 +192,22 @@ function twig_request($parameter, $first="") {
 }
 
 
+$app['twig']->addFunction('ismobile', new Twig_Function_Function('twig_ismobile'));
 
+/**
+ * Check if we're on an ipad, iphone or android device..
+ *
+ * @return boolean
+ */
+function twig_ismobile() {
+
+    if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i', 
+        $_SERVER['HTTP_USER_AGENT'])) {
+        return true;       
+    } else {
+        return false;        
+    }
+}
 
 
 
