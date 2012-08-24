@@ -804,7 +804,7 @@ if ($app['debug']) {
         $route = $request->get('_route') ;
         $route_params = $request->get('_route_params') ;
         
-        
+
         $servervars = array(
             'cookies <small>($_COOKIES)</small>' => $request->cookies->all(),
             'headers' => makeValuepairs($request->headers->all(), '', '0'),
@@ -815,8 +815,7 @@ if ($app['debug']) {
             'response' => makeValuepairs($response->headers->all(), '', '0'),
             'statuscode' => $response->getStatusCode()
         );
-        
-     
+
         echo $app['twig']->render('debugbar.twig', array(
             'timetaken' => timeTaken(),
             'memtaken' => getMem(),
@@ -827,7 +826,7 @@ if ($app['debug']) {
             'servervars' => $servervars,
             'templates' => $templates,
             'route' => "/".$route,
-            'route_params' => json_encode($route_params)
+            'route_params' => $route_params
         ));
     
     

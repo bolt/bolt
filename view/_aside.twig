@@ -1,18 +1,31 @@
 <aside>
     <div>
-        {# assume there's a page with slug='about' #}
         {% set about = content('page', {'slug': 'about'}) %}
-    
-        <h3>{{ about.title }}</h3>
-        {{ about.introduction|raw }}
-    
-        <a href="{{ about|link }}">link</a>
+        {# check if there's a page with slug 'about' #}
+        {% if about.title is defined %}
+
+            <h3>{{ about.title }}</h3>
+            {{ about.introduction|raw }}
+        
+            <a href="{{ about|link }}">link</a>
+
+        {% else %}
+        
+            <h3>Alas, no about!</h3>
+            
+            <p>If there was a Page with 'about' for a slug, it would've been shown 
+                here. But there isn't one, so that's why you're seeing this 
+                placeholder.</p>
+        
+        {% endif %}
         
         <h3>Recent pages</h3>
         {% set pages = content('pages', {'limit': 5, 'order': 'datecreated desc'}) %}
         <ul>
         {% for page in pages %}
         <li><a href="{{ page|link }}">{{ page.title }}</a></li>
+        {% else %}
+        <p>No recent pages.</p>
         {% endfor %}
         </ul>
     
@@ -22,6 +35,8 @@
         <ul>
         {% for entry in entries %}
         <li><a href="{{ entry|link }}">{{ entry.title }}</a></li>
+        {% else %}
+        <p>No recent entries.</p>        
         {% endfor %}
         </ul>
 

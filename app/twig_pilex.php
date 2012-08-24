@@ -26,6 +26,19 @@ function twig_excerpt($content, $length=200) {
     
 }
 
+
+$app['twig']->addFunction('trimtext', new Twig_Function_Function('twig_trim'));
+$app['twig']->addFilter('trimtext', new Twig_Filter_Function('twig_trim'));
+
+function twig_trim($content, $length=200) {
+
+    $output = trimText(strip_tags($content), $length) ;
+    
+    return $output;
+    
+}
+
+
 $app['twig']->addFilter('ucfirst', new Twig_Filter_Function('twig_ucfirst'));
 
 function twig_ucfirst($str, $param="") {
@@ -46,6 +59,38 @@ function twig_link($content, $param="") {
     return $link;
     
 }
+
+
+
+
+$app['twig']->addFilter('current', new Twig_Filter_Function('twig_current'));
+$app['twig']->addFunction('current', new Twig_Function_Function('twig_current'));
+
+function twig_current($content, $param="") {
+    global $app;
+    
+    echo "<pre>" . util::var_dump($content['slug'], true) . "</pre>";
+    echo "<pre>" . util::var_dump($content['contenttype'], true) . "</pre>";
+  
+      $route_params = $app['request']->get('_route_params');
+    
+    
+    // if the current requested page is for the same slug or singularslug..
+    if ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
+        $route_params['contenttypeslug'] == $content['contenttype']['singular_slug']) {
+        return true;
+    }
+    
+
+    echo "<pre>" . util::var_dump($route_params, true) . "</pre>";
+    
+    
+    
+}
+
+
+
+
 
 
 
