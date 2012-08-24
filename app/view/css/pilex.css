@@ -426,7 +426,6 @@ label span.left {
   min-height: 200px;
   border: 1px solid #CCC;
   background-color: #FFF;
-  width: 100%;
 }
 
 .CodeMirror-gutter {
