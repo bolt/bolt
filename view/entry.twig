@@ -6,7 +6,7 @@ Non existing variable {{ foobar }}, with nonexisting element {{ foobar.pompidom 
 
     <h1><a href="{{ content|link }}">{{ content.title }}</a></h1>
     
-    {% if content.image is defined and content.image!="" %}
+    {% if content.image!="" %}
         <div class='imageholder-wide'><img src="{{ content.image|thumbnail(320, 240) }}"></div>
     {% endif %}
     

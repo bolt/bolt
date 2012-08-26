@@ -5,7 +5,7 @@
 
 {% for entry in entries %}
 <article>
-    {% if entry.image is defined and entry.image!="" %}
+    {% if entry.image!="" %}
         <div class='imageholder'><img src="{{ entry.image|thumbnail(120, 120) }}"></div>
     {% endif %}
     
