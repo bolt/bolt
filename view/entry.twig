@@ -1,5 +1,6 @@
 {% include '_header.twig' %}
 
+Non existing variable {{ foobar }}, with nonexisting element {{ foobar.pompidom }}
 
 <article>
 
@@ -17,7 +18,5 @@
     <p class="meta">Posted by {{ content.username }} on {{ content.datecreated|date("M d, ’y")}}</p>
     
 </article>  
-
-
 
 {% include '_footer.twig' %}

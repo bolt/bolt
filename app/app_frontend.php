@@ -4,6 +4,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * Middleware function to check whether a user is logged on.
+ */
+$checkStuff = function(Request $request) use ($app) {
+   
+    // If there are no users in the users table, or the table doesn't exist. Repair 
+    // the DB, and let's add a new user. 
+    if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+        $app['storage']->repairTables();
+        $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
+        return $app->redirect('/pilex/users/edit/');
+    }
+
+};
+
+/**
  * Homepage..
  */
 $app->get("/", function(Silex\Application $app) {
@@ -20,7 +35,7 @@ $app->get("/", function(Silex\Application $app) {
     $body = $app['twig']->render('index.twig');
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
-});
+})->before($checkStuff);
 
 
 

@@ -16,3 +16,5 @@ longdate: l j F Y
 shorttime: H:i
 longtime: H:i:s
 fulldatetime: Y-m-d H:i:s
+
+strict_variables: false

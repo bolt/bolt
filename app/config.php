@@ -16,6 +16,7 @@ $defaultconfig = array(
     'contentperpage' => 10,
     'contentperdashboardwidget' => 5,
     'debug' => false,
+    'strict_variables' => false
 );
 $config['general'] = array_merge($defaultconfig, $config['general']);
 
@@ -55,7 +56,7 @@ if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite") ) {
         'dbname'    => $configdb['databasename'],
         'user'      => $configdb['username'],
         'password'  => $configdb['password'],
-        'port'      => (isset($configdb['host']) ? $configdb['host'] : '3306'),
+        'port'      => (isset($configdb['port']) ? $configdb['port'] : '3306'),
     );
     
 }

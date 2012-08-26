@@ -26,7 +26,7 @@ $checkLogin = function(Request $request) use ($app) {
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
         $app['storage']->repairTables();
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
-        return $app->redirect('/pilex/users/edit');
+        return $app->redirect('/pilex/users/edit/');
     }
 
     $app['session']->setFlash('info', "Please log on.");
@@ -36,13 +36,13 @@ $checkLogin = function(Request $request) use ($app) {
 
 use Silex\ControllerCollection;
 
-$backend = new ControllerCollection($app['route_factory']);
+$backend = $app['controllers_factory'];
 
 
 /**
  * Dashboard or "root".
  */
-$backend->get("/", function(Silex\Application $app) {
+$backend->get("", function(Silex\Application $app) {
 
     // Check DB-tables integrity
     if (!$app['storage']->checkTablesIntegrity()) {
@@ -872,3 +872,8 @@ $app->error(function(Exception $e) use ($app) {
 
 $app->mount('/pilex', $backend);
 
+
+// Make sure /pilex works, without requiring /pilex/
+$app->get("/pilex", function(Silex\Application $app) {
+    return $app->redirect('/pilex/');
+});

@@ -69,11 +69,12 @@ $app['twig']->addFunction('current', new Twig_Function_Function('twig_current'))
 function twig_current($content, $param="") {
     global $app;
     
-    //echo "<pre>" . util::var_dump($content['slug'], true) . "</pre>";
-    //echo "<pre>" . util::var_dump($content['contenttype'], true) . "</pre>";
-  
-    $route_params = $app['request']->get('_route_params');
+    $route_params = $app['request']->get('_route_params');  
     
+    // No contenttypeslug or slug -> not 'current'
+    if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
+        return false;
+    }
     
     // if the current requested page is for the same slug or singularslug..
     if ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
@@ -85,9 +86,7 @@ function twig_current($content, $param="") {
         }
     }
     
-
-    //echo "<pre>" . util::var_dump($route_params, true) . "</pre>";
-    
+    return false;
     
     
 }
