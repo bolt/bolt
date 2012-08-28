@@ -22,7 +22,7 @@ jQuery(function($) {
         
     });
     
-    $('#pilex-debugbar li a').bind('click', function(e){
+    $('#pilex-debugbar li').not('#pd-edit').find('a').bind('click', function(e){
         e.preventDefault();
         
         var forthis = "#" + $(this).data('for');

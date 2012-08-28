@@ -826,7 +826,8 @@ if ($app['debug']) {
             'servervars' => $servervars,
             'templates' => $templates,
             'route' => "/".$route,
-            'route_params' => $route_params
+            'route_params' => $route_params, 
+            'editlink' => $app['editlink']
         ));
     
     

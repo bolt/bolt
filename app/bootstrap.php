@@ -75,6 +75,8 @@ $app['storage'] = new Storage($app);
 
 $app['users'] = new Users($app);
 
+$app['editlink'] = "";
+
 // Add the Pilex Twig functions, filters and tags.
 require_once __DIR__.'/twig_pilex.php';
 require_once __DIR__.'/app_backend.php';

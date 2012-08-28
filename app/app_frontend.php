@@ -15,6 +15,8 @@ $checkStuff = function(Request $request) use ($app) {
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
         return $app->redirect('/pilex/users/edit/');
     }
+    
+    $app['twig']->addGlobal('frontend', true);
 
 };
 
@@ -65,10 +67,13 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
         $app->abort(404, "No template for '$contenttypeslug' defined.");
     } 
    
+    $app['editlink'] = "/pilex/edit/$contenttypeslug/" . $content['id'];
 
-    $body = $app['twig']->render($contenttype['template'], array('content' => $content));
+    $body = $app['twig']->render($contenttype['template'], array(
+        'content' => $content
+    ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     
-});
+})->before($checkStuff);
 
 
