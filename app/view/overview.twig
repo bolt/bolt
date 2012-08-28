@@ -27,7 +27,15 @@
         {% set link = "?" ~ filter ~ "order=" %}
         <tr>
             <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+
+            {# output either the title or name as primary field #}
+            {% if content.title is defined %}
             <th><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
+            {% elseif content.name is defined %}
+            <th><a href='{{link}}name {% if request('order')=="name ASC" %}DESC{%else%}ASC{%endif%}'>Name / Excerpt</a></th>
+            {% else %}
+            <th>Excerpt</th>
+            {% endif %}
             {% if content.image is defined %}
                 <th>&nbsp;</th>
             {% endif %}
@@ -40,7 +48,7 @@
             <td class='id hide-phone'>№ {{content.id}} </td>
             <td class='excerpt large'><span>
                 <strong class="show-phone">№ {{content.id}}. </strong> 
-                <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}</a></strong> 
+                <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong> 
                 {{ content|excerpt(200) }} 
                 </span></td>
             {% if content.image is defined %}

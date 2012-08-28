@@ -22,7 +22,7 @@
         <tr class="{% if content.status!='published' %}dim{% endif %}">
             <td class='id hide-phone'>№ {{content.id}}</td>
                    
-            <td class='excerpt'><span><strong class="show-phone">№ {{content.id}}. </strong> <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">{{content.title}}</a></strong> {{ excerpt(content, 180) }} </span></td>
+            <td class='excerpt'><span><strong class="show-phone">№ {{content.id}}. </strong> <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong> {{ excerpt(content, 180) }} </span></td>
             {% if content.image is defined %}
             <td class='listthumb'>
                 {{content.image|shadowbox(54, 42, 'c')}}

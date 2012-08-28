@@ -3,7 +3,13 @@
     <ul>
     {% for content in latest %}
         <li>
-           № {{content.id}}. <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title|excerpt(70) }}</a> <small>({{ content.datechanged|date("Y/m/d H:i") }})</small>
+           № {{content.id}}. <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
+            {% if content.title is defined %}
+                {{content.title|excerpt(70) }}
+            {% else %}
+                {{content.name|excerpt(70) }}
+            {% endif %}
+            </a> <small>({{ content.datechanged|date("Y/m/d H:i") }})</small>
         </li>
     {% else %}
         <li><em>No latest content</em></li>
