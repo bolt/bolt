@@ -5,8 +5,8 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     die();
 }
 
-$pilex_version = "0.1";
-$pilex_name = "Preview";
+$pilex_version = "0.5";
+$pilex_name = "Almost alpha";
 
 
 
