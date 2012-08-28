@@ -20,10 +20,13 @@
     value='{{ content[key] }}'
     class='editslug'></tt>
 </label>
-    
+
+{% if field.uses is defined %}
 <script type="text/javascript"> 
-$("#title").slug({ slug:'editslug', hide: true });
+    $("#{{ field.uses }}").slug({ slug:'editslug', hide: true });
 </script>
+{% endif %}
+
 {% endif %}
 
 {# --------------- templateselect --------------- #}
@@ -73,9 +76,9 @@ $("#title").slug({ slug:'editslug', hide: true });
 bindFileUpload('{{key}}');
 
 $("#field-{{key}}").autocomplete({
-source: "/pilex/filesautocomplete",
-minLength: 2,
-close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>"); }
+    source: "/pilex/filesautocomplete",
+    minLength: 2,
+    close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>"); }
 });
 
 
@@ -84,6 +87,48 @@ close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+en
     </div>
 </div>
 {% endif %}
+
+
+
+{# --------------- image --------------- #}
+
+{% if field.type == "file" %}
+<div class="dropzone" id="dropzone-{{key}}">
+
+    <div class="image-container">
+
+        <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+
+        <input type="text" name="{{key}}" id="field-{{key}}"
+            value='{{ content[key] }}'
+            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'>
+
+<!-- The fileinput-button span is used to style the file input field as button -->
+        <span class="btn btn-info fileinput-button">
+            <i class="icon-upload"></i>
+            <span>Upload File</span>
+            <input id="fileupload-{{key}}" type="file" name="files[]" data-url="/app/classes/upload/" multiple>
+        </span>
+        <div class="progress progress-striped active" id="progress-{{key}}">
+            <div class="bar" style="width: 0%;"></div>
+        </div>
+        <div style="clear: left;" /><small>Use the button to upload a file. To select a previously uploaded file, you can <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
+        
+<script type="text/javascript">
+bindFileUpload('{{key}}');
+
+$("#field-{{key}}").autocomplete({
+    source: "/pilex/filesautocomplete?ext={{ field.extensions|join(',') }}",
+    minLength: 2
+});
+
+
+</script>
+
+    </div>
+</div>
+{% endif %}
+
 
         
 {# --------------- html --------------- #}

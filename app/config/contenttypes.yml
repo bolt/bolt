@@ -1,3 +1,20 @@
+dummy:
+    name: Dummy
+    singular_name: Dummy
+    fields:
+        name:
+            type: text
+            class: large
+            placeholder: "Enter name here.."            
+        slug:
+            type: slug
+            uses: name
+        file: 
+            type: file
+            label: "Insert a file."
+            extensions: [ zip, pdf, txt ]
+
+
 entries:
     name: Entries
     singular_name: Entry
@@ -34,6 +51,7 @@ entries:
     taxonomy: [ categories, tags ]
     template: entry.twig
     sort: datecreated DESC
+    contentperpage: 7
 
 
 pages:
@@ -51,21 +69,21 @@ pages:
             type: text 
         image:
             type: image            
-        file:
-            type: file-download
-            label: File available for download     
         introduction:
             type: html
             height: 150px
         body:
             type: html
             height: 300px
+        file:
+            type: file-download
+            label: File available for download     
         more:
             type: textarea
             height: 300px            
         template:
             type: templateselect 
-            filter: '*.twig'   
+            filter: \'*.twig\'   
     taxonomy: [ chapters ]
     template: page.twig
     sort: title
@@ -76,7 +94,9 @@ pages:
 # text - varchar(256) - input type text
 # templateselect - varchar(256) - select with template filenames
 # image - varchar(256) - image select/upload widget, stored as filename
+# file - varchar(256) - image select/upload widget, stored as filename
 # html - text (65kb) - wysiwyg element
 # textarea - varchar(32768) - < textarea >
 # datetime - datetime - date and time selector widget
 # date - datetime - date selector widget
+# divider - simple divider to enter a short text and/or line in the edit page.

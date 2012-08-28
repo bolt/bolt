@@ -9,6 +9,8 @@ jQuery(function($) {
         return confirm( $(this).data('confirm') );
     }); 
 
+
+
     // For editing content.. 
     if ($('.redactor').is('*')) {
 		$('.redactor').redactor({ autoresize: false, css: 'style_pilex.css' });

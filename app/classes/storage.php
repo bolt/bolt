@@ -185,7 +185,7 @@ class Storage {
                         case 'text':
                         case 'templateselect':
                         case 'image':
-                        case 'file-download':
+                        case 'file':
                             $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";

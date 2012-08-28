@@ -407,6 +407,10 @@ label span.left {
     margin-bottom: 0;
 }
 
+#editcontent input.editslug {
+    display: none;
+}
+
 
 
 /** Overrides for Redactor */

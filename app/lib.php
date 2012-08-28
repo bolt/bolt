@@ -77,6 +77,26 @@ function checkToken($token="") {
 
 }
 
+/**
+ * Clean posted data. Convert tabs to spaces (primarily for yaml) and
+ * stripslashes when magic quotes are turned on. 
+ *
+ * @param string $str
+ * @return string
+ */
+function cleanPostedData($str) {
+    
+    $str = str_replace("\t", "    ", $str);
+    
+    // Ah, the joys of "magic quotes"!
+    if (get_magic_quotes_gpc()) {
+        $str = stripslashes($str);
+    }
+
+    return $str;
+    
+}
+
 
 function clearCache() {
     

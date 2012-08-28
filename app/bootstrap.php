@@ -8,7 +8,7 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
 $pilex_version = "0.5";
 $pilex_name = "Almost alpha";
 
-
+error_reporting(E_ALL ^ E_NOTICE);
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/lib.php';

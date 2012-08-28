@@ -160,6 +160,18 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
 	
 	$content .= "<br><br><p><a href='/pilex/prefill'>Fill the database</a> with Loripsum.</p>";
 	
+	// If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes, 
+	// but that's because the newly saved contenttype.yml needs to be re-read.
+	if (isset($_GET['return']) && $_GET['return']=="edit") {
+    	if (empty($output)) {
+        	$content = "Your database is already up to date.";
+    	} else {
+        	$content = "Your database is now up to date.";
+    	}
+    	$app['session']->setFlash('success', $content);
+    	return $app->redirect('/pilex/file/edit/app/config/contenttypes.yml');
+	}
+	
 	return $app['twig']->render('base.twig', array(
 	   'title' => $title, 
 	   'content' => $content,
@@ -686,10 +698,11 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
         if ($form->isValid()) {
             
             $data = $form->getData();
-            $contents = str_replace("\t", "    ", $data['contents']);
-            
+            $contents = cleanPostedData($data['contents']);
+
             $ok = true;
             
+            // Before trying to save a yaml file, check if it's valid.
             if ($type == "yml") {
                 $yamlparser = new Symfony\Component\Yaml\Parser();
                 try {
@@ -702,11 +715,18 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
             
             if ($ok) {
                 if (file_put_contents($filename, $contents)) {
-                    $app['session']->setFlash('success', "File '" .$file."' has been saved."); 
+                    $app['session']->setFlash('info', "File '" .$file."' has been saved."); 
+                    // If we've saved contenttypes.yml, update the database.. 
+                    if (basename($file) == "contenttypes.yml") {
+                        return $app->redirect('/pilex/dbupdate?return=edit');
+                    }
                 } else {
                     $app['session']->setFlash('error', "File '" .$file."' could not be saved, for some reason."); 
                 }
             }
+
+            
+            
             
             return $app->redirect('/pilex/file/edit/'. $file);
             
@@ -730,8 +750,13 @@ $backend->get("/filesautocomplete", function(Silex\Application $app, Request $re
 
     $term = $request->get('term');
 
+    if (empty($_GET['ext'])) {
+        $extensions = 'jpg,jpeg,gif,png';
+    } else {
+        $extensions = $_GET['extensions'];
+    }
 
-    $files = findFiles($term, 'jpg,jpeg,gif,png');
+    $files = findFiles($term, $extensions);
     
     $app['debug'] = false;
  
