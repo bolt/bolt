@@ -16,12 +16,44 @@ $app['twig']->addFilter('excerpt', new Twig_Filter_Function('twig_excerpt'));
 
 function twig_excerpt($content, $length=200) {
 
-    if (is_array($content)) {
-        unset($content['id'], $content['slug'], $content['datecreated'], $content['datechanged'], $content['username'], $content['title'], $content['contenttype'], $content['status'], $content['taxonomy']);  
-        $content = implode(" ", $content);
-    }
-    $output = trimText(strip_tags($content), $length) ;
     
+    if (isset($content['contenttype']['fields'])) {
+        // best option: we've got the contenttype fields, so we can use that to 
+        // determine the excerpt. 
+
+        unset($content['name'], $content['title']); 
+        
+        $output = array();
+        
+        foreach ($content['contenttype']['fields'] as $key => $field) {           
+            if (in_array($field['type'], array('text', 'html', 'textarea')) && isset($content[$key])) {
+                $output[] = $content[$key];
+            }
+        }
+        
+        $output = implode(" ", $output);
+        
+    } else if (is_array($content)) {
+        // Assume it's an array, strip some common fields that we don't need, implode the rest..
+        
+        unset($content['id'], $content['slug'], $content['datecreated'], $content['datechanged'], $content['username'], $content['title'], $content['contenttype'], $content['status'], $content['taxonomy']);  
+        $output = implode(" ", $content);
+        
+    } else if (is_string($content)) {
+        // otherwise we just use the string..
+        
+        $output = $content;
+        
+    } else {
+        // Nope, got nothing.. 
+        
+        $output = "";
+        
+    }
+
+    $output = trimText(strip_tags($output), $length) ;
+
+
     return $output;
     
 }

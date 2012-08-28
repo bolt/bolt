@@ -255,6 +255,8 @@ footer  {
     display: block;
     color: #666;
     overflow: hidden;
+    word-wrap:break-word;
+    word-break:break-all;
 }
 
 .dashboardlisting td.excerpt.large span {
