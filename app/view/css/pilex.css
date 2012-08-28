@@ -481,6 +481,27 @@ label span.left {
     background-color: rgba(245, 245, 245, 0.5);
 }
 
+.show-phone {
+    display: none;
+}
+
+
+.show-tablet {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .show-phone {
+        display: inline;
+    }
+    
+    .hide-phone {
+        display: none;
+        visibility: hidden;
+    }
+
+}
+
 @media (max-width: 768px) {
 
     .container-fluid {
@@ -492,8 +513,14 @@ label span.left {
         left: 8px;
     }
     
-    th.username, td.username {
+
+    .show-tablet {
+        display: inline;
+    }
+    
+    .hide-tablet {
         display: none;
+        visibility: hidden;
     }
 
 }

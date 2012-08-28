@@ -26,27 +26,29 @@
         
         {% set link = "?" ~ filter ~ "order=" %}
         <tr>
-            <th><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+            <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
             <th><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
             {% if content.image is defined %}
                 <th>&nbsp;</th>
             {% endif %}
-            <th class='username'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
+            <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
             <th><a href='?'>Actions</a></th>
         </tr>
         {% endif %}
         
         <tr class="{% if content.status!='published' %}dim{% endif %}">
-            <td class='id'>№ {{content.id}} </td>
-            <td class='excerpt large'><span> <strong>
-                <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}</a></strong> 
-                {{ content|excerpt(200) }} <span></td>
+            <td class='id hide-phone'>№ {{content.id}} </td>
+            <td class='excerpt large'><span>
+                <strong class="show-phone">№ {{content.id}}. </strong> 
+                <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}</a></strong> 
+                {{ content|excerpt(200) }} 
+                </span></td>
             {% if content.image is defined %}
             <td class='listthumb'>
                 {{content.image|shadowbox(80, 60, 'c')}}
             </td>
             {% endif %}            
-            <td class='username'>
+            <td class='username hide-phone'>
                 <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
                 <br><i class="icon-asterisk"></i> {{ content.datecreated|date('d/m/Y') }} 
                 <br><i class="icon-refresh"></i> {{ content.datechanged|date('d/m/Y') }} 
