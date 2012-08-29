@@ -58,7 +58,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param mixed $var
      * return string
      */
-    function twig_print($var) {
+    public function twig_print($var) 
+    {
         
         $output = util::var_dump($var, true);
         
@@ -70,7 +71,8 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Create an excerpt for the given content
      */
-    function twig_excerpt($content, $length=200) {
+    public function twig_excerpt($content, $length=200)
+    {
     
         
         if (isset($content['contenttype']['fields'])) {
@@ -119,7 +121,8 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Trimtexts the given string.
      */
-    function twig_trim($content, $length=200) {
+    public function twig_trim($content, $length=200) 
+    {
     
         $output = trimText(strip_tags($content), $length) ;
         
@@ -131,7 +134,8 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * UCfirsts the given string.
      */
-    function twig_ucfirst($str, $param="") {
+    public function twig_ucfirst($str, $param="") 
+    {
         
         return ucfirst($str);
         
@@ -140,7 +144,8 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Creates a link to the given content record
      */
-    function twig_link($content, $param="") {
+    public function twig_link($content, $param="") 
+    {
         
         // TODO: use Silex' UrlGeneratorServiceProvider instead.
         $link = sprintf("/%s/%s", $content['contenttype']['singular_slug'], $content['slug']);
@@ -156,7 +161,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * If we're on page/foo, and content is that page, you can use 
      * {% is page|current %}class='active'{% endif %}
      */
-    function twig_current($content, $param="") {
+    public function twig_current($content, $param="") 
+    {
         global $app;
         
         $route_params = $app['request']->get('_route_params');  
@@ -188,7 +194,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @see getToken()
      * @return string 
      */
-    function twig_token() {
+    public function twig_token() 
+    {
             
         return getToken();
         
@@ -201,7 +208,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param string $filter
      * @return string 
      */
-    function twig_listtemplates($filter="") {
+    public function twig_listtemplates($filter="") 
+    {
             
         $files = array();
     
@@ -245,7 +253,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param array $pager
      * @return string HTML
      */
-    function twig_showpager(Twig_Environment $env, $pager, $surr=4, $class="") {
+    public function twig_showpager(Twig_Environment $env, $pager, $surr=4, $class="") 
+    {
             
         echo $env->render('_sub_pager.twig', array('pager' => $pager, 'surr' => $surr, 'class' => $class));
             
@@ -260,7 +269,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param mixed $b
      * @return mixed
      */
-    function twig_max($a, $b) {
+    public function twig_max($a, $b) 
+    {
         return max($a, $b);        
     }
     
@@ -272,7 +282,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param mixed $b
      * @return mixed
      */
-    function twig_min($a, $b) {
+    public function twig_min($a, $b) 
+    {
         return min($a, $b);        
     }
     
@@ -285,7 +296,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param string $first
      * @return mixed
      */
-    function twig_request($parameter, $first="") {
+    public function twig_request($parameter, $first="") 
+    {
     
         if ($first=="get" && isset($_GET[$parameter])) {
             return $_GET[$parameter];
@@ -304,7 +316,8 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Stub for the 'trans' and 'transchoice' filters.
      */
-    function twig_trans($str) {
+    public function twig_trans($str) 
+    {
             return $str;
     }
     
@@ -313,7 +326,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      * Helper function to make a path to an image thumbnail.
      *
      */
-    function twig_thumbnail($filename, $width=100, $height=100, $crop="") {
+    public function twig_thumbnail($filename, $width=100, $height=100, $crop="") 
+    {
         
         $thumbnail = sprintf("%s/%sx%s%s/%s", 
             "/thumbs",
@@ -334,12 +348,13 @@ class Pilex_Twig_Extension extends Twig_Extension
      *
      * example: {{ content.image|shadowbox(320, 240) }}
      */
-    function twig_shadowbox($filename="", $width=100, $height=100, $crop="") {
+    public function twig_shadowbox($filename="", $width=100, $height=100, $crop="") 
+    {
         
         if (!empty($filename)) {
     
-            $thumbnail = twig_thumbnail($filename, $width, $height, $crop);
-            $large = twig_thumbnail($filename, 1000, 1000, 'r');
+            $thumbnail = $this->twig_thumbnail($filename, $width, $height, $crop);
+            $large = $this->twig_thumbnail($filename, 1000, 1000, 'r');
         
             $shadowbox = sprintf('<a href="%s" rel="shadowbox" title="Image: %s">
                     <img src="%s" width="%s" height="%s"></a>', 
@@ -366,7 +381,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      *
      * To get 5 upcoming events: {% set events = content('events', {'order': 'date asc', 'where' => 'date < now()' }) %}
      */
-    function twig_content($contenttypeslug, $params) {
+    public function twig_content($contenttypeslug, $params) 
+    {
         global $app; /* TODO: figure out if there's a way to do this without globals.. */
     
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -397,7 +413,8 @@ class Pilex_Twig_Extension extends Twig_Extension
      *
      * @return boolean
      */
-    function twig_ismobileclient() {
+    public function twig_ismobileclient() 
+    {
     
         if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i', 
             $_SERVER['HTTP_USER_AGENT'])) {
