@@ -1,18 +1,23 @@
-dummy:
-    name: Dummy
-    singular_name: Dummy
+agenda:
+    name: Agenda
+    singular_name: Event
     fields:
-        name:
+        title:
             type: text
             class: large
-            placeholder: "Enter name here.."            
+            default: Pompidom
         slug:
             type: slug
-            uses: name
-        file: 
-            type: file
-            label: "Insert a file."
-            extensions: [ zip, pdf, txt ]
+            uses: title
+        datum:
+            type: date
+            default: today
+        body:
+            type: html
+            height: 300px
+    template: entry.twig
+    sort: datecreated DESC
+    contentperpage: 7
 
 
 entries:
@@ -28,8 +33,6 @@ entries:
             uses: title
         image:
             type: image     
-        imagetitle:
-            type: text
         releasedate:
             type: date
             default: today
