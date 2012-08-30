@@ -20,7 +20,7 @@ class Pilex_Twig_Extension extends Twig_Extension
             'current' => new Twig_Function_Method($this, 'twig_current'),
             'token' => new Twig_Function_Method($this, 'twig_token'),
             'listtemplates' => new Twig_Function_Method($this, 'twig_listtemplates'),
-            'showpager' => new Twig_Function_Method($this, 'twig_showpager', array('needs_environment' => true)),
+            'pager' => new Twig_Function_Method($this, 'twig_pager', array('needs_environment' => true)),
             'max' => new Twig_Function_Method($this, 'twig_max'),
             'min' => new Twig_Function_Method($this, 'twig_min'),
             'request' => new Twig_Function_Method($this, 'twig_request'),
@@ -253,14 +253,61 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param array $pager
      * @return string HTML
      */
-    public function twig_showpager(Twig_Environment $env, $pager, $surr=4, $class="") 
+    public function twig_pager(Twig_Environment $env, $surr=4, $class="", $pager='') 
     {
+        global $app;
             
+        if (empty($pager)) {
+            $pager = $app['pager'];
+        }
+         
         echo $env->render('_sub_pager.twig', array('pager' => $pager, 'surr' => $surr, 'class' => $class));
             
     }
     
     
+    /**
+     * Get 'content' 
+     *
+     * usage:
+     * To get 10 entries, in order: {% set entries = content('entries', {'limit': 10}) %}
+     * 
+     * To get the latest single page: {% set page = content('page', {'order':'datecreated desc'}) %}
+     *
+     * To get 5 upcoming events: {% set events = content('events', {'order': 'date asc', 'where' => 'date < now()' }) %}
+     */
+    public function twig_content($contenttypeslug, $params) 
+    {
+        global $app; /* TODO: figure out if there's a way to do this without globals.. */
+    
+        $contenttype = $app['storage']->getContentType($contenttypeslug);
+            
+        // If the contenttype doesn't exist, return an empty array
+        if (!$contenttype) {
+            $app['monolog']->addWarning("contenttype '$contenttypeslug' doesn't exist.");
+            return array();
+        }
+        
+        if ($app['request']->query->get('page') != "") {
+            $params['page'] = $app['request']->query->get('page');
+        }
+        
+        if ((makeSlug($contenttypeslug) == $contenttype['singular_slug']) || $params['limit']==1) {
+            // If we used the singular version of the contenttype, or we specifically request only one result.. 
+            $content = $app['storage']->getSingleContent($contenttypeslug, $params);
+        } else {
+            // Else, we get more than one result
+            $content = $app['storage']->getContent($contenttypeslug, $params, $pager);
+            $app['pager'] = $pager;
+        }
+        
+        
+        return $content; 
+        
+    }
+    
+    
+        
     
     /**
      * return the 'max' of two values..
@@ -370,43 +417,7 @@ class Pilex_Twig_Extension extends Twig_Extension
         
     }
     
-    
-    /**
-     * Get 'content' 
-     *
-     * usage:
-     * To get 10 entries, in order: {% set entries = content('entries', {'limit': 10}) %}
-     * 
-     * To get the latest single page: {% set page = content('page', {'order':'datecreated desc'}) %}
-     *
-     * To get 5 upcoming events: {% set events = content('events', {'order': 'date asc', 'where' => 'date < now()' }) %}
-     */
-    public function twig_content($contenttypeslug, $params) 
-    {
-        global $app; /* TODO: figure out if there's a way to do this without globals.. */
-    
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
-            
-        // If the contenttype doesn't exist, return an empty array
-        if (!$contenttype) {
-            $app['monolog']->addWarning("contenttype '$contenttypeslug' doesn't exist.");
-            return array();
-        }
-        
-        if ((makeSlug($contenttypeslug) == $contenttype['singular_slug']) || $params['limit']==1) {
-            // If we used the singular version of the contenttype, or we specifically request only one result.. 
-            $content = $app['storage']->getSingleContent($contenttypeslug, $params);
-        } else {
-            // Else, we get more than one result
-            $content = $app['storage']->getContent($contenttypeslug, $params);
-        }
-        
-        return $content; 
-        
-    }
-    
-    
-    
+
     
     /**
      * Check if we're on an ipad, iphone or android device..
