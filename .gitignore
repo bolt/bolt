@@ -5,4 +5,5 @@ app/config/config.yml
 debug.log
 app/cache/*
 files/*
-
+.DS_Store
+._.DS_Store
