@@ -11,7 +11,7 @@
     box-shadow:  -1px 1px 2px 1px rgba(0, 0, 0, 0.3);
     border: 1px solid #CCC;
     display: none;    
-    z-index: 1000;    
+    z-index: 950;    
 }
 
 
@@ -22,7 +22,8 @@
     background: transparent url('/app/view/img/debug-nipple.png') no-repeat right bottom;
     width: 60px;
     height: 60px;
-    z-index: 1001;    
+    z-index: 951;   
+    cursor: pointer; 
 }
 
 #pilex-debugbar ul {
@@ -88,7 +89,7 @@
     max-height: 300px;
     width: 640px;
     box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-    z-index: 999;    
+    z-index: 949;    
     overflow-y: auto;
     display: none;
     padding: 4px 6px;
