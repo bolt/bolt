@@ -28,6 +28,8 @@
             <h1><a href="/">{{ app.config.general.sitename }}</a></h1>
 
             <nav id="main">
+            {{ menu() }}
+            
             {% set pages = content('pages', {'limit': 4, 'order': 'datecreated desc', 'taxonomy/chapter': 'main'}) %}
             
             {% for page in pages %}

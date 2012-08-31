@@ -26,7 +26,7 @@ class Pilex_Twig_Extension extends Twig_Extension
             'request' => new Twig_Function_Method($this, 'twig_request'),
             'content' => new Twig_Function_Method($this, 'twig_content'),
             'ismobileclient' => new Twig_Function_Method($this, 'twig_ismobileclient'),
-            
+            'menu' => new Twig_Function_Method($this, 'menu', array('needs_environment' => true)),           
         );
     }    
   
@@ -437,6 +437,42 @@ class Pilex_Twig_Extension extends Twig_Extension
     
     
     
+    /**
+     * Output a menu..
+     *
+     */
+    public function menu(Twig_Environment $env, $identifier = "") 
+    {
+        global $app;
+        
+        $menus = $app['config']['menu'];
+        
+        if (!empty($identifier) && isset($menus[$identifier]) ) {
+            $menu = $menus[$identifier];
+        } else {
+            $menu = util::array_first($menus);
+        }
+        
+        // if the item is like 'content/1', get that content.
+        foreach ($menu as $key=>$item) {
+            if (isset($item['content'])) {
+                
+                $content = $app['storage']->getSingleContent($item['content']);
+                // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
+                $menu[$key]['label'] = !empty($content['title']) ? $content['title'] : $content['name'];
+                $menu[$key]['title'] = !empty($content['subtitle']) ? $content['subtitle'] : "";
+            }
+        }
+        
+        //echo "<pre>\n" . util::var_dump($menu, true) . "</pre>\n";
+        
+        echo $env->render('_sub_menu.twig', array('menu' => $menu));
+                    
+
+
+    }
+    
+        
     
 }
 

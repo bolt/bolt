@@ -7,6 +7,9 @@ $yamlparser = new Symfony\Component\Yaml\Parser();
 $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/config.yml'));
 $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
 $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
+$config['menu'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/menu.yml'));
+
+// echo "<pre>\n" . util::var_dump($config['menu'], true) . "</pre>\n";
 
 // Assume some sensible defaults for some options
 $defaultconfig = array(

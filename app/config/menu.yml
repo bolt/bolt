@@ -1,0 +1,11 @@
+Main:
+  - label: Menu item 1
+    title: This is the first menu item. Fo shizzle!
+    link: http://pilex.net
+    class: first
+  - content: entry/1
+  - label: Menu item 3
+    link: http://google.nl
+  - label: Last menu item
+    link: http://google.nl    
+    class: last

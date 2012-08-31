@@ -531,34 +531,37 @@ class Storage {
 
     }
     
-    public function getContent($contenttypeslug, $parameters, &$pager = array()) {
-               
+    public function getContent($contenttypeslug, $parameters="", &$pager = array()) {
+
+        //echo "<pre>\n" . util::var_dump($contenttypeslug, true) . "</pre>\n";
+
+        //echo "<pre>\n" . util::var_dump($parameters, true) . "</pre>\n";
+
+        // Some special cases, like 'page/1' need to be caught before further processing.
+        if (preg_match_all('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
+            // like 'page/12'
+            // echo "<pre>\n" . util::var_dump($match, true) . "</pre>\n";
+            $contenttypeslug = $match[1][0];
+            $parameters['id'] = $match[2][0];
+        }
+        
+        
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 10;
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
         $offset = ($page - 1) * $limit;
         
-        $slug = makeSlug($contenttypeslug);
         $contenttype = $this->getContentType($contenttypeslug);
         
-        $tablename = $this->prefix . $slug;
+        $tablename = $this->prefix . $contenttype['slug'];
 
         $queryparams = "";
-        
-        // Make sure 'where' is an array.. 
-        if (empty($parameters['where'])) {
-            $where = array();
-        } else if (!is_array($parameters['where'])) {
-            $where = array($parameters['where']);
-        } else {
-            $where = $parameters['where'];
-        }
-        
+               
         // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
         foreach($parameters as $key => $value) {
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
                 continue; // Skip this one..
             }
-            if (!in_array($key, $this->getContentTypeFields($slug))) {
+            if (!in_array($key, $this->getContentTypeFields($contenttype['slug']))) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
             
@@ -612,7 +615,7 @@ class Storage {
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        //echo "<pre>" . util::var_dump($query, true) . "</pre>";
+        // echo "<pre>" . util::var_dump($query, true) . "</pre>";
         
 
         $rows = $this->db->fetchAll($query);
@@ -679,27 +682,10 @@ class Storage {
      * $content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => "id = '$slug'"));
      *
      */
-    public function getSingleContent($contenttype, $parameters=array()) {
+    public function getSingleContent($contenttypeslug, $parameters=array()) {
                 
-        // Special case: if $contenttype has a slash, like 'entry/1', we'll assume we need to get entry #1. 
-        if (strpos($contenttype, "/")>0) {
-            list ($contenttype, $id) = explode("/", $contenttype);
+        $result = $this->getContent($contenttypeslug, $parameters);
 
-            if (is_numeric($id)) {
-               $parameters = array('where' => "id = ".$id);
-            } else {
-               $parameters = array('where' => "slug = ".makeSlug($id));
-            }
-        }
-        
-        $contenttype = $this->getContentType($contenttype);
-        
-        // Make sure limit is 1
-        $parameters['limit'] = 1;
-        
-        $result = $this->getContent($contenttype['slug'], $parameters);
-    
-        
         if (util::array_first_key($result)) {
             return util::array_first($result);
         } else {
@@ -712,14 +698,13 @@ class Storage {
     
     public function getContentType($contenttypeslug) {
     
-    
         $contenttypeslug = makeSlug($contenttypeslug);
 
         // Return false if empty, can't find it..
         if (empty($contenttypeslug)) {
             return false;
         }  
-        
+
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
         if (isset($this->config['contenttypes'][$contenttypeslug])) {
             $contenttype = $this->config['contenttypes'][$contenttypeslug];

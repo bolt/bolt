@@ -34,6 +34,8 @@ $app->get("/", function(Silex\Application $app) {
         $content = false;
     }
 
+
+
     $body = $app['twig']->render('index.twig');
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 

@@ -1,0 +1,13 @@
+
+<ul>
+{% for item in menu %}
+
+    <li><a href="{{ item.link }}" {% if item.title %}title='{{ item.title}}'{% endif %}>{{item.label}}</a></li>
+
+
+
+{% endfor %}
+</ul>
+
+
+{# { print(menu) } #}
