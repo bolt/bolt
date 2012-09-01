@@ -4,6 +4,7 @@ Main:
     link: http://pilex.net
     class: first
   - content: entry/1
+    label: Second item
   - label: Menu item 3
     link: http://google.nl
   - label: Last menu item

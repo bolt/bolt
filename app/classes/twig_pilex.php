@@ -13,19 +13,19 @@ class Pilex_Twig_Extension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'print' => new Twig_Function_Method($this, 'twig_print', array('is_safe' => array('html'))),
-            'excerpt' => new Twig_Function_Method($this, 'twig_excerpt'),
-            'trimtext' => new Twig_Function_Method($this, 'twig_trim'),
-            'link' => new Twig_Function_Method($this, 'twig_link'),
-            'current' => new Twig_Function_Method($this, 'twig_current'),
-            'token' => new Twig_Function_Method($this, 'twig_token'),
-            'listtemplates' => new Twig_Function_Method($this, 'twig_listtemplates'),
-            'pager' => new Twig_Function_Method($this, 'twig_pager', array('needs_environment' => true)),
-            'max' => new Twig_Function_Method($this, 'twig_max'),
-            'min' => new Twig_Function_Method($this, 'twig_min'),
-            'request' => new Twig_Function_Method($this, 'twig_request'),
-            'content' => new Twig_Function_Method($this, 'twig_content'),
-            'ismobileclient' => new Twig_Function_Method($this, 'twig_ismobileclient'),
+            'print' => new Twig_Function_Method($this, 'print_dump', array('is_safe' => array('html'))),
+            'excerpt' => new Twig_Function_Method($this, 'excerpt'),
+            'trimtext' => new Twig_Function_Method($this, 'trim'),
+            'link' => new Twig_Function_Method($this, 'link'),
+            'current' => new Twig_Function_Method($this, 'current'),
+            'token' => new Twig_Function_Method($this, 'token'),
+            'listtemplates' => new Twig_Function_Method($this, 'listtemplates'),
+            'pager' => new Twig_Function_Method($this, 'pager', array('needs_environment' => true)),
+            'max' => new Twig_Function_Method($this, 'max'),
+            'min' => new Twig_Function_Method($this, 'min'),
+            'request' => new Twig_Function_Method($this, 'request'),
+            'content' => new Twig_Function_Method($this, 'content'),
+            'ismobileclient' => new Twig_Function_Method($this, 'ismobileclient'),
             'menu' => new Twig_Function_Method($this, 'menu', array('needs_environment' => true)),           
         );
     }    
@@ -35,15 +35,15 @@ class Pilex_Twig_Extension extends Twig_Extension
     {
         return array(
             'rot13' => new Twig_Filter_Method($this, 'rot13Filter'),
-            'trimtext' => new Twig_Filter_Method($this, 'twig_trim'),
-            'ucfirst' => new Twig_Filter_Method($this, 'twig_ucfirst'),
-            'excerpt' => new Twig_Filter_Method($this, 'twig_excerpt'),
-            'link' => new Twig_Filter_Method($this, 'twig_link'),
-            'current' => new Twig_Filter_Method($this, 'twig_current'),
-            'trans' => new Twig_Filter_Method($this, 'twig_trans'),
-            'transchoice' => new Twig_Filter_Method($this, 'twig_trans'),
-            'thumbnail' => new Twig_Filter_Method($this, 'twig_thumbnail'),
-            'shadowbox' => new Twig_Filter_Method($this, 'twig_shadowbox', array('is_safe' => array('html'))),
+            'trimtext' => new Twig_Filter_Method($this, 'trim'),
+            'ucfirst' => new Twig_Filter_Method($this, 'ucfirst'),
+            'excerpt' => new Twig_Filter_Method($this, 'excerpt'),
+            'link' => new Twig_Filter_Method($this, 'link'),
+            'current' => new Twig_Filter_Method($this, 'current'),
+            'trans' => new Twig_Filter_Method($this, 'trans'),
+            'transchoice' => new Twig_Filter_Method($this, 'trans'),
+            'thumbnail' => new Twig_Filter_Method($this, 'thumbnail'),
+            'shadowbox' => new Twig_Filter_Method($this, 'shadowbox', array('is_safe' => array('html'))),
 
         );
     }
@@ -58,7 +58,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param mixed $var
      * return string
      */
-    public function twig_print($var) 
+    public function print_dump($var) 
     {
         
         $output = util::var_dump($var, true);
@@ -71,7 +71,7 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Create an excerpt for the given content
      */
-    public function twig_excerpt($content, $length=200)
+    public function excerpt($content, $length=200)
     {
     
         
@@ -121,7 +121,7 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Trimtexts the given string.
      */
-    public function twig_trim($content, $length=200) 
+    public function trim($content, $length=200) 
     {
     
         $output = trimText(strip_tags($content), $length) ;
@@ -134,7 +134,7 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * UCfirsts the given string.
      */
-    public function twig_ucfirst($str, $param="") 
+    public function ucfirst($str, $param="") 
     {
         
         return ucfirst($str);
@@ -144,7 +144,7 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Creates a link to the given content record
      */
-    public function twig_link($content, $param="") 
+    public function link($content, $param="") 
     {
         
         // TODO: use Silex' UrlGeneratorServiceProvider instead.
@@ -161,7 +161,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * If we're on page/foo, and content is that page, you can use 
      * {% is page|current %}class='active'{% endif %}
      */
-    public function twig_current($content, $param="") 
+    public function current($content, $param="") 
     {
         global $app;
         
@@ -194,7 +194,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @see getToken()
      * @return string 
      */
-    public function twig_token() 
+    public function token() 
     {
             
         return getToken();
@@ -208,7 +208,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param string $filter
      * @return string 
      */
-    public function twig_listtemplates($filter="") 
+    public function listtemplates($filter="") 
     {
             
         $files = array();
@@ -253,7 +253,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param array $pager
      * @return string HTML
      */
-    public function twig_pager(Twig_Environment $env, $surr=4, $class="", $pager='') 
+    public function pager(Twig_Environment $env, $surr=4, $class="", $pager='') 
     {
         global $app;
             
@@ -276,7 +276,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      *
      * To get 5 upcoming events: {% set events = content('events', {'order': 'date asc', 'where' => 'date < now()' }) %}
      */
-    public function twig_content($contenttypeslug, $params) 
+    public function content($contenttypeslug, $params) 
     {
         global $app; /* TODO: figure out if there's a way to do this without globals.. */
     
@@ -316,7 +316,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param mixed $b
      * @return mixed
      */
-    public function twig_max($a, $b) 
+    public function max($a, $b) 
     {
         return max($a, $b);        
     }
@@ -329,7 +329,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param mixed $b
      * @return mixed
      */
-    public function twig_min($a, $b) 
+    public function min($a, $b) 
     {
         return min($a, $b);        
     }
@@ -343,7 +343,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param string $first
      * @return mixed
      */
-    public function twig_request($parameter, $first="") 
+    public function request($parameter, $first="") 
     {
     
         if ($first=="get" && isset($_GET[$parameter])) {
@@ -363,7 +363,7 @@ class Pilex_Twig_Extension extends Twig_Extension
     /**
      * Stub for the 'trans' and 'transchoice' filters.
      */
-    public function twig_trans($str) 
+    public function trans($str) 
     {
             return $str;
     }
@@ -373,7 +373,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      * Helper function to make a path to an image thumbnail.
      *
      */
-    public function twig_thumbnail($filename, $width=100, $height=100, $crop="") 
+    public function thumbnail($filename, $width=100, $height=100, $crop="") 
     {
         
         $thumbnail = sprintf("%s/%sx%s%s/%s", 
@@ -395,13 +395,13 @@ class Pilex_Twig_Extension extends Twig_Extension
      *
      * example: {{ content.image|shadowbox(320, 240) }}
      */
-    public function twig_shadowbox($filename="", $width=100, $height=100, $crop="") 
+    public function shadowbox($filename="", $width=100, $height=100, $crop="") 
     {
         
         if (!empty($filename)) {
     
-            $thumbnail = $this->twig_thumbnail($filename, $width, $height, $crop);
-            $large = $this->twig_thumbnail($filename, 1000, 1000, 'r');
+            $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
+            $large = $this->thumbnail($filename, 1000, 1000, 'r');
         
             $shadowbox = sprintf('<a href="%s" rel="shadowbox" title="Image: %s">
                     <img src="%s" width="%s" height="%s"></a>', 
@@ -424,7 +424,7 @@ class Pilex_Twig_Extension extends Twig_Extension
      *
      * @return boolean
      */
-    public function twig_ismobileclient() 
+    public function ismobileclient() 
     {
     
         if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i', 
