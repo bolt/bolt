@@ -16,7 +16,6 @@ class Pilex_Twig_Extension extends Twig_Extension
             'print' => new Twig_Function_Method($this, 'print_dump', array('is_safe' => array('html'))),
             'excerpt' => new Twig_Function_Method($this, 'excerpt'),
             'trimtext' => new Twig_Function_Method($this, 'trim'),
-            'link' => new Twig_Function_Method($this, 'link'),
             'current' => new Twig_Function_Method($this, 'current'),
             'token' => new Twig_Function_Method($this, 'token'),
             'listtemplates' => new Twig_Function_Method($this, 'listtemplates'),
@@ -38,7 +37,6 @@ class Pilex_Twig_Extension extends Twig_Extension
             'trimtext' => new Twig_Filter_Method($this, 'trim'),
             'ucfirst' => new Twig_Filter_Method($this, 'ucfirst'),
             'excerpt' => new Twig_Filter_Method($this, 'excerpt'),
-            'link' => new Twig_Filter_Method($this, 'link'),
             'current' => new Twig_Filter_Method($this, 'current'),
             'trans' => new Twig_Filter_Method($this, 'trans'),
             'transchoice' => new Twig_Filter_Method($this, 'trans'),
@@ -74,23 +72,9 @@ class Pilex_Twig_Extension extends Twig_Extension
     public function excerpt($content, $length=200)
     {
     
-        
-        if (isset($content['contenttype']['fields'])) {
-            // best option: we've got the contenttype fields, so we can use that to 
-            // determine the excerpt. 
-    
-            unset($content['name'], $content['title']); 
-            
-            $output = array();
-            
-            foreach ($content['contenttype']['fields'] as $key => $field) {           
-                if (in_array($field['type'], array('text', 'html', 'textarea')) && isset($content[$key])) {
-                    $output[] = $content[$key];
-                }
-            }
-            
-            $output = implode(" ", $output);
-            
+        // If it's an contenct object, let the object handle it.
+        if (is_object($content)) {
+            return $content->excerpt($length);    
         } else if (is_array($content)) {
             // Assume it's an array, strip some common fields that we don't need, implode the rest..
             
@@ -138,19 +122,6 @@ class Pilex_Twig_Extension extends Twig_Extension
     {
         
         return ucfirst($str);
-        
-    }
-    
-    /**
-     * Creates a link to the given content record
-     */
-    public function link($content, $param="") 
-    {
-        
-        // TODO: use Silex' UrlGeneratorServiceProvider instead.
-        $link = sprintf("/%s/%s", $content['contenttype']['singular_slug'], $content['slug']);
-        
-        return $link;
         
     }
 
@@ -495,12 +466,12 @@ class Pilex_Twig_Extension extends Twig_Extension
             $content = $app['storage']->getSingleContent($item['content']);
             
             if (empty($item['label'])) {
-                $item['label'] = !empty($content['title']) ? $content['title'] : $content['name'];                
+                $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];                
             }
             if (empty($item['title'])) {
-                $item['title'] = !empty($content['subtitle']) ? $content['subtitle'] : "";
+                $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
             }
-            $item['link'] = "/" . $content['contenttype']['singular_slug']."/".$content['slug'];
+            $item['link'] = "/" . $content->contenttype['singular_slug']."/".$content->values['slug'];
         }
         
         return $item;

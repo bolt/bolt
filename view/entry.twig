@@ -1,8 +1,9 @@
 {% include '_header.twig' %}
 
+
 <article>
 
-    <h1><a href="{{ content|link }}">{{ content.title }}</a></h1>
+    <h1><a href="{{ content.link }}">{{ content.title }}</a></h1>
     
     {% if content.image!="" %}
         <div class='imageholder-wide'><img src="{{ content.image|thumbnail(320, 240) }}"></div>

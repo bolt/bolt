@@ -612,21 +612,23 @@ class Storage {
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         // echo "<pre>" . util::var_dump($query, true) . "</pre>";
-        
-
+    
         $rows = $this->db->fetchAll($query);
 
         $content = array();
 
         // Make sure content is set, and all content has information about its contenttype
         foreach($rows as $key => $value) {
-            $content[ $value['id'] ] = $value;
-            $content[ $value['id'] ]['contenttype'] = $contenttype;
-            $content[ $value['id'] ]['taxonomy'] = array();
+        //    $content[ $value['id'] ] = $value;
+        //    $content[ $value['id'] ]['contenttype'] = $contenttype;
+        //    $content[ $value['id'] ]['taxonomy'] = array();
+            $content[ $value['id'] ] = new Content($value, $contenttype); 
         }
+        
+        
                 
         // Make sure all content has their taxonomies
-        $content = $this->getTaxonomy($content);
+        $this->getTaxonomy($content);
 
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
@@ -634,34 +636,29 @@ class Storage {
         // But only if we're not sorting manually (i.e. hace a ?order=.. parameter
         if (empty($_GET['order'])) {
             $have_grouping = false;
-            $taxonomy = $this->getContentTypeTaxonomy($slug);
+            $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
             foreach($taxonomy as $taxokey => $taxo) {
                 if ($taxo['behaves_like']=="grouping") {
                     $have_grouping = true;
-                    foreach($content as $key => $value) {
-                        if (!empty($value['taxonomy'][$taxokey][0])) {
-                            $content[$key]['group'] = $value['taxonomy'][$taxokey][0];
-                        } else {
-                            $content[$key]['group'] = "(none)";
-                        }
-                    }
                     break;
                 }
             }
     
             if ($have_grouping) {
                 uasort($content, function($a, $b) { 
-                    if ($a['group'] == $b['group']) { return 0; }
-                    return ($a['group'] < $b['group']) ? -1 : 1;
+                    if ($a->group == $b->group) { return 0; }
+                    return ($a->group < $b->group) ? -1 : 1;
                 });
             }
         }
-
+        
+        
         // Add 'showing_from' and 'showing_to' to the pager.
         $pager['showing_from'] = ($page-1)*$limit;
         $pager['showing_to'] = ($page-1)*$limit + count($content);
          
-         
+        //echo "<pre>" . util::var_dump($content, true) . "</pre>";
+        
 
         return $content;
         
@@ -680,10 +677,10 @@ class Storage {
      */
     public function getSingleContent($contenttypeslug, $parameters=array()) {
                 
-        $result = $this->getContent($contenttypeslug, $parameters);
+        $content = $this->getContent($contenttypeslug, $parameters);
 
-        if (util::array_first_key($result)) {
-            return util::array_first($result);
+        if (util::array_first_key($content)) {            
+            return util::array_first($content);
         } else {
             return false;
         }
@@ -772,6 +769,8 @@ class Storage {
     
     }    
     
+
+    
     /**
      * Get the taxonomy for one or more units of content, return the array with the taxonomy attached.
      *
@@ -788,9 +787,11 @@ class Storage {
         if (empty($ids)) {
             return $content;
         }
-        
-        $contenttype = $content[ util::array_first_key($content) ]['contenttype']['slug'];
-
+              
+        // Get the contenttype from first $content
+        $contenttype = $content[ util::array_first_key($content) ]->contenttype['slug'];
+       
+       
         $taxonomytypes = array_keys($this->config['taxonomy']);
 
         $query = sprintf("SELECT * FROM $tablename WHERE content_id IN (%s) AND contenttype=%s AND taxonomytype IN ('%s')", 
@@ -801,11 +802,10 @@ class Storage {
         $rows = $this->db->fetchAll($query);
 
         foreach($rows as $key => $row) {
-            $content[ $row['content_id'] ]['taxonomy'][ $row['taxonomytype'] ][] = $row['slug'];
+            $content[ $row['content_id'] ]->setTaxonomy($row['taxonomytype'], $row['slug']);
         }
         
 
-        return $content;
         
     }
 

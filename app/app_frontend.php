@@ -70,7 +70,9 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
         $app->abort(404, "No template for '$contenttypeslug' defined.");
     } 
    
-    $app['editlink'] = "/pilex/edit/$contenttypeslug/" . $content['id'];
+    $app['editlink'] = "/pilex/edit/$contenttypeslug/" . $content->id;
+
+
 
     $body = $app['twig']->render($contenttype['template'], array(
         'content' => $content
