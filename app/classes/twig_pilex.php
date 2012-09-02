@@ -166,6 +166,11 @@ class Pilex_Twig_Extension extends Twig_Extension
         global $app;
         
         $route_params = $app['request']->get('_route_params');  
+
+        // check against $_SERVER['REQUEST_URI']
+        if( $_SERVER['REQUEST_URI'] == $content['link'] ) {
+            return true;
+        }
         
         // No contenttypeslug or slug -> not 'current'
         if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
@@ -175,7 +180,7 @@ class Pilex_Twig_Extension extends Twig_Extension
         // check against simple content.link
         if( "/".$route_params['contenttypeslug']."/".$route_params['slug'] == $content['link'] ) {
             return true;
-        }
+        }              
         
         // if the current requested page is for the same slug or singularslug..
         if ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
