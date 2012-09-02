@@ -42,28 +42,7 @@ header h1 {
     float: left;
 }
 
-nav#main ul {
-    list-style: none;
-    float: right;   
-}
 
-nav#main ul li {
-    float: left;
-    margin-right: 1em;
-}
-
-nav#main a {
-    text-decoration: none;
-}
-
-nav#main a:hover {
-    text-decoration: underline;
-}
-
-nav#main a.current {
-    background-color: #BBF;
-    padding: 4px;
-}
 
 
 ul li, ol, li {
@@ -87,7 +66,7 @@ div.content {
 
 aside {
    .column(3);
-} 
+}  
 
 aside div {
    border-left: 1px solid #CCC;
@@ -132,6 +111,98 @@ div.imageholder-wide {
     height: 240px;
     padding: 2px;
     width: 320px;
+}
+
+/*
+nav#main ul {
+    list-style: none;
+    float: right;   
+}
+
+nav#main ul li {
+    float: left;
+    margin-right: 1em;
+}
+
+nav#main a {
+    text-decoration: none;
+}
+
+nav#main a:hover {
+    text-decoration: underline;
+}
+
+
+*/
+
+
+/**
+ * Styles for the simple drop-down menu. 
+ */
+nav.main ul 	{
+	padding:0px; 
+	margin:0px; 
+	list-style-type:none; 
+	height:30px;
+	float: right;
+}
+
+nav.main ul li 	{
+	float:left; 
+	height:30px;
+}
+
+nav.main ul li a 	{
+	padding:9px 20px; 
+	display:block; 
+	text-decoration:none;
+}
+
+nav.main ul li:hover a {
+	text-decoration:underline;
+	background-color: #EEE;
+}
+
+nav.main ul ul	{
+	position:absolute; 
+	left:-9999px; 
+	top:-9999px; 
+	list-style-type:none;
+}
+
+nav.main ul li:hover	{
+	position:relative;
+}
+
+nav.main ul li:hover ul 	{
+	left:-3px; 
+	top:36px;  
+	padding:3px; 
+	width:160px;
+}
+
+nav.main ul li:hover ul li 	{
+	height:40px; 
+	border:none;
+}
+
+nav.main ul li:hover ul li a 	{
+	height:22px; 
+	display:block; 
+	width:158px; 
+	line-height:22px; 
+	text-decoration: none;
+}
+
+nav.main ul li:hover ul li:hover a 	{
+	text-decoration: underline;
+	background-color: #DDD;
+}
+
+ 
+nav.main ul li a.current, 
+nav.main ul li:hover a.current {
+    background-color: #BBF;
 }
 
 

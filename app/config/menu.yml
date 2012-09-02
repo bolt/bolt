@@ -5,6 +5,13 @@ Main:
     class: first
   - content: entry/1
     label: Second item
+    submenu:
+      - label: Sub 1
+        content: entry/2
+      - label: Sub 2
+        content: entry/3
+      - label: Sub 3
+        content: entry/4
   - label: Menu item 3
     link: http://google.nl
   - label: Last menu item

@@ -27,19 +27,9 @@
         <header>
             <h1><a href="/">{{ app.config.general.sitename }}</a></h1>
 
-            <nav id="main">
             {{ menu() }}
             
-            {% set pages = content('pages', {'limit': 4, 'order': 'datecreated desc', 'taxonomy/chapter': 'main'}) %}
-            
-            {% for page in pages %}
-                {% if loop.first %}<ul>{% endif %}
-                <li><a href="{{ page|link }}" {% if page|current %}class="current"{% endif %}>{{ page.title|trimtext(12) }}</a></li>  		      
-                {% if loop.last %}</ul>{% endif %}
-            {% else %}
-                <em>No main navigation items. Add some Pages, and set the 'Chapter' to 'Main'.</em>
-            {% endfor %}
-            </nav>
+
             
         </header>
 

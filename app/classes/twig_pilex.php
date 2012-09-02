@@ -172,6 +172,11 @@ class Pilex_Twig_Extension extends Twig_Extension
             return false;
         }
         
+        // check against simple content.link
+        if( "/".$route_params['contenttypeslug']."/".$route_params['slug'] == $content['link'] ) {
+            return true;
+        }
+        
         // if the current requested page is for the same slug or singularslug..
         if ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
             $route_params['contenttypeslug'] == $content['contenttype']['singular_slug']) {
@@ -448,30 +453,54 @@ class Pilex_Twig_Extension extends Twig_Extension
         $menus = $app['config']['menu'];
         
         if (!empty($identifier) && isset($menus[$identifier]) ) {
+            $name = strtolower($identifier);
             $menu = $menus[$identifier];
         } else {
+            $name = strtolower(util::array_first_key($menus));
             $menu = util::array_first($menus);
         }
         
-        // if the item is like 'content/1', get that content.
+        
         foreach ($menu as $key=>$item) {
-            if (isset($item['content'])) {
-                
-                $content = $app['storage']->getSingleContent($item['content']);
-                // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
-                $menu[$key]['label'] = !empty($content['title']) ? $content['title'] : $content['name'];
-                $menu[$key]['title'] = !empty($content['subtitle']) ? $content['subtitle'] : "";
-            }
+            $menu[$key] = $this->menu_helper($item);
+            if (isset($item['submenu'])) {
+                foreach ($item['submenu'] as $subkey=>$subitem) {
+                   $menu[$key]['submenu'][$subkey] = $this->menu_helper($subitem); 
+               }
+            }          
+            
         }
         
-        //echo "<pre>\n" . util::var_dump($menu, true) . "</pre>\n";
+        // echo "<pre>\n" . util::var_dump($menu, true) . "</pre>\n";
         
-        echo $env->render('_sub_menu.twig', array('menu' => $menu));
+        echo $env->render('_sub_menu.twig', array('name' => $name, 'menu' => $menu));
                     
 
 
     }
     
+    
+    private function menu_helper($item) 
+    {
+        global $app;
+    
+        // if the item is like 'content/1', get that content.        
+        if (isset($item['content'])) {
+            
+            $content = $app['storage']->getSingleContent($item['content']);
+            // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
+            if (empty($item['label'])) {
+                $item['label'] = !empty($content['title']) ? $content['title'] : $content['name'];                
+            }
+            if (empty($item['title'])) {
+                $item['title'] = !empty($content['subtitle']) ? $content['subtitle'] : "";
+            }
+            $item['link'] = "/" . $content['contenttype']['singular_slug']."/".$content['slug'];
+        }
+        
+        return $item;
+        
+    }
         
     
 }
