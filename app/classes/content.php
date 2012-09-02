@@ -79,7 +79,22 @@ class Content {
     public function __call($name, $arguments)
     {
         if (isset($this->values[$name])) {
+
+            // This is too invasive. for now, only add editable when needed
+            /*
+            $fieldtype = $this->contenttype['fields'][$name]['type'];
+            
+            if (in_array($fieldtype, array('html', 'text', 'textarea'))) {
+                $output = sprintf("<div class='pilex-editable'>%s</div>", $this->values[$name]);
+            } else {
+                $output = $this->values[$name];
+            }
+            
+            return $output;
+            */
+            
             return $this->values[$name];
+
         } else {
             return false;
         }

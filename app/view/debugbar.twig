@@ -7,7 +7,7 @@
     <li id='pd-pilex'><strong>Pilex {{pilex_version}}</strong><small>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</small></li>
     <li id='pd-variables'><a href="#" data-for="pilex-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
     {% if frontend and editlink %} 
-    <li id='pd-edit'><a href="{{editlink}}">Edit</a></li>
+    <li id='pd-edit'><a href="#" data-for="pilex-editpanel">Edit</a></li>
     {% endif %}
     
     <li id='pd-log'>Log<span class='narrow'>file</span></li>
@@ -21,6 +21,11 @@
         {% endif %}</li>
     <li id='pd-server'><a href="#" data-for="pilex-serverpanel"><span class='narrow'>pilex.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
 </ul>  
+</div>
+
+<div id='pilex-editpanel' class='pilex-debugpanel'> 
+<p>Click one of the highlighted fields, or <a href="{{editlink}}">Edit in the Pilex backend</a>.
+
 </div>
 
 
@@ -56,7 +61,9 @@
 </pre>
 </div>
 
-
+<div id='editbar'>
+    <a href='#' id='editsave'>Save</a> | <a href='#' id='editcancel'>Cancel</a>
+</div>
 
 
 <script type="text/javascript">!window.jQuery && document.write('<script src="/app/view/js/jquery-1.8.0.min.js"><\/script>')</script>

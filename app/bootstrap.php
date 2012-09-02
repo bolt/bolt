@@ -38,7 +38,11 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],
-    'twig.options' => array('debug'=>true, 'cache' => __DIR__.'/cache/', 'strict_variables' => $config['general']['strict_variables'] ),
+    'twig.options' => array(
+        'debug'=>true, 
+        'cache' => __DIR__.'/cache/', 
+        'strict_variables' => $config['general']['strict_variables'],
+        'autoescape' => false )
 ));
 
 

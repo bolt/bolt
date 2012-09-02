@@ -121,6 +121,36 @@
 }
 
 
+.pilex-editable { 
+    display: inline-block;
+    xborder: 0;
+    margin: 0;
+    padding: 0;
+} 
+
+.pilex-editable.active { 
+    border: 1px dashed #F99;
+} 
+
+.pilex-editable.active:hover { 
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+} 
+
+
+#editbar {
+    background-color: #F2F2F2;
+    border: 1px solid #ccc;    
+    position: absolute;
+    left: 10px;
+    top: 10px;  
+    width: 180px;
+    box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+    z-index: 960;    
+    display: none;
+    padding: 4px 6px;
+}
+
 
 @media all and (max-width: 800px) {
 
@@ -156,12 +186,6 @@
         display: inline;
     }
     
-/*    #pilex-debugbar ul li {
-        background-position-x: 2px !important;
-        padding: 7px 4px 7px 20px;
-
-    }
-*/
     .pilex-debugpanel {
         width: 300px;
     }    

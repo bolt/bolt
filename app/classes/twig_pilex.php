@@ -42,6 +42,7 @@ class Pilex_Twig_Extension extends Twig_Extension
             'transchoice' => new Twig_Filter_Method($this, 'trans'),
             'thumbnail' => new Twig_Filter_Method($this, 'thumbnail'),
             'shadowbox' => new Twig_Filter_Method($this, 'shadowbox', array('is_safe' => array('html'))),
+            'editable' => new Twig_Filter_Method($this, 'editable', array('is_safe' => array('html'))),
 
         );
     }
@@ -398,6 +399,28 @@ class Pilex_Twig_Extension extends Twig_Extension
         
     }
     
+
+    
+
+    public function editable($html, $content, $field) 
+    {
+        
+        $contenttype = $content->contenttype['slug'];
+        $id = $content->id;
+        
+        $output = sprintf("<div class='pilex-editable' data-id='%s' data-contenttype='%s' data-field='%s'>%s</div>", 
+            $content->id,
+            $contenttype,
+            $field,
+            $html
+            );
+        
+        return $output;
+        
+        
+    }
+    
+
 
     
     /**

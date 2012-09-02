@@ -22,7 +22,7 @@ jQuery(function($) {
         
     });
     
-    $('#pilex-debugbar li').not('#pd-edit').find('a').bind('click', function(e){
+    $('#pilex-debugbar li').find('a').bind('click', function(e){
         e.preventDefault();
         
         var forthis = "#" + $(this).data('for');
@@ -35,6 +35,12 @@ jQuery(function($) {
             $(forthis).fadeIn();
         }
         
+        // special case: editors..
+        if ($(this).data('for') == "pilex-editpanel") {
+            setEditable();
+        }
+
+        
     });
     
 
@@ -44,4 +50,46 @@ jQuery(function($) {
         $('#pilex-footer').hide();
     }
 
+    $('#editsave').bind('click', function(e) {
+        e.preventDefault();
+        
+        console.log('save');
+        
+        console.log($('.currentedit').html() );
+        
+    });
+
+    $('#editcancel').bind('click', function(e) {
+        e.preventDefault();
+        
+        console.log('cancel');
+        
+        $('#editbar').hide();
+        
+    });
+
 });
+
+
+function setEditable(elem) {
+    $('.pilex-editable').addClass('active');
+            
+    $('.pilex-editable').bind('click', function(e) {
+        e.preventDefault();
+        
+        $('.pilex-editable').unbind('click');
+        $('.pilex-editable').removeClass('active');
+        $('.currentedit').removeClass('currentedit');
+        
+        $(this).addClass('currentedit').attr('contentEditable', '').focus();
+        
+        $('.pilex-debugpanel').fadeOut();
+        
+        var offset = $(this).offset();
+        
+        console.log( offset.left, offset.top );
+        
+        $('#editbar').show().css('left', offset.left - 3).css('top', offset.top - 30);
+        
+    });
+}
