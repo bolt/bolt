@@ -533,14 +533,9 @@ class Storage {
     
     public function getContent($contenttypeslug, $parameters="", &$pager = array()) {
 
-        //echo "<pre>\n" . util::var_dump($contenttypeslug, true) . "</pre>\n";
-
-        //echo "<pre>\n" . util::var_dump($parameters, true) . "</pre>\n";
-
         // Some special cases, like 'page/1' need to be caught before further processing.
         if (preg_match_all('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/12'
-            // echo "<pre>\n" . util::var_dump($match, true) . "</pre>\n";
             $contenttypeslug = $match[1][0];
             $parameters['id'] = $match[2][0];
         }
@@ -561,7 +556,8 @@ class Storage {
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
                 continue; // Skip this one..
             }
-            if (!in_array($key, $this->getContentTypeFields($contenttype['slug']))) {
+            if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) && 
+                !in_array($key, array("id", "slug", "datecreated", "datechanged", "username", "status")) ) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
             

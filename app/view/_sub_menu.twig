@@ -5,14 +5,14 @@
     
         <li>
             <a href="{{ item.link }}" {% if item.title %}title='{{ item.title}}'{% endif %}
-            {% if item|current %}class='current'{% endif %}>{{item.label}}</a>
+            class='{% if item|current %}current{% endif %} {{item.class}}'>{{item.label}}</a>
 
         {% if item.submenu is defined %}
         <ul>
             {% for item in item.submenu %}
             <li>
                 <a href="{{ item.link }}" {% if item.title %}title='{{ item.title}}'{% endif %}
-                {% if item|current %}class='current'{% endif %}>{{item.label}}</a>
+                class='{% if item|current %}current{% endif %} {{item.class}}'>{{item.label}}</a>
             </li>            
             {% endfor %}
         </ul>

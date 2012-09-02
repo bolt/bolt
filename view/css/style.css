@@ -198,6 +198,9 @@ nav.main ul li a.current,
 nav.main ul li:hover a.current {
   background-color: #BBF;
 }
+nav.main .first {
+  background-color: #FFC;
+}
 @media screen and (max-width: 770px) {
   nav#main {
     display: inline;

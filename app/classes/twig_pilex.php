@@ -488,7 +488,7 @@ class Pilex_Twig_Extension extends Twig_Extension
         if (isset($item['content'])) {
             
             $content = $app['storage']->getSingleContent($item['content']);
-            // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
+            
             if (empty($item['label'])) {
                 $item['label'] = !empty($content['title']) ? $content['title'] : $content['name'];                
             }

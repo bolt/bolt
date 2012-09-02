@@ -53,12 +53,13 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
     if (!$contenttype) {
         $app->abort(404, "Page $contenttypeslug/$slug not found.");
     }
-    
-    $content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => "slug = '$slug'"));
 
+    // First, try to get it by slug.    
+    $content = $app['storage']->getSingleContent($contenttype['slug'], array('slug' => $slug));
+    
     if (!$content && is_numeric($slug)) {
         // try getting it by ID
-        $content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => "id = '$slug'"));
+        $content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $slug));
     }
     
     if (!$content) {
