@@ -25,7 +25,8 @@ class Pilex_Twig_Extension extends Twig_Extension
             'request' => new Twig_Function_Method($this, 'request'),
             'content' => new Twig_Function_Method($this, 'content'),
             'ismobileclient' => new Twig_Function_Method($this, 'ismobileclient'),
-            'menu' => new Twig_Function_Method($this, 'menu', array('needs_environment' => true)),           
+            'menu' => new Twig_Function_Method($this, 'menu', array('needs_environment' => true)),  
+            'randomquote' => new Twig_Function_Method($this, 'randomquote'),  
         );
     }    
   
@@ -501,6 +502,44 @@ class Pilex_Twig_Extension extends Twig_Extension
         
     }
         
+        
+    public function randomquote() 
+    {
+        $quotes = array(
+            "Complexity is your enemy. Any fool can make something complicated. It is hard to make something simple.#Richard Branson",
+            "It takes a lot of effort to make things look effortless.#Mark Pilgrim",
+            "Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.#Antoine de Saint-Exupéry",
+            "Everything should be made as simple as possible, but not simpler.#Albert Einstein",
+            "Three Rules of Work: Out of clutter find simplicity; From discord find harmony; In the middle of difficulty lies opportunity.#Albert Einstein",
+            "There is no greatness where there is not simplicity, goodness, and truth.#Leo Tolstoy",
+            "Think simple as my old master used to say - meaning reduce the whole of its parts into the simplest terms, getting back to first principles.#Frank Lloyd Wright",
+            "Simplicity is indeed often the sign of truth and a criterion of beauty.#Mahlon Hoagland",
+            "Simplicity and repose are the qualities that measure the true value of any work of art.#Frank Lloyd Wright",
+            "Nothing is true, but that which is simple.#Johann Wolfgang von Goethe",
+            "There is a simplicity that exists on the far side of complexity, and there is a communication of sentiment and attitude not to be discovered by careful exegesis of a text.#Patrick Buchanan",
+            "The simplest things are often the truest.#Richard Bach",
+            "If you can't explain it to a six year old, you don't understand it yourself.#Albert Einstein",
+            "One day I will find the right words, and they will be simple.#Jack Kerouac",
+            "Simplicity is the ultimate sophistication.#Leonardo da Vinci",
+            "Our life is frittered away by detail. Simplify, simplify.#Henry David Thoreau",
+            "The simplest explanation is always the most likely.#Agatha Christie",
+            "Truth is ever to be found in the simplicity, and not in the multiplicity and confusion of things.#Isaac Newton",
+            "Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.#Edsger Wybe Dijkstra",
+            "Focus and simplicity. Simple can be harder than complex: You have to work hard to get your thinking clean to make it simple. But it's worth it in the end because once you get there, you can move mountains.#Steve Jobs",
+            "The ability to simplify means to eliminate the unnecessary so that the necessary may speak.#Hans Hofmann",
+            "I've learned to keep things simple. Look at your choices, pick the best one, then go to work with all your heart.#Pat Riley",
+            "A little simplification would be the first step toward rational living, I think.#Eleanor Roosevelt",
+            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus"
+        );
+        
+        $randomquote = explode("#", $quotes[array_rand($quotes, 1)]);
+        
+        $quote = sprintf("“%s”\n<cite>— %s</cite>", $randomquote[0], $randomquote[1]);
+            
+        return $quote;        
+
+        
+    }
     
 }
 

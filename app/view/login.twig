@@ -3,17 +3,29 @@
 
 <h1>Login</h1>
 
-<form class="well" method="post">
-  <label>Username</label>
-  <input type="text" name="username" placeholder="Your username…" {% if username is defined %}value="{{username}}"{%endif%}>
-  <label>Password</label>
-  <input type="password" name="password" placeholder="Your password…">
+<div class="row-fluid">
+    <div class="span6">
+        <form class="well" method="post">
+          <label>Username</label>
+          <input type="text" name="username" placeholder="Your username…" {% if username is defined %}value="{{username}}"{%endif%}>
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Your password…">
+        
+          <label class="checkbox">
+            <input type="checkbox"> Keep me logged on.
+          </label>
+          <button type="submit" class="btn">Log on</button>
+        </form>
+    </div>
 
-  <label class="checkbox">
-    <input type="checkbox"> Keep me logged on.
-  </label>
-  <button type="submit" class="btn">Log on</button>
-</form>
+    <div class="span6">
 
+        <blockquote class='quote'>
+            {{ randomquote() }}
+        </blockquote>
+        
+    </div>
+    
+</div>
 
 {% include '_footer.twig' %}
