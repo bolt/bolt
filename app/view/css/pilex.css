@@ -485,6 +485,33 @@ label span.left {
     background-color: rgba(245, 245, 245, 0.5);
 }
 
+/**
+ * Fancy, simple blockquotes
+ */
+blockquote.quote {
+    border: 0;
+    margin: 15px 30px;
+    font-size: 28px;
+    line-height: 36px;
+    font-style: italic;
+    font-family: "Times New Roman", Georgia;
+    color: #999;
+}
+
+blockquote.quote cite {
+    display: block;
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 18px;
+    font-style: normal;
+    font-family: "Helvetica Neue",​Helvetica,​Arial,​sans-serif;
+    color: #888;
+}
+
+
+/**
+ * Hide / show on phones or tablets..
+ */
 .show-phone {
     display: none;
 }

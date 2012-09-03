@@ -52,7 +52,7 @@ jQuery(function($) {
 
 
     // Bind the 'save' button in the floating edit bar. 
-    $('#editsave').bind('click', function(e) {
+    $('a#btn-save').bind('click', function(e) {
         e.preventDefault();
         
         console.log('save');
@@ -84,16 +84,61 @@ jQuery(function($) {
         
     });
 
-    $('#editcancel').bind('click', function(e) {
+    // Bind the 'cancel' button in the floating edit bar. 
+    $('a#btn-cancel').bind('click', function(e) {
         e.preventDefault();
         
-        console.log('cancel');
-        
         $('#editbar').hide();
-        
-        $('.currentedit').html( $('.currentedit').data('old') );
-        $('.currentedit').attr('contentEditable', false);
+        $('.currentedit').html( $('.currentedit').data('old') ).attr('contentEditable', false);
+
     });
+    
+    // Bind the 'edit in backend' button in the floating edit bar. 
+    $('a#btn-editbackend').bind('click', function(e) {
+        e.preventDefault();
+        
+        var link = "/pilex/edit/" + $('.currentedit').data('contenttype') + "/" + $('.currentedit').data('id');
+
+        document.location = link;
+
+    });   
+    
+    // Bind the 'bold' button in the floating edit bar. 
+    $('a#btn-bold').bind('click', function(e) {
+        e.preventDefault();
+        
+        document.execCommand('bold', false, null);
+        
+        $('.currentedit').focus();
+        
+    });   
+    
+    // Bind the 'italic' button in the floating edit bar. 
+    $('a#btn-italic').bind('click', function(e) {
+        e.preventDefault();
+        
+        document.execCommand('italic', false, null);
+        
+        $('.currentedit').focus();
+
+    });       
+
+    
+    // Bind the 'italic' button in the floating edit bar. 
+    $('a#btn-link').bind('click', function(e) {
+        e.preventDefault();
+        
+        var link = prompt("Link to:", "http://");
+        document.execCommand("CreateLink", false, link);
+        
+        $('.currentedit').focus();
+        
+    });       
+    
+    
+    // document.execCommand("CreateLink", false, "http://stackoverflow.com/");
+
+
 
 });
 
@@ -123,4 +168,35 @@ function setEditable(elem) {
         
         
     });
+}
+
+
+function saveSelection() {
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            var ranges = [];
+            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                ranges.push(sel.getRangeAt(i));
+            }
+            return ranges;
+        }
+    } else if (document.selection && document.selection.createRange) {
+        return document.selection.createRange();
+    }
+    return null;
+}
+
+function restoreSelection(savedSel) {
+    if (savedSel) {
+        if (window.getSelection) {
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            for (var i = 0, len = savedSel.length; i < len; ++i) {
+                sel.addRange(savedSel[i]);
+            }
+        } else if (document.selection && savedSel.select) {
+            savedSel.select();
+        }
+    }
 }

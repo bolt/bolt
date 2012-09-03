@@ -64,14 +64,14 @@
 {% if frontend %}
 <div class="redactor_air" id='editbar'>
     <ul class="redactor_toolbar">
-        <li><a class="btn_text" style="width: 40px;" title="Save" href="javascript:void(null);">Save</a></li>
+        <li><a id='btn-save' class="btn_text" style="width: 40px;" title="Save" href="javascript:void(null);">Save</a></li>
         <li class="redactor_separator"></li>
-        <li><a class="redactor_btn_bold" title="Bold" href="javascript:void(null);"></a></li>
-        <li><a class="redactor_btn_italic" title="Italic" href="javascript:void(null);"></a></li>
-        <li><a class="redactor_btn_link" title="Link" href="javascript:void(null);"></a></li>
+        <li><a id='btn-bold' class="redactor_btn_bold" title="Bold" href="javascript:void(null);"></a></li>
+        <li><a id='btn-italic' class="redactor_btn_italic" title="Italic" href="javascript:void(null);"></a></li>
+        <li><a id='btn-link' class="redactor_btn_link" title="Link" href="javascript:void(null);"></a></li>
         <li class="redactor_separator"></li>
-        <li><a class="btn_text" style="width: 44px;" title="Cancel" href="javascript:void(null);">Cancel</a></li>
-        <li><a class="btn_text" style="width: 90px;" title="Edit in backend" href="javascript:void(null);">Edit in backend</a></li>
+        <li><a id='btn-cancel' class="btn_text" style="width: 44px;" title="Cancel" href="javascript:void(null);">Cancel</a></li>
+        <li><a id='btn-editbackend' class="btn_text" style="width: 90px;" title="Edit in backend" href="javascript:void(null);">Edit in backend</a></li>
     </ul>
 </div>
 {% endif %}
