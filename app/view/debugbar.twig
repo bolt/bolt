@@ -6,7 +6,7 @@
 <ul>
     <li id='pd-pilex'><strong>Pilex {{pilex_version}}</strong><small>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</small></li>
     <li id='pd-variables'><a href="#" data-for="pilex-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
-    {% if frontend and editlink %} 
+    {% if frontend %} {# todo: Add something with 'and editlink' #}
     <li id='pd-edit'><a href="#" data-for="pilex-editpanel">Edit</a></li>
     {% endif %}
     
@@ -61,11 +61,24 @@
 </pre>
 </div>
 
-<div id='editbar'>
-    <a href='#' id='editsave'>Save</a> | <a href='#' id='editcancel'>Cancel</a>
+{% if frontend %}
+<div class="redactor_air" id='editbar'>
+    <ul class="redactor_toolbar">
+        <li><a class="btn_text" style="width: 40px;" title="Save" href="javascript:void(null);">Save</a></li>
+        <li class="redactor_separator"></li>
+        <li><a class="redactor_btn_bold" title="Bold" href="javascript:void(null);"></a></li>
+        <li><a class="redactor_btn_italic" title="Italic" href="javascript:void(null);"></a></li>
+        <li><a class="redactor_btn_link" title="Link" href="javascript:void(null);"></a></li>
+        <li class="redactor_separator"></li>
+        <li><a class="btn_text" style="width: 44px;" title="Cancel" href="javascript:void(null);">Cancel</a></li>
+        <li><a class="btn_text" style="width: 90px;" title="Edit in backend" href="javascript:void(null);">Edit in backend</a></li>
+    </ul>
 </div>
+{% endif %}
 
-
+{% if frontend %}
 <script type="text/javascript">!window.jQuery && document.write('<script src="/app/view/js/jquery-1.8.0.min.js"><\/script>')</script>
+<link rel='stylesheet' href='/app/view/lib/redactor/redactor.css' />
+{% endif %}
 <script src="/app/view/js/debugbar.js"></script>
 <link rel='stylesheet' href='/app/view/css/debugbar.css' />

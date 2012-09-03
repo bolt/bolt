@@ -22,6 +22,7 @@ jQuery(function($) {
         
     });
     
+    
     $('#pilex-debugbar li').find('a').bind('click', function(e){
         e.preventDefault();
         
@@ -40,7 +41,6 @@ jQuery(function($) {
             setEditable();
         }
 
-        
     });
     
 
@@ -50,6 +50,8 @@ jQuery(function($) {
         $('#pilex-footer').hide();
     }
 
+
+    // Bind the 'save' button in the floating edit bar. 
     $('#editsave').bind('click', function(e) {
         e.preventDefault();
         
@@ -102,10 +104,9 @@ function setEditable(elem) {
     $('.pilex-editable').bind('click', function(e) {
         e.preventDefault();
         
-        $('.pilex-editable').unbind('click');
-        $('.pilex-editable').removeClass('active');
-        $('.currentedit').removeClass('currentedit');
-        
+        $('.pilex-editable').unbind('click').removeClass('active');
+        $('.currentedit').removeClass('currentedit').attr('contentEditable', false);
+                
         $(this).addClass('currentedit').attr('contentEditable', '').focus();
         
         // hide Debugbar panels.
@@ -113,7 +114,7 @@ function setEditable(elem) {
         
         // Set the fly-over menu to the correct position..
         var offset = $(this).offset();
-        $('#editbar').show().css('left', offset.left - 3).css('top', offset.top - 30);
+        $('#editbar').show().css('left', offset.left - 3).css('top', offset.top - 34);
         
         // Set the old values into data-old
         $(this).data('old', $(this).html() );
