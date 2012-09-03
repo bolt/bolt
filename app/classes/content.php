@@ -98,7 +98,22 @@ class Content {
         } else {
             return false;
         }
+    }   
+    
+    /**
+     * magic __call function, used for when templates use {{ content.title }}, 
+     * so we can map it to $this->values['title']
+     */
+    public function get($name)
+    {
+        if (isset($this->values[$name])) {   
+            return $this->values[$name];
+
+        } else {
+            return false;
+        }
     }    
+         
     
     /**
      * Creates a link to the content record

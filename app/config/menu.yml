@@ -12,8 +12,10 @@ Main:
         content: entry/3
       - label: Sub 3
         content: entry/4
+      - class: sub-class
+        content: page/3        
   - label: Menu item 3
-    link: http://google.nl
+    content: page/4
   - label: Last menu item
     link: http://google.nl    
     class: last

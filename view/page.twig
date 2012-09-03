@@ -5,15 +5,17 @@
     <h1><a href="{{ content.link }}">{{ content.title }}</a></h1>
     
     <h2>{{ content.subtitle }}</h2>
-    
-    {{ content.introduction|raw }}
 
-    {{ content.body|raw }}
+    <section class='introduction'>{{ content.introduction|raw }}</section>
+
+    <section class='body'>{{ content.body|raw }}</section>
+    
 
     <p class="meta">Posted by {{ content.username }} on {{ content.datecreated|date("M d, ’y")}}</p>
     
 </article>  
 
+{{ print(content) }}
 
 
 {% include '_footer.twig' %}

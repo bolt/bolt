@@ -411,7 +411,7 @@ class Storage {
         if (empty($content['id'])) {
             return $this->insertContent($content, $contenttype, $allowedcolumns);
         } else {
-            return $this->updateContent($content, $contenttype, $allowedcolumns);
+            return $this->updateContent($content, $contenttype);
         }
         
     }
@@ -433,7 +433,7 @@ class Storage {
         
         $content = array('id' => $id, $column => $value); 
         
-        return $this->updateContent($content, $contenttype, $allowedcolumns);
+        return $this->updateContent($content, $contenttype);
         
     }
     
@@ -480,7 +480,7 @@ class Storage {
     }
     
     
-    protected function updateContent($content, $contenttype, $allowedcolumns) {
+    private function updateContent($content, $contenttype) {
 
         $tablename = $this->prefix . $contenttype;
         
@@ -497,6 +497,37 @@ class Storage {
         
     }
         
+        
+    public function updateSingleValue($id, $contenttype, $field, $value) {
+
+        $tablename = $this->prefix . $contenttype;
+        
+        // Update the taxonomies, if present.
+        if (isset($content['taxonomy'])) {
+            $this->updateTaxonomy($contenttype, $content->id, $content['taxonomy']);
+            unset($content['taxonomy']);
+        }
+        
+        $id = intval($id);
+        
+        // Todo, make sure datechanged is updated
+        unset($content['datecreated']);
+        //$content['datechanged'] = date('Y-m-d H:i:s');
+
+        //echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
+
+        //echo "table: $tablename \n\n";
+        //echo "id: " . $id . " \n\n";
+
+        $query = "UPDATE $tablename SET $field = ? WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(1, $value);
+        $stmt->bindValue(2, $id);
+        $res = $stmt->execute();
+
+        return $res;
+        
+    }        
         
     public function getEmptyContent($contenttype) {
         

@@ -55,7 +55,30 @@ jQuery(function($) {
         
         console.log('save');
         
-        console.log($('.currentedit').html() );
+        $('.currentedit').attr('contentEditable', false);
+        
+        data = { 
+            'id': $('.currentedit').data('id'), 
+            'contenttype': $('.currentedit').data('contenttype'), 
+            'field': $('.currentedit').data('field'), 
+            'value': $('.currentedit').html()
+        }
+        
+        console.log(data);
+        
+        $.ajax({
+            url: '/pilex/updatefield',
+            type: 'GET',
+            data: data,
+            success: function(data) {
+                $('.result').html(data);
+                console.log('Data saved.');
+                $('#editbar').hide();
+            },
+            error: function() {
+                alert('Post failed.');
+            }
+        });
         
     });
 
@@ -66,6 +89,8 @@ jQuery(function($) {
         
         $('#editbar').hide();
         
+        $('.currentedit').html( $('.currentedit').data('old') );
+        $('.currentedit').attr('contentEditable', false);
     });
 
 });
@@ -83,13 +108,18 @@ function setEditable(elem) {
         
         $(this).addClass('currentedit').attr('contentEditable', '').focus();
         
+        // hide Debugbar panels.
         $('.pilex-debugpanel').fadeOut();
         
+        // Set the fly-over menu to the correct position..
         var offset = $(this).offset();
-        
-        console.log( offset.left, offset.top );
-        
         $('#editbar').show().css('left', offset.left - 3).css('top', offset.top - 30);
+        
+        // Set the old values into data-old
+        $(this).data('old', $(this).html() );
+        
+        console.log("Data: " , $(this).data('id') );
+        
         
     });
 }

@@ -285,7 +285,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
     }      
       
 	if (!empty($id)) {
-      	$content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => 'id = '.$id));
+      	$content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $id));
 	} else {
     	$content = $app['storage']->getEmptyContent($contenttype['slug']);
     }
@@ -299,8 +299,8 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 	}
 
 	// Set the users and the current owner of this content.
-	if (!empty($content['username'])) {
-    	$contentowner = $content['username'];
+	if (!empty($content->username)) {
+    	$contentowner = $content->username;
 	} else {
     	$user = $app['session']->get('user');
     	$contentowner = $user['username'];
@@ -765,6 +765,30 @@ $backend->get("/filesautocomplete", function(Silex\Application $app, Request $re
     return $app->json($files);
 
 })->before($checkLogin);
+
+
+
+$backend->get("/updatefield", function(Silex\Application $app, Request $request) {
+
+    $id = trim($request->get('id'));
+    $field = $request->get('field');
+    $contenttype = $request->get('contenttype');
+    $value = $request->get('value');
+
+    // Todo: Add a shitload of sanity checks here.
+    
+    $content = array(
+        'id' => $id,
+        $field => $value
+        );
+    
+    $res = $app['storage']->updateSingleValue($id, $contenttype, $field, $value);
+
+    return $res;
+
+})->before($checkLogin);
+
+
 
 
 // Temporary hack. Silex should start session on demand.
