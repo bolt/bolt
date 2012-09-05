@@ -65,8 +65,14 @@ $backend->get("", function(Silex\Application $app) {
  * News.
  */
 $backend->get("/dashboardnews", function(Silex\Application $app) {
+    global $pilex_version;
 
-    $guzzleclient = new Guzzle\Http\Client('http://news.pilex.net/');
+    $url = sprintf('http://news.pilex.net/?v=%s&p=%s',
+        $pilex_version,
+        phpversion()
+        );
+
+    $guzzleclient = new Guzzle\Http\Client($url);
         
     $news = $guzzleclient->get("/")->send()->getBody(true);
 
