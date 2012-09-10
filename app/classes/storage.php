@@ -900,6 +900,51 @@ class Storage {
     
     }
 
+
+    public function getUri($title, $id=0, $contenttypeslug, $fulluri=true) {
+        
+        
+        $id = intval($id);     
+        $fulluri = util::str_to_bool($fulluri);
+            
+        $slug = makeSlug($title);
+        
+        //echo "<pre>\n" . util::var_dump($contenttypeslug, true) . "</pre>\n";
+        
+        $contenttype = $this->getContentType($contenttypeslug);
+        $tablename = $this->prefix . $contenttype['slug'];
+        
+        // Only add 'entry/' if $full is requested.
+        if ($fulluri) {
+            $prefix = "/" . $contenttype['singular_slug'] . "/";
+        }
+        
+        $query = "SELECT id from $tablename WHERE slug='$slug' and id!='$id';";
+        $res = $this->db->query($query)->fetch();
+        
+        if (!$res) {
+            $uri = $prefix . $slug;
+        } else {
+            for ($i = 1; $i <= 10; $i++) {
+                $newslug = $slug.'-'.$i;
+                $query = "SELECT id from $tablename WHERE slug='$newslug' and id!='$id';";
+                $res = $this->db->query($query)->fetch();
+                if (!$res) {
+                    $uri = $prefix . $newslug;
+                    break;
+                }
+            }
+            
+            // otherwise, just get a random slug.
+            if (empty($uri)) {
+                $slug = trimText($slug, 32, false, false) . "-" . makeKey(6);
+                $uri = $prefix . $slug;
+            }
+        }
+                
+        return $uri;
+        
+    }
     
     /**
      * Get an associative array with the pilex_tables tables and columns in the DB.

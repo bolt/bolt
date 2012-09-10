@@ -776,12 +776,14 @@ $backend->get("/filesautocomplete", function(Silex\Application $app, Request $re
 
 $backend->get("/updatefield", function(Silex\Application $app, Request $request) {
 
+    // TODO: Make sure the current user is allowed to change this content.
+
     $id = trim($request->get('id'));
     $field = $request->get('field');
     $contenttype = $request->get('contenttype');
     $value = $request->get('value');
 
-    // Todo: Add a shitload of sanity checks here.
+    // TODO: Add a shitload of sanity checks here.
     
     $content = array(
         'id' => $id,
@@ -793,6 +795,20 @@ $backend->get("/updatefield", function(Silex\Application $app, Request $request)
     return $res;
 
 })->before($checkLogin);
+
+
+
+
+$backend->get("/makeuri", function(Silex\Application $app, Request $request) {
+
+    $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
+
+    $app['debug'] = false;
+ 
+    echo $uri;
+
+})->before($checkLogin);
+
 
 
 
