@@ -105,9 +105,9 @@
   white-space: pre;
   white-space: pre-wrap;
   color: #444;
-  border: 0;
-  padding: 0;
-  margin: 0;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 #pilex-debugbar small,
@@ -168,8 +168,8 @@ body .redactor_air {
 
     .pilex-debugpanel code, 
     .pilex-debugpanel pre {
-      font-size: 11px;
-      line-height: 14px !important;
+      font-size: 10px !important;
+      line-height: 13px !important;
     }
 
 }
@@ -193,8 +193,8 @@ body .redactor_air {
 
     .pilex-debugpanel code, 
     .pilex-debugpanel pre {
-      font-size: 10px;
-      line-height: 13px !important;
+      font-size: 9px !important;
+      line-height: 11px !important;
     }
 
 
