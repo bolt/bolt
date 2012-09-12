@@ -134,12 +134,14 @@ class Content {
         $excerpt = array();
 
         foreach ($this->contenttype['fields'] as $key => $field) {           
-            if (in_array($field['type'], array('text', 'html', 'textarea')) && isset($this->values[$key])) {
+            if (in_array($field['type'], array('text', 'html', 'textarea')) 
+                && isset($this->values[$key])
+                && !in_array($key, array("title", "name")) ) {
                 $excerpt[] = $this->values[$key];
             }
         }
-        
-        $excerpt = implode(" ", $excerpt);
+
+        $excerpt = implode(" x ", $excerpt);
 
         $excerpt = trimText(strip_tags($excerpt), $length) ;
 

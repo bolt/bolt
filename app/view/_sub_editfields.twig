@@ -16,14 +16,14 @@
 {# --------------- slug --------------- #}
     
 {% if field.type == "slug" %}
-<label class='permalink'>Permalink: <tt>/{{contenttype.singular_slug}}/<input type="text" name="{{key}}"  id="{{key}}"
-    value='{{ content.get(key) }}'
-    class='editslug'></tt>
+<label class='permalink'>Permalink: <tt>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></tt>
+    <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
 </label>
 
+
 {% if field.uses is defined %}
-<script type="text/javascript"> 
-    $("#{{ field.uses }}").slug({ slug:'editslug', hide: true });
+<script type="text/javascript">
+    makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', '{{ field.uses }}', '{{key}}', false);
 </script>
 {% endif %}
 

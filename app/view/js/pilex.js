@@ -85,3 +85,32 @@ function bindFileUpload(key) {
           
     
 }
+
+
+function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
+
+    $('#'+usesfield).bind('change keyup input', function() {
+       
+        var field = $('#'+usesfield).val();
+        
+        // console.log("values", contenttypeslug, id, usesfield, field);
+        
+        $.ajax({
+            url: '/pilex/makeuri',
+            type: 'GET',
+            data: { title: field, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
+            success: function(uri) {
+                $('#'+slugfield).val(uri);
+                $('#show-'+slugfield).html(uri);
+            },
+            error: function() {
+                console.log('failed to get an URI');
+            }
+        });       
+        
+    });
+
+
+    
+    
+}

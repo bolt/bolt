@@ -137,18 +137,19 @@
     background-color: rgba(0, 0, 0, 0.1);
 } 
 
-
-#editbar {
-    background-color: #F2F2F2;
-    border: 1px solid #ccc;    
-    position: absolute;
-    left: 10px;
-    top: 10px;  
-    width: 180px;
-    box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-    z-index: 960;    
+body .redactor_air { 
+    z-index: 1005;
     display: none;
-    padding: 4px 6px;
+}
+
+.redactor_toolbar li a.btn_text {
+    background-image: none;
+    text-indent: 0;
+    font-size: 12px;
+    line-height: 28px;
+    width: 34px;
+    text-align: center;
+    color: #333;
 }
 
 
