@@ -11,11 +11,19 @@ jQuery(function($) {
     $('#pilex-nipple').bind('click', function(){
         
         if ($('#pilex-debugbar').is(":visible")) {
+            
+            $('#pilex-debugbar').css('right', '0').animate({
+                right: '-=800',
+                opacity: 0.1
+            }, 600);
             $('#pilex-debugbar, .pilex-debugpanel').fadeOut();
             $('#pilex-footer').fadeIn(); 
             $.cookie('pilex-debugbar-show', '');
         } else {
-            $('#pilex-debugbar').fadeIn();
+            $('#pilex-debugbar').css('right', '-800px').show().animate({
+                right: '+=800',
+                opacity: 1.0
+            }, 600); 
             $('#pilex-footer').fadeOut(); 
             $.cookie('pilex-debugbar-show', 1);
         }
