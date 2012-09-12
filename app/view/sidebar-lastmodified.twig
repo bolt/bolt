@@ -12,7 +12,7 @@
             </a> <small>({{ content.datechanged|date("Y/m/d H:i") }})</small>
         </li>
     {% else %}
-        <li><em>No latest content</em></li>
+        <li><em>No latest {{contenttype.name}}.</em></li>
     {% endfor %}
     </ul>
 </section>
