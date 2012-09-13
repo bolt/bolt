@@ -292,6 +292,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
       
 	if (!empty($id)) {
       	$content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $id));
+        echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
 	} else {
     	$content = $app['storage']->getEmptyContent($contenttype['slug']);
     }

@@ -8,11 +8,12 @@ class Storage {
     var $config;
     var $prefix;
   
-    function __construct($app) {
+    function __construct(Silex\Application $app) {
     
-        $this->db = $app['db'];
         $this->config = $app['config'];
+        $this->db = $app['db'];
         $this->monolog = $app['monolog'];
+    
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "pilex_";
         
     }
@@ -564,11 +565,22 @@ class Storage {
     
     public function getContent($contenttypeslug, $parameters="", &$pager = array()) {
 
-        // Some special cases, like 'page/1' need to be caught before further processing.
+        // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
         if (preg_match_all('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/12'
+            // like 'entry/12'
             $contenttypeslug = $match[1][0];
             $parameters['id'] = $match[2][0];
+            $returnsingle = true;
+        } else if (preg_match_all('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
+            // like 'page/lorem-ipsum-dolor'
+            $contenttypeslug = $match[1][0];
+            $parameters['slug'] = $match[2][0];
+            $returnsingle = true;
+        } else if (preg_match_all('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
+            // like 'page/lorem-ipsum-dolor'
+            $contenttypeslug = $match[1][0];
+            $parameters['order'] = 'datecreated ' . ($match[2][0]=="latest" ? "DESC" : "ASC");
+            $parameters['limit'] = $match[3][0];
         }
         
         
@@ -577,6 +589,11 @@ class Storage {
         $offset = ($page - 1) * $limit;
         
         $contenttype = $this->getContentType($contenttypeslug);
+        
+        // If requesting something with a content-type slug in singular, return only the first item.
+        if ( ($contenttype['singular_slug'] == $contenttypeslug) || $parameters['returnsingle'] ) {
+            $returnsingle = true;
+        }
         
         $tablename = $this->prefix . $contenttype['slug'];
 
@@ -629,12 +646,7 @@ class Storage {
         }
         
         // Make the query for the pager..
-        $query = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
-        $rowcount = $this->db->executeQuery($query)->fetch();
-        $pager['count'] = $rowcount['count'];
-        $pager['totalpages'] = ceil($pager['count'] / $limit);
-        $pager['current'] = $page;
-        
+        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;        
         
         // Add the limit
         $queryparams .= sprintf(" LIMIT %s, %s;", ($page-1)*$limit, $limit);
@@ -645,27 +657,20 @@ class Storage {
         // echo "<pre>" . util::var_dump($query, true) . "</pre>";
     
         $rows = $this->db->fetchAll($query);
-
-        $content = array();
-
+        
         // Make sure content is set, and all content has information about its contenttype
+        $content = array();
         foreach($rows as $key => $value) {
-        //    $content[ $value['id'] ] = $value;
-        //    $content[ $value['id'] ]['contenttype'] = $contenttype;
-        //    $content[ $value['id'] ]['taxonomy'] = array();
             $content[ $value['id'] ] = new Content($value, $contenttype); 
         }
         
-        
-                
         // Make sure all content has their taxonomies
         $this->getTaxonomy($content);
 
-
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // If so, iterate over the content, and set ['grouping'] for each unit of content.
-        // But only if we're not sorting manually (i.e. hace a ?order=.. parameter
-        if (empty($_GET['order'])) {
+        // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
+        if (empty($_GET['order']) && empty($parameters['order'])) {
             $have_grouping = false;
             $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
             foreach($taxonomy as $taxokey => $taxo) {
@@ -684,15 +689,30 @@ class Storage {
         }
         
         
-        // Add 'showing_from' and 'showing_to' to the pager.
-        $pager['showing_from'] = ($page-1)*$limit;
-        $pager['showing_to'] = ($page-1)*$limit + count($content);
+        // Set up the $pager array with relevant values..
+        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+        $pager = array(
+            'count' => $rowcount['count'],
+            'totalpages' => ceil($rowcount['count'] / $limit),
+            'current' => $page,
+            'showing_from' => ($page-1)*$limit + 1,
+            'showing_to' => ($page-1)*$limit + count($content)
+        );
+        
+        // echo "<pre>\n" . util::var_dump($pagerquery, true) . "</pre>\n";
+        
+        // echo "<pre>\n" . util::var_dump($pager, true) . "</pre>\n";
          
-        //echo "<pre>" . util::var_dump($content, true) . "</pre>";
-        
-
-        return $content;
-        
+        // If we requested a singular item..
+        if ($returnsingle) {
+            if (util::array_first_key($content)) {            
+                return util::array_first($content);
+            } else {
+                return false;
+            }
+        } else {
+            return $content;            
+        }
         
     }
     
@@ -707,14 +727,11 @@ class Storage {
      *
      */
     public function getSingleContent($contenttypeslug, $parameters=array()) {
-                
-        $content = $this->getContent($contenttypeslug, $parameters);
-
-        if (util::array_first_key($content)) {            
-            return util::array_first($content);
-        } else {
-            return false;
-        }
+        
+        // Just to make sure we're getting a single item. 
+        $parameters['returnsingle'] = true;
+        
+        return $this->getContent($contenttypeslug, $parameters);
         
     }
         
@@ -728,6 +745,8 @@ class Storage {
         if (empty($contenttypeslug)) {
             return false;
         }  
+        
+        // echo "<pre>\n" . util::var_dump($this->config['contenttypes'], true) . "</pre>\n";
 
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
         if (isset($this->config['contenttypes'][$contenttypeslug])) {

@@ -16,7 +16,9 @@ require_once __DIR__.'/classes/storage.php';
 require_once __DIR__.'/classes/content.php';
 require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/classes/util.php';
-require_once __DIR__.'/config.php';
+
+$config = getConfig();
+$dboptions = getDBOptions($config);
 
 // Start the timer:
 $starttime=getMicrotime();
@@ -49,6 +51,8 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
+
+
 
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
     'http_cache.cache_dir' => __DIR__.'/cache/',
