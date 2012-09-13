@@ -164,7 +164,7 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
     	$content .= "<p>Your database is now up to date.<p>";
 	}
 	
-	$content .= "<br><br><p><a href='/pilex/prefill'>Fill the database</a> with Loripsum.</p>";
+	$content .= "<br><br><p><b>Tip: </b>Add some sample <a href='/pilex/prefill'>Records with Loripsum text</a>.</p>";
 	
 	// If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes, 
 	// but that's because the newly saved contenttype.yml needs to be re-read.

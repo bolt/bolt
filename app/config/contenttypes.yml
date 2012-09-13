@@ -1,24 +1,3 @@
-agenda:
-    name: Agenda
-    singular_name: Event
-    fields:
-        title:
-            type: text
-            class: large
-            default: Pompidom
-        slug:
-            type: slug
-            uses: title
-        datum:
-            type: date
-            default: today
-        body:
-            type: html
-            height: 300px
-    template: entry.twig
-    sort: datecreated DESC
-    contentperpage: 7
-
 
 entries:
     name: Entries

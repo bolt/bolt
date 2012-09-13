@@ -38,6 +38,7 @@ h3 {
 
 a {
     color: #194770; /* #AE311A; */
+    font-weight: bold;
 }
 
 a:hover {

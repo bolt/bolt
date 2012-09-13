@@ -328,14 +328,13 @@ class Storage {
                         
         }
 
-        foreach($contenttype['taxonomy'] as $taxonomy) {
-
-            if (isset($this->config['taxonomy'][$taxonomy]['options'])) {
-                $options = $this->config['taxonomy'][$taxonomy]['options'];
-                $content['taxonomy'][$taxonomy] = $options[array_rand($options)];
+        if (!empty($contenttype['taxonomy'])) {
+            foreach($contenttype['taxonomy'] as $taxonomy) {
+                if (isset($this->config['taxonomy'][$taxonomy]['options'])) {
+                    $options = $this->config['taxonomy'][$taxonomy]['options'];
+                    $content['taxonomy'][$taxonomy] = $options[array_rand($options)];
+                }   
             }
-            
-        
         }
 
         $this->saveContent($content);        

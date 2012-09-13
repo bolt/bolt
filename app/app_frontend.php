@@ -73,9 +73,9 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
     $app['editlink'] = "/pilex/edit/$contenttypeslug/" . $content->id;
 
 
-
     $body = $app['twig']->render($contenttype['template'], array(
-        'content' => $content
+        'content' => $content,
+        $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
     ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     
