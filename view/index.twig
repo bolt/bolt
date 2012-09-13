@@ -1,7 +1,13 @@
 {% include '_header.twig' %}
 
 
+
+
 {% set entries = content('entries', {'limit': 3, 'order': 'datecreated desc'}) %}
+
+{% setcontent entries = "entries/latest/3" %}
+
+
 
 {% for entry in entries %}
 <article>
@@ -23,3 +29,4 @@
 
 
 {% include '_footer.twig' %}
+

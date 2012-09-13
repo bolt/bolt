@@ -41,7 +41,13 @@
     
  
         <h3>Recent entries</h3>
+        
+        {% set blabla = "pompidom" %}
+        
         {% setcontent entries = "entries/latest/5" %}
+
+        {% setcontent entries = "entries" limit 5 order "datecreated DESC" %}
+        
         <ul>
         {% for entry in entries %}
         <li><a href="{{ entry.link }}">{{ entry.title }}</a></li>
