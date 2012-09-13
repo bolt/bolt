@@ -104,9 +104,8 @@ p.meta {
   font-size: 0.8em;
   margin: 0 0 2em;
 }
-
 section.introduction {
-    font-weight: bold;
+  font-weight: bold;
 }
 div.imageholder {
   border: 1px solid #BBBBBB;
@@ -124,27 +123,6 @@ div.imageholder-wide {
   padding: 2px;
   width: 320px;
 }
-/*
-nav#main ul {
-    list-style: none;
-    float: right;   
-}
-
-nav#main ul li {
-    float: left;
-    margin-right: 1em;
-}
-
-nav#main a {
-    text-decoration: none;
-}
-
-nav#main a:hover {
-    text-decoration: underline;
-}
-
-
-*/
 /**
  * Styles for the simple drop-down menu. 
  */
@@ -181,7 +159,7 @@ nav.main ul li:hover ul {
   left: -3px;
   top: 36px;
   padding: 3px;
-  width: 160px;
+  width: 200px;
 }
 nav.main ul li:hover ul li {
   height: 40px;
@@ -190,7 +168,7 @@ nav.main ul li:hover ul li {
 nav.main ul li:hover ul li a {
   height: 22px;
   display: block;
-  width: 158px;
+  width: 198px;
   line-height: 22px;
   text-decoration: none;
 }

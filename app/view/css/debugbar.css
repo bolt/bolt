@@ -3,11 +3,11 @@
     right: 0;
     bottom: 5px;  
     height: 28px;
-    background-image: linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
-    background-image: -o-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
-    background-image: -moz-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
-    background-image: -webkit-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
-    background-image: -ms-linear-gradient(bottom, rgba(220, 220, 220, 0.9) 10%, rgba(240, 240, 240, 0.9) 80%);
+    background-image: linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
+    background-image: -o-linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
+    background-image: -moz-linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
+    background-image: -webkit-linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
+    background-image: -ms-linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
     box-shadow:  -1px 1px 2px 1px rgba(0, 0, 0, 0.3);
     border: 1px solid #CCC;
     display: none;    
