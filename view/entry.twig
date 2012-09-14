@@ -3,18 +3,18 @@
 
 <article>
 
-    <h1><a href="{{ content.link }}">{{ content.title|editable(content, 'title') }}</a></h1>
+    <h1><a href="{{ record.link }}">{{ record.title|editable(content, 'title') }}</a></h1>
     
     {% if content.image!="" %}
-        <div class='imageholder-wide'><img src="{{ content.image|thumbnail(320, 240) }}"></div>
+        <div class='imageholder-wide'><img src="{{ record.image|thumbnail(320, 240) }}"></div>
     {% endif %}
     
 
-    {{ content.teaser|editable(content, 'teaser') }}
+    {{ record.teaser|editable(content, 'teaser') }}
 
-    {{ content.body|editable(content, 'body') }}
+    {{ record.body|editable(content, 'body') }}
 
-    <p class="meta">Posted by {{ content.username }} on {{ content.datecreated|date("M d, ’y")}}</p>
+    <p class="meta">Posted by {{ record.username }} on {{ record.datecreated|date("M d, ’y")}}</p>
     
 </article>  
 

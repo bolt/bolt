@@ -34,8 +34,6 @@ $app->get("/", function(Silex\Application $app) {
         $content = false;
     }
 
-
-
     $body = $app['twig']->render('index.twig');
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
@@ -74,7 +72,8 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
 
 
     $body = $app['twig']->render($contenttype['template'], array(
-        'content' => $content,
+        'content' => $content, // TODO: phase out, 'record' is preferred.. 
+        'record' => $content, 
         $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
     ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
