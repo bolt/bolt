@@ -50,7 +50,7 @@ entries:
     taxonomy: [ categories, tags ]
     template: entry.twig
     sort: datecreated DESC
-    contentperpage: 7
+    recordsperpage: 7
 
 
 pages:
@@ -86,7 +86,7 @@ pages:
     taxonomy: [ chapters ]
     template: page.twig
     sort: title
-    contentperpage: 100
+    recordsperpage: 100
        
 
 # possible field types:
