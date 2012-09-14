@@ -1,4 +1,21 @@
-
+news:
+    name: News
+    singular_name: Newsitem 
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        image:
+            type: image             
+        text:
+            type: html
+            height: 300px
+    template: newsitem.twig
+    
+    
 entries:
     name: Entries
     singular_name: Entry
@@ -58,14 +75,14 @@ pages:
             type: html
             height: 300px
         file:
-            type: file-download
+            type: file
             label: File available for download     
         more:
             type: textarea
             height: 300px            
         template:
             type: templateselect 
-            filter: \'*.twig\'   
+            filter: '*.twig'   
     taxonomy: [ chapters ]
     template: page.twig
     sort: title
@@ -76,7 +93,7 @@ pages:
 # text - varchar(256) - input type text
 # templateselect - varchar(256) - select with template filenames
 # image - varchar(256) - image select/upload widget, stored as filename
-# file - varchar(256) - image select/upload widget, stored as filename
+# file - varchar(256) - file select/upload widget, stored as filename
 # html - text (65kb) - wysiwyg element
 # textarea - varchar(32768) - < textarea >
 # datetime - datetime - date and time selector widget

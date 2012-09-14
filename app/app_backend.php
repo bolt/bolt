@@ -49,7 +49,7 @@ $backend->get("", function(Silex\Application $app) {
         $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");   
     }
 
-    $limit = $app['config']['general']['contentperdashboardwidget'];
+    $limit = $app['config']['general']['recordsperdashboardwidget'];
 
     // get the 'latest' from each of the content types. 
     foreach ($app['config']['contenttypes'] as $key => $contenttype) { 
@@ -245,10 +245,10 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
     $filter = $app['request']->query->get('filter');
 
     // Set the amount of items to show per page. 
-    if (!empty($contenttype['contentperpage'])) {
-        $limit = $contenttype['contentperpage'];
+    if (!empty($contenttype['recordsperpage'])) {
+        $limit = $contenttype['recordsperpage'];
     } else {
-        $limit = $app['config']['general']['contentperpage'];    
+        $limit = $app['config']['general']['recordsperpage'];    
     }
 
 
@@ -275,7 +275,9 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
         
     if ($request->getMethod() == "POST") {
         
-        if ($app['storage']->saveContent($request->request->all(), $contenttype['slug'])) {
+        $content = cleanPostedData($request->request->all());
+        
+        if ($app['storage']->saveContent($content, $contenttype['slug'])) {
         
             if (!empty($id)) {
                 $app['session']->setFlash('success', "The changes to this " . $contenttype['singular_name'] . " have been saved."); 

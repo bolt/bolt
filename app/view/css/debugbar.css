@@ -11,7 +11,9 @@
     box-shadow:  -1px 1px 2px 1px rgba(0, 0, 0, 0.3);
     border: 1px solid #CCC;
     display: none;    
-    z-index: 950;    
+    z-index: 950;  
+    font-weight: normal;  
+    font-style: normal;
 }
 
 
@@ -47,10 +49,14 @@
     padding-left: 6px;
 }
 
-#pilex-debugbar ul li a, #pilex-debugbar ul li a:hover, #pilex-debugbar ul li a:active, #pilex-debugbar ul li a:visited {
+#pilex-debugbar ul li a, 
+#pilex-debugbar ul li a:hover, 
+#pilex-debugbar ul li a:active, 
+#pilex-debugbar ul li a:visited {
     text-decoration: underline;
     color: #333;
-    
+    font-weight: normal;  
+    font-style: normal;   
 }
 
 #pilex-debugbar ul li#pd-pilex small {

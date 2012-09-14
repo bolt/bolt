@@ -81,21 +81,32 @@ function checkToken($token="") {
  * Clean posted data. Convert tabs to spaces (primarily for yaml) and
  * stripslashes when magic quotes are turned on. 
  *
- * @param string $str
+ * @param mixed $var
  * @return string
  */
-function cleanPostedData($str) {
+function cleanPostedData($var) {
     
-    $str = str_replace("\t", "    ", $str);
+    if (is_array($var)) {
     
-    // Ah, the joys of "magic quotes"!
-    if (get_magic_quotes_gpc()) {
-        $str = stripslashes($str);
+        foreach($var as $key => $value) {
+            $var[$key] = cleanPostedData($value);
+        }
+        
+    } else if (is_string($var)) {
+    
+        $var = str_replace("\t", "    ", $var);
+        
+        // Ah, the joys of \"magic quotes\"!
+        if (get_magic_quotes_gpc()) {
+            $var = stripslashes($var);
+        }          
+        
     }
-
-    return $str;
+    
+    return $var;
     
 }
+
 
 
 function clearCache() {
@@ -723,8 +734,8 @@ function getConfig() {
         'sitename' => 'Default Pilex site',
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
-        'contentperpage' => 10,
-        'contentperdashboardwidget' => 5,
+        'recordsperpage' => 10,
+        'recordsperdashboardwidget' => 5,
         'debug' => false,
         'strict_variables' => false
     );
