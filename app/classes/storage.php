@@ -516,7 +516,7 @@ class Storage {
         
         $id = intval($id);
         
-        // Todo, make sure datechanged is updated
+        // TODO: make sure datechanged is updated
         unset($content['datecreated']);
         //$content['datechanged'] = date('Y-m-d H:i:s');
 
@@ -613,10 +613,9 @@ class Storage {
                 !in_array($key, array("id", "slug", "datecreated", "datechanged", "username", "status")) ) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
-            
-            $operator = "=";
-            $where[] = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));    
-    
+
+            $where[] = $this->parseWhereParameter($key, $value);
+
         }
         
         // If we need to filter, add the WHERE for that.
@@ -724,8 +723,43 @@ class Storage {
         }
         
     }
-    
-    
+
+    /**
+     * Helper function to set the proper 'where' parameter,
+     * when getting values like '<2012' or '!bob'
+     */
+    private function parseWhereParameter($key, $value) {
+
+        // Set the correct operator for the where clause
+        $operator = "=";
+
+        if ($value[0] == "!") {
+            $operator = "!=";
+            $value = substr($value, 1);
+        } else if (substr($value, 0, 2) == "<=") {
+            $operator = "<=";
+            $value = substr($value, 2);
+        } else if (substr($value, 0, 2) == ">=") {
+            $operator = ">=";
+            $value = substr($value, 2);
+        } else if ($value[0] == "<") {
+            $operator = "<";
+            $value = substr($value, 1);
+        } else if ($value[0] == ">") {
+            $operator = ">";
+            $value = substr($value, 1);
+        } else if ($value[0] == "%" || $value[strlen($value)-1] == "%" ) {
+            $operator = "LIKE";
+        }
+
+        $parameter = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));
+
+
+        return $parameter;
+
+    }
+
+
     /**
      * Get a single unit of content:
      * 
