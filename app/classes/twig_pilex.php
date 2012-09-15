@@ -247,8 +247,6 @@ class Pilex_Twig_Extension extends Twig_Extension
             $thispager = array_pop($pager);
         }
 
-        echo "<pre>\n" . util::var_dump($template, true) . "</pre>\n";
-
         echo $env->render($template, array('pager' => $thispager, 'surr' => $surr, 'class' => $class));
             
     }
