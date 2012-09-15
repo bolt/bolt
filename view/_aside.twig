@@ -20,42 +20,32 @@
                 placeholder.</p>
         
         {% endif %}
-        
-        <h3>Recent pages</h3>
+
         {% setcontent pages = "pages/latest/5" %}
+
+        <h3>Recent pages</h3>
         <ul>
         {% for page in pages %}
-        <li><a href="{{ page.link }}">{{ page.title }}</a></li>
+        <li>{{ page.id }}<a href="{{ page.link }}">{{ page.title }}</a></li>
         {% else %}
         <p>No recent pages.</p>
         {% endfor %}
         </ul>
 
-    
-        {# todo: make this work..
-        
-        {% setcontent entries = "pages" where { 'slug': '%lorem%' } %}
-        {% setcontent entries = "pages" where { 'datecreated': '<2012' } %}
-        
-        #}
-    
- 
-        <h3>Recent entries</h3>
-        
-        {% set blabla = "pompidom" %}
-        
+
+
         {% setcontent entries = "entries/latest/5" %}
 
-        {% setcontent entries = "entries" limit 5 order "datecreated DESC" %}
-        
+        <h3>Recent entries</h3>
         <ul>
         {% for entry in entries %}
-        <li><a href="{{ entry.link }}">{{ entry.title }}</a></li>
+        <li>{{ entry.id }}<a href="{{ entry.link }}">{{ entry.title }}</a></li>
         {% else %}
         <p>No recent entries.</p>        
         {% endfor %}
         </ul>
-        
+
+
     </div>
 
 </aside>

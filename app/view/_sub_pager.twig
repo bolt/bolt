@@ -25,7 +25,7 @@
 {% endif %}
 
 {# start with '..' if there are more than surr+1 before currentpage.. #}
-{% if pager.current > surr+1 %}
+{% if pager.current > surr+2 %}
     <li class="disabled"><a href="#">...</a></li>
 {% endif %}
 
@@ -34,7 +34,7 @@
 {% endfor %}    
     
 {# end with '..' if there are more than surr+1 after currentpage.. #}
-{% if pager.current < (pager.totalpages - surr) %}
+{% if pager.current < (pager.totalpages - surr - 1) %}
     <li class="disabled"><a href="#">...</a></li>
 {% endif %}    
     

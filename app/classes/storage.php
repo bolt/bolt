@@ -589,10 +589,14 @@ class Storage {
         }
         
         
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 10;
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
-        $offset = ($page - 1) * $limit;
-        
+
+        // If we're allowed to use pagination, use the 'page' parameter.
+        if (!empty($parameters['paging'])) {
+            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+        }
+
         $contenttype = $this->getContentType($contenttypeslug);
         
         // If requesting something with a content-type slug in singular, return only the first item.
@@ -602,8 +606,6 @@ class Storage {
         
         $tablename = $this->prefix . $contenttype['slug'];
 
-        $queryparams = "";
-               
         // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
         foreach($parameters as $key => $value) {
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
@@ -637,8 +639,9 @@ class Storage {
             }
             
         }
-        
-        
+
+        $queryparams = "";
+
         // implode 'where'
         if (!empty($where)) {
             $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
@@ -662,8 +665,10 @@ class Storage {
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        // echo "<pre>" . util::var_dump($query, true) . "</pre>";
-    
+        if (!$returnsingle) {
+            echo "<pre>" . util::var_dump($query, true) . "</pre>";
+        }
+
         $rows = $this->db->fetchAll($query);
         
         // Make sure content is set, and all content has information about its contenttype
@@ -696,21 +701,21 @@ class Storage {
             }
         }
         
-        
-        // Set up the $pager array with relevant values..
-        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
-        $pager = array(
-            'count' => $rowcount['count'],
-            'totalpages' => ceil($rowcount['count'] / $limit),
-            'current' => $page,
-            'showing_from' => ($page-1)*$limit + 1,
-            'showing_to' => ($page-1)*$limit + count($content)
-        );
-        
-        // echo "<pre>\n" . util::var_dump($pagerquery, true) . "</pre>\n";
-        
-        // echo "<pre>\n" . util::var_dump($pager, true) . "</pre>\n";
-         
+        if (!$returnsingle) {
+            // Set up the $pager array with relevant values..
+            $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+            $pager = array(
+                'for' => $contenttypeslug,
+                'count' => $rowcount['count'],
+                'totalpages' => ceil($rowcount['count'] / $limit),
+                'current' => $page,
+                'showing_from' => ($page-1)*$limit + 1,
+                'showing_to' => ($page-1)*$limit + count($content)
+            );
+
+            $GLOBALS['pager'][$contenttypeslug] = $pager;
+        }
+
         // If we requested a singular item..
         if ($returnsingle) {
             if (util::array_first_key($content)) {            
