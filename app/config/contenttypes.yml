@@ -8,6 +8,10 @@ news:
         slug:
             type: slug
             uses: title
+        amount:
+            type: number
+        textamount:
+            type: text
         image:
             type: image             
         text:
@@ -91,6 +95,7 @@ pages:
 
 # possible field types:
 # text - varchar(256) - input type text
+# number - double - input type text, useful for storing number that need to be sortable
 # templateselect - varchar(256) - select with template filenames
 # image - varchar(256) - image select/upload widget, stored as filename
 # file - varchar(256) - file select/upload widget, stored as filename

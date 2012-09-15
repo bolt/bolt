@@ -191,6 +191,12 @@ class Storage {
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
+
+                        case 'number':
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL", $tablename, $field);
+                            $this->db->query($query);
+                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
+                            break;
                             
                         case 'html':
                         case 'textarea':
@@ -641,7 +647,11 @@ class Storage {
         
         // Order 
         if (!empty($parameters['order'])) {
-            $queryparams .= " ORDER BY " . safeString($parameters['order']);
+            $order = safeString($parameters['order']);
+            if ($order[0] == "-") {
+                $order = substr($order,1) . " DESC";
+            }
+            $queryparams .= " ORDER BY " . $order;
         }
         
         // Make the query for the pager..
