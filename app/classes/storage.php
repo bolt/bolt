@@ -666,7 +666,7 @@ class Storage {
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         if (!$returnsingle) {
-            echo "<pre>" . util::var_dump($query, true) . "</pre>";
+        //     echo "<pre>" . util::var_dump($query, true) . "</pre>";
         }
 
         $rows = $this->db->fetchAll($query);

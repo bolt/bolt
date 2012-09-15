@@ -26,20 +26,18 @@
         <h3>Recent pages</h3>
         <ul>
         {% for page in pages %}
-        <li>{{ page.id }}<a href="{{ page.link }}">{{ page.title }}</a></li>
+        <li><a href="{{ page.link }}">{{ page.title }}</a></li>
         {% else %}
         <p>No recent pages.</p>
         {% endfor %}
         </ul>
-
-
 
         {% setcontent entries = "entries/latest/5" %}
 
         <h3>Recent entries</h3>
         <ul>
         {% for entry in entries %}
-        <li>{{ entry.id }}<a href="{{ entry.link }}">{{ entry.title }}</a></li>
+        <li><a href="{{ entry.link }}">{{ entry.title }}</a></li>
         {% else %}
         <p>No recent entries.</p>        
         {% endfor %}

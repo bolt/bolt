@@ -3,8 +3,6 @@
 
 {% setcontent entries = "entries/latest/3" allowpaging %}
 
-
-
 {% for entry in entries %}
 <article>
     {% if entry.image!="" %}
@@ -20,12 +18,7 @@
 </article>    
 {% endfor %}
 
-
 {{ pager() }}
-
-
-
-
 
 {% include '_footer.twig' %}
 
