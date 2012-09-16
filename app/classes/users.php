@@ -45,7 +45,7 @@ class Users {
         
         // make sure the username is slug-like
         $user['username'] = makeSlug($user['username']);
-        
+
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
             return $this->db->insert($tablename, $user);
@@ -148,7 +148,7 @@ class Users {
             $users[$key] = $user;
             $users[$key]['password'] = "**dontchange**";
         }
-        
+
         return $users;
         
         

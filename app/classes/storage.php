@@ -94,13 +94,13 @@ class Storage {
   
   
     function repairTables() {
-      
+
         $sm = $this->db->getSchemaManager();
       
         $output = array();
 
         $tables = $this->getTables();
-        
+
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
 
@@ -120,7 +120,7 @@ class Storage {
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
             $this->db->query($queries);
-                        
+
             $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
             
         }
@@ -137,7 +137,7 @@ class Storage {
             $myTable->addColumn("contenttype", "string", array("length" => 32));
             $myTable->addColumn("taxonomytype", "string", array("length" => 32));
             $myTable->addColumn("slug", "string", array("length" => 64));   
-            $myTable->addColumn("name", "string", array("length" => 64));                        
+            $myTable->addColumn("name", "string", array("length" => 64));
             
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
@@ -234,7 +234,7 @@ class Storage {
             
             
         }
-        
+
         return $output;
       
     }
