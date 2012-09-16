@@ -101,6 +101,8 @@ class Storage {
 
         $tables = $this->getTables();
 
+        echo "<pre>\n" . util::var_dump($tables, true) . "</pre>\n";
+
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
 
@@ -187,20 +189,20 @@ class Storage {
                         case 'templateselect':
                         case 'image':
                         case 'file':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
 
                         case 'number':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL DEFAULT 0;", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
                             
                         case 'html':
                         case 'textarea':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;

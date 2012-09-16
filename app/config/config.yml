@@ -1,6 +1,5 @@
 database:
-  username: pilex
-  password: pilex%1
+  driver: sqlite
   databasename: pilex
 
 sitename: A sample Bolt site.
