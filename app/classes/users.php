@@ -139,10 +139,10 @@ class Users {
         $tablename = $this->prefix . "users";
 
         $query = "SELECT * FROM $tablename";
-        
+
         $tempusers = $this->db->fetchAll($query);
         $users = array();
-        
+
         foreach($tempusers as $user) {
             $key = $user['username'];
             $users[$key] = $user;

@@ -5,6 +5,16 @@
 
         <h1>Pilex Dashboard</h1>
 
+{%  if suggestloripsum %}
+
+    <div class="alert alert-info">
+        <button class="close" data-dismiss="alert">×</button>
+        It seems there's no content in the database. To get started quickly, add some <a href="/pilex/prefill">Lorem Ipsum dummy content</a>.
+    </div>
+
+{%  endif %}
+
+
     <div class="quicklinks">
     {% for contenttypeslug, contenttype in app.config.contenttypes %}
         <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">

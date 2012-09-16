@@ -51,12 +51,19 @@ $backend->get("", function(Silex\Application $app) {
 
     $limit = $app['config']['general']['recordsperdashboardwidget'];
 
+    $total = 0;
     // get the 'latest' from each of the content types. 
     foreach ($app['config']['contenttypes'] as $key => $contenttype) { 
-        $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));   
+        $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
+        $total += count($latest[$key]);
     }
 
-    return $app['twig']->render('dashboard.twig', array('latest' => $latest));
+    // If there's nothing in the DB, suggest to create some dummy content.
+    if ($total == 0 ) {
+        $suggestloripsum = true;
+    }
+
+    return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
 
 })->before($checkLogin)->bind('dashboard');
 
@@ -820,10 +827,12 @@ $app->before(function() use ($app) {
     global $pilex_name, $pilex_version;
     
     $app['session']->start();
-    
+
     $app['twig']->addGlobal('pilex_name', $pilex_name);
     $app['twig']->addGlobal('pilex_version', $pilex_version);
-    $app['twig']->addGlobal('users', $app['users']->getUsers());
+
+    // TODO: Get the users, but don't break when the table doesn't exist.
+    // $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
     
 });
@@ -935,9 +944,14 @@ $app->error(function(Exception $e) use ($app) {
 
 	$trace = $e->getTrace();;
 
-	unset($trace[0]['args']);
+    foreach($trace as $key=>$value) {
 
-    $twigvars['trace'] = print_r($trace[0], true);
+        if (strpos($value['file'], "/vendor/") > 0 ) {
+            unset($trace[$key]['args']);
+        }
+    }
+
+    $twigvars['trace'] = $trace;
 
     $twigvars['title'] = "An error has occured!";
 

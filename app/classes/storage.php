@@ -28,7 +28,7 @@ class Storage {
         $sm = $this->db->getSchemaManager();
 
         $tables = $this->getTables();
-        
+
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
             return false;            
