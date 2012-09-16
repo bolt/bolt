@@ -45,6 +45,7 @@ class Users {
         
         // make sure the username is slug-like
         $user['username'] = makeSlug($user['username']);
+        $user['lastseen'] = "0000-00-00";
         
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {

@@ -13,13 +13,15 @@ $checkLogin = function(Request $request) use ($app) {
     // There's an active session, we're all good.
     if ($app['session']->has('user')) {
         return;
-    } 
-    
+    }
+
+    // TODO: This is awkward.. Make it less awkward.
+
     // If the users table is present, but there are no users, and we're on /pilex/users/edit,
     // we let the user stay, because they need to set up the first user. 
     if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/pilex/users/edit/") {
         return;
-    } 
+    }
 
     // If there are no users in the users table, or the table doesn't exist. Repair 
     // the DB, and let's add a new user. 
@@ -227,7 +229,9 @@ $backend->get("/prefill", function(Silex\Application $app) {
 	$title = "Database prefill";
 
 	$content = $app['storage']->preFill();
-	
+
+    $content .= "<p>Go <a href='/pilex/'>back to the Dashboard</a>.</p>";
+
 	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
 	
 })->before($checkLogin)->bind('prefill');
@@ -664,7 +668,6 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
     
     
     } else {
-        $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
         $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML."); 
     }
 

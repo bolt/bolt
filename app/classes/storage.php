@@ -111,8 +111,8 @@ class Storage {
             $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("password", "string", array("length" => 64));
             $myTable->addColumn("email", "string", array("length" => 64));
-            $myTable->addColumn("lastseen", "datetime");                        
-            $myTable->addColumn("lastip", "string", array("length" => 32));
+            $myTable->addColumn("lastseen", "datetime");
+            $myTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
             $myTable->addColumn("displayname", "string", array("length" => 32));
             $myTable->addColumn("userlevel", "string", array("length" => 32));
             $myTable->addColumn("enabled", "boolean");
@@ -137,7 +137,7 @@ class Storage {
             $myTable->addColumn("contenttype", "string", array("length" => 32));
             $myTable->addColumn("taxonomytype", "string", array("length" => 32));
             $myTable->addColumn("slug", "string", array("length" => 64));   
-            $myTable->addColumn("name", "string", array("length" => 64));                        
+            $myTable->addColumn("name", "string", array("length" => 64, "default" => ""));
             
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
@@ -187,20 +187,20 @@ class Storage {
                         case 'templateselect':
                         case 'image':
                         case 'file':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
 
                         case 'number':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
                             
                         case 'html':
                         case 'textarea':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;

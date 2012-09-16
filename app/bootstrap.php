@@ -47,12 +47,13 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'autoescape' => false )
 ));
 
-/*
-$dboptions = array(
-    'driver'   => 'pdo_sqlite',
-    'path'     => __DIR__.'/app.db',
-);
-*/
+
+//$dboptions = array(
+//    'driver'   => 'pdo_sqlite',
+//    'path'     => __DIR__.'/bolt.db',
+//);
+
+// echo "<pre>\n" . util::var_dump($dboptions, true) . "</pre>\n";
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
