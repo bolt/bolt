@@ -771,9 +771,9 @@ function getDBOptions($config) {
     
     $configdb = $config['general']['database'];
     
-    if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite") || ($configdb['driver'] == "sqlite") ) {
+    if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite") ) {
         
-        $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : "bolt";
+        $basename = basename($configdb['database']);
         if (getExtension($basename)!="db") { $basename .= ".db"; };
         
         $dboptions = array(

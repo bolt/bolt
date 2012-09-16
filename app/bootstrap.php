@@ -47,6 +47,12 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'autoescape' => false )
 ));
 
+/*
+$dboptions = array(
+    'driver'   => 'pdo_sqlite',
+    'path'     => __DIR__.'/app.db',
+);
+*/
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
