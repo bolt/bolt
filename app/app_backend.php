@@ -9,9 +9,17 @@ use Symfony\Component\HttpFoundation\Response;
 $checkLogin = function(Request $request) use ($app) {
    
     $route = $request->get('_route');
-          
+
+    $app['twig']->addGlobal('backend', true);
+    $app['twig']->addGlobal('paths', $app['paths']);
+
     // There's an active session, we're all good.
     if ($app['session']->has('user')) {
+        return;
+    }
+
+    // if we're on the login-page, we're also good.
+    if ($route == "login") {
         return;
     }
 
@@ -32,7 +40,9 @@ $checkLogin = function(Request $request) use ($app) {
     }
 
     $app['session']->setFlash('info', "Please log on.");
-    return $app->redirect('/pilex/login');
+
+
+    return $app->redirect(path('login'));
 
 };
 
@@ -144,7 +154,7 @@ $backend->match("/login", function(Silex\Application $app, Request $request) {
     
     return $app['twig']->render('login.twig');
 
-})->method('GET|POST')->bind('login');
+})->method('GET|POST')->before($checkLogin)->bind('login');
 
 
 /**
@@ -950,7 +960,7 @@ $app->error(function(Exception $e) use ($app) {
     $twigvars['message'] = $e->getMessage();
     $twigvars['code'] = $e->getCode();
 
-	$trace = $e->getTrace();;
+	$trace = $e->getTrace();
 
     foreach($trace as $key=>$value) {
 
@@ -971,7 +981,7 @@ $app->error(function(Exception $e) use ($app) {
 $app->mount('/pilex', $backend);
 
 
-// Make sure /pilex works, without requiring /pilex/
-$app->get("/pilex", function(Silex\Application $app) {
-    return $app->redirect('/pilex/');
-});
+// TODO: Make sure /pilex works, without requiring /pilex/
+//$app->get("/pilex", function(Silex\Application $app) {
+//    return $app->redirect('/pilex/');
+//});

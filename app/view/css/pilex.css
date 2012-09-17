@@ -15,7 +15,7 @@
  */
 
 body {
-    background-image: url(/app/view/img/background.png);
+    background-image: url(../view/img/background.png);
     font-size: 13px;
 }
 
@@ -72,7 +72,7 @@ h1 span {
 .navbar-fixed-top, .navbar-fixed-bottom  {    
     position: static;
     margin-bottom: 20px;
-    background-image: url(/app/view/img/dust_scratch.png); 
+    background-image: url(../view/img/dust_scratch.png);
     background-color: #244055;
 } 
 

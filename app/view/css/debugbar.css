@@ -21,7 +21,7 @@
     position: fixed;
     right: 0;
     bottom: 0;  
-    background: transparent url('/app/view/img/debug-nipple.png') no-repeat right bottom;
+    background: transparent url('../img/debug-nipple.png') no-repeat right bottom;
     width: 60px;
     height: 60px;
     z-index: 951;   
