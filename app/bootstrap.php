@@ -11,7 +11,7 @@ $pilex_name = "Almost alpha";
 error_reporting(E_ALL ^ E_NOTICE);
 
 require_once __DIR__.'/../vendor/autoload.php';
-require_once __DIR__.'/lib.php';
+require_once __DIR__.'/classes/lib.php';
 require_once __DIR__.'/classes/storage.php';
 require_once __DIR__.'/classes/content.php';
 require_once __DIR__.'/classes/users.php';
