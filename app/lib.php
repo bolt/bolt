@@ -758,7 +758,7 @@ function getConfig() {
     if (strpos($_SERVER['REQUEST_URI'], "/pilex") === 0) {
         $config['twigpath'] = __DIR__.'/view';
     } else {
-        $config['twigpath'] = array(__DIR__.'/../view', __DIR__.'/view');
+        $config['twigpath'] = array(__DIR__.'/../theme/default', __DIR__.'/view');
     }
 
     return $config;
@@ -778,7 +778,7 @@ function getDBOptions($config) {
         
         $dboptions = array(
             'driver' => 'pdo_sqlite',
-            'path' => __DIR__ . "/" . $basename
+            'path' => __DIR__ . "/database/" . $basename
         );
         
     } else {

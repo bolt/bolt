@@ -64,6 +64,11 @@ h1 span {
     font-size: 13px;
 }
 
+.btn-group > .btn-mini {
+    font-size: 11px;
+    line-height: 16px;
+}
+
 .navbar-fixed-top, .navbar-fixed-bottom  {    
     position: static;
     margin-bottom: 20px;

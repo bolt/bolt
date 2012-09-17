@@ -5,6 +5,7 @@ database:
 sitename: A sample Bolt site.
 homepage: page/1
 homepage_template: index.twig
+theme: default
 
 debug: true
 recordsperpage: 10

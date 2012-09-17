@@ -1,10 +1,6 @@
 {% include '_header.twig' %}
 
 
-{% setcontent dummy = "page/12" with { 'limit': 10, 'orderby': 'datecreated desc' }  %}
-
-{ - { print(dummy) }}
-
 <article>
 
     <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>

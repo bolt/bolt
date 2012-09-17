@@ -49,7 +49,7 @@
             <td class='excerpt large'><span>
                 <strong class="show-phone">№ {{content.id}}. </strong> 
                 <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong> 
-                {{ content.excerpt(200) }} 
+                {{ content.excerpt(360) }}
                 </span></td>
             {% if content.image is defined %}
             <td class='listthumb'>

@@ -196,7 +196,7 @@ class Pilex_Twig_Extension extends Twig_Extension
             
         $files = array();
     
-        $foldername = realpath(__DIR__.'/../view');
+        $foldername = realpath(__DIR__.'/../theme/default/');
     
         $d = dir($foldername);
         

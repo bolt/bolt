@@ -1,12 +1,9 @@
+app/cache/*
+app/database/*.db
+files/*
 vendor/
 composer.phar
 composer.lock
-app/config/config.yml
-debug.log
-app/cache/*
-files/*
 .DS_Store
 ._.DS_Store
-Pilex.komodoproject
 .idea
-
