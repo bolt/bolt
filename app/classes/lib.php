@@ -128,7 +128,7 @@ function clearCache() {
 
 function clearCacheHelper($additional, &$result) {
     
-    $basefolder = __DIR__."/cache/";
+    $basefolder = __DIR__."../cache/";
     
     $currentfolder = realpath($basefolder."/".$additional);
     
@@ -722,10 +722,10 @@ function getConfig() {
     
     // Read the config
     $yamlparser = new Symfony\Component\Yaml\Parser();
-    $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/config.yml'));
-    $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
-    $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
-    $config['menu'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/menu.yml'));
+    $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/config.yml'));
+    $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/taxonomy.yml'));
+    $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/contenttypes.yml'));
+    $config['menu'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/menu.yml'));
 
     // TODO: If no config files can be found, get them from bolt.cm/files/default/
 
@@ -761,10 +761,10 @@ function getConfig() {
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     // If the request URI starts with '/pilex' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
     if (strpos($scripturi, "pilex") !== false ) {
-        $config['twigpath'] = __DIR__.'/view';
+        $config['twigpath'] = __DIR__.'/../view';
     } else {
-        $themepath = __DIR__.'/../theme/'. basename($config['general']['theme']);
-        $config['twigpath'] = array($themepath, __DIR__.'/view');
+        $themepath = __DIR__.'/../../theme/'. basename($config['general']['theme']);
+        $config['twigpath'] = array($themepath, __DIR__.'/../view');
     }
 
     return $config;
@@ -784,7 +784,7 @@ function getDBOptions($config) {
         
         $dboptions = array(
             'driver' => 'pdo_sqlite',
-            'path' => __DIR__ . "/database/" . $basename
+            'path' => __DIR__ . "/../database/" . $basename
         );
         
     } else {
@@ -818,11 +818,11 @@ function getPaths($config) {
     $paths = array(
         'hostname' => $_SERVER['HTTP_HOST'],
         'root' => $path_prefix,
-        'rootpath' => realpath(__DIR__ . "/../"),
+        'rootpath' => realpath(__DIR__ . "/../../"),
         'theme' => $path_prefix . "theme/" . $config['general']['theme'] . "/",
-        'themepath' => realpath(__DIR__ . "/../theme/" . $config['general']['theme']),
+        'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
         'app' => $path_prefix . "app/",
-        'apppath' => realpath(__DIR__)
+        'apppath' => realpath(__DIR__ . "/..")
     );
 
     return $paths;
