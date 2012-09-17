@@ -36,13 +36,13 @@ $checkLogin = function(Request $request) use ($app) {
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
         $app['storage']->repairTables();
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
-        return $app->redirect(path('useredit'));
+        return redirect('useredit');
     }
 
     $app['session']->setFlash('info', "Please log on.");
 
 
-    return $app->redirect(path('login'));
+    return redirect('login');
 
 };
 
@@ -147,7 +147,7 @@ $backend->match("/login", function(Silex\Application $app, Request $request) {
         $result = $app['users']->login($request->get('username'), $request->get('password'));
         
         if ($result) {
-            return $app->redirect(path('dashboard'));
+            return redirect('dashboard');
         }
     
     }
@@ -165,7 +165,7 @@ $backend->get("/logout", function(Silex\Application $app) {
 	$app['session']->setFlash('info', 'You have been logged out.');
     $app['session']->remove('user');
     
-    return $app->redirect(path('login'));
+    return redirect('login');
         
 })->bind('logout');
 
@@ -199,7 +199,7 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
         	$content = "Your database is now up to date.";
     	}
     	$app['session']->setFlash('success', $content);
-    	return $app->redirect(path('fileedit', array('file' => "app/config/contenttypes.yml")));
+    	return redirect('fileedit', array('file' => "app/config/contenttypes.yml"));
 	}
 	
 	return $app['twig']->render('base.twig', array(
@@ -229,7 +229,7 @@ $backend->get("/clearcache", function(Silex\Application $app) {
     	$app['session']->setFlash('success', $output);
 	}
 	
-	return $app->redirect(path('dashboard'));
+	return redirect('dashboard');
 	
 	
 })->before($checkLogin)->bind('clearcache');
@@ -310,7 +310,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
             } else {
                 $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " has been saved."); 
             }
-            return $app->redirect(path('overview', array('contenttypeslug' => $contenttype['slug'])));
+            return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         
         } else {
             $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . "."); 
@@ -403,7 +403,7 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
             $app['session']->setFlash('error', "No such action for content.");
 
     }
-    return $app->redirect(path('overview', array('contenttypeslug' => $contenttype['slug'])));
+    return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 	
 })->before($checkLogin)->bind('contentaction');
 
@@ -520,7 +520,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
                 $app['session']->setFlash('error', "User " . $user['username'] . " could not be saved, or nothing was changed."); 
             }
             
-            return $app->redirect(path('users'));
+            return redirect('users');
             
         }
     }
@@ -567,7 +567,7 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
     
     if (!$user) {
         $app['session']->setFlash('error', "No such user.");
-        return $app->redirect(path('users'));
+        return redirect('users');
     }
 
     switch ($action) {
@@ -601,7 +601,9 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
             $app['session']->setFlash('error', "No such action for user '{$user['displayname']}'.");
 
     }
-    return $app->redirect(path('users'));
+
+
+    return redirect('users');
 
 
 
@@ -747,7 +749,7 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
                     $app['session']->setFlash('info', "File '" .$file."' has been saved."); 
                     // If we've saved contenttypes.yml, update the database.. 
                     if (basename($file) == "contenttypes.yml") {
-                        return $app->redirect(path('dbupdate', '', "?return=edit"));
+                        return redirect('dbupdate', '', "?return=edit");
                     }
                 } else {
                     $app['session']->setFlash('error', "File '" .$file."' could not be saved, for some reason."); 
@@ -757,7 +759,7 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
             
             
             
-            return $app->redirect(path('fileedit', array('file' => $file)));
+            return redirect('fileedit', array('file' => $file));
             
         }
     }

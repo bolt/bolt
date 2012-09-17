@@ -832,6 +832,8 @@ function getPaths($config) {
  * Simple wrapper for $app['url_generator']->generate()
  *
  * @param string $path
+ * @param array $param
+ * @param string $add
  * @return string
  */
 function path($path, $param=array(), $add='') {
@@ -846,5 +848,22 @@ function path($path, $param=array(), $add='') {
     }
 
     return $app['url_generator']->generate($path, $param). $add;
+
+}
+
+
+/**
+ *
+ * Simple wrapper for $app->redirect($app['url_generator']->generate());
+ *
+ * @param string $path
+ * @param array $param
+ * @param string $add
+ * @return string
+ */
+function redirect($path, $param=array(), $add='') {
+    global $app;
+
+    return $app->redirect(path($path, $param, $add));
 
 }
