@@ -8,11 +8,9 @@
         <title>{% if record.title is defined %}{{ record.title }} - {% endif %}{{ app.config.general.sitename }}</title>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		
-		<link rel="stylesheet" href="{{ paths.theme }}css/normalize.css"/>
+
 		<link rel="stylesheet" href="{{ paths.theme }}css/style.css"/>
 
-		<script src="{{ paths.theme }}js/ios-orientationchange-fix.js"></script>
 		<script src="{{ paths.theme }}js/jquery-1.8.1.min.js"></script>
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -24,7 +22,7 @@
 	<div id="wrapper">
 
         <header>
-            <h1><a href="/">{{ app.config.general.sitename }}</a></h1>
+            <h1><a href="{{ paths.root }}">{{ app.config.general.sitename }}</a></h1>
 
             {{ menu() }}
 

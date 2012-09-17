@@ -19,7 +19,7 @@ $checkLogin = function(Request $request) use ($app) {
     }
 
     // if we're on the login-page, we're also good.
-    if ($route == "login") {
+    if ($route == "login" && $app['users']->getUsers()) {
         return;
     }
 
@@ -36,7 +36,7 @@ $checkLogin = function(Request $request) use ($app) {
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
         $app['storage']->repairTables();
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
-        return redirect('useredit');
+        return redirect('useredit', array('id' => ""));
     }
 
     $app['session']->setFlash('info', "Please log on.");

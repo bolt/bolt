@@ -1,7 +1,7 @@
 {% include '_header.twig' %}
 
 
-{% setcontent entries = "entries/latest/3" allowpaging %}
+{% setcontent entries = "entries/latest/4" allowpaging %}
 
 {% for entry in entries %}
 <article>
@@ -10,11 +10,9 @@
         </div>
     {% endif %}
 
-    link: {{  entry.link }}
-
     <h2><a href="{{ entry.link }}">{{ entry.title }}</a></h2>
     
-    {{ entry.teaser|raw }}
+    {{ entry.teaser }}
 
     <p class="meta"><a href="{{ entry.link }}">Link</a> - Posted by {{ entry.username }} on {{ entry.datecreated|date("M d, ’y")}}</p>
     
@@ -22,6 +20,8 @@
 {% endfor %}
 
 {{ pager() }}
+
+
 
 {% include '_footer.twig' %}
 

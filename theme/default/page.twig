@@ -7,9 +7,9 @@
     
     <h2>{{ record.subtitle }}</h2>
 
-    <section class='introduction'>{{ record.introduction|raw }}</section>
+    <section class='introduction'>{{ record.introduction }}</section>
 
-    <section class='body'>{{ record.body|raw }}</section>
+    <section class='body'>{{ record.body }}</section>
 
     <p class="meta">Posted by {{ record.username }} on {{ record.datecreated|date("M d, ’y")}}</p>
     

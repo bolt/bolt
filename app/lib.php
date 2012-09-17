@@ -754,11 +754,13 @@ function getConfig() {
             $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
         }
     }
-    
-    
-    // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the
-    // path.. if the request URI starts with '/pilex' in the URL, we assume we're in the Backend.. Yeah..
-    if (strpos($_SERVER['REQUEST_URI'], "/pilex") !== false) {
+
+    // Get the script's filename, but _without_ SCRIPT_FILENAME
+    $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+
+    // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+    // If the request URI starts with '/pilex' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
+    if (strpos($scripturi, "pilex") !== false ) {
         $config['twigpath'] = __DIR__.'/view';
     } else {
         $themepath = __DIR__.'/../theme/'. basename($config['general']['theme']);
