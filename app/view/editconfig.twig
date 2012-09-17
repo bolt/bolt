@@ -16,21 +16,21 @@
 </form>
 
 {% if not ismobileclient() %}
-    <link rel="stylesheet" href="/app/view/lib/codemirror/codemirror.css">
-    <script src="/app/view/lib/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/codemirror/codemirror.css">
+    <script src="{{ paths.app }}view/lib/codemirror/codemirror.js"></script>
     {% if filetype in ['twig', 'html', 'htm'] %}
-    <script src="/app/view/lib/codemirror/mode/xml/xml.js"></script>
-    <script src="/app/view/lib/codemirror/mode/javascript/javascript.js"></script>
-    <script src="/app/view/lib/codemirror/mode/css/css.js"></script>
-    <script src="/app/view/lib/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/xml/xml.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/javascript/javascript.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/css/css.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     {% elseif filetype == "yml" %}
-    <script src="/app/view/lib/codemirror/mode/yaml/yaml.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/yaml/yaml.js"></script>
     {% elseif filetype == "md" %}
-    <script src="/app/view/lib/codemirror/mode/markdown/markdown.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/markdown/markdown.js"></script>
     {% elseif filetype in ['css', 'less'] %}
-    <script src="/app/view/lib/codemirror/mode/css/css.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/css/css.js"></script>
     {% elseif filetype == "js" %}
-    <script src="/app/view/lib/codemirror/mode/javascript/javascript.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/mode/javascript/javascript.js"></script>
     {% endif %}
     
     <script>

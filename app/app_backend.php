@@ -36,7 +36,7 @@ $checkLogin = function(Request $request) use ($app) {
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
         $app['storage']->repairTables();
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
-        return $app->redirect('/pilex/users/edit/');
+        return $app->redirect(path('useredit'));
     }
 
     $app['session']->setFlash('info', "Please log on.");
@@ -147,7 +147,7 @@ $backend->match("/login", function(Silex\Application $app, Request $request) {
         $result = $app['users']->login($request->get('username'), $request->get('password'));
         
         if ($result) {
-            return $app->redirect('/pilex');
+            return $app->redirect(path('dashboard'));
         }
     
     }
@@ -165,7 +165,7 @@ $backend->get("/logout", function(Silex\Application $app) {
 	$app['session']->setFlash('info', 'You have been logged out.');
     $app['session']->remove('user');
     
-    return $app->redirect('/pilex/login');
+    return $app->redirect(path('login'));
         
 })->bind('logout');
 
@@ -188,7 +188,7 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
     	$content .= "<p>Your database is now up to date.<p>";
 	}
 	
-	$content .= "<br><br><p><b>Tip: </b>Add some sample <a href='/pilex/prefill'>Records with Loripsum text</a>.</p>";
+	$content .= "<br><br><p><b>Tip: </b>Add some sample <a href='".path('prefill')."'>Records with Loripsum text</a>.</p>";
 	
 	// If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes, 
 	// but that's because the newly saved contenttype.yml needs to be re-read.
@@ -199,7 +199,7 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
         	$content = "Your database is now up to date.";
     	}
     	$app['session']->setFlash('success', $content);
-    	return $app->redirect('/pilex/file/edit/app/config/contenttypes.yml');
+    	return $app->redirect(path('fileedit', array('file' => "app/config/contenttypes.yml")));
 	}
 	
 	return $app['twig']->render('base.twig', array(
@@ -229,7 +229,7 @@ $backend->get("/clearcache", function(Silex\Application $app) {
     	$app['session']->setFlash('success', $output);
 	}
 	
-	return $app->redirect('/pilex/');
+	return $app->redirect(path('dashboard'));
 	
 	
 })->before($checkLogin)->bind('clearcache');
@@ -310,7 +310,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
             } else {
                 $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " has been saved."); 
             }
-            return $app->redirect('/pilex/overview/'.$contenttype['slug']);
+            return $app->redirect(path('overview', array('contenttypeslug' => $contenttype['slug'])));
         
         } else {
             $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . "."); 
@@ -372,7 +372,6 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
             } else {
                 $app['session']->setFlash('info', "Content 'pompidom' could not be depublished.");
             }
-            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
             break;
         
         case "publish":
@@ -381,7 +380,6 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
             } else {
                 $app['session']->setFlash('info', "Content 'pompidom' could not be published.");
             }
-            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
             break;
             
         case "draft":
@@ -390,8 +388,7 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
             } else {
                 $app['session']->setFlash('info', "Content 'pompidom' could not be published.");
             }
-            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
-            break;            
+            break;
                     
         case "delete":
             
@@ -400,15 +397,13 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
             } else {
                 $app['session']->setFlash('info', "Content 'pompidom' could not be deleted.");    
             }
-            return $app->redirect('/pilex/overview/'.$contenttype['slug']);         
             break;
                 
         default:
             $app['session']->setFlash('error', "No such action for content.");
-            return $app->redirect('/pilex/overview/'.$contenttype['slug']); 
-        
-    }
 
+    }
+    return $app->redirect(path('overview', array('contenttypeslug' => $contenttype['slug'])));
 	
 })->before($checkLogin)->bind('contentaction');
 
@@ -525,7 +520,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
                 $app['session']->setFlash('error', "User " . $user['username'] . " could not be saved, or nothing was changed."); 
             }
             
-            return $app->redirect('/pilex/users');
+            return $app->redirect(path('users'));
             
         }
     }
@@ -572,7 +567,7 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
     
     if (!$user) {
         $app['session']->setFlash('error', "No such user.");
-        return $app->redirect('/pilex/users'); 
+        return $app->redirect(path('users'));
     }
 
     switch ($action) {
@@ -583,7 +578,6 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
             } else {
                 $app['session']->setFlash('info', "User '{$user['displayname']}' could not be disabled.");
             }
-            return $app->redirect('/pilex/users'); 
             break;
         
         case "enable":
@@ -592,7 +586,6 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
             } else {
                 $app['session']->setFlash('info', "User '{$user['displayname']}' could not be enabled.");        
             }
-            return $app->redirect('/pilex/users'); 
             break;
                     
         case "delete":
@@ -602,16 +595,17 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
             } else {
                 $app['session']->setFlash('info', "User '{$user['displayname']}' could not be deleted.");    
             }
-            return $app->redirect('/pilex/users');         
             break;
                 
         default:
             $app['session']->setFlash('error', "No such action for user '{$user['displayname']}'.");
-            return $app->redirect('/pilex/users'); 
-        
-    }
 
-	
+    }
+    return $app->redirect(path('users'));
+
+
+
+
 })->before($checkLogin)->bind('useraction');
 
 
@@ -699,7 +693,7 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
 
 
 $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Request $request) {
-    
+
     $title = "Edit file '$file'.";
 
     $filename = realpath(__DIR__."/../".$file);
@@ -753,7 +747,7 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
                     $app['session']->setFlash('info', "File '" .$file."' has been saved."); 
                     // If we've saved contenttypes.yml, update the database.. 
                     if (basename($file) == "contenttypes.yml") {
-                        return $app->redirect('/pilex/dbupdate?return=edit');
+                        return $app->redirect(path('dbupdate', '', "?return=edit"));
                     }
                 } else {
                     $app['session']->setFlash('error', "File '" .$file."' could not be saved, for some reason."); 
@@ -763,7 +757,7 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
             
             
             
-            return $app->redirect('/pilex/file/edit/'. $file);
+            return $app->redirect(path('fileedit', array('file' => $file)));
             
         }
     }
@@ -980,8 +974,3 @@ $app->error(function(Exception $e) use ($app) {
 
 $app->mount('/pilex', $backend);
 
-
-// TODO: Make sure /pilex works, without requiring /pilex/
-//$app->get("/pilex", function(Silex\Application $app) {
-//    return $app->redirect('/pilex/');
-//});

@@ -758,7 +758,7 @@ function getConfig() {
     
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the
     // path.. if the request URI starts with '/pilex' in the URL, we assume we're in the Backend.. Yeah..
-    if (1 || strpos($_SERVER['REQUEST_URI'], "/pilex") === 0) {
+    if (strpos($_SERVER['REQUEST_URI'], "/pilex") !== false) {
         $config['twigpath'] = __DIR__.'/view';
     } else {
         $themepath = __DIR__.'/../theme/'. basename($config['general']['theme']);
@@ -817,7 +817,7 @@ function getPaths($config) {
         'hostname' => $_SERVER['HTTP_HOST'],
         'root' => $path_prefix,
         'rootpath' => realpath(__DIR__ . "/../"),
-        'theme' => $path_prefix . "theme/" . $config['general']['theme'],
+        'theme' => $path_prefix . "theme/" . $config['general']['theme'] . "/",
         'themepath' => realpath(__DIR__ . "/../theme/" . $config['general']['theme']),
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__)
@@ -834,9 +834,17 @@ function getPaths($config) {
  * @param string $path
  * @return string
  */
-function path($path) {
+function path($path, $param=array(), $add='') {
     global $app;
 
-    return $app['url_generator']->generate($path);
+    if (!empty($add) && $add[0]!="?") {
+        $add = "?" . $add;
+    }
+
+    if (empty($param)) {
+        $param = array();
+    }
+
+    return $app['url_generator']->generate($path, $param). $add;
 
 }
