@@ -76,10 +76,15 @@ $backend->get("", function(Silex\Application $app) {
 $backend->get("/dashboardnews", function(Silex\Application $app) {
     global $pilex_version;
 
-    $url = sprintf('http://news.pilex.net/?v=%s&p=%s',
+    $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
+
+    $url = sprintf('http://news.pilex.net/?v=%s&p=%s&db=%s',
         $pilex_version,
-        phpversion()
+        phpversion(),
+        $driver
         );
+
+    // TODO: Make this cacheable.
 
     $guzzleclient = new Guzzle\Http\Client($url);
         
