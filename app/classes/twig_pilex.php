@@ -193,11 +193,13 @@ class Pilex_Twig_Extension extends Twig_Extension
      */
     public function listtemplates($filter="") 
     {
-            
+        global $app;
+
         $files = array();
     
-        $foldername = realpath(__DIR__.'/../theme/default/');
-    
+        $foldername = realpath(__DIR__.'/../../theme/' . $app['config']['general']['theme']);
+
+
         $d = dir($foldername);
         
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");

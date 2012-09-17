@@ -31,7 +31,6 @@ $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider());
 
-
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__.'/cache/debug.log',
     'monolog.name' => "Pilex"
@@ -47,13 +46,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'autoescape' => false )
 ));
 
-
-//$dboptions = array(
-//    'driver'   => 'pdo_sqlite',
-//    'path'     => __DIR__.'/bolt.db',
-//);
-
-// echo "<pre>\n" . util::var_dump($dboptions, true) . "</pre>\n";
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions

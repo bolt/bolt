@@ -15,8 +15,18 @@ $checkStuff = function(Request $request) use ($app) {
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
         return $app->redirect('/pilex/users/edit/');
     }
-    
+
+    $paths = array(
+        'hostname' => $_SERVER['HTTP_HOST'],
+        'themefolder' => "/theme/" . $app['config']['general']['theme'],
+        'themepath' => realpath(__DIR__ . "/../theme/" . $app['config']['general']['theme'])
+
+    );
+
     $app['twig']->addGlobal('frontend', true);
+    $app['twig']->addGlobal('paths', $paths);
+
+
 
 };
 

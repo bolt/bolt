@@ -726,7 +726,9 @@ function getConfig() {
     $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/taxonomy.yml'));
     $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/contenttypes.yml'));
     $config['menu'] = $yamlparser->parse(file_get_contents(__DIR__.'/config/menu.yml'));
-    
+
+    // TODO: If no config files can be found, get them from bolt.cm/files/default/
+
     // echo "<pre>\n" . util::var_dump($config['menu'], true) . "</pre>\n";
     
     // Assume some sensible defaults for some options
@@ -737,7 +739,8 @@ function getConfig() {
         'recordsperpage' => 10,
         'recordsperdashboardwidget' => 5,
         'debug' => false,
-        'strict_variables' => false
+        'strict_variables' => false,
+        'theme' => "default"
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
     
@@ -758,7 +761,8 @@ function getConfig() {
     if (strpos($_SERVER['REQUEST_URI'], "/pilex") === 0) {
         $config['twigpath'] = __DIR__.'/view';
     } else {
-        $config['twigpath'] = array(__DIR__.'/../theme/default', __DIR__.'/view');
+        $themepath = __DIR__.'/../theme/'. basename($config['general']['theme']);
+        $config['twigpath'] = array($themepath, __DIR__.'/view');
     }
 
     return $config;
