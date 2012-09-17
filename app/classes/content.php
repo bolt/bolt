@@ -141,7 +141,7 @@ class Content {
             }
         }
 
-        $excerpt = implode(" x ", $excerpt);
+        $excerpt = implode(" ", $excerpt);
 
         $excerpt = trimText(strip_tags($excerpt), $length) ;
 

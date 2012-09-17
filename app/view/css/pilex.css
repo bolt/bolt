@@ -352,12 +352,17 @@ label span.left {
 
 #editcontent input.timepicker {
     width: 10%;
-    min-width: 80px;   
+    min-width: 80px;
 }
 
 #editcontent input {
     font-size: 100%;
     width: 95%;
+}
+
+#editcontent input[type=number] {
+    width: 20%;
+    min-width: 140px;
 }
 
 #editcontent textarea {

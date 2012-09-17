@@ -45,6 +45,7 @@ class Users {
         
         // make sure the username is slug-like
         $user['username'] = makeSlug($user['username']);
+        $user['lastseen'] = "0000-00-00";
         
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
@@ -139,10 +140,10 @@ class Users {
         $tablename = $this->prefix . "users";
 
         $query = "SELECT * FROM $tablename";
-        
+
         $tempusers = $this->db->fetchAll($query);
         $users = array();
-        
+
         foreach($tempusers as $user) {
             $key = $user['username'];
             $users[$key] = $user;

@@ -28,7 +28,7 @@ class Storage {
         $sm = $this->db->getSchemaManager();
 
         $tables = $this->getTables();
-        
+
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
             return false;            
@@ -111,8 +111,8 @@ class Storage {
             $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("password", "string", array("length" => 64));
             $myTable->addColumn("email", "string", array("length" => 64));
-            $myTable->addColumn("lastseen", "datetime");                        
-            $myTable->addColumn("lastip", "string", array("length" => 32));
+            $myTable->addColumn("lastseen", "datetime");
+            $myTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
             $myTable->addColumn("displayname", "string", array("length" => 32));
             $myTable->addColumn("userlevel", "string", array("length" => 32));
             $myTable->addColumn("enabled", "boolean");
@@ -137,7 +137,7 @@ class Storage {
             $myTable->addColumn("contenttype", "string", array("length" => 32));
             $myTable->addColumn("taxonomytype", "string", array("length" => 32));
             $myTable->addColumn("slug", "string", array("length" => 64));   
-            $myTable->addColumn("name", "string", array("length" => 64));                        
+            $myTable->addColumn("name", "string", array("length" => 64, "default" => ""));
             
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
@@ -187,14 +187,20 @@ class Storage {
                         case 'templateselect':
                         case 'image':
                         case 'file':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL DEFAULT \"\";", $tablename, $field);
+                            $this->db->query($query);
+                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
+                            break;
+
+                        case 'number':
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
                             
                         case 'html':
                         case 'textarea':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
@@ -510,7 +516,7 @@ class Storage {
         
         $id = intval($id);
         
-        // Todo, make sure datechanged is updated
+        // TODO: make sure datechanged is updated
         unset($content['datecreated']);
         //$content['datechanged'] = date('Y-m-d H:i:s');
 
@@ -583,10 +589,14 @@ class Storage {
         }
         
         
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 10;
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
-        $offset = ($page - 1) * $limit;
-        
+
+        // If we're allowed to use pagination, use the 'page' parameter.
+        if (!empty($parameters['paging'])) {
+            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+        }
+
         $contenttype = $this->getContentType($contenttypeslug);
         
         // If requesting something with a content-type slug in singular, return only the first item.
@@ -596,8 +606,6 @@ class Storage {
         
         $tablename = $this->prefix . $contenttype['slug'];
 
-        $queryparams = "";
-               
         // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
         foreach($parameters as $key => $value) {
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
@@ -607,10 +615,9 @@ class Storage {
                 !in_array($key, array("id", "slug", "datecreated", "datechanged", "username", "status")) ) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
-            
-            $operator = "=";
-            $where[] = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));    
-    
+
+            $where[] = $this->parseWhereParameter($key, $value);
+
         }
         
         // If we need to filter, add the WHERE for that.
@@ -632,8 +639,9 @@ class Storage {
             }
             
         }
-        
-        
+
+        $queryparams = "";
+
         // implode 'where'
         if (!empty($where)) {
             $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
@@ -641,7 +649,11 @@ class Storage {
         
         // Order 
         if (!empty($parameters['order'])) {
-            $queryparams .= " ORDER BY " . safeString($parameters['order']);
+            $order = safeString($parameters['order']);
+            if ($order[0] == "-") {
+                $order = substr($order,1) . " DESC";
+            }
+            $queryparams .= " ORDER BY " . $order;
         }
         
         // Make the query for the pager..
@@ -653,8 +665,10 @@ class Storage {
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        // echo "<pre>" . util::var_dump($query, true) . "</pre>";
-    
+        if (!$returnsingle) {
+        //     echo "<pre>" . util::var_dump($query, true) . "</pre>";
+        }
+
         $rows = $this->db->fetchAll($query);
         
         // Make sure content is set, and all content has information about its contenttype
@@ -687,21 +701,21 @@ class Storage {
             }
         }
         
-        
-        // Set up the $pager array with relevant values..
-        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
-        $pager = array(
-            'count' => $rowcount['count'],
-            'totalpages' => ceil($rowcount['count'] / $limit),
-            'current' => $page,
-            'showing_from' => ($page-1)*$limit + 1,
-            'showing_to' => ($page-1)*$limit + count($content)
-        );
-        
-        // echo "<pre>\n" . util::var_dump($pagerquery, true) . "</pre>\n";
-        
-        // echo "<pre>\n" . util::var_dump($pager, true) . "</pre>\n";
-         
+        if (!$returnsingle) {
+            // Set up the $pager array with relevant values..
+            $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+            $pager = array(
+                'for' => $contenttypeslug,
+                'count' => $rowcount['count'],
+                'totalpages' => ceil($rowcount['count'] / $limit),
+                'current' => $page,
+                'showing_from' => ($page-1)*$limit + 1,
+                'showing_to' => ($page-1)*$limit + count($content)
+            );
+
+            $GLOBALS['pager'][$contenttypeslug] = $pager;
+        }
+
         // If we requested a singular item..
         if ($returnsingle) {
             if (util::array_first_key($content)) {            
@@ -714,8 +728,43 @@ class Storage {
         }
         
     }
-    
-    
+
+    /**
+     * Helper function to set the proper 'where' parameter,
+     * when getting values like '<2012' or '!bob'
+     */
+    private function parseWhereParameter($key, $value) {
+
+        // Set the correct operator for the where clause
+        $operator = "=";
+
+        if ($value[0] == "!") {
+            $operator = "!=";
+            $value = substr($value, 1);
+        } else if (substr($value, 0, 2) == "<=") {
+            $operator = "<=";
+            $value = substr($value, 2);
+        } else if (substr($value, 0, 2) == ">=") {
+            $operator = ">=";
+            $value = substr($value, 2);
+        } else if ($value[0] == "<") {
+            $operator = "<";
+            $value = substr($value, 1);
+        } else if ($value[0] == ">") {
+            $operator = ">";
+            $value = substr($value, 1);
+        } else if ($value[0] == "%" || $value[strlen($value)-1] == "%" ) {
+            $operator = "LIKE";
+        }
+
+        $parameter = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));
+
+
+        return $parameter;
+
+    }
+
+
     /**
      * Get a single unit of content:
      * 

@@ -10,7 +10,26 @@
 
 <p>code: <tt>{{code}}</tt></p>
 
-<pre> {{ trace }} </pre>
+
+{% for i in trace %}
+
+
+
+    {%  if i.line != "" %}
+<p>
+    <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
+    <em>{{ i.file }}, line {{ i.line }}</em>
+
+{%  if i.args %}
+{{ print(i.args) }}
+{%  endif %}
+
+
+
+</p>
+{%  endif %}
+{%  endfor %}
+
 
 
 

@@ -54,8 +54,16 @@ class Pilex_Setcontent_TokenParser extends Twig_TokenParser
             $order = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');                
             $arguments['order'] = $order;
 
-        }                
-        
+        }
+
+        if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'paging') ||
+            $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'allowpaging') ) {
+            $this->parser->getStream()->next();
+
+            $arguments['paging'] = true;
+
+        }
+
         $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
 
         return new Pilex_Setcontent_Node($name, $contenttype, $arguments, $lineno, $this->getTag());
@@ -88,6 +96,6 @@ class Pilex_Setcontent_Node extends Twig_Node
             ->raw(", " . var_export($arguments,true) )
             ->raw(" );\n")
         ;
-                
+
     }
 }

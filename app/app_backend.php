@@ -13,13 +13,15 @@ $checkLogin = function(Request $request) use ($app) {
     // There's an active session, we're all good.
     if ($app['session']->has('user')) {
         return;
-    } 
-    
+    }
+
+    // TODO: This is awkward.. Make it less awkward.
+
     // If the users table is present, but there are no users, and we're on /pilex/users/edit,
     // we let the user stay, because they need to set up the first user. 
     if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/pilex/users/edit/") {
         return;
-    } 
+    }
 
     // If there are no users in the users table, or the table doesn't exist. Repair 
     // the DB, and let's add a new user. 
@@ -51,12 +53,19 @@ $backend->get("", function(Silex\Application $app) {
 
     $limit = $app['config']['general']['recordsperdashboardwidget'];
 
+    $total = 0;
     // get the 'latest' from each of the content types. 
     foreach ($app['config']['contenttypes'] as $key => $contenttype) { 
-        $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));   
+        $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
+        $total += count($latest[$key]);
     }
 
-    return $app['twig']->render('dashboard.twig', array('latest' => $latest));
+    // If there's nothing in the DB, suggest to create some dummy content.
+    if ($total == 0 ) {
+        $suggestloripsum = true;
+    }
+
+    return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
 
 })->before($checkLogin)->bind('dashboard');
 
@@ -220,7 +229,9 @@ $backend->get("/prefill", function(Silex\Application $app) {
 	$title = "Database prefill";
 
 	$content = $app['storage']->preFill();
-	
+
+    $content .= "<p>Go <a href='/pilex/'>back to the Dashboard</a>.</p>";
+
 	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
 	
 })->before($checkLogin)->bind('prefill');
@@ -657,7 +668,6 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
     
     
     } else {
-        $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
         $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML."); 
     }
 
@@ -820,10 +830,12 @@ $app->before(function() use ($app) {
     global $pilex_name, $pilex_version;
     
     $app['session']->start();
-    
+
     $app['twig']->addGlobal('pilex_name', $pilex_name);
     $app['twig']->addGlobal('pilex_version', $pilex_version);
-    $app['twig']->addGlobal('users', $app['users']->getUsers());
+
+    // TODO: Get the users, but don't break when the table doesn't exist.
+    // $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
     
 });
@@ -935,9 +947,14 @@ $app->error(function(Exception $e) use ($app) {
 
 	$trace = $e->getTrace();;
 
-	unset($trace[0]['args']);
+    foreach($trace as $key=>$value) {
 
-    $twigvars['trace'] = print_r($trace[0], true);
+        if (strpos($value['file'], "/vendor/") > 0 ) {
+            unset($trace[$key]['args']);
+        }
+    }
+
+    $twigvars['trace'] = $trace;
 
     $twigvars['title'] = "An error has occured!";
 

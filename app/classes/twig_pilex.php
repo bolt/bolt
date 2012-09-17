@@ -186,7 +186,7 @@ class Pilex_Twig_Extension extends Twig_Extension
     
     
     /**
-     * lists templates, optionallyfiltered by $filter
+     * lists templates, optionally filtered by $filter
      *
      * @param string $filter
      * @return string 
@@ -236,15 +236,18 @@ class Pilex_Twig_Extension extends Twig_Extension
      * @param array $pager
      * @return string HTML
      */
-    public function pager(Twig_Environment $env, $surr=4, $class="", $pager='') 
+    public function pager(Twig_Environment $env, $pagername='', $surr=4, $template='_sub_pager.twig', $class='')
     {
-        global $app;
-            
-        if (empty($pager)) {
-            $pager = $app['pager'];
+        // Yuck, $GLOBALS.. TODO: figure out a better way to do this.
+        $pager = $GLOBALS['pager'];
+
+        if (!empty($pagername)) {
+            $thispager = $pager[$pagername];
+        } else {
+            $thispager = array_pop($pager);
         }
-         
-        echo $env->render('_sub_pager.twig', array('pager' => $pager, 'surr' => $surr, 'class' => $class));
+
+        echo $env->render($template, array('pager' => $thispager, 'surr' => $surr, 'class' => $class));
             
     }
     
@@ -470,7 +473,8 @@ class Pilex_Twig_Extension extends Twig_Extension
             }          
             
         }
-        
+
+
         // echo "<pre>\n" . util::var_dump($menu, true) . "</pre>\n";
         
         echo $env->render('_sub_menu.twig', array('name' => $name, 'menu' => $menu));

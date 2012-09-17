@@ -1,12 +1,7 @@
 {% include '_header.twig' %}
 
 
-
-{% set entries = content('entries', {'limit': 3, 'order': 'datecreated desc'}) %}
-
-{% setcontent entries = "entries/latest/3" %}
-
-
+{% setcontent entries = "entries/latest/3" allowpaging %}
 
 {% for entry in entries %}
 <article>
@@ -23,9 +18,7 @@
 </article>    
 {% endfor %}
 
-
 {{ pager() }}
-
 
 {% include '_footer.twig' %}
 
