@@ -120,9 +120,14 @@ class Content {
      */
     public function link($param="") 
     {
-        
+        global $app;
+
         // TODO: use Silex' UrlGeneratorServiceProvider instead.
-        $link = sprintf("/%s/%s", $this->contenttype['singular_slug'], $this->values['slug'] );
+
+        $link = sprintf("%s%s/%s",
+            $app['paths']['root'],
+            $this->contenttype['singular_slug'],
+            $this->values['slug'] );
         
         return $link;
         

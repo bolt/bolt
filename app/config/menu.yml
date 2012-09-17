@@ -1,7 +1,7 @@
 Main:
   - label: Home
     title: This is the first menu item. Fo shizzle!
-    link: /
+    link: (home)
     class: first
   - content: entry/1
     label: Second item

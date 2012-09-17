@@ -20,6 +20,8 @@ require_once __DIR__.'/classes/util.php';
 $config = getConfig();
 $dboptions = getDBOptions($config);
 
+
+
 // Start the timer:
 $starttime=getMicrotime();
 
@@ -80,6 +82,7 @@ if (!function_exists('intl_get_error_code')) {
 $app['storage'] = new Storage($app);
 
 $app['users'] = new Users($app);
+$app['paths'] = getPaths($config);
 
 $app['editlink'] = "";
 
@@ -89,6 +92,9 @@ $app['twig']->addExtension(new Pilex_Twig_Extension());
 
 require_once __DIR__.'/classes/twig_setcontent.php';
 $app['twig']->addTokenParser(new Pilex_Setcontent_TokenParser());
+
+
+
 
 
 

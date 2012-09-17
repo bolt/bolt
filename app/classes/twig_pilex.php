@@ -363,10 +363,11 @@ class Pilex_Twig_Extension extends Twig_Extension
      */
     public function thumbnail($filename, $width=100, $height=100, $crop="") 
     {
-        
-        $thumbnail = sprintf("%s/%sx%s%s/%s", 
-            "/thumbs",
-            $width, 
+        global $app;
+
+        $thumbnail = sprintf("%sthumbs/%sx%s%s/%s",
+            $app['paths']['root'],
+            $width,
             $height,
             $crop,
             $filename
@@ -501,9 +502,13 @@ class Pilex_Twig_Extension extends Twig_Extension
             if (empty($item['title'])) {
                 $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
             }
-            $item['link'] = "/" . $content->contenttype['singular_slug']."/".$content->values['slug'];
+            $item['link'] = $content->link();
         }
-        
+
+        if ($item['link'] == "(home)") {
+            $item['link'] = $app['paths']['root'];
+        }
+
         return $item;
         
     }

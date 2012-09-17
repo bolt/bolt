@@ -6,9 +6,12 @@
 {% for entry in entries %}
 <article>
     {% if entry.image!="" %}
-        <div class='imageholder'><img src="{{ entry.image|thumbnail(120, 120) }}"></div>
+        <div class='imageholder'><img src="{{ entry.image|thumbnail(120, 120) }}">
+        </div>
     {% endif %}
-    
+
+    link: {{  entry.link }}
+
     <h2><a href="{{ entry.link }}">{{ entry.title }}</a></h2>
     
     {{ entry.teaser|raw }}

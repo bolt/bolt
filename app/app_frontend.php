@@ -16,17 +16,8 @@ $checkStuff = function(Request $request) use ($app) {
         return $app->redirect('/pilex/users/edit/');
     }
 
-    $paths = array(
-        'hostname' => $_SERVER['HTTP_HOST'],
-        'themefolder' => "/theme/" . $app['config']['general']['theme'],
-        'themepath' => realpath(__DIR__ . "/../theme/" . $app['config']['general']['theme'])
-
-    );
-
     $app['twig']->addGlobal('frontend', true);
-    $app['twig']->addGlobal('paths', $paths);
-
-
+    $app['twig']->addGlobal('paths', $app['paths']);
 
 };
 

@@ -803,3 +803,24 @@ function getDBOptions($config) {
     return $dboptions;
     
 }
+
+
+function getPaths($config) {
+
+    // Set the root
+    $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
+    $path_prefix = str_replace("//", "/", $path_prefix);
+    if (empty($path_prefix)) { $path_prefix = "/"; }
+
+    // Set the paths
+    $paths = array(
+        'hostname' => $_SERVER['HTTP_HOST'],
+        'root' => $path_prefix,
+        'rootpath' => realpath(__DIR__ . "/../"),
+        'theme' => $path_prefix . "theme/" . $config['general']['theme'],
+        'themepath' => realpath(__DIR__ . "/../theme/" . $config['general']['theme'])
+    );
+
+    return $paths;
+
+}
