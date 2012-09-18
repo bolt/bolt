@@ -41,6 +41,7 @@
     border-right: 1px solid #CCC;    
     padding: 7px 6px 7px 28px;
     color: #333;    
+    margin: 0;
 }
 
 #pilex-debugbar ul li#pd-pilex {
