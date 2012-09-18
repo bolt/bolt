@@ -130,9 +130,33 @@ class Content {
         } else {
             return false;
         }
-    }    
-         
-    
+    }
+
+
+    /**
+     * Get the title, name, caption or subject..
+     */
+    public function title()
+    {
+
+        if (isset($this->values['title'])) {
+            return $this->values['title'];
+        } else if (isset($this->values['name'])) {
+            return $this->values['name'];
+        } else if (isset($this->values['caption'])) {
+            return $this->values['caption'];
+        } else if (isset($this->values['subject'])) {
+            return $this->values['subject'];
+        } else {
+            return "(untitled)";
+        }
+
+
+    }
+
+
+
+
     /**
      * Creates a link to the content record
      */

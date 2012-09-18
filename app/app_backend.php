@@ -75,6 +75,8 @@ $backend->get("", function(Silex\Application $app) {
         $suggestloripsum = true;
     }
 
+    $app['twig']->addGlobal('title', "Dashboard");
+
     return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
 
 })->before($checkLogin)->bind('dashboard');
@@ -151,7 +153,9 @@ $backend->match("/login", function(Silex\Application $app, Request $request) {
         }
     
     }
-    
+
+    $app['twig']->addGlobal('title', "Login");
+
     return $app['twig']->render('login.twig');
 
 })->method('GET|POST')->before($checkLogin)->bind('login');
@@ -175,8 +179,6 @@ $backend->get("/logout", function(Silex\Application $app) {
  * Check the database, create tables, add missing/new columns to tables
  */
 $backend->get("/dbupdate", function(Silex\Application $app) {
-	
-	$title = "Database check / update";
 
 	$output = $app['storage']->repairTables();
 	
@@ -201,9 +203,10 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
     	$app['session']->setFlash('success', $content);
     	return redirect('fileedit', array('file' => "app/config/contenttypes.yml"));
 	}
-	
+
+    $app['twig']->addGlobal('title', "Database check / update");
+
 	return $app['twig']->render('base.twig', array(
-	   'title' => $title, 
 	   'content' => $content,
 	   'active' => "settings"
 	   ));
@@ -240,14 +243,14 @@ $backend->get("/clearcache", function(Silex\Application $app) {
  * Generate some lipsum in the DB.
  */
 $backend->get("/prefill", function(Silex\Application $app) {
-	
-	$title = "Database prefill";
 
 	$content = $app['storage']->preFill();
 
     $content .= "<p>Go <a href='/bolt/'>back to the Dashboard</a>.</p>";
 
-	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
+    $app['twig']->addGlobal('title', "Fill the database with Dummy Content");
+
+    return $app['twig']->render('base.twig', array('content' => $content));
 	
 })->before($checkLogin)->bind('prefill');
 
@@ -283,6 +286,8 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
 
     $app['pager'] = $pager;
 
+    $app['twig']->addGlobal('title', "Overview » ". $contenttype['name']);
+
 	return $app['twig']->render('overview.twig', 
 	       array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
 	   );
@@ -294,9 +299,7 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
  * Edit a unit of content, or create a new one.
  */
 $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, Silex\Application $app, Request $request) {
-        
-    $twigvars = array();
-    
+
     $contenttype = $app['storage']->getContentType($contenttypeslug);        
         
     if ($request->getMethod() == "POST") {
@@ -320,8 +323,10 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
       
 	if (!empty($id)) {
       	$content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $id));
-	} else {
+        $app['twig']->addGlobal('title', "Edit » ". $content->title());
+    } else {
     	$content = $app['storage']->getEmptyContent($contenttype['slug']);
+        $app['twig']->addGlobal('title', "New " . $contenttype['sungular_name']);
     }
 
 	if (!empty($_GET['duplicate'])) {
@@ -340,7 +345,8 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
     	$contentowner = $user['username'];
 	}
 
-	return $app['twig']->render('editcontent.twig', array(
+
+    return $app['twig']->render('editcontent.twig', array(
     	   'contenttype' => $contenttype, 
     	   'content' => $content, 
     	   'contentowner' => $contentowner
@@ -358,11 +364,6 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);    
-
-    $content = "";
-
-    $token = getToken();
-    
 
     switch ($action) {
         
@@ -602,11 +603,7 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
 
     }
 
-
     return redirect('users');
-
-
-
 
 })->before($checkLogin)->bind('useraction');
 
@@ -632,8 +629,7 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
             $pathsegments[ $cumulative ] = $segment;
         }
     }
-    
-    
+
     if (file_exists($currentfolder)) {
     
         $d = dir($currentfolder);
@@ -682,6 +678,7 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
         $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML."); 
     }
 
+    $app['twig']->addGlobal('title', "Files in ". $path);
 
     return $app['twig']->render('files.twig', array(
         'path' => $path,
@@ -807,11 +804,6 @@ $backend->get("/updatefield", function(Silex\Application $app, Request $request)
     $value = $request->get('value');
 
     // TODO: Add a shitload of sanity checks here.
-    
-    $content = array(
-        'id' => $id,
-        $field => $value
-        );
     
     $res = $app['storage']->updateSingleValue($id, $contenttype, $field, $value);
 
