@@ -49,6 +49,11 @@
     padding-left: 6px;
 }
 
+#pilex-debugbar ul li#pd-pilex strong,
+#pilex-debugbar ul li#pd-pilex small {
+    color: #F2F2F2;
+}
+
 #pilex-debugbar ul li a, 
 #pilex-debugbar ul li a:hover, 
 #pilex-debugbar ul li a:active, 

@@ -96,7 +96,7 @@ function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
         // console.log("values", contenttypeslug, id, usesfield, field);
         
         $.ajax({
-            url: '/pilex/makeuri',
+            url: path + 'makeuri',
             type: 'GET',
             data: { title: field, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
             success: function(uri) {

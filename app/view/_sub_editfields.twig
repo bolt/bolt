@@ -33,6 +33,7 @@
 
 {% if field.uses is defined %}
 <script type="text/javascript">
+    var path = "{{ paths.bolt }}";
     makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', '{{ field.uses }}', '{{key}}', false);
 </script>
 {% endif %}

@@ -14,6 +14,16 @@ class Content {
         
         if (!empty($values)) {
             $this->setValues($values);
+        } else {
+            // Return an '(undefined contenttype)'..
+            if (is_array($contenttype)) {
+                $contenttype = $contenttype['name'];
+            }
+            $values = array(
+                'name' => "(undefined $contenttype)",
+                'title' => "(undefined $contenttype)"
+            );
+            $this->setValues($values);
         }
         
         if (!empty($contenttype)) {
@@ -29,7 +39,15 @@ class Content {
         }
         
         $this->values = $values;
-        
+
+        if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
+            $this->values['datecreated'] = "1970-01-01 00:00:00";
+        }
+
+        if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
+            $this->values['datechanged'] = "1970-01-01 00:00:00";
+        }
+
     }
 
     public function setContenttype($contenttype) 
@@ -123,6 +141,11 @@ class Content {
         global $app;
 
         // TODO: use Silex' UrlGeneratorServiceProvider instead.
+
+        // If there's no valid content, return no link.
+        if (empty($this->id)) {
+            return "";
+        }
 
         $link = sprintf("%s%s/%s",
             $app['paths']['root'],

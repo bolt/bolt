@@ -31,11 +31,15 @@ $app->get("/", function(Silex\Application $app) {
 
     if (!empty($app['config']['general']['homepage_template'])) {
         $content = $app['storage']->getSingleContent($app['config']['general']['homepage']);
+        $twigvars = array(
+            'record' => $content,
+            $content->contenttype['singular_slug'] => $content
+        );
     } else {
-        $content = false;
+        $twigvars = array();
     }
 
-    $body = $app['twig']->render('index.twig');
+    $body = $app['twig']->render('index.twig', $twigvars);
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkStuff);

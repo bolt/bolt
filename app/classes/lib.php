@@ -192,7 +192,7 @@ function findFiles($term, $extensions="") {
 
 function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
     
-    $basefolder = __DIR__."/../files/";
+    $basefolder = __DIR__."/../../files/";
     
     $currentfolder = realpath($basefolder."/".$additional);
 
@@ -822,7 +822,8 @@ function getPaths($config) {
         'theme' => $path_prefix . "theme/" . $config['general']['theme'] . "/",
         'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
         'app' => $path_prefix . "app/",
-        'apppath' => realpath(__DIR__ . "/..")
+        'apppath' => realpath(__DIR__ . "/.."),
+        'bolt' => $path_prefix . "pilex/"
     );
 
     return $paths;

@@ -353,7 +353,8 @@ class Storage {
     
     
     public function saveContent($content, $contenttype="") {
-              
+        global $app;
+
         if (empty($contenttype) && !empty($content['contenttype'])) {
             $contenttype = $content['contenttype'];
         }
@@ -376,7 +377,13 @@ class Storage {
             } 
             
         }
-   
+
+        // Make sure a username is set.
+        if (empty($content['username'])) {
+            $user = $app['session']->get('user');
+            $content['username'] = $user['username'];
+        }
+
         // Clean up fields, check unneeded columns.
         foreach($content as $key => $value) {
         
@@ -471,6 +478,9 @@ class Storage {
             $taxonomy = $content['taxonomy'];
             unset($content['taxonomy']);
         }
+
+        // id is set to autoincrement, so let the DB handle it
+        unset($content['id']);
 
         $res = $this->db->insert($tablename, $content);
         
@@ -571,21 +581,21 @@ class Storage {
     public function getContent($contenttypeslug, $parameters="", &$pager = array()) {
 
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
-        if (preg_match_all('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
+        if (preg_match('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'entry/12'
-            $contenttypeslug = $match[1][0];
-            $parameters['id'] = $match[2][0];
+            $contenttypeslug = $match[1];
+            $parameters['id'] = $match[2];
             $returnsingle = true;
-        } else if (preg_match_all('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
+        } else if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
             // like 'page/lorem-ipsum-dolor'
-            $contenttypeslug = $match[1][0];
-            $parameters['slug'] = $match[2][0];
+            $contenttypeslug = $match[1];
+            $parameters['slug'] = $match[2];
             $returnsingle = true;
-        } else if (preg_match_all('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
+        } else if (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/lorem-ipsum-dolor'
-            $contenttypeslug = $match[1][0];
+            $contenttypeslug = $match[1];
             $parameters['order'] = 'datecreated ' . ($match[2][0]=="latest" ? "DESC" : "ASC");
-            $parameters['limit'] = $match[3][0];
+            $parameters['limit'] = $match[3];
         }
         
         
@@ -598,7 +608,13 @@ class Storage {
         }
 
         $contenttype = $this->getContentType($contenttypeslug);
-        
+
+        // If we can't match to a valid contenttype, return (undefined) content;
+        if (!$contenttype) {
+            $emptycontent = new Content('', $contenttypeslug);
+            return $emptycontent;
+        }
+
         // If requesting something with a content-type slug in singular, return only the first item.
         if ( ($contenttype['singular_slug'] == $contenttypeslug) || $parameters['returnsingle'] ) {
             $returnsingle = true;
@@ -779,7 +795,13 @@ class Storage {
         // Just to make sure we're getting a single item. 
         $parameters['returnsingle'] = true;
         
-        return $this->getContent($contenttypeslug, $parameters);
+        $content = $this->getContent($contenttypeslug, $parameters);
+
+        if (empty($content)) {
+            $content = new Content('', $contenttypeslug);
+        }
+
+        return $content;
         
     }
         
@@ -941,7 +963,6 @@ class Storage {
                             'slug' => $value
                         );
                     $this->db->insert($tablename, $row);
-                    // echo "insert: $content_id, $value<br />";
                 }
                 
             }

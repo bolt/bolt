@@ -243,6 +243,11 @@ class Pilex_Twig_Extension extends Twig_Extension
         // Yuck, $GLOBALS.. TODO: figure out a better way to do this.
         $pager = $GLOBALS['pager'];
 
+        if (!is_array($pager)) {
+            // nothing to page..
+            return "";
+        }
+
         if (!empty($pagername)) {
             $thispager = $pager[$pagername];
         } else {
@@ -502,7 +507,9 @@ class Pilex_Twig_Extension extends Twig_Extension
             if (empty($item['title'])) {
                 $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
             }
-            $item['link'] = $content->link();
+            if (is_object($content)) {
+                $item['link'] = $content->link();
+            }
         }
 
         if ($item['link'] == "(home)") {

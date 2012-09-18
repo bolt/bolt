@@ -845,8 +845,7 @@ $app->before(function() use ($app) {
     $app['twig']->addGlobal('pilex_name', $pilex_name);
     $app['twig']->addGlobal('pilex_version', $pilex_version);
 
-    // TODO: Get the users, but don't break when the table doesn't exist.
-    // $app['twig']->addGlobal('users', $app['users']->getUsers());
+    $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
     
 });

@@ -1,12 +1,13 @@
 <?php
 
 if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
-    echo "<p>The file <tt>vendor/autoload.php</tt> doesn't exist. Make sure you've installed the Silex/Pilex components with Composer. See the README.md file.</p>";
+    echo "<p>The file <code>vendor/autoload.php</code> doesn't exist. Make sure you've installed the Silex/Pilex components with Composer. See the README.md file.</p>";
     die();
 }
 
-$pilex_version = "0.5";
-$pilex_name = "Almost alpha";
+$pilex_version = "0.6";
+$pilex_buildnumber = "";
+$pilex_name = "Pretty much alpha";
 
 error_reporting(E_ALL ^ E_NOTICE);
 
