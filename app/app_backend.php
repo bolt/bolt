@@ -25,9 +25,9 @@ $checkLogin = function(Request $request) use ($app) {
 
     // TODO: This is awkward.. Make it less awkward.
 
-    // If the users table is present, but there are no users, and we're on /pilex/users/edit,
+    // If the users table is present, but there are no users, and we're on /bolt/users/edit,
     // we let the user stay, because they need to set up the first user. 
-    if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/pilex/users/edit/") {
+    if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
         return;
     }
 
@@ -84,12 +84,12 @@ $backend->get("", function(Silex\Application $app) {
  * News.
  */
 $backend->get("/dashboardnews", function(Silex\Application $app) {
-    global $pilex_version;
+    global $bolt_version;
 
     $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
     $url = sprintf('http://news.pilex.net/?v=%s&p=%s&db=%s',
-        $pilex_version,
+        $bolt_version,
         phpversion(),
         $driver
         );
@@ -245,7 +245,7 @@ $backend->get("/prefill", function(Silex\Application $app) {
 
 	$content = $app['storage']->preFill();
 
-    $content .= "<p>Go <a href='/pilex/'>back to the Dashboard</a>.</p>";
+    $content .= "<p>Go <a href='/bolt/'>back to the Dashboard</a>.</p>";
 
 	return $app['twig']->render('base.twig', array('title' => $title, 'content' => $content));
 	
@@ -838,12 +838,12 @@ $backend->get("/makeuri", function(Silex\Application $app, Request $request) {
 
 // Temporary hack. Silex should start session on demand.
 $app->before(function() use ($app) {
-    global $pilex_name, $pilex_version;
+    global $bolt_name, $bolt_version;
     
     $app['session']->start();
 
-    $app['twig']->addGlobal('pilex_name', $pilex_name);
-    $app['twig']->addGlobal('pilex_version', $pilex_version);
+    $app['twig']->addGlobal('bolt_name', $bolt_name);
+    $app['twig']->addGlobal('bolt_version', $bolt_version);
 
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
@@ -973,5 +973,5 @@ $app->error(function(Exception $e) use ($app) {
 });
 
 
-$app->mount('/pilex', $backend);
+$app->mount('/bolt', $backend);
 

@@ -103,7 +103,7 @@ class Content {
             $fieldtype = $this->contenttype['fields'][$name]['type'];
             
             if (in_array($fieldtype, array('html', 'text', 'textarea'))) {
-                $output = sprintf("<div class='pilex-editable'>%s</div>", $this->values[$name]);
+                $output = sprintf("<div class='bolt-editable'>%s</div>", $this->values[$name]);
             } else {
                 $output = $this->values[$name];
             }

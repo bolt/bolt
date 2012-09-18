@@ -1,13 +1,13 @@
 
 
 
-<div id='pilex-nipple'></div>  
-<div id='pilex-debugbar'>      
+<div id='bolt-nipple'></div>  
+<div id='bolt-debugbar'>      
 <ul>
-    <li id='pd-pilex'><strong>Pilex {{pilex_version}}</strong><small>{% if pilex_name is defined %} - {{pilex_name}}{% endif %}</small></li>
-    <li id='pd-variables'><a href="#" data-for="pilex-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
+    <li id='pd-bolt'><strong>Bolt {{bolt_version}}</strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
+    <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
     {% if frontend %} {# todo: Add something with 'and editlink' #}
-    <li id='pd-edit'><a href="#" data-for="pilex-editpanel">Edit</a></li>
+    <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li>
     {% endif %}
     
     <li id='pd-log'>Log<span class='narrow'>file</span></li>
@@ -15,21 +15,21 @@
         {% if querycount==0 %}
             No Q<span class='narrow'>ueries</span>
         {% elseif querycount==1 %}
-            <a href="#" data-for="pilex-queriespanel">1 Q<span class='narrow'>uery</span></a> <small>({{querytime}} sec)</small>
+            <a href="#" data-for="bolt-queriespanel">1 Q<span class='narrow'>uery</span></a> <small>({{querytime}} sec)</small>
         {% else %}
-            <a href="#" data-for="pilex-queriespanel">{{querycount}} Q<span class='narrow'>ueries</span></a> <small>({{querytime}} sec)</small>
+            <a href="#" data-for="bolt-queriespanel">{{querycount}} Q<span class='narrow'>ueries</span></a> <small>({{querytime}} sec)</small>
         {% endif %}</li>
-    <li id='pd-server'><a href="#" data-for="pilex-serverpanel"><span class='narrow'>pilex.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
+    <li id='pd-server'><a href="#" data-for="bolt-serverpanel"><span class='narrow'>bolt.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
 </ul>  
 </div>
 
-<div id='pilex-editpanel' class='pilex-debugpanel'> 
-<p>Click one of the highlighted fields, or <a href="{{editlink}}">Edit in the Pilex backend</a>.
+<div id='bolt-editpanel' class='bolt-debugpanel'> 
+<p>Click one of the highlighted fields, or <a href="{{editlink}}">Edit in the bolt backend</a>.
 
 </div>
 
 
-<div id='pilex-varpanel' class='pilex-debugpanel'> 
+<div id='bolt-varpanel' class='bolt-debugpanel'> 
 <pre>
 <strong>Time taken:</strong> {{timetaken}} sec. / <strong>Memory</strong> {{memtaken}}.
 
@@ -45,7 +45,7 @@
 </div>
 
 
-<div id='pilex-queriespanel' class='pilex-debugpanel'>      
+<div id='bolt-queriespanel' class='bolt-debugpanel'>      
 <pre>{% for query in queries %}
 {{loop.index }}. {{ query.query}} <small>({{ query.duration }} sec.)</small>
 {% endfor %}
@@ -53,7 +53,7 @@
 </div>
 
 
-<div id='pilex-serverpanel' class='pilex-debugpanel'>      
+<div id='bolt-serverpanel' class='bolt-debugpanel'>      
 <pre>{% for key, var in servervars %}
 <strong>{{key|raw}}:</strong>
 {{ print(var) }}

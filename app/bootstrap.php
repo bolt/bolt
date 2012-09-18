@@ -1,13 +1,13 @@
 <?php
 
 if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
-    echo "<p>The file <code>vendor/autoload.php</code> doesn't exist. Make sure you've installed the Silex/Pilex components with Composer. See the README.md file.</p>";
+    echo "<p>The file <code>vendor/autoload.php</code> doesn't exist. Make sure you've installed the Silex/Bolt components with Composer. See the README.md file.</p>";
     die();
 }
 
-$pilex_version = "0.6";
-$pilex_buildnumber = "";
-$pilex_name = "Pretty much alpha";
+$bolt_version = "0.6";
+$bolt_buildnumber = "";
+$bolt_name = "Pretty much alpha";
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -36,7 +36,7 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__.'/cache/debug.log',
-    'monolog.name' => "Pilex"
+    'monolog.name' => "Bolt"
 ));
 
 
@@ -87,12 +87,12 @@ $app['paths'] = getPaths($config);
 
 $app['editlink'] = "";
 
-// Add the Pilex Twig functions, filters and tags.
-require_once __DIR__.'/classes/twig_pilex.php';
-$app['twig']->addExtension(new Pilex_Twig_Extension());
+// Add the Bolt Twig functions, filters and tags.
+require_once __DIR__.'/classes/twig_bolt.php';
+$app['twig']->addExtension(new Bolt_Twig_Extension());
 
 require_once __DIR__.'/classes/twig_setcontent.php';
-$app['twig']->addTokenParser(new Pilex_Setcontent_TokenParser());
+$app['twig']->addTokenParser(new Bolt_Setcontent_TokenParser());
 
 
 

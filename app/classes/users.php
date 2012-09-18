@@ -14,7 +14,7 @@ class Users {
     
         $this->db = $app['db'];
         $this->config = $app['config'];
-        $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "pilex_";
+        $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
         $this->users = array();
         $this->session = $app['session'];
 

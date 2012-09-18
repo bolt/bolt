@@ -81,7 +81,7 @@ h1 span {
     margin-right: 20px;
 }
 
-.navbar-pilex {
+.navbar-bolt {
 	background: transparent;
 	background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
 	background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);

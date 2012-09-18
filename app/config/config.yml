@@ -2,7 +2,7 @@ database:
   driver: sqlite
   databasename: bolt
 
-sitename: A sample Bolt pompidom site.
+sitename: A sample Bolt site.
 homepage: page/1
 homepage_template: index.twig
 theme: default

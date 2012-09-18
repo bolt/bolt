@@ -14,7 +14,7 @@ class Storage {
         $this->db = $app['db'];
         $this->monolog = $app['monolog'];
     
-        $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "pilex_";
+        $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
         
     }
   
@@ -1035,7 +1035,7 @@ class Storage {
     }
     
     /**
-     * Get an associative array with the pilex_tables tables and columns in the DB.
+     * Get an associative array with the bolt_tables tables and columns in the DB.
      *
      * @return array
      */

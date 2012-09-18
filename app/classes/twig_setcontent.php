@@ -1,6 +1,6 @@
 <?php
 
-class Pilex_Setcontent_TokenParser extends Twig_TokenParser
+class Bolt_Setcontent_TokenParser extends Twig_TokenParser
 {
     protected function convertToViewArguments(\Twig_Node_Expression_Array $array)
     {
@@ -66,7 +66,7 @@ class Pilex_Setcontent_TokenParser extends Twig_TokenParser
 
         $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
 
-        return new Pilex_Setcontent_Node($name, $contenttype, $arguments, $lineno, $this->getTag());
+        return new Bolt_Setcontent_Node($name, $contenttype, $arguments, $lineno, $this->getTag());
     }
 
     public function getTag()
@@ -76,7 +76,7 @@ class Pilex_Setcontent_TokenParser extends Twig_TokenParser
 }
 
 
-class Pilex_Setcontent_Node extends Twig_Node
+class Bolt_Setcontent_Node extends Twig_Node
 {
     public function __construct($name, $contenttype, $arguments, $lineno, $tag = null)
     {

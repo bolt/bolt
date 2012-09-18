@@ -13,7 +13,7 @@ jQuery(function($) {
 
     // For editing content.. 
     if ($('.redactor').is('*')) {
-		$('.redactor').redactor({ autoresize: false, css: 'style_pilex.css' });
+		$('.redactor').redactor({ autoresize: false, css: 'style_bolt.css' });
 	}
 
 	// Initialize the Shadowbox shizzle.

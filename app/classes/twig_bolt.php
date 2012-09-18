@@ -1,13 +1,13 @@
 <?php
 
 /**
- * The class for Pilex' Twig tags, functions and filters.
+ * The class for Bolt' Twig tags, functions and filters.
  */
-class Pilex_Twig_Extension extends Twig_Extension
+class Bolt_Twig_Extension extends Twig_Extension
 {
     public function getName()
     {
-        return 'pilex';
+        return 'Bolt';
     }
     
     public function getFunctions()
@@ -420,7 +420,7 @@ class Pilex_Twig_Extension extends Twig_Extension
         $contenttype = $content->contenttype['slug'];
         $id = $content->id;
         
-        $output = sprintf("<div class='pilex-editable' data-id='%s' data-contenttype='%s' data-field='%s'>%s</div>", 
+        $output = sprintf("<div class='Bolt-editable' data-id='%s' data-contenttype='%s' data-field='%s'>%s</div>", 
             $content->id,
             $contenttype,
             $field,

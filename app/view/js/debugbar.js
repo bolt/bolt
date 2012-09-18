@@ -8,35 +8,35 @@ jQuery.cookie=function(name,value,options){if(typeof value!='undefined'){options
 
 jQuery(function($) {
     
-    $('#pilex-nipple').bind('click', function(){
+    $('#bolt-nipple').bind('click', function(){
         
-        if ($('#pilex-debugbar').is(":visible")) {
+        if ($('#bolt-debugbar').is(":visible")) {
             
-            $('#pilex-debugbar').css('right', '0').animate({
+            $('#bolt-debugbar').css('right', '0').animate({
                 right: '-=800',
                 opacity: 0.1
             }, 600);
-            $('#pilex-debugbar, .pilex-debugpanel').fadeOut();
-            $('#pilex-footer').fadeIn(); 
-            $.cookie('pilex-debugbar-show', '');
+            $('#bolt-debugbar, .bolt-debugpanel').fadeOut();
+            $('#bolt-footer').fadeIn(); 
+            $.cookie('bolt-debugbar-show', '');
         } else {
-            $('#pilex-debugbar').css('right', '-800px').show().animate({
+            $('#bolt-debugbar').css('right', '-800px').show().animate({
                 right: '+=800',
                 opacity: 1.0
             }, 600); 
-            $('#pilex-footer').fadeOut(); 
-            $.cookie('pilex-debugbar-show', 1);
+            $('#bolt-footer').fadeOut(); 
+            $.cookie('bolt-debugbar-show', 1);
         }
         
     });
     
     
-    $('#pilex-debugbar li').find('a').bind('click', function(e){
+    $('#bolt-debugbar li').find('a').bind('click', function(e){
         e.preventDefault();
         
         var forthis = "#" + $(this).data('for');
         
-        $('.pilex-debugpanel').not(forthis).fadeOut();
+        $('.bolt-debugpanel').not(forthis).fadeOut();
         
         if ($(forthis).is(":visible")) {
             $(forthis).fadeOut();
@@ -45,7 +45,7 @@ jQuery(function($) {
         }
         
         // special case: editors..
-        if ($(this).data('for') == "pilex-editpanel") {
+        if ($(this).data('for') == "bolt-editpanel") {
             setEditable();
         }
 
@@ -53,9 +53,9 @@ jQuery(function($) {
     
 
     // Initialise the debugbar and open it, if there's a cookie set..
-    if ($.cookie('pilex-debugbar-show')==1) {
-        $('#pilex-debugbar').show(); 
-        $('#pilex-footer').hide();
+    if ($.cookie('bolt-debugbar-show')==1) {
+        $('#bolt-debugbar').show(); 
+        $('#bolt-footer').hide();
     }
 
 
@@ -77,7 +77,7 @@ jQuery(function($) {
         console.log(data);
         
         $.ajax({
-            url: '/pilex/updatefield',
+            url: '/bolt/updatefield',
             type: 'GET',
             data: data,
             success: function(data) {
@@ -105,7 +105,7 @@ jQuery(function($) {
     $('a#btn-editbackend').bind('click', function(e) {
         e.preventDefault();
         
-        var link = "/pilex/edit/" + $('.currentedit').data('contenttype') + "/" + $('.currentedit').data('id');
+        var link = "/bolt/edit/" + $('.currentedit').data('contenttype') + "/" + $('.currentedit').data('id');
 
         document.location = link;
 
@@ -152,18 +152,18 @@ jQuery(function($) {
 
 
 function setEditable(elem) {
-    $('.pilex-editable').addClass('active');
+    $('.bolt-editable').addClass('active');
             
-    $('.pilex-editable').bind('click', function(e) {
+    $('.bolt-editable').bind('click', function(e) {
         e.preventDefault();
         
-        $('.pilex-editable').unbind('click').removeClass('active');
+        $('.bolt-editable').unbind('click').removeClass('active');
         $('.currentedit').removeClass('currentedit').attr('contentEditable', false);
                 
         $(this).addClass('currentedit').attr('contentEditable', '').focus();
         
         // hide Debugbar panels.
-        $('.pilex-debugpanel').fadeOut();
+        $('.bolt-debugpanel').fadeOut();
         
         // Set the fly-over menu to the correct position..
         var offset = $(this).offset();

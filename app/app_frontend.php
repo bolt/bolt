@@ -7,13 +7,14 @@ use Symfony\Component\HttpFoundation\Response;
  * Middleware function to check whether a user is logged on.
  */
 $checkStuff = function(Request $request) use ($app) {
-   
+
     // If there are no users in the users table, or the table doesn't exist. Repair 
     // the DB, and let's add a new user. 
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
         $app['storage']->repairTables();
-        $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");    
-        return $app->redirect('/pilex/users/edit/');
+        $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
+
+        return redirect('useredit', array('id' => ""));
     }
 
     $app['twig']->addGlobal('frontend', true);
@@ -73,7 +74,8 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
         $app->abort(404, "No template for '$contenttypeslug' defined.");
     } 
    
-    $app['editlink'] = "/pilex/edit/$contenttypeslug/" . $content->id;
+    $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
+    //"/pilex/edit/$contenttypeslug/" . $content->id;
 
 
     $body = $app['twig']->render($contenttype['template'], array(

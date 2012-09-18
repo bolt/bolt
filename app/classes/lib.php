@@ -733,7 +733,7 @@ function getConfig() {
     
     // Assume some sensible defaults for some options
     $defaultconfig = array(
-        'sitename' => 'Default Pilex site',
+        'sitename' => 'Default Bolt site',
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
         'recordsperpage' => 10,
@@ -743,8 +743,8 @@ function getConfig() {
         'theme' => "default"
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
-    
-    
+
+
     // Clean up taxonomies
     foreach( $config['taxonomy'] as $key => $value ) {
         if (!isset($config['taxonomy'][$key]['name'])) {
@@ -759,8 +759,8 @@ function getConfig() {
     $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
 
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-    // If the request URI starts with '/pilex' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
-    if (strpos($scripturi, "pilex") !== false ) {
+    // If the request URI starts with '/bolt' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
+    if (strpos($scripturi, "bolt") !== false ) {
         $config['twigpath'] = __DIR__.'/../view';
     } else {
         $themepath = __DIR__.'/../../theme/'. basename($config['general']['theme']);
@@ -768,25 +768,25 @@ function getConfig() {
     }
 
     return $config;
-    
-    
+
+
 }
 
 
 function getDBOptions($config) {
-    
+
     $configdb = $config['general']['database'];
-    
+
     if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
-        
+
         $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : "bolt";
         if (getExtension($basename)!="db") { $basename .= ".db"; };
-        
+
         $dboptions = array(
             'driver' => 'pdo_sqlite',
             'path' => __DIR__ . "/../database/" . $basename
         );
-        
+
     } else {
         // Assume we configured it correctly. Yeehaa!
         $dboptions = array(
@@ -797,13 +797,13 @@ function getDBOptions($config) {
             'password'  => $configdb['password'],
             'port'      => (isset($configdb['port']) ? $configdb['port'] : '3306'),
         );
-        
+
     }
 
     //echo "<pre>\n" . util::var_dump($dboptions, true) . "</pre>\n";
 
     return $dboptions;
-    
+
 }
 
 
@@ -823,7 +823,7 @@ function getPaths($config) {
         'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
-        'bolt' => $path_prefix . "pilex/"
+        'bolt' => $path_prefix . "bolt/"
     );
 
     return $paths;
