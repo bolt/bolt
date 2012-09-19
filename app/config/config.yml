@@ -1,5 +1,7 @@
 database:
-  driver: sqlite
+  driver: mysql
+  username: bolt
+  password: bolt%1
   databasename: bolt
 
 sitename: A sample Bolt site.

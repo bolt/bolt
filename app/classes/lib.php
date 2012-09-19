@@ -789,8 +789,13 @@ function getDBOptions($config) {
 
     } else {
         // Assume we configured it correctly. Yeehaa!
+
+        $driver = (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql');
+        if ($driver == "mysql" || $driver == "mysqli") { $driver = 'pdo_mysql'; }
+        if ($driver == "postgres" || $driver == "postgresql") { $driver = 'pdo_postgres'; }
+
         $dboptions = array(
-            'driver'    => (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql'),
+            'driver'    => $driver,
             'host'      => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
             'dbname'    => $configdb['databasename'],
             'user'      => $configdb['username'],

@@ -10,6 +10,8 @@ $checkLogin = function(Request $request) use ($app) {
    
     $route = $request->get('_route');
 
+    $app['log']->setRoute($route);
+
     $app['twig']->addGlobal('backend', true);
     $app['twig']->addGlobal('paths', $app['paths']);
 
@@ -74,6 +76,8 @@ $backend->get("", function(Silex\Application $app) {
     if ($total == 0 ) {
         $suggestloripsum = true;
     }
+
+    $app['log']->add("hoi hoi", 1);
 
     $app['twig']->addGlobal('title', "Dashboard");
 
@@ -330,9 +334,12 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 	if (!empty($id)) {
       	$content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $id));
         $app['twig']->addGlobal('title', "Edit » ". $content->title());
+        $app['log']->add("Edit content", 1, $content, 'edit');
     } else {
     	$content = $app['storage']->getEmptyContent($contenttype['slug']);
         $app['twig']->addGlobal('title', "New " . $contenttype['sungular_name']);
+        $app['log']->add("New content", 1, $content, 'edit');
+
     }
 
 	if (!empty($_GET['duplicate'])) {

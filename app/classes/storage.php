@@ -15,7 +15,12 @@ class Storage {
         $this->monolog = $app['monolog'];
     
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
-        
+
+        // Make sure prefix ends in '_'. Prefixes without '_' are lame..
+        if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
+            $this->prefix .= "_";
+        }
+
     }
   
     /** 
@@ -55,8 +60,11 @@ class Storage {
         if (!isset($tables[$this->prefix."users"])) {
             return false;            
         }
-        
-        
+
+        // Check the log table..
+        if (!isset($tables[$this->prefix."log"])) {
+            return false;
+        }
         
         // Check the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {
@@ -124,29 +132,60 @@ class Storage {
             $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
             
         }
-        
-         
+
+
         // Check the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."taxonomy"); 
+            $myTable = $schema->createTable($this->prefix."taxonomy");
             $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("content_id", "integer", array("unsigned" => true));
             $myTable->addColumn("contenttype", "string", array("length" => 32));
             $myTable->addColumn("taxonomytype", "string", array("length" => 32));
-            $myTable->addColumn("slug", "string", array("length" => 64));   
+            $myTable->addColumn("slug", "string", array("length" => 64));
             $myTable->addColumn("name", "string", array("length" => 64, "default" => ""));
-            
+
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
             $this->db->query($queries);
-            
+
             $output[] = "Created table <tt>" . $this->prefix."taxonomy" . "</tt>.";
-            
+
         }
-        
+
+
+        // Check the taxonomy table..
+        if (!isset($tables[$this->prefix."log"])) {
+
+            $schema = new \Doctrine\DBAL\Schema\Schema();
+            $myTable = $schema->createTable($this->prefix."log");
+            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+            $myTable->setPrimaryKey(array("id"));
+            $myTable->addColumn("level", "integer", array("unsigned" => true));
+            $myTable->addColumn("date", "datetime");
+            $myTable->addColumn("message", "string", array("length" => 1024));
+            $myTable->addColumn("username", "string", array("length" => 64, "default" => ""));
+            $myTable->addColumn("requesturi", "string", array("length" => 128));
+            $myTable->addColumn("route", "string", array("length" => 128));
+            $myTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
+            $myTable->addColumn("file", "string", array("length" => 128, "default" => ""));
+            $myTable->addColumn("line", "integer", array("unsigned" => true));
+            $myTable->addColumn("contenttype", "string", array("length" => 32));
+            $myTable->addColumn("content_id", "integer", array("unsigned" => true));
+            $myTable->addColumn("code", "string", array("length" => 32));
+            $myTable->addColumn("dump", "string", array("length" => 1024));
+
+            $queries = $schema->toSql($this->db->getDatabasePlatform());
+            $queries = implode("; ", $queries);
+            $this->db->query($queries);
+
+            $output[] = "Created table <tt>" . $this->prefix."log" . "</tt>.";
+
+        }
+
+
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->config['contenttypes'] as $key => $contenttype) {
 

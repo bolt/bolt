@@ -18,6 +18,7 @@ require_once __DIR__.'/classes/content.php';
 require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/classes/util.php';
 require_once __DIR__.'/classes/cache.php';
+require_once __DIR__.'/classes/log.php';
 
 $config = getConfig();
 $dboptions = getDBOptions($config);
@@ -97,6 +98,7 @@ $app['twig']->addTokenParser(new Bolt_Setcontent_TokenParser());
 
 
 $app['cache'] = new Cache();
+$app['log'] = new Log($app);
 
 
 
