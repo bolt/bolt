@@ -95,7 +95,7 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 
         $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
-        $url = sprintf('http://news.pilex.net/?v=%s&p=%s&db=%s', // bolt.cm
+        $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s', // bolt.cm
             $bolt_version,
             phpversion(),
             $driver
