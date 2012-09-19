@@ -11,7 +11,7 @@ class Users {
     var $session;
   
     function __construct($app) {
-    
+
         $this->db = $app['db'];
         $this->config = $app['config'];
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
@@ -141,18 +141,25 @@ class Users {
 
         $query = "SELECT * FROM $tablename";
 
-        $tempusers = $this->db->fetchAll($query);
         $users = array();
 
-        foreach($tempusers as $user) {
-            $key = $user['username'];
-            $users[$key] = $user;
-            $users[$key]['password'] = "**dontchange**";
+        try {
+            $tempusers = $this->db->fetchAll($query);
+
+            foreach($tempusers as $user) {
+                $key = $user['username'];
+                $users[$key] = $user;
+                $users[$key]['password'] = "**dontchange**";
+            }
+
+        } catch (Exception $e) {
+
+            // Nope. No users..
+
         }
-        
+
         return $users;
-        
-        
+
     }
     
     
