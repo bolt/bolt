@@ -90,7 +90,7 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 
     $news = $app['cache']->get('dashboardnews', 1800);
 
-    // Get fresh news..
+    // If not cached, get fresh news..
     if ($news == false) {
 
         $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
