@@ -86,26 +86,32 @@ $backend->get("", function(Silex\Application $app) {
  * News.
  */
 $backend->get("/dashboardnews", function(Silex\Application $app) {
-    global $bolt_version;
+    global $bolt_version, $app;
 
-    $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
+    $news = $app['cache']->get('dashboardnews', 1800);
 
-    $url = sprintf('http://news.pilex.net/?v=%s&p=%s&db=%s',
-        $bolt_version,
-        phpversion(),
-        $driver
-        );
+    // Get fresh news..
+    if ($news == false) {
 
-    // TODO: Make this cacheable.
+        $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
-    $guzzleclient = new Guzzle\Http\Client($url);
-        
-    $news = $guzzleclient->get("/")->send()->getBody(true);
+        $url = sprintf('http://news.pilex.net/?v=%s&p=%s&db=%s', // bolt.cm
+            $bolt_version,
+            phpversion(),
+            $driver
+            );
 
-    $news = json_decode($news);
+        $guzzleclient = new Guzzle\Http\Client($url);
 
-    // For now, just use the most current item.
-    $news = current($news);
+        $news = $guzzleclient->get("/")->send()->getBody(true);
+        $news = json_decode($news);
+
+        // For now, just use the most current item.
+        $news = current($news);
+
+        $app['cache']->set('dashboardnews', $news);
+
+    }
 
     $body = $app['twig']->render('dashboard-news.twig', array('news' => $news ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
