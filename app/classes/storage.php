@@ -394,8 +394,6 @@ class Storage {
     public function saveContent($content, $contenttype="") {
         global $app;
 
-        // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
-
         if (is_object($content)) {
 
             $contenttype = $content->contenttype;
@@ -406,6 +404,8 @@ class Storage {
             // 'plain array'..
 
             $app['log']->add("Fixme: old style savecontent", 3, $content, 'fixme');
+
+            // TODO: Clean up 'old style..'
 
             if (empty($contenttype) && !empty($content['contenttype'])) {
                 $contenttype = $content['contenttype'];
@@ -626,11 +626,13 @@ class Storage {
         
     }        
         
-    public function getEmptyContent($contenttype) {
-        
-        $contenttype = $this->getContentType($contenttype);
-        
-        $content = array(
+    public function getEmptyContent($contenttypeslug) {
+
+        $contenttype = $this->getContentType($contenttypeslug);
+
+        $content = new Content('', $contenttypeslug);
+
+        $values = array(
             'id' => '',
             'slug' => '',
             'datecreated' => '',
@@ -638,20 +640,23 @@ class Storage {
             'username' => '',
             'status' => ''
         );
-        
-        
+
         foreach ($contenttype['fields'] as $key => $field) {
-            $content[$key] = '';
-            
-            // Set the default values. 
+            $values[$key] = '';
+
+            // Set the default values.
             if (isset($field['default'])) {
-                $content[$key] = $field['default'];
+                $values[$key] = $field['default'];
             } else {
-                $content[$key] = '';
+                $values[$key] = '';
             }
-            
+
         }
-        
+
+
+        $content->setValues($values);
+
+
         // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
                 
         return $content;
@@ -1081,18 +1086,20 @@ class Storage {
 
 
     public function getUri($title, $id=0, $contenttypeslug, $fulluri=true) {
-        
-        
+
+        $contenttype = $this->getContentType($contenttypeslug);
+        $tablename = $this->prefix . $contenttype['slug'];
+
         $id = intval($id);     
         $fulluri = util::str_to_bool($fulluri);
             
         $slug = makeSlug($title);
-        
-        //echo "<pre>\n" . util::var_dump($contenttypeslug, true) . "</pre>\n";
-        
-        $contenttype = $this->getContentType($contenttypeslug);
-        $tablename = $this->prefix . $contenttype['slug'];
-        
+
+        // don't allow strictly numeric slugs.
+        if (is_numeric($slug)) {
+            $slug = $contenttype['singular_slug'] . "-" . $slug;
+        }
+
         // Only add 'entry/' if $full is requested.
         if ($fulluri) {
             $prefix = "/" . $contenttype['singular_slug'] . "/";
@@ -1120,7 +1127,7 @@ class Storage {
                 $uri = $prefix . $slug;
             }
         }
-                
+
         return $uri;
         
     }
