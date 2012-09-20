@@ -93,7 +93,13 @@ class Log {
 
         $codes = "'save content', 'login', 'logout'";
 
-        $stmt = $this->db->executeQuery('SELECT * FROM '.$this->tablename.' WHERE code IN ('.$codes.') ORDER BY date DESC;');
+        $query = sprintf('SELECT * FROM %s WHERE code IN (%s) ORDER BY date DESC LIMIT %s;',
+            $this->tablename,
+            $codes,
+            intval($amount)
+            );
+
+        $stmt = $this->db->executeQuery($query);
 
         $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
 
