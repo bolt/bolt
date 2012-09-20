@@ -156,11 +156,13 @@ class Bolt_Twig_Extension extends Twig_Extension
         }              
         
         // if the current requested page is for the same slug or singularslug..
-        if ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
-            $route_params['contenttypeslug'] == $content['contenttype']['singular_slug']) {
+        if (isset($content['contenttype']) &&
+            ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
+            $route_params['contenttypeslug'] == $content['contenttype']['singular_slug']) ) {
             
             // .. and the slugs should match..
             if ($route_params['slug'] == $content['slug']) {
+                echo "joe!";
                 return true;    
             }
         }
@@ -496,7 +498,7 @@ class Bolt_Twig_Extension extends Twig_Extension
     {
         global $app;
 
-        if ($item['path'] == "homepage") {
+        if (isset($item['path']) && $item['path'] == "homepage") {
             $item['link'] = $app['paths']['root'];
         } else if (isset($item['path'])) {
 

@@ -306,14 +306,10 @@ class Storage {
     }
     
     private function preFillSingle($key, $contenttype) {
-           
-        $slug = makeSlug($key);
-        $tablename = $this->prefix . $slug;
 
-        
         $content = array();
         $title = "";
-        
+
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
         
@@ -321,14 +317,14 @@ class Storage {
         //todo: fix this, use a random name.
         $content['username'] = "admin";
 
-        switch(rand(1,12)) {
-            case 1: 
+        switch(rand(1,20)) {
+            case 1:
                 $content['status'] = "timed";
                 break;
-            case 2: 
+            case 2:
                 $content['status'] = "draft";
                 break;
-            case 3: 
+            case 3:
                 $content['status'] = "depublished";
                 break;
             default:
@@ -373,16 +369,20 @@ class Storage {
                         
         }
 
+        $contentobject = new Content('', $contenttype);
+        $contentobject->setValues($content);
+
         if (!empty($contenttype['taxonomy'])) {
             foreach($contenttype['taxonomy'] as $taxonomy) {
                 if (isset($this->config['taxonomy'][$taxonomy]['options'])) {
                     $options = $this->config['taxonomy'][$taxonomy]['options'];
-                    $content['taxonomy'][$taxonomy] = $options[array_rand($options)];
+                    $contentobject->setTaxonomy($taxonomy, $options[array_rand($options)]);
+
                 }   
             }
         }
 
-        $this->saveContent($content);        
+        $this->saveContent($contentobject);
         
         $output = "Added to <tt>$key</tt> '" .$content['title'] . "'<br>\n";
         
@@ -662,7 +662,7 @@ class Storage {
     public function getContent($contenttypeslug, $parameters="", &$pager = array()) {
         global $app;
 
-        $app['log']->add("get content '$contenttypeslug'");
+        $returnsingle = false;
 
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
         if (preg_match('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
@@ -696,11 +696,12 @@ class Storage {
         // If we can't match to a valid contenttype, return (undefined) content;
         if (!$contenttype) {
             $emptycontent = new Content('', $contenttypeslug);
+            $app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
             return $emptycontent;
         }
 
         // If requesting something with a content-type slug in singular, return only the first item.
-        if ( ($contenttype['singular_slug'] == $contenttypeslug) || $parameters['returnsingle'] ) {
+        if ( ($contenttype['singular_slug'] == $contenttypeslug) || isset($parameters['returnsingle']) ) {
             $returnsingle = true;
         }
         
@@ -821,6 +822,12 @@ class Storage {
             if (util::array_first_key($content)) {            
                 return util::array_first($content);
             } else {
+                $msg = sprintf("Storage: requested specific single content '%s%s%s', not found.",
+                    $contenttypeslug,
+                    isset($match[2]) ? "/".$match[2] : "",
+                    isset($match[3]) ? "/".$match[3] : ""
+                );
+                $app['log']->add($msg);
                 return false;
             }
         } else {

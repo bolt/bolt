@@ -1,25 +1,3 @@
-news:
-    name: News
-    singular_name: Newsitem 
-    fields:
-        title:
-            type: text
-            class: large
-        slug:
-            type: slug
-            uses: title
-        amount:
-            type: number
-        textamount:
-            type: text
-        image:
-            type: image             
-        text:
-            type: html
-            height: 300px
-    template: newsitem.twig
-    
-    
 entries:
     name: Entries
     singular_name: Entry

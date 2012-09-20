@@ -1,31 +1,29 @@
+<div id='bolt-nipple'></div>
 
-
-
-<div id='bolt-nipple'></div>  
 <div id='bolt-debugbar'>      
-<ul>
-    <li id='pd-bolt'><strong>Bolt {{bolt_version}}</strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
-    <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
-    {% if frontend %} {# todo: Add something with 'and editlink' #}
-    <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li>
-    {% endif %}
-    
-    <li id='pd-log'>Log<span class='narrow'>file</span></li>
-    <li id='pd-queries'>
-        {% if querycount==0 %}
-            No Q<span class='narrow'>ueries</span>
-        {% elseif querycount==1 %}
-            <a href="#" data-for="bolt-queriespanel">1 Q<span class='narrow'>uery</span></a> <small>({{querytime}} sec)</small>
-        {% else %}
-            <a href="#" data-for="bolt-queriespanel">{{querycount}} Q<span class='narrow'>ueries</span></a> <small>({{querytime}} sec)</small>
-        {% endif %}</li>
-    <li id='pd-server'><a href="#" data-for="bolt-serverpanel"><span class='narrow'>bolt.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
-</ul>  
+    <ul>
+        <li id='pd-bolt'><strong>Bolt {{bolt_version}}</strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
+        <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
+        {% if frontend %} {# todo: Add something with 'and editlink' #}
+        <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li>
+        {% endif %}
+
+        <li id='pd-log'><a href="#" data-for="bolt-logpanel">Log<span class='narrow'> entries</span></a>
+            <small>({{ log|length }})</small></li>
+        <li id='pd-queries'>
+            {% if querycount==0 %}
+                No Q<span class='narrow'>ueries</span>
+            {% elseif querycount==1 %}
+                <a href="#" data-for="bolt-queriespanel">1 Q<span class='narrow'>uery</span></a> <small>({{querytime}} sec)</small>
+            {% else %}
+                <a href="#" data-for="bolt-queriespanel">{{querycount}} Q<span class='narrow'>ueries</span></a> <small>({{querytime}} sec)</small>
+            {% endif %}</li>
+        <li id='pd-server'><a href="#" data-for="bolt-serverpanel"><span class='narrow'>bolt.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
+    </ul>
 </div>
 
 <div id='bolt-editpanel' class='bolt-debugpanel'> 
-<p>Click one of the highlighted fields, or <a href="{{editlink}}">Edit in the bolt backend</a>.
-
+    <p>Click one of the highlighted fields, or <a href="{{editlink}}">Edit in the bolt backend</a>.
 </div>
 
 
@@ -45,9 +43,20 @@
 </div>
 
 
-<div id='bolt-queriespanel' class='bolt-debugpanel'>      
+<div id='bolt-queriespanel' class='bolt-debugpanel'>
 <pre>{% for query in queries %}
 {{loop.index }}. {{ query.query}} <small>({{ query.duration }} sec.)</small>
+{% endfor %}
+</pre>
+</div>
+
+log:
+{{  print(log) }}
+
+<div id='bolt-logpanel' class='bolt-debugpanel'>
+<pre>{% for item in log %}
+<span class='level-{{ item.level}}'>{{loop.index }}. <b>{{ item.message }}</b></span>
+in: {{ item.file }}::{{ item.line }} <small>({% if item.username %}{{ item.username }} -{% endif %} {{ item.date|date("H:i:s") }})</small>
 {% endfor %}
 </pre>
 </div>

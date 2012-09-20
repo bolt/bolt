@@ -45,6 +45,22 @@ class Log {
 
     }
 
+    public function errorhandler($message, $filename, $line) {
+
+        $log = array(
+            'date' => date('Y-m-d H:i:s'),
+            'message' => $message,
+            'requesturi' => $_SERVER['REQUEST_URI'],
+            'route' => $this->route,
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'file' => $filename,
+            'line' => $line,
+        );
+
+        $this->memorylog[] = $log;
+
+    }
+
     public function add($message, $level=1, $content=false, $code='') {
         global $app;
 
@@ -55,10 +71,12 @@ class Log {
 
         $this->user = $app['session']->get('user');
 
+        $username = isset($this->user['username']) ? $this->user['username'] : "";
+
         // echo "<pre>\n" . util::var_dump($this->user, true) . "</pre>\n";
 
         $log = array(
-            'username' => $this->user['username'],
+            'username' => $username,
             'level' => $level,
             'date' => date('Y-m-d H:i:s'),
             'message' => $message,
@@ -91,7 +109,7 @@ class Log {
 
     public function getActivity($amount = 10) {
 
-        $codes = "'save content', 'login', 'logout'";
+        $codes = "'save content', 'login', 'logout', 'fixme'";
 
         $query = sprintf('SELECT * FROM %s WHERE code IN (%s) ORDER BY date DESC LIMIT %s;',
             $this->tablename,

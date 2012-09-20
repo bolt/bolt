@@ -9,8 +9,6 @@ $bolt_version = "0.6";
 $bolt_buildnumber = "";
 $bolt_name = "Pretty much alpha";
 
-error_reporting(E_ALL ^ E_NOTICE);
-
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/classes/lib.php';
 require_once __DIR__.'/classes/storage.php';
@@ -101,6 +99,16 @@ $app['twig']->addTokenParser(new Bolt_Setcontent_TokenParser());
 $app['cache'] = new Cache();
 $app['log'] = new Log($app);
 
+
+// If debug is set, we set up the custom error handler..
+if ($app['debug']) {
+    ini_set("display_errors", "1");
+    error_reporting (E_ALL );
+    $old_error_handler = set_error_handler("userErrorHandler");
+} else {
+    error_reporting(E_ALL ^ E_NOTICE);
+    // error_reporting( E_ALL ^ E_NOTICE ^ E_WARNING );
+}
 
 
 require_once __DIR__.'/app_backend.php';

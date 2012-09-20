@@ -40,11 +40,13 @@ class Content {
         
         $this->values = $values;
 
-        if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
+        if (!isset($this->values['datecreated']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
             $this->values['datecreated'] = "1970-01-01 00:00:00";
         }
 
-        if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
+        if (!isset($this->values['datechanged']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
             $this->values['datechanged'] = "1970-01-01 00:00:00";
         }
 

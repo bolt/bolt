@@ -107,6 +107,15 @@
     padding: 4px 6px;
 }
 
+.bolt-debugpanel span.level-3 {
+    color: #FF5500;
+}
+
+.bolt-debugpanel span.level-4,
+.bolt-debugpanel span.level-5 {
+    color: #ff0000;
+}
+
 .bolt-debugpanel code, 
 .bolt-debugpanel pre {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;

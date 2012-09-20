@@ -12,8 +12,10 @@
             <em>{{ username }}</em> logged in
         {%  elseif log.code == "logout" %}
             <em>{{ username }}</em> logged out
+        {%  elseif log.code == "fixme" %}
+            <b>Fixme:</b> {{ log.message }}
         {%  else %}
-            Bork!
+            Bork! {{ log.code }}
         {%  endif %}
         <small>(<span class="moment" data-timestamp="{{ log.date }}">{{ log.date }}</span>)</small>
     </li>

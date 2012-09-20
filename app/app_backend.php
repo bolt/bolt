@@ -67,7 +67,7 @@ $backend->get("", function(Silex\Application $app) {
 
     $total = 0;
     // get the 'latest' from each of the content types. 
-    foreach ($app['config']['contenttypes'] as $key => $contenttype) { 
+    foreach ($app['config']['contenttypes'] as $key => $contenttype) {
         $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
         $total += count($latest[$key]);
     }
@@ -75,6 +75,8 @@ $backend->get("", function(Silex\Application $app) {
     // If there's nothing in the DB, suggest to create some dummy content.
     if ($total == 0 ) {
         $suggestloripsum = true;
+    } else {
+        $suggestloripsum = false;
     }
 
     $app['twig']->addGlobal('title', "Dashboard");
@@ -95,6 +97,8 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
     // If not cached, get fresh news..
     if ($news == false) {
 
+        $app['log']->add("News: fetch from remote server..", 1);
+
         $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
         $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s', // bolt.cm
@@ -113,6 +117,8 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 
         $app['cache']->set('dashboardnews', $news);
 
+    } else {
+        $app['log']->add("News: get from cache..", 1);
     }
 
     $body = $app['twig']->render('dashboard-news.twig', array('news' => $news ));
@@ -892,14 +898,7 @@ if ($app['debug']) {
     $app['db.config']->setSQLLogger($logger);
     $app->error(function(\Exception $e, $code) use ($app, $logger) {
         if ( $e instanceof PDOException and count($logger->queries) ) {
-            // We want to log the query as an ERROR for PDO exceptions!
             $query = array_pop($logger->queries);
-            /*
-
-             $app['monolog']->err($query['sql'], array(
-                'params' => $query['params'],
-                'types' => $query['types']
-            )); */
         }
     });
         
@@ -935,6 +934,9 @@ if ($app['debug']) {
         $route = $request->get('_route') ;
         $route_params = $request->get('_route_params') ;
         
+        $log = $app['log']->getMemorylog();
+
+        // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";
 
         $servervars = array(
             'cookies <small>($_COOKIES)</small>' => $request->cookies->all(),
@@ -956,6 +958,7 @@ if ($app['debug']) {
             'queries' => $queries,
             'servervars' => $servervars,
             'templates' => $templates,
+            'log' => $log,
             'route' => "/".$route,
             'route_params' => $route_params, 
             'editlink' => $app['editlink']

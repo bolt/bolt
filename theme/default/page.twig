@@ -1,6 +1,5 @@
 {% include '_header.twig' %}
 
-
 <article>
 
     <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
@@ -14,14 +13,5 @@
     <p class="meta">Posted by {{ record.username }} on {-{ record.datecreated|date("M d, ’y")}}</p>
     
 </article>
-
-{{ record.slug }}
-
-$record->slug();
-
-{% menu %}
-
-<hr>
-
 
 {% include '_footer.twig' %}

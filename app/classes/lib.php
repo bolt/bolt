@@ -875,3 +875,49 @@ function redirect($path, $param=array(), $add='') {
     return $app->redirect(path($path, $param, $add));
 
 }
+
+
+/**
+ * If debug is enabled this function handles the errors and warnings
+ *
+ * @param integer $errno
+ * @param string $errmsg
+ * @param string $filename
+ * @param integer $linenum
+ * @param array $vars
+ */
+function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars) {
+    global $app;
+
+    $replevel = error_reporting();
+    if( ( $errno & $replevel ) != $errno )
+    {
+        // we shall remain quiet.
+        return;
+    }
+
+    // define an assoc array of error string
+    // in reality the only entries we should
+    // consider are 2,8,256,512 and 1024
+    $errortype = array (
+        1   =>  "Error",
+        2   =>  "Warning",
+        4   =>  "Parsing Error",
+        8   =>  "Notice",
+        16  =>  "Core Error",
+        32  =>  "Core Warning",
+        64  =>  "Compile Error",
+        128 =>  "Compile Warning",
+        256 =>  "User Error",
+        512 =>  "User Warning",
+        1024=>  "User Notice"
+    );
+
+    $root = dirname($_SERVER['DOCUMENT_ROOT']);
+    $filename = str_replace($root, "", $filename);
+
+    $err = sprintf("<b>PHP-%s</b>: %s.", $errortype[$errno], $errmsg);
+
+    $app['log']->errorhandler($err, $filename, $linenum);
+
+}
