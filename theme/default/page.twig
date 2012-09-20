@@ -11,11 +11,17 @@
 
     <section class='body'>{{ record.body }}</section>
 
-    <p class="meta">Posted by {{ record.username }} on {{ record.datecreated|date("M d, ’y")}}</p>
+    <p class="meta">Posted by {{ record.username }} on {-{ record.datecreated|date("M d, ’y")}}</p>
     
-</article>  
+</article>
 
-{{ print(content) }}
+{{ record.slug }}
+
+$record->slug();
+
+{% menu %}
+
+<hr>
 
 
 {% include '_footer.twig' %}

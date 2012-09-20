@@ -317,10 +317,24 @@ aside section p {
 
 
 aside ul {
-    margin-left: 18px;
-    
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0.7em;
+    text-indent: -0.7em;
 }
 
+aside ul li:before {
+    content: "- ";
+}
+
+aside ul li {
+    line-height: 16px;
+    margin-bottom: 4px;
+}
+
+aside ul li small {
+    color: #777;
+}
 
 /**
  * Editing content ..

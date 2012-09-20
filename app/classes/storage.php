@@ -12,7 +12,7 @@ class Storage {
     
         $this->config = $app['config'];
         $this->db = $app['db'];
-        $this->monolog = $app['monolog'];
+        // $this->monolog = $app['monolog'];
     
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
 
@@ -394,9 +394,31 @@ class Storage {
     public function saveContent($content, $contenttype="") {
         global $app;
 
-        if (empty($contenttype) && !empty($content['contenttype'])) {
-            $contenttype = $content['contenttype'];
+        // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
+
+        if (is_object($content)) {
+
+            $contenttype = $content->contenttype;
+
+            $fieldvalues = $content->values;
+
+        } else {
+            // 'plain array'..
+
+            $app['log']->add("Fixme: old style savecontent", 3, $content, 'fixme');
+
+            if (empty($contenttype) && !empty($content['contenttype'])) {
+                $contenttype = $content['contenttype'];
+            }
+
+            if (!is_array($contenttype)) {
+                $contenttype = $this->getContentType($contenttype);
+            }
+
+            $fieldvalues = $content;
+
         }
+
        
         if (empty($contenttype)) {
             echo "Contenttype is required.";
@@ -406,33 +428,33 @@ class Storage {
         // Make an array with the allowed columns. these are the columns that are always present.
         $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status', 'taxonomy');
         // add the fields for this contenttype, 
-        foreach ($this->config['contenttypes'][$contenttype]['fields'] as $key => $values) {
+        foreach ($contenttype['fields'] as $key => $values) {
 
             $allowedcolumns[] = $key;
             
             // Set the slug, while we're at it..
-            if ($values['type'] == "slug" && !empty($values['uses']) && empty($content['slug'])) {              
-                $content['slug'] = makeSlug($content[ $values['uses'] ]);
+            if ($values['type'] == "slug" && !empty($values['uses']) && empty($fieldvalues['slug'])) {
+                $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
             } 
             
         }
 
         // Make sure a username is set.
-        if (empty($content['username'])) {
+        if (empty($fieldvalues['username'])) {
             $user = $app['session']->get('user');
-            $content['username'] = $user['username'];
+            $fieldvalues['username'] = $user['username'];
         }
 
         // Clean up fields, check unneeded columns.
-        foreach($content as $key => $value) {
+        foreach($fieldvalues as $key => $value) {
         
             // parse 'formatted dates'.. Wednesday, 15 August 2012 -> 2012-08-15
             if (strpos($key, "-dateformatted") !== false) {
                 $newkey = str_replace("-dateformatted", "", $key);
                 
                 // See if we need to add the time..
-                if (isset($content[$newkey.'-timeformatted']) && !empty($content[$newkey.'-timeformatted'])) {
-                    $value .= " - " . $content[$newkey.'-timeformatted'];
+                if (isset($fieldvalues[$newkey.'-timeformatted']) && !empty($fieldvalues[$newkey.'-timeformatted'])) {
+                    $value .= " - " . $fieldvalues[$newkey.'-timeformatted'];
                 } else {
                     $value .= " - 00:00";
                 }
@@ -440,30 +462,30 @@ class Storage {
                 $timestamp = DateTime::createFromFormat("l, d F Y - H:i", $value);
 
                 if ($timestamp instanceof DateTime) {
-                    $content[$newkey] = $timestamp->format('Y-m-d H:i:00');
+                    $fieldvalues[$newkey] = $timestamp->format('Y-m-d H:i:00');
                 } else {
-                    $content[$newkey] = "";
+                    $fieldvalues[$newkey] = "";
                 }
 
             }
         
             if (!in_array($key, $allowedcolumns)) {
                 // unset columns we don't need to store..
-                unset($content[$key]);
+                unset($fieldvalues[$key]);
             } else {
                 // Trim strings..
-                if (is_string($content[$key])) {
-                    $content[$key] = trim($content[$key]);
+                if (is_string($fieldvalues[$key])) {
+                    $fieldvalues[$key] = trim($fieldvalues[$key]);
                 }
             }
         }            
             
             
         // Decide whether to insert a new record, or update an existing one.
-        if (empty($content['id'])) {
-            return $this->insertContent($content, $contenttype, $allowedcolumns);
+        if (empty($fieldvalues['id'])) {
+            return $this->insertContent($fieldvalues, $contenttype, $allowedcolumns);
         } else {
-            return $this->updateContent($content, $contenttype);
+            return $this->updateContent($fieldvalues, $contenttype);
         }
         
     }
@@ -475,7 +497,12 @@ class Storage {
             echo "Contenttype is required.";
             return false;
         }
-        
+
+        // Make sure $contenttype is a 'slug'
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+
         // Make an array with the allowed columns. these are the columns that are always present.
         $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status');
         // add the fields for this contenttype, 
@@ -497,7 +524,12 @@ class Storage {
             echo "Contenttype is required.";
             return false;
         }
-               
+
+        // Make sure $contenttype is a 'slug'
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+
         $tablename = $this->prefix . $contenttype;
                 
         return $this->db->delete($tablename, array('id' => $id));
@@ -506,7 +538,12 @@ class Storage {
         
     
     protected function insertContent($content, $contenttype, $allowedcolumns) {
-        
+
+        // Make sure $contenttype is a 'slug'
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+
         $tablename = $this->prefix . $contenttype;
         
         $content['datecreated'] = date('Y-m-d H:i:s');
@@ -536,6 +573,11 @@ class Storage {
     
     
     private function updateContent($content, $contenttype) {
+
+        // Make sure $contenttype is a 'slug'
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
 
         $tablename = $this->prefix . $contenttype;
         
@@ -618,6 +660,9 @@ class Storage {
     }
     
     public function getContent($contenttypeslug, $parameters="", &$pager = array()) {
+        global $app;
+
+        $app['log']->add("get content '$contenttypeslug'");
 
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
         if (preg_match('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
@@ -729,7 +774,7 @@ class Storage {
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
         foreach($rows as $key => $value) {
-            $content[ $value['id'] ] = new Content($value, $contenttype); 
+            $content[ $value['id'] ] = new Content($value, $contenttype);
         }
         
         // Make sure all content has their taxonomies

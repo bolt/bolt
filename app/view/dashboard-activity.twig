@@ -1,0 +1,24 @@
+
+<section class="news">
+    <h2>Latest activity</h2>
+
+    <ul class='activity'>
+{% for log in activity %}
+    {% set username = attribute(users, log.username).displayname %}
+    <li>
+        {%  if log.code == "save content" %}
+            Saved {{ log.contenttype }} "<strong>{{ log.message }}</strong>" by <em>{{ username }}</em>
+        {%  elseif log.code == "login" %}
+            <em>{{ username }}</em> logged in
+        {%  elseif log.code == "logout" %}
+            <em>{{ username }}</em> logged out
+        {%  else %}
+            Bork!
+        {%  endif %}
+        <small>(<span class="moment" data-timestamp="{{ log.date }}">{{ log.date }}</span>)</small>
+    </li>
+
+{%  endfor %}
+    </ul>
+</section>
+

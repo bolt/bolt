@@ -277,7 +277,7 @@ class Bolt_Twig_Extension extends Twig_Extension
             
         // If the contenttype doesn't exist, return an empty array
         if (!$contenttype) {
-            $app['monolog']->addWarning("contenttype '$contenttypeslug' doesn't exist.");
+            $app['log']->add("contenttype '$contenttypeslug' doesn't exist.", 1);
             return array();
         }
         

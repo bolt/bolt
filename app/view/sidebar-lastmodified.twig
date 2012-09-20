@@ -9,7 +9,7 @@
             {% else %}
                 {{content.name|excerpt(70) }}
             {% endif %}
-            </a> <small>({{ content.datechanged|date("Y/m/d H:i") }})</small>
+            </a><small>(<span class="moment" data-timestamp="{{ content.datechanged }}">{{ content.datechanged }}</span>)</small>
         </li>
     {% else %}
         <li><em>No latest {{contenttype.name}}.</em></li>

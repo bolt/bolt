@@ -50,9 +50,23 @@ class Content {
 
     }
 
+    public function setFromPost($values) {
+
+        $values = cleanPostedData($values);
+
+        $this->setValues($values);
+
+    }
+
+
     public function setContenttype($contenttype) 
     {
-        
+        global $app;
+
+        if (is_string($contenttype)) {
+            $contenttype = $app['storage']->getContenttype($contenttype);
+        }
+
         $this->contenttype = $contenttype;
         
     }
@@ -119,12 +133,12 @@ class Content {
     }   
     
     /**
-     * magic __call function, used for when templates use {{ content.title }}, 
+     * pseudo-magic function, used for when templates use {{ content.get(title) }},
      * so we can map it to $this->values['title']
      */
     public function get($name)
     {
-        if (isset($this->values[$name])) {   
+        if (isset($this->values[$name])) {
             return $this->values[$name];
 
         } else {

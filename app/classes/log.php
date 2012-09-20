@@ -26,6 +26,17 @@ class Log {
 
         $this->tablename = $this->prefix . "log";
 
+        $this->route = "";
+
+        $this->memorylog = array();
+
+    }
+
+    // TODO: Do we need this?
+    public function setUser($user) {
+
+        $this->user = $app['session']->get('user');
+
     }
 
     public function setRoute($route) {
@@ -35,11 +46,16 @@ class Log {
     }
 
     public function add($message, $level=1, $content=false, $code='') {
+        global $app;
 
         $backtrace = debug_backtrace();
 
         $root = dirname($_SERVER['DOCUMENT_ROOT']);
         $filename = str_replace($root, "", $backtrace[0]['file']);
+
+        $this->user = $app['session']->get('user');
+
+        // echo "<pre>\n" . util::var_dump($this->user, true) . "</pre>\n";
 
         $log = array(
             'username' => $this->user['username'],
@@ -56,14 +72,35 @@ class Log {
 
         if (is_object($content)) {
             $log['contenttype'] = $content->contenttype['slug'];
-            $log['content_id'] = $content->id;
+            $log['content_id'] = intval($content->id);
         }
 
         // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";
 
+        $this->memorylog[] = $log;
+
         $this->db->insert($this->tablename, $log);
 
     }
+
+    public function getMemorylog() {
+
+        return $this->memorylog;
+
+    }
+
+    public function getActivity($amount = 10) {
+
+        $codes = "'save content', 'login', 'logout'";
+
+        $stmt = $this->db->executeQuery('SELECT * FROM '.$this->tablename.' WHERE code IN ('.$codes.') ORDER BY date DESC;');
+
+        $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
+
+        return $rows;
+
+    }
+
 
 }
 

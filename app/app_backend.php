@@ -77,8 +77,6 @@ $backend->get("", function(Silex\Application $app) {
         $suggestloripsum = true;
     }
 
-    $app['log']->add("hoi hoi", 1);
-
     $app['twig']->addGlobal('title', "Dashboard");
 
     return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
@@ -103,7 +101,7 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
             $bolt_version,
             phpversion(),
             $driver
-            );
+        );
 
         $guzzleclient = new Guzzle\Http\Client($url);
 
@@ -121,6 +119,25 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkLogin)->bind('dashboardnews');
+
+
+
+/**
+ * Get the 'latest activity' for the dashboard..
+ */
+$backend->get("/latestactivity", function(Silex\Application $app) {
+    global $bolt_version, $app;
+
+
+
+    $activity = $app['log']->getActivity(8);
+
+    $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity ));
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+
+})->before($checkLogin)->bind('latestactivity');
+
+
 
 
 
@@ -159,6 +176,7 @@ $backend->match("/login", function(Silex\Application $app, Request $request) {
         $result = $app['users']->login($request->get('username'), $request->get('password'));
         
         if ($result) {
+            $app['log']->add("Login " . $request->get('username') , 2, '', 'login');
             return redirect('dashboard');
         }
     
@@ -176,9 +194,15 @@ $backend->match("/login", function(Silex\Application $app, Request $request) {
  */
 $backend->get("/logout", function(Silex\Application $app) {
 
+    $app['log']->add("Logout", 2, '', 'logout');
+
 	$app['session']->setFlash('info', 'You have been logged out.');
     $app['session']->remove('user');
-    
+
+    // TODO: Log out properly..
+
+
+
     return redirect('login');
         
 })->bind('logout');
@@ -313,9 +337,10 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
     $contenttype = $app['storage']->getContentType($contenttypeslug);        
         
     if ($request->getMethod() == "POST") {
-        
-        $content = cleanPostedData($request->request->all());
-        
+
+        $content = new Content('', $contenttypeslug);
+        $content->setFromPost($request->request->all());
+
         if ($app['storage']->saveContent($content, $contenttype['slug'])) {
         
             if (!empty($id)) {
@@ -323,10 +348,12 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
             } else {
                 $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " has been saved."); 
             }
+            $app['log']->add($content->title(), 2, $content, 'save content');
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         
         } else {
-            $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . "."); 
+            $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . ".");
+            $app['log']->add("Save content error", 2, $content, 'error');
         } 
     
     }      
@@ -867,10 +894,12 @@ if ($app['debug']) {
         if ( $e instanceof PDOException and count($logger->queries) ) {
             // We want to log the query as an ERROR for PDO exceptions!
             $query = array_pop($logger->queries);
-            $app['monolog']->err($query['sql'], array(
+            /*
+
+             $app['monolog']->err($query['sql'], array(
                 'params' => $query['params'],
                 'types' => $query['types']
-            ));
+            )); */
         }
     });
         

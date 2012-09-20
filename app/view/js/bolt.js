@@ -53,9 +53,28 @@ jQuery(function($) {
 
     $(".timepicker").mask("29:59");
 
-
+    if ($('.moment').is('*')) {
+        updateMoments();
+    }
 
 });
+
+
+/**
+ * Initialize 'moment' timestamps..
+ *
+ */
+function updateMoments() {
+
+    $('.moment').each(function(){
+        var stamp = moment($(this).data('timestamp'), "YYYY-MM-DD HH:mm:ss");
+        $(this).html( stamp.fromNow() );
+    });
+
+    setTimeout( function(){ updateMoments(); }, 60 * 1000);
+
+}
+
 
 /**
  * Bind the file upload, so it works and stuff 
