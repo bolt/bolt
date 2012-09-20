@@ -495,11 +495,14 @@ class Bolt_Twig_Extension extends Twig_Extension
     private function menu_helper($item) 
     {
         global $app;
-    
-        // if the item is like 'content/1', get that content.        
-        if (isset($item['content'])) {
-            
-            $content = $app['storage']->getSingleContent($item['content']);
+
+        if ($item['path'] == "homepage") {
+            $item['link'] = $app['paths']['root'];
+        } else if (isset($item['path'])) {
+
+            // if the item is like 'content/1', get that content.
+
+            $content = $app['storage']->getSingleContent($item['path']);
             
             if (empty($item['label'])) {
                 $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];                
@@ -512,9 +515,7 @@ class Bolt_Twig_Extension extends Twig_Extension
             }
         }
 
-        if ($item['link'] == "(home)") {
-            $item['link'] = $app['paths']['root'];
-        }
+
 
         return $item;
         
