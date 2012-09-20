@@ -27,7 +27,7 @@ $checkLogin = function(Request $request) use ($app) {
 
     // TODO: This is awkward.. Make it less awkward.
 
-    // If the users table is present, but there are no users, and we're on /bolt/users/edit,
+    // If the users table is present, but there are no users, and we're on /bolt/debugedit,
     // we let the user stay, because they need to set up the first user. 
     if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
         return;
@@ -121,10 +121,13 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
         $app['log']->add("News: get from cache..", 1);
     }
 
+    //$app['debug'] = false;
+
     $body = $app['twig']->render('dashboard-news.twig', array('news' => $news ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkLogin)->bind('dashboardnews');
+
 
 
 
@@ -134,11 +137,13 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 $backend->get("/latestactivity", function(Silex\Application $app) {
     global $bolt_version, $app;
 
-
+    if (isset($_GET['nodebug'])) {
+        $app['debug'] = false;
+    }
 
     $activity = $app['log']->getActivity(8);
 
-    $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity ));
+    $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkLogin)->bind('latestactivity');
@@ -560,11 +565,11 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
             $user = $form->getData();
         
             $res = $app['users']->saveUser( $user );
-            
+            $app['log']->add("Added user '". $user['displayname']."'.", 3, '', 'user');
             if ($res) {
-                $app['session']->setFlash('success', "User " . $user['username'] . " has been saved."); 
+                $app['session']->setFlash('success', "User " . $user['displayname'] . " has been saved.");
             } else {
-                $app['session']->setFlash('error', "User " . $user['username'] . " could not be saved, or nothing was changed."); 
+                $app['session']->setFlash('error', "User " . $user['displayname'] . " could not be saved, or nothing was changed.");
             }
             
             return redirect('users');
@@ -621,6 +626,8 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
         
         case "disable":
             if ($app['users']->setEnabled($id, 0)) {
+                $app['log']->add("Disabled user '". $user['displayname']."'.", 3, '', 'user');
+
                 $app['session']->setFlash('info', "User '{$user['displayname']}' is disabled.");
             } else {
                 $app['session']->setFlash('info', "User '{$user['displayname']}' could not be disabled.");
@@ -629,6 +636,7 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
         
         case "enable":
             if ($app['users']->setEnabled($id, 1)) {
+                $app['log']->add("Enabled user '". $user['displayname']."'.", 3, '', 'user');
                 $app['session']->setFlash('info', "User '{$user['displayname']}' is enabled.");
             } else {
                 $app['session']->setFlash('info', "User '{$user['displayname']}' could not be enabled.");        
@@ -637,7 +645,8 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
                     
         case "delete":
             
-            if (checkToken() && $app['users']->deleteUser($id)) {    
+            if (checkToken() && $app['users']->deleteUser($id)) {
+                $app['log']->add("Deleted user '". $user['displayname']."'.", 3, '', 'user');
                 $app['session']->setFlash('info', "User '{$user['displayname']}' is deleted.");
             } else {
                 $app['session']->setFlash('info', "User '{$user['displayname']}' could not be deleted.");    
@@ -890,7 +899,7 @@ $app->before(function() use ($app) {
 
 
 // On 'finish' attach the debug-bar, if debug is enabled..
-if ($app['debug']) {
+if ($app['debug'] &&  $app['session']->has('user')) {
     
     // http://srcmvn.com/blog/2011/11/10/doctrine-dbal-query-logging-with-monolog-in-silex/
 

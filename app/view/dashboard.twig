@@ -104,7 +104,12 @@
 
 {{ render(path("dashboardnews")) }}
 
-{{ render(path("latestactivity")) }}
+<div id="latestactivity">
+    {{ render(path("latestactivity")) }}
+</div>
+<div id="latesttemp" style="display:none; visibility: hidden;">
+</div>
+
 
     <section>
     <h2>Haec mihi videtur delicatior</h2>

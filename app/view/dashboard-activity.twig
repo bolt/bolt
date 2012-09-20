@@ -14,6 +14,8 @@
             <em>{{ username }}</em> logged out
         {%  elseif log.code == "fixme" %}
             <b>Fixme:</b> {{ log.message }}
+        {%  elseif log.code == "user" %}
+            <b>{{ log.message }}</b> by {{ username }}
         {%  else %}
             Bork! {{ log.code }}
         {%  endif %}

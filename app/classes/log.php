@@ -109,7 +109,7 @@ class Log {
 
     public function getActivity($amount = 10) {
 
-        $codes = "'save content', 'login', 'logout', 'fixme'";
+        $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
 
         $query = sprintf('SELECT * FROM %s WHERE code IN (%s) ORDER BY date DESC LIMIT %s;',
             $this->tablename,
