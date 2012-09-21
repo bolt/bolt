@@ -80,7 +80,7 @@ function updateMoments() {
     });
 
     clearTimeout(momentstimeout);
-    momentstimeout = setTimeout( function(){ updateMoments(); }, 21 * 1000);
+    momentstimeout = setTimeout( function(){ updateMoments(); }, 11 * 1000);
 
 }
 
@@ -95,7 +95,7 @@ function updateLatestActivity() {
         $('#latestactivity').html( $('#latesttemp').html() );
     });
 
-    setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
+    setTimeout( function(){ updateLatestActivity(); }, 10 * 1000);
 
 }
 

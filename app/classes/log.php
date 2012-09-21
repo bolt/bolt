@@ -85,13 +85,18 @@ class Log {
             'ip' => $_SERVER['REMOTE_ADDR'],
             'file' => $filename,
             'line' => $backtrace[0]['line'],
-            'code' => $code
+            'code' => $code,
+            'dump' => ""
         );
 
         if (is_object($content)) {
             $log['contenttype'] = $content->contenttype['slug'];
             $log['content_id'] = intval($content->id);
+        } else {
+            $log['contenttype'] = "";
+            $log['content_id'] = "";
         }
+
 
         // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";
 
