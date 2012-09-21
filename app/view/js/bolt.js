@@ -53,12 +53,20 @@ jQuery(function($) {
 
     $(".timepicker").mask("29:59");
 
+    // initialize 'moment' timestamps..
     if ($('.moment').is('*')) {
         updateMoments();
     }
 
+    // Auto-update the 'latest activity' widget..
+    if ($('#latestactivity').is('*')) {
+        setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
+    }
+
+
 });
 
+var momentstimeout;
 
 /**
  * Initialize 'moment' timestamps..
@@ -71,7 +79,23 @@ function updateMoments() {
         $(this).html( stamp.fromNow() );
     });
 
-    setTimeout( function(){ updateMoments(); }, 60 * 1000);
+    clearTimeout(momentstimeout);
+    momentstimeout = setTimeout( function(){ updateMoments(); }, 21 * 1000);
+
+}
+
+/**
+ * Auto-update the 'latest activity' widget..
+ */
+function updateLatestActivity() {
+
+    $.get(path+'latestactivity?nodebug', function(data) {
+        $('#latesttemp').html(data);
+        updateMoments();
+        $('#latestactivity').html( $('#latesttemp').html() );
+    });
+
+    setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
 
 }
 

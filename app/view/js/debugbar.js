@@ -12,7 +12,7 @@ jQuery(function($) {
         
         if ($('#bolt-debugbar').is(":visible")) {
             
-            $('#bolt-debugbar').css('right', '0').animate({
+            $('#bolt-debugbar').stop(true, true).css('right', '0').animate({
                 right: '-=800',
                 opacity: 0.1
             }, 600);
@@ -20,7 +20,7 @@ jQuery(function($) {
             $('#bolt-footer').fadeIn(); 
             $.cookie('bolt-debugbar-show', '');
         } else {
-            $('#bolt-debugbar').css('right', '-800px').show().animate({
+            $('#bolt-debugbar').stop(true, true).css('right', '-800px').show().animate({
                 right: '+=800',
                 opacity: 1.0
             }, 600); 
@@ -54,9 +54,14 @@ jQuery(function($) {
 
     // Initialise the debugbar and open it, if there's a cookie set..
     if ($.cookie('bolt-debugbar-show')==1) {
-        $('#bolt-debugbar').show(); 
+        $('#bolt-debugbar').show().css('right', '0').css('opacity', 1.0).css('display', 'block');
         $('#bolt-footer').hide();
+    } else {
+        $('#bolt-debugbar').hide();
+        $('#bolt-footer').show();
     }
+
+    // console.log('cookie is: ', $.cookie('bolt-debugbar-show') );
 
 
     // Bind the 'save' button in the floating edit bar. 
