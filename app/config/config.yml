@@ -1,5 +1,5 @@
 database:
-  driver: mysql
+  driver: sqlite
   username: bolt
   password: bolt%1
   databasename: bolt

@@ -9,7 +9,6 @@
         "symfony/twig-bridge": "2.1.*",
         "symfony/translation": "2.1.*",
         "doctrine/dbal": "2.2.*",
-        "monolog/monolog": ">=1.0.0",
         "twig/twig": ">=1.8,<2.0-dev",
         "guzzle/guzzle": ">=2.6.2"
     },
