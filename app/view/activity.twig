@@ -1,0 +1,34 @@
+{% include '_header.twig' %}
+
+
+<h1>{{title}}</h1>
+
+<table class="dashboardlisting">
+    <tbody>
+    {% for log in activity %}
+    <tr>
+        <td>
+            № {{ log.id }}, L. {{ log.level }}
+        </td>
+        <td>
+            <b>{{ log.message }} / {{ log.code }}</b> <br>
+            in: {{ log.file }}::{{ log.line }} ({{ log.route }})
+        </td>
+        <td>
+        {{ log.username }} <br>
+            {{ log.ip }}
+        </td>
+        <td>
+            <span class="moment" data-timestamp="{{ log.date }}">{{ log.date }}</span>
+        </td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+
+</table>
+
+{{ pager() }}
+
+
+{% include '_footer.twig' %}

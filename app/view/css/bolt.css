@@ -271,10 +271,8 @@ footer  {
 
 ul.dropdown-menu li {
     text-align: left;
-    float: left; /* required for 'mobile' view.. */
+
 }
-
-
 
 
 ul.dropdown-menu li a {
@@ -488,7 +486,7 @@ label span.left {
 .pagination li.disabled a {
     padding: 0 10px;
     background-color: rgba(220, 220, 220, 0.35);
-    line-height: 28px;
+    /* line-height: 28px; */
 }
 
 .pagination li:first-child a {
@@ -570,6 +568,9 @@ blockquote.quote cite {
         left: 8px;
     }
 
+    .nav-collapse ul.pull-right li {
+        float: left; /* required for 'mobile' view.. */
+    }
 
     .show-tablet {
         display: inline;

@@ -103,10 +103,11 @@
                             <li class="nav-header">Maintenance</li>
                             <li><a href="{{ path('dbupdate') }}"><i class="icon-wrench"></i>Check database</a></li>
                             <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i>Clear the cache</a></li>
+                            <li><a href="{{ path('activitylog') }}"><i class="icon-file"></i>Activity log</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">File Management</li>
-                            <li><a href="{{ path('files', { 'path': 'view'}) }}"><i class="icon-file"></i>View / edit Templates</a></li>
-                            <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-file"></i>Uploaded files</a></li>
+                            <li><a href="{{ path('files', { 'path': 'view'}) }}"><i class="icon-hdd"></i>View / edit Templates</a></li>
+                            <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-hdd"></i>Uploaded files</a></li>
                         </ul>
                     </li>
                     <li class="divider-vertical"></li>

@@ -113,18 +113,40 @@ class Log {
     }
 
     public function getActivity($amount = 10) {
+        global $app;
 
         $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
 
-        $query = sprintf('SELECT * FROM %s WHERE code IN (%s) ORDER BY date DESC LIMIT %s;',
+        $page = $app['request']->query->get('page');
+        if (empty($page)) { $page=1; }
+
+        $query = sprintf('SELECT * FROM %s WHERE code IN (%s) ORDER BY date DESC LIMIT %s, %s;',
             $this->tablename,
             $codes,
+            intval(($page-1)*$amount),
             intval($amount)
             );
+
+        // echo "<pre>\n" . util::var_dump($query, true) . "</pre>\n";
 
         $stmt = $this->db->executeQuery($query);
 
         $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
+
+        // Set up the pager
+        $pagerquery = sprintf('SELECT count(*) as count FROM %s WHERE code IN (%s)', $this->tablename, $codes);
+        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+        $pager = array(
+            'for' => 'activity',
+            'count' => $rowcount['count'],
+            'totalpages' => ceil($rowcount['count'] / $amount),
+            'current' => $page,
+            'showing_from' => ($page-1)*$amount + 1,
+            'showing_to' => ($page-1)*$amount + count($rows)
+        );
+
+        $GLOBALS['pager']['activity'] = $pager;
+
 
         return $rows;
 

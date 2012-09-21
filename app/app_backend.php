@@ -150,6 +150,21 @@ $backend->get("/latestactivity", function(Silex\Application $app) {
 
 
 
+/**
+ * Show the activity-log.
+ */
+$backend->get("/activitylog", function(Silex\Application $app) {
+
+    $title = "Activity log";
+
+    $activity = $app['log']->getActivity(16);
+
+    return $app['twig']->render('activity.twig', array('title' => $title, 'activity' => $activity));
+
+})->before($checkLogin)->bind('activitylog');
+
+
+
 
 
 /**
@@ -300,6 +315,8 @@ $backend->get("/prefill", function(Silex\Application $app) {
 })->before($checkLogin)->bind('prefill');
 
 
+
+
 /**
  * Check the database, create tables, add missing/new columns to tables
  */
@@ -329,6 +346,7 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
 	$multiplecontent = $app['storage']->getContent($contenttype['slug'], 
 	       array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter), $pager);	       
 
+    // TODO: Do we need pager here?
     $app['pager'] = $pager;
 
     $app['twig']->addGlobal('title', "Overview » ". $contenttype['name']);
@@ -607,6 +625,8 @@ $backend->get("/users", function(Silex\Application $app) {
 	return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title));
 	
 })->before($checkLogin)->bind('users');
+
+
 
 
 /**

@@ -683,7 +683,7 @@ class Storage {
         } else if (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
-            $parameters['order'] = 'datecreated ' . ($match[2][0]=="latest" ? "DESC" : "ASC");
+            $parameters['order'] = 'datecreated ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
         }
         
