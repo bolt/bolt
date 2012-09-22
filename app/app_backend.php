@@ -94,6 +94,8 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 
     $news = $app['cache']->get('dashboardnews', 1800);
 
+    $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+
     // If not cached, get fresh news..
     if ($news == false) {
 
@@ -101,10 +103,11 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 
         $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
-        $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s', // bolt.cm
+        $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s', // bolt.cm
             $bolt_version,
             phpversion(),
-            $driver
+            $driver,
+            base64_encode($name)
         );
 
         $guzzleclient = new Guzzle\Http\Client($url);
