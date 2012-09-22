@@ -14,7 +14,7 @@
     
     {{ entry.teaser }}
 
-    <p class="meta"><a href="{{ entry.link }}">Link</a> - Posted by {{ entry.username }} on {{ entry.datecreated|date("M d, ’y")}}</p>
+    <p class="meta"><a href="{{ entry.link }}">Link</a> - Posted by {{ entry.user.displayname }} on {{ entry.datecreated|date("M d, ’y")}}</p>
     
 </article>    
 {% endfor %}

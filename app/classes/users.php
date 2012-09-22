@@ -136,48 +136,54 @@ class Users {
     }
     
     public function getUsers() {
-               
-        $tablename = $this->prefix . "users";
+        global $app;
 
-        $query = "SELECT * FROM $tablename";
+        if (empty($this->users) || !is_array($this->users)) {
 
-        $users = array();
+            $app['log']->add('Users: getUsers()', 1);
 
-        try {
-            $tempusers = $this->db->fetchAll($query);
+            $tablename = $this->prefix . "users";
+            $query = "SELECT * FROM $tablename";
+            $this->users = array();
 
-            foreach($tempusers as $user) {
-                $key = $user['username'];
-                $users[$key] = $user;
-                $users[$key]['password'] = "**dontchange**";
+            try {
+                $tempusers = $this->db->fetchAll($query);
+
+                foreach($tempusers as $user) {
+                    $key = $user['username'];
+                    $this->users[$key] = $user;
+                    $this->users[$key]['password'] = "**dontchange**";
+                }
+            } catch (Exception $e) {
+                // Nope. No users.
             }
-
-        } catch (Exception $e) {
-
-            // Nope. No users..
 
         }
 
-        return $users;
+        return $this->users;
 
     }
     
     
-    public function getUser($id, $includepassword=false) {
-               
-        $tablename = $this->prefix . "users";
+    public function getUser($id) {
+
+        // Make sure we've fetched the users..
+        $this->getUsers();
 
         if (is_numeric($id)) {
-           $user = $this->db->fetchAssoc("SELECT * FROM $tablename where id = :id", array("id" => $id));
+            foreach($this->users as $key => $user) {
+                if ($user['id']==$id) {
+                    return $user;
+                }
+            }
         } else {
-           $user = $this->db->fetchAssoc("SELECT * FROM $tablename where username = :username", array("username" => $id));
+            if (isset($this->users[$id])) {
+                return $this->users[$id];
+            }
         }
         
-        if (!$includepassword) {
-            unset($user['password']);
-        }
-        
-        return $user;
+        // otherwise..
+        return false;
         
     }
         

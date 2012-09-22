@@ -2,8 +2,6 @@
 
 <article>
 
-{{ print(record) }}
-
     <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
     
     <h2>{{ record.subtitle }}</h2>
@@ -12,7 +10,7 @@
 
     <section class='body'>{{ record.body }}</section>
 
-    <p class="meta">Posted by {{ record.username }} on {-{ record.datecreated|date("M d, ’y")}}</p>
+    <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
     
 </article>
 

@@ -51,10 +51,10 @@ class Content {
             $this->values['datechanged'] = "1970-01-01 00:00:00";
         }
 
-		echo "user: " . $values['username'];
+		// echo "user: " . $values['username'];
 		
-		if (!empty($values['username']) {
-			$this->user = $app['users']->getUsers($values['username']);
+		if (!empty($values['username'])) {
+			$this->user = $app['users']->getUser($values['username']);
 		}
 
     }
