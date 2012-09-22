@@ -144,7 +144,7 @@ $backend->get("/latestactivity", function(Silex\Application $app) {
         $app['debug'] = false;
     }
 
-    $activity = $app['log']->getActivity(8);
+    $activity = $app['log']->getActivity(8, 3);
 
     $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
@@ -371,6 +371,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 
         $content = new Content('', $contenttypeslug);
         $content->setFromPost($request->request->all());
+
 
         if ($app['storage']->saveContent($content, $contenttype['slug'])) {
         

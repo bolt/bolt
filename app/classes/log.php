@@ -112,7 +112,7 @@ class Log {
 
     }
 
-    public function getActivity($amount = 10) {
+    public function getActivity($amount = 10, $minlevel=2) {
         global $app;
 
         $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
@@ -120,9 +120,10 @@ class Log {
         $page = $app['request']->query->get('page');
         if (empty($page)) { $page=1; }
 
-        $query = sprintf('SELECT * FROM %s WHERE code IN (%s) ORDER BY date DESC LIMIT %s, %s;',
+        $query = sprintf('SELECT * FROM %s WHERE code IN (%s) OR (level >= %s) ORDER BY date DESC LIMIT %s, %s;',
             $this->tablename,
             $codes,
+            $minlevel,
             intval(($page-1)*$amount),
             intval($amount)
             );
@@ -134,7 +135,10 @@ class Log {
         $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
 
         // Set up the pager
-        $pagerquery = sprintf('SELECT count(*) as count FROM %s WHERE code IN (%s)', $this->tablename, $codes);
+        $pagerquery = sprintf('SELECT count(*) as count FROM %s WHERE code IN (%s) OR (level >= %s)',
+            $this->tablename,
+            $codes,
+            $minlevel);
         $rowcount = $this->db->executeQuery($pagerquery)->fetch();
         $pager = array(
             'for' => 'activity',

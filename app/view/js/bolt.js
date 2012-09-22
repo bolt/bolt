@@ -107,27 +107,30 @@ function updateLatestActivity() {
  * Bind the file upload, so it works and stuff 
  */
 function bindFileUpload(key) {
-    
-    $('#fileupload-' + key).fileupload({
-        dataType: 'json',
-        dropZone: $('#dropzone-' + key),
-        done: function (e, data) {
-            $.each(data.result, function (index, file) {
-                var filename = decodeURI(file.url).replace("/files/", "");
-                $('#field-' + key).val(filename);
-                $('#thumbnail-' + key).html("<img src='/thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
-                $('#progress-' + key + ' div.bar').css('width', "100%");
-                $('#progress-' + key).removeClass('progress-striped active');
-                window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 3000);
-            });
-        }
-    });    
-    
-    $('#fileupload-' + key).bind('fileuploadprogress', function (e, data) {        
-        var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
-        $('#progress-' + key).show().addClass('progress-striped active');
-        $('#progress-' + key + ' div.bar').css('width', progress+"%");
-    });
+
+    // Since jQuery File Upload's 'paramName' option seems to be ignored,
+    // it requires the name of the upload input to be "images[]". Which clashes
+    // with the non-fancy fallback, so we hackishly set it here. :-/
+    $('#fileupload-' + key).attr('name', 'files[]')
+        .fileupload({
+            dataType: 'json',
+            dropZone: $('#dropzone-' + key),
+            done: function (e, data) {
+                $.each(data.result, function (index, file) {
+                    var filename = decodeURI(file.url).replace("/files/", "");
+                    $('#field-' + key).val(filename);
+                    $('#thumbnail-' + key).html("<img src='/thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+                    $('#progress-' + key + ' div.bar').css('width', "100%");
+                    $('#progress-' + key).removeClass('progress-striped active');
+                    window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 3000);
+                });
+            }
+        })
+        .bind('fileuploadprogress', function (e, data) {
+            var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
+            $('#progress-' + key).show().addClass('progress-striped active');
+            $('#progress-' + key + ' div.bar').css('width', progress+"%");
+        });
           
     
 }

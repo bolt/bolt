@@ -59,12 +59,76 @@ class Content {
 
     }
 
-    public function setFromPost($values) {
+    public function setFromPost($values)
+    {
+        global $app;
 
         $values = cleanPostedData($values);
 
+        // TODO: check for allowed file types..
+
+        // Handle file-uploads.
+        if (!empty($_FILES)) {
+            foreach($_FILES as $key => $file) {
+
+                $filename = sprintf("%s/files/%s/%s",
+                    $app['paths']['rootpath'], date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
+                $basename = sprintf("/%s/%s", date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
+
+                if ($file['error'][0] != UPLOAD_ERR_OK) {
+                    $app['log']->add("Upload: Error occured during upload: " . $file['error'][0], 2);
+                    continue;
+                }
+
+                if (substr($key, 0, 11)!="fileupload-") {
+                    $app['log']->add("Upload: skipped an upload that wasn't for Content.", 2);
+                    continue;
+                }
+
+                $fieldname = substr($key, 11);
+
+                // Make sure the folder exists.
+                makeDir(dirname($filename));
+
+                // Check if we don't have doubles.
+                if (is_file($filename)) {
+                    while(is_file($filename)) {
+                        $filename = $this->upcount_name($filename);
+                        $basename = $this->upcount_name($basename);
+                    }
+                }
+
+                if (is_writable(dirname($filename))) {
+                    // Yes, we can create the file!
+                    move_uploaded_file($file['tmp_name'][0], $filename);
+                    $app['log']->add("Upload: uploaded file '$basename'.", 2);
+                    $values[$fieldname] = $basename;
+                } else {
+                    $app['log']->add("Upload: couldn't write upload '$basename'.", 2);
+                }
+
+            }
+        }
+
         $this->setValues($values);
 
+    }
+
+    // Taken from jQuery file upload..
+    protected function upcount_name_callback($matches) {
+        $index = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
+        $ext = isset($matches[2]) ? $matches[2] : '';
+        return ' ('.$index.')'.$ext;
+    }
+
+    // Taken from jQuery file upload..
+    protected function upcount_name($name) {
+        return preg_replace_callback(
+            '/(?:(?: \(([\d]+)\))?(\.[^.]+))?$/',
+            array($this, 'upcount_name_callback'),
+            $name,
+            1
+        );
     }
 
 

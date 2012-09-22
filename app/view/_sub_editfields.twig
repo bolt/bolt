@@ -72,14 +72,16 @@
         <span class="btn btn-info fileinput-button">
             <i class="icon-upload"></i>
             <span>Upload Image</span>
-            <input id="fileupload-{{key}}" type="file" name="files[]" data-url="/app/classes/upload/" multiple>
+            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
         </div>
+
+        {% if not ismobileclient() %}
         <div style="clear: left;" /><small>Use the button to upload a file. To select a previously uploaded file, you can <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
-        
 <script type="text/javascript">
+
 bindFileUpload('{{key}}');
 
 $("#field-{{key}}").autocomplete({
@@ -88,8 +90,8 @@ $("#field-{{key}}").autocomplete({
     close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>"); }
 });
 
-
 </script>
+        {% endif %}
 
     </div>
 </div>
