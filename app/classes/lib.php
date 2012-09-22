@@ -128,10 +128,10 @@ function clearCache() {
 
 function clearCacheHelper($additional, &$result) {
     
-    $basefolder = __DIR__."../cache/";
+    $basefolder = __DIR__."/../cache/";
     
     $currentfolder = realpath($basefolder."/".$additional);
-    
+
     if (!file_exists($currentfolder)) {
         $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
         return;
@@ -157,12 +157,13 @@ function clearCacheHelper($additional, &$result) {
           
            clearCacheHelper($additional."/".$entry, $result);
 
-           if (is_writable($currentfolder."/".$entry) && @unlink($currentfolder."/".$entry)) {
+           if (@rmdir($currentfolder."/".$entry)) {
                $result['successfolders']++;
            } else {
                $result['failedfolders']++;
            }
-           
+
+
        }
               
        

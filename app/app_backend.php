@@ -294,10 +294,9 @@ $backend->get("/clearcache", function(Silex\Application $app) {
 	} else {
     	$app['session']->setFlash('success', $output);
 	}
-	
+
 	return redirect('dashboard');
-	
-	
+
 })->before($checkLogin)->bind('clearcache');
 
 
