@@ -63,6 +63,9 @@ jQuery(function($) {
         setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
     }
 
+	// TODO: Fix issue with dropdown menus on ipad.
+	// $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+
 
 });
 

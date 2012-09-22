@@ -33,6 +33,7 @@ class Content {
     
     public function setValues($values) 
     {
+		global $app;
 
         if (!empty($values['id'])) {
             $this->id = $values['id'];
@@ -49,6 +50,12 @@ class Content {
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
             $this->values['datechanged'] = "1970-01-01 00:00:00";
         }
+
+		echo "user: " . $values['username'];
+		
+		if (!empty($values['username']) {
+			$this->user = $app['users']->getUsers($values['username']);
+		}
 
     }
 
