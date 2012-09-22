@@ -17,7 +17,7 @@
         {%  elseif log.code == "user" %}
             <b>{{ log.message }}</b> by {{ username }}
         {%  else %}
-            Bork! {{ log.code }}
+            {{ log.message }}
         {%  endif %}
         <small>(<span class="moment" data-timestamp="{{ log.date }}">{{ log.date }}</span>)</small>
     </li>
