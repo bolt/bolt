@@ -79,7 +79,8 @@
         </div>
 
         {% if not ismobileclient() %}
-        <div style="clear: left;" /><small>Use the button to upload a file. To select a previously uploaded file, you can <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
+        <div style="clear: left;" class="hide-tablet" /><small>Use the button to upload a photo or image. To select a previously uploaded file, you can
+        <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
 <script type="text/javascript">
 
 bindFileUpload('{{key}}');
@@ -116,20 +117,27 @@ $("#field-{{key}}").autocomplete({
         <span class="btn btn-info fileinput-button">
             <i class="icon-upload"></i>
             <span>Upload File</span>
-            <input id="fileupload-{{key}}" type="file" name="files[]" data-url="/app/classes/upload/" multiple>
+            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="/app/classes/upload/">
         </span>
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
         </div>
-        <div style="clear: left;" /><small>Use the button to upload a file. To select a previously uploaded file, you can <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
-        
-<script type="text/javascript">
-bindFileUpload('{{key}}');
 
-$("#field-{{key}}").autocomplete({
-    source: "{{ paths.bolt }}/filesautocomplete?ext={{ field.extensions|join(',') }}",
-    minLength: 2
-});
+    {% if not ismobileclient() %}
+        <div style="clear: left;" class="hide-tablet" /><small>Use the button to upload a file. To select a previously uploaded file, you can
+        <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
+        <script type="text/javascript">
+            bindFileUpload('{{key}}');
+
+            $("#field-{{key}}").autocomplete({
+                source: "{{ paths.bolt }}/filesautocomplete?ext={{ field.extensions|join(',') }}",
+                minLength: 2
+            });
+
+        </script>
+    {% endif %}
+
+
 
 
 </script>

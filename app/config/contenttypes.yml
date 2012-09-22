@@ -49,7 +49,7 @@ pages:
             label: Ondertitel
             type: text 
         image:
-            type: image            
+            type: image
         introduction:
             type: html
             height: 150px
