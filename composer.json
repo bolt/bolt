@@ -1,5 +1,5 @@
 {
-    "name": "bobdenotter/pilex",
+    "name": "bobdenotter/bolt",
     "require": {
         "silex/silex": "1.0.*",
         "symfony/yaml": "2.1.*",

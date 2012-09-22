@@ -30,7 +30,7 @@ div.sb-message{font-size:12px;padding:10px;text-align:center;}
 div.sb-message a:link,div.sb-message a:visited{color:#fff;text-decoration:underline;}
 
 /**
- * additions / overrides for Pilex go here, for maintainability.
+ * additions / overrides for Bolt go here, for maintainability.
  */
 #sb-title-inner,#sb-info-inner,#sb-loading-inner,div.sb-message{font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;font-weight: bold;color:#000; text-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.5);} 
 #sb-wrapper-inner{border:0px; padding: 4px; background-color: #FFF; box-shadow:  1px 1px 5px 0px rgba(0, 0, 0, 0.3);}

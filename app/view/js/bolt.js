@@ -119,7 +119,7 @@ function bindFileUpload(key) {
                 $.each(data.result, function (index, file) {
                     var filename = decodeURI(file.url).replace("/files/", "");
                     $('#field-' + key).val(filename);
-                    $('#thumbnail-' + key).html("<img src='/thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+                    $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
                     $('#progress-' + key + ' div.bar').css('width', "100%");
                     $('#progress-' + key).removeClass('progress-striped active');
                     window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 3000);
