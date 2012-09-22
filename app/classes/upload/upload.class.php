@@ -257,7 +257,7 @@ class UploadHandler
             }
         }
         
-        // Added for Pilex: Make sure we don't have quotes or other characters we don't want in filenames.
+        // Added for Bolt: Make sure we don't have quotes or other characters we don't want in filenames.
         $file_name = safeString($file_name, false, "[]{}()");
         
         return $file_name;
