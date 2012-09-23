@@ -748,6 +748,15 @@ function getConfig() {
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
 
+    // TODO: Think about what to do with these..
+    /*
+    # Date and Time formats
+    shortdate: j M ’ye
+    longdate: l j F Y
+    shorttime: H:i
+    longtime: H:i:s
+    fulldatetime: Y-m-d H:i:s
+    */
 
     // Clean up taxonomies
     foreach( $config['taxonomy'] as $key => $value ) {

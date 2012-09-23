@@ -1,4 +1,8 @@
-Main:
+# This file defines the menus on the website. See the documentation for
+# details: http://docs.bolt.cm/menus
+# TODO: Write documentation for menus. ;-)
+
+main:
   - label: Home
     title: This is the first menu item. Fo shizzle!
     path: homepage

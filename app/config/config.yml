@@ -1,22 +1,31 @@
+# Database setup. The driver can be either sqlite, mysql or postgres. For
+# SQLite, only the databasename is required, while MySQL and PostgreSQL also
+# require username, password and perhaps a hostname.
+# If you're trying out Bolt, just keep it set to SQLite for now.
 database:
-  driver: mysql
-  username: bolt
-  password: bolt%1
+  driver: sqlite
   databasename: bolt
 
+# The name of the website
 sitename: A sample Bolt site.
+
+# The default content to use for the homepage, and the template to render it with.
 homepage: page/1
 homepage_template: index.twig
+
+# The theme to use. Be sure to copy the theme/default folder, and change the
+# name here accordingly. Don't edit the templates in theme/default, because
+# they _will_ get updated in next releases
 theme: default
 
+# Show the 'debug' nu in the lower right corner for logged-in user.
 debug: true
+
+# The default amount of records to show on overview pages. Can be overridden
+# for each contenttype.
 recordsperpage: 10
 
-# Date and Time formats
-shortdate: j M ’ye
-longdate: l j F Y
-shorttime: H:i
-longtime: H:i:s
-fulldatetime: Y-m-d H:i:s
-
+# Use strict variables. This will make Bolt complain if you use {{ foo }},
+# when foo doesn't exist.
 strict_variables: false
+

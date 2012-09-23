@@ -1,3 +1,6 @@
+# This file defines the different types of taxonomies in Bolt. This will be
+# further developed and documented, as we get closer to version 1.0.
+
 tags:
     slug: tags
     singular_slug: tag

@@ -1,3 +1,6 @@
+# This file defines the contenttypes on the website. See the documentation for
+# details: http://docs.bolt.cm/content#defining-contenttypes
+
 entries:
     name: Entries
     singular_name: Entry
