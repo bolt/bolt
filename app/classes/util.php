@@ -341,21 +341,21 @@ if ( ! class_exists( 'util' ) ) {
             $html = '';
 
             if ( is_bool( $var ) ) {
-                $html .= '<span style="color:#588bff;">bool</span><span style="color:#999;">(</span><strong>' . ( ( $var ) ? 'true' : 'false' ) . '</strong><span style="color:#999;">)</span>';
+                $html .= '<span style="color:#588bff;">boo</span><span style="color:#999;">(</span><strong>' . ( ( $var ) ? 'true' : 'false' ) . '</strong><span style="color:#999;">)</span>';
             } else if ( is_int( $var ) ) {
                 $html .= '<span style="color:#588bff;">int</span><span style="color:#999;">(</span><strong>' . $var . '</strong><span style="color:#999;">)</span>';
             } else if ( is_float( $var ) ) {
-                $html .= '<span style="color:#588bff;">float</span><span style="color:#999;">(</span><strong>' . $var . '</strong><span style="color:#999;">)</span>';
+                $html .= '<span style="color:#588bff;">flo</span><span style="color:#999;">(</span><strong>' . $var . '</strong><span style="color:#999;">)</span>';
             } else if ( is_string( $var ) ) {
-                $html .= '<span style="color:#588bff;">string</span><span style="color:#999;">(</span>' . strlen( $var ) . '<span style="color:#999;">)</span> <strong>"' . self::htmlentities( $var ) . '"</strong>';
+                $html .= '<span style="color:#588bff;">str</span><span style="color:#999;">(</span>' . strlen( $var ) . '<span style="color:#999;">)</span> <strong>"' . self::htmlentities( $var ) . '"</strong>';
             } else if ( is_null( $var ) ) {
                 $html .= '<strong>NULL</strong>';
             } else if ( is_resource( $var ) ) {
-                $html .= '<span style="color:#588bff;">resource</span>("' . get_resource_type( $var ) . '") <strong>"' . $var . '"</strong>';
+                $html .= '<span style="color:#588bff;">res</span>("' . get_resource_type( $var ) . '") <strong>"' . $var . '"</strong>';
             } else if ( is_array( $var ) ) {
                 $uuid = 'include-php-' . uniqid();
 
-                $html .= '<span style="color:#588bff;">array</span>(' . count( $var ) . ')';
+                $html .= '<span style="color:#588bff;">arr</span>(' . count( $var ) . ')';
 
                 if ( ! empty( $var ) ) {
                     $html .= ' <img id="' . $uuid . '" data-expand="data:image/png;base64,' . self::$icon_expand . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;" src="data:image/png;base64,' . self::$icon_collapse . '" /><br /><span id="' . $uuid . '-collapsable">[<br />';

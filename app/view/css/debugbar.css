@@ -214,9 +214,20 @@ body .redactor_air {
 
     .bolt-debugpanel code, 
     .bolt-debugpanel pre {
-      font-size: 9px !important;
+      font-size: 10px !important;
       line-height: 11px !important;
     }
 
+    #bolt-debugbar ul li#pd-variables,
+    #bolt-debugbar ul li#pd-edit,
+    #bolt-debugbar ul li#pd-log,
+    #bolt-debugbar ul li#pd-queries,
+    #bolt-debugbar ul li#pd-server {
+        background-position: 2px 7px;
+    }
+
+    #bolt-debugbar ul li {
+        padding: 7px 3px 7px 21px;
+    }
 
 }

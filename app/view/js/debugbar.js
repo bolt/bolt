@@ -33,7 +33,7 @@ jQuery(function($) {
     });
     
     
-    $('#bolt-debugbar li').find('a').bind('click', function(e){
+    $('#bolt-debugbar li').not('#pd-edit').find('a').bind('click', function(e){
         e.preventDefault();
         
         var forthis = "#" + $(this).data('for');

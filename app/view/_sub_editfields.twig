@@ -148,7 +148,7 @@ $("#field-{{key}}").autocomplete({
 {% set video = content.get(key) %}
 <div class="dropzone">
 
-    <div class="video-right">
+    <div class="video-right hide-phone">
         <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px;">
             {% if video.thumbnail!="" %}
                 <img src="{{ video.thumbnail }}" width="160" height="120">
@@ -157,19 +157,18 @@ $("#field-{{key}}").autocomplete({
     </div>
 
     <div class="video-container">
-
-
         <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
-            (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title }}" by {{ video.authorname }}{% endif %}</span>)
+            (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
         </label>
         <label>URL: <input type="text" name="{{key}}[url]" id="video-{{key}}"
                value='{{ video.url }}'
                class='{% if field.class is defined %}{{ field.class }}{% endif %}' style='width: 80%;'>
         </label>
 
-        <label>Dimensions: <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width }}" style='width: 60px; min-width: 60px;'>
-        x <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height }}" style='width: 60px; min-width: 60px;'> pixels.
-            <a href="#myModal" role="button" class="btn" data-toggle="modal" style='float: right;'>Preview video</a>
+        <label>Size: <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width }}" style='width: 60px; min-width: 60px;'>
+        x <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height }}" style='width: 60px; min-width: 60px;'>
+            pixels.
+            <span class="hide-tablet"><a href="#myModal" role="button" class="btn" data-toggle="modal" style='float: right;'>Preview video</a></span>
         </label>
 
         <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio }}">

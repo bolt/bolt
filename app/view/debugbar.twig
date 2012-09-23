@@ -5,27 +5,29 @@
         <li id='pd-bolt'><strong>Bolt {{bolt_version}}</strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
         <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
         {% if frontend %} {# todo: Add something with 'and editlink' #}
-        <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li>
+{#        <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li> #}
+        <li id='pd-edit'><a href="{{ editlink }}" data-for="bolt-editpanel">Edit</a></li>
         {% endif %}
 
         <li id='pd-log'><a href="#" data-for="bolt-logpanel">Log<span class='narrow'> entries</span></a>
             <small>({{ log|length }})</small></li>
+        <li id='pd-server'><a href="#" data-for="bolt-serverpanel"><span class='narrow'>bolt.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
         <li id='pd-queries'>
             {% if querycount==0 %}
                 No Q<span class='narrow'>ueries</span>
-            {% elseif querycount==1 %}
+                {% elseif querycount==1 %}
                 <a href="#" data-for="bolt-queriespanel">1 Q<span class='narrow'>uery</span></a> <small>({{querytime}} sec)</small>
             {% else %}
                 <a href="#" data-for="bolt-queriespanel">{{querycount}} Q<span class='narrow'>ueries</span></a> <small>({{querytime}} sec)</small>
             {% endif %}</li>
-        <li id='pd-server'><a href="#" data-for="bolt-serverpanel"><span class='narrow'>bolt.localhost</span><span class='narrowonly'>srv</span></a> <small>({{ servervars.statuscode }})</small></li>
     </ul>
 </div>
 
+{# TODO: make editable from frontend..
 <div id='bolt-editpanel' class='bolt-debugpanel'> 
     <p>Click one of the highlighted fields, or <a href="{{editlink}}">Edit in the bolt backend</a>.
 </div>
-
+#}
 
 <div id='bolt-varpanel' class='bolt-debugpanel'> 
 <pre>
