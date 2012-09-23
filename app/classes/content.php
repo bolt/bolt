@@ -51,19 +51,45 @@ class Content {
             $this->values['datechanged'] = "1970-01-01 00:00:00";
         }
 
-		// echo "user: " . $values['username'];
-		
 		if (!empty($values['username'])) {
 			$this->user = $app['users']->getUser($values['username']);
 		}
 
+        // Check if the values need to be unserialized..
+        foreach($this->values as $key => $value) {
+
+            if (substr($value, 0, 2)=="a:") {
+                $unserdata = @unserialize($value);
+                if ($unserdata !== false) {
+                    $this->values[$key] = $unserdata;
+                }
+            }
+        }
+
     }
 
-    public function setFromPost($values)
+    public function setFromPost($values, $contenttype)
     {
         global $app;
 
         $values = cleanPostedData($values);
+
+        // Some field type need to do things to the POST-ed value.
+        foreach ($contenttype['fields'] as $fieldname => $field) {
+
+            if ($field['type'] == "video" && isset($values[ $fieldname ])) {
+                $video = $values[ $fieldname ];
+                // update the HTML, according to given width and height
+                if (!empty($video['width']) && !empty($video['height'])) {
+                    $video['html'] = preg_replace("/width=(['\"])([0-9]+)(['\"])/i", 'width=${1}'.$video['width'].'${3}', $video['html']);
+                    $video['html'] = preg_replace("/height=(['\"])([0-9]+)(['\"])/i", 'height=${1}'.$video['height'].'${3}', $video['html']);
+                }
+
+                $values[ $fieldname ] = $video;
+            }
+
+        }
+
 
         // TODO: check for allowed file types..
 
@@ -211,9 +237,17 @@ class Content {
      */
     public function get($name)
     {
+
+        // For fields that are stored as arrays, like 'video'
+        if (strpos($name, ".") > 0) {
+            list ($name, $attr) = explode(".", $name);
+            if (!empty($attr) && isset($this->values[$name][$attr])) {
+                return $this->values[$name][$attr];
+            }
+        }
+
         if (isset($this->values[$name])) {
             return $this->values[$name];
-
         } else {
             return false;
         }

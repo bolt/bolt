@@ -51,6 +51,7 @@ tt {
 
 small {
     font-size: 85%;
+    line-height: 85%;
 }
 
 
@@ -389,6 +390,16 @@ label span.left {
     padding-right: 0;
 }
 
+#editcontent div.video-container {
+    height: 120px;
+    padding-right: 180px;
+}
+
+#editcontent div.video-right {
+    float: right;
+    width: 168px;
+}
+
 #editcontent div.image-container {
     height: 120px;
     padding-right: 130px;
@@ -411,9 +422,15 @@ label span.left {
     border: 1px solid #BBB;
 }
 
+#editcontent div.image-container label,
+#editcontent div.video-container label {
+    margin-top: 2px;
+}
+
+
 #editcontent .dropzone {
-    margin-top: 8px;
-    height: 130px;
+    margin-top: 16px;
+    height: 120px;
     width: 97%;
 }
 

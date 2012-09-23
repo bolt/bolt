@@ -239,6 +239,7 @@ class Storage {
                             
                         case 'html':
                         case 'textarea':
+                        case 'video':
                             $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
@@ -435,8 +436,12 @@ class Storage {
             // Set the slug, while we're at it..
             if ($values['type'] == "slug" && !empty($values['uses']) && empty($fieldvalues['slug'])) {
                 $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
-            } 
-            
+            }
+
+            if ($values['type'] == "video" && !empty($fieldvalues[$key]['html']) ) {
+                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+            }
+
         }
 
         // Make sure a username is set.

@@ -79,8 +79,8 @@
         </div>
 
         {% if not ismobileclient() %}
-        <div style="clear: left;" class="hide-tablet" /><small>Use the button to upload a photo or image. To select a previously uploaded file, you can
-        <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
+        <div style="clear: left; line-height: 13px; width: 75%;" class="hide-tablet"><small>Use the button to upload a photo or image. To select a previously uploaded file, you can
+        type (part) of the filename in the input area, and it will be autocompleted.</small></div>
 <script type="text/javascript">
 
 bindFileUpload('{{key}}');
@@ -124,8 +124,8 @@ $("#field-{{key}}").autocomplete({
         </div>
 
     {% if not ismobileclient() %}
-        <div style="clear: left;" class="hide-tablet" /><small>Use the button to upload a file. To select a previously uploaded file, you can
-        <br />type (part) of the filename in the input area, and it will be autocompleted.</small></div>
+        <div style="clear: left;" class="hide-tablet"><small>Use the button to upload a file. To select a previously uploaded file, you can
+        type (part) of the filename in the input area, and it will be autocompleted.</small></div>
         <script type="text/javascript">
             bindFileUpload('{{key}}');
 
@@ -137,17 +137,77 @@ $("#field-{{key}}").autocomplete({
         </script>
     {% endif %}
 
-
-
-
-</script>
-
     </div>
 </div>
 {% endif %}
 
+{# --------------- video --------------- #}
 
-        
+{% if field.type == "video" %}
+
+{% set video = content.get(key) %}
+<div class="dropzone">
+
+    <div class="video-right">
+        <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px;">
+            {% if video.thumbnail!="" %}
+                <img src="{{ video.thumbnail }}" width="160" height="120">
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="video-container">
+
+
+        <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
+            (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title }}" by {{ video.authorname }}{% endif %}</span>)
+        </label>
+        <label>URL: <input type="text" name="{{key}}[url]" id="video-{{key}}"
+               value='{{ video.url }}'
+               class='{% if field.class is defined %}{{ field.class }}{% endif %}' style='width: 80%;'>
+        </label>
+
+        <label>Dimensions: <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width }}" style='width: 60px; min-width: 60px;'>
+        x <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height }}" style='width: 60px; min-width: 60px;'> pixels.
+            <a href="#myModal" role="button" class="btn" data-toggle="modal" style='float: right;'>Preview video</a>
+        </label>
+
+        <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio }}">
+
+        <input type="hidden" name="{{ key }}[title]" id="video-{{key}}-title" value="{{ video.title }}" readonly>
+        <input type="hidden" name="{{ key }}[authorname]" id="video-{{key}}-author_name" value="{{ video.authorname }}" readonly>
+        <input type="hidden" name="{{ key }}[authorurl]" id="video-{{key}}-author_url" value="{{ video.authorurl }}" readonly>
+        <input type="hidden" name="{{ key }}[html]" id="video-{{key}}-html" value="{{ video.html|escape }}">
+        <input type="hidden" name="{{ key }}[thumbnail]" id="video-{{key}}-thumbnail" value="{{ video.thumbnail }}">
+
+        <script type="text/javascript">
+            bindVideoEmbed('{{key}}');
+        </script>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-body">
+        {% if video.html %}
+        {{ video.html }}
+        {% else %}
+        <p>No video url is set, no video to show.</p>
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+
+
+{% endif %}
+
+
+
+
+
 {# --------------- html --------------- #}
 
 {% if field.type == "html" %}

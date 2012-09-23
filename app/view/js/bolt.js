@@ -69,9 +69,9 @@ jQuery(function($) {
 
 });
 
-var momentstimeout;
 
 /**
+ *
  * Initialize 'moment' timestamps..
  *
  */
@@ -81,14 +81,17 @@ function updateMoments() {
         var stamp = moment($(this).attr('datetime'));
         $(this).html( stamp.fromNow() );
     });
-
     clearTimeout(momentstimeout);
     momentstimeout = setTimeout( function(){ updateMoments(); }, 16 * 1000);
 
 }
 
+var momentstimeout;
+
 /**
+ *
  * Auto-update the 'latest activity' widget..
+ *
  */
 function updateLatestActivity() {
 
@@ -104,7 +107,9 @@ function updateLatestActivity() {
 
 
 /**
- * Bind the file upload, so it works and stuff 
+ *
+ * Bind the file upload when editing content, so it works and stuff
+ *
  */
 function bindFileUpload(key) {
 
@@ -135,27 +140,25 @@ function bindFileUpload(key) {
     
 }
 
-var makeuritimeout;
 
+/**
+ *
+ * Functions for working with the automagic URI/Slug generation.
+ *
+ */
 function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
 
     $('#'+usesfield).bind('change keyup input', function() {
-       
         var field = $('#'+usesfield).val();
-
         clearTimeout(makeuritimeout);
         makeuritimeout = setTimeout( function(){ makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri); }, 200);
-
-        
     });
 
-
-    
-    
 }
 
-function makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri) {
+var makeuritimeout;
 
+function makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri) {
     $.ajax({
         url: path + 'makeuri',
         type: 'GET',
@@ -168,6 +171,67 @@ function makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri) 
             console.log('failed to get an URI');
         }
     });
+}
+
+
+/**
+ *
+ * Making the 'video embed filetype work.
+ *
+ */
+function bindVideoEmbed(key) {
+
+    $('#video-'+key).bind('propertychange input', function() {
+        clearTimeout(videoembedtimeout);
+        videoembedtimeout = setTimeout( function(){ bindVideoEmbedAjax(key); }, 400);
+    });
+
+    $('#video-'+key+'-width').bind('propertychange input', function() {
+        if ($('#video-'+key+'-ratio').val() > 0 ) {
+            $('#video-'+key+'-height').val( Math.round($('#video-'+key+'-width').val() / $('#video-'+key+'-ratio').val()) );
+        }
+    });
+
+    $('#video-'+key+'-height').bind('propertychange input', function() {
+        if ($('#video-'+key+'-ratio').val() > 0 ) {
+            $('#video-'+key+'-width').val( Math.round($('#video-'+key+'-height').val() * $('#video-'+key+'-ratio').val()) );
+        }
+    });
 
 
 }
+
+var videoembedtimeout;
+
+function bindVideoEmbedAjax(key) {
+
+    // oembed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
+    // TODO: make less dependant on key..
+    var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=";
+    var url = endpoint + encodeURI($('#video-'+key).val());
+
+    console.log('url', url);
+
+    $.getJSON(url, function(data) {
+        console.log(data);
+        if (data.html) {
+            $('#video-'+key+'-html').val(data.html);
+            $('#video-'+key+'-width').val(data.width);
+            $('#video-'+key+'-height').val(data.height);
+            $('#video-'+key+'-ratio').val(data.width / data.height);
+            $('#video-'+key+'-text').html('"' + data.title + '" by ' + data.author_name);
+            $('#myModal').find('.modal-body').html(data.html);
+            $('#video-'+key+'-author_name').val(data.author_name);
+            $('#video-'+key+'-author_url').val(data.author_url);
+            $('#video-'+key+'-title').val(data.title);
+        }
+
+        if (data.thumbnail_url) {
+            $('#thumbnail-'+key).html("<img src='" + data.thumbnail_url + "' width='160' height='120'>");
+            $('#video-'+key+'-thumbnail').val(data.thumbnail_url);
+        }
+
+    });
+
+}
+

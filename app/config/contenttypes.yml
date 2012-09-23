@@ -11,11 +11,11 @@ entries:
             uses: title
         image:
             type: image
-        video:
-            type: video
         teaser:
             type: html
             height: 150px
+        video:
+            type: video
         body:
             type: html
             height: 300px
