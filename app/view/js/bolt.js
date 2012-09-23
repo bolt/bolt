@@ -148,7 +148,7 @@ function bindFileUpload(key) {
  */
 function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
 
-    $('#'+usesfield).bind('change keyup input', function() {
+    $('#'+usesfield).bind('propertychange input', function() {
         var field = $('#'+usesfield).val();
         clearTimeout(makeuritimeout);
         makeuritimeout = setTimeout( function(){ makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri); }, 200);

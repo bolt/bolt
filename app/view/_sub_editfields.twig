@@ -86,7 +86,7 @@
 bindFileUpload('{{key}}');
 
 $("#field-{{key}}").autocomplete({
-    source: "{{ paths.bolt }}/filesautocomplete",
+    source: "{{ paths.bolt }}filesautocomplete",
     minLength: 2,
     close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>"); }
 });
@@ -130,7 +130,7 @@ $("#field-{{key}}").autocomplete({
             bindFileUpload('{{key}}');
 
             $("#field-{{key}}").autocomplete({
-                source: "{{ paths.bolt }}/filesautocomplete?ext={{ field.extensions|join(',') }}",
+                source: "{{ paths.bolt }}filesautocomplete?ext={{ field.extensions|join(',') }}",
                 minLength: 2
             });
 
