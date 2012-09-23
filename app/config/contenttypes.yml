@@ -10,19 +10,9 @@ entries:
             type: slug
             uses: title
         image:
-            type: image     
-        releasedate:
-            type: date
-            default: today
-        dummydate:
-            type: datetime
-            default: now
-        divider2:
-            type: divider
-            label: "This is a divider"
-        divider:
-            type: divider
-            line: true
+            type: image
+        video:
+            type: video
         teaser:
             type: html
             height: 150px
@@ -46,7 +36,7 @@ pages:
             type: slug
             uses: title                    
         subtitle:
-            label: Ondertitel
+            label: A catchy subtitle
             type: text 
         image:
             type: image
@@ -77,6 +67,7 @@ pages:
 # templateselect - varchar(256) - select with template filenames
 # image - varchar(256) - image select/upload widget, stored as filename
 # file - varchar(256) - file select/upload widget, stored as filename
+# video - varchar(256) - Video embed widget, stored as filename
 # html - text (65kb) - wysiwyg element
 # textarea - varchar(32768) - < textarea >
 # datetime - datetime - date and time selector widget
