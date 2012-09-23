@@ -85,10 +85,24 @@ class Content {
                     $video['html'] = preg_replace("/height=(['\"])([0-9]+)(['\"])/i", 'height=${1}'.$video['height'].'${3}', $video['html']);
                 }
 
+                $responsiveclass = "responsive-video";
+
+                // See if it's widescreen or not..
+                if (($video['width'] / $video['height']) > 1.76) {
+                    $responsiveclass .= " widescreen";
+                }
+
+                if (strpos($video['url'], "vimeo") !== false) {
+                    $responsiveclass .= " vimeo";
+                }
+
+                $video['responsive'] = sprintf('<div class="%s">%s</div>', $responsiveclass, $video['html']);
+
                 $values[ $fieldname ] = $video;
             }
 
         }
+
 
 
         // TODO: check for allowed file types..

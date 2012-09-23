@@ -538,6 +538,41 @@ nav.main .first {
 .pagination ul li a {
   text-decoration: none;
 }
+/**
+ * Styles for 'responsive video embeds'
+ */
+.responsive-video {
+  height: 0;
+  padding-top: 25px;
+  padding-bottom: 67.5%;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.responsive-video.vimeo {
+  padding-top: 0;
+}
+.responsive-video.widescreen {
+  padding-bottom: 57.25%;
+}
+.responsive-video embed,
+.responsive-video iframe,
+.responsive-video object,
+.responsive-video video {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+@media (max-width: 767px) {
+  .responsive-video {
+    padding-top: 0;
+  }
+}
+/**
+ * End of styles for 'responsive video embeds'
+ */
 @media screen and (max-width: 770px) {
   nav#main {
     display: inline;

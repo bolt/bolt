@@ -8,11 +8,12 @@
     {% if content.image!="" %}
         <div class='imageholder-wide'><img src="{{ record.image|thumbnail(320, 240) }}"></div>
     {% endif %}
-    
 
-    {{ record.teaser|editable(content, 'teaser') }}
+    {{ record.teaser }}
 
-    {{ record.body|editable(content, 'body') }}
+    {{ record.video.responsive }}
+
+    {{ record.body }}
 
     <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
     
