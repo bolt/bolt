@@ -19,10 +19,12 @@
         {%  else %}
             {{ log.message }}
         {%  endif %}
-        <small>(<span class="moment" data-timestamp="{{ log.date }}">{{ log.date }}</span>)</small>
+        <small>(<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)</small>
     </li>
-
 {%  endfor %}
     </ul>
+
+    <p style='text-align: right;'><a href="{{ path('activitylog') }}">more activity »</a></p>
+
 </section>
 

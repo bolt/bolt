@@ -77,13 +77,13 @@ var momentstimeout;
  */
 function updateMoments() {
 
-    $('.moment').each(function(){
-        var stamp = moment($(this).data('timestamp'), "YYYY-MM-DD HH:mm:ss");
+    $('time.moment').each(function(){
+        var stamp = moment($(this).attr('datetime'));
         $(this).html( stamp.fromNow() );
     });
 
     clearTimeout(momentstimeout);
-    momentstimeout = setTimeout( function(){ updateMoments(); }, 11 * 1000);
+    momentstimeout = setTimeout( function(){ updateMoments(); }, 16 * 1000);
 
 }
 
@@ -98,7 +98,7 @@ function updateLatestActivity() {
         $('#latestactivity').html( $('#latesttemp').html() );
     });
 
-    setTimeout( function(){ updateLatestActivity(); }, 10 * 1000);
+    setTimeout( function(){ updateLatestActivity(); }, 30 * 1000);
 
 }
 

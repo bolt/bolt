@@ -8,7 +8,7 @@
     {% for log in activity %}
     <tr>
         <td>
-            № {{ log.id }}, L. {{ log.level }}
+            № {{ log.id }}<br>Lvl {{ log.level }}
         </td>
         <td>
             <b>{{ log.message }} / {{ log.code }}</b> <br>
@@ -19,7 +19,7 @@
             {{ log.ip }}
         </td>
         <td>
-            <span class="moment" data-timestamp="{{ log.date }}">{{ log.date }}</span>
+            <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
         </td>
     </tr>
 

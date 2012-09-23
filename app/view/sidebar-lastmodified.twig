@@ -9,7 +9,7 @@
             {% else %}
                 {{content.name|excerpt(70) }}
             {% endif %}
-            </a><small>(<span class="moment" data-timestamp="{{ content.datechanged }}">{{ content.datechanged }}</span>)</small>
+            </a><small>(<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)</small>
         </li>
     {% else %}
         <li><em>No latest {{contenttype.name}}.</em></li>
