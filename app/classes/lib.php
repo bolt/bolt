@@ -741,7 +741,10 @@ function getConfig() {
         'recordsperdashboardwidget' => 5,
         'debug' => false,
         'strict_variables' => false,
-        'theme' => "default"
+        'theme' => "default",
+        'debug_compressjs' => true,
+        'debug_compresscss' => true
+
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
 

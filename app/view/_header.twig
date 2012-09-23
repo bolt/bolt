@@ -10,46 +10,53 @@
 
     <script>var path = "{{ paths.bolt }}";</script>
 
-    <!-- jQuery -->
+{% if app.config.general.debug_compressjs %}
     <script src="{{ paths.app }}view/js/jquery-1.8.2.min.js"></script>
     <script src="{{ paths.app }}view/js/jquery-ui-1.8.22.custom.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.8.22.custom.css">
-    <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
-    
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css" />
-    
     <script src="{{ paths.app }}view/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="{{ paths.app }}view/css/font-awesome.css" />
-
-    {# <link rel="stylesheet" href="/app/view/css/responsivebar.css" /> #}
-    
-    <!-- Shadowbox -->
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/shadowbox/shadowbox.css">
-    <script type="text/javascript" src="{{ paths.app }}view/lib/shadowbox/shadowbox.js"></script>
-    
-    <!-- redactor --> 
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/redactor/redactor.css" />
-	<script src="{{ paths.app }}view/lib/redactor/redactor.min.js"></script>
-
-    <!-- jQuery file upload -->
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
+    <script src="{{ paths.app }}view/js/bolt.min.js"></script>
+{% else %}
+    <script src="{{ paths.app }}view/js/jquery-1.8.2.min.js"></script>
+    <script src="{{ paths.app }}view/js/jquery-ui-1.8.22.custom.min.js"></script>
+    <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
+    <script src="{{ paths.app }}view/js/bootstrap.min.js"></script>
+    <script src="{{ paths.app }}view/lib/shadowbox/shadowbox.js"></script>
+    <script src="{{ paths.app }}view/lib/redactor/redactor.min.js"></script>
     <script src="{{ paths.app }}view/lib/upload/jquery.ui.widget.js"></script>
     <script src="{{ paths.app }}view/lib/upload/jquery.iframe-transport.js"></script>
     <script src="{{ paths.app }}view/lib/upload/jquery.fileupload.js"></script>
-
-    <!-- tagit -->
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/tag-it/jquery.tagit.css">
     <script src="{{ paths.app }}view/lib/tag-it/tag-it.js" type="text/javascript" charset="utf-8"></script>
-
-    <!-- moment -->
     <script src="{{ paths.app }}view/js/moment.min.js"></script>
-
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" />
     <script src="{{ paths.app }}view/js/bolt.js"></script>
+{% endif %}
 
-    
+{% if app.config.general.debug_compresscss %}
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.8.22.custom.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="{{ paths.app }}view/css/font-awesome.css" />
+    {# <link rel="stylesheet" href="/app/view/css/responsivebar.css" /> #}
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/shadowbox/shadowbox.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/redactor/redactor.css" />
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/tag-it/jquery.tagit.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" />
+
+{% else %}
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.8.22.custom.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="{{ paths.app }}view/css/font-awesome.css" />
+    {# <link rel="stylesheet" href="/app/view/css/responsivebar.css" /> #}
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/shadowbox/shadowbox.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/redactor/redactor.css" />
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/tag-it/jquery.tagit.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" />
+
+{% endif %}
+
+
 </head>
 <body>
 
