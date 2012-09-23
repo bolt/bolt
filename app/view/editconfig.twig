@@ -17,7 +17,7 @@
 
 {% if not ismobileclient() %}
     <link rel="stylesheet" href="{{ paths.app }}view/lib/codemirror/codemirror.css">
-    <script src="{{ paths.app }}view/lib/codemirror/codemirror.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/codemirror.min.js"></script>
     {% if filetype in ['twig', 'html', 'htm'] %}
     <script src="{{ paths.app }}view/lib/codemirror/mode/xml/xml.js"></script>
     <script src="{{ paths.app }}view/lib/codemirror/mode/javascript/javascript.js"></script>
