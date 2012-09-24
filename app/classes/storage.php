@@ -306,17 +306,17 @@ class Storage {
         
     }
     
-    private function preFillSingle($key, $contenttype) {
+    private function preFillSingle($key, $contenttype)
+    {
+        global $app;
 
         $content = array();
         $title = "";
 
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
-        
 
-        //todo: fix this, use a random name.
-        $content['username'] = "admin";
+        $content['username'] = array_rand($app['users']->getUsers());
 
         switch(rand(1,20)) {
             case 1:
