@@ -103,7 +103,7 @@ $backend->get("/dashboardnews", function(Silex\Application $app) {
 
         $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
-        $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s', // bolt.cm
+        $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
             $bolt_version,
             phpversion(),
             $driver,
@@ -547,7 +547,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
         ->add('userlevel', 'choice', array(
             'choices' => $userlevels, 
             'expanded' => false,
-            'constraints' => new Assert\Choice(array_keys($userlevels)) 
+            'constraints' => new Assert\Choice(array_keys($userlevels))
         ))
         ->add('enabled', 'choice', array(
             'choices' => $enabledoptions, 
