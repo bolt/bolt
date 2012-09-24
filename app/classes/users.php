@@ -142,7 +142,7 @@ class Users {
 
         if (empty($this->users) || !is_array($this->users)) {
 
-            $app['log']->add('Users: getUsers()', 1);
+            // $app['log']->add('Users: getUsers()', 1);
 
             $tablename = $this->prefix . "users";
             $query = "SELECT * FROM $tablename";

@@ -102,7 +102,12 @@ class Log {
 
         $this->memorylog[] = $log;
 
-        $this->db->insert($this->tablename, $log);
+        // Don't choke if we try to insert into the log, but it's not working.
+        try {
+            $this->db->insert($this->tablename, $log);
+        } catch (Exception $e) {
+            // Nothing..
+        }
 
     }
 
