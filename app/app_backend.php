@@ -505,9 +505,10 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
     // If we're creating the first user, we should make sure that we can only create
     // a user that's allowed to log on.
     if(!$app['users']->getUsers()) {
-        $userlevels = array_slice($userlevels, -1);
-        $enabledoptions = array(1 => 'yes');
+        $firstuser = true;
         $title = "Create the first user";        
+    } else {
+        $firstuser = false;
     }
     
     // Start building the form..
@@ -537,26 +538,35 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
             ));        
     }
         
-    // Contiue with the rest of the fields.
+    // Continue with the rest of the fields.
     $form->add('email', 'text', array(
             'constraints' => new Assert\Email(),
         ))
         ->add('displayname', 'text', array(
             'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
-        ))
-        ->add('userlevel', 'choice', array(
-            'choices' => $userlevels, 
-            'expanded' => false,
-            'constraints' => new Assert\Choice(array_keys($userlevels))
-        ))
-        ->add('enabled', 'choice', array(
-            'choices' => $enabledoptions, 
-            'expanded' => false,
-            'constraints' => new Assert\Choice(array_keys($enabledoptions)), 
-            'label' => "User is enabled",
-        ))
-        ->add('lastseen', 'text', array('disabled' => true))
-        ->add('lastip', 'text', array('disabled' => true));
+        ));
+
+    // If we're adding the first user, add them as 'developer' by default, so don't
+    // show them here..
+    if (!$firstuser) {
+        $form->add('userlevel', 'choice', array(
+                'choices' => $userlevels,
+                'expanded' => false,
+                'constraints' => new Assert\Choice(array_keys($userlevels))
+            ))
+            ->add('enabled', 'choice', array(
+                'choices' => $enabledoptions,
+                'expanded' => false,
+                'constraints' => new Assert\Choice(array_keys($enabledoptions)),
+                'label' => "User is enabled",
+            ));
+    }
+
+    // If we're adding a new user, these fields will be hidden.
+    if (!empty($id)) {
+        $form->add('lastseen', 'text', array('disabled' => true))
+            ->add('lastip', 'text', array('disabled' => true));
+    }
         
     // Make sure the passwords are identical with a custom validator..
     $form->addValidator(new CallbackValidator(function($form) {

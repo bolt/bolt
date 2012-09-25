@@ -45,8 +45,19 @@ class Users {
         
         // make sure the username is slug-like
         $user['username'] = makeSlug($user['username']);
-        $user['lastseen'] = "0000-00-00";
-        
+
+        if (!isset($user['lastseen'])) {
+            $user['lastseen'] = "0000-00-00";
+        }
+
+        if (!isset($user['userlevel'])) {
+            $user['userlevel'] = key(array_slice($this->getUserLevels(), -1));
+        }
+
+        if (!isset($user['enabled'])) {
+            $user['enabled'] = 1;
+        }
+
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
             return $this->db->insert($tablename, $user);

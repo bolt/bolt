@@ -3,6 +3,7 @@
     right: 0;
     bottom: 5px;  
     height: 28px;
+    background-color: #E6E6E6;
     background-image: linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
     background-image: -o-linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
     background-image: -moz-linear-gradient(bottom, rgba(220, 220, 220, 1) 10%, rgba(240, 240, 240, 1) 80%);
