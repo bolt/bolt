@@ -13,6 +13,7 @@ main:
       - label: Sub 1
         path: entry/2
       - label: Sub 2
+        class: okidoki
         path: entry/3
       - label: Sub 3
         path: entry/4
