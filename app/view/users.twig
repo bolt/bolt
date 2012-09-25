@@ -12,12 +12,20 @@
 
     <table class='dashboardlisting'>
         {% for user in users %}
-        
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Level</th>
+            <th>Lastseen</th>
+            <th>Actions</th>
+        </tr>
+
         <tr class="{% if user.enabled==0 %}dim{% endif %}">
             <td class='id'>№ {{user.id}}</td>
             
             <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
-            <td><strong>{{ user.userlevel }} </td>
+            <td>{{ user.userlevel }} </td>
+            <td>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %} </td>
             <td class='actions'>
     <div class="btn-group">
     <button class="btn btn-mini"><a href="{{ path('useredit', { 'id' : user.id }) }}">Edit</a></button>
@@ -34,7 +42,7 @@
         {% endif %}        
         <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id, token: token() }) }}" class="confirm" data-confirm="Are you sure you want to delete '{{user.displayname}}'?">Delete {{user.username}}</a></li>
         <li class="divider"></li>
-        <li class="nolink"><a>Last seen: <strong>{% if user.lastip!="" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
+        <li class="nolink"><a>Last seen: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
         <li class="nolink"><a>Last known IP: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
         
         
