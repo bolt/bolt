@@ -5,7 +5,7 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     die();
 }
 
-$bolt_version = "0.6";
+$bolt_version = "0.6.1";
 $bolt_buildnumber = "";
 $bolt_name = "Pretty much alpha";
 
