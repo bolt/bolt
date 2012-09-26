@@ -31,16 +31,19 @@ $app->get("/", function(Silex\Application $app) {
             $app['config']['general']['homepage_template'] : "index.twig";
 
     if (!empty($app['config']['general']['homepage_template'])) {
+        $template = $app['config']['general']['homepage_template'];
         $content = $app['storage']->getSingleContent($app['config']['general']['homepage']);
         $twigvars = array(
             'record' => $content,
             $content->contenttype['singular_slug'] => $content
         );
     } else {
+        $template = 'index.twig';
         $twigvars = array();
     }
 
-    $body = $app['twig']->render('index.twig', $twigvars);
+
+    $body = $app['twig']->render($template, $twigvars);
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkStuff)->bind('homepage');
@@ -69,17 +72,19 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
     if (!$content) {
         $app->abort(404, "Page $contenttypeslug/$slug not found.");
     }
-    
-    if (!isset($contenttype['template'])) {
+
+    // TODO: make it work, even if templateselect has a different name than 'template'..
+    if (isset($content->values['template']) && !empty($content->values['template'])) {
+        $template = $content->values['template'];
+    } else if (isset($contenttype['template'])) {
+        $template = $contenttype['template'];
+    } else {
         $app->abort(404, "No template for '$contenttypeslug' defined.");
-    } 
+    }
    
     $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
-    //"/pilex/edit/$contenttypeslug/" . $content->id;
 
-
-    $body = $app['twig']->render($contenttype['template'], array(
-        'content' => $content, // TODO: phase out, 'record' is preferred.. 
+    $body = $app['twig']->render($template, array(
         'record' => $content, 
         $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
     ));

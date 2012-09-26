@@ -221,7 +221,7 @@ class Bolt_Twig_Extension extends Twig_Extension
                     continue;
                 }
                           
-                $files['view/'.$file] = $file;       
+                $files[$file] = $file;       
             }
             
             
