@@ -691,7 +691,7 @@ blockquote.quote cite {
 }
 
 
-
+/* http://webfonts.info/browser-support-overview - Just use woff and ttf.. */
 @font-face {
     font-family: 'alleritalic';
     src: url('../font/aller_it-webfont.woff') format('woff'),
