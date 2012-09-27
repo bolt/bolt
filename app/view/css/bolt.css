@@ -20,9 +20,10 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 	margin: 0.5em 0;
+    font-weight: normal;
 }
 
 h1 {
@@ -108,10 +109,15 @@ h1 span {
 	color: #FFF;
 	font-size: 38px;
 	line-height: 38px;
-	font-family: Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
 	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
 	margin: 0;
 	padding: 8px 0 0 0;
+}
+
+.navbar .brand strong {
+    font-family: 'allerbold', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: normal;
 }
 
 .navbar .brand span {
@@ -683,3 +689,54 @@ blockquote.quote cite {
     }
 
 }
+
+
+
+@font-face {
+    font-family: 'alleritalic';
+    src: url('../font/aller_it-webfont.eot');
+    src: url('../font/aller_it-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/aller_it-webfont.woff') format('woff'),
+    url('../font/aller_it-webfont.ttf') format('truetype'),
+    url('../font/aller_it-webfont.svg#alleritalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'allerregular';
+    src: url('../font/aller_rg-webfont.eot');
+    src: url('../font/aller_rg-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/aller_rg-webfont.woff') format('woff'),
+    url('../font/aller_rg-webfont.ttf') format('truetype'),
+    url('../font/aller_rg-webfont.svg#allerregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'allerbold';
+    src: url('../font/aller_bd-webfont.eot');
+    src: url('../font/aller_bd-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/aller_bd-webfont.woff') format('woff'),
+    url('../font/aller_bd-webfont.ttf') format('truetype'),
+    url('../font/aller_bd-webfont.svg#allerbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'allerbold_italic';
+    src: url('../font/aller_bdit-webfont.eot');
+    src: url('../font/aller_bdit-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/aller_bdit-webfont.woff') format('woff'),
+    url('../font/aller_bdit-webfont.ttf') format('truetype'),
+    url('../font/aller_bdit-webfont.svg#allerbold_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
