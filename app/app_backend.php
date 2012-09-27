@@ -92,7 +92,7 @@ $backend->get("", function(Silex\Application $app) {
 $backend->get("/dashboardnews", function(Silex\Application $app) {
     global $bolt_version, $app;
 
-    $news = $app['cache']->get('dashboardnews', 1800);
+    $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
 
     $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 

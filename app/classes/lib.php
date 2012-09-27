@@ -832,6 +832,8 @@ function getPaths($config) {
     $path_prefix = str_replace("//", "/", $path_prefix);
     if (empty($path_prefix)) { $path_prefix = "/"; }
 
+    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
+
     // Set the paths
     $paths = array(
         'hostname' => $_SERVER['HTTP_HOST'],
@@ -841,8 +843,13 @@ function getPaths($config) {
         'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
-        'bolt' => $path_prefix . "bolt/"
+        'bolt' => $path_prefix . "bolt/",
+        'files' => $path_prefix . "files/",
+        'filespath' => realpath(__DIR__ . "/../../files"),
     );
+
+    $paths['url'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $paths['root']);
+
 
     return $paths;
 

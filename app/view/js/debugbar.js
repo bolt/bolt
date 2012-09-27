@@ -19,14 +19,14 @@ jQuery(function($) {
                 opacity: 0.1
             }, 600);
             $('#bolt-debugbar, .bolt-debugpanel').fadeOut();
-            $('#bolt-footer').fadeIn(); 
+            //$('#bolt-footer').fadeIn();
             $.cookie('bolt-debugbar-show', '');
         } else {
             $('#bolt-debugbar').stop(true, true).css('right', '-800px').show().animate({
                 right: '+=800',
                 opacity: 1.0
             }, 600); 
-            $('#bolt-footer').fadeOut(); 
+            //$('#bolt-footer').fadeOut();
             $.cookie('bolt-debugbar-show', 1);
         }
         
