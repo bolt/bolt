@@ -10,12 +10,6 @@
 
     <script>var path = "{{ paths.bolt }}";</script>
 
-{% if 0 and app.config.general.debug_compressjs %}
-    <script src="{{ paths.app }}view/js/jquery-1.8.2.min.js"></script>
-    <script src="{{ paths.app }}view/js/jquery-ui-1.8.22.custom.min.js"></script>
-    <script src="{{ paths.app }}view/js/bootstrap.min.js"></script>
-    <script src="{{ paths.app }}view/js/bolt.min.js"></script>
-{% else %}
     <script src="{{ paths.app }}view/js/jquery-1.8.2.min.js"></script>
     <script src="{{ paths.app }}view/js/jquery-ui-1.8.22.custom.min.js"></script>
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
@@ -28,9 +22,7 @@
     <script src="{{ paths.app }}view/lib/tag-it/tag-it.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ paths.app }}view/js/moment.min.js"></script>
     <script src="{{ paths.app }}view/js/bolt.js"></script>
-{% endif %}
 
-{% if app.config.general.debug_compresscss %}
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.8.22.custom.css">
     <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css" />
@@ -42,19 +34,6 @@
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/tag-it/jquery.tagit.css">
     <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" />
 
-{% else %}
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.8.22.custom.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css" />
-    <link rel="stylesheet" href="{{ paths.app }}view/css/font-awesome.css" />
-    {# <link rel="stylesheet" href="/app/view/css/responsivebar.css" /> #}
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/shadowbox/shadowbox.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/redactor/redactor.css" />
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/tag-it/jquery.tagit.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" />
-
-{% endif %}
 
 
 </head>
