@@ -10,7 +10,7 @@
 {% endif %}
 
 
-{# --------------- text --------------- #}
+{# --------------- number --------------- #}
 
 {% if field.type == "number" %}
     <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
@@ -39,6 +39,7 @@
 {# --------------- templateselect --------------- #}
 
 {% if field.type == "templateselect" %}
+<label><b><span class='left'>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</span></b></label>
     <select name="{{key}}" id="{{key}}">
         <option value="">Default template</option>
         <option value="" disabled>-----------</option>
@@ -185,7 +186,7 @@ $("#field-{{key}}").autocomplete({
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal video preview -->
 <div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
     <div class="modal-body">
