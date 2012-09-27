@@ -15,11 +15,27 @@
 {%  endif %}
 
     <div class="quicklinks">
-    {% for contenttypeslug, contenttype in app.config.contenttypes %}
-        <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
-            <i class="icon-plus"></i> New {{ contenttype.singular_name }}
-        </a>    
-    {% endfor %}
+    {% if app.config.contenttypes|length() > 4 %}
+        <div class="btn-group">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            Add &hellip;
+            <span class="caret"></span>
+          </a>
+        <ul class="dropdown-menu">
+            {% for contenttypeslug, contenttype in app.config.contenttypes %}
+            <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
+                <i class="icon-plus"></i> New {{ contenttype.singular_name }}
+            </a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+        {% for contenttypeslug, contenttype in app.config.contenttypes %}
+            <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
+                <i class="icon-plus"></i> New {{ contenttype.singular_name }}
+            </a>    
+        {% endfor %}
+    {% endif %}
     </div>
     
     {% for contenttype, multiplecontent in latest %}
