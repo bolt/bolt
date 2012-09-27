@@ -694,11 +694,8 @@ blockquote.quote cite {
 
 @font-face {
     font-family: 'alleritalic';
-    src: url('../font/aller_it-webfont.eot');
-    src: url('../font/aller_it-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/aller_it-webfont.woff') format('woff'),
-    url('../font/aller_it-webfont.ttf') format('truetype'),
-    url('../font/aller_it-webfont.svg#alleritalic') format('svg');
+    src: url('../font/aller_it-webfont.woff') format('woff'),
+    url('../font/aller_it-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -706,11 +703,8 @@ blockquote.quote cite {
 
 @font-face {
     font-family: 'allerregular';
-    src: url('../font/aller_rg-webfont.eot');
-    src: url('../font/aller_rg-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/aller_rg-webfont.woff') format('woff'),
-    url('../font/aller_rg-webfont.ttf') format('truetype'),
-    url('../font/aller_rg-webfont.svg#allerregular') format('svg');
+    src: url('../font/aller_rg-webfont.woff') format('woff'),
+    url('../font/aller_rg-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
@@ -718,11 +712,9 @@ blockquote.quote cite {
 
 @font-face {
     font-family: 'allerbold';
-    src: url('../font/aller_bd-webfont.eot');
-    src: url('../font/aller_bd-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/aller_bd-webfont.woff') format('woff'),
-    url('../font/aller_bd-webfont.ttf') format('truetype'),
-    url('../font/aller_bd-webfont.svg#allerbold') format('svg');
+
+    src: url('../font/aller_bd-webfont.woff') format('woff'),
+    url('../font/aller_bd-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
@@ -730,11 +722,8 @@ blockquote.quote cite {
 
 @font-face {
     font-family: 'allerbold_italic';
-    src: url('../font/aller_bdit-webfont.eot');
-    src: url('../font/aller_bdit-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/aller_bdit-webfont.woff') format('woff'),
-    url('../font/aller_bdit-webfont.ttf') format('truetype'),
-    url('../font/aller_bdit-webfont.svg#allerbold_italic') format('svg');
+    src: url('../font/aller_bdit-webfont.woff') format('woff'),
+    url('../font/aller_bdit-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
