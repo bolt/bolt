@@ -63,7 +63,8 @@
             </td>
             <td class='actions'>
                 <div class="btn-group">
-                <button class="btn btn-mini"><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
+                <button class="btn btn-mini uselink">
+                    <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
                     <i class="icon-edit"></i> Edit</a></button>
                 <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                 <span class="caret"></span>

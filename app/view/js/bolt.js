@@ -67,6 +67,13 @@ jQuery(function($) {
     // See https://github.com/twitter/bootstrap/issues/2975
 	$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 
+    // Strictly speaking it's not allowed to use <a> inside a <button>, so Firefox ignores the
+    // links in our dropdowns. Workaround:
+    $('button.uselink').bind('click', function() {
+        var link = $(this).find('a').attr('href');
+        if (link != "") { window.location = link; }
+    });
+
 });
 
 

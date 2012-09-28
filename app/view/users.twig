@@ -29,13 +29,12 @@
             <td>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %} </td>
             <td class='actions'>
     <div class="btn-group">
-    <button class="btn btn-mini"><a href="{{ path('useredit', { 'id' : user.id }) }}">Edit</a></button>
+    <button class="btn btn-mini uselink"><a href="{{ path('useredit', { 'id' : user.id }) }}">
+        <i class="icon-edit"></i> Edit</a></button>
     <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
     <span class="caret"></span>
     </button>
     <ul class="dropdown-menu pull-right">
-        
-
         {% if user.enabled %}
         <li><a href="{{ path('useraction', { 'action': 'disable', 'id': user.id }) }}">Disable {{user.username}}</a></li>
         {% else %}
@@ -45,8 +44,6 @@
         <li class="divider"></li>
         <li class="nolink"><a>Last seen: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
         <li class="nolink"><a>Last known IP: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
-        
-        
     </ul>
     </div>
             
