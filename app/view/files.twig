@@ -17,7 +17,7 @@
     <tr><th>Folders</th><th>Modified</th></tr>
 {% for folder in folders %}
     <tr>
-        <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><b>{{ folder.foldername }}/</b></a></td>
+        <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
         <td>{{ folder.modified }}</td>
     </tr>
 {% endfor %}

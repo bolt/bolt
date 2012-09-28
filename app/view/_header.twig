@@ -99,7 +99,7 @@
                             <li><a href="{{ path('activitylog') }}"><i class="icon-file"></i>Activity log</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">File Management</li>
-                            <li><a href="{{ path('files', { 'path': 'view'}) }}"><i class="icon-hdd"></i>View / edit Templates</a></li>
+                            <li><a href="{{ path('files', { 'path': paths.theme }) }}"><i class="icon-hdd"></i>View / edit Templates</a></li>
                             <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-hdd"></i>Uploaded files</a></li>
                         </ul>
                     </li>
@@ -145,3 +145,4 @@
 		{{ app.session.flash('success') }}
 	</div>
 {% endif %}
+
