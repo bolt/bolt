@@ -308,7 +308,7 @@ $backend->get("/prefill", function(Silex\Application $app) {
 
 	$content = $app['storage']->preFill();
 
-    $content .= "<p>Go <a href='/bolt/'>back to the Dashboard</a>.</p>";
+    $content .= "<p>Go <a href='". path('dashboard') ."'>back to the Dashboard</a>.</p>";
 
     $app['twig']->addGlobal('title', "Fill the database with Dummy Content");
 
