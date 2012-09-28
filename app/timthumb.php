@@ -34,9 +34,10 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
     //die("Malformed thumbnail URL. Should look like '/thumbs/320x240c/filename.jpg'.");
 }
 
+// Bolt specific: Set LOCAL_FILE_BASE_DIRECTORY, used below..
+define('LOCAL_FILE_BASE_DIRECTORY', dirname(dirname(__FILE__)));
 
-
-$_GET['src'] = "../files/".urldecode($matches[4]);
+$_GET['src'] = "files/".urldecode($matches[4]);
 $_GET['src'] = str_replace("/files/files/", "/files/", $_GET['src']);
 
 $_GET['w'] = $matches[1];
