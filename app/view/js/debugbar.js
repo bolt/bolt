@@ -19,14 +19,12 @@ jQuery(function($) {
                 opacity: 0.1
             }, 600);
             $('#bolt-debugbar, .bolt-debugpanel').fadeOut();
-            //$('#bolt-footer').fadeIn();
             $.cookie('bolt-debugbar-show', '');
         } else {
             $('#bolt-debugbar').stop(true, true).css('right', '-800px').show().animate({
                 right: '+=800',
                 opacity: 1.0
             }, 600); 
-            //$('#bolt-footer').fadeOut();
             $.cookie('bolt-debugbar-show', 1);
         }
         
@@ -57,14 +55,9 @@ jQuery(function($) {
     // Initialise the debugbar and open it, if there's a cookie set..
     if ($.cookie('bolt-debugbar-show')==1) {
         $('#bolt-debugbar').show().css('right', '0').css('opacity', 1.0).css('display', 'block');
-        $('#bolt-footer').hide();
     } else {
         $('#bolt-debugbar').hide();
-        $('#bolt-footer').show();
     }
-
-    // console.log('cookie is: ', $.cookie('bolt-debugbar-show') );
-
 
     // Bind the 'save' button in the floating edit bar. 
     $('a#btn-save').bind('click', function(e) {
