@@ -20,9 +20,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-	margin: 0.5em 0;
+    font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    margin: 0.5em 0;
     font-weight: normal;
 }
 
@@ -106,13 +106,13 @@ h1 span {
     position: absolute;
     top: 0px;
     left: 20px;
-	color: #FFF;
-	font-size: 38px;
-	line-height: 38px;
-	font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-	text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
-	margin: 0;
-	padding: 8px 0 0 0;
+    color: #FFF;
+    font-size: 38px;
+    line-height: 38px;
+    font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
+    margin: 0;
+    padding: 8px 0 0 0;
 }
 
 .navbar .brand strong {
@@ -186,7 +186,6 @@ footer  {
     right: 0;
     top: 19px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-
 }
 
 .dashboardlisting {

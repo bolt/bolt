@@ -852,6 +852,21 @@ class Storage {
      */
     private function parseWhereParameter($key, $value) {
 
+        $value = trim($value);
+
+        // check if we need to split..
+        if (strpos($value, " || ") !== false) {
+            list($value1, $value2) = explode(" || ", $value);
+            $param1 = $this->parseWhereParameter($key, $value1);
+            $param2 = $this->parseWhereParameter($key, $value2);
+            return sprintf("( %s OR %s )", $param1, $param2);
+        } elseif (strpos($value, " && ") !== false) {
+            list($value1, $value2) = explode(" && ", $value);
+            $param1 = $this->parseWhereParameter($key, $value1);
+            $param2 = $this->parseWhereParameter($key, $value2);
+            return sprintf("( %s AND %s )", $param1, $param2);
+        }
+
         // Set the correct operator for the where clause
         $operator = "=";
 
@@ -872,6 +887,11 @@ class Storage {
             $value = substr($value, 1);
         } else if ($value[0] == "%" || $value[strlen($value)-1] == "%" ) {
             $operator = "LIKE";
+        }
+
+        // special case, for 'now'
+        if ($value == "NOW") {
+            $value = date('Y-m-d H:i:s');
         }
 
         $parameter = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));
