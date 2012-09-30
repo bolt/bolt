@@ -1,15 +1,24 @@
 {% include '_header.twig' %}
 
-<div class="row-fluid">
+<div class="row-fluid" xmlns="http://www.w3.org/1999/html">
     <div class="span9">
 
         <h1>About Bolt</h1>
         
         <h2>Bolt {{bolt_version}}<small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></h2>
         
-        <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for developers and content-editors. Bolt is Open Source, and as such it uses other Open Source components. If you are a developer you're very welcome to help in the further development of Bolt. </p>
-        
-        <a href="https://github.com/bobdenotter/bolt" class="btn btn-info" target="_blank"><i class="icon-github"></i> Bolt on Github</a>
+        <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
+            developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
+            components. If you are a developer you're very welcome to help in the further development of Bolt.  </p>
+        <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
+            found here, in the included <a href="{{ paths.app }}LICENSE.txt">LICENSE.txt</a>. </p>
+
+        <p>
+            <a href="https://github.com/bobdenotter/bolt" class="btn btn-info" target="_blank"><i class="icon-github"></i> Bolt on Github</a>
+            <a href="https://github.com/bobdenotter/bolt-docs" class="btn btn-info" target="_blank"><i class="icon-github"></i> Bolt documentation on Github</a>
+        </p>
+
+        <br>
 
         <h2>Used Libraries / Components</h2>
         
