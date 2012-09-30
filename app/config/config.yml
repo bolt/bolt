@@ -40,4 +40,3 @@ debug: true
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
 strict_variables: false
-

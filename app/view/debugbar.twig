@@ -2,7 +2,7 @@
 
 <div id='bolt-debugbar'>      
     <ul>
-        <li id='pd-bolt'><strong>Bolt {{bolt_version}}</strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
+        <li id='pd-bolt'><strong><a href="{{ path('dashboard') }}">Bolt {{bolt_version}}</a></strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
         <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
         {% if frontend and editlink!="" %}
 {#        <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li> #}

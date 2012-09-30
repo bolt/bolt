@@ -31,7 +31,7 @@ jQuery(function($) {
     });
     
     
-    $('#bolt-debugbar li').not('#pd-edit').find('a').bind('click', function(e){
+    $('#bolt-debugbar li').not('#pd-edit, #pd-bolt').find('a').bind('click', function(e){
         e.preventDefault();
         
         var forthis = "#" + $(this).data('for');

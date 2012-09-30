@@ -7,9 +7,7 @@ jQuery(function($) {
     // Any link with a class='confirm' gets a confirmation dialog.. 
     $('a.confirm').click(function(){
         return confirm( $(this).data('confirm') );
-    }); 
-
-
+    });
 
     // For editing content.. 
     if ($('.redactor').is('*')) {

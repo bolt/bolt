@@ -66,8 +66,10 @@
     font-style: normal;   
 }
 
+#bolt-debugbar ul li#pd-bolt a,
 #bolt-debugbar ul li#pd-bolt small {
     color: #F2F2F2;
+    text-decoration: none;
 }
 
 #bolt-debugbar ul li#pd-variables {
