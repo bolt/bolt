@@ -5,9 +5,9 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     die();
 }
 
-$bolt_version = "0.6.3";
+$bolt_version = "0.7";
 $bolt_buildnumber = "";
-$bolt_name = "almost beta";
+$bolt_name = "First beta";
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/classes/lib.php';
