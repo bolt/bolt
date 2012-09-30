@@ -378,13 +378,12 @@ class Storage {
                 if (isset($this->config['taxonomy'][$taxonomy]['options'])) {
                     $options = $this->config['taxonomy'][$taxonomy]['options'];
                     $contentobject->setTaxonomy($taxonomy, $options[array_rand($options)]);
-
                 }   
             }
         }
 
         $this->saveContent($contentobject);
-        
+
         $output = "Added to <tt>$key</tt> '" .$content['title'] . "'<br>\n";
         
         return $output;
@@ -395,32 +394,11 @@ class Storage {
     public function saveContent($content, $contenttype="") {
         global $app;
 
-        if (is_object($content)) {
 
-            $contenttype = $content->contenttype;
+        $contenttype = $content->contenttype;
 
-            $fieldvalues = $content->values;
+        $fieldvalues = $content->values;
 
-        } else {
-            // 'plain array'..
-
-            $app['log']->add("Fixme: old style savecontent", 3, $content, 'fixme');
-
-            // TODO: Clean up 'old style..'
-
-            if (empty($contenttype) && !empty($content['contenttype'])) {
-                $contenttype = $content['contenttype'];
-            }
-
-            if (!is_array($contenttype)) {
-                $contenttype = $this->getContentType($contenttype);
-            }
-
-            $fieldvalues = $content;
-
-        }
-
-       
         if (empty($contenttype)) {
             echo "Contenttype is required.";
             return false;
@@ -488,9 +466,9 @@ class Storage {
             
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
-            return $this->insertContent($fieldvalues, $contenttype, $allowedcolumns);
+            return $this->insertContent($fieldvalues, $contenttype, $content->taxonomy);
         } else {
-            return $this->updateContent($fieldvalues, $contenttype);
+            return $this->updateContent($fieldvalues, $contenttype, $content->taxonomy);
         }
         
     }
@@ -542,7 +520,7 @@ class Storage {
     }
         
     
-    protected function insertContent($content, $contenttype, $allowedcolumns) {
+    protected function insertContent($content, $contenttype, $taxonomy="") {
 
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
@@ -553,11 +531,12 @@ class Storage {
         
         $content['datecreated'] = date('Y-m-d H:i:s');
         $content['datechanged'] = date('Y-m-d H:i:s');
-        
+
         // Keep taxonomy for later.
         if (isset($content['taxonomy'])) {
-            $taxonomy = $content['taxonomy'];
+            $contenttaxonomy = $content['taxonomy'];
             unset($content['taxonomy']);
+            echo "is taxo!!";
         }
 
         // id is set to autoincrement, so let the DB handle it
@@ -568,7 +547,9 @@ class Storage {
         $id = $this->db->lastInsertId();
 
         // Add the taxonomies, if present.
-        if (isset($taxonomy)) {
+        if (isset($contenttaxonomy)) {
+            $this->updateTaxonomy($contenttype, $id, $contenttaxonomy);
+        } else if (!empty($taxonomy)) {
             $this->updateTaxonomy($contenttype, $id, $taxonomy);
         }
         
@@ -590,6 +571,8 @@ class Storage {
         if (isset($content['taxonomy'])) {
             $this->updateTaxonomy($contenttype, $content['id'], $content['taxonomy']);
             unset($content['taxonomy']);
+        } else if (!empty($taxonomy)) {
+            $this->updateTaxonomy($contenttype, $content['id'], $taxonomy);
         }
         
         unset($content['datecreated']);
@@ -794,7 +777,8 @@ class Storage {
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // If so, iterate over the content, and set ['grouping'] for each unit of content.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        if (empty($_GET['order']) && empty($parameters['order'])) {
+        if ( (empty($_GET['order']) && empty($parameters['order']) ) ||
+                $contenttype['sort']==$parameters['order']) {
             $have_grouping = false;
             $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
             foreach($taxonomy as $taxokey => $taxo) {
@@ -805,7 +789,7 @@ class Storage {
             }
     
             if ($have_grouping) {
-                uasort($content, function($a, $b) { 
+                uasort($content, function($a, $b) {
                     if ($a->group == $b->group) { return 0; }
                     return ($a->group < $b->group) ? -1 : 1;
                 });
