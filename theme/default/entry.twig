@@ -3,7 +3,7 @@
 
 <article>
 
-    <h1><a href="{{ record.link }}">{{ record.title|editable(content, 'title') }}</a></h1>
+    <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
     
     {% if record.image!="" %}
         <div class='imageholder-wide'><img src="{{ record.image|thumbnail(800, 600) }}"></div>

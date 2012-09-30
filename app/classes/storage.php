@@ -964,26 +964,61 @@ class Storage {
     
     
     }
-    
-    
-    /** 
+
+
+
+    /**
+     * Get an array of the available contenttypes
+     *
+     * @return array $contenttypes
+     */
+    public function getContentTypes() {
+
+        return array_keys($this->config['contenttypes']);
+
+    }
+
+
+
+    /**
+     * Get an value to use in 'assert() with the available contenttypes
+     *
+     * @return string $contenttypes
+     */
+    public function getContentTypeAssert($includesingular=false) {
+
+        $slugs = array();
+        foreach($this->config['contenttypes'] as $type) {
+            $slugs[] = $type['slug'];
+            if ($includesingular) {
+                $slugs[] = $type['singular_slug'];
+            }
+        }
+
+        return implode("|", $slugs);
+
+    }
+
+
+
+    /**
      * Get an array of the available fields for a given contenttype
      *
      * @param string $contenttypeslug
      * @return array $fields
-     */   
+     */
     public function getContentTypeFields($contenttypeslug) {
-        
+
         $contenttype = $this->getContentType($contenttypeslug);
-        
+
         if (empty($contenttype['fields'])) {
             return array();
         } else {
-           return array_keys($contenttype['fields']);        
+            return array_keys($contenttype['fields']);
         }
-    
+
     }
-    
+
     /** 
      * Get an array of the available taxonomytypes for a given contenttype
      *

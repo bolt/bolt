@@ -4,7 +4,7 @@
     <ul>
         <li id='pd-bolt'><strong>Bolt {{bolt_version}}</strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
         <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}}</span></a></li>
-        {% if frontend %} {# todo: Add something with 'and editlink' #}
+        {% if frontend and editlink!="" %}
 {#        <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li> #}
         <li id='pd-edit'><a href="{{ editlink }}" data-for="bolt-editpanel">Edit</a></li>
         {% endif %}

@@ -725,7 +725,7 @@ function getConfig() {
     $yamlparser = new Symfony\Component\Yaml\Parser();
     $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/config.yml'));
     $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/taxonomy.yml'));
-    $config['contenttypes'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/contenttypes.yml'));
+    $tempcontenttypes = $yamlparser->parse(file_get_contents(__DIR__.'/../config/contenttypes.yml'));
     $config['menu'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/menu.yml'));
 
     // TODO: If no config files can be found, get them from bolt.cm/files/default/
@@ -768,6 +768,18 @@ function getConfig() {
         if (!isset($config['taxonomy'][$key]['singular_name'])) {
             $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
         }
+    }
+
+    // Clean up contenttypes
+    $config['contenttypes'] = array();
+    foreach($tempcontenttypes as $temp ) {
+        if (!isset($temp['slug'])) {
+            $temp['slug'] = makeSlug($temp['name']);
+        }
+        if (!isset($temp['singular_slug'])) {
+            $temp['singular_slug'] = makeSlug($temp['singular_name']);
+        }
+        $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
 
     // Get the script's filename, but _without_ SCRIPT_FILENAME

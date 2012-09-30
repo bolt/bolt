@@ -57,10 +57,6 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
 
     $slug = makeSlug($slug);
 
-    if (!$contenttype) {
-        $app->abort(404, "Page $contenttypeslug/$slug not found.");
-    }
-
     // First, try to get it by slug.    
     $content = $app['storage']->getSingleContent($contenttype['slug'], array('slug' => $slug));
 
@@ -93,7 +89,7 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
     ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
-})->before($checkStuff);
+})->before($checkStuff)->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true));
 
 
 
@@ -101,17 +97,13 @@ $app->get('/{contenttypeslug}', function (Silex\Application $app, $contenttypesl
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-    if (!$contenttype) {
-        $app->abort(404, "Page $contenttypeslug not found.");
-    }
-
     // First, get some content
     $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
     $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
     $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datecreated desc', 'page' => $page));
 
     if (!$content) {
-        $app->abort(404, "Page $contenttypeslug not found.");
+        $app->abort(404, "Content for '$contenttypeslug' not found.");
     }
 
     // Then, select which template to use, based on our 'cascading templates rules'
@@ -140,6 +132,6 @@ $app->get('/{contenttypeslug}', function (Silex\Application $app, $contenttypesl
     ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
-})->before($checkStuff);
+})->before($checkStuff)->assert('contenttypeslug', $app['storage']->getContentTypeAssert());
 
 
