@@ -23,7 +23,9 @@ entries:
             type: html
             height: 300px
     taxonomy: [ categories, tags ]
-    template: entry.twig
+    record_template: entry.twig
+    listing_template: listing.twig
+    listing_records: 10
     sort: datecreated DESC
     recordsperpage: 7
 
@@ -59,7 +61,6 @@ pages:
             type: templateselect 
             filter: '*.twig'   
     taxonomy: [ chapters ]
-    template: page.twig
     sort: title
     recordsperpage: 100
        

@@ -1,0 +1,37 @@
+{% include '_header.twig' %}
+
+{# This is the 'default record' template. Try to do some generic stuff, so we
+can output all fields. #}
+
+<article>
+
+    <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
+
+    {% if record.subtitle %}
+    <h2>{{ record.subtitle }}</h2>
+    {% endif %}
+
+    {% for key,value in record.values %}
+
+        {%  if key not in ['id', 'slug', 'datecreated', 'datechanged', 'username', 'status', 'title', 'subtitle'] %}
+
+            {% if record.fieldtype(key) == "image" %}
+
+                <div class='imageholder-wide'><img src="{{ record.image|thumbnail(800, 600) }}"></div>
+
+            {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
+
+                {{ value }}
+
+            {%  endif %}
+
+
+        {% endif %}
+
+    {% endfor %}
+
+    <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
+    
+</article>
+
+{% include '_footer.twig' %}

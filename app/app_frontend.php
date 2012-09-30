@@ -52,44 +52,94 @@ $app->get("/", function(Silex\Application $app) {
 
 
 $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $contenttypeslug, $slug) {
-    
+
     $contenttype = $app['storage']->getContentType($contenttypeslug);
-    
+
     $slug = makeSlug($slug);
-    
+
     if (!$contenttype) {
         $app->abort(404, "Page $contenttypeslug/$slug not found.");
     }
 
     // First, try to get it by slug.    
     $content = $app['storage']->getSingleContent($contenttype['slug'], array('slug' => $slug));
-    
+
     if (!$content && is_numeric($slug)) {
-        // try getting it by ID
+        // And otherwise try getting it by ID
         $content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $slug));
     }
-    
+
+    // No content, no page!
     if (!$content) {
         $app->abort(404, "Page $contenttypeslug/$slug not found.");
     }
 
-    // TODO: make it work, even if templateselect has a different name than 'template'..
-    if (isset($content->values['template']) && !empty($content->values['template'])) {
-        $template = $content->values['template'];
-    } else if (isset($contenttype['template'])) {
-        $template = $contenttype['template'];
-    } else {
-        $app->abort(404, "No template for '$contenttypeslug' defined.");
+    // Then, select which template to use, based on our 'cascading templates rules'
+    $template = $content->template();
+
+    // Fallback: If file is not OK, show an error page
+    $filename = $app['paths']['themepath'] . "/" . $template;
+    if (!file_exists($filename) || !is_readable($filename)) {
+        $app->abort(404, "No template for '". $content->title() . "' defined. Tried to use '$template'.");
     }
-   
+
+
+
     $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
     $body = $app['twig']->render($template, array(
-        'record' => $content, 
+        'record' => $content,
         $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
     ));
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-    
+
+})->before($checkStuff);
+
+
+
+$app->get('/{contenttypeslug}', function (Silex\Application $app, $contenttypeslug) {
+
+    $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+    if (!$contenttype) {
+        $app->abort(404, "Page $contenttypeslug not found.");
+    }
+
+    // First, get some content
+    $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
+    $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
+    $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datecreated desc', 'page' => $page));
+
+    if (!$content) {
+        $app->abort(404, "Page $contenttypeslug not found.");
+    }
+
+    // Then, select which template to use, based on our 'cascading templates rules'
+    if (!empty($contenttype['listing_template'])) {
+        $template = $contenttype['listing_template'];
+    } else {
+        $filename = $app['paths']['themepath'] . "/" . $contenttype['slug'].".twig";
+        if (file_exists($filename) && is_readable($filename)) {
+            $template = $contenttype['slug'].".twig";
+        } else {
+            $template = $app['config']['general']['listing_template'];
+        }
+    }
+
+    // Fallback: If file is not OK, show an error page
+    $filename = $app['paths']['themepath'] . "/" . $template;
+    if (!file_exists($filename) || !is_readable($filename)) {
+        $app->abort(404, "No template for '$contenttypeslug' defined. Tried to use '$template'.");
+    }
+
+    // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
+
+    $body = $app['twig']->render($template, array(
+        'records' => $content,
+        $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
+    ));
+    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+
 })->before($checkStuff);
 
 

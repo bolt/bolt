@@ -743,7 +743,9 @@ function getConfig() {
         'strict_variables' => false,
         'theme' => "default",
         'debug_compressjs' => true,
-        'debug_compresscss' => true
+        'debug_compresscss' => true,
+        'listing_template' => 'listing.twig',
+        'listing_records' => '5'
 
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
@@ -849,7 +851,6 @@ function getPaths($config) {
     );
 
     $paths['url'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $paths['root']);
-
 
     return $paths;
 

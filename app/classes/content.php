@@ -314,8 +314,58 @@ class Content {
         return $link;
         
     }
-    
-    
+
+
+    /**
+     * Gets the correct template to use, based on our cascading template rules.
+     *
+     */
+    public function template()
+    {
+        global $app;
+
+        $template = $app['config']['general']['record_template'];
+
+        if (isset($this->contenttype['record_template'])) {
+            $template = $this->contenttype['record_template'];
+        }
+
+        foreach($this->contenttype['fields'] as $name => $field) {
+            if ($field['type']=="templateselect" && !empty($this->values[$name]) ) {
+                $template = $this->values[$name];
+            }
+        }
+
+        return $template;
+
+    }
+
+    /**
+     * Get the fieldtype for a given fieldname.
+     * @param $key
+     * @return string
+     */
+    public function fieldtype($key)
+    {
+
+        foreach($this->contenttype['fields'] as $name => $field) {
+            if ($name == $key) {
+                return $field['type'];
+            }
+        }
+
+        return "";
+
+    }
+
+
+    /**
+     *
+     * Create an excerpt for the content.
+     *
+     * @param int $length
+     * @return string
+     */
     public function excerpt($length=200) {
 
         $excerpt = array();

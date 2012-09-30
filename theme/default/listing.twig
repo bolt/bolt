@@ -1,0 +1,24 @@
+{% include '_header.twig' %}
+
+
+{% for record in records %}
+<article>
+    {% if record.image!="" %}
+        <div class='imageholder'><img src="{{ record.image|thumbnail(120, 120) }}">
+        </div>
+    {% endif %}
+
+    <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+    
+    {{ record.excerpt(300) }}
+
+    <p class="meta"><a href="{{ record.link }}">Link</a> - Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
+    
+</article>    
+{% endfor %}
+
+{{ pager() }}
+
+
+{% include '_footer.twig' %}
+

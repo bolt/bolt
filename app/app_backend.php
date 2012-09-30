@@ -1003,7 +1003,8 @@ if ($app['debug'] &&  $app['session']->has('user')) {
             'log' => $log,
             'route' => "/".$route,
             'route_params' => $route_params, 
-            'editlink' => $app['editlink']
+            'editlink' => $app['editlink'],
+            'paths' => getPaths($app['config'])
         ));
     
     
@@ -1033,6 +1034,7 @@ $app->error(function(Exception $e) use ($app) {
     $twigvars['class'] = get_class($e);
     $twigvars['message'] = $e->getMessage();
     $twigvars['code'] = $e->getCode();
+    $twigvars['paths'] = getPaths($app['config']);
 
 	$trace = $e->getTrace();
 
