@@ -134,4 +134,3 @@ $app->get('/{contenttypeslug}', function (Silex\Application $app, $contenttypesl
 
 })->before($checkStuff)->assert('contenttypeslug', $app['storage']->getContentTypeAssert());
 
-
