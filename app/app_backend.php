@@ -12,6 +12,7 @@ $checkLogin = function(Request $request) use ($app) {
 
     $app['log']->setRoute($route);
 
+    $app['end'] = "backend";
     $app['twig']->addGlobal('backend', true);
     $app['twig']->addGlobal('paths', $app['paths']);
 
@@ -1010,14 +1011,20 @@ if ($app['debug'] &&  $app['session']->has('user')) {
 
 
 
-$app->after(function (Request $request, Response $response)
+$app->after(function (Request $request, Response $response) use ($app)
 {
-    $html = $response->getContent();
+    $end = $app['end'];
 
-    // Insert our 'generator' after the last <meta ..> tag.
-    $html = insertAfterMeta('<meta name="generator" content="Bolt">', $html);
+    if ($end == "frontend") {
 
-    $response->setContent($html);
+        $html = $response->getContent();
+
+        // Insert our 'generator' after the last <meta ..> tag.
+        $html = insertAfterMeta('<meta name="generator" content="Bolt">', $html);
+
+        $response->setContent($html);
+
+    }
 
 });
 

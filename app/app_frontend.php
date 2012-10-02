@@ -17,6 +17,8 @@ $checkStuff = function(Request $request) use ($app) {
         return redirect('useredit', array('id' => ""));
     }
 
+    $app['end'] = "frontend";
+
     $app['twig']->addGlobal('frontend', true);
     $app['twig']->addGlobal('paths', $app['paths']);
 
