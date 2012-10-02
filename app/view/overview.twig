@@ -9,7 +9,7 @@
         
     <table class='dashboardlisting'>
         {% for content in multiplecontent %}        
-        
+
         {# If we have 'grouping', print the row with the groupname.. #}
         {% if content.group is defined and content.group != lastgroup %}
         <tr class="grouping"><th colspan="5"><h2>{{ content.group }}</th></tr>

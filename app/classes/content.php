@@ -201,9 +201,6 @@ class Content {
     
     public function getTaxonomyType($type) {
     
-        echo "<pre>" . util::var_dump($this->config['taxonomy'], true) . "</pre>";
-        
-    
         if (isset($this->config['taxonomy'][$type])) {
             return $this->config['taxonomy'][$type];
         } else {

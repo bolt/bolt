@@ -938,13 +938,8 @@ if ($app['debug'] &&  $app['session']->has('user')) {
 
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
-    $app->error(function(\Exception $e, $code) use ($app, $logger) {
-        if ( $e instanceof PDOException and count($logger->queries) ) {
-            $query = array_pop($logger->queries);
-        }
-    });
-        
-    
+
+    // TODO: See if we can squeeze this into $app->after, instead of ->finish()
     $app->finish(function(Request $request, Response $response) use ($app, $logger) {
 
         // Make sure debug is _still_ enabled..
@@ -1011,7 +1006,20 @@ if ($app['debug'] &&  $app['session']->has('user')) {
 
     });
 
-} 
+}
+
+
+
+$app->after(function (Request $request, Response $response)
+{
+    $html = $response->getContent();
+
+    // Insert our 'generator' after the last <meta ..> tag.
+    $html = insertAfterMeta('<meta name="generator" content="Bolt">', $html);
+
+    $response->setContent($html);
+
+});
 
 
 

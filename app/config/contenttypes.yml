@@ -36,13 +36,10 @@ pages:
     fields:
         title:
             type: text
-            class: large   
+            class: large
         slug:
             type: slug
-            uses: title                    
-        subtitle:
-            label: A catchy subtitle
-            type: text 
+            uses: title
         image:
             type: image
         introduction:
@@ -51,19 +48,13 @@ pages:
         body:
             type: html
             height: 300px
-        file:
-            type: file
-            label: File available for download     
-        more:
-            type: textarea
-            height: 300px            
         template:
-            type: templateselect 
-            filter: '*.twig'   
+            type: templateselect
+            filter: '*.twig'
     taxonomy: [ chapters ]
     sort: title
     recordsperpage: 100
-       
+
 
 # possible field types:
 # text - varchar(256) - input type text
