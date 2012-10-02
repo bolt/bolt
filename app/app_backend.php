@@ -1013,7 +1013,7 @@ if ($app['debug'] &&  $app['session']->has('user')) {
 
 $app->after(function (Request $request, Response $response) use ($app)
 {
-    $end = $app['end'];
+    $end = !empty($app['end']) ? $app['end'] : false;
 
     if ($end == "frontend") {
 
