@@ -536,7 +536,6 @@ class Storage {
         if (isset($content['taxonomy'])) {
             $contenttaxonomy = $content['taxonomy'];
             unset($content['taxonomy']);
-            echo "is taxo!!";
         }
 
         // id is set to autoincrement, so let the DB handle it
