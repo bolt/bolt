@@ -1,36 +1,27 @@
 {% include '_header.twig' %}
 
 <h1>
-	Error: {{class}}
+	Error!
 </h1>
 
-<p>
-{{message}}
-</p>
+<ul>
+    <li>Class: {{ class }}</li>
+    <li>Message: {{ message }}</li>
+    <li>Code: {{ code }}</li>
+</ul>
 
-<p>code: <tt>{{code}}</tt></p>
-
-
-{% for i in trace %}
-
-
-
-    {%  if i.line != "" %}
-<p>
-    <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
-    <em>{{ i.file }}, line {{ i.line }}</em>
-
-{%  if i.args %}
-{{ print(i.args) }}
-{%  endif %}
-
-
-
-</p>
-{%  endif %}
-{%  endfor %}
-
-
-
+{% if app.config.general.debug %}
+    {% for i in trace %}
+        {%  if i.line != "" %}
+            <p>
+                <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
+                <em>{{ i.file }}, line {{ i.line }}</em>
+                {%  if i.args %}
+                    {{ print(i.args) }}
+                {%  endif %}
+            </p>
+        {%  endif %}
+    {%  endfor %}
+{% endif %}
 
 {% include '_footer.twig' %}
