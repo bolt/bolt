@@ -100,7 +100,7 @@ var momentstimeout;
  */
 function updateLatestActivity() {
 
-    $.get(path+'latestactivity?nodebug', function(data) {
+    $.get(asyncpath+'latestactivity', function(data) {
         $('#latesttemp').html(data);
         updateMoments();
         $('#latestactivity').html( $('#latesttemp').html() );
@@ -165,7 +165,7 @@ var makeuritimeout;
 
 function makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri) {
     $.ajax({
-        url: path + 'makeuri',
+        url: asyncpath + 'makeuri',
         type: 'GET',
         data: { title: field, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
         success: function(uri) {

@@ -858,6 +858,7 @@ function getPaths($config) {
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
         'bolt' => $path_prefix . "bolt/",
+        'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
     );

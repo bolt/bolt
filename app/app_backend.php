@@ -50,7 +50,6 @@ $checkLogin = function(Request $request) use ($app) {
 };
 
 use Silex\ControllerCollection;
-
 $backend = $app['controllers_factory'];
 
 
@@ -85,73 +84,6 @@ $backend->get("", function(Silex\Application $app) {
     return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
 
 })->before($checkLogin)->bind('dashboard');
-
-
-/**
- * News.
- */
-$backend->get("/dashboardnews", function(Silex\Application $app) {
-    global $bolt_version, $app;
-
-    $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
-
-    $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-
-    // If not cached, get fresh news..
-    if ($news == false) {
-
-        $app['log']->add("News: fetch from remote server..", 1);
-
-        $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
-
-        $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
-            $bolt_version,
-            phpversion(),
-            $driver,
-            base64_encode($name)
-        );
-
-        $guzzleclient = new Guzzle\Http\Client($url);
-
-        $news = $guzzleclient->get("/")->send()->getBody(true);
-        $news = json_decode($news);
-
-        // For now, just use the most current item.
-        $news = current($news);
-
-        $app['cache']->set('dashboardnews', $news);
-
-    } else {
-        $app['log']->add("News: get from cache..", 1);
-    }
-
-    //$app['debug'] = false;
-
-    $body = $app['twig']->render('dashboard-news.twig', array('news' => $news ));
-    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
-})->before($checkLogin)->bind('dashboardnews');
-
-
-
-
-/**
- * Get the 'latest activity' for the dashboard..
- */
-$backend->get("/latestactivity", function(Silex\Application $app) {
-    global $bolt_version, $app;
-
-    if (isset($_GET['nodebug'])) {
-        $app['debug'] = false;
-    }
-
-    $activity = $app['log']->getActivity(8, 3);
-
-    $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity));
-    return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
-})->before($checkLogin)->bind('latestactivity');
-
 
 
 /**
@@ -863,59 +795,6 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
 
 
 
-$backend->get("/filesautocomplete", function(Silex\Application $app, Request $request) {
-
-    $term = $request->get('term');
-
-    if (empty($_GET['ext'])) {
-        $extensions = 'jpg,jpeg,gif,png';
-    } else {
-        $extensions = $_GET['extensions'];
-    }
-
-    $files = findFiles($term, $extensions);
-    
-    $app['debug'] = false;
- 
-    return $app->json($files);
-
-})->before($checkLogin);
-
-
-
-$backend->get("/updatefield", function(Silex\Application $app, Request $request) {
-
-    // TODO: Make sure the current user is allowed to change this content.
-
-    $id = trim($request->get('id'));
-    $field = $request->get('field');
-    $contenttype = $request->get('contenttype');
-    $value = $request->get('value');
-
-    // TODO: Add a shitload of sanity checks here.
-    
-    $res = $app['storage']->updateSingleValue($id, $contenttype, $field, $value);
-
-    return $res;
-
-})->before($checkLogin);
-
-
-
-
-$backend->get("/makeuri", function(Silex\Application $app, Request $request) {
-
-    $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
-
-    $app['debug'] = false;
- 
-    echo $uri;
-
-})->before($checkLogin);
-
-
-
-
 
 // Temporary hack. Silex should start session on demand.
 $app->before(function() use ($app) {
@@ -933,18 +812,18 @@ $app->before(function() use ($app) {
 
 
 // On 'finish' attach the debug-bar, if debug is enabled..
-if ($app['debug'] &&  $app['session']->has('user')) {
+if ($app['debug'] &&  $app['session']->has('user') ) {
     
-    // http://srcmvn.com/blog/2011/11/10/doctrine-dbal-query-logging-with-monolog-in-silex/
-
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
 
     // TODO: See if we can squeeze this into $app->after, instead of ->finish()
     $app->finish(function(Request $request, Response $response) use ($app, $logger) {
 
-        // Make sure debug is _still_ enabled..
-        if (!$app['debug']) {
+        $end = !empty($app['end']) ? $app['end'] : false;
+
+        // Make sure debug is _still_ enabled, and we're not in the "async end".
+        if (!$app['debug'] || $end == "asynchronous") {
             return "";
         }
 
