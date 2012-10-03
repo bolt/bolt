@@ -15,7 +15,7 @@ can output all fields. #}
 
         {%  if key not in ['id', 'slug', 'datecreated', 'datechanged', 'username', 'status', 'title', 'subtitle'] %}
 
-            {% if record.fieldtype(key) == "image" %}
+            {% if record.fieldtype(key) == "image" and record.image != "" %}
 
                 <div class='imageholder-wide'><img src="{{ record.image|thumbnail(800, 600) }}"></div>
 
