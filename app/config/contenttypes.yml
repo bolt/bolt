@@ -8,7 +8,6 @@ entries:
         title:
             type: text
             class: large
-            default: Pompidom
         slug:
             type: slug
             uses: title
