@@ -1,5 +1,6 @@
 <?php
 
+namespace Bolt;
 
 /**
  * Simple, file based cache for volatile data.. Useful for storing non-vital
@@ -21,7 +22,7 @@ class Cache {
     public function __construct()
     {
 
-        $this->dir = realpath(__DIR__ . "/../cache");
+        $this->dir = realpath(__DIR__ . "/../../cache");
 
         if (!is_writable($this->dir)) {
             // TODO: log a warning here..

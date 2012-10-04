@@ -15,7 +15,6 @@ require_once __DIR__.'/classes/storage.php';
 require_once __DIR__.'/classes/content.php';
 require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/classes/util.php';
-require_once __DIR__.'/classes/cache.php';
 
 $config = getConfig();
 $dboptions = getDBOptions($config);
@@ -69,7 +68,6 @@ if (!function_exists('intl_get_error_code')) {
 $app->register(new Bolt\LogServiceProvider(), array());
 
 
-
 $app['storage'] = new Storage($app);
 
 $app['users'] = new Users($app);
@@ -84,8 +82,7 @@ $app['twig']->addExtension(new Bolt_Twig_Extension());
 require_once __DIR__.'/classes/twig_setcontent.php';
 $app['twig']->addTokenParser(new Bolt_Setcontent_TokenParser());
 
-
-$app['cache'] = new Cache();
+$app->register(new Bolt\CacheServiceProvider(), array());
 
 
 // If debug is set, we set up the custom error handler..
