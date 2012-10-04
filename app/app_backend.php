@@ -303,7 +303,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
         
     if ($request->getMethod() == "POST") {
 
-        $content = new Content('', $contenttypeslug);
+        $content = new Bolt\Content('', $contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
         if ($app['storage']->saveContent($content, $contenttype['slug'])) {
