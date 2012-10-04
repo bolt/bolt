@@ -12,7 +12,6 @@ $bolt_name = "First beta";
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/classes/lib.php';
 require_once __DIR__.'/classes/storage.php';
-require_once __DIR__.'/classes/content.php';
 require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/classes/util.php';
 

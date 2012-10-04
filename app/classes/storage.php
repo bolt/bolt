@@ -370,7 +370,7 @@ class Storage {
                         
         }
 
-        $contentobject = new Content('', $contenttype);
+        $contentobject = new Bolt\Content('', $contenttype);
         $contentobject->setValues($content);
 
         if (!empty($contenttype['taxonomy'])) {
@@ -617,7 +617,7 @@ class Storage {
 
         $contenttype = $this->getContentType($contenttypeslug);
 
-        $content = new Content('', $contenttypeslug);
+        $content = new Bolt\Content('', $contenttypeslug);
 
         $values = array(
             'id' => '',
@@ -687,7 +687,7 @@ class Storage {
 
         // If we can't match to a valid contenttype, return (undefined) content;
         if (!$contenttype) {
-            $emptycontent = new Content('', $contenttypeslug);
+            $emptycontent = new Bolt\Content('', $contenttypeslug);
             $app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
             return $emptycontent;
         }
@@ -763,11 +763,12 @@ class Storage {
         }
 
         $rows = $this->db->fetchAll($query);
-        
+
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
         foreach($rows as $key => $value) {
-            $content[ $value['id'] ] = new Content($value, $contenttype);
+
+            $content[ $value['id'] ] = new Bolt\Content($value, $contenttype);
         }
         
         // Make sure all content has their taxonomies
@@ -902,7 +903,7 @@ class Storage {
         $content = $this->getContent($contenttypeslug, $parameters);
 
         if (empty($content)) {
-            $content = new Content('', $contenttypeslug);
+            $content = new Bolt\Content('', $contenttypeslug);
         }
 
         return $content;

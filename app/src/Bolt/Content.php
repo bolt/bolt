@@ -1,6 +1,6 @@
 <?php
 
-
+Namespace Bolt;
 
 class Content {
 
@@ -9,9 +9,9 @@ class Content {
     public $taxonomy;
     public $contenttype;
 
-    public function Content($values="", $contenttype="") 
+    public function __construct($values="", $contenttype="")
     {
-        
+
         if (!empty($values)) {
             $this->setValues($values);
         } else {
