@@ -42,6 +42,8 @@ $asynchronous->get("/dashboardnews", function(Silex\Application $app) {
 
         $app['log']->add("News: fetch from remote server..", 1);
 
+
+
         $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
         $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',

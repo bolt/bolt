@@ -1,5 +1,6 @@
 <?php
 
+namespace Bolt;
 
 /**
  * Simple logging class for Bolt
@@ -8,9 +9,6 @@
  *
  **/
 class Log {
-
-
-
 
     public function __construct($app)
     {

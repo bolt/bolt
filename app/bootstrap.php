@@ -16,7 +16,6 @@ require_once __DIR__.'/classes/content.php';
 require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/classes/util.php';
 require_once __DIR__.'/classes/cache.php';
-require_once __DIR__.'/classes/log.php';
 
 $config = getConfig();
 $dboptions = getDBOptions($config);
@@ -34,13 +33,6 @@ $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider());
 
-/*
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__.'/cache/debug.log',
-    'monolog.name' => "Bolt"
-));
-*/
-
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],
     'twig.options' => array(
@@ -50,19 +42,15 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'autoescape' => false )
 ));
 
-
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
-
-
 
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
     'http_cache.cache_dir' => __DIR__.'/cache/',
 ));
 
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
-
 
 use Silex\Provider\FormServiceProvider;
 $app->register(new FormServiceProvider());
@@ -78,6 +66,7 @@ if (!function_exists('intl_get_error_code')) {
     require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
 }
 
+$app->register(new Bolt\LogServiceProvider(), array());
 
 
 
@@ -97,7 +86,6 @@ $app['twig']->addTokenParser(new Bolt_Setcontent_TokenParser());
 
 
 $app['cache'] = new Cache();
-$app['log'] = new Log($app);
 
 
 // If debug is set, we set up the custom error handler..
