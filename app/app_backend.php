@@ -329,7 +329,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
         $app['log']->add("Edit content", 1, $content, 'edit');
     } else {
     	$content = $app['storage']->getEmptyContent($contenttype['slug']);
-        $app['twig']->addGlobal('title', "New " . $contenttype['sungular_name']);
+        $app['twig']->addGlobal('title', "New " . $contenttype['singular_name']);
         $app['log']->add("New content", 1, $content, 'edit');
 
     }
