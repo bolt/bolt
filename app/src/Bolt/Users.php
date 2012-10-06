@@ -98,8 +98,8 @@ class Users {
             return false;
         }
         
-        require_once(__DIR__."/phpass/PasswordHash.php");
-        $hasher = new PasswordHash(8, TRUE);
+        require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
+        $hasher = new \PasswordHash(8, TRUE);
        
         if ($hasher->CheckPassword($password, $user['password'])) {
 
