@@ -66,11 +66,11 @@ kitchensink:
             uses: title
         geolocation:
             type: geolocation
-        image:
-            type: image
         html:
             type: html
             height: 150px
+        image:
+            type: image
         video:
             type: video
         template:

@@ -231,6 +231,8 @@ $("#field-{{key}}").autocomplete({
                  - Longitude: <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude"
                     value='{{ geolocation.longitude }}' style='width: 30%;'>
                 </label>
+                <p>Matched address:
+                <span id="{{ key }}-reversegeo">{{ geolocation.reversegeo }}</span></p>
 
                 <script type="text/javascript">
                     $(function() {

@@ -260,18 +260,20 @@ function bindGeolocation(key) {
         zoom: 15,
         maptype: 'ROADMAP',
         disableDoubleClickZoom: true,
-        addMarker: true,
+        addMarker: false,
         icon: apppath + 'view/img/pin_red.png',
         markers: [{
             latitude: latitude,
             longitude: longitude,
-            id: 'pinmaker',
+            id: 'pinmarker',
             title: 'Pin',
-
             draggable: true
         }]
     });
 
+
+    // Handler for when the marker is dropped..
+    $.goMap.createListener({type:'marker', marker:'pinmarker'}, 'mouseup', function() { updateGeoCoords(key) });
 
 }
 
@@ -283,4 +285,30 @@ function bindGeoAjax(key) {
 
     $.goMap.setMap({ address: $("#" + key + "-address").val() });
 
+    $.goMap.setMarker('pinmarker', { address: $("#" + key + "-address").val() });
+
+    setTimeout( function(){ updateGeoCoords(key); }, 500);
+
 }
+
+function updateGeoCoords(key) {
+    var markers = $.goMap.getMarkers();
+    var marker = markers[0].split(",");
+
+    console.log(markers);
+
+    if (typeof(marker[0] != "undefined")) {
+        $('#' + key + '-latitude').val( marker[0] );
+        $('#' + key + '-longitude').val( marker[1] );
+
+        // update the 'according to Google' info:
+        var geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(marker[0], marker[1]);
+        geocoder.geocode({ 'latLng': latlng }, function(results, status) {
+            $('#' + key + '-reversegeo').html(results[0].formatted_address);
+            console.log(results);
+        });
+
+    }
+
+};
