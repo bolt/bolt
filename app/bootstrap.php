@@ -8,29 +8,22 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
 $bolt_version = "0.7.2";
 $bolt_buildnumber = "";
 $bolt_name = "First beta";
+// Start the timer:
+$starttime=getMicrotime();
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/classes/lib.php';
-require_once __DIR__.'/classes/storage.php';
-require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/classes/util.php';
 
 $config = getConfig();
 $dboptions = getDBOptions($config);
 
-
-
-// Start the timer:
-$starttime=getMicrotime();
-
 $app = new Silex\Application();
 
 $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
-
 $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider());
-
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],
     'twig.options' => array(
@@ -39,20 +32,14 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'strict_variables' => $config['general']['strict_variables'],
         'autoescape' => false )
 ));
-
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
-
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
     'http_cache.cache_dir' => __DIR__.'/cache/',
 ));
-
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
-
-use Silex\Provider\FormServiceProvider;
-$app->register(new FormServiceProvider());
-
+$app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'translator.messages' => array(),
@@ -65,13 +52,11 @@ if (!function_exists('intl_get_error_code')) {
 }
 
 $app->register(new Bolt\LogServiceProvider(), array());
+$app->register(new Bolt\StorageServiceProvider(), array());
+$app->register(new Bolt\UsersServiceProvider(), array());
+$app->register(new Bolt\CacheServiceProvider(), array());
 
-
-$app['storage'] = new Storage($app);
-
-$app['users'] = new Users($app);
 $app['paths'] = getPaths($config);
-
 $app['editlink'] = "";
 
 // Add the Bolt Twig functions, filters and tags.
@@ -80,9 +65,6 @@ $app['twig']->addExtension(new Bolt_Twig_Extension());
 
 require_once __DIR__.'/classes/twig_setcontent.php';
 $app['twig']->addTokenParser(new Bolt_Setcontent_TokenParser());
-
-$app->register(new Bolt\CacheServiceProvider(), array());
-
 
 // If debug is set, we set up the custom error handler..
 if ($app['debug']) {

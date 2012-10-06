@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Bolt;
 
 class Users {
   

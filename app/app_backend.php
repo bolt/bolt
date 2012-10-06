@@ -934,7 +934,7 @@ $app->error(function(Exception $e) use ($app) {
 
     foreach($trace as $key=>$value) {
 
-        if (strpos($value['file'], "/vendor/") > 0 ) {
+        if (!empty($value['file']) && strpos($value['file'], "/vendor/") > 0 ) {
             unset($trace[$key]['args']);
         }
     }

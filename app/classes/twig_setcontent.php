@@ -89,7 +89,7 @@ class Bolt_Setcontent_Node extends Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write('$template_storage = new Storage($context[\'app\']);' . "\n")
+            ->write('$template_storage = new Bolt\Storage($context[\'app\']);' . "\n")
             ->write('$context[\'' . $this->getAttribute('name') . '\'] = ')
             ->write('$template_storage->getContent(')
             ->subcompile($this->getAttribute('contenttype'))

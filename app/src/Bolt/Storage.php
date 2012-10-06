@@ -1,6 +1,10 @@
 <?php
 
+namespace Bolt;
 
+use Silex;
+use Bolt;
+use util;
 
 class Storage {
   

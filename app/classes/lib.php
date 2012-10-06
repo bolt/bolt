@@ -973,23 +973,29 @@ function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars) {
     // in reality the only entries we should
     // consider are 2,8,256,512 and 1024
     $errortype = array (
-        1   =>  "Error",
-        2   =>  "Warning",
-        4   =>  "Parsing Error",
-        8   =>  "Notice",
-        16  =>  "Core Error",
-        32  =>  "Core Warning",
-        64  =>  "Compile Error",
-        128 =>  "Compile Warning",
-        256 =>  "User Error",
-        512 =>  "User Warning",
-        1024=>  "User Notice"
+        1    => "Error",
+        2    => "Warning",
+        4    => "Parsing Error",
+        8    => "Notice",
+        16   => "Core Error",
+        32   => "Core Warning",
+        64   => "Compile Error",
+        128  => "Compile Warning",
+        256  => "User Error",
+        512  => "User Warning",
+        1024 => "User Notice",
+        2048 => "Strict",
+        4096 => "Recoverable Error",
+        8192 => "Deprecated"
+
     );
 
     $root = dirname($_SERVER['DOCUMENT_ROOT']);
     $filename = str_replace($root, "", $filename);
 
     $err = sprintf("<b>PHP-%s</b>: %s.", $errortype[$errno], $errmsg);
+
+    echo "$err, $filename, $linenum";
 
     $app['log']->errorhandler($err, $filename, $linenum);
 
