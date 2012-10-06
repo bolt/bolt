@@ -8,12 +8,13 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
 $bolt_version = "0.7.2";
 $bolt_buildnumber = "";
 $bolt_name = "First beta";
-// Start the timer:
-$starttime=getMicrotime();
 
 require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/classes/lib.php';
 require_once __DIR__.'/classes/util.php';
+
+// Start the timer:
+$starttime=getMicrotime();
 
 $config = getConfig();
 $dboptions = getDBOptions($config);
