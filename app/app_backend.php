@@ -335,12 +335,12 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
     }
 
 	if (!empty($_GET['duplicate'])) {
-    	$content['id']="";
-    	$content['datecreated']="";
-    	$content['datechanged']="";
-    	$content['username']="";
+    	$content->setValue('id', "");
+    	$content->setValue('datecreated', "");
+    	$content->setValue('datechanged', "");
+    	$content->setValue('username', "");
     	$app['session']->setFlash('info', "Content was duplicated. Click 'Save " . $contenttype['singular_name'] . "' to finalize."); 
-	}
+    }
 
 	// Set the users and the current owner of this content.
 	if (!empty($content->username)) {

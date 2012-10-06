@@ -285,7 +285,7 @@ class Storage {
     
     public function preFill() {
 
-        $this->guzzleclient = new Guzzle\Service\Client('http://loripsum.net/api/');
+        $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
 
         $output = "";
         
@@ -1151,6 +1151,8 @@ class Storage {
         // Only add 'entry/' if $full is requested.
         if ($fulluri) {
             $prefix = "/" . $contenttype['singular_slug'] . "/";
+        } else {
+            $prefix = "";
         }
         
         $query = "SELECT id from $tablename WHERE slug='$slug' and id!='$id';";

@@ -29,16 +29,16 @@ class Content {
         if (!empty($contenttype)) {
             $this->setContenttype($contenttype);
         }        
-    } 
-    
-    public function setValues($values) 
+    }
+
+    public function setValues($values)
     {
-		global $app;
+        global $app;
 
         if (!empty($values['id'])) {
             $this->id = $values['id'];
         }
-        
+
         $this->values = $values;
 
         if (!isset($this->values['datecreated']) ||
@@ -51,20 +51,55 @@ class Content {
             $this->values['datechanged'] = "1970-01-01 00:00:00";
         }
 
-		if (!empty($values['username'])) {
-			$this->user = $app['users']->getUser($values['username']);
-		}
+        if (!empty($values['username'])) {
+            $this->user = $app['users']->getUser($values['username']);
+        }
 
         // Check if the values need to be unserialized..
         foreach($this->values as $key => $value) {
-
-            if (substr($value, 0, 2)=="a:") {
+            if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
                 $unserdata = @unserialize($value);
                 if ($unserdata !== false) {
                     $this->values[$key] = $unserdata;
                 }
             }
         }
+
+    }
+
+
+
+    public function setValue($key, $value)
+    {
+
+        // Check if the value need to be unserialized..
+        if (substr($value, 0, 2)=="a:") {
+            $unserdata = @unserialize($value);
+            if ($unserdata !== false) {
+                $value = $unserdata;
+            }
+        }
+
+
+        if ($key == 'id') {
+            $this->id = $value;
+        }
+
+        if ($key == 'datecreated' || $key == 'datechanged') {
+            if ( !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value) ) {
+                $this->values['datecreated'] = "1970-01-01 00:00:00";
+            }
+        }
+
+        if (!isset($this->values['datechanged']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
+            $this->values['datechanged'] = "1970-01-01 00:00:00";
+        }
+
+
+        $this->values[$key] = $value;
+
+
 
     }
 
@@ -88,7 +123,7 @@ class Content {
                 $responsiveclass = "responsive-video";
 
                 // See if it's widescreen or not..
-                if (($video['width'] / $video['height']) > 1.76) {
+                if (!empty($video['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
                     $responsiveclass .= " widescreen";
                 }
 
