@@ -54,6 +54,38 @@ pages:
     sort: title
     recordsperpage: 100
 
+kitchensink:
+    name: Kitchensinks
+    singular_name: Kitchensink
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        geolocation:
+            type: geolocation
+        image:
+            type: image
+        html:
+            type: html
+            height: 150px
+        video:
+            type: video
+        template:
+            type: templateselect
+            filter: '*.twig'
+        textarea:
+            type: textarea
+        datetime:
+            type: datetime
+        date:
+            type: date
+    taxonomy: [ categories, tags, chapters ]
+    sort: title
+    recordsperpage: 8
+
 
 # possible field types:
 # text - varchar(256) - input type text

@@ -240,3 +240,47 @@ function bindVideoEmbedAjax(key) {
 
 }
 
+
+function bindGeolocation(key) {
+
+    // Default location is Two Kings, for now.
+    var latitude = 52.08184;
+    var longitude = 4.292368;
+
+    console.log('!', apppath);
+
+    $("#" + key + "-address").bind('propertychange input', function() {
+        clearTimeout(geotimeout);
+        geotimeout = setTimeout( function(){ bindGeoAjax(key); }, 800);
+    });
+
+
+    $("#map-"+key).goMap({
+        address: 'Prins Hendrikstraat 91, The Hague, Netherlands',
+        zoom: 15,
+        maptype: 'ROADMAP',
+        disableDoubleClickZoom: true,
+        addMarker: true,
+        icon: apppath + 'view/img/pin_red.png',
+        markers: [{
+            latitude: latitude,
+            longitude: longitude,
+            id: 'pinmaker',
+            title: 'Pin',
+
+            draggable: true
+        }]
+    });
+
+
+}
+
+var geotimeout;
+
+function bindGeoAjax(key) {
+
+    console.log('address: ' , $("#" + key + "-address").val() );
+
+    $.goMap.setMap({ address: $("#" + key + "-address").val() });
+
+}

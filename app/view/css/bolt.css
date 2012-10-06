@@ -423,6 +423,16 @@ label span.left {
     width: 128px;
 }
 
+
+#editcontent div.map-container {
+    padding-right: 210px;
+}
+
+#editcontent div.map-right {
+    float: right;
+    width: 208px;
+}
+
 #editcontent .imageholder {
     border: 1px solid #BBB;
     width: 120px;
@@ -436,8 +446,17 @@ label span.left {
 }
 
 #editcontent div.image-container label,
-#editcontent div.video-container label {
+#editcontent div.video-container label,
+#editcontent div.map-container label {
     margin-top: 2px;
+}
+
+#editcontent .mapholder {
+    border: 1px solid #BBB;
+    width: 200px;
+    height: 160px;
+    padding: 2px;
+    box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
 

@@ -162,8 +162,7 @@ $("#field-{{key}}").autocomplete({
             (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
         </label>
         <label>URL: <input type="text" name="{{key}}[url]" id="video-{{key}}"
-               value='{{ video.url }}'
-               class='{% if field.class is defined %}{{ field.class }}{% endif %}' style='width: 80%;'>
+               value='{{ video.url }}' style='width: 80%;'>
         </label>
 
         <label>Size: <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width }}" style='width: 60px; min-width: 60px;'>
@@ -173,7 +172,6 @@ $("#field-{{key}}").autocomplete({
         </label>
 
         <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio }}">
-
         <input type="hidden" name="{{ key }}[title]" id="video-{{key}}-title" value="{{ video.title }}" readonly>
         <input type="hidden" name="{{ key }}[authorname]" id="video-{{key}}-author_name" value="{{ video.authorname }}" readonly>
         <input type="hidden" name="{{ key }}[authorurl]" id="video-{{key}}-author_url" value="{{ video.authorurl }}" readonly>
@@ -203,6 +201,50 @@ $("#field-{{key}}").autocomplete({
 
 
 {% endif %}
+
+
+
+
+
+{# --------------- geolocation --------------- #}
+
+    {% if field.type == "geolocation" %}
+
+        {% set geolocation = content.get(key) %}
+        <div class="dropzone">
+
+            <div class="map-right hide-phone">
+                <div class='mapholder' id="map-{{key}}" style="width: 200px;">
+                    {% if geo.map!="" %}
+                        <img src="{{ geo.map }}" width="200" height="200">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="map-container">
+                <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+                <label>Address lookup: <input type="text" name="{{key}}[address]" id="{{key}}-address"
+                    value='{{ geolocation.address }}' style='width: 60%;'>
+                </label>
+                <label>Latitude: <input type="text" name="{{key}}[latitude]" id="{{key}}-latitude"
+                    value='{{ geolocation.latitude }}' style='width: 30%;'>
+                 - Longitude: <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude"
+                    value='{{ geolocation.longitude }}' style='width: 30%;'>
+                </label>
+
+                <script type="text/javascript">
+                    $(function() {
+                        bindGeolocation('{{key}}');
+                    });
+                </script>
+            </div>
+        </div>
+        <hr style="clear:both;">
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="{{ paths.app }}view/js/jquery.gomap-1.3.2.min.js"></script>
+
+    {% endif %}
+
 
 
 
