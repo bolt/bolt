@@ -1,6 +1,8 @@
 <?php
 
-class Bolt_Setcontent_TokenParser extends Twig_TokenParser
+namespace Bolt;
+
+class SetcontentTokenParser extends \Twig_TokenParser
 {
     protected function convertToViewArguments(\Twig_Node_Expression_Array $array)
     {
@@ -18,15 +20,15 @@ class Bolt_Setcontent_TokenParser extends Twig_TokenParser
         return $arguments;
     }
     
-    public function parse(Twig_Token $token)
+    public function parse(\Twig_Token $token)
     {
         $lineno = $token->getLine();
 
         $arguments = array();
         
         // name - the new variable with the results
-        $name = $this->parser->getStream()->expect(Twig_Token::NAME_TYPE)->getValue();
-        $this->parser->getStream()->expect(Twig_Token::OPERATOR_TYPE, '=');
+        $name = $this->parser->getStream()->expect(\Twig_Token::NAME_TYPE)->getValue();
+        $this->parser->getStream()->expect(\Twig_Token::OPERATOR_TYPE, '=');
         
         // contenttype, or simple expression to content.
         $contenttype = $this->parser->getExpressionParser()->parseExpression();
@@ -64,7 +66,7 @@ class Bolt_Setcontent_TokenParser extends Twig_TokenParser
 
         }
 
-        $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
+        $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
 
         return new Bolt_Setcontent_Node($name, $contenttype, $arguments, $lineno, $this->getTag());
     }
@@ -76,14 +78,14 @@ class Bolt_Setcontent_TokenParser extends Twig_TokenParser
 }
 
 
-class Bolt_Setcontent_Node extends Twig_Node
+class Bolt_Setcontent_Node extends \Twig_Node
 {
     public function __construct($name, $contenttype, $arguments, $lineno, $tag = null)
     {
         parent::__construct(array(), array('name' => $name, 'contenttype' => $contenttype, 'arguments' => $arguments),  $lineno, $tag);
     }
 
-    public function compile(Twig_Compiler $compiler)
+    public function compile(\Twig_Compiler $compiler)
     {
         $arguments = $this->getAttribute('arguments');
 

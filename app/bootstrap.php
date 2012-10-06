@@ -61,11 +61,8 @@ $app['paths'] = getPaths($config);
 $app['editlink'] = "";
 
 // Add the Bolt Twig functions, filters and tags.
-require_once __DIR__.'/classes/twig_bolt.php';
-$app['twig']->addExtension(new Bolt_Twig_Extension());
-
-require_once __DIR__.'/classes/twig_setcontent.php';
-$app['twig']->addTokenParser(new Bolt_Setcontent_TokenParser());
+$app['twig']->addExtension(new Bolt\TwigExtension());
+$app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
 
 // If debug is set, we set up the custom error handler..
 if ($app['debug']) {
