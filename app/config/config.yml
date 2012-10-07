@@ -18,8 +18,6 @@ homepage_template: index.twig
 # they _will_ get updated in next releases
 theme: default
 
-
-
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.
 recordsperpage: 10
@@ -36,6 +34,7 @@ record_template: record.twig
 
 # Show the 'debug' nu in the lower right corner for logged-in user.
 debug: true
+developer_notices: true
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.

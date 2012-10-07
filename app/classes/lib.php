@@ -995,7 +995,9 @@ function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars) {
 
     $err = sprintf("<b>PHP-%s</b>: %s.", $errortype[$errno], $errmsg);
 
-    echo "$err, $filename, $linenum";
+    if($app['config']['general']['developer_notices']) {
+        echo "<p><strong>$err</strong>, $filename, $linenum</p>";
+    }
 
     $app['log']->errorhandler($err, $filename, $linenum);
 

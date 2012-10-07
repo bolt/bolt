@@ -914,15 +914,6 @@ $app->after(function (Request $request, Response $response) use ($app)
  */
 $app->error(function(Exception $e) use ($app) {
 
-    /*
-    $app['monolog']->addError(json_encode(array(
-        'class' => get_class($e),
-        'message' => $e->getMessage(),
-        'code' => $e->getCode(),
-        'trace' => $e->getTrace()
-        )));
-*/
-
     $twigvars = array();
 
     $twigvars['class'] = get_class($e);
