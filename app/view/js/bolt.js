@@ -302,7 +302,7 @@ function updateGeoCoords(key) {
         geocoder.geocode({ 'latLng': latlng }, function(results, status) {
             $('#' + key + '-reversegeo').html(results[0].formatted_address);
             $('#' + key + '-formatted_address').val(results[0].formatted_address);
-            console.log(results);
+            // console.log(results);
         });
 
     }
