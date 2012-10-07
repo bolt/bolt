@@ -15,13 +15,24 @@ can output all fields. #}
 
         {%  if key not in ['id', 'slug', 'datecreated', 'datechanged', 'username', 'status', 'title', 'subtitle'] %}
 
-            {% if record.fieldtype(key) == "image" and record.image != "" %}
+            {% if record.fieldtype(key) == "image" and value != "" %}
 
                 <div class='imageholder-wide'><img src="{{ record.image|thumbnail(800, 600) }}"></div>
 
+            {% elseif record.fieldtype(key) == "video" and value.responsive != "" %}
+
+                {{ value.responsive }}
+
+            {% elseif record.fieldtype(key) == "geolocation" and value.latitude != "" %}
+
+                <div class='imageholder-wide'><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&zoom=14&size=617x300&sensor=false&markers={{ value.latitude }},{{ value.longitude }}"></div>
+                <p>{{ value.formatted_address }}</p>
+
             {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
 
-                {{ value }}
+                <div>
+                    {{ value }}
+                </div>
 
             {%  endif %}
 
