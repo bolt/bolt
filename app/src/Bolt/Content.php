@@ -140,11 +140,6 @@ class Content {
 
         }
 
-
-        echo "<pre>\n" . util::var_dump($values, true) . "</pre>\n";
-
-        // die();
-
         // TODO: check for allowed file types..
 
         // Handle file-uploads.

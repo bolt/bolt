@@ -798,7 +798,7 @@ class Storage {
     
             if ($have_grouping) {
                 uasort($content, function($a, $b) {
-                    if ($a->group == $b->group) { return 0; }
+                    if (!isset($a->group) || !isset($b->group) || $a->group == $b->group) { return 0; }
                     return ($a->group < $b->group) ? -1 : 1;
                 });
             }
