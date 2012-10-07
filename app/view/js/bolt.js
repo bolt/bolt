@@ -241,22 +241,23 @@ function bindVideoEmbedAjax(key) {
 }
 
 
-function bindGeolocation(key) {
+function bindGeolocation(key, latitude, longitude) {
+
+    latitude = parseFloat(latitude);
+    longitude = parseFloat(longitude);
 
     // Default location is Two Kings, for now.
-    var latitude = 52.08184;
-    var longitude = 4.292368;
-
-    console.log('!', apppath);
+    if (latitude == 0 || isNaN(latitude)) { latitude = 52.08184; }
+    if (longitude == 0 || isNaN(longitude)) { longitude = 4.292368; }
 
     $("#" + key + "-address").bind('propertychange input', function() {
         clearTimeout(geotimeout);
         geotimeout = setTimeout( function(){ bindGeoAjax(key); }, 800);
     });
 
-
     $("#map-"+key).goMap({
-        address: 'Prins Hendrikstraat 91, The Hague, Netherlands',
+        latitude: latitude,
+        longitude: longitude,
         zoom: 15,
         maptype: 'ROADMAP',
         disableDoubleClickZoom: true,
@@ -271,7 +272,6 @@ function bindGeolocation(key) {
         }]
     });
 
-
     // Handler for when the marker is dropped..
     $.goMap.createListener({type:'marker', marker:'pinmarker'}, 'mouseup', function() { updateGeoCoords(key) });
 
@@ -281,10 +281,7 @@ var geotimeout;
 
 function bindGeoAjax(key) {
 
-    console.log('address: ' , $("#" + key + "-address").val() );
-
     $.goMap.setMap({ address: $("#" + key + "-address").val() });
-
     $.goMap.setMarker('pinmarker', { address: $("#" + key + "-address").val() });
 
     setTimeout( function(){ updateGeoCoords(key); }, 500);
@@ -295,8 +292,6 @@ function updateGeoCoords(key) {
     var markers = $.goMap.getMarkers();
     var marker = markers[0].split(",");
 
-    console.log(markers);
-
     if (typeof(marker[0] != "undefined")) {
         $('#' + key + '-latitude').val( marker[0] );
         $('#' + key + '-longitude').val( marker[1] );
@@ -306,6 +301,7 @@ function updateGeoCoords(key) {
         var latlng = new google.maps.LatLng(marker[0], marker[1]);
         geocoder.geocode({ 'latLng': latlng }, function(results, status) {
             $('#' + key + '-reversegeo').html(results[0].formatted_address);
+            $('#' + key + '-formatted_address').val(results[0].formatted_address);
             console.log(results);
         });
 
