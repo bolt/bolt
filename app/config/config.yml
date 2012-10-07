@@ -34,7 +34,7 @@ record_template: record.twig
 
 # Show the 'debug' nu in the lower right corner for logged-in user.
 debug: true
-developer_notices: true
+developer_notices: false
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
