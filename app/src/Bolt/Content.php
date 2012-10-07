@@ -2,6 +2,8 @@
 
 Namespace Bolt;
 
+use util;
+
 class Content {
 
     public $id;
@@ -123,7 +125,7 @@ class Content {
                 $responsiveclass = "responsive-video";
 
                 // See if it's widescreen or not..
-                if (!empty($video['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
+                if (!empty($videro['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
                     $responsiveclass .= " widescreen";
                 }
 
@@ -139,6 +141,9 @@ class Content {
         }
 
 
+        echo "<pre>\n" . util::var_dump($values, true) . "</pre>\n";
+
+        // die();
 
         // TODO: check for allowed file types..
 

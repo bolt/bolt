@@ -425,6 +425,10 @@ class Storage {
                 $fieldvalues[$key] = serialize($fieldvalues[$key]);
             }
 
+            if ($values['type'] == "geolocation" && !empty($fieldvalues[$key]['latitude']) ) {
+                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+            }
+
         }
 
         // Make sure a username is set.
@@ -447,9 +451,9 @@ class Storage {
                     $value .= " - 00:00";
                 }
                 
-                $timestamp = DateTime::createFromFormat("l, d F Y - H:i", $value);
+                $timestamp = \DateTime::createFromFormat("l, d F Y - H:i", $value);
 
-                if ($timestamp instanceof DateTime) {
+                if ($timestamp instanceof \DateTime) {
                     $fieldvalues[$newkey] = $timestamp->format('Y-m-d H:i:00');
                 } else {
                     $fieldvalues[$newkey] = "";
@@ -467,7 +471,6 @@ class Storage {
                 }
             }
         }            
-            
             
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
