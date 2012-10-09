@@ -483,7 +483,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
     // If we're adding the first user, add them as 'developer' by default, so don't
     // show them here..
     if ($firstuser) {
-        $form->add('userlevel', 'text', array(
+        $form->add('userlevel', 'hidden', array(
             'data' => key(array_reverse($userlevels)) // last element, highest userlevel..
         ));
     } else {
