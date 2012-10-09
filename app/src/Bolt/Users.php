@@ -34,11 +34,11 @@ class Users {
                 unset($user[$key]);
             }
         }
-        
+
         if (!empty($user['password'])) {
-           require_once(__DIR__."/phpass/PasswordHash.php");
-           $hasher = new PasswordHash(8, TRUE);
-           $user['password'] = $hasher->HashPassword($user['password']);           
+            require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
+            $hasher = new \PasswordHash(8, TRUE);
+            $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
         }
