@@ -72,6 +72,12 @@ jQuery(function($) {
         if (link != "") { window.location = link; }
     });
 
+    // Initialize popovers.
+    $('.info-pop').popover({
+        trigger: 'hover',
+        delay: { show: 500, hide: 200 }
+    });
+
 });
 
 

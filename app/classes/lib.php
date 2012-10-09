@@ -1003,3 +1003,76 @@ function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars) {
 
 }
 
+
+/**
+ * Apparently, some servers don't have fnmatch. Define it here, for those who don't have it.
+ *
+ * @see http://www.php.net/manual/en/function.fnmatch.php#100207
+ *
+ */
+if (!function_exists('fnmatch')) {
+    define('FNM_PATHNAME', 1);
+    define('FNM_NOESCAPE', 2);
+    define('FNM_PERIOD', 4);
+    define('FNM_CASEFOLD', 16);
+
+    /**
+     * Match filename against a pattern
+     *
+     * @param string $pattern
+     * @param string $string
+     * @param int $flags
+     * @return bool
+     */
+    function fnmatch($pattern, $string, $flags = 0) {
+        return pcre_fnmatch($pattern, $string, $flags);
+    }
+}
+
+/**
+ * Helper function for fnmatch() - Match filename against a pattern
+ *
+ * @param string $pattern
+ * @param string $string
+ * @param int $flags
+ * @return bool
+ */
+function pcre_fnmatch($pattern, $string, $flags = 0) {
+    $modifiers = null;
+    $transforms = array(
+        '\*'    => '.*',
+        '\?'    => '.',
+        '\[\!'    => '[^',
+        '\['    => '[',
+        '\]'    => ']',
+        '\.'    => '\.',
+        '\\'    => '\\\\'
+    );
+
+    // Forward slash in string must be in pattern:
+    if ($flags & FNM_PATHNAME) {
+        $transforms['\*'] = '[^/]*';
+    }
+
+    // Back slash should not be escaped:
+    if ($flags & FNM_NOESCAPE) {
+        unset($transforms['\\']);
+    }
+
+    // Perform case insensitive match:
+    if ($flags & FNM_CASEFOLD) {
+        $modifiers .= 'i';
+    }
+
+    // Period at start must be the same as pattern:
+    if ($flags & FNM_PERIOD) {
+        if (strpos($string, '.') === 0 && strpos($pattern, '.') !== 0) return false;
+    }
+
+    $pattern = '#^'
+        . strtr(preg_quote($pattern, '#'), $transforms)
+        . '$#'
+        . $modifiers;
+
+    return (boolean)preg_match($pattern, $string);
+}
