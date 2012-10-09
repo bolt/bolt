@@ -64,15 +64,17 @@ kitchensink:
         slug:
             type: slug
             uses: title
-        geolocation:
-            type: geolocation
+        video:
+            type: video
         html:
             type: html
             height: 150px
+        geolocation:
+            type: geolocation
         image:
             type: image
-        video:
-            type: video
+        file:
+            type: file
         template:
             type: templateselect
             filter: '*.twig'

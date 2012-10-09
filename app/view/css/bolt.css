@@ -165,7 +165,16 @@ footer  {
     z-index: 940;
 }
 
+.info-pop {
+    cursor: help;
+}
 
+.popover {
+    width: 360px;
+    -webkit-box-shadow: 0 5px 10px  rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
 
 
 /**
