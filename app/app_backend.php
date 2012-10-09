@@ -816,7 +816,7 @@ $app->before(function() use ($app) {
 
 
 // On 'finish' attach the debug-bar, if debug is enabled..
-if ($app['debug'] &&  $app['session']->has('user') ) {
+if ($app['debug'] && ($app['session']->has('user') || $app['config']['general']['debug_show_loggedoff'] ) ) {
     
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
