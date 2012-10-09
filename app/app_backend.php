@@ -482,9 +482,13 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
 
     // If we're adding the first user, add them as 'developer' by default, so don't
     // show them here..
-    if (!$firstuser) {
-        $form->add('userlevel', 'choice', array(
-                'choices' => $userlevels,
+    if ($firstuser) {
+        $form->add('userlevel', 'text', array(
+            'data' => key(array_reverse($userlevels)) // last element, highest userlevel..
+        ));
+    } else {
+        $form->add('userlevel', 'text', array(
+                'value' => $userlevels,
                 'expanded' => false,
                 'constraints' => new Assert\Choice(array_keys($userlevels))
             ))

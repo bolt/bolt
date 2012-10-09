@@ -166,7 +166,7 @@ class Users {
             'lastip' => '',
             'displayname' => '',
             'userlevel' => key($this->getUserLevels()),
-            'enabled' => '0'
+            'enabled' => '1'
         );
 
         return $user;
