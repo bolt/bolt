@@ -167,7 +167,7 @@ class Users {
                     $this->users[$key] = $user;
                     $this->users[$key]['password'] = "**dontchange**";
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Nope. No users.
             }
 
