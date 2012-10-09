@@ -575,6 +575,26 @@ $backend->get("/users", function(Silex\Application $app) {
 
 
 
+
+
+/**
+ * Show a list of all available users.
+ */
+$backend->get("/extensions", function(Silex\Application $app) {
+
+    $title = "Extensions";
+
+    $info = getExtensionsInfo();
+
+    $content = util::var_dump($info, true);
+
+    return $app['twig']->render('base.twig', array('content' => $content, 'title' => $title));
+
+})->before($checkLogin)->bind('extensions');
+
+
+
+
 /**
  * Perform actions on users.
  */
