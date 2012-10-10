@@ -843,7 +843,7 @@ function getPaths($config) {
 
     // Set the root
     $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
-    $path_prefix = str_replace("//", "/", $path_prefix);
+    $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
     if (empty($path_prefix)) { $path_prefix = "/"; }
 
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
