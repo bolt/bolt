@@ -266,12 +266,12 @@ function getExtensionsInfo() {
 
 function getExtensionsInfoHelper($path) {
 
-    $filename = $path."/index.php";
+    $filename = $path."/extension.php";
     $namespace = basename($path);
 
     if (is_readable($filename)) {
         include_once($filename);
-        $info = call_user_func($namespace.'\Extension::info');
+        $info = call_user_func($namespace.'\info');
         // echo "<pre>\n" . util::var_dump($tempinfo, true) . "</pre>\n";
         return $info;
     }
@@ -289,11 +289,11 @@ function InitializeExtensions($extensions) {
     // echo "<pre>\n" . util::var_dump($extensions, true) . "</pre>\n";
 
     foreach($extensions as $extension) {
-        $filename = $basefolder . "/" . $extension . "/index.php";
+        $filename = $basefolder . "/" . $extension . "/extension.php";
 
         if (is_readable($filename)) {
             include_once($filename);
-            call_user_func($extension.'\Extension::init', $app);
+            call_user_func($extension.'\init', $app);
         }
 
     }

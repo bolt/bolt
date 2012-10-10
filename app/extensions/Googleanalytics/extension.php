@@ -27,6 +27,12 @@ function init($app) {
 
 function insertAnalytics() {
 
-    echo "pom";
+    $app->get("/pompidom", function(Silex\Application $app) {
+
+        $app['twig.path'] = array($themepath, __DIR__.'/view');
+        return $app['twig']->render('bla.twig');
+
+    });
 
 }
+
