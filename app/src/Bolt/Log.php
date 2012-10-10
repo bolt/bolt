@@ -103,7 +103,7 @@ class Log {
         // Don't choke if we try to insert into the log, but it's not working.
         try {
             $this->db->insert($this->tablename, $log);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Nothing..
         }
 

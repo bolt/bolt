@@ -2,6 +2,9 @@
 
 namespace Bolt;
 
+/**
+ * Class to handle things dealing with users..
+ */
 class Users {
   
     var $db;
@@ -19,8 +22,13 @@ class Users {
         $this->session = $app['session'];
 
     }
-      
-    
+
+    /**
+     * Save changes to a user to the database. (re)hashing the password, if needed.
+     *
+     * @param array $user
+     * @return mixed
+     */
     public function saveUser($user) {
              
         $tablename = $this->prefix . "users";
@@ -34,11 +42,11 @@ class Users {
                 unset($user[$key]);
             }
         }
-        
-        if (!empty($user['password'])) {
-           require_once(__DIR__."/phpass/PasswordHash.php");
-           $hasher = new PasswordHash(8, TRUE);
-           $user['password'] = $hasher->HashPassword($user['password']);           
+
+        if (!empty($user['password']) && $user['password']!="**dontchange**") {
+            require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
+            $hasher = new \PasswordHash(8, TRUE);
+            $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
         }
@@ -65,9 +73,14 @@ class Users {
             return $this->db->update($tablename, $user, array('id' => $user['id']));
         }
         
-    }      
-    
-    
+    }
+
+    /**
+     * Remove a user from the database.
+     *
+     * @param $id
+     * @return bool
+     */
     public function deleteUser($id) {
         
         $tablename = $this->prefix . "users";
@@ -82,8 +95,14 @@ class Users {
         }
         
     }
-    
-        
+
+    /**
+     * Attempt to login a user with the given password
+     *
+     * @param string $user
+     * @param string $password
+     * @return bool
+     */
     public function login($user, $password) {
      
         $userslug = makeSlug($user);
@@ -130,24 +149,34 @@ class Users {
         
         
     }
-        
-        
+
+    /**
+     * Create a stub for a new/empty user.
+     *
+     * @return array
+     */
     public function getEmptyUser() {
         
         $user = array(
             'id' => '',
             'username' => '',
-            'password' => ''
+            'password' => '',
+            'email' => '',
+            'lastseen' => '',
+            'lastip' => '',
+            'displayname' => '',
+            'userlevel' => key($this->getUserLevels()),
+            'enabled' => '1'
         );
-        
-        
+
         return $user;
-        
-    
-        
-        
     }
-    
+
+    /**
+     * Get an array with the current users.
+     *
+     * @return array
+     */
     public function getUsers() {
         global $app;
 
@@ -167,7 +196,7 @@ class Users {
                     $this->users[$key] = $user;
                     $this->users[$key]['password'] = "**dontchange**";
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Nope. No users.
             }
 
@@ -176,8 +205,13 @@ class Users {
         return $this->users;
 
     }
-    
-    
+
+    /**
+     * Get a user, specified by id. Return 'false' if no user found.
+     *
+     * @param int $id
+     * @return array
+     */
     public function getUser($id) {
 
         // Make sure we've fetched the users..
@@ -199,9 +233,14 @@ class Users {
         return false;
         
     }
-        
-        
-        
+
+
+    /**
+     * Enable or disable a user, specified by id.
+     * @param int $id
+     * @param int $enabled
+     * @return bool|mixed
+     */
     public function setEnabled($id, $enabled=1) {
         
         $user = $this->getUser($id);

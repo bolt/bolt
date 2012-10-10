@@ -482,9 +482,13 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
 
     // If we're adding the first user, add them as 'developer' by default, so don't
     // show them here..
-    if (!$firstuser) {
-        $form->add('userlevel', 'choice', array(
-                'choices' => $userlevels,
+    if ($firstuser) {
+        $form->add('userlevel', 'hidden', array(
+            'data' => key(array_reverse($userlevels)) // last element, highest userlevel..
+        ));
+    } else {
+        $form->add('userlevel', 'text', array(
+                'value' => $userlevels,
                 'expanded' => false,
                 'constraints' => new Assert\Choice(array_keys($userlevels))
             ))
@@ -832,7 +836,7 @@ $app->before(function() use ($app) {
 
 
 // On 'finish' attach the debug-bar, if debug is enabled..
-if ($app['debug'] &&  $app['session']->has('user') ) {
+if ($app['debug'] && ($app['session']->has('user') || $app['config']['general']['debug_show_loggedoff'] ) ) {
     
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);

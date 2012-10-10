@@ -40,6 +40,11 @@ record_template: record.twig
 debug: true
 developer_notices: false
 
+# By default, the debugbar is only shown to logged-in users. Use the following
+# option to show it to all users. You probably do not want to use this in a
+# production environment
+debug_show_loggedoff: false
+
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
 strict_variables: false

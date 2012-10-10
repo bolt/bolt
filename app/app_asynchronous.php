@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Middleware function to do some tasks that should be done for all aynchronous
- * reuqests.
+ * requests.
  */
 $beforeAsynchronous = function(Request $request) use ($app) {
 
