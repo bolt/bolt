@@ -238,67 +238,32 @@ function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
 }
 
 
-function getExtensionsInfo() {
+/**
+ * Compares versions of software.
+ *
+ * Versions should use the "MAJOR.MINOR.EDIT" scheme, or in other words
+ * the format "x.y.z" where (x, y, z) are numbers in [0-9].
+ *
+ * @param string $currentversion
+ * @param string $requiredversion
+ * @return boolean
+ *
+ */
+function checkVersion($currentversion, $requiredversion) {
+    list($majorC, $minorC, $editC) = preg_split('#[/.-]#', $currentversion);
+    list($majorR, $minorR, $editR) = preg_split('#[/.-]#', $requiredversion);
 
-    $basefolder = realpath(__DIR__."/../extensions/");
-
-    $d = dir($basefolder);
-
-    $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
-
-    while (false !== ($entry = $d->read())) {
-
-        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) { continue; }
-
-        if (is_dir($basefolder."/".$entry)) {
-            $info[] = getExtensionsInfoHelper($basefolder."/".$entry);
-        }
-
-
-    }
-
-    $d->close();
-
-    return $info;
-
+    if ($majorC > $majorR) { return true; }
+    if ($majorC < $majorR) { return false; }
+    // same major - check minor
+    if ($minorC > $minorR) { return true; }
+    if ($minorC < $minorR) { return false; }
+    // and same minor
+    if ($editC  >= $editR) { return true; }
+    return false;
 }
 
 
-function getExtensionsInfoHelper($path) {
-
-    $filename = $path."/extension.php";
-    $namespace = basename($path);
-
-    if (is_readable($filename)) {
-        include_once($filename);
-        $info = call_user_func($namespace.'\info');
-        // echo "<pre>\n" . util::var_dump($tempinfo, true) . "</pre>\n";
-        return $info;
-    }
-
-
-
-}
-
-
-function InitializeExtensions($extensions) {
-    global $app;
-
-    $basefolder = realpath(__DIR__."/../extensions/");
-
-    // echo "<pre>\n" . util::var_dump($extensions, true) . "</pre>\n";
-
-    foreach($extensions as $extension) {
-        $filename = $basefolder . "/" . $extension . "/extension.php";
-
-        if (is_readable($filename)) {
-            include_once($filename);
-            call_user_func($extension.'\init', $app);
-        }
-
-    }
-
-}
 
 
 function getFilePermissions($filename) {

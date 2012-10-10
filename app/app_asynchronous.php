@@ -130,6 +130,20 @@ $asynchronous->get("/updatefield", function(Silex\Application $app, Request $req
 -- */
 
 
+$asynchronous->get("/readme/{extension}", function($extension, Silex\Application $app, Request $request) {
+
+    $filename = __DIR__."/extensions/".$extension."/readme.md";
+
+    $readme = file_get_contents($filename);
+
+    include_once __DIR__. "/classes/markdown.php";
+    $html = Markdown($readme);
+
+    echo $html;
+
+
+})->before($beforeAsynchronous)->bind('readme');
+
 
 $asynchronous->get("/makeuri", function(Silex\Application $app, Request $request) {
 

@@ -359,6 +359,23 @@ aside ul li small {
 }
 
 /**
+ * Extensions screen
+ */
+
+div.extension {
+    border: 1px solid #CCC;
+    background: #FFF;
+    border-radius: 6px;
+    padding: 0 10px 8px;
+    margin: 0 30px 8px 0;
+}
+
+div.extension h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+/**
  * Editing content ..
  */
 label {

@@ -588,11 +588,9 @@ $backend->get("/extensions", function(Silex\Application $app) {
 
     $title = "Extensions";
 
-    $info = getExtensionsInfo();
+    $extensions = $app['extensions']->getInfo();
 
-    $content = util::var_dump($info, true);
-
-    return $app['twig']->render('base.twig', array('content' => $content, 'title' => $title));
+    return $app['twig']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
 
 })->before($checkLogin)->bind('extensions');
 
