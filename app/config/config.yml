@@ -48,3 +48,14 @@ debug_show_loggedoff: false
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
 strict_variables: false
+
+# There are several options for giving editors more options to insert images, video,
+# etc in the Wysiwyg areas. But, as you give them more options, that means they also have
+# more ways of breaking the preciously designed layout. By default the most 'dangerous'
+# options are set to 'false'. If you choose to enable them for your editors, please
+# instruct them thoroughly on their responsibilty not to break the layout.
+wysiwyg_images: false
+wysiwyg_tables: false
+wysiwyg_embed: false
+wysiwyg_fontcolor: false
+wysiwyg_align: false

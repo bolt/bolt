@@ -9,10 +9,23 @@ jQuery(function($) {
         return confirm( $(this).data('confirm') );
     });
 
-    // For editing content.. 
+    // For editing content, compile the toolbar
+    var toolbar = ['html', '|',  'bold', 'italic', 'deleted', '|', 'formatting', 'link', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|' ];
+
+    if (wysiwyg.images) { toolbar = toolbar.concat('image'); }
+    if (wysiwyg.embed) { toolbar = toolbar.concat('video'); }
+    if (wysiwyg.tables) { toolbar = toolbar.concat('table', '|'); }
+    if (wysiwyg.align) { toolbar = toolbar.concat('alignleft', 'aligncenter', 'alignright', 'justify', '|'); }
+    if (wysiwyg.fontcolor) { toolbar = toolbar.concat('fontcolor', 'backcolor', '|'); }
+
     if ($('.redactor').is('*')) {
-		$('.redactor').redactor({ autoresize: false, css: 'style_bolt.css' });
+		$('.redactor').redactor({
+            autoresize: false,
+            buttons: toolbar,
+            css: 'style_bolt.css'
+        });
 	}
+
 
 	// Initialize the Shadowbox shizzle.
 	Shadowbox.init({ 
