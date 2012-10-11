@@ -63,7 +63,7 @@ class Extensions {
             if (function_exists($namespace.'\info')) {
                 $info = call_user_func($namespace.'\info');
 
-                $info['enabled'] = in_array($namespace, $this->enabled);
+                $info['enabled'] = $this->isEnabled($namespace);
 
                 if (file_exists($path."/readme.md")) {
                     $info['readme'] = $namespace."/readme.md";
@@ -89,6 +89,24 @@ class Extensions {
 
     }
 
+
+    /**
+     * Check if an extension is enabled, case insensitive.
+     *
+     * @param string $name
+     * @return bool
+     */
+    function isEnabled($name) {
+
+        $name = strtolower($name);
+        $lowernames = array_map('strtolower', $this->enabled);
+
+        return in_array($name, $lowernames);
+
+
+    }
+
+
     /**
      * Initialize the enabled extensions.
      *
@@ -97,6 +115,8 @@ class Extensions {
 
         foreach($this->enabled as $extension) {
             $filename = $this->basefolder . "/" . $extension . "/extension.php";
+
+            echo "<p>$filename</p>";
 
             if (is_readable($filename)) {
                 include_once($filename);

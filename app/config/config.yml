@@ -20,7 +20,7 @@ theme: default
 
 # The list of enabled extensions.
 # 'Googleanalytics'
-enabled_extensions: [ 'Helloworld', 'GoogleAnalytics' ]
+enabled_extensions: [ 'helloworld', 'Googleanalytics' ]
 
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.

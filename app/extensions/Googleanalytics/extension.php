@@ -1,7 +1,7 @@
 <?php
 // Google Analytics extension for Bolt
 
-namespace Googleanalytics;
+namespace GoogleAnalytics;
 
 
 function info() {
@@ -23,7 +23,7 @@ function info() {
 
 function init($app) {
 
-    // $app['extensions']->insertSnippet('beforeclosehead', function() { Googleanalytics\insertAnalytics(); });
+    // $app['extensions']->insertSnippet('beforeclosehead', function() { GoogleAnalytics\insertAnalytics(); });
 
 }
 

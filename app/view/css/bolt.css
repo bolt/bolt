@@ -52,8 +52,21 @@ a:hover {
         color: #103060;
 }
 
-tt {
-    color: #666;
+tt, code {
+    background-color: #E8E8E8;
+    color: #555;
+    padding: 1px 2px;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+    border: 0px;
+    white-space: pre;
+}
+
+pre {
+    background-color: #F2F2F2;
+    color: #555;
+    padding: 2px 4px;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+
 }
 
 small {
@@ -97,7 +110,9 @@ h1 span {
 	background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
 	background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
     background-repeat: repeat-x;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
     min-height: 60px;
 
 }
@@ -367,13 +382,24 @@ div.extension {
     background: #FFF;
     border-radius: 6px;
     padding: 0 10px 8px;
-    margin: 0 30px 8px 0;
+    margin: 0 10px 8px 0;
+    -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
+    -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
+
 }
 
 div.extension h3 {
-    font-size: 18px;
-    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+    margin: 4px 0 0;
 }
+
+div.extension p {
+    margin: 0 0 4px;
+    line-height: 16px;
+}
+
 
 /**
  * Editing content ..

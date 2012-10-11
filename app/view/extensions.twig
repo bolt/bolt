@@ -12,7 +12,7 @@
 
             <div class='extension'>
 
-                <span style="float: right; margin-top: 8px;">
+                <span style="float: right; margin-top: 2px;">
                     {% if extension.readme %}
                         <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a> &nbsp;
                     {% endif %}
@@ -24,8 +24,9 @@
 
                 <p>{{ extension.description }}</p>
 
-                <p>Author: <strong>{{ extension.author }}</strong>, {{ extension.releasedate|date("Y-m-d") }}</p>
+                <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.releasedate|date("Y-m-d") }}</p>
 
+                <span class="label">Name: {{ extension.namespace }}</span>
                 {% if extension.version %}<span class="label">Version {{ extension.version }}</span>{% endif %}
                 {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}">Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
 
@@ -43,12 +44,58 @@
     <div class="span6">
         <h2>Disabled</h2>
 
+        {% for extension in extensions if not extension.enabled %}
 
+        <div class='extension'>
+
+                <span style="float: right; margin-top: 2px;">
+                    {% if extension.readme %}
+                        <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a> &nbsp;
+                    {% endif %}
+                    {% if extension.config %}<a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini" type="button">Edit Config</a>{% endif %}
+                </span>
+
+
+            <h3>{{  extension.name }}</h3>
+
+            <p>{{ extension.description }}</p>
+
+            <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.releasedate|date("Y-m-d") }}</p>
+
+            <span class="label">Name: {{ extension.namespace }}</span>
+            {% if extension.version %}<span class="label">Version {{ extension.version }}</span>{% endif %}
+            {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}">Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
+
+            {% if extension.type %}<span class="label">{{ extension.type }}</span>{% endif %}
+
+        </div>
+
+        {% else %}
+        <p>No disabled extensions..</p>
+        {% endfor %}
+
+
+    </div>
+
+</div>
+
+    <div class="row-fluid">
+
+        <div class="span6">
+            <h4>Enabling extensions:</h4>
+            <p>To enable extensions, add them to the <code>enabled_extensions</code> array in
+                <code>config.yml</code>. You must use the exact name of the extension, as shown in the first label on
+                the bottom row of its tile. </p>
+
+            example:
+
+            <pre><code>enabled_extensions: [ 'HelloWorld', 'GoogleAnalytics' ]</code></pre>
 
         </div>
 
     </div>
 
+</div>
 
     <div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-body">
@@ -59,7 +106,6 @@
         </div>
     </div>
 
-    {{ print(extensions) }}
 
 
 {% include '_footer.twig' %}

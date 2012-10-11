@@ -2,13 +2,15 @@
 // Hello World Extension for Bolt
 // Minimum version: 0.7
 
-namespace Helloworld;
+namespace HelloWorld;
+
+echo "pompompom";
 
 function info() {
 
     $data = array(
         'name' =>"Hello, World!",
-        'description' => "A small extension to add 'Hello, World!' to your templates, when using {{ helloworld }}.",
+        'description' => "A small extension to add 'Hello, World!' to your templates, when using <code>{{ helloworld }}</code>.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
         'version' => 0.1,
@@ -23,7 +25,7 @@ function info() {
 
 function init($app) {
 
-    $app['twig']->addFunction('helloworld', new \Twig_Function_Function('Helloworld\twigHelloworld'));
+    $app['twig']->addFunction('helloworld', new \Twig_Function_Function('HelloWorld\twigHelloworld'));
 }
 
 
