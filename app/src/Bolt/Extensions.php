@@ -12,6 +12,7 @@ class Extensions {
     var $config;
     var $basefolder;
     var $enabled;
+    var $snippetqueue;
 
     function __construct(Silex\Application $app) {
     
@@ -116,7 +117,7 @@ class Extensions {
         foreach($this->enabled as $extension) {
             $filename = $this->basefolder . "/" . $extension . "/extension.php";
 
-            echo "<p>$filename</p>";
+            // echo "<p>$filename</p>";
 
             if (is_readable($filename)) {
                 include_once($filename);
@@ -133,6 +134,129 @@ class Extensions {
 
     }
 
-    
+
+    function insertSnippet($location, $callback) {
+
+        $this->snippetqueue[] = array(
+            'location' => $location,
+            'callback' => $callback,
+        );
+
+    }
+
+
+
+    function processSnippetQueue($html) {
+
+        // echo "<pre>\n" . util::var_dump($this->snippetqueue, true) . "</pre>\n";
+
+        foreach($this->snippetqueue as $item) {
+
+            // Get the snippet, either by using a callback function, or else use the
+            // passed string as-is..
+            if (function_exists($item['callback'])) {
+                $snippet = call_user_func($item['callback']);
+            } else {
+                $snippet = $item['callback'];
+            }
+
+            //echo "<pre>\n" . util::var_dump($snippet, true) . "</pre>\n";
+
+            // then insert it into the HTML, somewhere.
+            switch($item['location']) {
+                case "beforeclosehead":
+                    $html = $this->insertBeforeCloseHead($snippet, $html);
+                    break;
+
+                case "aftermeta":
+                    $html = $this->insertAfterMeta($snippet, $html);
+                    break;
+
+                default:
+                    $html .= $snippet;
+                    break;
+            }
+
+
+        }
+
+        return $html;
+
+    }
+
+
+
+
+    /**
+     *
+     * Helper function to insert some HTML into the head section of an HTML
+     * page, right before the </head> tag.
+     *
+     * @param string $tag
+     * @param string $html
+     * @return string
+     */
+    function insertBeforeCloseHead($tag, $html)
+    {
+
+        // first, attempt ot insert it after the last meta tag, matching indentation..
+
+        if (preg_match("~^([ \t]+)</head~mi", $html, $matches)) {
+
+            // Try to insert it just before </head>
+            $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
+            $html = str_replace($matches[0], $replacement, $html);
+
+        } else {
+
+            // Since we're serving tag soup, just append it.
+            $html .= $tag;
+
+        }
+
+        return $html;
+
+    }
+
+
+    /**
+     *
+     * Helper function to insert some HTML into the head section of an HTML page.
+     *
+     * @param string $tag
+     * @param string $html
+     * @return string
+     */
+    function insertAfterMeta($tag, $html)
+    {
+
+        // first, attempt ot insert it after the last meta tag, matching indentation..
+
+        if (preg_match_all("~^([ \t]+)<meta (.*)~mi", $html, $matches)) {
+            //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
+
+            // matches[0] has some elements, the last index is -1, because zero indexed.
+            $last = count($matches[0])-1;
+            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
+            $html = str_replace($matches[0][$last], $replacement, $html);
+
+        } elseif (preg_match("~^([ \t]+)</head~mi", $html, $matches)) {
+
+            //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
+            // Try to insert it just before </head>
+            $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
+            $html = str_replace($matches[0], $replacement, $html);
+
+        } else {
+
+            // Since we're serving tag soup, just append it.
+            $html .= $tag;
+
+        }
+
+        return $html;
+
+    }
+
   
 }

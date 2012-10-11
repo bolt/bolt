@@ -250,8 +250,8 @@ function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
  *
  */
 function checkVersion($currentversion, $requiredversion) {
-    list($majorC, $minorC, $editC) = preg_split('#[/.-]#', $currentversion);
-    list($majorR, $minorR, $editR) = preg_split('#[/.-]#', $requiredversion);
+    list($majorC, $minorC, $editC) = preg_split('#[/.-]#', $currentversion . ".0.0");
+    list($majorR, $minorR, $editR) = preg_split('#[/.-]#', $requiredversion . ".0.0");
 
     if ($majorC > $majorR) { return true; }
     if ($majorC < $majorR) { return false; }
@@ -943,45 +943,6 @@ function redirect($path, $param=array(), $add='') {
 
 }
 
-
-/**
- *
- * Helper function to insert some HTML into the head section of an HTML page.
- *
- * @param string $tag
- * @param string $html
- * @return string
- */
-function insertAfterMeta($tag, $html)
-{
-
-    // first, attempt ot insert it after the last meta tag, matching indentation..
-
-    if (preg_match_all("~^([ \t]+)<meta (.*)~mi", $html, $matches)) {
-        //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
-
-        // matches[0] has some elements, the last index is -1, because zero indexed.
-        $last = count($matches[0])-1;
-        $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-        $html = str_replace($matches[0][$last], $replacement, $html);
-
-    } elseif (preg_match("~^([ \t]+)</head~mi", $html, $matches)) {
-
-        //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
-        // Try to insert it just before </head>
-        $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-        $html = str_replace($matches[0], $replacement, $html);
-
-    } else {
-
-        // Since we're serving tag soup, just append it.
-        $html .= $tag;
-
-    }
-
-    return $html;
-
-}
 
 /**
  * If debug is enabled this function handles the errors and warnings

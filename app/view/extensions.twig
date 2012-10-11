@@ -6,7 +6,7 @@
 <div class="row-fluid">
 
     <div class="span6">
-        <h2>Enabled</h2>
+        <h2>Enabled extensions</h2>
 
         {% for extension in extensions if extension.enabled %}
 
@@ -14,7 +14,7 @@
 
                 <span style="float: right; margin-top: 2px;">
                     {% if extension.readme %}
-                        <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a> &nbsp;
+                        <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a>
                     {% endif %}
                     {% if extension.config %}<a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini" type="button">Edit Config</a>{% endif %}
                 </span>
@@ -42,7 +42,7 @@
 
 
     <div class="span6">
-        <h2>Disabled</h2>
+        <h2>Disabled extensions</h2>
 
         {% for extension in extensions if not extension.enabled %}
 
@@ -50,7 +50,7 @@
 
                 <span style="float: right; margin-top: 2px;">
                     {% if extension.readme %}
-                        <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a> &nbsp;
+                        <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a>
                     {% endif %}
                     {% if extension.config %}<a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini" type="button">Edit Config</a>{% endif %}
                 </span>

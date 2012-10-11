@@ -4,13 +4,11 @@
 
 namespace HelloWorld;
 
-echo "pompompom";
-
 function info() {
 
     $data = array(
         'name' =>"Hello, World!",
-        'description' => "A small extension to add 'Hello, World!' to your templates, when using <code>{{ helloworld }}</code>.",
+        'description' => "A small extension to add a 'Hello, World!'-greeting to your site, when using <code>{{ helloworld }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
         'version' => 0.1,
