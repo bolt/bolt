@@ -449,17 +449,17 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
     $form = $app['form.factory']->createBuilder('form', $user)
         ->add('id', 'hidden')
         ->add('username', 'text', array(
-            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
+            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array(2)))
         ));
         
     // If we're adding a new user, the password will be mandatory. If we're
     // editing an existing user, we can leave it blank
     if (empty($id)) {
         $form->add('password', 'password', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(6)),
+                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array(6))),
             ))
             ->add('password_confirmation', 'password', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(6)),
+                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array(6))),
                 'label' => "Password (confirmation)"
             ));
     } else {
@@ -477,7 +477,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
             'constraints' => new Assert\Email(),
         ))
         ->add('displayname', 'text', array(
-            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(2))
+            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array(2)))
         ));
 
     // If we're adding the first user, add them as 'developer' by default, so don't
