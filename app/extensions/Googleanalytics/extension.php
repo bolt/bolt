@@ -23,7 +23,7 @@ function info() {
 
 function init($app) {
 
-    $app['extensions']->insertSnippet('beforeclosehead', "GoogleAnalytics\insertAnalytics");
+    $app['extensions']->insertSnippet('endofhead', "GoogleAnalytics\insertAnalytics");
 
 }
 

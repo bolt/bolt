@@ -8,7 +8,7 @@ function info() {
 
     $data = array(
         'name' =>"Hello, World!",
-        'description' => "A small extension to add a 'Hello, World!'-greeting to your site, when using <code>{{ helloworld }}</code> in your templates.",
+        'description' => "A small extension to add a 'Hello, World!'-greeting to your site, when using <code>{{ helloworld() }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
         'version' => 0.1,

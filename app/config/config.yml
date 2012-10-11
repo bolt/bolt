@@ -19,8 +19,8 @@ homepage_template: index.twig
 theme: default
 
 # The list of enabled extensions.
-# 'Googleanalytics'
-enabled_extensions: [ 'helloworld', 'Googleanalytics' ]
+# TestSnippets, GoogleAnalytics
+enabled_extensions: [ HelloWorld, FacebookLike, TwitterButton ]
 
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.
