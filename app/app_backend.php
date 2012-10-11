@@ -459,7 +459,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
                 'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 6))),
             ))
             ->add('password_confirmation', 'password', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 6)))),
+                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 6))),
                 'label' => "Password (confirmation)"
             ));
     } else {
@@ -487,8 +487,8 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
             'data' => key(array_reverse($userlevels)) // last element, highest userlevel..
         ));
     } else {
-        $form->add('userlevel', 'text', array(
-                'value' => $userlevels,
+        $form->add('userlevel', 'choice', array(
+                'choices' => $userlevels,
                 'expanded' => false,
                 'constraints' => new Assert\Choice(array_keys($userlevels))
             ))
