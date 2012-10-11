@@ -477,7 +477,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
             'constraints' => new Assert\Email(),
         ))
         ->add('displayname', 'text', array(
-            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array(2)))
+            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 2)))
         ));
 
     // If we're adding the first user, add them as 'developer' by default, so don't
