@@ -19,26 +19,25 @@ class Extensions {
         $this->app = $app;
         $this->basefolder = realpath(__DIR__."/../../extensions/");
         $this->enabledExtensions();
+        $this->ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
     }
 
     function enabledExtensions()
     {
         $list = $this->app['config']['general']['enabled_extensions'];
+        $folders = array();
 
         $d = dir($this->basefolder);
-
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
         // Make a list of extensions, actually present..
         while (false !== ($foldername = $d->read())) {
 
-            if (in_array($foldername, $ignored) || substr($foldername, 0, 2) == "._" ) { continue; }
+            if (in_array($foldername, $this->ignored) || substr($foldername, 0, 2) == "._" ) { continue; }
 
             if (is_dir($this->basefolder."/".$foldername) && is_readable($this->basefolder."/".$foldername."/extension.php")) {
                 $folders[] = $foldername;
             }
-
 
         }
 
@@ -55,16 +54,16 @@ class Extensions {
      *
      * @return array
      */
-    function getInfo() {
-
+    function getInfo()
+    {
 
         $d = dir($this->basefolder);
 
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+        $info = array();
 
         while (false !== ($entry = $d->read())) {
 
-            if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) { continue; }
+            if (in_array($entry, $this->ignored) || substr($entry, 0, 2) == "._" ) { continue; }
 
             if (is_dir($this->basefolder."/".$entry)) {
                 $info[] = $this->infoHelper($this->basefolder."/".$entry);
@@ -107,7 +106,7 @@ class Extensions {
                 return $info;
 
             } else {
-                $this->log->add("Couldn't initialize $namespace: function 'init()' doesn't exist", 3);
+                $this->app['log']->add("Couldn't initialize $namespace: function 'init()' doesn't exist", 3);
                 return false;
             }
         }
@@ -147,10 +146,10 @@ class Extensions {
                 if (function_exists($extension.'\init')) {
                     call_user_func($extension.'\init', $this->app);
                 } else {
-                    $this->log->add("Couldn't initialize $extension: function 'init()' doesn't exist", 3);
+                    $this->app['log']->add("Couldn't initialize $extension: function 'init()' doesn't exist", 3);
                 }
             } else {
-                $this->log->add("Couldn't initialize $extension: file '$filename' not readable", 3);
+                $this->app['log']->add("Couldn't initialize $extension: file '$filename' not readable", 3);
             }
 
         }

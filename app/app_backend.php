@@ -582,7 +582,7 @@ $backend->get("/users", function(Silex\Application $app) {
 
 
 /**
- * Show a list of all available users.
+ * Show a list of all available extensions.
  */
 $backend->get("/extensions", function(Silex\Application $app) {
 
