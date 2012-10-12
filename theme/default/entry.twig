@@ -23,7 +23,9 @@
     {{ record.body }}
 
     <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
-    
+
+    {{ facebookcomments() }}
+
 </article>  
 
 {% include '_footer.twig' %}
