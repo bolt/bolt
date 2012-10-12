@@ -778,7 +778,8 @@ function getConfig() {
         'wysiwyg_tables' => false,
         'wysiwyg_embed' => false,
         'wysiwyg_fontcolor' => false,
-        'wysiwyg_align' => false
+        'wysiwyg_align' => false,
+        'canonical' => $_SERVER['HTTP_HOST']
 
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
@@ -881,6 +882,8 @@ function getPaths($config) {
 
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
 
+    $currentpath = $_SERVER['REQUEST_URI'];
+
     // Set the paths
     $paths = array(
         'hostname' => $_SERVER['HTTP_HOST'],
@@ -894,9 +897,13 @@ function getPaths($config) {
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
+        'canonical' => $config['general']['canonical'],
+        'current' => $_SERVER['REQUEST_URI']
     );
 
-    $paths['url'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $paths['root']);
+    $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);
+    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
+    $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
     return $paths;
 

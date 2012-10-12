@@ -1,13 +1,5 @@
 {% include '_header.twig' %}
 
-<p>1: {{ helloworld() }}</p>
-
-<p>2: {{ helloworld('Pompidom') }}</p>
-
-<p>{{ facebooklike() }}</p>
-
-<p>{{ twitterbutton() }}</p>
-
 <article>
 
     <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
@@ -23,8 +15,6 @@
     {{ record.body }}
 
     <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
-
-    {{ facebookcomments() }}
 
 </article>  
 

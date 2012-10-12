@@ -71,7 +71,7 @@ EOM;
     }
 
     $html = str_replace("%width%", $config['width'], $html);
-    $html = str_replace("%url%", $app['paths']['url'], $html);
+    $html = str_replace("%url%", $app['paths']['canonicalurl'], $html);
 
     return $html;
 

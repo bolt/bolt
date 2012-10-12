@@ -66,7 +66,7 @@ EOM;
     // echo "<pre>\n" . \util::var_dump($app['paths'], true) . "</pre>\n";
 
     $html = str_replace("%shortname%", $config['disqus_name'], $html);
-    $html = str_replace("%url%", $app['paths']['url'], $html);
+    $html = str_replace("%url%", $app['paths']['canonicalurl'], $html);
     $html = str_replace("%title%", $title, $html);
 
 
