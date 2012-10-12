@@ -244,6 +244,7 @@ class Storage {
                         case 'html':
                         case 'textarea':
                         case 'video':
+                        case 'markdown':
                         case 'geolocation':
                             $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL DEFAULT \"\";", $tablename, $field);
                             $this->db->query($query);

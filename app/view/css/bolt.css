@@ -170,12 +170,15 @@ footer  {
 }
 
 .popover {
-    width: 360px;
+    width: 400px;
     -webkit-box-shadow: 0 5px 10px  rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.5);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
+.popover-content p {
+    margin: 4px 0;
+}
 
 /**
  * Dashboard specific stuff

@@ -3,7 +3,7 @@
 {# --------------- text --------------- #}
 
 {% if field.type == "text" %}
-<label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+<label xmlns="http://www.w3.org/1999/html"><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
 <input type="text" name="{{key}}" id="{{key}}"
     value='{{ content.get(key) }}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
@@ -302,7 +302,7 @@ $("#field-{{key}}").autocomplete({
     {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
 </textarea>
 {% endif %}
-        
+
 {# --------------- textarea --------------- #}
 
 {% if field.type == "textarea" %}
@@ -310,8 +310,45 @@ $("#field-{{key}}").autocomplete({
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
     style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 {% endif %}
-                
-        
+
+
+{# --------------- textarea --------------- #}
+
+{% if field.type == "markdown" %}
+    <label>
+        <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
+        <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+              data-content="Markdown is a text-to-HTML conversion tool for web writers.
+Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
+which is then converted to structurally valid HTML.</p>
+
+<p><strong>Quick reference:</strong><br>
+# This is an &amp;lt;h1&amp;gt; tag<br>
+## This is an &amp;lt;h2&amp;gt; tag<br>
+###### This is an &amp;lt;h6&amp;gt; tag</p>
+
+<p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
+___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
+this **<strong>is bold</strong>**.
+
+<p>Create <a href='#'>links</a> like this:<br>
+An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
+
+<p>&nbsp; * This is an unordered list<br>
+&nbsp; * Item 2</p>
+
+<p>&nbsp; 1 This is an ordered list<br>
+&nbsp; 2 Item 2</p>
+
+">
+                        Info
+                    </span>
+    </label>
+    <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
+              style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+{% endif %}
+
+
 {# --------------- date --------------- #}
                 
 {% if field.type == "date" %}

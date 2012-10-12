@@ -64,6 +64,8 @@ kitchensink:
         slug:
             type: slug
             uses: title
+        markdown:
+            type: markdown
         video:
             type: video
         html:
