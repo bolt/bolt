@@ -32,6 +32,10 @@ can output all fields. #}
                 </div>
                 <p>{{ value.formatted_address }}</p>
 
+            {% elseif record.fieldtype(key) == "markdown" %}
+
+                {{ value|markdown() }}
+
             {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
 
                 <div>

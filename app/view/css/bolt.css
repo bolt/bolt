@@ -456,6 +456,10 @@ label span.left {
     height: 300px;
     width: 96%;
     padding-right: 0;
+    font-size: 14px;
+    line-height: 21px;
+    color: #444;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
 }
 
 #editcontent div.video-container {
@@ -560,10 +564,16 @@ label span.left {
 
 /** Overrides for CodeMirror */
 
+.CodeMirror {
+    font-size: 14px;
+    line-height: 1em;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+}
+
 .CodeMirror-scroll {
-  min-height: 200px;
-  border: 1px solid #CCC;
-  background-color: #FFF;
+    min-height: 200px;
+    border: 1px solid #CCC;
+    background-color: #FFF;
 }
 
 .CodeMirror-gutter {

@@ -273,7 +273,9 @@ class Content {
             $fieldtype = $this->fieldtype($name);
 
             if ($fieldtype == "markdown") {
-                // TODO: convert to markdown..
+                include_once __DIR__. "/../../classes/markdown.php";
+                $html = Markdown($this->values[$name]);
+                return $html;
             }
 
             return $this->values[$name];
