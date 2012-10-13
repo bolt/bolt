@@ -273,7 +273,7 @@ class Content {
             $fieldtype = $this->fieldtype($name);
 
             if ($fieldtype == "markdown") {
-                // TODO: convert to markdown.. 
+                // TODO: convert to markdown..
             }
 
             return $this->values[$name];
