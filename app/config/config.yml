@@ -18,6 +18,10 @@ homepage_template: index.twig
 # they _will_ get updated in next releases
 theme: default
 
+# The list of enabled extensions.
+# TestSnippets, GoogleAnalytics
+enabled_extensions: [ HelloWorld, FacebookLike, TwitterButton ]
+
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.
 recordsperpage: 10

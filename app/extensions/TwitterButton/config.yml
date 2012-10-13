@@ -1,0 +1,11 @@
+# style is standard, button_count or box_count
+style: button_count
+
+# width of the button in pixels. do not add 'px'.
+width: 200
+
+# verb is 'like' or 'recommend'
+verb: like
+
+# color scheme. either 'light' or 'dark'
+scheme: light

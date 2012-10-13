@@ -56,6 +56,7 @@ $app->register(new Bolt\LogServiceProvider(), array());
 $app->register(new Bolt\StorageServiceProvider(), array());
 $app->register(new Bolt\UsersServiceProvider(), array());
 $app->register(new Bolt\CacheServiceProvider(), array());
+$app->register(new Bolt\ExtensionServiceProvider(), array());
 
 $app['paths'] = getPaths($config);
 $app['editlink'] = "";
@@ -77,3 +78,6 @@ if ($app['debug']) {
 require_once __DIR__.'/app_backend.php';
 require_once __DIR__.'/app_asynchronous.php';
 require_once __DIR__.'/app_frontend.php';
+
+// Initialize enabled extensions.
+$app['extensions']->initialize();
