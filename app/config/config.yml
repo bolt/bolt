@@ -9,6 +9,12 @@ database:
 # The name of the website
 sitename: A sample Bolt site.
 
+# If your site is reachable under different urls (say, both blog.example.org/
+# as well as example.org/), it's a good idea to set one of these as the canonical,
+# so it's clear which is the primary address of the site. Don't include the
+# http:// protocol prefix.
+canonical: example.org
+
 # The default content to use for the homepage, and the template to render it with.
 homepage: page/1
 homepage_template: index.twig
@@ -17,6 +23,10 @@ homepage_template: index.twig
 # name here accordingly. Don't edit the templates in theme/default, because
 # they _will_ get updated in next releases
 theme: default
+
+# The list of enabled extensions.
+# TestSnippets, GoogleAnalytics
+enabled_extensions: [ HelloWorld, FacebookLike, TwitterButton, FacebookComments, Disqus ]
 
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.

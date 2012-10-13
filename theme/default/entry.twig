@@ -1,6 +1,5 @@
 {% include '_header.twig' %}
 
-
 <article>
 
     <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
@@ -16,7 +15,7 @@
     {{ record.body }}
 
     <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
-    
+
 </article>  
 
 {% include '_footer.twig' %}

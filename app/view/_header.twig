@@ -63,9 +63,9 @@
                         <ul class="dropdown-menu">
                             {% for slug, contenttype in app.config.contenttypes %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                <i class="icon-tasks"></i>View {{ contenttype.name }}</a></li>
+                                <i class="icon-tasks"></i> View {{ contenttype.name }}</a></li>
                             <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
-                                <i class="icon-plus"></i>New {{ contenttype.singular_name }}</a></li>
+                                <i class="icon-plus"></i> New {{ contenttype.singular_name }}</a></li>
                             {% if not loop.last %}<li class="divider"></li>{% endif %}
                             {% endfor %}
                             
@@ -77,24 +77,25 @@
                             </a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Configuration</li>
-                            <li><a href="{{ path('users') }}"><i class="icon-group"></i>Users</a></li>
+                            <li><a href="{{ path('users') }}"><i class="icon-group"></i> Users</a></li>
                             <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
-                                <i class="icon-cog"></i>Configuration</a></li>
+                                <i class="icon-cog"></i> Configuration</a></li>
                             <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
-                                <i class="icon-cog"></i>Contenttypes</a></li>
+                                <i class="icon-cog"></i> Contenttypes</a></li>
                             <li><a href="{{ path('fileedit', { 'file': 'app/config/menu.yml'}) }}">
-                                <i class="icon-cog"></i>Menu setup</a></li>
+                                <i class="icon-cog"></i> Menu setup</a></li>
                             <li><a href="{{ path('fileedit', { 'file': 'app/config/taxonomy.yml'}) }}">
-                                <i class="icon-tags"></i>Taxonomy</a></li>
+                                <i class="icon-tags"></i> Taxonomy</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">Maintenance</li>
-                            <li><a href="{{ path('dbupdate') }}"><i class="icon-wrench"></i>Check database</a></li>
-                            <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i>Clear the cache</a></li>
-                            <li><a href="{{ path('activitylog') }}"><i class="icon-file"></i>Activity log</a></li>
+                            <li><a href="{{ path('extensions') }}"><i class="icon-briefcase"></i> Extensions</a></li>
+                            <li><a href="{{ path('dbupdate') }}"><i class="icon-wrench"></i> Check database</a></li>
+                            <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i> Clear the cache</a></li>
+                            <li><a href="{{ path('activitylog') }}"><i class="icon-file"></i> Activity log</a></li>
                             <li class="divider"></li>
                             <li class="nav-header">File Management</li>
-                            <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="icon-hdd"></i>View / edit Templates</a></li>
-                            <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-hdd"></i>Uploaded files</a></li>
+                            <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="icon-hdd"></i> View / edit Templates</a></li>
+                            <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-hdd"></i> Uploaded files</a></li>
                         </ul>
                     </li>
                     <li class="divider-vertical"></li>

@@ -579,6 +579,24 @@ $backend->get("/users", function(Silex\Application $app) {
 
 
 
+
+
+/**
+ * Show a list of all available extensions.
+ */
+$backend->get("/extensions", function(Silex\Application $app) {
+
+    $title = "Extensions";
+
+    $extensions = $app['extensions']->getInfo();
+
+    return $app['twig']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
+
+})->before($checkLogin)->bind('extensions');
+
+
+
+
 /**
  * Perform actions on users.
  */
@@ -903,7 +921,9 @@ $app->after(function (Request $request, Response $response) use ($app)
         $html = $response->getContent();
 
         // Insert our 'generator' after the last <meta ..> tag.
-        $html = insertAfterMeta('<meta name="generator" content="Bolt">', $html);
+        $app['extensions']->insertSnippet('aftermeta', '<meta name="generator" content="Bolt">');
+
+        $html = $app['extensions']->processSnippetQueue($html);
 
         $response->setContent($html);
 

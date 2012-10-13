@@ -238,6 +238,34 @@ function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
 }
 
 
+/**
+ * Compares versions of software.
+ *
+ * Versions should use the "MAJOR.MINOR.EDIT" scheme, or in other words
+ * the format "x.y.z" where (x, y, z) are numbers in [0-9].
+ *
+ * @param string $currentversion
+ * @param string $requiredversion
+ * @return boolean
+ *
+ */
+function checkVersion($currentversion, $requiredversion) {
+    list($majorC, $minorC, $editC) = preg_split('#[/.-]#', $currentversion . ".0.0");
+    list($majorR, $minorR, $editR) = preg_split('#[/.-]#', $requiredversion . ".0.0");
+
+    if ($majorC > $majorR) { return true; }
+    if ($majorC < $majorR) { return false; }
+    // same major - check minor
+    if ($minorC > $minorR) { return true; }
+    if ($minorC < $minorR) { return false; }
+    // and same minor
+    if ($editC  >= $editR) { return true; }
+    return false;
+}
+
+
+
+
 function getFilePermissions($filename) {
         
     $perms = fileperms($filename);
@@ -750,7 +778,8 @@ function getConfig() {
         'wysiwyg_tables' => false,
         'wysiwyg_embed' => false,
         'wysiwyg_fontcolor' => false,
-        'wysiwyg_align' => false
+        'wysiwyg_align' => false,
+        'canonical' => $_SERVER['HTTP_HOST']
 
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
@@ -853,6 +882,8 @@ function getPaths($config) {
 
     $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
 
+    $currentpath = $_SERVER['REQUEST_URI'];
+
     // Set the paths
     $paths = array(
         'hostname' => $_SERVER['HTTP_HOST'],
@@ -866,9 +897,13 @@ function getPaths($config) {
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
+        'canonical' => $config['general']['canonical'],
+        'current' => $_SERVER['REQUEST_URI']
     );
 
-    $paths['url'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $paths['root']);
+    $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);
+    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
+    $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
     return $paths;
 
@@ -915,45 +950,6 @@ function redirect($path, $param=array(), $add='') {
 
 }
 
-
-/**
- *
- * Helper function to insert some HTML into the head section of an HTML page.
- *
- * @param string $tag
- * @param string $html
- * @return string
- */
-function insertAfterMeta($tag, $html)
-{
-
-    // first, attempt ot insert it after the last meta tag, matching indentation..
-
-    if (preg_match_all("~^([ \t]+)<meta (.*)~mi", $html, $matches)) {
-        //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
-
-        // matches[0] has some elements, the last index is -1, because zero indexed.
-        $last = count($matches[0])-1;
-        $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-        $html = str_replace($matches[0][$last], $replacement, $html);
-
-    } elseif (preg_match("~^([ \t]+)</head~mi", $html, $matches)) {
-
-        //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
-        // Try to insert it just before </head>
-        $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-        $html = str_replace($matches[0], $replacement, $html);
-
-    } else {
-
-        // Since we're serving tag soup, just append it.
-        $html .= $tag;
-
-    }
-
-    return $html;
-
-}
 
 /**
  * If debug is enabled this function handles the errors and warnings
