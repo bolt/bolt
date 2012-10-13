@@ -269,7 +269,15 @@ class Content {
             
             return $output;
             */
-            
+
+            $fieldtype = $this->fieldtype($name);
+
+            if ($fieldtype == "markdown") {
+                include_once __DIR__. "/../../classes/markdown.php";
+                $html = Markdown($this->values[$name]);
+                return $html;
+            }
+
             return $this->values[$name];
 
         } else {
@@ -403,7 +411,7 @@ class Content {
         $excerpt = array();
 
         foreach ($this->contenttype['fields'] as $key => $field) {           
-            if (in_array($field['type'], array('text', 'html', 'textarea')) 
+            if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
                 && isset($this->values[$key])
                 && !in_array($key, array("title", "name")) ) {
                 $excerpt[] = $this->values[$key];

@@ -185,12 +185,15 @@ footer  {
 }
 
 .popover {
-    width: 360px;
+    width: 400px;
     -webkit-box-shadow: 0 5px 10px  rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.5);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
+.popover-content p {
+    margin: 4px 0;
+}
 
 /**
  * Dashboard specific stuff
@@ -453,6 +456,10 @@ label span.left {
     height: 300px;
     width: 96%;
     padding-right: 0;
+    font-size: 14px;
+    line-height: 21px;
+    color: #444;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
 }
 
 #editcontent div.video-container {
@@ -557,10 +564,16 @@ label span.left {
 
 /** Overrides for CodeMirror */
 
+.CodeMirror {
+    font-size: 14px;
+    line-height: 1em;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+}
+
 .CodeMirror-scroll {
-  min-height: 200px;
-  border: 1px solid #CCC;
-  background-color: #FFF;
+    min-height: 200px;
+    border: 1px solid #CCC;
+    background-color: #FFF;
 }
 
 .CodeMirror-gutter {

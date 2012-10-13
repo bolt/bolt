@@ -64,6 +64,10 @@ kitchensink:
         slug:
             type: slug
             uses: title
+        markdown:
+            type: markdown
+        textarea:
+            type: textarea
         video:
             type: video
         html:
@@ -78,8 +82,6 @@ kitchensink:
         template:
             type: templateselect
             filter: '*.twig'
-        textarea:
-            type: textarea
         datetime:
             type: datetime
         date:

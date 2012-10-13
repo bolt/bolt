@@ -20,6 +20,7 @@ class TwigExtension extends \Twig_Extension
             'print' => new \Twig_Function_Method($this, 'print_dump', array('is_safe' => array('html'))),
             'excerpt' => new \Twig_Function_Method($this, 'excerpt'),
             'trimtext' => new \Twig_Function_Method($this, 'trim'),
+            'markdown' => new \Twig_Function_Method($this, 'markdown'),
             'current' => new \Twig_Function_Method($this, 'current'),
             'token' => new \Twig_Function_Method($this, 'token'),
             'listtemplates' => new \Twig_Function_Method($this, 'listtemplates'),
@@ -40,6 +41,7 @@ class TwigExtension extends \Twig_Extension
         return array(
             'rot13' => new \Twig_Filter_Method($this, 'rot13Filter'),
             'trimtext' => new \Twig_Filter_Method($this, 'trim'),
+            'markdown' => new \Twig_Filter_Method($this, 'markdown'),
             'ucfirst' => new \Twig_Filter_Method($this, 'ucfirst'),
             'excerpt' => new \Twig_Filter_Method($this, 'excerpt'),
             'current' => new \Twig_Filter_Method($this, 'current'),
@@ -119,8 +121,22 @@ class TwigExtension extends \Twig_Extension
         return $output;
         
     }
-    
-    
+
+
+    /**
+     * Formats the given string as Markdown in HTML
+     */
+    public function markdown($content)
+    {
+
+        include_once __DIR__. "/../../classes/markdown.php";
+        $output = Markdown($content) ;
+
+        return $output;
+
+    }
+
+
     /**
      * UCfirsts the given string.
      */
