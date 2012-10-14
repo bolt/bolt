@@ -1,4 +1,5 @@
 app/cache/*
+app/config/*.yml
 app/database/*.db
 files/*
 vendor/

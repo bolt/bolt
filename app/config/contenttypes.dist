@@ -1,0 +1,105 @@
+# This file defines the contenttypes on the website. See the documentation for
+# details: http://docs.bolt.cm/content#defining-contenttypes
+
+entries:
+    name: Entries
+    singular_name: Entry
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        image:
+            type: image
+        teaser:
+            type: html
+            height: 150px
+        video:
+            type: video
+        body:
+            type: html
+            height: 300px
+    taxonomy: [ categories, tags ]
+    record_template: entry.twig
+    listing_template: listing.twig
+    listing_records: 10
+    sort: datecreated DESC
+    recordsperpage: 7
+
+
+pages:
+    name: Pages
+    singular_name: Page
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        image:
+            type: image
+        introduction:
+            type: html
+            height: 150px
+        body:
+            type: html
+            height: 300px
+        template:
+            type: templateselect
+            filter: '*.twig'
+    taxonomy: [ chapters ]
+    sort: title
+    recordsperpage: 100
+
+kitchensink:
+    name: Kitchensinks
+    singular_name: Kitchensink
+    fields:
+        title:
+            type: text
+            class: large
+        slug:
+            type: slug
+            uses: title
+        markdown:
+            type: markdown
+        textarea:
+            type: textarea
+        video:
+            type: video
+        html:
+            type: html
+            height: 150px
+        geolocation:
+            type: geolocation
+        image:
+            type: image
+        file:
+            type: file
+        template:
+            type: templateselect
+            filter: '*.twig'
+        datetime:
+            type: datetime
+        date:
+            type: date
+    taxonomy: [ categories, tags, chapters ]
+    sort: title
+    recordsperpage: 8
+
+
+# possible field types:
+# text - varchar(256) - input type text
+# number - double - input type text, useful for storing number that need to be sortable
+# templateselect - varchar(256) - select with template filenames
+# image - varchar(256) - image select/upload widget, stored as filename
+# file - varchar(256) - file select/upload widget, stored as filename
+# video - varchar(256) - Video embed widget, stored as filename
+# html - text (65kb) - wysiwyg element
+# textarea - varchar(32768) - < textarea >
+# datetime - datetime - date and time selector widget
+# date - datetime - date selector widget
+# divider - simple divider to enter a short text and/or line in the edit page.
