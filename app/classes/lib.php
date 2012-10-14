@@ -873,7 +873,14 @@ function getDBOptions($config) {
 }
 
 
-function getPaths($config) {
+function getPaths($config = array()) {
+
+    // Make sure $config is not empty. This is for when this function is called
+    // from lowlevelError().
+    if (empty($config)) {
+        $config['general']['theme'] = 'default';
+        $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
+    }
 
     // Set the root
     $path_prefix = dirname($_SERVER['PHP_SELF'])."/";

@@ -1,16 +1,20 @@
 <?php
 
-if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
-    echo "<p>The file <code>vendor/autoload.php</code> doesn't exist. Make sure you've installed the Silex/Bolt components with Composer. See the README.md file.</p>";
-    die();
-}
 
 $bolt_version = "0.7.6";
 $bolt_buildnumber = "";
 $bolt_name = "First beta";
 
-require_once __DIR__.'/../vendor/autoload.php';
+// First, do some low level checks, like whether autoload is present, the cache
+// folder is writable, etc.
 require_once __DIR__.'/classes/lib.php';
+require_once __DIR__.'/classes/lowlevelchecks.php';
+
+$checker = new LowlevelChecks();
+$checker->doChecks();
+
+// Let's get on with the rest..
+require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/classes/util.php';
 
 // Start the timer:
