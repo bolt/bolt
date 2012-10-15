@@ -145,10 +145,25 @@ $asynchronous->get("/readme/{extension}", function($extension, Silex\Application
 })->before($beforeAsynchronous)->bind('readme');
 
 
+$asynchronous->post("/markdownify", function(Silex\Application $app, Request $request) {
+
+    require_once(__DIR__.'/classes/markdownify/markdownify_extra.php');
+    $md = new Markdownify(false, 80, false);
+
+    $output = $md->parseString($_POST['html']);
+
+    echo $output;
+
+})->before($beforeAsynchronous)->bind('markdownify');
+
+
+
+
 $asynchronous->get("/makeuri", function(Silex\Application $app, Request $request) {
 
     $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
 
+    // TODO: use 'return' instead of 'echo'..
     echo $uri;
 
 })->before($beforeAsynchronous);

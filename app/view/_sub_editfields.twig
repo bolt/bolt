@@ -344,8 +344,15 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
                         Info
                     </span>
     </label>
-    <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
+    <textarea id="{{ key }}" name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
               style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+
+    <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0; height: 0; left: -100px;"></textarea>
+
+<script type="text/javascript">
+    bindMarkdown('{{key}}');
+</script>
+
 {% endif %}
 
 
