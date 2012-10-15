@@ -147,10 +147,18 @@ $asynchronous->get("/readme/{extension}", function($extension, Silex\Application
 
 $asynchronous->post("/markdownify", function(Silex\Application $app, Request $request) {
 
-    require_once(__DIR__.'/classes/markdownify/markdownify_extra.php');
-    $md = new Markdownify(false, 80, false);
+    $html = $_POST['html'];
 
-    $output = $md->parseString($_POST['html']);
+    if (isHtml($html)) {
+
+        require_once(__DIR__.'/classes/markdownify/markdownify_extra.php');
+        $md = new Markdownify(false, 80, false);
+
+        $output = $md->parseString($html);
+
+    } else {
+        $output = $html;
+    }
 
     echo $output;
 

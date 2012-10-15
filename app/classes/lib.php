@@ -1084,3 +1084,27 @@ function pcre_fnmatch($pattern, $string, $flags = 0) {
 
     return (boolean)preg_match($pattern, $string);
 }
+
+/**
+ * Detect whether or not a given string is (likely) HTML. It dows this by comparing
+ * the lengths of the strings before and after strip_tagging. If it's significantly
+ * shorter, it's probably HTML.
+ *
+ * @param string $html
+ * @return bool
+ */
+function isHtml($html) {
+
+    $len = strlen($html);
+
+    $trimlen = strlen(strip_tags($html));
+
+    $factor = $trimlen / $len;
+
+    if ($factor < 0.97) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
