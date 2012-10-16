@@ -1,0 +1,24 @@
+contact:
+  recipient_email: bob@twokings.nl
+  recipient_name: Bob
+  fields:
+    subject:
+      type: text
+      class: large
+      label: Subject of your contact-request?
+      placeholder: Just a quick message..
+    name:
+      type: text
+      required: true
+      placeholder: Your name
+    email:
+      type: text
+      validation: email
+      required: true
+      placeholder: Your email
+    message:
+      type: textarea
+      required: true
+      placeholder: Well, the other day I was thinking that maybe you ought to improve your website by adding ...
+
+

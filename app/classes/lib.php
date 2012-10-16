@@ -821,11 +821,17 @@ function getConfig() {
 
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     // If the request URI starts with '/bolt' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
-    if (strpos($scripturi, "bolt") !== false ) {
-        $config['twigpath'] = __DIR__.'/../view';
+    if (strpos($scripturi, "bolt") == false ) {
+        $config['twigpath'] = array(
+            realpath(__DIR__.'/../../theme/'. basename($config['general']['theme'])),
+            realpath(__DIR__.'/../view'),
+            realpath(__DIR__.'/../extensions')
+        );
     } else {
-        $themepath = __DIR__.'/../../theme/'. basename($config['general']['theme']);
-        $config['twigpath'] = array($themepath, __DIR__.'/../view');
+        $config['twigpath'] = array(
+            realpath(__DIR__.'/../view'),
+            realpath(__DIR__.'/../extensions')
+        );
     }
 
     return $config;

@@ -27,7 +27,7 @@ $checkStuff = function(Request $request) use ($app) {
 /**
  * Homepage..
  */
-$app->get("/", function(Silex\Application $app) {
+$app->match("/", function(Silex\Application $app) {
 
     $template = !empty($app['config']['general']['homepage_template']) ? 
             $app['config']['general']['homepage_template'] : "index.twig";
@@ -53,7 +53,7 @@ $app->get("/", function(Silex\Application $app) {
 
 
 
-$app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $contenttypeslug, $slug) {
+$app->match('/{contenttypeslug}/{slug}', function (Silex\Application $app, $contenttypeslug, $slug) {
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -95,7 +95,7 @@ $app->get('/{contenttypeslug}/{slug}', function (Silex\Application $app, $conten
 
 
 
-$app->get('/{contenttypeslug}', function (Silex\Application $app, $contenttypeslug) {
+$app->match('/{contenttypeslug}', function (Silex\Application $app, $contenttypeslug) {
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 

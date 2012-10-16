@@ -1,5 +1,5 @@
 <?php
-// Facebook Like Extension for Bolt
+// Disqus comment thread Extension for Bolt
 
 namespace Disqus;
 

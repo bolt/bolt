@@ -6,7 +6,7 @@ $bolt_buildnumber = "";
 $bolt_name = "First beta";
 
 // First, do some low level checks, like whether autoload is present, the cache
-// folder is writable, etc.
+// folder is writable, if the minimum PHP version is present, etc.
 require_once __DIR__.'/classes/lib.php';
 require_once __DIR__.'/classes/lowlevelchecks.php';
 
