@@ -78,15 +78,37 @@ function simpleform($name="")
 
     $form = $form->getForm();
 
+    $message = "";
+    $error = "";
+    $sent = false;
+
     if ('POST' == $app['request']->getMethod()) {
         $form->bind($app['request']);
 
         if ($form->isValid()) {
             $data = $form->getData();
 
-            // do something with the data
+            $mailhtml = $app['twig']->render("SimpleForms/".$config['mail_template'], array(
+                    "form" =>  $data));
 
-            echo "<pre>DATA!!! \n" . \util::var_dump($data, true) . "</pre>\n";
+            $message = \Swift_Message::newInstance()
+                ->setSubject('[SimpleForms] ' . $name )
+                ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+                ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+                ->setBody($mailhtml);
+
+            $res = $app['mailer']->send($message);
+
+            if ($res) {
+                $message = $config['message_ok'];
+                $sent = true;
+            } else {
+                $error = "There was an error sending the email. Alert the site administrator, and have them check the settings.";
+            }
+
+        } else {
+
+            $error = $config['message_error'];
 
         }
     }
@@ -94,10 +116,13 @@ function simpleform($name="")
     $app['twig.path'] = __DIR__;
 
 
-    $formhtml = $app['twig']->render("SimpleForms/assets/simpleforms_form.twig", array(
+    $formhtml = $app['twig']->render("SimpleForms/".$config['template'], array(
         "submit" => "Send",
-        "form" =>  $form->createView())
-    );
+        "form" => $form->createView(),
+        "message" => $message,
+        "error" => $error,
+        "sent" => $sent
+    ));
 
     return $formhtml;
 

@@ -10,7 +10,8 @@
         "symfony/translation": "2.1.*",
         "doctrine/dbal": "2.2.*",
         "twig/twig": ">=1.8,<2.0-dev",
-        "guzzle/guzzle": ">=2.6.2"
+        "guzzle/guzzle": ">=2.6.2",
+        "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
     },
     "minimum-stability": "dev",
     "autoload": {

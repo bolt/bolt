@@ -1,5 +1,13 @@
+{% if error %}
+<p class="simpleformserror">{{ error }}</p>
+{% endif %}
+{% if message %}
+<p class="simpleformsmessage">{{ message }}</p>
+{% endif %}
+{% if not sent %}
 <form action="#" method="post">
     {{ form_widget(form) }}
 
     <input type="submit" name="submit" />
 </form>
+{% endif %}

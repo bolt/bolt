@@ -2,8 +2,9 @@
 
 stylesheet: assets/simpleforms.css
 template: assets/simpleforms_form.twig
+mail_template: assets/simpleforms_mail.twig
 message_ok: Thanks! Your message has been received.
-message_error: There was one or more error in the form. Please check the form, and try again.
+message_error: There was an error in the form. Please check the form, and try again.
 
 contact:
   recipient_email: bob@twokings.nl

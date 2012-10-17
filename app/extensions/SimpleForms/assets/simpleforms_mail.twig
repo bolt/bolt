@@ -1,0 +1,12 @@
+<p>Hi,</p>
+
+<p>Somebody used the form on {{ link }},
+to send you a message. The collected data is as follows:</p>
+
+{% for label, value in data %}
+<p>{{ label }}: {{ data }}</p>
+
+{% endfor %}
+
+--
+Sent by SimpleForms, an Extension for Bolt.
