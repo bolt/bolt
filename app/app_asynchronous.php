@@ -134,12 +134,14 @@ $asynchronous->get("/readme/{extension}", function($extension, Silex\Application
 
     $filename = __DIR__."/extensions/".$extension."/readme.md";
 
+    //echo "<pre>\n" . \util::var_dump($filename, true) . "</pre>\n";
+
     $readme = file_get_contents($filename);
 
     include_once __DIR__. "/classes/markdown.php";
     $html = Markdown($readme);
 
-    echo $html;
+    return new Response($html, 200, array('Cache-Control' => 's-maxage=0, public'));
 
 
 })->before($beforeAsynchronous)->bind('readme');

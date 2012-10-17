@@ -24,14 +24,17 @@ function info()
 function init($app)
 {
 
+    // Make sure the css is inserted as well..
+    $app['extensions']->addCSS( $app['paths']['app'] . "extensions/SimpleForms/assets/simpleforms.css");
+
     $app['twig']->addFunction('simpleform', new \Twig_Function_Function('SimpleForms\simpleform'));
 
 }
 
 
+use Symfony\Component\Validator\Constraints as Assert;
 
-
-function simpleform($form="")
+function simpleform($name="")
 {
     global $app;
 
@@ -41,29 +44,39 @@ function simpleform($form="")
 
     // Select which form to use..
     if (isset($config[$name])) {
-        $form = $config[$name];
+        $formconfig = $config[$name];
     } else {
-        $form = current($config);
+        return "Simpleforms: No form known by name '$name'.";
     }
 
-    echo "<pre>\n" . \util::var_dump($form, true) . "</pre>\n";
+    $form = $app['form.factory']->createBuilder('form');
 
+    foreach ($formconfig['fields'] as $name => $field) {
 
+        $options = array();
 
-    // some default data for when the form is displayed the first time
-    $data = array(
-        'name' => 'Your name',
-        'email' => 'Your email',
-    );
+        if (!empty($field['label'])) {
+            $options['label'] = $field['label'];
+        }
+        if (!empty($field['placeholder'])) {
+            $options['attr']['placeholder'] = $field['placeholder'];
+        }
+        if (!empty($field['class'])) {
+            $options['attr']['class'] = $field['class'];
+        }
 
-    $form = $app['form.factory']->createBuilder('form', $data)
-        ->add('name')
-        ->add('email')
-        ->add('gender', 'choice', array(
-        'choices' => array(1 => 'male', 2 => 'female'),
-        'expanded' => true,
-    ))
-        ->getForm();
+        // Make sure $field has a type, or the form will break.
+        if (empty($field['type'])) {
+            $field['type'] = "text";
+        } else if ($field['type']=="email") {
+            $options['constraints'][] = new Assert\Email();
+        }
+
+        $form->add($name, $field['type'], $options);
+
+    }
+
+    $form = $form->getForm();
 
     if ('POST' == $app['request']->getMethod()) {
         $form->bind($app['request']);
@@ -75,15 +88,13 @@ function simpleform($form="")
 
             echo "<pre>DATA!!! \n" . \util::var_dump($data, true) . "</pre>\n";
 
-            // redirect somewhere
-            //return $app->redirect('...');
         }
     }
 
     $app['twig.path'] = __DIR__;
 
 
-    $formhtml = $app['twig']->render("SimpleForms/form.twig", array(
+    $formhtml = $app['twig']->render("SimpleForms/assets/simpleforms_form.twig", array(
         "submit" => "Send",
         "form" =>  $form->createView())
     );

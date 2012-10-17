@@ -29,6 +29,8 @@ function init($app) {
     $app['extensions']->insertSnippet('aftermeta', 'TestSnippets\callback', "aftermeta");
     $app['extensions']->insertSnippet('aftermeta', "<!-- inserted string snippet aftermeta -->");
 
+    $app['extensions']->insertSnippet('aftercss', 'TestSnippets\callback', "aftercss");
+    $app['extensions']->insertSnippet('aftercss', "<!-- inserted string snippet aftercss -->");
 
     $app['extensions']->insertSnippet('startofhead', 'TestSnippets\callback', "startofhead");
     $app['extensions']->insertSnippet('startofhead', "<!-- inserted string snippet startofhead -->");

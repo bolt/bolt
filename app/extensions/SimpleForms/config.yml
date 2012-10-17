@@ -1,21 +1,28 @@
+# This is the config file for the Simple Forms extension.
+
+stylesheet: assets/simpleforms.css
+template: assets/simpleforms_form.twig
+message_ok: Thanks! Your message has been received.
+message_error: There was one or more error in the form. Please check the form, and try again.
+
 contact:
   recipient_email: bob@twokings.nl
   recipient_name: Bob
   fields:
     subject:
       type: text
-      class: large
-      label: Subject of your contact-request?
+      class: wide
+      label: Subject of your message
       placeholder: Just a quick message..
     name:
       type: text
       required: true
-      placeholder: Your name
+      placeholder: Your name..
     email:
-      type: text
-      validation: email
+      type: email
+      label: Email address
       required: true
-      placeholder: Your email
+      placeholder: Your email..
     message:
       type: textarea
       required: true

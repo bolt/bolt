@@ -157,6 +157,15 @@ class Extensions {
     }
 
 
+    function addCss($filename)
+    {
+
+        $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
+
+        $this->insertSnippet("aftercss", $html);
+
+    }
+
     function insertSnippet($location, $callback, $var1="", $var2="", $var3="") {
 
         $this->snippetqueue[] = array(
@@ -191,6 +200,10 @@ class Extensions {
 
                 case "aftermeta":
                     $html = $this->insertAfterMeta($snippet, $html);
+                    break;
+
+                case "aftercss":
+                    $html = $this->insertAfterCss($snippet, $html);
                     break;
 
                 case "startofhead":
@@ -413,5 +426,35 @@ class Extensions {
 
     }
 
-  
+
+    /**
+     *
+     * Helper function to insert some HTML into the head section of an HTML page.
+     *
+     * @param string $tag
+     * @param string $html
+     * @return string
+     */
+    function insertAfterCss($tag, $html)
+    {
+
+        // first, attempt ot insert it after the last <link> tag, matching indentation..
+
+        if (preg_match_all("~^([ \t]+)<link (.*)~mi", $html, $matches)) {
+            //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
+
+            // matches[0] has some elements, the last index is -1, because zero indexed.
+            $last = count($matches[0])-1;
+            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
+            $html = str_replace($matches[0][$last], $replacement, $html);
+
+        } else {
+            $html = $this->insertEndOfHead($tag, $html);
+        }
+
+        return $html;
+
+    }
+
+
 }
