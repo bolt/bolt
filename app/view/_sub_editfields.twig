@@ -2,21 +2,34 @@
 
 {# --------------- text --------------- #}
 
-{% if field.type == "text" %}
-<label xmlns="http://www.w3.org/1999/html"><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+{% if field.type == "text" and field.variant == "" %}
+<label><b>
+    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+</b></label>
 <input type="text" name="{{key}}" id="{{key}}"
     value='{{ content.get(key) }}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+{% endif %}
+
+{% if field.type == "text" and field.variant == "inline" %}
+<label><b><span class='left'>
+    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+</span></b></label>
+<input type="text" name="{{key}}" id="{{key}}"
+    value='{{ content.get(key) }}'
+    class='{% if field.class is defined %}{{ field.class }}{% endif %} narrow'>
 {% endif %}
 
 
 {# --------------- number --------------- #}
 
 {% if field.type == "number" %}
-    <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+    <label><b><span class='left'>
+        {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+    </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.000000001"
            value='{{ 0 + content.get(key) }}'
-           class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
 {% endif %}
 
 
