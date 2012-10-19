@@ -13,13 +13,14 @@ class Extensions {
     var $basefolder;
     var $enabled;
     var $snippetqueue;
+    var $ignored;
 
     function __construct(Silex\Application $app) {
     
         $this->app = $app;
         $this->basefolder = realpath(__DIR__."/../../extensions/");
-        $this->enabledExtensions();
         $this->ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+        $this->enabledExtensions();
 
     }
 

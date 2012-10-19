@@ -91,13 +91,16 @@ function simpleform($name="")
             $data = $form->getData();
 
             $mailhtml = $app['twig']->render("SimpleForms/".$config['mail_template'], array(
-                    "form" =>  $data));
+                    'form' =>  $data ));
+
+            // echo "<pre>\n" . \util::var_dump($mailhtml, true) . "</pre>\n";
 
             $message = \Swift_Message::newInstance()
                 ->setSubject('[SimpleForms] ' . $name )
                 ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
                 ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
-                ->setBody($mailhtml);
+                ->setBody(strip_tags($mailhtml))
+                ->addPart($mailhtml, 'text/html');
 
             $res = $app['mailer']->send($message);
 
