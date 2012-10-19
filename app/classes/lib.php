@@ -779,7 +779,8 @@ function getConfig() {
         'wysiwyg_embed' => false,
         'wysiwyg_fontcolor' => false,
         'wysiwyg_align' => false,
-        'canonical' => $_SERVER['HTTP_HOST']
+        'canonical' => $_SERVER['HTTP_HOST'],
+        'developer_notices' => false
 
     );
     $config['general'] = array_merge($defaultconfig, $config['general']);
