@@ -91,6 +91,11 @@ jQuery(function($) {
         delay: { show: 500, hide: 200 }
     });
 
+    // When hiding modal dialogs with a 'remote', remove the data, to make sure
+    // other modal dialogs are forced to retrieve the content again.
+    $('body').on('hidden', '.modal', function () {
+        $(this).removeData('modal');
+    });
 });
 
 

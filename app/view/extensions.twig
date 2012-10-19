@@ -10,32 +10,35 @@
 
         {% for extension in extensions if extension.enabled %}
 
-            <div class='extension'>
+        <div class='extension'>
 
-                <span style="float: right; margin-top: 2px;">
-                    {% if extension.readme %}
-                        <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a>
-                    {% endif %}
-                    {% if extension.config %}<a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini" type="button">Edit Config</a>{% endif %}
-                </span>
+            <span style="float: right; margin-top: 2px;">
+                {% if extension.readme %}
+                    <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini"
+                       type="button" data-toggle="modal" >View Readme</a>
+                {% endif %}
+                {% if extension.config %}
+                    <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
+                       type="button">Edit Config</a>
+                {% endif %}
+            </span>
 
+            <h3>{{  extension.name }}</h3>
 
-                <h3>{{  extension.name }}</h3>
+            <p>{{ extension.description }}</p>
 
-                <p>{{ extension.description }}</p>
+            <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.first_releasedate|date("Y-m-d") }},
+                latest update: {{ extension.latest_releasedate|date("Y-m-d") }} </p>
 
-                <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.first_releasedate|date("Y-m-d") }},
-                    latest update: {{ extension.latest_releasedate|date("Y-m-d") }} </p>
+            <span class="label">Name: {{ extension.namespace }}</span>
+            {% if extension.version %}<span class="label">Version {{ extension.version }}</span>{% endif %}
+            {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}"
+                title="{% if extension.highest_bolt_version %}Tested in Bolt {{ extension.highest_bolt_version }}.{% endif %}"
+                >Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
 
-                <span class="label">Name: {{ extension.namespace }}</span>
-                {% if extension.version %}<span class="label">Version {{ extension.version }}</span>{% endif %}
-                {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}"
-                    title="{% if extension.highest_bolt_version %}Tested in Bolt {{ extension.highest_bolt_version }}.{% endif %}"
-                    >Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
+            {% if extension.type %}<span class="label">{{ extension.type }}</span>{% endif %}
 
-                {% if extension.type %}<span class="label">{{ extension.type }}</span>{% endif %}
-
-            </div>
+        </div>
 
         {% else %}
             <p>No enabled extensions..</p>
@@ -51,13 +54,16 @@
 
         <div class='extension'>
 
-                <span style="float: right; margin-top: 2px;">
-                    {% if extension.readme %}
-                        <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini" type="button" data-toggle="modal" >View Readme</a>
-                    {% endif %}
-                    {% if extension.config %}<a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini" type="button">Edit Config</a>{% endif %}
-                </span>
-
+            <span style="float: right; margin-top: 2px;">
+                {% if extension.readme %}
+                    <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini"
+                       type="button" data-toggle="modal" >View Readme</a>
+                {% endif %}
+                {% if extension.config %}
+                    <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
+                       type="button">Edit Config</a>
+                {% endif %}
+            </span>
 
             <h3>{{  extension.name }}</h3>
 

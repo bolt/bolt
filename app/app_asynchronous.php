@@ -141,7 +141,7 @@ $asynchronous->get("/readme/{extension}", function($extension, Silex\Application
     include_once __DIR__. "/classes/markdown.php";
     $html = Markdown($readme);
 
-    return new Response($html, 200, array('Cache-Control' => 's-maxage=0, public'));
+    return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
 
 
 })->before($beforeAsynchronous)->bind('readme');
