@@ -11,10 +11,12 @@ function info() {
         'description' => "A developer extension to add snippets to all available locations in a sensible HTML document.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => 1.0,
-        'required_bolt_version' => 0.8,
+        'version' => "1.0",
+        'required_bolt_version' => "0.7.8",
+        'highest_bolt_version' => "0.8",
         'type' => "Snippet",
-        'releasedate' => "2012-10-11"
+        'first_releasedate' => "2012-10-10",
+        'latest_releasedate' => "2012-10-19",
     );
 
     return $data;

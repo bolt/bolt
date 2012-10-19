@@ -11,10 +11,14 @@ function info() {
         'description' => "A small extension to add a 'Hello, World!'-greeting to your site, when using <code>{{ helloworld() }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => 0.1,
-        'required_bolt_version' => 0.7,
+        'version' => "0.1",
+        'required_bolt_version' => "0.7",
+        'highest_bolt_version' => "0.8",
         'type' => "Twig function",
-        'releasedate' => "2012-10-10"
+        'first_releasedate' => "2012-10-10",
+        'latest_releasedate' => "2012-10-19",
+        'dependancies' => "",
+        'priority' => 10
     );
 
     return $data;

@@ -11,10 +11,12 @@ function info()
         'description' => "A small extension to add a 'Twitter button' to your site, when using <code>{{ twitterbutton() }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => 0.9,
-        'required_bolt_version' => 0.8,
+        'version' => "0.9",
+        'required_bolt_version' => "0.8",
+        'highest_bolt_version' => "0.8",
         'type' => "Twig function",
-        'releasedate' => "2012-10-10"
+        'first_releasedate' => "2012-10-10",
+        'latest_releasedate' => "2012-10-19",
     );
 
     return $data;

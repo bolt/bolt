@@ -103,6 +103,18 @@ class Extensions {
 
                 $info['namespace'] = $namespace;
 
+                if (!isset($info['dependancies'])) {
+                    $info['dependancies'] = array();
+                }
+
+                if (!isset($info['tags'])) {
+                    $info['tags'] = array();
+                }
+
+                if (!isset($info['priority'])) {
+                    $info['priority'] = 10;
+                }
+
                 return $info;
 
             } else {

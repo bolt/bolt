@@ -24,11 +24,14 @@
 
                 <p>{{ extension.description }}</p>
 
-                <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.releasedate|date("Y-m-d") }}</p>
+                <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.first_releasedate|date("Y-m-d") }},
+                    latest update: {{ extension.latest_releasedate|date("Y-m-d") }} </p>
 
                 <span class="label">Name: {{ extension.namespace }}</span>
                 {% if extension.version %}<span class="label">Version {{ extension.version }}</span>{% endif %}
-                {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}">Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
+                {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}"
+                    title="{% if extension.highest_bolt_version %}Tested in Bolt {{ extension.highest_bolt_version }}.{% endif %}"
+                    >Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
 
                 {% if extension.type %}<span class="label">{{ extension.type }}</span>{% endif %}
 
@@ -60,11 +63,14 @@
 
             <p>{{ extension.description }}</p>
 
-            <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.releasedate|date("Y-m-d") }}</p>
+            <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.first_releasedate|date("Y-m-d") }},
+                latest update: {{ extension.latest_releasedate|date("Y-m-d") }} </p>
 
             <span class="label">Name: {{ extension.namespace }}</span>
             {% if extension.version %}<span class="label">Version {{ extension.version }}</span>{% endif %}
-            {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}">Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
+            {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}"
+                title="{% if extension.highest_bolt_version %}Tested in Bolt {{ extension.highest_bolt_version }}.{% endif %}"
+                >Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
 
             {% if extension.type %}<span class="label">{{ extension.type }}</span>{% endif %}
 

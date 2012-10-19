@@ -11,10 +11,12 @@ function info() {
         'description' => "A small extension to add the scripting for a Google Analytics tracker to your site.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => 0.1,
-        'required_bolt_version' => 0.8,
+        'version' => "0.1",
+        'required_bolt_version' => "0.8",
+        'highest_bolt_version' => "0.8",
         'type' => "Snippet",
-        'releasedate' => "2012-10-10"
+        'first_releasedate' => "2012-10-10",
+        'latest_releasedate' => "2012-10-19",
     );
 
     return $data;

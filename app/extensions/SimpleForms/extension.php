@@ -11,10 +11,12 @@ function info()
         'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform() }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => 0.5,
-        'required_bolt_version' => 0.8,
+        'version' => "0.5",
+        'required_bolt_version' => "0.8",
+        'highest_bolt_version' => "0.8",
         'type' => "Twig function",
-        'releasedate' => "2012-10-15"
+        'first_releasedate' => "2012-10-10",
+        'latest_releasedate' => "2012-10-19",
     );
 
     return $data;
