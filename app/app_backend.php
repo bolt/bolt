@@ -817,12 +817,8 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
 
 
 
-
-// Temporary hack. Silex should start session on demand.
 $app->before(function() use ($app) {
     global $bolt_name, $bolt_version;
-    
-    $app['session']->start();
 
     $app['twig']->addGlobal('bolt_name', $bolt_name);
     $app['twig']->addGlobal('bolt_version', $bolt_version);

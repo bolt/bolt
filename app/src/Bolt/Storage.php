@@ -59,10 +59,10 @@ class Storage {
         $sm = $this->db->getSchemaManager();
 
         $tables = $this->getTables();
-        
+
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
-            return false;            
+            return false;
         }
 
         // Check the log table..
@@ -112,12 +112,12 @@ class Storage {
         $output = array();
 
         $tables = $this->getTables();
-        
+
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."users"); 
+            $myTable = $schema->createTable($this->prefix."users");
             $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("username", "string", array("length" => 32));
@@ -128,15 +128,14 @@ class Storage {
             $myTable->addColumn("displayname", "string", array("length" => 32));
             $myTable->addColumn("userlevel", "string", array("length" => 32));
             $myTable->addColumn("enabled", "boolean");
-            
+
             $queries = $schema->toSql($this->db->getDatabasePlatform());
             $queries = implode("; ", $queries);
             $this->db->query($queries);
-                        
-            $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
-            
-        }
 
+            $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
+
+        }
 
         // Check the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {

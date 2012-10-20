@@ -6,20 +6,27 @@ namespace Bolt;
  * Class to handle things dealing with users..
  */
 class Users {
-  
+
     var $db;
     var $config;
-    var $prefix;
+    var $usertable;
+    var $sessiontable;
     var $users;
     var $session;
-  
+    var $currentuser;
+
     function __construct($app) {
 
+        $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
+
         $this->db = $app['db'];
+        $this->app = $app;
         $this->config = $app['config'];
-        $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
+        $this->usertable = $prefix . "users";
         $this->users = array();
         $this->session = $app['session'];
+
+        $this->checkValidSession();
 
     }
 
@@ -30,12 +37,10 @@ class Users {
      * @return mixed
      */
     public function saveUser($user) {
-             
-        $tablename = $this->prefix . "users";
-        
+
         // Make an array with the allowed columns. these are the columns that are always present.
         $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled');
-        
+
         // unset columns we don't need to store..
         foreach($user as $key => $value) {
             if (!in_array($key, $allowedcolumns)) {
@@ -50,7 +55,7 @@ class Users {
         } else {
             unset($user['password']);
         }
-        
+
         // make sure the username is slug-like
         $user['username'] = makeSlug($user['username']);
 
@@ -68,11 +73,33 @@ class Users {
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
-            return $this->db->insert($tablename, $user);
+            return $this->db->insert($this->usertable, $user);
         } else {
-            return $this->db->update($tablename, $user, array('id' => $user['id']));
+            return $this->db->update($this->usertable, $user, array('id' => $user['id']));
         }
-        
+
+    }
+
+    /**
+     * We will not allow tampering with sessions, so we make sure the current session
+     * is still valid for the device on which it was created, and that the username,
+     * ip-address are still the same.
+     *
+     */
+    private function checkValidSession() {
+
+        if ($this->app['session']->get('user')) {
+            $this->currentuser = $this->app['session']->get('user');
+        } else {
+            // no current user, return without doing the rest.
+        }
+
+        echo "<pre>\n" . \util::var_dump($this->currentuser, true) . "</pre>\n";
+
+        $key = sprintf("%s-%s-%s", $this->currentuser['username'], $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_HOST']);
+
+        $this->app['log']->add($key, 2);
+
     }
 
     /**
@@ -82,18 +109,16 @@ class Users {
      * @return bool
      */
     public function deleteUser($id) {
-        
-        $tablename = $this->prefix . "users";
-        
+
         $user = $this->getUser($id);
-        
+
         if (empty($user['id'])) {
-            $this->session->setFlash('error', 'That user does not exist.');    
+            $this->session->setFlash('error', 'That user does not exist.');
             return false;
         } else {
-            return $this->db->delete($tablename, array('id' => $user['id']));
+            return $this->db->delete($this->usertable, array('id' => $user['id']));
         }
-        
+
     }
 
     /**
@@ -104,26 +129,24 @@ class Users {
      * @return bool
      */
     public function login($user, $password) {
-     
+
         $userslug = makeSlug($user);
 
-        $tablename = $this->prefix . "users";
-
         // for once we don't use getUser(), because we need the password.
-        $user = $this->db->fetchAssoc("SELECT * FROM $tablename WHERE username='$userslug'");
+        $user = $this->db->fetchAssoc("SELECT * FROM " . $this->usertable . " WHERE username='$userslug'");
 
         if (empty($user)) {
-            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');    
+            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');
             return false;
         }
-        
+
         require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
         $hasher = new \PasswordHash(8, TRUE);
-       
+
         if ($hasher->CheckPassword($password, $user['password'])) {
 
             if (!$user['enabled']) {
-                $this->session->setFlash('error', 'Your account is disabled. Sorry about that.');    
+                $this->session->setFlash('error', 'Your account is disabled. Sorry about that.');
                 return false;
             }
 
@@ -132,22 +155,21 @@ class Users {
                 'lastip' => $_SERVER['REMOTE_ADDR']
             );
 
-            $this->db->update($tablename, $update, array('id' => $user['id']));
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
             $user = $this->getUser($user['id']);
 
-            $this->session->start();
             $this->session->set('user', $user);
-            $this->session->setFlash('success', "You've been logged on successfully.");    
-            
+            $this->session->setFlash('success', "You've been logged on successfully.");
+
             return true;
-            
-        } else {      
-            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');    
+
+        } else {
+            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');
             return false;
         }
-        
-        
+
+
     }
 
     /**
@@ -156,7 +178,7 @@ class Users {
      * @return array
      */
     public function getEmptyUser() {
-        
+
         $user = array(
             'id' => '',
             'username' => '',
@@ -184,8 +206,7 @@ class Users {
 
             // $app['log']->add('Users: getUsers()', 1);
 
-            $tablename = $this->prefix . "users";
-            $query = "SELECT * FROM $tablename";
+            $query = "SELECT * FROM " . $this->usertable;
             $this->users = array();
 
             try {
@@ -228,10 +249,10 @@ class Users {
                 return $this->users[$id];
             }
         }
-        
+
         // otherwise..
         return false;
-        
+
     }
 
 
@@ -242,38 +263,38 @@ class Users {
      * @return bool|mixed
      */
     public function setEnabled($id, $enabled=1) {
-        
+
         $user = $this->getUser($id);
-        
+
         if (empty($user)) {
             return false;
         }
-        
+
         $user['enabled'] = $enabled;
-        
+
         return $this->saveUser($user);
-        
+
     }
-        
-    
+
+
     /**
      * get an associative array of the current userlevels.
      *
-     * Should we move this to a 'constants.yml' file? 
+     * Should we move this to a 'constants.yml' file?
      * @return array
      */
     public function getUserLevels() {
-       
+
         $userlevels = array(
             'editor' => "Editor",
             'administrator' => "Administrator",
-            'developer' => "Developer"        
+            'developer' => "Developer"
         );
-        
+
         return $userlevels;
-        
+
     }
-        
-    
-  
+
+
+
 }
