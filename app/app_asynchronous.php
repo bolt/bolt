@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 $beforeAsynchronous = function(Request $request) use ($app) {
 
-    // There's no active session, don't do anything..
-    if (!$app['session']->has('user')) {
+    // If there's no active session, don't do anything..
+    if (!$app['users']->checkValidSession()) {
         $app->abort(404, "You must be logged in to use this.");
     }
 

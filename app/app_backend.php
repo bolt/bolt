@@ -17,7 +17,7 @@ $checkLogin = function(Request $request) use ($app) {
     $app['twig']->addGlobal('paths', $app['paths']);
 
     // There's an active session, we're all good.
-    if ($app['session']->has('user')) {
+    if ($app['users']->checkValidSession()) {
         return;
     }
 

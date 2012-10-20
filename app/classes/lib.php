@@ -48,7 +48,7 @@ function makeDir($name) {
  * @return string $token
  */
 function getToken() {
-   $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['PHPSESSID'];
+   $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['bolt_session'];
    $token = substr(md5($seed), 0, 8);
    return $token;
 }

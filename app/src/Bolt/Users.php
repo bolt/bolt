@@ -86,21 +86,41 @@ class Users {
      * ip-address are still the same.
      *
      */
-    private function checkValidSession() {
+    public function checkValidSession() {
 
         if ($this->app['session']->get('user')) {
             $this->currentuser = $this->app['session']->get('user');
         } else {
             // no current user, return without doing the rest.
+            //return false;
         }
 
-        echo "<pre>\n" . \util::var_dump($this->currentuser, true) . "</pre>\n";
+        $key = $this->getSessionKey($this->currentuser['username']);
 
-        $key = sprintf("%s-%s-%s", $this->currentuser['username'], $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_HOST']);
+        if ($key != $this->currentuser['sessionkey']) {
+            $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
+            $this->app['log']->add("Automatically logged out user '".$this->currentuser['username']."': Session data didn't match.", 3, '', 'issue');
+            $this->app['session']->invalidate();
+            return false;
+        } else {
+            return true;
+        }
 
-        $this->app['log']->add($key, 2);
 
     }
+
+    /**
+     * Get a key to identify the session with.
+     *
+     * @param string $name
+     * @return string
+     */
+    private function getSessionKey($name) {
+
+        return md5(sprintf("%s-%s-%s", $name, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_HOST']));
+
+    }
+
 
     /**
      * Remove a user from the database.
@@ -158,6 +178,8 @@ class Users {
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
             $user = $this->getUser($user['id']);
+
+            $user['sessionkey'] = $this->getSessionKey($user['username']);
 
             $this->session->set('user', $user);
             $this->session->setFlash('success', "You've been logged on successfully.");
