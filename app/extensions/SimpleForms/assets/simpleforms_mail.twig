@@ -1,12 +1,14 @@
 <p>Hi,</p>
 
-<p>Somebody used the form on {{ link }},
-to send you a message. The collected data is as follows:</p>
+<p>Somebody used the form on {{ paths.currenturl }} 
+to send you a message. The posted data is as follows:</p>
 
-{% for label, value in data %}
-<p>{{ label }}: {{ data }}</p>
+<hr>
+
+{% for label, value in form %}
+<p>{{ label }}: {{ value }}</p>
 
 {% endfor %}
 
---
+-- <br>
 Sent by SimpleForms, an Extension for Bolt.
