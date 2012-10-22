@@ -692,7 +692,7 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
                     'type' => getExtension($entry),
                     'filesize' => formatFilesize(filesize($fullfilename)),
                     'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
-                    'permissions' => getFilePermissions($fullfilename)
+                    'permissions' => \util::full_permissions($fullfilename)
                 );   
                 
                 if (in_array(getExtension($entry), array('gif', 'jpg', 'png', 'jpeg'))) {
