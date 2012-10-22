@@ -133,7 +133,6 @@ class Users {
         if ($this->app['config']['general']['cookies_use_httphost']) {
             $key .= "-". $_SERVER['HTTP_HOST'];
         }
-        $this->app['log']->add("key: $key");
 
         $key = md5($key);
 
