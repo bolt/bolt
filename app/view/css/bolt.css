@@ -81,6 +81,14 @@ h1 span {
     margin-top: 0.2em;
 }
 
+hr {
+    clear: both;
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #fff;
+}
+
 .btn {
     font-size: 13px;
 }

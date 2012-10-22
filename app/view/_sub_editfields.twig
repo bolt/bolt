@@ -295,7 +295,6 @@ $("#field-{{key}}").autocomplete({
                 </script>
             </div>
         </div>
-        <hr style="clear:both;">
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="{{ paths.app }}view/js/jquery.gomap-1.3.2.min.js"></script>
 
@@ -394,9 +393,8 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 
 {# --------------- divider --------------- #}
 
-{% if field.type == "divider" %}
-{% if field.line is defined %}<hr>{%endif%}
-{% if field.label is defined %}<p><b>{{field.label}}</b></p>{%endif%}
+{% if field.separator == true %}
+    <hr>
 {% endif %}
    
 
