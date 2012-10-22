@@ -408,7 +408,7 @@ function stripTrailingSlash($path) {
  *
  * @return float
  */
-function getMicrotime(){
+function getMicrotime() {
     list($usec, $sec) = explode(" ",microtime());
     return ((float)$usec + (float)$sec);
 }
@@ -780,9 +780,13 @@ function getConfig() {
         'wysiwyg_fontcolor' => false,
         'wysiwyg_align' => false,
         'canonical' => $_SERVER['HTTP_HOST'],
-        'developer_notices' => false
-
+        'developer_notices' => false,
+        'cookies_use_remoteaddr' => true,
+        'cookies_use_browseragent' => false,
+        'cookies_use_httphost' => true,
+        'cookies_https_only' => false,
     );
+
     $config['general'] = array_merge($defaultconfig, $config['general']);
 
     // TODO: Think about what to do with these..
