@@ -375,11 +375,11 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
 
     switch ($action) {
         
-        case "depublish":
-            if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'depublished')) {
-                $app['session']->setFlash('info', "Content 'pompidom' is depublished.");
+        case "held":
+            if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'held')) {
+                $app['session']->setFlash('info', "Content 'pompidom' has been changed to 'held'");
             } else {
-                $app['session']->setFlash('info', "Content 'pompidom' could not be depublished.");
+                $app['session']->setFlash('info', "Content 'pompidom' could not be modified.");
             }
             break;
         
@@ -387,15 +387,15 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Applica
             if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'published')) {
                 $app['session']->setFlash('info', "Content 'pompidom' is published.");
             } else {
-                $app['session']->setFlash('info', "Content 'pompidom' could not be published.");
+                $app['session']->setFlash('info', "Content 'pompidom' could not be modified.");
             }
             break;
             
         case "draft":
             if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'draft')) {
-                $app['session']->setFlash('info', "Content 'pompidom' is published.");
+                $app['session']->setFlash('info', "Content 'pompidom' has been changed to 'draft'.");
             } else {
-                $app['session']->setFlash('info', "Content 'pompidom' could not be published.");
+                $app['session']->setFlash('info', "Content 'pompidom' could not be modified.");
             }
             break;
                     

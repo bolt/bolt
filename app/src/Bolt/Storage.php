@@ -345,7 +345,7 @@ class Storage {
                 $content['status'] = "draft";
                 break;
             case 3:
-                $content['status'] = "depublished";
+                $content['status'] = "held";
                 break;
             default:
                 $content['status'] = "published";

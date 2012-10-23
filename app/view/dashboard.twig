@@ -69,16 +69,16 @@
                     </button>
                     
                     <ul class="dropdown-menu pull-right">
-                        {% if content.status != "depublished" and content.status != "draft" %}
-                        <li><a href="{{ path('contentaction', { 'action': 'depublish', 'contenttypeslug': contenttype,  'id': content.id }) }}">
-                            <i class="icon-star"></i> Change status to 'depublished'</a></li>
-                        <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype,  'id': content.id }) }}">
-                            <i class="icon-pencil"></i> Change status to 'draft'</a></li>
-                        {% endif %}
                         {% if content.status != "published" %}
-                        <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype,  'id': content.id }) }}">
-                            <i class="icon-star-empty"></i> Change status to 'published'</a></li>
+                            <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype,  'id': content.id }) }}">
+                                <i class="icon-star-empty"></i> Publish {{ contenttype.singular_name }}</a></li>
+                        {% else %}
+                            <li><a href="{{ path('contentaction', { 'action': 'held', 'contenttypeslug': contenttype,  'id': content.id }) }}">
+                                <i class="icon-star"></i> Change status to 'held'</a></li>
+                            <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype,  'id': content.id }) }}">
+                                <i class="icon-pencil"></i> Change status to 'draft'</a></li>
                         {% endif %}
+
                         <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id, 'duplicate': 1 }) }}">
                             <i class="icon-copy"></i> Duplicate {{app.config.contenttypes[contenttype].singular_name}}</a></li>
                            
