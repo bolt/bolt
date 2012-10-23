@@ -115,7 +115,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function trim($content, $length=200) 
     {
-    
+
         $output = trimText(strip_tags($content), $length) ;
         
         return $output;

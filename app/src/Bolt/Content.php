@@ -48,9 +48,14 @@ class Content {
             $this->values['datecreated'] = "1970-01-01 00:00:00";
         }
 
+        if (!isset($this->values['datepublish']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datepublish'])) {
+            $this->values['datepublish'] = date("Y-m-d H:i:s");
+        }
+
         if (!isset($this->values['datechanged']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
-            $this->values['datechanged'] = "1970-01-01 00:00:00";
+            $this->values['datechanged'] = date("Y-m-d H:i:s");
         }
 
         if (!empty($values['username'])) {
@@ -87,15 +92,16 @@ class Content {
             $this->id = $value;
         }
 
-        if ($key == 'datecreated' || $key == 'datechanged') {
+        if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish') {
             if ( !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value) ) {
-                $this->values['datecreated'] = "1970-01-01 00:00:00";
+                // TODO Try better date-parsing, instead of just setting it to 'now'..
+                $value = date("Y-m-d H:i:s");
             }
         }
 
         if (!isset($this->values['datechanged']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
-            $this->values['datechanged'] = "1970-01-01 00:00:00";
+            $this->values['datechanged'] = date("Y-m-d H:i:s");
         }
 
 

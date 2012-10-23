@@ -17,15 +17,20 @@
         <input type='text' readonly=readonly name='id' value='{{ content.id }}' class="narrow">
         </label>
         
-        <label><b><span class='left'>Created on:</span></b>
-        <input type='text' readonly name='datecreated'
-            value='{{ content.datecreated }}' class="narrow">
+        <label><b><span class='left'>Publication date:</span></b>
         </label>
-        
-        <label><b><span class='left'>Last edited:</span></b>
-        <input type='text' readonly name='datechanged' 
-            value='{{ content.datechanged }}' class="narrow">
-        </label>
+            <input type="text" name="datepublish-dateformatted" id="datepublish-date"
+                   value='{{ content.datepublish|date('l, d F Y') }}' class='datepicker'>
+            <input type="text" name="datepublish-timeformatted" id="datepublish-time"
+                   value='{{ content.datepublish|date('H:i') }}' class='timepicker'>
+
+        {% if content.datecreated > '1970-01-01 01:01:01' %}
+        <br>This {{ contenttype.singular_name }} was created
+        <time class="moment" datetime="{{ content.datecreated|date("c") }}" title="{{ content.datecreated }}">{{ content.datecreated }}</time>
+        and edited
+        <time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>.
+        {% endif %}
+
         
         <label><b><span class='left'>Status:</span></b>
         <select name="status">

@@ -83,6 +83,9 @@ class Storage {
             if (!isset($tables[$tablename])) {
                 return false;  
             }
+            if (!isset($tables[$tablename]['datepublish'])) {
+                return false;
+            }
             
             // Check if all the fields are present in the DB..
             foreach($contenttype['fields'] as $field => $values) {
@@ -202,8 +205,9 @@ class Storage {
                 $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
                 $myTable->setPrimaryKey(array("id"));
                 $myTable->addColumn("slug", "string", array("length" => 128));
-                $myTable->addColumn("datecreated", "datetime");    
-                $myTable->addColumn("datechanged", "datetime"); 
+                $myTable->addColumn("datecreated", "datetime");
+                $myTable->addColumn("datechanged", "datetime");
+                $myTable->addColumn("datepublish", "datetime");
                 $myTable->addColumn("username", "string", array("length" => 32));
                 $myTable->addColumn("status", "string", array("length" => 32));
 
@@ -215,10 +219,18 @@ class Storage {
                 $output[] = "Created table <tt>" . $tablename . "</tt>.";
                 
             }
-            
+
+            // Check if the datepublish field is present (added after 0.7.7)
+            if (!isset($tables[$tablename]['datepublish'])) {
+                $query = sprintf("ALTER TABLE `%s` ADD `%s` DATETIME NOT NULL DEFAULT \"\";", $tablename, 'datepublish');
+                $this->db->query($query);
+                $output[] = "Added column <tt>" . 'datepublish' . "</tt> to table <tt>" . $tablename . "</tt>.";
+            }
+
             // Check if all the fields are present in the DB..
             foreach($contenttype['fields'] as $field => $values) {
-                
+
+
                 if (!isset($tables[$tablename][$field])) { 
           
                     $myTable = $sm->listTableDetails($tablename);
@@ -261,6 +273,7 @@ class Storage {
                         case 'id':
                         case 'datecreated':
                         case 'datechanged':
+                        case 'datepublish':
                         case 'username':
                         case 'divider':
                             // These are the default columns. Don't try to add these. 
@@ -320,6 +333,7 @@ class Storage {
 
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
+        $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
 
         $content['username'] = array_rand($app['users']->getUsers());
 
@@ -410,7 +424,7 @@ class Storage {
         }
                         
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status', 'taxonomy');
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
         // add the fields for this contenttype, 
         foreach ($contenttype['fields'] as $key => $values) {
 
@@ -470,8 +484,8 @@ class Storage {
                     $fieldvalues[$key] = trim($fieldvalues[$key]);
                 }
             }
-        }            
-            
+        }
+
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
             return $this->insertContent($fieldvalues, $contenttype, $content->taxonomy);
@@ -495,7 +509,7 @@ class Storage {
         }
 
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'username', 'status');
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
         // add the fields for this contenttype, 
         foreach ($this->config['contenttypes'][$contenttype]['fields'] as $key => $values) {
             $allowedcolumns[] = $key;
@@ -602,14 +616,7 @@ class Storage {
         
         $id = intval($id);
         
-        // TODO: make sure datechanged is updated
         unset($content['datecreated']);
-        //$content['datechanged'] = date('Y-m-d H:i:s');
-
-        //echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
-
-        //echo "table: $tablename \n\n";
-        //echo "id: " . $id . " \n\n";
 
         $query = "UPDATE $tablename SET $field = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
@@ -632,6 +639,7 @@ class Storage {
             'slug' => '',
             'datecreated' => '',
             'datechanged' => '',
+            'datepublish' => '',
             'username' => '',
             'status' => ''
         );
@@ -678,7 +686,7 @@ class Storage {
         } else if (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
-            $parameters['order'] = 'datecreated ' . ($match[2]=="latest" ? "DESC" : "ASC");
+            $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
         }
         
@@ -713,7 +721,7 @@ class Storage {
                 continue; // Skip this one..
             }
             if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) && 
-                !in_array($key, array("id", "slug", "datecreated", "datechanged", "username", "status")) ) {
+                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status")) ) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
 

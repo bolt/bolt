@@ -102,7 +102,7 @@ $app->match('/{contenttypeslug}', function (Silex\Application $app, $contenttype
     // First, get some content
     $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
     $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
-    $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datecreated desc', 'page' => $page));
+    $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datepublish desc', 'page' => $page));
 
     if (!$content) {
         $app->abort(404, "Content for '$contenttypeslug' not found.");

@@ -336,7 +336,8 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 
 	if (!empty($_GET['duplicate'])) {
     	$content->setValue('id', "");
-    	$content->setValue('datecreated', "");
+        $content->setValue('datecreated', "");
+        $content->setValue('datepublish', "");
     	$content->setValue('datechanged', "");
     	$content->setValue('username', "");
     	$app['session']->setFlash('info', "Content was duplicated. Click 'Save " . $contenttype['singular_name'] . "' to finalize."); 
