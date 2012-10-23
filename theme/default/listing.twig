@@ -12,7 +12,7 @@
     
     {{ record.excerpt(300) }}
 
-    <p class="meta"><a href="{{ record.link }}">Link</a> - Posted by {{ record.user.displayname }} on {{ record.datecreated|date("M d, ’y")}}</p>
+    <p class="meta"><a href="{{ record.link }}">Link</a> - Posted by {{ record.user.displayname }} on {{ record.datepublish|date("M d, ’y")}}</p>
     
 </article>    
 {% endfor %}
