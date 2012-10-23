@@ -689,7 +689,13 @@ class Storage {
             $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
         }
-        
+
+        // When using from the frontend, we assume (by default) that we only want published items,
+        // unless something else is specified explicitly
+        if ($app['end']=="frontend" && empty($parameters['status'])) {
+            $parameters['status'] = "published";
+        }
+
         
         $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
@@ -728,7 +734,12 @@ class Storage {
             $where[] = $this->parseWhereParameter($key, $value);
 
         }
-        
+
+        // Make sure we show published-only stuff in the frontend, mostly.
+        if (!empty($parameters['status'])) {
+            $where[] = $this->parseWhereParameter('status', $parameters['status']);
+        }
+
         // If we need to filter, add the WHERE for that.
         // InnoDB doesn't support full text search. WTF is up with that shit? 
         if (!empty($parameters['filter'])){
@@ -775,7 +786,7 @@ class Storage {
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         if (!$returnsingle) {
-        //     echo "<pre>" . util::var_dump($query, true) . "</pre>";
+             // echo "<pre>" . util::var_dump($query, true) . "</pre>";
         }
 
         $rows = $this->db->fetchAll($query);
