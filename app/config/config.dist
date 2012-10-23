@@ -65,3 +65,14 @@ wysiwyg_tables: false
 wysiwyg_embed: false
 wysiwyg_fontcolor: false
 wysiwyg_align: false
+
+# Bolt allows some modifications to how 'strict' login sessions are. For every option
+# that is set to true, it becomes harder for a bad-willing person to spoof your login
+# session. However, it also requires you to re-authenticate more often if you change
+# location(ip-address) or your browser has frequent upgrades. Only change these if
+# you know what you're doing, and you're having issues with the default settings.
+# note: if you change any of these, all current users will automatically be logged off.
+cookies_use_remoteaddr: true
+cookies_use_browseragent: false
+cookies_use_httphost: true
+cookies_https_only: false # note: this is on the TODO list.

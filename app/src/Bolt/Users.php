@@ -92,7 +92,7 @@ class Users {
             $this->currentuser = $this->app['session']->get('user');
         } else {
             // no current user, return without doing the rest.
-            //return false;
+            return false;
         }
 
         $key = $this->getSessionKey($this->currentuser['username']);
@@ -115,9 +115,28 @@ class Users {
      * @param string $name
      * @return string
      */
-    private function getSessionKey($name) {
+    private function getSessionKey($name="")
+    {
 
-        return md5(sprintf("%s-%s-%s", $name, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_HOST']));
+        if (empty($name)) {
+            return false;
+        }
+
+        $key = $name;
+
+        if ($this->app['config']['general']['cookies_use_remoteaddr']) {
+            $key .= "-". $_SERVER['REMOTE_ADDR'];
+        }
+        if ($this->app['config']['general']['cookies_use_browseragent']) {
+            $key .= "-". $_SERVER['HTTP_USER_AGENT'];
+        }
+        if ($this->app['config']['general']['cookies_use_httphost']) {
+            $key .= "-". $_SERVER['HTTP_HOST'];
+        }
+
+        $key = md5($key);
+
+        return $key;
 
     }
 
