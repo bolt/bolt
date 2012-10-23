@@ -661,6 +661,7 @@ function getConfig() {
         'cookies_use_browseragent' => false,
         'cookies_use_httphost' => true,
         'cookies_https_only' => false,
+        'cookies_lifetime' => 14*24*3600
     );
 
     $config['general'] = array_merge($defaultconfig, $config['general']);

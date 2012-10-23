@@ -76,3 +76,7 @@ cookies_use_remoteaddr: true
 cookies_use_browseragent: false
 cookies_use_httphost: true
 cookies_https_only: false # note: this is on the TODO list.
+
+# The length of time a user stays 'logged in'. Change to 0 to end the session when the browser
+# is closed. The default is 1209600: two weeks in seconds.
+cookies_lifetime: 1209600

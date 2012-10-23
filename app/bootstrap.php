@@ -29,8 +29,12 @@ $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debu
 $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
-    'session.storage.options' => array('name' => 'bolt_session', 'cookie_lifetime' => 14*24*3600 )
+    'session.storage.options' => array(
+        'name' => 'bolt_session',
+        'cookie_lifetime' => $config['general']['cookies_lifetime']
+    )
 ));
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],
     'twig.options' => array(
