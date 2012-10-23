@@ -510,10 +510,14 @@ label span.left {
     border: 1px solid #BBB;
     width: 120px;
     height: 120px;
+    overflow: hidden;
     padding: 2px;
     box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
+#editcontent .imageholder img {
+    max-height: 120px;
+}
 #editcontent .imageinput {
     border: 1px solid #BBB;
 }
