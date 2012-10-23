@@ -43,17 +43,18 @@ class Content {
 
         $this->values = $values;
 
+
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
             $this->values['datecreated'] = "1970-01-01 00:00:00";
         }
 
-        if (!isset($this->values['datepublish']) ||
+        if (!isset($this->values['datepublish']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datepublish'])) {
             $this->values['datepublish'] = date("Y-m-d H:i:s");
         }
 
-        if (!isset($this->values['datechanged']) ||
+        if (!isset($this->values['datechanged']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
             $this->values['datechanged'] = date("Y-m-d H:i:s");
         }

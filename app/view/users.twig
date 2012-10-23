@@ -26,7 +26,9 @@
             
             <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
             <td>{{ user.userlevel }} </td>
-            <td>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %} </td>
+            <td>{% if user.lastseen>"1000" %}
+                <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
+               {% else %}-{% endif %} </td>
             <td class='actions'>
     <div class="btn-group">
     <button class="btn btn-mini uselink"><a href="{{ path('useredit', { 'id' : user.id }) }}">

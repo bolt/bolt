@@ -222,7 +222,7 @@ class Storage {
 
             // Check if the datepublish field is present (added after 0.7.7)
             if (!isset($tables[$tablename]['datepublish'])) {
-                $query = sprintf("ALTER TABLE `%s` ADD `%s` DATETIME NOT NULL DEFAULT \"\";", $tablename, 'datepublish');
+                $query = sprintf("ALTER TABLE `%s` ADD `%s` DATETIME NOT NULL DEFAULT \"1970-00-00 00:00:00\";", $tablename, 'datepublish');
                 $this->db->query($query);
                 $output[] = "Added column <tt>" . 'datepublish' . "</tt> to table <tt>" . $tablename . "</tt>.";
             }
