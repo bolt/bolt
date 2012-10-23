@@ -694,6 +694,9 @@ function getConfig() {
         if (!isset($temp['singular_slug'])) {
             $temp['singular_slug'] = makeSlug($temp['singular_name']);
         }
+        if (!isset($temp['show_on_dashboard'])) {
+            $temp['show_on_dashboard'] = true;
+        }
         $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
 

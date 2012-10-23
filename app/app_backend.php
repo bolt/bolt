@@ -68,8 +68,10 @@ $backend->get("", function(Silex\Application $app) {
     $total = 0;
     // get the 'latest' from each of the content types. 
     foreach ($app['config']['contenttypes'] as $key => $contenttype) {
-        $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
-        $total += count($latest[$key]);
+        if ($contenttype['show_on_dashboard']==true) {
+            $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
+            $total += count($latest[$key]);
+        }
     }
 
     // If there's nothing in the DB, suggest to create some dummy content.

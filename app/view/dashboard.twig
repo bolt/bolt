@@ -91,9 +91,11 @@
                             <s>{{ content.username }}</s>{% endif %}</strong></a></li>
                         <li><a class="nolink">Current status: 
                             <strong>{{ content.status }}</strong></a></li>
-                        <li><a class="nolink">Created on: 
+                        <li><a class="nolink">Created on:
                             <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
-                        <li><a class="nolink">Last edited on: 
+                        <li><a class="nolink">Published on:
+                            <strong><i class="icon-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</strong></a></li>
+                        <li><a class="nolink">Last edited on:
                             <strong><i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
                         {% for taxonomyslug, values in content.taxonomy %} 
                             {% if values|length > 1 %}
