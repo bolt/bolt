@@ -5,18 +5,18 @@ namespace Bolt;
 /**
  * Class to handle things dealing with users..
  */
-class Users {
+class Users
+{
+    public $db;
+    public $config;
+    public $usertable;
+    public $sessiontable;
+    public $users;
+    public $session;
+    public $currentuser;
 
-    var $db;
-    var $config;
-    var $usertable;
-    var $sessiontable;
-    var $users;
-    var $session;
-    var $currentuser;
-
-    function __construct($app) {
-
+    public function __construct($app)
+    {
         $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
 
         $this->db = $app['db'];
@@ -33,16 +33,16 @@ class Users {
     /**
      * Save changes to a user to the database. (re)hashing the password, if needed.
      *
-     * @param array $user
+     * @param  array $user
      * @return mixed
      */
-    public function saveUser($user) {
-
+    public function saveUser($user)
+    {
         // Make an array with the allowed columns. these are the columns that are always present.
         $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled');
 
         // unset columns we don't need to store..
-        foreach($user as $key => $value) {
+        foreach ($user as $key => $value) {
             if (!in_array($key, $allowedcolumns)) {
                 unset($user[$key]);
             }
@@ -86,8 +86,8 @@ class Users {
      * ip-address are still the same.
      *
      */
-    public function checkValidSession() {
-
+    public function checkValidSession()
+    {
         if ($this->app['session']->get('user')) {
             $this->currentuser = $this->app['session']->get('user');
         } else {
@@ -101,6 +101,7 @@ class Users {
             $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
             $this->app['log']->add("Automatically logged out user '".$this->currentuser['username']."': Session data didn't match.", 3, '', 'issue');
             $this->app['session']->invalidate();
+
             return false;
         } else {
             return true;
@@ -112,7 +113,7 @@ class Users {
     /**
      * Get a key to identify the session with.
      *
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     private function getSessionKey($name="")
@@ -144,15 +145,16 @@ class Users {
     /**
      * Remove a user from the database.
      *
-     * @param $id
+     * @param  int  $id
      * @return bool
      */
-    public function deleteUser($id) {
-
+    public function deleteUser($id)
+    {
         $user = $this->getUser($id);
 
         if (empty($user['id'])) {
             $this->session->setFlash('error', 'That user does not exist.');
+
             return false;
         } else {
             return $this->db->delete($this->usertable, array('id' => $user['id']));
@@ -163,12 +165,12 @@ class Users {
     /**
      * Attempt to login a user with the given password
      *
-     * @param string $user
-     * @param string $password
+     * @param  string $user
+     * @param  string $password
      * @return bool
      */
-    public function login($user, $password) {
-
+    public function login($user, $password)
+    {
         $userslug = makeSlug($user);
 
         // for once we don't use getUser(), because we need the password.
@@ -176,6 +178,7 @@ class Users {
 
         if (empty($user)) {
             $this->session->setFlash('error', 'Username or password not correct. Please check your input.');
+
             return false;
         }
 
@@ -186,6 +189,7 @@ class Users {
 
             if (!$user['enabled']) {
                 $this->session->setFlash('error', 'Your account is disabled. Sorry about that.');
+
                 return false;
             }
 
@@ -207,9 +211,9 @@ class Users {
 
         } else {
             $this->session->setFlash('error', 'Username or password not correct. Please check your input.');
+
             return false;
         }
-
 
     }
 
@@ -218,8 +222,8 @@ class Users {
      *
      * @return array
      */
-    public function getEmptyUser() {
-
+    public function getEmptyUser()
+    {
         $user = array(
             'id' => '',
             'username' => '',
@@ -240,7 +244,8 @@ class Users {
      *
      * @return array
      */
-    public function getUsers() {
+    public function getUsers()
+    {
         global $app;
 
         if (empty($this->users) || !is_array($this->users)) {
@@ -253,7 +258,7 @@ class Users {
             try {
                 $tempusers = $this->db->fetchAll($query);
 
-                foreach($tempusers as $user) {
+                foreach ($tempusers as $user) {
                     $key = $user['username'];
                     $this->users[$key] = $user;
                     $this->users[$key]['password'] = "**dontchange**";
@@ -271,16 +276,16 @@ class Users {
     /**
      * Get a user, specified by id. Return 'false' if no user found.
      *
-     * @param int $id
+     * @param  int   $id
      * @return array
      */
-    public function getUser($id) {
-
+    public function getUser($id)
+    {
         // Make sure we've fetched the users..
         $this->getUsers();
 
         if (is_numeric($id)) {
-            foreach($this->users as $key => $user) {
+            foreach ($this->users as $key => $user) {
                 if ($user['id']==$id) {
                     return $user;
                 }
@@ -299,12 +304,12 @@ class Users {
 
     /**
      * Enable or disable a user, specified by id.
-     * @param int $id
-     * @param int $enabled
+     * @param  int        $id
+     * @param  int        $enabled
      * @return bool|mixed
      */
-    public function setEnabled($id, $enabled=1) {
-
+    public function setEnabled($id, $enabled=1)
+    {
         $user = $this->getUser($id);
 
         if (empty($user)) {
@@ -324,8 +329,8 @@ class Users {
      * Should we move this to a 'constants.yml' file?
      * @return array
      */
-    public function getUserLevels() {
-
+    public function getUserLevels()
+    {
         $userlevels = array(
             'editor' => "Editor",
             'administrator' => "Administrator",
@@ -335,7 +340,5 @@ class Users {
         return $userlevels;
 
     }
-
-
 
 }

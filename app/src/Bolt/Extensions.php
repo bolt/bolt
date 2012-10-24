@@ -6,17 +6,17 @@ use Silex;
 use Bolt;
 use util;
 
-class Extensions {
-  
-    var $db;
-    var $config;
-    var $basefolder;
-    var $enabled;
-    var $snippetqueue;
-    var $ignored;
+class Extensions
+{
+    public $db;
+    public $config;
+    public $basefolder;
+    public $enabled;
+    public $snippetqueue;
+    public $ignored;
 
-    function __construct(Silex\Application $app) {
-    
+    public function __construct(Silex\Application $app)
+    {
         $this->app = $app;
         $this->basefolder = realpath(__DIR__."/../../extensions/");
         $this->ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
@@ -24,7 +24,7 @@ class Extensions {
 
     }
 
-    function enabledExtensions()
+    public function enabledExtensions()
     {
         $list = $this->app['config']['general']['enabled_extensions'];
         $folders = array();
@@ -48,14 +48,13 @@ class Extensions {
 
     }
 
-
     /**
      * Get an array of information about each of the present extensions, and
      * whether they're enabled or not.
      *
      * @return array
      */
-    function getInfo()
+    public function getInfo()
     {
 
         $d = dir($this->basefolder);
@@ -80,8 +79,8 @@ class Extensions {
     }
 
 
-    private function infoHelper($path) {
-
+    private function infoHelper($path)
+    {
         $filename = $path."/extension.php";
         $namespace = basename($path);
 
@@ -120,6 +119,7 @@ class Extensions {
 
             } else {
                 $this->app['log']->add("Couldn't initialize $namespace: function 'init()' doesn't exist", 3);
+
                 return false;
             }
         }
@@ -132,13 +132,12 @@ class Extensions {
     /**
      * Check if an extension is enabled, case sensitive.
      *
-     * @param string $name
+     * @param  string $name
      * @return bool
      */
-    function isEnabled($name) {
-
+    public function isEnabled($name)
+    {
         // echo "<pre>\n" . util::var_dump($this->enabled, true) . "</pre>\n";
-
         return in_array($name, $this->enabled);
 
 
@@ -149,9 +148,9 @@ class Extensions {
      * Initialize the enabled extensions.
      *
      */
-    function initialize() {
-
-        foreach($this->enabled as $extension) {
+    public function initialize()
+    {
+        foreach ($this->enabled as $extension) {
             $filename = $this->basefolder . "/" . $extension . "/extension.php";
 
             if (is_readable($filename)) {
@@ -170,7 +169,7 @@ class Extensions {
     }
 
 
-    function addCss($filename)
+    public function addCss($filename)
     {
 
         $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
@@ -179,8 +178,8 @@ class Extensions {
 
     }
 
-    function insertSnippet($location, $callback, $var1="", $var2="", $var3="") {
-
+    public function insertSnippet($location, $callback, $var1="", $var2="", $var3="")
+    {
         $this->snippetqueue[] = array(
             'location' => $location,
             'callback' => $callback,
@@ -193,9 +192,9 @@ class Extensions {
 
 
 
-    function processSnippetQueue($html) {
-
-        foreach($this->snippetqueue as $item) {
+    public function processSnippetQueue($html)
+    {
+        foreach ($this->snippetqueue as $item) {
 
             // Get the snippet, either by using a callback function, or else use the
             // passed string as-is..
@@ -206,7 +205,7 @@ class Extensions {
             }
 
             // then insert it into the HTML, somewhere.
-            switch($item['location']) {
+            switch ($item['location']) {
                 case "endofhead":
                     $html = $this->insertEndOfHead($snippet, $html);
                     break;
@@ -255,11 +254,11 @@ class Extensions {
      * Helper function to insert some HTML into thestart of the head section of
      * an HTML page, right after the <head> tag.
      *
-     * @param string $tag
-     * @param string $html
+     * @param  string $tag
+     * @param  string $html
      * @return string
      */
-    function insertStartOfHead($tag, $html)
+    public function insertStartOfHead($tag, $html)
     {
 
         // first, attempt to insert it after the <head> tag, matching indentation..
@@ -287,11 +286,11 @@ class Extensions {
      * Helper function to insert some HTML into thestart of the head section of
      * an HTML page, right after the <head> tag.
      *
-     * @param string $tag
-     * @param string $html
+     * @param  string $tag
+     * @param  string $html
      * @return string
      */
-    function insertStartOfBody($tag, $html)
+    public function insertStartOfBody($tag, $html)
     {
 
         // first, attempt to insert it after the <body> tag, matching indentation..
@@ -320,11 +319,11 @@ class Extensions {
      * Helper function to insert some HTML into the head section of an HTML
      * page, right before the </head> tag.
      *
-     * @param string $tag
-     * @param string $html
+     * @param  string $tag
+     * @param  string $html
      * @return string
      */
-    function insertEndOfHead($tag, $html)
+    public function insertEndOfHead($tag, $html)
     {
 
         // first, attempt to insert it before the </head> tag, matching indentation..
@@ -351,11 +350,11 @@ class Extensions {
      * Helper function to insert some HTML into the body section of an HTML
      * page, right before the </body> tag.
      *
-     * @param string $tag
-     * @param string $html
+     * @param  string $tag
+     * @param  string $html
      * @return string
      */
-    function insertEndOfBody($tag, $html)
+    public function insertEndOfBody($tag, $html)
     {
 
         // first, attempt to insert it before the </body> tag, matching indentation..
@@ -383,11 +382,11 @@ class Extensions {
      * Helper function to insert some HTML into the html section of an HTML
      * page, right before the </html> tag.
      *
-     * @param string $tag
-     * @param string $html
+     * @param  string $tag
+     * @param  string $html
      * @return string
      */
-    function insertEndOfHtml($tag, $html)
+    public function insertEndOfHtml($tag, $html)
     {
 
         // first, attempt to insert it before the </body> tag, matching indentation..
@@ -414,11 +413,11 @@ class Extensions {
      *
      * Helper function to insert some HTML into the head section of an HTML page.
      *
-     * @param string $tag
-     * @param string $html
+     * @param  string $tag
+     * @param  string $html
      * @return string
      */
-    function insertAfterMeta($tag, $html)
+    public function insertAfterMeta($tag, $html)
     {
 
         // first, attempt ot insert it after the last meta tag, matching indentation..
@@ -444,11 +443,11 @@ class Extensions {
      *
      * Helper function to insert some HTML into the head section of an HTML page.
      *
-     * @param string $tag
-     * @param string $html
+     * @param  string $tag
+     * @param  string $html
      * @return string
      */
-    function insertAfterCss($tag, $html)
+    public function insertAfterCss($tag, $html)
     {
 
         // first, attempt ot insert it after the last <link> tag, matching indentation..
@@ -468,6 +467,5 @@ class Extensions {
         return $html;
 
     }
-
 
 }

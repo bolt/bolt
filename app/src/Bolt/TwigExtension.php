@@ -13,7 +13,7 @@ class TwigExtension extends \Twig_Extension
     {
         return 'Bolt';
     }
-    
+
     public function getFunctions()
     {
         return array(
@@ -33,9 +33,9 @@ class TwigExtension extends \Twig_Extension
             'menu' => new \Twig_Function_Method($this, 'menu', array('needs_environment' => true)),
             'randomquote' => new \Twig_Function_Method($this, 'randomquote'),
         );
-    }    
-  
-  
+    }
+
+
     public function getFilters()
     {
         return array(
@@ -66,62 +66,60 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-        
+
         $output = util::var_dump($var, true);
-        
+
         return $output;
-        
+
     }
-    
-    
+
+
     /**
      * Create an excerpt for the given content
      */
     public function excerpt($content, $length=200)
     {
-    
+
         // If it's an contenct object, let the object handle it.
         if (is_object($content)) {
-            return $content->excerpt($length);    
-        } else if (is_array($content)) {
+            return $content->excerpt($length);
+        } elseif (is_array($content)) {
             // Assume it's an array, strip some common fields that we don't need, implode the rest..
-            
-            unset($content['id'], $content['slug'], $content['datecreated'], $content['datechanged'], 
+
+            unset($content['id'], $content['slug'], $content['datecreated'], $content['datechanged'],
                 $content['username'], $content['title'], $content['contenttype'], $content['status'], $content['taxonomy']
-                );  
+                );
             $output = implode(" ", $content);
-            
-        } else if (is_string($content)) {
+
+        } elseif (is_string($content)) {
             // otherwise we just use the string..
-            
+
             $output = $content;
-            
+
         } else {
-            // Nope, got nothing.. 
-            
+            // Nope, got nothing..
+
             $output = "";
-            
+
         }
-    
+
         $output = trimText(strip_tags($output), $length) ;
-    
-    
+
         return $output;
-        
+
     }
-    
+
     /**
      * Trimtexts the given string.
      */
-    public function trim($content, $length=200) 
+    public function trim($content, $length=200)
     {
 
         $output = trimText(strip_tags($content), $length) ;
-        
-        return $output;
-        
-    }
 
+        return $output;
+
+    }
 
     /**
      * Formats the given string as Markdown in HTML
@@ -136,128 +134,125 @@ class TwigExtension extends \Twig_Extension
 
     }
 
-
     /**
      * UCfirsts the given string.
      */
-    public function ucfirst($str, $param="") 
+    public function ucfirst($str, $param="")
     {
-        
         return ucfirst($str);
-        
+
     }
 
-    
-    /** 
+    /**
      * Returns true, if the given content is the current content.
      *
-     * If we're on page/foo, and content is that page, you can use 
+     * If we're on page/foo, and content is that page, you can use
      * {% is page|current %}class='active'{% endif %}
      */
-    public function current($content, $param="") 
+    public function current($content, $param="")
     {
         global $app;
-        
-        $route_params = $app['request']->get('_route_params');  
+
+        $route_params = $app['request']->get('_route_params');
 
         // check against $_SERVER['REQUEST_URI']
-        if( $_SERVER['REQUEST_URI'] == $content['link'] ) {
+        if ($_SERVER['REQUEST_URI'] == $content['link']) {
             return true;
         }
-        
+
         // No contenttypeslug or slug -> not 'current'
         if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
             return false;
         }
-        
+
         // check against simple content.link
-        if( "/".$route_params['contenttypeslug']."/".$route_params['slug'] == $content['link'] ) {
+        if ("/".$route_params['contenttypeslug']."/".$route_params['slug'] == $content['link']) {
             return true;
-        }              
-        
+        }
+
         // if the current requested page is for the same slug or singularslug..
         if (isset($content['contenttype']) &&
             ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
             $route_params['contenttypeslug'] == $content['contenttype']['singular_slug']) ) {
-            
+
             // .. and the slugs should match..
             if ($route_params['slug'] == $content['slug']) {
                 echo "joe!";
-                return true;    
+
+                return true;
             }
         }
-        
+
         return false;
-         
+
     }
-    
-    
-    
+
+
+
     /**
      * get a simple CSRF-like token
      *
      * @see getToken()
-     * @return string 
+     * @return string
      */
-    public function token() 
+    public function token()
     {
-            
         return getToken();
-        
+
     }
-    
-    
+
+
     /**
      * lists templates, optionally filtered by $filter
      *
-     * @param string $filter
-     * @return string 
+     * @param  string $filter
+     * @return string
      */
-    public function listtemplates($filter="") 
+    public function listtemplates($filter="")
     {
         global $app;
 
         $files = array();
-    
+
         $foldername = realpath(__DIR__.'/../../../theme/' . $app['config']['general']['theme']);
 
 
         $d = dir($foldername);
-        
+
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
-        
+
         while (false !== ($file = $d->read())) {
-            
+
             if (in_array($file, $ignored)) { continue; }
-            
-            if (is_file($foldername."/".$file) && is_readable($foldername."/".$file)) {        
-                
+
+            if (is_file($foldername."/".$file) && is_readable($foldername."/".$file)) {
+
                 if (!empty($filter) && !fnmatch($filter, $file)) {
-                    continue;   
+                    continue;
                 }
-                
-                // Skip filenames that start with _ 
+
+                // Skip filenames that start with _
                 if ($file[0] == "_") {
                     continue;
                 }
-                          
-                $files[$file] = $file;       
+
+                $files[$file] = $file;
             }
-            
-            
+
+
         }
-            
-        $d->close();    
-    
+
+        $d->close();
+
         return $files;
-        
+
     }
-    
-    
+
+
     /**
      * output a simple pager, for paged pages.
      *
-     * @param array $pager
+     * @param  array  $pager
      * @return string HTML
      */
     public function pager(\Twig_Environment $env, $pagername='', $surr=4, $template='_sub_pager.twig', $class='')
@@ -277,118 +272,118 @@ class TwigExtension extends \Twig_Extension
         }
 
         echo $env->render($template, array('pager' => $thispager, 'surr' => $surr, 'class' => $class));
-            
+
     }
-    
-    
+
+
     /**
-     * Get 'content' 
+     * Get 'content'
      *
      * usage:
      * To get 10 entries, in order: {% set entries = content('entries', {'limit': 10}) %}
-     * 
+     *
      * To get the latest single page: {% set page = content('page', {'order':'datecreated desc'}) %}
      *
      * To get 5 upcoming events: {% set events = content('events', {'order': 'date asc', 'where' => 'date < now()' }) %}
      */
-    public function content($contenttypeslug, $params) 
+    public function content($contenttypeslug, $params)
     {
         global $app; /* TODO: figure out if there's a way to do this without globals.. */
-    
+
         $contenttype = $app['storage']->getContentType($contenttypeslug);
-            
+
         // If the contenttype doesn't exist, return an empty array
         if (!$contenttype) {
             $app['log']->add("contenttype '$contenttypeslug' doesn't exist.", 1);
+
             return array();
         }
-        
+
         if ($app['request']->query->get('page') != "") {
             $params['page'] = $app['request']->query->get('page');
         }
-        
+
         if ((makeSlug($contenttypeslug) == $contenttype['singular_slug']) || $params['limit']==1) {
-            // If we used the singular version of the contenttype, or we specifically request only one result.. 
+            // If we used the singular version of the contenttype, or we specifically request only one result..
             $content = $app['storage']->getSingleContent($contenttypeslug, $params);
         } else {
             // Else, we get more than one result
             $content = $app['storage']->getContent($contenttypeslug, $params, $pager);
             $app['pager'] = $pager;
         }
-        
-        
-        return $content; 
-        
+
+        return $content;
+
     }
-    
-    
-        
-    
+
+
+
+
     /**
      * return the 'max' of two values..
      *
-     * @param mixed $a
-     * @param mixed $b
+     * @param  mixed $a
+     * @param  mixed $b
      * @return mixed
      */
-    public function max($a, $b) 
+    public function max($a, $b)
     {
-        return max($a, $b);        
+        return max($a, $b);
     }
-    
-    
+
+
     /**
      * return the 'min' of two values..
      *
-     * @param mixed $a
-     * @param mixed $b
+     * @param  mixed $a
+     * @param  mixed $b
      * @return mixed
      */
-    public function min($a, $b) 
+    public function min($a, $b)
     {
-        return min($a, $b);        
+        return min($a, $b);
     }
-    
 
-    
+
+
     /**
      * return the requested parameter from $_REQUEST, $_GET or $_POST..
      *
-     * @param string $parameter
-     * @param string $first
+     * @param  string $parameter
+     * @param  string $first
      * @return mixed
      */
-    public function request($parameter, $first="") 
+    public function request($parameter, $first="")
     {
-    
+
         if ($first=="get" && isset($_GET[$parameter])) {
             return $_GET[$parameter];
-        } else if ($first=="post" && isset($_POST[$parameter])) {
+        } elseif ($first=="post" && isset($_POST[$parameter])) {
             return $_POST[$parameter];
-        } else if (isset($_REQUEST[$parameter])) {
+        } elseif (isset($_REQUEST[$parameter])) {
             return $_REQUEST[$parameter];
         } else {
             return false;
-        } 
-        
-    }
-    
+        }
 
-    
+    }
+
+
+
     /**
      * Stub for the 'trans' and 'transchoice' filters.
      */
-    public function trans($str) 
+    public function trans($str)
     {
             return $str;
     }
-    
-    
+
+
     /**
      * Helper function to make a path to an image thumbnail.
      *
      */
-    public function thumbnail($filename, $width=100, $height=100, $crop="") 
+    public function thumbnail($filename, $width=100, $height=100, $crop="")
     {
         global $app;
 
@@ -399,82 +394,82 @@ class TwigExtension extends \Twig_Extension
             $crop,
             $filename
             );
-        
+
         return $thumbnail;
-        
+
     }
-    
-    
-    
+
+
+
     /**
      * Helper function to wrap an image in a fancybox HTML tag, with thumbnail
      *
      * example: {{ content.image|fancybox(320, 240) }}
      */
-    public function fancybox($filename="", $width=100, $height=100, $crop="") 
+    public function fancybox($filename="", $width=100, $height=100, $crop="")
     {
-        
+
         if (!empty($filename)) {
-    
+
             $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
             $large = $this->thumbnail($filename, 1000, 1000, 'r');
-        
+
             $fancybox = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
-                    <img src="%s" width="%s" height="%s"></a>', 
+                    <img src="%s" width="%s" height="%s"></a>',
                     $large, $filename, $thumbnail, $width, $height );
-    
+
             return $fancybox;
-    
-                            
+
+
         } else {
             return "&nbsp;";
         }
-        
-        
+
+
     }
-    
 
-    
 
-    public function editable($html, $content, $field) 
+
+
+    public function editable($html, $content, $field)
     {
-        
+
         $contenttype = $content->contenttype['slug'];
         $id = $content->id;
-        
-        $output = sprintf("<div class='Bolt-editable' data-id='%s' data-contenttype='%s' data-field='%s'>%s</div>", 
+
+        $output = sprintf("<div class='Bolt-editable' data-id='%s' data-contenttype='%s' data-field='%s'>%s</div>",
             $content->id,
             $contenttype,
             $field,
             $html
             );
-        
+
         return $output;
-        
-        
+
+
     }
-    
 
 
-    
+
+
     /**
      * Check if we're on an ipad, iphone or android device..
      *
      * @return boolean
      */
-    public function ismobileclient() 
+    public function ismobileclient()
     {
-    
-        if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i', 
+
+        if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
             $_SERVER['HTTP_USER_AGENT'])) {
-            return true;       
+            return true;
         } else {
-            return false;        
+            return false;
         }
     }
-    
-    
-    
+
+
+
     /**
      * Output a menu..
      *
@@ -482,9 +477,9 @@ class TwigExtension extends \Twig_Extension
     public function menu(\Twig_Environment $env, $identifier = "")
     {
         global $app;
-        
+
         $menus = $app['config']['menu'];
-        
+
         if (!empty($identifier) && isset($menus[$identifier]) ) {
             $name = strtolower($identifier);
             $menu = $menus[$identifier];
@@ -492,42 +487,42 @@ class TwigExtension extends \Twig_Extension
             $name = strtolower(util::array_first_key($menus));
             $menu = util::array_first($menus);
         }
-        
-        
+
+
         foreach ($menu as $key=>$item) {
             $menu[$key] = $this->menuHelper($item);
             if (isset($item['submenu'])) {
                 foreach ($item['submenu'] as $subkey=>$subitem) {
                    $menu[$key]['submenu'][$subkey] = $this->menuHelper($subitem);
                }
-            }          
-            
+            }
+
         }
 
 
         // echo "<pre>\n" . util::var_dump($menu, true) . "</pre>\n";
-        
+
         echo $env->render('_sub_menu.twig', array('name' => $name, 'menu' => $menu));
-                    
+
 
 
     }
-    
-    
+
+
     private function menuHelper($item)
     {
         global $app;
 
         if (isset($item['path']) && $item['path'] == "homepage") {
             $item['link'] = $app['paths']['root'];
-        } else if (isset($item['path'])) {
+        } elseif (isset($item['path'])) {
 
             // if the item is like 'content/1', get that content.
 
             $content = $app['storage']->getSingleContent($item['path']);
-            
+
             if (empty($item['label'])) {
-                $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];                
+                $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];
             }
             if (empty($item['title'])) {
                 $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
@@ -537,14 +532,12 @@ class TwigExtension extends \Twig_Extension
             }
         }
 
-
-
         return $item;
-        
+
     }
-        
-        
-    public function randomquote() 
+
+
+    public function randomquote()
     {
         $quotes = array(
             "Complexity is your enemy. Any fool can make something complicated. It is hard to make something simple.#Richard Branson",
@@ -572,18 +565,13 @@ class TwigExtension extends \Twig_Extension
             "A little simplification would be the first step toward rational living, I think.#Eleanor Roosevelt",
             "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus"
         );
-        
+
         $randomquote = explode("#", $quotes[array_rand($quotes, 1)]);
-        
+
         $quote = sprintf("“%s”\n<cite>— %s</cite>", $randomquote[0], $randomquote[1]);
-            
-        return $quote;        
 
-        
+        return $quote;
+
     }
-    
+
 }
-
-
-
-

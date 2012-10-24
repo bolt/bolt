@@ -19,11 +19,9 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         });
 
-
     }
 
     public function boot(Application $app)
     {
     }
 }
-

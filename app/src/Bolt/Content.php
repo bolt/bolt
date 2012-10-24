@@ -2,10 +2,8 @@
 
 Namespace Bolt;
 
-use util;
-
-class Content {
-
+class Content
+{
     public $id;
     public $values;
     public $taxonomy;
@@ -27,10 +25,10 @@ class Content {
             );
             $this->setValues($values);
         }
-        
+
         if (!empty($contenttype)) {
             $this->setContenttype($contenttype);
-        }        
+        }
     }
 
     public function setValues($values)
@@ -42,7 +40,6 @@ class Content {
         }
 
         $this->values = $values;
-
 
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
@@ -64,7 +61,7 @@ class Content {
         }
 
         // Check if the values need to be unserialized..
-        foreach($this->values as $key => $value) {
+        foreach ($this->values as $key => $value) {
             if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
                 $unserdata = @unserialize($value);
                 if ($unserdata !== false) {
@@ -74,8 +71,6 @@ class Content {
         }
 
     }
-
-
 
     public function setValue($key, $value)
     {
@@ -87,7 +82,6 @@ class Content {
                 $value = $unserdata;
             }
         }
-
 
         if ($key == 'id') {
             $this->id = $value;
@@ -105,10 +99,7 @@ class Content {
             $this->values['datechanged'] = date("Y-m-d H:i:s");
         }
 
-
         $this->values[$key] = $value;
-
-
 
     }
 
@@ -151,7 +142,7 @@ class Content {
 
         // Handle file-uploads.
         if (!empty($_FILES)) {
-            foreach($_FILES as $key => $file) {
+            foreach ($_FILES as $key => $file) {
 
                 $filename = sprintf("%s/files/%s/%s",
                     $app['paths']['rootpath'], date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
@@ -174,7 +165,7 @@ class Content {
 
                 // Check if we don't have doubles.
                 if (is_file($filename)) {
-                    while(is_file($filename)) {
+                    while (is_file($filename)) {
                         $filename = $this->upcountName($filename);
                         $basename = $this->upcountName($basename);
                     }
@@ -200,10 +191,11 @@ class Content {
      * "upcount" a filename: Add (1), (2), etc. for filenames that already exist.
      * Taken from jQuery file upload..
      *
-     * @param string $name
+     * @param  string $name
      * @return string
      */
-    protected function upcountName($name) {
+    protected function upcountName($name)
+    {
         return preg_replace_callback(
             '/(?:(?: \(([\d]+)\))?(\.[^.]+))?$/',
             array($this, 'upcountNameCallback'),
@@ -222,15 +214,17 @@ class Content {
      * @internal param string $name
      * @return string
      */
-    protected function upcountNameCallback($matches) {
+    protected function upcountNameCallback($matches)
+    {
         $index = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
         $ext = isset($matches[2]) ? $matches[2] : '';
+
         return ' ('.$index.')'.$ext;
     }
 
 
 
-    public function setContenttype($contenttype) 
+    public function setContenttype($contenttype)
     {
         global $app;
 
@@ -239,41 +233,39 @@ class Content {
         }
 
         $this->contenttype = $contenttype;
-        
+
     }
-    
-    public function setTaxonomy($taxonomytype, $value) 
+
+    public function setTaxonomy($taxonomytype, $value)
     {
         global $app;
-        
+
         $this->taxonomy[$taxonomytype][] = $value;
-        
+
         // If it's a "grouping" type, set $this->group.
         if ($app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
             $this->setGroup($value);
         }
-        
-        
+
     }
-    
-    
-    public function getTaxonomyType($type) {
-    
+
+    public function getTaxonomyType($type)
+    {
         if (isset($this->config['taxonomy'][$type])) {
             return $this->config['taxonomy'][$type];
         } else {
             return false;
         }
-    
-    }    
-    
-    public function setGroup($value) 
+
+    }
+
+    public function setGroup($value)
     {
         $this->group = $value;
-    }    
- 
+    }
+
     /**
-     * magic __call function, used for when templates use {{ content.title }}, 
+     * magic __call function, used for when templates use {{ content.title }},
      * so we can map it to $this->values['title']
      */
     public function __call($name, $arguments)
@@ -283,13 +275,13 @@ class Content {
             // This is too invasive. for now, only add editable when needed
             /*
             $fieldtype = $this->contenttype['fields'][$name]['type'];
-            
+
             if (in_array($fieldtype, array('html', 'text', 'textarea'))) {
                 $output = sprintf("<div class='bolt-editable'>%s</div>", $this->values[$name]);
             } else {
                 $output = $this->values[$name];
             }
-            
+
             return $output;
             */
 
@@ -298,6 +290,7 @@ class Content {
             if ($fieldtype == "markdown") {
                 include_once __DIR__. "/../../classes/markdown.php";
                 $html = Markdown($this->values[$name]);
+
                 return $html;
             }
 
@@ -306,8 +299,8 @@ class Content {
         } else {
             return false;
         }
-    }   
-    
+    }
+
     /**
      * pseudo-magic function, used for when templates use {{ content.get(title) }},
      * so we can map it to $this->values['title']
@@ -330,7 +323,6 @@ class Content {
         }
     }
 
-
     /**
      * Get the title, name, caption or subject..
      */
@@ -339,26 +331,22 @@ class Content {
 
         if (isset($this->values['title'])) {
             return $this->values['title'];
-        } else if (isset($this->values['name'])) {
+        } elseif (isset($this->values['name'])) {
             return $this->values['name'];
-        } else if (isset($this->values['caption'])) {
+        } elseif (isset($this->values['caption'])) {
             return $this->values['caption'];
-        } else if (isset($this->values['subject'])) {
+        } elseif (isset($this->values['subject'])) {
             return $this->values['subject'];
         } else {
             return "(untitled)";
         }
 
-
     }
-
-
-
 
     /**
      * Creates a link to the content record
      */
-    public function link($param="") 
+    public function link($param="")
     {
         global $app;
 
@@ -373,11 +361,10 @@ class Content {
             $app['paths']['root'],
             $this->contenttype['singular_slug'],
             $this->values['slug'] );
-        
-        return $link;
-        
-    }
 
+        return $link;
+
+    }
 
     /**
      * Gets the correct template to use, based on our cascading template rules.
@@ -393,7 +380,7 @@ class Content {
             $template = $this->contenttype['record_template'];
         }
 
-        foreach($this->contenttype['fields'] as $name => $field) {
+        foreach ($this->contenttype['fields'] as $name => $field) {
             if ($field['type']=="templateselect" && !empty($this->values[$name]) ) {
                 $template = $this->values[$name];
             }
@@ -411,7 +398,7 @@ class Content {
     public function fieldtype($key)
     {
 
-        foreach($this->contenttype['fields'] as $name => $field) {
+        foreach ($this->contenttype['fields'] as $name => $field) {
             if ($name == $key) {
                 return $field['type'];
             }
@@ -421,19 +408,18 @@ class Content {
 
     }
 
-
     /**
      *
      * Create an excerpt for the content.
      *
-     * @param int $length
+     * @param  int    $length
      * @return string
      */
-    public function excerpt($length=200) {
-
+    public function excerpt($length=200)
+    {
         $excerpt = array();
 
-        foreach ($this->contenttype['fields'] as $key => $field) {           
+        foreach ($this->contenttype['fields'] as $key => $field) {
             if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
                 && isset($this->values[$key])
                 && !in_array($key, array("title", "name")) ) {
@@ -446,8 +432,7 @@ class Content {
         $excerpt = trimText(strip_tags($excerpt), $length) ;
 
         return $excerpt;
-        
+
     }
-    
-    
+
 }

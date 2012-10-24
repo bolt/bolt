@@ -8,8 +8,8 @@ namespace Bolt;
  * @author Bob den Otter, bob@twokings.nl
  *
  **/
-class Log {
-
+class Log
+{
     public function __construct($app)
     {
         $this->db = $app['db'];
@@ -31,20 +31,20 @@ class Log {
     }
 
     // TODO: Do we need this?
-    public function setUser($user) {
-
+    public function setUser($user)
+    {
         $this->user = $app['session']->get('user');
 
     }
 
-    public function setRoute($route) {
-
+    public function setRoute($route)
+    {
         $this->route = $route;
 
     }
 
-    public function errorhandler($message, $filename, $line) {
-
+    public function errorhandler($message, $filename, $line)
+    {
         $log = array(
             'date' => date('Y-m-d H:i:s'),
             'message' => $message,
@@ -59,7 +59,8 @@ class Log {
 
     }
 
-    public function add($message, $level=1, $content=false, $code='') {
+    public function add($message, $level=1, $content=false, $code='')
+    {
         global $app;
 
         $backtrace = debug_backtrace();
@@ -95,7 +96,6 @@ class Log {
             $log['content_id'] = "";
         }
 
-
         // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";
 
         $this->memorylog[] = $log;
@@ -109,13 +109,14 @@ class Log {
 
     }
 
-    public function getMemorylog() {
-
+    public function getMemorylog()
+    {
         return $this->memorylog;
 
     }
 
-    public function getActivity($amount = 10, $minlevel=2) {
+    public function getActivity($amount = 10, $minlevel=2)
+    {
         global $app;
 
         $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
@@ -154,11 +155,8 @@ class Log {
 
         $GLOBALS['pager']['activity'] = $pager;
 
-
         return $rows;
 
     }
 
-
 }
-

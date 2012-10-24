@@ -8,7 +8,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
     {
         $arguments = array();
 
-        foreach(array_chunk($array->getIterator()->getArrayCopy(), 2) as $pair) {
+        foreach (array_chunk($array->getIterator()->getArrayCopy(), 2) as $pair) {
             if (count($pair) == 2) {
                 $key   = $pair[0]->getAttribute('value');
                 $value = $pair[1]->getAttribute('value');   // @todo support for multiple types
@@ -19,17 +19,17 @@ class SetcontentTokenParser extends \Twig_TokenParser
 
         return $arguments;
     }
-    
+
     public function parse(\Twig_Token $token)
     {
         $lineno = $token->getLine();
 
         $arguments = array();
-        
+
         // name - the new variable with the results
         $name = $this->parser->getStream()->expect(\Twig_Token::NAME_TYPE)->getValue();
         $this->parser->getStream()->expect(\Twig_Token::OPERATOR_TYPE, '=');
-        
+
         // contenttype, or simple expression to content.
         $contenttype = $this->parser->getExpressionParser()->parseExpression();
 
@@ -38,13 +38,13 @@ class SetcontentTokenParser extends \Twig_TokenParser
             $where = $this->parser->getExpressionParser()->parseHashExpression();
 
             $arguments = $this->convertToViewArguments($where);
-            
+
         }
-        
+
         if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'limit')) {
             $this->parser->getStream()->next();
-            
-            $limit = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');                
+
+            $limit = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');
             $arguments['limit'] = $limit;
 
         }
@@ -52,8 +52,8 @@ class SetcontentTokenParser extends \Twig_TokenParser
         if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'order') ||
             $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'orderby') ) {
             $this->parser->getStream()->next();
-            
-            $order = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');                
+
+            $order = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');
             $arguments['order'] = $order;
 
         }
@@ -76,4 +76,3 @@ class SetcontentTokenParser extends \Twig_TokenParser
         return 'setcontent';
     }
 }
-

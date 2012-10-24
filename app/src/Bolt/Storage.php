@@ -1048,8 +1048,8 @@ class Storage
     /**
      * Get an array of the available fields for a given contenttype
      *
-     * @param string $contenttypeslug
-     * @return array $fields
+     * @param  string $contenttypeslug
+     * @return array  $fields
      */
     public function getContentTypeFields($contenttypeslug)
     {
@@ -1067,8 +1067,8 @@ class Storage
     /**
      * Get an array of the available taxonomytypes for a given contenttype
      *
-     * @param string $contenttypeslug
-     * @return array $taxonomy
+     * @param  string $contenttypeslug
+     * @return array  $taxonomy
      */
     public function getContentTypeTaxonomy($contenttypeslug)
     {
@@ -1131,9 +1131,9 @@ class Storage
     /**
      * Update / insert taxonomy for a given content-unit.
      *
-     * @param string $contenttype
+     * @param string  $contenttype
      * @param integer $content_id
-     * @param array $taxonomy
+     * @param array   $taxonomy
      */
     protected function updateTaxonomy($contenttype, $content_id, $taxonomy)
     {
