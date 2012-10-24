@@ -48,7 +48,7 @@ class TwigExtension extends \Twig_Extension
             'trans' => new \Twig_Filter_Method($this, 'trans'),
             'transchoice' => new \Twig_Filter_Method($this, 'trans'),
             'thumbnail' => new \Twig_Filter_Method($this, 'thumbnail'),
-            'shadowbox' => new \Twig_Filter_Method($this, 'shadowbox', array('is_safe' => array('html'))),
+            'fancybox' => new \Twig_Filter_Method($this, 'fancybox', array('is_safe' => array('html'))),
             'editable' => new \Twig_Filter_Method($this, 'editable', array('is_safe' => array('html'))),
 
         );
@@ -407,11 +407,11 @@ class TwigExtension extends \Twig_Extension
     
     
     /**
-     * Helper function to wrap an image in a shadowbox HTML tag, with thumbnail
+     * Helper function to wrap an image in a fancybox HTML tag, with thumbnail
      *
-     * example: {{ content.image|shadowbox(320, 240) }}
+     * example: {{ content.image|fancybox(320, 240) }}
      */
-    public function shadowbox($filename="", $width=100, $height=100, $crop="") 
+    public function fancybox($filename="", $width=100, $height=100, $crop="") 
     {
         
         if (!empty($filename)) {
@@ -419,11 +419,11 @@ class TwigExtension extends \Twig_Extension
             $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
             $large = $this->thumbnail($filename, 1000, 1000, 'r');
         
-            $shadowbox = sprintf('<a href="%s" rel="shadowbox" title="Image: %s">
+            $fancybox = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
                     <img src="%s" width="%s" height="%s"></a>', 
                     $large, $filename, $thumbnail, $width, $height );
     
-            return $shadowbox;
+            return $fancybox;
     
                             
         } else {

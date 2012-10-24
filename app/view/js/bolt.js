@@ -27,13 +27,8 @@ jQuery(function($) {
 	}
 
 
-	// Initialize the Shadowbox shizzle.
-	Shadowbox.init({ 
-	   animate: true, 
-	   overlayColor: "#DDD", 
-	   overlayOpacity: 0.7, 
-	   viewportPadding: 40
-    });
+	// Initialize the Fancybox shizzle.
+	$('.fancybox').fancybox({ });
 	
     // Show 'dropzone' for jQuery file uploader. 
     // TODO: make it prettier, and distinguish between '.in' and '.hover'.
