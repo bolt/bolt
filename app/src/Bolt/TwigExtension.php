@@ -77,7 +77,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Create an excerpt for the given content
      */
-    public function excerpt($content, $length=200)
+    public function excerpt($content, $length = 200)
     {
 
         // If it's an contenct object, let the object handle it.
@@ -112,7 +112,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Trimtexts the given string.
      */
-    public function trim($content, $length=200)
+    public function trim($content, $length = 200)
     {
 
         $output = trimText(strip_tags($content), $length) ;
@@ -137,7 +137,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * UCfirsts the given string.
      */
-    public function ucfirst($str, $param="")
+    public function ucfirst($str, $param = "")
     {
         return ucfirst($str);
 
@@ -149,7 +149,7 @@ class TwigExtension extends \Twig_Extension
      * If we're on page/foo, and content is that page, you can use
      * {% is page|current %}class='active'{% endif %}
      */
-    public function current($content, $param="")
+    public function current($content, $param = "")
     {
         global $app;
 
@@ -208,7 +208,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $filter
      * @return string
      */
-    public function listtemplates($filter="")
+    public function listtemplates($filter = "")
     {
         global $app;
 
@@ -255,7 +255,7 @@ class TwigExtension extends \Twig_Extension
      * @param  array  $pager
      * @return string HTML
      */
-    public function pager(\Twig_Environment $env, $pagername='', $surr=4, $template='_sub_pager.twig', $class='')
+    public function pager(\Twig_Environment $env, $pagername = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
         // Yuck, $GLOBALS.. TODO: figure out a better way to do this.
         $pager = $GLOBALS['pager'];
@@ -353,7 +353,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $first
      * @return mixed
      */
-    public function request($parameter, $first="")
+    public function request($parameter, $first = "")
     {
 
         if ($first=="get" && isset($_GET[$parameter])) {
@@ -383,7 +383,7 @@ class TwigExtension extends \Twig_Extension
      * Helper function to make a path to an image thumbnail.
      *
      */
-    public function thumbnail($filename, $width=100, $height=100, $crop="")
+    public function thumbnail($filename, $width = 100, $height = 100, $crop = "")
     {
         global $app;
 
@@ -406,7 +406,7 @@ class TwigExtension extends \Twig_Extension
      *
      * example: {{ content.image|fancybox(320, 240) }}
      */
-    public function fancybox($filename="", $width=100, $height=100, $crop="")
+    public function fancybox($filename = "", $width = 100, $height = 100, $crop = "")
     {
 
         if (!empty($filename)) {

@@ -50,7 +50,7 @@ class Users
 
         if (!empty($user['password']) && $user['password']!="**dontchange**") {
             require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
-            $hasher = new \PasswordHash(8, TRUE);
+            $hasher = new \PasswordHash(8, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
@@ -116,7 +116,7 @@ class Users
      * @param  string $name
      * @return string
      */
-    private function getSessionKey($name="")
+    private function getSessionKey($name = "")
     {
 
         if (empty($name)) {
@@ -183,7 +183,7 @@ class Users
         }
 
         require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
-        $hasher = new \PasswordHash(8, TRUE);
+        $hasher = new \PasswordHash(8, true);
 
         if ($hasher->CheckPassword($password, $user['password'])) {
 

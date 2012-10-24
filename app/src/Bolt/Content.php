@@ -9,7 +9,7 @@ class Content
     public $taxonomy;
     public $contenttype;
 
-    public function __construct($values="", $contenttype="")
+    public function __construct($values = "", $contenttype = "")
     {
 
         if (!empty($values)) {
@@ -415,7 +415,7 @@ class Content
      * @param  int    $length
      * @return string
      */
-    public function excerpt($length=200)
+    public function excerpt($length = 200)
     {
         $excerpt = array();
 

@@ -59,7 +59,7 @@ class Log
 
     }
 
-    public function add($message, $level=1, $content=false, $code='')
+    public function add($message, $level = 1, $content = false, $code = '')
     {
         global $app;
 
@@ -115,7 +115,7 @@ class Log
 
     }
 
-    public function getActivity($amount = 10, $minlevel=2)
+    public function getActivity($amount = 10, $minlevel = 2)
     {
         global $app;
 
