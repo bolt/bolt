@@ -32,8 +32,8 @@ function makeDir($name)
     $mode_dec = octdec($mode);
 
     $oldumask = umask(0);
-    $success = @mkdir ($name, $mode_dec);
-    @chmod ($name, $mode_dec);
+    $success = @mkdir($name, $mode_dec);
+    @chmod($name, $mode_dec);
     umask($oldumask);
 
     return $success;
@@ -47,10 +47,10 @@ function makeDir($name)
  */
 function getToken()
 {
-   $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['bolt_session'];
-   $token = substr(md5($seed), 0, 8);
+    $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['bolt_session'];
+    $token = substr(md5($seed), 0, 8);
 
-   return $token;
+    return $token;
 }
 
 /**
@@ -60,7 +60,7 @@ function getToken()
  *
  * @return bool
  */
-function checkToken($token="")
+function checkToken($token = "")
 {
     global $app;
 
@@ -143,31 +143,29 @@ function clearCacheHelper($additional, &$result)
 
     while (false !== ($entry = $d->read())) {
 
-       if ($entry == "." || $entry == ".." || $entry == "index.html") {
-           continue;
-       }
+        if ($entry == "." || $entry == ".." || $entry == "index.html") {
+            continue;
+        }
 
-       if (is_file($currentfolder."/".$entry)) {
-           if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
-               $result['successfiles']++;
-           } else {
-               $result['failedfiles']++;
-           }
-       }
+        if (is_file($currentfolder."/".$entry)) {
+            if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
+                $result['successfiles']++;
+            } else {
+                $result['failedfiles']++;
+            }
+        }
 
-       if (is_dir($currentfolder."/".$entry)) {
+        if (is_dir($currentfolder."/".$entry)) {
 
-           clearCacheHelper($additional."/".$entry, $result);
+            clearCacheHelper($additional."/".$entry, $result);
 
-           if (@rmdir($currentfolder."/".$entry)) {
-               $result['successfolders']++;
-           } else {
-               $result['failedfolders']++;
-           }
+            if (@rmdir($currentfolder."/".$entry)) {
+                $result['successfolders']++;
+            } else {
+                $result['failedfolders']++;
+            }
 
-
-       }
-
+        }
 
     }
 
@@ -175,7 +173,7 @@ function clearCacheHelper($additional, &$result)
 
 }
 
-function findFiles($term, $extensions="")
+function findFiles($term, $extensions = "")
 {
     if (is_string($extensions)) {
         $extensions = explode(",", $extensions);
@@ -193,7 +191,7 @@ function findFiles($term, $extensions="")
 
 }
 
-function findFilesHelper($additional, &$files, $term="", $extensions=array())
+function findFilesHelper($additional, &$files, $term = "", $extensions = array())
 {
     $basefolder = __DIR__."/../../files/";
 
@@ -205,7 +203,9 @@ function findFilesHelper($additional, &$files, $term="", $extensions=array())
 
     while (false !== ($entry = $d->read())) {
 
-        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) { continue; }
+        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) {
+            continue;
+        }
 
         if (is_file($currentfolder."/".$entry) && is_readable($currentfolder."/".$entry)) {
 
@@ -256,13 +256,23 @@ function checkVersion($currentversion, $requiredversion)
     list($majorC, $minorC, $editC) = preg_split('#[/.-]#', $currentversion . ".0.0");
     list($majorR, $minorR, $editR) = preg_split('#[/.-]#', $requiredversion . ".0.0");
 
-    if ($majorC > $majorR) { return true; }
-    if ($majorC < $majorR) { return false; }
+    if ($majorC > $majorR) {
+        return true;
+    }
+    if ($majorC < $majorR) {
+        return false;
+    }
     // same major - check minor
-    if ($minorC > $minorR) { return true; }
-    if ($minorC < $minorR) { return false; }
+    if ($minorC > $minorR) {
+        return true;
+    }
+    if ($minorC < $minorR) {
+        return false;
+    }
     // and same minor
-    if ($editC  >= $editR) { return true; }
+    if ($editC  >= $editR) {
+        return true;
+    }
 
     return false;
 }
@@ -278,8 +288,8 @@ function checkVersion($currentversion, $requiredversion)
  */
 function stripTrailingSlash($path)
 {
-    if (substr($path,-1,1) == "/") {
-        $path = substr($path,0,-1);
+    if (substr($path, -1, 1) == "/") {
+        $path = substr($path, 0, -1);
     }
 
     return $path;
@@ -292,7 +302,7 @@ function stripTrailingSlash($path)
  */
 function getMicrotime()
 {
-    list($usec, $sec) = explode(" ",microtime());
+    list($usec, $sec) = explode(" ", microtime());
 
     return ((float) $usec + (float) $sec);
 }
@@ -382,8 +392,8 @@ function makeKey($length)
     $len = strlen($seed);
     $key = "";
 
-    for ($i=0;$i<$length;$i++) {
-        $key .= $seed[ rand(0,$len-1) ];
+    for ($i=0; $i<$length; $i++) {
+        $key .= $seed[ rand(0, $len-1) ];
     }
 
     return $key;
@@ -420,7 +430,7 @@ function getExtension($filename)
  * @param boolean $strict
  * @return string
  */
-function safeString($str, $strict=false, $extrachars="")
+function safeString($str, $strict = false, $extrachars = "")
 {
     // replace UTF-8 non ISO-8859-1 first
     $str = strtr($str, array(
@@ -512,7 +522,7 @@ function makeSlug($str)
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
     $str = preg_replace("/[-]+/i", "-", $str);
 
-    $str = substr($str,0,64); // 64 chars ought to be long enough.
+    $str = substr($str, 0, 64); // 64 chars ought to be long enough.
 
     return $str;
 
@@ -528,20 +538,20 @@ function makeSlug($str)
  */
 function makeValuepairs($array, $key, $value)
 {
-        $temp_array = array();
+    $temp_array = array();
 
-        if (is_array($array)) {
-                foreach ($array as $item) {
-                        if (empty($key)) {
-                            $temp_array[] = $item[$value];
-                        } else {
-                            $temp_array[$item[$key]] = $item[$value];
-                        }
+    if (is_array($array)) {
+        foreach ($array as $item) {
+            if (empty($key)) {
+                $temp_array[] = $item[$value];
+            } else {
+                $temp_array[$item[$key]] = $item[$value];
+            }
 
-                }
         }
+    }
 
-        return $temp_array;
+    return $temp_array;
 
 }
 
@@ -562,7 +572,7 @@ function makeValuepairs($array, $key, $value)
  *
  * @return string trimmed string
  */
-function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true)
+function trimText($str, $length, $nbsp = false, $hellip = true, $striptags = true)
 {
     if ($striptags) {
         $str = strip_tags($str);
@@ -577,14 +587,14 @@ function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true)
 
     if (function_exists('mb_strwidth') ) {
         if (mb_strwidth($str)>$length) {
-            $str = mb_strimwidth($str,0,$length+1, '', 'UTF-8');
+            $str = mb_strimwidth($str, 0, $length+1, '', 'UTF-8');
             if ($hellip) {
                 $str .= '…';
             }
         }
     } else {
         if (strlen($str)>$length) {
-            $str = substr($str,0,$length+1);
+            $str = substr($str, 0, $length+1);
             if ($hellip) {
                 $str .= '…';
             }
@@ -739,7 +749,9 @@ function getDBOptions($config)
     if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
 
         $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : "bolt";
-        if (getExtension($basename)!="db") { $basename .= ".db"; };
+        if (getExtension($basename)!="db") {
+            $basename .= ".db";
+        };
 
         $dboptions = array(
             'driver' => 'pdo_sqlite',
@@ -750,8 +762,12 @@ function getDBOptions($config)
         // Assume we configured it correctly. Yeehaa!
 
         $driver = (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql');
-        if ($driver == "mysql" || $driver == "mysqli") { $driver = 'pdo_mysql'; }
-        if ($driver == "postgres" || $driver == "postgresql") { $driver = 'pdo_postgres'; }
+        if ($driver == "mysql" || $driver == "mysqli") {
+            $driver = 'pdo_mysql';
+        }
+        if ($driver == "postgres" || $driver == "postgresql") {
+            $driver = 'pdo_postgres';
+        }
 
         $dboptions = array(
             'driver'    => $driver,
@@ -781,9 +797,11 @@ function getPaths($config = array())
     // Set the root
     $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
     $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
-    if (empty($path_prefix)) { $path_prefix = "/"; }
+    if (empty($path_prefix)) {
+        $path_prefix = "/";
+    }
 
-    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
+    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https' : 'http';
 
     $currentpath = $_SERVER['REQUEST_URI'];
 
@@ -821,7 +839,7 @@ function getPaths($config = array())
  * @param string $add
  * @return string
  */
-function path($path, $param=array(), $add='')
+function path($path, $param = array(), $add = '')
 {
     global $app;
 
@@ -846,7 +864,7 @@ function path($path, $param=array(), $add='')
  * @param string $add
  * @return string
  */
-function redirect($path, $param=array(), $add='')
+function redirect($path, $param = array(), $add = '')
 {
     global $app;
 
@@ -929,7 +947,7 @@ if (!function_exists('fnmatch')) {
      */
     function fnmatch($pattern, $string, $flags = 0)
     {
-        return pcre_fnmatch($pattern, $string, $flags);
+        return pcreFnmatch($pattern, $string, $flags);
     }
 }
 
@@ -941,7 +959,7 @@ if (!function_exists('fnmatch')) {
  * @param int $flags
  * @return bool
  */
-function pcre_fnmatch($pattern, $string, $flags = 0)
+function pcreFnmatch($pattern, $string, $flags = 0)
 {
     $modifiers = null;
     $transforms = array(
@@ -971,7 +989,9 @@ function pcre_fnmatch($pattern, $string, $flags = 0)
 
     // Period at start must be the same as pattern:
     if ($flags & FNM_PERIOD) {
-        if (strpos($string, '.') === 0 && strpos($pattern, '.') !== 0) return false;
+        if (strpos($string, '.') === 0 && strpos($pattern, '.') !== 0) {
+            return false;
+        }
     }
 
     $pattern = '#^'
