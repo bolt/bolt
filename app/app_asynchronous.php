@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Middleware function to do some tasks that should be done for all aynchronous
  * requests.
  */
-$beforeAsynchronous = function(Request $request) use ($app) {
+$beforeAsynchronous = function (Request $request) use ($app) {
 
     // If there's no active session, don't do anything..
     if (!$app['users']->checkValidSession()) {
@@ -28,7 +28,7 @@ $asynchronous = $app['controllers_factory'];
 /**
  * News.
  */
-$asynchronous->get("/dashboardnews", function(Silex\Application $app) {
+$asynchronous->get("/dashboardnews", function (Silex\Application $app) {
     global $bolt_version, $app;
 
     $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
@@ -72,7 +72,7 @@ $asynchronous->get("/dashboardnews", function(Silex\Application $app) {
 /**
  * Get the 'latest activity' for the dashboard..
  */
-$asynchronous->get("/latestactivity", function(Silex\Application $app) {
+$asynchronous->get("/latestactivity", function (Silex\Application $app) {
     global $bolt_version, $app;
 
     $activity = $app['log']->getActivity(8, 3);
@@ -83,7 +83,7 @@ $asynchronous->get("/latestactivity", function(Silex\Application $app) {
 
 })->before($beforeAsynchronous)->bind('latestactivity');
 
-$asynchronous->get("/filesautocomplete", function(Silex\Application $app, Request $request) {
+$asynchronous->get("/filesautocomplete", function (Silex\Application $app, Request $request) {
 
     $term = $request->get('term');
 
@@ -102,7 +102,7 @@ $asynchronous->get("/filesautocomplete", function(Silex\Application $app, Reques
 })->before($beforeAsynchronous);
 
 /* -- comment out, until we do this properly..
-$asynchronous->get("/updatefield", function(Silex\Application $app, Request $request) {
+$asynchronous->get("/updatefield", function (Silex\Application $app, Request $request) {
 
     // TODO: Make sure the current user is allowed to change this content.
 
@@ -120,7 +120,7 @@ $asynchronous->get("/updatefield", function(Silex\Application $app, Request $req
 })->before($beforeAsynchronous);
 -- */
 
-$asynchronous->get("/readme/{extension}", function($extension, Silex\Application $app, Request $request) {
+$asynchronous->get("/readme/{extension}", function ($extension, Silex\Application $app, Request $request) {
 
     $filename = __DIR__."/extensions/".$extension."/readme.md";
 
@@ -135,7 +135,7 @@ $asynchronous->get("/readme/{extension}", function($extension, Silex\Application
 
 })->before($beforeAsynchronous)->bind('readme');
 
-$asynchronous->post("/markdownify", function(Silex\Application $app, Request $request) {
+$asynchronous->post("/markdownify", function (Silex\Application $app, Request $request) {
 
     $html = $_POST['html'];
 
@@ -154,7 +154,7 @@ $asynchronous->post("/markdownify", function(Silex\Application $app, Request $re
 
 })->before($beforeAsynchronous)->bind('markdownify');
 
-$asynchronous->get("/makeuri", function(Silex\Application $app, Request $request) {
+$asynchronous->get("/makeuri", function (Silex\Application $app, Request $request) {
 
     $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
 

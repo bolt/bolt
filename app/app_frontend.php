@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Middleware function to check whether a user is logged on.
  */
-$checkStuff = function(Request $request) use ($app) {
+$checkStuff = function (Request $request) use ($app) {
 
     // If there are no users in the users table, or the table doesn't exist. Repair
     // the DB, and let's add a new user.
@@ -27,10 +27,7 @@ $checkStuff = function(Request $request) use ($app) {
 /**
  * Homepage..
  */
-$app->match("/", function(Silex\Application $app) {
-
-    $template = !empty($app['config']['general']['homepage_template']) ?
-            $app['config']['general']['homepage_template'] : "index.twig";
+$app->match("/", function (Silex\Application $app) {
 
     if (!empty($app['config']['general']['homepage_template'])) {
         $template = $app['config']['general']['homepage_template'];
@@ -49,6 +46,7 @@ $app->match("/", function(Silex\Application $app) {
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkStuff)->bind('homepage');
+
 
 $app->match('/{contenttypeslug}/{slug}', function (Silex\Application $app, $contenttypeslug, $slug) {
 

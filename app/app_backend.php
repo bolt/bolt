@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Middleware function to check whether a user is logged on.
  */
-$checkLogin = function(Request $request) use ($app) {
+$checkLogin = function (Request $request) use ($app) {
 
     $route = $request->get('_route');
 
@@ -55,7 +55,7 @@ $backend = $app['controllers_factory'];
 /**
  * Dashboard or "root".
  */
-$backend->get("", function(Silex\Application $app) {
+$backend->get("", function (Silex\Application $app) {
 
     // Check DB-tables integrity
     if (!$app['storage']->checkTablesIntegrity()) {
@@ -89,7 +89,7 @@ $backend->get("", function(Silex\Application $app) {
 /**
  * Show the activity-log.
  */
-$backend->get("/activitylog", function(Silex\Application $app) {
+$backend->get("/activitylog", function (Silex\Application $app) {
 
     $title = "Activity log";
 
@@ -102,7 +102,7 @@ $backend->get("/activitylog", function(Silex\Application $app) {
 /**
  * Latest {contenttype} to show a small listing in the sidebars..
  */
-$backend->get("/lastmodified/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
+$backend->get("/lastmodified/{contenttypeslug}", function (Silex\Application $app, $contenttypeslug) {
 
     // Get the proper contenttype..
     $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -119,7 +119,7 @@ $backend->get("/lastmodified/{contenttypeslug}", function(Silex\Application $app
 /**
  * Login page.
  */
-$backend->match("/login", function(Silex\Application $app, Request $request) {
+$backend->match("/login", function (Silex\Application $app, Request $request) {
 
     if ($request->getMethod() == "POST") {
 
@@ -146,7 +146,7 @@ $backend->match("/login", function(Silex\Application $app, Request $request) {
 /**
  * Logout page.
  */
-$backend->get("/logout", function(Silex\Application $app) {
+$backend->get("/logout", function (Silex\Application $app) {
 
     $app['log']->add("Logout", 2, '', 'logout');
 
@@ -161,7 +161,7 @@ $backend->get("/logout", function(Silex\Application $app) {
 /**
  * Check the database, create tables, add missing/new columns to tables
  */
-$backend->get("/dbupdate", function(Silex\Application $app) {
+$backend->get("/dbupdate", function (Silex\Application $app) {
 
     $output = $app['storage']->repairTables();
 
@@ -203,7 +203,7 @@ $backend->get("/dbupdate", function(Silex\Application $app) {
 /**
  * Clear the cache.
  */
-$backend->get("/clearcache", function(Silex\Application $app) {
+$backend->get("/clearcache", function (Silex\Application $app) {
 
     $result = clearCache();
 
@@ -225,7 +225,7 @@ $backend->get("/clearcache", function(Silex\Application $app) {
 /**
  * Generate some lipsum in the DB.
  */
-$backend->get("/prefill", function(Silex\Application $app) {
+$backend->get("/prefill", function (Silex\Application $app) {
 
     $content = $app['storage']->preFill();
 
@@ -244,7 +244,7 @@ $backend->get("/prefill", function(Silex\Application $app) {
 /**
  * Check the database, create tables, add missing/new columns to tables
  */
-$backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $contenttypeslug) {
+$backend->get("/overview/{contenttypeslug}", function (Silex\Application $app, $contenttypeslug) {
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -285,7 +285,7 @@ $backend->get("/overview/{contenttypeslug}", function(Silex\Application $app, $c
 /**
  * Edit a unit of content, or create a new one.
  */
-$backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, Silex\Application $app, Request $request) {
+$backend->match("/edit/{contenttypeslug}/{id}", function ($contenttypeslug, $id, Silex\Application $app, Request $request) {
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -355,7 +355,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function($contenttypeslug, $id, 
 /**
  * Perform actions on content.
  */
-$backend->get("/content/{action}/{contenttypeslug}/{id}", function(Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
+$backend->get("/content/{action}/{contenttypeslug}/{id}", function (Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
 
     $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -413,7 +413,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Validator\Constraints as Assert;
 
-$backend->match("/users/edit/{id}", function($id, Silex\Application $app, Request $request) {
+$backend->match("/users/edit/{id}", function ($id, Silex\Application $app, Request $request) {
 
     // Get the user we want to edit (if any)
     if (!empty($id)) {
@@ -497,7 +497,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
     }
 
     // Make sure the passwords are identical with a custom validator..
-    $form->addValidator(new CallbackValidator(function($form) {
+    $form->addValidator(new CallbackValidator(function ($form) {
 
         $pass1 = $form['password']->getData();
         $pass2 = $form['password_confirmation']->getData();
@@ -544,7 +544,7 @@ $backend->match("/users/edit/{id}", function($id, Silex\Application $app, Reques
 
 /**
  * Show the 'about' page */
-$backend->get("/about", function(Silex\Application $app) {
+$backend->get("/about", function (Silex\Application $app) {
     return $app['twig']->render('about.twig');
 
 })->before($checkLogin)->bind('about');
@@ -552,7 +552,7 @@ $backend->get("/about", function(Silex\Application $app) {
 /**
  * Show a list of all available users.
  */
-$backend->get("/users", function(Silex\Application $app) {
+$backend->get("/users", function (Silex\Application $app) {
 
     $title = "Users";
     $users = $app['users']->getUsers();
@@ -564,7 +564,7 @@ $backend->get("/users", function(Silex\Application $app) {
 /**
  * Show a list of all available extensions.
  */
-$backend->get("/extensions", function(Silex\Application $app) {
+$backend->get("/extensions", function (Silex\Application $app) {
 
     $title = "Extensions";
 
@@ -577,7 +577,7 @@ $backend->get("/extensions", function(Silex\Application $app) {
 /**
  * Perform actions on users.
  */
-$backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $id) {
+$backend->get("/user/{action}/{id}", function (Silex\Application $app, $action, $id) {
 
     $user = $app['users']->getUser($id);
 
@@ -627,7 +627,7 @@ $backend->get("/user/{action}/{id}", function(Silex\Application $app, $action, $
 
 })->before($checkLogin)->bind('useraction');
 
-$backend->get("/files/{path}", function($path, Silex\Application $app, Request $request) {
+$backend->get("/files/{path}", function ($path, Silex\Application $app, Request $request) {
 
     $files = array();
     $folders = array();
@@ -705,7 +705,7 @@ $backend->get("/files/{path}", function($path, Silex\Application $app, Request $
 
 })->before($checkLogin)->assert('path', '.+')->bind('files');
 
-$backend->match("/file/edit/{file}", function($file, Silex\Application $app, Request $request) {
+$backend->match("/file/edit/{file}", function ($file, Silex\Application $app, Request $request) {
 
     $title = "Edit file '$file'.";
 
@@ -779,7 +779,7 @@ $backend->match("/file/edit/{file}", function($file, Silex\Application $app, Req
 
 })->before($checkLogin)->assert('file', '.+')->method('GET|POST')->bind('fileedit');
 
-$app->before(function() use ($app) {
+$app->before(function () use ($app) {
     global $bolt_name, $bolt_version;
 
     $app['twig']->addGlobal('bolt_name', $bolt_name);
@@ -797,7 +797,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
     $app['db.config']->setSQLLogger($logger);
 
     // TODO: See if we can squeeze this into $app->after, instead of ->finish()
-    $app->finish(function(Request $request, Response $response) use ($app, $logger) {
+    $app->finish(function (Request $request, Response $response) use ($app, $logger) {
 
         $end = !empty($app['end']) ? $app['end'] : false;
 
@@ -892,7 +892,7 @@ $app->after(function (Request $request, Response $response) use ($app) {
 /**
  * Error page.
  */
-$app->error(function(Exception $e) use ($app) {
+$app->error(function (Exception $e) use ($app) {
 
     $twigvars = array();
 
