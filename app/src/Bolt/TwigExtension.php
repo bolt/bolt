@@ -223,7 +223,9 @@ class TwigExtension extends \Twig_Extension
 
         while (false !== ($file = $d->read())) {
 
-            if (in_array($file, $ignored)) { continue; }
+            if (in_array($file, $ignored)) {
+                continue;
+            }
 
             if (is_file($foldername."/".$file) && is_readable($foldername."/".$file)) {
 
@@ -460,7 +462,7 @@ class TwigExtension extends \Twig_Extension
     public function ismobileclient()
     {
 
-        if(preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
+        if (preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
             $_SERVER['HTTP_USER_AGENT'])) {
             return true;
         } else {
@@ -489,10 +491,10 @@ class TwigExtension extends \Twig_Extension
         }
 
 
-        foreach ($menu as $key=>$item) {
+        foreach ($menu as $key => $item) {
             $menu[$key] = $this->menuHelper($item);
             if (isset($item['submenu'])) {
-                foreach ($item['submenu'] as $subkey=>$subitem) {
+                foreach ($item['submenu'] as $subkey => $subitem) {
                    $menu[$key]['submenu'][$subkey] = $this->menuHelper($subitem);
                }
             }

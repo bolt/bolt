@@ -308,7 +308,7 @@ class Users
      * @param  int        $enabled
      * @return bool|mixed
      */
-    public function setEnabled($id, $enabled=1)
+    public function setEnabled($id, $enabled = 1)
     {
         $user = $this->getUser($id);
 

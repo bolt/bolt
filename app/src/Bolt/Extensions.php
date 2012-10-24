@@ -34,7 +34,9 @@ class Extensions
         // Make a list of extensions, actually present..
         while (false !== ($foldername = $d->read())) {
 
-            if (in_array($foldername, $this->ignored) || substr($foldername, 0, 2) == "._" ) { continue; }
+            if (in_array($foldername, $this->ignored) || substr($foldername, 0, 2) == "._" ) {
+                continue;
+            }
 
             if (is_dir($this->basefolder."/".$foldername) && is_readable($this->basefolder."/".$foldername."/extension.php")) {
                 $folders[] = $foldername;
@@ -63,7 +65,9 @@ class Extensions
 
         while (false !== ($entry = $d->read())) {
 
-            if (in_array($entry, $this->ignored) || substr($entry, 0, 2) == "._" ) { continue; }
+            if (in_array($entry, $this->ignored) || substr($entry, 0, 2) == "._" ) {
+                continue;
+            }
 
             if (is_dir($this->basefolder."/".$entry)) {
                 $info[] = $this->infoHelper($this->basefolder."/".$entry);
@@ -178,7 +182,7 @@ class Extensions
 
     }
 
-    public function insertSnippet($location, $callback, $var1="", $var2="", $var3="")
+    public function insertSnippet($location, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
         $this->snippetqueue[] = array(
             'location' => $location,
@@ -209,44 +213,34 @@ class Extensions
                 case "endofhead":
                     $html = $this->insertEndOfHead($snippet, $html);
                     break;
-
                 case "aftermeta":
                     $html = $this->insertAfterMeta($snippet, $html);
                     break;
-
                 case "aftercss":
                     $html = $this->insertAfterCss($snippet, $html);
                     break;
-
                 case "startofhead":
                     $html = $this->insertStartOfHead($snippet, $html);
                     break;
-
                 case "startofbody":
                     $html = $this->insertStartOfBody($snippet, $html);
                     break;
-
                 case "endofbody":
                     $html = $this->insertEndOfBody($snippet, $html);
                     break;
-
                 case "endofhtml":
                     $html = $this->insertEndOfHtml($snippet, $html);
                     break;
-
-
                 default:
                     $html .= $snippet."\n";
                     break;
             }
-
 
         }
 
         return $html;
 
     }
-
 
 
     /**

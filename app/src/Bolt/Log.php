@@ -112,7 +112,6 @@ class Log
     public function getMemorylog()
     {
         return $this->memorylog;
-
     }
 
     public function getActivity($amount = 10, $minlevel = 2)
@@ -122,7 +121,9 @@ class Log
         $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
 
         $page = $app['request']->query->get('page');
-        if (empty($page)) { $page=1; }
+        if (empty($page)) {
+            $page=1;
+        }
 
         $query = sprintf('SELECT * FROM %s WHERE code IN (%s) OR (level >= %s) ORDER BY date DESC LIMIT %s, %s;',
             $this->tablename,
@@ -158,5 +159,4 @@ class Log
         return $rows;
 
     }
-
 }

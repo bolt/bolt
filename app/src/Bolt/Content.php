@@ -346,7 +346,7 @@ class Content
     /**
      * Creates a link to the content record
      */
-    public function link($param="")
+    public function link($param = "")
     {
         global $app;
 
@@ -434,5 +434,4 @@ class Content
         return $excerpt;
 
     }
-
 }

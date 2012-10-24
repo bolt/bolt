@@ -260,7 +260,7 @@ if ( ! class_exists( 'util' ) ) {
                 }
             } else {
                 foreach ( $fields as $field ) {
-                    $found_it = FALSE;
+                    $found_it = false;
 
                     if ( ! is_array( $array ) ) {
                         break;
@@ -268,7 +268,7 @@ if ( ! class_exists( 'util' ) ) {
 
                     foreach ( $array as $key => $value ) {
                         if ( $key == $field ) {
-                            $found_it = TRUE;
+                            $found_it = true;
                             $array = $value;
 
                             break;
@@ -297,7 +297,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function var_dump( $var, $return = FALSE )
+        public static function var_dump( $var, $return = false )
         {
             $html = '<pre style="margin-bottom: 18px;' .
                 'background: #f7f7f9;' .
@@ -518,7 +518,7 @@ if ( ! class_exists( 'util' ) ) {
          * Converts any accent characters to their equivalent normal characters
          * and converts any other non-alphanumeric characters to dashes, then
          * converts any sequence of two or more dashes to a single dash. This
-         * function generates slugs safe for use as URLs, and if you pass TRUE
+         * function generates slugs safe for use as URLs, and if you pass true
          * as the second parameter, it will create strings safe for use as CSS
          * classes or IDs
          *
@@ -531,7 +531,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function slugify( $string, $css_mode = FALSE )
+        public static function slugify( $string, $css_mode = false )
         {
             $slug = preg_replace( '/([^A-Za-z0-9\-]+)/', '-', strtolower( self::remove_accents( $string ) ) );
             $slug = preg_replace( '/(\-+)/', '-', $slug );
@@ -728,29 +728,29 @@ if ( ! class_exists( 'util' ) ) {
         {
             // If it isn't a string, it isn't serialized
             if ( ! is_string( $data ) ) {
-                return FALSE;
+                return false;
             }
 
             $data = trim( $data );
 
             if ( 'N;' == $data ) {
-                return TRUE;
+                return true;
             }
 
             $length = strlen( $data );
 
             if ( $length < 4 ) {
-                return FALSE;
+                return false;
             }
 
             if ( ':' !== $data[1] ) {
-                return FALSE;
+                return false;
             }
 
             $lastc = $data[$length - 1];
 
             if ( ';' !== $lastc && '}' !== $lastc ) {
-                return FALSE;
+                return false;
             }
 
             $token = $data[0];
@@ -758,7 +758,7 @@ if ( ! class_exists( 'util' ) ) {
             switch ( $token ) {
                 case 's' :
                     if ( '"' !== $data[$length-2] ) {
-                        return FALSE;
+                        return false;
                     }
                 case 'a' :
                 case 'O' :
@@ -769,7 +769,7 @@ if ( ! class_exists( 'util' ) ) {
                     return (bool) preg_match( "/^{$token}:[0-9.E-]+;\$/", $data );
             }
 
-            return FALSE;
+            return false;
         }
 
         /**
@@ -784,9 +784,9 @@ if ( ! class_exists( 'util' ) ) {
         public static function is_https()
         {
             if ( isset( $_SERVER['HTTPS'] ) && ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ) {
-                return TRUE;
+                return true;
             } else {
-                return FALSE;
+                return false;
             }
         }
 
@@ -855,7 +855,7 @@ if ( ! class_exists( 'util' ) ) {
             }
 
             // Does the URI contain a query string?
-            if ( strpos( $uri, '?' ) !== FALSE ) {
+            if ( strpos( $uri, '?' ) !== false ) {
                 $parts = explode( '?', $uri, 2 );
 
                 if ( 1 == count( $parts ) ) {
@@ -865,7 +865,7 @@ if ( ! class_exists( 'util' ) ) {
                     $base  = $parts[0] . '?';
                     $query = $parts[1];
                 }
-            } else if ( ! empty( $protocol ) || strpos( $uri, '=' ) === FALSE ) {
+            } else if ( ! empty( $protocol ) || strpos( $uri, '=' ) === false ) {
                 $base  = $uri . '?';
                 $query = '';
             } else {
@@ -912,17 +912,17 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function remove_query_arg( $keys, $uri = FALSE )
+        public static function remove_query_arg( $keys, $uri = false )
         {
             if ( is_array( $keys ) ) {
                 foreach ( $keys as $key ) {
-                    $uri = self::add_query_arg( $key, FALSE, $uri );
+                    $uri = self::add_query_arg( $key, false, $uri );
                 }
 
                 return $uri;
             }
 
-            return self::add_query_arg( $keys, FALSE, $uri );
+            return self::add_query_arg( $keys, false, $uri );
         }
 
         /**
@@ -939,15 +939,15 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function str_to_bool( $string, $default = FALSE )
+        public static function str_to_bool( $string, $default = false )
         {
             $yes_words = 'affirmative|all right|aye|indubitably|most assuredly|ok|of course|okay|sure thing|y|yes+|yea|yep|sure|yeah|true|t';
             $no_words = 'no*|no way|nope|nah|na|never|absolutely not|by no means|negative|never ever|false|f';
 
             if ( preg_match( '/^(' . $yes_words . ')$/i', $string ) ) {
-                return TRUE;
+                return true;
             } else if ( preg_match( '/^(' . $no_words . ')$/i', $string ) ) {
-                return FALSE;
+                return false;
             } else {
                 return $default;
             }
@@ -981,7 +981,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function htmlentities( $string, $preserve_encoded_entities = FALSE )
+        public static function htmlentities( $string, $preserve_encoded_entities = false )
         {
             if ( $preserve_encoded_entities ) {
                 $translation_table = get_html_translation_table( HTML_ENTITIES, ENT_QUOTES );
@@ -1005,7 +1005,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function htmlspecialchars( $string, $preserve_encoded_entities = FALSE  )
+        public static function htmlspecialchars( $string, $preserve_encoded_entities = false  )
         {
             if ( $preserve_encoded_entities ) {
                 $translation_table            = get_html_translation_table( HTML_SPECIALCHARS, ENT_QUOTES );
@@ -1208,7 +1208,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function human_time_diff( $from, $to = '', $as_text = FALSE, $suffix = ' ago' )
+        public static function human_time_diff( $from, $to = '', $as_text = false, $suffix = ' ago' )
         {
             if ( $to == '' ) {
                 $to = time();
@@ -1274,11 +1274,11 @@ if ( ! class_exists( 'util' ) ) {
         {
             $number = (string) $number;
 
-            if ( strpos( $number, '.' ) !== FALSE ) {
+            if ( strpos( $number, '.' ) !== false ) {
                 list( $number, $decimal ) = explode( '.', $number );
             } else {
                 $number = $number;
-                $decimal = FALSE;
+                $decimal = false;
             }
 
             $output = '';
@@ -1491,9 +1491,9 @@ if ( ! class_exists( 'util' ) ) {
             if ( ! headers_sent() ) {
                 header( 'Content-type: ' . $content_type . '; charset=utf-8' );
 
-                return TRUE;
+                return true;
             } else {
-                return FALSE;
+                return false;
             }
         }
 
@@ -1515,7 +1515,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function force_download( $filename, $content = FALSE )
+        public static function force_download( $filename, $content = false )
         {
             if ( ! headers_sent() ) {
                 // Required for some browsers
@@ -1528,7 +1528,7 @@ if ( ! class_exists( 'util' ) ) {
                 header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 
                 // Required for certain browsers
-                header( 'Cache-Control: private', FALSE );
+                header( 'Cache-Control: private', false );
 
                 header( 'Content-Disposition: attachment; filename="' . basename( str_replace( '"', '', $filename ) ) . '";' );
                 header( 'Content-Type: application/force-download' );
@@ -1545,9 +1545,9 @@ if ( ! class_exists( 'util' ) ) {
                     echo $content;
                 }
 
-                return TRUE;
+                return true;
             } else {
-                return FALSE;
+                return false;
             }
         }
 
@@ -1572,9 +1572,9 @@ if ( ! class_exists( 'util' ) ) {
                 header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
                 header( 'Pragma: no-cache' );
 
-                return TRUE;
+                return true;
             } else {
-                return FALSE;
+                return false;
             }
         }
 
@@ -1604,7 +1604,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function random_string( $length, $human_friendly = TRUE, $include_symbols = FALSE, $no_duplicate_chars = FALSE )
+        public static function random_string( $length, $human_friendly = true, $include_symbols = false, $no_duplicate_chars = false )
         {
             $nice_chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstuvwxyz23456789';
             $all_an     = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
@@ -1860,7 +1860,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function get_client_ip( $trust_proxy_headers = FALSE )
+        public static function get_client_ip( $trust_proxy_headers = false )
         {
             if ( ! $trust_proxy_headers ) {
                 return $_SERVER['REMOTE_ADDR'];
@@ -1895,7 +1895,7 @@ if ( ! class_exists( 'util' ) ) {
             $ret        = substr( $string, 0, $length );
             $last_space = strrpos( $ret, ' ' );
 
-            if ( $last_space !== FALSE && $string != $ret ) {
+            if ( $last_space !== false && $string != $ret ) {
                 $ret     = substr( $ret, 0, $last_space );
             }
 
@@ -2070,7 +2070,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function array_flatten( array $array, $preserve_keys = TRUE )
+        public static function array_flatten( array $array, $preserve_keys = true )
         {
             $flattened = array();
 
@@ -2109,7 +2109,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function array_pluck( array $array, $field, $preserve_keys = TRUE, $remove_nomatches = TRUE )
+        public static function array_pluck( array $array, $field, $preserve_keys = true, $remove_nomatches = true )
         {
             $new_list = array();
 
@@ -2156,7 +2156,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function array_search_deep( array $array, $search, $field = FALSE )
+        public static function array_search_deep( array $array, $search, $field = false )
         {
             // *grumbles* stupid PHP type system
             $search = (string) $search;
@@ -2189,7 +2189,7 @@ if ( ! class_exists( 'util' ) ) {
                 }
             }
 
-            return FALSE;
+            return false;
         }
 
         /**
@@ -2209,7 +2209,7 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function array_map_deep( array $array, $callback, $on_nonscalar = FALSE )
+        public static function array_map_deep( array $array, $callback, $on_nonscalar = false )
         {
             foreach ( $array as $key => $value ) {
                 if ( is_array( $value ) ) {
