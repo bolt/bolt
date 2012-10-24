@@ -50,8 +50,6 @@ class Storage
 
     }
 
-
-
     /**
      * Check if all required tables and columns are present in the DB
      *
@@ -105,7 +103,6 @@ class Storage
             }
 
         }
-
 
         return true;
 
@@ -216,7 +213,6 @@ class Storage
                 $myTable->addColumn("username", "string", array("length" => 32));
                 $myTable->addColumn("status", "string", array("length" => 32));
 
-
                 $queries = $schema->toSql($this->db->getDatabasePlatform());
                 $queries = implode("; ", $queries);
                 $this->db->query($queries);
@@ -235,12 +231,11 @@ class Storage
             // Check if all the fields are present in the DB..
             foreach ($contenttype['fields'] as $field => $values) {
 
-
                 if (!isset($tables[$tablename][$field])) {
 
                     $myTable = $sm->listTableDetails($tablename);
 
-                    switch($values['type']) {
+                    switch ($values['type']) {
                         case 'text':
                         case 'templateselect':
                         case 'image':
@@ -279,7 +274,7 @@ class Storage
                             // These are the default columns. Don't try to add these.
                             break;
                         default:
-                            $output[] = "Type <tt>" .  $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
+                            $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
                     }
 
                 }
@@ -347,7 +342,7 @@ class Storage
 
         $content['username'] = array_rand($app['users']->getUsers());
 
-        switch(rand(1, 20)) {
+        switch (rand(1, 20)) {
             case 1:
                 $content['status'] = "timed";
                 break;
@@ -364,7 +359,7 @@ class Storage
 
         foreach ($contenttype['fields'] as $field => $values) {
 
-            switch($values['type']) {
+            switch ($values['type']) {
                 case 'text':
                     $content[$field] = trim(strip_tags($this->guzzleclient->get('1/veryshort')->send()->getBody(true)));
                     if (empty($title)) {
@@ -431,6 +426,7 @@ class Storage
 
         if (empty($contenttype)) {
             echo "Contenttype is required.";
+
             return false;
         }
 
@@ -512,6 +508,7 @@ class Storage
 
         if (empty($contenttype)) {
             echo "Contenttype is required.";
+
             return false;
         }
 
@@ -540,6 +537,7 @@ class Storage
 
         if (empty($contenttype)) {
             echo "Contenttype is required.";
+
             return false;
         }
 
@@ -678,7 +676,6 @@ class Storage
 
 
         // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
-
         return $content;
 
 
@@ -729,6 +726,7 @@ class Storage
         if (!$contenttype) {
             $emptycontent = new Bolt\Content('', $contenttypeslug);
             $app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
+
             return $emptycontent;
         }
 
@@ -847,6 +845,7 @@ class Storage
                                 return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
                             }
                         }
+
                         return ($a->group < $b->group) ? -1 : 1;
                     }
                 );
@@ -880,6 +879,7 @@ class Storage
                     isset($match[3]) ? "/".$match[3] : ""
                 );
                 $app['log']->add($msg);
+
                 return false;
             }
         } else {
@@ -902,11 +902,13 @@ class Storage
             list($value1, $value2) = explode(" || ", $value);
             $param1 = $this->parseWhereParameter($key, $value1);
             $param2 = $this->parseWhereParameter($key, $value2);
+
             return sprintf("( %s OR %s )", $param1, $param2);
         } elseif (strpos($value, " && ") !== false) {
             list($value1, $value2) = explode(" && ", $value);
             $param1 = $this->parseWhereParameter($key, $value1);
             $param2 = $this->parseWhereParameter($key, $value2);
+
             return sprintf("( %s AND %s )", $param1, $param2);
         }
 
@@ -939,11 +941,9 @@ class Storage
 
         $parameter = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));
 
-
         return $parameter;
 
     }
-
 
     /**
      * Get a single unit of content:
@@ -1019,7 +1019,6 @@ class Storage
      */
     public function getContentTypes()
     {
-
         return array_keys($this->config['contenttypes']);
 
     }
@@ -1045,8 +1044,6 @@ class Storage
         return implode("|", $slugs);
 
     }
-
-
 
     /**
      * Get an array of the available fields for a given contenttype
@@ -1094,8 +1091,6 @@ class Storage
 
     }
 
-
-
     /**
      * Get the taxonomy for one or more units of content, return the array with the taxonomy attached.
      *
@@ -1117,7 +1112,6 @@ class Storage
         // Get the contenttype from first $content
         $contenttype = $content[ util::array_first_key($content) ]->contenttype['slug'];
 
-
         $taxonomytypes = array_keys($this->config['taxonomy']);
 
         $query = sprintf(
@@ -1132,10 +1126,7 @@ class Storage
             $content[ $row['content_id'] ]->setTaxonomy($row['taxonomytype'], $row['slug']);
         }
 
-
-
     }
-
 
     /**
      * Update / insert taxonomy for a given content-unit.
@@ -1195,7 +1186,6 @@ class Storage
         }
 
     }
-
 
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true)
     {
