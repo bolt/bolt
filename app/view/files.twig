@@ -31,7 +31,7 @@
     <tr>
         <td>
             {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
-                <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" rel='shadowbox' title="Image: {{ file.filename }}">
+                <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" class='fancybox' rel='fancybox' title="Image: {{ file.filename }}">
                     <b>{{ file.filename }}</b></a>    
             {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
                 <a href="{{ path('fileedit', { 'file': file.newpath}) }}">
