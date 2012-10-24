@@ -4,10 +4,10 @@
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
  */
-class LowlevelChecks
+class lowlevelchecks
 {
 
-    function LowlevelChecks()
+    public function LowlevelChecks()
     {
 
     }
@@ -15,7 +15,7 @@ class LowlevelChecks
     /**
      * Perform the checks.
      */
-    function doChecks()
+    public function doChecks()
     {
 
         // Bolt requires PHP 5.3.3 or higher.
@@ -57,15 +57,14 @@ class LowlevelChecks
 
     }
 
-
     /**
      * Check if a config file is present and writable. If not, try to create it
      * from the filename.dist.
      *
      * @param string $name
      */
-    function lowlevelConfigFix($name) {
-
+    public function lowlevelConfigFix($name)
+    {
         $distname = realpath(__DIR__."/../config/") . "/" . str_replace(".yml", ".dist", $name);
         $ymlname = realpath(__DIR__."/../config/") . "/" . $name;
 
@@ -89,14 +88,12 @@ class LowlevelChecks
 
     }
 
-
-
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
      *
      * @param string $message
      */
-    function lowlevelError($message)
+    public function lowlevelError($message)
     {
 
         $paths = getPaths();
@@ -105,15 +102,15 @@ class LowlevelChecks
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title>Bolt - Error</title>
-	<link rel="stylesheet" type="text/css" href="%path%view/css/bootstrap.min.css" />
+    <meta charset="utf-8" />
+    <title>Bolt - Error</title>
+    <link rel="stylesheet" type="text/css" href="%path%view/css/bootstrap.min.css" />
 </head>
 <body style="padding: 20px;">
 
     <div style="max-width: 530px; margin: auto;">
 
-	<h1>Bolt - Error.</h1>
+    <h1>Bolt - Error.</h1>
 
     <p><strong>%error%</strong></p>
 
@@ -144,6 +141,4 @@ EOM;
 
     }
 
-
 }
-

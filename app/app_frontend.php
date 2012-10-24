@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 $checkStuff = function(Request $request) use ($app) {
 
-    // If there are no users in the users table, or the table doesn't exist. Repair 
-    // the DB, and let's add a new user. 
+    // If there are no users in the users table, or the table doesn't exist. Repair
+    // the DB, and let's add a new user.
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
         $app['storage']->repairTables();
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
@@ -29,7 +29,7 @@ $checkStuff = function(Request $request) use ($app) {
  */
 $app->match("/", function(Silex\Application $app) {
 
-    $template = !empty($app['config']['general']['homepage_template']) ? 
+    $template = !empty($app['config']['general']['homepage_template']) ?
             $app['config']['general']['homepage_template'] : "index.twig";
 
     if (!empty($app['config']['general']['homepage_template'])) {
@@ -44,14 +44,11 @@ $app->match("/", function(Silex\Application $app) {
         $twigvars = array();
     }
 
-
     $body = $app['twig']->render($template, $twigvars);
+
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkStuff)->bind('homepage');
-
-
-
 
 $app->match('/{contenttypeslug}/{slug}', function (Silex\Application $app, $contenttypeslug, $slug) {
 
@@ -59,7 +56,7 @@ $app->match('/{contenttypeslug}/{slug}', function (Silex\Application $app, $cont
 
     $slug = makeSlug($slug);
 
-    // First, try to get it by slug.    
+    // First, try to get it by slug.
     $content = $app['storage']->getSingleContent($contenttype['slug'], array('slug' => $slug));
 
     if (!$content && is_numeric($slug)) {
@@ -81,19 +78,16 @@ $app->match('/{contenttypeslug}/{slug}', function (Silex\Application $app, $cont
         $app->abort(404, "No template for '". $content->title() . "' defined. Tried to use '$template'.");
     }
 
-
-
     $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
     $body = $app['twig']->render($template, array(
         'record' => $content,
         $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
     ));
+
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkStuff)->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true));
-
-
 
 $app->match('/{contenttypeslug}', function (Silex\Application $app, $contenttypeslug) {
 
@@ -132,7 +126,7 @@ $app->match('/{contenttypeslug}', function (Silex\Application $app, $contenttype
         'records' => $content,
         $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
     ));
+
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($checkStuff)->assert('contenttypeslug', $app['storage']->getContentTypeAssert());
-

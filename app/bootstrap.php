@@ -1,6 +1,5 @@
 <?php
 
-
 $bolt_version = "0.7.9";
 $bolt_buildnumber = "";
 $bolt_name = "First beta";
@@ -38,8 +37,8 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $config['twigpath'],
     'twig.options' => array(
-        'debug'=>true, 
-        'cache' => __DIR__.'/cache/', 
+        'debug'=>true,
+        'cache' => __DIR__.'/cache/',
         'strict_variables' => $config['general']['strict_variables'],
         'autoescape' => false )
 ));

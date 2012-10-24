@@ -23,9 +23,7 @@ $beforeAsynchronous = function(Request $request) use ($app) {
 
 };
 
-use Silex\ControllerCollection;
 $asynchronous = $app['controllers_factory'];
-
 
 /**
  * News.
@@ -41,8 +39,6 @@ $asynchronous->get("/dashboardnews", function(Silex\Application $app) {
     if ($news == false) {
 
         $app['log']->add("News: fetch from remote server..", 1);
-
-
 
         $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
@@ -68,12 +64,10 @@ $asynchronous->get("/dashboardnews", function(Silex\Application $app) {
     }
 
     $body = $app['twig']->render('dashboard-news.twig', array('news' => $news ));
+
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($beforeAsynchronous)->bind('dashboardnews');
-
-
-
 
 /**
  * Get the 'latest activity' for the dashboard..
@@ -84,12 +78,10 @@ $asynchronous->get("/latestactivity", function(Silex\Application $app) {
     $activity = $app['log']->getActivity(8, 3);
 
     $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity));
+
     return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
 })->before($beforeAsynchronous)->bind('latestactivity');
-
-
-
 
 $asynchronous->get("/filesautocomplete", function(Silex\Application $app, Request $request) {
 
@@ -108,7 +100,6 @@ $asynchronous->get("/filesautocomplete", function(Silex\Application $app, Reques
     return $app->json($files);
 
 })->before($beforeAsynchronous);
-
 
 /* -- comment out, until we do this properly..
 $asynchronous->get("/updatefield", function(Silex\Application $app, Request $request) {
@@ -129,7 +120,6 @@ $asynchronous->get("/updatefield", function(Silex\Application $app, Request $req
 })->before($beforeAsynchronous);
 -- */
 
-
 $asynchronous->get("/readme/{extension}", function($extension, Silex\Application $app, Request $request) {
 
     $filename = __DIR__."/extensions/".$extension."/readme.md";
@@ -143,9 +133,7 @@ $asynchronous->get("/readme/{extension}", function($extension, Silex\Application
 
     return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
 
-
 })->before($beforeAsynchronous)->bind('readme');
-
 
 $asynchronous->post("/markdownify", function(Silex\Application $app, Request $request) {
 
@@ -166,9 +154,6 @@ $asynchronous->post("/markdownify", function(Silex\Application $app, Request $re
 
 })->before($beforeAsynchronous)->bind('markdownify');
 
-
-
-
 $asynchronous->get("/makeuri", function(Silex\Application $app, Request $request) {
 
     $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
@@ -178,6 +163,4 @@ $asynchronous->get("/makeuri", function(Silex\Application $app, Request $request
 
 })->before($beforeAsynchronous);
 
-
 $app->mount('/async', $asynchronous);
-

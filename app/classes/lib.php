@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Recursively creates chmodded directories. Returns true on success,
  * and false on failure.
@@ -11,9 +10,8 @@
  * @param string $name
  * @return boolean
  */
-function makeDir($name) {
-
-
+function makeDir($name)
+{
     // if it exists, just return.
     if (file_exists($name)) {
         return true;
@@ -42,29 +40,31 @@ function makeDir($name) {
 
 }
 
-/** 
+/**
  * generate a CSRF-like token, to use in GET requests for stuff that ought to be POST-ed forms.
  *
  * @return string $token
  */
-function getToken() {
+function getToken()
+{
    $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['bolt_session'];
    $token = substr(md5($seed), 0, 8);
+
    return $token;
 }
 
-
 /**
  * Check if a given token matches the current (correct) CSRF-like token
- * 
+ *
  * @param string $token
  *
  * @return bool
  */
-function checkToken($token="") {
+function checkToken($token="")
+{
     global $app;
 
-    if (empty($token)) { 
+    if (empty($token)) {
         $token = $app['request']->get('token');
     }
 
@@ -72,6 +72,7 @@ function checkToken($token="") {
         return true;
     } else {
         $app['session']->setFlash('error', "The security token was incorrect. Please try again.");
+
         return false;
     }
 
@@ -79,38 +80,38 @@ function checkToken($token="") {
 
 /**
  * Clean posted data. Convert tabs to spaces (primarily for yaml) and
- * stripslashes when magic quotes are turned on. 
+ * stripslashes when magic quotes are turned on.
  *
  * @param mixed $var
  * @return string
  */
-function cleanPostedData($var) {
-    
+function cleanPostedData($var)
+{
     if (is_array($var)) {
-    
-        foreach($var as $key => $value) {
+
+        foreach ($var as $key => $value) {
             $var[$key] = cleanPostedData($value);
         }
-        
-    } else if (is_string($var)) {
-    
+
+    } elseif (is_string($var)) {
+
         $var = str_replace("\t", "    ", $var);
-        
+
         // Ah, the joys of \"magic quotes\"!
         if (get_magic_quotes_gpc()) {
             $var = stripslashes($var);
-        }          
-        
+        }
+
     }
-    
+
     return $var;
-    
+
 }
 
 
 
-function clearCache() {
-    
+function clearCache()
+{
     $result = array(
         'successfiles' => 0,
         'failedfiles' => 0,
@@ -118,43 +119,44 @@ function clearCache() {
         'failedfolders' => 0,
         'log' => ''
     );
-      
+
     clearCacheHelper('', $result);
-    
-    return $result;   
-    
+
+    return $result;
+
 }
 
 
-function clearCacheHelper($additional, &$result) {
-    
+function clearCacheHelper($additional, &$result)
+{
     $basefolder = __DIR__."/../cache/";
-    
+
     $currentfolder = realpath($basefolder."/".$additional);
 
     if (!file_exists($currentfolder)) {
         $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
+
         return;
     }
-    
+
     $d = dir($currentfolder);
 
     while (false !== ($entry = $d->read())) {
-       
-       if ($entry == "." || $entry == ".." || $entry == "index.html" ) {
+
+       if ($entry == "." || $entry == ".." || $entry == "index.html") {
            continue;
        }
-       
+
        if (is_file($currentfolder."/".$entry)) {
            if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
                $result['successfiles']++;
            } else {
                $result['failedfiles']++;
-           }          
+           }
        }
-       
+
        if (is_dir($currentfolder."/".$entry)) {
-          
+
            clearCacheHelper($additional."/".$entry, $result);
 
            if (@rmdir($currentfolder."/".$entry)) {
@@ -165,76 +167,76 @@ function clearCacheHelper($additional, &$result) {
 
 
        }
-              
-       
+
+
     }
-    
+
     $d->close();
-    
+
 }
 
-function findFiles($term, $extensions="") {
-    
+function findFiles($term, $extensions="")
+{
     if (is_string($extensions)) {
         $extensions = explode(",", $extensions);
     }
-    
+
     $files = array();
-    
+
     findFilesHelper('', $files, strtolower($term), $extensions);
-    
-    // Sort the array, and only keep the values, not the keys. 
+
+    // Sort the array, and only keep the values, not the keys.
     natcasesort($files);
     $files = array_values($files);
-    
+
     return $files;
-    
+
 }
 
-function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
-    
+function findFilesHelper($additional, &$files, $term="", $extensions=array())
+{
     $basefolder = __DIR__."/../../files/";
-    
+
     $currentfolder = realpath($basefolder."/".$additional);
 
     $d = dir($currentfolder);
-    
+
     $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
-    
+
     while (false !== ($entry = $d->read())) {
-        
+
         if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) { continue; }
-        
-        if (is_file($currentfolder."/".$entry) && is_readable($currentfolder."/".$entry)) {        
-            
+
+        if (is_file($currentfolder."/".$entry) && is_readable($currentfolder."/".$entry)) {
+
             // Check for 'term'..
             if (!empty($term) && (strpos(strtolower($currentfolder."/".$entry), $term) === false)) {
                 continue; // skip this one..
             }
-            
-            // Check for correct extensions.. 
+
+            // Check for correct extensions..
             if (!empty($extensions) && !in_array(getExtension($entry), $extensions)) {
                 continue; // Skip files without correct extension..
             }
-            
-            if (!empty($additional)) { 
-                $filename = $additional . "/" . $entry; 
+
+            if (!empty($additional)) {
+                $filename = $additional . "/" . $entry;
             } else {
                 $filename = $entry;
             }
-            
-            $files[] = $filename;       
+
+            $files[] = $filename;
         }
-        
+
         if (is_dir($currentfolder."/".$entry)) {
             findFilesHelper($additional."/".$entry, $files, $term, $extensions);
         }
-        
-        
+
+
     }
-        
-    $d->close();    
-    
+
+    $d->close();
+
 }
 
 
@@ -249,7 +251,8 @@ function findFilesHelper($additional, &$files, $term="", $extensions=array()) {
  * @return boolean
  *
  */
-function checkVersion($currentversion, $requiredversion) {
+function checkVersion($currentversion, $requiredversion)
+{
     list($majorC, $minorC, $editC) = preg_split('#[/.-]#', $currentversion . ".0.0");
     list($majorR, $minorR, $editR) = preg_split('#[/.-]#', $requiredversion . ".0.0");
 
@@ -260,6 +263,7 @@ function checkVersion($currentversion, $requiredversion) {
     if ($minorC < $minorR) { return false; }
     // and same minor
     if ($editC  >= $editR) { return true; }
+
     return false;
 }
 
@@ -272,11 +276,13 @@ function checkVersion($currentversion, $requiredversion) {
  * @param string $path
  * @return string
  */
-function stripTrailingSlash($path) {
-    if(substr($path,-1,1) == "/") {
+function stripTrailingSlash($path)
+{
+    if (substr($path,-1,1) == "/") {
         $path = substr($path,0,-1);
     }
-    return $path;   
+
+    return $path;
 }
 
 /**
@@ -284,9 +290,11 @@ function stripTrailingSlash($path) {
  *
  * @return float
  */
-function getMicrotime() {
+function getMicrotime()
+{
     list($usec, $sec) = explode(" ",microtime());
-    return ((float)$usec + (float)$sec);
+
+    return ((float) $usec + (float) $sec);
 }
 
 /**
@@ -295,12 +303,13 @@ function getMicrotime() {
  * @param integer $precision§
  * @return string
  */
-function timeTaken($precision = 2) {
+function timeTaken($precision = 2)
+{
     global $starttime;
     $endtime = getMicrotime();
     $time_taken = $endtime - $starttime;
-    $time_taken= number_format($time_taken, $precision); 
-    
+    $time_taken= number_format($time_taken, $precision);
+
     return $time_taken;
 
 }
@@ -311,10 +320,11 @@ function timeTaken($precision = 2) {
  *
  * @return string
  */
-function getMem() {
-
+function getMem()
+{
     if (function_exists('memory_get_usage')) {
         $mem = memory_get_usage();
+
         return formatFilesize($mem);
     } else {
         return "unknown";
@@ -328,10 +338,11 @@ function getMem() {
  *
  * @return string
  */
-function getMaxMem() {
-
+function getMaxMem()
+{
     if (function_exists('memory_get_peak_usage')) {
         $mem = memory_get_peak_usage();
+
         return formatFilesize($mem);
     } else {
         return "unknown";
@@ -346,11 +357,11 @@ function getMaxMem() {
  * @param integer $size
  * @return string
  */
-function formatFilesize($size) {
-
-    if ($size > 1024*1024 ) {
+function formatFilesize($size)
+{
+    if ($size > 1024*1024) {
         return sprintf("%0.2f mb", ($size/1024/1024));
-    } else if ($size > 1024 ) {
+    } elseif ($size > 1024) {
         return sprintf("%0.2f kb", ($size/1024));
     } else {
         return $size." b";
@@ -365,8 +376,8 @@ function formatFilesize($size) {
  * @param int $length
  * @return string
  */
-function makeKey($length) {
-
+function makeKey($length)
+{
     $seed = "0123456789abcdefghijklmnopqrstuvwxyz";
     $len = strlen($seed);
     $key = "";
@@ -386,12 +397,14 @@ function makeKey($length) {
  * @param string $filename
  * @return string
  */
-function getExtension($filename) {
+function getExtension($filename)
+{
     $pos=strrpos($filename, ".");
     if ($pos === false) {
         return "";
     } else {
         $ext=substr($filename, $pos+1);
+
         return $ext;
     }
 }
@@ -407,8 +420,8 @@ function getExtension($filename) {
  * @param boolean $strict
  * @return string
  */
-function safeString($str, $strict=false, $extrachars="") {
-
+function safeString($str, $strict=false, $extrachars="")
+{
     // replace UTF-8 non ISO-8859-1 first
     $str = strtr($str, array(
         "\xC3\x80"=>'A', "\xC3\x81"=>'A', "\xC3\x82"=>'A', "\xC3\x83"=>'A',
@@ -483,8 +496,6 @@ function safeString($str, $strict=false, $extrachars="") {
     return $str;
 }
 
-
-
 /**
  * Modify a string, so that we can use it for slugs. Like
  * safeString, but using hyphens instead of underscores.
@@ -493,8 +504,8 @@ function safeString($str, $strict=false, $extrachars="") {
  * @param string $type
  * @return string
  */
-function makeSlug($str) {
-
+function makeSlug($str)
+{
     $str = safeString($str);
 
     $str = str_replace(" ", "-", $str);
@@ -515,12 +526,12 @@ function makeSlug($str) {
  * @param string $key
  * @param string $value
  */
-function makeValuepairs($array, $key, $value) {
-
+function makeValuepairs($array, $key, $value)
+{
         $temp_array = array();
 
         if (is_array($array)) {
-                foreach($array as $item) {
+                foreach ($array as $item) {
                         if (empty($key)) {
                             $temp_array[] = $item[$value];
                         } else {
@@ -533,8 +544,6 @@ function makeValuepairs($array, $key, $value) {
         return $temp_array;
 
 }
-
-
 
 /**
  * Trim a text to a given length, taking html entities into account.
@@ -553,8 +562,8 @@ function makeValuepairs($array, $key, $value) {
  *
  * @return string trimmed string
  */
-function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true) {
-
+function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true)
+{
     if ($striptags) {
         $str = strip_tags($str);
     }
@@ -599,32 +608,32 @@ function trimText($str, $length, $nbsp=false, $hellip=true, $striptags=true) {
 
 /**
  * parse the used .twig templates from the Twig Loader object, using
- * regular expressions. 
- * We use this for showing them in the debug toolbar. 
+ * regular expressions.
+ * We use this for showing them in the debug toolbar.
  *
  * @param object $obj
  *
  */
-function hackislyParseRegexTemplates($obj) {
-    
+function hackislyParseRegexTemplates($obj)
+{
     $str = print_r($obj, true);
-    
+
     preg_match_all('/(\/[a-z0-9_\/-]+\.twig)/i', $str, $matches);
-    
+
     $templates = array();
-    
-    foreach($matches[1] as $match) {
+
+    foreach ($matches[1] as $match) {
         $templates[] = basename(dirname($match)) . "/" . basename($match);
     }
-    
+
     return $templates;
-    
+
 }
 
-function getConfig() {
-    
+function getConfig()
+{
     $config = array();
-    
+
     // Read the config
     $yamlparser = new Symfony\Component\Yaml\Parser();
     $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/config.yml'));
@@ -635,7 +644,7 @@ function getConfig() {
     // TODO: If no config files can be found, get them from bolt.cm/files/default/
 
     // echo "<pre>\n" . util::var_dump($config['menu'], true) . "</pre>\n";
-    
+
     // Assume some sensible defaults for some options
     $defaultconfig = array(
         'sitename' => 'Default Bolt site',
@@ -677,7 +686,7 @@ function getConfig() {
     */
 
     // Clean up taxonomies
-    foreach( $config['taxonomy'] as $key => $value ) {
+    foreach ($config['taxonomy'] as $key => $value) {
         if (!isset($config['taxonomy'][$key]['name'])) {
             $config['taxonomy'][$key]['name'] = ucwords($config['taxonomy'][$key]['slug']);
         }
@@ -688,7 +697,7 @@ function getConfig() {
 
     // Clean up contenttypes
     $config['contenttypes'] = array();
-    foreach($tempcontenttypes as $temp ) {
+    foreach ($tempcontenttypes as $temp) {
         if (!isset($temp['slug'])) {
             $temp['slug'] = makeSlug($temp['name']);
         }
@@ -721,12 +730,10 @@ function getConfig() {
 
     return $config;
 
-
 }
 
-
-function getDBOptions($config) {
-
+function getDBOptions($config)
+{
     $configdb = $config['general']['database'];
 
     if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
@@ -758,14 +765,12 @@ function getDBOptions($config) {
     }
 
     //echo "<pre>\n" . util::var_dump($dboptions, true) . "</pre>\n";
-
     return $dboptions;
 
 }
 
-
-function getPaths($config = array()) {
-
+function getPaths($config = array())
+{
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
     if (empty($config)) {
@@ -816,7 +821,8 @@ function getPaths($config = array()) {
  * @param string $add
  * @return string
  */
-function path($path, $param=array(), $add='') {
+function path($path, $param=array(), $add='')
+{
     global $app;
 
     if (!empty($add) && $add[0]!="?") {
@@ -831,7 +837,6 @@ function path($path, $param=array(), $add='') {
 
 }
 
-
 /**
  *
  * Simple wrapper for $app->redirect($app['url_generator']->generate());
@@ -841,13 +846,13 @@ function path($path, $param=array(), $add='') {
  * @param string $add
  * @return string
  */
-function redirect($path, $param=array(), $add='') {
+function redirect($path, $param=array(), $add='')
+{
     global $app;
 
     return $app->redirect(path($path, $param, $add));
 
 }
-
 
 /**
  * If debug is enabled this function handles the errors and warnings
@@ -858,12 +863,12 @@ function redirect($path, $param=array(), $add='') {
  * @param integer $linenum
  * @param array $vars
  */
-function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars) {
+function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
+{
     global $app;
 
     $replevel = error_reporting();
-    if( ( $errno & $replevel ) != $errno )
-    {
+    if ( ( $errno & $replevel ) != $errno ) {
         // we shall remain quiet.
         return;
     }
@@ -894,14 +899,13 @@ function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars) {
 
     $err = sprintf("<b>PHP-%s</b>: %s.", $errortype[$errno], $errmsg);
 
-    if($app['config']['general']['developer_notices']) {
+    if ($app['config']['general']['developer_notices']) {
         echo "<p><strong>$err</strong>, $filename, $linenum</p>";
     }
 
     $app['log']->errorhandler($err, $filename, $linenum);
 
 }
-
 
 /**
  * Apparently, some servers don't have fnmatch. Define it here, for those who don't have it.
@@ -918,12 +922,13 @@ if (!function_exists('fnmatch')) {
     /**
      * Match filename against a pattern
      *
-     * @param string $pattern
-     * @param string $string
-     * @param int $flags
+     * @param  string $pattern
+     * @param  string $string
+     * @param  int    $flags
      * @return bool
      */
-    function fnmatch($pattern, $string, $flags = 0) {
+    function fnmatch($pattern, $string, $flags = 0)
+    {
         return pcre_fnmatch($pattern, $string, $flags);
     }
 }
@@ -936,7 +941,8 @@ if (!function_exists('fnmatch')) {
  * @param int $flags
  * @return bool
  */
-function pcre_fnmatch($pattern, $string, $flags = 0) {
+function pcre_fnmatch($pattern, $string, $flags = 0)
+{
     $modifiers = null;
     $transforms = array(
         '\*'    => '.*',
@@ -973,7 +979,7 @@ function pcre_fnmatch($pattern, $string, $flags = 0) {
         . '$#'
         . $modifiers;
 
-    return (boolean)preg_match($pattern, $string);
+    return (boolean) preg_match($pattern, $string);
 }
 
 /**
@@ -984,8 +990,8 @@ function pcre_fnmatch($pattern, $string, $flags = 0) {
  * @param string $html
  * @return bool
  */
-function isHtml($html) {
-
+function isHtml($html)
+{
     $len = strlen($html);
 
     $trimlen = strlen(strip_tags($html));
