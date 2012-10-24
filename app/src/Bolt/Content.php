@@ -175,8 +175,8 @@ class Content {
                 // Check if we don't have doubles.
                 if (is_file($filename)) {
                     while(is_file($filename)) {
-                        $filename = $this->upcount_name($filename);
-                        $basename = $this->upcount_name($basename);
+                        $filename = $this->upcountName($filename);
+                        $basename = $this->upcountName($basename);
                     }
                 }
 
@@ -196,22 +196,38 @@ class Content {
 
     }
 
-    // Taken from jQuery file upload..
-    protected function upcount_name_callback($matches) {
+    /**
+     * "upcount" a filename: Add (1), (2), etc. for filenames that already exist.
+     * Taken from jQuery file upload..
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function upcountName($name) {
+        return preg_replace_callback(
+            '/(?:(?: \(([\d]+)\))?(\.[^.]+))?$/',
+            array($this, 'upcountNameCallback'),
+            $name,
+            1
+        );
+    }
+
+
+    /**
+     * "upcount" callback helper function
+     * Taken from jQuery file upload..
+     *
+     * @see upcountName()
+     * @param array $matches
+     * @internal param string $name
+     * @return string
+     */
+    protected function upcountNameCallback($matches) {
         $index = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
         $ext = isset($matches[2]) ? $matches[2] : '';
         return ' ('.$index.')'.$ext;
     }
 
-    // Taken from jQuery file upload..
-    protected function upcount_name($name) {
-        return preg_replace_callback(
-            '/(?:(?: \(([\d]+)\))?(\.[^.]+))?$/',
-            array($this, 'upcount_name_callback'),
-            $name,
-            1
-        );
-    }
 
 
     public function setContenttype($contenttype) 

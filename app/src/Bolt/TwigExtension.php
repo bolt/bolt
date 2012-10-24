@@ -17,7 +17,7 @@ class TwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'print' => new \Twig_Function_Method($this, 'print_dump', array('is_safe' => array('html'))),
+            'print' => new \Twig_Function_Method($this, 'printDump', array('is_safe' => array('html'))),
             'excerpt' => new \Twig_Function_Method($this, 'excerpt'),
             'trimtext' => new \Twig_Function_Method($this, 'trim'),
             'markdown' => new \Twig_Function_Method($this, 'markdown'),
@@ -64,7 +64,7 @@ class TwigExtension extends \Twig_Extension
      * @param mixed $var
      * return string
      */
-    public function print_dump($var) 
+    public function printDump($var)
     {
         
         $output = util::var_dump($var, true);
@@ -495,10 +495,10 @@ class TwigExtension extends \Twig_Extension
         
         
         foreach ($menu as $key=>$item) {
-            $menu[$key] = $this->menu_helper($item);
+            $menu[$key] = $this->menuHelper($item);
             if (isset($item['submenu'])) {
                 foreach ($item['submenu'] as $subkey=>$subitem) {
-                   $menu[$key]['submenu'][$subkey] = $this->menu_helper($subitem); 
+                   $menu[$key]['submenu'][$subkey] = $this->menuHelper($subitem);
                }
             }          
             
@@ -514,7 +514,7 @@ class TwigExtension extends \Twig_Extension
     }
     
     
-    private function menu_helper($item) 
+    private function menuHelper($item)
     {
         global $app;
 
