@@ -9,9 +9,8 @@ namespace Bolt;
  * @author Bob den Otter, bob@twokings.nl
  *
  **/
-class Cache {
-
-
+class Cache
+{
     private $dir = "";
     private $maxage = 600; // 10 minutes
 
@@ -40,7 +39,7 @@ class Cache {
      * @param $key
      * @param $data
      */
-    function set($key, $data)
+    public function set($key, $data)
     {
 
         $filename = $this->getFilename($key);
@@ -64,10 +63,10 @@ class Cache {
      * seem a tad bit confusing. ;-)
      *
      * @param $key
-     * @param int $maxage Maximum age of cache in seconds.
+     * @param  int               $maxage Maximum age of cache in seconds.
      * @return bool|mixed|string
      */
-    function get($key, $maxage = false)
+    public function get($key, $maxage = false)
     {
 
         $filename = $this->getFilename($key);
@@ -108,7 +107,7 @@ class Cache {
      * @param $maxage
      * @return bool
      */
-    function isvalid($key, $maxage)
+    public function isvalid($key, $maxage)
     {
 
         $filename = $this->getFilename($key);
@@ -128,21 +127,18 @@ class Cache {
 
     }
 
-
-    function clear($key)
+    public function clear($key)
     {
         // TODO: clear a certain cached value.
     }
 
-    function clearCache()
+    public function clearCache()
     {
         // TODO: clear all cached values.
     }
 
     private function getFilename($key)
     {
-        return sprintf("%s/c_%s.cache", $this->dir, substr(md5($key),0,18));
+        return sprintf("%s/c_%s.cache", $this->dir, substr(md5($key), 0, 18));
     }
-
 }
-

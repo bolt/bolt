@@ -11,7 +11,7 @@ class CacheServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
 
-        $app['cache'] = $app->share(function ($app) {
+        $app['cache'] = $app->share(function () {
 
             $cache = new Bolt\Cache();
 
@@ -19,11 +19,9 @@ class CacheServiceProvider implements ServiceProviderInterface
 
         });
 
-
     }
 
     public function boot(Application $app)
     {
     }
 }
-
