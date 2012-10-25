@@ -3,40 +3,69 @@
 stylesheet: assets/simpleforms.css
 template: assets/simpleforms_form.twig
 mail_template: assets/simpleforms_mail.twig
-message_ok: Thanks! Your message has been received.
+message_ok: Thanks! Your message has been sent.
 message_error: There was an error in the form. Please check the form, and try again.
+message_technical: There were some technical difficulties, so your message was not sent. We apologize for the inconvenience.
 button_text: Send
 
+# A simple contact form. Use as {{ simpleform('contact') }} in your templates.
 contact:
+  recipient_email: info@example.org
+  recipient_name: Info
+  fields:
+    name:
+      type: text
+      required: true
+      placeholder: Your name ..
+    email:
+      type: email
+      label: Email address
+      required: true
+      placeholder: Your email address ..
+    message:
+      type: textarea
+      required: true
+      placeholder: Your message ..
+
+# A demo form to showcase various options for fields. Use as
+# {{ simpleform('demo') }} in your templates.
+demo:
   recipient_email: bob@twokings.nl
   recipient_name: Bob
   fields:
     subject:
       type: text
       class: wide
+      required: false
       label: Subject of your message
-      placeholder: Just a quick message..
+      placeholder: Just a quick message ..
     name:
       type: text
       required: true
-      placeholder: Your name..
+      placeholder: Your name ..
     email:
       type: email
       label: Email address
       required: true
-      placeholder: Your email..
+      placeholder: Your email ..
     message:
       type: textarea
       required: true
-      placeholder: Well, the other day I was thinking that maybe you ought to improve your website by adding ...
+      placeholder: Well, the other day I was thinking that maybe you ought to improve your website by adding ..
+    favorite:
+      type: choice
+      label: My favorite animals are
+      choices: ['Kittens', 'Puppies', 'Penguins', 'Koala bears', "I don't like animals" ]
+      required: true
     option1:
       type: checkbox
-      placeholder: Check me
-      label: pompidom
-      value: tralala
+      label: Newsletter
+      placeholder: Yes, I <em>love</em> receiving <del>spam</del>, eh, newsletters.
     option2:
       type: checkbox
-      placeholder: Check me not
-  button_text: Get in touch!
+      label: Agree to this!
+      placeholder: Yes, I will gladly agree to something or other.
+      required: true
+  button_text: Send the Demo form!
 
 

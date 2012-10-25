@@ -1,0 +1,6 @@
+{% block checkbox_widget %}
+{% spaceless %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% if value is defined %} <label for="{{ id }}" class="checkbox-placeholder">{{ attr.placeholder }}</label>{% endif %}
+{% endspaceless %}
+{% endblock checkbox_widget %}

@@ -2,10 +2,8 @@
 
 <article>
 
-    {{ simpleform('contact') }}
-
     <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
-    
+
     {% if record.image!="" %}
         <div class='imageholder-wide'><img src="{{ record.image|thumbnail(800, 600) }}"></div>
     {% endif %}
@@ -18,6 +16,6 @@
 
     <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datepublish|date("M d, ’y")}}</p>
 
-</article>  
+</article>
 
 {% include '_footer.twig' %}

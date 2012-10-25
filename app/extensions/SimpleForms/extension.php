@@ -11,9 +11,9 @@ function info()
         'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform() }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => "0.5",
-        'required_bolt_version' => "0.8",
-        'highest_bolt_version' => "0.8",
+        'version' => "0.6",
+        'required_bolt_version' => "0.7.9",
+        'highest_bolt_version' => "0.7.9",
         'type' => "Twig function",
         'first_releasedate' => "2012-10-10",
         'latest_releasedate' => "2012-10-19",
@@ -36,6 +36,12 @@ function init($app)
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Create a simple Form.
+ *
+ * @param string $name
+ * @return string
+ */
 function simpleform($name="")
 {
     global $app;
@@ -48,10 +54,8 @@ function simpleform($name="")
     if (isset($config[$name])) {
         $formconfig = $config[$name];
     } else {
-        return "Simpleforms: No form known by name '$name'.";
+        return "Simpleforms notice: No form known by name '$name'.";
     }
-
-    echo "<pre>\n" . \util::var_dump($formconfig, true) . "</pre>\n";
 
     // Set the button text.
     $button_text = "Send";
@@ -60,6 +64,10 @@ function simpleform($name="")
     } elseif (!empty($config['button_text'])) {
         $button_text = $config['button_text'];
     }
+
+    $message = "";
+    $error = "";
+    $sent = false;
 
     $form = $app['form.factory']->createBuilder('form');
 
@@ -76,6 +84,18 @@ function simpleform($name="")
         if (!empty($field['class'])) {
             $options['attr']['class'] = $field['class'];
         }
+        if (!empty($field['required']) && $field['required'] == true) {
+            $options['required'] = true;
+        } else {
+            $options['required'] = false;
+        }
+        if (!empty($field['choices']) && is_array($field['choices'])) {
+            // Make the keys more sensible.
+            $options['choices'] = array();
+            foreach ($field['choices'] as $option) {
+                $options['choices'][ safeString($option)] = $option;
+            }
+        }
 
         // Make sure $field has a type, or the form will break.
         if (empty($field['type'])) {
@@ -90,16 +110,18 @@ function simpleform($name="")
 
     $form = $form->getForm();
 
-    $message = "";
-    $error = "";
-    $sent = false;
-
-
     if ('POST' == $app['request']->getMethod()) {
         $form->bind($app['request']);
 
         if ($form->isValid()) {
             $data = $form->getData();
+
+            // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
+            foreach($data as $key => $value) {
+                if (gettype($value)=="boolean") {
+                    $data[$key] = ($value ? "yes" : "no");
+                }
+            }
 
             $mailhtml = $app['twig']->render("SimpleForms/".$config['mail_template'], array(
                     'form' =>  $data ));
@@ -119,7 +141,7 @@ function simpleform($name="")
                 $message = $config['message_ok'];
                 $sent = true;
             } else {
-                $error = "There was an error sending the email. Alert the site administrator, and have them check the settings.";
+                $error = $config['message_technical'];
             }
 
         } else {

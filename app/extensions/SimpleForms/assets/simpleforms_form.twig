@@ -1,8 +1,10 @@
+{% form_theme form 'SimpleForms/assets/simpleforms_fields.twig' %}
+
 {% if error %}
-<p class="simpleformserror">{{ error }}</p>
+    <p class="simpleformserror">{{ error }}</p>
 {% endif %}
 {% if message %}
-<p class="simpleformsmessage">{{ message }}</p>
+    <p class="simpleformsmessage">{{ message }}</p>
 {% endif %}
 {% if not sent %}
 <form action="#" method="post">
