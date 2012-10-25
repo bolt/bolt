@@ -101,7 +101,13 @@ class Extensions
 
                 if (file_exists($path."/config.yml")) {
                     $info['config'] = $namespace."/config.yml";
+                    if (is_writable($path."/config.yml")) {
+                        $info['config_writable'] = true;
+                    } else {
+                        $info['config_writable'] = false;
+                    }
                 }
+
 
                 $info['version_ok'] = checkVersion($GLOBALS['bolt_version'], $info['required_bolt_version']);
 

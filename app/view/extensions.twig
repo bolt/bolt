@@ -18,8 +18,12 @@
                        type="button" data-toggle="modal" >View Readme</a>
                 {% endif %}
                 {% if extension.config %}
-                    <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
-                       type="button">Edit Config</a>
+                    {% if extension.config_writable %}
+                        <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
+                           type="button">Edit Config</a>
+                    {% else %}
+                        <a class="btn btn-mini disabled" type="button">Config not writable</a>
+                    {% endif %}
                 {% endif %}
             </span>
 
@@ -60,8 +64,12 @@
                        type="button" data-toggle="modal" >View Readme</a>
                 {% endif %}
                 {% if extension.config %}
+                    {% if extension.config_writable %}
                     <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
                        type="button">Edit Config</a>
+                    {% else %}
+                        <a class="btn btn-mini disabled" type="button">Config not writable</a>
+                    {% endif %}
                 {% endif %}
             </span>
 
