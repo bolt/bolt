@@ -51,6 +51,16 @@ function simpleform($name="")
         return "Simpleforms: No form known by name '$name'.";
     }
 
+    echo "<pre>\n" . \util::var_dump($formconfig, true) . "</pre>\n";
+
+    // Set the button text.
+    $button_text = "Send";
+    if (!empty($formconfig['button_text'])) {
+        $button_text = $formconfig['button_text'];
+    } elseif (!empty($config['button_text'])) {
+        $button_text = $config['button_text'];
+    }
+
     $form = $app['form.factory']->createBuilder('form');
 
     foreach ($formconfig['fields'] as $name => $field) {
@@ -70,7 +80,7 @@ function simpleform($name="")
         // Make sure $field has a type, or the form will break.
         if (empty($field['type'])) {
             $field['type'] = "text";
-        } else if ($field['type']=="email") {
+        } elseif ($field['type']=="email") {
             $options['constraints'][] = new Assert\Email();
         }
 
@@ -83,6 +93,7 @@ function simpleform($name="")
     $message = "";
     $error = "";
     $sent = false;
+
 
     if ('POST' == $app['request']->getMethod()) {
         $form->bind($app['request']);
@@ -126,7 +137,8 @@ function simpleform($name="")
         "form" => $form->createView(),
         "message" => $message,
         "error" => $error,
-        "sent" => $sent
+        "sent" => $sent,
+        "button_text" => $button_text
     ));
 
     return $formhtml;

@@ -5,6 +5,7 @@ template: assets/simpleforms_form.twig
 mail_template: assets/simpleforms_mail.twig
 message_ok: Thanks! Your message has been received.
 message_error: There was an error in the form. Please check the form, and try again.
+button_text: Send
 
 contact:
   recipient_email: bob@twokings.nl
@@ -28,5 +29,14 @@ contact:
       type: textarea
       required: true
       placeholder: Well, the other day I was thinking that maybe you ought to improve your website by adding ...
+    option1:
+      type: checkbox
+      placeholder: Check me
+      label: pompidom
+      value: tralala
+    option2:
+      type: checkbox
+      placeholder: Check me not
+  button_text: Get in touch!
 
 
