@@ -7,11 +7,6 @@
 class lowlevelchecks
 {
 
-    public function LowlevelChecks()
-    {
-
-    }
-
     /**
      * Perform the checks.
      */
@@ -63,7 +58,7 @@ class lowlevelchecks
      *
      * @param string $name
      */
-    public function lowlevelConfigFix($name)
+    private function lowlevelConfigFix($name)
     {
         $distname = realpath(__DIR__."/../config/") . "/" . str_replace(".yml", ".dist", $name);
         $ymlname = realpath(__DIR__."/../config/") . "/" . $name;
@@ -72,15 +67,15 @@ class lowlevelchecks
             return; // Okidoki..
         }
 
-        if (!is_readable($distname)) {
-            $message = sprintf("Couldn't create a new <code>%s</code>-file. The file <code>app/config/%s</code> isn't readable.
+        if (file_exists($ymlname) && !is_writable($ymlname)) {
+            $message = sprintf("The file <code>app/config/%s</code> exists, but Bolt can't write changes to it.
             Make sure it's present and writable to the user that the webserver is using."
                 , $name, str_replace(".yml", ".dist", $name));
             $this->lowlevelError($message);
         }
 
         if (!copy($distname, $ymlname)) {
-            $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file Manually, and make it's writable
+            $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file Manually, and make sure it's writable
             to the user that the webserver is using."
                 , $name);
             $this->lowlevelError($message);
@@ -93,7 +88,7 @@ class lowlevelchecks
      *
      * @param string $message
      */
-    public function lowlevelError($message)
+    private function lowlevelError($message)
     {
 
         $paths = getPaths();

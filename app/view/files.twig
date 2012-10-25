@@ -18,7 +18,9 @@
 {% for folder in folders %}
     <tr>
         <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
-        <td>{{ folder.modified }}</td>
+        <td>
+            <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">{{ folder.modified }}</time>
+        </td>
     </tr>
 {% endfor %}
 </table>
@@ -31,18 +33,35 @@
     <tr>
         <td>
             {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
-                <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" class='fancybox' rel='fancybox' title="Image: {{ file.filename }}">
-                    <b>{{ file.filename }}</b></a>    
+                {% if file.readable %}
+                    <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" class='fancybox' rel='fancybox' title="Image: {{ file.filename }}">
+                        <b>{{ file.filename }}</b>
+                    </a>
+                {% else %}
+                    <b>{{ file.filename }} </b><i class="icon-lock"></i>
+                {% endif %}
             {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
-                <a href="{{ path('fileedit', { 'file': file.newpath}) }}">
-                    <b>{{ file.filename }}</b></a>                      
+                {% if file.readable %}
+                    <a href="{{ path('fileedit', { 'file': file.newpath}) }}"><b>{{ file.filename }}</b> </a>
+                {% else %}
+                    <b>{{ file.filename }}</b>
+                {% endif %}
+                {% if not file.readable or not file.writable %}
+                    <i class="icon-lock"></i>
+                {% endif %}
             {% else %}
-                <a href="/{{file.newpath}}" target="_blank"><b>{{ file.filename }}</b></a>
+                {% if file.readable %}
+                    <a href="/{{file.newpath}}" target="_blank"><b>{{ file.filename }}</b></a>
+                {% else %}
+                    <b>{{ file.filename }} </b><i class="icon-lock"></i>
+                {% endif %}
             {% endif %}
         </td>
         <td>{{ file.filesize }}.</td>
         <td>{% if file.imagesize is defined %}{{ file.imagesize }} px.{% endif %}</td>
-        <td>{{ file.modified }}</td>
+        <td>
+            <time class="moment" datetime="{{ file.modified|date("c") }}" title="{{ file.modified }}">{{ file.modified }}</time>
+        </td>
         <td class='actions'>
             <div class="btn-group">
             <button class="btn btn-mini">

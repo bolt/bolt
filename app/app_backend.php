@@ -664,6 +664,7 @@ $backend->get("/files/{path}", function ($path, Silex\Application $app, Request 
                     'filename' => $entry,
                     'newpath' => $path . "/" . $entry,
                     'writable' => is_writable($fullfilename),
+                    'readable' => is_readable($fullfilename),
                     'type' => getExtension($entry),
                     'filesize' => formatFilesize(filesize($fullfilename)),
                     'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
@@ -691,7 +692,7 @@ $backend->get("/files/{path}", function ($path, Silex\Application $app, Request 
         $d->close();
 
     } else {
-        $app['session']->setFlash('error', "File '" .$file.".yml' could not be saved: not valid YAML.");
+        $app['session']->setFlash('error', "File '" .$file."' could not be saved: not valid YAML.");
     }
 
     $app['twig']->addGlobal('title', "Files in ". $path);
@@ -718,8 +719,10 @@ $backend->match("/file/edit/{file}", function ($file, Silex\Application $app, Re
     }
 
     if (!is_writable($filename)) {
-        $error = sprintf("file '%s/config/%s.yml' is not writable." , basename(__DIR__), $file);
-        $app->abort(404, $error);
+        $app['session']->setFlash('error', sprintf("The file '%s/config/%s' is not writable. You will not be able to save your changes, until you fix this." , basename(__DIR__), $file));
+        $writeallowed = false;
+    } else {
+        $writeallowed = true;
     }
 
     $data['contents'] = file_get_contents($filename);
@@ -774,7 +777,8 @@ $backend->match("/file/edit/{file}", function ($file, Silex\Application $app, Re
     return $app['twig']->render('editconfig.twig', array(
         'form' => $form->createView(),
         'title' => $title,
-        'filetype' => $type
+        'filetype' => $type,
+        'write' => $writeallowed
         ));
 
 })->before($checkLogin)->assert('file', '.+')->method('GET|POST')->bind('fileedit');
