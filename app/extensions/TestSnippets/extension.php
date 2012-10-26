@@ -54,7 +54,7 @@ function init($app) {
 
 function callback(\Silex\Application $app, $var) {
 
-    return "<!-- snippet inserted via callback with parameter '$var''.. -->";
+    return "<!-- snippet inserted via callback with parameter '$var'.. -->";
 
 }
 
