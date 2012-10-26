@@ -9,16 +9,17 @@ use Symfony\Component\HttpFoundation\Response;
  */
 $beforeAsynchronous = function (Request $request) use ($app) {
 
-    // If there's no active session, don't do anything..
-    if (!$app['users']->checkValidSession()) {
-        $app->abort(404, "You must be logged in to use this.");
-    }
-
     // Only set which endpoint it is, if it's not already set. Which it is, in cases like
     // when it's embedded on a page using {{ render() }}
     if (empty($app['end'])) {
         $app['end'] = "asynchronous";
     }
+
+    // If there's no active session, don't do anything..
+    if (!$app['users']->checkValidSession()) {
+        $app->abort(404, "You must be logged in to use this.");
+    }
+
     $app['twig']->addGlobal('paths', $app['paths']);
 
 };

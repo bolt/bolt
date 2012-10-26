@@ -8,11 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 $checkLogin = function (Request $request) use ($app) {
 
+    $app['end'] = "backend";
+
     $route = $request->get('_route');
 
     $app['log']->setRoute($route);
 
-    $app['end'] = "backend";
     $app['twig']->addGlobal('backend', true);
     $app['twig']->addGlobal('paths', $app['paths']);
 
@@ -431,6 +432,8 @@ $backend->match("/users/edit/{id}", function ($id, Silex\Application $app, Reque
     if (!$app['users']->getUsers()) {
         $firstuser = true;
         $title = "Create the first user";
+        // If we get here, chances are we don't have the tables set up, yet.
+        $app['storage']->repairTables();
     } else {
         $firstuser = false;
     }

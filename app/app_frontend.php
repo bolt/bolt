@@ -8,16 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 $checkStuff = function (Request $request) use ($app) {
 
+    $app['end'] = "frontend";
+
     // If there are no users in the users table, or the table doesn't exist. Repair
     // the DB, and let's add a new user.
     if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-        $app['storage']->repairTables();
         $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
-
         return redirect('useredit', array('id' => ""));
     }
-
-    $app['end'] = "frontend";
 
     $app['twig']->addGlobal('frontend', true);
     $app['twig']->addGlobal('paths', $app['paths']);
