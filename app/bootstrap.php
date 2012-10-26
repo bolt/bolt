@@ -1,6 +1,6 @@
 <?php
 
-$bolt_version = "0.7.9";
+$bolt_version = "0.7.10";
 $bolt_buildnumber = "";
 $bolt_name = "First beta";
 
