@@ -39,10 +39,13 @@ demo:
       required: false
       label: Subject of your message
       placeholder: Just a quick message ..
+      fieldset: pom
+      fieldsettitle: Titel van pompidom
     name:
       type: text
       required: true
       placeholder: Your name ..
+      fieldset: pom
     email:
       type: email
       label: Email address
@@ -55,8 +58,9 @@ demo:
     favorite:
       type: choice
       label: My favorite animals are
-      choices: ['Kittens', 'Puppies', 'Penguins', 'Koala bears', "I don't like animals" ]
+      choices: [ Kittens, Puppies, Penguins, Koala bears, "I don't like animals" ]
       required: true
+      add_seperator: true
     option1:
       type: checkbox
       label: Newsletter

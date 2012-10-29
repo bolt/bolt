@@ -84,6 +84,7 @@ function simpleform($name="")
         if (!empty($field['class'])) {
             $options['attr']['class'] = $field['class'];
         }
+
         if (!empty($field['required']) && $field['required'] == true) {
             $options['required'] = true;
         } else {
@@ -96,7 +97,12 @@ function simpleform($name="")
                 $options['choices'][ safeString($option)] = $option;
             }
         }
-
+        if (!empty($field['expanded'])) {
+            $options['expanded'] = $field['expanded'];
+        }
+        if (!empty($field['multiple'])) {
+            $options['multiple'] = $field['multiple'];
+        }
         // Make sure $field has a type, or the form will break.
         if (empty($field['type'])) {
             $field['type'] = "text";
