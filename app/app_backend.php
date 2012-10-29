@@ -777,7 +777,7 @@ $backend->match("/file/edit/{file}", function ($file, Silex\Application $app, Re
         'form' => $form->createView(),
         'title' => $title,
         'filetype' => $type,
-        'write' => $writeallowed
+        'writeallowed' => $writeallowed
         ));
 
 })->before($checkLogin)->assert('file', '.+')->method('GET|POST')->bind('fileedit');

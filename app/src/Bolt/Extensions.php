@@ -188,6 +188,15 @@ class Extensions
 
     }
 
+    public function addJavascript($filename)
+    {
+
+        $html = sprintf('<script src="%s"></script>', $filename);
+
+        $this->insertSnippet("aftercss", $html);
+
+    }
+
     public function insertSnippet($location, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
         $this->snippetqueue[] = array(
