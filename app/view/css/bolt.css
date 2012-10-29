@@ -504,6 +504,7 @@ label span.left {
 #editcontent div.map-right {
     float: right;
     width: 208px;
+    margin-bottom: 8px;
 }
 
 #editcontent .imageholder {
@@ -541,6 +542,7 @@ label span.left {
     margin-top: 16px;
     height: 120px;
     width: 97%;
+    clear: both;
 }
 
 #editcontent .dropzone.hover, #editcontent .dropzone.in  {

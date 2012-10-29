@@ -407,7 +407,8 @@ $backend->get("/content/{action}/{contenttypeslug}/{id}", function (Silex\Applic
 
 
 
-
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 $backend->match("/users/edit/{id}", function ($id, Silex\Application $app, Request $request) {
