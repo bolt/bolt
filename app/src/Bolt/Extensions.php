@@ -8,19 +8,23 @@ use util;
 
 class Extensions
 {
-    public $db;
-    public $config;
-    public $basefolder;
-    public $enabled;
-    public $snippetqueue;
-    public $ignored;
+    private $db;
+    private $config;
+    private $basefolder;
+    private $enabled;
+    private $snippetqueue;
+    private $ignored;
+    private $addjquery;
+    private $matchedcomments;
 
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
+        $this->addjquery = false;
         $this->basefolder = realpath(__DIR__."/../../extensions/");
         $this->ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
         $this->enabledExtensions();
+        $this->matchedcomments = array();
 
     }
 
@@ -178,6 +182,11 @@ class Extensions
 
     }
 
+    public function addJquery()
+    {
+        $this->addjquery = true;
+    }
+
 
     public function addCss($filename)
     {
@@ -213,6 +222,13 @@ class Extensions
 
     public function processSnippetQueue($html)
     {
+
+        // First, gather all html <!-- comments -->, because they shouldn't be
+        // considered for replacements. We use a callback, so we can fill our
+        // $this->matchedcomments array
+        $html = preg_replace_callback('/<!--(.*)-->/Uis', array($this, 'pregcallback'), $html);
+
+        // Replace the snippets in the queue..
         foreach ($this->snippetqueue as $item) {
 
             // Get the snippet, either by using a callback function, or else use the
@@ -234,6 +250,9 @@ class Extensions
                 case "aftercss":
                     $html = $this->insertAfterCss($snippet, $html);
                     break;
+                case "afterjs":
+                    $html = $this->insertAfterJs($snippet, $html);
+                    break;
                 case "startofhead":
                     $html = $this->insertStartOfHead($snippet, $html);
                     break;
@@ -252,6 +271,16 @@ class Extensions
             }
 
         }
+
+        if ($this->addjquery) {
+            $html = $this->insertJquery($html);
+        }
+
+        // Finally, replace back ###comment### with its original comment.
+        if (!empty($this->matchedcomments)) {
+            $html = preg_replace(array_keys($this->matchedcomments), $this->matchedcomments, $html, 1);
+        }
+
 
         return $html;
 
@@ -429,7 +458,7 @@ class Extensions
     public function insertAfterMeta($tag, $html)
     {
 
-        // first, attempt ot insert it after the last meta tag, matching indentation..
+        // first, attempt to insert it after the last meta tag, matching indentation..
 
         if (preg_match_all("~^([ \t]+)<meta (.*)~mi", $html, $matches)) {
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
@@ -459,7 +488,7 @@ class Extensions
     public function insertAfterCss($tag, $html)
     {
 
-        // first, attempt ot insert it after the last <link> tag, matching indentation..
+        // first, attempt to insert it after the last <link> tag, matching indentation..
 
         if (preg_match_all("~^([ \t]+)<link (.*)~mi", $html, $matches)) {
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
@@ -474,6 +503,103 @@ class Extensions
         }
 
         return $html;
+
+    }
+
+    /**
+     *
+     * Helper function to insert some HTML before the first javascript include in the page.
+     *
+     * @param  string $tag
+     * @param  string $html
+     * @return string
+     */
+    public function insertBeforeJS($tag, $html)
+    {
+
+        // first, attempt to insert it after the <body> tag, matching indentation..
+
+        if (preg_match("~^([ \t]+)<script(.*)~mi", $html, $matches)) {
+
+            // Try to insert it before the match
+            $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
+            $html = str_replace($matches[0], $replacement, $html);
+
+        } else {
+
+            // Since we're serving tag soup, just append it.
+            $html .= $tag."\n";
+
+        }
+
+        return $html;
+
+    }
+
+    /**
+     *
+     * Helper function to insert some HTML after the last javascript include in the page.
+     *
+     * @param  string $tag
+     * @param  string $html
+     * @return string
+     */
+    public function insertAfterJs($tag, $html)
+    {
+
+        // first, attempt to insert it after the last <link> tag, matching indentation..
+
+        if (preg_match_all("~^([ \t]+)<script (.*)~mi", $html, $matches)) {
+            //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
+
+            // matches[0] has some elements, the last index is -1, because zero indexed.
+            $last = count($matches[0])-1;
+            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
+            $html = str_replace($matches[0][$last], $replacement, $html);
+
+        } else {
+            $html = $this->insertEndOfHead($tag, $html);
+        }
+
+        return $html;
+
+    }
+
+
+    /**
+     * Insert jQuery, if it's not inserted already.
+     *
+     * @param string $html
+     */
+    private function insertJquery($html)
+    {
+
+        // check if jquery is not yet present. Some of the patterns that 'match' are:
+        // jquery.js
+        // jquery.min.js
+        // jquery-latest.js
+        // jquery-latest.min.js
+        // jquery-1.8.2.min.js
+        // jquery-1.5.js
+        if (!preg_match('/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/', $html)) {
+            $jqueryfile = $this->app['paths']['app']."view/js/jquery-1.8.2.min.js";
+            $html = $this->insertBeforeJs("<script src='$jqueryfile'></script>", $html);
+            return $html;
+        } else {
+            // We've already got jQuery. Yay, us!
+            return $html;
+        }
+
+
+
+
+    }
+
+    private function pregcallback($c) {
+        $key = "###bolt-comment-".count($this->matchedcomments)."###";
+        // Add it to the array of matched comments..
+        $this->matchedcomments["/".$key."/"] = $c[0];
+        return $key;
 
     }
 
