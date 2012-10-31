@@ -20,11 +20,16 @@ class Extensions
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
-        $this->addjquery = false;
         $this->basefolder = realpath(__DIR__."/../../extensions/");
         $this->ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
         $this->enabledExtensions();
         $this->matchedcomments = array();
+
+        if ($app['config']['general']['add_jquery'] == true) {
+            $this->addjquery = true;
+        } else {
+            $this->addjquery = false;
+        }
 
     }
 
@@ -151,10 +156,7 @@ class Extensions
      */
     public function isEnabled($name)
     {
-        // echo "<pre>\n" . util::var_dump($this->enabled, true) . "</pre>\n";
         return in_array($name, $this->enabled);
-
-
     }
 
 
@@ -272,7 +274,7 @@ class Extensions
 
         }
 
-        if ($this->addjquery) {
+        if ($this->addjquery==true) {
             $html = $this->insertJquery($html);
         }
 

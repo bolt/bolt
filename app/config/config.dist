@@ -24,6 +24,9 @@ homepage_template: index.twig
 # they _will_ get updated in next releases
 theme: default
 
+# Add jQuery to the rendered HTML, whether or not it's added by an extension.
+add_jquery: false
+
 # The list of enabled extensions.
 # TestSnippets, GoogleAnalytics
 enabled_extensions: [ HelloWorld, FacebookLike, TwitterButton ]
