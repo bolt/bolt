@@ -11,7 +11,7 @@ function info()
         'description' => "A small extension to add a 'Twitter button' to your site, when using <code>{{ twitterbutton() }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => "0.9",
+        'version' => "1.0",
         'required_bolt_version' => "0.8",
         'highest_bolt_version' => "0.8",
         'type' => "Twig function",
@@ -35,8 +35,9 @@ function init($app)
 
 
 
-function twitterButton(\Silex\Application $app)
+function twitterButton()
 {
+    global $app;
 
     $yamlparser = new \Symfony\Component\Yaml\Parser();
     $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
@@ -47,12 +48,19 @@ function twitterButton(\Silex\Application $app)
     } else {
         $config['count'] = '';
     }
+    if (empty($config['url'])) { 
+        $config['url'] = $app['paths']['canonicalurl'];
+    }
+
+    // code from: https://twitter.com/about/resources/buttons#tweet
 
     $html = <<< EOM
-    <a href="https://twitter.com/share" class="twitter-share-button" data-via="%via%" %count%  data-dnt="true">Tweet</a>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-via="%via%" %count% data-url="%url%" data-dnt="true">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 EOM;
 
+
+    $html = str_replace("%url%", $config['url'], $html);
     $html = str_replace("%via%", $config['via'], $html);
     $html = str_replace("%count%", $config['count'], $html);
 

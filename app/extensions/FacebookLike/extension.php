@@ -11,7 +11,7 @@ function info()
         'description' => "A small extension to add a 'Facebook Like'-button to your site, when using <code>{{ facebooklike() }}</code> in your templates.",
         'author' => "Bob den Otter",
         'link' => "http://bolt.cm",
-        'version' => "0.9",
+        'version' => "1.0",
         'required_bolt_version' => "0.8",
         'highest_bolt_version' => "0.8",
         'type' => "Twig function",
@@ -54,9 +54,10 @@ EOM;
 
 
 
-function facebookLike(\Silex\Application $app)
+function facebookLike()
 {
-
+    global $app;
+    
     $yamlparser = new \Symfony\Component\Yaml\Parser();
     $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
 
@@ -64,13 +65,19 @@ function facebookLike(\Silex\Application $app)
     if (empty($config['width'])) { $config['width'] = "350px"; }
     if (empty($config['verb'])) { $config['verb'] = "like"; }
     if (empty($config['scheme'])) { $config['scheme'] = "light"; }
+    if (empty($config['url'])) { 
+        $config['url'] = $app['paths']['canonicalurl'];
+    }
+
+    // code from http://developers.facebook.com/docs/reference/plugins/like/
 
     $html = <<< EOM
-    <div class="fb-like" data-send="false" data-layout="%style%" data-width="%width%"
+    <div class="fb-like" data-href="%url%" data-send="false" data-layout="%style%" data-width="%width%"
     data-show-faces="false" data-action="%verb%" data-colorscheme="%scheme%"></div>
 EOM;
     // data-href="http://example.org"
 
+    $html = str_replace("%url%", $config['url'], $html);
     $html = str_replace("%style%", $config['style'], $html);
     $html = str_replace("%width%", $config['width'], $html);
     $html = str_replace("%verb%", $config['verb'], $html);

@@ -717,6 +717,9 @@ function getConfig()
         if (!isset($temp['show_on_dashboard'])) {
             $temp['show_on_dashboard'] = true;
         }
+        if (!isset($temp['sort'])) {
+            $temp['sort'] = "";
+        }        
         $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
 
