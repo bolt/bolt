@@ -8,8 +8,6 @@ use util;
 
 class Extensions
 {
-    private $db;
-    private $config;
     private $basefolder;
     private $enabled;
     private $snippetqueue;
@@ -25,7 +23,7 @@ class Extensions
         $this->enabledExtensions();
         $this->matchedcomments = array();
 
-        if ($app['config']['general']['add_jquery'] == true) {
+        if (isset($app['config']['general']['add_jquery']) && $app['config']['general']['add_jquery'] == true) {
             $this->addjquery = true;
         } else {
             $this->addjquery = false;
