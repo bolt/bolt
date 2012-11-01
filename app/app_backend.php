@@ -315,7 +315,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function ($contenttypeslug, $id,
 
     if (!empty($id)) {
           $content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $id));
-        $app['twig']->addGlobal('title', "Edit » ". $content->title());
+        $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->title());
         $app['log']->add("Edit content", 1, $content, 'edit');
     } else {
         $content = $app['storage']->getEmptyContent($contenttype['slug']);

@@ -1,8 +1,8 @@
 <?php
 
-$bolt_version = "0.7.11";
+$bolt_version = "0.8";
 $bolt_buildnumber = "";
-$bolt_name = "First beta";
+$bolt_name = "Second beta";
 
 // First, do some low level checks, like whether autoload is present, the cache
 // folder is writable, if the minimum PHP version is present, etc.
