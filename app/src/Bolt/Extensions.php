@@ -250,6 +250,9 @@ class Extensions
                 case "aftercss":
                     $html = $this->insertAfterCss($snippet, $html);
                     break;
+                case "beforejs":
+                    $html = $this->insertBeforeJs($snippet, $html);
+                    break;
                 case "afterjs":
                     $html = $this->insertAfterJs($snippet, $html);
                     break;
