@@ -751,11 +751,6 @@ class Storage
 
         }
 
-        // Make sure we show published-only stuff in the frontend, mostly.
-        if (!empty($parameters['status'])) {
-            $where[] = $this->parseWhereParameter('status', $parameters['status']);
-        }
-
         // If we need to filter, add the WHERE for that.
         // InnoDB doesn't support full text search. WTF is up with that shit?
         if (!empty($parameters['filter'])) {

@@ -815,6 +815,11 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
         $querytime = 0;
 
         foreach ($logger->queries as $query) {
+
+            // Skip "PRAGMA .." queries by SQLITE.
+            if (strpos($query['sql'], "PRAGMA ")===0) {
+                continue;
+            }
             $queries[] = array(
                 'query' => $query['sql'],
                 'params' => $query['params'],
