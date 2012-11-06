@@ -1,16 +1,16 @@
 
 <nav class="{{name}}">
-    <ul class="dd_menu">
+    <ul class="bolt-menu">
     {% for item in menu %}
 
-        <li class="idx{{ loop.index }} {% if loop.first %}first{% endif %}{% if loop.last %}last{% endif %}">
+        <li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
             <a href="{{ item.link }}" {% if item.title %}title='{{ item.title|escape }}'{% endif %}
             class='{% if item|current %}current {% endif %}{{item.class}}'>{{item.label}}</a>
 
         {% if item.submenu is defined %}
         <ul>
             {% for item in item.submenu %}
-            <li class="idx{{ loop.index }} {% if loop.first %}first{% endif %}{% if loop.last %}last{% endif %}">
+            <li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
                 <a href="{{ item.link }}" {% if item.title %}title='{{ item.title|escape }}'{% endif %}
                 class='{% if item|current %}current {% endif %}{{item.class}}'>{{item.label}}</a>
             </li>
