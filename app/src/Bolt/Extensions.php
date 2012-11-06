@@ -120,8 +120,8 @@ class Extensions
 
                 $info['namespace'] = $namespace;
 
-                if (!isset($info['dependancies'])) {
-                    $info['dependancies'] = array();
+                if (!isset($info['dependencies'])) {
+                    $info['dependencies'] = array();
                 }
 
                 if (!isset($info['tags'])) {
