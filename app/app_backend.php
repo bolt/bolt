@@ -32,6 +32,7 @@ $checkLogin = function (Request $request) use ($app) {
     // If the users table is present, but there are no users, and we're on /bolt/debugedit,
     // we let the user stay, because they need to set up the first user.
     if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
+        $app['twig']->addGlobal('frontend', false);
         return;
     }
 
