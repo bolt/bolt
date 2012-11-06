@@ -17,7 +17,7 @@ function info() {
         'type' => "Twig function",
         'first_releasedate' => "2012-10-10",
         'latest_releasedate' => "2012-10-19",
-        'dependancies' => "",
+        'dependencies' => "",
         'priority' => 10
     );
 
