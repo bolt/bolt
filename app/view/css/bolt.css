@@ -254,7 +254,7 @@ footer  {
 }
 
 .dashboardlisting tr.grouping {
-    background-color: #F8F8F8 !important;
+    background-color: transparent !important;
     padding: 0px 5px;
     border-top: none !important;
 }
@@ -270,7 +270,6 @@ footer  {
 .dashboardlisting tr.grouping h3 {
     margin: 0px;
 }
-
 
 .dashboardlisting tr:first-child {
     border-top: 1px solid #DDD;

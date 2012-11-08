@@ -26,9 +26,6 @@ jQuery(function($) {
         });
     }
 
-    // Initialize the fixed table headers
-    $("table").stickyTableHeaders();
-
     // Initialize the Fancybox shizzle.
     $('.fancybox').fancybox({ });
 

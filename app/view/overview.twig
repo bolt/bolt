@@ -13,14 +13,9 @@
 
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if content.group is defined and content.group != lastgroup %}
-        {% if not loop.first %}
-        </table>
-        <table class='dashboardlisting'>
-            {% endif %}
             <thead>
                 <tr class="grouping"><th colspan="5"><h3>{{ content.group }}</h3></th></tr>
             </thead>
-
             {% endif %}
 
             {# print the header for the first row.. #}
@@ -124,7 +119,6 @@
         {% else %}
             No {{contenttype.name}} available.
         {% endfor %}
-        </tbody>
     </table>
 
     {{ pager() }}
