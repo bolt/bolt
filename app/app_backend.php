@@ -303,7 +303,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function ($contenttypeslug, $id,
             } else {
                 $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " has been saved.");
             }
-            $app['log']->add($content->title(), 2, $content, 'save content');
+            $app['log']->add($content->getTitle(), 2, $content, 'save content');
 
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
@@ -316,7 +316,7 @@ $backend->match("/edit/{contenttypeslug}/{id}", function ($contenttypeslug, $id,
 
     if (!empty($id)) {
           $content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $id));
-        $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->title());
+        $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->getTitle());
         $app['log']->add("Edit content", 1, $content, 'edit');
     } else {
         $content = $app['storage']->getEmptyContent($contenttype['slug']);
