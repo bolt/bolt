@@ -4,119 +4,123 @@
     <div class="span9">
 
         <h1>Overview » {{contenttype.name }} <span>{% if pager.totalpages > 1 %}Page: {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
-        
+
         {% set lastgroup = "" %}
 
     <table class='dashboardlisting'>
-        {% for content in multiplecontent %}        
 
-        {# If we have 'grouping', print the row with the groupname.. #}
-        {% if content.group is defined and content.group != lastgroup %}
-        <tr class="grouping"><th colspan="5"><h2>{{ content.group }}</th></tr>
-        {% set lastgroup = content.group %}
-        {% endif %}
-                
-        {# print the header for the first row.. #}
-        {% if loop.first %}
-        {% if "filter" in app.request.query.all|keys %}
-            {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
-        {% else %}
-            {% set filter = "" %}
-        {% endif %}
-        
-        {% set link = "?" ~ filter ~ "order=" %}
-        <tr>
-            <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+        {% for content in multiplecontent %}
 
-            {# output either the title or name as primary field #}
-            {% if content.title is defined %}
-            <th><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
-            {% elseif content.name is defined %}
-            <th><a href='{{link}}name {% if request('order')=="name ASC" %}DESC{%else%}ASC{%endif%}'>Name / Excerpt</a></th>
-            {% else %}
-            <th>Excerpt</th>
+            {# If we have 'grouping', print the row with the groupname.. #}
+            {% if content.group is defined and content.group != lastgroup %}
+            <thead>
+                <tr class="grouping"><th colspan="5"><h3>{{ content.group }}</h3></th></tr>
+            </thead>
             {% endif %}
-            {% if content.image is defined %}
-                <th>&nbsp;</th>
-            {% endif %}
-            <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
-            <th><a href='?'>Actions</a></th>
-        </tr>
-        {% endif %}
-        
-        <tr class="{% if content.status!='published' %}dim{% endif %}">
-            <td class='id hide-phone'>№ {{content.id}} </td>
-            <td class='excerpt large'><span>
-                <strong class="show-phone">№ {{content.id}}. </strong> 
-                <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong> 
-                {{ content.excerpt(380) }}
-                </span></td>
-            {% if content.image is defined %}
-            <td class='listthumb'>
-                {{content.image|fancybox(80, 60, 'c')}}
-            </td>
-            {% endif %}            
-            <td class='username hide-phone'>
-                <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
-                <br><i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}
-            </td>
-            <td class='actions'>
-                <div class="btn-group">
-                <button class="btn btn-mini uselink">
-                    <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
-                    <i class="icon-edit"></i> Edit</a></button>
-                <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-                <span class="caret"></span>
-                </button>
-                
-                <ul class="dropdown-menu pull-right">
 
-                    {% if content.status != "published" %}
-                        <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
-                            <i class="icon-star-empty"></i> Publish {{ contenttype.singular_name }}</a></li>
+            {# print the header for the first row.. #}
+            {% if loop.first or (content.group is defined and content.group != lastgroup) %}
+                {% set lastgroup = content.group %}
+                {% if "filter" in app.request.query.all|keys %}
+                    {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
+                {% else %}
+                    {% set filter = "" %}
+                {% endif %}
+
+                {% set link = "?" ~ filter ~ "order=" %}
+                <tr>
+                    <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+
+                    {# output either the title or name as primary field #}
+                    {% if content.title is defined %}
+                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
+                    {% elseif content.name is defined %}
+                    <th style="width:80%"><a href='{{link}}name {% if request('order')=="name ASC" %}DESC{%else%}ASC{%endif%}'>Name / Excerpt</a></th>
                     {% else %}
-                        <li><a href="{{ path('contentaction', { 'action': 'held', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
-                            <i class="icon-star"></i> Change status to 'held'</a></li>
-                        <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
-                            <i class="icon-pencil"></i> Change status to 'draft'</a></li>
+                    <th style="width:80%">Excerpt</th>
                     {% endif %}
-                    <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
-                        <i class="icon-copy"></i> Duplicate {{contenttype.singular_name}}</a></li>
-                    <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype.slug, 'id': content.id, token: token() }) }}"
-                        data-confirm="Are you sure you want to delete '{{content.title}}'?" class="confirm">
-                        <i class="icon-trash"></i> Delete {{contenttype.singular_name}}</a></li>
-                    <li class="divider"></li>
-                    <li><a class="nolink">Author: <strong><i class="icon-user"></i>
-                        {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}
-                        <s>{{ content.username }}</s>{% endif %}</strong></a></li>
-                    <li><a class="nolink">Current status: 
-                        <strong>{{ content.status }}</strong></a></li>
-                    <li><a class="nolink">Created on:
-                        <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
-                    <li><a class="nolink">Published on:
-                        <strong><i class="icon-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</strong></a></li>
-                    <li><a class="nolink">Last edited on:
-                        <strong><i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
-                    {% for taxonomyslug, values in content.taxonomy %} 
-                        {% if values|length > 1 %}
-                            <li><a class="nolink">{{ config.taxonomy[taxonomyslug].name }}: 
-                                <strong><i class="icon-tag"></i> {{ values|join(", ") }}</strong></a></li>
+                    {% if content.image is defined %}
+                        <th>&nbsp;</th>
+                    {% endif %}
+                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
+                    <th><a href='?'>Actions</a></th>
+                </tr>
+            {% endif %}
+
+
+            <tr class="{% if content.status!='published' %}dim{% endif %}">
+                <td class='id hide-phone'>№ {{content.id}} </td>
+                <td class='excerpt large'><span>
+                    <strong class="show-phone">№ {{content.id}}. </strong>
+                    <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong>
+                    {{ content.excerpt(380) }}
+                    </span></td>
+                {% if content.image is defined %}
+                <td class='listthumb'>
+                    {{content.image|fancybox(80, 60, 'c')}}
+                </td>
+                {% endif %}
+                <td class='username hide-phone'>
+                    <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
+                    <br><i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}
+                </td>
+                <td class='actions'>
+                    <div class="btn-group">
+                    <button class="btn btn-mini uselink">
+                        <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
+                        <i class="icon-edit"></i> Edit</a></button>
+                    <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    </button>
+
+                    <ul class="dropdown-menu pull-right">
+
+                        {% if content.status != "published" %}
+                            <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
+                                <i class="icon-star-empty"></i> Publish {{ contenttype.singular_name }}</a></li>
                         {% else %}
-                            <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}: 
-                                <strong><i class="icon-tag"></i> {{ values.0 }}</strong></a></li>
-                        {% endif %}                            
-                    {% endfor %}           
-                </ul>
-                </div>
-                
-            </td>
-        </tr>
+                            <li><a href="{{ path('contentaction', { 'action': 'held', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
+                                <i class="icon-star"></i> Change status to 'held'</a></li>
+                            <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': contenttype.slug,  'id': content.id }) }}">
+                                <i class="icon-pencil"></i> Change status to 'draft'</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
+                            <i class="icon-copy"></i> Duplicate {{contenttype.singular_name}}</a></li>
+                        <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype.slug, 'id': content.id, token: token() }) }}"
+                            data-confirm="Are you sure you want to delete '{{content.title}}'?" class="confirm">
+                            <i class="icon-trash"></i> Delete {{contenttype.singular_name}}</a></li>
+                        <li class="divider"></li>
+                        <li><a class="nolink">Author: <strong><i class="icon-user"></i>
+                            {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}
+                            <s>{{ content.username }}</s>{% endif %}</strong></a></li>
+                        <li><a class="nolink">Current status:
+                            <strong>{{ content.status }}</strong></a></li>
+                        <li><a class="nolink">Created on:
+                            <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
+                        <li><a class="nolink">Published on:
+                            <strong><i class="icon-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</strong></a></li>
+                        <li><a class="nolink">Last edited on:
+                            <strong><i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
+                        {% for taxonomyslug, values in content.taxonomy %}
+                            {% if values|length > 1 %}
+                                <li><a class="nolink">{{ config.taxonomy[taxonomyslug].name }}:
+                                    <strong><i class="icon-tag"></i> {{ values|join(", ") }}</strong></a></li>
+                            {% else %}
+                                <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}:
+                                    <strong><i class="icon-tag"></i> {{ values.0 }}</strong></a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    </div>
+
+                </td>
+            </tr>
+
         {% else %}
             No {{contenttype.name}} available.
         {% endfor %}
-    
     </table>
-  
+
     {{ pager() }}
 
     </div><!-- /span9 -->
@@ -131,25 +135,25 @@
     {% if request('filter') or request('order') %}
     <a class="btn" href="?">Clear sort/filter</a>
     {% endif %}
-    
+
     <h2>Filtering:</h2>
-    
+
 <form class="form-inline">
   <input type="text" class="input-small" value="{{ request('filter') }}" name="filter" style="width: 110px;">
   <button type="submit" class="btn">Filter</button>
       {% if request('filter') %}<p><a href="?">Clear filter</a></p>{% endif %}
 </form>
 
-    
-    </section>
-    
-{{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
-    
 
-    
-    
+    </section>
+
+{{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
+
+
+
+
     </aside>
-</div> 
-    
+</div>
+
 
 {% include '_footer.twig' %}

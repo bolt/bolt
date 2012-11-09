@@ -4,7 +4,7 @@ try { console.assert(1); } catch(e) { console = { log: function() {}, assert: fu
 
 jQuery(function($) {
 
-    // Any link with a class='confirm' gets a confirmation dialog.. 
+    // Any link with a class='confirm' gets a confirmation dialog..
     $('a.confirm').click(function(){
         return confirm( $(this).data('confirm') );
     });
@@ -19,18 +19,17 @@ jQuery(function($) {
     if (wysiwyg.fontcolor) { toolbar = toolbar.concat('fontcolor', 'backcolor', '|'); }
 
     if ($('.redactor').is('*')) {
-		$('.redactor').redactor({
+        $('.redactor').redactor({
             autoresize: false,
             buttons: toolbar,
             css: 'style_bolt.css'
         });
-	}
+    }
 
+    // Initialize the Fancybox shizzle.
+    $('.fancybox').fancybox({ });
 
-	// Initialize the Fancybox shizzle.
-	$('.fancybox').fancybox({ });
-	
-    // Show 'dropzone' for jQuery file uploader. 
+    // Show 'dropzone' for jQuery file uploader.
     // TODO: make it prettier, and distinguish between '.in' and '.hover'.
     $(document).bind('dragover', function (e) {
         var dropZone = $('.dropzone'),
@@ -69,9 +68,9 @@ jQuery(function($) {
         setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
     }
 
-	// Hackish fix for an issue on Ipad, where dropdown menus wouldn't be clickable. Hopefully fixed in Bootstrap 2.1.2
+    // Hackish fix for an issue on Ipad, where dropdown menus wouldn't be clickable. Hopefully fixed in Bootstrap 2.1.2
     // See https://github.com/twitter/bootstrap/issues/2975
-	$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+    $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 
     // Strictly speaking it's not allowed to use <a> inside a <button>, so Firefox ignores the
     // links in our dropdowns. Workaround:
@@ -160,8 +159,8 @@ function bindFileUpload(key) {
             $('#progress-' + key).show().addClass('progress-striped active');
             $('#progress-' + key + ' div.bar').css('width', progress+"%");
         });
-          
-    
+
+
 }
 
 
