@@ -1,5 +1,11 @@
 {% for key, field in contenttype.fields %}
 
+{# --------------- prefix --------------- #}
+{% if field.prefix is not empty %}
+    {{ field.prefix }}
+{% endif %}
+
+
 {# --------------- text --------------- #}
 
 {% if field.type == "text" and field.variant == "" %}
@@ -404,7 +410,11 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 {% endif %}
 
 
-{# --------------- divider --------------- #}
+{# ---------------postfix & divider --------------- #}
+
+{% if field.postfix is not empty %}
+    {{ field.postfix }}
+{% endif %}
 
 {% if field.separator == true %}
     <hr>
