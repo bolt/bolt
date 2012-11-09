@@ -335,8 +335,9 @@ $backend->match("/edit/{contenttypeslug}/{id}", function ($contenttypeslug, $id,
     }
 
     // Set the users and the current owner of this content.
-    if (!empty($content->username)) {
-        $contentowner = $content->username;
+
+    if ($content->get('username') != "") {
+        $contentowner = $content->get('username');
     } else {
         $user = $app['session']->get('user');
         $contentowner = $user['username'];
