@@ -568,6 +568,9 @@ label span.left {
     display: none;
 }
 
+#editcontent .sluglocker {
+    color: #666;
+}
 
 
 /** Overrides for Redactor */

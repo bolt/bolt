@@ -175,7 +175,13 @@ function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
         var field = $('#'+usesfield).val();
         clearTimeout(makeuritimeout);
         makeuritimeout = setTimeout( function(){ makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri); }, 200);
-    });
+    }).trigger('input');
+
+}
+
+function stopMakeUri(usesfield) {
+
+    $('#'+usesfield).unbind('propertychange input');
 
 }
 
