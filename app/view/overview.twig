@@ -32,10 +32,7 @@
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
                     <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
-
-                    {% if content.getImage is not empty %}
-                        <th>&nbsp;</th>
-                    {% endif %}
+                    <th>&nbsp;</th>
                     <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
                     <th><a href='?'>Actions</a></th>
                 </tr>
@@ -49,11 +46,11 @@
                     <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.getTitle}}{{content.name}}</a></strong>
                     {{ content.excerpt(380) }}
                     </span></td>
-                {% if content.getImage is not empty %}
                 <td class='listthumb'>
-                    {{content.getImage|fancybox(80, 60, 'c')}}
+                    {% if content.getImage is not empty %}
+                        {{content.getImage|fancybox(80, 60, 'c')}}
+                    {% endif %}
                 </td>
-                {% endif %}
                 <td class='username hide-phone'>
                     <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
                     <br><i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}

@@ -54,11 +54,11 @@
                 <td class='excerpt' style="width:90%"><span><strong class="show-phone">№ {{content.id}}. </strong>
                     <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong>
                     {{ excerpt(content, 280) }} </span></td>
-                {% if content.getImage is not empty %}
                 <td class='listthumb'>
-                    {{content.getImage|fancybox(54, 42, 'c')}}
+                    {% if content.getImage is not empty %}
+                        {{content.getImage|fancybox(54, 42, 'c')}}
+                    {% endif %}
                 </td>
-                {% endif %}
 
                 <td class='actions'>
                     <div class="btn-group">
