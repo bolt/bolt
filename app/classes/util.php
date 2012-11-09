@@ -358,7 +358,7 @@ if ( ! class_exists( 'util' ) ) {
                 $html .= '<span style="color:#588bff;">arr</span>(' . count( $var ) . ')';
 
                 if ( ! empty( $var ) ) {
-                    $html .= ' <img id="' . $uuid . '" data-expand="data:image/png;base64,' . self::$icon_expand . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;" src="data:image/png;base64,' . self::$icon_collapse . '" /><br /><span id="' . $uuid . '-collapsable">[<br />';
+                    $html .= ' <img id="' . $uuid . '" data-expand="data:image/png;base64,' . self::$icon_expand . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;width:9px!important;height:9px!important;" src="data:image/png;base64,' . self::$icon_collapse . '" /><br /><span id="' . $uuid . '-collapsable">[<br />';
 
                     $indent = 4;
                     $longest_key = 0;
@@ -429,7 +429,7 @@ if ( ! class_exists( 'util' ) ) {
             } else if ( is_object( $var ) ) {
                 $uuid = 'include-php-' . uniqid();
 
-                $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') <img id="' . $uuid . '" data-expand="data:image/png;base64,' . self::$icon_expand . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;" src="data:image/png;base64,' . self::$icon_collapse . '" /><br /><span id="' . $uuid . '-collapsable">[<br />';
+                $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') <img id="' . $uuid . '" data-expand="data:image/png;base64,' . self::$icon_expand . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;width:9px!important;height:9px!important;" src="data:image/png;base64,' . self::$icon_collapse . '" /><br /><span id="' . $uuid . '-collapsable">[<br />';
 
                 $original = $var;
                 $var = (array) $var;
