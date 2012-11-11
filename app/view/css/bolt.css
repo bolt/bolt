@@ -573,22 +573,29 @@ label span.left {
 }
 
 
-/** Overrides for Redactor */
+/** Overrides for CKeditor */
 
-.redactor_box {
-    width: 97%;
+.cke_bottom {
+    display: none !important;
 }
 
-.redactor_editor, .redactor_editor:focus {
-    padding: 10px !important;
+.cke_top {
+    padding: 0 !important;
 }
 
-
-.redactor_editor p {
-    margin: 0 0 10px !important;
+.cke_toolgroup, .cke_combo_button {
+    border-color: #DDD !important;
+    margin: 3px !important;
 }
 
+.cke_combo_text, .cke_button_label {
+    color: #666 !important;
+}
 
+.cke_button_on {
+    background-image: none !important;
+    background-color: #DDD !important;
+}
 
 /** Overrides for CodeMirror */
 

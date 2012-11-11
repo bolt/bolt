@@ -21,8 +21,7 @@
     <script src="{{ paths.app }}view/lib/fancybox/jquery.fancybox.pack.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/fancybox/jquery.fancybox.css">
 
-    <script src="{{ paths.app }}view/lib/redactor/redactor.min.js"></script>
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/redactor/redactor.css" />
+    <script src="{{ paths.app }}view/lib/ckeditor/ckeditor.js"></script>
 
     <script src="{{ paths.app }}view/lib/upload/jquery.ui.widget.js"></script>
     <script src="{{ paths.app }}view/lib/upload/jquery.iframe-transport.js"></script>
@@ -33,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/tag-it/jquery.tagit.css">
 
     <script src="{{ paths.app }}view/js/moment.min.js"></script>
-    
+
     <script src="{{ paths.app }}view/js/bolt.js"></script>
 
     {# <link rel="stylesheet" href="/app/view/css/responsivebar.css" /> #}
@@ -49,7 +48,7 @@
 <body>
 
 {% if active is not defined %}{% set active="dashboard" %}{% endif %}
-    
+
 <div class="navbar navbar-fixed-top ">
     <div class="navbar-bolt navbar-inverse">
         <div class="container">
@@ -76,9 +75,9 @@
                                 <i class="icon-plus"></i> New {{ contenttype.singular_name }}</a></li>
                             {% if not loop.last %}<li class="divider"></li>{% endif %}
                             {% endfor %}
-                            
+
                         </ul>
-                    </li>                    
+                    </li>
                     <li class="{% if active=='settings' %}active {% endif %}dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cogs"></i> Settings
                             <b class="caret"></b>
@@ -110,14 +109,14 @@
                     <li><a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> View site</a></li>
                     <li class="divider-vertical"></li>
                     <li>
-                        <a href="{{ path('logout') }}"><i class="icon-signout"></i> Logout {{ app.session.get('user').username }}</a> 
+                        <a href="{{ path('logout') }}"><i class="icon-signout"></i> Logout {{ app.session.get('user').username }}</a>
                     </li>
                 {% else %}
                     <li class="divider-vertical"></li>
                     <li><a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> View site</a></li>
                     <li class="divider-vertical"></li>
                     <li>
-                        <a href="{{ path('login') }}"><i class="icon-signin"></i> Login</a> 
+                        <a href="{{ path('login') }}"><i class="icon-signin"></i> Login</a>
                     </li>
                 {% endif %}
                 </ul>

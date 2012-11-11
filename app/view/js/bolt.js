@@ -9,6 +9,8 @@ jQuery(function($) {
         return confirm( $(this).data('confirm') );
     });
 
+    // TODO: Modify this for CKeditor:
+    /*
     // For editing content, compile the toolbar
     var toolbar = ['html', '|',  'bold', 'italic', 'deleted', '|', 'formatting', 'link', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|' ];
 
@@ -18,6 +20,7 @@ jQuery(function($) {
     if (wysiwyg.align) { toolbar = toolbar.concat('alignleft', 'aligncenter', 'alignright', 'justify', '|'); }
     if (wysiwyg.fontcolor) { toolbar = toolbar.concat('fontcolor', 'backcolor', '|'); }
 
+
     if ($('.redactor').is('*')) {
         $('.redactor').redactor({
             autoresize: false,
@@ -25,6 +28,9 @@ jQuery(function($) {
             css: 'style_bolt.css'
         });
     }
+    */
+
+
 
     // Initialize the Fancybox shizzle.
     $('.fancybox').fancybox({ });
