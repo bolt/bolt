@@ -32,7 +32,7 @@ class Async
                 base64_encode($name)
             );
 
-            $guzzleclient = new Guzzle\Http\Client($url);
+            $guzzleclient = new \Guzzle\Http\Client($url);
 
             $news = $guzzleclient->get("/")->send()->getBody(true);
             $news = json_decode($news);

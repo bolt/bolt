@@ -1,7 +1,5 @@
 <?php
 
-
-
 $backend = $app['controllers_factory'];
 
 $backend->get("", '\Bolt\Controllers\Backend::dashboard')

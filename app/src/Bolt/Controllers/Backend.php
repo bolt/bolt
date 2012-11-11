@@ -121,7 +121,7 @@ class Backend
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function dbupate(Silex\Application $app) {
+    function dbupdate(Silex\Application $app) {
 
         $output = $app['storage']->repairTables();
 
@@ -582,7 +582,7 @@ class Backend
         $files = array();
         $folders = array();
 
-        $basefolder = __DIR__."/../";
+        $basefolder = __DIR__."/../../../../";
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder.$path);
 
@@ -661,7 +661,7 @@ class Backend
 
         $title = "Edit file '$file'.";
 
-        $filename = realpath(__DIR__."/../".$file);
+        $filename = realpath(__DIR__."/../../../../".$file);
         $type = getExtension($filename);
 
         if (!file_exists($filename) || !is_readable($filename)) {
@@ -699,7 +699,7 @@ class Backend
 
                 // Before trying to save a yaml file, check if it's valid.
                 if ($type == "yml") {
-                    $yamlparser = new Symfony\Component\Yaml\Parser();
+                    $yamlparser = new \Symfony\Component\Yaml\Parser();
                     try {
                         $ok = $yamlparser->parse($contents);
                     } catch (Exception $e) {
