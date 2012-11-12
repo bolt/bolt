@@ -329,7 +329,7 @@ $("#field-{{key}}").autocomplete({
 {% if field.type == "html" %}
 <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
-    style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>
     {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
 </textarea>
 {% endif %}
@@ -339,7 +339,7 @@ $("#field-{{key}}").autocomplete({
 {% if field.type == "textarea" %}
 <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
-    style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 {% endif %}
 
 

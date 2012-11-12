@@ -5,22 +5,27 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 body
 {
-	/* Font */
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 14px;
-	line-height: 19px;
+    /* Font */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 21px;
 
-	/* Text color */
-	color: #444;
+    /* Text color */
+    color: #444;
 
-	/* Remove the background color to make it transparent */
-	background-color: #FAFAFA;
+    /* Remove the background color to make it transparent */
+    background-color: #FAFAFA;
 }
 
-ol,ul,dl
+ol, ul, dl
 {
-	/* IE7: reset rtl list margin. (#7334) */
-	*margin-right:0px;
-	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
-	padding:0 40px;
+    /* IE7: reset rtl list margin. (#7334) */
+    *margin-right:0px;
+    padding: 0 40px;
+    margin: 4px 0 8px 0;
+
+}
+
+p {
+    margin: 4px 0 8px 0;
 }

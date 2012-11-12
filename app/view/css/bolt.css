@@ -472,8 +472,10 @@ label span.left {
 }
 
 #editcontent textarea {
-    height: 300px;
     width: 96%;
+    height: 200px;
+    min-width: 96%;
+    max-width: 96%;
     padding-right: 0;
     font-size: 14px;
     line-height: 21px;
@@ -604,6 +606,14 @@ label span.left {
 .cke_button_on {
     background-image: none !important;
     background-color: #DDD !important;
+}
+
+.cke_contents textarea {
+    width: 99% !important;
+    max-width: 100% !important;
+    padding: 8px 8px;
+    background-color: #EEE;
+    color: #666 !important;
 }
 
 /** Overrides for CodeMirror */
