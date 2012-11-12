@@ -570,13 +570,22 @@ label span.left {
 
 #editcontent .sluglocker {
     color: #666;
+    display: inline-block;
+    padding: 0 3px;
+    cursor: pointer;
 }
 
 
 /** Overrides for CKeditor */
 
 .cke_bottom {
-    display: none !important;
+    display: block !important;
+    float: right;
+    border: 0 !important;
+    top: 1px;
+    padding: 0 4px !important;
+    background-image: none !important;
+    background-color: transparent !important;
 }
 
 .cke_top {

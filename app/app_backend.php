@@ -1,5 +1,8 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 $backend = $app['controllers_factory'];
 
 $backend->get("", '\Bolt\Controllers\Backend::dashboard')
@@ -177,8 +180,6 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
 }
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 $app->after(function (Request $request, Response $response) use ($app) {
     $end = !empty($app['end']) ? $app['end'] : false;
