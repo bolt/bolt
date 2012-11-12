@@ -616,7 +616,7 @@ label span.left {
     color: #666 !important;
 }
 
-/** Overrides for CodeMirror */
+/* Overrides for CodeMirror */
 
 .CodeMirror {
     font-size: 14px;
