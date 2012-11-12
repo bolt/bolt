@@ -6,7 +6,7 @@ Use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Front
+class Frontend
 {
 
     function before(Request $request, Silex\Application $app) {

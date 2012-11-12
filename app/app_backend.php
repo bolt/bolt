@@ -177,7 +177,8 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
 }
 
-
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $app->after(function (Request $request, Response $response) use ($app) {
     $end = !empty($app['end']) ? $app['end'] : false;
