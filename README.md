@@ -28,3 +28,11 @@ Create a new folder, and clone from github. Then use composer to get the Silex m
 And you're good to go.
 
 More detailed instructions can be found in the [Setup section in the documentation](http://docs.bolt.cm/setup).
+
+Unit tests
+----------
+For running unit tests you need [phpunit](http://www.phpunit.de/)
+
+After installing, you can run the unit test suite by running
+
+    phpunit -c app/
