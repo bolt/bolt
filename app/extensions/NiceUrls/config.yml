@@ -1,0 +1,12 @@
+about_foo:
+  from:
+    slug: about/foo/bar
+  to:
+    contenttypeslug: page
+    slug: about
+geo:
+  from:
+    slug: about
+  to:
+    contenttypeslug: kitchensink
+    slug: about
