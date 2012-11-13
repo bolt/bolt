@@ -9,23 +9,6 @@ jQuery(function($) {
         return confirm( $(this).data('confirm') );
     });
 
-    // For editing content, compile the toolbar
-    var toolbar = ['html', '|',  'bold', 'italic', 'deleted', '|', 'formatting', 'link', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|' ];
-
-    if (wysiwyg.images) { toolbar = toolbar.concat('image'); }
-    if (wysiwyg.embed) { toolbar = toolbar.concat('video'); }
-    if (wysiwyg.tables) { toolbar = toolbar.concat('table', '|'); }
-    if (wysiwyg.align) { toolbar = toolbar.concat('alignleft', 'aligncenter', 'alignright', 'justify', '|'); }
-    if (wysiwyg.fontcolor) { toolbar = toolbar.concat('fontcolor', 'backcolor', '|'); }
-
-    if ($('.redactor').is('*')) {
-        $('.redactor').redactor({
-            autoresize: false,
-            buttons: toolbar,
-            css: 'style_bolt.css'
-        });
-    }
-
     // Initialize the Fancybox shizzle.
     $('.fancybox').fancybox({ });
 
@@ -91,6 +74,43 @@ jQuery(function($) {
         $(this).removeData('modal');
     });
 });
+
+
+/**
+ * Initialise CKeditor instances.
+ */
+CKEDITOR.editorConfig = function( config ) {
+
+    config.language = 'en';
+    config.uiColor = '#DDDDDD';
+    config.toolbar = [
+        { name: 'styles', items: [ 'Format' ] },
+        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike'  ] },
+        { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote' ] },
+        { name: 'links', items: [ 'Link', 'Unlink' ] }
+    ];
+
+    if (wysiwyg.images) {
+        config.toolbar = config.toolbar.concat({ name: 'align', items: [ 'Image' ] });
+    }
+    if (wysiwyg.tables) {
+        config.toolbar = config.toolbar.concat({ name: 'align', items: [ 'Table' ] });
+    }
+    if (wysiwyg.align) {
+        config.toolbar = config.toolbar.concat({ name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] });
+    }
+    if (wysiwyg.fontcolor) {
+        config.toolbar = config.toolbar.concat({ name: 'colors', items: [ 'TextColor', 'BGColor' ] });
+    }
+
+    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'Source', 'Maximize', 'RemoveFormat' ] });
+
+    config.height = "250px";
+    config.removePlugins = 'elementspath';
+    config.resize_dir = 'vertical';
+};
+
+
 
 
 /**
@@ -175,7 +195,13 @@ function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
         var field = $('#'+usesfield).val();
         clearTimeout(makeuritimeout);
         makeuritimeout = setTimeout( function(){ makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri); }, 200);
-    });
+    }).trigger('input');
+
+}
+
+function stopMakeUri(usesfield) {
+
+    $('#'+usesfield).unbind('propertychange input');
 
 }
 

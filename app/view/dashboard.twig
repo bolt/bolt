@@ -33,33 +33,33 @@
         {% for contenttypeslug, contenttype in app.config.contenttypes %}
             <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
                 <i class="icon-plus"></i> New {{ contenttype.singular_name }}
-            </a>    
+            </a>
         {% endfor %}
     {% endif %}
     </div>
-    
+
     {% for contenttype, multiplecontent in latest %}
-    
+
     {% if multiplecontent %}
-    
-        <h3>Latest {{ contenttype }}. <span><a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}" 
+
+        <h3>Latest {{ contenttype }}. <span><a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}"
             class='morelink'>more {{ contenttype }} » </a></span></h3>
-    
-        
+
+
         <table class='dashboardlisting'>
             {% for content in multiplecontent %}
             <tr class="{% if content.status!='published' %}dim{% endif %}">
                 <td class='id hide-phone'>№ {{content.id}}</td>
-                       
+
                 <td class='excerpt' style="width:90%"><span><strong class="show-phone">№ {{content.id}}. </strong>
                     <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong>
                     {{ excerpt(content, 280) }} </span></td>
-                {% if content.image is defined %}
                 <td class='listthumb'>
-                    {{content.image|fancybox(54, 42, 'c')}}
+                    {% if content.getImage is not empty %}
+                        {{content.getImage|fancybox(54, 42, 'c')}}
+                    {% endif %}
                 </td>
-                {% endif %} 
-    
+
                 <td class='actions'>
                     <div class="btn-group">
                     <button class="btn btn-mini uselink"><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">
@@ -67,7 +67,7 @@
                     <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                     <span class="caret"></span>
                     </button>
-                    
+
                     <ul class="dropdown-menu pull-right">
                         {% if content.status != "published" %}
                             <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': contenttype,  'id': content.id }) }}">
@@ -81,7 +81,7 @@
 
                         <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id, 'duplicate': 1 }) }}">
                             <i class="icon-copy"></i> Duplicate {{app.config.contenttypes[contenttype].singular_name}}</a></li>
-                           
+
                         <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype, 'id': content.id, token: token() }) }}"
                             data-confirm="Are you sure you want to delete '{{content.title}}'?" class="confirm">
                             <i class="icon-trash"></i> Delete {{app.config.contenttypes[contenttype].singular_name}}</a></li>
@@ -89,7 +89,7 @@
                         <li><a class="nolink">Author: <strong><i class="icon-user"></i>
                             {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}
                             <s>{{ content.username }}</s>{% endif %}</strong></a></li>
-                        <li><a class="nolink">Current status: 
+                        <li><a class="nolink">Current status:
                             <strong>{{ content.status }}</strong></a></li>
                         <li><a class="nolink">Created on:
                             <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
@@ -97,28 +97,28 @@
                             <strong><i class="icon-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</strong></a></li>
                         <li><a class="nolink">Last edited on:
                             <strong><i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
-                        {% for taxonomyslug, values in content.taxonomy %} 
+                        {% for taxonomyslug, values in content.taxonomy %}
                             {% if values|length > 1 %}
                                 <li><a class="nolink">{{ config.taxonomy[taxonomyslug].name }}: <strong><i class="icon-tag"></i> {{ values|join(", ") }}</strong></a></li>
                             {% else %}
                                 <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}: <strong><i class="icon-tag"></i> {{ values.0 }}</strong></a></li>
-                            {% endif %}                            
-                        {% endfor %}                         
+                            {% endif %}
+                        {% endfor %}
                     </ul>
                     </div>
-                
+
                 </td>
-        
+
             </tr>
-        
+
             {% endfor %}
-    
+
         </table>
     {% endif %}
-    
+
     {% endfor %}
-    
-    
+
+
     </div><!-- /span9 -->
     <aside class="span3">
 
@@ -131,10 +131,10 @@
 </div>
 
 
-    
-    
+
+
     </aside>
-</div> 
-    
+</div>
+
 
 {% include '_footer.twig' %}

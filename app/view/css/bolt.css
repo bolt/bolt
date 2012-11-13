@@ -472,8 +472,10 @@ label span.left {
 }
 
 #editcontent textarea {
-    height: 300px;
     width: 96%;
+    height: 200px;
+    min-width: 96%;
+    max-width: 96%;
     padding-right: 0;
     font-size: 14px;
     line-height: 21px;
@@ -568,26 +570,53 @@ label span.left {
     display: none;
 }
 
-
-
-/** Overrides for Redactor */
-
-.redactor_box {
-    width: 97%;
-}
-
-.redactor_editor, .redactor_editor:focus {
-    padding: 10px !important;
+#editcontent .sluglocker {
+    color: #666;
+    display: inline-block;
+    padding: 0 3px;
+    cursor: pointer;
 }
 
 
-.redactor_editor p {
-    margin: 0 0 10px !important;
+/** Overrides for CKeditor */
+
+.cke_bottom {
+    display: block !important;
+    float: right;
+    border: 0 !important;
+    top: 1px;
+    padding: 0 4px !important;
+    background-image: none !important;
+    background-color: transparent !important;
 }
 
+.cke_top {
+    padding: 0 !important;
+}
 
+.cke_toolgroup, .cke_combo_button {
+    border-color: #DDD !important;
+    margin: 3px !important;
+}
 
-/** Overrides for CodeMirror */
+.cke_combo_text, .cke_button_label {
+    color: #666 !important;
+}
+
+.cke_button_on {
+    background-image: none !important;
+    background-color: #DDD !important;
+}
+
+.cke_contents textarea {
+    width: 99% !important;
+    max-width: 100% !important;
+    padding: 8px 8px;
+    background-color: #EEE;
+    color: #666 !important;
+}
+
+/* Overrides for CodeMirror */
 
 .CodeMirror {
     font-size: 14px;

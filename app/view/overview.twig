@@ -31,17 +31,8 @@
                 <tr>
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
-                    {# output either the title or name as primary field #}
-                    {% if content.title is defined %}
                     <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
-                    {% elseif content.name is defined %}
-                    <th style="width:80%"><a href='{{link}}name {% if request('order')=="name ASC" %}DESC{%else%}ASC{%endif%}'>Name / Excerpt</a></th>
-                    {% else %}
-                    <th style="width:80%">Excerpt</th>
-                    {% endif %}
-                    {% if content.image is defined %}
-                        <th>&nbsp;</th>
-                    {% endif %}
+                    <th>&nbsp;</th>
                     <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
                     <th><a href='?'>Actions</a></th>
                 </tr>
@@ -52,14 +43,14 @@
                 <td class='id hide-phone'>№ {{content.id}} </td>
                 <td class='excerpt large'><span>
                     <strong class="show-phone">№ {{content.id}}. </strong>
-                    <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.title}}{{content.name}}</a></strong>
+                    <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.getTitle}}{{content.name}}</a></strong>
                     {{ content.excerpt(380) }}
                     </span></td>
-                {% if content.image is defined %}
                 <td class='listthumb'>
-                    {{content.image|fancybox(80, 60, 'c')}}
+                    {% if content.getImage is not empty %}
+                        {{content.getImage|fancybox(80, 60, 'c')}}
+                    {% endif %}
                 </td>
-                {% endif %}
                 <td class='username hide-phone'>
                     <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
                     <br><i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}
@@ -87,7 +78,7 @@
                         <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
                             <i class="icon-copy"></i> Duplicate {{contenttype.singular_name}}</a></li>
                         <li><a href="{{ path('contentaction', { 'action': 'delete', 'contenttypeslug': contenttype.slug, 'id': content.id, token: token() }) }}"
-                            data-confirm="Are you sure you want to delete '{{content.title}}'?" class="confirm">
+                            data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
                             <i class="icon-trash"></i> Delete {{contenttype.singular_name}}</a></li>
                         <li class="divider"></li>
                         <li><a class="nolink">Author: <strong><i class="icon-user"></i>

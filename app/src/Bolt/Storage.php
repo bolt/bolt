@@ -409,7 +409,7 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = "Added to <tt>$key</tt> '" .$content['title'] . "'<br>\n";
+        $output = "Added to <tt>$key</tt> '" .$contentobject->getTitle() . "'<br>\n";
 
         return $output;
 

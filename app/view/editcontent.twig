@@ -6,17 +6,17 @@
     <h2>{{ title }}</h2>
 
     <form method="post" id="editcontent" enctype="multipart/form-data">
-        
-        {% include '_sub_editfields.twig' %}   
-        
+
+        {% include '_sub_editfields.twig' %}
+
         <hr>
-        
-        {% include '_sub_edittaxonomies.twig' %}    
-             
+
+        {% include '_sub_edittaxonomies.twig' %}
+
         <label><b><span class='left'>Id:</span></b>
         <input type='text' readonly=readonly name='id' value='{{ content.id }}' class="narrow">
         </label>
-        
+
         <label><b><span class='left'>Publication date:</span></b>
         </label>
             <input type="text" name="datepublish-dateformatted" id="datepublish-date"
@@ -31,39 +31,39 @@
         <time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>.
         {% endif %}
 
-        
+
         <label><b><span class='left'>Status:</span></b>
         <select name="status">
             <option value="published" {% if content.status == "published" %}selected{% endif %}>Published</option>
             <option value="held" {% if content.status == "held" %}selected{% endif %}>Not published</option>
-            <option value="timed" {% if content.status == "timed" %}selected{% endif %}>Timed publish</option>            
+            <option value="timed" {% if content.status == "timed" %}selected{% endif %}>Timed publish</option>
             <option value="draft" {% if content.status == "draft" %}selected{% endif %}>Draft</option>
 
         </select>
         </label>
-    
+
         <label><b><span class='left'>Owner:</span></b>
         <select name="username">
             {% for user in users %}
                 <option value="{{ user.username }}" {% if user.username == contentowner %}selected{% endif %}>{{user.displayname}}</option>
             {% endfor %}
         </select>
-        </label>    
+        </label>
 
-    
+
         <button type="submit" class="btn btn-primary" id="savebutton">
             <i class="icon-flag"></i> Save {{ contenttype.singular_name }}
-        </button> 
-        
+        </button>
+
     </form>
-        
+
 
     </div><!-- /span9 -->
     <aside class="span3">
 
     <section>
     <h2>Actions for this {{ contenttype.singular_name }}</h2>
-    
+
     <a class="btn btn-primary" id="sidebarsave"><i class="icon-flag"></i> Save {{ contenttype.singular_name }}</a>
 {# TODO: Fix preview.
         <a class="btn btn-info" id="sidebarview" href="" target="_blank"><i class="icon-external-link"></i> View {{ contenttype.singular_name }}</a>
@@ -78,13 +78,11 @@
     </script>
 
     </section>
-    
-{{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
-    
 
-    
+{{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
+
     </aside>
-</div> 
-    
+</div>
+
 
 {% include '_footer.twig' %}

@@ -1,5 +1,11 @@
 {% for key, field in contenttype.fields %}
 
+{# --------------- prefix --------------- #}
+{% if field.prefix is not empty %}
+    {{ field.prefix }}
+{% endif %}
+
+
 {# --------------- text --------------- #}
 
 {% if field.type == "text" and field.variant == "" %}
@@ -34,16 +40,29 @@
 
 
     {# --------------- slug --------------- #}
-    
+
 {% if field.type == "slug" %}
-<label class='permalink'>Permalink: <tt>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></tt>
+<label class='permalink'>Permalink:
+    <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
     <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
+    <span class='sluglocker'><i class='icon-lock'></i></span>
 </label>
 
 
 {% if field.uses is defined %}
 <script type="text/javascript">
-    makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', '{{ field.uses }}', '{{key}}', false);
+    $('.sluglocker').bind('click', function() {
+       if ($('.sluglocker i').hasClass('icon-lock')) {
+           $('.sluglocker i').removeClass('icon-lock').addClass('icon-unlock');
+           makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', '{{ field.uses }}', '{{key}}', false);
+       } else {
+           $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
+           stopMakeUri('{{ field.uses }}');
+       }
+    });
+{% if content.get(key) is empty  %}
+    $('.sluglocker').trigger('click');
+{% endif %}
 </script>
 {% endif %}
 
@@ -57,7 +76,7 @@
         <option value="">Default template</option>
         <option value="" disabled>-----------</option>
         {% for filename, name in listtemplates(field.filter) %}
-            <option value="{{filename}}" {% if content.get(key)==filename %}selected{% endif %}>{{name}}</option>        
+            <option value="{{filename}}" {% if content.get(key)==filename %}selected{% endif %}>{{name}}</option>
         {% endfor %}
     </select>
 {% endif %}
@@ -309,8 +328,8 @@ $("#field-{{key}}").autocomplete({
 
 {% if field.type == "html" %}
 <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
-<textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} redactor'
-    style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>
+<textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>
     {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
 </textarea>
 {% endif %}
@@ -320,7 +339,7 @@ $("#field-{{key}}").autocomplete({
 {% if field.type == "textarea" %}
 <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
-    style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 {% endif %}
 
 
@@ -369,34 +388,38 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 
 
 {# --------------- date --------------- #}
-                
+
 {% if field.type == "date" %}
 <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
-<input type="text" name="{{key}}-dateformatted" id="{{key}}-date" 
+<input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
-{% endif %}         
+{% endif %}
 
 
 {# --------------- datetime --------------- #}
-        
+
 {% if field.type == "datetime" %}
 <label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
-<input type="text" name="{{key}}-dateformatted" id="{{key}}-date" 
+<input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
-<input type="text" name="{{key}}-timeformatted" id="{{key}}-time" 
+<input type="text" name="{{key}}-timeformatted" id="{{key}}-time"
     value='{% if content.get(key) %}{{ content.get(key)|date('H:i') }}{% endif %}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>      
-{% endif %}         
+    class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>
+{% endif %}
 
 
-{# --------------- divider --------------- #}
+{# ---------------postfix & divider --------------- #}
+
+{% if field.postfix is not empty %}
+    {{ field.postfix }}
+{% endif %}
 
 {% if field.separator == true %}
     <hr>
 {% endif %}
-   
+
 
 {% endfor %}
-  
+

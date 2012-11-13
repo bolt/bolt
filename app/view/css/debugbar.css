@@ -1,7 +1,7 @@
 #bolt-debugbar {
     position: fixed;
     right: 0;
-    bottom: 5px;  
+    bottom: 5px;
     height: 28px;
     background-color: #E6E6E6;
     background-image: linear-gradient(bottom, rgba(230, 230, 230, 1) 10%, rgba(250, 250, 250, 1) 80%);
@@ -11,9 +11,9 @@
     background-image: -ms-linear-gradient(bottom, rgba(230, 230, 230, 1) 10%, rgba(250, 250, 250, 1) 80%);
     box-shadow:  -1px 1px 2px 1px rgba(0, 0, 0, 0.3);
     border: 1px solid #CCC;
-    display: none;    
-    z-index: 950;  
-    font-weight: normal;  
+    display: none;
+    z-index: 950;
+    font-weight: normal;
     font-style: normal;
 }
 
@@ -21,12 +21,12 @@
 #bolt-nipple {
     position: fixed;
     right: 0;
-    bottom: 0;  
+    bottom: 0;
     background: transparent url('../img/debug-nipple.png') no-repeat right bottom;
     width: 53px;
     height: 53px;
-    z-index: 951;   
-    cursor: pointer; 
+    z-index: 951;
+    cursor: pointer;
 }
 
 #bolt-debugbar ul {
@@ -39,9 +39,9 @@
     display: block;
     float: left;
     font: normal 13px/13px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    border-right: 1px solid #CCC;    
+    border-right: 1px solid #CCC;
     padding: 7px 6px 7px 28px;
-    color: #333;    
+    color: #333;
     margin: 0;
 }
 
@@ -56,14 +56,14 @@
     color: #F2F2F2;
 }
 
-#bolt-debugbar ul li a, 
-#bolt-debugbar ul li a:hover, 
-#bolt-debugbar ul li a:active, 
+#bolt-debugbar ul li a,
+#bolt-debugbar ul li a:hover,
+#bolt-debugbar ul li a:active,
 #bolt-debugbar ul li a:visited {
     text-decoration: underline;
     color: #333;
-    font-weight: normal;  
-    font-style: normal;   
+    font-weight: normal;
+    font-style: normal;
 }
 
 #bolt-debugbar ul li#pd-bolt a,
@@ -97,14 +97,14 @@
 
 .bolt-debugpanel {
     background-color: #F2F2F2;
-    border: 1px solid #ccc;    
+    border: 1px solid #ccc;
     position: fixed;
     right: 10px;
-    bottom: 34px;  
+    bottom: 34px;
     max-height: 300px;
     width: 640px;
     box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-    z-index: 949;    
+    z-index: 949;
     overflow-y: auto;
     display: none;
     padding: 4px 6px;
@@ -119,7 +119,7 @@
     color: #ff0000;
 }
 
-.bolt-debugpanel code, 
+.bolt-debugpanel code,
 .bolt-debugpanel pre {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   font-size: 12px;
@@ -145,35 +145,20 @@
 }
 
 
-.bolt-editable { 
+.bolt-editable {
     display: inline-block;
     xborder: 0;
     margin: 0;
     padding: 0;
-} 
-
-.bolt-editable.active { 
-    border: 1px dashed #F99;
-} 
-
-.bolt-editable.active:hover { 
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.1);
-} 
-
-body .redactor_air { 
-    z-index: 1005;
-    display: none;
 }
 
-.redactor_toolbar li a.btn_text {
-    background-image: none;
-    text-indent: 0;
-    font-size: 12px;
-    line-height: 28px;
-    width: 34px;
-    text-align: center;
-    color: #333;
+.bolt-editable.active {
+    border: 1px dashed #F99;
+}
+
+.bolt-editable.active:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 
@@ -185,12 +170,12 @@ body .redactor_air {
         display: none;
         line-height: 0;
     }
-    
+
     .bolt-debugpanel {
         width: 500px;
-    }    
+    }
 
-    .bolt-debugpanel code, 
+    .bolt-debugpanel code,
     .bolt-debugpanel pre {
       font-size: 10px !important;
       line-height: 13px !important;
@@ -210,12 +195,12 @@ body .redactor_air {
     .narrowonly {
         display: inline;
     }
-    
+
     .bolt-debugpanel {
         width: 300px;
-    }    
+    }
 
-    .bolt-debugpanel code, 
+    .bolt-debugpanel code,
     .bolt-debugpanel pre {
       font-size: 10px !important;
       line-height: 11px !important;

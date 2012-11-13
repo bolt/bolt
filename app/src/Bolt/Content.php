@@ -326,7 +326,7 @@ class Content
     /**
      * Get the title, name, caption or subject..
      */
-    public function title()
+    public function getTitle()
     {
 
         if (isset($this->values['title'])) {
@@ -338,10 +338,39 @@ class Content
         } elseif (isset($this->values['subject'])) {
             return $this->values['subject'];
         } else {
+
+            // Grab the first field of type 'text', and assume that's the title.
+            foreach($this->contenttype['fields'] as $key => $field) {
+                if ($field['type']=='text') {
+                    return $this->values[ $key ];
+                }
+            }
+
+            // nope, no title was found..
             return "(untitled)";
         }
 
     }
+
+
+    /**
+     * Get the first image in the content ..
+     */
+    public function getImage()
+    {
+
+        // Grab the first field of type 'image', and return that.
+        foreach($this->contenttype['fields'] as $key => $field) {
+            if ($field['type']=='image') {
+                return $this->values[ $key ];
+            }
+        }
+
+        // otherwise, no image.
+        return "";
+
+    }
+
 
     /**
      * Creates a link to the content record
