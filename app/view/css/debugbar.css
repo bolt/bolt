@@ -12,7 +12,7 @@
     box-shadow:  -1px 1px 2px 1px rgba(0, 0, 0, 0.3);
     border: 1px solid #CCC;
     display: none;
-    z-index: 950;
+    z-index: 10050;
     font-weight: normal;
     font-style: normal;
 }
@@ -25,7 +25,7 @@
     background: transparent url('../img/debug-nipple.png') no-repeat right bottom;
     width: 53px;
     height: 53px;
-    z-index: 951;
+    z-index: 10051;
     cursor: pointer;
 }
 

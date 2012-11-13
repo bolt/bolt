@@ -191,7 +191,7 @@ footer  {
     color: #999;
     width:100%;
     padding: 4px 10px;
-    z-index: 940;
+    z-index: 10000;
 }
 
 .info-pop {
@@ -615,6 +615,24 @@ label span.left {
     background-color: #EEE;
     color: #666 !important;
 }
+
+.cke_maximized {
+    background-color: #DDD !important;
+}
+
+.cke_maximized .cke_contents {
+    margin-bottom: 12px !important;
+}
+
+.cke_maximized .cke_contents iframe {
+    max-width: 900px !important;
+    max-width: 900px !important;
+    position: relative !important;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+}
+
 
 /* Overrides for CodeMirror */
 
