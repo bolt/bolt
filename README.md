@@ -9,11 +9,10 @@ all: It's a joy to use. Bolt is created using modern open source libraries, and 
 suited to build sites in HTML5 with modern markup. 
 
 From a technical perspective: Bolt is written in PHP, and uses either SQLite, MySQL or 
-PostgreSQL as a database. It's built upon the <a href="http://silex.sensiolabs.org/">Silex 
-framework</a> together with a number of <a href="http://symfony.com/" target="">Symfony</a> 
-<a href="http://symfony.com/components" target="">components</a> and
-<a href="http://docs.bolt.cm/credits" target="">other libraries</a>. Bolt is released under 
-the open source <a href="http://opensource.org/licenses/mit-license.php" target="">MIT-license</a>.
+PostgreSQL as a database. It's built upon the [Silex framework](http://silex.sensiolabs.org) 
+together with a number of [Symfony](http://symfony.com/) [components](http://symfony.com/components) 
+and [other libraries](http://docs.bolt.cm/credits). Bolt is released under the open source 
+[MIT-license](http://opensource.org/licenses/mit-license.php).
 
 Current build status
 --------------------
@@ -41,3 +40,5 @@ For running unit tests you need [phpunit](http://www.phpunit.de/)
 After installing, you can run the unit test suite by running
 
     phpunit -c app/
+
+
