@@ -15,6 +15,10 @@ framework</a> together with a number of <a href="http://symfony.com/" target="">
 <a href="http://docs.bolt.cm/credits" target="">other libraries</a>. Bolt is released under 
 the open source <a href="http://opensource.org/licenses/mit-license.php" target="">MIT-license</a>.
 
+Current build status
+--------------------
+[![Build Status](https://secure.travis-ci.org/bobdenotter/bolt.png?branch=master)](http://travis-ci.org/bobdenotter/bolt)
+
 Installation
 ------------
 
