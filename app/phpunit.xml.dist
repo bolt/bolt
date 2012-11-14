@@ -12,7 +12,16 @@
         >
     <testsuites>
         <testsuite name="Bolt Test Suite">
-            <directory>./tests/</directory>
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./tests</directory>
+                <directory>../vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
