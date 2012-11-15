@@ -1,0 +1,85 @@
+# Database setup. The driver can be either sqlite, mysql or postgres. For
+# SQLite, only the databasename is required, while MySQL and PostgreSQL also
+# require username, password and perhaps a hostname.
+# If you're trying out Bolt, just keep it set to SQLite for now.
+database:
+  driver: sqlite
+  databasename: bolt
+
+# The name of the website
+sitename: A sample Bolt site.
+
+# If your site is reachable under different urls (say, both blog.example.org/
+# as well as example.org/), it's a good idea to set one of these as the canonical,
+# so it's clear which is the primary address of the site. Don't include the
+# http:// protocol prefix.
+canonical: example.org
+
+# The default content to use for the homepage, and the template to render it with.
+homepage: page/1
+homepage_template: index.twig
+
+# The theme to use. Be sure to copy the theme/default folder, and change the
+# name here accordingly. Don't edit the templates in theme/default, because
+# they _will_ get updated in next releases
+theme: default
+
+# Add jQuery to the rendered HTML, whether or not it's added by an extension.
+add_jquery: false
+
+# The list of enabled extensions.
+# TestSnippets, GoogleAnalytics
+enabled_extensions: [ HelloWorld, FacebookLike, TwitterButton ]
+
+# The default amount of records to show on overview pages. Can be overridden
+# for each contenttype.
+recordsperpage: 10
+
+# The default template and amount of records to use for listing-pages on the site.
+# Can be overridden for each contenttype.
+listing_template: listing.twig
+listing_records: 6
+
+# The default template and amount of records to use for listing-pages on the site.
+# Can be overridden for each contenttype, and for each record, if it has a
+# 'templateselect' field.
+record_template: record.twig
+
+# Show the 'debug' nut in the lower right corner for logged-in user.
+debug: true
+developer_notices: false
+
+# By default, the debugbar is only shown to logged-in users. Use the following
+# option to show it to all users. You probably do not want to use this in a
+# production environment.
+debug_show_loggedoff: false
+
+# Use strict variables. This will make Bolt complain if you use {{ foo }},
+# when foo doesn't exist.
+strict_variables: false
+
+# There are several options for giving editors more options to insert images, video,
+# etc in the Wysiwyg areas. But, as you give them more options, that means they also have
+# more ways of breaking the preciously designed layout. By default the most 'dangerous'
+# options are set to 'false'. If you choose to enable them for your editors, please
+# instruct them thoroughly on their responsibilty not to break the layout.
+wysiwyg_images: false
+wysiwyg_tables: false
+wysiwyg_embed: false
+wysiwyg_fontcolor: false
+wysiwyg_align: false
+
+# Bolt allows some modifications to how 'strict' login sessions are. For every option
+# that is set to true, it becomes harder for a bad-willing person to spoof your login
+# session. However, it also requires you to re-authenticate more often if you change
+# location(ip-address) or your browser has frequent upgrades. Only change these if
+# you know what you're doing, and you're having issues with the default settings.
+# note: if you change any of these, all current users will automatically be logged off.
+cookies_use_remoteaddr: true
+cookies_use_browseragent: false
+cookies_use_httphost: true
+cookies_https_only: false # note: this is on the TODO list.
+
+# The length of time a user stays 'logged in'. Change to 0 to end the session when the browser
+# is closed. The default is 1209600: two weeks in seconds.
+cookies_lifetime: 1209600

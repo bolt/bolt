@@ -54,13 +54,13 @@ class lowlevelchecks
 
     /**
      * Check if a config file is present and writable. If not, try to create it
-     * from the filename.dist.
+     * from the filename.yml.dist.
      *
      * @param string $name
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(__DIR__."/../config/") . "/" . str_replace(".yml", ".dist", $name);
+        $distname = realpath(__DIR__."/../config/") . "/" . str_replace(".yml", ".yml.dist", $name);
         $ymlname = realpath(__DIR__."/../config/") . "/" . $name;
 
         if (file_exists($ymlname) && is_writable($ymlname)) {
@@ -70,7 +70,7 @@ class lowlevelchecks
         if (file_exists($ymlname) && !is_writable($ymlname)) {
             $message = sprintf("The file <code>app/config/%s</code> exists, but Bolt can't write changes to it.
             Make sure it's present and writable to the user that the webserver is using."
-                , $name, str_replace(".yml", ".dist", $name));
+                , $name, str_replace(".yml", ".yml.dist", $name));
             $this->lowlevelError($message);
         }
 
