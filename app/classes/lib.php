@@ -279,6 +279,51 @@ function checkVersion($currentversion, $requiredversion)
 
 
 
+/**
+ * Cleans up/fixes a relative paths.
+ *
+ * As an example '/site/pivotx/../index.php' becomes '/site/index.php'.
+ * In addition (non-leading) double slashes are removed.
+ *
+ * @param string $path
+ * @return string
+ */
+function fixPath($path, $nodoubleleadingslashes = true)
+{
+
+    $path = str_replace("\/", "/", stripTrailingSlash($path));
+
+    // Handle double leading slash (that shouldn't be removed).
+    if (!$nodoubleleadingslashes && (strpos($path,'//') === 0)) {
+        $lead = '//';
+        $path = substr($path,2);
+    } else {
+        $lead = '';
+    }
+
+    $patharray = explode('/', preg_replace('#/+#', '/', $path));
+    $new_path = array();
+
+    foreach ($patharray as $item) {
+        if ($item == "..") {
+            // remove the previous element
+            @array_pop($new_path);
+        } else if ($item == "http:") {
+            // Don't break for URLs with http:// scheme
+            $new_path[]="http:/";
+        } else if ($item == "https:") {
+            // Don't break for URLs with https:// scheme
+            $new_path[]="https:/";
+        } else if ( ($item != ".") ) {
+            $new_path[]=$item;
+        }
+    }
+
+    return $lead.implode("/", $new_path);
+
+}
+
+
 
 /**
  * Ensures that a path has no trailing slash
@@ -874,6 +919,8 @@ function redirect($path, $param = array(), $add = '')
     return $app->redirect(path($path, $param, $add));
 
 }
+
+
 
 /**
  * If debug is enabled this function handles the errors and warnings

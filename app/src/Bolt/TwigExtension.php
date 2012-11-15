@@ -477,17 +477,25 @@ class TwigExtension extends \Twig_Extension
 
             // if the item is like 'content/1', get that content.
 
-            $content = $app['storage']->getSingleContent($item['path']);
+            $content = $app['storage']->getContent($item['path']);
 
-            if (empty($item['label'])) {
-                $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];
+            if (is_object($content) && get_class($content)=='Bolt\Content') {
+                // We have content.
+                if (empty($item['label'])) {
+                    $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];
+                }
+                if (empty($item['title'])) {
+                    $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
+                }
+                if (is_object($content)) {
+                    $item['link'] = $content->link();
+                }
+
+            } else {
+                // we assume the user links to this on purpose.
+                $item['link'] = fixPath($app['paths']['root'] . $item['path']);
             }
-            if (empty($item['title'])) {
-                $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";
-            }
-            if (is_object($content)) {
-                $item['link'] = $content->link();
-            }
+
         }
 
         return $item;
