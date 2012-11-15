@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>{{ app.config.general.sitename }}</title>
+        <link>{{ paths.root }}</link>
+        <atom:link href="{{ paths.root }}/{{ contenttype.slug }}/feed" rel="self"
+                   type="application/rss+xml"/>
+        <description></description>
+        <language>en-us</language>
+        <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+        <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</lastBuildDate>
+
+        {% for record in records %}
+
+            <item>
+                <title>{{ record.title }}</title>
+                <link>{{ record.link }}</link>
+                <pubDate>{{ record.datepublish|date("M d, ’y")}}</pubDate>
+                <author>{{ record.user.displayname }}</author>
+                <guid>{{ paths.root }}/{{ contenttype.slug }}/feed{record.id}</guid>
+                {% if description_length == 0 %}
+                <description>{{ {{ record.body }} }}</description>
+                {% else %}
+                <description>{{ record.excerpt({{ description_length }}}) | xml_escape }}</description>
+                {% endif %}
+            </item>
+
+        {% endfor %}
+
+    </channel>
+</rss>

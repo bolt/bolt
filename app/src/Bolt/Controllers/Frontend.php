@@ -129,5 +129,51 @@ class Frontend
 
     }
 
+    public function feed(Silex\Application $app, $contenttypeslug){
+        $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        if (!isset($contenttype['rss_feed']) || $contenttype['rss_feed'] != 'true'){
+            $app->abort(404, "Feed for '$contenttypeslug' not found.");
+        }
+
+        // Better safe than sorry: abs to prevent negative values
+        $amount = (int) abs((!empty($contenttype['rss']['feed_records']) ? $contenttype['rss']['feed_records'] : $app['config']['rss']['feed_records']));
+        // How much to display in the description. Value of 0 means full body!
+        $descriptionLength = (int) abs((!empty($contenttype['rss']['description_length']) ? $contenttype['rss']['description_length'] : $app['config']['rss']['description_length']));
+
+        $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datepublish desc'));
+
+        if (!$content) {
+            $app->abort(404, "Feed for '$contenttypeslug' not found.");
+        }
+
+        // Then, select which template to use, based on our 'cascading templates rules'
+        if (!empty($contenttype['feed_template'])) {
+            $template = $contenttype['feed_template'];
+        } else {
+            $filename = $app['paths']['themepath'] . "/rss.twig";
+            if (file_exists($filename) && is_readable($filename)) {
+                $template = 'rss.twig';
+            } else {
+                $template = $app['config']['rss']['feed_template'];
+            }
+        }
+
+        // Fallback: If file is not OK, show an error page
+        $filename = $app['paths']['themepath'] . "/" . $template;
+        if (!file_exists($filename) || !is_readable($filename)) {
+            $app->abort(404, "No template for '$contenttypeslug' defined. Tried to use '$template'.");
+        }
+
+        $body = $app['twig']->render($template, array(
+            'records' => $content,
+            'description_length' => $descriptionLength,
+            $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
+        ));
+
+        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+
+    }
+
 
 }
