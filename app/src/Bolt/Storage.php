@@ -731,9 +731,14 @@ class Storage
         }
 
         // If requesting something with a content-type slug in singular, return only the first item.
-        if ( ($contenttype['singular_slug'] == $contenttypeslug) || isset($parameters['returnsingle']) ) {
+        // If requesting a record with a specific 'id', return only the first item.
+        if ( ($contenttype['singular_slug'] == $contenttypeslug)
+            || isset($parameters['returnsingle'])
+            || !empty($parameters['id']) ) {
             $returnsingle = true;
         }
+
+
 
         $tablename = $this->prefix . $contenttype['slug'];
 
@@ -746,6 +751,7 @@ class Storage
                 !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status")) ) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
+
 
             $where[] = $this->parseWhereParameter($key, $value);
 
@@ -797,7 +803,7 @@ class Storage
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         if (!$returnsingle) {
-             // echo "<pre>" . util::var_dump($query, true) . "</pre>";
+        //     echo "<pre>" . util::var_dump($query, true) . "</pre>";
         }
 
         $rows = $this->db->fetchAll($query);
@@ -941,27 +947,12 @@ class Storage
     }
 
     /**
-     * Get a single unit of content:
-     *
-     * examples:
-     * $content = $app['storage']->getSingleContent("page/1");
-     * $content = $app['storage']->getSingleContent("entry", array('where' => "slug = 'lorem-ipsum'"));
-     * $content = $app['storage']->getSingleContent($contenttype['slug'], array('where' => "id = '$slug'"));
-     *
+     * Deprecated: use getContent.
      */
     public function getSingleContent($contenttypeslug, $parameters = array())
     {
 
-        // Just to make sure we're getting a single item.
-        $parameters['returnsingle'] = true;
-
-        $content = $this->getContent($contenttypeslug, $parameters);
-
-        if (empty($content)) {
-            $content = new Bolt\Content('', $contenttypeslug);
-        }
-
-        return $content;
+        return $this->getContent($contenttypeslug, $parameters);
 
     }
 

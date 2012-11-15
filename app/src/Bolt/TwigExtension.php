@@ -28,7 +28,6 @@ class TwigExtension extends \Twig_Extension
             'max' => new \Twig_Function_Method($this, 'max'),
             'min' => new \Twig_Function_Method($this, 'min'),
             'request' => new \Twig_Function_Method($this, 'request'),
-            'content' => new \Twig_Function_Method($this, 'content'),
             'ismobileclient' => new \Twig_Function_Method($this, 'ismobileclient'),
             'menu' => new \Twig_Function_Method($this, 'menu', array('needs_environment' => true)),
             'randomquote' => new \Twig_Function_Method($this, 'randomquote'),
@@ -276,49 +275,6 @@ class TwigExtension extends \Twig_Extension
         echo $env->render($template, array('pager' => $thispager, 'surr' => $surr, 'class' => $class));
 
     }
-
-
-    /**
-     * Get 'content'
-     *
-     * usage:
-     * To get 10 entries, in order: {% set entries = content('entries', {'limit': 10}) %}
-     *
-     * To get the latest single page: {% set page = content('page', {'order':'datecreated desc'}) %}
-     *
-     * To get 5 upcoming events: {% set events = content('events', {'order': 'date asc', 'where' => 'date < now()' }) %}
-     */
-    public function content($contenttypeslug, $params)
-    {
-        global $app; /* TODO: figure out if there's a way to do this without globals.. */
-
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
-
-        // If the contenttype doesn't exist, return an empty array
-        if (!$contenttype) {
-            $app['log']->add("contenttype '$contenttypeslug' doesn't exist.", 1);
-
-            return array();
-        }
-
-        if ($app['request']->query->get('page') != "") {
-            $params['page'] = $app['request']->query->get('page');
-        }
-
-        if ((makeSlug($contenttypeslug) == $contenttype['singular_slug']) || $params['limit']==1) {
-            // If we used the singular version of the contenttype, or we specifically request only one result..
-            $content = $app['storage']->getSingleContent($contenttypeslug, $params);
-        } else {
-            // Else, we get more than one result
-            $content = $app['storage']->getContent($contenttypeslug, $params, $pager);
-            $app['pager'] = $pager;
-        }
-
-        return $content;
-
-    }
-
-
 
 
     /**

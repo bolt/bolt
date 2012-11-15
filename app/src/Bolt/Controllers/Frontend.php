@@ -30,7 +30,7 @@ class Frontend
 
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
-            $content = $app['storage']->getSingleContent($app['config']['general']['homepage']);
+            $content = $app['storage']->getContent($app['config']['general']['homepage']);
             $twigvars = array(
                 'record' => $content,
                 $content->contenttype['singular_slug'] => $content
@@ -54,11 +54,11 @@ class Frontend
         $slug = makeSlug($slug);
 
         // First, try to get it by slug.
-        $content = $app['storage']->getSingleContent($contenttype['slug'], array('slug' => $slug));
+        $content = $app['storage']->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true));
 
         if (!$content && is_numeric($slug)) {
             // And otherwise try getting it by ID
-            $content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $slug));
+            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
 
         // No content, no page!

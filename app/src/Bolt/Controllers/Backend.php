@@ -268,7 +268,7 @@ class Backend
         }
 
         if (!empty($id)) {
-            $content = $app['storage']->getSingleContent($contenttype['slug'], array('id' => $id));
+            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
             $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
