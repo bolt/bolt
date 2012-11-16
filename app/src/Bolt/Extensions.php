@@ -218,7 +218,12 @@ class Extensions
 
     }
 
-
+    /**
+     * Clears the snippet queue
+     */
+    public function clearSnippetQueue(){
+        $this->snippetqueue = array();
+    }
 
     public function processSnippetQueue($html)
     {

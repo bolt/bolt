@@ -463,4 +463,40 @@ class Content
         return $excerpt;
 
     }
+
+    /**
+     * Creates RSS safe content. Wraps it in CDATA tags, strips style and
+     * scripts out. Can optionally also return a (cleaned) excerpt.
+     *
+     * @param string $field The field to clean up
+     * @param int $excerptLength Number of chars of the excerpt
+     * @return string RSS safe string
+     */
+    public function rss_safe($field = '', $excerptLength = 0)
+    {
+        if (array_key_exists($field, $this->values)){
+            if ($this->fieldtype($field) == 'html'){
+                $value = $this->values[$field];
+                // Completely remove style and script blocks
+                // Remove script tags
+                $value = preg_replace('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/i', '', $value);
+                // Remove style tags
+                $value = preg_replace('/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/i', '', $value);
+                // Strip other tags
+                // How about 'blockquote'?
+                $allowedTags = array('a', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'u', 'strike');
+                $value = strip_tags($value, '<' . implode('><', $allowedTags) . '>');
+
+                $result = htmlspecialchars($value, ENT_COMPAT | ENT_XML1);
+                if ($excerptLength > 0){
+                    $result = trimText($result, $excerptLength);
+                }
+                return '<![CDATA[ ' . $result . ' ]]>';
+            }
+            else {
+                return $this->values[$field];
+            }
+        }
+        return "";
+    }
 }

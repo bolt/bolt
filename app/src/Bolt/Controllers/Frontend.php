@@ -1,8 +1,8 @@
 <?php
 
-Namespace Bolt\Controllers;
+namespace Bolt\Controllers;
 
-Use Silex;
+use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +22,6 @@ class Frontend
 
         $app['twig']->addGlobal('frontend', true);
         $app['twig']->addGlobal('paths', $app['paths']);
-
     }
 
     function homepage(Silex\Application $app)
@@ -130,16 +129,22 @@ class Frontend
     }
 
     public function feed(Silex\Application $app, $contenttypeslug){
+        // Clear the snippet queue
+        $app['extensions']->clearSnippetQueue();
+        // You *will* have to debug the feed yourself. The debug toolbar cannot
+        // help you with that (yet?)
+        $app['debug'] = false;
+
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        if (!isset($contenttype['rss_feed']) || $contenttype['rss_feed'] != 'true'){
+        if (!isset($contenttype['rss']['enabled']) || $contenttype['rss']['enabled'] != 'true'){
             $app->abort(404, "Feed for '$contenttypeslug' not found.");
         }
 
         // Better safe than sorry: abs to prevent negative values
         $amount = (int) abs((!empty($contenttype['rss']['feed_records']) ? $contenttype['rss']['feed_records'] : $app['config']['rss']['feed_records']));
         // How much to display in the description. Value of 0 means full body!
-        $descriptionLength = (int) abs((!empty($contenttype['rss']['description_length']) ? $contenttype['rss']['description_length'] : $app['config']['rss']['description_length']));
+        $contentLength = (int) abs((!empty($contenttype['rss']['content_length']) ? $contenttype['rss']['content_length'] : $app['config']['rss']['content_length']));
 
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datepublish desc'));
 
@@ -165,14 +170,20 @@ class Frontend
             $app->abort(404, "No template for '$contenttypeslug' defined. Tried to use '$template'.");
         }
 
+        //print_r($content);
+
         $body = $app['twig']->render($template, array(
             'records' => $content,
-            'description_length' => $descriptionLength,
+            'content_length' => $contentLength,
             $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
         ));
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
+        // prevent facebook stuff to be added!
+        return new Response($body, 200,
+            array('Content-Type' => 'application/rss+xml; charset=utf-8',
+                'Cache-Control' => 's-maxage=3600, public',
+            )
+        );
     }
 
 
