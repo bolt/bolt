@@ -123,7 +123,7 @@ class Content
                 $responsiveclass = "responsive-video";
 
                 // See if it's widescreen or not..
-                if (!empty($videro['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
+                if (!empty($video['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
                     $responsiveclass .= " widescreen";
                 }
 
