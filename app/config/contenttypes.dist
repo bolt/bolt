@@ -27,7 +27,11 @@ entries:
     listing_records: 10
     sort: datecreated DESC
     recordsperpage: 7
-
+    rss:
+      enabled: true
+      feed_records: 10
+      feed_template: rss.twig
+      content_length: 250
 
 pages:
     name: Pages

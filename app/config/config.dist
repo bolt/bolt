@@ -40,6 +40,13 @@ recordsperpage: 10
 listing_template: listing.twig
 listing_records: 6
 
+# Set the number of records to be displayed, the template to be used and how
+# many words should be used for the description (excerpt)
+rss:
+  feed_records: 10
+  feed_template: rss.twig
+  content_length: 400
+
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype, and for each record, if it has a
 # 'templateselect' field.
