@@ -225,7 +225,7 @@ function makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri) 
 
 /**
  *
- * Making the 'video embed filetype work.
+ * Making the 'video embed' filetype work.
  *
  */
 function bindVideoEmbed(key) {
@@ -376,3 +376,15 @@ function bindMarkdown(key) {
     });
 
 }
+
+
+var Image = Backbone.Model.extend({
+    defaults: {
+        file: null,
+        title: null
+    }
+});
+
+var Imagelist = Backbone.Collection.extend({
+    model: Image
+});
