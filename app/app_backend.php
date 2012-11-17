@@ -161,7 +161,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
         echo $app['twig']->render('debugbar.twig', array(
             'timetaken' => timeTaken(),
             'memtaken' => getMem(),
-            'memtaken' => getMaxMem(),
+            'maxmemtaken' => getMaxMem(),
             'querycount' => $querycount,
             'querytime' => sprintf("%0.2f", $querytime),
             'queries' => $queries,
