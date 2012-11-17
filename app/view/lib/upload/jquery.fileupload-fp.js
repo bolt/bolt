@@ -1,5 +1,5 @@
 /*
- * jQuery File Upload File Processing Plugin 1.0
+ * jQuery File Upload File Processing Plugin 1.2.1
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2012, Sebastian Tschan
@@ -32,9 +32,9 @@
 }(function ($, loadImage) {
     'use strict';
 
-    // The File Upload IP version extends the basic fileupload widget
+    // The File Upload FP version extends the fileupload widget
     // with file processing functionality:
-    $.widget('blueimpFP.fileupload', $.blueimp.fileupload, {
+    $.widget('blueimp.fileupload', $.blueimp.fileupload, {
 
         options: {
             // The list of file processing actions:
@@ -70,7 +70,7 @@
 
         processActions: {
             // Loads the image given via data.files and data.index
-            // as canvas element.
+            // as img element if the browser supports canvas.
             // Accepts the options fileTypes (regular expression)
             // and maxFileSize (integer) to limit the files to load:
             load: function (data, options) {
@@ -85,28 +85,32 @@
                             options.fileTypes.test(file.type))) {
                     loadImage(
                         file,
-                        function (canvas) {
-                            data.canvas = canvas;
+                        function (img) {
+                            if (!img.src) {
+                                return dfd.rejectWith(that, [data]);
+                            }
+                            data.img = img;
                             dfd.resolveWith(that, [data]);
-                        },
-                        {canvas: true}
+                        }
                     );
                 } else {
                     dfd.rejectWith(that, [data]);
                 }
                 return dfd.promise();
             },
-            // Resizes the image given as data.canvas and updates
-            // data.canvas with the resized image.
+            // Resizes the image given as data.img and updates
+            // data.canvas with the resized image as canvas element.
             // Accepts the options maxWidth, maxHeight, minWidth and
             // minHeight to scale the given image:
             resize: function (data, options) {
-                if (data.canvas) {
-                    var canvas = loadImage.scale(data.canvas, options);
-                    if (canvas.width !== data.canvas.width ||
-                            canvas.height !== data.canvas.height) {
+                var img = data.img,
+                    canvas;
+                options = $.extend({canvas: true}, options);
+                if (img) {
+                    canvas = loadImage.scale(img, options);
+                    if (canvas.width !== img.width ||
+                            canvas.height !== img.height) {
                         data.canvas = canvas;
-                        data.processed = true;
                     }
                 }
                 return data;
@@ -115,7 +119,7 @@
             // inplace at data.index of data.files:
             save: function (data, options) {
                 // Do nothing if no processing has happened:
-                if (!data.canvas || !data.processed) {
+                if (!data.canvas) {
                     return data;
                 }
                 var that = this,
@@ -208,7 +212,7 @@
         },
 
         _create: function () {
-            $.blueimp.fileupload.prototype._create.call(this);
+            this._super();
             this._processing = 0;
             this._processingQueue = $.Deferred().resolveWith(this)
                 .promise();
