@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 class Frontend
 {
 
-    function before(Request $request, Silex\Application $app) {
+    function before(Request $request, Silex\Application $app)
+    {
 
         $app['end'] = "frontend";
 
@@ -71,7 +72,7 @@ class Frontend
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
-            $app->abort(404, "No template for '". $content->getTitle() . "' defined. Tried to use '$template'.");
+            $app->abort(404, "No template for '" . $content->getTitle() . "' defined. Tried to use '$template'.");
         }
 
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
@@ -86,7 +87,8 @@ class Frontend
     }
 
 
-    function listing(Silex\Application $app, $contenttypeslug) {
+    function listing(Silex\Application $app, $contenttypeslug)
+    {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -103,9 +105,9 @@ class Frontend
         if (!empty($contenttype['listing_template'])) {
             $template = $contenttype['listing_template'];
         } else {
-            $filename = $app['paths']['themepath'] . "/" . $contenttype['slug'].".twig";
+            $filename = $app['paths']['themepath'] . "/" . $contenttype['slug'] . ".twig";
             if (file_exists($filename) && is_readable($filename)) {
-                $template = $contenttype['slug'].".twig";
+                $template = $contenttype['slug'] . ".twig";
             } else {
                 $template = $app['config']['general']['listing_template'];
             }
@@ -128,7 +130,8 @@ class Frontend
 
     }
 
-    public function feed(Silex\Application $app, $contenttypeslug){
+    public function feed(Silex\Application $app, $contenttypeslug)
+    {
         // Clear the snippet queue
         $app['extensions']->clearSnippetQueue();
         // You *will* have to debug the feed yourself. The debug toolbar cannot
@@ -137,22 +140,34 @@ class Frontend
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        if (!isset($contenttype['rss']['enabled']) || $contenttype['rss']['enabled'] != 'true'){
+        if (!isset($contenttype['rss']['enabled']) ||
+            $contenttype['rss']['enabled'] != 'true'
+        ) {
             $app->abort(404, "Feed for '$contenttypeslug' not found.");
         }
 
         // Better safe than sorry: abs to prevent negative values
-        $amount = (int) abs((!empty($contenttype['rss']['feed_records']) ? $contenttype['rss']['feed_records'] : $app['config']['rss']['feed_records']));
+        $amount = (int) abs((!empty($contenttype['rss']['feed_records']) ?
+            $contenttype['rss']['feed_records'] :
+            $app['config']['rss']['feed_records']));
         // How much to display in the description. Value of 0 means full body!
-        $contentLength = (int) abs((!empty($contenttype['rss']['content_length']) ? $contenttype['rss']['content_length'] : $app['config']['rss']['content_length']));
+        $contentLength = (int) abs(
+            (!empty($contenttype['rss']['content_length']) ?
+                $contenttype['rss']['content_length'] :
+                $app['config']['rss']['content_length'])
+        );
 
-        $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datepublish desc'));
+        $content = $app['storage']->getContent(
+            $contenttype['slug'],
+            array('limit' => $amount, 'order' => 'datepublish desc')
+        );
 
         if (!$content) {
             $app->abort(404, "Feed for '$contenttypeslug' not found.");
         }
 
-        // Then, select which template to use, based on our 'cascading templates rules'
+        // Then, select which template to use, based on our
+        // 'cascading templates rules'
         if (!empty($contenttype['feed_template'])) {
             $template = $contenttype['feed_template'];
         } else {
@@ -170,15 +185,12 @@ class Frontend
             $app->abort(404, "No template for '$contenttypeslug' defined. Tried to use '$template'.");
         }
 
-        //print_r($content);
-
         $body = $app['twig']->render($template, array(
             'records' => $content,
             'content_length' => $contentLength,
-            $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
+            $contenttype['slug'] => $content,
         ));
 
-        // prevent facebook stuff to be added!
         return new Response($body, 200,
             array('Content-Type' => 'application/rss+xml; charset=utf-8',
                 'Cache-Control' => 's-maxage=3600, public',
