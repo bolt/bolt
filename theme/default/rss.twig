@@ -2,7 +2,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>{{ app.config.general.sitename }}</title>
-        <atom:link href="{{ paths.currenturl }}" rel="self" type="application/rss+xml"/>
+        <atom:link href="{{ paths.currenturl }}" rel="self"
+                   type="application/rss+xml"/>
         <link>{{ paths.rooturl }}</link>
         <description>{{ app.config.general.site_description }}</description>
         <language>en-us</language>
@@ -12,18 +13,25 @@
 
             <item>
                 <title>{{ record.title }}</title>
-                <link>{{ paths.rooturl }}{{ record.link }}</link>
-                <pubDate>{{ record.datepublish|date("D, d M Y H:i:s O")}}</pubDate>
-                <author>{{ record.user.email }} ({{ record.user.displayname }})</author>
-                <guid>{{ paths.rooturl }}{{ record.contenttype.singular_slug }}/{{ record.id }}</guid>
+                <link>{{ paths.rooturl }}{{ record.link|trim('/') }}</link>
+                <pubDate>
+                    {{ record.datepublish|date("D, d M Y H:i:s O") }}
+                </pubDate>
+                <author>
+                    {{ record.user.email }} ({{ record.user.displayname }})
+                </author>
+                <guid>{{ paths.rooturl }}{{ record.contenttype.singular_slug }}
+                    /{{ record.id }}</guid>
                 {% for category in record.taxonomy.categories %}
-                <category><![CDATA[{{ category }} ]]></category>
+                    <category><![CDATA[ {{ category }} ]]></category>
                 {% endfor %}
 
                 {% if content_length == 0 %}
-                <description>{{ record.rss_safe('body') }}</description>
+                    <description>{{ record.rss_safe('body') }}</description>
                 {% else %}
-                <description>{{ record.rss_safe('body', content_length) }}</description>
+                    <description>
+                        {{ record.rss_safe('body', content_length) }}
+                    </description>
                 {% endif %}
             </item>
 
