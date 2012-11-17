@@ -707,7 +707,7 @@ class Storage
 
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
-        if ($app['end']=="frontend" && empty($parameters['status'])) {
+        if (isset($app['end']) && $app['end']=="frontend" && empty($parameters['status'])) {
             $parameters['status'] = "published";
         }
 
