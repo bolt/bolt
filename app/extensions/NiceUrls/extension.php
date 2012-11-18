@@ -38,15 +38,18 @@ function info()
  */
 function init(\Silex\Application $app)
 {
-
     $yamlparser = new \Symfony\Component\Yaml\Parser();
     $config = $yamlparser->parse(file_get_contents(__DIR__ . '/config.yml'));
-
     foreach ($config as $routingData) {
         if (isValidRoutingData($routingData)) {
-            $app->match('/' . $routingData['from']['slug'], function (Request $request) use ($app, $routingData) {
+            $from = transformWildCard($routingData['from']['slug']);
+            $app->match('/' . $from, function (Request $request) use ($app, $from, $routingData) {
                 $app['end'] = 'frontend';
-                $uri = $request->getUriForPath("/" . $routingData['to']['contenttypeslug'] . '/' . $routingData['to']['slug']);
+                $to = transformWildCard($routingData['to']['contenttypeslug'] . '/' . $routingData['to']['slug']);
+                foreach ($request->get('_route_params') as $rparam => $rval) {
+                    $to = str_replace('{' . $rparam . '}', $rval, $to);
+                }
+                $uri = $request->getUriForPath('/' . $to);
                 $subRequest = Request::create($uri, 'GET', array(), $request->cookies->all(), array(), $request->server->all());
 
                 if ($request->getSession()) {
@@ -54,18 +57,34 @@ function init(\Silex\Application $app)
                 }
 
                 return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST, false);
-            });
-
+            })
+                ->before('Bolt\Controllers\Frontend::before')
+                ->assert('contenttypeslug', $app['storage']->getContentTypeAssert());
         }
-
     }
+}
+
+/**
+ * Transforms YML-safe wildcard %% to enclosure in curly braces for symfony
+ * routing.
+ * @param $string
+ * @return mixed
+ */
+function transformWildCard($string)
+{
+    preg_match_all('/%%[A-Za-z0-9]+%%/', $string, $matches);
+    $parts = $matches[0];
+    if (!empty($parts)) {
+        foreach ($parts as $part) {
+            $newpart = preg_replace('/%%(.*)%%/', '{$1}', $part);
+            $string = str_replace($part, $newpart, $string);
+        }
+    }
+    return $string;
 }
 
 function isValidRoutingData($routingData)
 {
-    if (!array_key_exists('end', $routingData)) {
-        return false;
-    }
     if (!array_key_exists('from', $routingData)) {
         return false;
     }
