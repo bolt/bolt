@@ -12,6 +12,15 @@ jQuery(function($) {
     // Initialize the Fancybox shizzle.
     $('.fancybox').fancybox({ });
 
+    // Helper to make things like '<button data-action="eventView.load()">' work
+    $('button, input[type=button]').live('click', function(e){
+        var action = $(this).data('action');
+        if (typeof(action) != "undefined" && (action != "") ) {
+            eval(action);
+            e.preventDefault();
+        }
+    });
+
     // Show 'dropzone' for jQuery file uploader.
     // TODO: make it prettier, and distinguish between '.in' and '.hover'.
     $(document).bind('dragover', function (e) {
@@ -378,13 +387,136 @@ function bindMarkdown(key) {
 }
 
 
+/**
+ * Model, Collection and View for Imagelist.
+ */
 var Image = Backbone.Model.extend({
     defaults: {
-        file: null,
-        title: null
+        id: null,
+        filename: null,
+        title: "Untitled image",
+        order: 1
+    },
+    initialize: function() {
     }
 });
 
 var Imagelist = Backbone.Collection.extend({
-    model: Image
+    model: Image,
+    comparator: function(image) {
+        return image.get('order');
+    },
+    setOrder: function(id, order, title) {
+        _.each(this.models, function(item) {
+            if (item.get('id')==id) {
+                item.set('order', order);
+                item.set('title', title);
+            }
+        });
+    }
+});
+
+var ImagelistHolder = Backbone.View.extend({
+
+    initialize: function(id) {
+        console.log('init imagelist');
+        this.list = new Imagelist();
+        this.id = id;
+        var prelist = $.parseJSON($('#'+this.id).val());
+        var list = this.list; // .each overwrites 'this' scope, set it here..
+        _.each(prelist, function(item){
+            var image = new Image({filename: item.filename, title: item.title, id: list.length });
+            list.add(image);
+        });
+        this.render();
+        this.bindEvents();
+    },
+
+    addExisting: function() {
+        var filename = prompt('Filename of image to add?');
+        var title = prompt('Description of the image?');
+        var image = new Image({filename: filename, title: title, id: this.list.length});
+        this.list.add(image);
+        this.render();
+    },
+
+    render: function() {
+        this.list.sort();
+        $('.imagelistholder .list').html('');
+        _.each(this.list.models, function(image){
+            var html = "<div data-id='" + image.get('id') +
+                "' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>" +
+                "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
+                image.get('title')  + "'><i class='icon-remove'></i></div>";
+            $('.imagelistholder .list').append(html);
+        });
+        if (this.list.models.length == 0) {
+            $('.imagelistholder .list').append("<p>No images in the list, yet.</p>");
+        }
+        this.serialize();
+    },
+
+    add: function(filename, title) {
+        var image = new Image({filename: filename, title: title, id: this.list.length });
+        this.list.add(image);
+        this.render();
+    },
+
+    remove: function(id) {
+        var list = this.list; // .each overwrites 'this' scope, set it here..
+        _.each(this.list.models, function(item) {
+            if (item.get('id') == id) {
+                list.remove(item);
+            }
+        });
+        this.render();
+    },
+
+    serialize: function() {
+        var ser = JSON.stringify(this.list);
+        $('#'+this.id).val(ser);
+    },
+
+    doneSort: function() {
+        var order = 0;
+        var list = this.list; // .each overwrites 'this' scope, set it here..
+        $('#imagelist-'+this.id+' .list div').each(function(item) {
+            order++;
+            var id = $(this).data('id');
+            list.setOrder(id, order, $(this).find('input').val());
+        });
+        this.render();
+    },
+
+    bindEvents: function() {
+
+        $(".imagelistholder div.list").sortable({
+            stop: function() {
+                imagelist.doneSort();
+            }
+        });
+
+        $('#fileupload-' + this.id).attr('name', 'files[]')
+            .fileupload({
+                dataType: 'json',
+                dropZone: $('#imagelist-' + this.id),
+                done: function (e, data) {
+                    $.each(data.result, function (index, file) {
+                        var filename = decodeURI(file.url).replace("/files/", "");
+                        imagelist.add(filename, filename);
+                    });
+                }
+            });
+
+        $(".imagelistholder div.list i").live('click', function() {
+            var id = $(this).parent().data('id');
+            imagelist.remove(id);
+        });
+
+        $(".imagelistholder div.list input").live('blur', function() {
+            imagelist.doneSort();
+        });
+
+    }
+
 });

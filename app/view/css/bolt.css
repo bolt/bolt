@@ -463,7 +463,7 @@ label span.left {
 
 #editcontent input {
     font-size: 100%;
-    width: 95%;
+    /* width: 95%; - Why did i think this was a good idea? */
 }
 
 #editcontent input[type=number] {
@@ -577,6 +577,55 @@ label span.left {
     cursor: pointer;
 }
 
+#editcontent div.imagelistholder textarea {
+    display: none;
+}
+
+#editcontent div.imagelistholder div.list {
+    border: 1px solid #BBB;
+    padding: 2px;
+    width: 60%;
+    float: left;
+    min-width: 320px;
+    background-color: #FFF;
+    border-radius: 3px;
+}
+
+#editcontent div.imagelistholder div.list div {
+    height: 48px;
+    margin: 3px;
+    border-radius: 3px;
+    cursor: ns-resize;
+}
+
+
+#editcontent div.imagelistholder div.list div * {
+    float: left;
+    margin-top: 3px;
+    margin-right: 4px;
+}
+
+#editcontent div.imagelistholder div.list div input {
+    width: 246px;
+}
+
+#editcontent div.imagelistholder div.list div span.ui-icon {
+    display: inline-block;
+    width: 20px;
+    margin-top: 12px;
+}
+
+#editcontent div.imagelistholder div.list div i {
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+#editcontent div.imagelistholder div.buttons {
+    display: inline-block;
+    float: left;
+    width: 30%;
+    padding: 4px 8px;
+}
 
 /** Overrides for CKeditor */
 
