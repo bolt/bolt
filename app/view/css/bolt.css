@@ -584,11 +584,11 @@ label span.left {
 #editcontent div.imagelistholder div.list {
     border: 1px solid #BBB;
     padding: 2px;
-    width: 60%;
     float: left;
-    min-width: 320px;
+    width: 380px;
     background-color: #FFF;
     border-radius: 3px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) inset;
 }
 
 #editcontent div.imagelistholder div.list div {
@@ -596,6 +596,7 @@ label span.left {
     margin: 3px;
     border-radius: 3px;
     cursor: ns-resize;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -621,10 +622,20 @@ label span.left {
 }
 
 #editcontent div.imagelistholder div.buttons {
-    display: inline-block;
+    display: inline;
     float: left;
-    width: 30%;
     padding: 4px 8px;
+}
+
+.ui-sortable-helper {
+    border: 1px solid #999;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ui-sortable-placeholder {
+    border: 1px dashed #666;
+    visibility: visible !important;
+    opacity: 0.5;
 }
 
 /** Overrides for CKeditor */

@@ -100,10 +100,12 @@ class UploadHandler
                     'jpeg_quality' => 80
                 ),
                 */
+                /* -- Commented out for Bolt: We'll make our own thumbnails.
                 'thumbnail' => array(
                     'max_width' => 80,
                     'max_height' => 80
                 )
+                */
             )
         );
         if ($options) {
