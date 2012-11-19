@@ -416,7 +416,7 @@ class Storage
                     $content[$field] = date('Y-m-d H:i:s', time() - rand(-365*24*60*60, 365*24*60*60));
                     break;
                 case 'float':
-                case 'number':
+                case 'number': // number is deprecated..
                 case 'integer':
                     $content[$field] = rand(-1000,1000) + (rand(0,1000)/1000);
                     break;
