@@ -834,7 +834,12 @@ function getDBOptions($config)
 
     }
 
-    //echo "<pre>\n" . util::var_dump($dboptions, true) . "</pre>\n";
+    switch($driver) {
+        case 'pdo_mysql':
+            $dboptions['reservedwords'] = explode(',', "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
+                "bigint,binary,blob,both,by,call,cascade,case,change,char,character,check,collate,column,condition,constraint," .
+                "continue,convert,create,cross,current_date,current_time,current_timestamp,current_user,cursor,database,databases," .
+                "day_hour,day_microsecond,day_minute,day_second,dec,decimal,declare,default,delayed,delete,desc,describe," .
     return $dboptions;
 
 }
