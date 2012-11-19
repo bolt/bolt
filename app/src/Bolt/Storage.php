@@ -12,12 +12,14 @@ class Storage
     private $db;
     private $config;
     private $prefix;
+    private $session;
 
     public function __construct(Silex\Application $app)
     {
 
         $this->config = $app['config'];
         $this->db = $app['db'];
+        $this->session = $app['session'];
         // $this->monolog = $app['monolog'];
 
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
@@ -117,6 +119,8 @@ class Storage
         $output = array();
 
         $tables = $this->getTables();
+
+        $dboptions = getDBOptions($this->config);
 
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
@@ -233,7 +237,16 @@ class Storage
 
                 if (!isset($tables[$tablename][$field])) {
 
-                    $myTable = $sm->listTableDetails($tablename);
+                    // $myTable = $sm->listTableDetails($tablename);
+
+                    if (in_array($field, $dboptions['reservedwords'])) {
+                        $error = sprintf("You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
+                            $field,
+                            $dboptions['driver']
+                        );
+                        $this->session->setFlash('error', $error);
+                        continue;
+                    }
 
                     switch ($values['type']) {
                         case 'text':
@@ -244,8 +257,18 @@ class Storage
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
-                        case 'number':
+                        case 'float':
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` FLOAT NOT NULL DEFAULT 0;", $tablename, $field);
+                            $this->db->query($query);
+                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
+                            break;
+                        case 'number': // deprecated..
                             $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL DEFAULT 0;", $tablename, $field);
+                            $this->db->query($query);
+                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
+                            break;
+                        case 'integer':
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18) NOT NULL DEFAULT 0;", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
@@ -392,6 +415,11 @@ class Storage
                 case 'date':
                     $content[$field] = date('Y-m-d H:i:s', time() - rand(-365*24*60*60, 365*24*60*60));
                     break;
+                case 'float':
+                case 'number':
+                case 'integer':
+                    $content[$field] = rand(-1000,1000) + (rand(0,1000)/1000);
+                    break;
             }
 
         }
@@ -449,6 +477,10 @@ class Storage
 
             if ($values['type'] == "geolocation" && !empty($fieldvalues[$key]['latitude']) ) {
                 $fieldvalues[$key] = serialize($fieldvalues[$key]);
+            }
+
+            if ($values['type'] == "integer") {
+                $fieldvalues[$key] = round($fieldvalues[$key]);
             }
 
         }

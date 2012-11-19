@@ -40,6 +40,28 @@
            class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
 {% endif %}
 
+{# --------------- float --------------- #}
+
+{% if field.type == "float" %}
+    <label><b><span class='left'>
+    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+</span></b></label>
+    <input type="number" name="{{key}}" id="{{key}}" step="0.000000001"
+           value='{{ 0 + content.get(key) }}'
+           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+{% endif %}
+
+{# --------------- integer --------------- #}
+
+{% if field.type == "integer" %}
+    <label><b><span class='left'>
+    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+</span></b></label>
+    <input type="number" name="{{key}}" id="{{key}}" step="1"
+           value='{{ 0 + content.get(key) }}'
+           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+{% endif %}
+
 
     {# --------------- slug --------------- #}
 

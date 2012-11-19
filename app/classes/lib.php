@@ -764,7 +764,13 @@ function getConfig()
         }
         if (!isset($temp['sort'])) {
             $temp['sort'] = "";
-        }        
+        }
+        // Make sure all fields are lowercase and 'safe'.
+        $tempfields = $temp['fields'];
+        $temp['fields'] = array();
+        foreach($tempfields as $key => $value) {
+            $temp['fields'][ strtolower(safeString($key)) ] = $value;
+        }
         $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
 
