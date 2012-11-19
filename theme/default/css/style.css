@@ -451,6 +451,7 @@ div.imageholder-wide {
 }
 div.imageholder-wide img {
   width: 100%;
+  vertical-align: bottom;
 }
 /**
  * Styles for the simple drop-down menu. 
