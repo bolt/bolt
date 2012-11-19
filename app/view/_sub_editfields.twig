@@ -2,7 +2,9 @@
 
 {# --------------- prefix --------------- #}
 {% if field.prefix is not empty %}
+<div class='clearfix'>
     {{ field.prefix }}
+</div>
 {% endif %}
 
 
@@ -202,12 +204,7 @@ $("#field-{{key}}").autocomplete({
     {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
 </b></label>
 <div class="imagelistholder" id="imagelist-{{key}}">
-
-    <textarea name="{{key}}" id="{{key}}">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
-
     <div class="list"></div>
-
-
     <div class="buttons">
         <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
             <i class="icon-upload"></i>
@@ -216,8 +213,9 @@ $("#field-{{key}}").autocomplete({
         </span>
         <input type="button" data-action="imagelist.addExisting()" value="Add existing image" class="btn">
     </div>
-
+    <textarea name="{{key}}" id="{{key}}">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 </div>
+<div class='clearfix'></div>
 
 <script>
 jQuery(function($) {
@@ -446,7 +444,9 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 {# ---------------postfix & divider --------------- #}
 
 {% if field.postfix is not empty %}
-    {{ field.postfix }}
+    <div class='clearfix'>
+        {{ field.postfix }}
+    </div>
 {% endif %}
 
 {% if field.separator == true %}

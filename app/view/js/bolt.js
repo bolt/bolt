@@ -4,8 +4,8 @@ try { console.assert(1); } catch(e) { console = { log: function() {}, assert: fu
 
 jQuery(function($) {
 
-    // Any link with a class='confirm' gets a confirmation dialog..
-    $('a.confirm').click(function(){
+    // Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog..
+    $('a.confirm, i.confirm').live('click', function(){
         return confirm( $(this).data('confirm') );
     });
 
@@ -447,7 +447,7 @@ var ImagelistHolder = Backbone.View.extend({
             var html = "<div data-id='" + image.get('id') +
                 "' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>" +
                 "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
-                image.get('title')  + "'><i class='icon-remove'></i></div>";
+                image.get('title')  + "'><i class='icon-remove confirm' data-confirm='Are you sure you want to remove this image?'></i></div>";
             $('.imagelistholder .list').append(html);
         });
         if (this.list.models.length == 0) {
