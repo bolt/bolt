@@ -133,7 +133,7 @@
 
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
-            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'>
+            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'>
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <span class="btn btn-info fileinput-button">
@@ -222,10 +222,20 @@ $("#field-{{key}}").autocomplete({
 {# --------------- imagelist --------------- #}
 
 {% if field.type == "imagelist" %}
-<label><b>
-    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
-</b></label>
-<div class="imagelistholder" id="imagelist-{{key}}">
+<label>
+    <b>
+        {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+    </b>
+    <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+      data-content="Use this field to upload a set of photos or image. Click the button to upload a file from your
+                computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
+                from your desktop or from a different browser window. <br />
+                Alternatively, you can use a previously uploaded image. <br />
+                You can rearrange the images using drag'n'drop, and change the descriptions of the images.">
+                Info
+    </span>
+</label>
+<div class="imagelistholder dropzone" id="imagelist-{{key}}">
     <div class="list"></div>
     <div class="buttons">
         <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
@@ -236,8 +246,9 @@ $("#field-{{key}}").autocomplete({
         <input type="button" data-action="imagelist.addExisting()" value="Add existing image" class="btn">
     </div>
     <textarea name="{{key}}" id="{{key}}">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <div class='clearfix'></div>
 </div>
-<div class='clearfix'></div>
+
 
 <script>
 jQuery(function($) {

@@ -451,6 +451,11 @@ label span.left {
     min-width: 200px;
 }
 
+#editcontent input.wide {
+    width: 96%;
+    min-width: 200px;
+}
+
 #editcontent input.datepicker {
     width: 30%;
     min-width: 200px;
@@ -547,7 +552,7 @@ label span.left {
 
 #editcontent .dropzone {
     margin-top: 16px;
-    height: 120px;
+    xheight: 120px;
     width: 97%;
     clear: both;
 }
@@ -590,9 +595,9 @@ label span.left {
 
 #editcontent div.imagelistholder div.list {
     border: 1px solid #BBB;
-    padding: 2px;
+    padding: 0 2px;
     float: left;
-    width: 380px;
+    width: 390px;
     background-color: #FFF;
     border-radius: 3px;
     box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2) inset;
@@ -600,7 +605,7 @@ label span.left {
 
 #editcontent div.imagelistholder div.list div {
     height: 48px;
-    margin: 3px;
+    margin: 6px;
     border-radius: 3px;
     cursor: ns-resize;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
