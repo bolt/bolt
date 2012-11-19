@@ -581,6 +581,13 @@ label span.left {
     display: none;
 }
 
+#editcontent div.imagelistholder p {
+    padding: 8px;
+    color: #999;
+    margin: 0;
+    font-style: italic;
+}
+
 #editcontent div.imagelistholder div.list {
     border: 1px solid #BBB;
     padding: 2px;
@@ -588,7 +595,7 @@ label span.left {
     width: 380px;
     background-color: #FFF;
     border-radius: 3px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) inset;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2) inset;
 }
 
 #editcontent div.imagelistholder div.list div {

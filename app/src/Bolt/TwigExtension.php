@@ -47,6 +47,7 @@ class TwigExtension extends \Twig_Extension
             'trans' => new \Twig_Filter_Method($this, 'trans'),
             'transchoice' => new \Twig_Filter_Method($this, 'trans'),
             'thumbnail' => new \Twig_Filter_Method($this, 'thumbnail'),
+            'image' => new \Twig_Filter_Method($this, 'image'),
             'fancybox' => new \Twig_Filter_Method($this, 'fancybox', array('is_safe' => array('html'))),
             'editable' => new \Twig_Filter_Method($this, 'editable', array('is_safe' => array('html'))),
 
@@ -351,11 +352,12 @@ class TwigExtension extends \Twig_Extension
             $height,
             $crop,
             $filename
-            );
+        );
 
         return $thumbnail;
 
     }
+
 
 
 
@@ -386,6 +388,29 @@ class TwigExtension extends \Twig_Extension
 
     }
 
+
+
+    /**
+     * Helper function to make a path to an image.
+     *
+     */
+    public function image($filename, $width = "", $height = "", $crop = "")
+    {
+        global $app;
+
+        if ($width != "" || $height != "") {
+            // You don't want the image, you just want a thumbnail.
+            return $this->thumbnail($filename, $width, $height, $crop);
+        }
+
+        $image = sprintf("%sfiles/%s",
+            $app['paths']['root'],
+            $filename
+        );
+
+        return $image;
+
+    }
 
 
 

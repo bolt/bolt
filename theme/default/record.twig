@@ -2,9 +2,9 @@
 
 {# -----
 This is the 'default record' template. Try to do some generic stuff, so we
-can output all fields. 
+can output all fields.
 
-Note: You probably don't want to use this template as a base for your own 
+Note: You probably don't want to use this template as a base for your own
 templates. 'entry.twig' is much more straightforward.
 
 ----- #}
@@ -25,7 +25,22 @@ templates. 'entry.twig' is much more straightforward.
 
             {% if record.fieldtype(key) == "image" and value != "" %}
 
-                <div class='imageholder-wide'><img src="{{ record.image|thumbnail(800, 600) }}"></div>
+                <div class='imageholder-wide'><img src="{{ value|thumbnail(800, 600) }}"></div>
+
+            {% elseif record.fieldtype(key) == "imagelist" and value != "" %}
+
+                {# We do something tricky here: we need to get value of the list in the proper
+                   way, so the value in actually returned as a list. Using {{ record.key }}
+                   won't work, because there is no value 'key'. In your own templates you
+                   will be able to use {{ record.yourfieldname }}. #}
+
+                {% set list = attribute(record, key) %}
+
+                {% for item in list %}
+                    <a href="{{ item.filename|image }}">
+                        <img src="{{ item.filename|thumbnail(100,100) }}" alt="{{ item.title }}" title="{{ item.title }}">
+                    </a>
+                {% endfor %}
 
             {% elseif record.fieldtype(key) == "video" and value.responsive != "" %}
 
@@ -40,7 +55,7 @@ templates. 'entry.twig' is much more straightforward.
 
             {% elseif record.fieldtype(key) == "markdown" %}
 
-                {{ value|markdown() }}
+                {{ attribute(record, key) }}
 
             {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
 

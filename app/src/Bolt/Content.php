@@ -287,11 +287,17 @@ class Content
 
             $fieldtype = $this->fieldtype($name);
 
+            // Parse the field as Markdown, return HTML
             if ($fieldtype == "markdown") {
                 include_once __DIR__. "/../../classes/markdown.php";
                 $html = Markdown($this->values[$name]);
-
                 return $html;
+            }
+
+            // Parse the field as JSON, return the array
+            if ($fieldtype == "imagelist") {
+                $list = json_decode($this->values[$name]);
+                return $list;
             }
 
             return $this->values[$name];
