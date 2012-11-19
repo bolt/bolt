@@ -834,7 +834,7 @@ function getDBOptions($config)
 
     }
 
-    switch($driver) {
+    switch($dboptions['driver']) {
         case 'pdo_mysql':
             $dboptions['reservedwords'] = explode(',', "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
                 "bigint,binary,blob,both,by,call,cascade,case,change,char,character,check,collate,column,condition,constraint," .

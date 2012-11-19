@@ -258,7 +258,7 @@ class Storage
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
                         case 'float':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` FLOAT NOT NULL DEFAULT 0;", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DOUBLE NOT NULL DEFAULT 0;", $tablename, $field);
                             $this->db->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
