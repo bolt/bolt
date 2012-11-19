@@ -90,20 +90,29 @@ kitchensink:
             type: datetime
         date:
             type: date
+        integerfield:
+            type: integer
+        floatfield:
+            type: float
     taxonomy: [ categories, tags, chapters ]
     sort: title
     recordsperpage: 8
 
 
 # possible field types:
-# text - varchar(256) - input type text
-# number - double - input type text, useful for storing number that need to be sortable
+# text - varchar(256) - input type text.
+# integer - integer - Input field for integer numbers.
+# float - double - Input field for floating numbers, stored as 'Double'.
+# geolocation - text (65kb) - Input field for geolocation. Enter an address, and the location is geocoded to latitude/longitude coordinates
+# imagelist - text (65kb) - Input type for imagelists. Add multiple images with a description. Useful for image sliders, galleries, etcetera.
+# image - varchar(256) - image select/upload widget, stored as filename.
+# file - varchar(256) - file select/upload widget, stored as filename.
+# video - varchar(256) - Video embed widget, stored as filename.
+# html - text (65kb) - wysiwyg element.
+# textarea - varchar(32768) - Simple, plain < textarea > field.
+# datetime - datetime - date and time selector widget.
+# date - datetime - date selector widget.
 # templateselect - varchar(256) - select with template filenames
-# image - varchar(256) - image select/upload widget, stored as filename
-# file - varchar(256) - file select/upload widget, stored as filename
-# video - varchar(256) - Video embed widget, stored as filename
-# html - text (65kb) - wysiwyg element
-# textarea - varchar(32768) - < textarea >
-# datetime - datetime - date and time selector widget
-# date - datetime - date selector widget
-# divider - simple divider to enter a short text and/or line in the edit page.
+
+
+# number (deprecated) - input type decimal(18,9), useful for storing number that need to be sortable
