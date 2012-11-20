@@ -99,11 +99,14 @@ CKEDITOR.editorConfig = function( config ) {
         { name: 'links', items: [ 'Link', 'Unlink' ] }
     ];
 
+    if (wysiwyg.subsuper) {
+        config.toolbar = config.toolbar.concat({ name: 'subsuper', items: [ 'Subscript', 'Superscript' ] });
+    }
     if (wysiwyg.images) {
-        config.toolbar = config.toolbar.concat({ name: 'align', items: [ 'Image' ] });
+        config.toolbar = config.toolbar.concat({ name: 'image', items: [ 'Image' ] });
     }
     if (wysiwyg.tables) {
-        config.toolbar = config.toolbar.concat({ name: 'align', items: [ 'Table' ] });
+        config.toolbar = config.toolbar.concat({ name: 'table', items: [ 'Table' ] });
     }
     if (wysiwyg.align) {
         config.toolbar = config.toolbar.concat({ name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] });
@@ -112,7 +115,7 @@ CKEDITOR.editorConfig = function( config ) {
         config.toolbar = config.toolbar.concat({ name: 'colors', items: [ 'TextColor', 'BGColor' ] });
     }
 
-    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'Source', 'Maximize', 'RemoveFormat' ] });
+    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', 'RemoveFormat', 'Maximize', 'Source' ] });
 
     config.height = "250px";
     config.removePlugins = 'elementspath';
@@ -442,8 +445,7 @@ var ImagelistHolder = Backbone.View.extend({
         this.list.sort();
         $('.imagelistholder .list').html('');
         _.each(this.list.models, function(image){
-            var html = "<div data-id='" + image.get('id') +
-                "' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>" +
+            var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
                 "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
                 _.escape(image.get('title'))  + "'><a href='#'><i class='icon-remove'></i></a></div>";
             $('.imagelistholder .list').append(html);
