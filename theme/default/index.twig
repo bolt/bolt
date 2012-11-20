@@ -1,7 +1,7 @@
 {% include '_header.twig' %}
 
 
-{% setcontent entries = "entries/latest/4" allowpaging %}
+{% setcontent entries = "entries/latest/4" where { datepublish: "<TOMORROW", image: '' } allowpaging %}
 
 {% for entry in entries %}
 <article>

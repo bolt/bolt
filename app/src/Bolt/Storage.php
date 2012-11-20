@@ -836,7 +836,7 @@ class Storage
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         if (!$returnsingle) {
-        //     echo "<pre>" . util::var_dump($query, true) . "</pre>";
+             echo "<pre>" . util::var_dump($query, true) . "</pre>";
         }
 
         $rows = $this->db->fetchAll($query);
@@ -968,9 +968,18 @@ class Storage
             $operator = "LIKE";
         }
 
-        // special case, for 'now'
+        // special cases, for 'NOW', 'TODAY', 'YESTERDAY', 'TOMORROW'
         if ($value == "NOW") {
             $value = date('Y-m-d H:i:s');
+        }
+        if ($value == "TODAY") {
+            $value = date('Y-m-d 00:00:00');
+        }
+        if ($value == "YESTERDAY") {
+            $value = date('Y-m-d 00:00:00', strtotime('yesterday'));
+        }
+        if ($value == "TOMORROW") {
+            $value = date('Y-m-d 00:00:00', strtotime('tomorrow'));
         }
 
         $parameter = sprintf("%s %s %s", $this->db->quoteIdentifier($key), $operator, $this->db->quote($value));
