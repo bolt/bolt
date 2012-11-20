@@ -52,6 +52,9 @@ rss:
 # 'templateselect' field.
 record_template: record.twig
 
+# The default size of image thumbnails, when using {{ record.image|thumbnail }}
+thumbnails: [ 160, 120, c ]
+
 # Show the 'debug' nut in the lower right corner for logged-in user.
 debug: true
 developer_notices: false

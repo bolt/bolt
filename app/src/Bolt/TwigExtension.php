@@ -342,9 +342,23 @@ class TwigExtension extends \Twig_Extension
      * Helper function to make a path to an image thumbnail.
      *
      */
-    public function thumbnail($filename, $width = 100, $height = 100, $crop = "")
+    public function thumbnail($filename, $width = '', $height = '', $crop = "")
     {
         global $app;
+
+        $thumbconf = $app['config']['general']['thumbnails'];
+
+        if (empty($width)) {
+            $width = !empty($thumbconf[0]) ? $thumbconf[0] : 100;
+        }
+
+        if (empty($height)) {
+            $height = !empty($thumbconf[1]) ? $thumbconf[1] : 100;
+        }
+
+        if (empty($crop)) {
+            $crop = !empty($thumbconf[2]) ? $thumbconf[2] : 'c';
+        }
 
         $thumbnail = sprintf("%sthumbs/%sx%s%s/%s",
             $app['paths']['root'],
@@ -379,7 +393,6 @@ class TwigExtension extends \Twig_Extension
                     $large, $filename, $thumbnail, $width, $height );
 
             return $fancybox;
-
 
         } else {
             return "&nbsp;";
