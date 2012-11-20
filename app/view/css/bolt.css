@@ -614,23 +614,20 @@ label span.left {
 
 #editcontent div.imagelistholder div.list div * {
     float: left;
-    margin-top: 3px;
-    margin-right: 4px;
+    margin: 4px 3px 0;
+    padding-left: 4px;
 }
 
 #editcontent div.imagelistholder div.list div input {
-    width: 246px;
-}
-
-#editcontent div.imagelistholder div.list div span.ui-icon {
-    display: inline-block;
-    width: 20px;
-    margin-top: 12px;
+    width: 264px;
+    margin: 9px 0 0 4px;
 }
 
 #editcontent div.imagelistholder div.list div i {
-    margin-top: 8px;
+    margin: 11px 0 0;
+    padding: 0;
     cursor: pointer;
+    color: #999;
 }
 
 #editcontent div.imagelistholder div.buttons {
