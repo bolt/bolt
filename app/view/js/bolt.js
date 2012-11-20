@@ -390,7 +390,7 @@ function bindMarkdown(key) {
 /**
  * Model, Collection and View for Imagelist.
  */
-var Image = Backbone.Model.extend({
+var Imagemodel = Backbone.Model.extend({
     defaults: {
         id: null,
         filename: null,
@@ -402,7 +402,7 @@ var Image = Backbone.Model.extend({
 });
 
 var Imagelist = Backbone.Collection.extend({
-    model: Image,
+    model: Imagemodel,
     comparator: function(image) {
         return image.get('order');
     },
@@ -419,15 +419,13 @@ var Imagelist = Backbone.Collection.extend({
 var ImagelistHolder = Backbone.View.extend({
 
     initialize: function(id) {
-        console.log('init imagelist');
         this.list = new Imagelist();
         this.id = id;
         var prelist = $.parseJSON($('#'+this.id).val());
-        var list = this.list; // .each overwrites 'this' scope, set it here..
         _.each(prelist, function(item){
-            var image = new Image({filename: item.filename, title: item.title, id: list.length });
-            list.add(image);
-        });
+            var image = new Imagemodel({filename: item.filename, title: item.title, id: this.list.length });
+            this.list.add(image);
+        }, this);
         this.render();
         this.bindEvents();
     },
@@ -435,7 +433,7 @@ var ImagelistHolder = Backbone.View.extend({
     addExisting: function() {
         var filename = prompt('Filename of image to add?');
         var title = prompt('Description of the image?');
-        var image = new Image({filename: filename, title: title, id: this.list.length});
+        var image = new Imagemodel({filename: filename, title: title, id: this.list.length});
         this.list.add(image);
         this.render();
     },
@@ -447,7 +445,7 @@ var ImagelistHolder = Backbone.View.extend({
             var html = "<div data-id='" + image.get('id') +
                 "' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>" +
                 "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
-                image.get('title')  + "'><a href='#'><i class='icon-remove'></i></a></div>";
+                _.escape(image.get('title'))  + "'><a href='#'><i class='icon-remove'></i></a></div>";
             $('.imagelistholder .list').append(html);
         });
         if (this.list.models.length == 0) {
@@ -457,18 +455,17 @@ var ImagelistHolder = Backbone.View.extend({
     },
 
     add: function(filename, title) {
-        var image = new Image({filename: filename, title: title, id: this.list.length });
+        var image = new Imagemodel({filename: filename, title: title, id: this.list.length });
         this.list.add(image);
         this.render();
     },
 
     remove: function(id) {
-        var list = this.list; // .each overwrites 'this' scope, set it here..
         _.each(this.list.models, function(item) {
             if (item.get('id') == id) {
-                list.remove(item);
+                this.list.remove(item);
             }
-        });
+        }, this);
         this.render();
     },
 
@@ -478,12 +475,11 @@ var ImagelistHolder = Backbone.View.extend({
     },
 
     doneSort: function() {
-        var order = 0;
-        var list = this.list; // .each overwrites 'this' scope, set it here..
-        $('#imagelist-'+this.id+' .list div').each(function(item) {
-            order++;
+        var list = this.list; // jQuery's .each overwrites 'this' scope, set it here..
+        $('#imagelist-'+this.id+' .list div').each(function(index) {
             var id = $(this).data('id');
-            list.setOrder(id, order, $(this).find('input').val());
+            var title = $(this).find('input').val()
+            list.setOrder(id, index, title);
         });
         this.render();
     },
@@ -494,8 +490,8 @@ var ImagelistHolder = Backbone.View.extend({
             stop: function() {
                 imagelist.doneSort();
             },
-            delay: 300,
-            distance: 10
+            delay: 100,
+            distance: 5
         });
 
         $('#fileupload-' + this.id).attr('name', 'files[]')
