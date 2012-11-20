@@ -836,7 +836,7 @@ class Storage
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         if (!$returnsingle) {
-             echo "<pre>" . util::var_dump($query, true) . "</pre>";
+             // echo "<pre>" . util::var_dump($query, true) . "</pre>";
         }
 
         $rows = $this->db->fetchAll($query);
@@ -844,7 +844,6 @@ class Storage
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
         foreach ($rows as $key => $value) {
-
             $content[ $value['id'] ] = new Bolt\Content($value, $contenttype);
         }
 
