@@ -3,7 +3,7 @@
 <div id='bolt-debugbar'>
     <ul>
         <li id='pd-bolt'><strong><a href="{{ path('dashboard') }}">Bolt {{bolt_version}}</a></strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
-        <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{memtaken}} (peak {{ maxmemtaken }})</span></a></li>
+        <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{ maxmemtaken }}</span></a></li>
         {% if frontend and editlink!="" %}
 {#        <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li> #}
         <li id='pd-edit'><a href="{{ editlink }}" data-for="bolt-editpanel">Edit</a></li>
@@ -31,7 +31,7 @@
 
 <div id='bolt-varpanel' class='bolt-debugpanel'>
 <pre>
-<strong>Time taken:</strong> {{timetaken}} sec. / <strong>Memory</strong> {{memtaken}}.
+<strong>Time taken:</strong> {{timetaken}} sec. / <strong>Memory:</strong> {{ maxmemtaken }} (peak) / {{ memtaken }} (current).
 
 <strong>Used templates:</strong>
 <pre>{% for template in templates %}
