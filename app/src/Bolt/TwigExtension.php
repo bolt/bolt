@@ -470,7 +470,7 @@ class TwigExtension extends \Twig_Extension
      * Output a menu..
      *
      */
-    public function menu(\Twig_Environment $env, $identifier = "")
+    public function menu(\Twig_Environment $env, $identifier = "", $template = '_sub_menu.twig')
     {
         global $app;
 
@@ -498,7 +498,7 @@ class TwigExtension extends \Twig_Extension
 
         // echo "<pre>\n" . util::var_dump($menu, true) . "</pre>\n";
 
-        echo $env->render('_sub_menu.twig', array('name' => $name, 'menu' => $menu));
+        echo $env->render($template, array('name' => $name, 'menu' => $menu));
 
 
 
