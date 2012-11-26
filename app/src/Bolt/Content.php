@@ -410,16 +410,21 @@ class Content
         global $app;
 
         $template = $app['config']['general']['record_template'];
+        $chosen = 'config';
 
         if (isset($this->contenttype['record_template'])) {
             $template = $this->contenttype['record_template'];
+            $chosen = 'contenttype';
         }
 
         foreach ($this->contenttype['fields'] as $name => $field) {
             if ($field['type']=="templateselect" && !empty($this->values[$name]) ) {
                 $template = $this->values[$name];
+                $chosen = 'record';
             }
         }
+
+        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
 
         return $template;
 

@@ -27,6 +27,7 @@ class Log
         $this->route = "";
 
         $this->memorylog = array();
+        $this->values = array();
 
     }
 
@@ -159,4 +160,45 @@ class Log
         return $rows;
 
     }
+
+    /**
+     * Setting a value for later use..
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function setValue($key, $value)
+    {
+        $this->values[$key] = $value;
+    }
+
+    /**
+     * Getting a previously set value
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getValue($key)
+    {
+        if (isset($this->values[$key])) {
+            return $this->values[$key];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Getting all previously set values
+     *
+     * @param string $key
+     * @return array
+     */
+    public function getValues()
+    {
+
+        return $this->values;
+
+    }
+
+
 }

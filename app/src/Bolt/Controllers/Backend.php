@@ -763,7 +763,7 @@ class Backend
 
         // TODO: This is awkward.. Make it less awkward.
 
-        // If the users table is present, but there are no users, and we're on /bolt/debugedit,
+        // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
         if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
             $app['twig']->addGlobal('frontend', false);
