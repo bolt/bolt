@@ -17,6 +17,9 @@ class Backend
      */
     function dashboard(Silex\Application $app) {
 
+        // Re-do getConfig. Mainly so we can log errors.
+        getConfig();
+
         // Check DB-tables integrity
         if (!$app['storage']->checkTablesIntegrity()) {
             $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");

@@ -687,6 +687,8 @@ function hackislyParseRegexTemplates($obj)
 
 function getConfig()
 {
+    global $app;
+
     $config = array();
 
     // Read the config
@@ -777,20 +779,30 @@ function getConfig()
     // Get the script's filename, but _without_ SCRIPT_FILENAME
     $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
 
+    $config['twigpath'] = array();
+
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+    $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
+
     // If the request URI starts with '/bolt' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
-    if (strpos($scripturi, "bolt") === false ) {
-        $config['twigpath'] = array(
-            realpath(__DIR__.'/../../theme/'. basename($config['general']['theme'])),
-            realpath(__DIR__.'/../view'),
-            realpath(__DIR__.'/../extensions')
-        );
-    } else {
-        $config['twigpath'] = array(
-            realpath(__DIR__.'/../view'),
-            realpath(__DIR__.'/../extensions')
-        );
+    // Add the theme folder if it exists and is readable.
+    if ( (strpos($scripturi, "bolt") === false) && file_exists($themepath) ) {
+        $config['twigpath'][] = $path;
     }
+
+    // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
+    if (!file_exists($themepath) && (gettype($app['session']) == "object") ) {
+        $app['session']->setFlash('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
+        $app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
+
+    }
+
+    // We add these later, because the order is important: By having theme/ourtheme first,
+    // files in that folder will take precedence. For instance when overriding the menu template.
+    $config['twigpath'][] = realpath(__DIR__.'/../view');
+    $config['twigpath'][] = realpath(__DIR__.'/../extensions');
+
+    // echo "<pre>\n" . \util::var_dump($config['twigpath'], true) . "</pre>\n";
 
     return $config;
 
