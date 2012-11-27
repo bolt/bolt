@@ -1,0 +1,19 @@
+<div id="searchbar" class="pull-right">
+
+    <form method="post" id="editcontent" enctype="text/plain">
+
+        <input type="text" name="searchterms" value="" placeholder="Zoeken"/>
+        <input type="submit" name="submit" value="Zoek"/>
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+    $('#searchbar input[name="submit"]').bind('click', function () {
+        var link = "/search/" + $('input[name="searchterms"]').val();
+        $('#content').attr('href', link);
+    });
+
+</script>
