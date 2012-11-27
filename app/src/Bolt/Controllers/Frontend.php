@@ -198,5 +198,15 @@ class Frontend
         );
     }
 
+    public function search(Silex\Application $app, $searchTerms)
+    {
+        $template = $app['config']['general']['search_results_template'];
+        $resultsPP = $app['config']['general']['search_results_records'];
+
+        print "use " . $template . " with " .$resultsPP . "<br />";
+        print $searchTerms;
+
+    }
+
 
 }
