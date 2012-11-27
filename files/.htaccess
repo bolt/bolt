@@ -1,5 +1,5 @@
-ForceType application/octet-stream
-<FilesMatch "(?i)\.(gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|html?)$">
+# Force plain text showing
+ForceType text/plain
+<FilesMatch "(?i)\.(gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|html?)$" >
   ForceType none
 </FilesMatch>
-
