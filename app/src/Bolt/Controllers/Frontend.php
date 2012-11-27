@@ -27,7 +27,6 @@ class Frontend
 
     function homepage(Silex\Application $app)
     {
-
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
@@ -198,14 +197,16 @@ class Frontend
         );
     }
 
-    public function search(Silex\Application $app, $searchTerms)
+    public function search(Silex\Application $app, $searchterms)
     {
+        error_log("called!");
         $template = $app['config']['general']['search_results_template'];
         $resultsPP = $app['config']['general']['search_results_records'];
 
-        print "use " . $template . " with " .$resultsPP . "<br />";
-        print $searchTerms;
 
+        $display =  "use " . $template . " with " .$resultsPP . "<br />";
+        $display .= $searchterms;
+        return new Response($display, 200, array('Cache-Control' => 's-max-age=0'));
     }
 
 
