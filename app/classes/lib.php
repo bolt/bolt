@@ -822,7 +822,8 @@ function getDBOptions($config)
 
         $dboptions = array(
             'driver' => 'pdo_sqlite',
-            'path' => __DIR__ . "/../database/" . $basename
+            'path' => __DIR__ . "/../database/" . $basename,
+            'randomfunction' => "RANDOM()"
         );
 
     } else {
@@ -831,9 +832,11 @@ function getDBOptions($config)
         $driver = (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql');
         if ($driver == "mysql" || $driver == "mysqli") {
             $driver = 'pdo_mysql';
+            $randomfunction = "RAND()";
         }
         if ($driver == "postgres" || $driver == "postgresql") {
             $driver = 'pdo_postgres';
+            $randomfunction = "RANDOM()";
         }
 
         $dboptions = array(
@@ -843,6 +846,7 @@ function getDBOptions($config)
             'user'      => $configdb['username'],
             'password'  => $configdb['password'],
             'port'      => (isset($configdb['port']) ? $configdb['port'] : '3306'),
+            'randomfunction' => $randomfunction
         );
 
     }

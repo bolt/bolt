@@ -767,11 +767,9 @@ class Storage
         // If requesting a record with a specific 'id', return only the first item.
         if ( ($contenttype['singular_slug'] == $contenttypeslug)
             || isset($parameters['returnsingle'])
-            || !empty($parameters['id']) ) {
+            || (!empty($parameters['id']) && is_numeric($parameters['id']) ) ) {
             $returnsingle = true;
         }
-
-
 
         $tablename = $this->prefix . $contenttype['slug'];
 
@@ -784,7 +782,6 @@ class Storage
                 !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status")) ) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
-
 
             $where[] = $this->parseWhereParameter($key, $value);
 
@@ -817,13 +814,18 @@ class Storage
             $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
         }
 
-        // Order
+        // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
-            $order = safeString($parameters['order']);
-            if ($order[0] == "-") {
-                $order = substr($order, 1) . " DESC";
+            if ($parameters['order'] == "RANDOM") {
+                $dboptions = getDBOptions($this->config);
+                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
+            } else {
+                $order = safeString($parameters['order']);
+                if ($order[0] == "-") {
+                    $order = substr($order, 1) . " DESC";
+                }
+                $queryparams .= " ORDER BY " . $order;
             }
-            $queryparams .= " ORDER BY " . $order;
         }
 
         // Make the query for the pager..
