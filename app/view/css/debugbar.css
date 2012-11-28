@@ -12,7 +12,7 @@
     box-shadow:  -1px 1px 2px 1px rgba(0, 0, 0, 0.3);
     border: 1px solid #CCC;
     display: none;
-    z-index: 10050;
+    z-index: 2147483640;
     font-weight: normal;
     font-style: normal;
 }
@@ -25,7 +25,7 @@
     background: transparent url('../img/debug-nipple.png') no-repeat right bottom;
     width: 53px;
     height: 53px;
-    z-index: 10051;
+    z-index: 2147483641;
     cursor: pointer;
 }
 
@@ -104,7 +104,7 @@
     max-height: 300px;
     width: 640px;
     box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-    z-index: 949;
+    z-index: 2147483641;
     overflow-y: auto;
     display: none;
     padding: 4px 6px;
@@ -122,16 +122,16 @@
 .bolt-debugpanel code,
 .bolt-debugpanel pre {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  font-size: 12px;
-  line-height: 15px;
-  word-break: break-all;
-  word-wrap: break-word;
-  white-space: pre;
-  white-space: pre-wrap;
-  color: #444;
-  border: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
+    font-size: 12px;
+    line-height: 15px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+    color: #444;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 #bolt-debugbar small,
@@ -177,8 +177,8 @@
 
     .bolt-debugpanel code,
     .bolt-debugpanel pre {
-      font-size: 10px !important;
-      line-height: 13px !important;
+        font-size: 10px !important;
+        line-height: 13px !important;
     }
 
 }
@@ -202,8 +202,8 @@
 
     .bolt-debugpanel code,
     .bolt-debugpanel pre {
-      font-size: 10px !important;
-      line-height: 11px !important;
+        font-size: 10px !important;
+        line-height: 11px !important;
     }
 
     #bolt-debugbar ul li#pd-variables,
