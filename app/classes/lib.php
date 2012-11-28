@@ -787,7 +787,7 @@ function getConfig()
 
     // If the request URI starts with '/bolt' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
     // Add the theme folder if it exists and is readable.
-    if ( ($scripturi != "bolt/") && (strpos($scripturi, "/bolt/") === false) && file_exists($themepath) ) {
+    if ( (substr($scripturi,0,5) != "bolt/") && (strpos($scripturi, "/bolt/") === false) && file_exists($themepath) ) {
         $config['twigpath'][] = $themepath;
     }
 
