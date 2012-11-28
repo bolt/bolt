@@ -223,7 +223,7 @@ class TwigExtension extends \Twig_Extension
 
         while (false !== ($file = $d->read())) {
 
-            if (in_array($file, $ignored)) {
+            if (in_array($file, $ignored) || substr($file, 0, 2) == "._") {
                 continue;
             }
 

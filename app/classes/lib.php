@@ -203,7 +203,7 @@ function findFilesHelper($additional, &$files, $term = "", $extensions = array()
 
     while (false !== ($entry = $d->read())) {
 
-        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) {
+        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._") {
             continue;
         }
 
