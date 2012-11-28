@@ -787,7 +787,7 @@ function getConfig()
 
     // If the request URI starts with '/bolt' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
     // Add the theme folder if it exists and is readable.
-    if ( (strpos($scripturi, "bolt") === false) && file_exists($themepath) ) {
+    if ( ($scripturi != "bolt/") && (strpos($scripturi, "/bolt/") === false) && file_exists($themepath) ) {
         $config['twigpath'][] = $themepath;
     }
 
@@ -795,7 +795,6 @@ function getConfig()
     if (!file_exists($themepath) && (gettype($app['session']) == "object") ) {
         $app['session']->setFlash('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
         $app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
-
     }
 
     // We add these later, because the order is important: By having theme/ourtheme first,
