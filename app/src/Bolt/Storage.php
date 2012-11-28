@@ -469,6 +469,8 @@ class Storage
             // Set the slug, while we're at it..
             if ($values['type'] == "slug" && !empty($values['uses']) && empty($fieldvalues['slug'])) {
                 $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
+            } else {
+                $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
             }
 
             if ($values['type'] == "video" && !empty($fieldvalues[$key]['html']) ) {

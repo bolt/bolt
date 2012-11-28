@@ -561,7 +561,7 @@ function safeString($str, $strict = false, $extrachars = "")
  */
 function makeSlug($str)
 {
-    $str = safeString($str);
+    $str = safeString(strip_tags($str));
 
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
