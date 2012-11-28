@@ -115,7 +115,7 @@ class Async
             $output = $html;
         }
 
-        echo $output;
+        return $output;
 
     }
 
@@ -123,8 +123,7 @@ class Async
 
         $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
 
-        // TODO: use 'return' instead of 'echo'..
-        echo $uri;
+        return $uri;
 
     }
 
