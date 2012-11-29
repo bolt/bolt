@@ -17,6 +17,9 @@ class Backend
      */
     function dashboard(Silex\Application $app) {
 
+        // Re-do getConfig. Mainly so we can log errors.
+        getConfig();
+
         // Check DB-tables integrity
         if (!$app['storage']->checkTablesIntegrity()) {
             $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
@@ -760,7 +763,7 @@ class Backend
 
         // TODO: This is awkward.. Make it less awkward.
 
-        // If the users table is present, but there are no users, and we're on /bolt/debugedit,
+        // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
         if ($app['storage']->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
             $app['twig']->addGlobal('frontend', false);

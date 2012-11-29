@@ -203,7 +203,7 @@ function findFilesHelper($additional, &$files, $term = "", $extensions = array()
 
     while (false !== ($entry = $d->read())) {
 
-        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._" ) {
+        if (in_array($entry, $ignored) || substr($entry, 0, 2) == "._") {
             continue;
         }
 
@@ -561,7 +561,7 @@ function safeString($str, $strict = false, $extrachars = "")
  */
 function makeSlug($str)
 {
-    $str = safeString($str);
+    $str = safeString(strip_tags($str));
 
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
@@ -687,6 +687,8 @@ function hackislyParseRegexTemplates($obj)
 
 function getConfig()
 {
+    global $app;
+
     $config = array();
 
     // Read the config
@@ -725,7 +727,8 @@ function getConfig()
         'cookies_use_browseragent' => false,
         'cookies_use_httphost' => true,
         'cookies_https_only' => false,
-        'cookies_lifetime' => 14*24*3600
+        'cookies_lifetime' => 14*24*3600,
+        'thumbnails' => array(160, 120, 'c')
     );
 
     $config['general'] = array_merge($defaultconfig, $config['general']);
@@ -777,20 +780,29 @@ function getConfig()
     // Get the script's filename, but _without_ SCRIPT_FILENAME
     $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
 
+    $config['twigpath'] = array();
+
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+    $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
+
     // If the request URI starts with '/bolt' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
-    if (strpos($scripturi, "bolt") === false ) {
-        $config['twigpath'] = array(
-            realpath(__DIR__.'/../../theme/'. basename($config['general']['theme'])),
-            realpath(__DIR__.'/../view'),
-            realpath(__DIR__.'/../extensions')
-        );
-    } else {
-        $config['twigpath'] = array(
-            realpath(__DIR__.'/../view'),
-            realpath(__DIR__.'/../extensions')
-        );
+    // Add the theme folder if it exists and is readable.
+    if ( (substr($scripturi,0,5) != "bolt/") && (strpos($scripturi, "/bolt/") === false) && file_exists($themepath) ) {
+        $config['twigpath'][] = $themepath;
     }
+
+    // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
+    if (!file_exists($themepath) && (gettype($app['session']) == "object") ) {
+        $app['session']->setFlash('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
+        $app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
+    }
+
+    // We add these later, because the order is important: By having theme/ourtheme first,
+    // files in that folder will take precedence. For instance when overriding the menu template.
+    $config['twigpath'][] = realpath(__DIR__.'/../view');
+    $config['twigpath'][] = realpath(__DIR__.'/../extensions');
+
+    // echo "<pre>\n" . \util::var_dump($config['twigpath'], true) . "</pre>\n";
 
     return $config;
 
@@ -809,7 +821,8 @@ function getDBOptions($config)
 
         $dboptions = array(
             'driver' => 'pdo_sqlite',
-            'path' => __DIR__ . "/../database/" . $basename
+            'path' => __DIR__ . "/../database/" . $basename,
+            'randomfunction' => "RANDOM()"
         );
 
     } else {
@@ -818,9 +831,11 @@ function getDBOptions($config)
         $driver = (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql');
         if ($driver == "mysql" || $driver == "mysqli") {
             $driver = 'pdo_mysql';
+            $randomfunction = "RAND()";
         }
         if ($driver == "postgres" || $driver == "postgresql") {
             $driver = 'pdo_postgres';
+            $randomfunction = "RANDOM()";
         }
 
         $dboptions = array(
@@ -830,6 +845,7 @@ function getDBOptions($config)
             'user'      => $configdb['username'],
             'password'  => $configdb['password'],
             'port'      => (isset($configdb['port']) ? $configdb['port'] : '3306'),
+            'randomfunction' => $randomfunction
         );
 
     }

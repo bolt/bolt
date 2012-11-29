@@ -171,7 +171,8 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
             'route' => "/".$route,
             'route_params' => $route_params,
             'editlink' => $app['editlink'],
-            'paths' => getPaths($app['config'])
+            'paths' => getPaths($app['config']),
+            'logvalues' => $app['log']->getValues()
         ));
 
 

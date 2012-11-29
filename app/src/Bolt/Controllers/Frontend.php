@@ -34,10 +34,15 @@ class Frontend
                 'record' => $content,
                 $content->contenttype['singular_slug'] => $content
             );
+            $chosen = 'homepage config';
         } else {
             $template = 'index.twig';
             $twigvars = array();
+            $chosen = 'homepage fallback';
         }
+
+        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+
 
         $body = $app['twig']->render($template, $twigvars);
 
@@ -71,7 +76,12 @@ class Frontend
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
-            $app->abort(404, "No template for '" . $content->getTitle() . "' defined. Tried to use '$template'.");
+            $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
+                $content->getTitle(),
+                basename($app['config']['general']['theme']),
+                $template);
+            $app['log']->setValue('templateerror', $error);
+            $app->abort(404, $error);
         }
 
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
@@ -103,19 +113,31 @@ class Frontend
         // Then, select which template to use, based on our 'cascading templates rules'
         if (!empty($contenttype['listing_template'])) {
             $template = $contenttype['listing_template'];
+            $chosen = "contenttype";
         } else {
             $filename = $app['paths']['themepath'] . "/" . $contenttype['slug'] . ".twig";
             if (file_exists($filename) && is_readable($filename)) {
                 $template = $contenttype['slug'] . ".twig";
+                $chosen = "slug";
             } else {
                 $template = $app['config']['general']['listing_template'];
+                $chosen = "config";
+
             }
         }
+
+        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
-            $app->abort(404, "No template for '$contenttypeslug' defined. Tried to use '$template'.");
+            $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
+                $contenttypeslug,
+                basename($app['config']['general']['theme']),
+                $template);
+            $app['log']->setValue('templateerror', $error);
+            $app->abort(404, $error);
         }
 
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));

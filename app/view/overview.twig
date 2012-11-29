@@ -5,7 +5,7 @@
 
         <h1>Overview » {{contenttype.name }} <span>{% if pager.totalpages > 1 %}Page: {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
 
-        {% set lastgroup = "" %}
+        {% set lastgroup = "----" %}
 
     <table class='dashboardlisting'>
 
@@ -13,9 +13,7 @@
 
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if content.group is defined and content.group != lastgroup %}
-            <thead>
-                <tr class="grouping"><th colspan="5"><h3>{{ content.group }}</h3></th></tr>
-            </thead>
+                <tr class="grouping"><th colspan="5"><h3>{% if content.group %}{{ content.group }}{% else %}(no group){% endif %}</h3></th></tr>
             {% endif %}
 
             {# print the header for the first row.. #}
