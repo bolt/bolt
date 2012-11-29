@@ -1,4 +1,13 @@
-# Note: Replace this with your Google Analtics webproperty-id. It looks 
+# Note: Replace this with your Google Analtics webproperty-id. It looks
 # something like UA-12345678-1. Be sure to include the "UA-"-part.
-
 webproperty: UA-34977638-1
+
+widget: true
+widget_position: right_first
+
+ga_email:
+ga_password:
+ga_profile_id: 64242754
+filter_referral: bolt.cm
+
+number_of_days: 14

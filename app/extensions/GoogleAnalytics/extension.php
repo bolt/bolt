@@ -25,7 +25,9 @@ function info() {
 
 function init($app) {
 
-    $app['extensions']->insertSnippet('endofhead', "GoogleAnalytics\insertAnalytics");
+    $app['extensions']->insertSnippet('endofhead', 'GoogleAnalytics\insertAnalytics');
+
+    $app['extensions']->insertWidget('dashboard', 'right_first', 'GoogleAnalytics\insertWidget');
 
 }
 
@@ -62,6 +64,77 @@ EOM;
 
 
     return $html;
+
+}
+
+
+
+
+function insertWidget() {
+
+    $yamlparser = new \Symfony\Component\Yaml\Parser();
+    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
+
+    if (empty($config['webproperty'])) {
+        $config['webproperty'] = "property-not-set";
+    }
+
+    require_once(__DIR__.'/gapi/gapi.class.php');
+
+    echo "<pre>\n" . \util::var_dump($config, true) . "</pre>\n";
+
+    /* Create a new Google Analytics request and pull the results */
+    $ga = new \gapi($config['ga_email'], $config['ga_password']);
+    $ga->requestReportData(
+        $config['ga_profile_id'],
+        array('date'),
+        array('pageviews', 'visitors', 'uniquePageviews', 'pageviewsPerVisit', 'exitRate', 'avgTimeOnPage', 'entranceBounceRate', 'newVisits'),
+        'date',
+        '',
+        date('Y-m-d', strtotime('-14 day')),
+        date('Y-m-d')
+    );
+
+    $pageviews = array();
+
+    $tempresults = $ga->getResults();
+
+    $aggr = array(
+        'pageviews' => 0,
+        'pageviewspervisit' => 0,
+        'visitors' => 0,
+        'uniquePageviews' => 0,
+        'timeonpage' => 0,
+        'bouncerate' => 0,
+        'exitrate' => 0
+    );
+
+    // aggregate data:
+    foreach($tempresults as $result) {
+
+        $pageviews[] = array(
+            'date' => date('M j',strtotime($result->getDate())),
+            'pageviews' => $result->getPageviews(),
+            'visitors' => $result->getVisitors()
+        );
+
+        $aggr['pageviews'] += $result->getPageviews();
+        $aggr['pageviewspervisit'] += $result->getPageviewsPerVisit();
+        $aggr['visitors'] += $result->getVisitors();
+        $aggr['uniquePageviews'] += $result->getUniquepageviews();
+        $aggr['timeonpage'] += $result->getAvgtimeonpage();
+        $aggr['bouncerate'] += $result->getEntrancebouncerate();
+        $aggr['exitrate'] += $result->getExitrate();
+    }
+
+    $aggr['pageviewspervisit'] = round($aggr['pageviewspervisit'] / count($tempresults), 1);
+    $aggr['timeonpage'] = round($aggr['timeonpage'] / count($tempresults), 1);
+    $aggr['bouncerate'] = round($aggr['bouncerate'] / count($tempresults), 1);
+    $aggr['exitrate'] = round($aggr['exitrate'] / count($tempresults), 1);
+
+    echo "<pre>\n" . \util::var_dump($aggr, true) . "</pre>\n";
+
+    echo "<pre>\n" . \util::var_dump($pageviews, true) . "</pre>\n";
 
 }
 

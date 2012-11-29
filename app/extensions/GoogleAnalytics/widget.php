@@ -64,7 +64,7 @@ $ga_url = $_SERVER['REQUEST_URI'];
 /* Create a new Google Analytics request and pull the results */
 $ga = new gapi($ga_email,$ga_password);
 $ga->requestReportData(
-        $ga_profile_id, 
+        $ga_profile_id,
         array('date'),
         array('pageviews', 'visitors', 'uniquePageviews', 'pageviewsPerVisit', 'exitRate', 'avgTimeOnPage', 'entranceBounceRate', 'newVisits'),
         'date',
@@ -74,7 +74,7 @@ $ga->requestReportData(
     );
 $results = $ga->getResults();
 
-?>   
+?>
 
 <!-- Create an empty div that will be filled using the Google Charts API and the data pulled from Google -->
 <div id="chart" style="border: 1px solid #F09; width: auto; display: inline-block;"></div>
@@ -99,26 +99,26 @@ $results = $ga->getResults();
     data.addRows([
       <?php
       foreach($results as $result) {
-            printf('["%s", %s, %s], ', 
-                date('M j',strtotime($result->getDate())), 
-                $result->getPageviews(), 
+            printf('["%s", %s, %s], ',
+                date('M j',strtotime($result->getDate())),
+                $result->getPageviews(),
                 $result->getVisitors()
                  );
       }
       ?>
     ]);
 
- 
+
 
     var chart = new google.visualization.AreaChart(document.getElementById('chart'));
     chart.draw(data, {
-        width: 330, 
-        height: 180, 
-        colors:['#0099CC','#00BB88','#FF0000'],
+        width: 300,
+        height: 180,
+        colors:['#22AADD', '#0099CC', '#FF0000'],
         areaOpacity: 0.1,
         hAxis: {textPosition: 'in', showTextEvery: 4, slantedText: true, textStyle: { color: '#058dc7', fontSize: 10 } },
         pointSize: 5,
-        chartArea:{left:30,top:5,width:"290",height:"170"}
+        chartArea:{left:30,top:5,width:"266",height:"170"}
     });
   }
 </script>
@@ -166,7 +166,7 @@ function secondMinute($seconds) {
 
 
 $ga->requestReportData(
-        $ga_profile_id, 
+        $ga_profile_id,
         array('source','referralPath'),
         array('visits'),
         '-visits',
@@ -184,7 +184,7 @@ foreach($results as $result) {
 
 
 $ga->requestReportData(
-        $ga_profile_id, 
+        $ga_profile_id,
         array('hostname','pagePath'),
         array('visits'),
         '-visits',
