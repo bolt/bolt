@@ -100,7 +100,7 @@ CKEDITOR.editorConfig = function( config ) {
     ];
 
     if (wysiwyg.anchor) {
-        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] });
+        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink', '-', 'Anchor' ] });
     } else {
         config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink' ] });
     }
@@ -121,7 +121,7 @@ CKEDITOR.editorConfig = function( config ) {
         config.toolbar = config.toolbar.concat({ name: 'colors', items: [ 'TextColor', 'BGColor' ] });
     }
 
-    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', 'RemoveFormat', 'Maximize', 'Source' ] });
+    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source' ] });
 
     config.height = "250px";
     config.removePlugins = 'elementspath';

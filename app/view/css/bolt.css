@@ -707,7 +707,10 @@ label span.left {
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
 }
 
-
+.cke_toolbar_separator {
+    background-color: #BBB !important;
+}
+}
 /* Overrides for CodeMirror */
 
 .CodeMirror {
