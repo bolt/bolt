@@ -25,7 +25,7 @@ class Storage
         $this->prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
-        if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
+        if ($this->prefix[strlen($this->prefix) - 1] != "_") {
             $this->prefix .= "_";
         }
 
@@ -44,7 +44,7 @@ class Storage
         $tables = $this->getTables();
 
         // Check the users table..
-        if (!isset($tables[$this->prefix."users"])) {
+        if (!isset($tables[$this->prefix . "users"])) {
             return false;
         }
 
@@ -65,17 +65,17 @@ class Storage
         $tables = $this->getTables();
 
         // Check the users table..
-        if (!isset($tables[$this->prefix."users"])) {
+        if (!isset($tables[$this->prefix . "users"])) {
             return false;
         }
 
         // Check the log table..
-        if (!isset($tables[$this->prefix."log"])) {
+        if (!isset($tables[$this->prefix . "log"])) {
             return false;
         }
 
         // Check the taxonomy table..
-        if (!isset($tables[$this->prefix."taxonomy"])) {
+        if (!isset($tables[$this->prefix . "taxonomy"])) {
             return false;
         }
 
@@ -123,10 +123,10 @@ class Storage
         $dboptions = getDBOptions($this->config);
 
         // Check the users table..
-        if (!isset($tables[$this->prefix."users"])) {
+        if (!isset($tables[$this->prefix . "users"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."users");
+            $myTable = $schema->createTable($this->prefix . "users");
             $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("username", "string", array("length" => 32));
@@ -142,15 +142,15 @@ class Storage
             $queries = implode("; ", $queries);
             $this->db->query($queries);
 
-            $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
+            $output[] = "Created table <tt>" . $this->prefix . "users" . "</tt>.";
 
         }
 
         // Check the taxonomy table..
-        if (!isset($tables[$this->prefix."taxonomy"])) {
+        if (!isset($tables[$this->prefix . "taxonomy"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."taxonomy");
+            $myTable = $schema->createTable($this->prefix . "taxonomy");
             $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("content_id", "integer", array("unsigned" => true));
@@ -163,16 +163,16 @@ class Storage
             $queries = implode("; ", $queries);
             $this->db->query($queries);
 
-            $output[] = "Created table <tt>" . $this->prefix."taxonomy" . "</tt>.";
+            $output[] = "Created table <tt>" . $this->prefix . "taxonomy" . "</tt>.";
 
         }
 
 
         // Check the taxonomy table..
-        if (!isset($tables[$this->prefix."log"])) {
+        if (!isset($tables[$this->prefix . "log"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."log");
+            $myTable = $schema->createTable($this->prefix . "log");
             $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("level", "integer", array("unsigned" => true));
@@ -193,7 +193,7 @@ class Storage
             $queries = implode("; ", $queries);
             $this->db->query($queries);
 
-            $output[] = "Created table <tt>" . $this->prefix."log" . "</tt>.";
+            $output[] = "Created table <tt>" . $this->prefix . "log" . "</tt>.";
 
         }
 
@@ -331,7 +331,7 @@ class Storage
 
             $amount = isset($contenttype['prefill']) ? $contenttype['prefill'] : 5;
 
-            for ($i=1; $i<= $amount; $i++) {
+            for ($i = 1; $i <= $amount; $i++) {
                 $output .= $this->preFillSingle($key, $contenttype);
             }
 
@@ -361,8 +361,8 @@ class Storage
         $title = "";
 
         $content['contenttype'] = $key;
-        $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
-        $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
+        $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
+        $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
 
         $content['username'] = array_rand($app['users']->getUsers());
 
@@ -413,12 +413,12 @@ class Storage
                     break;
                 case 'datetime':
                 case 'date':
-                    $content[$field] = date('Y-m-d H:i:s', time() - rand(-365*24*60*60, 365*24*60*60));
+                    $content[$field] = date('Y-m-d H:i:s', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60));
                     break;
                 case 'float':
                 case 'number': // number is deprecated..
                 case 'integer':
-                    $content[$field] = rand(-1000,1000) + (rand(0,1000)/1000);
+                    $content[$field] = rand(-1000, 1000) + (rand(0, 1000) / 1000);
                     break;
             }
 
@@ -438,7 +438,7 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = "Added to <tt>$key</tt> '" .$contentobject->getTitle() . "'<br>\n";
+        $output = "Added to <tt>$key</tt> '" . $contentobject->getTitle() . "'<br>\n";
 
         return $output;
 
@@ -468,16 +468,16 @@ class Storage
 
             // Set the slug, while we're at it..
             if ($values['type'] == "slug" && !empty($values['uses']) && empty($fieldvalues['slug'])) {
-                $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
+                $fieldvalues['slug'] = makeSlug($fieldvalues[$values['uses']]);
             } else {
                 $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
             }
 
-            if ($values['type'] == "video" && !empty($fieldvalues[$key]['html']) ) {
+            if ($values['type'] == "video" && !empty($fieldvalues[$key]['html'])) {
                 $fieldvalues[$key] = serialize($fieldvalues[$key]);
             }
 
-            if ($values['type'] == "geolocation" && !empty($fieldvalues[$key]['latitude']) ) {
+            if ($values['type'] == "geolocation" && !empty($fieldvalues[$key]['latitude'])) {
                 $fieldvalues[$key] = serialize($fieldvalues[$key]);
             }
 
@@ -501,8 +501,8 @@ class Storage
                 $newkey = str_replace("-dateformatted", "", $key);
 
                 // See if we need to add the time..
-                if (isset($fieldvalues[$newkey.'-timeformatted']) && !empty($fieldvalues[$newkey.'-timeformatted'])) {
-                    $value .= " - " . $fieldvalues[$newkey.'-timeformatted'];
+                if (isset($fieldvalues[$newkey . '-timeformatted']) && !empty($fieldvalues[$newkey . '-timeformatted'])) {
+                    $value .= " - " . $fieldvalues[$newkey . '-timeformatted'];
                 } else {
                     $value .= " - 00:00";
                 }
@@ -564,7 +564,6 @@ class Storage
         return $this->updateContent($content, $contenttype);
 
     }
-
 
 
     public function deleteContent($contenttype, $id)
@@ -716,31 +715,160 @@ class Storage
 
     }
 
-    public function searchContent($terms, $parameters, &$pager = array()){
-        global $app;
-
-        // When using from the frontend, we assume (by default) that we only want published items,
-        // unless something else is specified explicitly
-        if (isset($app['end']) && $app['end']=="frontend" && empty($parameters['status'])) {
-            $parameters['status'] = "published";
-        }
-
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
-        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
-
-        // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging'])) {
-            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
-        }
+    public function searchAllContentTypes($terms, $parameters, &$pager = array())
+    {
+        // results aggregator
+        $results = array();
 
         $contenttypes = $this->getContentTypes();
 
-        foreach($contenttypes as $contenttype){
-
-            $tablename = $this->prefix . $contenttype['slug'];
-
-
+        foreach ($contenttypes as $contenttype) {
+            $results [] = $this->searchContentType($contenttype, $terms, $parameters, $pager);
         } // foreach contenttypes
+
+        return $results;
+    }
+
+    public function searchContentType($contenttype, $terms, $parameters = "", &$pager = array())
+    {
+        // Set $parameters['filter'] with $terms.
+        // Perhaps do something smart with $terms as well
+
+        // @todo Parse $terms to an acceptable search string for the database.
+
+
+        $tablename = $this->prefix . $contenttype['slug'];
+
+        // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
+        foreach ($parameters as $key => $value) {
+            if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
+                continue; // Skip this one..
+            }
+            if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
+                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))
+            ) {
+                continue; // Also skip if 'key' isn't a field in the contenttype.
+            }
+
+            $where[] = $this->parseWhereParameter($key, $value);
+
+        }
+
+        // @todo update with nice search string
+        // If we need to filter, add the WHERE for that.
+        // InnoDB doesn't support full text search. WTF is up with that shit?
+        if (!empty($parameters['filter'])) {
+
+            $filter = safeString($parameters['filter']);
+
+            $filter_where = array();
+
+            foreach ($contenttype['fields'] as $key => $value) {
+                if (in_array($value['type'], array('text', 'textarea', 'html'))) {
+                    $filter_where[] = sprintf("`%s` LIKE '%%%s%%'", $key, $filter);
+                }
+            }
+
+            if (!empty($filter_where)) {
+                $where[] = "(" . implode(" OR ", $filter_where) . ")";
+            }
+
+        }
+
+        $queryparams = "";
+
+        // implode 'where'
+        if (!empty($where)) {
+            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
+        }
+
+        // Order, with a special case for 'RANDOM'.
+        if (!empty($parameters['order'])) {
+            if ($parameters['order'] == "RANDOM") {
+                $dboptions = getDBOptions($this->config);
+                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
+            } else {
+                $order = safeString($parameters['order']);
+                if ($order[0] == "-") {
+                    $order = substr($order, 1) . " DESC";
+                }
+                $queryparams .= " ORDER BY " . $order;
+            }
+        }
+
+        // Make the query for the pager..
+        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+
+        // Add the limit
+        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
+
+        // Make the query to get the results..
+        $query = "SELECT * FROM $tablename" . $queryparams;
+
+        $rows = $this->db->fetchAll($query);
+
+        // Make sure content is set, and all content has information about its contenttype
+        $content = array();
+        foreach ($rows as $key => $value) {
+            $content[$value['id']] = new Bolt\Content($value, $contenttype);
+        }
+
+        // Make sure all content has their taxonomies
+        $this->getTaxonomy($content);
+
+        // @todo start 'is this necessary?'
+        // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
+        // If so, iterate over the content, and set ['grouping'] for each unit of content.
+        // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
+        if ((empty($_GET['order']) && empty($parameters['order'])) ||
+            $contenttype['sort'] == $parameters['order']
+        ) {
+            $have_grouping = false;
+            $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
+            foreach ($taxonomy as $taxokey => $taxo) {
+                if ($taxo['behaves_like'] == "grouping") {
+                    $have_grouping = true;
+                    break;
+                }
+            }
+
+            if ($have_grouping) {
+                uasort(
+                    $content,
+                    function ($a, $b) {
+                        $second_sort = $a->contenttype['sort'];
+                        if (!isset($a->group) || !isset($b->group) || $a->group == $b->group) {
+                            // Same group, so we sort on contenttype['sort']
+                            $second_sort = $a->contenttype['sort'];
+                            if ($a->values[$second_sort] == $b->values[$second_sort]) {
+                                return 0;
+                            } else {
+                                return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
+                            }
+                        }
+
+                        return ($a->group < $b->group) ? -1 : 1;
+                    }
+                );
+            }
+        }
+        // @todo end 'is this necessary?'
+
+        // Set up the $pager array with relevant values..
+        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+        $pager = array(
+            'for' => $contenttypeslug,
+            'count' => $rowcount['count'],
+            'totalpages' => ceil($rowcount['count'] / $limit),
+            'current' => $page,
+            'showing_from' => ($page - 1) * $limit + 1,
+            'showing_to' => ($page - 1) * $limit + count($content)
+        );
+
+        $GLOBALS['pager'][$contenttypeslug] = $pager;
+
+        return $content;
+
     }
 
     public function getContent($contenttypeslug, $parameters = "", &$pager = array())
@@ -763,13 +891,13 @@ class Storage
         } elseif (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
-            $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
+            $parameters['order'] = 'datepublish ' . ($match[2] == "latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
         }
 
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
-        if (isset($app['end']) && $app['end']=="frontend" && empty($parameters['status'])) {
+        if (isset($app['end']) && $app['end'] == "frontend" && empty($parameters['status'])) {
             $parameters['status'] = "published";
         }
 
@@ -794,9 +922,10 @@ class Storage
 
         // If requesting something with a content-type slug in singular, return only the first item.
         // If requesting a record with a specific 'id', return only the first item.
-        if ( ($contenttype['singular_slug'] == $contenttypeslug)
+        if (($contenttype['singular_slug'] == $contenttypeslug)
             || isset($parameters['returnsingle'])
-            || (!empty($parameters['id']) && is_numeric($parameters['id']) ) ) {
+            || (!empty($parameters['id']) && is_numeric($parameters['id']))
+        ) {
             $returnsingle = true;
         }
 
@@ -808,7 +937,8 @@ class Storage
                 continue; // Skip this one..
             }
             if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
-                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status")) ) {
+                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))
+            ) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
 
@@ -861,13 +991,13 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
 
         // Add the limit
-        $queryparams .= sprintf(" LIMIT %s, %s;", ($page-1)*$limit, $limit);
+        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
 
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
         if (!$returnsingle) {
-             // echo "<pre>" . util::var_dump($query, true) . "</pre>";
+            // echo "<pre>" . util::var_dump($query, true) . "</pre>";
         }
 
         $rows = $this->db->fetchAll($query);
@@ -875,7 +1005,7 @@ class Storage
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
         foreach ($rows as $key => $value) {
-            $content[ $value['id'] ] = new Bolt\Content($value, $contenttype);
+            $content[$value['id']] = new Bolt\Content($value, $contenttype);
         }
 
         // Make sure all content has their taxonomies
@@ -884,12 +1014,13 @@ class Storage
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // If so, iterate over the content, and set ['grouping'] for each unit of content.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        if ( (empty($_GET['order']) && empty($parameters['order']) ) ||
-                $contenttype['sort']==$parameters['order']) {
+        if ((empty($_GET['order']) && empty($parameters['order'])) ||
+            $contenttype['sort'] == $parameters['order']
+        ) {
             $have_grouping = false;
             $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
             foreach ($taxonomy as $taxokey => $taxo) {
-                if ($taxo['behaves_like']=="grouping") {
+                if ($taxo['behaves_like'] == "grouping") {
                     $have_grouping = true;
                     break;
                 }
@@ -924,8 +1055,8 @@ class Storage
                 'count' => $rowcount['count'],
                 'totalpages' => ceil($rowcount['count'] / $limit),
                 'current' => $page,
-                'showing_from' => ($page-1)*$limit + 1,
-                'showing_to' => ($page-1)*$limit + count($content)
+                'showing_from' => ($page - 1) * $limit + 1,
+                'showing_to' => ($page - 1) * $limit + count($content)
             );
 
             $GLOBALS['pager'][$contenttypeslug] = $pager;
@@ -939,8 +1070,8 @@ class Storage
                 $msg = sprintf(
                     "Storage: requested specific single content '%s%s%s', not found.",
                     $contenttypeslug,
-                    isset($match[2]) ? "/".$match[2] : "",
-                    isset($match[3]) ? "/".$match[3] : ""
+                    isset($match[2]) ? "/" . $match[2] : "",
+                    isset($match[3]) ? "/" . $match[3] : ""
                 );
                 $app['log']->add($msg);
 
@@ -994,7 +1125,7 @@ class Storage
         } elseif ($value[0] == ">") {
             $operator = ">";
             $value = substr($value, 1);
-        } elseif ($value[0] == "%" || $value[strlen($value)-1] == "%" ) {
+        } elseif ($value[0] == "%" || $value[strlen($value) - 1] == "%") {
             $operator = "LIKE";
         }
 
@@ -1027,7 +1158,6 @@ class Storage
         return $this->getContent($contenttypeslug, $parameters);
 
     }
-
 
 
     public function getContentType($contenttypeslug)
@@ -1069,7 +1199,6 @@ class Storage
     }
 
 
-
     /**
      * Get an array of the available contenttypes
      *
@@ -1080,7 +1209,6 @@ class Storage
         return array_keys($this->config['contenttypes']);
 
     }
-
 
 
     /**
@@ -1168,7 +1296,7 @@ class Storage
         }
 
         // Get the contenttype from first $content
-        $contenttype = $content[ util::array_first_key($content) ]->contenttype['slug'];
+        $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
 
         $taxonomytypes = array_keys($this->config['taxonomy']);
 
@@ -1181,7 +1309,7 @@ class Storage
         $rows = $this->db->fetchAll($query);
 
         foreach ($rows as $key => $row) {
-            $content[ $row['content_id'] ]->setTaxonomy($row['taxonomytype'], $row['slug']);
+            $content[$row['content_id']]->setTaxonomy($row['taxonomytype'], $row['slug']);
         }
 
     }
@@ -1214,11 +1342,11 @@ class Storage
                 if (!in_array($value, $currentvalues) && (!empty($value))) {
                     // Insert it!
                     $row = array(
-                            'content_id' => $content_id,
-                            'contenttype' => $contenttype,
-                            'taxonomytype' => $taxonomytype,
-                            'slug' => $value
-                        );
+                        'content_id' => $content_id,
+                        'contenttype' => $contenttype,
+                        'taxonomytype' => $taxonomytype,
+                        'slug' => $value
+                    );
                     $this->db->insert($tablename, $row);
                 }
 
@@ -1231,11 +1359,11 @@ class Storage
                 if (!in_array($value, $newvalues)) {
                     // Delete it!
                     $row = array(
-                            'content_id' => $content_id,
-                            'contenttype' => $contenttype,
-                            'taxonomytype' => $taxonomytype,
-                            'slug' => $value
-                        );
+                        'content_id' => $content_id,
+                        'contenttype' => $contenttype,
+                        'taxonomytype' => $taxonomytype,
+                        'slug' => $value
+                    );
                     $this->db->delete($tablename, array('id' => $id));
                     // echo "delete: $id, $value<br />";
                 }
@@ -1275,7 +1403,7 @@ class Storage
             $uri = $prefix . $slug;
         } else {
             for ($i = 1; $i <= 10; $i++) {
-                $newslug = $slug.'-'.$i;
+                $newslug = $slug . '-' . $i;
                 $query = "SELECT id from $tablename WHERE slug='$newslug' and id!='$id';";
                 $res = $this->db->query($query)->fetch();
                 if (!$res) {
@@ -1308,9 +1436,9 @@ class Storage
         $tables = array();
 
         foreach ($sm->listTables() as $table) {
-            if ( strpos($table->getName(), $this->prefix) == 0 ) {
+            if (strpos($table->getName(), $this->prefix) == 0) {
                 foreach ($table->getColumns() as $column) {
-                    $tables[ $table->getName() ][ $column->getName() ] = $column->getType();
+                    $tables[$table->getName()][$column->getName()] = $column->getType();
                 }
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
