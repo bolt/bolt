@@ -714,6 +714,33 @@ class Storage
 
     }
 
+    public function searchContent($terms, $parameters, &$pager = array()){
+        global $app;
+
+        // When using from the frontend, we assume (by default) that we only want published items,
+        // unless something else is specified explicitly
+        if (isset($app['end']) && $app['end']=="frontend" && empty($parameters['status'])) {
+            $parameters['status'] = "published";
+        }
+
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
+        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+
+        // If we're allowed to use pagination, use the 'page' parameter.
+        if (!empty($parameters['paging'])) {
+            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+        }
+
+        $contenttypes = $this->getContentTypes();
+
+        foreach($contenttypes as $contenttype){
+
+            $tablename = $this->prefix . $contenttype['slug'];
+
+
+        } // foreach contenttypes
+    }
+
     public function getContent($contenttypeslug, $parameters = "", &$pager = array())
     {
         global $app;

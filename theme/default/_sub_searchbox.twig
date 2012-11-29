@@ -12,13 +12,13 @@
 <script type="text/javascript">
 
     $('#searchbar :input[name="submit"]').bind('click', function () {
-        var link = "/search/" + $('input[name="searchterms"]').val();
+        var link = "/search/" + encodeURI($('input[name="searchterms"]').val());
         location.href = link;
     });
 
     $('#searchbar input[name="searchterms"]').keyup(function (e) {
         if (e.keyCode == 13) {
-            var link = "/search/" + $('input[name="searchterms"]').val();
+            var link = "/search/" + encodeURI($('input[name="searchterms"]').val());
             location.href = link;
         }
     });

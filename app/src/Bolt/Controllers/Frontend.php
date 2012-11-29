@@ -199,14 +199,16 @@ class Frontend
 
     public function search(Silex\Application $app, $searchterms)
     {
-        error_log("called!");
         $template = $app['config']['general']['search_results_template'];
-        $resultsPP = $app['config']['general']['search_results_records'];
+        $resultsPP = (int) $app['config']['general']['search_results_records'];
 
+        $content = $searchterms . " and " . $resultsPP;
 
-        $display =  "use " . $template . " with " .$resultsPP . "<br />";
-        $display .= $searchterms;
-        return new Response($display, 200, array('Cache-Control' => 's-max-age=0'));
+        $body = $app['twig']->render($template, array(
+            'records' => $content
+        ));
+
+        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
 
