@@ -82,6 +82,26 @@ jQuery(function($) {
     $('body').on('hidden', '.modal', function () {
         $(this).removeData('modal');
     });
+
+    // Render any deferred widgets, if any.
+    $('div.widget').each(function() {
+
+        var key = $(this).data('key');
+
+        $.ajax({
+            url: asyncpath + 'widget/' + key,
+            type: 'GET',
+            success: function(result) {
+                $('#widget-' + key).html(result)
+            },
+            error: function() {
+                console.log('failed to get widget');
+            }
+        });
+
+    });
+
+
 });
 
 

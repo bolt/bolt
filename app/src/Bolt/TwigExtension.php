@@ -31,6 +31,7 @@ class TwigExtension extends \Twig_Extension
             'ismobileclient' => new \Twig_Function_Method($this, 'ismobileclient'),
             'menu' => new \Twig_Function_Method($this, 'menu', array('needs_environment' => true)),
             'randomquote' => new \Twig_Function_Method($this, 'randomquote'),
+            'widget' => new \Twig_Function_Method($this, 'widget', array('needs_environment' => true)),
         );
     }
 
@@ -541,6 +542,8 @@ class TwigExtension extends \Twig_Extension
     }
 
 
+
+
     public function randomquote()
     {
         $quotes = array(
@@ -577,5 +580,18 @@ class TwigExtension extends \Twig_Extension
         return $quote;
 
     }
+
+    /**
+     * Output a menu..
+     *
+     */
+    public function widget(\Twig_Environment $env, $type = '', $location = '')
+    {
+        global $app;
+
+        $app['extensions']->renderWidgetHolder($type, $location);
+
+    }
+
 
 }

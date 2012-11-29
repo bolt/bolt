@@ -11,6 +11,7 @@ class Extensions
     private $basefolder;
     private $enabled;
     private $snippetqueue;
+    private $widgetqueue;
     private $ignored;
     private $addjquery;
     private $matchedcomments;
@@ -206,6 +207,69 @@ class Extensions
 
     }
 
+    /**
+     * Insert a widget. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
+     */
+    public function insertWidget($type, $location, $callback, $defer = true, $var1 = "", $var2 = "", $var3 = "")
+    {
+
+        $user = $this->app['session']->get('user');
+
+        $sessionkey = !empty($user['sessionkey']) ? $user['sessionkey'] : "";
+
+        $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, $callback)),0,8);
+
+        $this->widgetqueue[] = array(
+            'type' => $type,
+            'location' => $location,
+            'callback' => $callback,
+            'defer' => $defer,
+            'var1' => $var1,
+            'var2' => $var2,
+            'var3' => $var3,
+            'key' => $key
+        );
+
+    }
+
+    public function renderWidgetHolder($type, $location)
+    {
+        foreach($this->widgetqueue as $widget) {
+            if ($type == $widget['type'] && $location==$widget['location']) {
+
+                $html = sprintf("<section><div class='widget' id='widget-%s' data-key='%s'></div></section>", $widget['key'], $widget['key']);
+
+                echo $html;
+
+            }
+        }
+    }
+
+
+    public function renderWidget($key)
+    {
+
+        foreach($this->widgetqueue as $widget) {
+            if ($key == $widget['key']) {
+
+                if (function_exists($widget['callback'])) {
+                    $html = call_user_func($widget['callback'], $this->app, $widget['var1'], $widget['var2'], $widget['var3']);
+                } else {
+                    $html = $widget['callback'];
+                }
+
+                return $html;
+
+            }
+        }
+
+        return "Invalid key '$key'. No widget found.";
+    }
+
+
+    /**
+     * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
+     */
     public function insertSnippet($location, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
         $this->snippetqueue[] = array(
@@ -598,10 +662,10 @@ class Extensions
             return $html;
         }
 
-
-
-
     }
+
+
+
 
     private function pregcallback($c) {
         $key = "###bolt-comment-".count($this->matchedcomments)."###";
@@ -610,5 +674,8 @@ class Extensions
         return $key;
 
     }
+
+
+
 
 }

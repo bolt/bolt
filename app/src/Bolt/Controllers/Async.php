@@ -84,6 +84,17 @@ class Async
 
     }
 
+    /**
+     * Render a widget, and return the HTML, so it can be inserted in the page.
+     *
+     */
+    function widget($key, Silex\Application $app, Request $request) {
+
+        $html = $app['extensions']->renderWidget($key);
+
+        return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
+
+    }
 
     function readme($extension, Silex\Application $app, Request $request) {
 
