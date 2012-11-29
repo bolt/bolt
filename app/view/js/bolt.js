@@ -96,8 +96,14 @@ CKEDITOR.editorConfig = function( config ) {
         { name: 'styles', items: [ 'Format' ] },
         { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike'  ] },
         { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote' ] },
-        { name: 'links', items: [ 'Link', 'Unlink' ] }
+
     ];
+
+    if (wysiwyg.anchor) {
+        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] });
+    } else {
+        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink' ] });
+    }
 
     if (wysiwyg.subsuper) {
         config.toolbar = config.toolbar.concat({ name: 'subsuper', items: [ 'Subscript', 'Superscript' ] });
