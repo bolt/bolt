@@ -70,18 +70,34 @@ EOM;
 
 
 
-function insertWidget() {
+function insertWidget()
+{
+    global $app;
+
+    // http://ga-dev-tools.appspot.com/explorer/
+    // http://code.google.com/p/gapi-google-analytics-php-interface/
+    // http://www.codediesel.com/php/reading-google-analytics-data-from-php/
+    // http://code.google.com/p/gapi-google-analytics-php-interface/wiki/UsingFilterControl
+
 
     $yamlparser = new \Symfony\Component\Yaml\Parser();
     $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
 
-    if (empty($config['webproperty'])) {
-        $config['webproperty'] = "property-not-set";
+    if (empty($config['ga_email'])) { return "ga_email not set in config.yml."; }
+    if (empty($config['ga_password'])) { return "ga_password not set in config.yml."; }
+    if (empty($config['ga_profile_id'])) { return "ga_profile_id not set in config.yml."; }
+    if (!empty($config['filter_referral'])) {
+        $filter_referral = 'source !@ "'.$config['filter_referral'].'"';
+    } else {
+        $filter_referral = '';
+    }
+    if (empty($config['number_of_days'])) {
+        $config['number_of_days'] = 14;
     }
 
     require_once(__DIR__.'/gapi/gapi.class.php');
 
-    echo "<pre>\n" . \util::var_dump($config, true) . "</pre>\n";
+    //echo "<pre>\n" . \util::var_dump($config, true) . "</pre>\n";
 
     /* Create a new Google Analytics request and pull the results */
     $ga = new \gapi($config['ga_email'], $config['ga_password']);
@@ -91,7 +107,7 @@ function insertWidget() {
         array('pageviews', 'visitors', 'uniquePageviews', 'pageviewsPerVisit', 'exitRate', 'avgTimeOnPage', 'entranceBounceRate', 'newVisits'),
         'date',
         '',
-        date('Y-m-d', strtotime('-14 day')),
+        date('Y-m-d', strtotime('-' . $config['number_of_days'] .' day')),
         date('Y-m-d')
     );
 
@@ -128,13 +144,98 @@ function insertWidget() {
     }
 
     $aggr['pageviewspervisit'] = round($aggr['pageviewspervisit'] / count($tempresults), 1);
-    $aggr['timeonpage'] = round($aggr['timeonpage'] / count($tempresults), 1);
+    $aggr['timeonpage'] = secondMinute(round($aggr['timeonpage'] / count($tempresults), 1));
     $aggr['bouncerate'] = round($aggr['bouncerate'] / count($tempresults), 1);
     $aggr['exitrate'] = round($aggr['exitrate'] / count($tempresults), 1);
 
-    echo "<pre>\n" . \util::var_dump($aggr, true) . "</pre>\n";
+    //echo "<pre>\n" . \util::var_dump($aggr, true) . "</pre>\n";
 
-    echo "<pre>\n" . \util::var_dump($pageviews, true) . "</pre>\n";
+    // echo "<pre>\n" . \util::var_dump($pageviews, true) . "</pre>\n";
+
+    // Get the 'populair sources'
+    $ga->requestReportData(
+        $config['ga_profile_id'],
+        array('source','referralPath'),
+        array('visits'),
+        '-visits',
+        $filter_referral,
+        date('Y-m-d', strtotime('-' . $config['number_of_days'] .' day')),
+        date('Y-m-d'),
+        1,
+        12
+    );
+    $results = $ga->getResults();
+
+    $sources = array();
+
+    foreach($results as $result) {
+        if ($result->getReferralPath() == "(not set)") {
+            $sources[] = array(
+                'link' => false,
+                'host' => $result->getSource(),
+                'visits' => $result->getVisits()
+            );
+        } else {
+            $sources[] = array(
+              'link' => true,
+              'host' => $result->getSource() . $result->getReferralPath(),
+              'visits' => $result->getVisits()
+            );
+        }
+    }
+
+    // echo "<pre>\n" . \util::var_dump($sources, true) . "</pre>\n";
+
+    // Get the 'popular pages'
+    $ga->requestReportData(
+        $config['ga_profile_id'],
+        array('hostname','pagePath'),
+        array('visits'),
+        '-visits',
+        '',
+        date('Y-m-d', strtotime('-' . $config['number_of_days'] .' day')),
+        date('Y-m-d'),
+        1,
+        12
+    );
+    $results = $ga->getResults();
+
+    $pages = array();
+
+    foreach($results as $result) {
+        $pages[] = array(
+            'host' => $result->gethostname() . $result->getPagePath(),
+            'visits' => $result->getVisits()
+        );
+    }
+
+    //echo "<pre>\n" . \util::var_dump($pages, true) . "</pre>\n";
+
+    //$app['twig.path'] = __DIR__;
+
+    $caption = sprintf("Google Analytics for %s - %s.",
+        date('M d', strtotime('-' . $config['number_of_days'] .' day')),
+        date('M d')
+    );
+
+    $html = $app['twig']->render("GoogleAnalytics/widget.twig", array(
+        'caption' => $caption,
+        'aggr' => $aggr,
+        'pageviews' => $pageviews,
+        'sources' => $sources,
+        'pages' => $pages
+    ));
+
+    return $html;
 
 }
 
+// TODO: Rewrite this. yuck.
+function secondMinute($seconds) {
+    $minResult = floor($seconds/60);
+    if($minResult < 10){$minResult = 0 . $minResult;}
+    $secResult = ($seconds/60 - $minResult)*60;
+    if($secResult < 10){$secResult = 0 . round($secResult);}
+    else { $secResult = round($secResult); }
+    return $minResult.":".$secResult;
+}

@@ -5,8 +5,9 @@ webproperty: UA-34977638-1
 widget: true
 widget_position: right_first
 
-ga_email:
+ga_email: xxxxx@gmail.com
 ga_password:
+# NOTE: this is _not_ the same as the 'webproperty'.
 ga_profile_id: 64242754
 filter_referral: bolt.cm
 
