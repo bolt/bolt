@@ -219,12 +219,19 @@ class Frontend
         );
     }
 
-    public function search(Silex\Application $app, $searchterms)
+    public function search(Request $request, Silex\Application $app)
     {
+        //$searchterms =  safeString($request->get('search'));
         $template = $app['config']['general']['search_results_template'];
         $resultsPP = (int) $app['config']['general']['search_results_records'];
+        $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 
-        $content = $searchterms . " and " . $resultsPP;
+        //$parameters = array('limit' => $amount, 'order' => 'datepublish desc', 'page' => $page));
+        $parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
+
+        //$content = $searchterms . " and " . $resultsPP;
+        $content = $app['storage']->searchAllContentTypes($parameters);
+        //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
 
         $body = $app['twig']->render($template, array(
             'records' => $content

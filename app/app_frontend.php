@@ -4,7 +4,7 @@ $app->match("/", 'Bolt\Controllers\Frontend::homepage')
     ->before('Bolt\Controllers\Frontend::before')
     ->bind('homepage');
 
-$app->match('/search/{searchterms}', 'Bolt\Controllers\Frontend::search')
+$app->match('/search', 'Bolt\Controllers\Frontend::search')
     ->before('Bolt\Controllers\Frontend::before');
 
 $app->match('/{contenttypeslug}/feed.{extension}', 'Bolt\Controllers\Frontend::feed')

@@ -715,7 +715,7 @@ class Storage
 
     }
 
-    public function searchAllContentTypes($terms, $parameters, &$pager = array())
+    /*public function searchAllContentTypes($parameters, &$pager = array())
     {
         // results aggregator
         $results = array();
@@ -723,13 +723,20 @@ class Storage
         $contenttypes = $this->getContentTypes();
 
         foreach ($contenttypes as $contenttype) {
-            $results [] = $this->searchContentType($contenttype, $terms, $parameters, $pager);
+            $resultset = $this->searchContentType($contenttype, $parameters, $pager);
+            foreach($resultset as $resultContentType){
+                $results [] = $resultContentType;
+            }
         } // foreach contenttypes
 
         return $results;
+    }*/
+    public function searchAllContentTypes($parameters, &$pager = array())
+    {
+        return $this->searchContentTypes($this->getContentTypes(), $parameters, $pager);
     }
 
-    public function searchContentType($contenttype, $terms, $parameters = "", &$pager = array())
+    public function searchContentTypes(array $contenttypenames, $parameters = "", &$pager = array())
     {
         // Set $parameters['filter'] with $terms.
         // Perhaps do something smart with $terms as well
@@ -737,7 +744,14 @@ class Storage
         // @todo Parse $terms to an acceptable search string for the database.
 
 
-        $tablename = $this->prefix . $contenttype['slug'];
+        $tables = array();
+        foreach ($contenttypenames as $contenttypename) {
+            $contenttypetable = $this->prefix . $contenttypename;
+            $tables [] = $contenttypetable;
+
+
+
+        $contenttype = $this->config['contenttypes'][$contenttypename];
 
         // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
         foreach ($parameters as $key => $value) {
@@ -765,7 +779,7 @@ class Storage
 
             foreach ($contenttype['fields'] as $key => $value) {
                 if (in_array($value['type'], array('text', 'textarea', 'html'))) {
-                    $filter_where[] = sprintf("`%s` LIKE '%%%s%%'", $key, $filter);
+                    $filter_where[] = sprintf("`%s`.`%s` LIKE '%%%s%%'", $contenttypetable, $key, $filter);
                 }
             }
 
@@ -774,6 +788,17 @@ class Storage
             }
 
         }
+        }
+
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
+        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+
+        // If we're allowed to use pagination, use the 'page' parameter.
+        if (!empty($parameters['paging'])) {
+            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+        }
+        //$tablename = $this->prefix . $contenttypename;
+        $tablename = implode(", ", $tables);
 
         $queryparams = "";
 
@@ -805,6 +830,8 @@ class Storage
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
+        print $query;
+
         $rows = $this->db->fetchAll($query);
 
         // Make sure content is set, and all content has information about its contenttype
@@ -816,48 +843,11 @@ class Storage
         // Make sure all content has their taxonomies
         $this->getTaxonomy($content);
 
-        // @todo start 'is this necessary?'
-        // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
-        // If so, iterate over the content, and set ['grouping'] for each unit of content.
-        // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        if ((empty($_GET['order']) && empty($parameters['order'])) ||
-            $contenttype['sort'] == $parameters['order']
-        ) {
-            $have_grouping = false;
-            $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
-            foreach ($taxonomy as $taxokey => $taxo) {
-                if ($taxo['behaves_like'] == "grouping") {
-                    $have_grouping = true;
-                    break;
-                }
-            }
-
-            if ($have_grouping) {
-                uasort(
-                    $content,
-                    function ($a, $b) {
-                        $second_sort = $a->contenttype['sort'];
-                        if (!isset($a->group) || !isset($b->group) || $a->group == $b->group) {
-                            // Same group, so we sort on contenttype['sort']
-                            $second_sort = $a->contenttype['sort'];
-                            if ($a->values[$second_sort] == $b->values[$second_sort]) {
-                                return 0;
-                            } else {
-                                return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
-                            }
-                        }
-
-                        return ($a->group < $b->group) ? -1 : 1;
-                    }
-                );
-            }
-        }
-        // @todo end 'is this necessary?'
-
         // Set up the $pager array with relevant values..
         $rowcount = $this->db->executeQuery($pagerquery)->fetch();
         $pager = array(
-            'for' => $contenttypeslug,
+            //'for' => $contenttypeslug,
+            'for' => 'search',
             'count' => $rowcount['count'],
             'totalpages' => ceil($rowcount['count'] / $limit),
             'current' => $page,
@@ -865,7 +855,8 @@ class Storage
             'showing_to' => ($page - 1) * $limit + count($content)
         );
 
-        $GLOBALS['pager'][$contenttypeslug] = $pager;
+        //$GLOBALS['pager'][$contenttypeslug] = $pager;
+        $GLOBALS['pager']['search'] = $pager;
 
         return $content;
 
