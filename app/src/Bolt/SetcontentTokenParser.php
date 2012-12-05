@@ -25,6 +25,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
         $lineno = $token->getLine();
 
         $arguments = array();
+        $wherearguments = null;
 
         // name - the new variable with the results
         $name = $this->parser->getStream()->expect(\Twig_Token::NAME_TYPE)->getValue();
@@ -33,12 +34,10 @@ class SetcontentTokenParser extends \Twig_TokenParser
         // contenttype, or simple expression to content.
         $contenttype = $this->parser->getExpressionParser()->parseExpression();
 
+
         if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'where')) {
             $this->parser->getStream()->next();
-            $where = $this->parser->getExpressionParser()->parseHashExpression();
-
-            $arguments = $this->convertToViewArguments($where);
-
+            $wherearguments = $this->parser->getExpressionParser()->parseExpression();
         }
 
         if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'limit')) {
@@ -68,7 +67,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
 
         $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
 
-        return new SetcontentNode($name, $contenttype, $arguments, $lineno, $this->getTag());
+        return new SetcontentNode($name, $contenttype, $arguments, $wherearguments, $lineno, $this->getTag());
     }
 
     public function getTag()

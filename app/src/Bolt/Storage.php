@@ -716,9 +716,14 @@ class Storage
 
     }
 
-    public function getContent($contenttypeslug, $parameters = "", &$pager = array())
+    public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
         global $app;
+
+        // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
+        if (!empty($whereparameters)) {
+            $parameters = array_merge((array)$parameters, (array)$whereparameters);
+        }
 
         $returnsingle = false;
 
