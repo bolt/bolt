@@ -19,7 +19,7 @@ $asynchronous->get("/readme/{extension}", '\Bolt\Controllers\Async::readme')
 
 $asynchronous->get("/widget/{key}", '\Bolt\Controllers\Async::widget')
     ->before('\Bolt\Controllers\Async::before')
-    ->bind('readme');
+    ->bind('widget');
 
 $asynchronous->post("/markdownify", '\Bolt\Controllers\Async::markdownify')
     ->before('\Bolt\Controllers\Async::before')
