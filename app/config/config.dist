@@ -40,6 +40,10 @@ recordsperpage: 10
 listing_template: listing.twig
 listing_records: 6
 
+# Template for showing the search results
+search_results_template: searchresults.twig
+search_results_records: 10
+
 # Set the number of records to be displayed, the template to be used and how
 # many words should be used for the description (excerpt)
 rss:
