@@ -27,7 +27,6 @@ class Frontend
 
     function homepage(Silex\Application $app)
     {
-
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
@@ -218,6 +217,29 @@ class Frontend
                 'Cache-Control' => 's-maxage=3600, public',
             )
         );
+    }
+
+    public function search(Request $request, Silex\Application $app)
+    {
+        //$searchterms =  safeString($request->get('search'));
+        $template = $app['config']['general']['search_results_template'];
+
+        // @todo Preparation for stage 2
+        //$resultsPP = (int) $app['config']['general']['search_results_records'];
+        //$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
+
+        //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
+        $parameters = array('filter' => $request->get('search'));
+
+        //$content = $searchterms . " and " . $resultsPP;
+        $content = $app['storage']->searchAllContentTypes($parameters);
+        //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
+
+        $body = $app['twig']->render($template, array(
+            'records' => $content
+        ));
+
+        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
 

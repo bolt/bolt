@@ -716,6 +716,256 @@ class Storage
 
     }
 
+    public function searchAllContentTypes(array $parameters = array(), &$pager = array())
+    {
+        //return $this->searchContentTypes($this->getContentTypes(), $parameters, $pager);
+        // Note: we can only apply this kind of results aggregating when we don't
+        // use LIMIT and OFFSET! If we'd want to use it, this should be rewritten.
+        // Results aggregator
+        $result = array();
+        foreach($this->getContentTypes() as $contenttype){
+            $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters, $pager);
+            foreach($contentTypeSearchResults as $searchresult){
+                $result []= $searchresult;
+            }
+        }
+        return $result;
+    }
+
+    public function searchContentType($contenttypename, array $parameters = array(), &$pager = array()){
+        $tablename = $this->prefix . $contenttypename;
+
+        $contenttype = $this->config['contenttypes'][$contenttypename];
+
+        // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
+        foreach ($parameters as $key => $value) {
+            if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
+                continue; // Skip this one..
+            }
+            if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
+                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))
+            ) {
+                continue; // Also skip if 'key' isn't a field in the contenttype.
+            }
+
+            $where[] = $this->parseWhereParameter($key, $value);
+
+        }
+
+        // @todo update with nice search string
+        // If we need to filter, add the WHERE for that.
+        // Meh, InnoDB doesn't support full text search.
+        if (!empty($parameters['filter'])) {
+
+            $filter = safeString($parameters['filter']);
+
+            $filter_where = array();
+
+            foreach ($contenttype['fields'] as $key => $value) {
+                if (in_array($value['type'], array('text', 'textarea', 'html'))) {
+                    $filter_where[] = sprintf("`%s` LIKE '%%%s%%'", $key, $filter);
+                }
+            }
+
+            if (!empty($filter_where)) {
+                $where[] = "(" . implode(" OR ", $filter_where) . ")";
+            }
+
+
+
+        }
+
+        // @todo This is preparation for stage 2..
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
+        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+
+        // If we're allowed to use pagination, use the 'page' parameter.
+        if (!empty($parameters['paging'])) {
+            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+        }
+
+        $queryparams = "";
+
+        // implode 'where'
+        if (!empty($where)) {
+            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
+        }
+
+        // Order, with a special case for 'RANDOM'.
+        if (!empty($parameters['order'])) {
+            if ($parameters['order'] == "RANDOM") {
+                $dboptions = getDBOptions($this->config);
+                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
+            } else {
+                $order = safeString($parameters['order']);
+                if ($order[0] == "-") {
+                    $order = substr($order, 1) . " DESC";
+                }
+                $queryparams .= " ORDER BY " . $order;
+            }
+        }
+
+        // Make the query for the pager..
+        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+
+        // Add the limit
+        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
+
+        // Make the query to get the results..
+        $query = "SELECT * FROM $tablename" . $queryparams;
+
+        $rows = $this->db->fetchAll($query);
+
+        // Make sure content is set, and all content has information about its contenttype
+        $content = array();
+        foreach ($rows as $key => $value) {
+            $content[$value['id']] = new Bolt\Content($value, $contenttype);
+        }
+
+        // Make sure all content has their taxonomies
+        $this->getTaxonomy($content);
+
+        // Set up the $pager array with relevant values..
+        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+        $pager = array(
+            'for' => 'search',
+            'count' => $rowcount['count'],
+            'totalpages' => ceil($rowcount['count'] / $limit),
+            'current' => $page,
+            'showing_from' => ($page-1)*$limit + 1,
+            'showing_to' => ($page-1)*$limit + count($content)
+        );
+
+        //$GLOBALS['pager'][$contenttypeslug] = $pager;
+        $GLOBALS['pager']['search'] = $pager;
+
+        return $content;
+
+    }
+
+    public function searchContentTypes(array $contenttypenames, array $parameters = array(), &$pager = array())
+    {
+        // Set $parameters['filter'] with $terms.
+        // Perhaps do something smart with $terms as well
+
+        // @todo Parse $terms to an acceptable search string for the database.
+
+
+        $tables = array();
+        foreach ($contenttypenames as $contenttypename) {
+            $contenttypetable = $this->prefix . $contenttypename;
+            $tables [] = $contenttypetable;
+
+
+            $contenttype = $this->config['contenttypes'][$contenttypename];
+
+            // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
+            foreach ($parameters as $key => $value) {
+                if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
+                    continue; // Skip this one..
+                }
+                if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
+                    !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))
+                ) {
+                    continue; // Also skip if 'key' isn't a field in the contenttype.
+                }
+
+                $where[] = $this->parseWhereParameter($key, $value);
+
+            }
+
+            // @todo update with nice search string
+            // If we need to filter, add the WHERE for that.
+            // Meh, InnoDB doesn't support full text search.
+            if (!empty($parameters['filter'])) {
+
+                $filter = safeString($parameters['filter']);
+
+                $filter_where = array();
+
+                foreach ($contenttype['fields'] as $key => $value) {
+                    if (in_array($value['type'], array('text', 'textarea', 'html'))) {
+                        $filter_where[] = sprintf("`%s`.`%s` LIKE '%%%s%%'", $contenttypetable, $key, $filter);
+                    }
+                }
+
+                if (!empty($filter_where)) {
+                    $where[] = "(" . implode(" OR ", $filter_where) . ")";
+                }
+
+            }
+        }
+
+        // @todo This is preparation for stage 2..
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
+        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+
+        // If we're allowed to use pagination, use the 'page' parameter.
+        if (!empty($parameters['paging'])) {
+            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+        }
+        //$tablename = $this->prefix . $contenttypename;
+        $tablename = implode(", ", $tables);
+
+        $queryparams = "";
+
+        // implode 'where'
+        if (!empty($where)) {
+            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
+        }
+
+        // Order, with a special case for 'RANDOM'.
+        if (!empty($parameters['order'])) {
+            if ($parameters['order'] == "RANDOM") {
+                $dboptions = getDBOptions($this->config);
+                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
+            } else {
+                $order = safeString($parameters['order']);
+                if ($order[0] == "-") {
+                    $order = substr($order, 1) . " DESC";
+                }
+                $queryparams .= " ORDER BY " . $order;
+            }
+        }
+
+        // Make the query for the pager..
+        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+
+        // Add the limit
+        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
+
+        // Make the query to get the results..
+        $query = "SELECT * FROM $tablename" . $queryparams;
+
+        $rows = $this->db->fetchAll($query);
+
+        // Make sure content is set, and all content has information about its contenttype
+        $content = array();
+        foreach ($rows as $key => $value) {
+            $content[$value['id']] = new Bolt\Content($value, $contenttype);
+        }
+
+        // Make sure all content has their taxonomies
+        $this->getTaxonomy($content);
+
+        // Set up the $pager array with relevant values..
+        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+        $pager = array(
+            'for' => 'search',
+            'count' => $rowcount['count'],
+            'totalpages' => ceil($rowcount['count'] / $limit),
+            'current' => $page,
+            'showing_from' => ($page-1)*$limit + 1,
+            'showing_to' => ($page-1)*$limit + count($content)
+        );
+
+        //$GLOBALS['pager'][$contenttypeslug] = $pager;
+        $GLOBALS['pager']['search'] = $pager;
+
+        return $content;
+
+    }
+
     public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
         global $app;
