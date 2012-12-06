@@ -74,10 +74,11 @@ strict_variables: false
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibilty not to break the layout.
 wysiwyg_images: false
+wysiwyg_anchor: false
 wysiwyg_tables: false
-wysiwyg_embed: false
 wysiwyg_fontcolor: false
 wysiwyg_align: false
+wysiwyg_subsuper: false
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login

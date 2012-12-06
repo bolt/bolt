@@ -1,7 +1,7 @@
 {% include '_header.twig' %}
 
 <div class="row-fluid">
-    <div class="span9">
+    <div class="span8">
 
         <h1>Dashboard</h1>
 
@@ -119,21 +119,20 @@
     {% endfor %}
 
 
-    </div><!-- /span9 -->
-    <aside class="span3">
+    </div><!-- /span8 -->
 
-{{ render(path("dashboardnews")) }}
+    <aside class="span4">
 
-<div id="latestactivity">
-    {{ render(path("latestactivity")) }}
-</div>
-<div id="latesttemp" style="display:none; visibility: hidden;">
-</div>
+    {{ render(path("dashboardnews")) }}
 
+    {{ widget('dashboard', 'right_first') }}
 
+    <div id="latestactivity">
+        {{ render(path("latestactivity")) }}
+    </div>
+    <div id="latesttemp" style="display:none; visibility: hidden;"><!-- intentionally left blank --></div>
 
-
-    </aside>
+    </aside><!-- /span4 -->
 </div>
 
 

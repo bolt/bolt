@@ -84,17 +84,28 @@ class Async
 
     }
 
+    /**
+     * Render a widget, and return the HTML, so it can be inserted in the page.
+     *
+     */
+    function widget($key, Silex\Application $app, Request $request) {
+
+        $html = $app['extensions']->renderWidget($key);
+
+        return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
+
+    }
 
     function readme($extension, Silex\Application $app, Request $request) {
 
-        $filename = __DIR__."/extensions/".$extension."/readme.md";
+        $filename = __DIR__."/../../../extensions/".$extension."/readme.md";
 
         //echo "<pre>\n" . \util::var_dump($filename, true) . "</pre>\n";
 
         $readme = file_get_contents($filename);
 
-        include_once __DIR__. "/classes/markdown.php";
-        $html = Markdown($readme);
+        include_once __DIR__. "/../../../classes/markdown.php";
+        $html = \Markdown($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
 
@@ -106,8 +117,8 @@ class Async
 
         if (isHtml($html)) {
 
-            require_once(__DIR__.'/classes/markdownify/markdownify_extra.php');
-            $md = new Markdownify(false, 80, false);
+            require_once(__DIR__.'/../../../classes/markdownify/markdownify_extra.php');
+            $md = new \Markdownify(false, 80, false);
 
             $output = $md->parseString($html);
 

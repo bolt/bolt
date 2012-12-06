@@ -70,7 +70,7 @@ $_SERVER['QUERY_STRING'] = http_build_query($_GET);
  * loaded by timthumb. This will save you having to re-edit these variables
  * everytime you download a new version
 */
-define ('VERSION', '2.8.10');																		// Version of this script 
+define ('VERSION', '2.8.11');																		// Version of this script 
 //Load a config file if it exists. Otherwise, use the values below
 // if( file_exists(dirname(__FILE__) . '/timthumb-config.php'))	require_once('timthumb-config.php');
 if(! defined('DEBUG_ON') )					define ('DEBUG_ON', false);								// Enable debug logging to web server error log (STDERR)
@@ -101,7 +101,7 @@ if(! defined('MAX_WIDTH') ) 			define ('MAX_WIDTH', 1500);									// Maximum im
 if(! defined('MAX_HEIGHT') ) 			define ('MAX_HEIGHT', 1500);								// Maximum image height
 if(! defined('NOT_FOUND_IMAGE') )		define ('NOT_FOUND_IMAGE', '');								// Image to serve if any 404 occurs 
 if(! defined('ERROR_IMAGE') )			define ('ERROR_IMAGE', '');									// Image to serve if an error occurs instead of showing error message 
-if(! defined('PNG_IS_TRANSPARENT') ) 	define ('PNG_IS_TRANSPARENT', FALSE);  //42 Define if a png image should have a transparent background color. Use False value if you want to display a custom coloured canvas_colour 
+if(! defined('PNG_IS_TRANSPARENT') ) 	define ('PNG_IS_TRANSPARENT', FALSE);						// Define if a png image should have a transparent background color. Use False value if you want to display a custom coloured canvas_colour 
 if(! defined('DEFAULT_Q') )				define ('DEFAULT_Q', 90);									// Default image quality. Allows overrid in timthumb-config.php
 if(! defined('DEFAULT_ZC') )			define ('DEFAULT_ZC', 1);									// Default zoom/crop setting. Allows overrid in timthumb-config.php
 if(! defined('DEFAULT_F') )				define ('DEFAULT_F', '');									// Default image filters. Allows overrid in timthumb-config.php
@@ -1044,7 +1044,7 @@ class timthumb {
 			$this->debug(3, "Remote file has invalid mime type: $mimeType");
 			@unlink($this->cachefile);
 			touch($this->cachefile);
-			$this->error("The remote file is not a valid image.");
+			$this->error("The remote file is not a valid image. Mimetype = '" . $mimeType . "'" . $tempfile);
 			return false;
 		}
 		if($this->processImageAndWriteToCache($tempfile)){
@@ -1139,6 +1139,8 @@ class timthumb {
 
 			case 'image/png':
 				$image = imagecreatefrompng ($src);
+				imagealphablending( $image, true );
+				imagesavealpha( $image, true );
 				break;
 
 			case 'image/gif':
@@ -1234,6 +1236,10 @@ class timthumb {
 			$httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 			if($httpStatus == 404){
 				$this->set404();
+			}
+			if($httpStatus == 302){
+				$this->error("External Image is Redirecting. Try alternate image url");
+				return false;
 			}
 			if($curlResult){
 				curl_close($curl);

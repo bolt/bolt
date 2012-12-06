@@ -82,6 +82,26 @@ jQuery(function($) {
     $('body').on('hidden', '.modal', function () {
         $(this).removeData('modal');
     });
+
+    // Render any deferred widgets, if any.
+    $('div.widget').each(function() {
+
+        var key = $(this).data('key');
+
+        $.ajax({
+            url: asyncpath + 'widget/' + key,
+            type: 'GET',
+            success: function(result) {
+                $('#widget-' + key).html(result)
+            },
+            error: function() {
+                console.log('failed to get widget');
+            }
+        });
+
+    });
+
+
 });
 
 
@@ -96,8 +116,14 @@ CKEDITOR.editorConfig = function( config ) {
         { name: 'styles', items: [ 'Format' ] },
         { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike'  ] },
         { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote' ] },
-        { name: 'links', items: [ 'Link', 'Unlink' ] }
+
     ];
+
+    if (wysiwyg.anchor) {
+        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink', '-', 'Anchor' ] });
+    } else {
+        config.toolbar = config.toolbar.concat({ name: 'links', items: [ 'Link', 'Unlink' ] });
+    }
 
     if (wysiwyg.subsuper) {
         config.toolbar = config.toolbar.concat({ name: 'subsuper', items: [ 'Subscript', 'Superscript' ] });
@@ -115,7 +141,7 @@ CKEDITOR.editorConfig = function( config ) {
         config.toolbar = config.toolbar.concat({ name: 'colors', items: [ 'TextColor', 'BGColor' ] });
     }
 
-    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', 'RemoveFormat', 'Maximize', 'Source' ] });
+    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source' ] });
 
     config.height = "250px";
     config.removePlugins = 'elementspath';

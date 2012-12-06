@@ -456,6 +456,11 @@ label span.left {
     min-width: 200px;
 }
 
+#editcontent input.narrow.wide { /* Derp! */
+    width: 60%;
+    min-width: 200px;
+}
+
 #editcontent input.datepicker {
     width: 30%;
     min-width: 200px;
@@ -702,7 +707,10 @@ label span.left {
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
 }
 
-
+.cke_toolbar_separator {
+    background-color: #BBB !important;
+}
+}
 /* Overrides for CodeMirror */
 
 .CodeMirror {

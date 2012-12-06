@@ -1,5 +1,5 @@
 # Add "via @whomever" to the tweet. Leave blank for none.
-via: button_count
+# via: boltcm
 
 # URL to 'share'. Leave blank to use the URL of the current page.
-url: http://bolt.cm
+# url: http://bolt.cm

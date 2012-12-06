@@ -5,27 +5,95 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 body
 {
-    /* Font */
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 15px;
+	/* Font */
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 15px;
     line-height: 21px;
 
-    /* Text color */
-    color: #444;
+	/* Text color */
+	color: #444;
 
-    /* Remove the background color to make it transparent */
-    background-color: #FAFAFA;
+	/* Remove the background color to make it transparent */
+	background-color: #fff;
+
+	margin: 8px;
 }
 
-ol, ul, dl
+.cke_editable
 {
-    /* IE7: reset rtl list margin. (#7334) */
-    *margin-right:0px;
-    padding: 0 40px;
-    margin: 4px 0 8px 0;
+    font-size: 15px;
+    line-height: 21px;
+}
 
+blockquote
+{
+	font-style: italic;
+	font-family: Georgia, Times, "Times New Roman", serif;
+	padding: 2px 0;
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 0;
+}
+
+.cke_contents_ltr blockquote
+{
+	padding-left: 20px;
+	padding-right: 8px;
+	border-left-width: 5px;
+}
+
+.cke_contents_rtl blockquote
+{
+	padding-left: 8px;
+	padding-right: 20px;
+	border-right-width: 5px;
+}
+
+a
+{
+	color: #0782C1;
+}
+
+ol,ul,dl
+{
+	/* IE7: reset rtl list margin. (#7334) */
+	*margin-right: 0px;
+	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
+	padding: 0 40px;
+    margin: 0 0 10px;
+}
+
+h1,h2,h3,h4,h5,h6
+{
+	font-weight: normal;
+	line-height: 1.2em;
 }
 
 p {
-    margin: 4px 0 8px 0;
+    margin: 0 0 10px;
+}
+
+hr
+{
+	border: 0px;
+	border-top: 1px solid #ccc;
+}
+
+img.right {
+    border: 1px solid #ccc;
+    float: right;
+    margin-left: 15px;
+    padding: 5px;
+}
+
+img.left {
+    border: 1px solid #ccc;
+    float: left;
+    margin-right: 15px;
+    padding: 5px;
+}
+
+img:hover {
+	opacity: .9;
+	filter: alpha(opacity = 90);
 }

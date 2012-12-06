@@ -11,12 +11,12 @@
     {% endif %}
 
     <h2><a href="{{ entry.link }}">{{ entry.title }}</a></h2>
-    
+
     {{ entry.teaser }}
 
     <p class="meta"><a href="{{ entry.link }}">Link</a> - Posted by {{ entry.user.displayname }} on {{ entry.datepublish|date("M d, ’y")}}</p>
-    
-</article>    
+
+</article>
 {% endfor %}
 
 {{ pager() }}

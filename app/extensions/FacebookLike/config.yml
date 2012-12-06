@@ -11,4 +11,4 @@ verb: like
 scheme: light
 
 # URL to 'like'. Leave blank to use the URL of the current page.
-url: http://bolt.cm
+# url: http://bolt.cm
