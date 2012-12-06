@@ -223,11 +223,13 @@ class Frontend
     {
         //$searchterms =  safeString($request->get('search'));
         $template = $app['config']['general']['search_results_template'];
-        $resultsPP = (int) $app['config']['general']['search_results_records'];
-        $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 
-        //$parameters = array('limit' => $amount, 'order' => 'datepublish desc', 'page' => $page));
-        $parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
+        // @todo Preparation for stage 2
+        //$resultsPP = (int) $app['config']['general']['search_results_records'];
+        //$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
+
+        //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
+        $parameters = array('filter' => $request->get('search'));
 
         //$content = $searchterms . " and " . $resultsPP;
         $content = $app['storage']->searchAllContentTypes($parameters);
