@@ -799,7 +799,7 @@ function getConfig()
 
     // We add these later, because the order is important: By having theme/ourtheme first,
     // files in that folder will take precedence. For instance when overriding the menu template.
-    $config['twigpath'][] = realpath(__DIR__.'/../view');
+    $config['twigpath'][] = realpath(__DIR__.'/../view_backend');
     $config['twigpath'][] = realpath(__DIR__.'/../extensions');
 
     // echo "<pre>\n" . \util::var_dump($config['twigpath'], true) . "</pre>\n";
