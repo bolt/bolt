@@ -1,0 +1,27 @@
+<div id="searchbar" class="pull-right">
+
+    <form method="get" action="/search" id="searchform" enctype="text/plain">
+
+        <input type="text" name="search" value="" placeholder="Zoeken"/>
+        <input type="button" name="submit" value="Zoek"/>
+
+    </form>
+
+</div>
+<!--
+<script type="text/javascript">
+
+    $('#searchbar :input[name="submit"]').bind('click', function () {
+        var link = "/search/" + encodeURI($('input[name="searchterms"]').val());
+        location.href = link;
+    });
+
+    $('#searchbar input[name="searchterms"]').keyup(function (e) {
+        if (e.keyCode == 13) {
+            var link = "/search/" + encodeURI($('input[name="searchterms"]').val());
+            location.href = link;
+        }
+    });
+
+</script>
+-->
