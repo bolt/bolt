@@ -2,8 +2,8 @@
 
     <form method="get" action="/search" id="searchform" enctype="text/plain">
 
-        <input type="text" name="search" value="" placeholder="Zoeken"/>
-        <input type="button" name="submit" value="Zoek"/>
+        <input type="text" name="search" value="{{ app.request.get('search') }}" placeholder="Search for ..." >
+        <input type="submit" name="submit" value="Search" >
 
     </form>
 
