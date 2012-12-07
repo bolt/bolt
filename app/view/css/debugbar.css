@@ -104,7 +104,7 @@
     max-height: 300px;
     width: 640px;
     box-shadow:  1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-    z-index: 2147483641;
+    z-index: 2147483639;
     overflow-y: auto;
     display: none;
     padding: 4px 6px;

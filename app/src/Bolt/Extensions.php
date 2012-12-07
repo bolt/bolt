@@ -210,7 +210,7 @@ class Extensions
     /**
      * Insert a widget. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertWidget($type, $location, $callback, $defer = true, $var1 = "", $var2 = "", $var3 = "")
+    public function insertWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
     {
 
         $user = $this->app['session']->get('user');
@@ -223,6 +223,8 @@ class Extensions
             'type' => $type,
             'location' => $location,
             'callback' => $callback,
+            'additionalhtml' => $additionalhtml,
+            'cacheduration' => $cache,
             'defer' => $defer,
             'var1' => $var1,
             'var2' => $var2,
@@ -239,6 +241,10 @@ class Extensions
 
                 $html = sprintf("<section><div class='widget' id='widget-%s' data-key='%s'></div></section>", $widget['key'], $widget['key']);
 
+                if (!empty($widget['additionalhtml'])) {
+                    $html .= "\n" . $widget['additionalhtml'];
+                }
+
                 echo $html;
 
             }
@@ -252,8 +258,14 @@ class Extensions
         foreach($this->widgetqueue as $widget) {
             if ($key == $widget['key']) {
 
-                if (function_exists($widget['callback'])) {
+                $cachekey = 'widget_'.$widget['key'];
+
+                if ($this->app['cache']->isvalid($cachekey, $widget['cacheduration'])) {
+                    // Present in the cache ..
+                    $html = $this->app['cache']->get($cachekey);
+                } else if (function_exists($widget['callback'])) {
                     $html = call_user_func($widget['callback'], $this->app, $widget['var1'], $widget['var2'], $widget['var3']);
+                    $this->app['cache']->set($cachekey, $html);
                 } else {
                     $html = $widget['callback'];
                 }

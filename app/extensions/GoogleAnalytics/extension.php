@@ -27,7 +27,10 @@ function init($app) {
 
     $app['extensions']->insertSnippet('endofhead', 'GoogleAnalytics\insertAnalytics');
 
-    $app['extensions']->insertWidget('dashboard', 'right_first', 'GoogleAnalytics\insertWidget');
+    $additionalhtml = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
+    $additionalhtml .= '<script>google.load("visualization", "1", {packages:["corechart"]}); </script>';
+
+    $app['extensions']->insertWidget('dashboard', 'right_first', 'GoogleAnalytics\insertWidget', $additionalhtml, 3600);
 
 }
 

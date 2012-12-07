@@ -785,9 +785,11 @@ function getConfig()
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
 
-    // If the request URI starts with '/bolt' in the URL, we assume we're in the Backend.. Yeah.. Awesome..
-    // Add the theme folder if it exists and is readable.
-    if ( (substr($scripturi,0,5) != "bolt/") && (strpos($scripturi, "/bolt/") === false) && file_exists($themepath) ) {
+    // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
+    // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
+    if ( (substr($scripturi,0,5) != "bolt/") && (strpos($scripturi, "/bolt/") === false) &&
+        (substr($scripturi,0,6) != "async/") && (strpos($scripturi, "/async/") === false) &&
+        file_exists($themepath) ) {
         $config['twigpath'][] = $themepath;
     } else {
         $config['twigpath'][] = realpath(__DIR__.'/../view');
