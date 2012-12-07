@@ -82,7 +82,6 @@ function insertWidget()
     // http://www.codediesel.com/php/reading-google-analytics-data-from-php/
     // http://code.google.com/p/gapi-google-analytics-php-interface/wiki/UsingFilterControl
 
-
     $yamlparser = new \Symfony\Component\Yaml\Parser();
     $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
 
@@ -99,8 +98,6 @@ function insertWidget()
     }
 
     require_once(__DIR__.'/gapi/gapi.class.php');
-
-    //echo "<pre>\n" . \util::var_dump($config, true) . "</pre>\n";
 
     /* Create a new Google Analytics request and pull the results */
     $ga = new \gapi($config['ga_email'], $config['ga_password']);
@@ -151,10 +148,6 @@ function insertWidget()
     $aggr['bouncerate'] = round($aggr['bouncerate'] / count($tempresults), 1);
     $aggr['exitrate'] = round($aggr['exitrate'] / count($tempresults), 1);
 
-    //echo "<pre>\n" . \util::var_dump($aggr, true) . "</pre>\n";
-
-    // echo "<pre>\n" . \util::var_dump($pageviews, true) . "</pre>\n";
-
     // Get the 'populair sources'
     $ga->requestReportData(
         $config['ga_profile_id'],
@@ -187,8 +180,6 @@ function insertWidget()
         }
     }
 
-    // echo "<pre>\n" . \util::var_dump($sources, true) . "</pre>\n";
-
     // Get the 'popular pages'
     $ga->requestReportData(
         $config['ga_profile_id'],
@@ -211,10 +202,6 @@ function insertWidget()
             'visits' => $result->getVisits()
         );
     }
-
-    //echo "<pre>\n" . \util::var_dump($pages, true) . "</pre>\n";
-
-    //$app['twig.path'] = __DIR__;
 
     $caption = sprintf("Google Analytics for %s - %s.",
         date('M d', strtotime('-' . $config['number_of_days'] .' day')),
