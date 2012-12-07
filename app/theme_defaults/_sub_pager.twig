@@ -1,0 +1,50 @@
+
+{% if "filter" in app.request.query.all|keys %}
+    {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
+{% else %}
+    {% set filter = "" %}
+{% endif %}
+
+{% if "order" in app.request.query.all|keys %}
+    {% set order = "order=" ~ app.request.query.all.order ~ "&" %}
+{% else %}
+    {% set order = "" %}
+{% endif %}
+
+{% set link = "?" ~ filter ~ order ~ "page=" %}
+
+{% if pager.totalpages > 1 %}
+<div class="pagination pagination-centered {{class}}">
+  <ul>
+{# 'first' and 'prev' #}
+{% if pager.current > 1 and class!="narrow" %}
+    <li><a href="{{link}}{{pager.current-1}}">&lsaquo; </a></li>
+{% endif %}
+{% if pager.current > surr+1 %}
+    <li><a href="{{link}}{{1}}">&laquo; 1</a></li>
+{% endif %}
+
+{# start with '..' if there are more than surr+1 before currentpage.. #}
+{% if pager.current > surr+2 %}
+    <li class="disabled"><a href="#">...</a></li>
+{% endif %}
+
+{% for i in max(1, pager.current-surr)..min(pager.current+surr, pager.totalpages) %}
+    <li {% if i==pager.current %}class='active'{%endif%}><a href="{{link}}{{i}}">{{i}}</a></li>
+{% endfor %}    
+    
+{# end with '..' if there are more than surr+1 after currentpage.. #}
+{% if pager.current < (pager.totalpages - surr - 1) %}
+    <li class="disabled"><a href="#">...</a></li>
+{% endif %}    
+    
+{# 'next' and 'last' #}
+{% if pager.current < pager.totalpages-surr %}
+    <li><a href="{{link}}{{pager.totalpages}}">{{pager.totalpages}} &raquo; </a></li>
+{% endif %}
+{% if pager.current < pager.totalpages and class!="narrow" %}    
+    <li><a href="{{link}}{{pager.current+1}}">&rsaquo;</a></li>
+{% endif %}
+  </ul>
+</div>
+{% endif %} 

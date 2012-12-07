@@ -789,6 +789,8 @@ function getConfig()
     // Add the theme folder if it exists and is readable.
     if ( (substr($scripturi,0,5) != "bolt/") && (strpos($scripturi, "/bolt/") === false) && file_exists($themepath) ) {
         $config['twigpath'][] = $themepath;
+    } else {
+        $config['twigpath'][] = realpath(__DIR__.'/../view');
     }
 
     // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
@@ -799,7 +801,7 @@ function getConfig()
 
     // We add these later, because the order is important: By having theme/ourtheme first,
     // files in that folder will take precedence. For instance when overriding the menu template.
-    $config['twigpath'][] = realpath(__DIR__.'/../view_backend');
+    $config['twigpath'][] = realpath(__DIR__.'/../theme_defaults');
     $config['twigpath'][] = realpath(__DIR__.'/../extensions');
 
     // echo "<pre>\n" . \util::var_dump($config['twigpath'], true) . "</pre>\n";
