@@ -60,7 +60,7 @@ class lowlevelchecks
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(__DIR__."/../config/") . "/" . str_replace(".yml", ".dist", $name);
+        $distname = realpath(__DIR__."/../config/") . "/" . str_replace(".yml", ".yml.dist", $name);
         $ymlname = realpath(__DIR__."/../config/") . "/" . $name;
 
         if (file_exists($ymlname) && is_writable($ymlname)) {
@@ -74,7 +74,7 @@ class lowlevelchecks
             $this->lowlevelError($message);
         }
 
-        if (!copy($distname, $ymlname)) {
+        if (!rename($distname, $ymlname)) {
             $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file Manually, and make sure it's writable
             to the user that the webserver is using."
                 , $name);
