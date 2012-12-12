@@ -749,7 +749,6 @@ class Backend
         $app['log']->setRoute($route);
 
         $app['twig']->addGlobal('backend', true);
-        $app['twig']->addGlobal('paths', $app['paths']);
 
         // There's an active session, we're all good.
         if ($app['users']->checkValidSession()) {

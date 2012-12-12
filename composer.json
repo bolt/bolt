@@ -1,7 +1,7 @@
 {
     "name": "bobdenotter/bolt",
     "require": {
-        "silex/silex": "1.0.*",
+        "silex/silex": "1.0.*@dev",
         "symfony/yaml": "2.1.*",
         "symfony/form": "2.1.*",
         "symfony/validator": "2.1.*",
@@ -9,7 +9,7 @@
         "symfony/twig-bridge": "2.1.*",
         "symfony/translation": "2.1.*",
         "doctrine/dbal": "2.2.*",
-        "twig/twig": ">=1.8,<1.11",
+        "twig/twig": ">=1.8,<2.0-dev",
         "guzzle/guzzle": ">=2.6.2",
         "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
     },

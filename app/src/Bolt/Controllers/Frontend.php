@@ -22,7 +22,7 @@ class Frontend
         }
 
         $app['twig']->addGlobal('frontend', true);
-        $app['twig']->addGlobal('paths', $app['paths']);
+
     }
 
     function homepage(Silex\Application $app)

@@ -155,8 +155,6 @@ class Async
             $app->abort(404, "You must be logged in to use this.");
         }
 
-        $app['twig']->addGlobal('paths', $app['paths']);
-
     }
 
 
