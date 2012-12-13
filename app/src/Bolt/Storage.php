@@ -79,6 +79,11 @@ class Storage
             return false;
         }
 
+        // Check the relations table..
+        if (!isset($tables[$this->prefix."relations"])) {
+            return false;
+        }
+
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->config['contenttypes'] as $key => $contenttype) {
 
@@ -122,7 +127,7 @@ class Storage
 
         $dboptions = getDBOptions($this->config);
 
-        // Check the users table..
+        // Create the users table..
         if (!isset($tables[$this->prefix."users"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
@@ -146,7 +151,7 @@ class Storage
 
         }
 
-        // Check the taxonomy table..
+        // Create the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();
@@ -168,7 +173,28 @@ class Storage
         }
 
 
-        // Check the taxonomy table..
+        // Create the relations table..
+        if (!isset($tables[$this->prefix."relations"])) {
+
+            $schema = new \Doctrine\DBAL\Schema\Schema();
+            $myTable = $schema->createTable($this->prefix."relations");
+            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+            $myTable->setPrimaryKey(array("id"));
+            $myTable->addColumn("from_contenttype", "string", array("length" => 32));
+            $myTable->addColumn("from_id", "integer", array("unsigned" => true));
+            $myTable->addColumn("to_contenttype", "string", array("length" => 32));
+            $myTable->addColumn("to_id", "integer", array("unsigned" => true));
+
+            $queries = $schema->toSql($this->db->getDatabasePlatform());
+            $queries = implode("; ", $queries);
+            $this->db->query($queries);
+
+            $output[] = "Created table <tt>" . $this->prefix."relations" . "</tt>.";
+
+        }
+
+
+        // Create the log table..
         if (!isset($tables[$this->prefix."log"])) {
 
             $schema = new \Doctrine\DBAL\Schema\Schema();

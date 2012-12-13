@@ -47,6 +47,7 @@
             {% else %}
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no category)</option>
+                <option value="" disabled>-----------</option>
             {% endif %}
 
             {% for cat in taxonomy.options %}
@@ -66,7 +67,7 @@
 
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no group)</option>
-
+                <option value="" disabled>-----------</option>
             {% for group in taxonomy.options %}
                 <option value='{{group}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
             {% endfor %}

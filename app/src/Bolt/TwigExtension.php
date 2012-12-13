@@ -24,6 +24,7 @@ class TwigExtension extends \Twig_Extension
             'current' => new \Twig_Function_Method($this, 'current'),
             'token' => new \Twig_Function_Method($this, 'token'),
             'listtemplates' => new \Twig_Function_Method($this, 'listtemplates'),
+            'listcontent' => new \Twig_Function_Method($this, 'listcontent'),
             'pager' => new \Twig_Function_Method($this, 'pager', array('needs_environment' => true)),
             'max' => new \Twig_Function_Method($this, 'max'),
             'min' => new \Twig_Function_Method($this, 'min'),
@@ -250,6 +251,30 @@ class TwigExtension extends \Twig_Extension
         return $files;
 
     }
+
+
+
+    /**
+     * lists content of a specific contenttype, specifically for editing relations in the backend
+     *
+     * @param  string $contenttype
+     * @param  array $options
+     * @param  id $current
+     * @return string
+     */
+    public function listcontent($contenttype, $options)
+    {
+        global $app;
+
+        echo \util::var_dump($options, true);
+
+        $results = $app['storage']->getContent($contenttype, $options);
+
+        return $results;
+
+    }
+
+
 
 
     /**

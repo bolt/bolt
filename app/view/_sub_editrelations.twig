@@ -1,0 +1,30 @@
+
+{# relationships for this record #}
+{% if contenttype.relations is defined %}
+
+    {% set relations = contenttype.relations %}
+
+    {% for relcontenttype, relation in relations %}
+
+        <label for='relation-{{relcontenttype}}'><b><span class='left'>
+            {% if relation.label %}{{ relation.label }}{% else %}{{ relcontenttype|ucfirst }}{% endif %}:
+        </span></b></label>
+
+        {% if relation.multiple is defined and relation.multiple == 1 %}
+        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple>
+        {% else %}
+        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide'>
+            <option value="">(none)</option>
+            <option value="" disabled>-----------</option>
+            {% endif %}
+
+            {% for item in listcontent(relcontenttype, relation) %}
+                <option value="{{ item.id }}" {% if item.id in content.related %}selected{% endif %}>{{ item.title }} (№ {{ item.id }})</option>
+            {% endfor %}
+
+        </select>
+
+    {% endfor %}
+
+    <hr>
+{% endif %}

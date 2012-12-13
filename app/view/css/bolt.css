@@ -456,6 +456,11 @@ label span.left {
     min-width: 200px;
 }
 
+#editcontent select.wide {
+    width: 70%;
+    min-width: 200px;
+}
+
 #editcontent input.narrow.wide { /* Derp! */
     width: 60%;
     min-width: 200px;
