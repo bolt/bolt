@@ -49,35 +49,7 @@ class Backend
 
     }
 
-    /**
-     * Show the activity-log.
-     */
-    function activitylog(Silex\Application $app) {
 
-        $title = "Activity log";
-
-        $activity = $app['log']->getActivity(16);
-
-        return $app['twig']->render('activity.twig', array('title' => $title, 'activity' => $activity));
-
-    }
-
-    /**
-     * Latest {contenttype} to show a small listing in the sidebars..
-     */
-    function lastmodified(Silex\Application $app, $contenttypeslug) {
-
-        // Get the proper contenttype..
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
-
-        // get the 'latest' from the requested contenttype.
-        $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
-
-        $body = $app['twig']->render('sidebar-lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
-
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
-
-    }
 
     /**
      * Login page.

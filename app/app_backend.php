@@ -9,14 +9,6 @@ $backend->get("", '\Bolt\Controllers\Backend::dashboard')
     ->before('\Bolt\Controllers\Backend::before')
     ->bind('dashboard');
 
-$backend->get("/activitylog", '\Bolt\Controllers\Backend::activitylog')
-    ->before('\Bolt\Controllers\Backend::before')
-    ->bind('activitylog');
-
-$backend->get("/lastmodified/{contenttypeslug}", '\Bolt\Controllers\Backend::lastmodified')
-    ->before('\Bolt\Controllers\Backend::before')
-    ->bind('lastmodified');
-
 $backend->match("/login", '\Bolt\Controllers\Backend::login')
     ->method('GET|POST')
     ->before('\Bolt\Controllers\Backend::before')

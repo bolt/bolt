@@ -28,4 +28,12 @@ $asynchronous->post("/markdownify", '\Bolt\Controllers\Async::markdownify')
 $asynchronous->get("/makeuri", '\Bolt\Controllers\Async::makeuri')
     ->before('\Bolt\Controllers\Async::before');
 
+$asynchronous->get("/activitylog", '\Bolt\Controllers\Async::activitylog')
+    ->before('\Bolt\Controllers\Async::before')
+    ->bind('activitylog');
+
+$asynchronous->get("/lastmodified/{contenttypeslug}", '\Bolt\Controllers\Async::lastmodified')
+    ->before('\Bolt\Controllers\Async::before')
+    ->bind('lastmodified');
+
 $app->mount('/async', $asynchronous);
