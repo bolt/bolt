@@ -295,8 +295,10 @@ function bindVideoEmbedAjax(key) {
     // oembed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
     // TODO: make less dependant on key..
     var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=";
-    var url = endpoint + encodeURI($('#video-'+key).val());
+    var val = $('#video-'+key).val();
+    var url = endpoint + encodeURI(val);
 
+    console.log('val', val);
     console.log('url', url);
 
     $.getJSON(url, function(data) {
