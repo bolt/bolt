@@ -510,7 +510,6 @@ class TwigExtension extends \Twig_Extension
             $menu = util::array_first($menus);
         }
 
-
         foreach ($menu as $key => $item) {
             $menu[$key] = $this->menuHelper($item);
             if (isset($item['submenu'])) {
@@ -521,12 +520,7 @@ class TwigExtension extends \Twig_Extension
 
         }
 
-
-        // echo "<pre>\n" . util::var_dump($menu, true) . "</pre>\n";
-
         echo $env->render($template, array('name' => $name, 'menu' => $menu));
-
-
 
     }
 
