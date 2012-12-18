@@ -498,7 +498,7 @@ class Content
                 $allowedTags = array('a', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'u', 'strike');
                 $value = strip_tags($value, '<' . implode('><', $allowedTags) . '>');
 
-                $result = htmlspecialchars($value, ENT_COMPAT | ENT_XML1);
+                $result = htmlspecialchars($value, ENT_COMPAT | ENT_XML1, 'UTF-8', false);
                 if ($excerptLength > 0){
                     $result = trimText($result, $excerptLength);
                 }
