@@ -2,7 +2,7 @@
 
 Namespace Bolt;
 
-class Content
+class Content implements \ArrayAccess
 {
     public $id;
     public $values;
@@ -510,4 +510,42 @@ class Content
         }
         return "";
     }
+
+    /**
+     * ArrayAccess support
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->values[$offset]);
+    }
+
+    /**
+     * ArrayAccess support
+     */
+    public function offsetGet($offset)
+    {
+        if (isset($this->values[$offset])) {
+            return $this->values[$offset];
+        }
+        return null;
+    }
+
+    /**
+     * ArrayAccess support
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->values[$offset] = $value;
+    }
+
+    /**
+     * ArrayAccess support
+     */
+    public function offsetUnset($offset)
+    {
+        if (isset($this->values[$offset])) {
+            unset($this->values[$offset]);
+        }
+    }
+
 }
