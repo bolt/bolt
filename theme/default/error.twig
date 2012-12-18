@@ -12,11 +12,11 @@
 
 {% if app.config.general.debug %}
     {% for i in trace %}
-        {%  if i.line != "" %}
+        {% if i.line is defined and i.class is defined %}
             <p>
                 <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
-                <em>{{ i.file }}, line {{ i.line }}</em>
-                {%  if i.args %}
+                <em>{{ i.file }}{, line {{ i.line }}</em>
+                {%  if i.args is defined %}
                     {{ print(i.args) }}
                 {%  endif %}
             </p>

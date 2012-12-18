@@ -4,7 +4,7 @@
     <ul>
         <li id='pd-bolt'><strong><a href="{{ path('dashboard') }}">Bolt {{bolt_version}}</a></strong><small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></li>
         <li id='pd-variables'><a href="#" data-for="bolt-varpanel">{{timetaken}} s<span class='narrow'>ec / {{ maxmemtaken }}</span></a></li>
-        {% if frontend and editlink!="" %}
+        {% if frontend is defined and editlink!="" %}
 {#        <li id='pd-edit'><a href="#" data-for="bolt-editpanel">Edit</a></li> #}
         <li id='pd-edit'><a href="{{ editlink }}" data-for="bolt-editpanel">Edit</a></li>
         {% endif %}
@@ -33,9 +33,9 @@
 <pre>
 <strong>Time taken:</strong> {{timetaken}} sec. / <strong>Memory:</strong> {{ maxmemtaken }} (peak) / {{ memtaken }} (current).
 
-{% if frontend %}
+{% if frontend is defined %}
 <strong>Primary template: {{  logvalues.templatechosen }}</strong>
-{% if logvalues.templateerror %}{{ logvalues.templateerror }}
+{% if logvalues.templateerror is defined %}{{ logvalues.templateerror }}
 {% endif %}
 {% endif %}
 
@@ -60,8 +60,8 @@
 
 <div id='bolt-logpanel' class='bolt-debugpanel'>
 <pre>{% for item in log %}
-<span class='level-{{ item.level}}'>{{loop.index }}. <b>{{ item.message }}</b></span>
-in: {{ item.file }}::{{ item.line }} <small>({% if item.username %}{{ item.username }} -{% endif %} {{ item.date|date("H:i:s") }})</small>
+<span class='level-{% if item.level is defined %}{{ item.level }}{% else %}unknown{% endif %}'>{{loop.index }}. <b>{{ item.message }}</b></span>
+in: {{ item.file }}::{{ item.line }} <small>({% if item.username is defined %}{{ item.username }} -{% endif %} {{ item.date|date("H:i:s") }})</small>
 {% endfor %}
 </pre>
 </div>
@@ -75,7 +75,7 @@ in: {{ item.file }}::{{ item.line }} <small>({% if item.username %}{{ item.usern
 </pre>
 </div>
 
-{% if frontend %}
+{% if frontend is defined %}
 <script type="text/javascript">!window.jQuery && document.write('<script src="{{ paths.app }}view/js/jquery-1.8.3.min.js"><\/script>')</script>
 {% endif %}
 <script src="{{ paths.app }}view/js/debugbar.js"></script>

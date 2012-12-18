@@ -4,15 +4,15 @@
     {% for item in menu %}
 
         <li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
-            <a href="{{ item.link }}" {% if item.title %}title='{{ item.title|escape }}'{% endif %}
-            class='{% if item|current %}current {% endif %}{{item.class}}'>{{item.label}}</a>
+            <a href="{{ item.link }}" {% if item.title is defined %}title='{{ item.title|escape }}'{% endif %}
+            class='{% if item|current %}current {% endif %}{% if item.class is defined %}{{item.class}}{% endif %}'>{{item.label}}</a>
 
         {% if item.submenu is defined %}
         <ul>
             {% for item in item.submenu %}
             <li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
-                <a href="{{ item.link }}" {% if item.title %}title='{{ item.title|escape }}'{% endif %}
-                class='{% if item|current %}current {% endif %}{{item.class}}'>{{item.label}}</a>
+                <a href="{{ item.link }}" {% if item.title is defined %}title='{{ item.title|escape }}'{% endif %}
+                class='{% if item|current %}current {% endif %}{% if item.class is defined %}{{item.class}}{% endif %}'>{% if item.label is defined %}{{item.label}}{% endif %}</a>
             </li>
             {% endfor %}
         </ul>
