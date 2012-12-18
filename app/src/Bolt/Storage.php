@@ -500,11 +500,20 @@ class Storage
             }
 
             if ($values['type'] == "video" && !empty($fieldvalues[$key]['html']) ) {
-                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                if (strlen($fieldvalues[$key]['url'])<2) {
+                    $fieldvalues[$key] = "";
+                } else {
+                    $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                }
             }
 
             if ($values['type'] == "geolocation" && !empty($fieldvalues[$key]['latitude']) ) {
                 $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                if (strlen($fieldvalues[$key]['address'])<2) {
+                    $fieldvalues[$key] = "";
+                } else {
+                    $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                }
             }
 
             if ($values['type'] == "integer") {
