@@ -189,21 +189,12 @@ class Frontend
 
         // Then, select which template to use, based on our
         // 'cascading templates rules'
-        if (!empty($contenttype['feed_template'])) {
-            $template = $contenttype['feed_template'];
+        if (!empty($contenttype['rss']['feed_template'])) {
+            $template = $contenttype['rss']['feed_template'];
+        } else if (!empty($app['config']['rss']['feed_template'])) {
+            $template = $app['config']['rss']['feed_template'];
         } else {
-            $filename = $app['paths']['themepath'] . "/rss.twig";
-            if (file_exists($filename) && is_readable($filename)) {
-                $template = 'rss.twig';
-            } else {
-                $template = $app['config']['rss']['feed_template'];
-            }
-        }
-
-        // Fallback: If file is not OK, show an error page
-        $filename = $app['paths']['themepath'] . "/" . $template;
-        if (!file_exists($filename) || !is_readable($filename)) {
-            $app->abort(404, "No template for '$contenttypeslug' defined. Tried to use '$template'.");
+            $template = 'rss.twig';
         }
 
         $body = $app['twig']->render($template, array(
