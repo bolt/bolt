@@ -14,7 +14,8 @@ $app->match('/{contenttypeslug}/feed.{extension}', 'Bolt\Controllers\Frontend::f
 
 $app->match('/{contenttypeslug}/{slug}', 'Bolt\Controllers\Frontend::record')
     ->before('Bolt\Controllers\Frontend::before')
-    ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true));
+    ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
+    ->bind('contentlink');
 
 $app->match('/{contenttypeslug}', 'Bolt\Controllers\Frontend::listing')
     ->before('Bolt\Controllers\Frontend::before')
