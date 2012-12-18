@@ -4,7 +4,10 @@
 
     <ul class='activity'>
 {% for log in activity %}
-    {% set username = attribute(users, log.username).displayname %}
+    {% set username = 'unknown' %}
+    {% if attribute(users, log.username) is defined %}
+        {% set username = attribute(users, log.username).displayname %}
+    {% endif %}
     <li>
         {%  if log.code == "save content" %}
             Saved {{ log.contenttype }} "<strong>{{ log.message }}</strong>" by <em>{{ username }}</em>

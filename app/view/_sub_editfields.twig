@@ -1,7 +1,7 @@
 {% for key, field in contenttype.fields %}
 
 {# --------------- prefix --------------- #}
-{% if field.prefix is not empty %}
+{% if field.prefix is defined and field.prefix is not empty %}
 <div class='clearfix'>
     {{ field.prefix }}
 </div>
@@ -10,7 +10,7 @@
 
 {# --------------- text --------------- #}
 
-{% if field.type == "text" and field.variant == "" %}
+{% if field.type == "text" and ( field.variant is not defined or field.variant == "" ) %}
 <label><b>
     {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
 </b></label>
@@ -19,7 +19,7 @@
     class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
 {% endif %}
 
-{% if field.type == "text" and field.variant == "inline" %}
+{% if field.type == "text" and field.variant is defined and field.variant == "inline" %}
 <label><b><span class='left'>
     {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
 </span></b></label>
@@ -476,13 +476,13 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 
 {# ---------------postfix & divider --------------- #}
 
-{% if field.postfix is not empty %}
+{% if field.postfix is defined and field.postfix is not empty %}
     <div class='clearfix'>
         {{ field.postfix }}
     </div>
 {% endif %}
 
-{% if field.separator == true %}
+{% if field.separator is defined and field.separator == true %}
     <hr>
 {% endif %}
 
