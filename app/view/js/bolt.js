@@ -298,8 +298,22 @@ function bindVideoEmbedAjax(key) {
     var val = $('#video-'+key).val();
     var url = endpoint + encodeURI(val);
 
-    console.log('val', val);
-    console.log('url', url);
+    // If val is emptied, clear the video fields..
+    if (val.length < 2) {
+        $('#video-'+key+'-html').val('');
+        $('#video-'+key+'-width').val('');
+        $('#video-'+key+'-height').val('');
+        $('#video-'+key+'-ratio').val('');
+        $('#video-'+key+'-text').html('');
+        $('#myModal').find('.modal-body').html('');
+        $('#video-'+key+'-author_name').val('');
+        $('#video-'+key+'-author_url').val('');
+        $('#video-'+key+'-title').val('');
+        $('#thumbnail-'+key).html('');
+        $('#video-'+key+'-thumbnail').val('');
+        return;
+    }
+
 
     $.getJSON(url, function(data) {
         console.log(data);
@@ -365,8 +379,19 @@ var geotimeout;
 
 function bindGeoAjax(key) {
 
-    $.goMap.setMap({ address: $("#" + key + "-address").val() });
-    $.goMap.setMarker('pinmarker', { address: $("#" + key + "-address").val() });
+    var address = $("#" + key + "-address").val();
+
+    // If address is emptied, clear the address fields..
+    if (address.length < 2) {
+        $('#' + key + '-latitude').val('');
+        $('#' + key + '-longitude').val('');
+        $('#' + key + '-reversegeo').html('');
+        $('#' + key + '-formatted_address').val('');
+        return;
+    }
+
+    $.goMap.setMap({ address: address });
+    $.goMap.setMarker('pinmarker', { address: address });
 
     setTimeout( function(){ updateGeoCoords(key); }, 500);
 
