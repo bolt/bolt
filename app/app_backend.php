@@ -202,12 +202,14 @@ $app->after(function (Request $request, Response $response) use ($app) {
  */
 $app->error(function (Exception $e) use ($app) {
 
+    $paths = getPaths($app['config']);
+
     $twigvars = array();
 
     $twigvars['class'] = get_class($e);
     $twigvars['message'] = $e->getMessage();
     $twigvars['code'] = $e->getCode();
-    $twigvars['paths'] = getPaths($app['config']);
+    $twigvars['paths'] = $paths;
 
     $trace = $e->getTrace();
 
@@ -216,6 +218,10 @@ $app->error(function (Exception $e) use ($app) {
         if (!empty($value['file']) && strpos($value['file'], "/vendor/") > 0 ) {
             unset($trace[$key]['args']);
         }
+
+        // Don't display the full path..
+        $trace[$key]['file'] = str_replace($paths['rootpath'], "[root]", $trace[$key]['file']);
+
     }
 
     $twigvars['trace'] = $trace;
