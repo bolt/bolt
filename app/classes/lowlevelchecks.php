@@ -77,11 +77,10 @@ class lowlevelchecks
                 "present and writable to the user that the webserver is using.");
         }
 
-        if (!is_writable(__DIR__.'/../database/'.$filename)) {
+        if (!is_writable(__DIR__.'/../database/'.$filename) && !is_writable(__DIR__.'/../database') ) {
             $this->lowlevelError("The database file <code>app/database/$filename</code> isn't writable. Make sure it's " .
-                "present and writable to the user that the webserver is using.");
+                "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file.");
         }
-
 
     }
 
