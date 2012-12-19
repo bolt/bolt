@@ -20,6 +20,10 @@ require_once __DIR__.'/classes/util.php';
 $starttime=getMicrotime();
 
 $config = getConfig();
+
+// Finally, check if the app/database folder is writable, if it needs to be.
+$checker->doDatabaseCheck($config);
+
 $dboptions = getDBOptions($config);
 
 $app = new Silex\Application();

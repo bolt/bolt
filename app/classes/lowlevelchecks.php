@@ -53,6 +53,39 @@ class lowlevelchecks
     }
 
     /**
+     * Perform the check for the database folder. We do this seperately, because it can only
+     * be done _after_ the other checks, since we need to have the $config, to see if we even
+     * _need_ to do this check.
+     */
+    public function doDatabaseCheck($config)
+    {
+
+        $cfg = $config['general']['database'];
+
+        if ($cfg['driver'] != 'sqlite') {
+            return;
+        }
+
+        $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : "bolt";
+        if (getExtension($filename)!="db") {
+            $filename .= ".db";
+        }
+
+        // Check if the app/database folder and .db file are present and writable
+        if (!file_exists(__DIR__.'/../database')) {
+            $this->lowlevelError("The folder <code>app/database/</code> doesn't exist. Make sure it's " .
+                "present and writable to the user that the webserver is using.");
+        }
+
+        if (!is_writable(__DIR__.'/../database/'.$filename)) {
+            $this->lowlevelError("The database file <code>app/database/$filename</code> isn't writable. Make sure it's " .
+                "present and writable to the user that the webserver is using.");
+        }
+
+
+    }
+
+    /**
      * Check if a config file is present and writable. If not, try to create it
      * from the filename.dist.
      *
