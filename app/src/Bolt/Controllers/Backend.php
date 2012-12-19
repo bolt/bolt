@@ -180,10 +180,8 @@ class Backend
 
         if (!empty($_GET['order'])) {
             $order = $_GET['order'];
-        } elseif (!empty($contenttype['sort'])) {
-            $order = $contenttype['sort'];
         } else {
-            $order = 'datechanged DESC';
+            $order = '';
         }
 
         $page = $app['request']->query->get('page');

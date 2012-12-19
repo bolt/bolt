@@ -1145,39 +1145,15 @@ class Storage
         $this->getTaxonomy($content);
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
-        // If so, iterate over the content, and set ['grouping'] for each unit of content.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
         if ( (empty($_GET['order']) && empty($parameters['order']) ) ||
                 $contenttype['sort']==$parameters['order']) {
-            $have_grouping = false;
-            $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
-            foreach ($taxonomy as $taxokey => $taxo) {
-                if ($taxo['behaves_like']=="grouping") {
-                    $have_grouping = true;
-                    break;
-                }
-            }
 
-            if ($have_grouping) {
-                uasort(
-                    $content,
-                    function ($a, $b) {
-                        $second_sort = $a->contenttype['sort'];
-                        if (!isset($a->group) || !isset($b->group) || $a->group == $b->group) {
-                            // Same group, so we sort on contenttype['sort']
-                            $second_sort = $a->contenttype['sort'];
-                            if ($a->values[$second_sort] == $b->values[$second_sort]) {
-                                return 0;
-                            } else {
-                                return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
-                            }
-                        }
-
-                        return ($a->group < $b->group) ? -1 : 1;
-                    }
-                );
+            if ($this->getContentTypeGrouping($contenttypeslug)) {
+                uasort($content, array($this, 'groupingSort'));
             }
         }
+
 
         if (!$returnsingle) {
             // Set up the $pager array with relevant values..
@@ -1213,6 +1189,28 @@ class Storage
             return $content;
         }
 
+    }
+
+    /**
+     * Helper function for sorting Records of content that have a Grouping.
+     * 
+     * @param object $a
+     * @param object $b
+     * @return int
+     */
+    private function groupingSort($a, $b) 
+    {
+        if ($a->group == $b->group) {
+            // Same group, so we sort on contenttype['sort']
+            $second_sort = $a->contenttype['sort'];
+            if ($a->values[$second_sort] == $b->values[$second_sort]) {
+                return 0;
+            } else {
+                return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
+            }
+        }
+
+        return ($a->group < $b->group) ? -1 : 1;        
     }
 
     /**
@@ -1382,6 +1380,29 @@ class Storage
         } else {
             return array_keys($contenttype['fields']);
         }
+
+    }
+
+
+    /**
+     * Check if a given contenttype has a grouping, and if it does, return it.
+     *
+     * @param  string $contenttypeslug
+     * @return mixed  $grouping
+     */
+    public function getContentTypeGrouping($contenttypeslug)
+    {
+
+        $grouping = false;
+        $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
+        foreach ($taxonomy as $taxokey => $taxo) {
+            if ($taxo['behaves_like']=="grouping") {
+                $grouping = $taxo['slug'];
+                break;
+            }
+        }
+
+        return $grouping;
 
     }
 
