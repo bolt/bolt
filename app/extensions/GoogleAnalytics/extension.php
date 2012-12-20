@@ -220,12 +220,7 @@ function insertWidget()
 
 }
 
-// TODO: Rewrite this. yuck.
+
 function secondMinute($seconds) {
-    $minResult = floor($seconds/60);
-    if($minResult < 10){$minResult = 0 . $minResult;}
-    $secResult = ($seconds/60 - $minResult)*60;
-    if($secResult < 10){$secResult = 0 . round($secResult);}
-    else { $secResult = round($secResult); }
-    return $minResult.":".$secResult;
+    return sprintf('%d:%02d', floor($seconds/60), $seconds % 60);
 }
