@@ -11,7 +11,6 @@ class Frontend
 
     function before(Request $request, Silex\Application $app)
     {
-
         $app['end'] = "frontend";
 
         // If there are no users in the users table, or the table doesn't exist. Repair
@@ -22,6 +21,7 @@ class Frontend
         }
 
         $app['twig']->addGlobal('frontend', true);
+        $app['debugbar'] = true;
 
     }
 
@@ -155,9 +155,7 @@ class Frontend
     {
         // Clear the snippet queue
         $app['extensions']->clearSnippetQueue();
-        // You *will* have to debug the feed yourself. The debug toolbar cannot
-        // help you with that (yet?)
-        $app['debug'] = false;
+        $app['debugbar'] = false;
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
