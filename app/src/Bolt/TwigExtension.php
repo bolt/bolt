@@ -167,8 +167,16 @@ class TwigExtension extends \Twig_Extension
             return false;
         }
 
+        $link = false;
+        if (is_array($content) && isset($content['link'])) {
+            $link = $content['link'];
+        }
+        else if ($content instanceof \Bolt\Content) {
+            $link = $content->link();
+        }
+
         // check against simple content.link
-        if ("/".$route_params['contenttypeslug']."/".$route_params['slug'] == $content['link']) {
+        if ("/".$route_params['contenttypeslug']."/".$route_params['slug'] == $link) {
             return true;
         }
 
