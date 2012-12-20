@@ -17,8 +17,6 @@ templates. 'entry.twig' is much more straightforward.
     <h2>{{ record.subtitle }}</h2>
     {% endif %}
 
-    {{ record.markdown }}
-
     {% for key,value in record.values %}
 
         {%  if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'title', 'subtitle'] %}
@@ -71,6 +69,14 @@ templates. 'entry.twig' is much more straightforward.
     {% endfor %}
 
     <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datepublish|date("M d, ’y")}}</p>
+
+    {% if record.taxonomy is defined %}
+        <ul>
+        {% for type, values in record.taxonomy %}
+            <li><strong>{{ type }}</strong>: {{ values|join(", ") }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 
     {{ print(record) }}
 
