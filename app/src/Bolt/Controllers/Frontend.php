@@ -155,9 +155,7 @@ class Frontend
     {
         // Clear the snippet queue
         $app['extensions']->clearSnippetQueue();
-        // You *will* have to debug the feed yourself. The debug toolbar cannot
-        // help you with that (yet?)
-        $app['debug'] = false;
+        $app['debugbar'] = false;
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
