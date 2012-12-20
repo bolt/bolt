@@ -270,13 +270,25 @@ class TwigExtension extends \Twig_Extension
      * @param  id $current
      * @return string
      */
-    public function listcontent($contenttype, $options)
+    public function listcontent($contenttype, $options, $content)
     {
         global $app;
 
-        echo \util::var_dump($options, true);
+        // Just the relations for the current record, and just the current $contenttype.
+        $current = $content->relation[$contenttype];
 
+        // TODO: Perhaps make something more lightweight for this?
         $results = $app['storage']->getContent($contenttype, $options);
+
+        // Loop the array, set records in 'current' to have a 'selected' flag.
+        foreach($results as $key => $result) {
+            if (in_array($result->id, $current)) {
+                $results[$key]['selected'] = true;
+            } else {
+                $results[$key]['selected'] = false;
+            }
+        }
+
 
         return $results;
 

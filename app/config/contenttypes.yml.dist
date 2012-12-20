@@ -94,6 +94,11 @@ kitchensink:
             type: integer
         floatfield:
             type: float
+    relations:
+        entries:
+            multiple: false
+            label: Choose an entry
+            order: -id
     taxonomy: [ categories, tags, chapters ]
     sort: title
     recordsperpage: 8

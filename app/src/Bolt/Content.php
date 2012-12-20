@@ -7,6 +7,7 @@ class Content implements \ArrayAccess
     public $id;
     public $values;
     public $taxonomy;
+    public $relation;
     public $contenttype;
 
     public function __construct($values = "", $contenttype = "")
@@ -109,7 +110,7 @@ class Content implements \ArrayAccess
 
         $values = cleanPostedData($values);
 
-        // Some field type need to do things to the POST-ed value.
+        // Some field types need to do things to the POST-ed value.
         foreach ($contenttype['fields'] as $fieldname => $field) {
 
             if ($field['type'] == "video" && isset($values[ $fieldname ])) {
@@ -136,6 +137,26 @@ class Content implements \ArrayAccess
                 $values[ $fieldname ] = $video;
             }
 
+        }
+
+        // Get the taxonomies from the POST-ed values.
+        // TODO: use $this->setTaxonomy() for this
+        if (!empty($values['taxonomy'])) {
+            foreach ($values['taxonomy'] as $taxonomytype => $value) {
+                if (!is_array($value)) {
+                    $value = explode(",", $value);
+                }
+                $this->taxonomy[$taxonomytype] = $value;
+            }
+            unset($values['taxonomy']);
+        }
+
+
+        // Get the relations from the POST-ed values.
+        // TODO: use $this->setRelation() for this
+        if (!empty($values['relation'])) {
+            $this->relation = $values['relation'];
+            unset($values['relation']);
         }
 
         // TODO: check for allowed file types..
@@ -248,6 +269,23 @@ class Content implements \ArrayAccess
         }
 
     }
+
+    public function setRelation($contenttype, $id)
+    {
+
+        if (!empty($this->relation[$contenttype])) {
+            $ids = $this->relation[$contenttype];
+        } else {
+            $ids = array();
+        }
+
+        $ids[] = $id;
+        sort($ids);
+
+        $this->relation[$contenttype] = array_unique($ids);
+
+    }
+
 
     public function getTaxonomyType($type)
     {

@@ -565,10 +565,16 @@ class Storage
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
-            return $this->insertContent($fieldvalues, $contenttype, $content->taxonomy);
+            $id = $this->insertContent($fieldvalues, $contenttype);
         } else {
-            return $this->updateContent($fieldvalues, $contenttype, $content->taxonomy);
+            $id = $fieldvalues['id'];
+            $this->updateContent($fieldvalues, $contenttype);
         }
+
+        $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
+        $this->updateRelation($contenttype, $id, $content->relation);
+
+        return $id;
 
     }
 
@@ -636,12 +642,6 @@ class Storage
         $content['datecreated'] = date('Y-m-d H:i:s');
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        // Keep taxonomy for later.
-        if (isset($content['taxonomy'])) {
-            $contenttaxonomy = $content['taxonomy'];
-            unset($content['taxonomy']);
-        }
-
         // id is set to autoincrement, so let the DB handle it
         unset($content['id']);
 
@@ -649,14 +649,7 @@ class Storage
 
         $id = $this->db->lastInsertId();
 
-        // Add the taxonomies, if present.
-        if (isset($contenttaxonomy)) {
-            $this->updateTaxonomy($contenttype, $id, $contenttaxonomy);
-        } elseif (!empty($taxonomy)) {
-            $this->updateTaxonomy($contenttype, $id, $taxonomy);
-        }
-
-        return $res;
+        return $id;
 
     }
 
@@ -671,14 +664,6 @@ class Storage
 
         $tablename = $this->prefix . $contenttype;
 
-        // Update the taxonomies, if present.
-        if (isset($content['taxonomy'])) {
-            $this->updateTaxonomy($contenttype, $content['id'], $content['taxonomy']);
-            unset($content['taxonomy']);
-        } elseif (!empty($taxonomy)) {
-            $this->updateTaxonomy($contenttype, $content['id'], $taxonomy);
-        }
-
         unset($content['datecreated']);
         $content['datechanged'] = date('Y-m-d H:i:s');
 
@@ -692,15 +677,10 @@ class Storage
 
         $tablename = $this->prefix . $contenttype;
 
-        // Update the taxonomies, if present.
-        if (isset($content['taxonomy'])) {
-            $this->updateTaxonomy($contenttype, $content->id, $content['taxonomy']);
-            unset($content['taxonomy']);
-        }
-
         $id = intval($id);
 
-        unset($content['datecreated']);
+        // TODO: make sure we don't set datecreated
+        // TODO: update datechanged
 
         $query = "UPDATE $tablename SET $field = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
@@ -741,11 +721,8 @@ class Storage
 
         }
 
-
         $content->setValues($values);
 
-
-        // echo "<pre>\n" . util::var_dump($content, true) . "</pre>\n";
         return $content;
 
 
@@ -857,8 +834,9 @@ class Storage
             $content[$value['id']] = new Bolt\Content($value, $contenttype);
         }
 
-        // Make sure all content has their taxonomies
+        // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
+        $this->getRelation($content);
 
         // Set up the $pager array with relevant values..
         $rowcount = $this->db->executeQuery($pagerquery)->fetch();
@@ -980,8 +958,9 @@ class Storage
             $content[$value['id']] = new Bolt\Content($value, $contenttype);
         }
 
-        // Make sure all content has their taxonomies
+        // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
+        $this->getRelation($content);
 
         // Set up the $pager array with relevant values..
         $rowcount = $this->db->executeQuery($pagerquery)->fetch();
@@ -1141,8 +1120,9 @@ class Storage
             $content[ $value['id'] ] = new Bolt\Content($value, $contenttype);
         }
 
-        // Make sure all content has their taxonomies
+        // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
+        $this->getRelation($content);
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
@@ -1193,12 +1173,12 @@ class Storage
 
     /**
      * Helper function for sorting Records of content that have a Grouping.
-     * 
+     *
      * @param object $a
      * @param object $b
      * @return int
      */
-    private function groupingSort($a, $b) 
+    private function groupingSort($a, $b)
     {
         if ($a->group == $b->group) {
             // Same group, so we sort on contenttype['sort']
@@ -1210,7 +1190,7 @@ class Storage
             }
         }
 
-        return ($a->group < $b->group) ? -1 : 1;        
+        return ($a->group < $b->group) ? -1 : 1;
     }
 
     /**
@@ -1448,7 +1428,7 @@ class Storage
         $ids = util::array_pluck($content, 'id');
 
         if (empty($ids)) {
-            return $content;
+            return;
         }
 
         // Get the contenttype from first $content
@@ -1482,10 +1462,12 @@ class Storage
 
         $tablename = $this->prefix . "taxonomy";
 
+        // Make sure $contenttype is a 'slug'
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+
         foreach ($taxonomy as $taxonomytype => $newvalues) {
-            if (!is_array($newvalues)) {
-                $newvalues = explode(",", $newvalues);
-            }
 
             // Get the current values from the DB..
             $query = "SELECT id, slug FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=?";
@@ -1498,36 +1480,170 @@ class Storage
                 if (!in_array($value, $currentvalues) && (!empty($value))) {
                     // Insert it!
                     $row = array(
-                            'content_id' => $content_id,
-                            'contenttype' => $contenttype,
-                            'taxonomytype' => $taxonomytype,
-                            'slug' => $value
-                        );
+                        'content_id' => $content_id,
+                        'contenttype' => $contenttype,
+                        'taxonomytype' => $taxonomytype,
+                        'slug' => $value
+                    );
                     $this->db->insert($tablename, $row);
                 }
 
             }
 
             // Delete the ones that have been removed.
-            // Add the ones not yet present..
             foreach ($currentvalues as $id => $value) {
 
                 if (!in_array($value, $newvalues)) {
-                    // Delete it!
-                    $row = array(
-                            'content_id' => $content_id,
-                            'contenttype' => $contenttype,
-                            'taxonomytype' => $taxonomytype,
-                            'slug' => $value
-                        );
                     $this->db->delete($tablename, array('id' => $id));
-                    // echo "delete: $id, $value<br />";
                 }
             }
 
         }
 
     }
+
+
+    /**
+     * Get the relations for one or more units of content, return the array with the taxonomy attached.
+     *
+     * @param array $content
+     *
+     * @return array $content
+     */
+    protected function getRelation($content)
+    {
+
+        $tablename = $this->prefix . "relations";
+
+        $ids = util::array_pluck($content, 'id');
+
+        if (empty($ids)) {
+            return;
+        }
+
+        // Get the contenttype from first $content
+        $contenttype = $content[ util::array_first_key($content) ]->contenttype['slug'];
+
+        $query = sprintf(
+            "SELECT * FROM $tablename WHERE from_contenttype=%s AND from_id IN (%s)",
+            $this->db->quote($contenttype),
+            implode(", ", $ids)
+        );
+        $rows = $this->db->fetchAll($query);
+
+        foreach ($rows as $key => $row) {
+            $content[ $row['from_id'] ]->setRelation($row['to_contenttype'], $row['to_id']);
+        }
+
+        // switch it, flip it and reverse it. wop wop wop.
+        $query = sprintf(
+            "SELECT * FROM $tablename WHERE to_contenttype=%s AND to_id IN (%s)",
+            $this->db->quote($contenttype),
+            implode(", ", $ids)
+        );
+        $rows = $this->db->fetchAll($query);
+
+        foreach ($rows as $key => $row) {
+            $content[ $row['to_id'] ]->setRelation($row['from_contenttype'], $row['from_id']);
+        }
+
+
+    }
+
+    /**
+     * Update / insert relation for a given content-unit.
+     *
+     * $relation looks like:
+     * arr(2)
+     * [
+     *   "pages"        => arr(1)
+     *   [
+     *      0 => str(2) "22"
+     *   ]
+     *   "kitchensinks" => arr(3)
+     *   [
+     *      0 => str(2) "15"
+     *      1 => str(1) "9"
+     *      2 => str(2) "13"
+     *   ]
+     * ]
+     *
+     * $currentvalues looks like
+     * arr(2)
+     * [
+     *   0 => arr(3)
+     *   [
+     *     "id"             => str(1) "5"
+     *     "to_contenttype" => str(12) "kitchensinks"
+     *     "to_id"          => str(2) "15"
+     *   ]
+     *   1 => arr(3)
+     *   [
+     *     "id"             => str(1) "6"
+     *     "to_contenttype" => str(12) "kitchensinks"
+     *     "to_id"          => str(1) "9"
+     *   ]
+     * ]
+     *
+     *
+     * @param string  $contenttype
+     * @param integer $content_id
+     * @param array   $relation
+     */
+    protected function updateRelation($contenttype, $content_id, $relation)
+    {
+
+        $tablename = $this->prefix . "relations";
+
+        // Make sure $contenttype is a 'slug'
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+
+        // Get the current values from the DB..
+        $query = "SELECT id, to_contenttype, to_id FROM $tablename WHERE from_id=? AND from_contenttype=?";
+        $currentvalues = $this->db->fetchAll($query, array($content_id, $contenttype));
+
+        // Delete the ones that have been removed.
+        foreach ($currentvalues as $currentvalue) {
+
+            if (!isset($relation[ $currentvalue['to_contenttype'] ]) ||
+                !in_array($currentvalue['to_id'], $relation[ $currentvalue['to_contenttype'] ])) {
+                $this->db->delete($tablename, array('id' => $currentvalue['id']));
+            }
+        }
+
+        // Make an easier array out of $currentvalues.
+        $tempvalues = $currentvalues;
+        $currentvalues = array();
+        foreach($tempvalues as $tempvalue) {
+            $currentvalues[] = $tempvalue['to_contenttype'] ."/" . $tempvalue['to_id'];
+        }
+
+        // Add the ones not yet present..
+        foreach ($relation as $to_contenttype => $newvalues) {
+
+            foreach ($newvalues as $value) {
+
+                if (!in_array($to_contenttype."/".$value, $currentvalues) && (!empty($value))) {
+                    // Insert it!
+                    $row = array(
+                        'from_contenttype' => $contenttype,
+                        'from_id' => $content_id,
+                        'to_contenttype' => $to_contenttype,
+                        'to_id' => $value
+                    );
+                    $this->db->insert($tablename, $row);
+                }
+
+            }
+
+
+        }
+
+
+    }
+
 
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true)
     {
