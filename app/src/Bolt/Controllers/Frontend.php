@@ -11,7 +11,6 @@ class Frontend
 
     function before(Request $request, Silex\Application $app)
     {
-
         $app['end'] = "frontend";
 
         // If there are no users in the users table, or the table doesn't exist. Repair
@@ -22,6 +21,7 @@ class Frontend
         }
 
         $app['twig']->addGlobal('frontend', true);
+        $app['debugbar'] = true;
 
     }
 

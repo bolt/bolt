@@ -25,6 +25,7 @@ $dboptions = getDBOptions($config);
 $app = new Silex\Application();
 
 $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
+$app['debugbar'] = false;
 $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider(), array(

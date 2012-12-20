@@ -33,7 +33,7 @@
 <pre>
 <strong>Time taken:</strong> {{timetaken}} sec. / <strong>Memory:</strong> {{ maxmemtaken }} (peak) / {{ memtaken }} (current).
 
-{% if frontend is defined %}
+{% if frontend is defined and logvalues.templatechosen is defined %}
 <strong>Primary template: {{  logvalues.templatechosen }}</strong>
 {% if logvalues.templateerror is defined %}{{ logvalues.templateerror }}
 {% endif %}
