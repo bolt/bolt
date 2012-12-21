@@ -224,7 +224,7 @@ class Extensions
             'location' => $location,
             'callback' => $callback,
             'additionalhtml' => $additionalhtml,
-            'cacheduration' => $cache,
+            'cacheduration' => $cacheduration,
             'defer' => $defer,
             'var1' => $var1,
             'var2' => $var2,
