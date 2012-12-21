@@ -1086,7 +1086,11 @@ class Storage
         }
 
         // Order, with a special case for 'RANDOM'.
-        if (!empty($parameters['order'])) {
+        if (empty($parameters['order'])) {
+            if (!empty($contenttype['sort'])) {
+                $queryparams .= " ORDER BY " . $contenttype['sort'];
+            }
+        } else {
             if ($parameters['order'] == "RANDOM") {
                 $dboptions = getDBOptions($this->config);
                 $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
@@ -1126,9 +1130,7 @@ class Storage
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        if ( (empty($_GET['order']) && empty($parameters['order']) ) ||
-                $contenttype['sort']==$parameters['order']) {
-
+        if ( empty($_GET['order']) && empty($parameters['order']) ) {
             if ($this->getContentTypeGrouping($contenttypeslug)) {
                 uasort($content, array($this, 'groupingSort'));
             }
