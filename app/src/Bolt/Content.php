@@ -440,6 +440,42 @@ class Content implements \ArrayAccess
     }
 
     /**
+     * Gets one or more related records.
+     *
+     */
+    public function related($filtercontenttype="", $filterid="")
+    {
+        global $app;
+
+        if (empty($this->relation)) {
+            // nothing to do here.
+            return false;
+        }
+
+        $records = array();
+
+        foreach($this->relation as $contenttype => $ids) {
+
+            if (!empty($filtercontenttype) && ($contenttype!=$filtercontenttype) ) {
+                continue; // Skip other contenttypes, if we requested a specific type.
+            }
+
+            foreach($ids as $id) {
+
+                if (!empty($filterid) && ($id!=$filterid) ) {
+                    continue; // Skip other ids, if we requested a specific id.
+                }
+
+                $records[] = $app['storage']->getContent($contenttype."/".$id);
+            }
+        }
+
+        return $records;
+
+    }
+
+
+    /**
      * Gets the correct template to use, based on our cascading template rules.
      *
      */
