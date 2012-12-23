@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Bolt - Error</title>
+    <link rel="stylesheet" type="text/css" href="/app/view/css/bootstrap.min.css" />
+</head>
+<body style="padding: 20px;">
+
+    <div style="max-width: 530px; margin: auto;">
+
+    <h1>Bolt - Error.</h1>
+
+    <ul>
+        <li>Class: {{ class }}</li>
+        <li>Message: {{ message }}</li>
+        <li>Code: {{ code }}</li>
+    </ul>
+
+    {% if app.config.general.debug %}
+        {% for i in trace %}
+            {% if i.line is defined and i.class is defined %}
+                <p>
+                    <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
+                    <em>{{ i.file }}, line {{ i.line }}</em>
+                    {%  if i.args is defined %}
+                        {{ print(i.args) }}
+                    {%  endif %}
+                </p>
+            {%  endif %}
+        {%  endfor %}
+    {% endif %}
+
+    </div>
+    <hr>
+
+</body>
+</html>
