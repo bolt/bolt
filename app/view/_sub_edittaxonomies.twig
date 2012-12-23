@@ -3,6 +3,7 @@
 {% if contenttype.taxonomy is defined %}
 {% set taxonomies = contenttype.taxonomy %}
 
+<h3>Taxonomy</h3>
 
 {% for taxonomyslug in taxonomies %}
 
@@ -23,14 +24,12 @@
                 {% set tags = "" %}
             {% endif %}
 
-            <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" />
+            <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" style="width: 70%;" />
 
             <script>
-            $('#taxonomy-{{taxonomy.slug}}').tagit({
-                // availableTags: sampleTags,
-                singleField: true,
-                singleFieldNode: $('#taxonomy-{{taxonomy.slug}}'),
-                animate: false
+            $('#taxonomy-{{taxonomy.slug}}').select2({
+                tags:[], // Todo: automatically supply most often-used tags.
+                tokenSeparators: [",", " "]
             });
             </script>
 
