@@ -6,27 +6,27 @@
 
     <title>bolt {% if title is defined %}- {{title}}{% endif %}</title>
 
-
     <script src="{{ paths.app }}view/js/jquery-1.8.3.min.js"></script>
     <script src="{{ paths.app }}view/js/underscore-min.js"></script>
     <script src="{{ paths.app }}view/js/backbone-min.js"></script>
     <script src="{{ paths.app }}view/js/jquery-ui-1.9.2.custom.min.js"></script>
-    {# This is NOT OK.. Move these to a hook for GA extension #}
 
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.9.2.custom.min.css">
 
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
 
     <script src="{{ paths.app }}view/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css" />
-    <link rel="stylesheet" href="{{ paths.app }}view/css/font-awesome.css" />
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/font-awesome.css">
 
     <script src="{{ paths.app }}view/lib/fancybox/jquery.fancybox.pack.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/fancybox/jquery.fancybox.css">
 
-    <script src="{{ paths.app }}view/lib/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/select2/select2.css">
+    <script src="{{ paths.app }}view/lib/select2/select2.js"></script>
 
+    <script src="{{ paths.app }}view/lib/ckeditor/ckeditor.js"></script>
 
     <script src="{{ paths.app }}view/lib/upload/jquery.iframe-transport.js"></script>
     <script src="{{ paths.app }}view/lib/upload/jquery.fileupload.js"></script>
@@ -36,8 +36,8 @@
 
     <script src="{{ paths.app }}view/js/bolt.js"></script>
 
-    {# <link rel="stylesheet" href="/app/view/css/responsivebar.css" /> #}
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" />
+    {# <link rel="stylesheet" href="/app/view/css/responsivebar.css"> #}
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css">
 
     <link rel="shortcut icon" href="{{ paths.app }}view/img/favicon-bolt.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="{{ paths.app }}view/img/apple-touch-icon.png">
