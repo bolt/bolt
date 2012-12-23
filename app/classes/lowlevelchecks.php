@@ -13,9 +13,9 @@ class lowlevelchecks
     public function doChecks()
     {
 
-        // Bolt requires PHP 5.3.3 or higher.
-        if (!checkVersion(phpversion(), "5.3.3")) {
-            $this->lowlevelError("Bolt requires PHP <u>5.3.3</u> or higher. You have PHP <u>". phpversion(). "</u>, so Bolt will not run on your current setup.");
+        // Bolt requires PHP 5.3.2 or higher.
+        if (!checkVersion(phpversion(), "5.3.2")) {
+            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". phpversion(). "</u>, so Bolt will not run on your current setup.");
         }
 
         // Check if the vendor folder is present. If not, this is most likely because
