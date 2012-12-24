@@ -15,9 +15,10 @@
         </span></b></label>
 
         {% if relation.multiple is defined and relation.multiple == 1 %}
-        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple  style="width: 70%;">
+        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple  style="width: 70%;" data-placeholder="(none)">
         {% else %}
-        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' style="width: 70%;">
+        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' style="width: 70%;" data-placeholder="(none)">
+            <option value="">(none)</option>
         {% endif %}
             {% for item in listcontent(relcontenttype, relation, content) %}
                 <option value="{{ item.id }}" {% if item.selected %}selected{% endif %}>{{ item.title }} <span>(№ {{ item.id }})</span></option>
@@ -27,6 +28,8 @@
 
         <script>
             $('#relation-{{relcontenttype}}').select2({
+                placeholder: "(none)",
+                allowClear: true
             });
         </script>
 
