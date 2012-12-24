@@ -68,9 +68,21 @@ templates. 'entry.twig' is much more straightforward.
 
     {% endfor %}
 
-    <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datepublish|date("M d, ’y")}}</p>
+    {# print related content, if there is any. #}
+    {% set relatedrecords = record.related %}
+    {% if relatedrecords is not empty %}
+        <p>Related content:</p>
+        <ul>
+            {% for related in relatedrecords %}
+                <li><a href="{{ related.link }}">{{ related.title }}</a></li>
+            {%  endfor %}
+        </ul>
+    {% endif %}
 
+
+    {# print taxonomy, if there is any. #}
     {% if record.taxonomy is defined %}
+        <p>Taxonomy:</p>
         <ul>
         {% for type, values in record.taxonomy %}
             <li><strong>{{ type }}</strong>: {{ values|join(", ") }}</li>
@@ -78,6 +90,9 @@ templates. 'entry.twig' is much more straightforward.
         </ul>
     {% endif %}
 
+    <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datepublish|date("M d, ’y")}}</p>
+
+    {# Just print out the entire record. For reference and stuff #}
     {{ print(record) }}
 
 </article>
