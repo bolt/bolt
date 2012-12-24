@@ -476,7 +476,6 @@ var ImagelistHolder = Backbone.View.extend({
 
     initialize: function(id) {
         this.list = new Imagelist();
-        this.id = id;
         var prelist = $.parseJSON($('#'+this.id).val());
         _.each(prelist, function(item){
             var image = new Imagemodel({filename: item.filename, title: item.title, id: this.list.length });
