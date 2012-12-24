@@ -499,20 +499,27 @@ class Storage
                 $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
             }
 
-            if ($values['type'] == "video" && !empty($fieldvalues[$key]['html']) ) {
-                if (strlen($fieldvalues[$key]['url'])<2) {
-                    $fieldvalues[$key] = "";
-                } else {
+            if ($values['type'] == "video") {
+                if (strlen($fieldvalues[$key]['url'])>2) {
                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                } else {
+                    $fieldvalues[$key] = "";
                 }
             }
 
-            if ($values['type'] == "geolocation" && !empty($fieldvalues[$key]['latitude']) ) {
-                $fieldvalues[$key] = serialize($fieldvalues[$key]);
-                if (strlen($fieldvalues[$key]['address'])<2) {
-                    $fieldvalues[$key] = "";
-                } else {
+            if ($values['type'] == "geolocation") {
+                if (strlen($fieldvalues[$key]['address'])>2) {
                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                } else {
+                    $fieldvalues[$key] = "";
+                }
+            }
+
+            if ($values['type'] == "imagelist") {
+
+                if (strlen($fieldvalues[$key])<3) {
+                    // Don't store '[]'
+                    $fieldvalues[$key] = "";
                 }
             }
 
