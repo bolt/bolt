@@ -12,6 +12,7 @@ class Content implements \ArrayAccess
 
     public function __construct($values = "", $contenttype = "")
     {
+        global $app;
 
         if (!empty($values)) {
             $this->setValues($values);
@@ -28,7 +29,16 @@ class Content implements \ArrayAccess
         }
 
         if (!empty($contenttype)) {
+            // Set the contenttype
             $this->setContenttype($contenttype);
+
+            // If this contenttype has a taxonomy with 'grouping', initialize the group.
+            foreach ($contenttype['taxonomy'] as $taxonomytype) {
+                if ($app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
+                    $this->setGroup("");
+                }
+            }
+
         }
     }
 

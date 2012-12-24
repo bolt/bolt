@@ -12,7 +12,7 @@
         {% for content in multiplecontent %}
 
             {# If we have 'grouping', print the row with the groupname.. #}
-            {% if content.group is defined and content.group != lastgroup %}
+            {% if content.group is defined and content.group is not sameas(false) and content.group != lastgroup %}
                 <tr class="grouping"><th colspan="5"><h3>{% if content.group %}{{ content.group }}{% else %}(no group){% endif %}</h3></th></tr>
             {% endif %}
 
