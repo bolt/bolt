@@ -246,11 +246,8 @@ class Users
      */
     public function getUsers()
     {
-        global $app;
 
         if (empty($this->users) || !is_array($this->users)) {
-
-            // $app['log']->add('Users: getUsers()', 1);
 
             $query = "SELECT * FROM " . $this->usertable;
             $this->users = array();
