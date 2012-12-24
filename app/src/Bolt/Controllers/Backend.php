@@ -285,38 +285,41 @@ class Backend
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
+        $content = $app['storage']->getContent($contenttype['slug']."/".$id);
+        $title = $content->getTitle();
+
         switch ($action) {
 
             case "held":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'held')) {
-                    $app['session']->setFlash('info', "Content 'pompidom' has been changed to 'held'");
+                    $app['session']->setFlash('info', "Content '$title' has been changed to 'held'");
                 } else {
-                    $app['session']->setFlash('info', "Content 'pompidom' could not be modified.");
+                    $app['session']->setFlash('info', "Content '$title' could not be modified.");
                 }
                 break;
 
             case "publish":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'published')) {
-                    $app['session']->setFlash('info', "Content 'pompidom' is published.");
+                    $app['session']->setFlash('info', "Content '$title' is published.");
                 } else {
-                    $app['session']->setFlash('info', "Content 'pompidom' could not be modified.");
+                    $app['session']->setFlash('info', "Content '$title' could not be modified.");
                 }
                 break;
 
             case "draft":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'draft')) {
-                    $app['session']->setFlash('info', "Content 'pompidom' has been changed to 'draft'.");
+                    $app['session']->setFlash('info', "Content '$title' has been changed to 'draft'.");
                 } else {
-                    $app['session']->setFlash('info', "Content 'pompidom' could not be modified.");
+                    $app['session']->setFlash('info', "Content '$title' could not be modified.");
                 }
                 break;
 
             case "delete":
 
                 if (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-                    $app['session']->setFlash('info', "Content 'pompidom' has been deleted.");
+                    $app['session']->setFlash('info', "Content '$title' has been deleted.");
                 } else {
-                    $app['session']->setFlash('info', "Content 'pompidom' could not be deleted.");
+                    $app['session']->setFlash('info', "Content '$title' could not be deleted.");
                 }
                 break;
 
