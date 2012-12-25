@@ -41,13 +41,6 @@ class Log
 
     }
 
-    // TODO: Do we need this?
-    public function setUser($user)
-    {
-        $this->user = $this->app['session']->get('user');
-
-    }
-
     public function setRoute($route)
     {
         $this->route = $route;
