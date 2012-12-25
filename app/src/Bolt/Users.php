@@ -2,6 +2,8 @@
 
 namespace Bolt;
 
+use Silex;
+
 /**
  * Class to handle things dealing with users..
  */
@@ -15,7 +17,7 @@ class Users
     public $session;
     public $currentuser;
 
-    public function __construct($app)
+    public function __construct(Silex\Application $app)
     {
         $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
 

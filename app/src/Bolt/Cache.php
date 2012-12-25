@@ -24,7 +24,10 @@ class Cache
         $this->dir = realpath(__DIR__ . "/../../cache");
 
         if (!is_writable($this->dir)) {
-            // TODO: log a warning here..
+            // simple warning + die here. This shouldn't occur in practice, as it's
+            // already checked in lowlevelchecks.php
+            echo "<p>cache folder isn't writable. Please fix this.</p>";
+            die();
         }
 
     }

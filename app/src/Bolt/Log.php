@@ -2,6 +2,8 @@
 
 namespace Bolt;
 
+use Silex;
+
 /**
  * Simple logging class for Bolt
  *
@@ -19,7 +21,7 @@ class Log
     private $memorylog;
     private $values;
 
-    public function __construct($app)
+    public function __construct(Silex\Application $app)
     {
 
         $this->app = $app;
