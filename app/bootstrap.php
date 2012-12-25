@@ -80,7 +80,7 @@ $app['twig']->addGlobal('paths', $app['paths']);
 $app['editlink'] = "";
 
 // Add the Bolt Twig functions, filters and tags.
-$app['twig']->addExtension(new Bolt\TwigExtension());
+$app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
 
 // If debug is set, we set up the custom error handler..

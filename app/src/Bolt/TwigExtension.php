@@ -3,12 +3,21 @@
 namespace Bolt;
 
 use util;
+use Silex;
 
 /**
  * The class for Bolt' Twig tags, functions and filters.
  */
 class TwigExtension extends \Twig_Extension
 {
+
+    private $app;
+
+    public function __construct(Silex\Application $app)
+    {
+        $this->app = $app;
+    }
+
     public function getName()
     {
         return 'Bolt';
@@ -153,9 +162,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content, $param = "")
     {
-        global $app;
 
-        $route_params = $app['request']->get('_route_params');
+        $route_params = $this->app['request']->get('_route_params');
 
         // check against $_SERVER['REQUEST_URI']
         if ($_SERVER['REQUEST_URI'] == $content['link']) {
@@ -220,11 +228,10 @@ class TwigExtension extends \Twig_Extension
      */
     public function listtemplates($filter = "")
     {
-        global $app;
 
         $files = array();
 
-        $foldername = realpath(__DIR__.'/../../../theme/' . $app['config']['general']['theme']);
+        $foldername = realpath(__DIR__.'/../../../theme/' . $this->app['config']['general']['theme']);
 
 
         $d = dir($foldername);
@@ -272,13 +279,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function listcontent($contenttype, $options, $content)
     {
-        global $app;
 
         // Just the relations for the current record, and just the current $contenttype.
         $current = $content->relation[$contenttype];
 
         // TODO: Perhaps make something more lightweight for this?
-        $results = $app['storage']->getContent($contenttype, $options);
+        $results = $this->app['storage']->getContent($contenttype, $options);
 
         // Loop the array, set records in 'current' to have a 'selected' flag.
         foreach($results as $key => $result) {
@@ -390,9 +396,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function thumbnail($filename, $width = '', $height = '', $crop = "")
     {
-        global $app;
 
-        $thumbconf = $app['config']['general']['thumbnails'];
+        $thumbconf = $this->app['config']['general']['thumbnails'];
 
         if (empty($width)) {
             $width = !empty($thumbconf[0]) ? $thumbconf[0] : 100;
@@ -407,7 +412,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         $thumbnail = sprintf("%sthumbs/%sx%s%s/%s",
-            $app['paths']['root'],
+            $this->app['paths']['root'],
             $width,
             $height,
             $crop,
@@ -455,7 +460,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function image($filename, $width = "", $height = "", $crop = "")
     {
-        global $app;
 
         if ($width != "" || $height != "") {
             // You don't want the image, you just want a thumbnail.
@@ -463,7 +467,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         $image = sprintf("%sfiles/%s",
-            $app['paths']['root'],
+            $this->app['paths']['root'],
             $filename
         );
 
@@ -518,9 +522,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function menu(\Twig_Environment $env, $identifier = "", $template = '_sub_menu.twig')
     {
-        global $app;
 
-        $menus = $app['config']['menu'];
+        $menus = $this->app['config']['menu'];
 
         if (!empty($identifier) && isset($menus[$identifier]) ) {
             $name = strtolower($identifier);
@@ -547,15 +550,14 @@ class TwigExtension extends \Twig_Extension
 
     private function menuHelper($item)
     {
-        global $app;
 
         if (isset($item['path']) && $item['path'] == "homepage") {
-            $item['link'] = $app['paths']['root'];
+            $item['link'] = $this->app['paths']['root'];
         } elseif (isset($item['path'])) {
 
             // if the item is like 'content/1', get that content.
 
-            $content = $app['storage']->getContent($item['path']);
+            $content = $this->app['storage']->getContent($item['path']);
 
             if (is_object($content) && get_class($content)=='Bolt\Content') {
                 // We have content.
@@ -571,7 +573,7 @@ class TwigExtension extends \Twig_Extension
 
             } else {
                 // we assume the user links to this on purpose.
-                $item['link'] = fixPath($app['paths']['root'] . $item['path']);
+                $item['link'] = fixPath($this->app['paths']['root'] . $item['path']);
             }
 
         }
@@ -626,9 +628,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function widget(\Twig_Environment $env, $type = '', $location = '')
     {
-        global $app;
 
-        $app['extensions']->renderWidgetHolder($type, $location);
+        $this->app['extensions']->renderWidgetHolder($type, $location);
 
     }
 
