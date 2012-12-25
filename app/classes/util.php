@@ -426,6 +426,12 @@ if ( ! class_exists( 'util' ) ) {
                     })();
                     </script>' );
                 }
+
+            } else if ( is_object($var) && (substr(get_class($var), 0, 6)=="Silex\\") ) {
+
+                // Do NOT try to traverse down into Silex objects.
+                $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
+
             } else if ( is_object( $var ) ) {
                 $uuid = 'include-php-' . uniqid();
 
