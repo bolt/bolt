@@ -12,7 +12,8 @@ class Log
 {
     public function __construct($app)
     {
-        $this->db = $app['db'];
+
+        $this->app = $app;
         $this->user = $app['session']->get('user');
 
         $this->prefix = isset($app['config']['general']['database']['prefix']) ? $app['config']['general']['database']['prefix'] : "bolt_";
@@ -34,7 +35,7 @@ class Log
     // TODO: Do we need this?
     public function setUser($user)
     {
-        $this->user = $app['session']->get('user');
+        $this->user = $this->app['session']->get('user');
 
     }
 
@@ -62,14 +63,13 @@ class Log
 
     public function add($message, $level = 1, $content = false, $code = '')
     {
-        global $app;
 
         $backtrace = debug_backtrace();
 
         $root = dirname($_SERVER['DOCUMENT_ROOT']);
         $filename = str_replace($root, "", $backtrace[0]['file']);
 
-        $this->user = $app['session']->get('user');
+        $this->user = $this->app['session']->get('user');
 
         $username = isset($this->user['username']) ? $this->user['username'] : "";
 
@@ -103,7 +103,7 @@ class Log
 
         // Don't choke if we try to insert into the log, but it's not working.
         try {
-            $this->db->insert($this->tablename, $log);
+            $this->app['db']->insert($this->tablename, $log);
         } catch (\Exception $e) {
             // Nothing..
         }
@@ -117,11 +117,10 @@ class Log
 
     public function getActivity($amount = 10, $minlevel = 2)
     {
-        global $app;
 
         $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
 
-        $page = $app['request']->query->get('page');
+        $page = $this->app['request']->query->get('page');
         if (empty($page)) {
             $page=1;
         }
@@ -136,7 +135,7 @@ class Log
 
         // echo "<pre>\n" . util::var_dump($query, true) . "</pre>\n";
 
-        $stmt = $this->db->executeQuery($query);
+        $stmt = $this->app['db']->executeQuery($query);
 
         $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
 
@@ -145,7 +144,7 @@ class Log
             $this->tablename,
             $codes,
             $minlevel);
-        $rowcount = $this->db->executeQuery($pagerquery)->fetch();
+        $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
             'for' => 'activity',
             'count' => $rowcount['count'],
