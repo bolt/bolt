@@ -219,7 +219,7 @@ class Backend
 
         if ($request->getMethod() == "POST") {
 
-            $content = new \Bolt\Content('', $contenttypeslug);
+            $content = new \Bolt\Content($app, $contenttypeslug);
             $content->setFromPost($request->request->all(), $contenttype);
 
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {

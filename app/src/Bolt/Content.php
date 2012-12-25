@@ -2,17 +2,21 @@
 
 Namespace Bolt;
 
+Use Silex;
+
 class Content implements \ArrayAccess
 {
+    private $app;
     public $id;
     public $values;
     public $taxonomy;
     public $relation;
     public $contenttype;
 
-    public function __construct($values = "", $contenttype = "")
+    public function __construct(Silex\Application $app, $contenttype = "", $values = "")
     {
-        global $app;
+
+        $this->app = $app;
 
         if (!empty($values)) {
             $this->setValues($values);
@@ -34,7 +38,7 @@ class Content implements \ArrayAccess
 
             // If this contenttype has a taxonomy with 'grouping', initialize the group.
             foreach ($contenttype['taxonomy'] as $taxonomytype) {
-                if ($app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
+                if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
                     $this->setGroup("");
                 }
             }
@@ -44,7 +48,6 @@ class Content implements \ArrayAccess
 
     public function setValues($values)
     {
-        global $app;
 
         if (!empty($values['id'])) {
             $this->id = $values['id'];
@@ -68,7 +71,7 @@ class Content implements \ArrayAccess
         }
 
         if (!empty($values['username'])) {
-            $this->user = $app['users']->getUser($values['username']);
+            $this->user = $this->app['users']->getUser($values['username']);
         }
 
         // Check if the values need to be unserialized..
@@ -116,7 +119,6 @@ class Content implements \ArrayAccess
 
     public function setFromPost($values, $contenttype)
     {
-        global $app;
 
         $values = cleanPostedData($values);
 
@@ -176,16 +178,16 @@ class Content implements \ArrayAccess
             foreach ($_FILES as $key => $file) {
 
                 $filename = sprintf("%s/files/%s/%s",
-                    $app['paths']['rootpath'], date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
+                    $this->app['paths']['rootpath'], date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
                 $basename = sprintf("/%s/%s", date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
-                    $app['log']->add("Upload: Error occured during upload: " . $file['error'][0], 2);
+                    $this->app['log']->add("Upload: Error occured during upload: " . $file['error'][0], 2);
                     continue;
                 }
 
                 if (substr($key, 0, 11)!="fileupload-") {
-                    $app['log']->add("Upload: skipped an upload that wasn't for Content.", 2);
+                    $this->app['log']->add("Upload: skipped an upload that wasn't for Content.", 2);
                     continue;
                 }
 
@@ -205,10 +207,10 @@ class Content implements \ArrayAccess
                 if (is_writable(dirname($filename))) {
                     // Yes, we can create the file!
                     move_uploaded_file($file['tmp_name'][0], $filename);
-                    $app['log']->add("Upload: uploaded file '$basename'.", 2);
+                    $this->app['log']->add("Upload: uploaded file '$basename'.", 2);
                     $values[$fieldname] = $basename;
                 } else {
-                    $app['log']->add("Upload: couldn't write upload '$basename'.", 2);
+                    $this->app['log']->add("Upload: couldn't write upload '$basename'.", 2);
                 }
 
             }
@@ -257,10 +259,9 @@ class Content implements \ArrayAccess
 
     public function setContenttype($contenttype)
     {
-        global $app;
 
         if (is_string($contenttype)) {
-            $contenttype = $app['storage']->getContenttype($contenttype);
+            $contenttype = $this->app['storage']->getContenttype($contenttype);
         }
 
         $this->contenttype = $contenttype;
@@ -269,12 +270,11 @@ class Content implements \ArrayAccess
 
     public function setTaxonomy($taxonomytype, $value)
     {
-        global $app;
 
         $this->taxonomy[$taxonomytype][] = $value;
 
         // If it's a "grouping" type, set $this->group.
-        if ($app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
+        if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
             $this->setGroup($value);
         }
 
@@ -431,7 +431,6 @@ class Content implements \ArrayAccess
      */
     public function link($param = "")
     {
-        global $app;
 
         // TODO: use Silex' UrlGeneratorServiceProvider instead.
 
@@ -441,7 +440,7 @@ class Content implements \ArrayAccess
         }
 
         $link = sprintf("%s%s/%s",
-            $app['paths']['root'],
+            $this->app['paths']['root'],
             $this->contenttype['singular_slug'],
             $this->values['slug'] );
 
@@ -455,7 +454,6 @@ class Content implements \ArrayAccess
      */
     public function related($filtercontenttype="", $filterid="")
     {
-        global $app;
 
         if (empty($this->relation)) {
             // nothing to do here.
@@ -476,7 +474,7 @@ class Content implements \ArrayAccess
                     continue; // Skip other ids, if we requested a specific id.
                 }
 
-                $records[] = $app['storage']->getContent($contenttype."/".$id);
+                $records[] = $this->app['storage']->getContent($contenttype."/".$id);
             }
         }
 
@@ -491,9 +489,8 @@ class Content implements \ArrayAccess
      */
     public function template()
     {
-        global $app;
 
-        $template = $app['config']['general']['record_template'];
+        $template = $this->app['config']['general']['record_template'];
         $chosen = 'config';
 
         if (isset($this->contenttype['record_template'])) {
@@ -508,7 +505,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+        $this->app['log']->setValue('templatechosen', $this->app['config']['general']['theme'] . "/$template ($chosen)");
 
         return $template;
 

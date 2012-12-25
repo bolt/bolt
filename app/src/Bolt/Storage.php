@@ -438,7 +438,7 @@ class Storage
 
         }
 
-        $contentobject = new Bolt\Content('', $contenttype);
+        $contentobject = new Bolt\Content($this->app, $contenttype);
         $contentobject->setValues($content);
 
         if (!empty($contenttype['taxonomy'])) {
@@ -691,7 +691,7 @@ class Storage
 
         $contenttype = $this->getContentType($contenttypeslug);
 
-        $content = new Bolt\Content('', $contenttypeslug);
+        $content = new Bolt\Content($this->app, $contenttypeslug);
 
         $values = array(
             'id' => '',
@@ -824,8 +824,8 @@ class Storage
 
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
-        foreach ($rows as $key => $value) {
-            $content[$value['id']] = new Bolt\Content($value, $contenttype);
+        foreach ($rows as $row) {
+            $content[ $row['id'] ] = new Bolt\Content($this->app, $contenttype, $row);
         }
 
         // Make sure all content has their taxonomies and relations
@@ -948,8 +948,9 @@ class Storage
 
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
-        foreach ($rows as $key => $value) {
-            $content[$value['id']] = new Bolt\Content($value, $contenttype);
+        foreach ($rows as $row) {
+            // TODO: Make sure contenttype is set properly..
+            $content[ $row['id'] ] = new Bolt\Content($this->app, '', $row);
         }
 
         // Make sure all content has their taxonomies and relations
@@ -1021,7 +1022,7 @@ class Storage
 
         // If we can't match to a valid contenttype, return (undefined) content;
         if (!$contenttype) {
-            $emptycontent = new Bolt\Content('', $contenttypeslug);
+            $emptycontent = new Bolt\Content($this->app, $contenttypeslug);
             $this->app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
 
             return $emptycontent;
@@ -1113,8 +1114,8 @@ class Storage
 
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
-        foreach ($rows as $key => $value) {
-            $content[ $value['id'] ] = new Bolt\Content($value, $contenttype);
+        foreach ($rows as $row) {
+            $content[ $row['id'] ] = new Bolt\Content($this->app, $contenttype, $row);
         }
 
         // Make sure all content has their taxonomies and relations
