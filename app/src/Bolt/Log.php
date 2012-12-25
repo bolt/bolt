@@ -10,6 +10,15 @@ namespace Bolt;
  **/
 class Log
 {
+
+    private $app;
+    private $user;
+    private $prefix;
+    private $tablename;
+    private $route;
+    private $memorylog;
+    private $values;
+
     public function __construct($app)
     {
 
