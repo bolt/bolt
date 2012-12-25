@@ -78,13 +78,15 @@ class Extensions
             }
 
             if (is_dir($this->basefolder."/".$entry)) {
-                $info[] = $this->infoHelper($this->basefolder."/".$entry);
+                $info[$entry] = $this->infoHelper($this->basefolder."/".$entry);
             }
 
 
         }
 
         $d->close();
+
+        ksort($info);
 
         return $info;
 

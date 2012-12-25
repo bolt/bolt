@@ -623,6 +623,10 @@ class Backend
 
         $app['twig']->addGlobal('title', "Files in ". $path);
 
+        // Make sure the files and folders are sorted properly.
+        ksort($files);
+        ksort($folders);
+
         return $app['twig']->render('files.twig', array(
             'path' => $path,
             'files' => $files,

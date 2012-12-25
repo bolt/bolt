@@ -263,6 +263,9 @@ class TwigExtension extends \Twig_Extension
 
         $d->close();
 
+        // Make sure the files are sorted properly.
+        ksort($files);
+
         return $files;
 
     }
