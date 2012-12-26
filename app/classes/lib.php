@@ -115,6 +115,7 @@ function clearCache()
     $result = array(
         'successfiles' => 0,
         'failedfiles' => 0,
+        'failed' => array(),
         'successfolders' => 0,
         'failedfolders' => 0,
         'log' => ''
@@ -129,7 +130,7 @@ function clearCache()
 
 function clearCacheHelper($additional, &$result)
 {
-    $basefolder = __DIR__."/../cache/";
+    $basefolder = realpath(__DIR__."/../cache/");
 
     $currentfolder = realpath($basefolder."/".$additional);
 
@@ -152,6 +153,7 @@ function clearCacheHelper($additional, &$result)
                 $result['successfiles']++;
             } else {
                 $result['failedfiles']++;
+                $result['failed'][] = str_replace($basefolder, "cache", $currentfolder."/".$entry);
             }
         }
 

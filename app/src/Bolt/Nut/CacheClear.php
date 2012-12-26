@@ -23,12 +23,16 @@ class CacheClear extends Command
 
         $result = clearCache();
 
-        $output->writeln(sprintf("Deleted %s files from cache.", $result['successfiles']));
+        $output->writeln(sprintf("Deleted %s files from cache.\n", $result['successfiles']));
 
         if (!empty($result['failedfiles'])) {
-            $output->writeln(sprintf("%s files could not be deleted. You should delete them manually.", $result['failedfiles']));
+            $output->writeln(sprintf("<error>These %s files could not be deleted. You should delete them manually.</error>", $result['failedfiles']));
+            foreach($result['failed'] as $failed) {
+                $output->writeln(" - $failed");
+            }
+            $output->writeln("");
         }
 
-        $output->writeln("Cache cleared!");
+        $output->writeln("<info>Cache cleared!</info>");
     }
 }
