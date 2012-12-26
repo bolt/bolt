@@ -721,7 +721,7 @@ function getConfig()
         'wysiwyg_embed' => false,
         'wysiwyg_fontcolor' => false,
         'wysiwyg_align' => false,
-        'canonical' => $_SERVER['HTTP_HOST'],
+        'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",
         'developer_notices' => false,
         'cookies_use_remoteaddr' => true,
         'cookies_use_browseragent' => false,
@@ -777,8 +777,13 @@ function getConfig()
         $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
 
-    // Get the script's filename, but _without_ SCRIPT_FILENAME
-    $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+    if (!empty($_SERVER['REQUEST_URI'])) {
+        // Get the script's filename, but _without_ REQUEST_URI.
+        $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+    } else {
+        // We're probably in CLI mode.
+        $scripturi = "";
+    }
 
     $config['twigpath'] = array();
 
@@ -915,13 +920,17 @@ function getPaths($config = array())
         $path_prefix = "/";
     }
 
-    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https' : 'http';
+    if (!empty($_SERVER["SERVER_PROTOCOL"])) {
+        $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https' : 'http';
+    } else {
+        $protocol = "cli";
+    }
 
-    $currentpath = $_SERVER['REQUEST_URI'];
+    $currentpath = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
 
     // Set the paths
     $paths = array(
-        'hostname' => $_SERVER['HTTP_HOST'],
+        'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
         'root' => $path_prefix,
         'rootpath' => realpath(__DIR__ . "/../../"),
         'theme' => $path_prefix . "theme/" . $config['general']['theme'] . "/",
@@ -933,7 +942,7 @@ function getPaths($config = array())
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
         'canonical' => $config['general']['canonical'],
-        'current' => $_SERVER['REQUEST_URI']
+        'current' => $currentpath
     );
 
     $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);

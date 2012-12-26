@@ -54,9 +54,9 @@ class Log
         $log = array(
             'date' => date('Y-m-d H:i:s'),
             'message' => $message,
-            'requesturi' => $_SERVER['REQUEST_URI'],
+            'requesturi' => !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "-",
             'route' => $this->route,
-            'ip' => $_SERVER['REMOTE_ADDR'],
+            'ip' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "-",
             'file' => $filename,
             'line' => $line,
         );
