@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/bootstrap.php';
+
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add(new Bolt\Nut\Greet);
+$application->add(new Bolt\Nut\CacheClear);
+$application->add(new Bolt\Nut\Info);
+$application->run();
