@@ -4,7 +4,7 @@ Namespace Bolt;
 
 Use Silex;
 
-class Content implements \ArrayAccess
+class Content /* implements \ArrayAccess -- Temporily commented out, see https://github.com/bobdenotter/bolt/issues/76 */
 {
     private $app;
     public $id;
@@ -592,9 +592,10 @@ class Content implements \ArrayAccess
         return "";
     }
 
+    /* Temporarily commented out.. See https://github.com/bobdenotter/bolt/issues/76
     /**
      * ArrayAccess support
-     */
+     * /
     public function offsetExists($offset)
     {
         return isset($this->values[$offset]);
@@ -602,7 +603,7 @@ class Content implements \ArrayAccess
 
     /**
      * ArrayAccess support
-     */
+     * /
     public function offsetGet($offset)
     {
         if (isset($this->values[$offset])) {
@@ -613,7 +614,7 @@ class Content implements \ArrayAccess
 
     /**
      * ArrayAccess support
-     */
+     * /
     public function offsetSet($offset, $value)
     {
         $this->values[$offset] = $value;
@@ -621,12 +622,12 @@ class Content implements \ArrayAccess
 
     /**
      * ArrayAccess support
-     */
+     * /
     public function offsetUnset($offset)
     {
         if (isset($this->values[$offset])) {
             unset($this->values[$offset]);
         }
     }
-
+    --- */
 }
