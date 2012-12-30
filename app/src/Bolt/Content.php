@@ -577,11 +577,9 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
                 // Strip other tags
                 // How about 'blockquote'?
                 $allowedTags = array('a', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'u', 'strike');
-                $value = strip_tags($value, '<' . implode('><', $allowedTags) . '>');
-
-                $result = htmlspecialchars($value, ENT_COMPAT | ENT_XML1, 'UTF-8', false);
+                $result = strip_tags($value, '<' . implode('><', $allowedTags) . '>');
                 if ($excerptLength > 0){
-                    $result = trimText($result, $excerptLength);
+                    $result = trimText($result, $excerptLength, false, true, false);
                 }
                 return '<![CDATA[ ' . $result . ' ]]>';
             }
