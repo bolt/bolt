@@ -5,6 +5,7 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 class LogClear extends Command
 {
@@ -12,7 +13,8 @@ class LogClear extends Command
     {
         $this
             ->setName('log:clear')
-            ->setDescription('Clear (truncate) the activitylog.');
+            ->setDescription('Clear (truncate) the activitylog.')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'If set, no confirmation will be required');
 
     }
 
@@ -22,7 +24,9 @@ class LogClear extends Command
 
         $dialog = $this->getHelperSet()->get('dialog');
 
-        if (!$dialog->askConfirmation(
+        $force = $input->getOption('force');
+
+        if (!$force && !$dialog->askConfirmation(
             $output,
             '<question>Are you sure you want to clear the activity log?</question>',
             false
