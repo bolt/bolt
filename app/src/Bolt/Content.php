@@ -313,46 +313,56 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
     }
 
     /**
-     * magic __call function, used for when templates use {{ content.title }},
+     * Get the decoded value
+     *
+     * @param string $name   name of the value to get
+     * @return mixed         decoded value or null when no value available
+     */
+    public function getDecodedValue($name)
+    {
+        $value = null;
+
+        if (isset($this->values[$name])) {
+            $fieldtype = $this->fieldtype($name);
+
+            switch ($fieldtype) {
+                case 'markdown':
+                    // Parse the field as Markdown, return HTML
+                    include_once __DIR__. "/../../classes/markdown.php";
+                    $value = Markdown($this->values[$name]);
+                    break;
+
+                case 'imagelist':
+                    // Parse the field as JSON, return the array
+                    $value = json_decode($this->values[$name]);
+                    break;
+
+                default:
+                    $value = $this->values[$name];
+                    break;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Magic __call function, used for when templates use {{ content.title }},
      * so we can map it to $this->values['title']
+     * 
+     * @param string $name       method name originally called
+     * @param array $arguments   arguments to the call
+     * @return mixed             return value of the call
      */
     public function __call($name, $arguments)
     {
-        if (isset($this->values[$name])) {
+        $value = $this->getDecodedValue($name);
 
-            // This is too invasive. for now, only add editable when needed
-            /*
-            $fieldtype = $this->contenttype['fields'][$name]['type'];
-
-            if (in_array($fieldtype, array('html', 'text', 'textarea'))) {
-                $output = sprintf("<div class='bolt-editable'>%s</div>", $this->values[$name]);
-            } else {
-                $output = $this->values[$name];
-            }
-
-            return $output;
-            */
-
-            $fieldtype = $this->fieldtype($name);
-
-            // Parse the field as Markdown, return HTML
-            if ($fieldtype == "markdown") {
-                include_once __DIR__. "/../../classes/markdown.php";
-                $html = Markdown($this->values[$name]);
-                return $html;
-            }
-
-            // Parse the field as JSON, return the array
-            if ($fieldtype == "imagelist") {
-                $list = json_decode($this->values[$name]);
-                return $list;
-            }
-
-            return $this->values[$name];
-
-        } else {
-            return false;
+        if (!is_null($value)) {
+            return $value;
         }
+
+        return false;
     }
 
     /**
@@ -525,7 +535,7 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
             }
         }
 
-        return "";
+        return '';
 
     }
 
@@ -590,10 +600,9 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
         return "";
     }
 
-    /* Temporarily commented out.. See https://github.com/bobdenotter/bolt/issues/76
     /**
      * ArrayAccess support
-     * /
+     */
     public function offsetExists($offset)
     {
         return isset($this->values[$offset]);
@@ -601,18 +610,17 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
 
     /**
      * ArrayAccess support
-     * /
+     */
     public function offsetGet($offset)
     {
-        if (isset($this->values[$offset])) {
-            return $this->values[$offset];
-        }
-        return null;
+        return $this->getDecodedValue($name);
     }
 
     /**
      * ArrayAccess support
-     * /
+     *
+     * @todo we could implement an setDecodedValue() function to do the encoding here
+     */
     public function offsetSet($offset, $value)
     {
         $this->values[$offset] = $value;
@@ -620,12 +628,11 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
 
     /**
      * ArrayAccess support
-     * /
+     */
     public function offsetUnset($offset)
     {
         if (isset($this->values[$offset])) {
             unset($this->values[$offset]);
         }
     }
-    --- */
 }
