@@ -70,6 +70,10 @@ $backend->get("/files/{path}", '\Bolt\Controllers\Backend::files')
     ->assert('path', '.+')
     ->bind('files');
 
+$backend->get("/activitylog", '\Bolt\Controllers\Backend::activitylog')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('activitylog');
+
 $backend->match("/file/edit/{file}", '\Bolt\Controllers\Backend::fileedit')
     ->before('\Bolt\Controllers\Backend::before')
     ->assert('file', '.+')

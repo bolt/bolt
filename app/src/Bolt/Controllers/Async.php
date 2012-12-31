@@ -140,19 +140,6 @@ class Async
 
 
     /**
-     * Show the activity-log.
-     */
-    function activitylog(Silex\Application $app) {
-
-        $title = "Activity log";
-
-        $activity = $app['log']->getActivity(16);
-
-        return $app['twig']->render('activity.twig', array('title' => $title, 'activity' => $activity));
-
-    }
-
-    /**
      * Latest {contenttype} to show a small listing in the sidebars..
      */
     function lastmodified(Silex\Application $app, $contenttypeslug) {

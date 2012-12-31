@@ -155,6 +155,21 @@ class Backend
 
 
     /**
+     * Show the activity-log.
+     */
+    function activitylog(Silex\Application $app) {
+
+        $title = "Activity log";
+
+        $activity = $app['log']->getActivity(16);
+
+        return $app['twig']->render('activity.twig', array('title' => $title, 'activity' => $activity));
+
+    }
+
+
+
+    /**
      * Generate some lipsum in the DB.
      */
     function prefill(Silex\Application $app) {
