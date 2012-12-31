@@ -20,6 +20,16 @@ class LogClear extends Command
     {
         global $app;
 
+        $dialog = $this->getHelperSet()->get('dialog');
+
+        if (!$dialog->askConfirmation(
+            $output,
+            '<question>Are you sure you want to clear the activity log?</question>',
+            false
+        )) {
+            return;
+        }
+
         $app['log']->clear();
 
         $output->writeln("<info>Activity logs trimmed!</info>");

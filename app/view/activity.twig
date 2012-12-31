@@ -7,7 +7,7 @@
     <a class="btn" href="{{ path('activitylog', { 'action': 'trim' }) }}">
         <i class="icon-trash"></i> Trim Activitylog
     </a>
-    <a class="btn" href="{{ path('activitylog', { 'action': 'clear' }) }}">
+    <a class="btn confirm" href="{{ path('activitylog', { 'action': 'clear' }) }}" data-confirm="Are you sure you want to clear the activity logs?">
         <i class="icon-trash"></i> Clear Activitylog
     </a>
 </div>

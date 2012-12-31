@@ -161,6 +161,16 @@ class Backend
 
         $title = "Activity log";
 
+        $action = $app['request']->query->get('action');
+
+        if ($action=="clear") {
+            $app['log']->clear();
+            $app['session']->setFlash('success', "The activitylog has been cleared.");
+        } else if ($action=="trim") {
+            $app['log']->trim();
+            $app['session']->setFlash('success', "The activitylog has been trimmed.");
+        }
+
         $activity = $app['log']->getActivity(16);
 
         return $app['twig']->render('activity.twig', array('title' => $title, 'activity' => $activity));
