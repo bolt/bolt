@@ -101,8 +101,8 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
         $end = !empty($app['end']) ? $app['end'] : false;
 
-        // Make sure debug is _still_ enabled, and we're not in the "async end".
-        if (!$app['debug'] || $end == "asynchronous") {
+        // Make sure debug is _still_ enabled, and/or the debugbar isn't turned off in code.
+        if (!$app['debug'] || !$app['debugbar']) {
             return "";
         }
 
