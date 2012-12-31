@@ -3,6 +3,15 @@
 
 <h1>{{title}}</h1>
 
+<div class="btn-group" style='padding-bottom: 12px'>
+    <a class="btn" href="{{ path('activitylog', { 'action': 'trim' }) }}">
+        <i class="icon-trash"></i> Trim Activitylog
+    </a>
+    <a class="btn" href="{{ path('activitylog', { 'action': 'clear' }) }}">
+        <i class="icon-trash"></i> Clear Activitylog
+    </a>
+</div>
+
 <table class="dashboardlisting">
     <tbody>
     {% for log in activity %}

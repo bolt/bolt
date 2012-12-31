@@ -206,10 +206,13 @@ $app->error(function (Exception $e) use ($app) {
 
     $twigvars = array();
 
+
     $twigvars['class'] = get_class($e);
     $twigvars['message'] = $e->getMessage();
     $twigvars['code'] = $e->getCode();
     $twigvars['paths'] = $paths;
+
+    $app['log']->add($twigvars['message'], 3, '', 'abort');
 
     $trace = $e->getTrace();
 

@@ -119,7 +119,7 @@ class Log
         return $this->memorylog;
     }
 
-    public function getActivity($amount = 10, $minlevel = 2)
+    public function getActivity($amount = 10, $minlevel = 1)
     {
 
         $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
@@ -202,6 +202,39 @@ class Log
         return $this->values;
 
     }
+
+
+    public function trim() {
+
+        $query = sprintf('DELETE FROM %s WHERE level="1";',
+            $this->tablename
+        );
+        $this->app['db']->executeQuery($query);
+
+        $query = sprintf('DELETE FROM %s WHERE level="2" AND date < "%s";',
+            $this->tablename,
+            date('Y-m-d H:i:s', strtotime('-2 day'))
+        );
+        $this->app['db']->executeQuery($query);
+
+        $query = sprintf('DELETE FROM %s WHERE date < "%s";',
+            $this->tablename,
+            date('Y-m-d H:i:s', strtotime('-7 day'))
+        );
+        $this->app['db']->executeQuery($query);
+
+    }
+
+
+    public function clear() {
+
+        $query = sprintf('DELETE FROM %s;',
+            $this->tablename
+        );
+        $this->app['db']->executeQuery($query);
+
+    }
+
 
 
 }
