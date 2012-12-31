@@ -4,7 +4,7 @@ Namespace Bolt;
 
 Use Silex;
 
-class Content /* implements \ArrayAccess -- Temporily commented out, see https://github.com/bobdenotter/bolt/issues/76 */
+class Content implements \ArrayAccess
 {
     private $app;
     public $id;
@@ -349,7 +349,7 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
     /**
      * Magic __call function, used for when templates use {{ content.title }},
      * so we can map it to $this->values['title']
-     * 
+     *
      * @param string $name       method name originally called
      * @param array $arguments   arguments to the call
      * @return mixed             return value of the call
