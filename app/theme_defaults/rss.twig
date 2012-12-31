@@ -4,37 +4,36 @@
         <title>{{ app.config.general.sitename }}</title>
         <atom:link href="{{ paths.currenturl }}" rel="self"
                    type="application/rss+xml"/>
-        <link>{{ paths.rooturl }}</link>
+        <link>{{ paths.hosturl }}</link>
         <description>{{ app.config.general.site_description }}</description>
         <language>en-us</language>
         <generator>Bolt</generator>
 
-        {% for record in records %}
-
+{% for record in records %}
             <item>
                 <title>{{ record.title }}</title>
                 <link>{{ paths.hosturl }}{{ record.link }}</link>
                 <pubDate>
-                    {{ record.datepublish|date("D, d M Y H:i:s O") }}
+                    {{ record.datepublish|date("r") }}
                 </pubDate>
                 <author>
                     {{ record.user.email }} ({{ record.user.displayname }})
                 </author>
-                <guid>{{ paths.rooturl }}{{ record.contenttype.singular_slug }}/{{ record.id }}</guid>
-                {% for category in record.taxonomy.categories %}
-                    <category><![CDATA[ {{ category }} ]]></category>
-                {% endfor %}
+                <guid>{{ record.contenttype.singular_slug }}/{{ record.id }}</guid>
+{% for category in record.taxonomy.categories %}
+                <category><![CDATA[ {{ category }} ]]></category>
+{% endfor %}
 
-                {% if content_length == 0 %}
-                    <description>{{ record.rss_safe('body') }}</description>
-                {% else %}
-                    <description>
+{% if content_length == 0 %}
+                <description>{{ record.rss_safe('body') }}</description>
+{% else %}
+                <description>
                         {{ record.rss_safe('body', content_length) }}
-                    </description>
-                {% endif %}
+                </description>
+{% endif %}
             </item>
 
-        {% endfor %}
+{% endfor %}
 
     </channel>
 </rss>
