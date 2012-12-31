@@ -10,7 +10,8 @@
     {% endif %}
     <li>
         {%  if log.code == "save content" %}
-            Saved {{ log.contenttype }} "<strong>{{ log.message }}</strong>" by <em>{{ username }}</em>
+            Saved {{ app.config.contenttypes[log.contenttype].singular_name) }}
+            "<strong>{{ log.message }}</strong>" by <em>{{ username }}</em>
         {%  elseif log.code == "login" %}
             <em>{{ username }}</em> logged in
         {%  elseif log.code == "logout" %}
