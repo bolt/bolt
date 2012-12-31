@@ -613,7 +613,7 @@ class Content /* implements \ArrayAccess -- Temporily commented out, see https:/
      */
     public function offsetGet($offset)
     {
-        return $this->getDecodedValue($name);
+        return $this->getDecodedValue($offset);
     }
 
     /**
