@@ -210,7 +210,6 @@ $app->error(function (Exception $e) use ($app) {
 
     $twigvars = array();
 
-
     $twigvars['class'] = get_class($e);
     $twigvars['message'] = $e->getMessage();
     $twigvars['code'] = $e->getCode();
