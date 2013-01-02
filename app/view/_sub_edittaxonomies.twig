@@ -63,21 +63,24 @@
 
             <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name }}:</span></b></label>
 
-
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no group)</option>
                 <option value="" disabled>-----------</option>
             {% for group in taxonomy.options %}
                 <option value='{{group}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
             {% endfor %}
-
             </select>
+
+            {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
+                <label for="taxonomy-order-{{taxonomy.slug}}" style='display: inline;'>- Order:</label>
+                <input type="number" name="taxonomy-order[{{taxonomy.slug}}]" id="taxonomy-order-{{taxonomy.slug}}" step="1"
+                       value='{{ 0 + content.taxonomyorder[taxonomy.slug] }}' class='verynarrow'>
+            {% endif %}
 
         {% endif %}
 
     {% endif %}
 
 {% endfor %}
-
 <hr>
 {% endif %}

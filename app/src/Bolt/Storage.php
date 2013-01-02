@@ -16,7 +16,7 @@ class Storage
     {
 
         $this->app = $app;
-        
+
         $this->prefix = isset($this->app['config']['general']['database']['prefix']) ? $this->app['config']['general']['database']['prefix'] : "bolt_";
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
@@ -161,6 +161,13 @@ class Storage
 
         }
 
+        // Check if the sortorder field is present (added after 0.9.4)
+        if (!isset($tables[$this->prefix."taxonomy"]['sortorder'])) {
+            $query = sprintf("ALTER TABLE `%s` ADD `sortorder` DECIMAL(18) DEFAULT \"0\";", $this->prefix."taxonomy" );
+            $this->app['db']->query($query);
+            $output[] = "Added column <tt>" . 'sortorder' . "</tt> to table <tt>" . $this->prefix . "taxonomy</tt>.";
+        }
+
 
         // Create the relations table..
         if (!isset($tables[$this->prefix."relations"])) {
@@ -242,7 +249,7 @@ class Storage
 
             // Check if the datepublish field is present (added after 0.7.7)
             if (isset($tables[$tablename]) && !isset($tables[$tablename]['datepublish'])) {
-                $query = sprintf("ALTER TABLE `%s` ADD `%s` DATETIME NOT NULL DEFAULT \"1970-00-00 00:00:00\";", $tablename, 'datepublish');
+                $query = sprintf("ALTER TABLE `%s` ADD `datepublish` DATETIME NOT NULL DEFAULT \"1970-00-00 00:00:00\";", $tablename);
                 $this->app['db']->query($query);
                 $output[] = "Added column <tt>" . 'datepublish' . "</tt> to table <tt>" . $tablename . "</tt>.";
             }
@@ -1177,6 +1184,11 @@ class Storage
     private function groupingSort($a, $b)
     {
         if ($a->group == $b->group) {
+
+            if ($a->sortorder != $b->sortorder) {
+                return ($a->sortorder < $b->sortorder) ? -1 : 1;
+            };
+
             // Same group, so we sort on contenttype['sort']
             $second_sort = $a->contenttype['sort'];
             if ($a->values[$second_sort] == $b->values[$second_sort]) {
@@ -1441,7 +1453,7 @@ class Storage
         $rows = $this->app['db']->fetchAll($query);
 
         foreach ($rows as $key => $row) {
-            $content[ $row['content_id'] ]->setTaxonomy($row['taxonomytype'], $row['slug']);
+            $content[ $row['content_id'] ]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['sortorder']);
         }
 
     }
@@ -1466,20 +1478,25 @@ class Storage
         foreach ($taxonomy as $taxonomytype => $newvalues) {
 
             // Get the current values from the DB..
-            $query = "SELECT id, slug FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=?";
+            $query = "SELECT id, slug, sortorder FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=?";
             $currentvalues = $this->app['db']->fetchAll($query, array($content_id, $contenttype, $taxonomytype));
+            $currentsortorder = $currentvalues[0]['sortorder'];
             $currentvalues = makeValuePairs($currentvalues, 'id', 'slug');
 
             // Add the ones not yet present..
             foreach ($newvalues as $value) {
 
-                if (!in_array($value, $currentvalues) && (!empty($value))) {
+                // If it's like 'desktop#10', split it into value and sortorder..
+                list($value, $sortorder) = explode('#', $value);
+
+                if ( (!in_array($value, $currentvalues) || ($currentsortorder != $sortorder) ) && (!empty($value))) {
                     // Insert it!
                     $row = array(
                         'content_id' => $content_id,
                         'contenttype' => $contenttype,
                         'taxonomytype' => $taxonomytype,
-                        'slug' => $value
+                        'slug' => $value,
+                        'sortorder' => $sortorder
                     );
                     $this->app['db']->insert($tablename, $row);
                 }
@@ -1488,6 +1505,9 @@ class Storage
 
             // Delete the ones that have been removed.
             foreach ($currentvalues as $id => $value) {
+
+                // Make it look like 'desktop#10'
+                $value = $value . "#" . $currentsortorder;
 
                 if (!in_array($value, $newvalues)) {
                     $this->app['db']->delete($tablename, array('id' => $id));

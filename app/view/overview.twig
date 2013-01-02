@@ -38,10 +38,14 @@
 
 
             <tr class="{% if content.status!='published' %}dim{% endif %}">
-                <td class='id hide-phone'>№ {{content.id}} </td>
+                <td class='id hide-phone'>№ {{content.id}}</td>
                 <td class='excerpt large'><span>
                     <strong class="show-phone">№ {{content.id}}. </strong>
-                    <strong><a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">{{content.getTitle}}{{content.name}}</a></strong>
+                    <strong>
+                        <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                        {{content.getTitle}}{{content.name}}
+                        </a>
+                    </strong>
                     {{ content.excerpt(380) }}
                     </span></td>
                 <td class='listthumb'>
@@ -50,8 +54,11 @@
                     {% endif %}
                 </td>
                 <td class='username hide-phone'>
-                    <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}
-                    <br><i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}
+                    <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}<br>
+                    <i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}<br>
+                    {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
+                        <i class="icon-sort"></i> Order: {{ content.sortorder }} <br>
+                    {% endif %}
                 </td>
                 <td class='actions'>
                     <div class="btn-group">
@@ -59,9 +66,9 @@
                         <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
                         <i class="icon-edit"></i> Edit</a></button>
                     <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-                    <span class="caret"></span>
+                        <i class="icon-info-sign"></i>
+                        <span class="caret"></span>
                     </button>
-
                     <ul class="dropdown-menu pull-right">
 
                         {% if content.status != "published" %}
@@ -84,6 +91,8 @@
                             <s>{{ content.username }}</s>{% endif %}</strong></a></li>
                         <li><a class="nolink">Current status:
                             <strong>{{ content.status }}</strong></a></li>
+                        <li><a class="nolink">Slug:
+                            <code>{{ content.slug }}</code></a></li>
                         <li><a class="nolink">Created on:
                             <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
                         <li><a class="nolink">Published on:

@@ -39,7 +39,7 @@ class Content implements \ArrayAccess
             // If this contenttype has a taxonomy with 'grouping', initialize the group.
             foreach ($contenttype['taxonomy'] as $taxonomytype) {
                 if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-                    $this->setGroup("");
+                    $this->setGroup("", $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
                 }
             }
 
@@ -151,18 +151,28 @@ class Content implements \ArrayAccess
 
         }
 
-        // Get the taxonomies from the POST-ed values.
+        // Get the taxonomies from the POST-ed values. We don't support 'order' for taxonomies that
+        // can have multiple values.
         // TODO: use $this->setTaxonomy() for this
+
         if (!empty($values['taxonomy'])) {
             foreach ($values['taxonomy'] as $taxonomytype => $value) {
                 if (!is_array($value)) {
                     $value = explode(",", $value);
                 }
+
+                if (isset($values['taxonomy-order'][$taxonomytype])) {
+                    foreach ($value as $k => $v) {
+                        $value[$k] = $v . "#" . $values['taxonomy-order'][$taxonomytype];
+                    }
+                }
+
                 $this->taxonomy[$taxonomytype] = $value;
+
             }
             unset($values['taxonomy']);
+            unset($values['taxonomy-order']);
         }
-
 
         // Get the relations from the POST-ed values.
         // TODO: use $this->setRelation() for this
@@ -268,14 +278,22 @@ class Content implements \ArrayAccess
 
     }
 
-    public function setTaxonomy($taxonomytype, $value)
+    public function setTaxonomy($taxonomytype, $value, $sortorder=0)
     {
 
+        // Make sure sortorder is set correctly;
+        if ($this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'] == false) {
+            $sortorder = false;
+        } else {
+            $sortorder = (int)$sortorder;
+        }
+
         $this->taxonomy[$taxonomytype][] = $value;
+        $this->taxonomyorder[$taxonomytype] = $sortorder;
 
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-            $this->setGroup($value);
+            $this->setGroup($value, $sortorder);
         }
 
     }
@@ -307,9 +325,14 @@ class Content implements \ArrayAccess
 
     }
 
-    public function setGroup($value)
+    public function setGroup($value, $sortorder=false)
     {
         $this->group = $value;
+
+        // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
+        if ($sortorder !== false) {
+            $this->sortorder = (int)$sortorder;
+        }
     }
 
     /**

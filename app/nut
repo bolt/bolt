@@ -11,4 +11,5 @@ $application->add(new Bolt\Nut\CacheClear);
 $application->add(new Bolt\Nut\Info);
 $application->add(new Bolt\Nut\LogTrim);
 $application->add(new Bolt\Nut\LogClear);
+$application->add(new Bolt\Nut\DatabaseCheck);
 $application->run();

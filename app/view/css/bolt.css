@@ -337,9 +337,12 @@ ul.dropdown-menu li {
 
 ul.dropdown-menu li a {
     font-size: 13px;
-    padding: 2px 14px;
+    padding: 1px 14px;
 }
 
+ul.dropdown-menu li.divider {
+    margin: 4px 1px;
+}
 
 ul.dropdown-menu li a.nolink {
     background-color: #FFF !important;
@@ -449,6 +452,12 @@ label span.left {
 #editcontent input.narrow {
     width: 30%;
     min-width: 200px;
+}
+
+#editcontent input.verynarrow,
+#editcontent input[type=number].verynarrow {
+    width: 8%;
+    min-width: 50px;
 }
 
 #editcontent input.wide {

@@ -753,6 +753,12 @@ function getConfig()
         if (!isset($config['taxonomy'][$key]['singular_name'])) {
             $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
         }
+        if (!isset($config['taxonomy'][$key]['slug'])) {
+            $config['taxonomy'][$key]['slug'] = strtolower(safeString($config['taxonomy'][$key]['name']));
+        }
+        if (!isset($config['taxonomy'][$key]['singular_slug'])) {
+            $config['taxonomy'][$key]['singular_slug'] = strtolower(safeString($config['taxonomy'][$key]['singular_name']));
+        }
     }
 
     // Clean up contenttypes
