@@ -12,7 +12,7 @@ class Async
      * News.
      */
     function dashboardnews(Silex\Application $app) {
-        global $bolt_version, $app;
+        global $bolt_version;
 
         $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
 
@@ -56,7 +56,7 @@ class Async
      * Get the 'latest activity' for the dashboard..
      */
     function latestactivity(Silex\Application $app) {
-        global $bolt_version, $app;
+        global $bolt_version;
 
         $activity = $app['log']->getActivity(8, 3);
 
