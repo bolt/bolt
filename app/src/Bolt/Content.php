@@ -348,11 +348,19 @@ class Content implements \ArrayAccess
         if (isset($this->values[$name])) {
             $fieldtype = $this->fieldtype($name);
 
+
+
             switch ($fieldtype) {
                 case 'markdown':
                     // Parse the field as Markdown, return HTML
                     include_once __DIR__. "/../../classes/markdown.php";
-                    $value = Markdown($this->values[$name]);
+                    $value = new \Twig_Markup(Markdown($this->values[$name]), 'UTF-8');
+                    break;
+
+                case 'html':
+                case 'text':
+                case 'textarea':
+                    $value = new \Twig_Markup($this->values[$name], 'UTF-8');
                     break;
 
                 case 'imagelist':

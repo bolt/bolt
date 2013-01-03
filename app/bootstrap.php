@@ -45,7 +45,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'debug'=>true,
         'cache' => __DIR__.'/cache/',
         'strict_variables' => $config['general']['strict_variables'],
-        'autoescape' => false )
+        'autoescape' => true )
 ));
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
