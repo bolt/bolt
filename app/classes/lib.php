@@ -634,14 +634,14 @@ function trimText($str, $length, $nbsp = false, $hellip = true, $striptags = tru
 
     if (function_exists('mb_strwidth') ) {
         if (mb_strwidth($str)>$length) {
-            $str = mb_strimwidth($str, 0, $length+1, '', 'UTF-8');
+            $str = mb_strimwidth($str, 0, $length, '', 'UTF-8');
             if ($hellip) {
                 $str .= '…';
             }
         }
     } else {
         if (strlen($str)>$length) {
-            $str = substr($str, 0, $length+1);
+            $str = substr($str, 0, $length);
             if ($hellip) {
                 $str .= '…';
             }
@@ -752,12 +752,6 @@ function getConfig()
         }
         if (!isset($config['taxonomy'][$key]['singular_name'])) {
             $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
-        }
-        if (!isset($config['taxonomy'][$key]['slug'])) {
-            $config['taxonomy'][$key]['slug'] = strtolower(safeString($config['taxonomy'][$key]['name']));
-        }
-        if (!isset($config['taxonomy'][$key]['singular_slug'])) {
-            $config['taxonomy'][$key]['singular_slug'] = strtolower(safeString($config['taxonomy'][$key]['singular_name']));
         }
     }
 
