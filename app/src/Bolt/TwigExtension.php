@@ -404,14 +404,20 @@ class TwigExtension extends \Twig_Extension
 
         if (empty($width)) {
             $width = !empty($thumbconf[0]) ? $thumbconf[0] : 100;
+        } else {
+            $width = (int)$width;
         }
 
         if (empty($height)) {
             $height = !empty($thumbconf[1]) ? $thumbconf[1] : 100;
+        } else {
+            $height = (int)$height;
         }
 
         if (empty($crop)) {
             $crop = !empty($thumbconf[2]) ? $thumbconf[2] : 'c';
+        } else {
+            $crop = substr($crop, 0, 1);
         }
 
         $thumbnail = sprintf("%sthumbs/%sx%s%s/%s",
