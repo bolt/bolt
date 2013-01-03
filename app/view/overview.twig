@@ -92,7 +92,7 @@
                         <li><a class="nolink">Current status:
                             <strong>{{ content.status }}</strong></a></li>
                         <li><a class="nolink">Slug:
-                            <code>{{ content.slug }}</code></a></li>
+                            <code title="{{ content.slug }}">{{ content.slug|trimtext(30) }}</code></a></li>
                         <li><a class="nolink">Created on:
                             <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
                         <li><a class="nolink">Published on:
