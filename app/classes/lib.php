@@ -759,6 +759,9 @@ function getConfig()
         if (!isset($config['taxonomy'][$key]['singular_slug'])) {
             $config['taxonomy'][$key]['singular_slug'] = strtolower(safeString($config['taxonomy'][$key]['singular_name']));
         }
+        if (!isset($config['taxonomy'][$key]['has_sortorder'])) {
+            $config['taxonomy'][$key]['has_sortorder'] = false;
+        }
     }
 
     // Clean up contenttypes
