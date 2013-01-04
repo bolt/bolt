@@ -742,15 +742,13 @@ class Backend
     /**
      * Middleware function to check whether a user is logged on.
      */
-    function before(Request $request, Silex\Application $app) {
-
-        $app['end'] = "backend";
+    function before(Request $request, Silex\Application $app)
+    {
 
         $route = $request->get('_route');
 
         $app['log']->setRoute($route);
 
-        $app['twig']->addGlobal('backend', true);
         $app['debugbar'] = true;
 
         // There's an active session, we're all good.

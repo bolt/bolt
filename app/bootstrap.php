@@ -78,6 +78,12 @@ $app->register(new Bolt\ExtensionServiceProvider(), array());
 $app['paths'] = getPaths($config);
 $app['twig']->addGlobal('paths', $app['paths']);
 
+$app['end'] = getWhichEnd();
+$app['twig']->addGlobal('frontend', false);
+$app['twig']->addGlobal('backend', false);
+$app['twig']->addGlobal('async', false);
+$app['twig']->addGlobal($app['end'], true);
+
 $app['editlink'] = "";
 
 // Add the Bolt Twig functions, filters and tags.

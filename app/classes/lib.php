@@ -702,8 +702,6 @@ function getConfig()
 
     // TODO: If no config files can be found, get them from bolt.cm/files/default/
 
-    // echo "<pre>\n" . util::var_dump($config['menu'], true) . "</pre>\n";
-
     // Assume some sensible defaults for some options
     $defaultconfig = array(
         'sitename' => 'Default Bolt site',
@@ -803,27 +801,16 @@ function getConfig()
         $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
 
-    if (!empty($_SERVER['REQUEST_URI'])) {
-        // Get the script's filename, but _without_ REQUEST_URI.
-        $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
-    } else {
-        // We're probably in CLI mode.
-        $scripturi = "";
-    }
 
-    $config['twigpath'] = array();
+    $end = getWhichEnd();
 
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
 
-    // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
-    // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
-    if ( (substr($scripturi,0,5) != "bolt/") && (strpos($scripturi, "/bolt/") === false) &&
-        (substr($scripturi,0,6) != "async/") && (strpos($scripturi, "/async/") === false) &&
-        file_exists($themepath) ) {
-        $config['twigpath'][] = $themepath;
+    if ( $end == "frontend" && file_exists($themepath) ) {
+        $config['twigpath'] = array($themepath);
     } else {
-        $config['twigpath'][] = realpath(__DIR__.'/../view');
+        $config['twigpath'] = array(realpath(__DIR__.'/../view'));
     }
 
     // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
@@ -837,11 +824,35 @@ function getConfig()
     $config['twigpath'][] = realpath(__DIR__.'/../theme_defaults');
     $config['twigpath'][] = realpath(__DIR__.'/../extensions');
 
-    // echo "<pre>\n" . \util::var_dump($config['twigpath'], true) . "</pre>\n";
-
     return $config;
 
 }
+
+
+function getWhichEnd() {
+
+    if (!empty($_SERVER['REQUEST_URI'])) {
+        // Get the script's filename, but _without_ REQUEST_URI.
+        $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+    } else {
+        // We're probably in CLI mode.
+        return "cli";
+    }
+
+    // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
+    // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
+    if ( (substr($scripturi,0,5) == "bolt/") || (strpos($scripturi, "/bolt/") !== false) ) {
+        $end = 'backend';
+    } else if ( (substr($scripturi,0,6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
+        $end = 'async';
+    } else {
+        $end = 'frontend';
+    }
+
+    return $end;
+
+}
+
 
 function getDBOptions($config)
 {
