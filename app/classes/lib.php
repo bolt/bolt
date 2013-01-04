@@ -735,6 +735,21 @@ function getConfig()
 
     $config['general'] = array_merge($defaultconfig, $config['general']);
 
+    // Make sure the cookie_domain for the sessions is set properly.
+    if (empty($config['general']['cookies_domain'])) {
+
+        // Don't set the domain for a cookie on a "TLD" - like 'localhost'.
+        if (strpos($_SERVER["SERVER_NAME"], ".") > 0) {
+            if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
+                $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
+            } else {
+                $config['general']['cookies_domain'] = "." .$_SERVER["SERVER_NAME"];
+            }
+        } else {
+            $config['general']['cookies_domain'] = "";
+        }
+    }
+
     // TODO: Think about what to do with these..
     /*
     # Date and Time formats

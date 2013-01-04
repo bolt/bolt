@@ -35,7 +35,8 @@ $app['config'] = $config;
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
         'name' => 'bolt_session',
-        'cookie_lifetime' => $config['general']['cookies_lifetime']
+        'cookie_lifetime' => $config['general']['cookies_lifetime'],
+        'cookie_domain' => $config['general']['cookies_domain']
     )
 ));
 

@@ -98,3 +98,8 @@ cookies_https_only: false # note: this is on the TODO list.
 # The length of time a user stays 'logged in'. Change to 0 to end the session when the browser
 # is closed. The default is 1209600: two weeks in seconds.
 cookies_lifetime: 1209600
+
+# Set the session cookie to a specific domain. Leave blank, unless you know what you're doing.
+# When set incorrectly, you might not be able to log on at all.
+# If you'd like it to be valid for all subdomains of 'www.example.org', set this to '.example.org'.
+cookies_domain:

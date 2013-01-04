@@ -348,8 +348,6 @@ class Content implements \ArrayAccess
         if (isset($this->values[$name])) {
             $fieldtype = $this->fieldtype($name);
 
-
-
             switch ($fieldtype) {
                 case 'markdown':
                     // Parse the field as Markdown, return HTML
