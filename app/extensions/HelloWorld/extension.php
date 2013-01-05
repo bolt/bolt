@@ -45,8 +45,10 @@ function twigHelloworld($name="") {
         }
     }
 
-    return "Hello, ". $name ."!";
+    $html = "Hello, ". $name ."!";
 
+    return new \Twig_Markup($html, 'UTF-8');
+    
 }
 
 
