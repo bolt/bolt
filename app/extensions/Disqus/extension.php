@@ -72,7 +72,7 @@ EOM;
     $html = str_replace("%title%", $title, $html);
 
 
-    return $html;
+    return new \Twig_Markup($html, 'UTF-8');
 
 }
 

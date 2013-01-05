@@ -83,7 +83,7 @@ EOM;
     $html = str_replace("%verb%", $config['verb'], $html);
     $html = str_replace("%scheme%", $config['scheme'], $html);
 
-    return $html;
+    return new \Twig_Markup($html, 'UTF-8');
 
 }
 
