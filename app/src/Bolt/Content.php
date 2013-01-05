@@ -187,17 +187,23 @@ class Content implements \ArrayAccess
         if (!empty($_FILES)) {
             foreach ($_FILES as $key => $file) {
 
+                if (empty($file['name'][0])) {
+                    continue; // Skip 'empty' uploads..
+                }
+
                 $filename = sprintf("%s/files/%s/%s",
-                    $this->app['paths']['rootpath'], date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
+                    $this->app['paths']['rootpath'],
+                    date("Y-m"),
+                    safeString($file['name'][0], false, "[]{}()"));
                 $basename = sprintf("/%s/%s", date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
-                    $this->app['log']->add("Upload: Error occured during upload: " . $file['error'][0], 2);
+                    $this->app['log']->add("Upload: Error occured during upload: " . $file['error'][0] ." - " . $filename, 2);
                     continue;
                 }
 
                 if (substr($key, 0, 11)!="fileupload-") {
-                    $this->app['log']->add("Upload: skipped an upload that wasn't for Content.", 2);
+                    $this->app['log']->add("Upload: skipped an upload that wasn't for Content. - " . $filename, 2);
                     continue;
                 }
 
