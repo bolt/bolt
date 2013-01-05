@@ -591,7 +591,7 @@ class Content implements \ArrayAccess
 
         $excerpt = trimText(strip_tags($excerpt), $length) ;
 
-        return $excerpt;
+        return new \Twig_Markup($excerpt, 'UTF-8');
 
     }
 
