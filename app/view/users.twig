@@ -6,10 +6,6 @@
 
         <h1>{{title}}</h1>
 
-
-
-
-
     <table class='dashboardlisting'>
         <tr>
             <th>#</th>
@@ -20,12 +16,11 @@
         </tr>
         {% for user in users %}
 
-
         <tr class="{% if user.enabled==0 %}dim{% endif %}">
             <td class='id'>№ {{user.id}}</td>
 
             <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
-            <td>{{ user.userlevel }} </td>
+            <td>{{ userlevels[user.userlevel] }} </td>
             <td>{% if user.lastseen>"1000" %}
                 <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
                {% else %}-{% endif %} </td>

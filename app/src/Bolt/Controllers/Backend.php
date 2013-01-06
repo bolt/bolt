@@ -365,8 +365,9 @@ class Backend
 
         $title = "Users";
         $users = $app['users']->getUsers();
+        $userlevels = $app['users']->getUserLevels();
 
-        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title));
+        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title, 'userlevels' => $userlevels ));
 
     }
 

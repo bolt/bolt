@@ -398,7 +398,6 @@ class Users
             return true;
         }
 
-
     }
 
 }
