@@ -3,12 +3,12 @@
 namespace Bolt;
 
 use Bolt;
-use Silex\Application;
+use Silex\Application as SilexApplication;
 use Silex\ServiceProviderInterface;
 
 class StorageServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(SilexApplication $app)
     {
 
         $app['storage'] = $app->share(function ($app) {
@@ -21,7 +21,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(Application $app)
+    public function boot(SilexApplication $app)
     {
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Bolt;
 
-use Silex;
 use Bolt;
 use util;
 
 class Extensions
 {
+    private $app;
     private $basefolder;
     private $enabled;
     private $snippetqueue;
@@ -16,7 +16,7 @@ class Extensions
     private $addjquery;
     private $matchedcomments;
 
-    public function __construct(Silex\Application $app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
         $this->basefolder = realpath(__DIR__."/../../extensions/");
@@ -119,7 +119,7 @@ class Extensions
                 }
 
 
-                $info['version_ok'] = checkVersion($GLOBALS['bolt_version'], $info['required_bolt_version']);
+                $info['version_ok'] = checkVersion($this->app['bolt_version'], $info['required_bolt_version']);
 
                 $info['namespace'] = $namespace;
 

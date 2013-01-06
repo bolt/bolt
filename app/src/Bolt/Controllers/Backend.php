@@ -2,7 +2,7 @@
 
 Namespace Bolt\Controllers;
 
-Use Silex;
+use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
@@ -15,7 +15,7 @@ class Backend
     /**
      * Dashboard or "root".
      */
-    function dashboard(Silex\Application $app) {
+    function dashboard(Application $app) {
 
         // Re-do getConfig. Mainly so we can log errors.
         getConfig();
@@ -54,7 +54,7 @@ class Backend
     /**
      * Login page.
      */
-    function login(Silex\Application $app, Request $request) {
+    function login(Application $app, Request $request) {
 
         if ($request->getMethod() == "POST") {
 
@@ -81,7 +81,7 @@ class Backend
     /**
      * Logout page.
      */
-    function logout(Silex\Application $app) {
+    function logout(Application $app) {
 
         $app['log']->add("Logout", 2, '', 'logout');
 
@@ -96,7 +96,7 @@ class Backend
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function dbupdate(Silex\Application $app) {
+    function dbupdate(Application $app) {
 
         $output = $app['storage']->repairTables();
 
@@ -136,7 +136,7 @@ class Backend
     /**
      * Clear the cache.
      */
-    function clearcache(Silex\Application $app) {
+    function clearcache(Application $app) {
 
         $result = clearCache();
 
@@ -157,7 +157,7 @@ class Backend
     /**
      * Show the activity-log.
      */
-    function activitylog(Silex\Application $app) {
+    function activitylog(Application $app) {
 
         $title = "Activity log";
 
@@ -182,7 +182,7 @@ class Backend
     /**
      * Generate some lipsum in the DB.
      */
-    function prefill(Silex\Application $app) {
+    function prefill(Application $app) {
 
         $content = $app['storage']->preFill();
 
@@ -199,7 +199,7 @@ class Backend
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function overview(Silex\Application $app, $contenttypeslug) {
+    function overview(Application $app, $contenttypeslug) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -238,7 +238,7 @@ class Backend
     /**
      * Edit a unit of content, or create a new one.
      */
-    function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request) {
+    function editcontent($contenttypeslug, $id, Application $app, Request $request) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -306,7 +306,7 @@ class Backend
     /**
      * Perform actions on content.
      */
-    function contentaction(Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
+    function contentaction(Application $app, $action, $contenttypeslug, $id, Request $request) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -361,7 +361,7 @@ class Backend
     /**
      * Show a list of all available users.
      */
-    function users(Silex\Application $app) {
+    function users(Application $app) {
 
         $title = "Users";
         $users = $app['users']->getUsers();
@@ -370,7 +370,7 @@ class Backend
 
     }
 
-    function useredit($id, Silex\Application $app, Request $request) {
+    function useredit($id, Application $app, Request $request) {
 
         // Get the user we want to edit (if any)
         if (!empty($id)) {
@@ -504,7 +504,7 @@ class Backend
     /**
      * Perform actions on users.
      */
-    function useraction(Silex\Application $app, $action, $id) {
+    function useraction(Application $app, $action, $id) {
 
         $user = $app['users']->getUser($id);
 
@@ -558,7 +558,7 @@ class Backend
     /**
      * Show the 'about' page
      */
-    function about(Silex\Application $app) {
+    function about(Application $app) {
         return $app['twig']->render('about.twig');
 
     }
@@ -567,7 +567,7 @@ class Backend
     /**
      * Show a list of all available extensions.
      */
-    function extensions(Silex\Application $app) {
+    function extensions(Application $app) {
 
         $title = "Extensions";
 
@@ -578,7 +578,7 @@ class Backend
     }
 
 
-    function files($path, Silex\Application $app, Request $request) {
+    function files($path, Application $app, Request $request) {
 
         $files = array();
         $folders = array();
@@ -662,7 +662,7 @@ class Backend
     }
 
 
-    function fileedit($file, Silex\Application $app, Request $request) {
+    function fileedit($file, Application $app, Request $request) {
 
         $title = "Edit file '$file'.";
 
@@ -742,7 +742,7 @@ class Backend
     /**
      * Middleware function to check whether a user is logged on.
      */
-    function before(Request $request, Silex\Application $app)
+    function before(Request $request, Application $app)
     {
 
         $route = $request->get('_route');
