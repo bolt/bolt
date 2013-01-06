@@ -2,15 +2,114 @@
 
 Namespace Bolt\Controllers;
 
-Use Silex;
+use Silex;
+use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Backend
+class Backend implements ControllerProviderInterface
 {
+    public function connect(Silex\Application $app)
+    {
+        $ctl = $app['controllers_factory'];
+
+        $ctl->get("", array($this, 'dashboard'))
+            ->before(array($this, 'before'))
+            ->bind('dashboard')
+        ;
+
+        $ctl->match("/login", array($this, 'login'))
+            ->method('GET|POST')
+            ->before(array($this, 'before'))
+            ->bind('login')
+        ;
+
+        $ctl->get("/logout", array($this, 'logout'))
+            ->bind('logout')
+        ;
+
+        $ctl->get("/dbupdate", array($this, 'dbupdate'))
+            ->before(array($this, 'before'))
+            ->bind('dbupdate')
+        ;
+
+        $ctl->get("/clearcache", array($this, 'clearcache'))
+            ->before(array($this, 'before'))
+            ->bind('clearcache')
+        ;
+
+        $ctl->get("/prefill", array($this, 'prefill'))
+            ->before(array($this, 'before'))
+            ->bind('prefill')
+        ;
+
+        $ctl->get("/overview/{contenttypeslug}", array($this, 'overview'))
+            ->before(array($this, 'before'))
+            ->bind('overview')
+        ;
+
+        $ctl->match("/editcontent/{contenttypeslug}/{id}", array($this, 'editcontent'))
+            ->before(array($this, 'before'))
+            ->assert('id', '\d*')
+            ->method('GET|POST')
+            ->bind('editcontent')
+        ;
+
+        $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
+            ->before(array($this, 'before'))
+            ->bind('contentaction')
+        ;
+
+        $ctl->get("/users", array($this, 'users'))
+            ->before(array($this, 'before'))
+            ->bind('users')
+        ;
+
+        $ctl->match("/users/edit/{id}", array($this, 'useredit'))
+            ->before(array($this, 'before'))
+            ->assert('id', '\d*')
+            ->method('GET|POST')
+            ->bind('useredit')
+        ;
+
+        $ctl->get("/about", array($this, 'about'))
+            ->before(array($this, 'before'))
+            ->bind('about')
+        ;
+
+        $ctl->get("/extensions", array($this, 'extensions'))
+            ->before(array($this, 'before'))
+            ->bind('extensions')
+        ;
+
+        $ctl->get("/user/{action}/{id}", array($this, 'extensions'))
+            ->before(array($this, 'before'))
+            ->bind('useraction')
+        ;
+
+        $ctl->get("/files/{path}", array($this, 'files'))
+            ->before(array($this, 'before'))
+            ->assert('path', '.+')
+            ->bind('files')
+        ;
+
+        $ctl->get("/activitylog", array($this, 'activitylog'))
+            ->before(array($this, 'before'))
+            ->bind('activitylog')
+        ;
+
+        $ctl->match("/file/edit/{file}", array($this, 'fileedit'))
+            ->before(array($this, 'before'))
+            ->assert('file', '.+')
+            ->method('GET|POST')
+            ->bind('fileedit')
+        ;
+
+        return $ctl;
+    }
 
     /**
      * Dashboard or "root".
