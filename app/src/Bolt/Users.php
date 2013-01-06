@@ -127,6 +127,10 @@ class Users
             return false;
         }
 
+        if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS ) {
+            return false;
+        }
+
         $key = $this->getSessionKey($this->currentuser['username']);
 
         if ($key != $this->currentuser['sessionkey']) {
@@ -138,7 +142,6 @@ class Users
         }
 
         // TODO: Check if user is _still_ allowed to log on..
-
         return true;
 
 
@@ -295,7 +298,7 @@ class Users
                     $this->users[$key]['password'] = "**dontchange**";
 
                     // Older Bolt versions didn't store userlevel as int. Assume they're 'Developer', to prevent lockout.
-                    if (in_array($this->users[$key]['userlevel'], array('admin', 'developer', 'editor'))) {
+                    if (in_array($this->users[$key]['userlevel'], array('administrator', 'developer', 'editor'))) {
                         $this->users[$key]['userlevel'] = self::DEVELOPER;
                     }
 
