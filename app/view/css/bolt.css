@@ -314,6 +314,7 @@ footer  {
 
 .dashboardlisting td.actions {
     min-width: 78px;
+    text-align: right;
 }
 
 .dashboardlisting td.excerpt span {

@@ -69,7 +69,7 @@
             <li><a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> View site</a></li>
             <li class="divider-vertical"></li>
             <li>
-                <a href="{{ path('logout') }}"><i class="icon-signout"></i> Logout {{ app.session.get('user').username }}</a>
+                <a href="{{ path('logout') }}"><i class="icon-signout"></i> Logout {{ user.displayname|trimtext(16) }}</a>
             </li>
         {% else %}
             <li class="divider-vertical"></li>

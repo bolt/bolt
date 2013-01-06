@@ -151,6 +151,11 @@ class Content implements \ArrayAccess
 
         }
 
+        // Make sure we set the correct username, if the current user isn't allowed to change it.
+        if (!$this->app['users']->isAllowed('editcontent:all')) {
+            $values['username'] = $this->app['users']->getCurrentUsername();
+        }
+
         // Get the taxonomies from the POST-ed values. We don't support 'order' for taxonomies that
         // can have multiple values.
         // TODO: use $this->setTaxonomy() for this

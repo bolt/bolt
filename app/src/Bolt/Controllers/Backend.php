@@ -247,6 +247,12 @@ class Backend
             $content = new \Bolt\Content($app, $contenttypeslug);
             $content->setFromPost($request->request->all(), $contenttype);
 
+            // Don't try to spoof the $id..
+            if ($id != $content['id']) {
+                $app['session']->setFlash('error', "Don't try to spoof the id!");
+                return redirect('dashboard');
+            }
+
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
                 if (!empty($id)) {
@@ -267,6 +273,13 @@ class Backend
 
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+
+            // Check if we're allowed to edit this content..
+            if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
+                $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+                return redirect('dashboard');
+            }
+
             $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {

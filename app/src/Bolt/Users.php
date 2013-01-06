@@ -49,6 +49,8 @@ class Users
             'useraction' => self::ADMIN,
             'overview' => self::EDITOR,
             'editcontent' => self::EDITOR,
+            'editcontent:own' => self::EDITOR,
+            'editcontent:all' => self::ADMIN,
             'contentaction' => self::EDITOR,
             'about' => self::EDITOR,
             'extensions' => self::DEVELOPER,
@@ -343,6 +345,28 @@ class Users
 
         // otherwise..
         return false;
+
+    }
+
+    /**
+     * Get the current user as an array
+     *
+     * @return array
+     */
+    public function getCurrentUser() {
+
+        return $this->currentuser;
+
+    }
+
+    /**
+     * Get the username of the current user.
+     *
+     * @return string the username of the current user.
+     */
+    public function getCurrentUsername() {
+
+        return $this->currentuser['username'];
 
     }
 
