@@ -42,6 +42,7 @@ class TwigExtension extends \Twig_Extension
             'menu' => new \Twig_Function_Method($this, 'menu', array('needs_environment' => true)),
             'randomquote' => new \Twig_Function_Method($this, 'randomquote'),
             'widget' => new \Twig_Function_Method($this, 'widget', array('needs_environment' => true)),
+            'isallowed' => new \Twig_Function_Method($this, 'isAllowed'),
         );
     }
 
@@ -645,4 +646,13 @@ class TwigExtension extends \Twig_Extension
     }
 
 
+    /**
+     * Check if a certain action is allowed for the current user.
+     */
+    public function isAllowed($what)
+    {
+
+        return $this->app['users']->isAllowed($what);
+
+    }
 }

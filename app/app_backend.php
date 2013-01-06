@@ -53,6 +53,10 @@ $backend->match("/users/edit/{id}", '\Bolt\Controllers\Backend::useredit')
     ->method('GET|POST')
     ->bind('useredit');
 
+$backend->get("/user/{action}/{id}", '\Bolt\Controllers\Backend::extensions')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('useraction');
+
 $backend->get("/about", '\Bolt\Controllers\Backend::about')
     ->before('\Bolt\Controllers\Backend::before')
     ->bind('about');
@@ -60,10 +64,6 @@ $backend->get("/about", '\Bolt\Controllers\Backend::about')
 $backend->get("/extensions", '\Bolt\Controllers\Backend::extensions')
     ->before('\Bolt\Controllers\Backend::before')
     ->bind('extensions');
-
-$backend->get("/user/{action}/{id}", '\Bolt\Controllers\Backend::extensions')
-    ->before('\Bolt\Controllers\Backend::before')
-    ->bind('useraction');
 
 $backend->get("/files/{path}", '\Bolt\Controllers\Backend::files')
     ->before('\Bolt\Controllers\Backend::before')

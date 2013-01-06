@@ -1,0 +1,83 @@
+<div class="nav-collapse">
+    <ul class="nav pull-right">
+        {% if app.session.get('user') is not null %}
+            <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
+                <i class="icon-home"></i> Dashboard</a></li>
+            <li class="{% if active=='content' %}active {% endif %}dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-sitemap"></i> Content <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    {% for slug, contenttype in app.config.contenttypes %}
+                        <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
+                            <i class="icon-tasks"></i> View {{ contenttype.name }}</a></li>
+                        <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
+                            <i class="icon-plus"></i> New {{ contenttype.singular_name }}</a></li>
+                        {% if not loop.last %}<li class="divider"></li>{% endif %}
+                    {% endfor %}
+
+                </ul>
+            </li>
+
+            {% if isallowed('settings') %}
+            <li class="{% if active=='settings' %}active {% endif %}dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cogs"></i> Settings
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    {% if isallowed('files:config') %}
+                        <li class="nav-header">Configuration</li>
+                        <li><a href="{{ path('users') }}"><i class="icon-group"></i> Users</a></li>
+                        <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
+                            <i class="icon-cog"></i> Configuration</a></li>
+                        <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
+                            <i class="icon-cog"></i> Contenttypes</a></li>
+                        <li><a href="{{ path('fileedit', { 'file': 'app/config/menu.yml'}) }}">
+                            <i class="icon-cog"></i> Menu setup</a></li>
+                        <li><a href="{{ path('fileedit', { 'file': 'app/config/taxonomy.yml'}) }}">
+                            <i class="icon-tags"></i> Taxonomy</a></li>
+                        <li class="divider"></li>
+                    {% endif %}
+                    <li class="nav-header">Maintenance</li>
+                    {% if isallowed('extensions') %}
+                        <li><a href="{{ path('extensions') }}"><i class="icon-briefcase"></i> Extensions</a></li>
+                    {% endif %}
+                    {% if isallowed('dbupdate') %}
+                        <li><a href="{{ path('dbupdate') }}"><i class="icon-wrench"></i> Check database</a></li>
+                    {% endif %}
+                    {% if isallowed('clearcache') %}
+                        <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i> Clear the cache</a></li>
+                    {% endif %}
+                    {% if isallowed('activitylog') %}
+                        <li><a href="{{ path('activitylog') }}"><i class="icon-file"></i> Activity log</a></li>
+                    {% endif %}
+                    <li class="divider"></li>
+                    <li class="nav-header">File Management</li>
+                    {% if isallowed('files:theme') %}
+                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="icon-hdd"></i> View / edit Templates</a></li>
+                    {% endif %}
+                    {% if isallowed('files:uploads') %}
+                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-hdd"></i> Uploaded files</a></li>
+                    {% endif %}
+
+                </ul>
+            </li>
+            {% endif %}
+
+            <li class="divider-vertical"></li>
+
+            <li><a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> View site</a></li>
+            <li class="divider-vertical"></li>
+            <li>
+                <a href="{{ path('logout') }}"><i class="icon-signout"></i> Logout {{ app.session.get('user').username }}</a>
+            </li>
+        {% else %}
+            <li class="divider-vertical"></li>
+            <li><a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> View site</a></li>
+            <li class="divider-vertical"></li>
+            <li>
+                <a href="{{ path('login') }}"><i class="icon-signin"></i> Login</a>
+            </li>
+        {% endif %}
+    </ul>
+</div><!--/.nav-collapse -->
