@@ -66,7 +66,7 @@ EOM;
     $html = str_replace("%domainname%", $_SERVER['HTTP_HOST'], $html);
 
 
-    return $html;
+    return new \Twig_Markup($html, 'UTF-8');
 
 }
 
@@ -216,7 +216,7 @@ function insertWidget()
         'pages' => $pages
     ));
 
-    return $html;
+    return new \Twig_Markup($html, 'UTF-8');
 
 }
 

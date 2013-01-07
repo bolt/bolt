@@ -54,7 +54,9 @@ function init($app) {
 
 function callback(\Silex\Application $app, $var) {
 
-    return "<!-- snippet inserted via callback with parameter '$var'.. -->";
+    $html = "<!-- snippet inserted via callback with parameter '$var'.. -->";
+
+    return new \Twig_Markup($html, 'UTF-8');
 
 }
 

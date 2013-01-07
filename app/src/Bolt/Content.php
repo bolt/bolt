@@ -151,6 +151,11 @@ class Content implements \ArrayAccess
 
         }
 
+        // Make sure we set the correct username, if the current user isn't allowed to change it.
+        if (!$this->app['users']->isAllowed('editcontent:all')) {
+            $values['username'] = $this->app['users']->getCurrentUsername();
+        }
+
         // Get the taxonomies from the POST-ed values. We don't support 'order' for taxonomies that
         // can have multiple values.
         // TODO: use $this->setTaxonomy() for this
@@ -187,17 +192,23 @@ class Content implements \ArrayAccess
         if (!empty($_FILES)) {
             foreach ($_FILES as $key => $file) {
 
+                if (empty($file['name'][0])) {
+                    continue; // Skip 'empty' uploads..
+                }
+
                 $filename = sprintf("%s/files/%s/%s",
-                    $this->app['paths']['rootpath'], date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
+                    $this->app['paths']['rootpath'],
+                    date("Y-m"),
+                    safeString($file['name'][0], false, "[]{}()"));
                 $basename = sprintf("/%s/%s", date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
-                    $this->app['log']->add("Upload: Error occured during upload: " . $file['error'][0], 2);
+                    $this->app['log']->add("Upload: Error occured during upload: " . $file['error'][0] ." - " . $filename, 2);
                     continue;
                 }
 
                 if (substr($key, 0, 11)!="fileupload-") {
-                    $this->app['log']->add("Upload: skipped an upload that wasn't for Content.", 2);
+                    $this->app['log']->add("Upload: skipped an upload that wasn't for Content. - " . $filename, 2);
                     continue;
                 }
 
@@ -352,7 +363,13 @@ class Content implements \ArrayAccess
                 case 'markdown':
                     // Parse the field as Markdown, return HTML
                     include_once __DIR__. "/../../classes/markdown.php";
-                    $value = Markdown($this->values[$name]);
+                    $value = new \Twig_Markup(Markdown($this->values[$name]), 'UTF-8');
+                    break;
+
+                case 'html':
+                case 'text':
+                case 'textarea':
+                    $value = new \Twig_Markup($this->values[$name], 'UTF-8');
                     break;
 
                 case 'imagelist':
@@ -585,7 +602,7 @@ class Content implements \ArrayAccess
 
         $excerpt = trimText(strip_tags($excerpt), $length) ;
 
-        return $excerpt;
+        return new \Twig_Markup($excerpt, 'UTF-8');
 
     }
 

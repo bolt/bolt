@@ -53,6 +53,10 @@ $backend->match("/users/edit/{id}", '\Bolt\Controllers\Backend::useredit')
     ->method('GET|POST')
     ->bind('useredit');
 
+$backend->get("/user/{action}/{id}", '\Bolt\Controllers\Backend::extensions')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('useraction');
+
 $backend->get("/about", '\Bolt\Controllers\Backend::about')
     ->before('\Bolt\Controllers\Backend::before')
     ->bind('about');
@@ -60,10 +64,6 @@ $backend->get("/about", '\Bolt\Controllers\Backend::about')
 $backend->get("/extensions", '\Bolt\Controllers\Backend::extensions')
     ->before('\Bolt\Controllers\Backend::before')
     ->bind('extensions');
-
-$backend->get("/user/{action}/{id}", '\Bolt\Controllers\Backend::extensions')
-    ->before('\Bolt\Controllers\Backend::before')
-    ->bind('useraction');
 
 $backend->get("/files/{path}", '\Bolt\Controllers\Backend::files')
     ->before('\Bolt\Controllers\Backend::before')
@@ -102,8 +102,6 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
     // TODO: See if we can squeeze this into $app->after, instead of ->finish()
     $app->finish(function (Request $request, Response $response) use ($app, $logger) {
-
-        $end = !empty($app['end']) ? $app['end'] : false;
 
         // Make sure debug is _still_ enabled, and/or the debugbar isn't turned off in code.
         if (!$app['debug'] || !$app['debugbar']) {
@@ -179,7 +177,8 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
 
 $app->after(function (Request $request, Response $response) use ($app) {
-    $end = !empty($app['end']) ? $app['end'] : false;
+
+    $end = getWhichEnd();
 
     if ($end == "frontend") {
 
@@ -199,12 +198,12 @@ $app->after(function (Request $request, Response $response) use ($app) {
 
 });
 
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Error page.
  */
-$app->error(function (Exception $e) use ($app) {
+$app->error(function (\Exception $e) use ($app) {
 
     $paths = getPaths($app['config']);
 
@@ -216,6 +215,8 @@ $app->error(function (Exception $e) use ($app) {
     $twigvars['paths'] = $paths;
 
     $app['log']->add($twigvars['message'], 3, '', 'abort');
+
+    $end = getWhichEnd();
 
     $trace = $e->getTrace();
 
@@ -231,8 +232,21 @@ $app->error(function (Exception $e) use ($app) {
     }
 
     $twigvars['trace'] = $trace;
-
     $twigvars['title'] = "An error has occured!";
+
+    if ( ($e instanceof NotFoundHttpException) && (!empty($app['config']['general']['notfound'])) && ($end == "frontend") ) {
+
+        $content = $app['storage']->getContent($app['config']['general']['notfound'], array('returnsingle' => true));
+
+        // Then, select which template to use, based on our 'cascading templates rules'
+        $template = $content->template();
+
+        return $app['twig']->render($template, array(
+            'record' => $content,
+            $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
+        ));
+
+    }
 
     return $app['twig']->render('error.twig', $twigvars);
 

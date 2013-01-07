@@ -11,7 +11,7 @@
 
 {% for record in records %}
             <item>
-                <title>{{ record.title }}</title>
+                <title>{{ record.title|striptags }}</title>
                 <link>{{ paths.hosturl }}{{ record.link }}</link>
                 <pubDate>
                     {{ record.datepublish|date("r") }}

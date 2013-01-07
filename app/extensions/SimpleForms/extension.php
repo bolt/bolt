@@ -169,7 +169,7 @@ function simpleform($name="")
         "button_text" => $button_text
     ));
 
-    return $formhtml;
+    return new \Twig_Markup($formhtml, 'UTF-8');
 
 }
 

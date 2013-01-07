@@ -56,7 +56,6 @@ class Async
      * Get the 'latest activity' for the dashboard..
      */
     function latestactivity(Silex\Application $app) {
-        global $bolt_version;
 
         $activity = $app['log']->getActivity(8, 3);
 
@@ -164,6 +163,7 @@ class Async
 
         // Only set which endpoint it is, if it's not already set. Which it is, in cases like
         // when it's embedded on a page using {{ render() }}
+        // TODO: Is this still needed?
         if (empty($app['end'])) {
             $app['end'] = "asynchronous";
         }

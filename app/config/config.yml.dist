@@ -24,6 +24,9 @@ sitename: A sample Bolt site.
 homepage: page/1
 homepage_template: index.twig
 
+# The default content for the 404 page. Uses the 'record_template' template by default.
+notfound: 
+
 # The theme to use. Be sure to copy the theme/default folder, and change the
 # name here accordingly. Don't edit the templates in theme/default, because
 # they _will_ get updated in next releases
@@ -103,3 +106,8 @@ cookies_https_only: false # note: this is on the TODO list.
 # The length of time a user stays 'logged in'. Change to 0 to end the session when the browser
 # is closed. The default is 1209600: two weeks in seconds.
 cookies_lifetime: 1209600
+
+# Set the session cookie to a specific domain. Leave blank, unless you know what you're doing.
+# When set incorrectly, you might not be able to log on at all.
+# If you'd like it to be valid for all subdomains of 'www.example.org', set this to '.example.org'.
+cookies_domain:

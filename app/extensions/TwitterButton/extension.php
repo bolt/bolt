@@ -64,7 +64,7 @@ EOM;
     $html = str_replace("%via%", $config['via'], $html);
     $html = str_replace("%count%", $config['count'], $html);
 
-    return $html;
+    return new \Twig_Markup($html, 'UTF-8');
 
 }
 

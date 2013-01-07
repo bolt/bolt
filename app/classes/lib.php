@@ -702,8 +702,6 @@ function getConfig()
 
     // TODO: If no config files can be found, get them from bolt.cm/files/default/
 
-    // echo "<pre>\n" . util::var_dump($config['menu'], true) . "</pre>\n";
-
     // Assume some sensible defaults for some options
     $defaultconfig = array(
         'sitename' => 'Default Bolt site',
@@ -735,6 +733,21 @@ function getConfig()
 
     $config['general'] = array_merge($defaultconfig, $config['general']);
 
+    // Make sure the cookie_domain for the sessions is set properly.
+    if (empty($config['general']['cookies_domain'])) {
+
+        // Don't set the domain for a cookie on a "TLD" - like 'localhost'.
+        if (strpos($_SERVER["SERVER_NAME"], ".") > 0) {
+            if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
+                $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
+            } else {
+                $config['general']['cookies_domain'] = "." .$_SERVER["SERVER_NAME"];
+            }
+        } else {
+            $config['general']['cookies_domain'] = "";
+        }
+    }
+
     // TODO: Think about what to do with these..
     /*
     # Date and Time formats
@@ -752,6 +765,15 @@ function getConfig()
         }
         if (!isset($config['taxonomy'][$key]['singular_name'])) {
             $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+        }
+        if (!isset($config['taxonomy'][$key]['slug'])) {
+            $config['taxonomy'][$key]['slug'] = strtolower(safeString($config['taxonomy'][$key]['name']));
+        }
+        if (!isset($config['taxonomy'][$key]['singular_slug'])) {
+            $config['taxonomy'][$key]['singular_slug'] = strtolower(safeString($config['taxonomy'][$key]['singular_name']));
+        }
+        if (!isset($config['taxonomy'][$key]['has_sortorder'])) {
+            $config['taxonomy'][$key]['has_sortorder'] = false;
         }
     }
 
@@ -779,27 +801,16 @@ function getConfig()
         $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
 
-    if (!empty($_SERVER['REQUEST_URI'])) {
-        // Get the script's filename, but _without_ REQUEST_URI.
-        $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
-    } else {
-        // We're probably in CLI mode.
-        $scripturi = "";
-    }
 
-    $config['twigpath'] = array();
+    $end = getWhichEnd();
 
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
 
-    // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
-    // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
-    if ( (substr($scripturi,0,5) != "bolt/") && (strpos($scripturi, "/bolt/") === false) &&
-        (substr($scripturi,0,6) != "async/") && (strpos($scripturi, "/async/") === false) &&
-        file_exists($themepath) ) {
-        $config['twigpath'][] = $themepath;
+    if ( $end == "frontend" && file_exists($themepath) ) {
+        $config['twigpath'] = array($themepath);
     } else {
-        $config['twigpath'][] = realpath(__DIR__.'/../view');
+        $config['twigpath'] = array(realpath(__DIR__.'/../view'));
     }
 
     // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
@@ -813,11 +824,35 @@ function getConfig()
     $config['twigpath'][] = realpath(__DIR__.'/../theme_defaults');
     $config['twigpath'][] = realpath(__DIR__.'/../extensions');
 
-    // echo "<pre>\n" . \util::var_dump($config['twigpath'], true) . "</pre>\n";
-
     return $config;
 
 }
+
+
+function getWhichEnd() {
+
+    if (!empty($_SERVER['REQUEST_URI'])) {
+        // Get the script's filename, but _without_ REQUEST_URI.
+        $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+    } else {
+        // We're probably in CLI mode.
+        return "cli";
+    }
+
+    // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
+    // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
+    if ( (substr($scripturi,0,5) == "bolt/") || (strpos($scripturi, "/bolt/") !== false) ) {
+        $end = 'backend';
+    } else if ( (substr($scripturi,0,6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
+        $end = 'async';
+    } else {
+        $end = 'frontend';
+    }
+
+    return $end;
+
+}
+
 
 function getDBOptions($config)
 {

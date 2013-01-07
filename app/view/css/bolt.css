@@ -314,6 +314,7 @@ footer  {
 
 .dashboardlisting td.actions {
     min-width: 78px;
+    text-align: right;
 }
 
 .dashboardlisting td.excerpt span {
@@ -332,7 +333,6 @@ footer  {
 ul.dropdown-menu {
     margin: 0;
 }
-
 
 ul.dropdown-menu li {
     text-align: left;

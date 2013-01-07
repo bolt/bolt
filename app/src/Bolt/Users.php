@@ -9,6 +9,11 @@ use Silex;
  */
 class Users
 {
+    const ANONYMOUS = 0;
+    const EDITOR = 2;
+    const ADMIN = 4;
+    const DEVELOPER = 6;
+
     public $db;
     public $config;
     public $usertable;
@@ -16,6 +21,7 @@ class Users
     public $users;
     public $session;
     public $currentuser;
+    public $allowed;
 
     public function __construct(Silex\Application $app)
     {
@@ -29,6 +35,32 @@ class Users
         $this->session = $app['session'];
 
         $this->checkValidSession();
+
+        $this->allowed = array(
+            'dashboard' => self::EDITOR,
+            'settings' => self::ADMIN,
+            'login' => self::ANONYMOUS,
+            'logout' => self::EDITOR,
+            'dbupdate' => self::ADMIN,
+            'clearcache' => self::ADMIN,
+            'prefill' => self::DEVELOPER,
+            'users' => self::ADMIN,
+            'useredit' => self::ADMIN,
+            'useraction' => self::ADMIN,
+            'overview' => self::EDITOR,
+            'editcontent' => self::EDITOR,
+            'editcontent:own' => self::EDITOR,
+            'editcontent:all' => self::ADMIN,
+            'contentaction' => self::EDITOR,
+            'about' => self::EDITOR,
+            'extensions' => self::DEVELOPER,
+            'files' => self::ADMIN,
+            'files:config' => self::DEVELOPER,
+            'files:theme' => self::DEVELOPER,
+            'files:uploads' => self::ADMIN,
+            'activitylog' => self::ADMIN,
+            'fileedit' => self::ADMIN,
+        );
 
     }
 
@@ -97,6 +129,10 @@ class Users
             return false;
         }
 
+        if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS ) {
+            return false;
+        }
+
         $key = $this->getSessionKey($this->currentuser['username']);
 
         if ($key != $this->currentuser['sessionkey']) {
@@ -105,9 +141,10 @@ class Users
             $this->app['session']->invalidate();
 
             return false;
-        } else {
-            return true;
         }
+
+        // TODO: Check if user is _still_ allowed to log on..
+        return true;
 
 
     }
@@ -261,9 +298,20 @@ class Users
                     $key = $user['username'];
                     $this->users[$key] = $user;
                     $this->users[$key]['password'] = "**dontchange**";
+
+                    // Older Bolt versions didn't store userlevel as int. Assume they're 'Developer', to prevent lockout.
+                    if (in_array($this->users[$key]['userlevel'], array('administrator', 'developer', 'editor'))) {
+                        $this->users[$key]['userlevel'] = self::DEVELOPER;
+                    }
+
                 }
             } catch (\Exception $e) {
                 // Nope. No users.
+            }
+
+            // Extra special case: if there are no users, allow adding one..
+            if (empty($this->users)) {
+                $this->allowed['useredit'] = self::ANONYMOUS;
             }
 
         }
@@ -300,6 +348,28 @@ class Users
 
     }
 
+    /**
+     * Get the current user as an array
+     *
+     * @return array
+     */
+    public function getCurrentUser() {
+
+        return $this->currentuser;
+
+    }
+
+    /**
+     * Get the username of the current user.
+     *
+     * @return string the username of the current user.
+     */
+    public function getCurrentUsername() {
+
+        return $this->currentuser['username'];
+
+    }
+
 
     /**
      * Enable or disable a user, specified by id.
@@ -331,12 +401,26 @@ class Users
     public function getUserLevels()
     {
         $userlevels = array(
-            'editor' => "Editor",
-            'administrator' => "Administrator",
-            'developer' => "Developer"
+            self::EDITOR => "Editor",
+            self::ADMIN => "Administrator",
+            self::DEVELOPER => "Developer"
         );
 
         return $userlevels;
+
+    }
+
+    public function isAllowed($what)
+    {
+
+        // echo \util::var_dump($what, true);
+
+        if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel']) ) {
+            // printf(" %s > %s ", $this->allowed[$what], $this->currentuser['userlevel']);
+            return false;
+        } else {
+            return true;
+        }
 
     }
 

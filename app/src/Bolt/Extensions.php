@@ -196,7 +196,7 @@ class Extensions
 
         $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
 
-        $this->insertSnippet("aftercss", $html);
+        $this->insertSnippet("beforecss", $html);
 
     }
 
@@ -205,7 +205,7 @@ class Extensions
 
         $html = sprintf('<script src="%s"></script>', $filename);
 
-        $this->insertSnippet("aftercss", $html);
+        $this->insertSnippet("afterjs", $html);
 
     }
 
@@ -329,6 +329,9 @@ class Extensions
                     break;
                 case "aftermeta":
                     $html = $this->insertAfterMeta($snippet, $html);
+                    break;
+                case "beforecss":
+                    $html = $this->insertBeforeCss($snippet, $html);
                     break;
                 case "aftercss":
                     $html = $this->insertAfterCss($snippet, $html);
@@ -591,6 +594,38 @@ class Extensions
         return $html;
 
     }
+
+
+    /**
+     *
+     * Helper function to insert some HTML before the first CSS include in the page.
+     *
+     * @param  string $tag
+     * @param  string $html
+     * @return string
+     */
+    public function insertBeforeCss($tag, $html)
+    {
+
+        // first, attempt to insert it after the <body> tag, matching indentation..
+
+        if (preg_match("~^([ \t]+)<link(.*)~mi", $html, $matches)) {
+
+            // Try to insert it before the match
+            $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
+            $html = str_replace($matches[0], $replacement, $html);
+
+        } else {
+
+            // Since we're serving tag soup, just append it.
+            $html .= $tag."\n";
+
+        }
+
+        return $html;
+
+    }
+
 
     /**
      *

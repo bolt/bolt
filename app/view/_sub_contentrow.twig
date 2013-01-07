@@ -1,13 +1,22 @@
 
+{# content is 'editable' if either the user is the owner, or user is admin or higher #}
+{% set editable = (user.username == content.username) or isallowed('editcontent:all') %}
+
 <tr {% if content.status!='published' %}class="dim"{% endif %}>
     <td class='id hide-phone'>№ {{content.id}}</td>
     <td class='excerpt {% if not compact %}large{% endif %}'><span>
-                    <strong class="show-phone">№ {{content.id}}. </strong>
-                    <strong>
-                        <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                            {{content.getTitle}}{{content.name}}
-                        </a>
-                    </strong>
+        <strong class="show-phone">№ {{content.id}}. </strong>
+        <strong>
+            {% if editable %}
+            <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                {{content.getTitle}}{{content.name}}
+            </a>
+            {% else %}
+            <strong>
+                {{content.getTitle}}{{content.name}}
+            </strong>
+            {% endif %}
+        </strong>
         {{ content.excerpt(excerptlength) }}
                     </span></td>
     <td class='listthumb'>
@@ -26,14 +35,18 @@
     {% endif %}
     <td class='actions'>
         <div class="btn-group">
+            {% if editable %}
             <button class="btn btn-mini uselink">
                 <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
-                    <i class="icon-edit"></i> Edit</a></button>
+                <i class="icon-edit"></i> Edit</a>
+            </button>
+            {% endif %}
             <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                 <i class="icon-info-sign"></i>
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu pull-right">
+            {% if editable %}
 
                 {% if content.status != "published" %}
                     <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
@@ -50,6 +63,7 @@
                        data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
                     <i class="icon-trash"></i> Delete {{ content.contenttype.singular_name }}</a></li>
                 <li class="divider"></li>
+            {% endif %}
                 <li><a class="nolink">Author: <strong><i class="icon-user"></i>
                     {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}
                         <s>{{ content.username }}</s>{% endif %}</strong></a></li>

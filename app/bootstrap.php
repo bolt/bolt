@@ -44,7 +44,8 @@ $app['config'] = $config;
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
         'name' => 'bolt_session',
-        'cookie_lifetime' => $config['general']['cookies_lifetime']
+        'cookie_lifetime' => $config['general']['cookies_lifetime'],
+        'cookie_domain' => $config['general']['cookies_domain']
     )
 ));
 
@@ -54,7 +55,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'debug'=>true,
         'cache' => __DIR__.'/cache/',
         'strict_variables' => $config['general']['strict_variables'],
-        'autoescape' => false )
+        'autoescape' => true )
 ));
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
@@ -84,6 +85,13 @@ $app->register(new Bolt\ExtensionServiceProvider(), array());
 
 $app['paths'] = getPaths($config);
 $app['twig']->addGlobal('paths', $app['paths']);
+
+$app['end'] = getWhichEnd();
+$app['twig']->addGlobal('frontend', false);
+$app['twig']->addGlobal('backend', false);
+$app['twig']->addGlobal('async', false);
+$app['twig']->addGlobal($app['end'], true);
+$app['twig']->addGlobal('user', $app['users']->getCurrentUser());
 
 $app['editlink'] = "";
 

@@ -1185,7 +1185,11 @@ class Storage
     {
         if ($a->group == $b->group) {
 
-            if ($a->sortorder != $b->sortorder) {
+            if (empty($a->sortorder)) {
+                return -1;
+            } else if (empty($b->sortorder)) {
+                return 1;
+            } else if ($a->sortorder != $b->sortorder) {
                 return ($a->sortorder < $b->sortorder) ? -1 : 1;
             };
 

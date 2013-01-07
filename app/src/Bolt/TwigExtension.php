@@ -42,6 +42,7 @@ class TwigExtension extends \Twig_Extension
             'menu' => new \Twig_Function_Method($this, 'menu', array('needs_environment' => true)),
             'randomquote' => new \Twig_Function_Method($this, 'randomquote'),
             'widget' => new \Twig_Function_Method($this, 'widget', array('needs_environment' => true)),
+            'isallowed' => new \Twig_Function_Method($this, 'isAllowed'),
         );
     }
 
@@ -88,10 +89,15 @@ class TwigExtension extends \Twig_Extension
      */
     public function excerpt($content, $length = 200)
     {
-
-        // If it's an contenct object, let the object handle it.
+        // If it's an content object, let the object handle it.
         if (is_object($content)) {
-            return $content->excerpt($length);
+
+            if (method_exists($content, 'excerpt')) {
+                return $content->excerpt($length);
+            } else {
+                $output = $content;
+            }
+
         } elseif (is_array($content)) {
             // Assume it's an array, strip some common fields that we don't need, implode the rest..
 
@@ -114,7 +120,7 @@ class TwigExtension extends \Twig_Extension
 
         $output = trimText(strip_tags($output), $length) ;
 
-        return $output;
+        return new \Twig_Markup($output, 'UTF-8');
 
     }
 
@@ -126,7 +132,7 @@ class TwigExtension extends \Twig_Extension
 
         $output = trimText(strip_tags($content), $length) ;
 
-        return $output;
+        return new \Twig_Markup($output, 'UTF-8');
 
     }
 
@@ -139,7 +145,7 @@ class TwigExtension extends \Twig_Extension
         include_once __DIR__. "/../../classes/markdown.php";
         $output = Markdown($content) ;
 
-        return $output;
+        return new \Twig_Markup($output, 'UTF-8');
 
     }
 
@@ -290,12 +296,11 @@ class TwigExtension extends \Twig_Extension
         // Loop the array, set records in 'current' to have a 'selected' flag.
         foreach($results as $key => $result) {
             if (in_array($result->id, $current)) {
-                $results->$key['selected'] = true;
+                $results[$key]['selected'] = true;
             } else {
-                $results->$key['selected'] = false;
+                $results[$key]['selected'] = false;
             }
         }
-
 
         return $results;
 
@@ -435,16 +440,15 @@ class TwigExtension extends \Twig_Extension
             $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
             $large = $this->thumbnail($filename, 1000, 1000, 'r');
 
-            $fancybox = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
+            $output = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
                     <img src="%s" width="%s" height="%s"></a>',
                     $large, $filename, $thumbnail, $width, $height );
 
-            return $fancybox;
-
         } else {
-            return "&nbsp;";
+            $output = "&nbsp;";
         }
 
+        return new \Twig_Markup($output, 'UTF-8');
 
     }
 
@@ -486,8 +490,7 @@ class TwigExtension extends \Twig_Extension
             $html
             );
 
-        return $output;
-
+        return new \Twig_Markup($output, 'UTF-8');
 
     }
 
@@ -614,7 +617,7 @@ class TwigExtension extends \Twig_Extension
 
         $quote = sprintf("“%s”\n<cite>— %s</cite>", $randomquote[0], $randomquote[1]);
 
-        return $quote;
+        return new \Twig_Markup($quote, 'UTF-8');
 
     }
 
@@ -630,4 +633,13 @@ class TwigExtension extends \Twig_Extension
     }
 
 
+    /**
+     * Check if a certain action is allowed for the current user.
+     */
+    public function isAllowed($what)
+    {
+
+        return $this->app['users']->isAllowed($what);
+
+    }
 }
