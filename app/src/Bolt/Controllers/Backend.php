@@ -462,16 +462,16 @@ class Backend
             $pass2 = $form['password_confirmation']->getData();
 
             // Some checks for the passwords..
-            if (!empty($pass1) && strlen($pass1)<6 ) {
-                $form['password']->addError(new FormError('This value is too short. It should have 6 characters or more.'));
-            } elseif ($pass1 != $pass2) {
+            if ($pass1 != $pass2) {
                 $form['password_confirmation']->addError(new FormError('Passwords must match.'));
             }
 
         }));
 
         $form = $form->getForm();
-
+        /**
+         * @var \Symfony\Component\Form\Form $form
+         */
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->getMethod() == "POST") {
             //$form->bindRequest($request);

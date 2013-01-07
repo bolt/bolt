@@ -9,6 +9,11 @@ database:
 # The name of the website
 sitename: A sample Bolt site.
 
+# Enable to following line to fix a particular locale which will always be used
+# for translations. If this is not enabled, the locale of the incoming request
+# is used.
+#locale: nl
+
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the

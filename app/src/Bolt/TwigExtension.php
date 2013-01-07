@@ -55,8 +55,6 @@ class TwigExtension extends \Twig_Extension
             'ucfirst' => new \Twig_Filter_Method($this, 'ucfirst'),
             'excerpt' => new \Twig_Filter_Method($this, 'excerpt'),
             'current' => new \Twig_Filter_Method($this, 'current'),
-            'trans' => new \Twig_Filter_Method($this, 'trans'),
-            'transchoice' => new \Twig_Filter_Method($this, 'trans'),
             'thumbnail' => new \Twig_Filter_Method($this, 'thumbnail'),
             'image' => new \Twig_Filter_Method($this, 'image'),
             'fancybox' => new \Twig_Filter_Method($this, 'fancybox', array('is_safe' => array('html'))),
@@ -381,17 +379,6 @@ class TwigExtension extends \Twig_Extension
         }
 
     }
-
-
-
-    /**
-     * Stub for the 'trans' and 'transchoice' filters.
-     */
-    public function trans($str)
-    {
-            return $str;
-    }
-
 
     /**
      * Helper function to make a path to an image thumbnail.
