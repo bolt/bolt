@@ -13,8 +13,6 @@
  * @version  1.0.003
  */
 
-declare(encoding='UTF-8');
-
 if ( ! class_exists( 'util' ) ) {
     class util
     {
