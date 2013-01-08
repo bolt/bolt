@@ -18,6 +18,18 @@ class Content implements \ArrayAccess
 
         $this->app = $app;
 
+        if (!empty($contenttype)) {
+            // Set the contenttype
+            $this->setContenttype($contenttype);
+
+            // If this contenttype has a taxonomy with 'grouping', initialize the group.
+            foreach ($contenttype['taxonomy'] as $taxonomytype) {
+                if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
+                    $this->setGroup("", $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
+                }
+            }
+        }
+
         if (!empty($values)) {
             $this->setValues($values);
         } else {
@@ -32,18 +44,6 @@ class Content implements \ArrayAccess
             $this->setValues($values);
         }
 
-        if (!empty($contenttype)) {
-            // Set the contenttype
-            $this->setContenttype($contenttype);
-
-            // If this contenttype has a taxonomy with 'grouping', initialize the group.
-            foreach ($contenttype['taxonomy'] as $taxonomytype) {
-                if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-                    $this->setGroup("", $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
-                }
-            }
-
-        }
     }
 
     public function setValues($values)
@@ -74,13 +74,42 @@ class Content implements \ArrayAccess
             $this->user = $this->app['users']->getUser($values['username']);
         }
 
-        // Check if the values need to be unserialized..
+        // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
             if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
                 $unserdata = @unserialize($value);
                 if ($unserdata !== false) {
                     $this->values[$key] = $unserdata;
                 }
+            }
+
+            if ($this->fieldtype($key)=="video" && !empty($this->values[$key]['url'])) {
+
+                $video = $this->values[$key];
+                // update the HTML, according to given width and height
+                if (!empty($video['width']) && !empty($video['height'])) {
+                    $video['html'] = preg_replace("/width=(['\"])([0-9]+)(['\"])/i", 'width=${1}'.$video['width'].'${3}', $video['html']);
+                    $video['html'] = preg_replace("/height=(['\"])([0-9]+)(['\"])/i", 'height=${1}'.$video['height'].'${3}', $video['html']);
+                }
+
+                $responsiveclass = "responsive-video";
+
+                // See if it's widescreen or not..
+                if (!empty($video['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
+                    $responsiveclass .= " widescreen";
+                }
+
+                if (strpos($video['url'], "vimeo") !== false) {
+                    $responsiveclass .= " vimeo";
+                }
+
+                $video['responsive'] = sprintf('<div class="%s">%s</div>', $responsiveclass, $video['html']);
+
+                // Mark them up as Twig_Markup..
+                $video['html'] = new \Twig_Markup($video['html'], 'UTF-8');
+                $video['responsive'] = new \Twig_Markup($video['responsive'], 'UTF-8');
+
+                $this->values[$key] = $video;
             }
         }
 
@@ -125,29 +154,7 @@ class Content implements \ArrayAccess
         // Some field types need to do things to the POST-ed value.
         foreach ($contenttype['fields'] as $fieldname => $field) {
 
-            if ($field['type'] == "video" && isset($values[ $fieldname ])) {
-                $video = $values[ $fieldname ];
-                // update the HTML, according to given width and height
-                if (!empty($video['width']) && !empty($video['height'])) {
-                    $video['html'] = preg_replace("/width=(['\"])([0-9]+)(['\"])/i", 'width=${1}'.$video['width'].'${3}', $video['html']);
-                    $video['html'] = preg_replace("/height=(['\"])([0-9]+)(['\"])/i", 'height=${1}'.$video['height'].'${3}', $video['html']);
-                }
 
-                $responsiveclass = "responsive-video";
-
-                // See if it's widescreen or not..
-                if (!empty($video['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
-                    $responsiveclass .= " widescreen";
-                }
-
-                if (strpos($video['url'], "vimeo") !== false) {
-                    $responsiveclass .= " vimeo";
-                }
-
-                $video['responsive'] = sprintf('<div class="%s">%s</div>', $responsiveclass, $video['html']);
-
-                $values[ $fieldname ] = $video;
-            }
 
         }
 
