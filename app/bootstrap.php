@@ -96,9 +96,7 @@ if ($app['debug']) {
     // error_reporting( E_ALL ^ E_NOTICE ^ E_WARNING );
 }
 
-require_once __DIR__.'/app_backend.php';
-require_once __DIR__.'/app_asynchronous.php';
-require_once __DIR__.'/app_frontend.php';
+require __DIR__.'/app.php';
 
 // Initialize enabled extensions.
 $app['extensions']->initialize();

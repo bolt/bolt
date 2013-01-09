@@ -2,14 +2,47 @@
 
 namespace Bolt\Controllers;
 
-use Bolt\Application;
+use Silex;
+use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Frontend
+class Frontend implements ControllerProviderInterface
 {
+    public function connect(Silex\Application $app)
+    {
+        $ctr = $app['controllers_factory'];
 
-    function before(Request $request, Application $app)
+        $ctr->match("/", array($this, 'homepage'))
+            ->before(array($this, 'before'))
+            ->bind('homepage')
+        ;
+
+        $ctr->match('/search', array($this, 'search'))
+            ->before(array($this, 'before'))
+        ;
+
+        $ctr->match('/{contenttypeslug}/feed.{extension}', array($this, 'feed'))
+            ->before(array($this, 'before'))
+            ->assert('extension', '(xml|rss)')
+            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
+        ;
+
+        $ctr->match('/{contenttypeslug}/{slug}', array($this, 'record'))
+            ->before(array($this, 'before'))
+            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
+            ->bind('contentlink')
+        ;
+
+        $ctr->match('/{contenttypeslug}', array($this, 'listing'))
+            ->before(array($this, 'before'))
+            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
+        ;
+
+        return $ctr;
+    }
+
+    function before(Request $request, Silex\Application $app)
     {
 
         // If there are no users in the users table, or the table doesn't exist. Repair
@@ -23,7 +56,7 @@ class Frontend
 
     }
 
-    function homepage(Application $app)
+    function homepage(Silex\Application $app)
     {
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
@@ -48,7 +81,7 @@ class Frontend
 
     }
 
-    function record(Application $app, $contenttypeslug, $slug)
+    function record(Silex\Application $app, $contenttypeslug, $slug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -94,7 +127,7 @@ class Frontend
     }
 
 
-    function listing(Application $app, $contenttypeslug)
+    function listing(Silex\Application $app, $contenttypeslug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -149,7 +182,7 @@ class Frontend
 
     }
 
-    public function feed(Application $app, $contenttypeslug)
+    public function feed(Silex\Application $app, $contenttypeslug)
     {
         // Clear the snippet queue
         $app['extensions']->clearSnippetQueue();
@@ -206,7 +239,7 @@ class Frontend
         );
     }
 
-    public function search(Request $request, Application $app)
+    public function search(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
         $template = $app['config']['general']['search_results_template'];
