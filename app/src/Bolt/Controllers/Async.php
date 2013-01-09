@@ -2,16 +2,62 @@
 
 Namespace Bolt\Controllers;
 
-use Bolt\Application;
+use Silex;
+use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Async
+class Async implements ControllerProviderInterface
 {
+    public function connect(Silex\Application $app)
+    {
+        $ctr = $app['controllers_factory'];
+
+        $ctr->get("/dashboardnews", array($this, 'dashboardnews'))
+            ->before(array($this, 'before'))
+            ->bind('dashboardnews')
+        ;
+
+        $ctr->get("/latestactivity", array($this, 'latestactivity'))
+            ->before(array($this, 'before'))
+            ->bind('latestactivity')
+        ;
+
+        $ctr->get("/filesautocomplete", array($this, 'filesautocomplete'))
+            ->before(array($this, 'before'))
+        ;
+
+        $ctr->get("/readme/{extension}", array($this, 'readme'))
+            ->before(array($this, 'before'))
+            ->bind('readme')
+        ;
+
+        $ctr->get("/widget/{key}", array($this, 'widget'))
+            ->before(array($this, 'before'))
+            ->bind('widget')
+        ;
+
+        $ctr->post("/markdownify", array($this, 'markdownify'))
+            ->before(array($this, 'before'))
+            ->bind('markdownify')
+        ;
+
+        $ctr->get("/makeuri", array($this, 'makeuri'))
+            ->before(array($this, 'before'))
+        ;
+
+        $ctr->get("/lastmodified/{contenttypeslug}", array($this, 'lastmodified'))
+            ->before(array($this, 'before'))
+            ->bind('lastmodified')
+        ;
+
+        return $ctr;
+    }
     /**
      * News.
      */
-    function dashboardnews(Application $app) {
+    function dashboardnews(Silex\Application $app) {
+        global $bolt_version;
 
         $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
 
@@ -25,7 +71,7 @@ class Async
             $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
             $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
-                $app['bolt_version'],
+                $bolt_version,
                 phpversion(),
                 $driver,
                 base64_encode($name)
@@ -54,7 +100,8 @@ class Async
     /**
      * Get the 'latest activity' for the dashboard..
      */
-    function latestactivity(Application $app) {
+    function latestactivity(Silex\Application $app) {
+        global $bolt_version;
 
         $activity = $app['log']->getActivity(8, 3);
 
@@ -64,7 +111,7 @@ class Async
 
     }
 
-    function filesautocomplete(Application $app, Request $request) {
+    function filesautocomplete(Silex\Application $app, Request $request) {
 
         $term = $request->get('term');
 
@@ -86,7 +133,7 @@ class Async
      * Render a widget, and return the HTML, so it can be inserted in the page.
      *
      */
-    function widget($key, Application $app, Request $request) {
+    function widget($key, Silex\Application $app, Request $request) {
 
         $html = $app['extensions']->renderWidget($key);
 
@@ -94,7 +141,7 @@ class Async
 
     }
 
-    function readme($extension, Application $app, Request $request) {
+    function readme($extension, Silex\Application $app, Request $request) {
 
         $filename = __DIR__."/../../../extensions/".$extension."/readme.md";
 
@@ -109,7 +156,7 @@ class Async
 
     }
 
-    function markdownify(Application $app, Request $request) {
+    function markdownify(Silex\Application $app, Request $request) {
 
         $html = $_POST['html'];
 
@@ -128,7 +175,7 @@ class Async
 
     }
 
-    function makeuri(Application $app, Request $request) {
+    function makeuri(Silex\Application $app, Request $request) {
 
         $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
 
@@ -140,7 +187,7 @@ class Async
     /**
      * Latest {contenttype} to show a small listing in the sidebars..
      */
-    function lastmodified(Application $app, $contenttypeslug) {
+    function lastmodified(Silex\Application $app, $contenttypeslug) {
 
         // Get the proper contenttype..
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -158,7 +205,7 @@ class Async
      * Middleware function to do some tasks that should be done for all aynchronous
      * requests.
      */
-    function before(Request $request, Application $app) {
+    function before(Request $request, Silex\Application $app) {
 
         // Only set which endpoint it is, if it's not already set. Which it is, in cases like
         // when it's embedded on a page using {{ render() }}

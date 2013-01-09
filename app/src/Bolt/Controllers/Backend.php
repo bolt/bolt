@@ -2,20 +2,119 @@
 
 Namespace Bolt\Controllers;
 
-use Bolt\Application;
+use Silex;
+use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Backend
+class Backend implements ControllerProviderInterface
 {
+    public function connect(Silex\Application $app)
+    {
+        $ctl = $app['controllers_factory'];
+
+        $ctl->get("", array($this, 'dashboard'))
+            ->before(array($this, 'before'))
+            ->bind('dashboard')
+        ;
+
+        $ctl->match("/login", array($this, 'login'))
+            ->method('GET|POST')
+            ->before(array($this, 'before'))
+            ->bind('login')
+        ;
+
+        $ctl->get("/logout", array($this, 'logout'))
+            ->bind('logout')
+        ;
+
+        $ctl->get("/dbupdate", array($this, 'dbupdate'))
+            ->before(array($this, 'before'))
+            ->bind('dbupdate')
+        ;
+
+        $ctl->get("/clearcache", array($this, 'clearcache'))
+            ->before(array($this, 'before'))
+            ->bind('clearcache')
+        ;
+
+        $ctl->get("/prefill", array($this, 'prefill'))
+            ->before(array($this, 'before'))
+            ->bind('prefill')
+        ;
+
+        $ctl->get("/overview/{contenttypeslug}", array($this, 'overview'))
+            ->before(array($this, 'before'))
+            ->bind('overview')
+        ;
+
+        $ctl->match("/editcontent/{contenttypeslug}/{id}", array($this, 'editcontent'))
+            ->before(array($this, 'before'))
+            ->assert('id', '\d*')
+            ->method('GET|POST')
+            ->bind('editcontent')
+        ;
+
+        $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
+            ->before(array($this, 'before'))
+            ->bind('contentaction')
+        ;
+
+        $ctl->get("/users", array($this, 'users'))
+            ->before(array($this, 'before'))
+            ->bind('users')
+        ;
+
+        $ctl->match("/users/edit/{id}", array($this, 'useredit'))
+            ->before(array($this, 'before'))
+            ->assert('id', '\d*')
+            ->method('GET|POST')
+            ->bind('useredit')
+        ;
+
+        $ctl->get("/about", array($this, 'about'))
+            ->before(array($this, 'before'))
+            ->bind('about')
+        ;
+
+        $ctl->get("/extensions", array($this, 'extensions'))
+            ->before(array($this, 'before'))
+            ->bind('extensions')
+        ;
+
+        $ctl->get("/user/{action}/{id}", array($this, 'extensions'))
+            ->before(array($this, 'before'))
+            ->bind('useraction')
+        ;
+
+        $ctl->get("/files/{path}", array($this, 'files'))
+            ->before(array($this, 'before'))
+            ->assert('path', '.+')
+            ->bind('files')
+        ;
+
+        $ctl->get("/activitylog", array($this, 'activitylog'))
+            ->before(array($this, 'before'))
+            ->bind('activitylog')
+        ;
+
+        $ctl->match("/file/edit/{file}", array($this, 'fileedit'))
+            ->before(array($this, 'before'))
+            ->assert('file', '.+')
+            ->method('GET|POST')
+            ->bind('fileedit')
+        ;
+
+        return $ctl;
+    }
 
     /**
      * Dashboard or "root".
      */
-    function dashboard(Application $app) {
+    function dashboard(Silex\Application $app) {
 
         // Re-do getConfig. Mainly so we can log errors.
         getConfig();
@@ -54,7 +153,7 @@ class Backend
     /**
      * Login page.
      */
-    function login(Application $app, Request $request) {
+    function login(Silex\Application $app, Request $request) {
 
         if ($request->getMethod() == "POST") {
 
@@ -81,7 +180,7 @@ class Backend
     /**
      * Logout page.
      */
-    function logout(Application $app) {
+    function logout(Silex\Application $app) {
 
         $app['log']->add("Logout", 2, '', 'logout');
 
@@ -96,7 +195,7 @@ class Backend
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function dbupdate(Application $app) {
+    function dbupdate(Silex\Application $app) {
 
         $output = $app['storage']->repairTables();
 
@@ -136,7 +235,7 @@ class Backend
     /**
      * Clear the cache.
      */
-    function clearcache(Application $app) {
+    function clearcache(Silex\Application $app) {
 
         $result = clearCache();
 
@@ -157,7 +256,7 @@ class Backend
     /**
      * Show the activity-log.
      */
-    function activitylog(Application $app) {
+    function activitylog(Silex\Application $app) {
 
         $title = "Activity log";
 
@@ -182,7 +281,7 @@ class Backend
     /**
      * Generate some lipsum in the DB.
      */
-    function prefill(Application $app) {
+    function prefill(Silex\Application $app) {
 
         $content = $app['storage']->preFill();
 
@@ -199,7 +298,7 @@ class Backend
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function overview(Application $app, $contenttypeslug) {
+    function overview(Silex\Application $app, $contenttypeslug) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -238,7 +337,7 @@ class Backend
     /**
      * Edit a unit of content, or create a new one.
      */
-    function editcontent($contenttypeslug, $id, Application $app, Request $request) {
+    function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -246,12 +345,6 @@ class Backend
 
             $content = new \Bolt\Content($app, $contenttypeslug);
             $content->setFromPost($request->request->all(), $contenttype);
-
-            // Don't try to spoof the $id..
-            if ($id != $content['id']) {
-                $app['session']->setFlash('error', "Don't try to spoof the id!");
-                return redirect('dashboard');
-            }
 
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
@@ -273,13 +366,6 @@ class Backend
 
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
-
-            // Check if we're allowed to edit this content..
-            if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
-                $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
-                return redirect('dashboard');
-            }
-
             $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
@@ -319,7 +405,7 @@ class Backend
     /**
      * Perform actions on content.
      */
-    function contentaction(Application $app, $action, $contenttypeslug, $id, Request $request) {
+    function contentaction(Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -374,17 +460,16 @@ class Backend
     /**
      * Show a list of all available users.
      */
-    function users(Application $app) {
+    function users(Silex\Application $app) {
 
         $title = "Users";
         $users = $app['users']->getUsers();
-        $userlevels = $app['users']->getUserLevels();
 
-        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title, 'userlevels' => $userlevels ));
+        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title));
 
     }
 
-    function useredit($id, Application $app, Request $request) {
+    function useredit($id, Silex\Application $app, Request $request) {
 
         // Get the user we want to edit (if any)
         if (!empty($id)) {
@@ -447,7 +532,7 @@ class Backend
         // show them here..
         if ($firstuser) {
             $form->add('userlevel', 'hidden', array(
-                'data' => \util::array_last_key($userlevels) // last element, highest userlevel..
+                'data' => key(array_reverse($userlevels)) // last element, highest userlevel..
             ));
         } else {
             $form->add('userlevel', 'choice', array(
@@ -518,7 +603,7 @@ class Backend
     /**
      * Perform actions on users.
      */
-    function useraction(Application $app, $action, $id) {
+    function useraction(Silex\Application $app, $action, $id) {
 
         $user = $app['users']->getUser($id);
 
@@ -572,7 +657,7 @@ class Backend
     /**
      * Show the 'about' page
      */
-    function about(Application $app) {
+    function about(Silex\Application $app) {
         return $app['twig']->render('about.twig');
 
     }
@@ -581,7 +666,7 @@ class Backend
     /**
      * Show a list of all available extensions.
      */
-    function extensions(Application $app) {
+    function extensions(Silex\Application $app) {
 
         $title = "Extensions";
 
@@ -592,7 +677,7 @@ class Backend
     }
 
 
-    function files($path, Application $app, Request $request) {
+    function files($path, Silex\Application $app, Request $request) {
 
         $files = array();
         $folders = array();
@@ -676,7 +761,7 @@ class Backend
     }
 
 
-    function fileedit($file, Application $app, Request $request) {
+    function fileedit($file, Silex\Application $app, Request $request) {
 
         $title = "Edit file '$file'.";
 
@@ -756,7 +841,7 @@ class Backend
     /**
      * Middleware function to check whether a user is logged on.
      */
-    function before(Request $request, Application $app)
+    function before(Request $request, Silex\Application $app)
     {
 
         $route = $request->get('_route');
@@ -765,16 +850,17 @@ class Backend
 
         $app['debugbar'] = true;
 
-        // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        if (!$app['users']->isAllowed($route)) {
-            if (!$app['users']->checkValidSession()) {
-                $app['session']->setFlash('info', "Please log on.");
-                return redirect('login');
-            } else {
-                $app['session']->setFlash('error', "You do not have the right privileges to visit that page.");
-                return redirect('dashboard');
-            }
+        // There's an active session, we're all good.
+        if ($app['users']->checkValidSession()) {
+            return;
         }
+
+        // if we're on the login-page, we're also good.
+        if ($route == "login" && $app['users']->getUsers()) {
+            return;
+        }
+
+        // TODO: This is awkward.. Make it less awkward.
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
@@ -788,8 +874,13 @@ class Backend
         if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['storage']->repairTables();
             $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
+
             return redirect('useredit', array('id' => ""));
         }
+
+        $app['session']->setFlash('info', "Please log on.");
+
+        return redirect('login');
 
     }
 
