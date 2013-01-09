@@ -10,8 +10,8 @@ $app->mount('', new Bolt\Controllers\Frontend());
 $app->before(function () use ($app) {
     global $bolt_name, $bolt_version;
 
-    $app['twig']->addGlobal('bolt_name', $bolt_name);
-    $app['twig']->addGlobal('bolt_version', $bolt_version);
+    $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
+    $app['twig']->addGlobal('bolt_version', $app['bolt_version']);
 
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
