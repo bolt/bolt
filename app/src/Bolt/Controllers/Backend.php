@@ -346,6 +346,12 @@ class Backend implements ControllerProviderInterface
             $content = new \Bolt\Content($app, $contenttypeslug);
             $content->setFromPost($request->request->all(), $contenttype);
 
+            // Don't try to spoof the $id..
+            if ($id != $content['id']) {
+                $app['session']->setFlash('error', "Don't try to spoof the id!");
+                return redirect('dashboard');
+            }
+
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
                 if (!empty($id)) {
