@@ -227,7 +227,10 @@ $app->error(function (\Exception $e) use ($app) {
         }
 
         // Don't display the full path..
-        $trace[$key]['file'] = str_replace($paths['rootpath'], "[root]", $trace[$key]['file']);
+        if ( isset( $trace[$key]['file'] ) )
+        {
+            $trace[$key]['file'] = str_replace(BOLT_BASE_DIR, "[root]", $trace[$key]['file']);
+        }
 
     }
 
