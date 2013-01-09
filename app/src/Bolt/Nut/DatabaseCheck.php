@@ -2,12 +2,11 @@
 
 namespace Bolt\Nut;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class DatabaseCheck extends Command
+class DatabaseCheck extends BaseCommand
 {
     protected function configure()
     {
@@ -19,9 +18,7 @@ class DatabaseCheck extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        global $app;
-
-        $result = $app['storage']->repairTables();
+        $result = $this->app['storage']->repairTables();
 
         if (empty($result)) {
             $content = "<info>Your database is already up to date.</info>";
@@ -34,6 +31,5 @@ class DatabaseCheck extends Command
         }
 
         $output->writeln($content);
-
     }
 }
