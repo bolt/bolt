@@ -372,6 +372,13 @@ class Backend implements ControllerProviderInterface
 
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+
+            // Check if we're allowed to edit this content..
+            if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
+                $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+                return redirect('dashboard');
+            }
+
             $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
@@ -470,8 +477,9 @@ class Backend implements ControllerProviderInterface
 
         $title = "Users";
         $users = $app['users']->getUsers();
+        $userlevels = $app['users']->getUserLevels();
 
-        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title));
+        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title, 'userlevels' => $userlevels ));
 
     }
 
@@ -538,7 +546,7 @@ class Backend implements ControllerProviderInterface
         // show them here..
         if ($firstuser) {
             $form->add('userlevel', 'hidden', array(
-                'data' => key(array_reverse($userlevels)) // last element, highest userlevel..
+                'data' => \util::array_last_key($userlevels) // last element, highest userlevel..
             ));
         } else {
             $form->add('userlevel', 'choice', array(
@@ -856,17 +864,16 @@ class Backend implements ControllerProviderInterface
 
         $app['debugbar'] = true;
 
-        // There's an active session, we're all good.
-        if ($app['users']->checkValidSession()) {
-            return;
+        // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
+        if (!$app['users']->isAllowed($route)) {
+            if (!$app['users']->checkValidSession()) {
+                $app['session']->setFlash('info', "Please log on.");
+                return redirect('login');
+            } else {
+                $app['session']->setFlash('error', "You do not have the right privileges to visit that page.");
+                return redirect('dashboard');
+            }
         }
-
-        // if we're on the login-page, we're also good.
-        if ($route == "login" && $app['users']->getUsers()) {
-            return;
-        }
-
-        // TODO: This is awkward.. Make it less awkward.
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
@@ -880,13 +887,8 @@ class Backend implements ControllerProviderInterface
         if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['storage']->repairTables();
             $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
-
             return redirect('useredit', array('id' => ""));
         }
-
-        $app['session']->setFlash('info', "Please log on.");
-
-        return redirect('login');
 
     }
 
