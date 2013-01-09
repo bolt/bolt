@@ -12,6 +12,12 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
     $app['twig']->addGlobal('bolt_version', $app['bolt_version']);
 
+    $app['twig']->addGlobal('frontend', false);
+    $app['twig']->addGlobal('backend', false);
+    $app['twig']->addGlobal('async', false);
+    $app['twig']->addGlobal(getWhichEnd(), true);
+
+    $app['twig']->addGlobal('user', $app['users']->getCurrentUser());
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
 
