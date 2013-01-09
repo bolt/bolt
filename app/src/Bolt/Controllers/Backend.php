@@ -2,119 +2,20 @@
 
 Namespace Bolt\Controllers;
 
-use Silex;
-use Silex\ControllerProviderInterface;
+use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Backend implements ControllerProviderInterface
+class Backend
 {
-    public function connect(Silex\Application $app)
-    {
-        $ctl = $app['controllers_factory'];
-
-        $ctl->get("", array($this, 'dashboard'))
-            ->before(array($this, 'before'))
-            ->bind('dashboard')
-        ;
-
-        $ctl->match("/login", array($this, 'login'))
-            ->method('GET|POST')
-            ->before(array($this, 'before'))
-            ->bind('login')
-        ;
-
-        $ctl->get("/logout", array($this, 'logout'))
-            ->bind('logout')
-        ;
-
-        $ctl->get("/dbupdate", array($this, 'dbupdate'))
-            ->before(array($this, 'before'))
-            ->bind('dbupdate')
-        ;
-
-        $ctl->get("/clearcache", array($this, 'clearcache'))
-            ->before(array($this, 'before'))
-            ->bind('clearcache')
-        ;
-
-        $ctl->get("/prefill", array($this, 'prefill'))
-            ->before(array($this, 'before'))
-            ->bind('prefill')
-        ;
-
-        $ctl->get("/overview/{contenttypeslug}", array($this, 'overview'))
-            ->before(array($this, 'before'))
-            ->bind('overview')
-        ;
-
-        $ctl->match("/editcontent/{contenttypeslug}/{id}", array($this, 'editcontent'))
-            ->before(array($this, 'before'))
-            ->assert('id', '\d*')
-            ->method('GET|POST')
-            ->bind('editcontent')
-        ;
-
-        $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
-            ->before(array($this, 'before'))
-            ->bind('contentaction')
-        ;
-
-        $ctl->get("/users", array($this, 'users'))
-            ->before(array($this, 'before'))
-            ->bind('users')
-        ;
-
-        $ctl->match("/users/edit/{id}", array($this, 'useredit'))
-            ->before(array($this, 'before'))
-            ->assert('id', '\d*')
-            ->method('GET|POST')
-            ->bind('useredit')
-        ;
-
-        $ctl->get("/about", array($this, 'about'))
-            ->before(array($this, 'before'))
-            ->bind('about')
-        ;
-
-        $ctl->get("/extensions", array($this, 'extensions'))
-            ->before(array($this, 'before'))
-            ->bind('extensions')
-        ;
-
-        $ctl->get("/user/{action}/{id}", array($this, 'extensions'))
-            ->before(array($this, 'before'))
-            ->bind('useraction')
-        ;
-
-        $ctl->get("/files/{path}", array($this, 'files'))
-            ->before(array($this, 'before'))
-            ->assert('path', '.+')
-            ->bind('files')
-        ;
-
-        $ctl->get("/activitylog", array($this, 'activitylog'))
-            ->before(array($this, 'before'))
-            ->bind('activitylog')
-        ;
-
-        $ctl->match("/file/edit/{file}", array($this, 'fileedit'))
-            ->before(array($this, 'before'))
-            ->assert('file', '.+')
-            ->method('GET|POST')
-            ->bind('fileedit')
-        ;
-
-        return $ctl;
-    }
 
     /**
      * Dashboard or "root".
      */
-    function dashboard(Silex\Application $app) {
+    function dashboard(Application $app) {
 
         // Re-do getConfig. Mainly so we can log errors.
         getConfig();
@@ -153,7 +54,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Login page.
      */
-    function login(Silex\Application $app, Request $request) {
+    function login(Application $app, Request $request) {
 
         if ($request->getMethod() == "POST") {
 
@@ -180,7 +81,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Logout page.
      */
-    function logout(Silex\Application $app) {
+    function logout(Application $app) {
 
         $app['log']->add("Logout", 2, '', 'logout');
 
@@ -195,7 +96,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function dbupdate(Silex\Application $app) {
+    function dbupdate(Application $app) {
 
         $output = $app['storage']->repairTables();
 
@@ -235,7 +136,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Clear the cache.
      */
-    function clearcache(Silex\Application $app) {
+    function clearcache(Application $app) {
 
         $result = clearCache();
 
@@ -256,7 +157,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the activity-log.
      */
-    function activitylog(Silex\Application $app) {
+    function activitylog(Application $app) {
 
         $title = "Activity log";
 
@@ -281,7 +182,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Generate some lipsum in the DB.
      */
-    function prefill(Silex\Application $app) {
+    function prefill(Application $app) {
 
         $content = $app['storage']->preFill();
 
@@ -298,7 +199,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function overview(Silex\Application $app, $contenttypeslug) {
+    function overview(Application $app, $contenttypeslug) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -337,7 +238,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a unit of content, or create a new one.
      */
-    function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request) {
+    function editcontent($contenttypeslug, $id, Application $app, Request $request) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -345,6 +246,12 @@ class Backend implements ControllerProviderInterface
 
             $content = new \Bolt\Content($app, $contenttypeslug);
             $content->setFromPost($request->request->all(), $contenttype);
+
+            // Don't try to spoof the $id..
+            if ($id != $content['id']) {
+                $app['session']->setFlash('error', "Don't try to spoof the id!");
+                return redirect('dashboard');
+            }
 
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
@@ -366,6 +273,13 @@ class Backend implements ControllerProviderInterface
 
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+
+            // Check if we're allowed to edit this content..
+            if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
+                $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+                return redirect('dashboard');
+            }
+
             $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
@@ -405,7 +319,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on content.
      */
-    function contentaction(Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
+    function contentaction(Application $app, $action, $contenttypeslug, $id, Request $request) {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -460,16 +374,17 @@ class Backend implements ControllerProviderInterface
     /**
      * Show a list of all available users.
      */
-    function users(Silex\Application $app) {
+    function users(Application $app) {
 
         $title = "Users";
         $users = $app['users']->getUsers();
+        $userlevels = $app['users']->getUserLevels();
 
-        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title));
+        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title, 'userlevels' => $userlevels ));
 
     }
 
-    function useredit($id, Silex\Application $app, Request $request) {
+    function useredit($id, Application $app, Request $request) {
 
         // Get the user we want to edit (if any)
         if (!empty($id)) {
@@ -532,7 +447,7 @@ class Backend implements ControllerProviderInterface
         // show them here..
         if ($firstuser) {
             $form->add('userlevel', 'hidden', array(
-                'data' => key(array_reverse($userlevels)) // last element, highest userlevel..
+                'data' => \util::array_last_key($userlevels) // last element, highest userlevel..
             ));
         } else {
             $form->add('userlevel', 'choice', array(
@@ -603,7 +518,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on users.
      */
-    function useraction(Silex\Application $app, $action, $id) {
+    function useraction(Application $app, $action, $id) {
 
         $user = $app['users']->getUser($id);
 
@@ -657,7 +572,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the 'about' page
      */
-    function about(Silex\Application $app) {
+    function about(Application $app) {
         return $app['twig']->render('about.twig');
 
     }
@@ -666,7 +581,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show a list of all available extensions.
      */
-    function extensions(Silex\Application $app) {
+    function extensions(Application $app) {
 
         $title = "Extensions";
 
@@ -677,7 +592,7 @@ class Backend implements ControllerProviderInterface
     }
 
 
-    function files($path, Silex\Application $app, Request $request) {
+    function files($path, Application $app, Request $request) {
 
         $files = array();
         $folders = array();
@@ -761,7 +676,7 @@ class Backend implements ControllerProviderInterface
     }
 
 
-    function fileedit($file, Silex\Application $app, Request $request) {
+    function fileedit($file, Application $app, Request $request) {
 
         $title = "Edit file '$file'.";
 
@@ -841,7 +756,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Middleware function to check whether a user is logged on.
      */
-    function before(Request $request, Silex\Application $app)
+    function before(Request $request, Application $app)
     {
 
         $route = $request->get('_route');
@@ -850,17 +765,16 @@ class Backend implements ControllerProviderInterface
 
         $app['debugbar'] = true;
 
-        // There's an active session, we're all good.
-        if ($app['users']->checkValidSession()) {
-            return;
+        // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
+        if (!$app['users']->isAllowed($route)) {
+            if (!$app['users']->checkValidSession()) {
+                $app['session']->setFlash('info', "Please log on.");
+                return redirect('login');
+            } else {
+                $app['session']->setFlash('error', "You do not have the right privileges to visit that page.");
+                return redirect('dashboard');
+            }
         }
-
-        // if we're on the login-page, we're also good.
-        if ($route == "login" && $app['users']->getUsers()) {
-            return;
-        }
-
-        // TODO: This is awkward.. Make it less awkward.
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
@@ -874,13 +788,8 @@ class Backend implements ControllerProviderInterface
         if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['storage']->repairTables();
             $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
-
             return redirect('useredit', array('id' => ""));
         }
-
-        $app['session']->setFlash('info', "Please log on.");
-
-        return redirect('login');
 
     }
 

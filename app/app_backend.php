@@ -3,15 +3,89 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$app->mount('/bolt', new Bolt\Controllers\Backend());
-$app->mount('/async', new Bolt\Controllers\Async());
-$app->mount('', new Bolt\Controllers\Frontend());
+$backend = $app['controllers_factory'];
+
+$backend->get("", '\Bolt\Controllers\Backend::dashboard')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('dashboard');
+
+$backend->match("/login", '\Bolt\Controllers\Backend::login')
+    ->method('GET|POST')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('login');
+
+$backend->get("/logout", '\Bolt\Controllers\Backend::logout')
+    ->bind('logout');
+
+$backend->get("/dbupdate", '\Bolt\Controllers\Backend::dbupdate')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('dbupdate');
+
+$backend->get("/clearcache", '\Bolt\Controllers\Backend::clearcache')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('clearcache');
+
+$backend->get("/prefill", '\Bolt\Controllers\Backend::prefill')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('prefill');
+
+$backend->get("/overview/{contenttypeslug}", '\Bolt\Controllers\Backend::overview')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('overview');
+
+$backend->match("/editcontent/{contenttypeslug}/{id}", '\Bolt\Controllers\Backend::editcontent')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->assert('id', '\d*')
+    ->method('GET|POST')
+    ->bind('editcontent');
+
+$backend->get("/content/{action}/{contenttypeslug}/{id}", '\Bolt\Controllers\Backend::contentaction')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('contentaction');
+
+$backend->get("/users", '\Bolt\Controllers\Backend::users')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('users');
+
+$backend->match("/users/edit/{id}", '\Bolt\Controllers\Backend::useredit')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->assert('id', '\d*')
+    ->method('GET|POST')
+    ->bind('useredit');
+
+$backend->get("/user/{action}/{id}", '\Bolt\Controllers\Backend::extensions')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('useraction');
+
+$backend->get("/about", '\Bolt\Controllers\Backend::about')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('about');
+
+$backend->get("/extensions", '\Bolt\Controllers\Backend::extensions')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('extensions');
+
+$backend->get("/files/{path}", '\Bolt\Controllers\Backend::files')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->assert('path', '.+')
+    ->bind('files');
+
+$backend->get("/activitylog", '\Bolt\Controllers\Backend::activitylog')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->bind('activitylog');
+
+$backend->match("/file/edit/{file}", '\Bolt\Controllers\Backend::fileedit')
+    ->before('\Bolt\Controllers\Backend::before')
+    ->assert('file', '.+')
+    ->method('GET|POST')
+    ->bind('fileedit');
+
+$app->mount('/bolt', $backend);
+
 
 $app->before(function () use ($app) {
-    global $bolt_name, $bolt_version;
-
-    $app['twig']->addGlobal('bolt_name', $bolt_name);
-    $app['twig']->addGlobal('bolt_version', $bolt_version);
+    $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
+    $app['twig']->addGlobal('bolt_version', $app['bolt_version']);
 
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
@@ -93,7 +167,10 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
             'logvalues' => $app['log']->getValues()
         ));
 
+
+
     });
+
 }
 
 
