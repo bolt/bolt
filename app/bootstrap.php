@@ -1,9 +1,5 @@
 <?php
 
-$bolt_version = "0.9.5";
-$bolt_buildnumber = "";
-$bolt_name = "Third beta";
-
 // First, do some low level checks, like whether autoload is present, the cache
 // folder is writable, if the minimum PHP version is present, etc.
 require_once __DIR__.'/classes/lib.php';
@@ -26,7 +22,7 @@ $checker->doDatabaseCheck($config);
 
 $dboptions = getDBOptions($config);
 
-$app = new Silex\Application();
+$app = new Bolt\Application();
 
 $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
 $app['debugbar'] = false;
@@ -83,7 +79,6 @@ $app['twig']->addGlobal('frontend', false);
 $app['twig']->addGlobal('backend', false);
 $app['twig']->addGlobal('async', false);
 $app['twig']->addGlobal($app['end'], true);
-$app['twig']->addGlobal('user', $app['users']->getCurrentUser());
 
 $app['editlink'] = "";
 
