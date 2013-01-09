@@ -2,13 +2,12 @@
 
 namespace Bolt\Nut;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CacheClear extends Command
+class CacheClear extends BaseCommand
 {
     protected function configure()
     {
@@ -20,7 +19,6 @@ class CacheClear extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $result = clearCache();
 
         $output->writeln(sprintf("Deleted %s files from cache.\n", $result['successfiles']));
