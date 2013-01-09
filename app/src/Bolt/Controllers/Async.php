@@ -101,7 +101,6 @@ class Async implements ControllerProviderInterface
      * Get the 'latest activity' for the dashboard..
      */
     function latestactivity(Silex\Application $app) {
-        global $bolt_version;
 
         $activity = $app['log']->getActivity(8, 3);
 
