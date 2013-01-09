@@ -79,6 +79,7 @@ $app['twig']->addGlobal('frontend', false);
 $app['twig']->addGlobal('backend', false);
 $app['twig']->addGlobal('async', false);
 $app['twig']->addGlobal($app['end'], true);
+$app['twig']->addGlobal('user', $app['users']->getCurrentUser());
 
 $app['editlink'] = "";
 
