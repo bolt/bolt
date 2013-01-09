@@ -45,8 +45,10 @@
             <p>
             {% for id in ids %}
                 {% setcontent record = reltype~"/"~id %}
-                This record is related to {{ record.contenttype.singular_name }} № {{ record.id }} -
-                <strong>{{ record.title }}</strong> (<a href="{{ path('editcontent', { 'contenttypeslug': record.contenttype.slug, 'id': record.id }) }}">edit</a>)<br>
+                {% if record %}
+                    This record is related to {{ record.contenttype.singular_name }} № {{ record.id }} -
+                    <strong>{{ record.title }}</strong> (<a href="{{ path('editcontent', { 'contenttypeslug': record.contenttype.slug, 'id': record.id }) }}">edit</a>)<br>
+                {% endif %}
             {% endfor %}
             </p>
         {% endif %}
