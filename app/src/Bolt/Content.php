@@ -23,8 +23,8 @@ class Content implements \ArrayAccess
             $this->setContenttype($contenttype);
 
             // If this contenttype has a taxonomy with 'grouping', initialize the group.
-            if (isset($contenttype['taxonomy'])) {
-                foreach ($contenttype['taxonomy'] as $taxonomytype) {
+            if (isset($this->contenttype['taxonomy'])) {
+                foreach ($this->contenttype['taxonomy'] as $taxonomytype) {
                     if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
                         $this->setGroup("", $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
                     }
