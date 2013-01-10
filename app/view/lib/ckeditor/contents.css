@@ -1,28 +1,27 @@
 /*
-Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
 body
 {
 	/* Font */
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 15px;
-    line-height: 21px;
+	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+	font-size: 12px;
 
 	/* Text color */
-	color: #444;
+	color: #333;
 
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
 
-	margin: 8px;
+	margin: 20px;
 }
 
 .cke_editable
 {
-    font-size: 15px;
-    line-height: 21px;
+	font-size: 13px;
+	line-height: 1.6em;
 }
 
 blockquote
@@ -60,17 +59,12 @@ ol,ul,dl
 	*margin-right: 0px;
 	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
 	padding: 0 40px;
-    margin: 0 0 10px;
 }
 
 h1,h2,h3,h4,h5,h6
 {
 	font-weight: normal;
 	line-height: 1.2em;
-}
-
-p {
-    margin: 0 0 10px;
 }
 
 hr
@@ -96,4 +90,10 @@ img.left {
 img:hover {
 	opacity: .9;
 	filter: alpha(opacity = 90);
+}
+
+pre
+{
+	white-space: pre-wrap; /* CSS 2.1 */
+	word-wrap: break-word; /* IE7 */
 }
