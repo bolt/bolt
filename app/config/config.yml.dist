@@ -20,7 +20,7 @@ homepage: page/1
 homepage_template: index.twig
 
 # The default content for the 404 page. Uses the 'record_template' template by default.
-notfound: 
+notfound:
 
 # The theme to use. Be sure to copy the theme/default folder, and change the
 # name here accordingly. Don't edit the templates in theme/default, because
@@ -86,6 +86,7 @@ wysiwyg_tables: false
 wysiwyg_fontcolor: false
 wysiwyg_align: false
 wysiwyg_subsuper: false
+wysiwyg_embed: false
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login

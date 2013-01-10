@@ -112,9 +112,10 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.language = 'en';
     config.uiColor = '#DDDDDD';
+    config.resize_enabled = true;
     config.toolbar = [
         { name: 'styles', items: [ 'Format' ] },
-        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike'  ] },
+        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
         { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent', '-', 'Blockquote' ] },
 
     ];
@@ -131,6 +132,10 @@ CKEDITOR.editorConfig = function( config ) {
     if (wysiwyg.images) {
         config.toolbar = config.toolbar.concat({ name: 'image', items: [ 'Image' ] });
     }
+    if (wysiwyg.embed) {
+        config.toolbar = config.toolbar.concat({ name: 'embed', items: [ 'MediaEmbed' ] });
+    }
+
     if (wysiwyg.tables) {
         config.toolbar = config.toolbar.concat({ name: 'table', items: [ 'Table' ] });
     }
