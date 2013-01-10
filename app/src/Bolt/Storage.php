@@ -680,8 +680,8 @@ class Storage
 
         $id = intval($id);
 
-        // TODO: make sure we don't set datecreated
-        // TODO: update datechanged
+        // @todo make sure we don't set datecreated
+        // @todo update datechanged
 
         $query = "UPDATE $tablename SET $field = ? WHERE id = ?";
         $stmt = $this->app['db']->prepare($query);
@@ -956,7 +956,7 @@ class Storage
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
         foreach ($rows as $row) {
-            // TODO: Make sure contenttype is set properly..
+            // @todo Make sure contenttype is set properly..
             $content[ $row['id'] ] = new Bolt\Content($this->app, '', $row);
         }
 

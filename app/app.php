@@ -29,7 +29,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
 
-    // TODO: See if we can squeeze this into $app->after, instead of ->finish()
+    // @todo See if we can squeeze this into $app->after, instead of ->finish()
     $app->finish(function (Request $request, Response $response) use ($app, $logger) {
 
         // Make sure debug is _still_ enabled, and/or the debugbar isn't turned off in code.

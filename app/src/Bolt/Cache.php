@@ -132,12 +132,12 @@ class Cache
 
     public function clear($key)
     {
-        // TODO: clear a certain cached value.
+        // @todo clear a certain cached value.
     }
 
     public function clearCache()
     {
-        // TODO: clear all cached values.
+        // @todo clear all cached values.
     }
 
     private function getFilename($key)

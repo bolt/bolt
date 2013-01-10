@@ -22,7 +22,7 @@ jQuery(function($) {
     });
 
     // Show 'dropzone' for jQuery file uploader.
-    // TODO: make it prettier, and distinguish between '.in' and '.hover'.
+    // @todo make it prettier, and distinguish between '.in' and '.hover'.
     $(document).bind('dragover', function (e) {
         var dropZone = $('.dropzone'),
             timeout = window.dropZoneTimeout;
@@ -293,7 +293,7 @@ var videoembedtimeout;
 function bindVideoEmbedAjax(key) {
 
     // oembed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
-    // TODO: make less dependant on key..
+    // @todo make less dependant on key..
     var endpoint = "http://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=";
     var val = $('#video-'+key).val();
     var url = endpoint + encodeURI(val);

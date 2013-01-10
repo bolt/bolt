@@ -292,7 +292,7 @@ class TwigExtension extends \Twig_Extension
         // Just the relations for the current record, and just the current $contenttype.
         $current = $content->relation[$contenttype];
 
-        // TODO: Perhaps make something more lightweight for this?
+        // @todo Perhaps make something more lightweight for this?
         $results = $this->app['storage']->getContent($contenttype, $options);
 
         // Loop the array, set records in 'current' to have a 'selected' flag.
@@ -319,7 +319,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function pager(\Twig_Environment $env, $pagername = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
-        // Yuck, $GLOBALS.. TODO: figure out a better way to do this.
+        // @todo Yuck, $GLOBALS.. figure out a better way to do this.
         $pager = $GLOBALS['pager'];
 
         if (!is_array($pager)) {

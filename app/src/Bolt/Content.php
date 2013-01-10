@@ -132,7 +132,7 @@ class Content implements \ArrayAccess
 
         if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish') {
             if ( !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value) ) {
-                // TODO Try better date-parsing, instead of just setting it to 'now'..
+                // @todo Try better date-parsing, instead of just setting it to 'now'..
                 $value = date("Y-m-d H:i:s");
             }
         }
@@ -165,7 +165,7 @@ class Content implements \ArrayAccess
 
         // Get the taxonomies from the POST-ed values. We don't support 'order' for taxonomies that
         // can have multiple values.
-        // TODO: use $this->setTaxonomy() for this
+        // @todo use $this->setTaxonomy() for this
 
         if (!empty($values['taxonomy'])) {
             foreach ($values['taxonomy'] as $taxonomytype => $value) {
@@ -187,13 +187,13 @@ class Content implements \ArrayAccess
         }
 
         // Get the relations from the POST-ed values.
-        // TODO: use $this->setRelation() for this
+        // @todo use $this->setRelation() for this
         if (!empty($values['relation'])) {
             $this->relation = $values['relation'];
             unset($values['relation']);
         }
 
-        // TODO: check for allowed file types..
+        // @todo check for allowed file types..
 
         // Handle file-uploads.
         if (!empty($_FILES)) {
@@ -489,7 +489,7 @@ class Content implements \ArrayAccess
     public function link($param = "")
     {
 
-        // TODO: use Silex' UrlGeneratorServiceProvider instead.
+        // @todo use Silex' UrlGeneratorServiceProvider instead.
 
         // If there's no valid content, return no link.
         if (empty($this->id)) {

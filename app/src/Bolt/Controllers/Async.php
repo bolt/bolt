@@ -208,7 +208,7 @@ class Async implements ControllerProviderInterface
 
         // Only set which endpoint it is, if it's not already set. Which it is, in cases like
         // when it's embedded on a page using {{ render() }}
-        // TODO: Is this still needed?
+        // @todo Is this still needed?
         if (empty($app['end'])) {
             $app['end'] = "asynchronous";
         }

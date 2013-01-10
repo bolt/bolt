@@ -187,7 +187,7 @@ class Backend implements ControllerProviderInterface
         $app['session']->setFlash('info', 'You have been logged out.');
         $app['session']->remove('user');
 
-        // TODO: Log out properly..
+        // @todo Log out properly..
         return redirect('login');
 
     }
@@ -322,7 +322,7 @@ class Backend implements ControllerProviderInterface
         $multiplecontent = $app['storage']->getContent($contenttype['slug'],
             array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter), $pager);
 
-        // TODO: Do we need pager here?
+        // @todo Do we need pager here?
         $app['pager'] = $pager;
 
         $app['twig']->addGlobal('title', "Overview » ". $contenttype['name']);

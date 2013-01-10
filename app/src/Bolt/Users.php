@@ -143,7 +143,7 @@ class Users
             return false;
         }
 
-        // TODO: Check if user is _still_ allowed to log on..
+        // @todo Check if user is _still_ allowed to log on..
         return true;
 
 

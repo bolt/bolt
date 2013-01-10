@@ -700,7 +700,7 @@ function getConfig()
     $tempcontenttypes = $yamlparser->parse(file_get_contents(__DIR__.'/../config/contenttypes.yml'));
     $config['menu'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/menu.yml'));
 
-    // TODO: If no config files can be found, get them from bolt.cm/files/default/
+    // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
     // Assume some sensible defaults for some options
     $defaultconfig = array(
@@ -748,7 +748,7 @@ function getConfig()
         }
     }
 
-    // TODO: Think about what to do with these..
+    // @todo Think about what to do with these..
     /*
     # Date and Time formats
     shortdate: j M ’ye
