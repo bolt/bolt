@@ -26,6 +26,15 @@ $app = new Bolt\Application();
 
 $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
 $app['debugbar'] = false;
+
+if (!empty($config['general']['locale'])){
+    $app['locale'] = $config['general']['locale'];
+}
+else {
+    $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+    $app['locale'] = $request->getLocale();
+}
+
 $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
@@ -55,9 +64,7 @@ $app->register(new Silex\Provider\SwiftmailerServiceProvider());
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
-    'translator.messages' => array(),
-));
+$app->register(new Silex\Provider\TranslationServiceProvider());
 
 // Loading stub functions for when intl / IntlDateFormatter isn't available.
 if (!function_exists('intl_get_error_code')) {
@@ -65,6 +72,7 @@ if (!function_exists('intl_get_error_code')) {
     require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
 }
 
+$app->register(new Bolt\TranslationServiceProvider());
 $app->register(new Bolt\LogServiceProvider(), array());
 $app->register(new Bolt\StorageServiceProvider(), array());
 $app->register(new Bolt\UsersServiceProvider(), array());
