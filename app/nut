@@ -6,10 +6,10 @@ require_once __DIR__.'/bootstrap.php';
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$application->add(new Bolt\Nut\Greet);
-$application->add(new Bolt\Nut\CacheClear);
-$application->add(new Bolt\Nut\Info);
-$application->add(new Bolt\Nut\LogTrim);
-$application->add(new Bolt\Nut\LogClear);
-$application->add(new Bolt\Nut\DatabaseCheck);
+$application->add(new Bolt\Nut\Greet($app));
+$application->add(new Bolt\Nut\CacheClear($app));
+$application->add(new Bolt\Nut\Info($app));
+$application->add(new Bolt\Nut\LogTrim($app));
+$application->add(new Bolt\Nut\LogClear($app));
+$application->add(new Bolt\Nut\DatabaseCheck($app));
 $application->run();

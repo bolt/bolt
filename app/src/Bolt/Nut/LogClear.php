@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class LogClear extends Command
+class LogClear extends BaseCommand
 {
     protected function configure()
     {
@@ -20,8 +20,6 @@ class LogClear extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        global $app;
-
         $dialog = $this->getHelperSet()->get('dialog');
 
         $force = $input->getOption('force');
@@ -34,7 +32,7 @@ class LogClear extends Command
             return;
         }
 
-        $app['log']->clear();
+        $this->app['log']->clear();
 
         $output->writeln("<info>Activity logs trimmed!</info>");
 

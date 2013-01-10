@@ -2,11 +2,10 @@
 
 namespace Bolt\Nut;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LogTrim extends Command
+class LogTrim extends BaseCommand
 {
     protected function configure()
     {
@@ -18,9 +17,8 @@ class LogTrim extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        global $app;
 
-        $app['log']->clear();
+        $this->app['log']->clear();
 
         $output->writeln("<info>Activity logs trimmed!</info>");
 
