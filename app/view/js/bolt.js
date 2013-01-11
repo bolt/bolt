@@ -62,7 +62,7 @@ jQuery(function($) {
 
     // Hackish fix for an issue on Ipad, where dropdown menus wouldn't be clickable. Hopefully fixed in Bootstrap 2.1.2
     // See https://github.com/twitter/bootstrap/issues/2975
-    $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+    // $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 
     // Strictly speaking it's not allowed to use <a> inside a <button>, so Firefox ignores the
     // links in our dropdowns. Workaround:

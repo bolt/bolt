@@ -102,6 +102,7 @@ hr {
 .btn-group > .btn-mini {
     font-size: 11px;
     line-height: 16px;
+    padding: 2px 6px;
 }
 
 .navbar-fixed-top, .navbar-fixed-bottom  {

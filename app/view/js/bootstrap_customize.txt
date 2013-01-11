@@ -1,0 +1,20 @@
+Bolt uses a customized version of Bootstrap. The current version is 2.2.2.
+
+To get new files, use the customizer:
+
+http://twitter.github.com/bootstrap/customize.html
+
+Select Components: All, except:
+- Icons
+- Hero Unit
+- Media Component
+- Collapse
+- Carousel
+
+Select jQuery plugins: Only these:
+- Transitions
+- Modals
+- Dropdowns
+- Tooltips
+- Popovers
+- Alert Messages
