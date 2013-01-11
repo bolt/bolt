@@ -958,7 +958,6 @@ blockquote.quote cite {
 
 }
 
-
 @media (max-width: 979px) {
 
     .navbar-inner {
@@ -972,7 +971,10 @@ blockquote.quote cite {
 
     .nav-collapse .nav > li {
         clear: both;
+    }
 
+    .nav-collapse.collapse {
+        margin-left: 8px;
     }
 
     .nav-collapse .nav .nav-header {
@@ -983,7 +985,11 @@ blockquote.quote cite {
 
     .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
         padding: 5px 12px;
-        color: #CCC;
+        color: #DDD !important;
+    }
+
+    .navbar .btn-navbar {
+        margin-top: 14px !important;
     }
 
 }
