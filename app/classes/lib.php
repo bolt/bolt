@@ -893,7 +893,9 @@ function getDBOptions($config)
             'port'      => (isset($configdb['port']) ? $configdb['port'] : '3306'),
             'randomfunction' => $randomfunction
         );
-        if (isset($configdb['charset'])) {
+        if (!isset($configdb['charset'])) {
+            $dboptions['charset'] = 'utf8';
+        } else {
             $dboptions['charset'] = $configdb['charset'];
         }
 
