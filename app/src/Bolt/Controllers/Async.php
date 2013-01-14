@@ -114,10 +114,11 @@ class Async implements ControllerProviderInterface
 
         $term = $request->get('term');
 
-        if (empty($_GET['ext'])) {
+        $ext = $request->query->get('ext');
+        if (empty($ext)) {
             $extensions = 'jpg,jpeg,gif,png';
         } else {
-            $extensions = $_GET['extensions'];
+            $extensions = $request->query->get('extensions');
         }
 
         $files = findFiles($term, $extensions);
@@ -157,7 +158,7 @@ class Async implements ControllerProviderInterface
 
     function markdownify(Silex\Application $app, Request $request) {
 
-        $html = $_POST['html'];
+        $html = $request->request->get('html');
 
         if (isHtml($html)) {
 
@@ -176,7 +177,7 @@ class Async implements ControllerProviderInterface
 
     function makeuri(Silex\Application $app, Request $request) {
 
-        $uri = $app['storage']->getUri($_GET['title'], $_GET['id'], $_GET['contenttypeslug'], $_GET['fulluri']);
+        $uri = $app['storage']->getUri($request->query->get('title'), $request->query->get('id'), $request->query->get('contenttypeslug'), $request->query->get('fulluri'));
 
         return $uri;
 

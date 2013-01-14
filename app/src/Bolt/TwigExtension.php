@@ -373,14 +373,12 @@ class TwigExtension extends \Twig_Extension
     public function request($parameter, $first = "")
     {
 
-        if ($first=="get" && isset($_GET[$parameter])) {
-            return $_GET[$parameter];
-        } elseif ($first=="post" && isset($_POST[$parameter])) {
-            return $_POST[$parameter];
-        } elseif (isset($_REQUEST[$parameter])) {
-            return $_REQUEST[$parameter];
+        if ($first=="get") {
+            return $this->app['request']->query->get($parameter, false);
+        } elseif ($first=="post") {
+            return $this->app['request']->request->get($parameter, false);
         } else {
-            return false;
+            return $this->app['request']->get($parameter, false);
         }
 
     }
