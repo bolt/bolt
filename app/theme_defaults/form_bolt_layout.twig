@@ -1,0 +1,25 @@
+
+{% block form_row %}
+    {% spaceless %}
+        <div class="control-group {% if errors|length > 0 %}error{% endif %}">
+            <div class="controls">
+                {{ form_label(form) }}
+                {{ form_widget(form) }}
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% for error in errors %}
+            <span class="help-inline">{{
+            error.messagePluralization is null
+            ? error.messageTemplate|trans(error.messageParameters, 'validators')
+            : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+            }}</span>
+        {% endfor %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
