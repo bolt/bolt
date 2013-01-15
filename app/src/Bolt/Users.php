@@ -123,13 +123,17 @@ class Users
     public function checkValidSession()
     {
         if ($this->app['session']->get('user')) {
-            $this->currentuser = $this->app['session']->get('user');
+            $session = $this->app['session']->get('user');
+            $database = $this->getUser($session['id']);
+            $this->currentuser = array_merge($session, $database);
         } else {
             // no current user, return without doing the rest.
+            $this->logout();
             return false;
         }
 
         if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS ) {
+            $this->logout();
             return false;
         }
 
@@ -138,14 +142,17 @@ class Users
         if ($key != $this->currentuser['sessionkey']) {
             $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
             $this->app['log']->add("Automatically logged out user '".$this->currentuser['username']."': Session data didn't match.", 3, '', 'issue');
-            $this->app['session']->invalidate();
-
+            $this->logout();
             return false;
         }
 
-        // @todo Check if user is _still_ allowed to log on..
-        return true;
+        // Check if user is _still_ allowed to log on..
+        if ( ($this->currentuser['userlevel'] < self::EDITOR) || !$this->currentuser['enabled'] ) {
+            $this->logout();
+            return false;
+        }
 
+        return true;
 
     }
 
@@ -253,6 +260,17 @@ class Users
 
             return false;
         }
+
+    }
+
+    /**
+     * Log out the currently logged in user.
+     *
+     */
+    public function logout() {
+        $this->session->setFlash('info', 'You have been logged out.');
+        $this->session->remove('user');
+        $this->session->invalidate();
 
     }
 

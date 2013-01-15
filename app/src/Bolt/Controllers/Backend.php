@@ -179,10 +179,8 @@ class Backend implements ControllerProviderInterface
 
         $app['log']->add("Logout", 2, '', 'logout');
 
-        $app['session']->setFlash('info', 'You have been logged out.');
-        $app['session']->remove('user');
+        $app['users']->logout();
 
-        // @todo Log out properly..
         return redirect('login');
 
     }
@@ -854,14 +852,12 @@ class Backend implements ControllerProviderInterface
         $app['debugbar'] = true;
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        if (!$app['users']->isAllowed($route)) {
-            if (!$app['users']->checkValidSession()) {
-                $app['session']->setFlash('info', "Please log on.");
-                return redirect('login');
-            } else {
-                $app['session']->setFlash('error', "You do not have the right privileges to visit that page.");
-                return redirect('dashboard');
-            }
+        if (!$app['users']->checkValidSession() && !$app['users']->isAllowed($route) ) {
+            $app['session']->setFlash('info', "Please log on.");
+            return redirect('login');
+        } else if (!$app['users']->isAllowed($route)) {
+            $app['session']->setFlash('error', "You do not have the right privileges to visit that page.");
+            return redirect('dashboard');
         }
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
