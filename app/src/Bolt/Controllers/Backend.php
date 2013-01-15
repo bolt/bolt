@@ -157,15 +157,10 @@ class Backend implements ControllerProviderInterface
 
         if ($request->getMethod() == "POST") {
 
-            $username = makeSlug($request->get('username'));
-
-            // echo "<pre>\n" . print_r($request->get('username') , true) . "</pre>\n";
-
             $result = $app['users']->login($request->get('username'), $request->get('password'));
 
             if ($result) {
                 $app['log']->add("Login " . $request->get('username') , 2, '', 'login');
-
                 return redirect('dashboard');
             }
 
