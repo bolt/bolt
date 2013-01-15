@@ -509,31 +509,16 @@ class Backend implements ControllerProviderInterface
         $form = $app['form.factory']->createBuilder('form', $user)
             ->add('id', 'hidden')
             ->add('username', 'text', array(
-            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 2)))
-        ));
-
-        // If we're adding a new user, the password will be mandatory. If we're
-        // editing an existing user, we can leave it blank
-        if (empty($id)) {
-            $form->add('password', 'password', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 6))),
-            ))
-                ->add('password_confirmation', 'password', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 6))),
-                'label' => "Password (confirmation)"
-            ));
-        } else {
-            $form->add('password', 'password', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 2)))
+        ))
+            ->add('password', 'password', array(
                 'required' => false
-            ))
-                ->add('password_confirmation', 'password', array(
-                'required' => false,
-                'label' => "Password (confirmation)"
-            ));
-        }
-
-        // Continue with the rest of the fields.
-        $form->add('email', 'text', array(
+        ))
+            ->add('password_confirmation', 'password', array(
+            'required' => false,
+            'label' => "Password (confirmation)"
+        ))
+            ->add('email', 'text', array(
             'constraints' => new Assert\Email(),
         ))
             ->add('displayname', 'text', array(
@@ -566,13 +551,23 @@ class Backend implements ControllerProviderInterface
                 ->add('lastip', 'text', array('disabled' => true));
         }
 
+        // @todo CallbackValidator is deprecated. see: symfony/form/Symfony/Component/Form/CallbackValidator.php
+
         // Make sure the passwords are identical with a custom validator..
         $form->addValidator(new CallbackValidator(function ($form) {
 
+            $id = $form['id']->getData();
             $pass1 = $form['password']->getData();
             $pass2 = $form['password_confirmation']->getData();
 
-            // Some checks for the passwords..
+            // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
+            // then make sure it's at least 6 characters long.
+            if ( (empty($id) || !empty($pass1) ) && strlen($pass1) < 6) {
+                $error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
+                $form['password']->addError($error);
+            }
+
+            // Passwords must be identical..
             if ($pass1 != $pass2) {
                 $form['password_confirmation']->addError(new FormError('Passwords must match.'));
             }
