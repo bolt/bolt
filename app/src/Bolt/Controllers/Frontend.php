@@ -133,7 +133,7 @@ class Frontend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // First, get some content
-        $page = (!empty($_GET['page']) ? $_GET['page'] : 1);
+        $page = $app['request']->query->get('page', 1);
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datepublish desc', 'page' => $page));
 

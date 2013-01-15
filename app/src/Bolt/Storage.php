@@ -794,7 +794,7 @@ class Storage
 
         // If we're allowed to use pagination, use the 'page' parameter.
         if (!empty($parameters['paging'])) {
-            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+            $page = $this->app['request']->get('page', $page);
         }
 
         $queryparams = "";
@@ -916,7 +916,7 @@ class Storage
 
         // If we're allowed to use pagination, use the 'page' parameter.
         if (!empty($parameters['paging'])) {
-            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+            $page = $this->app['request']->get('page', $page);
         }
         //$tablename = $this->prefix . $contenttypename;
         $tablename = implode(", ", $tables);
@@ -1022,7 +1022,7 @@ class Storage
 
         // If we're allowed to use pagination, use the 'page' parameter.
         if (!empty($parameters['paging'])) {
-            $page = !empty($_REQUEST['page']) ? $_REQUEST['page'] : $page;
+            $page = $this->app['request']->get('page', $page);
         }
 
         $contenttype = $this->getContentType($contenttypeslug);
@@ -1131,7 +1131,8 @@ class Storage
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        if ( empty($_GET['order']) && empty($parameters['order']) ) {
+        $order = $this->app['request']->query->get('page', $parameters['order']);
+        if (empty($order)) {
             if ($this->getContentTypeGrouping($contenttypeslug)) {
                 uasort($content, array($this, 'groupingSort'));
             }

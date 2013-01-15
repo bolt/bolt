@@ -211,7 +211,8 @@ class Backend implements ControllerProviderInterface
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
-        if (isset($_GET['return']) && $_GET['return']=="edit") {
+        $return = $app['request']->query->get('return');
+        if ($return=="edit") {
             if (empty($output)) {
                 $content = "Your database is already up to date.";
             } else {
@@ -302,11 +303,7 @@ class Backend implements ControllerProviderInterface
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        if (!empty($_GET['order'])) {
-            $order = $_GET['order'];
-        } else {
-            $order = '';
-        }
+        $app['request']->query->get('order', '');
 
         $page = $app['request']->query->get('page');
         $filter = $app['request']->query->get('filter');
@@ -388,7 +385,8 @@ class Backend implements ControllerProviderInterface
 
         }
 
-        if (!empty($_GET['duplicate'])) {
+        $duplicate = $app['request']->query->get('duplicate');
+        if (!empty($duplicate)) {
             $content->setValue('id', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
