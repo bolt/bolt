@@ -85,7 +85,7 @@ class Backend implements ControllerProviderInterface
             ->bind('extensions')
         ;
 
-        $ctl->get("/user/{action}/{id}", array($this, 'extensions'))
+        $ctl->get("/user/{action}/{id}", array($this, 'useraction'))
             ->before(array($this, 'before'))
             ->bind('useraction')
         ;
