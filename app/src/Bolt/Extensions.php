@@ -238,17 +238,19 @@ class Extensions
 
     public function renderWidgetHolder($type, $location)
     {
-        foreach($this->widgetqueue as $widget) {
-            if ($type == $widget['type'] && $location==$widget['location']) {
+        if (is_array($this->widgetqueue)) {
+            foreach($this->widgetqueue as $widget) {
+                if ($type == $widget['type'] && $location==$widget['location']) {
 
-                $html = sprintf("<section><div class='widget' id='widget-%s' data-key='%s'></div></section>", $widget['key'], $widget['key']);
+                    $html = sprintf("<section><div class='widget' id='widget-%s' data-key='%s'></div></section>", $widget['key'], $widget['key']);
 
-                if (!empty($widget['additionalhtml'])) {
-                    $html .= "\n" . $widget['additionalhtml'];
+                    if (!empty($widget['additionalhtml'])) {
+                        $html .= "\n" . $widget['additionalhtml'];
+                    }
+
+                    echo $html;
+
                 }
-
-                echo $html;
-
             }
         }
     }
