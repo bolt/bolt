@@ -1131,7 +1131,7 @@ class Storage
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        $order = $this->app['request']->query->get('page', $parameters['order']);
+        $order = $this->app['request']->query->get('page', isset($parameters['order'])?$parameters['order']:null);
         if (empty($order)) {
             if ($this->getContentTypeGrouping($contenttypeslug)) {
                 uasort($content, array($this, 'groupingSort'));
