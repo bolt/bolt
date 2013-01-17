@@ -737,7 +737,8 @@ function getConfig()
     if (empty($config['general']['cookies_domain'])) {
 
         // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-        if ((strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
+        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) &&
+            preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
             if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
                 $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
             } else {
