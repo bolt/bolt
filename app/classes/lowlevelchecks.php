@@ -62,8 +62,22 @@ class lowlevelchecks
 
         $cfg = $config['general']['database'];
 
-        if ($cfg['driver'] != 'sqlite') {
+        if($cfg['driver']=='mysql') {
+            if (!extension_loaded('pdo_mysql')) {
+                $this->lowlevelError("MySQL was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_mysql driver.");
+            }
             return;
+        } elseif ($cfg['driver']=='postgres') {
+            if (!extension_loaded('pdo_pgsql')) {
+                $this->lowlevelError("Postgres was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_pgsql driver.");
+            }
+            return;
+        } elseif ($cfg['driver']=='sqlite') {
+            if (!extension_loaded('pdo_sqlite')) {
+                $this->lowlevelError("SQLite was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_sqlite driver.");
+            }
+        } else {
+            $this->lowlevelError("The selected database type is not supported.");
         }
 
         $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : "bolt";
