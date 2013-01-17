@@ -20,7 +20,7 @@ class lowlevelchecks
 
         // Check if the vendor folder is present. If not, this is most likely because
         // the user checked out the repo from Git, without running composer.
-        if (!file_exists(__DIR__.'/../../vendor/autoload.php')) {
+        if (!file_exists(BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php')) {
             $this->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
                 "you've installed the Silex/Bolt components with Composer.");
         }
@@ -92,8 +92,8 @@ class lowlevelchecks
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(__DIR__."/../config/") . "/" . str_replace(".yml", ".yml.dist", $name);
-        $ymlname = realpath(__DIR__."/../config/") . "/" . $name;
+        $distname = realpath(BOLT_CONFIG_DIR."/") . "/" . str_replace(".yml", ".yml.dist", $name);
+        $ymlname = realpath(BOLT_CONFIG_DIR."/") . "/" . $name;
 
         if (file_exists($ymlname) && is_writable($ymlname)) {
             return; // Okidoki..

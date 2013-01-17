@@ -1,5 +1,23 @@
 <?php
 
+if ( !defined( 'BOLT_PROJECT_ROOT_DIR' ) )
+{
+    if ( substr( __DIR__, -28 ) == '/vendor/bobdenotter/bolt/app' ) // installed bolt with composer
+    {
+        define( 'BOLT_PROJECT_ROOT_DIR', substr( __DIR__, 0, -28 ) );
+        define( 'BOLT_COMPOSER_INSTALLED', true );
+    }
+    else
+    {
+        define( 'BOLT_PROJECT_ROOT_DIR', dirname( __DIR__ ) );
+        define( 'BOLT_COMPOSER_INSTALLED', false );
+    }
+}
+if ( !defined( 'BOLT_CONFIG_DIR' ) )
+{
+    define( 'BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config' );
+}
+
 // First, do some low level checks, like whether autoload is present, the cache
 // folder is writable, if the minimum PHP version is present, etc.
 require_once __DIR__.'/classes/lib.php';
@@ -9,7 +27,7 @@ $checker = new LowlevelChecks();
 $checker->doChecks();
 
 // Let's get on with the rest..
-require_once __DIR__.'/../vendor/autoload.php';
+require_once BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php';
 require_once __DIR__.'/classes/util.php';
 
 // Start the timer:
@@ -68,8 +86,8 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array());
 
 // Loading stub functions for when intl / IntlDateFormatter isn't available.
 if (!function_exists('intl_get_error_code')) {
-    require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-    require_once __DIR__.'/../vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
 }
 
 $app->register(new Bolt\TranslationServiceProvider());

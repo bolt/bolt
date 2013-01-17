@@ -695,10 +695,15 @@ function getConfig()
 
     // Read the config
     $yamlparser = new Symfony\Component\Yaml\Parser();
-    $config['general'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/config.yml'));
-    $config['taxonomy'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/taxonomy.yml'));
-    $tempcontenttypes = $yamlparser->parse(file_get_contents(__DIR__.'/../config/contenttypes.yml'));
-    $config['menu'] = $yamlparser->parse(file_get_contents(__DIR__.'/../config/menu.yml'));
+    $config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config.yml'));
+    if(file_exists(BOLT_CONFIG_DIR.'/config_local.yml'))
+    {
+        $config['general'] = array_merge(
+            $config['general'], $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config_local.yml')));
+    }
+    $config['taxonomy'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/taxonomy.yml'));
+    $tempcontenttypes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/contenttypes.yml'));
+    $config['menu'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/menu.yml'));
 
     // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
@@ -737,7 +742,8 @@ function getConfig()
     if (empty($config['general']['cookies_domain'])) {
 
         // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
+        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) &&
+            preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
             if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
                 $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
             } else {
@@ -806,6 +812,11 @@ function getConfig()
 
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
+    if ( isset( $config['general']['theme_path'] ) )
+    {
+        $themepath = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+    }
+    $config['theme_path'] = $themepath;
 
     if ( $end == "frontend" && file_exists($themepath) ) {
         $config['twigpath'] = array($themepath);
@@ -992,6 +1003,12 @@ function getPaths($config = array())
     $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
+    if ( isset( $config['general']['theme_path'] ) ) {
+        $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+    }
+    if ( BOLT_COMPOSER_INSTALLED ) {
+        $paths['app'] = $path_prefix . "bolt-public/";
+    }
     return $paths;
 
 }
