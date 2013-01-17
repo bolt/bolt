@@ -190,6 +190,11 @@ class Extensions
         $this->addjquery = true;
     }
 
+    public function disableJquery()
+    {
+        $this->addjquery = false;
+    }
+
 
     public function addCss($filename)
     {
