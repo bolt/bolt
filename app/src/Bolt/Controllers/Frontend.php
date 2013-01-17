@@ -22,6 +22,10 @@ class Frontend implements ControllerProviderInterface
             ->before(array($this, 'before'))
         ;
 
+        $ctr->match('/sitemap.xml', array($this, 'sitemap'))
+            ->before(array($this, 'before'))
+        ;
+
         $ctr->match('/{contenttypeslug}/feed.{extension}', array($this, 'feed'))
             ->before(array($this, 'before'))
             ->assert('extension', '(xml|rss)')
@@ -261,6 +265,33 @@ class Frontend implements ControllerProviderInterface
         ));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+    }
+
+    public function sitemap(Silex\Application $app)
+    {
+        $app['extensions']->clearSnippetQueue();
+        $app['extensions']->disableJquery();
+        $app['debugbar'] = false;
+
+        $links = array(array('loc' => $app['paths']['root']));
+        foreach( $app['config']['contenttypes'] as $contenttype )
+        {
+            $links[] = array( 'loc' => $app['paths']['root'] . $contenttype['slug'] );
+            $content = $app['storage']->getContent($contenttype['slug']);
+            foreach( $content as $entry )
+            {
+                $links[] = array('loc' => $entry->link(),
+                    'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
+            }
+        }
+        $template = $app['config']['general']['sitemap_template'];
+
+        $body = $app['twig']->render($template, array(
+            'links' => $links
+        ));
+
+        return new Response($body, 200, array('Content-Type' => 'application/xml; charset=utf-8',
+            'Cache-Control' => 's-maxage=3600, public'));
     }
 
 
