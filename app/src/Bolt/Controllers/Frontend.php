@@ -186,6 +186,7 @@ class Frontend implements ControllerProviderInterface
     {
         // Clear the snippet queue
         $app['extensions']->clearSnippetQueue();
+        $app['extensions']->disableJquery();
         $app['debugbar'] = false;
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
