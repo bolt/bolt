@@ -5,7 +5,9 @@
         <atom:link href="{{ paths.currenturl }}" rel="self"
                    type="application/rss+xml"/>
         <link>{{ paths.rooturl }}</link>
+{% if app.config.general.site_description is defined %}
         <description>{{ app.config.general.site_description }}</description>
+{% endif %}
         <language>en-us</language>
         <generator>Bolt</generator>
 
@@ -20,9 +22,11 @@
                     {{ record.user.email }} ({{ record.user.displayname }})
                 </author>
                 <guid>{{ record.contenttype.singular_slug }}/{{ record.id }}</guid>
+{% if record.taxonomy.categories is defined %}
 {% for category in record.taxonomy.categories %}
                 <category><![CDATA[ {{ category }} ]]></category>
 {% endfor %}
+{% endif %}
 
 {% if content_length == 0 %}
                 <description>{{ record.rss_safe('body') }}</description>
