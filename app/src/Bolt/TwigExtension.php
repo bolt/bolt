@@ -50,6 +50,7 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
+            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'),
             'rot13' => new \Twig_Filter_Method($this, 'rot13Filter'),
             'trimtext' => new \Twig_Filter_Method($this, 'trim'),
             'markdown' => new \Twig_Filter_Method($this, 'markdown'),
@@ -81,6 +82,39 @@ class TwigExtension extends \Twig_Extension
 
         return $output;
 
+    }
+
+    /**
+     * Returns the date time in a particular format. Takes the locale into
+     * account.
+     * @param $dateTime
+     * @param string $format
+     * @return string
+     */
+    public function localedatetime($dateTime, $format = "%B %e, %Y %H:%M")
+    {
+        if (!$dateTime instanceof \DateTime) {
+            $dateTime = new \DateTime($dateTime);
+        }
+
+        $strftimeLocale = $this->app['locale'] . '_' . $this->app['territory'];
+        $fallbackLocale = 'en_GB, en';
+        $result = setlocale(LC_ALL, $strftimeLocale, $fallbackLocale);
+        if ($result === false){
+            // This shouldn't occur, but.. Dude!
+            // You ain't even got locale or English on your platform??
+            // Various things we could do. We could fail miserably, but a more
+            // graceful approach is to use the datetime to display a default
+            // format
+            $this->app['log']->add(
+                "No valid locale detected. Fallback on DateTime active.",
+                2
+            );
+            return utf8_encode($dateTime->format('Y-m-d H:i:s'));
+        } else {
+            $timestamp = $dateTime->getTimestamp();
+            return utf8_encode(strftime($format, $timestamp));
+        }
     }
 
 
