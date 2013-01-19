@@ -712,6 +712,8 @@ function getConfig()
         'sitename' => 'Default Bolt site',
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
+        'sitemap_template' => 'sitemap.twig',
+        'sitemap_xml_template' => 'sitemap_xml.twig',
         'recordsperpage' => 10,
         'recordsperdashboardwidget' => 5,
         'debug' => false,

@@ -22,6 +22,14 @@ class Frontend implements ControllerProviderInterface
             ->before(array($this, 'before'))
         ;
 
+        $ctr->match('/sitemap', array($this, 'sitemap'))
+            ->before(array($this, 'before'))
+        ;
+
+        $ctr->match('/sitemap.xml', array($this, 'sitemapXml'))
+            ->before(array($this, 'before'))
+        ;
+
         $ctr->match('/{contenttypeslug}/feed.{extension}', array($this, 'feed'))
             ->before(array($this, 'before'))
             ->assert('extension', '(xml|rss)')
@@ -261,6 +269,50 @@ class Frontend implements ControllerProviderInterface
         ));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+    }
+
+    public function sitemap(Silex\Application $app, $xml = false)
+    {
+        if($xml){
+            $app['extensions']->clearSnippetQueue();
+            $app['extensions']->disableJquery();
+            $app['debugbar'] = false;
+        }
+
+        $links = array(array('link' => $app['paths']['root'], 'title' => $app['config']['general']['sitename']));
+        foreach( $app['config']['contenttypes'] as $contenttype ) {
+            if (isset($contenttype['listing_template'])) {
+                $links[] = array( 'link' => $app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
+            }
+            if (isset($contenttype['record_template'])) {
+                $content = $app['storage']->getContent($contenttype['slug']);
+                foreach( $content as $entry ) {
+                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
+                        'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
+                }
+            }
+        }
+        if ($xml) {
+            $template = $app['config']['general']['sitemap_xml_template'];
+        } else {
+            $template = $app['config']['general']['sitemap_template'];
+        }
+
+        $body = $app['twig']->render($template, array(
+            'entries' => $links
+        ));
+        $headers = array();
+        if ($xml) {
+            $headers['Content-Type'] = 'application/xml; charset=utf-8';
+        }
+        $headers['Cache-Control'] = 's-maxage=3600, public';
+
+        return new Response($body, 200, $headers);
+    }
+
+    public function sitemapXml(Silex\Application $app)
+    {
+        return $this->sitemap($app,true);
     }
 
 
