@@ -12,7 +12,11 @@
 
 error_reporting(E_ALL | E_STRICT);
 
-require_once __DIR__.'/../../bootstrap.php';
+if (strpos(__DIR__,'/bolt-public/') !== false) { // installed bolt with composer
+    require_once __DIR__.'/../../../../vendor/bobdenotter/bolt/app/bootstrap.php';
+} else {
+    require_once __DIR__.'/../../bootstrap.php';
+}
 
 // Don't do anything if we're not logged in..
 if (!isset($_SESSION['_sf2_attributes']['user']['id'])) {

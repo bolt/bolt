@@ -36,6 +36,7 @@ class ScriptHandler
         {
             $filesystem->mirror(__DIR__.'/../../../view/'.$dir, $targetDir.'/view/'.$dir);
         }
+        $filesystem->mirror(__DIR__.'/../../../classes/upload', $targetDir.'/classes/upload');
         $filesystem->copy(__DIR__.'/../../../app.php',$targetDir.'/app.php');
         $filesystem->copy(__DIR__.'/../../../timthumb.php',$targetDir.'/timthumb.php');
 
