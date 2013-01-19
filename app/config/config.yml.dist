@@ -58,6 +58,10 @@ rss:
   feed_template: rss.twig
   content_length: 400
 
+# template to use for sitemap and sitemap.xml
+sitemap_template: sitemap.twig
+sitemap_xml_template: sitemap_xml.twig
+
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype, and for each record, if it has a
 # 'templateselect' field.
