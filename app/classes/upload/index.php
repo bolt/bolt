@@ -12,11 +12,7 @@
 
 error_reporting(E_ALL | E_STRICT);
 
-// Make sure Silex' session is instantiated
-require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../bootstrap.php';
-
-session_start();
 
 // Don't do anything if we're not logged in..
 if (!isset($_SESSION['_sf2_attributes']['user']['id'])) {
