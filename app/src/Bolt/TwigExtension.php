@@ -235,7 +235,7 @@ class TwigExtension extends \Twig_Extension
 
         $files = array();
 
-        $foldername = realpath(__DIR__.'/../../../theme/' . $this->app['config']['general']['theme']);
+        $foldername = $this->app['paths']['themepath'];
 
 
         $d = dir($foldername);
