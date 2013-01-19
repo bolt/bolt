@@ -1,21 +1,16 @@
 <?php
 
-if ( !defined( 'BOLT_PROJECT_ROOT_DIR' ) )
-{
-    if ( substr( __DIR__, -28 ) == '/vendor/bobdenotter/bolt/app' ) // installed bolt with composer
-    {
-        define( 'BOLT_PROJECT_ROOT_DIR', substr( __DIR__, 0, -28 ) );
-        define( 'BOLT_COMPOSER_INSTALLED', true );
-    }
-    else
-    {
-        define( 'BOLT_PROJECT_ROOT_DIR', dirname( __DIR__ ) );
-        define( 'BOLT_COMPOSER_INSTALLED', false );
+if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
+    if (substr(__DIR__, -28) == '/vendor/bobdenotter/bolt/app') { // installed bolt with composer
+        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -28));
+        define('BOLT_COMPOSER_INSTALLED', true);
+    } else {
+        define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
+        define('BOLT_COMPOSER_INSTALLED', false);
     }
 }
-if ( !defined( 'BOLT_CONFIG_DIR' ) )
-{
-    define( 'BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config' );
+if (!defined('BOLT_CONFIG_DIR')) {
+    define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
 }
 
 // First, do some low level checks, like whether autoload is present, the cache
