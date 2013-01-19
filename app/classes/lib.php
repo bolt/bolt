@@ -707,6 +707,7 @@ function getConfig()
         'sitename' => 'Default Bolt site',
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
+        'translation' => array('locale' => 'en', 'territory' => 'GB'),
         'recordsperpage' => 10,
         'recordsperdashboardwidget' => 5,
         'debug' => false,

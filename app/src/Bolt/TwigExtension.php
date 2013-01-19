@@ -50,6 +50,7 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
+            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'),
             'rot13' => new \Twig_Filter_Method($this, 'rot13Filter'),
             'trimtext' => new \Twig_Filter_Method($this, 'trim'),
             'markdown' => new \Twig_Filter_Method($this, 'markdown'),
@@ -81,6 +82,27 @@ class TwigExtension extends \Twig_Extension
 
         return $output;
 
+    }
+
+    /**
+     * Returns the date time in a particular format. Takes the locale into
+     * account.
+     * @param $dateTime
+     * @param string $format
+     * @return string
+     */
+    public function localedatetime($dateTime, $format = "%B %e, %Y %H:%M")
+    {
+        if (!$dateTime instanceof \DateTime) {
+            $dateTime = new \DateTime($dateTime);
+        }
+
+        $timestamp = $dateTime->getTimestamp();
+
+        $strftimeLocale = $this->app['locale'] . '_' . $this->app['territory'];
+        setlocale(LC_ALL, $strftimeLocale);
+
+        return utf8_encode(strftime($format, $timestamp));
     }
 
 
