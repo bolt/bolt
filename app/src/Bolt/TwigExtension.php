@@ -97,12 +97,24 @@ class TwigExtension extends \Twig_Extension
             $dateTime = new \DateTime($dateTime);
         }
 
-        $timestamp = $dateTime->getTimestamp();
-
         $strftimeLocale = $this->app['locale'] . '_' . $this->app['territory'];
-        setlocale(LC_ALL, $strftimeLocale);
-
-        return utf8_encode(strftime($format, $timestamp));
+        $fallbackLocale = 'en_GB, en';
+        $result = setlocale(LC_ALL, $strftimeLocale, $fallbackLocale);
+        if ($result === false){
+            // This shouldn't occur, but.. Dude!
+            // You ain't even got locale or English on your platform??
+            // Various things we could do. We could fail miserably, but a more
+            // graceful approach is to use the datetime to display a default
+            // format
+            $this->app['log']->add(
+                "No valid locale detected. Fallback on DateTime active.",
+                2
+            );
+            return utf8_encode($dateTime->format('Y-m-d H:i:s'));
+        } else {
+            $timestamp = $dateTime->getTimestamp();
+            return utf8_encode(strftime($format, $timestamp));
+        }
     }
 
 
