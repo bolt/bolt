@@ -273,6 +273,7 @@ class Storage
                     switch ($values['type']) {
                         case 'text':
                         case 'templateselect':
+                        case 'select':
                         case 'image':
                         case 'file':
                             $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL DEFAULT \"\";", $tablename, $field);

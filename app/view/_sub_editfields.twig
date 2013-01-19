@@ -92,6 +92,17 @@
 
 {% endif %}
 
+{# --------------- select --------------- #}
+
+{% if field.type == "select" %}
+    <label><b><span class='left'>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</span></b></label>
+    <select name="{{key}}" id="{{key}}">
+        {% for value in field.values %}
+            <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
+        {% endfor %}
+    </select>
+{% endif %}
+
 {# --------------- templateselect --------------- #}
 
 {% if field.type == "templateselect" %}

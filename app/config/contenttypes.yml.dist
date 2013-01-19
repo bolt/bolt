@@ -94,6 +94,9 @@ kitchensink:
             type: integer
         floatfield:
             type: float
+        selectfield:
+            type: select
+            values: [ none, foo, bar ]
     relations:
         entries:
             multiple: false
@@ -117,6 +120,7 @@ kitchensink:
 # textarea - varchar(32768) - Simple, plain < textarea > field.
 # datetime - datetime - date and time selector widget.
 # date - datetime - date selector widget.
+# select - varchar(256) - select with predefined values
 # templateselect - varchar(256) - select with template filenames
 
 
