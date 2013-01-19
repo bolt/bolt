@@ -4,7 +4,6 @@ app/database/*.db
 files/*
 vendor/
 composer.phar
-composer.lock
 .DS_Store
 ._.DS_Store
 .idea
