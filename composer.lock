@@ -1,5 +1,5 @@
 {
-    "hash": "040303f523921387bd4497fd5fcd9814",
+    "hash": "f6495783ec2177074f9731b169577f82",
     "packages": [
         {
             "name": "doctrine/common",
@@ -48,7 +48,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -128,12 +128,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle",
-                "reference": "71fa6aa17739e8687c611392529b2864d6f1364e"
+                "reference": "2d2637ce117624f3c549b14306eeacb056e8b777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/guzzle/guzzle/archive/71fa6aa17739e8687c611392529b2864d6f1364e.zip",
-                "reference": "71fa6aa17739e8687c611392529b2864d6f1364e",
+                "url": "https://github.com/guzzle/guzzle/archive/2d2637ce117624f3c549b14306eeacb056e8b777.zip",
+                "reference": "2d2637ce117624f3c549b14306eeacb056e8b777",
                 "shasum": ""
             },
             "require": {
@@ -180,7 +180,7 @@
                 "zend/zend-cache": "2.0.0beta3",
                 "zend/zend-log": "2.0.0beta3"
             },
-            "time": "2013-01-17 18:30:51",
+            "time": "2013-01-20 03:03:06",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -272,12 +272,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Silex.git",
-                "reference": "e82a9a3b8ae0d3969a249ff0e61ef94debc5c4df"
+                "reference": "ca7e2dc4a5e2925e21e29895eb64714e675570dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Silex/archive/e82a9a3b8ae0d3969a249ff0e61ef94debc5c4df.zip",
-                "reference": "e82a9a3b8ae0d3969a249ff0e61ef94debc5c4df",
+                "url": "https://github.com/fabpot/Silex/archive/ca7e2dc4a5e2925e21e29895eb64714e675570dd.zip",
+                "reference": "ca7e2dc4a5e2925e21e29895eb64714e675570dd",
                 "shasum": ""
             },
             "require": {
@@ -312,7 +312,7 @@
                 "symfony/css-selector": ">=2.1,<2.3-dev",
                 "symfony/dom-crawler": ">=2.1,<2.3-dev"
             },
-            "time": "2013-01-19 07:41:31",
+            "time": "2013-01-20 08:24:37",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -524,6 +524,48 @@
                 }
             ],
             "description": "Symfony EventDispatcher Component",
+            "homepage": "http://symfony.com"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "2.1.x-dev",
+            "target-dir": "Symfony/Component/Filesystem",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Filesystem",
+                "reference": "v2.1.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/Filesystem/archive/v2.1.7.zip",
+                "reference": "v2.1.7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "time": "2013-01-09 08:51:07",
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Filesystem": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com"
         },
         {
