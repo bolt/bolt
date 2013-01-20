@@ -1513,9 +1513,9 @@ class Storage
             foreach ($currentvalues as $id => $value) {
 
                 // Make it look like 'desktop#10'
-                $value = $value . "#" . $currentsortorder;
+                $valuewithorder = $value . "#" . $currentsortorder;
 
-                if (!in_array($value, $newvalues)) {
+                if (!in_array($value, $newvalues) && !in_array($valuewithorder, $newvalues)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
