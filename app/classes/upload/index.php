@@ -18,6 +18,11 @@ if (strpos(__DIR__,'/bolt-public/') !== false) { // installed bolt with composer
     require_once __DIR__.'/../../bootstrap.php';
 }
 
+// Make sure the session is started.
+if(session_id() == "") {
+    session_start();
+}
+
 // Don't do anything if we're not logged in..
 if (!isset($_SESSION['_sf2_attributes']['user']['id'])) {
     echo "Not logged in.";
