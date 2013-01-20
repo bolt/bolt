@@ -40,13 +40,8 @@ $app = new Bolt\Application();
 $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
 $app['debugbar'] = false;
 
-if (!empty($config['general']['locale'])){
-    $app['locale'] = $config['general']['locale'];
-}
-else {
-    $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
-    $app['locale'] = $request->getLocale();
-}
+$app['locale'] = $config['general']['translation']['locale'];
+$app['territory'] = $config['general']['translation']['territory'];
 
 $app['config'] = $config;
 

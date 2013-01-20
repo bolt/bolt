@@ -712,6 +712,7 @@ function getConfig()
         'sitename' => 'Default Bolt site',
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
+        'translation' => array('locale' => 'en', 'territory' => 'GB'),
         'sitemap_template' => 'sitemap.twig',
         'sitemap_xml_template' => 'sitemap_xml.twig',
         'recordsperpage' => 10,
@@ -744,8 +745,7 @@ function getConfig()
     if (empty($config['general']['cookies_domain'])) {
 
         // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) &&
-            preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
+        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
             if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
                 $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
             } else {
@@ -1005,12 +1005,6 @@ function getPaths($config = array())
     $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
-    if ( isset( $config['general']['theme_path'] ) ) {
-        $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
-    }
-    if ( BOLT_COMPOSER_INSTALLED ) {
-        $paths['app'] = $path_prefix . "bolt-public/";
-    }
     return $paths;
 
 }
