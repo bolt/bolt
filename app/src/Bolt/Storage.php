@@ -626,7 +626,16 @@ class Storage
 
         $tablename = $this->prefix . $contenttype;
 
-        return $this->app['db']->delete($tablename, array('id' => $id));
+        $res = $this->app['db']->delete($tablename, array('id' => $id));
+
+        // Make sure relations and taxonomies are deleted as well.
+        if ($res) {
+            $this->app['db']->delete($this->prefix."relations", array('from_contenttype' => $contenttype, 'from_id' => $id));
+            $this->app['db']->delete($this->prefix."relations", array('to_contenttype' => $contenttype, 'to_id' => $id));
+            $this->app['db']->delete($this->prefix."taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
+        }
+
+        return $res;
 
     }
 
@@ -1551,9 +1560,10 @@ class Storage
             $this->app['db']->quote($contenttype),
             implode(", ", $ids)
         );
+
         $rows = $this->app['db']->fetchAll($query);
 
-        foreach ($rows as $key => $row) {
+        foreach ($rows as $row) {
             $content[ $row['from_id'] ]->setRelation($row['to_contenttype'], $row['to_id']);
         }
 
@@ -1565,10 +1575,9 @@ class Storage
         );
         $rows = $this->app['db']->fetchAll($query);
 
-        foreach ($rows as $key => $row) {
+        foreach ($rows as $row) {
             $content[ $row['to_id'] ]->setRelation($row['from_contenttype'], $row['from_id']);
         }
-
 
     }
 
