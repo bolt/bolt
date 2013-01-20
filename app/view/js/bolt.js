@@ -5,7 +5,7 @@ try { console.assert(1); } catch(e) { console = { log: function() {}, assert: fu
 jQuery(function($) {
 
     // Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog..
-    $('a.confirm').live('click', function(){
+    $('a.confirm').on('click', function(){
         return confirm( $(this).data('confirm') );
     });
 
@@ -13,7 +13,7 @@ jQuery(function($) {
     $('.fancybox').fancybox({ });
 
     // Helper to make things like '<button data-action="eventView.load()">' work
-    $('button, input[type=button]').live('click', function(e){
+    $('button, input[type=button]').on('click', function(e){
         var action = $(this).data('action');
         if (typeof(action) != "undefined" && (action != "") ) {
             eval(action);
@@ -565,7 +565,7 @@ var ImagelistHolder = Backbone.View.extend({
                 }
             });
 
-        $(".imagelistholder div.list a").live('click', function(e) {
+        $(".imagelistholder div.list a").on('click', function(e) {
             e.preventDefault();
             if (confirm('Are you sure you want to remove this image?')) {
                 var id = $(this).parent().data('id');
@@ -573,7 +573,7 @@ var ImagelistHolder = Backbone.View.extend({
             }
         });
 
-        $(".imagelistholder div.list input").live('blur', function() {
+        $(".imagelistholder div.list input").on('blur', function() {
             imagelist.doneSort();
         });
 

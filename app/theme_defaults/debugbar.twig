@@ -76,7 +76,7 @@ in: {{ item.file }}::{{ item.line }} <small>({% if item.username is defined %}{{
 </div>
 
 {% if frontend is defined %}
-<script type="text/javascript">!window.jQuery && document.write('<script src="{{ paths.app }}view/js/jquery-1.8.3.min.js"><\/script>')</script>
+<script type="text/javascript">!window.jQuery && document.write('<script src="{{ paths.app }}view/js/jquery-1.9.0.min.js"><\/script>')</script>
 {% endif %}
 <script src="{{ paths.app }}view/js/debugbar.js"></script>
 <link rel='stylesheet' href='{{ paths.app }}view/css/debugbar.css' />
