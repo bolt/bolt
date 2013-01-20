@@ -82,8 +82,11 @@
         if( ! options  ) options = {};
         if( IS_FIREFOX === null )
         {
-            if( ( "mozilla" in $.browser ) && $.browser["mozilla"] ) IS_FIREFOX = true;
-            else                                                     IS_FIREFOX = false;
+            if(navigator.userAgent.match(/Firefox/)) {
+                IS_FIREFOX = true;
+            } else {
+                IS_FIREFOX = false;
+            }
         }
         if( IS_FIREFOX )
         {
