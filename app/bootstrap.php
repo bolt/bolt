@@ -10,7 +10,7 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
     }
 }
 if (!defined('BOLT_CONFIG_DIR')) {
-    define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
+    define('BOLT_CONFIG_DIR', __DIR__.'/config');
 }
 
 // First, do some low level checks, like whether autoload is present, the cache
