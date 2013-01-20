@@ -128,7 +128,6 @@ class Users
             $this->currentuser = array_merge($session, $database);
         } else {
             // no current user, return without doing the rest.
-            $this->logout();
             return false;
         }
 
@@ -270,7 +269,8 @@ class Users
     public function logout() {
         $this->session->setFlash('info', 'You have been logged out.');
         $this->session->remove('user');
-        $this->session->invalidate();
+        // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
+        // $this->session->invalidate();
 
     }
 
