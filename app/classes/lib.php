@@ -1140,3 +1140,16 @@ function isHtml($html)
     }
 
 }
+
+/**
+ * Replace the first occurence of a string only. Behaves like str_replace, but
+ * replaces _only_ the _first_ occurence.
+ * @see http://stackoverflow.com/a/2606638
+ */
+function str_replace_first($search, $replace, $subject) {
+    $pos = strpos($subject, $search);
+    if ($pos !== false) {
+        $subject = substr_replace($subject, $replace, $pos, strlen($search));
+    }
+    return $subject;
+}
