@@ -43,6 +43,8 @@ class TwigExtension extends \Twig_Extension
             'randomquote' => new \Twig_Function_Method($this, 'randomquote', array('is_safe' => array('html'))),
             'widget' => new \Twig_Function_Method($this, 'widget', array('needs_environment' => true)),
             'isallowed' => new \Twig_Function_Method($this, 'isAllowed'),
+            'first' => new \Twig_Function_Method($this, 'first'),
+            'last' => new \Twig_Function_Method($this, 'last'),
         );
     }
 
@@ -61,7 +63,8 @@ class TwigExtension extends \Twig_Extension
             'image' => new \Twig_Filter_Method($this, 'image'),
             'fancybox' => new \Twig_Filter_Method($this, 'fancybox', array('is_safe' => array('html'))),
             'editable' => new \Twig_Filter_Method($this, 'editable', array('is_safe' => array('html'))),
-
+            'first' => new \Twig_Filter_Method($this, 'first'),
+            'last' => new \Twig_Filter_Method($this, 'last'),
         );
     }
 
@@ -191,6 +194,29 @@ class TwigExtension extends \Twig_Extension
         return ucfirst($str);
 
     }
+
+    /**
+     * Returns the first item of an array
+     *
+     * @param array $array
+     * @return mixed
+     */
+    public function first($array) 
+    {
+        return \util::array_first($array);
+    }
+
+    /**
+     * Returns the last item of an array
+     *
+     * @param array $array
+     * @return mixed
+     */
+    public function last($array) 
+    {
+        return \util::array_last($array);
+    }
+
 
     /**
      * Returns true, if the given content is the current content.
