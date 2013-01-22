@@ -557,6 +557,12 @@ class Content implements \ArrayAccess
             $chosen = 'contenttype';
         }
 
+        $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";
+        if (is_readable($templatefile)) {
+            $template = $this->contenttype['singular_slug'] . ".twig";
+            $chosen = 'singular_slug';
+        }
+
         foreach ($this->contenttype['fields'] as $name => $field) {
             if ($field['type']=="templateselect" && !empty($this->values[$name]) ) {
                 $template = $this->values[$name];
