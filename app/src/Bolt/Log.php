@@ -228,7 +228,7 @@ class Log
 
     public function clear() {
 
-        $query = sprintf('TRUNCATE %s;',
+        $query = sprintf('DELETE FROM %s;',
             $this->tablename
         );
         $this->app['db']->executeQuery($query);
