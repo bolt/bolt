@@ -16,7 +16,7 @@
         "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.8.*"
+        "phpunit/phpunit": "3.7.13"
     },
     "minimum-stability": "dev",
     "autoload": {
