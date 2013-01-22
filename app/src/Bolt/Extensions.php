@@ -293,7 +293,10 @@ class Extensions
      */
     public function insertSnippet($location, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->snippetqueue[] = array(
+
+        $key = md5($callback);
+
+        $this->snippetqueue[$key] = array(
             'location' => $location,
             'callback' => $callback,
             'var1' => $var1,
