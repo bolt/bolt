@@ -25,10 +25,11 @@ class Users
 
     public function __construct(Silex\Application $app)
     {
+        $this->app = $app;
+
         $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
 
         $this->db = $app['db'];
-        $this->app = $app;
         $this->config = $app['config'];
         $this->usertable = $prefix . "users";
         $this->users = array();
