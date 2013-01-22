@@ -225,12 +225,28 @@ class Log
 
     }
 
-
     public function clear() {
 
-        $query = sprintf('DELETE FROM %s;',
-            $this->tablename
-        );
+        $dbconfig = $getDBOptions($this->app);
+
+        if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
+
+            // sqlite
+            $query = sprintf('DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = %s;',
+                $this->tablename,
+                $this->tablename
+            );
+
+        } else {
+
+            // mysql
+            $query = sprintf('TRUNCATE %s;',
+                $this->tablename
+            );
+
+        }
+        // @todo: handle postgres (and other non mysql) database syntax
+
         $this->app['db']->executeQuery($query);
 
     }
