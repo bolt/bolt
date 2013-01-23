@@ -1,8 +1,8 @@
 app/cache/*
 app/config/*.yml
 app/database/*.db
-app/extensions/Pager
-app/extensions/Pager/*
+app/extensions/AlbumPager
+app/extensions/AlbumPager/*
 files/*
 vendor/
 composer.phar
