@@ -939,6 +939,13 @@ function getPaths($config = array())
     $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
+    if ( isset( $config['general']['theme_path'] ) ) {
+        $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+    }
+    if ( BOLT_COMPOSER_INSTALLED ) {
+        $paths['app'] = $path_prefix . "bolt-public/";
+    }
+
     return $paths;
 
 }
