@@ -336,6 +336,16 @@ if ( ! class_exists( 'util' ) ) {
          */
         public static function var_dump_plain( $var )
         {
+
+            // Don't traverse into Closures or Silex / Symfony objects..
+            if (get_class($var) != "") {
+                list($root) = explode("\\", get_class($var));
+                if ( (get_class($var) == "Bolt\Application") ||in_array($root, array('Closure', 'Silex', 'Symfony'))) {
+                    $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
+                    return $html;
+                }
+            }
+
             $html = '';
 
             if ( is_bool( $var ) ) {
@@ -424,11 +434,6 @@ if ( ! class_exists( 'util' ) ) {
                     })();
                     </script>' );
                 }
-
-            } else if ( is_object($var) && (substr(get_class($var), 0, 6)=="Silex\\") ) {
-
-                // Do NOT try to traverse down into Silex objects.
-                $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
 
             } else if ( is_object( $var ) ) {
                 $uuid = 'include-php-' . uniqid();

@@ -19,7 +19,7 @@ class CacheClear extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = clearCache();
+        $result = $this->app['cache']->clearCache();
 
         $output->writeln(sprintf("Deleted %s files from cache.\n", $result['successfiles']));
 

@@ -1,6 +1,6 @@
 /*!
  * fancyBox - jQuery Plugin
- * version: 2.1.3 (Tue, 23 Oct 2012)
+ * version: 2.1.4 (Thu, 10 Jan 2013)
  * @requires jQuery v1.6 or later
  *
  * Examples at http://fancyapps.com/fancybox/
@@ -18,6 +18,7 @@
 		F = $.fancybox = function () {
 			F.open.apply( this, arguments );
 		},
+		IE =  navigator.userAgent.match(/msie/),
 		didUpdate = null,
 		isTouch	  = document.createTouch !== undefined,
 
@@ -48,7 +49,7 @@
 
 	$.extend(F, {
 		// The current version of fancyBox
-		version: '2.1.3',
+		version: '2.1.4',
 
 		defaults: {
 			padding : 15,
@@ -136,7 +137,7 @@
 			tpl: {
 				wrap     : '<div class="fancybox-wrap" tabIndex="-1"><div class="fancybox-skin"><div class="fancybox-outer"><div class="fancybox-inner"></div></div></div></div>',
 				image    : '<img class="fancybox-image" src="{href}" alt="" />',
-				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen' + ($.browser.msie ? ' allowtransparency="true"' : '') + '></iframe>',
+				iframe   : '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" frameborder="0" vspace="0" hspace="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen' + (IE ? ' allowtransparency="true"' : '') + '></iframe>',
 				error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
 				closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>',
 				next     : '<a title="Next" class="fancybox-nav fancybox-next" href="javascript:;"><span></span></a>',
@@ -1442,7 +1443,7 @@
 
 			// Create a close button
 			if (current.closeBtn) {
-				$(current.tpl.closeBtn).appendTo(F.skin).bind( isTouch ? 'touchstart.fb' : 'click.fb', function(e) {
+				$(current.tpl.closeBtn).appendTo(F.skin).bind('click.fb', function(e) {
 					e.preventDefault();
 
 					F.close();
@@ -1656,10 +1657,7 @@
 				F.wrap.css(startPos).animate(endPos, {
 					duration : current.nextSpeed,
 					easing   : current.nextEasing,
-					complete : function() {
-						// This helps FireFox to properly render the box
-						setTimeout(F._afterZoomIn, 20);
-					}
+					complete : F._afterZoomIn
 				});
 			}
 		},
@@ -1780,7 +1778,7 @@
 			this.overlay.width(width).height('100%');
 
 			// jQuery does not return reliable result for IE
-			if ($.browser.msie) {
+			if (IE) {
 				offsetWidth = Math.max(document.documentElement.offsetWidth, document.body.offsetWidth);
 
 				if (D.width() > offsetWidth) {
@@ -1887,7 +1885,7 @@
 
 					title.appendTo('body');
 
-					if ($.browser.msie) {
+					if (IE) {
 						title.width( title.width() );
 					}
 

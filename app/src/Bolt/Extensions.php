@@ -293,7 +293,10 @@ class Extensions
      */
     public function insertSnippet($location, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->snippetqueue[] = array(
+
+        $key = md5($callback);
+
+        $this->snippetqueue[$key] = array(
             'location' => $location,
             'callback' => $callback,
             'var1' => $var1,
@@ -397,11 +400,11 @@ class Extensions
 
         // first, attempt to insert it after the <head> tag, matching indentation..
 
-        if (preg_match("~^([ \t]+)<head(.*)~mi", $html, $matches)) {
+        if (preg_match("~^([ \t]*)<head(.*)~mi", $html, $matches)) {
 
             // Try to insert it after <head>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = str_replace($matches[0], $replacement, $html);
+            $html = str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -429,11 +432,11 @@ class Extensions
 
         // first, attempt to insert it after the <body> tag, matching indentation..
 
-        if (preg_match("~^([ \t]+)<body(.*)~mi", $html, $matches)) {
+        if (preg_match("~^([ \t]*)<body(.*)~mi", $html, $matches)) {
 
             // Try to insert it after <body>
             $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $tag);
-            $html = str_replace($matches[0], $replacement, $html);
+            $html = str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -462,11 +465,11 @@ class Extensions
 
         // first, attempt to insert it before the </head> tag, matching indentation..
 
-        if (preg_match("~^([ \t]+)</head~mi", $html, $matches)) {
+        if (preg_match("~^([ \t]*)</head~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = str_replace($matches[0], $replacement, $html);
+            $html = str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -493,11 +496,11 @@ class Extensions
 
         // first, attempt to insert it before the </body> tag, matching indentation..
 
-        if (preg_match("~^([ \t]?)</body~mi", $html, $matches)) {
+        if (preg_match("~^([ \t]*)</body~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = str_replace($matches[0], $replacement, $html);
+            $html = str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -525,11 +528,11 @@ class Extensions
 
         // first, attempt to insert it before the </body> tag, matching indentation..
 
-        if (preg_match("~^([ \t]?)</html~mi", $html, $matches)) {
+        if (preg_match("~^([ \t]*)</html~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
-            $html = str_replace($matches[0], $replacement, $html);
+            $html = str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -556,13 +559,13 @@ class Extensions
 
         // first, attempt to insert it after the last meta tag, matching indentation..
 
-        if (preg_match_all("~^([ \t]+)<meta (.*)~mi", $html, $matches)) {
+        if (preg_match_all("~^([ \t]*)<meta (.*)~mi", $html, $matches)) {
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0])-1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = str_replace($matches[0][$last], $replacement, $html);
+            $html = str_replace_first($matches[0][$last], $replacement, $html);
 
         } else {
             $html = $this->insertEndOfHead($tag, $html);
@@ -586,13 +589,13 @@ class Extensions
 
         // first, attempt to insert it after the last <link> tag, matching indentation..
 
-        if (preg_match_all("~^([ \t]+)<link (.*)~mi", $html, $matches)) {
+        if (preg_match_all("~^([ \t]*)<link (.*)~mi", $html, $matches)) {
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0])-1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = str_replace($matches[0][$last], $replacement, $html);
+            $html = str_replace_first($matches[0][$last], $replacement, $html);
 
         } else {
             $html = $this->insertEndOfHead($tag, $html);
@@ -616,11 +619,11 @@ class Extensions
 
         // first, attempt to insert it after the <body> tag, matching indentation..
 
-        if (preg_match("~^([ \t]+)<link(.*)~mi", $html, $matches)) {
+        if (preg_match("~^([ \t]*)<link(.*)~mi", $html, $matches)) {
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = str_replace($matches[0], $replacement, $html);
+            $html = str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -647,11 +650,11 @@ class Extensions
 
         // first, attempt to insert it after the <body> tag, matching indentation..
 
-        if (preg_match("~^([ \t]+)<script(.*)~mi", $html, $matches)) {
+        if (preg_match("~^([ \t]*)<script(.*)~mi", $html, $matches)) {
 
             // Try to insert it before the match
             $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $tag, $matches[0], $matches[1]);
-            $html = str_replace($matches[0], $replacement, $html);
+            $html = str_replace_first($matches[0], $replacement, $html);
 
         } else {
 
@@ -677,13 +680,13 @@ class Extensions
 
         // first, attempt to insert it after the last <link> tag, matching indentation..
 
-        if (preg_match_all("~^([ \t]+)<script (.*)~mi", $html, $matches)) {
+        if (preg_match_all("~^([ \t]*)<script (.*)~mi", $html, $matches)) {
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0])-1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
-            $html = str_replace($matches[0][$last], $replacement, $html);
+            $html = str_replace_first($matches[0][$last], $replacement, $html);
 
         } else {
             $html = $this->insertEndOfHead($tag, $html);
@@ -710,7 +713,7 @@ class Extensions
         // jquery-1.8.2.min.js
         // jquery-1.5.js
         if (!preg_match('/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/', $html)) {
-            $jqueryfile = $this->app['paths']['app']."view/js/jquery-1.8.3.min.js";
+            $jqueryfile = $this->app['paths']['app']."view/js/jquery-1.9.0.min.js";
             $html = $this->insertBeforeJs("<script src='$jqueryfile'></script>", $html);
             return $html;
         } else {

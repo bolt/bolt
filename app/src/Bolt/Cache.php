@@ -135,9 +135,70 @@ class Cache
         // @todo clear a certain cached value.
     }
 
+
+
     public function clearCache()
     {
-        // @todo clear all cached values.
+        $result = array(
+            'successfiles' => 0,
+            'failedfiles' => 0,
+            'failed' => array(),
+            'successfolders' => 0,
+            'failedfolders' => 0,
+            'log' => ''
+        );
+
+        $this->clearCacheHelper('', $result);
+
+        return $result;
+
+    }
+
+
+    private function clearCacheHelper($additional, &$result)
+    {
+
+        $currentfolder = realpath($this->dir."/".$additional);
+
+        if (!file_exists($currentfolder)) {
+            $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
+
+            return;
+        }
+
+        $d = dir($currentfolder);
+
+        while (false !== ($entry = $d->read())) {
+
+            if ($entry == "." || $entry == ".." || $entry == "index.html") {
+                continue;
+            }
+
+            if (is_file($currentfolder."/".$entry)) {
+                if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
+                    $result['successfiles']++;
+                } else {
+                    $result['failedfiles']++;
+                    $result['failed'][] = str_replace($this->dir, "cache", $currentfolder."/".$entry);
+                }
+            }
+
+            if (is_dir($currentfolder."/".$entry)) {
+
+                $this->clearCacheHelper($additional."/".$entry, $result);
+
+                if (@rmdir($currentfolder."/".$entry)) {
+                    $result['successfolders']++;
+                } else {
+                    $result['failedfolders']++;
+                }
+
+            }
+
+        }
+
+        $d->close();
+
     }
 
     private function getFilename($key)

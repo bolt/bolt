@@ -25,10 +25,11 @@ class Users
 
     public function __construct(Silex\Application $app)
     {
+        $this->app = $app;
+
         $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
 
         $this->db = $app['db'];
-        $this->app = $app;
         $this->config = $app['config'];
         $this->usertable = $prefix . "users";
         $this->users = array();
@@ -128,7 +129,6 @@ class Users
             $this->currentuser = array_merge($session, $database);
         } else {
             // no current user, return without doing the rest.
-            $this->logout();
             return false;
         }
 
@@ -270,7 +270,8 @@ class Users
     public function logout() {
         $this->session->setFlash('info', 'You have been logged out.');
         $this->session->remove('user');
-        $this->session->invalidate();
+        // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
+        // $this->session->invalidate();
 
     }
 

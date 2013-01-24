@@ -15,6 +15,10 @@
         "guzzle/guzzle": ">=2.6.2",
         "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
     },
+    "require-dev": {
+        "phpunit/php-code-coverage": "1.2.*@dev",
+        "phpunit/phpunit": "3.7.13"
+    },
     "minimum-stability": "dev",
     "autoload": {
         "psr-0": {

@@ -231,7 +231,7 @@ class Backend implements ControllerProviderInterface
      */
     function clearcache(Silex\Application $app) {
 
-        $result = clearCache();
+        $result = $app['cache']->clearCache();
 
         $output = sprintf("Deleted %s files from cache.", $result['successfiles']);
 

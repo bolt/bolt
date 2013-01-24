@@ -132,7 +132,7 @@
 
         <label>
             <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
-            <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                 data-content="Use this field to upload a photo or image. Click the button to upload a file from your
                 computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
                 from your desktop or from a different browser window. <br />
@@ -186,7 +186,7 @@ $("#field-{{key}}").autocomplete({
 
         <label>
             <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
-            <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                   data-content="Use this field to upload a file to include as a download or to use inside a page on the
                    website. Click the button to upload a file from your computer, or if you're using a recent version
                    of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
@@ -237,7 +237,7 @@ $("#field-{{key}}").autocomplete({
     <b>
         {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
     </b>
-    <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
       data-content="Use this field to upload a set of photos or image. Click the button to upload a file from your
                 computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
                 from your desktop or from a different browser window. <br />
@@ -288,7 +288,7 @@ jQuery(function($) {
         <label>
             <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
             (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
-            <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                   data-content="Use this field to embed a video inside a page on the website. Just copy/paste the
                   URL of a video-page on Youtube, Vimeo or almost any other video sharing website. <br>
                   Bolt will automatically fetch the &amp;lt;embed&amp;gt;-code, with the correct width, height and the original
@@ -360,7 +360,7 @@ jQuery(function($) {
             <div class="map-container">
                 <label>
                     <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
-                    <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+                    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                           data-content="Use this field to get the geolocation of any address, or place the marker
                           manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
                           and the corresponding latitude and longitude will be retrieved using the Google Maps API,
@@ -423,7 +423,7 @@ jQuery(function($) {
 {% if field.type == "markdown" %}
     <label>
         <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
-        <span class="label info-pop" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+        <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
               data-content="Markdown is a text-to-HTML conversion tool for web writers.
 Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
 which is then converted to structurally valid HTML.</p>

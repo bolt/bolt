@@ -27,6 +27,7 @@ function init($app)
 {
 
     $app['twig']->addFunction('disqus', new \Twig_Function_Function('Disqus\disqus'));
+    $app['twig']->addFunction('disquslink', new \Twig_Function_Function('Disqus\disquslink'));
 
 }
 
@@ -77,6 +78,44 @@ EOM;
 }
 
 
+
+function disquslink($link)
+{
+    global $app;
+
+    $yamlparser = new \Symfony\Component\Yaml\Parser();
+    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
+
+    if (empty($config['disqus_name'])) { $config['disqus_name'] = "No name set"; }
+
+    $script = <<< EOM
+<script type="text/javascript">
+var disqus_shortname = '%shortname%'; 
+(function () {
+var s = document.createElement('script'); s.async = true;
+s.type = 'text/javascript';
+s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+
+EOM;
+
+    $script = str_replace("%shortname%", $config['disqus_name'], $script);
+
+    $app['extensions']->insertSnippet('endofbody', $script);
+
+
+    // echo "<pre>\n" . \util::var_dump($app['paths'], true) . "</pre>\n";
+
+    $html = '%hosturl%%link%#disqus_thread';
+
+    $html = str_replace("%hosturl%", $app['paths']['hosturl'], $html);
+    $html = str_replace("%link%", $link, $html);
+
+    return new \Twig_Markup($html, 'UTF-8');
+
+}
 
 
 

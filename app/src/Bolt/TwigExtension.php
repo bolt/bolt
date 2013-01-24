@@ -27,9 +27,9 @@ class TwigExtension extends \Twig_Extension
     {
         return array(
             'print' => new \Twig_Function_Method($this, 'printDump', array('is_safe' => array('html'))),
-            'excerpt' => new \Twig_Function_Method($this, 'excerpt'),
-            'trimtext' => new \Twig_Function_Method($this, 'trim'),
-            'markdown' => new \Twig_Function_Method($this, 'markdown'),
+            'excerpt' => new \Twig_Function_Method($this, 'excerpt', array('is_safe' => array('html'))),
+            'trimtext' => new \Twig_Function_Method($this, 'trim', array('is_safe' => array('html'))),
+            'markdown' => new \Twig_Function_Method($this, 'markdown', array('is_safe' => array('html'))),
             'current' => new \Twig_Function_Method($this, 'current'),
             'token' => new \Twig_Function_Method($this, 'token'),
             'listtemplates' => new \Twig_Function_Method($this, 'listtemplates'),
@@ -40,9 +40,11 @@ class TwigExtension extends \Twig_Extension
             'request' => new \Twig_Function_Method($this, 'request'),
             'ismobileclient' => new \Twig_Function_Method($this, 'ismobileclient'),
             'menu' => new \Twig_Function_Method($this, 'menu', array('needs_environment' => true)),
-            'randomquote' => new \Twig_Function_Method($this, 'randomquote'),
+            'randomquote' => new \Twig_Function_Method($this, 'randomquote', array('is_safe' => array('html'))),
             'widget' => new \Twig_Function_Method($this, 'widget', array('needs_environment' => true)),
             'isallowed' => new \Twig_Function_Method($this, 'isAllowed'),
+            'first' => new \Twig_Function_Method($this, 'first'),
+            'last' => new \Twig_Function_Method($this, 'last'),
         );
     }
 
@@ -50,17 +52,19 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
+            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'),
             'rot13' => new \Twig_Filter_Method($this, 'rot13Filter'),
-            'trimtext' => new \Twig_Filter_Method($this, 'trim'),
-            'markdown' => new \Twig_Filter_Method($this, 'markdown'),
+            'trimtext' => new \Twig_Filter_Method($this, 'trim', array('is_safe' => array('html'))),
+            'markdown' => new \Twig_Filter_Method($this, 'markdown', array('is_safe' => array('html'))),
             'ucfirst' => new \Twig_Filter_Method($this, 'ucfirst'),
-            'excerpt' => new \Twig_Filter_Method($this, 'excerpt'),
+            'excerpt' => new \Twig_Filter_Method($this, 'excerpt', array('is_safe' => array('html'))),
             'current' => new \Twig_Filter_Method($this, 'current'),
             'thumbnail' => new \Twig_Filter_Method($this, 'thumbnail'),
             'image' => new \Twig_Filter_Method($this, 'image'),
             'fancybox' => new \Twig_Filter_Method($this, 'fancybox', array('is_safe' => array('html'))),
             'editable' => new \Twig_Filter_Method($this, 'editable', array('is_safe' => array('html'))),
-
+            'first' => new \Twig_Filter_Method($this, 'first'),
+            'last' => new \Twig_Filter_Method($this, 'last'),
         );
     }
 
@@ -81,6 +85,39 @@ class TwigExtension extends \Twig_Extension
 
         return $output;
 
+    }
+
+    /**
+     * Returns the date time in a particular format. Takes the locale into
+     * account.
+     * @param $dateTime
+     * @param string $format
+     * @return string
+     */
+    public function localedatetime($dateTime, $format = "%B %e, %Y %H:%M")
+    {
+        if (!$dateTime instanceof \DateTime) {
+            $dateTime = new \DateTime($dateTime);
+        }
+
+        $strftimeLocale = $this->app['locale'] . '_' . $this->app['territory'];
+        $fallbackLocale = 'en_GB, en';
+        $result = setlocale(LC_ALL, $strftimeLocale, $fallbackLocale);
+        if ($result === false){
+            // This shouldn't occur, but.. Dude!
+            // You ain't even got locale or English on your platform??
+            // Various things we could do. We could fail miserably, but a more
+            // graceful approach is to use the datetime to display a default
+            // format
+            $this->app['log']->add(
+                "No valid locale detected. Fallback on DateTime active.",
+                2
+            );
+            return utf8_encode($dateTime->format('Y-m-d H:i:s'));
+        } else {
+            $timestamp = $dateTime->getTimestamp();
+            return utf8_encode(strftime($format, $timestamp));
+        }
     }
 
 
@@ -120,7 +157,7 @@ class TwigExtension extends \Twig_Extension
 
         $output = trimText(strip_tags($output), $length) ;
 
-        return new \Twig_Markup($output, 'UTF-8');
+        return $output;
 
     }
 
@@ -132,7 +169,7 @@ class TwigExtension extends \Twig_Extension
 
         $output = trimText(strip_tags($content), $length) ;
 
-        return new \Twig_Markup($output, 'UTF-8');
+        return $output;
 
     }
 
@@ -145,7 +182,7 @@ class TwigExtension extends \Twig_Extension
         include_once __DIR__. "/../../classes/markdown.php";
         $output = Markdown($content) ;
 
-        return new \Twig_Markup($output, 'UTF-8');
+        return $output;
 
     }
 
@@ -157,6 +194,29 @@ class TwigExtension extends \Twig_Extension
         return ucfirst($str);
 
     }
+
+    /**
+     * Returns the first item of an array
+     *
+     * @param array $array
+     * @return mixed
+     */
+    public function first($array) 
+    {
+        return \util::array_first($array);
+    }
+
+    /**
+     * Returns the last item of an array
+     *
+     * @param array $array
+     * @return mixed
+     */
+    public function last($array) 
+    {
+        return \util::array_last($array);
+    }
+
 
     /**
      * Returns true, if the given content is the current content.
@@ -446,7 +506,7 @@ class TwigExtension extends \Twig_Extension
             $output = "&nbsp;";
         }
 
-        return new \Twig_Markup($output, 'UTF-8');
+        return $output;
 
     }
 
@@ -488,7 +548,7 @@ class TwigExtension extends \Twig_Extension
             $html
             );
 
-        return new \Twig_Markup($output, 'UTF-8');
+        return $output;
 
     }
 
@@ -615,7 +675,7 @@ class TwigExtension extends \Twig_Extension
 
         $quote = sprintf("“%s”\n<cite>— %s</cite>", $randomquote[0], $randomquote[1]);
 
-        return new \Twig_Markup($quote, 'UTF-8');
+        return $quote;
 
     }
 

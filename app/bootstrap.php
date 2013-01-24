@@ -10,7 +10,7 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
     }
 }
 if (!defined('BOLT_CONFIG_DIR')) {
-    define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
+    define('BOLT_CONFIG_DIR', __DIR__.'/config');
 }
 
 // First, do some low level checks, like whether autoload is present, the cache
@@ -40,13 +40,8 @@ $app = new Bolt\Application();
 $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
 $app['debugbar'] = false;
 
-if (!empty($config['general']['locale'])){
-    $app['locale'] = $config['general']['locale'];
-}
-else {
-    $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
-    $app['locale'] = $request->getLocale();
-}
+$app['locale'] = $config['general']['translation']['locale'];
+$app['territory'] = $config['general']['translation']['territory'];
 
 $app['config'] = $config;
 

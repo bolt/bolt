@@ -109,72 +109,6 @@ function cleanPostedData($var)
 }
 
 
-
-function clearCache()
-{
-    $result = array(
-        'successfiles' => 0,
-        'failedfiles' => 0,
-        'failed' => array(),
-        'successfolders' => 0,
-        'failedfolders' => 0,
-        'log' => ''
-    );
-
-    clearCacheHelper('', $result);
-
-    return $result;
-
-}
-
-
-function clearCacheHelper($additional, &$result)
-{
-    $basefolder = realpath(__DIR__."/../cache/");
-
-    $currentfolder = realpath($basefolder."/".$additional);
-
-    if (!file_exists($currentfolder)) {
-        $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
-
-        return;
-    }
-
-    $d = dir($currentfolder);
-
-    while (false !== ($entry = $d->read())) {
-
-        if ($entry == "." || $entry == ".." || $entry == "index.html") {
-            continue;
-        }
-
-        if (is_file($currentfolder."/".$entry)) {
-            if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
-                $result['successfiles']++;
-            } else {
-                $result['failedfiles']++;
-                $result['failed'][] = str_replace($basefolder, "cache", $currentfolder."/".$entry);
-            }
-        }
-
-        if (is_dir($currentfolder."/".$entry)) {
-
-            clearCacheHelper($additional."/".$entry, $result);
-
-            if (@rmdir($currentfolder."/".$entry)) {
-                $result['successfolders']++;
-            } else {
-                $result['failedfolders']++;
-            }
-
-        }
-
-    }
-
-    $d->close();
-
-}
-
 function findFiles($term, $extensions = "")
 {
     if (is_string($extensions)) {
@@ -712,6 +646,7 @@ function getConfig()
         'sitename' => 'Default Bolt site',
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
+        'translation' => array('locale' => 'en', 'territory' => 'GB'),
         'sitemap_template' => 'sitemap.twig',
         'sitemap_xml_template' => 'sitemap_xml.twig',
         'recordsperpage' => 10,
@@ -744,8 +679,7 @@ function getConfig()
     if (empty($config['general']['cookies_domain'])) {
 
         // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) &&
-            preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
+        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
             if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
                 $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
             } else {
@@ -1005,12 +939,6 @@ function getPaths($config = array())
     $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
-    if ( isset( $config['general']['theme_path'] ) ) {
-        $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
-    }
-    if ( BOLT_COMPOSER_INSTALLED ) {
-        $paths['app'] = $path_prefix . "bolt-public/";
-    }
     return $paths;
 
 }
@@ -1211,4 +1139,17 @@ function isHtml($html)
         return false;
     }
 
+}
+
+/**
+ * Replace the first occurence of a string only. Behaves like str_replace, but
+ * replaces _only_ the _first_ occurence.
+ * @see http://stackoverflow.com/a/2606638
+ */
+function str_replace_first($search, $replace, $subject) {
+    $pos = strpos($subject, $search);
+    if ($pos !== false) {
+        $subject = substr_replace($subject, $replace, $pos, strlen($search));
+    }
+    return $subject;
 }
