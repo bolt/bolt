@@ -40,8 +40,11 @@ class libTest extends \PHPUnit_Framework_TestCase {
             array("1234567890<b>123456789012345</b>67890", 20,
                 false, false, false, "1234567890<b>1234567890</b>"),
             // fix nested tags
-            array("123<i>4567890<b>12<p>345678</p>9012345</b>67</i>890", 20,
-                false, false, false, "123<i>4567890<b>12<p>345678</p>90</b></i>"),
+            array("123<i>4567890<b>123456789012345</b>67</i>890", 20,
+                false, false, false, "123<i>4567890<b>1234567890</b></i>"),
+            // wrong order tags
+            array("123<i>4567890<b>123456789012345</i>67</b>890", 20,
+                false, false, false, "123<i>4567890<b>1234567890</b></i>"),
             // tags with attributes
             array('The quick brown <a href="http://bolt.cm">fox</a> jumps over the lazy dog',
                 19, false, false, false, 'The quick brown <a href="http://www.bolt.cm">fox</a>'),
@@ -49,6 +52,9 @@ class libTest extends \PHPUnit_Framework_TestCase {
             array('http://bolt.cm', 11, false, false, false, 'http://bolt'),
             // add dots in links when link text is trimmed
             array('<a href="http://bolt.cm">Bolt is awesome</a>', 7, false, true, false,
+                '<a href="http://bolt.cm">Bolt is…</a>'),
+            // unmatching tags
+            array('<a href="http://bolt.cm">Bolt is awesome', 7, false, true, false,
                 '<a href="http://bolt.cm">Bolt is…</a>'),
         );
     }

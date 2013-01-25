@@ -614,8 +614,9 @@ function makeValuepairs($array, $key, $value)
  *
  * @param string $str string to trim
  * @param int $length position where to trim
- * @param boolean $nbsp whether to replace spaces by &nbsp; entities
- * @param boolean $hellip whether to add … at the end
+ * @param bool $nbsp whether to replace spaces by &nbsp; entities
+ * @param bool $hellip whether to add … at the end
+ * @param bool $striptags Whether or not to strip tags
  *
  * @return string trimmed string
  */
@@ -661,6 +662,57 @@ function trimText($str, $length, $nbsp = false, $hellip = true, $striptags = tru
 
     return $str;
 
+}
+
+/**
+ * Trim a text to a given length, taking html entities into account.
+ *
+ * Formerly we first removed entities (using unentify), cut the text at the
+ * wanted length and then added the entities again (using entify). This caused
+ * lot of problems so now we are using a trick from
+ * http://www.greywyvern.com/code/php/htmlwrap.phps
+ * where entities are replaced by the ACK (006) ASCII symbol, the text cut and
+ * then the entities reinserted.
+ *
+ * @param string $str string to trim
+ * @param int $length position where to trim
+ * @param bool $nbsp whether to replace spaces by &nbsp; entities
+ * @param bool $hellip whether to add … at the end
+ * @param bool $striptags Whether or not to strip tags
+ *
+ * @return string trimmed string
+ */
+function trimText2($str, $length, $nbsp = false, $hellip = true, $striptags = true){
+    //print "IN: " . $str . PHP_EOL;
+    if ($striptags) {
+        $str = strip_tags($str);
+    }
+    else {
+        require_once __DIR__ . '/htmLawed/htmLawed.php';
+        $config = array('tidy'=>1, 'schemes'=>'*:*');
+        $str = htmLawed($str, $config);
+    }
+    // The text should now be correct(ed) HTML
+    //print "OUT: " . str_replace(PHP_EOL, "", $str) . PHP_EOL;
+
+    //preg_match_all("/(<([\w]+)[^>]*>)(.*?)(<\/\\2>)/", $str, $matches, PREG_OFFSET_CAPTURE);
+    //print "matches for " . $str . PHP_EOL;
+    //print_r($matches);
+
+    $str = trim($str);
+
+    if (strlen($str)>$length) {
+        $str = substr($str, 0, $length);
+        if ($hellip) {
+            $str .= '…';
+        }
+    }
+
+    if ($nbsp==true) {
+        $str=str_replace(" ", "&nbsp;", $str);
+    }
+
+    return $str;
 }
 
 /**
