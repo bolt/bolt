@@ -1100,6 +1100,8 @@ class Storage
         if (empty($parameters['order'])) {
             if (!empty($contenttype['sort'])) {
                 $queryparams .= " ORDER BY " . $contenttype['sort'];
+            } else {
+                $queryparams .= " ORDER BY datepublish DESC";
             }
         } else {
             if ($parameters['order'] == "RANDOM") {
