@@ -1123,9 +1123,9 @@ class Storage
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        if (!$returnsingle) {
+        //if (!$returnsingle) {
              // echo "<pre>" . util::var_dump($query, true) . "</pre>";
-        }
+        //}
 
         $rows = $this->app['db']->fetchAll($query);
 

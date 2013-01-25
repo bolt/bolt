@@ -484,6 +484,14 @@ class Content implements \ArrayAccess
 
     }
 
+    /**
+     * Get the reference to this record, to uniquely identify this specific record.
+     */
+    public function getReference()
+    {
+        $reference = $this->contenttype['singular_slug'] . "/" . $this->values['slug'];
+        return $reference;
+    }
 
     /**
      * Creates a link to the content record
@@ -506,6 +514,42 @@ class Content implements \ArrayAccess
         return $link;
 
     }
+
+    /**
+     * Get the previous record. ('previous' is defined as 'latest one published before this one')
+     */
+    public function previous() {
+
+        $params = array(
+            'datepublish' => '>'.$this->values['datepublish'],
+            'limit' => 1,
+            'order' => 'datepublish ASC'
+        );
+
+        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
+
+        return $previous;
+
+    }
+
+    /**
+     * Get the next record. ('next' is defined as 'first one published after this one')
+     */
+    public function next() {
+
+        $params = array(
+            'datepublish' => '<'.$this->values['datepublish'],
+            'limit' => 1,
+            'order' => 'datepublish DESC'
+        );
+
+        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
+
+        return $next;
+
+    }
+
+
 
     /**
      * Gets one or more related records.
