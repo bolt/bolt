@@ -341,7 +341,7 @@ if ( ! class_exists( 'util' ) ) {
             if (is_object($var)) {
                 list($root) = explode("\\", get_class($var));
                 if ( (get_class($var) == "Bolt\\Application") ||in_array($root, array('Closure', 'Silex', 'Symfony'))) {
-                    $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
+                    $html = '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
                     return $html;
                 }
             }
