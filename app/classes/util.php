@@ -338,9 +338,9 @@ if ( ! class_exists( 'util' ) ) {
         {
 
             // Don't traverse into Closures or Silex / Symfony objects..
-            if (get_class($var) != "") {
+            if (is_object($var)) {
                 list($root) = explode("\\", get_class($var));
-                if ( (get_class($var) == "Bolt\Application") ||in_array($root, array('Closure', 'Silex', 'Symfony'))) {
+                if ( (get_class($var) == "Bolt\\Application") ||in_array($root, array('Closure', 'Silex', 'Symfony'))) {
                     $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
                     return $html;
                 }

@@ -3,33 +3,39 @@
 
 namespace Disqus;
 
-function info()
+
+class Extension extends \Bolt\BaseExtension
 {
+    function info()
+    {
 
-    $data = array(
-        'name' =>"Disqus",
-        'description' => "An extension to place Disqus comment threads on your site, when using <code>{{ disqus() }}</code> in your templates.",
-        'author' => "Bob den Otter",
-        'link' => "http://bolt.cm",
-        'version' => "0.9",
-        'required_bolt_version' => "0.8",
-        'highest_bolt_version' => "0.8",
-        'type' => "Twig function",
-        'first_releasedate' => "2012-10-10",
-        'latest_releasedate' => "2012-10-19",
-    );
+        $data = array(
+            'name' =>"Disqus",
+            'description' => "An extension to place Disqus comment threads on your site, when using <code>{{ disqus() }}</code> in your templates.",
+            'author' => "Bob den Otter",
+            'link' => "http://bolt.cm",
+            'version' => "1.1",
+            'required_bolt_version' => "1.0",
+            'highest_bolt_version' => "1.0",
+            'type' => "Twig function",
+            'first_releasedate' => "2012-10-10",
+            'latest_releasedate' => "2013-01-27",
+        );
 
-    return $data;
+        return $data;
+
+    }
+
+    function init()
+    {
+
+        $this->addTwigFunction('disqus', 'Disqus\disqus');
+        $this->addTwigFunction('disquslink', 'Disqus\disquslink');
+
+    }
 
 }
 
-function init($app)
-{
-
-    $app['twig']->addFunction('disqus', new \Twig_Function_Function('Disqus\disqus'));
-    $app['twig']->addFunction('disquslink', new \Twig_Function_Function('Disqus\disquslink'));
-
-}
 
 
 

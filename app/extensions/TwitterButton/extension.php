@@ -1,42 +1,52 @@
 <?php
-// Twitter Button for Bolt
+// Twitter Button for Bolt, by Bob den Otter
 
 namespace TwitterButton;
 
-function info()
+class Extension extends \Bolt\BaseExtension
 {
 
-    $data = array(
-        'name' =>"Twitter Button",
-        'description' => "A small extension to add a 'Twitter button' to your site, when using <code>{{ twitterbutton() }}</code> in your templates.",
-        'author' => "Bob den Otter",
-        'link' => "http://bolt.cm",
-        'version' => "1.0",
-        'required_bolt_version' => "0.8",
-        'highest_bolt_version' => "0.8",
-        'type' => "Twig function",
-        'first_releasedate' => "2012-10-10",
-        'latest_releasedate' => "2012-10-19",
-    );
+    function info()
+    {
 
-    return $data;
+        $data = array(
+            'name' =>"Twitter Button",
+            'description' => "A small extension to add a 'Twitter button' to your site, when using <code>{{ twitterbutton() }}</code> in your templates.",
+            'author' => "Bob den Otter",
+            'link' => "http://bolt.cm",
+            'version' => "1.1",
+            'type' => "Twig function",
+            'first_releasedate' => "2012-10-10",
+            'latest_releasedate' => "2013-01-27",
+        );
+
+        return $data;
+
+    }
+
+    function initialize()
+    {
+
+        $this->addTwigFunction('twitterbutton', 'TwitterButton\twitterButton');
+
+        /*
+        $function = new \Twig_SimpleFunction('twitterbutton', function() {
+            // No $this in scope. :-(
+        });
+        $this->app['twig']->addFunction($function);
+
+        call_user_func(array($this, 'twitterButton'));
+        */
+
+
+    }
 
 }
-
-function init($app)
-{
-
-    $app['twig']->addFunction('twitterbutton', new \Twig_Function_Function('TwitterButton\twitterButton'));
-
-}
-
-
-
-
 
 
 function twitterButton()
 {
+
     global $app;
 
     $yamlparser = new \Symfony\Component\Yaml\Parser();

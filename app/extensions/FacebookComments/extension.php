@@ -3,40 +3,49 @@
 
 namespace FacebookComments;
 
-function info()
+class Extension extends \Bolt\BaseExtension
 {
 
-    $data = array(
-        'name' =>"Facebook Comments",
-        'description' => "An extension to place Facebook comment threads on your site, when using <code>{{ facebookcomments() }}</code> in your templates.",
-        'author' => "Bob den Otter",
-        'link' => "http://bolt.cm",
-        'version' => "0.9",
-        'required_bolt_version' => "0.8",
-        'highest_bolt_version' => "0.8",
-        'type' => "Twig function",
-        'first_releasedate' => "2012-10-10",
-        'latest_releasedate' => "2012-10-19",
-    );
+    function info()
+    {
 
-    return $data;
+        $data = array(
+            'name' =>"Facebook Comments",
+            'description' => "An extension to place Facebook comment threads on your site, when using <code>{{ facebookcomments() }}</code> in your templates.",
+            'author' => "Bob den Otter",
+            'link' => "http://bolt.cm",
+            'version' => "1.1",
+            'required_bolt_version' => "1.0",
+            'highest_bolt_version' => "1.0",
+            'type' => "Twig function",
+            'first_releasedate' => "2012-10-10",
+            'latest_releasedate' => "2013-01-27",
+        );
 
-}
+        return $data;
 
-function init($app)
-{
+    }
 
-    // Make sure the script is inserted as well..
-    $app['extensions']->insertSnippet('endofbody', 'FacebookLike\facebookScript');
+    function init()
+    {
 
-    $app['twig']->addFunction('facebookcomments', new \Twig_Function_Function('FacebookComments\facebookcomments'));
+        // Make sure the script is inserted as well..
 
-}
+        // Outside of the current Extension Class.
+        $this->insertSnippet('endofbody', 'facebookScript');
 
-function facebookScript()
-{
+        // Note: the snippet does not _need_ to be in this class..
+        // $this->insertSnippet('startofbody', 'FacebookComments\facebookScript');
 
-    $html = <<< EOM
+        $this->addTwigFunction('facebookcomments', 'FacebookComments\facebookcomments');
+
+    }
+
+
+    function facebookScript()
+    {
+
+        $html = <<< EOM
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -47,10 +56,12 @@ function facebookScript()
     }(document, 'script', 'facebook-jssdk'));</script>
 EOM;
 
-    return $html;
+        return $html;
+
+    }
+
 
 }
-
 
 
 function facebookcomments($title="")

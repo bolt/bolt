@@ -1125,7 +1125,7 @@ function pcreFnmatch($pattern, $string, $flags = 0)
 }
 
 /**
- * Detect whether or not a given string is (likely) HTML. It dows this by comparing
+ * Detect whether or not a given string is (likely) HTML. It does this by comparing
  * the lengths of the strings before and after strip_tagging. If it's significantly
  * shorter, it's probably HTML.
  *

@@ -3,33 +3,38 @@
 
 namespace SimpleForms;
 
-function info()
+class Extension extends \Bolt\BaseExtension
 {
 
-    $data = array(
-        'name' =>"Simple Forms",
-        'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform() }}</code> in your templates.",
-        'author' => "Bob den Otter",
-        'link' => "http://bolt.cm",
-        'version' => "0.6",
-        'required_bolt_version' => "0.7.9",
-        'highest_bolt_version' => "0.7.9",
-        'type' => "Twig function",
-        'first_releasedate' => "2012-10-10",
-        'latest_releasedate' => "2012-10-19",
-    );
+    function info()
+    {
 
-    return $data;
+        $data = array(
+            'name' =>"Simple Forms",
+            'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform() }}</code> in your templates.",
+            'author' => "Bob den Otter",
+            'link' => "http://bolt.cm",
+            'version' => "1.1",
+            'required_bolt_version' => "1.0",
+            'highest_bolt_version' => "1.0",
+            'type' => "Twig function",
+            'first_releasedate' => "2012-10-10",
+            'latest_releasedate' => "2013-01-27",
+        );
 
-}
+        return $data;
 
-function init($app)
-{
+    }
 
-    // Make sure the css is inserted as well..
-    $app['extensions']->addCSS( $app['paths']['app'] . "extensions/SimpleForms/assets/simpleforms.css");
+    function init($app)
+    {
 
-    $app['twig']->addFunction('simpleform', new \Twig_Function_Function('SimpleForms\simpleform'));
+        // Make sure the css is inserted as well..
+        $app['extensions']->addCSS( $app['paths']['app'] . "extensions/SimpleForms/assets/simpleforms.css");
+
+        $this->addTwigFunction('simpleform', new \Twig_Function_Function('SimpleForms\simpleform'));
+
+    }
 
 }
 
