@@ -11,7 +11,7 @@ class Extension extends \Bolt\BaseExtension
 
         $data = array(
             'name' =>"Simple Forms",
-            'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform() }}</code> in your templates.",
+            'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
             'version' => "1.1",
@@ -30,7 +30,7 @@ class Extension extends \Bolt\BaseExtension
     {
 
         // Make sure the css is inserted as well..
-        $this->addCSS( $this->app['paths']['app'] . "extensions/SimpleForms/assets/simpleforms.css");
+        $this->addCSS("assets/simpleforms.css");
 
         $this->addTwigFunction('simpleform', new \Twig_Function_Function('SimpleForms\simpleform'));
 
