@@ -26,11 +26,11 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function init($app)
+    function initialize()
     {
 
         // Make sure the css is inserted as well..
-        $app['extensions']->addCSS( $app['paths']['app'] . "extensions/SimpleForms/assets/simpleforms.css");
+        $this->addCSS( $this->app['paths']['app'] . "extensions/SimpleForms/assets/simpleforms.css");
 
         $this->addTwigFunction('simpleform', new \Twig_Function_Function('SimpleForms\simpleform'));
 

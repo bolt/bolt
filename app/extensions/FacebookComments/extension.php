@@ -26,7 +26,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function init()
+    function initialize()
     {
 
         // Make sure the script is inserted as well..

@@ -28,7 +28,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function init($app) {
+    function initialize() {
 
         $this->addTwigFunction('helloworld', 'HelloWorld\twigHelloworld');
 

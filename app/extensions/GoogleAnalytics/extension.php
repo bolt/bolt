@@ -25,7 +25,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function init($app) {
+    function initialize() {
 
         $this->insertSnippet('endofhead', 'insertAnalytics');
 

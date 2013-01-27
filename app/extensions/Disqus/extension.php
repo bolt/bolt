@@ -26,7 +26,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function init()
+    function initialize()
     {
 
         $this->addTwigFunction('disqus', 'Disqus\disqus');
