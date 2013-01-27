@@ -85,9 +85,10 @@ class Content implements \ArrayAccess
                 }
             }
 
-            if ($this->fieldtype($key)=="video" && !empty($this->values[$key]['url'])) {
+            if ($this->fieldtype($key)=="video" && is_array($this->values[$key]) && !empty($this->values[$key]['url']) ) {
 
                 $video = $this->values[$key];
+
                 // update the HTML, according to given width and height
                 if (!empty($video['width']) && !empty($video['height'])) {
                     $video['html'] = preg_replace("/width=(['\"])([0-9]+)(['\"])/i", 'width=${1}'.$video['width'].'${3}', $video['html']);
