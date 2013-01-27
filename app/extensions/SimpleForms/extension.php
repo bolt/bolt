@@ -32,7 +32,7 @@ class Extension extends \Bolt\BaseExtension
         // Make sure the css is inserted as well..
         $this->addCSS("assets/simpleforms.css");
 
-        $this->addTwigFunction('simpleform', new \Twig_Function_Function('SimpleForms\simpleform'));
+        $this->addTwigFunction('simpleform', 'SimpleForms\simpleform');
 
     }
 
