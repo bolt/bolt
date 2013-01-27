@@ -295,7 +295,7 @@ class Extensions
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertSnippet($location, $callback, $extensionname, $var1 = "", $var2 = "", $var3 = "")
+    public function insertSnippet($location, $callback, $extensionname = "core", $var1 = "", $var2 = "", $var3 = "")
     {
 
         $key = md5($extensionname.$callback);
@@ -334,7 +334,7 @@ class Extensions
             // Get the snippet, either by using a callback function, or else use the
             // passed string as-is..
 
-            if (method_exists($this->initialized[$item['extension']], $item['callback'])) {
+            if ( ($item['extension']!="core") && method_exists($this->initialized[$item['extension']], $item['callback'])) {
                 // Snippet is defined in the extension itself.
                 $snippet = $this->initialized[$item['extension']]->parseSnippet($item['callback'], $item['var1'], $item['var2'], $item['var3']);
             } else if (function_exists($item['callback'])) {
