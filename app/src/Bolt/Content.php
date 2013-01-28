@@ -302,6 +302,14 @@ class Content implements \ArrayAccess
     public function setTaxonomy($taxonomytype, $value, $sortorder=0)
     {
 
+        // If $value is an array, recurse over it, adding each one by itself.
+        if (is_array($value)) {
+            foreach($value as $single) {
+                $this->setTaxonomy($taxonomytype, $single, $sortorder);
+            }
+            return;
+        }
+
         // Make sure sortorder is set correctly;
         if ($this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'] == false) {
             $sortorder = false;
