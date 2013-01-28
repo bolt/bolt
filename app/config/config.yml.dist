@@ -50,9 +50,10 @@ listing_template: listing.twig
 listing_records: 6
 listing_sort: datepublish DESC
 
-# Template for showing the search results
-search_results_template: searchresults.twig
-search_results_records: 10
+# Template for showing the search results. If not defined, uses the settings
+# for listing_template and listing_records
+#search_results_template: searchresults.twig
+#search_results_records: 10
 
 # Set the number of records to be displayed, the template to be used and how
 # many words should be used for the description (excerpt)

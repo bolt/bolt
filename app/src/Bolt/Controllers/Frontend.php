@@ -300,7 +300,7 @@ class Frontend implements ControllerProviderInterface
     public function search(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
-        $template = $app['config']['general']['search_results_template'];
+        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
 
         // @todo Preparation for stage 2
         //$resultsPP = (int) $app['config']['general']['search_results_records'];
