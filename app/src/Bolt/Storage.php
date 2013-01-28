@@ -493,7 +493,7 @@ class Storage
 
         $picked = array_slice($tags, 0, $num);
 
-        return implode(", ", $picked);
+        return $picked;
     }
 
 
@@ -1192,7 +1192,6 @@ class Storage
                 'showing_from' => ($page-1)*$limit + 1,
                 'showing_to' => ($page-1)*$limit + count($content)
             );
-
             $GLOBALS['pager'][$contenttypeslug] = $pager;
         }
 
@@ -1240,7 +1239,6 @@ class Storage
 
             // Same group, so we sort on contenttype['sort']
             $second_sort = $a->contenttype['sort'];
-            echo "[ " . $a->values[$second_sort] . " - " . $b->values[$second_sort] . " ] ";
             if ($a->values[$second_sort] == $b->values[$second_sort]) {
                 return 0;
             } else {
