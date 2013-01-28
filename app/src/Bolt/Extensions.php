@@ -159,8 +159,7 @@ class Extensions
 
                 if ($this->initialized[$extension] instanceof \Bolt\BaseExtensionInterface) {
 
-                    // Note: init is deprecated
-                    $this->initialized[$extension]->init();
+                    $this->initialized[$extension]->getConfig();
                     $this->initialized[$extension]->initialize();
 
                     // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
@@ -310,6 +309,9 @@ class Extensions
             foreach($snippets as $snippet) {
                 // Make sure 'snippet[2]' is the correct name.
                 $snippet[2] = $extensionname;
+                if (!isset($snippet[3])) { $snippet[3] = ""; }
+                if (!isset($snippet[4])) { $snippet[4] = ""; }
+                if (!isset($snippet[5])) { $snippet[5] = ""; }
                 $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3], $snippet[4], $snippet[5]);
             }
         }

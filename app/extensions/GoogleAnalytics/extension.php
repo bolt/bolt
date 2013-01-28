@@ -27,12 +27,12 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize() {
 
-        $this->insertSnippet('endofhead', 'insertAnalytics');
+        $this->addSnippet('endofhead', 'insertAnalytics');
 
         $additionalhtml = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
         $additionalhtml .= '<script>google.load("visualization", "1", {packages:["corechart"]}); </script>';
 
-        $this->insertWidget('dashboard', 'right_first', 'analyticsWidget', $additionalhtml, 3600);
+        $this->addWidget('dashboard', 'right_first', 'analyticsWidget', $additionalhtml, 3600);
 
     }
 

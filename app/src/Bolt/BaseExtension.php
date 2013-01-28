@@ -43,6 +43,9 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         $this->setBasepath();
 
+        // Don't get config just yet. Let 'Extensions' handle this when activating.
+        // $this->getConfig();
+
     }
 
     /**
@@ -58,7 +61,51 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->namespace = basename(dirname($reflection->getFileName()));
     }
 
-    public function getName() {
+    /**
+     * Get the config file. If it doesn't exist, attempt to fall back to config.yml.dist,
+     * and rename it to config.yml.
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        $configfile = $this->basepath . '/config.yml';
+        $configdistfile = $this->basepath . '/config.yml.dist';
+
+        // If it's readable, we're cool
+        if (is_readable($configfile)) {
+            $yamlparser = new \Symfony\Component\Yaml\Parser();
+            $config = $yamlparser->parse(file_get_contents($configfile));
+            return $config;
+        }
+
+        // Otherwise, check if there's a config.yml.dist
+        if (is_readable($configdistfile)) {
+            $yamlparser = new \Symfony\Component\Yaml\Parser();
+            $config = $yamlparser->parse(file_get_contents($configdistfile));
+
+            // If config.yml.dist exists, attempt to copy it to config.yml.
+            if (rename($configdistfile, $configfile)) {
+                // Success!
+                $this->app['log']->add("Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" . $this->namespace . "/config.yml'.", 2);
+            } else {
+                // Failure!!
+                $message = "Couldn't copy 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" . $this->namespace . "/config.yml': File is not writable";
+                $this->app['log']->add($message, 3);
+                $this->app['session']->setFlash('error', $message);
+            }
+
+            return $config;
+        }
+
+        // Nope. No config.
+        return false;
+
+    }
+
+
+    public function getName()
+    {
         return $this->namespace;
     }
 
@@ -104,11 +151,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Boilerplate for init()
+     * Boilerplate for init(). Deprecated, use initialize instead.
      */
     public function init()
     {
-
+        return $this->initialize();
     }
 
     /**
@@ -196,12 +243,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
     /**
      * Insert a snippet into the generated HTML. Deprecated, use addSnippet() instead.
-     *
-     * @param string $name
-     * @param string $callback
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
      */
     public function insertSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
@@ -279,9 +320,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
     }
 
-
     /**
-     * Insert a Widget (for instance, on the dashboard)
+     * Add/Insert a Widget (for instance, on the dashboard)
      *
      * @param string $type
      * @param string $location
@@ -294,9 +334,18 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @param string $var3
      * @internal param string $name
      */
-    public function insertWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
+    public function addWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
     {
         $this->app['extensions']->insertWidget($type, $location, $callback, $this->namespace, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
+    }
+
+
+    /**
+     * Deprecated function to Insert a Widget (for instance, on the dashboard). Use addWidget() instead.
+     */
+    public function insertWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
+    {
+        $this->addWidget($type, $location, $callback, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
     }
 
     /**

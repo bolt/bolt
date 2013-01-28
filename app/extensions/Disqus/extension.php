@@ -14,12 +14,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "An extension to place Disqus comment threads on your site, when using <code>{{ disqus() }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.1",
+            'version' => "1.2",
             'required_bolt_version' => "1.0",
             'highest_bolt_version' => "1.0",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2013-01-27",
+            'latest_releasedate' => "2013-01-28",
         );
 
         return $data;
@@ -29,27 +29,21 @@ class Extension extends \Bolt\BaseExtension
     function initialize()
     {
 
-        $this->addTwigFunction('disqus', 'Disqus\disqus');
-        $this->addTwigFunction('disquslink', 'Disqus\disquslink');
+        $this->addTwigFunction('disqus', 'disqus');
+        $this->addTwigFunction('disquslink', 'disquslink');
 
     }
 
-}
 
+    function disqus($title="")
+    {
 
+        $yamlparser = new \Symfony\Component\Yaml\Parser();
+        $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
 
+        if (empty($config['disqus_name'])) { $config['disqus_name'] = "No name set"; }
 
-
-function disqus($title="")
-{
-    global $app;
-
-    $yamlparser = new \Symfony\Component\Yaml\Parser();
-    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
-    if (empty($config['disqus_name'])) { $config['disqus_name'] = "No name set"; }
-
-    $html = <<< EOM
+        $html = <<< EOM
         <div id="disqus_thread"></div>
         <script type="text/javascript">
             var disqus_shortname = '%shortname%';
@@ -66,37 +60,35 @@ function disqus($title="")
 
 EOM;
 
-    if ($title!="") {
-        $title = "var disqus_title = '" . htmlspecialchars($title, ENT_QUOTES, "UTF-8") . "';\n";
-    } else {
-        $title = "";
+        if ($title!="") {
+            $title = "var disqus_title = '" . htmlspecialchars($title, ENT_QUOTES, "UTF-8") . "';\n";
+        } else {
+            $title = "";
+        }
+
+        // echo "<pre>\n" . \util::var_dump($this->app['paths'], true) . "</pre>\n";
+
+        $html = str_replace("%shortname%", $config['disqus_name'], $html);
+        $html = str_replace("%url%", $this->app['paths']['canonicalurl'], $html);
+        $html = str_replace("%title%", $title, $html);
+
+        return new \Twig_Markup($html, 'UTF-8');
+
     }
 
-    // echo "<pre>\n" . \util::var_dump($app['paths'], true) . "</pre>\n";
-
-    $html = str_replace("%shortname%", $config['disqus_name'], $html);
-    $html = str_replace("%url%", $app['paths']['canonicalurl'], $html);
-    $html = str_replace("%title%", $title, $html);
 
 
-    return new \Twig_Markup($html, 'UTF-8');
-
-}
+    function disquslink($link)
+    {
 
 
 
-function disquslink($link)
-{
-    global $app;
 
-    $yamlparser = new \Symfony\Component\Yaml\Parser();
-    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
+        if (empty($this->config['disqus_name'])) { $this->config['disqus_name'] = "No name set"; }
 
-    if (empty($config['disqus_name'])) { $config['disqus_name'] = "No name set"; }
-
-    $script = <<< EOM
+        $script = <<< EOM
 <script type="text/javascript">
-var disqus_shortname = '%shortname%'; 
+var disqus_shortname = '%shortname%';
 (function () {
 var s = document.createElement('script'); s.async = true;
 s.type = 'text/javascript';
@@ -107,21 +99,27 @@ s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
 
 EOM;
 
-    $script = str_replace("%shortname%", $config['disqus_name'], $script);
+        $script = str_replace("%shortname%", $this->config['disqus_name'], $script);
 
-    $app['extensions']->insertSnippet('endofbody', $script);
+        $this->addSnippet('endofbody', $script);
 
 
-    // echo "<pre>\n" . \util::var_dump($app['paths'], true) . "</pre>\n";
+        // echo "<pre>\n" . \util::var_dump($this->app['paths'], true) . "</pre>\n";
 
-    $html = '%hosturl%%link%#disqus_thread';
+        $html = '%hosturl%%link%#disqus_thread';
 
-    $html = str_replace("%hosturl%", $app['paths']['hosturl'], $html);
-    $html = str_replace("%link%", $link, $html);
+        $html = str_replace("%hosturl%", $this->app['paths']['hosturl'], $html);
+        $html = str_replace("%link%", $link, $html);
 
-    return new \Twig_Markup($html, 'UTF-8');
+        return new \Twig_Markup($html, 'UTF-8');
+
+    }
+
 
 }
+
+
+
 
 
 
