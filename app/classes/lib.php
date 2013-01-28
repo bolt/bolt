@@ -658,6 +658,7 @@ function getConfig()
         'debug_compresscss' => true,
         'listing_template' => 'listing.twig',
         'listing_records' => '5',
+        'listing_sort' => 'datepublish DESC',
         'wysiwyg_images' => false,
         'wysiwyg_tables' => false,
         'wysiwyg_embed' => false,

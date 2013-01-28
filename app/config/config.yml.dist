@@ -48,6 +48,7 @@ recordsperpage: 10
 # Can be overridden for each contenttype.
 listing_template: listing.twig
 listing_records: 6
+listing_sort: datepublish DESC
 
 # Template for showing the search results
 search_results_template: searchresults.twig
