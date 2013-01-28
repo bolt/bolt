@@ -144,7 +144,7 @@ class Frontend implements ControllerProviderInterface
         $page = $app['request']->query->get('page', 1);
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']['general']['listing_sort']);
-        $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, ));
+        $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         if (!$content) {
             $app->abort(404, "Content for '$contenttypeslug' not found.");

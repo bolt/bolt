@@ -1044,7 +1044,7 @@ class Storage
             $parameters['slug'] = $match[2];
             $returnsingle = true;
         } elseif (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/lorem-ipsum-dolor'
+            // like 'page/latest/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
             $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
