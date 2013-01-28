@@ -32,16 +32,13 @@ class Extension extends \Bolt\BaseExtension
         $this->addTwigFunction('disqus', 'disqus');
         $this->addTwigFunction('disquslink', 'disquslink');
 
+        if (empty($this->config['disqus_name'])) { $this->config['disqus_name'] = "No name set"; }
+
     }
 
 
-    function disqus($title="")
+function disqus($title="")
     {
-
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
-        if (empty($config['disqus_name'])) { $config['disqus_name'] = "No name set"; }
 
         $html = <<< EOM
         <div id="disqus_thread"></div>
@@ -66,9 +63,7 @@ EOM;
             $title = "";
         }
 
-        // echo "<pre>\n" . \util::var_dump($this->app['paths'], true) . "</pre>\n";
-
-        $html = str_replace("%shortname%", $config['disqus_name'], $html);
+        $html = str_replace("%shortname%", $this->config['disqus_name'], $html);
         $html = str_replace("%url%", $this->app['paths']['canonicalurl'], $html);
         $html = str_replace("%title%", $title, $html);
 
@@ -80,11 +75,6 @@ EOM;
 
     function disquslink($link)
     {
-
-
-
-
-        if (empty($this->config['disqus_name'])) { $this->config['disqus_name'] = "No name set"; }
 
         $script = <<< EOM
 <script type="text/javascript">
@@ -102,9 +92,6 @@ EOM;
         $script = str_replace("%shortname%", $this->config['disqus_name'], $script);
 
         $this->addSnippet('endofbody', $script);
-
-
-        // echo "<pre>\n" . \util::var_dump($this->app['paths'], true) . "</pre>\n";
 
         $html = '%hosturl%%link%#disqus_thread';
 
