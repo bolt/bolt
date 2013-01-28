@@ -85,7 +85,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $config = $yamlparser->parse(file_get_contents($configdistfile));
 
             // If config.yml.dist exists, attempt to copy it to config.yml.
-            if (rename($configdistfile, $configfile)) {
+            if (copy($configdistfile, $configfile)) {
                 // Success!
                 $this->app['log']->add("Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" . $this->namespace . "/config.yml'.", 2);
             } else {
