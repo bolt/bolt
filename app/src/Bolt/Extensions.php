@@ -324,7 +324,7 @@ class Extensions
     public function insertSnippet($location, $callback, $extensionname = "core", $var1 = "", $var2 = "", $var3 = "")
     {
 
-        $key = md5($extensionname.$callback);
+        $key = md5($extensionname.$callback.$location);
 
         // http://php.net/manual/en/function.func-get-args.php
 
