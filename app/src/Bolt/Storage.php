@@ -455,8 +455,13 @@ class Storage
                     $options = $this->app['config']['taxonomy'][$taxonomy]['options'];
                     $contentobject->setTaxonomy($taxonomy, $options[array_rand($options)]);
                 }
+                if ( isset($this->app['config']['taxonomy'][$taxonomy]['behaves_like']) &&
+                    ($this->app['config']['taxonomy'][$taxonomy]['behaves_like'] == "tags") ) {
+                    $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
+                }
             }
         }
+
 
         $this->saveContent($contentobject);
 
@@ -464,6 +469,31 @@ class Storage
 
         return $output;
 
+    }
+
+    private function getSomeRandomTags($num = 5)
+    {
+
+        $tags = array("action", "adult", "adventure", "alpha", "animals", "animation", "anime", "architecture", "art",
+            "astronomy", "baby", "batshitinsane", "biography", "biology", "book", "books", "business", "business",
+            "camera", "cars", "cats", "cinema", "classic", "comedy", "comics", "computers", "cookbook", "cooking",
+            "crime", "culture", "dark", "design", "digital", "documentary", "dogs", "drama", "drugs", "education",
+            "environment", "evolution", "family", "fantasy", "fashion", "fiction", "film", "fitness", "food",
+            "football", "fun", "gaming", "gift", "health", "hip", "historical", "history", "horror", "humor",
+            "illustration", "inspirational", "internet", "journalism", "kids", "language", "law", "literature", "love",
+            "magic", "math", "media", "medicine", "military", "money", "movies", "mp3", "murder", "music", "mystery",
+            "news", "nonfiction", "nsfw", "paranormal", "parody", "philosophy", "photography", "photos", "physics",
+            "poetry", "politics", "post-apocalyptic", "privacy", "psychology", "radio", "relationships", "research",
+            "rock", "romance", "rpg", "satire", "science", "sciencefiction", "scifi", "security", "self-help",
+            "series", "software", "space", "spirituality", "sports", "story", "suspense", "technology", "teen",
+            "television", "terrorism", "thriller", "travel", "tv", "uk", "urban", "us", "usa", "vampire", "video",
+            "videogames", "war", "web", "women", "world", "writing", "wtf", "zombies");
+
+        shuffle($tags);
+
+        $picked = array_slice($tags, 0, $num);
+
+        return implode(", ", $picked);
     }
 
 
@@ -1125,9 +1155,9 @@ class Storage
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        //if (!$returnsingle) {
-             // echo "<pre>" . util::var_dump($query, true) . "</pre>";
-        //}
+        if (!$returnsingle) {
+             \util::var_dump($query);
+        }
 
         $rows = $this->app['db']->fetchAll($query);
 
@@ -1198,23 +1228,25 @@ class Storage
     {
         if ($a->group == $b->group) {
 
-            if (empty($a->sortorder)) {
-                return -1;
-            } else if (empty($b->sortorder)) {
-                return 1;
-            } else if ($a->sortorder != $b->sortorder) {
-                return ($a->sortorder < $b->sortorder) ? -1 : 1;
-            };
+            if (!empty($a->sortorder) || !empty($b->sortorder)) {
+                if (empty($a->sortorder) ) {
+                    return -1;
+                } else if (empty($b->sortorder)) {
+                    return 1;
+                } else {
+                    return ($a->sortorder < $b->sortorder) ? -1 : 1;
+                }
+            }
 
             // Same group, so we sort on contenttype['sort']
             $second_sort = $a->contenttype['sort'];
+            echo "[ " . $a->values[$second_sort] . " - " . $b->values[$second_sort] . " ] ";
             if ($a->values[$second_sort] == $b->values[$second_sort]) {
                 return 0;
             } else {
                 return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
             }
         }
-
         return ($a->group < $b->group) ? -1 : 1;
     }
 
