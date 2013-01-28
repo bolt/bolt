@@ -1022,6 +1022,63 @@ class Storage
 
     }
 
+    /**
+     * Retrieve content from the database, filtered on taxonomy.
+     */
+    public function getContentByTaxonomy($taxonomytype, $slug, $parameters = "")
+    {
+
+        $tablename = $this->prefix . "taxonomy";
+
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
+        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+
+        $where = " WHERE (taxonomytype=". $this->app['db']->quote($taxonomytype) . " AND slug=". $this->app['db']->quote($slug) .")";
+
+        // Make the query for the pager..
+        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
+
+        // Add the limit
+        $query = "SELECT * FROM $tablename" . $where . sprintf(" ORDER BY id DESC LIMIT %s, %s;", ($page-1)*$limit, $limit);
+
+        $taxorows = $this->app['db']->fetchAll($query);
+
+        $content = array();
+
+        if (is_array($taxorows)) {
+            foreach($taxorows as $row) {
+                $record = $this->getContent($row['contenttype']."/".$row['content_id']);
+                if ($record instanceof \Bolt\Content) {
+                    $content[] = $record;
+                }
+            }
+        }
+
+        // Set up the $pager array with relevant values..
+        $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
+        $pager = array(
+            'for' => $contenttypeslug,
+            'count' => $rowcount['count'],
+            'totalpages' => ceil($rowcount['count'] / $limit),
+            'current' => $page,
+            'showing_from' => ($page-1)*$limit + 1,
+            'showing_to' => ($page-1)*$limit + count($taxorows)
+        );
+        $GLOBALS['pager'][$contenttypeslug] = $pager;
+
+        return $content;
+
+    }
+
+    /**
+     * Retrieve content from the database.
+     *
+     * @param string $contenttypeslug
+     * @param string $parameters
+     * @param array $pager
+     * @param array $whereparameters
+     * @return array|Content|bool|mixed
+     */
     public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
 
@@ -1380,7 +1437,7 @@ class Storage
 
 
     /**
-     * Get an value to use in 'assert() with the available contenttypes
+     * Get a value to use in 'assert() with the available contenttypes
      *
      * @return string $contenttypes
      */
@@ -1389,6 +1446,27 @@ class Storage
 
         $slugs = array();
         foreach ($this->app['config']['contenttypes'] as $type) {
+            $slugs[] = $type['slug'];
+            if ($includesingular) {
+                $slugs[] = $type['singular_slug'];
+            }
+        }
+
+        return implode("|", $slugs);
+
+    }
+
+
+    /**
+     * Get a value to use in 'assert() with the available taxonomytypes
+     *
+     * @return string $taxonomytypes
+     */
+    public function getTaxonomyTypeAssert($includesingular = false)
+    {
+
+        $slugs = array();
+        foreach ($this->app['config']['taxonomy'] as $type) {
             $slugs[] = $type['slug'];
             if ($includesingular) {
                 $slugs[] = $type['singular_slug'];
