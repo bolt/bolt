@@ -37,13 +37,11 @@ class Extension extends \Bolt\BaseExtension
     }
 
 
-    function insertAnalytics() {
+    function insertAnalytics()
+    {
 
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
-        if (empty($config['webproperty'])) {
-            $config['webproperty'] = "property-not-set";
+        if (empty($this->config['webproperty'])) {
+            $this->config['webproperty'] = "property-not-set";
         }
 
         $html = <<< EOM
@@ -64,9 +62,8 @@ class Extension extends \Bolt\BaseExtension
     </script>
 EOM;
 
-        $html = str_replace("%webproperty%", $config['webproperty'], $html);
+        $html = str_replace("%webproperty%", $this->config['webproperty'], $html);
         $html = str_replace("%domainname%", $_SERVER['HTTP_HOST'], $html);
-
 
         return new \Twig_Markup($html, 'UTF-8');
 
@@ -77,39 +74,37 @@ EOM;
 
     function analyticsWidget()
     {
-        global $app;
-
         // http://ga-dev-tools.appspot.com/explorer/
         // http://code.google.com/p/gapi-google-analytics-php-interface/
         // http://www.codediesel.com/php/reading-google-analytics-data-from-php/
         // http://code.google.com/p/gapi-google-analytics-php-interface/wiki/UsingFilterControl
 
         $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
+        $this->config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
 
-        if (empty($config['ga_email'])) { return "ga_email not set in config.yml."; }
-        if (empty($config['ga_password'])) { return "ga_password not set in config.yml."; }
-        if (empty($config['ga_profile_id'])) { return "ga_profile_id not set in config.yml."; }
-        if (!empty($config['filter_referral'])) {
-            $filter_referral = 'source !@ "'.$config['filter_referral'].'"';
+        if (empty($this->config['ga_email'])) { return "ga_email not set in config.yml."; }
+        if (empty($this->config['ga_password'])) { return "ga_password not set in config.yml."; }
+        if (empty($this->config['ga_profile_id'])) { return "ga_profile_id not set in config.yml."; }
+        if (!empty($this->config['filter_referral'])) {
+            $filter_referral = 'source !@ "'.$this->config['filter_referral'].'"';
         } else {
             $filter_referral = '';
         }
-        if (empty($config['number_of_days'])) {
-            $config['number_of_days'] = 14;
+        if (empty($this->config['number_of_days'])) {
+            $this->config['number_of_days'] = 14;
         }
 
         require_once(__DIR__.'/gapi/gapi.class.php');
 
         /* Create a new Google Analytics request and pull the results */
-        $ga = new \gapi($config['ga_email'], $config['ga_password']);
+        $ga = new \gapi($this->config['ga_email'], $this->config['ga_password']);
         $ga->requestReportData(
-            $config['ga_profile_id'],
+            $this->config['ga_profile_id'],
             array('date'),
             array('pageviews', 'visitors', 'uniquePageviews', 'pageviewsPerVisit', 'exitRate', 'avgTimeOnPage', 'entranceBounceRate', 'newVisits'),
             'date',
             '',
-            date('Y-m-d', strtotime('-' . $config['number_of_days'] .' day')),
+            date('Y-m-d', strtotime('-' . $this->config['number_of_days'] .' day')),
             date('Y-m-d')
         );
 
@@ -152,12 +147,12 @@ EOM;
 
         // Get the 'populair sources'
         $ga->requestReportData(
-            $config['ga_profile_id'],
+            $this->config['ga_profile_id'],
             array('source','referralPath'),
             array('visits'),
             '-visits',
             $filter_referral,
-            date('Y-m-d', strtotime('-' . $config['number_of_days'] .' day')),
+            date('Y-m-d', strtotime('-' . $this->config['number_of_days'] .' day')),
             date('Y-m-d'),
             1,
             12
@@ -184,12 +179,12 @@ EOM;
 
         // Get the 'popular pages'
         $ga->requestReportData(
-            $config['ga_profile_id'],
+            $this->config['ga_profile_id'],
             array('hostname','pagePath'),
             array('visits'),
             '-visits',
             '',
-            date('Y-m-d', strtotime('-' . $config['number_of_days'] .' day')),
+            date('Y-m-d', strtotime('-' . $this->config['number_of_days'] .' day')),
             date('Y-m-d'),
             1,
             12
@@ -206,11 +201,11 @@ EOM;
         }
 
         $caption = sprintf("Google Analytics for %s - %s.",
-            date('M d', strtotime('-' . $config['number_of_days'] .' day')),
+            date('M d', strtotime('-' . $this->config['number_of_days'] .' day')),
             date('M d')
         );
 
-        $html = $app['twig']->render("GoogleAnalytics/widget.twig", array(
+        $html = $this->app['twig']->render("GoogleAnalytics/widget.twig", array(
             'caption' => $caption,
             'aggr' => $aggr,
             'pageviews' => $pageviews,

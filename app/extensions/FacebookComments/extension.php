@@ -19,7 +19,7 @@ class Extension extends \Bolt\BaseExtension
             'highest_bolt_version' => "1.0",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2013-01-27",
+            'latest_releasedate' => "2013-01-28",
         );
 
         return $data;
@@ -28,17 +28,7 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize()
     {
-
-        //$this->addTwigFunction('facebookcomments', 'facebookcomments');
-
-
-        // Make sure the script is inserted as well..
-        // Outside of the current Extension Class.
-        // $this->addSnippet('endofbody', 'facebookScript');
-
-        // Note: the snippet does not _need_ to be in this class..
-        // $this->insertSnippet('startofbody', array('FacebookComments\blabla','facebookScript'));
-
+        // Nothing here.. Note: This extension defines the snippets and functions in getSnippets() and getFunctions()
     }
 
     /**
@@ -52,7 +42,6 @@ class Extension extends \Bolt\BaseExtension
         );
     }
 
-
     /**
      * Return the available Twig Functions
      * @return array
@@ -60,7 +49,7 @@ class Extension extends \Bolt\BaseExtension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('facebookcomments', array($this, 'facebookcomments'))
+            new \Twig_SimpleFunction('facebookcomments', array($this, 'facebookComments'))
         );
     }
 
@@ -84,35 +73,24 @@ class Extension extends \Bolt\BaseExtension
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 EOM;
-
         return $html;
 
     }
 
+
     /**
      * Callback for Twig function 'facebookcomments'.
      */
-    function facebookcomments($title="")
+    function facebookComments($title="")
     {
 
-        echo \util::var_dump($this->app, true);
-
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
-        if (empty($config['width'])) { $config['width'] = "470"; }
+        if (empty($this->config['width'])) { $this->config['width'] = "470"; }
 
         $html = <<< EOM
         <div class="fb-comments" data-href="%url%" data-num-posts="1" data-width="%width%"></div>
 EOM;
 
-        if ($title!="") {
-            $title = "var disqus_title = '" . htmlspecialchars($title, ENT_QUOTES, "UTF-8") . "';\n";
-        } else {
-            $title = "";
-        }
-
-        $html = str_replace("%width%", $config['width'], $html);
+        $html = str_replace("%width%", $this->config['width'], $html);
         $html = str_replace("%url%", $this->app['paths']['canonicalurl'], $html);
 
         return new \Twig_Markup($html, 'UTF-8');

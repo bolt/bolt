@@ -21,14 +21,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "Allows some shortcuts and nicer urls like example.org/about to link through to example.org/page/about",
             'author' => "WeDesignIt, Patrick van Kouteren",
             'link' => "http://www.wedesignit.nl",
-            'version' => "0.1",
-            'required_bolt_version' => "0.7.10",
-            'highest_bolt_version' => "0.7.10",
+            'version' => "0.2",
+            'required_bolt_version' => "1.0 RC",
+            'highest_bolt_version' => "1.0 RC",
             'type' => "General",
             'first_releasedate' => "2012-11-06",
-            'latest_releasedate' => "2012-11-06",
-            'dependancies' => "",
-            'priority' => 10
+            'latest_releasedate' => "2013-01-28"
         );
 
         return $data;

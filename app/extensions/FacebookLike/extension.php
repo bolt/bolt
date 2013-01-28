@@ -29,8 +29,14 @@ class Extension extends \Bolt\BaseExtension
     function initialize()
     {
 
+        if (empty($this->config['style'])) { $this->config['style'] = "standard"; }
+        if (empty($this->config['width'])) { $this->config['width'] = "350px"; }
+        if (empty($this->config['verb'])) { $this->config['verb'] = "like"; }
+        if (empty($this->config['scheme'])) { $this->config['scheme'] = "light"; }
+        if (empty($this->config['url'])) { $this->config['url'] = $this->app['paths']['canonicalurl']; }
+
         $this->insertSnippet('endofbody', 'facebookScript');
-        $this->addTwigFunction('facebooklike', 'FacebookLike\facebookLike');
+        $this->addTwigFunction('facebooklike', 'facebookLike');
 
     }
 
@@ -52,39 +58,29 @@ EOM;
     }
 
 
-}
 
 
-function facebookLike()
-{
-    global $app;
-    
-    $yamlparser = new \Symfony\Component\Yaml\Parser();
-    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
+    function facebookLike()
+    {
 
-    if (empty($config['style'])) { $config['style'] = "standard"; }
-    if (empty($config['width'])) { $config['width'] = "350px"; }
-    if (empty($config['verb'])) { $config['verb'] = "like"; }
-    if (empty($config['scheme'])) { $config['scheme'] = "light"; }
-    if (empty($config['url'])) { 
-        $config['url'] = $app['paths']['canonicalurl'];
-    }
+        // code from http://developers.facebook.com/docs/reference/plugins/like/
 
-    // code from http://developers.facebook.com/docs/reference/plugins/like/
-
-    $html = <<< EOM
+        $html = <<< EOM
     <div class="fb-like" data-href="%url%" data-send="false" data-layout="%style%" data-width="%width%"
     data-show-faces="false" data-action="%verb%" data-colorscheme="%scheme%"></div>
 EOM;
-    // data-href="http://example.org"
+        // data-href="http://example.org"
 
-    $html = str_replace("%url%", $config['url'], $html);
-    $html = str_replace("%style%", $config['style'], $html);
-    $html = str_replace("%width%", $config['width'], $html);
-    $html = str_replace("%verb%", $config['verb'], $html);
-    $html = str_replace("%scheme%", $config['scheme'], $html);
+        $html = str_replace("%url%", $this->config['url'], $html);
+        $html = str_replace("%style%", $this->config['style'], $html);
+        $html = str_replace("%width%", $this->config['width'], $html);
+        $html = str_replace("%verb%", $this->config['verb'], $html);
+        $html = str_replace("%scheme%", $this->config['scheme'], $html);
 
-    return new \Twig_Markup($html, 'UTF-8');
+        return new \Twig_Markup($html, 'UTF-8');
+
+    }
+
 
 }
 

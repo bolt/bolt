@@ -20,8 +20,6 @@ class Extension extends \Bolt\BaseExtension
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
             'latest_releasedate' => "2013-01-27",
-            'dependencies' => "",
-            'priority' => 10
         );
 
         return $data;
@@ -30,31 +28,29 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize() {
 
-        $this->addTwigFunction('helloworld', 'HelloWorld\twigHelloworld');
+        $this->addTwigFunction('helloworld', 'twigHelloworld');
 
     }
 
-}
+    function twigHelloworld($name="") {
 
-function twigHelloworld($name="") {
-
-    $yamlparser = new \Symfony\Component\Yaml\Parser();
-    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
-    // if $name isn't set, use the one from the config.yml. Unless that's empty too, then use "world".
-    if (empty($name)) {
-        if (!empty($config['name'])) {
-            $name = $config['name'];
-        } else {
-            $name = "World";
+        // if $name isn't set, use the one from the config.yml. Unless that's empty too, then use "world".
+        if (empty($name)) {
+            if (!empty($this->config['name'])) {
+                $name = $this->config['name'];
+            } else {
+                $name = "World";
+            }
         }
+
+        $html = "Hello, ". $name ."!";
+
+        return new \Twig_Markup($html, 'UTF-8');
+
     }
 
-    $html = "Hello, ". $name ."!";
-
-    return new \Twig_Markup($html, 'UTF-8');
-    
 }
+
 
 
 

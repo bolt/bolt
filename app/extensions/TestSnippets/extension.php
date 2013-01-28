@@ -27,28 +27,37 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize() {
 
-        $this->insertSnippet('endofhead', 'TestSnippets\callback', "endofhead");
-        $this->insertSnippet('endofhead', "<!-- inserted string snippet endofhead -->");
-
-        $this->insertSnippet('aftermeta', 'TestSnippets\callback', "aftermeta");
-        $this->insertSnippet('aftermeta', "<!-- inserted string snippet aftermeta -->");
-
-        $this->insertSnippet('aftercss', 'TestSnippets\callback', "aftercss");
-        $this->insertSnippet('aftercss', "<!-- inserted string snippet aftercss -->");
-
-        $this->insertSnippet('startofhead', 'TestSnippets\callback', "startofhead");
+        $this->insertSnippet('startofhead', 'callback', "startofhead");
         $this->insertSnippet('startofhead', "<!-- inserted string snippet startofhead -->");
 
-        $this->insertSnippet('startofbody', 'TestSnippets\callback', "startofbody");
+        $this->insertSnippet('endofhead', 'callback', "endofhead");
+        $this->insertSnippet('endofhead', "<!-- inserted string snippet endofhead -->");
+
+        $this->insertSnippet('aftermeta', 'callback', "aftermeta");
+        $this->insertSnippet('aftermeta', "<!-- inserted string snippet aftermeta -->");
+
+        $this->insertSnippet('beforecss', 'callback', "beforecss");
+        $this->insertSnippet('beforecss', "<!-- inserted string snippet beforecss -->");
+
+        $this->insertSnippet('aftercss', 'callback', "aftercss");
+        $this->insertSnippet('aftercss', "<!-- inserted string snippet aftercss -->");
+
+        $this->insertSnippet('beforejs', 'callback', "beforejs");
+        $this->insertSnippet('beforejs', "<!-- inserted string snippet beforejs -->");
+
+        $this->insertSnippet('afterjs', 'callback', "afterjs");
+        $this->insertSnippet('afterjs', "<!-- inserted string snippet afterjs -->");
+
+        $this->insertSnippet('startofbody', 'callback', "startofbody");
         $this->insertSnippet('startofbody', "<!-- inserted string snippet startofbody -->");
 
-        $this->insertSnippet('endofbody', 'TestSnippets\callback', "endofbody");
+        $this->insertSnippet('endofbody', 'callback', "endofbody");
         $this->insertSnippet('endofbody', "<!-- inserted string snippet endofbody -->");
 
-        $this->insertSnippet('endofhtml', 'TestSnippets\callback', "endofhtml");
+        $this->insertSnippet('endofhtml', 'callback', "endofhtml");
         $this->insertSnippet('endofhtml', "<!-- inserted string snippet endofhtml -->");
 
-        $this->insertSnippet('afterhtml', 'TestSnippets\callback', "afterhtml");
+        $this->insertSnippet('afterhtml', 'callback', "afterhtml");
         $this->insertSnippet('afterhtml', "<!-- inserted string snippet afterhtml -->");
 
     }
