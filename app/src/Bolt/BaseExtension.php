@@ -2,11 +2,22 @@
 
 namespace Bolt;
 
-abstract class BaseExtension
+interface BaseExtensionInterface
+{
+    public function __construct(Application $app);
+    public function initialize();
+    public function getInfo();
+}
+
+
+abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
 {
     protected $app;
     protected $basepath;
     protected $namespace;
+    protected $functionlist;
+    protected $filterlist;
+    protected $snippetlist;
 
     public function __construct(Application $app)
     {
@@ -45,6 +56,10 @@ abstract class BaseExtension
         $reflection = new \ReflectionClass($this);
         $this->basepath = dirname($reflection->getFileName());
         $this->namespace = basename(dirname($reflection->getFileName()));
+    }
+
+    public function getName() {
+        return $this->namespace;
     }
 
     /**
@@ -105,6 +120,17 @@ abstract class BaseExtension
     }
 
     /**
+     * Return the available Twig Functions, override for \Twig_extension::getFunctions
+     * @return array
+     */
+    public function getFunctions()
+    {
+
+        return $this->functionlist;
+
+    }
+
+    /**
      * Add a Twig Function
      *
      * @param string $name
@@ -113,7 +139,19 @@ abstract class BaseExtension
     public function addTwigFunction($name, $callback)
     {
 
-        $this->app['twig']->addFunction($name, new \Twig_Function_Function($callback));
+        $this->functionlist[] = new \Twig_SimpleFunction($name, array($this, $callback));
+
+    }
+
+
+    /**
+     * Return the available Twig Filters, override for \Twig_extension::getFilters
+     * @return array
+     */
+    public function getFilters()
+    {
+
+        return $this->filterlist;
 
     }
 
@@ -126,10 +164,20 @@ abstract class BaseExtension
     public function addTwigFilter($name, $callback)
     {
 
-        $this->app['twig']->addFunction($name, new \Twig_Function_Function($callback));
+        $this->functionlist[] = new \Twig_SimpleFilter($name, array($this, $callback));
 
     }
 
+
+    /**
+     * Return the available Snippets, used in \Bolt\Extensions
+     *
+     * @return array
+     */
+    public function getSnippets()
+    {
+        return $this->snippetlist;
+    }
 
     /**
      * Insert a snippet into the generated HTML.
@@ -140,10 +188,26 @@ abstract class BaseExtension
      * @param string $var2
      * @param string $var3
      */
+    public function addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
+    {
+        $this->snippetlist[] = array($name, $callback, $this->namespace, $var1, $var2, $var3);
+    }
+
+
+    /**
+     * Insert a snippet into the generated HTML. Deprecated, use addSnippet() instead.
+     *
+     * @param string $name
+     * @param string $callback
+     * @param string $var1
+     * @param string $var2
+     * @param string $var3
+     */
     public function insertSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->app['extensions']->insertSnippet($name, $callback, $this->namespace, $var1, $var2, $var3);
+        $this->addSnippet($name, $callback, $var1, $var2, $var3);
     }
+
 
     /**
      * Make sure jQuery is added.

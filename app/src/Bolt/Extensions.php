@@ -157,11 +157,19 @@ class Extensions
                 $classname = '\\' . $extension . '\\Extension';
                 $this->initialized[$extension] = new $classname($this->app);
 
-                // Note: init is deprecated
-                $this->initialized[$extension]->init();
-                $this->initialized[$extension]->initialize();
+                if ($this->initialized[$extension] instanceof \Bolt\BaseExtensionInterface) {
 
+                    // Note: init is deprecated
+                    $this->initialized[$extension]->init();
+                    $this->initialized[$extension]->initialize();
 
+                    // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
+                    $this->getSnippets($extension);
+
+                    if ($this->initialized[$extension] instanceof \Twig_Extension) {
+                        $this->app['twig']->addExtension($this->initialized[$extension]);
+                    }
+                }
             }
 
 
@@ -291,6 +299,22 @@ class Extensions
         return "Invalid key '$key'. No widget found.";
     }
 
+    /**
+     * Call the 'getSnippets' function of an initialized extension, and make sure the snippets are initialized
+     */
+    public function getSnippets($extensionname) {
+
+        $snippets = $this->initialized[$extensionname]->getSnippets();
+
+        if (!empty($snippets)) {
+            foreach($snippets as $snippet) {
+                // Make sure 'snippet[2]' is the correct name.
+                $snippet[2] = $extensionname;
+                $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3], $snippet[4], $snippet[5]);
+            }
+        }
+
+    }
 
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
@@ -299,6 +323,8 @@ class Extensions
     {
 
         $key = md5($extensionname.$callback);
+
+        // http://php.net/manual/en/function.func-get-args.php
 
         $this->snippetqueue[$key] = array(
             'location' => $location,
