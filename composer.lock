@@ -826,12 +826,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing",
-                "reference": "v2.2.0-BETA2"
+                "reference": "de9d64780254f45cfa9d9e49602d0a63acf45f75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Routing/archive/v2.2.0-BETA2.zip",
-                "reference": "v2.2.0-BETA2",
+                "url": "https://github.com/symfony/Routing/archive/de9d64780254f45cfa9d9e49602d0a63acf45f75.zip",
+                "reference": "de9d64780254f45cfa9d9e49602d0a63acf45f75",
                 "shasum": ""
             },
             "require": {
@@ -849,7 +849,7 @@
                 "symfony/config": "2.2.*",
                 "symfony/yaml": "2.2.*"
             },
-            "time": "2013-01-21 16:57:32",
+            "time": "2013-01-28 09:55:07",
             "type": "library",
             "extra": {
                 "branch-alias": {
