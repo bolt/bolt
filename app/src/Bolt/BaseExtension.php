@@ -155,7 +155,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function init()
     {
-        return $this->initialize();
+
     }
 
     /**
@@ -163,7 +163,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function initialize()
     {
-
+        // call deprecated function
+        return $this->init();
     }
 
     /**
