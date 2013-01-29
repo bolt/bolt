@@ -155,6 +155,12 @@ class Extensions
                 include_once($filename);
 
                 $classname = '\\' . $extension . '\\Extension';
+
+                if (!class_exists($classname)) {
+                    $this->app['log']->add("Couldn't initialize $extension: Class '$classname' doesn't exist", 3);
+                    return;
+                }
+
                 $this->initialized[$extension] = new $classname($this->app);
 
                 if ($this->initialized[$extension] instanceof \Bolt\BaseExtensionInterface) {
