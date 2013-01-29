@@ -10,7 +10,10 @@ jQuery(function($) {
     });
 
     // Initialize the Fancybox shizzle.
-    $('.fancybox').fancybox({ });
+    $('.fancybox').fancybox({
+        margin: [ 20, 20, 40, 20],
+        helpers: { overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.5)' } } }
+    });
 
     // Helper to make things like '<button data-action="eventView.load()">' work
     $('button, input[type=button]').on('click', function(e){

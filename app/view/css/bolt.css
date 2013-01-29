@@ -183,6 +183,10 @@ hr {
     margin: 0 4px;
 }
 
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.5;
+}
+
 footer  {
     margin-top: 30px;
     position: fixed;
