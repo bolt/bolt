@@ -45,7 +45,7 @@ class Frontend implements ControllerProviderInterface
         $ctr->match('/{taxonomytype}/{slug}', array($this, 'taxonomy'))
             ->before(array($this, 'before'))
             ->assert('taxonomytype', $app['storage']->getTaxonomyTypeAssert(true))
-            ->bind('contentlink')
+            ->bind('taxonomylink')
         ;
 
         $ctr->match('/{contenttypeslug}', array($this, 'listing'))
