@@ -3,7 +3,7 @@
 {# --------------- prefix --------------- #}
 {% if field.prefix is defined and field.prefix is not empty %}
 <div class='clearfix'>
-    {{ field.prefix }}
+    {{ field.prefix|raw }}
 </div>
 {% endif %}
 
@@ -489,7 +489,7 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 
 {% if field.postfix is defined and field.postfix is not empty %}
     <div class='clearfix'>
-        {{ field.postfix }}
+        {{ field.postfix|raw }}
     </div>
 {% endif %}
 
