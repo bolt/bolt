@@ -76,17 +76,7 @@ templates. 'entry.twig' is much more straightforward.
     {% endif %}
 
 
-    {# print taxonomy, if there is any. #}
-    {% if record.taxonomy is defined %}
-        <p>Taxonomy:</p>
-        <ul>
-        {% for type, values in record.taxonomy %}
-            <li><strong>{{ type }}</strong>: {{ values|join(", ") }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-
-    <p class="meta">Posted by {{ record.user.displayname }} on {{ record.datepublish|date("M d, ’y")}}</p>
+    {% include '_recordfooter.twig' with {record: record} %}
 
     <p class="meta">
         {% set previous = record.previous() %}

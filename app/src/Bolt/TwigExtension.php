@@ -52,7 +52,8 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'),
+            'localdate' => new \Twig_Filter_Method($this, 'localedatetime'),
+            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'), // Deprecated
             'rot13' => new \Twig_Filter_Method($this, 'rot13Filter'),
             'trimtext' => new \Twig_Filter_Method($this, 'trim', array('is_safe' => array('html'))),
             'markdown' => new \Twig_Filter_Method($this, 'markdown', array('is_safe' => array('html'))),

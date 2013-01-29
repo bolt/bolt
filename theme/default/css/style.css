@@ -437,7 +437,8 @@ p.meta {
   text-align: right;
   color: #888;
   font-size: 0.8em;
-  margin: 0 0 2em;
+  margin: 1em 0 2em;
+  line-height: 1.5em;
 }
 section.introduction {
   font-weight: bold;
