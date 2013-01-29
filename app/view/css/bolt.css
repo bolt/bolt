@@ -226,6 +226,7 @@ footer  {
 .morelink {
     font-size: 12px;
     float: right;
+    margin-left: 8px;
     text-shadow: none;
     line-height: 10px;
     position: relative;
