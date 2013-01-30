@@ -11,7 +11,7 @@
   <!-- Set the viewport width to device width for mobile -->
   <meta name="viewport" content="width=device-width" />
 
-  <title>Welcome to Foundation | Blog</title>
+  <title>{% if record.title is defined %}{{ record.title|striptags }} | {% endif %}{{ app.config.general.sitename }}</title>
 
   <!-- Included CSS Files (Uncompressed) -->
   <!--
@@ -35,7 +35,7 @@
 
 <nav class="top-bar">
   <ul>
-    <li class="name"><h1><a href="#">Title</a></h1></li>
+    <li class="name"><h1><a href="{{ paths.root }}">{{ app.config.general.sitename }}</a></h1></li>
     <li class="toggle-topbar"><a href="#"></a></li>
   </ul>
   <section>
@@ -69,9 +69,13 @@
   <!-- Header bar -->
 
   <div class="headerphoto">
-            <img src="/theme/base-2013/images/header_1.jpg" width="1200" height="350" />
+            <img src="/theme/base-2013/images/header_3.jpg" width="1200" height="350" />
 
-            <h1>Title <small>This is my blog. It's awesome.</small></h1>
+            <p>{{ app.config.general.sitename }}
+              {% if app.config.general.payoff is defined %}
+              <br><small>{{ app.config.general.payoff }}</small>
+              {% endif %}
+            </p>
   </div>
 
   <!-- End header -->

@@ -1,21 +1,48 @@
     <!-- Sidebar -->
 
-    <aside class="three columns">
-
-      <h5>Categories</h5>
-      <ul class="side-nav">
-        <li><a href="#">News</a></li>
-        <li><a href="#">Code</a></li>
-        <li><a href="#">Design</a></li>
-        <li><a href="#">Fun</a></li>
-        <li><a href="#">Weasels</a></li>
-      </ul>
+    <aside class="four columns">
 
       <div class="panel">
-        <h5>Featured</h5>
-        <p>Pork drumstick turkey fugiat. Tri-tip elit turducken pork chop in. Swine short ribs meatball irure bacon nulla pork belly cupidatat meatloaf cow.</p>
-        <a href="#">Read More &rarr;</a>
+{% setcontent about = "page/about" %}
+
+{# check if there's a page with slug 'about' #}
+{% if about.title is defined %}
+
+    <h5>{{ about.title }}</h5>
+    {{ about.introduction }}
+
+    <a href="{{ about.link }}">Read more &raquo;</a>
+
+{% else %}
+
+    <h5>Alas, no about!</h5>
+
+    <p>If there was a Page with 'about' for a slug, it would've been shown
+        here. But there isn't one, so that's why you're seeing this
+        placeholder.</p>
+
+{% endif %}
+
       </div>
+
+  {% for ct in app.config.contenttypes %}
+
+    {% setcontent records = ct.slug ~ "/latest/5" %}
+
+    <h5>Recent {{ ct.name }}</h5>
+    <ul>
+    {% for record in records %}
+      <li><a href="{{ record.link }}">{{ record.title }}</a></li>
+    {% else %}
+      <li>No recent {{ ct.name }}.</li>
+    {% endfor %}
+    </ul>
+    <p><a href="{{ paths.root }}pages">{{ ct.name }} overview &raquo;</a></p>
+
+
+  {% endfor %}
+
+
 
     </aside>
 

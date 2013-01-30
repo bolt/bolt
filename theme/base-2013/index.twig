@@ -1,0 +1,69 @@
+{% include '_header.twig' %}
+
+  <!-- Main Page Content and Sidebar -->
+
+  <div class="row">
+
+    <!-- Main Blog Content -->
+    <div class="eight columns" role="content">
+
+    <article>
+
+        {% setcontent home = "page/1" %}
+        <h2>{{ home.title }}</h2>
+
+        {% if home.image!="" %}
+        <div class="five columns imageholder">
+          <img src="{{ record.image|thumbnail(400, 260) }}">
+        </div>
+        {% endif %}
+
+        {# display something introduction-like.. #}
+        {% if home.introduction %}
+          {{ home.introduction }}
+        {% elseif home.teaser %}
+          {{ home.teaser }}
+        {% else %}
+          <p>{{ home.excerpt(500) }}</p>
+        {% endif %}
+
+    </article>
+
+    <hr>
+
+    {% setcontent records = "entries/latest/6" %}
+    {% for record in records %}
+    <article>
+
+        {% if record.image!="" %}
+        <div class="two columns imageholder">
+          <img src="{{ record.image|thumbnail(400, 260) }}">
+        </div>
+        {% endif %}
+
+        <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
+
+        <p>{{ record.excerpt(220) }}</p>
+
+    </article>
+
+    <hr>
+
+    {% endfor %}
+
+{{ pager() }}
+
+
+    </div>
+
+    <!-- End Main Content -->
+
+    {% include '_aside.twig' %}
+
+  </div>
+
+  <!-- End Main Content and Sidebar -->
+
+
+
+{% include '_footer.twig' %}

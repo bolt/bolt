@@ -7,10 +7,9 @@
     <!-- Main Blog Content -->
     <div class="eight columns" role="content">
 
-    {% for record in records %}
     <article>
 
-        <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+        <h2>{{ record.title }}</h2>
 
         {% if record.image!="" %}
         <div class="four columns imageholder">
@@ -24,18 +23,14 @@
         {% elseif record.teaser %}
           {{ record.teaser }}
         {% else %}
-          <p>{{ record.excerpt(300) }}</p>
+          <p>{{ record.excerpt(1000) }}</p>
         {% endif %}
+
+        {{ record.body }}
 
         {% include '_recordfooter.twig' with {record: record} %}
 
     </article>
-
-    <hr>
-
-    {% endfor %}
-
-{{ pager() }}
 
 
     </div>

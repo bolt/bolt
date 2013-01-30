@@ -9,30 +9,33 @@ a {
 }
 
 a:hover {
-    color: #183F76;
+    color: #4D9C9A;
     text-decoration: underline;
 }
 
 h1 {
+    font-weight: normal;
     font-size: 48px;
     font-family: 'Alegreya', serif;
 }
 
 
 h2 {
+    font-weight: normal;
     font-size: 40px;
     font-family: 'Alegreya', serif;
 }
 
 
 h3 {
-    font-size: 34px;
+    font-weight: normal;
+    font-size: 28px;
     font-family: 'Alegreya', serif;
 }
 
 
 h4 {
-  font-size: 28px;
+  font-size: 24px;
   font-family: 'Alegreya', serif;
 }
 
@@ -41,36 +44,68 @@ h6 {
   line-height: 1.5em;
 }
 
-
-.top-bar {
-  margin: 0;
+aside {
+  margin-top: 28px;
 }
 
-.headerphoto {
-  position: relative
+
+ul {
+  margin-left: 17px;
 }
 
-.headerphoto h1 {
-  position: absolute;
-  bottom: 0; left: 0;
-  color: #FFF;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-  font-size: 48px;
-  font-family: 'Alegreya', serif;
-  padding: 0 12px 0 12px;
+ol {
+  margin-left: 20px;
 }
 
 .container {
-  max-width: 1020px;
+  max-width: 1060px;
   margin: 0 auto 20px;
   border: 1px solid #EEE;
   background-color: #FFF;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.2);
 }
 
+
+.top-bar {
+  margin: 0;
+}
+
+.top-bar h1 {
+    font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+}
+
 .row {
   width: 1000px;
 }
+
+.column, .columns {
+  padding: 0 20px;
+}
+
+.headerphoto {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.headerphoto p {
+  position: absolute;
+  bottom: 0; left: 0;
+  color: #CEE;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  font-size: 48px;
+  line-height: 48px;
+  font-family: 'Alegreya', serif;
+  padding: 0 12px 0 12px;
+  font-weight: bold;
+}
+.headerphoto small {
+  font-size: 28px;
+  color: #FFF;
+  font-family: 'Alegreya', serif;
+  font-weight: normal;
+}
+
+
 
 
 div.imageholder {
@@ -79,13 +114,4 @@ div.imageholder {
   padding: 3px 3px 2px;
   float: right;
   margin: 0 0 5px 5px;
-}
-div.imageholder-wide {
-  border: 1px solid #BBBBBB;
-  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
-  padding: 2px;
-}
-div.imageholder-wide img {
-  width: 100%;
-  vertical-align: bottom;
 }
