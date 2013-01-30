@@ -462,7 +462,7 @@ div.imageholder-wide img {
   vertical-align: bottom;
 }
 /**
- * Styles for the simple drop-down menu. 
+ * Styles for the simple drop-down menu.
  */
 nav.main ul {
   padding: 0px;
@@ -521,7 +521,7 @@ nav.main ul li:hover a.current {
 nav.main .first {
   background-color: #FFC;
 }
-/** 
+/**
  * Styles for pagination.
  */
 .pagination ul {

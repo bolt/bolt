@@ -1,7 +1,91 @@
 
-h3 {
+body {
+    background-color: #F8F8F8;
+    padding: 0 10px;
+}
 
+a {
+    color: #284F76;
+}
+
+a:hover {
+    color: #183F76;
+    text-decoration: underline;
+}
+
+h1 {
     font-size: 48px;
     font-family: 'Alegreya', serif;
+}
 
+
+h2 {
+    font-size: 40px;
+    font-family: 'Alegreya', serif;
+}
+
+
+h3 {
+    font-size: 34px;
+    font-family: 'Alegreya', serif;
+}
+
+
+h4 {
+  font-size: 28px;
+  font-family: 'Alegreya', serif;
+}
+
+h6 {
+  color: #666;
+  line-height: 1.5em;
+}
+
+
+.top-bar {
+  margin: 0;
+}
+
+.headerphoto {
+  position: relative
+}
+
+.headerphoto h1 {
+  position: absolute;
+  bottom: 0; left: 0;
+  color: #FFF;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  font-size: 48px;
+  font-family: 'Alegreya', serif;
+  padding: 0 12px 0 12px;
+}
+
+.container {
+  max-width: 1020px;
+  margin: 0 auto 20px;
+  border: 1px solid #EEE;
+  background-color: #FFF;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.2);
+}
+
+.row {
+  width: 1000px;
+}
+
+
+div.imageholder {
+  border: 1px solid #BBBBBB;
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
+  padding: 3px 3px 2px;
+  float: right;
+  margin: 0 0 5px 5px;
+}
+div.imageholder-wide {
+  border: 1px solid #BBBBBB;
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
+  padding: 2px;
+}
+div.imageholder-wide img {
+  width: 100%;
+  vertical-align: bottom;
 }
