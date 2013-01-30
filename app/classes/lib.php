@@ -629,15 +629,17 @@ function getConfig()
 
     // Read the config
     $yamlparser = new Symfony\Component\Yaml\Parser();
-    $config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config.yml'));
-    if(file_exists(BOLT_CONFIG_DIR.'/config_local.yml'))
-    {
-        $config['general'] = array_merge(
-            $config['general'], $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config_local.yml')));
+    $config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config.yml') . "\n");
+
+    $config['taxonomy'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/taxonomy.yml') . "\n");
+    $tempcontenttypes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/contenttypes.yml') . "\n");
+    $config['menu'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/menu.yml') . "\n");
+
+    // @todo: What is this? Do we want this 'local' config?
+    if(file_exists(BOLT_CONFIG_DIR.'/config_local.yml')) {
+        $localconfig = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config_local.yml') . "\n");
+        $config['general'] = array_merge($config['general'], $localconfig);
     }
-    $config['taxonomy'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/taxonomy.yml'));
-    $tempcontenttypes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/contenttypes.yml'));
-    $config['menu'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/menu.yml'));
 
     // @todo: If no config files can be found, get them from bolt.cm/files/default/
 

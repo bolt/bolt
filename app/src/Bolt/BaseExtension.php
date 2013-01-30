@@ -75,14 +75,14 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         // If it's readable, we're cool
         if (is_readable($configfile)) {
             $yamlparser = new \Symfony\Component\Yaml\Parser();
-            $this->config = $yamlparser->parse(file_get_contents($configfile));
+            $this->config = $yamlparser->parse(file_get_contents($configfile) . "\n");
             return $this->config;
         }
 
         // Otherwise, check if there's a config.yml.dist
         if (is_readable($configdistfile)) {
             $yamlparser = new \Symfony\Component\Yaml\Parser();
-            $this->config = $yamlparser->parse(file_get_contents($configdistfile));
+            $this->config = $yamlparser->parse(file_get_contents($configdistfile) . "\n");
 
             // If config.yml.dist exists, attempt to copy it to config.yml.
             if (copy($configdistfile, $configfile)) {
