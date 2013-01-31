@@ -45,7 +45,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
                  */
                 foreach ($iterator as $fileInfo) {
                     if ($fileInfo->isFile()) {
-                        $extension = $fileInfo->getExtension();
+                        $extension = getExtension($fileInfo->getFilename());
+                        // $extension = $fileInfo->getExtension(); -- not available before 5.3.7.
                         if (array_key_exists($extension, $loaders)) {
                             if (!array_key_exists($extension, $registeredLoaders)) {
                                 // TranslationFileLoader not yet registered
