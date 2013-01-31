@@ -307,14 +307,17 @@ class Frontend implements ControllerProviderInterface
         //$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
-        $parameters = array('filter' => $request->get('search'));
+
+        $search = $request->get('search');
+        $parameters = array('filter' => $search);
 
         //$content = $searchterms . " and " . $resultsPP;
         $content = $app['storage']->searchAllContentTypes($parameters);
         //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
 
         $body = $app['twig']->render($template, array(
-            'records' => $content
+            'records' => $content,
+            'search' => $search
         ));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));

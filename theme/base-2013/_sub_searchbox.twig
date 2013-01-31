@@ -1,23 +1,7 @@
 <li class="search">
-    <form method="get" action="/search" id="searchform" enctype="text/plain">
-        <input type="search" value="{{ app.request.get('search') }}" placeholder="Search..">
+    <form method="get" action="{{ paths.root }}search" id="searchform" enctype="text/plain">
+        <input type="search" value="{{ search }}" placeholder="Search.." name="search">
     </form>
 </li>
 
-<!--
-<script type="text/javascript">
 
-    $('#searchbar :input[name="submit"]').bind('click', function () {
-        var link = "/search/" + encodeURI($('input[name="searchterms"]').val());
-        location.href = link;
-    });
-
-    $('#searchbar input[name="searchterms"]').keyup(function (e) {
-        if (e.keyCode == 13) {
-            var link = "/search/" + encodeURI($('input[name="searchterms"]').val());
-            location.href = link;
-        }
-    });
-
-</script>
--->

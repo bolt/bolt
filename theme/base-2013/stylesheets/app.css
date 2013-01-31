@@ -19,14 +19,14 @@ a:hover {
 
 h1 {
     font-weight: normal;
-    font-size: 48px;
+    font-size: 40px;
     font-family: 'Alegreya', serif;
 }
 
 
 h2 {
     font-weight: normal;
-    font-size: 40px;
+    font-size: 34px;
     font-family: 'Alegreya', serif;
 }
 
@@ -89,6 +89,9 @@ ol {
 }
 
 .top-bar h1 {
+    font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+}
+.top-bar h5 {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
 }
 
