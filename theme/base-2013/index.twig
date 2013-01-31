@@ -36,7 +36,7 @@
     <article>
 
         {% if record.image!="" %}
-        <div class="two columns imageholder">
+        <div class="three columns imageholder">
           <img src="{{ record.image|thumbnail(400, 260) }}">
         </div>
         {% endif %}
@@ -50,6 +50,7 @@
     <hr>
 
     {% endfor %}
+
 
 {{ pager() }}
 

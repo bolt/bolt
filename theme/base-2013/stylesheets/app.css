@@ -4,6 +4,10 @@ body {
     padding: 0 10px;
 }
 
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, th, td {
+    font-size: 15px;
+}
+
 a {
     color: #284F76;
 }
@@ -39,15 +43,29 @@ h4 {
   font-family: 'Alegreya', serif;
 }
 
+h5 {
+  font-size: 20px;
+  font-family: 'Alegreya', serif;
+}
+
+
 h6 {
+  font-size: 15px;
   color: #666;
   line-height: 1.5em;
 }
 
 aside {
-  margin-top: 28px;
+  margin-top: 20px;
 }
 
+aside p {
+  font-size: 14px;
+}
+
+aside .panel {
+  padding: 12px;
+}
 
 ul {
   margin-left: 17px;
@@ -74,6 +92,18 @@ ol {
     font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
 }
 
+/* Override for top-bar menu background color in Foundation */
+.top-bar ul>li:not(.name):hover, .top-bar ul>li:not(.name).active, .top-bar ul>li:not(.name):focus {
+  color: #FFF;
+  background-color: #1E3953;
+}
+
+/* Override for top-bar menu dropdown background color in Foundation */
+.top-bar ul>li.has-dropdown .dropdown li.active a {
+  color: #FFF;
+  background-color: #1E3953;
+}
+
 .row {
   width: 1000px;
 }
@@ -85,12 +115,14 @@ ol {
 .headerphoto {
   position: relative;
   margin-bottom: 20px;
+  text-align: right;
 }
 
 .headerphoto p {
   position: absolute;
-  bottom: 0; left: 0;
-  color: #CEE;
+  bottom: 0;
+  right: 0;
+  color: #FFF;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   font-size: 48px;
   line-height: 48px;
@@ -100,9 +132,10 @@ ol {
 }
 .headerphoto small {
   font-size: 28px;
-  color: #FFF;
+  color: #4D9C9A;
   font-family: 'Alegreya', serif;
   font-weight: normal;
+  margin-right: 6px;
 }
 
 
@@ -115,3 +148,19 @@ div.imageholder {
   float: right;
   margin: 0 0 5px 5px;
 }
+
+footer ul.dropdown {
+  display: none;
+}
+
+
+/* Pagination ---------------------- */
+div.pagination ul {  display: inline-block; width: auto; height: 26px;  }
+div.pagination ul li { float: left; display: block; height: 26px; color: #999; font-size: 15px; background-color: #EEE; }
+div.pagination ul li a { display: block; padding: 1px 8px 1px; color: #555; }
+div.pagination ul li:hover a, ul.pagination li a:focus { background: #e6e6e6; }
+div.pagination ul li.unavailable a { cursor: default; color: #999; }
+div.pagination ul li.unavailable:hover a, ul.pagination li.unavailable a:focus { background: transparent; }
+div.pagination ul li.active a { background: #2ba6cb; color: white; font-weight: bold; cursor: default; }
+div.pagination ul li.active a:hover, ul.pagination li.current a:focus { background: #2ba6cb; }
+
