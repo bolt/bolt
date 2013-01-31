@@ -1,0 +1,49 @@
+    <!-- Sidebar -->
+
+    <aside class="four columns">
+
+      <div class="panel">
+{% setcontent about = "page/about" %}
+
+{# check if there's a page with slug 'about' #}
+{% if about.title is defined %}
+
+    <h5>{{ about.title }}</h5>
+    {{ about.introduction }}
+
+    <a href="{{ about.link }}">Read more &raquo;</a>
+
+{% else %}
+
+    <h5>Alas, no about!</h5>
+
+    <p>If there was a Page with 'about' for a slug, it would've been shown
+        here. But there isn't one, so that's why you're seeing this
+        placeholder.</p>
+
+{% endif %}
+
+      </div>
+
+  {% for ct in app.config.contenttypes %}
+
+    {% setcontent records = ct.slug ~ "/latest/5" %}
+
+    <h5>Recent {{ ct.name }}</h5>
+    <ul>
+    {% for record in records %}
+      <li><a href="{{ record.link }}">{{ record.title }}</a></li>
+    {% else %}
+      <li>No recent {{ ct.name }}.</li>
+    {% endfor %}
+    </ul>
+    <p><a href="{{ paths.root }}pages">{{ ct.name }} overview &raquo;</a></p>
+
+
+  {% endfor %}
+
+
+
+    </aside>
+
+    <!-- End Sidebar -->
