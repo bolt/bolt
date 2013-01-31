@@ -142,9 +142,10 @@ ol {
 
 
 div.imageholder {
+  background-color: #FFF;
   border: 1px solid #BBBBBB;
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.3);
-  padding: 3px 3px 2px;
+  padding: 4px 4px 3px;
   float: right;
   margin: 0 0 5px 5px;
 }
@@ -164,3 +165,62 @@ div.pagination ul li.unavailable:hover a, ul.pagination li.unavailable a:focus {
 div.pagination ul li.active a { background: #2ba6cb; color: white; font-weight: bold; cursor: default; }
 div.pagination ul li.active a:hover, ul.pagination li.current a:focus { background: #2ba6cb; }
 
+
+
+@media only screen and (max-width: 767px) {
+
+}
+
+@media only screen and (max-width: 479px) {
+
+  .headerphoto {
+    margin-bottom: 0px;
+  }
+
+  .headerphoto span {
+    display: none;
+  }
+  .headerphoto small {
+    display: block;
+    font-size: 22px;
+    color: #FFF;
+  }
+
+  .column, .columns {
+      padding: 0 12px;
+  }
+
+  h1 {
+      font-size: 32px;
+  }
+
+
+  h2 {
+      font-size: 28px;
+  }
+
+
+  h3 {
+      font-size: 24px;
+  }
+
+
+  h4 {
+    font-size: 20px;
+  }
+
+  h5 {
+    font-size: 18px;
+    font-family: 'Alegreya', serif;
+  }
+
+
+  h6 {
+    font-size: 15px;
+  }
+
+div.imageholder {
+  background-color: #FFF;
+  margin: 0 -17px 10px -17px;
+
+}

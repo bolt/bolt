@@ -7,8 +7,8 @@ database:
   databasename: bolt
 
 # The name of the website
-sitename: A sample Bolt site.
-payoff: The amazing payoff goes here.
+sitename: A sample site
+payoff: The amazing payoff goes here
 
 # The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en' and the territory 'GB'.
