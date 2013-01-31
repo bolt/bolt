@@ -537,64 +537,159 @@ function makeValuepairs($array, $key, $value)
 }
 
 /**
+ * Counts the number of white spaces on the beginning of a string.
+ *
+ * @param string $str
+ * @return int Number of white spaces
+ */
+function getLeftWhiteSpaceCount($str){
+    $strLenLTrimmed = getStringLength(ltrim($str));
+    $count = getStringLength($str) - $strLenLTrimmed;
+    return $count;
+}
+
+/**
  * Trim a text to a given length, taking html entities into account.
  *
- * Formerly we first removed entities (using unentify), cut the text at the
- * wanted length and then added the entities again (using entify). This caused
- * lot of problems so now we are using a trick from
- * http://www.greywyvern.com/code/php/htmlwrap.phps
- * where entities are replaced by the ACK (006) ASCII symbol, the text cut and
- * then the entities reinserted.
- *
- * @param string $str string to trim
- * @param int $length position where to trim
- * @param boolean $nbsp whether to replace spaces by &nbsp; entities
- * @param boolean $hellip whether to add … at the end
- *
- * @return string trimmed string
+ * @param string $str String to trim
+ * @param int $desiredLength Target string length
+ * @param bool $nbsp Transform spaces to their html entity
+ * @param bool $hellip Add dots when the string is too long
+ * @param bool $striptags Strip html tags
+ * @return string Trimmed string
  */
-function trimText($str, $length, $nbsp = false, $hellip = true, $striptags = true)
-{
-    if ($striptags) {
-        $str = strip_tags($str);
+function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true){
+    $result = recursiveTrimText($str, $desiredLength, $nbsp, $hellip, $striptags);
+    return $result['string'];
+}
+
+/**
+ * Trim a text to a given length, taking html entities into account.
+ * Uses the htmLawed library to fix html issues and recursively runs over the
+ * input text.
+ *
+ * @param string $str String to trim
+ * @param int $desiredLength Target string length
+ * @param bool $nbsp Transform spaces to their html entity
+ * @param bool $hellip Add dots when the string is too long
+ * @param bool $striptags Strip html tags
+ * @param string $returnString String pass for recursion
+ * @param int $length String length pass for recursion
+ * @return array With two keys: 'string' (resulting string) and length (string length)
+ */
+function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true, $returnString = '', $length = 0){
+    require_once __DIR__ . '/htmLawed/htmLawed.php';
+    $config = array('tidy'=>1, 'schemes'=>'*:*', 'balance' => '1');
+    // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
+    // from doing it on the beginning of the string :(
+    $lSpaceCount = getLeftWhiteSpaceCount($str);
+    $str = str_repeat(" ", $lSpaceCount) . htmLawed($str, $config);
+
+    // Base case: no html or strip_tags so we treat the content of this clause
+    // as a regular string of which we return the result string and length.
+    if ($striptags == true || !containsHTML($str)){
+        $targetLength = $desiredLength - $length;
+        $trimResult = trimString(strip_tags($str), $targetLength, $nbsp, $hellip);
+        return array(
+            'string' => $returnString . $trimResult['string'],
+            'length' => $length + $trimResult['length'],
+        );
     }
+    else {
+        // Recursive case. Steps:
+        // 1) We check for tags
+        // 2) We split at the first tag ($matches[0][0][0])
+        // 3) We do recursiveFunction on the first part (contains no HTML)
+        // 4) If we don't exceed the length yet, we need to treat the matched
+        //      tag of $matches[0][0][0]. Split off the tags and put them
+        //      back later. Call recursiveFunction on the content.
+        // 5) If we still haven't exceeded the length, call recursiveFunction on
+        //      the remainder of the split.
 
-    $str = trim($str);
+        // Step 1: check for tags
+        preg_match_all("/(<([\w]+)[^>]*>)(.*?)(<\/\\2>)/", $str, $matches, PREG_OFFSET_CAPTURE);
 
-    // Use the ACK (006) ASCII symbol to replace all HTML entities temporarily
-    $str = str_replace("\x06", "", $str);
-    preg_match_all("/&([a-z\d]{2,7}|#\d{2,5});/i", $str, $ents);
-    $str = preg_replace("/&([a-z\d]{2,7}|#\d{2,5});/i", "\x06", $str);
+        // We MUST have a match as this method is also used in the containsHTML
+        // method. Therefor we do not check if an array index exists.
 
-    if (function_exists('mb_strwidth') ) {
-        if (mb_strwidth($str)>$length) {
-            $str = mb_strimwidth($str, 0, $length, '', 'UTF-8');
-            if ($hellip) {
-                $str .= '…';
+        // Shorthands to make stuff more readable
+        $matchedHTML = $matches[0][0][0];
+        $matchedHTMLIndex = $matches[0][0][1];
+        $matchedHTMLLength = getStringLength($matchedHTML);
+        $openingTag = $matches[1][0][0];
+        $content = $matches[3][0][0];
+        $closingTag = $matches[4][0][0];
+
+        // Step 2: Split at the first tag
+        $head = substr($str, 0, $matchedHTMLIndex);
+        $tail = substr($str, $matchedHTMLIndex + $matchedHTMLLength);
+
+        // Step 3: Do recursiveFunction on first part
+        if ($head != ''){
+            $headRes = recursiveTrimText($head, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
+            $returnString = $headRes['string'];
+            $length = $headRes['length'];
+            if ($headRes['length'] >= $desiredLength){
+                return array('length' => $length, 'string' => $returnString);
             }
         }
-    } else {
-        if (strlen($str)>$length) {
-            $str = substr($str, 0, $length);
-            if ($hellip) {
-                $str .= '…';
-            }
+        // Step 4: Apparently length not exceeded, get length of $matchedHTML
+        $returnString .= $openingTag;
+        $matchRes = recursiveTrimText($content, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
+        $returnString = $matchRes['string'] . $closingTag;
+        if ($matchRes['length'] >= $desiredLength  || $tail == ''){
+            return array('length' => $matchRes['length'], 'string' => $returnString);
         }
+        // Step 5: Apparently length still not exceeded, recurse on $tail
+        $length = $matchRes['length'];
+        // (already set $returnString)
+        return recursiveTrimText($tail, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
+    }
+}
+
+/**
+ * Trims the given string to a particular length. Does plain trimming.
+ *
+ * @param string $str Input string
+ * @param int $trimLength Desired length
+ * @param bool $nbsp Convert spaces to html entity
+ * @param bool $hellip Replace the trimmed part with dots
+ * @return array Array with two keys: 'string' and 'length'
+ */
+function trimString($str, $trimLength, $nbsp = false, $hellip = true){
+    $strLength = getStringLength($str);
+    if ($strLength > $trimLength) {
+        $str = substr($str, 0, $trimLength);
+        $resultingLength = $trimLength;
+        if ($hellip) {
+            $str .= '…';
+        }
+    }
+    else {
+        $resultingLength = $strLength;
     }
 
     if ($nbsp==true) {
-        $str=str_replace(" ", "&nbsp;", $str);
+        $str = str_replace(" ", "&nbsp;", $str);
     }
 
-    $str=str_replace("http://", "", $str);
+    return array(
+        'string' => $str,
+        'length' => $resultingLength,
+    );
+}
 
-    // Put captured HTML entities back into the string
-    foreach ($ents[0] as $ent) {
-        $str = preg_replace("/\x06/", $ent, $str, 1);
+/**
+ * String length wrapper. Uses mb_strwidth when available. Fallback to strlen.
+ * @param string $str
+ * @return int String length
+ */
+function getStringLength($str){
+    if (function_exists('mb_strwidth') ) {
+        return mb_strwidth($str);
+    } else {
+        return strlen($str);
     }
-
-    return $str;
-
 }
 
 /**
@@ -1149,6 +1244,19 @@ function isHtml($html)
         return false;
     }
 
+}
+
+/**
+ * Detect whether or not a given string is (likely) HTML. It has a different
+ * approach than the isHTML method. It's stricter (it assumes well-balanced
+ * tags) but more accurate.
+ * @param string $str
+ * @return bool True if the string contains any html tags and, with that, is HTML
+ */
+function containsHTML($str)
+{
+    preg_match_all("/(<([\w]+)[^>]*>)(.*?)(<\/\\2>)/", $str, $matches, PREG_OFFSET_CAPTURE);
+    return !empty($matches[3]);
 }
 
 /**
