@@ -39,27 +39,16 @@
     <li class="toggle-topbar"><a href="#"></a></li>
   </ul>
   <section>
-    <ul class="right">
-      <li><a href="#">Link 25</a></li>
-      <li class="has-dropdown">
-      <a href="#">Link</a>
 
-      <ul class="dropdown">
-        <li><a href="#">Dropdown Link</a></li>
-      </ul>
+  <ul class="right">
 
-    </li>
-      <li class="active"><a href="#">Link</a></li>
-      <li><a href="#">Link 26</a></li>
+    {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's own _sub_menu.twig.
+       If this file wasn't included, the default menu template in app/theme_defaults/_sub_menu.twig would be used. #}
+    {{ menu() }}
 
-
-    <li class="divider"></li>
-
-    <li class="search">
-      <form>
-        <input type="search" placeholder="Search..">
-      </form>
-    </li>
+    {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in the theme,
+       the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
+    {% include '_sub_searchbox.twig' %}
 
     </ul>
 
