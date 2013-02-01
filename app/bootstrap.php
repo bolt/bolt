@@ -101,6 +101,11 @@ $app['editlink'] = "";
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
 
+
+// Add the string loader..
+$loader = new Twig_Loader_String();
+$app['twig.loader']->addLoader($loader);
+
 // If debug is set, we set up the custom error handler..
 if ($app['debug']) {
     ini_set("display_errors", "1");

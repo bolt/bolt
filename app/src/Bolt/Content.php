@@ -379,15 +379,21 @@ class Content implements \ArrayAccess
 
             switch ($fieldtype) {
                 case 'markdown':
+
+                    $value = $this->preParse($this->values[$name]);
+
                     // Parse the field as Markdown, return HTML
                     include_once __DIR__. "/../../classes/markdown.php";
-                    $value = new \Twig_Markup(Markdown($this->values[$name]), 'UTF-8');
+                    $value = new \Twig_Markup(Markdown($value), 'UTF-8');
                     break;
 
                 case 'html':
                 case 'text':
                 case 'textarea':
-                    $value = new \Twig_Markup($this->values[$name], 'UTF-8');
+
+                    $value = $this->preParse($this->values[$name]);
+                    $value = new \Twig_Markup($value, 'UTF-8');
+
                     break;
 
                 case 'imagelist':
@@ -402,6 +408,23 @@ class Content implements \ArrayAccess
         }
 
         return $value;
+    }
+
+    /**
+     * If passed value contains Twig tags, parse the string as Twig, and return the results
+     *
+     * @param string $value
+     * @return string
+     */
+    public function preParse($value) {
+
+        if ( strpos($value, "{{")>0 || strpos($value, "{%")>0 || strpos($value, "{#")>0 ) {
+            $value = html_entity_decode($value);
+            $value = $this->app['twig']->render($value);
+        }
+
+        return $value;
+
     }
 
     /**
