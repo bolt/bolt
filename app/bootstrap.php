@@ -101,7 +101,6 @@ $app['editlink'] = "";
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
 
-
 // Add the string loader..
 $loader = new Twig_Loader_String();
 $app['twig.loader']->addLoader($loader);
