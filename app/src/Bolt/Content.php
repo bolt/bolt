@@ -388,6 +388,9 @@ class Content implements \ArrayAccess
                 case 'text':
                 case 'textarea':
                     $value = new \Twig_Markup($this->values[$name], 'UTF-8');
+
+                \util::var_dump($this->app['twig']);
+
                     break;
 
                 case 'imagelist':
@@ -527,12 +530,14 @@ class Content implements \ArrayAccess
     /**
      * Get the previous record. ('previous' is defined as 'latest one published before this one')
      */
-    public function previous() {
+    public function previous($field = "datepublish") {
+
+        $field = safeString($field);
 
         $params = array(
-            'datepublish' => '>'.$this->values['datepublish'],
+            $field => '>'.$this->values[$field],
             'limit' => 1,
-            'order' => 'datepublish ASC'
+            'order' => $field . ' ASC'
         );
 
         $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
@@ -544,12 +549,14 @@ class Content implements \ArrayAccess
     /**
      * Get the next record. ('next' is defined as 'first one published after this one')
      */
-    public function next() {
+    public function next($field = "datepublish") {
+
+        $field = safeString($field);
 
         $params = array(
-            'datepublish' => '<'.$this->values['datepublish'],
+            $field => '<'.$this->values[$field],
             'limit' => 1,
-            'order' => 'datepublish DESC'
+            'order' => $field . ' DESC'
         );
 
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);

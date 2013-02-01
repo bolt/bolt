@@ -30,6 +30,18 @@
 
         {% include '_recordfooter.twig' with {record: record} %}
 
+        <p class="meta">
+            {% set previous = record.previous('id') %}
+            {% if previous %}
+                <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
+            {% endif %}
+                -
+            {% set next = record.next('id') %}
+            {% if next %}
+                <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
+            {% endif %}
+        </p>
+
     </article>
 
 
