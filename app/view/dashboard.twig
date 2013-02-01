@@ -44,8 +44,16 @@
 
         {% if multiplecontent %}
 
-            <h3>Latest {{ contenttype }}. <span><a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}"
-                class='morelink'>more {{ contenttype }} » </a></span></h3>
+            <h3>Latest {{ contenttype }}.
+                <span>
+                    <a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}" class='morelink'>
+                        More {{ contenttype }} »
+                    </a>
+                    <a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': '' }) }}" class='morelink'>
+                        New {{ app.config.contenttypes[contenttype].singular_name }}
+                    </a>
+                </span>
+            </h3>
 
             <table class='dashboardlisting'>
                 {% for content in multiplecontent %}

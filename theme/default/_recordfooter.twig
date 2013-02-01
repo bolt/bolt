@@ -1,0 +1,7 @@
+{# This file is inserted as the 'footer' of each listed record. #}
+<p class="meta">
+    <a href="{{ record.link }}">Link</a> -
+    Posted by {{ record.user.displayname }} on {{ record.datepublish|localdate("%A %e %B %Y")}} <br>
+    {% include '_taxonomylinks.twig' with {record: record} %}
+</p>
+

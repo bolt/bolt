@@ -1,0 +1,55 @@
+{% include '_header.twig' %}
+
+  <!-- Main Page Content and Sidebar -->
+
+  <div class="row">
+
+    <!-- Main Blog Content -->
+    <div class="eight columns" role="content">
+
+      <h1>Search results for <b>{{ search }}</b>.</h1>
+
+    {% for record in records %}
+    <article>
+
+        <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
+
+        {% if record.image!="" %}
+        <div class="four columns imageholder">
+          <img src="{{ record.image|thumbnail(400, 260) }}">
+        </div>
+        {% endif %}
+
+        {# display something introduction-like.. #}
+        {% if record.introduction %}
+          {{ record.introduction }}
+        {% elseif record.teaser %}
+          {{ record.teaser }}
+        {% else %}
+          <p>{{ record.excerpt(300) }}</p>
+        {% endif %}
+
+        {% include '_recordfooter.twig' with {record: record} %}
+
+    </article>
+
+    <hr>
+
+    {% endfor %}
+
+{{ pager() }}
+
+
+    </div>
+
+    <!-- End Main Content -->
+
+    {% include '_aside.twig' %}
+
+  </div>
+
+  <!-- End Main Content and Sidebar -->
+
+
+
+{% include '_footer.twig' %}

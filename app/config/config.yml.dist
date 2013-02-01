@@ -7,13 +7,14 @@ database:
   databasename: bolt
 
 # The name of the website
-sitename: A sample Bolt site.
+sitename: A sample site
+payoff: The amazing payoff goes here
 
 # The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en' and the territory 'GB'.
 translation:
-  locale: nl
-  territory: NL
+  locale: en
+  territory: US
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
@@ -31,7 +32,7 @@ notfound:
 # The theme to use. Be sure to copy the theme/default folder, and change the
 # name here accordingly. Don't edit the templates in theme/default, because
 # they _will_ get updated in next releases
-theme: default
+theme: base-2013
 
 # Add jQuery to the rendered HTML, whether or not it's added by an extension.
 add_jquery: false
@@ -48,8 +49,10 @@ recordsperpage: 10
 # Can be overridden for each contenttype.
 listing_template: listing.twig
 listing_records: 6
+listing_sort: datepublish DESC
 
-# Template for showing the search results
+# Template for showing the search results. If not defined, uses the settings
+# for listing_template and listing_records
 search_results_template: searchresults.twig
 search_results_records: 10
 

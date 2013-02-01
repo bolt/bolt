@@ -227,9 +227,9 @@ class Log
 
     public function clear() {
 
-        $configdb = $getDBOptions($this->app);
+        $configdb = getDBOptions($this->app['config']);
 
-        if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
+        if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" ) ) {
 
             // sqlite
             $query = sprintf('DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = %s;',

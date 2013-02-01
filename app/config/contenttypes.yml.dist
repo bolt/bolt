@@ -22,11 +22,8 @@ entries:
             type: html
             height: 300px
     taxonomy: [ categories, tags ]
-    record_template: entry.twig
-    listing_template: listing.twig
-    listing_records: 10
     sort: datecreated DESC
-    recordsperpage: 7
+    recordsperpage: 10
     rss:
       enabled: true
       feed_records: 10
@@ -103,8 +100,6 @@ kitchensink:
             label: Choose an entry
             order: -id
     taxonomy: [ categories, tags, chapters ]
-    sort: title
-    recordsperpage: 8
 
 
 # possible field types:

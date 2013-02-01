@@ -455,8 +455,13 @@ class Storage
                     $options = $this->app['config']['taxonomy'][$taxonomy]['options'];
                     $contentobject->setTaxonomy($taxonomy, $options[array_rand($options)]);
                 }
+                if ( isset($this->app['config']['taxonomy'][$taxonomy]['behaves_like']) &&
+                    ($this->app['config']['taxonomy'][$taxonomy]['behaves_like'] == "tags") ) {
+                    $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
+                }
             }
         }
+
 
         $this->saveContent($contentobject);
 
@@ -464,6 +469,31 @@ class Storage
 
         return $output;
 
+    }
+
+    private function getSomeRandomTags($num = 5)
+    {
+
+        $tags = array("action", "adult", "adventure", "alpha", "animals", "animation", "anime", "architecture", "art",
+            "astronomy", "baby", "batshitinsane", "biography", "biology", "book", "books", "business", "business",
+            "camera", "cars", "cats", "cinema", "classic", "comedy", "comics", "computers", "cookbook", "cooking",
+            "crime", "culture", "dark", "design", "digital", "documentary", "dogs", "drama", "drugs", "education",
+            "environment", "evolution", "family", "fantasy", "fashion", "fiction", "film", "fitness", "food",
+            "football", "fun", "gaming", "gift", "health", "hip", "historical", "history", "horror", "humor",
+            "illustration", "inspirational", "internet", "journalism", "kids", "language", "law", "literature", "love",
+            "magic", "math", "media", "medicine", "military", "money", "movies", "mp3", "murder", "music", "mystery",
+            "news", "nonfiction", "nsfw", "paranormal", "parody", "philosophy", "photography", "photos", "physics",
+            "poetry", "politics", "post-apocalyptic", "privacy", "psychology", "radio", "relationships", "research",
+            "rock", "romance", "rpg", "satire", "science", "sciencefiction", "scifi", "security", "self-help",
+            "series", "software", "space", "spirituality", "sports", "story", "suspense", "technology", "teen",
+            "television", "terrorism", "thriller", "travel", "tv", "uk", "urban", "us", "usa", "vampire", "video",
+            "videogames", "war", "web", "women", "world", "writing", "wtf", "zombies");
+
+        shuffle($tags);
+
+        $picked = array_slice($tags, 0, $num);
+
+        return $picked;
     }
 
 
@@ -992,6 +1022,63 @@ class Storage
 
     }
 
+    /**
+     * Retrieve content from the database, filtered on taxonomy.
+     */
+    public function getContentByTaxonomy($taxonomytype, $slug, $parameters = "")
+    {
+
+        $tablename = $this->prefix . "taxonomy";
+
+        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
+        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+
+        $where = " WHERE (taxonomytype=". $this->app['db']->quote($taxonomytype) . " AND slug=". $this->app['db']->quote($slug) .")";
+
+        // Make the query for the pager..
+        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
+
+        // Add the limit
+        $query = "SELECT * FROM $tablename" . $where . sprintf(" ORDER BY id DESC LIMIT %s, %s;", ($page-1)*$limit, $limit);
+
+        $taxorows = $this->app['db']->fetchAll($query);
+
+        $content = array();
+
+        if (is_array($taxorows)) {
+            foreach($taxorows as $row) {
+                $record = $this->getContent($row['contenttype']."/".$row['content_id']);
+                if ($record instanceof \Bolt\Content) {
+                    $content[] = $record;
+                }
+            }
+        }
+
+        // Set up the $pager array with relevant values..
+        $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
+        $pager = array(
+            'for' => $contenttypeslug,
+            'count' => $rowcount['count'],
+            'totalpages' => ceil($rowcount['count'] / $limit),
+            'current' => $page,
+            'showing_from' => ($page-1)*$limit + 1,
+            'showing_to' => ($page-1)*$limit + count($taxorows)
+        );
+        $GLOBALS['pager'][$contenttypeslug] = $pager;
+
+        return $content;
+
+    }
+
+    /**
+     * Retrieve content from the database.
+     *
+     * @param string $contenttypeslug
+     * @param string $parameters
+     * @param array $pager
+     * @param array $whereparameters
+     * @return array|Content|bool|mixed
+     */
     public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
 
@@ -1014,7 +1101,7 @@ class Storage
             $parameters['slug'] = $match[2];
             $returnsingle = true;
         } elseif (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/lorem-ipsum-dolor'
+            // like 'page/latest/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
             $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
@@ -1100,6 +1187,8 @@ class Storage
         if (empty($parameters['order'])) {
             if (!empty($contenttype['sort'])) {
                 $queryparams .= " ORDER BY " . $contenttype['sort'];
+            } else {
+                $queryparams .= " ORDER BY datepublish DESC";
             }
         } else {
             if ($parameters['order'] == "RANDOM") {
@@ -1123,9 +1212,9 @@ class Storage
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        if (!$returnsingle) {
-             // echo "<pre>" . util::var_dump($query, true) . "</pre>";
-        }
+        //if (!$returnsingle) {
+            // \util::var_dump($query);
+        //}
 
         $rows = $this->app['db']->fetchAll($query);
 
@@ -1160,7 +1249,6 @@ class Storage
                 'showing_from' => ($page-1)*$limit + 1,
                 'showing_to' => ($page-1)*$limit + count($content)
             );
-
             $GLOBALS['pager'][$contenttypeslug] = $pager;
         }
 
@@ -1196,13 +1284,15 @@ class Storage
     {
         if ($a->group == $b->group) {
 
-            if (empty($a->sortorder)) {
-                return -1;
-            } else if (empty($b->sortorder)) {
-                return 1;
-            } else if ($a->sortorder != $b->sortorder) {
-                return ($a->sortorder < $b->sortorder) ? -1 : 1;
-            };
+            if (!empty($a->sortorder) || !empty($b->sortorder)) {
+                if (empty($a->sortorder) ) {
+                    return -1;
+                } else if (empty($b->sortorder)) {
+                    return 1;
+                } else {
+                    return ($a->sortorder < $b->sortorder) ? -1 : 1;
+                }
+            }
 
             // Same group, so we sort on contenttype['sort']
             $second_sort = $a->contenttype['sort'];
@@ -1212,7 +1302,6 @@ class Storage
                 return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
             }
         }
-
         return ($a->group < $b->group) ? -1 : 1;
     }
 
@@ -1348,7 +1437,7 @@ class Storage
 
 
     /**
-     * Get an value to use in 'assert() with the available contenttypes
+     * Get a value to use in 'assert() with the available contenttypes
      *
      * @return string $contenttypes
      */
@@ -1357,6 +1446,27 @@ class Storage
 
         $slugs = array();
         foreach ($this->app['config']['contenttypes'] as $type) {
+            $slugs[] = $type['slug'];
+            if ($includesingular) {
+                $slugs[] = $type['singular_slug'];
+            }
+        }
+
+        return implode("|", $slugs);
+
+    }
+
+
+    /**
+     * Get a value to use in 'assert() with the available taxonomytypes
+     *
+     * @return string $taxonomytypes
+     */
+    public function getTaxonomyTypeAssert($includesingular = false)
+    {
+
+        $slugs = array();
+        foreach ($this->app['config']['taxonomy'] as $type) {
             $slugs[] = $type['slug'];
             if ($includesingular) {
                 $slugs[] = $type['singular_slug'];

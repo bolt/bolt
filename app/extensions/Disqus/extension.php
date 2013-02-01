@@ -3,47 +3,44 @@
 
 namespace Disqus;
 
-function info()
+
+class Extension extends \Bolt\BaseExtension
 {
+    function info()
+    {
 
-    $data = array(
-        'name' =>"Disqus",
-        'description' => "An extension to place Disqus comment threads on your site, when using <code>{{ disqus() }}</code> in your templates.",
-        'author' => "Bob den Otter",
-        'link' => "http://bolt.cm",
-        'version' => "0.9",
-        'required_bolt_version' => "0.8",
-        'highest_bolt_version' => "0.8",
-        'type' => "Twig function",
-        'first_releasedate' => "2012-10-10",
-        'latest_releasedate' => "2012-10-19",
-    );
+        $data = array(
+            'name' =>"Disqus",
+            'description' => "An extension to place Disqus comment threads on your site, when using <code>{{ disqus() }}</code> in your templates.",
+            'author' => "Bob den Otter",
+            'link' => "http://bolt.cm",
+            'version' => "1.2",
+            'required_bolt_version' => "1.0",
+            'highest_bolt_version' => "1.0",
+            'type' => "Twig function",
+            'first_releasedate' => "2012-10-10",
+            'latest_releasedate' => "2013-01-28",
+        );
 
-    return $data;
+        return $data;
 
-}
+    }
 
-function init($app)
-{
+    function initialize()
+    {
 
-    $app['twig']->addFunction('disqus', new \Twig_Function_Function('Disqus\disqus'));
-    $app['twig']->addFunction('disquslink', new \Twig_Function_Function('Disqus\disquslink'));
+        $this->addTwigFunction('disqus', 'disqus');
+        $this->addTwigFunction('disquslink', 'disquslink');
 
-}
+        if (empty($this->config['disqus_name'])) { $this->config['disqus_name'] = "No name set"; }
 
-
+    }
 
 
 function disqus($title="")
-{
-    global $app;
+    {
 
-    $yamlparser = new \Symfony\Component\Yaml\Parser();
-    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
-    if (empty($config['disqus_name'])) { $config['disqus_name'] = "No name set"; }
-
-    $html = <<< EOM
+        $html = <<< EOM
         <div id="disqus_thread"></div>
         <script type="text/javascript">
             var disqus_shortname = '%shortname%';
@@ -60,37 +57,28 @@ function disqus($title="")
 
 EOM;
 
-    if ($title!="") {
-        $title = "var disqus_title = '" . htmlspecialchars($title, ENT_QUOTES, "UTF-8") . "';\n";
-    } else {
-        $title = "";
+        if ($title!="") {
+            $title = "var disqus_title = '" . htmlspecialchars($title, ENT_QUOTES, "UTF-8") . "';\n";
+        } else {
+            $title = "";
+        }
+
+        $html = str_replace("%shortname%", $this->config['disqus_name'], $html);
+        $html = str_replace("%url%", $this->app['paths']['canonicalurl'], $html);
+        $html = str_replace("%title%", $title, $html);
+
+        return new \Twig_Markup($html, 'UTF-8');
+
     }
 
-    // echo "<pre>\n" . \util::var_dump($app['paths'], true) . "</pre>\n";
-
-    $html = str_replace("%shortname%", $config['disqus_name'], $html);
-    $html = str_replace("%url%", $app['paths']['canonicalurl'], $html);
-    $html = str_replace("%title%", $title, $html);
 
 
-    return new \Twig_Markup($html, 'UTF-8');
+    function disquslink($link)
+    {
 
-}
-
-
-
-function disquslink($link)
-{
-    global $app;
-
-    $yamlparser = new \Symfony\Component\Yaml\Parser();
-    $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
-    if (empty($config['disqus_name'])) { $config['disqus_name'] = "No name set"; }
-
-    $script = <<< EOM
+        $script = <<< EOM
 <script type="text/javascript">
-var disqus_shortname = '%shortname%'; 
+var disqus_shortname = '%shortname%';
 (function () {
 var s = document.createElement('script'); s.async = true;
 s.type = 'text/javascript';
@@ -101,21 +89,24 @@ s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
 
 EOM;
 
-    $script = str_replace("%shortname%", $config['disqus_name'], $script);
+        $script = str_replace("%shortname%", $this->config['disqus_name'], $script);
 
-    $app['extensions']->insertSnippet('endofbody', $script);
+        $this->addSnippet('endofbody', $script);
 
+        $html = '%hosturl%%link%#disqus_thread';
 
-    // echo "<pre>\n" . \util::var_dump($app['paths'], true) . "</pre>\n";
+        $html = str_replace("%hosturl%", $this->app['paths']['hosturl'], $html);
+        $html = str_replace("%link%", $link, $html);
 
-    $html = '%hosturl%%link%#disqus_thread';
+        return new \Twig_Markup($html, 'UTF-8');
 
-    $html = str_replace("%hosturl%", $app['paths']['hosturl'], $html);
-    $html = str_replace("%link%", $link, $html);
+    }
 
-    return new \Twig_Markup($html, 'UTF-8');
 
 }
+
+
+
 
 
 

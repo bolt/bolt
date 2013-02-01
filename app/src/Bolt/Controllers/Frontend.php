@@ -42,6 +42,12 @@ class Frontend implements ControllerProviderInterface
             ->bind('contentlink')
         ;
 
+        $ctr->match('/{taxonomytype}/{slug}', array($this, 'taxonomy'))
+            ->before(array($this, 'before'))
+            ->assert('taxonomytype', $app['storage']->getTaxonomyTypeAssert(true))
+            ->bind('taxonomylink')
+        ;
+
         $ctr->match('/{contenttypeslug}', array($this, 'listing'))
             ->before(array($this, 'before'))
             ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
@@ -143,7 +149,8 @@ class Frontend implements ControllerProviderInterface
         // First, get some content
         $page = $app['request']->query->get('page', 1);
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
-        $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => 'datepublish desc', 'page' => $page));
+        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']['general']['listing_sort']);
+        $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         if (!$content) {
             $app->abort(404, "Content for '$contenttypeslug' not found.");
@@ -189,6 +196,48 @@ class Frontend implements ControllerProviderInterface
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
     }
+
+
+    function taxonomy(Silex\Application $app, $taxonomytype, $slug)
+    {
+
+        // First, get some content
+        $page = $app['request']->query->get('page', 1);
+        $amount = $app['config']['general']['listing_records'];
+        $order = $app['config']['general']['listing_sort'];
+        $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
+
+        if (!$content) {
+            $app->abort(404, "Content for '$taxonomytype/$slug' not found.");
+        }
+
+        $template = $app['config']['general']['listing_template'];
+        $chosen = "taxonomy";
+
+        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+
+
+        // Fallback: If file is not OK, show an error page
+        $filename = $app['paths']['themepath'] . "/" . $template;
+        if (!file_exists($filename) || !is_readable($filename)) {
+            $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
+                $contenttypeslug,
+                basename($app['config']['general']['theme']),
+                $template);
+            $app['log']->setValue('templateerror', $error);
+            $app->abort(404, $error);
+        }
+
+        // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
+
+        $body = $app['twig']->render($template, array(
+            'records' => $content
+        ));
+
+        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+
+    }
+
 
     public function feed(Silex\Application $app, $contenttypeslug)
     {
@@ -251,21 +300,24 @@ class Frontend implements ControllerProviderInterface
     public function search(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
-        $template = $app['config']['general']['search_results_template'];
+        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
 
         // @todo Preparation for stage 2
         //$resultsPP = (int) $app['config']['general']['search_results_records'];
         //$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
-        $parameters = array('filter' => $request->get('search'));
+
+        $search = $request->get('search');
+        $parameters = array('filter' => $search);
 
         //$content = $searchterms . " and " . $resultsPP;
         $content = $app['storage']->searchAllContentTypes($parameters);
         //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
 
         $body = $app['twig']->render($template, array(
-            'records' => $content
+            'records' => $content,
+            'search' => $search
         ));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));

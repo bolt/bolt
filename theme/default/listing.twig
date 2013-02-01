@@ -9,12 +9,12 @@
     {% endif %}
 
     <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
-    
+
     {{ record.excerpt(300) }}
 
-    <p class="meta"><a href="{{ record.link }}">Link</a> - Posted by {{ record.user.displayname }} on {{ record.datepublish|date("M d, ’y")}}</p>
-    
-</article>    
+    {% include '_recordfooter.twig' with {record: record} %}
+
+</article>
 {% endfor %}
 
 {{ pager() }}

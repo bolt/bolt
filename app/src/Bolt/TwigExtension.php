@@ -52,7 +52,8 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'),
+            'localdate' => new \Twig_Filter_Method($this, 'localedatetime'),
+            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'), // Deprecated
             'rot13' => new \Twig_Filter_Method($this, 'rot13Filter'),
             'trimtext' => new \Twig_Filter_Method($this, 'trim', array('is_safe' => array('html'))),
             'markdown' => new \Twig_Filter_Method($this, 'markdown', array('is_safe' => array('html'))),
@@ -613,8 +614,9 @@ class TwigExtension extends \Twig_Extension
         } elseif (isset($item['path'])) {
 
             // if the item is like 'content/1', get that content.
-
-            $content = $this->app['storage']->getContent($item['path']);
+            if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $item['path'])) {
+                $content = $this->app['storage']->getContent($item['path']);
+            }
 
             if (is_object($content) && get_class($content)=='Bolt\Content') {
                 // We have content.

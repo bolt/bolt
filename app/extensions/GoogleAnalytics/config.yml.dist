@@ -6,8 +6,9 @@ widget: true
 widget_position: right_first
 
 ga_email: xxxxx@gmail.com
-ga_password:
+ga_password: 
 # NOTE: this is _not_ the same as the 'webproperty'.
+# see: http://code.google.com/p/gapi-google-analytics-php-interface/issues/detail?id=7
 ga_profile_id: 64242754
 filter_referral: bolt.cm
 

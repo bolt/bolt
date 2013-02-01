@@ -4,6 +4,9 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
     if (substr(__DIR__, -28) == '/vendor/bobdenotter/bolt/app') { // installed bolt with composer
         define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -28));
         define('BOLT_COMPOSER_INSTALLED', true);
+        if (!defined('BOLT_CONFIG_DIR')) {
+            define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
+        }
     } else {
         define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
         define('BOLT_COMPOSER_INSTALLED', false);
@@ -97,6 +100,10 @@ $app['editlink'] = "";
 // Add the Bolt Twig functions, filters and tags.
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
+
+// Add the string loader..
+$loader = new Twig_Loader_String();
+$app['twig.loader']->addLoader($loader);
 
 // If debug is set, we set up the custom error handler..
 if ($app['debug']) {

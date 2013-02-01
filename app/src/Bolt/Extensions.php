@@ -15,6 +15,7 @@ class Extensions
     private $ignored;
     private $addjquery;
     private $matchedcomments;
+    private $initialized;
 
     public function __construct(Application $app)
     {
@@ -81,9 +82,7 @@ class Extensions
                 $info[$entry] = $this->infoHelper($this->basefolder."/".$entry);
             }
 
-
         }
-
         $d->close();
 
         ksort($info);
@@ -92,59 +91,41 @@ class Extensions
 
     }
 
-
+    /**
+     * Get the 'information' for an extension, whether it's active or not.
+     *
+     * @param $path
+     * @return array
+     */
     private function infoHelper($path)
     {
         $filename = $path."/extension.php";
         $namespace = basename($path);
 
-        if (is_readable($filename)) {
-            include_once($filename);
-            if (function_exists($namespace.'\info')) {
-                $info = call_user_func($namespace.'\info');
-
-                $info['enabled'] = $this->isEnabled($namespace);
-
-                if (file_exists($path."/readme.md")) {
-                    $info['readme'] = $namespace."/readme.md";
-                }
-
-                if (file_exists($path."/config.yml")) {
-                    $info['config'] = $namespace."/config.yml";
-                    if (is_writable($path."/config.yml")) {
-                        $info['config_writable'] = true;
-                    } else {
-                        $info['config_writable'] = false;
-                    }
-                }
-
-
-                $info['version_ok'] = checkVersion($this->app['bolt_version'], $info['required_bolt_version']);
-
-                $info['namespace'] = $namespace;
-
-                if (!isset($info['dependencies'])) {
-                    $info['dependencies'] = array();
-                }
-
-                if (!isset($info['tags'])) {
-                    $info['tags'] = array();
-                }
-
-                if (!isset($info['priority'])) {
-                    $info['priority'] = 10;
-                }
-
-                return $info;
-
-            } else {
-                $this->app['log']->add("Couldn't initialize $namespace: function 'init()' doesn't exist", 3);
-
-                return false;
-            }
+        if (!is_readable($filename)) {
+            // No extension.php in the folder, skip it!
+            $this->app['log']->add("Couldn't initialize $namespace: 'extension.php' doesn't exist", 3);
+            return array();
         }
 
+        include_once($filename);
 
+        if (!class_exists($namespace.'\Extension')) {
+            // No class Extensionname\Extension, skip it!
+            $this->app['log']->add("Couldn't initialize $namespace: Class '$namespace\\Extension' doesn't exist", 3);
+            return array();
+        }
+
+        $classname = '\\' . $namespace . '\\Extension';
+        $extension = new $classname($this->app);
+
+        $info = $extension->getInfo();
+
+        $info['enabled'] = $this->isEnabled($namespace);
+
+        // \util::var_dump($info);
+
+        return $info;
 
     }
 
@@ -172,6 +153,34 @@ class Extensions
 
             if (is_readable($filename)) {
                 include_once($filename);
+
+                $classname = '\\' . $extension . '\\Extension';
+
+                if (!class_exists($classname)) {
+                    $this->app['log']->add("Couldn't initialize $extension: Class '$classname' doesn't exist", 3);
+                    return;
+                }
+
+                $this->initialized[$extension] = new $classname($this->app);
+
+                if ($this->initialized[$extension] instanceof \Bolt\BaseExtensionInterface) {
+
+                    $this->initialized[$extension]->getConfig();
+                    $this->initialized[$extension]->initialize();
+
+                    // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
+                    $this->getSnippets($extension);
+
+                    if ($this->initialized[$extension] instanceof \Twig_Extension) {
+                        $this->app['twig']->addExtension($this->initialized[$extension]);
+                    }
+                }
+            }
+
+
+
+
+            /*
                 if (function_exists($extension.'\init')) {
                     call_user_func($extension.'\init', $this->app);
                 } else {
@@ -180,6 +189,7 @@ class Extensions
             } else {
                 $this->app['log']->add("Couldn't initialize $extension: file '$filename' not readable", 3);
             }
+            */
 
         }
 
@@ -217,7 +227,7 @@ class Extensions
     /**
      * Insert a widget. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
+    public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
     {
 
         $user = $this->app['session']->get('user');
@@ -232,6 +242,7 @@ class Extensions
             'callback' => $callback,
             'additionalhtml' => $additionalhtml,
             'cacheduration' => $cacheduration,
+            'extension' => $extensionname,
             'defer' => $defer,
             'var1' => $var1,
             'var2' => $var2,
@@ -272,10 +283,16 @@ class Extensions
                 if ($this->app['cache']->isvalid($cachekey, $widget['cacheduration'])) {
                     // Present in the cache ..
                     $html = $this->app['cache']->get($cachekey);
+                } else if (method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
+                    // Widget is defined in the extension itself.
+                    $html = $this->initialized[$widget['extension']]->parseWidget($widget['callback'], $widget['var1'], $widget['var2'], $widget['var3']);
+                    $this->app['cache']->set($cachekey, $html);
                 } else if (function_exists($widget['callback'])) {
+                    // Widget is a callback in the 'global scope'
                     $html = call_user_func($widget['callback'], $this->app, $widget['var1'], $widget['var2'], $widget['var3']);
                     $this->app['cache']->set($cachekey, $html);
                 } else {
+                    // Insert the 'callback' as string.
                     $html = $widget['callback'];
                 }
 
@@ -287,19 +304,46 @@ class Extensions
         return "Invalid key '$key'. No widget found.";
     }
 
+    /**
+     * Call the 'getSnippets' function of an initialized extension, and make sure the snippets are initialized
+     */
+    public function getSnippets($extensionname) {
+
+        $snippets = $this->initialized[$extensionname]->getSnippets();
+
+        if (!empty($snippets)) {
+            foreach($snippets as $snippet) {
+                // Make sure 'snippet[2]' is the correct name.
+                $snippet[2] = $extensionname;
+                if (!isset($snippet[3])) { $snippet[3] = ""; }
+                if (!isset($snippet[4])) { $snippet[4] = ""; }
+                if (!isset($snippet[5])) { $snippet[5] = ""; }
+                $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3], $snippet[4], $snippet[5]);
+            }
+        }
+
+    }
 
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertSnippet($location, $callback, $var1 = "", $var2 = "", $var3 = "")
+    public function insertSnippet($location, $callback, $extensionname = "core", $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->snippetqueue[] = array(
+
+        $key = md5($extensionname.$callback.$location);
+
+        // http://php.net/manual/en/function.func-get-args.php
+
+        $this->snippetqueue[$key] = array(
             'location' => $location,
             'callback' => $callback,
+            'extension' => $extensionname,
             'var1' => $var1,
             'var2' => $var2,
             'var3' => $var3
         );
+
+
 
     }
 
@@ -323,9 +367,15 @@ class Extensions
 
             // Get the snippet, either by using a callback function, or else use the
             // passed string as-is..
-            if (function_exists($item['callback'])) {
+
+            if ( ($item['extension']!="core") && method_exists($this->initialized[$item['extension']], $item['callback'])) {
+                // Snippet is defined in the extension itself.
+                $snippet = $this->initialized[$item['extension']]->parseSnippet($item['callback'], $item['var1'], $item['var2'], $item['var3']);
+            } else if (function_exists($item['callback'])) {
+                // Snippet is a callback in the 'global scope'
                 $snippet = call_user_func($item['callback'], $this->app, $item['var1'], $item['var2'], $item['var3']);
             } else {
+                // Insert the 'callback' as a string..
                 $snippet = $item['callback'];
             }
 

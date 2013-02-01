@@ -86,12 +86,13 @@ class lowlevelchecks
         }
 
         // Check if the app/database folder and .db file are present and writable
-        if (!file_exists(__DIR__.'/../database')) {
-            $this->lowlevelError("The folder <code>app/database/</code> doesn't exist. Make sure it's " .
+        if (!is_writable(__DIR__.'/../database')) {
+            $this->lowlevelError("The folder <code>app/database/</code> doesn't exist or it is not writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
-        if (!is_writable(__DIR__.'/../database/'.$filename) && !is_writable(__DIR__.'/../database') ) {
+        // If the .db file is present, make sure it is writable
+        if (file_exists(__DIR__.'/../database/'.$filename) && !is_writable(__DIR__.'/../database/'.$filename)) {
             $this->lowlevelError("The database file <code>app/database/$filename</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file.");
         }

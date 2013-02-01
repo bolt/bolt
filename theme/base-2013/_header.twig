@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>{% if record.title is defined %}{{ record.title|striptags }} | {% endif %}{{ app.config.general.sitename }}</title>
+
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  -->
+
+  <!-- Included CSS Files (Compressed) -->
+  <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ paths.theme }}stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="{{ paths.theme }}stylesheets/app.css">
+
+  <script src="{{ paths.theme }}javascripts/modernizr.foundation.js"></script>
+</head>
+<body>
+
+
+<div class="container">
+
+
+<!-- Positioning the Top Bar -->
+
+<nav class="top-bar">
+  <ul>
+    <li class="name"><h1><a href="{{ paths.root }}">{{ app.config.general.sitename }}</a></h1></li>
+    <li class="toggle-topbar"><a href="#"></a></li>
+  </ul>
+  <section>
+
+  <ul class="right">
+
+    {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's own _sub_menu.twig.
+       If this file wasn't included, the default menu template in app/theme_defaults/_sub_menu.twig would be used. #}
+    {{ menu() }}
+
+    {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in the theme,
+       the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
+    {% include '_sub_searchbox.twig' %}
+
+    </ul>
+
+  </section>
+</nav>
+
+  <!-- Header bar -->
+
+  <div class="headerphoto">
+            <img src="{{ paths.root }}theme/base-2013/images/header_3.jpg" width="1200" height="350" />
+
+            <p><span>{{ app.config.general.sitename }}</span>
+              {% if app.config.general.payoff is defined %}
+              <br><small>{{ app.config.general.payoff }}</small>
+              {% endif %}
+            </p>
+  </div>
+
+  <!-- End header -->

@@ -85,9 +85,10 @@ class Content implements \ArrayAccess
                 }
             }
 
-            if ($this->fieldtype($key)=="video" && !empty($this->values[$key]['url'])) {
+            if ($this->fieldtype($key)=="video" && is_array($this->values[$key]) && !empty($this->values[$key]['url']) ) {
 
                 $video = $this->values[$key];
+
                 // update the HTML, according to given width and height
                 if (!empty($video['width']) && !empty($video['height'])) {
                     $video['html'] = preg_replace("/width=(['\"])([0-9]+)(['\"])/i", 'width=${1}'.$video['width'].'${3}', $video['html']);
@@ -301,6 +302,14 @@ class Content implements \ArrayAccess
     public function setTaxonomy($taxonomytype, $value, $sortorder=0)
     {
 
+        // If $value is an array, recurse over it, adding each one by itself.
+        if (is_array($value)) {
+            foreach($value as $single) {
+                $this->setTaxonomy($taxonomytype, $single, $sortorder);
+            }
+            return;
+        }
+
         // Make sure sortorder is set correctly;
         if ($this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'] == false) {
             $sortorder = false;
@@ -370,15 +379,21 @@ class Content implements \ArrayAccess
 
             switch ($fieldtype) {
                 case 'markdown':
+
+                    $value = $this->preParse($this->values[$name]);
+
                     // Parse the field as Markdown, return HTML
                     include_once __DIR__. "/../../classes/markdown.php";
-                    $value = new \Twig_Markup(Markdown($this->values[$name]), 'UTF-8');
+                    $value = new \Twig_Markup(Markdown($value), 'UTF-8');
                     break;
 
                 case 'html':
                 case 'text':
                 case 'textarea':
-                    $value = new \Twig_Markup($this->values[$name], 'UTF-8');
+
+                    $value = $this->preParse($this->values[$name]);
+                    $value = new \Twig_Markup($value, 'UTF-8');
+
                     break;
 
                 case 'imagelist':
@@ -393,6 +408,23 @@ class Content implements \ArrayAccess
         }
 
         return $value;
+    }
+
+    /**
+     * If passed value contains Twig tags, parse the string as Twig, and return the results
+     *
+     * @param string $value
+     * @return string
+     */
+    public function preParse($value) {
+
+        if ( strpos($value, "{{")>0 || strpos($value, "{%")>0 || strpos($value, "{#")>0 ) {
+            $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+            $value = $this->app['twig']->render($value);
+        }
+
+        return $value;
+
     }
 
     /**
@@ -484,6 +516,14 @@ class Content implements \ArrayAccess
 
     }
 
+    /**
+     * Get the reference to this record, to uniquely identify this specific record.
+     */
+    public function getReference()
+    {
+        $reference = $this->contenttype['singular_slug'] . "/" . $this->values['slug'];
+        return $reference;
+    }
 
     /**
      * Creates a link to the content record
@@ -506,6 +546,46 @@ class Content implements \ArrayAccess
         return $link;
 
     }
+
+    /**
+     * Get the previous record. ('previous' is defined as 'latest one published before this one')
+     */
+    public function previous($field = "datepublish") {
+
+        $field = safeString($field);
+
+        $params = array(
+            $field => '>'.$this->values[$field],
+            'limit' => 1,
+            'order' => $field . ' ASC'
+        );
+
+        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
+
+        return $previous;
+
+    }
+
+    /**
+     * Get the next record. ('next' is defined as 'first one published after this one')
+     */
+    public function next($field = "datepublish") {
+
+        $field = safeString($field);
+
+        $params = array(
+            $field => '<'.$this->values[$field],
+            'limit' => 1,
+            'order' => $field . ' DESC'
+        );
+
+        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
+
+        return $next;
+
+    }
+
+
 
     /**
      * Gets one or more related records.
@@ -552,9 +632,19 @@ class Content implements \ArrayAccess
         $template = $this->app['config']['general']['record_template'];
         $chosen = 'config';
 
+
         if (isset($this->contenttype['record_template'])) {
-            $template = $this->contenttype['record_template'];
-            $chosen = 'contenttype';
+            $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['record_template'];
+            if (file_exists($templatefile)) {
+                $template = $this->contenttype['record_template'];
+                $chosen = 'contenttype';
+            }
+        }
+
+        $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";
+        if (is_readable($templatefile)) {
+            $template = $this->contenttype['singular_slug'] . ".twig";
+            $chosen = 'singular_slug';
         }
 
         foreach ($this->contenttype['fields'] as $name => $field) {
