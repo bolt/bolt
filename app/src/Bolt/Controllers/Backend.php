@@ -798,7 +798,7 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $data = $form->getData();
-                $contents = cleanPostedData($data['contents']);
+                $contents = cleanPostedData($data['contents']) ."\n";
 
                 $ok = true;
 
