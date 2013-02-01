@@ -341,7 +341,7 @@ if ( ! class_exists( 'util' ) ) {
             if (is_object($var)) {
                 list($root) = explode("\\", get_class($var));
                 // echo "[ " .$root . " - " .get_class($var)." ]";
-                if ( (get_class($var) == "Bolt\\Application") || in_array($root, array('Closure', 'Silex', 'Symfony', 'Twig_SimpleFunction'))) {
+                if ( (get_class($var) == "Bolt\\Application") || in_array($root, array('Closure', 'Silex', 'Symfony')) || substr($root, 0, 5)=="Twig_" ) {
                     $html = '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
                     // echo "[return]\n";
                     return $html;
