@@ -605,9 +605,13 @@ class Content implements \ArrayAccess
         $template = $this->app['config']['general']['record_template'];
         $chosen = 'config';
 
+
         if (isset($this->contenttype['record_template'])) {
-            $template = $this->contenttype['record_template'];
-            $chosen = 'contenttype';
+            $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['record_template'];
+            if (file_exists($templatefile)) {
+                $template = $this->contenttype['record_template'];
+                $chosen = 'contenttype';
+            }
         }
 
         $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";

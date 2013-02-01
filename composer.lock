@@ -128,12 +128,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle",
-                "reference": "v3.1.2"
+                "reference": "dfe3497f31aa28b64174a429483299abc41e474a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/guzzle/guzzle/archive/v3.1.2.zip",
-                "reference": "v3.1.2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/dfe3497f31aa28b64174a429483299abc41e474a",
+                "reference": "dfe3497f31aa28b64174a429483299abc41e474a",
                 "shasum": ""
             },
             "require": {
@@ -180,7 +180,7 @@
                 "zend/zend-cache": "2.0.0beta3",
                 "zend/zend-log": "2.0.0beta3"
             },
-            "time": "2013-01-28 00:07:40",
+            "time": "2013-02-01 06:52:20",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -629,18 +629,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation",
-                "reference": "v2.1.7"
+                "reference": "86a9fb3d4b64d5e6ef198b0aba1b979e3d34766e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/HttpFoundation/archive/v2.1.7.zip",
-                "reference": "v2.1.7",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/86a9fb3d4b64d5e6ef198b0aba1b979e3d34766e",
+                "reference": "86a9fb3d4b64d5e6ef198b0aba1b979e3d34766e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "2013-01-11 00:31:43",
+            "time": "2013-01-30 21:06:00",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -826,12 +826,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing",
-                "reference": "de9d64780254f45cfa9d9e49602d0a63acf45f75"
+                "reference": "429dcf21fafd7ea46218c3a59a649944a96a2102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Routing/archive/de9d64780254f45cfa9d9e49602d0a63acf45f75.zip",
-                "reference": "de9d64780254f45cfa9d9e49602d0a63acf45f75",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/429dcf21fafd7ea46218c3a59a649944a96a2102",
+                "reference": "429dcf21fafd7ea46218c3a59a649944a96a2102",
                 "shasum": ""
             },
             "require": {
@@ -849,11 +849,11 @@
                 "symfony/config": "2.2.*",
                 "symfony/yaml": "2.2.*"
             },
-            "time": "2013-01-28 09:55:07",
+            "time": "2013-01-31 21:39:01",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -1087,18 +1087,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "eaadcca54b888db779a355e449a16dd8c7760e11"
+                "reference": "c6445fb5cd6823f7bd65108a717064957b6eafd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/eaadcca54b888db779a355e449a16dd8c7760e11.zip",
-                "reference": "eaadcca54b888db779a355e449a16dd8c7760e11",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/c6445fb5cd6823f7bd65108a717064957b6eafd5",
+                "reference": "c6445fb5cd6823f7bd65108a717064957b6eafd5",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2013-01-27 16:32:04",
+            "time": "2013-02-01 09:44:45",
             "type": "library",
             "extra": {
                 "branch-alias": {
