@@ -8,6 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Extension extends \Bolt\BaseExtension
 {
 
+    private $global_fields;
+    private $text_labels;
+    private $labelsenabled;
+
     function info()
     {
 
@@ -16,12 +20,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.1",
+            'version' => "1.2",
             'required_bolt_version' => "1.0",
             'highest_bolt_version' => "1.0",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2013-01-27",
+            'latest_releasedate' => "2013-02-01",
         );
 
         return $data;
@@ -30,9 +34,36 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize()
     {
+        if (empty($this->config['stylesheet'])) { $this->config['stylesheet'] = "assets/simpleforms.css"; }
+        
+        // fields that the global config should have
+        $this->global_fields = array(
+                            'stylesheet',
+                            'template',
+                            'mail_template',
+                            'message_ok',
+                            'message_error',
+                            'message_technical',
+                            'button_text'
+        );
+        
+        // labels to translate
+        $this->text_labels = array(
+                            'message_ok',
+                            'message_error',
+                            'message_technical',
+                            'button_text',
+                            'label',
+                            'placeholder'
+        );
 
         // Make sure the css is inserted as well..
-        $this->addCSS("assets/simpleforms.css");
+        $this->addCSS($this->config['stylesheet']);
+
+        // Set the button text.
+        if (!empty($this->config['button_text'])) {
+            $this->config['button_text'] = "Send";
+        }
 
         $this->addTwigFunction('simpleform', 'simpleForm');
 
@@ -50,23 +81,23 @@ class Extension extends \Bolt\BaseExtension
     {
         global $app;
 
-        // Get the config file.
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config = $yamlparser->parse(file_get_contents(__DIR__.'/config.yml'));
-
         // Select which form to use..
-        if (isset($config[$name])) {
-            $formconfig = $config[$name];
+        if (isset($this->config[$name])) {
+            $formconfig = $this->config[$name];
         } else {
             return "Simpleforms notice: No form known by name '$name'.";
         }
 
-        // Set the button text.
-        $button_text = "Send";
-        if (!empty($formconfig['button_text'])) {
-            $button_text = $formconfig['button_text'];
-        } elseif (!empty($config['button_text'])) {
-            $button_text = $config['button_text'];
+        // Set the mail configuration for empty fields to the global defaults.
+        foreach($this->global_fields as $configkey) {
+            if (empty($formconfig[$configkey])) {
+                $formconfig[$configkey] = $this->config[$configkey];
+            }
+        }
+        
+        // tanslate labels if labels extension exists
+        if($this->labelsenabled) {
+            $this->labelfields($formconfig);
         }
 
         $message = "";
@@ -133,7 +164,7 @@ class Extension extends \Bolt\BaseExtension
                     }
                 }
 
-                $mailhtml = $app['twig']->render("SimpleForms/".$config['mail_template'], array(
+                $mailhtml = $app['twig']->render("SimpleForms/".$formconfig['mail_template'], array(
                     'form' =>  $data ));
 
                 // echo "<pre>\n" . \util::var_dump($mailhtml, true) . "</pre>\n";
@@ -148,15 +179,15 @@ class Extension extends \Bolt\BaseExtension
                 $res = $app['mailer']->send($message);
 
                 if ($res) {
-                    $message = $config['message_ok'];
+                    $message = $formconfig['message_ok'];
                     $sent = true;
                 } else {
-                    $error = $config['message_technical'];
+                    $error = $formconfig['message_technical'];
                 }
 
             } else {
 
-                $error = $config['message_error'];
+                $error = $formconfig['message_error'];
 
             }
         }
@@ -164,13 +195,13 @@ class Extension extends \Bolt\BaseExtension
         $app['twig.path'] = __DIR__;
 
 
-        $formhtml = $app['twig']->render("SimpleForms/".$config['template'], array(
+        $formhtml = $app['twig']->render("SimpleForms/".$formconfig['template'], array(
             "submit" => "Send",
             "form" => $form->createView(),
             "message" => $message,
             "error" => $error,
             "sent" => $sent,
-            "button_text" => $button_text
+            "button_text" => $formconfig['button_text']
         ));
 
         return new \Twig_Markup($formhtml, 'UTF-8');
