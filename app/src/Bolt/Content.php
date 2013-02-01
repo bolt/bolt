@@ -419,7 +419,7 @@ class Content implements \ArrayAccess
     public function preParse($value) {
 
         if ( strpos($value, "{{")>0 || strpos($value, "{%")>0 || strpos($value, "{#")>0 ) {
-            $value = html_entity_decode($value);
+            $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
             $value = $this->app['twig']->render($value);
         }
 
