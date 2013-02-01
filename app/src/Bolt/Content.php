@@ -388,9 +388,6 @@ class Content implements \ArrayAccess
                 case 'text':
                 case 'textarea':
                     $value = new \Twig_Markup($this->values[$name], 'UTF-8');
-
-                \util::var_dump($this->app['twig']);
-
                     break;
 
                 case 'imagelist':
