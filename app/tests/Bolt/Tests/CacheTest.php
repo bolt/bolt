@@ -11,12 +11,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      * @var \Bolt\Cache
      */
     protected $object;
+    protected $cachePath;
 
     protected $cacheFiles = array();
 
     public function setUp()
     {
-        $this->object = new Cache();
+        $this->cachePath = __DIR__ . '/../../cache';
+        $this->object = new Cache($this->cachePath);
     }
 
     /**
@@ -43,10 +45,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $key = 'foo';
         $getFilenameMethod = $this->getMethod('getFilename');
 
-        $correctlyHashed = realpath(__DIR__ . "/../../../cache") . "/c_" .
+        $correctlyHashed = $this->cachePath . "/c_" .
                 substr(md5($key), 0, 18) . ".cache";
 
-        $notCorrectlyHashed = realpath(__DIR__ . "/../../../cache") . "/c_" .
+        $notCorrectlyHashed = $this->cachePath . "/c_" .
                 substr(md5($key), 1, 19) .".cache";
 
         $result = $getFilenameMethod->invokeArgs($this->object, array($key));
@@ -60,6 +62,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         foreach ($this->cacheFiles as $cacheFile) {
             unlink($cacheFile);
         }
+        $this->object->clearCache();
     }
 
     public static function setProvider()
