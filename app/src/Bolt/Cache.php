@@ -18,10 +18,15 @@ class Cache
      * Set up the object. Initialize the propr folder for storing the
      * files.
      */
-    public function __construct()
+    public function __construct($cacheDir = "")
     {
-
-        $this->dir = realpath(__DIR__ . "/../../cache");
+        if ($cacheDir == ""){
+            // Default
+            $this->dir = realpath(__DIR__ . "/../../cache");
+        }
+        else {
+            $this->dir = $cacheDir;
+        }
 
         if (!is_writable($this->dir)) {
             // simple warning + die here. This shouldn't occur in practice, as it's
@@ -170,7 +175,7 @@ class Cache
 
         while (false !== ($entry = $d->read())) {
 
-            if ($entry == "." || $entry == ".." || $entry == "index.html") {
+            if ($entry == "." || $entry == ".." || $entry == "index.html" || $entry == '.gitkeep') {
                 continue;
             }
 
