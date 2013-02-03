@@ -68,6 +68,11 @@ class Log
     public function add($message, $level = 1, $content = false, $code = '')
     {
 
+        // If debug is not enabled, don't log anything below lvl3.
+        if ($this->app['debug']==false && $level<3) {
+            return;
+        }
+
         $backtrace = debug_backtrace();
 
         $root = dirname($_SERVER['DOCUMENT_ROOT']);

@@ -161,7 +161,7 @@ class Backend implements ControllerProviderInterface
             $result = $app['users']->login($request->get('username'), $request->get('password'));
 
             if ($result) {
-                $app['log']->add("Login " . $request->get('username') , 2, '', 'login');
+                $app['log']->add("Login " . $request->get('username') , 3, '', 'login');
                 return redirect('dashboard');
             }
 
@@ -178,7 +178,7 @@ class Backend implements ControllerProviderInterface
      */
     function logout(Silex\Application $app) {
 
-        $app['log']->add("Logout", 2, '', 'logout');
+        $app['log']->add("Logout", 3, '', 'logout');
 
         $app['users']->logout();
 
@@ -363,13 +363,13 @@ class Backend implements ControllerProviderInterface
                 } else {
                     $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " has been saved.");
                 }
-                $app['log']->add($content->getTitle(), 2, $content, 'save content');
+                $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
             } else {
                 $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . ".");
-                $app['log']->add("Save content error", 2, $content, 'error');
+                $app['log']->add("Save content error", 3, $content, 'error');
             }
 
         }

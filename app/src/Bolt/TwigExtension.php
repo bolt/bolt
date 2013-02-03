@@ -621,7 +621,7 @@ class TwigExtension extends \Twig_Extension
                 $content = $this->app['storage']->getContent($item['path']);
             }
 
-            if (is_object($content) && get_class($content)=='Bolt\Content') {
+            if (!empty($content) && is_object($content) && get_class($content)=='Bolt\Content') {
                 // We have content.
                 if (empty($item['label'])) {
                     $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];

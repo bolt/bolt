@@ -43,10 +43,12 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
         foreach ($logger->queries as $query) {
 
-            // Skip "PRAGMA .." queries by SQLITE.
-            if (strpos($query['sql'], "PRAGMA ")===0) {
+            // Skip "PRAGMA .." and similar queries by SQLITE.
+            if ( (strpos($query['sql'], "PRAGMA ")===0) || (strpos($query['sql'], "SELECT DISTINCT k.`CONSTRAINT_NAME`")===0) ||
+            (strpos($query['sql'], "SELECT TABLE_NAME AS `Table`")===0) ||   (strpos($query['sql'], "SELECT COLUMN_NAME AS Field")===0)  ){
                 continue;
             }
+
             $queries[] = array(
                 'query' => $query['sql'],
                 'params' => $query['params'],
@@ -140,7 +142,7 @@ $app->error(function (\Exception $e) use ($app) {
     $twigvars['code'] = $e->getCode();
     $twigvars['paths'] = $paths;
 
-    $app['log']->add($twigvars['message'], 3, '', 'abort');
+    $app['log']->add($twigvars['message'], 2, '', 'abort');
 
     $end = getWhichEnd();
 
