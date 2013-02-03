@@ -53,7 +53,7 @@
 
 <div id='bolt-queriespanel' class='bolt-debugpanel'>
 <pre>{% for query in queries %}
-{{loop.index }}. {{ query.query}} <small>({{ query.duration }} sec.)</small>
+{{ "%03d"|format(loop.index) }}. <small {% if (query.duration) > 0.1 %}class='longquery'{% elseif (query.duration) < 0.03 %}class='fastquery'{% endif %}>({{ query.duration }} sec.)</small> - {{ query.query}}
 {% endfor %}
 </pre>
 </div>
