@@ -38,8 +38,8 @@ theme: base-2013
 add_jquery: false
 
 # The list of enabled extensions.
-# TestSnippets, GoogleAnalytics
-enabled_extensions: [ HelloWorld, FacebookLike, TwitterButton ]
+# TestSnippets, GoogleAnalytics, HelloWorld, FacebookLike, TwitterButton
+enabled_extensions: [  ]
 
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.
