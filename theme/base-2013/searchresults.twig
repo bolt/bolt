@@ -14,10 +14,13 @@
 
         <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
 
+
         {% if record.image!="" %}
-        <div class="four columns imageholder">
-          <img src="{{ record.image|thumbnail(400, 260) }}">
-        </div>
+            <div class="four columns imageholder">
+                <a href="{{ image(record.image) }}">
+                    <img src="{{ thumbnail(record.image, 400, 260) }}">
+                </a>
+            </div>
         {% endif %}
 
         {# display something introduction-like.. #}

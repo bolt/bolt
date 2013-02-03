@@ -14,7 +14,9 @@
 
         {% if record.image!="" %}
         <div class="four columns imageholder">
-          <img src="{{ record.image|thumbnail(400, 260) }}">
+            <a href="{{ image(record.image) }}">
+                <img src="{{ thumbnail(record.image, 400, 260) }}">
+            </a>
         </div>
         {% endif %}
 

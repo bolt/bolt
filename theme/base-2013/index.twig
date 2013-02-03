@@ -15,7 +15,7 @@
             {% if home.image!="" %}
                 <div class="five columns imageholder">
                     <a href="{{ image(record.image) }}">
-                        <img src="{{ record.image|thumbnail(400, 260) }}">
+                        <img src="{{ thumbnail(record.image, 400, 260) }}">
                     </a>
                 </div>
             {% endif %}
@@ -42,7 +42,7 @@
                 {% if record.image!="" %}
                     <div class="three columns imageholder">
                         <a href="{{ image(record.image) }}">
-                            <img src="{{ record.image|thumbnail(400, 260) }}">
+                            <img src="{{ thumbnail(record.image, 400, 260) }}">
                         </a>
                     </div>
                 {% endif %}
