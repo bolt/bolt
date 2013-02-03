@@ -26,25 +26,25 @@ class TwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'print' => new \Twig_Function_Method($this, 'printDump', array('is_safe' => array('html'))),
-            'excerpt' => new \Twig_Function_Method($this, 'excerpt', array('is_safe' => array('html'))),
-            'trimtext' => new \Twig_Function_Method($this, 'trim', array('is_safe' => array('html'))),
-            'markdown' => new \Twig_Function_Method($this, 'markdown', array('is_safe' => array('html'))),
-            'current' => new \Twig_Function_Method($this, 'current'),
-            'token' => new \Twig_Function_Method($this, 'token'),
-            'listtemplates' => new \Twig_Function_Method($this, 'listtemplates'),
-            'listcontent' => new \Twig_Function_Method($this, 'listcontent'),
-            'pager' => new \Twig_Function_Method($this, 'pager', array('needs_environment' => true)),
-            'max' => new \Twig_Function_Method($this, 'max'),
-            'min' => new \Twig_Function_Method($this, 'min'),
-            'request' => new \Twig_Function_Method($this, 'request'),
-            'ismobileclient' => new \Twig_Function_Method($this, 'ismobileclient'),
-            'menu' => new \Twig_Function_Method($this, 'menu', array('needs_environment' => true)),
-            'randomquote' => new \Twig_Function_Method($this, 'randomquote', array('is_safe' => array('html'))),
-            'widget' => new \Twig_Function_Method($this, 'widget', array('needs_environment' => true)),
-            'isallowed' => new \Twig_Function_Method($this, 'isAllowed'),
-            'first' => new \Twig_Function_Method($this, 'first'),
-            'last' => new \Twig_Function_Method($this, 'last'),
+            new \Twig_SimpleFunction('print', array($this, 'printDump'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('current', array($this, 'current')),
+            new \Twig_SimpleFunction('token', array($this, 'token')),
+            new \Twig_SimpleFunction('listtemplates', array($this, 'listtemplates')),
+            new \Twig_SimpleFunction('listcontent', array($this, 'listcontent')),
+            new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
+            new \Twig_SimpleFunction('max', array($this, 'max')),
+            new \Twig_SimpleFunction('min', array($this, 'min')),
+            new \Twig_SimpleFunction('request', array($this, 'request')),
+            new \Twig_SimpleFunction('ismobileclient', array($this, 'ismobileclient')),
+            new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true)),
+            new \Twig_SimpleFunction('randomquote', array($this, 'randomquote'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('widget', array($this, 'widget'), array('needs_environment' => true)),
+            new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
+            new \Twig_SimpleFunction('first', array($this, 'first')),
+            new \Twig_SimpleFunction('last', array($this, 'last'))
         );
     }
 
@@ -52,20 +52,20 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'localdate' => new \Twig_Filter_Method($this, 'localedatetime'),
-            'localedatetime' => new \Twig_Filter_Method($this, 'localedatetime'), // Deprecated
-            'rot13' => new \Twig_Filter_Method($this, 'rot13Filter'),
-            'trimtext' => new \Twig_Filter_Method($this, 'trim', array('is_safe' => array('html'))),
-            'markdown' => new \Twig_Filter_Method($this, 'markdown', array('is_safe' => array('html'))),
-            'ucfirst' => new \Twig_Filter_Method($this, 'ucfirst'),
-            'excerpt' => new \Twig_Filter_Method($this, 'excerpt', array('is_safe' => array('html'))),
-            'current' => new \Twig_Filter_Method($this, 'current'),
-            'thumbnail' => new \Twig_Filter_Method($this, 'thumbnail'),
-            'image' => new \Twig_Filter_Method($this, 'image'),
-            'fancybox' => new \Twig_Filter_Method($this, 'fancybox', array('is_safe' => array('html'))),
-            'editable' => new \Twig_Filter_Method($this, 'editable', array('is_safe' => array('html'))),
-            'first' => new \Twig_Filter_Method($this, 'first'),
-            'last' => new \Twig_Filter_Method($this, 'last'),
+            new \Twig_SimpleFilter('localdate', array($this, 'localedatetime')),
+            new \Twig_SimpleFilter('localedatetime', array($this, 'localedatetime')), // Deprecated
+            new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
+            new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
+            new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('current', array($this, 'current')),
+            new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
+            new \Twig_SimpleFilter('image', array($this, 'image')),
+            new \Twig_SimpleFilter('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('first', array($this, 'first')),
+            new \Twig_SimpleFilter('last', array($this, 'last'))
         );
     }
 
