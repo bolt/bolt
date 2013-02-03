@@ -571,7 +571,7 @@ var ImagelistHolder = Backbone.View.extend({
                 }
             });
 
-        $(".imagelistholder div.list a").on('click', function(e) {
+        $(".imagelistholder div.list").on('click', 'a', function(e) {
             e.preventDefault();
             if (confirm('Are you sure you want to remove this image?')) {
                 var id = $(this).parent().data('id');
@@ -579,7 +579,7 @@ var ImagelistHolder = Backbone.View.extend({
             }
         });
 
-        $(".imagelistholder div.list input").on('blur', function() {
+        $(".imagelistholder div.list").on('blur', 'input', function() {
             imagelist.doneSort();
         });
 
