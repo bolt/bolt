@@ -10,7 +10,7 @@
         <article>
 
             {% setcontent home = "page/1" %}
-            <h2>{{ home.title }}</h2>
+            <h1>{{ home.title }}</h1>
 
             {% if home.image!="" %}
                 <div class="five columns imageholder">
@@ -34,6 +34,8 @@
         </article>
 
         <hr>
+
+        <h4>Latest entries</h4>
 
         {% setcontent records = "entries/latest/6" allowpaging %}
         {% for record in records %}

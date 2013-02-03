@@ -69,6 +69,13 @@ ol {
     margin-left: 20px;
 }
 
+
+pre {
+    padding: 4px 0;
+    overflow-y: auto;
+    overflow-x: scroll;
+}
+
 aside {
   margin-top: 20px;
 }
@@ -81,12 +88,6 @@ aside .panel {
   padding: 12px;
 }
 
-pre {
-    padding: 4px 0;
-    overflow-y: auto;
-    overflow-x: scroll;
-}
-
 .container {
   max-width: 1060px;
   margin: 0 auto 20px;
@@ -94,7 +95,6 @@ pre {
   background-color: #FFF;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.2);
 }
-
 
 .top-bar {
   margin: 0;
@@ -221,6 +221,7 @@ div.pagination ul li.active a:hover, ul.pagination li.current a:focus { backgrou
     display: block;
     font-size: 22px;
     color: #FFF;
+    line-height: 26px;
   }
 
   .column, .columns {
