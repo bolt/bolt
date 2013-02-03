@@ -60,7 +60,7 @@ class Users
             'files:theme' => self::DEVELOPER,
             'files:uploads' => self::ADMIN,
             'activitylog' => self::ADMIN,
-            'fileedit' => self::ADMIN,
+            'fileedit' => self::ADMIN
         );
 
     }
@@ -74,7 +74,7 @@ class Users
     public function saveUser($user)
     {
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled');
+        $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled', 'contenttypes');
 
         // unset columns we don't need to store..
         foreach ($user as $key => $value) {
@@ -106,6 +106,9 @@ class Users
             $user['enabled'] = 1;
         }
 
+        // Serialize the contenttypes..
+        $user['contenttypes'] = serialize($user['contenttypes']);
+
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
             return $this->db->insert($this->usertable, $user);
@@ -135,6 +138,15 @@ class Users
         if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS ) {
             $this->logout();
             return false;
+        }
+
+        // set the rights for each of the contenttypes for this user.
+        foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
+            if (in_array($key, $this->currentuser['contenttypes'])) {
+                $this->allowed['contenttype:' . $key] = self::EDITOR;
+            } else {
+                $this->allowed['contenttype:' . $key] = self::ADMIN;
+            }
         }
 
         $key = $this->getSessionKey($this->currentuser['username']);
@@ -323,6 +335,12 @@ class Users
                         $this->users[$key]['userlevel'] = self::DEVELOPER;
                     }
 
+                    // Make sure contenttypes is an array.
+                    $this->users[$key]['contenttypes'] = unserialize($this->users[$key]['contenttypes']);
+                    if (!is_array($this->users[$key]['contenttypes'])) {
+                        $this->users[$key]['contenttypes'] = array();
+                    }
+
                 }
             } catch (\Exception $e) {
                 // Nope. No users.
@@ -431,8 +449,6 @@ class Users
 
     public function isAllowed($what)
     {
-
-        // echo \util::var_dump($what, true);
 
         if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel']) ) {
             // printf(" %s > %s ", $this->allowed[$what], $this->currentuser['userlevel']);

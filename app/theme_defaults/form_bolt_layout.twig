@@ -1,3 +1,4 @@
+{# overrides for the defaults in vendor/symfony/twig-bridge/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig #}
 
 {% block form_row %}
     {% spaceless %}
@@ -22,4 +23,15 @@
         {% endfor %}
     {% endspaceless %}
 {% endblock form_errors %}
+
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <label class="checkbox">
+        {% for child in form %}
+                {{ form_widget(child) }}
+                {{ form_label(child) }}<br/>
+            {% endfor %}
+        </label>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}
 

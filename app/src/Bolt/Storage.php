@@ -130,6 +130,7 @@ class Storage
             $myTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
             $myTable->addColumn("displayname", "string", array("length" => 32));
             $myTable->addColumn("userlevel", "string", array("length" => 32));
+            $myTable->addColumn("contenttypes", "string", array("length" => 256));
             $myTable->addColumn("enabled", "boolean");
 
             $queries = $schema->toSql($this->app['db']->getDatabasePlatform());
@@ -139,6 +140,14 @@ class Storage
             $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
 
         }
+
+        // Check if the contenttypes field is present (added after 0.9.9)
+        if (!isset($tables[$this->prefix."users"]['contenttypes'])) {
+            $query = sprintf("ALTER TABLE `%s` ADD `contenttypes` VARCHAR( 256 ) NOT NULL DEFAULT \"\";", $this->prefix."users" );
+            $this->app['db']->query($query);
+            $output[] = "Added column <tt>" . 'contenttypes' . "</tt> to table <tt>" . $this->prefix . "users</tt>.";
+        }
+
 
         // Create the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {

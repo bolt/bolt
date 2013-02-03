@@ -129,11 +129,12 @@ class Backend implements ControllerProviderInterface
         $total = 0;
         // get the 'latest' from each of the content types.
         foreach ($app['config']['contenttypes'] as $key => $contenttype) {
-            if ($contenttype['show_on_dashboard']==true) {
+            if ($app['users']->isAllowed('contenttype:'.$key) && $contenttype['show_on_dashboard']==true) {
                 $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
                 $total += count($latest[$key]);
             }
         }
+
 
         // If there's nothing in the DB, suggest to create some dummy content.
         if ($total == 0) {
@@ -294,10 +295,16 @@ class Backend implements ControllerProviderInterface
      */
     function overview(Silex\Application $app, $contenttypeslug) {
 
+        // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
+        // for Editors.
+        if (!$app['users']->isAllowed('contenttype:'.$contenttypeslug)) {
+            $app['session']->setFlash('error', "You do not have the right privileges to view that page.");
+            return redirect('dashboard');
+        }
+
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         $order = $app['request']->query->get('order', '');
-
         $page = $app['request']->query->get('page');
         $filter = $app['request']->query->get('filter');
 
@@ -328,6 +335,13 @@ class Backend implements ControllerProviderInterface
      * Edit a unit of content, or create a new one.
      */
     function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request) {
+
+        // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
+        // for Editors.
+        if (!$app['users']->isAllowed('contenttype:'.$contenttypeslug)) {
+            $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+            return redirect('dashboard');
+        }
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -416,6 +430,12 @@ class Backend implements ControllerProviderInterface
         $content = $app['storage']->getContent($contenttype['slug']."/".$id);
         $title = $content->getTitle();
 
+        // Check if we're allowed to edit this content..
+        if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
+            $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+            return redirect('dashboard');
+        }
+
         switch ($action) {
 
             case "held":
@@ -487,6 +507,8 @@ class Backend implements ControllerProviderInterface
 
         $userlevels = $app['users']->getUserLevels();
         $enabledoptions = array(1 => 'yes', 0 => 'no');
+        $contenttypes = makeValuepairs($app['config']['contenttypes'], 'slug', 'name');
+
         // If we're creating the first user, we should make sure that we can only create
         // a user that's allowed to log on.
         if (!$app['users']->getUsers()) {
@@ -535,6 +557,12 @@ class Backend implements ControllerProviderInterface
                 'expanded' => false,
                 'constraints' => new Assert\Choice(array_keys($enabledoptions)),
                 'label' => "User is enabled",
+            ))
+                ->add('contenttypes', 'choice', array(
+                'choices' => $contenttypes,
+                'expanded' => true,
+                'multiple' => true,
+                'label' => "Allowed contenttypes",
             ));
         }
 
@@ -856,7 +884,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->setFlash('info', "Please log on.");
             return redirect('login');
         } else if (!$app['users']->isAllowed($route)) {
-            $app['session']->setFlash('error', "You do not have the right privileges to visit that page.");
+            $app['session']->setFlash('error', "You do not have the right privileges to view that page.");
             return redirect('dashboard');
         }
 

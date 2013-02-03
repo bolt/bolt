@@ -454,6 +454,10 @@ label {
     margin: 1em 0 0.5em;
 }
 
+label label {
+    display: inline !important;
+}
+
 label.permalink {
     margin: 0 0 0.5em;
 }
