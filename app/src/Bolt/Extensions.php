@@ -314,9 +314,7 @@ class Extensions
                 // Make sure 'snippet[2]' is the correct name.
                 $snippet[2] = $extensionname;
                 if (!isset($snippet[3])) { $snippet[3] = ""; }
-                if (!isset($snippet[4])) { $snippet[4] = ""; }
-                if (!isset($snippet[5])) { $snippet[5] = ""; }
-                $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3], $snippet[4], $snippet[5]);
+                $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
             }
         }
 
@@ -325,7 +323,7 @@ class Extensions
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertSnippet($location, $callback, $extensionname = "core", $extraparameters)
+    public function insertSnippet($location, $callback, $extensionname = "core", $extraparameters = "")
     {
 
         $key = md5($extensionname.$callback.$location);
