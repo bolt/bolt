@@ -476,7 +476,7 @@ class TwigExtension extends \Twig_Extension
             $width,
             $height,
             $crop,
-            $filename
+            safeFilename($filename)
         );
 
         return $thumbnail;
@@ -527,7 +527,7 @@ class TwigExtension extends \Twig_Extension
 
         $image = sprintf("%sfiles/%s",
             $this->app['paths']['root'],
-            $filename
+            safeFilename($filename)
         );
 
         return $image;

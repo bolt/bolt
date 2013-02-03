@@ -510,6 +510,26 @@ function makeSlug($str)
 }
 
 /**
+ * Encodes a filename, for use in thumbnails, fancybox, etc.
+ *
+ * @param string $filename
+ * @return string
+ */
+function safeFilename($filename) {
+
+    $filename = urlencode($filename);
+    $filename = str_replace("%2F", "/", $filename);
+
+    if (substr($filename, 0, 1) == "/") {
+        $filename = substr($filename, 1);
+    }
+
+    return $filename;
+
+}
+
+
+/**
  * Make a simple array consisting of key=>value pairs, that can be used
  * in select-boxes in forms.
  *
