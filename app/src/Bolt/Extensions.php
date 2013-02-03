@@ -227,7 +227,7 @@ class Extensions
     /**
      * Insert a widget. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
+    public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = "", $defer = true, $cacheduration = 180, $extraparameters = "")
     {
 
         $user = $this->app['session']->get('user');
@@ -244,9 +244,7 @@ class Extensions
             'cacheduration' => $cacheduration,
             'extension' => $extensionname,
             'defer' => $defer,
-            'var1' => $var1,
-            'var2' => $var2,
-            'var3' => $var3,
+            'extraparameters' => $extraparameters,
             'key' => $key
         );
 
@@ -285,11 +283,11 @@ class Extensions
                     $html = $this->app['cache']->get($cachekey);
                 } else if (method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
                     // Widget is defined in the extension itself.
-                    $html = $this->initialized[$widget['extension']]->parseWidget($widget['callback'], $widget['var1'], $widget['var2'], $widget['var3']);
+                    $html = $this->initialized[$widget['extension']]->parseWidget($widget['callback'], $widget['extraparameters']);
                     $this->app['cache']->set($cachekey, $html);
                 } else if (function_exists($widget['callback'])) {
                     // Widget is a callback in the 'global scope'
-                    $html = call_user_func($widget['callback'], $this->app, $widget['var1'], $widget['var2'], $widget['var3']);
+                    $html = call_user_func($widget['callback'], $this->app, $widget['extraparameters']);
                     $this->app['cache']->set($cachekey, $html);
                 } else {
                     // Insert the 'callback' as string.
@@ -327,7 +325,7 @@ class Extensions
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertSnippet($location, $callback, $extensionname = "core", $var1 = "", $var2 = "", $var3 = "")
+    public function insertSnippet($location, $callback, $extensionname = "core", $extraparameters)
     {
 
         $key = md5($extensionname.$callback.$location);
@@ -338,9 +336,7 @@ class Extensions
             'location' => $location,
             'callback' => $callback,
             'extension' => $extensionname,
-            'var1' => $var1,
-            'var2' => $var2,
-            'var3' => $var3
+            'extraparameters' => $extraparameters
         );
 
 
@@ -370,10 +366,10 @@ class Extensions
 
             if ( ($item['extension']!="core") && method_exists($this->initialized[$item['extension']], $item['callback'])) {
                 // Snippet is defined in the extension itself.
-                $snippet = $this->initialized[$item['extension']]->parseSnippet($item['callback'], $item['var1'], $item['var2'], $item['var3']);
+                $snippet = $this->initialized[$item['extension']]->parseSnippet($item['callback'], $item['extraparameters']);
             } else if (function_exists($item['callback'])) {
                 // Snippet is a callback in the 'global scope'
-                $snippet = call_user_func($item['callback'], $this->app, $item['var1'], $item['var2'], $item['var3']);
+                $snippet = call_user_func($item['callback'], $this->app, $item['extraparameters']);
             } else {
                 // Insert the 'callback' as a string..
                 $snippet = $item['callback'];
