@@ -9,11 +9,13 @@
                 </a>
                 <ul class="dropdown-menu">
                     {% for slug, contenttype in app.config.contenttypes %}
-                        <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                            <i class="icon-tasks"></i> View {{ contenttype.name }}</a></li>
-                        <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
-                            <i class="icon-plus"></i> New {{ contenttype.singular_name }}</a></li>
-                        {% if not loop.last %}<li class="divider"></li>{% endif %}
+                        {% if isallowed('contenttype:' ~ slug) %}
+                            <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
+                                <i class="icon-tasks"></i> View {{ contenttype.name }}</a></li>
+                            <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
+                                <i class="icon-plus"></i> New {{ contenttype.singular_name }}</a></li>
+                            {% if not loop.last %}<li class="divider"></li>{% endif %}
+                        {% endif %}
                     {% endfor %}
 
                 </ul>
