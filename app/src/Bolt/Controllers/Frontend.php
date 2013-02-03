@@ -30,6 +30,12 @@ class Frontend implements ControllerProviderInterface
             ->before(array($this, 'before'))
         ;
 
+        $ctr->match('/preview/{contenttypeslug}', array($this, 'preview'))
+            ->before(array($this, 'before'))
+            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
+            ->bind('preview')
+        ;
+
         $ctr->match('/{contenttypeslug}/feed.{extension}', array($this, 'feed'))
             ->before(array($this, 'before'))
             ->assert('extension', '(xml|rss)')
@@ -52,6 +58,8 @@ class Frontend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
         ;
+
+
 
         return $ctr;
     }
@@ -139,6 +147,43 @@ class Frontend implements ControllerProviderInterface
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
     }
+
+
+
+
+    function preview(Request $request, Silex\Application $app, $contenttypeslug)
+    {
+
+        $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        // First, get the preview from Post.
+        $content = new \Bolt\Content($app, $contenttypeslug);
+        $content->setFromPost($request->request->all(), $contenttype);
+
+        // Then, select which template to use, based on our 'cascading templates rules'
+        $template = $content->template();
+
+        // Fallback: If file is not OK, show an error page
+        $filename = $app['paths']['themepath'] . "/" . $template;
+        if (!file_exists($filename) || !is_readable($filename)) {
+            $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
+                $content->getTitle(),
+                basename($app['config']['general']['theme']),
+                $template);
+            $app['log']->setValue('templateerror', $error);
+            $app->abort(404, $error);
+        }
+
+        $body = $app['twig']->render($template, array(
+            'record' => $content,
+            $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
+        ));
+
+        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+
+    }
+
+
 
 
     function listing(Silex\Application $app, $contenttypeslug)

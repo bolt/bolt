@@ -52,10 +52,14 @@
         </select>
         </label>
 
-
-        <button type="submit" class="btn btn-primary" id="savebutton">
+        <button type="submit" class="btn btn-primary" id="savebutton" style="margin-right: 8px;">
             <i class="icon-flag"></i> Save {{ contenttype.singular_name }}
         </button>
+
+        <button type="button" class="btn btn-info" id="previewbutton">
+            <i class="icon-external-link"></i> Preview {{ contenttype.singular_name }}
+        </button>
+
 
     </form>
 
@@ -66,17 +70,24 @@
     <section>
     <h2>Actions for this {{ contenttype.singular_name }}</h2>
 
-    <a class="btn btn-primary" id="sidebarsave"><i class="icon-flag"></i> Save {{ contenttype.singular_name }}</a>
-{# TODO: Fix preview.
-        <a class="btn btn-info" id="sidebarview" href="" target="_blank"><i class="icon-external-link"></i> View {{ contenttype.singular_name }}</a>
-        #}
+    <button type="submit" class="btn btn-primary" id="sidebarsavebutton" style="margin-right: 8px;"><i class="icon-flag"></i> Save {{ contenttype.singular_name }}</a>
+
+    <button type="button" class="btn btn-info" id="sidebarpreviewbutton"><i class="icon-external-link"></i> Preview </a>
+
     <script>
-        $('#sidebarsave').bind('click', function(){ $('#savebutton').trigger('click'); });
-        $('#sidebarview').bind('click', function(){
-            var link = "/{{contenttype.singular_slug}}/" + $('input[name=slug]').val();
-            $('#sidebarview').attr('href', link);
+        // Save the page..
+        $('#savebutton, #sidebarsavebutton').bind('click', function(e){
+            e.preventDefault();
+            $('#editcontent').attr('action', '').attr('target', "_self").submit();
         });
 
+        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+        $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
+            e.preventDefault();
+            var link = "{{ paths.root }}" + "preview" + "/{{ contenttype.singular_slug }}";
+            $('#editcontent').attr('action', link).attr('target', "_blank").submit();
+
+        });
     </script>
 
     </section>
