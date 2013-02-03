@@ -18,7 +18,7 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-08-29 08:04:14",
+            "time": "2012-08-29 01:04:14",
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -48,20 +48,20 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
             "description": "Common Library for Doctrine projects",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
-                "collections",
-                "spl",
-                "eventmanager",
                 "annotations",
-                "persistence"
+                "collections",
+                "eventmanager",
+                "persistence",
+                "spl"
             ]
         },
         {
@@ -79,8 +79,8 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
-                "doctrine/common": ">=2.2.0,<=2.2.99"
+                "doctrine/common": ">=2.2.0,<=2.2.99",
+                "php": ">=5.3.2"
             },
             "time": "2012-11-25 18:06:51",
             "type": "library",
@@ -117,8 +117,8 @@
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
                 "database",
-                "persistence",
                 "dbal",
+                "persistence",
                 "queryobject"
             ]
         },
@@ -128,28 +128,28 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle",
-                "reference": "dfe3497f31aa28b64174a429483299abc41e474a"
+                "reference": "5c2f8a176fbdb93f0486f88cba5d7b52d915dbb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/dfe3497f31aa28b64174a429483299abc41e474a",
-                "reference": "dfe3497f31aa28b64174a429483299abc41e474a",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/5c2f8a176fbdb93f0486f88cba5d7b52d915dbb1",
+                "reference": "5c2f8a176fbdb93f0486f88cba5d7b52d915dbb1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
                 "ext-curl": "*",
+                "php": ">=5.3.2",
                 "symfony/event-dispatcher": ">=2.1"
             },
             "replace": {
-                "guzzle/common": "self.version",
-                "guzzle/http": "self.version",
-                "guzzle/parser": "self.version",
                 "guzzle/batch": "self.version",
                 "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
                 "guzzle/inflection": "self.version",
                 "guzzle/iterator": "self.version",
                 "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
                 "guzzle/plugin": "self.version",
                 "guzzle/plugin-async": "self.version",
                 "guzzle/plugin-backoff": "self.version",
@@ -158,29 +158,29 @@
                 "guzzle/plugin-curlauth": "self.version",
                 "guzzle/plugin-history": "self.version",
                 "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
                 "guzzle/plugin-mock": "self.version",
                 "guzzle/plugin-oauth": "self.version",
                 "guzzle/service": "self.version",
-                "guzzle/stream": "self.version",
-                "guzzle/plugin-md5": "self.version"
+                "guzzle/stream": "self.version"
             },
             "require-dev": {
                 "doctrine/common": "*",
-                "symfony/class-loader": "*",
                 "monolog/monolog": "1.*",
-                "zend/zend-log1": "1.12",
+                "phpunit/phpunit": "3.7.*",
+                "symfony/class-loader": "*",
                 "zend/zend-cache1": "1.12",
+                "zend/zend-log1": "1.12",
                 "zendframework/zend-cache": "2.0.*",
-                "zendframework/zend-log": "2.0.*",
-                "phpunit/phpunit": "3.7.*"
+                "zendframework/zend-log": "2.0.*"
             },
             "suggest": {
-                "symfony/class-loader": "*",
                 "monolog/monolog": "*",
+                "symfony/class-loader": "*",
                 "zend/zend-cache": "2.0.0beta3",
                 "zend/zend-log": "2.0.0beta3"
             },
-            "time": "2013-02-01 06:52:20",
+            "time": "2013-02-03 04:14:53",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -211,12 +211,12 @@
             "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
-                "framework",
-                "curl",
-                "http",
-                "rest",
-                "http client",
                 "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
                 "web service"
             ]
         },
@@ -262,8 +262,8 @@
             "description": "Pimple is a simple Dependency Injection Container for PHP 5.3",
             "homepage": "http://pimple.sensiolabs.org",
             "keywords": [
-                "dependency injection",
-                "container"
+                "container",
+                "dependency injection"
             ]
         },
         {
@@ -289,24 +289,24 @@
                 "symfony/routing": ">=2.1,<2.3-dev"
             },
             "require-dev": {
-                "twig/twig": ">=1.8.0,<2.0-dev",
-                "swiftmailer/swiftmailer": "4.2.*",
                 "doctrine/dbal": ">=2.2.0,<2.4.0-dev",
-                "symfony/security": ">=2.1,<2.3-dev",
-                "symfony/config": ">=2.1,<2.3-dev",
-                "symfony/locale": ">=2.1,<2.3-dev",
-                "symfony/form": ">=2.1,<2.3-dev",
+                "swiftmailer/swiftmailer": "4.2.*",
                 "symfony/browser-kit": ">=2.1,<2.3-dev",
+                "symfony/config": ">=2.1,<2.3-dev",
                 "symfony/css-selector": ">=2.1,<2.3-dev",
+                "symfony/dom-crawler": ">=2.1,<2.3-dev",
                 "symfony/finder": ">=2.1,<2.3-dev",
+                "symfony/form": ">=2.1,<2.3-dev",
+                "symfony/locale": ">=2.1,<2.3-dev",
                 "symfony/monolog-bridge": ">=2.1,<2.3-dev",
+                "symfony/options-resolver": ">=2.1,<2.3-dev",
                 "symfony/process": ">=2.1,<2.3-dev",
+                "symfony/security": ">=2.1,<2.3-dev",
+                "symfony/serializer": ">=2.1,<2.3-dev",
                 "symfony/translation": ">=2.1,<2.3-dev",
                 "symfony/twig-bridge": ">=2.1,<2.3-dev",
                 "symfony/validator": ">=2.1,<2.3-dev",
-                "symfony/serializer": ">=2.1,<2.3-dev",
-                "symfony/dom-crawler": ">=2.1,<2.3-dev",
-                "symfony/options-resolver": ">=2.1,<2.3-dev"
+                "twig/twig": ">=1.8.0,<2.0-dev"
             },
             "suggest": {
                 "symfony/browser-kit": ">=2.1,<2.3-dev",
@@ -591,12 +591,12 @@
                 "symfony/options-resolver": "2.1.*"
             },
             "require-dev": {
-                "symfony/validator": "2.1.*",
-                "symfony/http-foundation": "2.1.*"
+                "symfony/http-foundation": "2.1.*",
+                "symfony/validator": "2.1.*"
             },
             "suggest": {
-                "symfony/validator": "2.1.*",
-                "symfony/http-foundation": "2.1.*"
+                "symfony/http-foundation": "2.1.*",
+                "symfony/validator": "2.1.*"
             },
             "time": "2013-01-11 13:37:17",
             "type": "library",
@@ -814,46 +814,46 @@
             "description": "Symfony OptionsResolver Component",
             "homepage": "http://symfony.com",
             "keywords": [
-                "configuration",
                 "config",
+                "configuration",
                 "options"
             ]
         },
         {
             "name": "symfony/routing",
-            "version": "dev-master",
+            "version": "2.2.x-dev",
             "target-dir": "Symfony/Component/Routing",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing",
-                "reference": "429dcf21fafd7ea46218c3a59a649944a96a2102"
+                "reference": "07e32c89097f49dbab266f40ae418d4613ff62cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/429dcf21fafd7ea46218c3a59a649944a96a2102",
-                "reference": "429dcf21fafd7ea46218c3a59a649944a96a2102",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/07e32c89097f49dbab266f40ae418d4613ff62cc",
+                "reference": "07e32c89097f49dbab266f40ae418d4613ff62cc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "doctrine/common": ">=2.2,<2.4-dev",
+                "doctrine/common": ">=2.2,<3.0",
+                "psr/log": ">=1.0,<2.0",
                 "symfony/config": "2.2.*",
-                "symfony/yaml": "2.2.*",
                 "symfony/http-kernel": "2.2.*",
-                "psr/log": ">=1.0,<2.0"
+                "symfony/yaml": "2.2.*"
             },
             "suggest": {
-                "doctrine/common": ">=2.2,<2.4-dev",
+                "doctrine/common": "~2.2",
                 "symfony/config": "2.2.*",
                 "symfony/yaml": "2.2.*"
             },
-            "time": "2013-01-31 21:39:01",
+            "time": "2013-02-01 09:33:53",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -950,18 +950,18 @@
             "require-dev": {
                 "symfony/form": "2.1.*",
                 "symfony/routing": "2.1.*",
+                "symfony/security": "2.1.*",
                 "symfony/templating": "2.1.*",
                 "symfony/translation": "2.1.*",
-                "symfony/yaml": "2.1.*",
-                "symfony/security": "2.1.*"
+                "symfony/yaml": "2.1.*"
             },
             "suggest": {
                 "symfony/form": "2.1.*",
                 "symfony/routing": "2.1.*",
+                "symfony/security": "2.1.*",
                 "symfony/templating": "2.1.*",
                 "symfony/translation": "2.1.*",
-                "symfony/yaml": "2.1.*",
-                "symfony/security": "2.1.*"
+                "symfony/yaml": "2.1.*"
             },
             "time": "2013-01-17 15:20:05",
             "type": "symfony-bridge",
