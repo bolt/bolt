@@ -517,7 +517,7 @@ function makeSlug($str)
  */
 function safeFilename($filename) {
 
-    $filename = urlencode($filename);
+    $filename = rawurlencode($filename); // Use 'rawurlencode', because we prefer '%20' over '+' for spaces.
     $filename = str_replace("%2F", "/", $filename);
 
     if (substr($filename, 0, 1) == "/") {
