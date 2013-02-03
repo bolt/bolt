@@ -201,6 +201,9 @@ footer  {
 
 .info-pop {
     cursor: help;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    text-shadow: none;
 }
 
 .popover {
@@ -210,6 +213,14 @@ footer  {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
+.popover-content {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+    text-shadow: none;
+
+}
 .popover-content p {
     margin: 4px 0;
 }

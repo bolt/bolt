@@ -1,7 +1,15 @@
 
 {% if content.relation is not empty or contenttype.relations is defined %}
 
-    <h3>Relationships</h3>
+    <h3>
+        Relationships
+        <span class="label info-pop" data-html="true" data-title="Relationships"
+            data-content="By selecting other records as a 'relation', you are actually
+            creating a link between this record, and the one you selected. On the
+            website, this can by used for 'related articles', 'see also' or to display
+            how this record fits into a certain structure.
+">Info</span>
+    </h3>
 
 {% endif %}
 

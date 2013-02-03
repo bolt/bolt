@@ -137,9 +137,7 @@
                 computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
                 from your desktop or from a different browser window. <br />
                 Alternatively, you can use a previously uploaded image. To select a previously uploaded file, just
-                type (part) of the filename in the input area, and it will be autocompleted.">
-                Info
-            </span>
+                type (part) of the filename in the input area, and it will be autocompleted.">Info</span>
         </label>
 
         <input type="text" name="{{key}}" id="field-{{key}}"
@@ -192,9 +190,7 @@ $("#field-{{key}}").autocomplete({
                    of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
                    browser window. <br />
                     Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
-                    type (part) of the filename in the input area, and it will be autocompleted.">
-                Info
-            </span>
+                    type (part) of the filename in the input area, and it will be autocompleted.">Info</span>
         </label>
 
         <input type="text" name="{{key}}" id="field-{{key}}"
@@ -242,9 +238,7 @@ $("#field-{{key}}").autocomplete({
                 computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
                 from your desktop or from a different browser window. <br />
                 Alternatively, you can use a previously uploaded image. <br />
-                You can rearrange the images using drag'n'drop, and change the descriptions of the images.">
-                Info
-    </span>
+                You can rearrange the images using drag'n'drop, and change the descriptions of the images.">Info</span>
 </label>
 <div class="imagelistholder dropzone" id="imagelist-{{key}}">
     <div class="list"></div>
@@ -293,9 +287,7 @@ jQuery(function($) {
                   URL of a video-page on Youtube, Vimeo or almost any other video sharing website. <br>
                   Bolt will automatically fetch the &amp;lt;embed&amp;gt;-code, with the correct width, height and the original
                   title. If you change the width or height, the other value will change accordingly, to maintain the
-                  aspect ratio. ">
-                Info
-            </span>
+                  aspect ratio. ">Info</span>
         </label>
         <label>URL: <input type="text" name="{{key}}[url]" id="video-{{key}}"
                value='{{ video.url }}' style='width: 60%;'>
@@ -366,9 +358,7 @@ jQuery(function($) {
                           and the corresponding latitude and longitude will be retrieved using the Google Maps API,
                           together with the closest matching address, according to Google. <br>
                           If you want to move the marker to a different location, just drag'n'drop the pin on the
-                          mini-map. The latitide and longitude will be updated automatically. ">
-                        Info
-                    </span>
+                          mini-map. The latitide and longitude will be updated automatically. ">Info</span>
                 </label>
                 <label>Address lookup: <input type="text" name="{{key}}[address]" id="{{key}}-address"
                     value='{{ geolocation.address }}' style='width: 60%;'>
@@ -446,9 +436,8 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 <p>&nbsp; 1 This is an ordered list<br>
 &nbsp; 2 Item 2</p>
 
-">
-                        Info
-                    </span>
+">Info</span>
+
     </label>
     <textarea id="{{ key }}" name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
               style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
