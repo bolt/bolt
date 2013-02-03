@@ -1,58 +1,64 @@
 {% include '_header.twig' %}
 
-  <!-- Main Page Content and Sidebar -->
+<!-- Main Page Content and Sidebar -->
 
-  <div class="row">
+<div class="row">
 
     <!-- Main Blog Content -->
     <div class="eight columns" role="content">
 
-    <article>
+        <article>
 
-        {% setcontent home = "page/1" %}
-        <h2>{{ home.title }}</h2>
+            {% setcontent home = "page/1" %}
+            <h2>{{ home.title }}</h2>
 
-        {% if home.image!="" %}
-        <div class="five columns imageholder">
-          <img src="{{ record.image|thumbnail(400, 260) }}">
-        </div>
-        {% endif %}
+            {% if home.image!="" %}
+                <div class="five columns imageholder">
+                    <a href="{{ image(record.image) }}">
+                        <img src="{{ record.image|thumbnail(400, 260) }}">
+                    </a>
+                </div>
+            {% endif %}
 
-        {# display something introduction-like.. #}
-        {% if home.introduction %}
-          {{ home.introduction }}
-        {% elseif home.teaser %}
-          {{ home.teaser }}
-        {% else %}
-          <p>{{ home.excerpt(500) }}</p>
-        {% endif %}
+            {# display something introduction-like.. #}
+            {% if home.introduction %}
+            {{ home.introduction }}
+            {% elseif home.teaser %}
+                {{ home.teaser }}
+            {% else %}
+                <p>{{ home.excerpt(500) }}</p>
+            {% endif %}
 
-    </article>
+            <a href="{{ home.link }}">Read more &raquo;</a>
 
-    <hr>
+        </article>
 
-    {% setcontent records = "entries/latest/6" %}
-    {% for record in records %}
-    <article>
+        <hr>
 
-        {% if record.image!="" %}
-        <div class="three columns imageholder">
-          <img src="{{ record.image|thumbnail(400, 260) }}">
-        </div>
-        {% endif %}
+        {% setcontent records = "entries/latest/6" allowpaging %}
+        {% for record in records %}
+            <article>
 
-        <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
+                {% if record.image!="" %}
+                    <div class="three columns imageholder">
+                        <a href="{{ image(record.image) }}">
+                            <img src="{{ record.image|thumbnail(400, 260) }}">
+                        </a>
+                    </div>
+                {% endif %}
 
-        <p>{{ record.excerpt(220) }}</p>
+                <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
 
-    </article>
+                <p>{{ record.excerpt(220) }}</p>
 
-    <hr>
+            </article>
 
-    {% endfor %}
+            <hr>
+
+        {% endfor %}
 
 
-{{ pager() }}
+        {{ pager() }}
 
 
     </div>
@@ -61,9 +67,9 @@
 
     {% include '_aside.twig' %}
 
-  </div>
+</div>
 
-  <!-- End Main Content and Sidebar -->
+<!-- End Main Content and Sidebar -->
 
 
 

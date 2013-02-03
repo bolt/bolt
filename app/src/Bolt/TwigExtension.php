@@ -43,6 +43,9 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('randomquote', array($this, 'randomquote'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('widget', array($this, 'widget'), array('needs_environment' => true)),
             new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
+            new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
+            new \Twig_SimpleFunction('image', array($this, 'image')),
+            new \Twig_SimpleFunction('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last'))
         );

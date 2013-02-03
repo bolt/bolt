@@ -6,27 +6,36 @@
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
+    <meta charset="utf-8" />
 
-  <!-- Set the viewport width to device width for mobile -->
-  <meta name="viewport" content="width=device-width" />
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width" />
 
-  <title>{% if record.title is defined %}{{ record.title|striptags }} | {% endif %}{{ app.config.general.sitename }}</title>
+    <title>{% if record.title is defined %}{{ record.title|striptags }} | {% endif %}{{ app.config.general.sitename }}</title>
 
-  <!-- Included CSS Files (Uncompressed) -->
-  <!--
-  <link rel="stylesheet" href="stylesheets/foundation.css">
-  -->
+    <!-- Included CSS Files (Uncompressed) -->
+    <!--
+    <link rel="stylesheet" href="stylesheets/foundation.css">
+    -->
 
-  <!-- Included CSS Files (Compressed) -->
-  <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="{{ paths.theme }}stylesheets/foundation.min.css">
-  <link rel="stylesheet" href="{{ paths.theme }}stylesheets/app.css">
+    <!-- Included CSS Files (Compressed) -->
+    <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ paths.theme }}stylesheets/foundation.min.css">
+    <link rel="stylesheet" href="{{ paths.theme }}stylesheets/app.css">
 
-  <script src="{{ paths.theme }}javascripts/modernizr.foundation.js"></script>
+    <script src="{{ paths.root }}theme/base-2013/javascripts/jquery-1.9.0.min.js"></script>
+    <script src="{{ paths.root }}theme/base-2013/javascripts/jquery.foundation.topbar.js"></script>
+    <script src="{{ paths.root }}theme/base-2013/javascripts/jquery.foundation.forms.js"></script>
+
+    {# Bolt comes with Fancybox, as it's used in the backend. We can use it here, or
+       you just swap it out for the image-viewing script of your choice. Or delete it altogether #}
+    <script src="{{ paths.app }}view/lib/fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/fancybox/jquery.fancybox.css">
+
+    <script src="{{ paths.theme }}javascripts/modernizr.foundation.js"></script>
+
 </head>
 <body>
-
 
 <div class="container">
 
