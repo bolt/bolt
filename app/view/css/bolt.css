@@ -825,9 +825,7 @@ label span.left {
  */
 .pagination li a,
 .pagination li.disabled a {
-    padding: 0 10px;
     background-color: rgba(220, 220, 220, 0.35);
-    /* line-height: 28px; */
 }
 
 .pagination li:first-child a {
