@@ -46,6 +46,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         // Don't get config just yet. Let 'Extensions' handle this when activating.
         // $this->getConfig();
 
+        $this->functionlist = array();
+        $this->filterlist = array();
+        $this->snippetlist = array();
+
     }
 
     /**
@@ -212,7 +216,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     public function addTwigFilter($name, $callback)
     {
 
-        $this->functionlist[] = new \Twig_SimpleFilter($name, array($this, $callback));
+        $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback));
 
     }
 
