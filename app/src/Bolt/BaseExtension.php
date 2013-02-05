@@ -260,7 +260,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addJquery()
     {
-        $this->app['extensions']->addjquery = true;
+        $this->app['extensions']->addJquery();
     }
 
     /**
@@ -269,7 +269,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function disableJquery()
     {
-        $this->app['extensions']->addjquery = false;
+        $this->app['extensions']->disableJquery();
     }
 
     /**
