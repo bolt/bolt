@@ -9,6 +9,8 @@
 
         <article>
 
+            {# use 'setcontent' to set the variable 'home' to "page/1", which is
+               shorthand for "the record in Pages, with id 1". #}
             {% setcontent home = "page/1" %}
             <h1>{{ home.title }}</h1>
 
@@ -22,7 +24,7 @@
 
             {# display something introduction-like.. #}
             {% if home.introduction %}
-            {{ home.introduction }}
+                {{ home.introduction }}
             {% elseif home.teaser %}
                 {{ home.teaser }}
             {% else %}
@@ -31,12 +33,19 @@
 
             <a href="{{ home.link }}">Read more &raquo;</a>
 
+            {# Tip: If you're curious what all of the available fields of this
+               record contain, just use {{ print(home) }}, to print it all. #}
+
         </article>
 
         <hr>
 
         <h4>Latest entries</h4>
 
+        {# Here we use 'setcontent' to set the variable 'records' to "entries/latest/6",
+           which is shorthand for "the 6 latest records in Entries. Note that we are
+           requesting multiple entries, so 'records' will be an array containing each
+           of the entries. That's why we use the 'for' loop to iterate over them all. #}
         {% setcontent records = "entries/latest/6" allowpaging %}
         {% for record in records %}
             <article>
