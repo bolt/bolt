@@ -1,0 +1,34 @@
+# This is the config file for the RSS Feed extension.
+# Feed will be accessible at the following url:
+# <yoursite>/contenttype/rss/feed.(xml|rss)
+# The contenttype is what you define in this config.
+
+# Block structure
+# ---------------
+# contenttype:
+#   enabled: (true|false)
+#   feed_records: <int>
+#   feed_template: <template name>
+#   content_length: <int>
+
+# Explanation
+# -----------
+# contenttype: the content type for which to enable the feed
+# enabled: this one is easy huh? When set to false, returns a 404 on request
+# feed_records: the number of records to provide in the feed
+# feed_template: which template to use. This needs to be in the assets directory.
+# content_length: the number of characters in the content
+
+# Examples
+# --------
+#pages:
+#    enabled: true
+#    feed_records: 10
+#    feed_template: rss.twig
+#    content_length: 250
+
+#entries:
+#    enabled: false
+#    feed_records: 1
+#    feed_template: rss.twig
+#    content_length: 100
