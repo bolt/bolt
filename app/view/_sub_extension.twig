@@ -19,7 +19,8 @@
 
     <p>{{ extension.description|raw }}</p>
 
-    <p>Author: <strong>{{ extension.author }}</strong>, released: {{ extension.first_releasedate|date("Y-m-d") }},
+    <p>Author: <strong>{{ extension.author }}</strong><br/>
+        Released: {{ extension.first_releasedate|date("Y-m-d") }},
         latest update: {{ extension.latest_releasedate|date("Y-m-d") }} </p>
 
     <span class="label">Name: {{ extension.namespace }}</span>
