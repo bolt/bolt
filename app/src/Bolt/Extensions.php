@@ -754,7 +754,7 @@ class Extensions
         // jquery-1.8.2.min.js
         // jquery-1.5.js
         if (!preg_match('/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/', $html)) {
-            $jqueryfile = $this->app['paths']['app']."view/js/jquery-1.9.0.min.js";
+            $jqueryfile = $this->app['paths']['app']."view/js/jquery-1.9.1.min.js";
             $html = $this->insertBeforeJs("<script src='$jqueryfile'></script>", $html);
             return $html;
         } else {
