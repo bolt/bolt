@@ -2,7 +2,7 @@
     "name": "bobdenotter/bolt",
     "description": "Sophisticated, lightweight & simple CMS",
     "homepage": "http://bolt.cm",
-    "keywords": "CMS",
+    "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     "require": {
         "silex/silex": "1.0.*@dev",
