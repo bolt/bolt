@@ -36,40 +36,40 @@
 <div class="container">
 
 
-<!-- Positioning the Top Bar -->
+    <!-- Positioning the Top Bar -->
 
-<nav class="top-bar">
-  <ul>
-    <li class="name"><h1><a href="{{ paths.root }}">{{ app.config.general.sitename }}</a></h1></li>
-    <li class="toggle-topbar"><a href="#"></a></li>
-  </ul>
-  <section>
+    <nav class="top-bar">
+        <ul>
+            <li class="name"><h1><a href="{{ paths.root }}">{{ app.config.general.sitename }}</a></h1></li>
+            <li class="toggle-topbar"><a href="#"></a></li>
+        </ul>
+        <section>
 
-  <ul class="right">
+            <ul class="right">
 
-    {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's own _sub_menu.twig.
-       If this file wasn't included, the default menu template in app/theme_defaults/_sub_menu.twig would be used. #}
-    {{ menu() }}
+                {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's own _sub_menu.twig.
+                   If this file wasn't included, the default menu template in app/theme_defaults/_sub_menu.twig would be used. #}
+                {{ menu() }}
 
-    {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in the theme,
-       the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
-    {% include '_sub_searchbox.twig' %}
+                {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in the theme,
+                   the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
+                {% include '_sub_searchbox.twig' %}
 
-    </ul>
+            </ul>
 
-  </section>
-</nav>
+        </section>
+    </nav>
 
-  <!-- Header bar -->
+    <!-- Header bar -->
 
-  <div class="headerphoto">
-            <img src="{{ paths.root }}theme/base-2013/images/header_3.jpg" width="1200" height="350" />
+    <div class="headerphoto">
+        <img src="{{ paths.root }}theme/base-2013/images/header_3.jpg" width="1200" height="350" />
 
-            <p><span>{{ app.config.general.sitename }}</span>
-              {% if app.config.general.payoff is defined %}
-              <br><small>{{ app.config.general.payoff }}</small>
-              {% endif %}
-            </p>
-  </div>
+        <p><span>{{ app.config.general.sitename }}</span>
+            {% if app.config.general.payoff is defined %}
+                <br><small>{{ app.config.general.payoff }}</small>
+            {% endif %}
+        </p>
+    </div>
 
-  <!-- End header -->
+    <!-- End header -->

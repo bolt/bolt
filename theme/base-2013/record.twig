@@ -7,89 +7,89 @@
     <!-- Main Blog Content -->
     <div class="eight columns" role="content">
 
-    <article>
+        <article>
 
-        <h2>{{ record.title }}</h2>
+            <h2>{{ record.title }}</h2>
 
-        {% if record.subtitle %}
-            <h3>{{ record.subtitle }}</h3>
-        {% endif %}
+            {% if record.subtitle %}
+                <h3>{{ record.subtitle }}</h3>
+            {% endif %}
 
 
 
-        {% for key,value in record.values %}
+            {% for key,value in record.values %}
 
             {%  if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'title', 'subtitle'] %}
 
-                {% if record.fieldtype(key) == "image" and value != "" %}
+            {% if record.fieldtype(key) == "image" and value != "" %}
 
-                    {% if record.image!="" %}
-                        <div class="six columns imageholder">
-                            <a href="{{ image(value) }}">
-                                <img src="{{ thumbnail(value, 600, 480) }}">
-                            </a>
-                        </div>
-                    {% endif %}
-
-
-                {% elseif record.fieldtype(key) == "imagelist" and value != "" %}
-
-                    {# We do something tricky here: we need to get value of the list in the proper
-                       way, so the value in actually returned as a list. Using {{ record.key }}
-                       won't work, because there is no value 'key'. In your own templates you
-                       will be able to use {{ record.yourfieldname }}. #}
-
-                    {% set list = attribute(record, key) %}
-
-                    {% for item in list %}
-                        <a href="{{ image(item.filename) }}">
-                            <img src="{{ thumbnail(item.filename, 100,100) }}" alt="{{ item.title }}" title="{{ item.title }}">
+                {% if record.image!="" %}
+                    <div class="six columns imageholder">
+                        <a href="{{ image(value) }}">
+                            <img src="{{ thumbnail(value, 600, 480) }}">
                         </a>
-                    {% endfor %}
-
-                {% elseif record.fieldtype(key) == "video" and value.responsive != "" %}
-
-                    {{ value.responsive }}
-
-                {% elseif record.fieldtype(key) == "geolocation" and value.latitude != "" %}
-
-                    <div class='imageholder-wide'>
-                        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&zoom=14&size=617x300&sensor=false&markers={{ value.latitude }},{{ value.longitude }}">
                     </div>
-                    <p>{{ value.formatted_address }}</p>
+                {% endif %}
 
-                {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
 
+            {% elseif record.fieldtype(key) == "imagelist" and value != "" %}
+
+                {# We do something tricky here: we need to get value of the list in the proper
+                   way, so the value in actually returned as a list. Using {{ record.key }}
+                   won't work, because there is no value 'key'. In your own templates you
+                   will be able to use {{ record.yourfieldname }}. #}
+
+                {% set list = attribute(record, key) %}
+
+                {% for item in list %}
+                    <a href="{{ image(item.filename) }}">
+                        <img src="{{ thumbnail(item.filename, 100,100) }}" alt="{{ item.title }}" title="{{ item.title }}">
+                    </a>
+                {% endfor %}
+
+            {% elseif record.fieldtype(key) == "video" and value.responsive != "" %}
+
+                {{ value.responsive }}
+
+            {% elseif record.fieldtype(key) == "geolocation" and value.latitude != "" %}
+
+                <div class='imageholder-wide'>
+                    <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&zoom=14&size=617x300&sensor=false&markers={{ value.latitude }},{{ value.longitude }}">
+                </div>
+                <p>{{ value.formatted_address }}</p>
+
+            {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
+
+                {{ attribute(record, key) }}
+
+            {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
+
+                <p><strong>{{ key }}: </strong>
                     {{ attribute(record, key) }}
+                </p>
 
-                {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
-
-                    <p><strong>{{ key }}: </strong>
-                        {{ attribute(record, key) }}
-                    </p>
-
-                {%  endif %}
+            {%  endif %}
 
 
             {% endif %}
 
-        {% endfor %}
+            {% endfor %}
 
-        {% include '_recordfooter.twig' with {record: record} %}
+            {% include '_recordfooter.twig' with {record: record} %}
 
-        <p class="meta">
-            {% set previous = record.previous('id') %}
-            {% if previous %}
-                <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
-            {% endif %}
+            <p class="meta">
+                {% set previous = record.previous('id') %}
+                {% if previous %}
+                    <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
+                {% endif %}
                 -
-            {% set next = record.next('id') %}
-            {% if next %}
-                <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
-            {% endif %}
-        </p>
+                {% set next = record.next('id') %}
+                {% if next %}
+                    <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
+                {% endif %}
+            </p>
 
-    </article>
+        </article>
 
 
     </div>
@@ -98,9 +98,9 @@
 
     {% include '_aside.twig' %}
 
-  </div>
+</div>
 
-  <!-- End Main Content and Sidebar -->
+<!-- End Main Content and Sidebar -->
 
 
 
