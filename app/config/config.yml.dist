@@ -27,23 +27,17 @@ homepage: page/1
 homepage_template: index.twig
 
 # The default content for the 404 page. Uses the 'record_template' template by default.
-notfound:
+notfound: page/not-found
 
 # The theme to use. Be sure to copy the theme/default folder, and change the
 # name here accordingly. Don't edit the templates in theme/default, because
 # they _will_ get updated in next releases
 theme: base-2013
 
-# Add jQuery to the rendered HTML, whether or not it's added by an extension.
-add_jquery: false
-
-# The list of enabled extensions.
-# TestSnippets, GoogleAnalytics, HelloWorld, FacebookLike, TwitterButton
-enabled_extensions: [  ]
-
-# The default amount of records to show on overview pages. Can be overridden
-# for each contenttype.
-recordsperpage: 10
+# The default template and amount of records to use for listing-pages on the site.
+# Can be overridden for each contenttype, and for each record, if it has a
+# 'templateselect' field.
+record_template: record.twig
 
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype.
@@ -56,21 +50,21 @@ listing_sort: datepublish DESC
 search_results_template: searchresults.twig
 search_results_records: 10
 
-# Set the number of records to be displayed, the template to be used and how
-# many words should be used for the description (excerpt)
-rss:
-  feed_records: 10
-  feed_template: rss.twig
-  content_length: 400
+# The list of enabled extensions. For Example:
+# GoogleAnalytics, FacebookLike, TwitterButton, FacebookComments, Disqus, RSSFeed, Simpleforms.
+# Read each 'readme.md' from the Bolt Extensions screen, to see what they do.
+enabled_extensions: [  ]
+
+# Add jQuery to the rendered HTML, whether or not it's added by an extension.
+add_jquery: false
+
+# The default amount of records to show on overview pages. Can be overridden
+# for each contenttype.
+recordsperpage: 10
 
 # template to use for sitemap and sitemap.xml
 sitemap_template: sitemap.twig
 sitemap_xml_template: sitemap_xml.twig
-
-# The default template and amount of records to use for listing-pages on the site.
-# Can be overridden for each contenttype, and for each record, if it has a
-# 'templateselect' field.
-record_template: record.twig
 
 # The default size of image thumbnails, when using {{ record.image|thumbnail }}
 thumbnails: [ 160, 120, c ]
