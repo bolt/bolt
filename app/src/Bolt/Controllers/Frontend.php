@@ -36,12 +36,6 @@ class Frontend implements ControllerProviderInterface
             ->bind('preview')
         ;
 
-        $ctr->match('/{contenttypeslug}/feed.{extension}', array($this, 'feed'))
-            ->before(array($this, 'before'))
-            ->assert('extension', '(xml|rss)')
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
-        ;
-
         $ctr->match('/{contenttypeslug}/{slug}', array($this, 'record'))
             ->before(array($this, 'before'))
             ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
@@ -281,65 +275,6 @@ class Frontend implements ControllerProviderInterface
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
-    }
-
-
-    public function feed(Silex\Application $app, $contenttypeslug)
-    {
-        // Clear the snippet queue
-        $app['extensions']->clearSnippetQueue();
-        $app['extensions']->disableJquery();
-        $app['debugbar'] = false;
-
-        $contenttype = $app['storage']->getContentType($contenttypeslug);
-
-        if (!isset($contenttype['rss']['enabled']) ||
-            $contenttype['rss']['enabled'] != 'true'
-        ) {
-            $app->abort(404, "Feed for '$contenttypeslug' not found.");
-        }
-
-        // Better safe than sorry: abs to prevent negative values
-        $amount = (int) abs((!empty($contenttype['rss']['feed_records']) ?
-            $contenttype['rss']['feed_records'] :
-            $app['config']['rss']['feed_records']));
-        // How much to display in the description. Value of 0 means full body!
-        $contentLength = (int) abs(
-            (!empty($contenttype['rss']['content_length']) ?
-                $contenttype['rss']['content_length'] :
-                $app['config']['rss']['content_length'])
-        );
-
-        $content = $app['storage']->getContent(
-            $contenttype['slug'],
-            array('limit' => $amount, 'order' => 'datepublish desc')
-        );
-
-        if (!$content) {
-            $app->abort(404, "Feed for '$contenttypeslug' not found.");
-        }
-
-        // Then, select which template to use, based on our
-        // 'cascading templates rules'
-        if (!empty($contenttype['rss']['feed_template'])) {
-            $template = $contenttype['rss']['feed_template'];
-        } else if (!empty($app['config']['rss']['feed_template'])) {
-            $template = $app['config']['rss']['feed_template'];
-        } else {
-            $template = 'rss.twig';
-        }
-
-        $body = $app['twig']->render($template, array(
-            'records' => $content,
-            'content_length' => $contentLength,
-            $contenttype['slug'] => $content,
-        ));
-
-        return new Response($body, 200,
-            array('Content-Type' => 'application/rss+xml; charset=utf-8',
-                'Cache-Control' => 's-maxage=3600, public',
-            )
-        );
     }
 
     public function search(Request $request, Silex\Application $app)
