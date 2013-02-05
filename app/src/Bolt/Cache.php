@@ -175,7 +175,7 @@ class Cache
 
         while (false !== ($entry = $d->read())) {
 
-            if ($entry == "." || $entry == ".." || $entry == "index.html" || $entry == '.gitkeep') {
+            if ($entry == "." || $entry == ".." || $entry == "index.html" || $entry == '.gitignore') {
                 continue;
             }
 
