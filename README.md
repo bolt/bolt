@@ -41,6 +41,8 @@ After installing, you can run the unit test suite by running
 
     phpunit -c app/
 
+This can now also be done by executing the 'tests:run' command from app/nut.
+
 
 Reporting issues
 ----------------
