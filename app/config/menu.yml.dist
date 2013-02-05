@@ -13,14 +13,14 @@ main:
       - label: Sub 1
         path: entry/2
       - label: Sub 2
-        class: okidoki
+        class: menu-item-class
         path: entry/3
       - label: Sub 3
         path: entry/4
       - class: sub-class
         path: page/3
-  - label: Menu item 3
-    path: page/4
-  - label: Last menu item
-    link: http://google.nl
+  - label: All pages
+    path: pages/
+  - label: The Bolt site
+    link: http://bolt.cm
     class: last
