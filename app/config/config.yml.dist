@@ -114,3 +114,7 @@ cookies_lifetime: 1209600
 # When set incorrectly, you might not be able to log on at all.
 # If you'd like it to be valid for all subdomains of 'www.example.org', set this to '.example.org'.
 cookies_domain:
+
+#custom_controller:
+#  mountpoint: ''
+#  class: 'Local\Controllers\SomeController'

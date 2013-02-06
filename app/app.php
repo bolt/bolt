@@ -7,6 +7,11 @@ $app->mount('/bolt', new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
 $app->mount('', new Bolt\Controllers\Frontend());
 
+if (isset($app['config']['general']['custom_controller'])) {
+    $class = $app['config']['general']['custom_controller']['class'];
+    $app->mount($app['config']['general']['custom_controller']['mountpoint'], new $class());
+}
+
 $app->before(function () use ($app) {
 
     $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
