@@ -159,7 +159,7 @@ class Storage
             $myTable->addColumn("taxonomytype", "string", array("length" => 32));
             $myTable->addColumn("slug", "string", array("length" => 64));
             $myTable->addColumn("name", "string", array("length" => 64, "default" => ""));
-            $myTable->addColumn("sortorder", "integer", array("unsigned" => true));
+            $myTable->addColumn("sortorder", "integer", array("unsigned" => true, "default" => 0));
 
             $queries = $schema->toSql($this->app['db']->getDatabasePlatform());
             $queries = implode("; ", $queries);
@@ -1619,6 +1619,10 @@ class Storage
 
                 // If it's like 'desktop#10', split it into value and sortorder..
                 list($value, $sortorder) = explode('#', $value);
+
+                if (empty($sortorder)) {
+                    $sortorder = 0;
+                }
 
                 if ( (!in_array($value, $currentvalues) || ($currentsortorder != $sortorder) ) && (!empty($value))) {
                     // Insert it!
