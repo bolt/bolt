@@ -211,12 +211,17 @@ function bindFileUpload(key) {
             dropZone: $('#dropzone-' + key),
             done: function (e, data) {
                 $.each(data.result, function (index, file) {
-                    var filename = decodeURI(file.url).replace("/files/", "");
-                    $('#field-' + key).val(filename);
-                    $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+                    if (file.error == undefined) {
+                        var filename = decodeURI(file.url).replace("/files/", "");
+                        $('#field-' + key).val(filename);
+                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+                        window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 1500);
+                    } else {
+                        alert("Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable.");
+                        window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 50);
+                    }
                     $('#progress-' + key + ' div.bar').css('width', "100%");
                     $('#progress-' + key).removeClass('progress-striped active');
-                    window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 3000);
                 });
             }
         })
