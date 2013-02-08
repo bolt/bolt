@@ -38,6 +38,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('max', array($this, 'max')),
             new \Twig_SimpleFunction('min', array($this, 'min')),
             new \Twig_SimpleFunction('request', array($this, 'request')),
+            new \Twig_SimpleFunction('debugbar', array($this, 'debugbar')),
             new \Twig_SimpleFunction('ismobileclient', array($this, 'ismobileclient')),
             new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true)),
             new \Twig_SimpleFunction('randomquote', array($this, 'randomquote'), array('is_safe' => array('html'))),
@@ -205,7 +206,7 @@ class TwigExtension extends \Twig_Extension
      * @param array $array
      * @return mixed
      */
-    public function first($array) 
+    public function first($array)
     {
         return \util::array_first($array);
     }
@@ -216,7 +217,7 @@ class TwigExtension extends \Twig_Extension
      * @param array $array
      * @return mixed
      */
-    public function last($array) 
+    public function last($array)
     {
         return \util::array_last($array);
     }
@@ -446,6 +447,26 @@ class TwigExtension extends \Twig_Extension
         }
 
     }
+
+
+    /**
+     * Switch the debugbar 'on' or 'off'. Note: this has no influence on the 'debug' setting
+     *  itself. When 'debug' is off, setting this to 'on', will _not_ show the debugbar.
+     *
+     * @param  string $parameter
+     * @param  string $first
+     * @return mixed
+     */
+    public function debugbar($value)
+    {
+
+        // Make sure it's actually true or false;
+        $value = ($value) ? true : false;
+
+        $this->app['debugbar'] = $value;
+
+    }
+
 
     /**
      * Helper function to make a path to an image thumbnail.
