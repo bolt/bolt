@@ -1,5 +1,5 @@
 /*
- * jQuery File Upload Plugin JS Example 6.11
+ * jQuery File Upload Plugin JS Example 7.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -75,11 +75,24 @@ $(function () {
             dataType: 'json',
             context: $('#fileupload')[0]
         }).done(function (result) {
-            if (result && result.length) {
-                $(this).fileupload('option', 'done')
-                    .call(this, null, {result: result});
-            }
+            $(this).fileupload('option', 'done')
+                .call(this, null, {result: result});
         });
     }
+
+    // Initialize the Image Gallery widget:
+    $('#fileupload .files').imagegallery();
+
+    // Initialize the theme switcher:
+    $('#theme-switcher').change(function () {
+        var theme = $('#theme');
+        theme.prop(
+            'href',
+            theme.prop('href').replace(
+                /[\w\-]+\/jquery-ui.css/,
+                $(this).val() + '/jquery-ui.css'
+            )
+        );
+    });
 
 });
