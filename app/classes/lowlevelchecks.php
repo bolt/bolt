@@ -42,6 +42,12 @@ class lowlevelchecks
                 "it's present and writable to the user that the webserver is using.");
         }
 
+        // Check if .htaccess is present and readable
+        if (!is_readable(BOLT_PROJECT_ROOT_DIR.'/.htaccess')) {
+            $this->lowlevelError("The file <code>.htaccess</code> doesn't exist. Make sure it's " .
+                "present and readable to the user that the webserver is using.");
+        }
+
         // If the config folder is OK, but the config files are missing, attempt to fix it.
         $this->lowlevelConfigFix('config.yml');
         $this->lowlevelConfigFix('menu.yml');
