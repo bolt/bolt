@@ -46,16 +46,16 @@ class Content implements \ArrayAccess
             $this->setValues($values);
         }
 
+        $this->user = $this->app['users']->getCurrentUser();
+
     }
 
-    public function setValues($values)
+    public function setValues(Array $values)
     {
 
-        if (!empty($values['id'])) {
-            $this->id = $values['id'];
+        foreach($values as $key => $value) {
+            $this->setValue($key, $value);
         }
-
-        $this->values = $values;
 
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
@@ -70,10 +70,6 @@ class Content implements \ArrayAccess
         if (!isset($this->values['datechanged']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
             $this->values['datechanged'] = date("Y-m-d H:i:s");
-        }
-
-        if (!empty($values['username'])) {
-            $this->user = $this->app['users']->getUser($values['username']);
         }
 
         // Check if the values need to be unserialized, and pre-processed.
@@ -132,6 +128,18 @@ class Content implements \ArrayAccess
         if ($key == 'id') {
             $this->id = $value;
         }
+
+        if ($key == 'username') {
+            $this->user = $this->app['users']->getUser($value);
+        }
+
+
+        // Only set values if they have are actually a field.
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
+        if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
+            return;
+        }
+
 
         if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish') {
             if ( !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value) ) {
