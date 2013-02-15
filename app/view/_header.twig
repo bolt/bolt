@@ -68,24 +68,30 @@
 
 <div class="container-fluid">
 
-{% if app.session.hasFlash('info') %}
+{% if app.session.flashBag.has('info') %}
     <div class="alert alert-info">
         <button class="close" data-dismiss="alert">×</button>
-        {{ app.session.flash('info') }}
+        {% for msg in app.session.flashBag.get('info') %}
+            {{ msg }}
+        {% endfor %}
     </div>
 {% endif %}
 
-{% if app.session.hasFlash('error') %}
+{% if app.session.flashBag.has('error') %}
     <div class="alert alert-error">
         <button class="close" data-dismiss="alert">×</button>
-        {{ app.session.flash('error') }}
+        {% for msg in app.session.flashBag.get('error') %}
+            {{ msg }}
+        {% endfor %}
     </div>
 {% endif %}
 
-{% if app.session.hasFlash('success') %}
+{% if app.session.flashBag.has('success') %}
     <div class="alert alert-success">
         <button class="close" data-dismiss="alert">×</button>
-        {{ app.session.flash('success') }}
+        {% for msg in app.session.flashBag.get('success') %}
+            {{ msg }}
+        {% endfor %}
     </div>
 {% endif %}
 
