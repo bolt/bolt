@@ -339,7 +339,7 @@ jQuery(function($) {
     {% if field.type == "geolocation" %}
 
         {% set geolocation = content.get(key) %}
-        <div class="dropzone">
+        <div class="dropzone geolocation">
 
             <div class="map-right hide-phone">
                 <div class='mapholder' id="map-{{key}}" style="width: 200px;">
@@ -368,8 +368,8 @@ jQuery(function($) {
                  - Longitude: <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude"
                     value='{{ geolocation.longitude }}' style='width: 30%;'>
                 </label>
-                <p>Matched address: {{ geolocation.formatted_address }}
-                <span id="{{ key }}-reversegeo">{{ geolocation.reversegeo }}</span></p>
+                <p>Matched address:
+                <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address }}</span></p>
                 <input type="hidden" name="{{key}}[formatted_address]" id="{{key}}-formatted_address"
                        value='{{ geolocation.formatted_address }}' style='width: 30%;'>
                 <script type="text/javascript">

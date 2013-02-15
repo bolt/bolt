@@ -595,9 +595,13 @@ label span.left {
 
 #editcontent .dropzone {
     margin-top: 16px;
-    xheight: 120px;
+    height: 140px;
     width: 97%;
     clear: both;
+}
+
+#editcontent .geolocation {
+    height: 170px;
 }
 
 #editcontent .dropzone.hover, #editcontent .dropzone.in  {
