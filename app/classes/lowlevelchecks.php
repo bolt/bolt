@@ -44,7 +44,7 @@ class lowlevelchecks
 
         // Check if .htaccess is present and readable
         if (!is_readable(BOLT_WEB_DIR.'/.htaccess')) {
-            $this->lowlevelError("The file <code>.htaccess</code> doesn't exist. Make sure it's " .
+            $this->lowlevelError("The file <code>" . BOLT_WEB_DIR . ".htaccess</code> doesn't exist. Make sure it's " .
                 "present and readable to the user that the webserver is using.");
         }
 
