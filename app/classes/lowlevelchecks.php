@@ -37,13 +37,13 @@ class lowlevelchecks
         }
 
         // Check if the app/config file is present and writable
-        if (!is_writable(__DIR__.'/../config')) {
-            $this->lowlevelError("The folder <code>app/config/</code> isn't writable. Make sure " .
+        if (!is_writable(BOLT_CONFIG_DIR)) {
+            $this->lowlevelError("The folder <code>" . BOLT_CONFIG_DIR . "</code> isn't writable. Make sure " .
                 "it's present and writable to the user that the webserver is using.");
         }
 
         // Check if .htaccess is present and readable
-        if (!is_readable(BOLT_PROJECT_ROOT_DIR.'/.htaccess')) {
+        if (!is_readable(BOLT_WEB_DIR.'/.htaccess')) {
             $this->lowlevelError("The file <code>.htaccess</code> doesn't exist. Make sure it's " .
                 "present and readable to the user that the webserver is using.");
         }
