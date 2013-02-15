@@ -1148,7 +1148,8 @@ function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
         1024 => "User Notice",
         2048 => "Strict",
         4096 => "Recoverable Error",
-        8192 => "Deprecated"
+        8192 => "Deprecated",
+        16384 => "User Deprecated"
 
     );
 
