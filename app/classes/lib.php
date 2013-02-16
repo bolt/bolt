@@ -856,7 +856,8 @@ function getConfig()
         $tempfields = $temp['fields'];
         $temp['fields'] = array();
         foreach($tempfields as $key => $value) {
-            $temp['fields'][ strtolower(safeString($key)) ] = $value;
+			$key = str_replace("-", "_", strtolower(safeString($key, true)));
+            $temp['fields'][ $key ] = $value;
         }
         $config['contenttypes'][ $temp['slug'] ] = $temp;
     }
