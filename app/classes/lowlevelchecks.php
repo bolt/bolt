@@ -65,8 +65,11 @@ class lowlevelchecks
      */
     public function doDatabaseCheck($config)
     {
-
         $cfg = $config['general']['database'];
+
+        if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
+            $this->lowlevelError("There is no password set for your database. That must surely be a mistake, right?");
+        }
 
         if($cfg['driver']=='mysql') {
             if (!extension_loaded('pdo_mysql')) {
