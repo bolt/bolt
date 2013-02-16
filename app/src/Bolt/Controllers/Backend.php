@@ -351,7 +351,9 @@ class Backend implements ControllerProviderInterface
             $content->setFromPost($request->request->all(), $contenttype);
 
             // Don't try to spoof the $id..
-            if ($id != $content['id']) {
+            if (!empty($content['id']) && $id != $content['id']) {
+				echo "$id is niet ". $content['id'];
+				die();
                 $app['session']->setFlash('error', "Don't try to spoof the id!");
                 return redirect('dashboard');
             }
