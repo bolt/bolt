@@ -67,8 +67,11 @@ class lowlevelchecks
     {
         $cfg = $config['general']['database'];
 
-        if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
-            $this->lowlevelError("There is no password set for your database. That must surely be a mistake, right?");
+        if( ($cfg['driver']=='mysql' || $cfg['driver']=='postgres') && empty($cfg['password']) ) {
+            $this->lowlevelError("There is no <code>password</code> set for your database. That must surely be a mistake, right?");
+        }
+        if( ($cfg['driver']=='mysql' || $cfg['driver']=='postgres') && empty($cfg['databasename']) ) {
+            $this->lowlevelError("There is no <code>databasename</code> set for your database.");
         }
 
         if($cfg['driver']=='mysql') {
@@ -161,7 +164,7 @@ class lowlevelchecks
 
     <div style="max-width: 530px; margin: auto;">
 
-    <h1>Bolt - Error.</h1>
+    <h1>Bolt - Fatal error.</h1>
 
     <p><strong>%error%</strong></p>
 
