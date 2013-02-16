@@ -9,12 +9,15 @@
 
         <h1>Search results for <b>{{ search }}</b>.</h1>
 
+		{# This is the default template for searchresults. the 'records' array contains 
+		   all of the records matching the current query. If there are no results, the
+		   code in the 'else' part of the for-loop is used. #}
+
         {% for record in records %}
         <article>
 
             <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
-
-
+ 
             {% if record.image!="" %}
                 <div class="four columns imageholder">
                     <a href="{{ image(record.image) }}">
@@ -25,7 +28,7 @@
 
             {# display something introduction-like.. #}
             {% if record.introduction %}
-            {{ record.introduction }}
+                {{ record.introduction }}
             {% elseif record.teaser %}
                 {{ record.teaser }}
             {% else %}
@@ -37,6 +40,11 @@
         </article>
 
         <hr>
+        {% else %}
+		
+		<article>
+		  <p>No results found for '{{ search }}'. Please try another search.</p>
+		</article>
 
         {% endfor %}
 

@@ -7,6 +7,11 @@
     <!-- Main Blog Content -->
     <div class="eight columns" role="content">
 
+	{# This template is used for 'listings': Generic pages that list a number of 
+	   records from a certain contenttype. These records are available as an array 
+	   called 'records'. In the for-loop below, we iterate over the records that 
+	   are on this page. #}
+
     {% for record in records %}
     <article>
 
@@ -37,7 +42,8 @@
 
     {% endfor %}
 
-{{ pager() }}
+    {# If there are more records than will fit on one page, the pager is shown. #}
+    {{ pager() }}
 
 
     </div>
