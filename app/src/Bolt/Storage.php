@@ -524,14 +524,18 @@ class Storage
             $allowedcolumns[] = $key;
 
             // Set the slug, while we're at it..
-            if ($values['type'] == "slug" && !empty($values['uses']) && empty($fieldvalues['slug'])) {
-                $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
-            } else {
-                $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+            if ($values['type'] == "slug") {
+                if (!empty($values['uses'])) {
+                    $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
+                } else if (!empty($fieldvalues['slug'])) {
+                    $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                } else {
+                    echo "wut";
+                }
             }
 
             if ($values['type'] == "video") {
-                if (strlen($fieldvalues[$key]['url'])>2) {
+                if (!empty($fieldvalues[$key]['url'])) {
                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
                 } else {
                     $fieldvalues[$key] = "";
@@ -539,7 +543,7 @@ class Storage
             }
 
             if ($values['type'] == "geolocation") {
-                if (strlen($fieldvalues[$key]['address'])>2) {
+                if (!empty($fieldvalues[$key]['address'])) {
                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
                 } else {
                     $fieldvalues[$key] = "";
@@ -1611,14 +1615,19 @@ class Storage
             // Get the current values from the DB..
             $query = "SELECT id, slug, sortorder FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=?";
             $currentvalues = $this->app['db']->fetchAll($query, array($content_id, $contenttype, $taxonomytype));
-            $currentsortorder = $currentvalues[0]['sortorder'];
-            $currentvalues = makeValuePairs($currentvalues, 'id', 'slug');
+            if (!empty($currentvalues)) {
+                $currentsortorder = $currentvalues[0]['sortorder'];
+                $currentvalues = makeValuePairs($currentvalues, 'id', 'slug');
+            } else {
+                $currentsortorder = 'id';
+                $currentvalues = array();
+            }
 
             // Add the ones not yet present..
             foreach ($newvalues as $value) {
 
                 // If it's like 'desktop#10', split it into value and sortorder..
-                list($value, $sortorder) = explode('#', $value);
+                list($value, $sortorder) = explode('#', $value."#");
 
                 if (empty($sortorder)) {
                     $sortorder = 0;
@@ -1772,26 +1781,26 @@ class Storage
         }
 
         // Add the ones not yet present..
-        foreach ($relation as $to_contenttype => $newvalues) {
+        if (!empty($relation)) {
+            foreach ($relation as $to_contenttype => $newvalues) {
 
-            foreach ($newvalues as $value) {
+                foreach ($newvalues as $value) {
 
-                if (!in_array($to_contenttype."/".$value, $currentvalues) && (!empty($value))) {
-                    // Insert it!
-                    $row = array(
-                        'from_contenttype' => $contenttype,
-                        'from_id' => $content_id,
-                        'to_contenttype' => $to_contenttype,
-                        'to_id' => $value
-                    );
-                    $this->app['db']->insert($tablename, $row);
+                    if (!in_array($to_contenttype."/".$value, $currentvalues) && (!empty($value))) {
+                        // Insert it!
+                        $row = array(
+                            'from_contenttype' => $contenttype,
+                            'from_id' => $content_id,
+                            'to_contenttype' => $to_contenttype,
+                            'to_id' => $value
+                        );
+                        $this->app['db']->insert($tablename, $row);
+                    }
+
                 }
 
             }
-
-
         }
-
 
     }
 
