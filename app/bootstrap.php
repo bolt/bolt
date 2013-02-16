@@ -7,6 +7,9 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
         if (!defined('BOLT_CONFIG_DIR')) {
             define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
         }
+        if (!defined('BOLT_WEB_DIR')) {
+            define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR.'/web');
+        }
     } else {
         define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
         define('BOLT_COMPOSER_INSTALLED', false);
