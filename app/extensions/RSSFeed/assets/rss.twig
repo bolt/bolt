@@ -21,7 +21,7 @@
                 <author>
                     {{ record.user.email }} ({{ record.user.displayname }})
                 </author>
-                <guid>{{ record.contenttype.singular_slug }}/{{ record.id }}</guid>
+                <guid isPermaLink="false">{{ record.contenttype.singular_slug }}/{{ record.id }}</guid>
 {% if record.taxonomy.categories is defined %}
 {% for category in record.taxonomy.categories %}
                 <category><![CDATA[ {{ category }} ]]></category>
@@ -29,10 +29,10 @@
 {% endif %}
 
 {% if content_length == 0 %}
-                <description>{{ record.rss_safe('body') }}</description>
+                <description>{{ record.rss_safe('body')|raw }}</description>
 {% else %}
                 <description>
-                        {{ record.rss_safe('body', content_length) }}
+                        {{ record.rss_safe('body', content_length)|raw }}
                 </description>
 {% endif %}
             </item>
