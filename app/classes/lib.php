@@ -939,6 +939,10 @@ function getDBOptions($config)
     } else {
         // Assume we configured it correctly. Yeehaa!
 
+        if (empty($configdb['password'])) {
+            $configdb['password'] = "";
+        }
+
         $driver = (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql');
         if ($driver == "mysql" || $driver == "mysqli") {
             $driver = 'pdo_mysql';
