@@ -311,7 +311,7 @@ if ( ! class_exists( 'util' ) ) {
                 'color: #333;' .
                 'text-align: left;' .
                 'font-family: Menlo,Monaco,Consolas,\'Courier New\',monospace;">';
-            $html .= self::var_dump_plain( $var );
+            $html .= self::var_dump_plain( $var, true );
             $html .= '</pre>';
 
             if ( ! $return ) {
@@ -334,14 +334,14 @@ if ( ! class_exists( 'util' ) ) {
          * @since   1.0.000
          * @static
          */
-        public static function var_dump_plain( $var )
+        public static function var_dump_plain( $var, $traversedeeper = false )
         {
 
             // Don't traverse into Closures or Silex / Symfony objects..
             if (is_object($var)) {
                 list($root) = explode("\\", get_class($var));
                 // echo "[ " .$root . " - " .get_class($var)." ]";
-                if ( (get_class($var) == "Bolt\\Application") || in_array($root, array('Closure', 'Silex', 'Symfony')) || substr($root, 0, 5)=="Twig_" ) {
+                if ( !$traversedeeper && ( (get_class($var) == "Bolt\\Application") || in_array($root, array('Closure', 'Silex', 'Symfony')) || substr($root, 0, 5)=="Twig_" )) {
                     $html = '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') ';
                     // echo "[return]\n";
                     return $html;
