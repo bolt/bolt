@@ -763,7 +763,7 @@ function getConfig()
         'sitename' => 'Default Bolt site',
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
-        'translation' => array('locale' => 'en', 'territory' => 'GB'),
+        'locale' => 'en_GB',
         'sitemap_template' => 'sitemap.twig',
         'sitemap_xml_template' => 'sitemap_xml.twig',
         'recordsperpage' => 10,

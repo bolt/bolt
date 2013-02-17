@@ -41,8 +41,7 @@ $app = new Bolt\Application();
 $app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
 $app['debugbar'] = false;
 
-$app['locale'] = $config['general']['translation']['locale'];
-$app['territory'] = $config['general']['translation']['territory'];
+list ($app['locale'], $app['territory']) = explode('_', $config['general']['locale']);
 
 $app['config'] = $config;
 

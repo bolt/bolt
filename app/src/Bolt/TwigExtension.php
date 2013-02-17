@@ -56,8 +56,8 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('localdate', array($this, 'localedatetime')),
-            new \Twig_SimpleFilter('localedatetime', array($this, 'localedatetime')), // Deprecated
+            new \Twig_SimpleFilter('localdate', array($this, 'localedatetime'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('localedatetime', array($this, 'localedatetime'), array('is_safe' => array('html'))), // Deprecated
             new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
             new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
@@ -105,9 +105,10 @@ class TwigExtension extends \Twig_Extension
             $dateTime = new \DateTime($dateTime);
         }
 
-        $strftimeLocale = $this->app['locale'] . '_' . $this->app['territory'];
-        $fallbackLocale = 'en_GB, en';
-        $result = setlocale(LC_ALL, $strftimeLocale, $fallbackLocale);
+        $fallbackLocale = array('en_GB', 'en');
+        $locale = array_merge(array($this->app['config']['general']['locale']), $fallbackLocale);
+
+        $result = setlocale(LC_ALL, $locale);
         if ($result === false){
             // This shouldn't occur, but.. Dude!
             // You ain't even got locale or English on your platform??
@@ -118,10 +119,10 @@ class TwigExtension extends \Twig_Extension
                 "No valid locale detected. Fallback on DateTime active.",
                 2
             );
-            return utf8_encode($dateTime->format('Y-m-d H:i:s'));
+            return $dateTime->format('Y-m-d H:i:s');
         } else {
             $timestamp = $dateTime->getTimestamp();
-            return utf8_encode(strftime($format, $timestamp));
+            return strftime($format, $timestamp);
         }
     }
 

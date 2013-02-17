@@ -11,6 +11,10 @@ sitename: A sample site
 payoff: The amazing payoff goes here
 
 # The locale that'll be used by the application. If no locale is set the
+# fallback locale is 'en_GB'. For available options, see: docs.bolt.cm/
+locale: nl_NL
+
+# The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en' and the territory 'GB'.
 translation:
   locale: en
