@@ -65,6 +65,11 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
+
+if ($dboptions['driver']=="pdo_sqlite") {
+    $app['db']->query("PRAGMA synchronous = OFF");
+}
+
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
     'http_cache.cache_dir' => __DIR__.'/cache/',
 ));
