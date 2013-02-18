@@ -1,6 +1,6 @@
 {# This file is inserted as the 'footer' of each listed record. #}
 <h6>
-    Written by <em>{{ record.user.displayname }}</em> on {{ record.datepublish|localdate("%A %B %e, %Y")}} <br>
+    Written by <em>{{ record.user.displayname }}</em> on {{ record.datepublish|localdate("%B %e, %Y") }} <br>
     <a href="{{ record.link }}">Permalink</a> -
     {% include '_taxonomylinks.twig' with {record: record} %}
 </h6>
