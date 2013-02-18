@@ -14,12 +14,6 @@ payoff: The amazing payoff goes here
 # fallback locale is 'en_GB'. For available options, see: docs.bolt.cm/
 locale: nl_NL
 
-# The locale that'll be used by the application. If no locale is set the
-# fallback locale is 'en' and the territory 'GB'.
-translation:
-  locale: en
-  territory: US
-
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the
