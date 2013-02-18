@@ -859,7 +859,14 @@ function getConfig()
 			$key = str_replace("-", "_", strtolower(safeString($key, true)));
             $temp['fields'][ $key ] = $value;
         }
+
+        // Make sure taxonomy is an array.
+        if (isset($temp['taxonomy']) && !is_array($temp['taxonomy'])) {
+            $temp['taxonomy'] = array($temp['taxonomy']);
+        }
+
         $config['contenttypes'][ $temp['slug'] ] = $temp;
+
     }
 
 
