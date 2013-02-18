@@ -85,4 +85,4 @@ The different fieldtypes are as follows, with a short example outlining the spec
     option1:
       type: checkbox
 
-Tip: 
+
