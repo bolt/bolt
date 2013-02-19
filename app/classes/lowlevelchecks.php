@@ -15,7 +15,8 @@ class lowlevelchecks
 
         // Bolt requires PHP 5.3.2 or higher.
         if (!checkVersion(phpversion(), "5.3.2")) {
-            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". phpversion(). "</u>, so Bolt will not run on your current setup.");
+            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". phpversion(). 
+	    "</u>, so Bolt will not run on your current setup.");
         }
 
         if (ini_get('safe_mode')) {
@@ -23,8 +24,6 @@ class lowlevelchecks
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the ".
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously.");
         }
-
-
 
         // Check if the vendor folder is present. If not, this is most likely because
         // the user checked out the repo from Git, without running composer.

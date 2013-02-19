@@ -7,10 +7,17 @@
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>{% if record.title is defined %}{{ record.title|striptags }} | {% endif %}{{ app.config.general.sitename }}</title>
+    {# make sure we always display a proper title: The record's title if there is one, appended with the 
+       sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
+    <title>
+      {% if record.title is defined %}{{ record.title|striptags }} | {% endif %}
+      {{ app.config.general.sitename }}
+      {% if record.title is not defined and app.config.general.payoff is defined %} | {{ app.config.general.payoff }}{% endif %}
+    </title>
 
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+    {# paths.theme is always a correct path to the current theme. Even if you rename the theme-folder, 
+       this will keep working. See the documentation on paths: http://docs.bolt.cm/internals#paths #}
     <link rel="stylesheet" href="{{ paths.theme }}stylesheets/foundation.min.css">
     <link rel="stylesheet" href="{{ paths.theme }}stylesheets/app.css">
 
@@ -47,12 +54,13 @@
 
             <ul class="right">
 
-                {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's own _sub_menu.twig.
-                   If this file wasn't included, the default menu template in app/theme_defaults/_sub_menu.twig would be used. #}
+                {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's 
+	               own _sub_menu.twig. If this file wasn't included in the current theme, the default menu 
+	               template in app/theme_defaults/_sub_menu.twig would be used. #}
                 {{ menu() }}
 
-                {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in the theme,
-                   the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
+                {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in 
+	               the theme, the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
                 {% include '_sub_searchbox.twig' %}
 
             </ul>
@@ -64,7 +72,7 @@
 
     <div class="headerphoto">
         <img src="{{ paths.root }}theme/base-2013/images/header_3.jpg" width="1200" height="350" />
-
+        {# the values in the 'app.config.general' array are taken directly from the file app/config/config.yml #}
         <p><span>{{ app.config.general.sitename }}</span>
             {% if app.config.general.payoff is defined %}
                 <br><small>{{ app.config.general.payoff }}</small>
