@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {# make sure we always display a proper title: The record's title if there is one, appended with the 
+    {# make sure we always display a proper title: The record's title if there is one, appended with the
        sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
     <title>
       {% if record.title is defined %}{{ record.title|striptags }} | {% endif %}
@@ -16,7 +16,7 @@
     </title>
 
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
-    {# paths.theme is always a correct path to the current theme. Even if you rename the theme-folder, 
+    {# paths.theme is always a correct path to the current theme. Even if you rename the theme-folder,
        this will keep working. See the documentation on paths: http://docs.bolt.cm/internals#paths #}
     <link rel="stylesheet" href="{{ paths.theme }}stylesheets/foundation.min.css">
     <link rel="stylesheet" href="{{ paths.theme }}stylesheets/app.css">
@@ -40,6 +40,8 @@
    folder to a new folder inside the 'theme/' folder, update the 'theme:' setting in
    config.yml, and you're good to go. Happy tweaking! :-) #}
 
+{{ print(paths) }}
+
 <div class="container">
 
 
@@ -54,12 +56,12 @@
 
             <ul class="right">
 
-                {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's 
-	               own _sub_menu.twig. If this file wasn't included in the current theme, the default menu 
+                {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's
+	               own _sub_menu.twig. If this file wasn't included in the current theme, the default menu
 	               template in app/theme_defaults/_sub_menu.twig would be used. #}
                 {{ menu() }}
 
-                {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in 
+                {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in
 	               the theme, the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
                 {% include '_sub_searchbox.twig' %}
 
