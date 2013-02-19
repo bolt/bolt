@@ -20,17 +20,19 @@ locale: nl_NL
 # http:// protocol prefix. Enable the following line to define a canonical url.
 # canonical: example.org
 
+# The theme to use. Be sure to copy the theme/default folder, and change the
+# name here accordingly. Don't edit the templates in theme/default, because
+# they _will_ get updated in next releases
+theme: base-2013
+
 # The default content to use for the homepage, and the template to render it with.
 homepage: page/1
 homepage_template: index.twig
 
 # The default content for the 404 page. Uses the 'record_template' template by default.
+# Make sure this is set to an existing record, otherwise visitors will get an error-page
+# when the request a non-existing page.
 notfound: page/not-found
-
-# The theme to use. Be sure to copy the theme/default folder, and change the
-# name here accordingly. Don't edit the templates in theme/default, because
-# they _will_ get updated in next releases
-theme: base-2013
 
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype, and for each record, if it has a
@@ -67,13 +69,12 @@ sitemap_xml_template: sitemap_xml.twig
 # The default size of image thumbnails, when using {{ record.image|thumbnail }}
 thumbnails: [ 160, 120, c ]
 
-# Show the 'debug' nut in the lower right corner for logged-in user.
-debug: true
-developer_notices: false
-
-# By default, the debugbar is only shown to logged-in users. Use the following
+# Show the 'debug' nut in the lower right corner for logged-in user. By default,
+# the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'
 # option to show it to all users. You probably do not want to use this in a
 # production environment.
+debug: true
+developer_notices: false
 debug_show_loggedoff: false
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
