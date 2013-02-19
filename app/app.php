@@ -165,21 +165,26 @@ $app->error(function (\Exception $e) use ($app) {
     $twigvars['trace'] = $trace;
     $twigvars['title'] = "An error has occured!";
 
-    if ( ($e instanceof NotFoundHttpException) && (!empty($app['config']['general']['notfound'])) && ($end == "frontend") ) {
+    if ( ($e instanceof NotFoundHttpException) && ($end == "frontend") ) {
 
         $content = $app['storage']->getContent($app['config']['general']['notfound'], array('returnsingle' => true));
 
         // Then, select which template to use, based on our 'cascading templates rules'
-        $template = $content->template();
+        if ($content instanceof \Bolt\Content && !empty($content->id)) {
+            $template = $content->template();
 
-        return $app['twig']->render($template, array(
-            'record' => $content,
-            $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-        ));
+            return $app['twig']->render($template, array(
+                'record' => $content,
+                $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
+            ));
+        } else {
+            $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
+        }
 
     }
 
     return $app['twig']->render('error.twig', $twigvars);
+
 
 });
 
