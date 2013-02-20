@@ -189,28 +189,11 @@ function findFilesHelper($additional, &$files, $term = "", $extensions = array()
  */
 function checkVersion($currentversion, $requiredversion)
 {
-    list($majorC, $minorC, $editC) = preg_split('#[/.-]#', $currentversion . ".0.0");
-    list($majorR, $minorR, $editR) = preg_split('#[/.-]#', $requiredversion . ".0.0");
-
-    if ($majorC > $majorR) {
+    if (version_compare($currentversion, $requiredversion) > -1) {
         return true;
-    }
-    if ($majorC < $majorR) {
+    } else {
         return false;
     }
-    // same major - check minor
-    if ($minorC > $minorR) {
-        return true;
-    }
-    if ($minorC < $minorR) {
-        return false;
-    }
-    // and same minor
-    if ($editC  >= $editR) {
-        return true;
-    }
-
-    return false;
 }
 
 
