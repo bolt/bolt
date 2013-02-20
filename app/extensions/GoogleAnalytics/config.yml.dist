@@ -1,15 +1,15 @@
 # Note: Replace this with your Google Analtics webproperty-id. It looks
 # something like UA-12345678-1. Be sure to include the "UA-"-part.
-webproperty: UA-34977638-1
+webproperty: UA-12345678-1
 
-widget: true
+widget: false
 widget_position: right_first
 
 ga_email: xxxxx@gmail.com
-ga_password: 
-# NOTE: this is _not_ the same as the 'webproperty'.
+ga_password: xxxxxxxxxxx
+# NOTE: the 'ga_profile_id' is _not_ the same as the 'webproperty'.
 # see: http://code.google.com/p/gapi-google-analytics-php-interface/issues/detail?id=7
-ga_profile_id: 64242754
+ga_profile_id: 87654321
 filter_referral: bolt.cm
 
 number_of_days: 14
