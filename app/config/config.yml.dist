@@ -12,7 +12,7 @@ payoff: The amazing payoff goes here
 
 # The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en_GB'. For available options, see: docs.bolt.cm/
-locale: nl_NL
+locale: en_GB
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
