@@ -22,12 +22,16 @@ class Users
     public $session;
     public $currentuser;
     public $allowed;
+    private $hash_strength;
 
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
 
         $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
+
+        // Hashstrength has a default of '10', don't allow less than '8'.
+        $this->hash_strength = max($this->config['general']['hash_strength'], 8);
 
         $this->db = $app['db'];
         $this->config = $app['config'];
@@ -85,7 +89,7 @@ class Users
 
         if (!empty($user['password']) && $user['password']!="**dontchange**") {
             require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
-            $hasher = new \PasswordHash(8, true);
+            $hasher = new \PasswordHash($this->hash_strength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
@@ -241,7 +245,7 @@ class Users
         }
 
         require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
-        $hasher = new \PasswordHash(8, true);
+        $hasher = new \PasswordHash($this->hash_strength, true);
 
         if ($hasher->CheckPassword($password, $user['password'])) {
 
