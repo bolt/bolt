@@ -61,7 +61,7 @@
     <h2>Filtering:</h2>
 
 <form class="form-inline">
-  <input type="text" class="input-small" value="{{ request('filter') }}" name="filter" style="width: 110px;">
+  <input type="text" class="input-small" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;">
   <button type="submit" class="btn">Filter</button>
       {% if request('filter') %}<p><a href="?">Clear filter</a></p>{% endif %}
 </form>
