@@ -834,7 +834,7 @@ function getConfig()
             $temp['show_on_dashboard'] = true;
         }
         if (!isset($temp['sort'])) {
-            $temp['sort'] = "";
+            $temp['sort'] = "id";
         }
         // Make sure all fields are lowercase and 'safe'.
         $tempfields = $temp['fields'];

@@ -1610,6 +1610,11 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
+        if (empty($taxonomy)) {
+            // nothing to do here..
+            return;
+        }
+
         foreach ($taxonomy as $taxonomytype => $newvalues) {
 
             // Get the current values from the DB..
