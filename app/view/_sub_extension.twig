@@ -6,12 +6,8 @@
                        type="button" data-toggle="modal" >View Readme</a>
                 {% endif %}
                 {% if extension.config %}
-                    {% if extension.config_writable %}
-                        <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
-                           type="button">Edit Config</a>
-                    {% else %}
-                        <a class="btn btn-mini disabled" type="button">Config not writable</a>
-                    {% endif %}
+                    <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
+                           type="button">{% if extension.config_writable %}Edit Config{% else %}View Config{% endif %}</a>
                 {% endif %}
             </span>
 
