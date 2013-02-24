@@ -91,10 +91,12 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             // If config.yml.dist exists, attempt to copy it to config.yml.
             if (copy($configdistfile, $configfile)) {
                 // Success!
-                $this->app['log']->add("Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" . $this->namespace . "/config.yml'.", 2);
+                $this->app['log']->add("Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
+                    $this->namespace . "/config.yml'.", 2);
             } else {
                 // Failure!!
-                $message = "Couldn't copy 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" . $this->namespace . "/config.yml': File is not writable";
+                $message = "Couldn't copy 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
+                    $this->namespace . "/config.yml': File is not writable. Create the file manually, or make the folder writable.";
                 $this->app['log']->add($message, 3);
                 $this->app['session']->setFlash('error', $message);
             }
