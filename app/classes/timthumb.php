@@ -14,7 +14,7 @@
  */
 
 /**
- * Pilex specific code: turn /100x200f/foo.jpg into $_GET parameters timthumb understands.
+ * Bolt specific code: turn /100x200f/foo.jpg into $_GET parameters timthumb understands.
  *
  * options for zoomcrop:
  * http://www.binarymoon.co.uk/demo/timthumb-zoom-crop/
