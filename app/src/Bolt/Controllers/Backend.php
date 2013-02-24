@@ -796,21 +796,22 @@ class Backend implements ControllerProviderInterface
 
     function fileedit($file, Silex\Application $app, Request $request) {
 
-        $title = "Edit file '$file'.";
-
         $filename = realpath(__DIR__."/../../../../".$file);
         $type = getExtension($filename);
 
         if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf("file '%s/config/%s' doesn't exist, or is not readable." , basename(__DIR__), $file);
+            $error = sprintf("The file '%s' doesn't exist, or is not readable.", $file);
             $app->abort(404, $error);
         }
 
         if (!is_writable($filename)) {
-            $app['session']->setFlash('error', sprintf("The file '%s/config/%s' is not writable. You will not be able to save your changes, until you fix this." , basename(__DIR__), $file));
+            $app['session']->setFlash('info', sprintf("The file '%s' is not writable. You will have to use your own editor to make
+                modifications to this file.",  $file));
             $writeallowed = false;
+            $title = "View file '$file'.";
         } else {
             $writeallowed = true;
+            $title = "Edit file '$file'.";
         }
 
         $data['contents'] = file_get_contents($filename);
