@@ -25,6 +25,14 @@
                    value='{{ content.datepublish|date('l, d F Y') }}' class='datepicker'>
             <input type="text" name="datepublish-timeformatted" id="datepublish-time"
                    value='{{ content.datepublish|date('H:i') }}' class='timepicker'>
+            <input type="hidden" name="datepublish" id="datepublish" value="{{ content.datepublish }}">
+            <script>
+                $('#datepublish-date, #datepublish-time').on('change', function(){
+                    var date = $('#datepublish-date').datepicker("getDate");
+                    var time = $('#datepublish-time').val() + ":00";
+                    $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+                });
+            </script>
 
         {% if content.datecreated > '1970-01-01 01:01:01' %}
         <br>This {{ contenttype.singular_name }} was created
