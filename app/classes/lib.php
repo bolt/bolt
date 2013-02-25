@@ -771,7 +771,8 @@ function getConfig()
         'cookies_use_httphost' => true,
         'cookies_https_only' => false,
         'cookies_lifetime' => 14*24*3600,
-        'thumbnails' => array(160, 120, 'c')
+        'thumbnails' => array(160, 120, 'c'),
+        'hash_strength' => 10
     );
 
     $config['general'] = array_merge($defaultconfig, $config['general']);
@@ -833,7 +834,7 @@ function getConfig()
             $temp['show_on_dashboard'] = true;
         }
         if (!isset($temp['sort'])) {
-            $temp['sort'] = "";
+            $temp['sort'] = "id";
         }
         // Make sure all fields are lowercase and 'safe'.
         $tempfields = $temp['fields'];

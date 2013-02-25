@@ -4,7 +4,7 @@ namespace Bolt;
 
 /**
  * Simple, file based cache for volatile data.. Useful for storing non-vital
- * information like feeds, and other stuff that can be recoverd easily.
+ * information like feeds, and other stuff that can be recovered easily.
  *
  * @author Bob den Otter, bob@twokings.nl
  *
@@ -15,7 +15,7 @@ class Cache
     private $maxage = 600; // 10 minutes
 
     /**
-     * Set up the object. Initialize the propr folder for storing the
+     * Set up the object. Initialize the proper folder for storing the
      * files.
      */
     public function __construct($cacheDir = "")
@@ -42,7 +42,7 @@ class Cache
      * Set a value in the cache. If $data is an array or an object it's
      * serialised.
      *
-     * Note: only store objects that actually _can_ be serialized and unseralized
+     * Note: only store objects that actually _can_ be serialized and unserialized
      *
      * @param $key
      * @param $data

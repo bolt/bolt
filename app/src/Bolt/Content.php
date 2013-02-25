@@ -118,7 +118,7 @@ class Content implements \ArrayAccess
     {
 
         // Check if the value need to be unserialized..
-        if (substr($value, 0, 2)=="a:") {
+        if (is_string($value) && substr($value, 0, 2)=="a:") {
             $unserdata = @unserialize($value);
             if ($unserdata !== false) {
                 $value = $unserdata;

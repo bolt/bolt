@@ -43,15 +43,9 @@ class lowlevelchecks
                 "present and writable to the user that the webserver is using.");
         }
 
-        // Check if the app/config file is present and writable
-        if (!is_writable(BOLT_CONFIG_DIR)) {
-            $this->lowlevelError("The folder <code>" . BOLT_CONFIG_DIR . "</code> isn't writable. Make sure " .
-                "it's present and writable to the user that the webserver is using.");
-        }
-
         // Check if .htaccess is present and readable
         if (!is_readable(BOLT_WEB_DIR.'/.htaccess')) {
-            $this->lowlevelError("The file <code>" . BOLT_WEB_DIR . ".htaccess</code> doesn't exist. Make sure it's " .
+            $this->lowlevelError("The file <code>" . BOLT_WEB_DIR . "/.htaccess</code> doesn't exist. Make sure it's " .
                 "present and readable to the user that the webserver is using.");
         }
 
@@ -134,21 +128,16 @@ class lowlevelchecks
         $distname = realpath(BOLT_CONFIG_DIR."/") . "/" . str_replace(".yml", ".yml.dist", $name);
         $ymlname = realpath(BOLT_CONFIG_DIR."/") . "/" . $name;
 
-        if (file_exists($ymlname) && is_writable($ymlname)) {
+        if (file_exists($ymlname)) {
             return; // Okidoki..
         }
 
-        if (file_exists($ymlname) && !is_writable($ymlname)) {
-            $message = sprintf("The file <code>app/config/%s</code> exists, but Bolt can't write changes to it.
-            Make sure it's present and writable to the user that the webserver is using."
-                , $name, str_replace(".yml", ".dist", $name));
-            $this->lowlevelError($message);
-        }
-
-        if (!rename($distname, $ymlname)) {
-            $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file Manually, and make sure it's writable
-            to the user that the webserver is using."
-                , $name);
+        if (!@rename($distname, $ymlname)) {
+            $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file manually by copying
+                <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
+                $name,
+                str_replace(".yml", ".yml.dist", $name)
+            );
             $this->lowlevelError($message);
         }
 

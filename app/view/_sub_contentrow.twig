@@ -46,8 +46,11 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu pull-right">
+            {% if content.status == "published" %}
+                <li><a href="{{ content.link }}" target="_blank">
+                    <i class="icon-external-link"></i> View on site</a></li>
+            {% endif %}
             {% if editable %}
-
                 {% if content.status != "published" %}
                     <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
                         <i class="icon-star-empty"></i> Publish {{ contenttype.singular_name }}</a></li>
@@ -65,25 +68,25 @@
                 <li class="divider"></li>
             {% endif %}
                 <li><a class="nolink">Author: <strong><i class="icon-user"></i>
-                    {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}
-                        <s>{{ content.username }}</s>{% endif %}</strong></a></li>
+                    {% if users[content.username] is defined %}{{ users[content.username].displayname|trimtext(20) }}{% else %}
+                        <s>{{ content.username|trimtext(20) }}</s>{% endif %}</strong></a></li>
                 <li><a class="nolink">Current status:
                     <strong>{{ content.status }}</strong></a></li>
                 <li><a class="nolink">Slug:
-                    <code title="{{ content.slug }}">{{ content.slug|trimtext(30) }}</code></a></li>
+                    <code title="{{ content.slug }}">{{ content.slug|trimtext(24) }}</code></a></li>
                 <li><a class="nolink">Created on:
-                    <strong><i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</strong></a></li>
+                    <i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</a></li>
                 <li><a class="nolink">Published on:
-                    <strong><i class="icon-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</strong></a></li>
+                    <i class="icon-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</a></li>
                 <li><a class="nolink">Last edited on:
-                    <strong><i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</strong></a></li>
+                    <i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</a></li>
                 {% for taxonomyslug, values in content.taxonomy %}
                     {% if values|length > 1 %}
                         <li><a class="nolink">{{ config.taxonomy[taxonomyslug].name }}:
-                            <strong><i class="icon-tag"></i> {{ values|join(", ") }}</strong></a></li>
+                            <i class="icon-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
                     {% else %}
                         <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}:
-                            <strong><i class="icon-tag"></i> {{ values.0 }}</strong></a></li>
+                            <i class="icon-tag"></i> {{ values.0|trimtext(24) }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>

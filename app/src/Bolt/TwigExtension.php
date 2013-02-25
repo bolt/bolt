@@ -438,16 +438,22 @@ class TwigExtension extends \Twig_Extension
      * @param  string $first
      * @return mixed
      */
-    public function request($parameter, $first = "")
+    public function request($parameter, $from = "", $stripslashes = false)
     {
 
-        if ($first=="get") {
-            return $this->app['request']->query->get($parameter, false);
-        } elseif ($first=="post") {
-            return $this->app['request']->request->get($parameter, false);
+        if ($from=="get") {
+            $res = $this->app['request']->query->get($parameter, false);
+        } elseif ($from=="post") {
+            $res = $this->app['request']->request->get($parameter, false);
         } else {
-            return $this->app['request']->get($parameter, false);
+            $res = $this->app['request']->get($parameter, false);
         }
+
+        if ($stripslashes) {
+            $res = stripslashes($res);
+        }
+
+        return $res;
 
     }
 
