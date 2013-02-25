@@ -611,7 +611,7 @@ class TwigExtension extends \Twig_Extension
      * Output a menu..
      *
      */
-    public function menu(\Twig_Environment $env, $identifier = "", $template = '_sub_menu.twig')
+    public function menu(\Twig_Environment $env, $identifier = "", $template = '_menu_default.twig')
     {
 
         $menus = $this->app['config']['menu'];
