@@ -15,7 +15,10 @@
 
 {% if pager.totalpages > 1 %}
 <div class="pagination pagination-centered {{class}}">
-  <ul>
+    <ul>
+        <li><span>
+    Showing {{ pager.for }} {{ pager.showing_from }} - {{ pager.showing_to }} of {{  pager.count }}
+        </span></li>
 {# 'first' and 'prev' #}
 {% if pager.current > 1 and class!="narrow" %}
     <li><a href="{{link}}{{pager.current-1}}"><i class="icon-angle-left" style="font-weight: bold;"></i></a></li>
@@ -31,20 +34,20 @@
 
 {% for i in max(1, pager.current-surr)..min(pager.current+surr, pager.totalpages) %}
     <li {% if i==pager.current %}class='active'{%endif%}><a href="{{link}}{{i}}">{{i}}</a></li>
-{% endfor %}    
-    
+{% endfor %}
+
 {# end with '..' if there are more than surr+1 after currentpage.. #}
 {% if pager.current < (pager.totalpages - surr - 1) %}
     <li class="disabled"><a href="#">...</a></li>
-{% endif %}    
-    
+{% endif %}
+
 {# 'next' and 'last' #}
 {% if pager.current < pager.totalpages-surr %}
     <li><a href="{{link}}{{pager.totalpages}}">{{pager.totalpages}} <i class="icon-double-angle-right" style="font-weight: bold;"></i></a></li>
 {% endif %}
-{% if pager.current < pager.totalpages and class!="narrow" %}    
+{% if pager.current < pager.totalpages and class!="narrow" %}
     <li><a href="{{link}}{{pager.current+1}}"><i class="icon-angle-right" style="font-weight: bold;"></i></a></li>
 {% endif %}
   </ul>
 </div>
-{% endif %} 
+{% endif %}

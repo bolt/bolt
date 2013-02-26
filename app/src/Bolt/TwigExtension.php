@@ -356,7 +356,7 @@ class TwigExtension extends \Twig_Extension
         // Just the relations for the current record, and just the current $contenttype.
         $current = $content->relation[$contenttype];
 
-        // We actually only need the 'order' in options. 
+        // We actually only need the 'order' in options.
         $options = array();
         if (!empty($relationoptions['order'])) {
             $options['order'] = $relationoptions['order'];
