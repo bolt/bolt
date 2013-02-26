@@ -35,7 +35,7 @@ class Extension extends \Bolt\BaseExtension
     function initialize()
     {
         if (empty($this->config['stylesheet'])) { $this->config['stylesheet'] = "assets/simpleforms.css"; }
-        
+
         // fields that the global config should have
         $this->global_fields = array(
                             'stylesheet',
@@ -46,7 +46,7 @@ class Extension extends \Bolt\BaseExtension
                             'message_technical',
                             'button_text'
         );
-        
+
         // labels to translate
         $this->text_labels = array(
                             'message_ok',
@@ -94,7 +94,7 @@ class Extension extends \Bolt\BaseExtension
                 $formconfig[$configkey] = $this->config[$configkey];
             }
         }
-        
+
         // tanslate labels if labels extension exists
         if($this->labelsenabled) {
             $this->labelfields($formconfig);
@@ -169,8 +169,14 @@ class Extension extends \Bolt\BaseExtension
 
                 // echo "<pre>\n" . \util::var_dump($mailhtml, true) . "</pre>\n";
 
+                if (!empty($formconfig['mail_subject'])) {
+                    $subject = $formconfig['mail_subject'];
+                } else {
+                    $subject = '[SimpleForms] ' . $name;
+                }
+
                 $message = \Swift_Message::newInstance()
-                    ->setSubject('[SimpleForms] ' . $name )
+                    ->setSubject($subject)
                     ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
                     ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
                     ->setBody(strip_tags($mailhtml))
