@@ -51,7 +51,7 @@ search_results_template: searchresults.twig
 search_results_records: 10
 
 # The list of enabled extensions. For Example:
-# GoogleAnalytics, FacebookLike, TwitterButton, FacebookComments, Disqus, RSSFeed, Simpleforms.
+# GoogleAnalytics, FacebookLike, TwitterButton, FacebookComments, Disqus, RSSFeed, SimpleForms.
 # Read each 'readme.md' from the Bolt Extensions screen, to see what they do.
 enabled_extensions: [  ]
 
