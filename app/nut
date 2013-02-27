@@ -12,5 +12,6 @@ $application->add(new Bolt\Nut\Info($app));
 $application->add(new Bolt\Nut\LogTrim($app));
 $application->add(new Bolt\Nut\LogClear($app));
 $application->add(new Bolt\Nut\DatabaseCheck($app));
+$application->add(new Bolt\Nut\DatabaseRepair($app));
 $application->add(new Bolt\Nut\TestRunner($app));
 $application->run();

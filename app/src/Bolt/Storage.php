@@ -53,26 +53,28 @@ class Storage
     public function checkTablesIntegrity()
     {
 
+        $messages = array();
+
         $tables = $this->getTables();
 
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."users" . "</tt> is not present.";
         }
 
         // Check the log table..
         if (!isset($tables[$this->prefix."log"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."log" . "</tt> is not present.";
         }
 
         // Check the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."taxonomy" . "</tt> is not present.";
         }
 
         // Check the relations table..
         if (!isset($tables[$this->prefix."relations"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."relations" . "</tt> is not present.";
         }
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
@@ -81,10 +83,10 @@ class Storage
             $tablename = $this->prefix . makeSlug($key);
 
             if (!isset($tables[$tablename])) {
-                return false;
+                $messages[] = "Table <tt>" . $tablename . "</tt> is not present.";
             }
             if (!isset($tables[$tablename]['datepublish'])) {
-                return false;
+                $messages[] = "Field <tt>" . 'datepublish' . "</tt> in table <tt>" . $tablename . "</tt> is not present.";
             }
 
             // Check if all the fields are present in the DB..
@@ -96,13 +98,17 @@ class Storage
                 }
 
                 if (!isset($tables[$tablename][$field])) {
-                    return false;
+                    $messages[] = "Field <tt>" . $field . "</tt> in table <tt>" . $tablename . "</tt> is not present.";
                 }
             }
 
         }
 
-        return true;
+        if (empty($messages)) {
+            return true;
+        } else {
+            return $messages;
+        }
 
     }
 
