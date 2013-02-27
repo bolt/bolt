@@ -391,8 +391,8 @@ class Content implements \ArrayAccess
                     $value = $this->preParse($this->values[$name]);
 
                     // Parse the field as Markdown, return HTML
-                    include_once __DIR__. "/../../classes/markdown.php";
-                    $value = new \Twig_Markup(Markdown($value), 'UTF-8');
+                    $markdownParser = new \dflydev\markdown\MarkdownParser();
+                    $value = new \Twig_Markup($markdownParser->transformMarkdown($value), 'UTF-8');
                     break;
 
                 case 'html':

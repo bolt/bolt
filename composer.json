@@ -17,7 +17,11 @@
         "doctrine/dbal": "2.3.*",
         "twig/twig": ">=1.8,<2.0-dev",
         "guzzle/guzzle": "3.1.*",
-        "swiftmailer/swiftmailer": ">=4.2.0,<4.3-dev"
+        "swiftmailer/swiftmailer": ">=4.2.0,<4.3-dev",
+        "htmlawed/htmlawed": "dev-master",
+        "hautelook/phpass": "dev-master",
+        "dflydev/markdown": "1.0.*@dev",
+        "taha/timthumb": "dev-master"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",

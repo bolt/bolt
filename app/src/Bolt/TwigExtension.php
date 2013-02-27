@@ -185,8 +185,8 @@ class TwigExtension extends \Twig_Extension
     public function markdown($content)
     {
 
-        include_once __DIR__. "/../../classes/markdown.php";
-        $output = Markdown($content) ;
+        $markdownParser = new \dflydev\markdown\MarkdownParser();
+        $output = Markdown($markdownParser->transformMarkdown($content));
 
         return $output;
 

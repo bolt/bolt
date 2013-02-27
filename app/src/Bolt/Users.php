@@ -88,8 +88,7 @@ class Users
         }
 
         if (!empty($user['password']) && $user['password']!="**dontchange**") {
-            require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
-            $hasher = new \PasswordHash($this->hash_strength, true);
+            $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
             unset($user['password']);
@@ -244,8 +243,7 @@ class Users
             return false;
         }
 
-        require_once(__DIR__."/../../classes/phpass/PasswordHash.php");
-        $hasher = new \PasswordHash($this->hash_strength, true);
+        $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
 
         if ($hasher->CheckPassword($password, $user['password'])) {
 
