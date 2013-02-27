@@ -120,7 +120,7 @@ class Backend implements ControllerProviderInterface
         getConfig();
 
         // Check DB-tables integrity
-        if (!$app['storage']->checkTablesIntegrity()) {
+        if ($app['storage']->checkTablesIntegrity() !== true) {
             $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
         }
 
