@@ -9,32 +9,43 @@ namespace Bolt;
  * @author Bob den Otter, bob@twokings.nl
  *
  **/
-class Cache
+class Cache extends \Doctrine\Common\Cache\FilesystemCache
 {
-    private $dir = "";
-    private $maxage = 600; // 10 minutes
+    /**
+     * @var string
+     */
+    private $cacheDir = "";
+
+    /**
+     *
+     */
+    const DEFAULT_MAX_AGE = 600; // 10 minutes
+
+    /**
+     *
+     */
+    const DEFAULT_EXTENSION = '.boltcache.data';
 
     /**
      * Set up the object. Initialize the proper folder for storing the
      * files.
+     *
+     * @param string $cacheDir
+     * @throws \InvalidArgumentException
      */
     public function __construct($cacheDir = "")
     {
-        if ($cacheDir == ""){
-            // Default
-            $this->dir = realpath(__DIR__ . "/../../cache");
-        }
-        else {
-            $this->dir = $cacheDir;
+        if ($cacheDir == "") {
+            $this->cacheDir = realpath(__DIR__ . "/../../cache");
+        } else {
+            $this->cacheDir = $cacheDir;
         }
 
-        if (!is_writable($this->dir)) {
-            // simple warning + die here. This shouldn't occur in practice, as it's
-            // already checked in lowlevelchecks.php
-            echo "<p>cache folder isn't writable. Please fix this.</p>";
-            die();
+        try {
+            parent::__construct($this->cacheDir, self::DEFAULT_EXTENSION);
+        } catch (\InvalidArgumentException $e) {
+            throw $e;
         }
-
     }
 
     /**
@@ -46,24 +57,19 @@ class Cache
      *
      * @param $key
      * @param $data
+     * @param int $lifeTime
+     * @return bool|int
+     * @deprecated
      */
-    public function set($key, $data)
+    public function set($key, $data, $lifeTime = self::DEFAULT_MAX_AGE)
     {
-
-        $filename = $this->getFilename($key);
-
-        if (is_array($data) || is_object($data)) {
-            $data = serialize($data);
-        }
-
-        file_put_contents($filename, $data);
-
+        return parent::save($key, $data, $lifeTime);
     }
 
     /**
      *
      * Get a stored value from the cache if possible. Otherwise return 'false'. If the
-     * stored value was an array or object, it will be unserialized before it's returned.
+     * stored value was an array or object, it will NOT be unserialized before it's returned.
      *
      * Returns false if no valid cached data was available.
      *
@@ -71,40 +77,17 @@ class Cache
      * seem a tad bit confusing. ;-)
      *
      * @param $key
-     * @param  int               $maxage Maximum age of cache in seconds.
+     * @param bool $maxage
      * @return bool|mixed|string
+     * @deprecated
      */
     public function get($key, $maxage = false)
     {
-
-        $filename = $this->getFilename($key);
-
-        // No file, we can stop..
-        if (!file_exists($filename)) {
-            return false;
+        $result = parent::fetch($key);
+        if (is_array($result) || is_object($result)) {
+            $result = serialize($result);
         }
-
-        $age = date("U") - filectime($filename);
-
-        if (empty($maxage)) {
-            $maxage = $this->maxage;
-        }
-
-        if ($age < $maxage) {
-            $data = file_get_contents($filename);
-
-            $unserdata = @unserialize($data);
-
-            if ($unserdata !== false || $data === 'b:0;') {
-                return $unserdata;
-            } else {
-                return $data;
-            }
-
-        } else {
-            return false;
-        }
-
+        return $result;
     }
 
     /**
@@ -114,34 +97,26 @@ class Cache
      * @param $key
      * @param $maxage
      * @return bool
+     * @deprecated
      */
     public function isvalid($key, $maxage)
     {
-
-        $filename = $this->getFilename($key);
-
-        // No file, we can stop..
-        if (!file_exists($filename)) {
-            return false;
-        }
-
-        $age = date("U") - filectime($filename);
-
-        if (empty($maxage)) {
-            $maxage = $this->maxage;
-        }
-
-        return ($age < $maxage);
-
+        return parent::contains($key);
     }
 
+    /**
+     * @param $key
+     * @return bool
+     * @deprecated
+     */
     public function clear($key)
     {
-        // @todo clear a certain cached value.
+        return parent::delete($key);
     }
 
-
-
+    /**
+     * @deprecated
+     */
     public function clearCache()
     {
         $result = array(
@@ -153,61 +128,9 @@ class Cache
             'log' => ''
         );
 
-        $this->clearCacheHelper('', $result);
+        parent::flushAll();
 
         return $result;
 
-    }
-
-
-    private function clearCacheHelper($additional, &$result)
-    {
-
-        $currentfolder = realpath($this->dir."/".$additional);
-
-        if (!file_exists($currentfolder)) {
-            $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
-
-            return;
-        }
-
-        $d = dir($currentfolder);
-
-        while (false !== ($entry = $d->read())) {
-
-            if ($entry == "." || $entry == ".." || $entry == "index.html" || $entry == '.gitignore') {
-                continue;
-            }
-
-            if (is_file($currentfolder."/".$entry)) {
-                if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
-                    $result['successfiles']++;
-                } else {
-                    $result['failedfiles']++;
-                    $result['failed'][] = str_replace($this->dir, "cache", $currentfolder."/".$entry);
-                }
-            }
-
-            if (is_dir($currentfolder."/".$entry)) {
-
-                $this->clearCacheHelper($additional."/".$entry, $result);
-
-                if (@rmdir($currentfolder."/".$entry)) {
-                    $result['successfolders']++;
-                } else {
-                    $result['failedfolders']++;
-                }
-
-            }
-
-        }
-
-        $d->close();
-
-    }
-
-    private function getFilename($key)
-    {
-        return sprintf("%s/c_%s.cache", $this->dir, substr(md5($key), 0, 18));
     }
 }
