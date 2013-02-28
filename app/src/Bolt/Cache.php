@@ -31,6 +31,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
      * files.
      *
      * @param string $cacheDir
+     * @throws \InvalidArgumentException
      */
     public function __construct($cacheDir = "")
     {
@@ -43,8 +44,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
         try {
             parent::__construct($this->cacheDir, self::DEFAULT_EXTENSION);
         } catch (\InvalidArgumentException $e) {
-            echo $e->getMessage();
-            die();
+            throw $e;
         }
     }
 
@@ -63,13 +63,13 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
      */
     public function set($key, $data, $lifeTime = self::DEFAULT_MAX_AGE)
     {
-        return parent::doSave($key, $data, $lifeTime);
+        return parent::save($key, $data, $lifeTime);
     }
 
     /**
      *
      * Get a stored value from the cache if possible. Otherwise return 'false'. If the
-     * stored value was an array or object, it will be unserialized before it's returned.
+     * stored value was an array or object, it will NOT be unserialized before it's returned.
      *
      * Returns false if no valid cached data was available.
      *
@@ -82,7 +82,11 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
      */
     public function get($key, $maxage = false)
     {
-        return parent::doFetch($key);
+        $result = parent::fetch($key);
+        if (is_array($result) || is_object($result)) {
+            $result = serialize($result);
+        }
+        return $result;
     }
 
     /**
@@ -96,7 +100,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
      */
     public function isvalid($key, $maxage)
     {
-        return parent::doContains($key);
+        return parent::contains($key);
     }
 
     /**
@@ -106,7 +110,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
      */
     public function clear($key)
     {
-        return parent::doDelete($key);
+        return parent::delete($key);
     }
 
     /**
@@ -123,7 +127,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
             'log' => ''
         );
 
-        parent::doFlush();
+        parent::flushAll();
 
         return $result;
 
