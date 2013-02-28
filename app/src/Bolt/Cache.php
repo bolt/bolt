@@ -79,6 +79,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
      * @param $key
      * @param bool $maxage
      * @return bool|mixed|string
+     * @deprecated
      */
     public function get($key, $maxage = false)
     {
