@@ -458,6 +458,13 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
+<input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key) }}">
+<script>
+    $('#{{key}}-date').on('change', function(){
+        var date = $('#{{key}}-date').datepicker( "getDate" );
+        $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date));
+    });
+</script>
 {% endif %}
 
 
@@ -471,6 +478,14 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 <input type="text" name="{{key}}-timeformatted" id="{{key}}-time"
     value='{% if content.get(key) %}{{ content.get(key)|date('H:i') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>
+<input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key) }}">
+<script>
+    $('#{{key}}-date, #{{key}}-time').on('change', function(){
+        var date = $('#{{key}}-date').datepicker("getDate");
+        var time = $('#{{key}}-time').val() + ":00";
+        $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+    });
+</script>
 {% endif %}
 
 
