@@ -7,7 +7,8 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\CallbackValidator;
+use Symfony\Component\Form\Event\DataEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Backend implements ControllerProviderInterface
@@ -526,7 +527,7 @@ class Backend implements ControllerProviderInterface
         $form = $app['form.factory']->createBuilder('form', $user)
             ->add('id', 'hidden')
             ->add('username', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 2)))
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32)))
         ))
             ->add('password', 'password', array(
                 'required' => false
@@ -539,7 +540,7 @@ class Backend implements ControllerProviderInterface
             'constraints' => new Assert\Email(),
         ))
             ->add('displayname', 'text', array(
-            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(array('limit' => 2)))
+            'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32)))
         ));
 
         // If we're adding the first user, add them as 'developer' by default, so don't
@@ -574,10 +575,10 @@ class Backend implements ControllerProviderInterface
                 ->add('lastip', 'text', array('disabled' => true));
         }
 
-        // @todo CallbackValidator is deprecated. see: symfony/form/Symfony/Component/Form/CallbackValidator.php
-
         // Make sure the passwords are identical with a custom validator..
-        $form->addValidator(new CallbackValidator(function ($form) {
+        $form->addEventListener(FormEvents::POST_BIND, function (DataEvent $event) {
+
+            $form = $event->getForm();
 
             $id = $form['id']->getData();
             $pass1 = $form['password']->getData();
@@ -597,7 +598,7 @@ class Backend implements ControllerProviderInterface
                 $form['password_confirmation']->addError(new FormError('Passwords must match.'));
             }
 
-        }));
+        });
 
         /**
          * @var \Symfony\Component\Form\Form $form
@@ -818,7 +819,7 @@ class Backend implements ControllerProviderInterface
 
         $form = $app['form.factory']->createBuilder('form', $data)
             ->add('contents', 'textarea', array(
-            'constraints' => array(new Assert\NotBlank(), new Assert\MinLength(10))
+            'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min'=>10)))
         ));
 
         $form = $form->getForm();
