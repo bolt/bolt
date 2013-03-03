@@ -11,6 +11,7 @@ class Storage
 
     private $app;
     private $prefix;
+    private $checkedfortimed = array();
 
     public function __construct(Silex\Application $app)
     {
@@ -1087,6 +1088,39 @@ class Storage
     }
 
     /**
+     * Check (and update) any records that need to be updated from "timed" to "published".
+     *
+     * @param array $contenttype
+     */
+    public function publishTimedRecords($contenttype)
+    {
+        // We need to do this only once per contenttype, max.
+        if (isset($this->checkedfortimed[$contenttype['slug']])) {
+            return;
+        }
+
+        $this->checkedfortimed[$contenttype['slug']] = true;
+        $tablename = $this->prefix . $contenttype['slug'];
+        $now = date('Y-m-d H:i:s', time());
+
+        // Check if there are any records that need publishing..
+        $query = "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now";
+        $stmt = $this->app->db->prepare($query);
+        $stmt->bindValue("now", $now);
+        $stmt->execute();
+
+        // If there's a result, we need to set these to 'publish'..
+        if (!empty($stmt->fetch())) {
+            $query = "UPDATE $tablename SET status = 'published', datechanged = :now WHERE status = 'timed' and datepublish < :now";
+            $stmt = $this->app->db->prepare($query);
+            $stmt->bindValue("now", $now);
+            $stmt->execute();
+        }
+
+    }
+
+
+    /**
      * Retrieve content from the database.
      *
      * @param string $contenttypeslug
@@ -1147,6 +1181,9 @@ class Storage
 
             return $emptycontent;
         }
+
+        // Check if we need to 'publish' any 'timed' records.
+        $this->publishTimedRecords($contenttype);
 
         // If requesting something with a content-type slug in singular, return only the first item.
         // If requesting a record with a specific 'id', return only the first item.
