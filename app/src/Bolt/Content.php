@@ -57,6 +57,8 @@ class Content implements \ArrayAccess
             $this->setValue($key, $value);
         }
 
+        $now = date("Y-m-d H:i:s");
+
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
             $this->values['datecreated'] = "1970-01-01 00:00:00";
@@ -64,12 +66,12 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datepublish']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datepublish'])) {
-            $this->values['datepublish'] = date("Y-m-d H:i:s");
+            $this->values['datepublish'] = $now;
         }
 
         if (!isset($this->values['datechanged']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
-            $this->values['datechanged'] = date("Y-m-d H:i:s");
+            $this->values['datechanged'] = $now;
         }
 
         // Check if the values need to be unserialized, and pre-processed.
@@ -162,16 +164,19 @@ class Content implements \ArrayAccess
 
         $values = cleanPostedData($values);
 
-        // Some field types need to do things to the POST-ed value.
-        foreach ($contenttype['fields'] as $fieldname => $field) {
-
-
-
-        }
-
         // Make sure we set the correct username, if the current user isn't allowed to change it.
         if (!$this->app['users']->isAllowed('editcontent:all')) {
             $values['username'] = $this->app['users']->getCurrentUsername();
+        }
+
+        // Make sure we have a proper status..
+        if (!in_array($values['status'], array('published', 'timed', 'held', 'draft'))) {
+            $values['status'] = "published";
+        }
+
+        // If we set a 'publishdate' in the future, and the status is 'published', set it to 'timed' instead.
+        if ($values['datepublish'] > date("Y-m-d H:i:s") && $values['status'] == "published") {
+            $values['status'] = "timed";
         }
 
         // Get the taxonomies from the POST-ed values. We don't support 'order' for taxonomies that
