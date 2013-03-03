@@ -98,7 +98,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                 $message = "Couldn't copy 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
                     $this->namespace . "/config.yml': File is not writable. Create the file manually, or make the folder writable.";
                 $this->app['log']->add($message, 3);
-                $this->app['session']->setFlash('error', $message);
+                $this->app['session']->getFlashBag()->set('error', $message);
             }
 
             return $this->config;

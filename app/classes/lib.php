@@ -71,7 +71,7 @@ function checkToken($token = "")
     if ($token === getToken()) {
         return true;
     } else {
-        $app['session']->setFlash('error', "The security token was incorrect. Please try again.");
+        $app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
 
         return false;
     }
@@ -872,7 +872,7 @@ function getConfig()
 
     // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
     if (!file_exists($themepath) && (gettype($app['session']) == "object") ) {
-        $app['session']->setFlash('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
+        $app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
         $app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
     }
 

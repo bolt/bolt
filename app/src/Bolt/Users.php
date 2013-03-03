@@ -215,7 +215,7 @@ class Users
         $user = $this->getUser($id);
 
         if (empty($user['id'])) {
-            $this->session->setFlash('error', 'That user does not exist.');
+            $this->session->getFlashBag()->set('error', 'That user does not exist.');
 
             return false;
         } else {
@@ -239,7 +239,7 @@ class Users
         $user = $this->db->fetchAssoc("SELECT * FROM " . $this->usertable . " WHERE username='$userslug'");
 
         if (empty($user)) {
-            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');
+            $this->session->getFlashBag()->set('error', 'Username or password not correct. Please check your input.');
 
             return false;
         }
@@ -250,7 +250,7 @@ class Users
         if ($hasher->CheckPassword($password, $user['password'])) {
 
             if (!$user['enabled']) {
-                $this->session->setFlash('error', 'Your account is disabled. Sorry about that.');
+                $this->session->getFlashBag()->set('error', 'Your account is disabled. Sorry about that.');
 
                 return false;
             }
@@ -267,12 +267,12 @@ class Users
             $user['sessionkey'] = $this->getSessionKey($user['username']);
 
             $this->session->set('user', $user);
-            $this->session->setFlash('success', "You've been logged on successfully.");
+            $this->session->getFlashBag()->set('success', "You've been logged on successfully.");
 
             return true;
 
         } else {
-            $this->session->setFlash('error', 'Username or password not correct. Please check your input.');
+            $this->session->getFlashBag()->set('error', 'Username or password not correct. Please check your input.');
 
             return false;
         }
@@ -284,7 +284,7 @@ class Users
      *
      */
     public function logout() {
-        $this->session->setFlash('info', 'You have been logged out.');
+        $this->session->getFlashBag()->set('info', 'You have been logged out.');
         $this->session->remove('user');
         // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
         // $this->session->invalidate();

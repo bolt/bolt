@@ -121,7 +121,7 @@ class Backend implements ControllerProviderInterface
 
         // Check DB-tables integrity
         if ($app['storage']->checkTablesIntegrity() !== true) {
-            $app['session']->setFlash('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
+            $app['session']->getFlashBag()->set('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
         }
 
         $limit = $app['config']['general']['recordsperdashboardwidget'];
@@ -212,7 +212,7 @@ class Backend implements ControllerProviderInterface
             } else {
                 $content = "Your database is now up to date.";
             }
-            $app['session']->setFlash('success', $content);
+            $app['session']->getFlashBag()->set('success', $content);
 
             return redirect('fileedit', array('file' => "app/config/contenttypes.yml"));
         }
@@ -238,9 +238,9 @@ class Backend implements ControllerProviderInterface
 
         if (!empty($result['failedfiles'])) {
             $output .= sprintf(" %s files could not be deleted. You should delete them manually.", $result['failedfiles']);
-            $app['session']->setFlash('error', $output);
+            $app['session']->getFlashBag()->set('error', $output);
         } else {
-            $app['session']->setFlash('success', $output);
+            $app['session']->getFlashBag()->set('success', $output);
         }
 
         return redirect('dashboard');
@@ -259,10 +259,10 @@ class Backend implements ControllerProviderInterface
 
         if ($action=="clear") {
             $app['log']->clear();
-            $app['session']->setFlash('success', "The activitylog has been cleared.");
+            $app['session']->getFlashBag()->set('success', "The activitylog has been cleared.");
         } else if ($action=="trim") {
             $app['log']->trim();
-            $app['session']->setFlash('success', "The activitylog has been trimmed.");
+            $app['session']->getFlashBag()->set('success', "The activitylog has been trimmed.");
         }
 
         $activity = $app['log']->getActivity(16);
@@ -298,7 +298,7 @@ class Backend implements ControllerProviderInterface
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:'.$contenttypeslug)) {
-            $app['session']->setFlash('error', "You do not have the right privileges to view that page.");
+            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to view that page.");
             return redirect('dashboard');
         }
 
@@ -339,7 +339,7 @@ class Backend implements ControllerProviderInterface
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:'.$contenttypeslug)) {
-            $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to edit that record.");
             return redirect('dashboard');
         }
 
@@ -354,23 +354,23 @@ class Backend implements ControllerProviderInterface
             if (!empty($content['id']) && $id != $content['id']) {
 				echo "$id is niet ". $content['id'];
 				die();
-                $app['session']->setFlash('error', "Don't try to spoof the id!");
+                $app['session']->getFlashBag()->set('error', "Don't try to spoof the id!");
                 return redirect('dashboard');
             }
 
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
                 if (!empty($id)) {
-                    $app['session']->setFlash('success', "The changes to this " . $contenttype['singular_name'] . " have been saved.");
+                    $app['session']->getFlashBag()->set('success', "The changes to this " . $contenttype['singular_name'] . " have been saved.");
                 } else {
-                    $app['session']->setFlash('success', "The new " . $contenttype['singular_name'] . " has been saved.");
+                    $app['session']->getFlashBag()->set('success', "The new " . $contenttype['singular_name'] . " has been saved.");
                 }
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
             } else {
-                $app['session']->setFlash('error', "There was an error saving this " . $contenttype['singular_name'] . ".");
+                $app['session']->getFlashBag()->set('error', "There was an error saving this " . $contenttype['singular_name'] . ".");
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
 
@@ -381,7 +381,7 @@ class Backend implements ControllerProviderInterface
 
             // Check if we're allowed to edit this content..
             if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
-                $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+                $app['session']->getFlashBag()->set('error', "You do not have the right privileges to edit that record.");
                 return redirect('dashboard');
             }
 
@@ -401,7 +401,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datepublish', "");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
-            $app['session']->setFlash('info', "Content was duplicated. Click 'Save " . $contenttype['singular_name'] . "' to finalize.");
+            $app['session']->getFlashBag()->set('info', "Content was duplicated. Click 'Save " . $contenttype['singular_name'] . "' to finalize.");
         }
 
         // Set the users and the current owner of this content.
@@ -434,7 +434,7 @@ class Backend implements ControllerProviderInterface
 
         // Check if we're allowed to edit this content..
         if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
-            $app['session']->setFlash('error', "You do not have the right privileges to edit that record.");
+            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to edit that record.");
             return redirect('dashboard');
         }
 
@@ -442,39 +442,39 @@ class Backend implements ControllerProviderInterface
 
             case "held":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'held')) {
-                    $app['session']->setFlash('info', "Content '$title' has been changed to 'held'");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' has been changed to 'held'");
                 } else {
-                    $app['session']->setFlash('info', "Content '$title' could not be modified.");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be modified.");
                 }
                 break;
 
             case "publish":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'published')) {
-                    $app['session']->setFlash('info', "Content '$title' is published.");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' is published.");
                 } else {
-                    $app['session']->setFlash('info', "Content '$title' could not be modified.");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be modified.");
                 }
                 break;
 
             case "draft":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'draft')) {
-                    $app['session']->setFlash('info', "Content '$title' has been changed to 'draft'.");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' has been changed to 'draft'.");
                 } else {
-                    $app['session']->setFlash('info', "Content '$title' could not be modified.");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be modified.");
                 }
                 break;
 
             case "delete":
 
                 if (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-                    $app['session']->setFlash('info', "Content '$title' has been deleted.");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' has been deleted.");
                 } else {
-                    $app['session']->setFlash('info', "Content '$title' could not be deleted.");
+                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be deleted.");
                 }
                 break;
 
             default:
-                $app['session']->setFlash('error', "No such action for content.");
+                $app['session']->getFlashBag()->set('error', "No such action for content.");
 
         }
 
@@ -616,9 +616,9 @@ class Backend implements ControllerProviderInterface
                 $res = $app['users']->saveUser( $user );
                 $app['log']->add("Added user '". $user['displayname']."'.", 3, '', 'user');
                 if ($res) {
-                    $app['session']->setFlash('success', "User " . $user['displayname'] . " has been saved.");
+                    $app['session']->getFlashBag()->set('success', "User " . $user['displayname'] . " has been saved.");
                 } else {
-                    $app['session']->setFlash('error', "User " . $user['displayname'] . " could not be saved, or nothing was changed.");
+                    $app['session']->getFlashBag()->set('error', "User " . $user['displayname'] . " could not be saved, or nothing was changed.");
                 }
 
                 return redirect('users');
@@ -641,7 +641,7 @@ class Backend implements ControllerProviderInterface
         $user = $app['users']->getUser($id);
 
         if (!$user) {
-            $app['session']->setFlash('error', "No such user.");
+            $app['session']->getFlashBag()->set('error', "No such user.");
 
             return redirect('users');
         }
@@ -652,18 +652,18 @@ class Backend implements ControllerProviderInterface
                 if ($app['users']->setEnabled($id, 0)) {
                     $app['log']->add("Disabled user '". $user['displayname']."'.", 3, '', 'user');
 
-                    $app['session']->setFlash('info', "User '{$user['displayname']}' is disabled.");
+                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' is disabled.");
                 } else {
-                    $app['session']->setFlash('info', "User '{$user['displayname']}' could not be disabled.");
+                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' could not be disabled.");
                 }
                 break;
 
             case "enable":
                 if ($app['users']->setEnabled($id, 1)) {
                     $app['log']->add("Enabled user '". $user['displayname']."'.", 3, '', 'user');
-                    $app['session']->setFlash('info', "User '{$user['displayname']}' is enabled.");
+                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' is enabled.");
                 } else {
-                    $app['session']->setFlash('info', "User '{$user['displayname']}' could not be enabled.");
+                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' could not be enabled.");
                 }
                 break;
 
@@ -671,14 +671,14 @@ class Backend implements ControllerProviderInterface
 
                 if (checkToken() && $app['users']->deleteUser($id)) {
                     $app['log']->add("Deleted user '". $user['displayname']."'.", 3, '', 'user');
-                    $app['session']->setFlash('info', "User '{$user['displayname']}' is deleted.");
+                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' is deleted.");
                 } else {
-                    $app['session']->setFlash('info', "User '{$user['displayname']}' could not be deleted.");
+                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' could not be deleted.");
                 }
                 break;
 
             default:
-                $app['session']->setFlash('error', "No such action for user '{$user['displayname']}'.");
+                $app['session']->getFlashBag()->set('error', "No such action for user '{$user['displayname']}'.");
 
         }
 
@@ -775,7 +775,7 @@ class Backend implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->setFlash('error', "File '" .$file."' could not be saved: not valid YAML.");
+            $app['session']->getFlashBag()->set('error', "File '" .$file."' could not be saved: not valid YAML.");
         }
 
         $app['twig']->addGlobal('title', "Files in ". $path);
@@ -805,7 +805,7 @@ class Backend implements ControllerProviderInterface
         }
 
         if (!is_writable($filename)) {
-            $app['session']->setFlash('info', sprintf("The file '%s' is not writable. You will have to use your own editor to make
+            $app['session']->getFlashBag()->set('info', sprintf("The file '%s' is not writable. You will have to use your own editor to make
                 modifications to this file.",  $file));
             $writeallowed = false;
             $title = "View file '$file'.";
@@ -842,19 +842,19 @@ class Backend implements ControllerProviderInterface
                         $ok = $yamlparser->parse($contents);
                     } catch (Exception $e) {
                         $ok = false;
-                        $app['session']->setFlash('error', "File '" .$file."' could not be saved: not valid YAML.");
+                        $app['session']->getFlashBag()->set('error', "File '" .$file."' could not be saved: not valid YAML.");
                     }
                 }
 
                 if ($ok) {
                     if (file_put_contents($filename, $contents)) {
-                        $app['session']->setFlash('info', "File '" .$file."' has been saved.");
+                        $app['session']->getFlashBag()->set('info', "File '" .$file."' has been saved.");
                         // If we've saved contenttypes.yml, update the database..
                         if (basename($file) == "contenttypes.yml") {
                             return redirect('dbupdate', '', "?return=edit");
                         }
                     } else {
-                        $app['session']->setFlash('error', "File '" .$file."' could not be saved, for some reason.");
+                        $app['session']->getFlashBag()->set('error', "File '" .$file."' could not be saved, for some reason.");
                     }
                 }
 
@@ -886,10 +886,10 @@ class Backend implements ControllerProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->checkValidSession() && !$app['users']->isAllowed($route) ) {
-            $app['session']->setFlash('info', "Please log on.");
+            $app['session']->getFlashBag()->set('info', "Please log on.");
             return redirect('login');
         } else if (!$app['users']->isAllowed($route)) {
-            $app['session']->setFlash('error', "You do not have the right privileges to view that page.");
+            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to view that page.");
             return redirect('dashboard');
         }
 
@@ -904,7 +904,7 @@ class Backend implements ControllerProviderInterface
         // the DB, and let's add a new user.
         if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['storage']->repairTables();
-            $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
+            $app['session']->getFlashBag()->set('info', "There are no users in the database. Please create the first user.");
             return redirect('useredit', array('id' => ""));
         }
 

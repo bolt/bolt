@@ -279,7 +279,7 @@ class Storage
                             $field,
                             $dboptions['driver']
                         );
-                        $this->app['session']->setFlash('error', $error);
+                        $this->app['session']->getFlashBag()->set('error', $error);
                         continue;
                     }
 
