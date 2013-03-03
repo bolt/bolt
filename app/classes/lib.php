@@ -624,8 +624,8 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
         $closingTag = $matches[4][0][0];
 
         // Step 2: Split at the first tag
-        $head = substr($str, 0, $matchedHTMLIndex);
-        $tail = substr($str, $matchedHTMLIndex + $matchedHTMLLength);
+        $head = mb_substr($str, 0, $matchedHTMLIndex, "UTF-8");
+        $tail = mb_substr($str, $matchedHTMLIndex + $matchedHTMLLength, "UTF-8");
 
         // Step 3: Do recursiveFunction on first part
         if ($head != ''){
@@ -662,7 +662,7 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
 function trimString($str, $trimLength, $nbsp = false, $hellip = true){
     $strLength = getStringLength($str);
     if ($strLength > $trimLength) {
-        $str = substr($str, 0, $trimLength);
+        $str = mb_substr($str, 0, $trimLength, "UTF-8");
         $resultingLength = $trimLength;
         if ($hellip) {
             $str .= '…';
@@ -689,7 +689,7 @@ function trimString($str, $trimLength, $nbsp = false, $hellip = true){
  */
 function getStringLength($str){
     if (function_exists('mb_strwidth') ) {
-        return mb_strwidth($str);
+        return mb_strwidth($str, "UTF-8");
     } else {
         return strlen($str);
     }
