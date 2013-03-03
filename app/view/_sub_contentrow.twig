@@ -27,7 +27,12 @@
     {% if not compact %}
     <td class='username hide-phone'>
         <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}<br>
-        <i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}<br>
+        {% if content.status=="timed" %}
+            <i class="icon-time"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
+        {% else %}
+            <i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}<br>
+        {% endif %}
+
         {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
             <i class="icon-sort"></i> Order: {{ content.sortorder }} <br>
         {% endif %}

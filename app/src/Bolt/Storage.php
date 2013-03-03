@@ -11,6 +11,7 @@ class Storage
 
     private $app;
     private $prefix;
+    private $checkedfortimed = array();
 
     public function __construct(Silex\Application $app)
     {
@@ -53,26 +54,28 @@ class Storage
     public function checkTablesIntegrity()
     {
 
+        $messages = array();
+
         $tables = $this->getTables();
 
         // Check the users table..
         if (!isset($tables[$this->prefix."users"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."users" . "</tt> is not present.";
         }
 
         // Check the log table..
         if (!isset($tables[$this->prefix."log"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."log" . "</tt> is not present.";
         }
 
         // Check the taxonomy table..
         if (!isset($tables[$this->prefix."taxonomy"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."taxonomy" . "</tt> is not present.";
         }
 
         // Check the relations table..
         if (!isset($tables[$this->prefix."relations"])) {
-            return false;
+            $messages[] = "Table <tt>" . $this->prefix."relations" . "</tt> is not present.";
         }
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
@@ -81,10 +84,10 @@ class Storage
             $tablename = $this->prefix . makeSlug($key);
 
             if (!isset($tables[$tablename])) {
-                return false;
+                $messages[] = "Table <tt>" . $tablename . "</tt> is not present.";
             }
             if (!isset($tables[$tablename]['datepublish'])) {
-                return false;
+                $messages[] = "Field <tt>" . 'datepublish' . "</tt> in table <tt>" . $tablename . "</tt> is not present.";
             }
 
             // Check if all the fields are present in the DB..
@@ -96,13 +99,17 @@ class Storage
                 }
 
                 if (!isset($tables[$tablename][$field])) {
-                    return false;
+                    $messages[] = "Field <tt>" . $field . "</tt> in table <tt>" . $tablename . "</tt> is not present.";
                 }
             }
 
         }
 
-        return true;
+        if (empty($messages)) {
+            return true;
+        } else {
+            return $messages;
+        }
 
     }
 
@@ -1081,6 +1088,39 @@ class Storage
     }
 
     /**
+     * Check (and update) any records that need to be updated from "timed" to "published".
+     *
+     * @param array $contenttype
+     */
+    public function publishTimedRecords($contenttype)
+    {
+        // We need to do this only once per contenttype, max.
+        if (isset($this->checkedfortimed[$contenttype['slug']])) {
+            return;
+        }
+
+        $this->checkedfortimed[$contenttype['slug']] = true;
+        $tablename = $this->prefix . $contenttype['slug'];
+        $now = date('Y-m-d H:i:s', time());
+
+        // Check if there are any records that need publishing..
+        $query = "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now";
+        $stmt = $this->app['db']->prepare($query);
+        $stmt->bindValue("now", $now);
+        $stmt->execute();
+
+        // If there's a result, we need to set these to 'publish'..
+        if ($stmt->fetch() != false) {
+            $query = "UPDATE $tablename SET status = 'published', datechanged = :now, datepublish = :now  WHERE status = 'timed' and datepublish < :now";
+            $stmt = $this->app['db']->prepare($query);
+            $stmt->bindValue("now", $now);
+            $stmt->execute();
+        }
+
+    }
+
+
+    /**
      * Retrieve content from the database.
      *
      * @param string $contenttypeslug
@@ -1141,6 +1181,9 @@ class Storage
 
             return $emptycontent;
         }
+
+        // Check if we need to 'publish' any 'timed' records.
+        $this->publishTimedRecords($contenttype);
 
         // If requesting something with a content-type slug in singular, return only the first item.
         // If requesting a record with a specific 'id', return only the first item.

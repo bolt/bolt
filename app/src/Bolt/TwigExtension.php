@@ -350,11 +350,17 @@ class TwigExtension extends \Twig_Extension
      * @param  id $current
      * @return string
      */
-    public function listcontent($contenttype, $options, $content)
+    public function listcontent($contenttype, $relationoptions, $content)
     {
 
         // Just the relations for the current record, and just the current $contenttype.
         $current = $content->relation[$contenttype];
+
+        // We actually only need the 'order' in options.
+        $options = array();
+        if (!empty($relationoptions['order'])) {
+            $options['order'] = $relationoptions['order'];
+        }
 
         // @todo Perhaps make something more lightweight for this?
         $results = $this->app['storage']->getContent($contenttype, $options);
