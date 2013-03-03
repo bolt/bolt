@@ -1110,8 +1110,8 @@ class Storage
         $stmt->execute();
 
         // If there's a result, we need to set these to 'publish'..
-        if ($stmt->fetch() == false) {
-            $query = "UPDATE $tablename SET status = 'published', datechanged = :now WHERE status = 'timed' and datepublish < :now";
+        if ($stmt->fetch() != false) {
+            $query = "UPDATE $tablename SET status = 'published', datechanged = :now, datepublish = :now  WHERE status = 'timed' and datepublish < :now";
             $stmt = $this->app->db->prepare($query);
             $stmt->bindValue("now", $now);
             $stmt->execute();
