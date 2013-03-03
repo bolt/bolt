@@ -195,7 +195,7 @@ class Async implements ControllerProviderInterface
         // get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
-        $body = $app['twig']->render('sidebar-lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
+        $body = $app['twig']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
 
