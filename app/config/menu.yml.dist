@@ -7,8 +7,8 @@ main:
     title: This is the first menu item. Fo shizzle!
     path: homepage
     class: first
-  - path: entry/1
-    label: Second item
+  - label: Second item
+    path: entry/1
     submenu:
       - label: Sub 1
         path: entry/2

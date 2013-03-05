@@ -2,7 +2,7 @@
 
 <!-- Main Page Content and Sidebar -->
 
-<div class="row" xmlns="http://www.w3.org/1999/html">
+<div class="row">
 
     <!-- Main Blog Content -->
     <div class="eight columns" role="content">
@@ -14,8 +14,6 @@
             {% if record.subtitle %}
                 <h3>{{ record.subtitle }}</h3>
             {% endif %}
-
-
 
             {% for key,value in record.values %}
 
@@ -88,6 +86,17 @@
                     <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
                 {% endif %}
             </p>
+
+            {% set relatedrecords = record.related() %}
+            {% if relatedrecords is not empty %}
+                <p class="meta">Related content:
+                <ul>
+                    {% for related in relatedrecords %}
+                        <li><a href="{{ related.link }}">{{ related.title }}</a></li>
+                    {%  endfor %}
+                </ul>
+                </p>
+            {% endif %}
 
         </article>
 
