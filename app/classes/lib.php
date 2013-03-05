@@ -625,7 +625,7 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
 
         // Step 2: Split at the first tag
         $head = mb_substr($str, 0, $matchedHTMLIndex, "UTF-8");
-        $tail = mb_substr($str, $matchedHTMLIndex + $matchedHTMLLength, "UTF-8");
+        $tail = mb_substr($str, $matchedHTMLIndex + $matchedHTMLLength, mb_strlen($str), "UTF-8");
 
         // Step 3: Do recursiveFunction on first part
         if ($head != ''){
