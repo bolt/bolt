@@ -1074,14 +1074,14 @@ class Storage
         // Set up the $pager array with relevant values..
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
-            'for' => $contenttypeslug,
+            'for' => $taxonomytype."/".$slug,
             'count' => $rowcount['count'],
             'totalpages' => ceil($rowcount['count'] / $limit),
             'current' => $page,
             'showing_from' => ($page-1)*$limit + 1,
             'showing_to' => ($page-1)*$limit + count($taxorows)
         );
-        $GLOBALS['pager'][$contenttypeslug] = $pager;
+        $GLOBALS['pager'][$taxonomytype."/".$slug] = $pager;
 
         return $content;
 
