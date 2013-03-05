@@ -330,7 +330,10 @@ class Content implements \ArrayAccess
             $sortorder = (int)$sortorder;
         }
 
-        $this->taxonomy[$taxonomytype][] = $value;
+        // Make the 'key' of the array an absolute link to the taxonomy.
+        $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $value);
+
+        $this->taxonomy[$taxonomytype][$link] = $value;
         $this->taxonomyorder[$taxonomytype] = $sortorder;
 
         // If it's a "grouping" type, set $this->group.
