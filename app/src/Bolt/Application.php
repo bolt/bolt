@@ -13,4 +13,15 @@ class Application extends BaseApplication
 
         parent::__construct($values);
     }
+
+    public function getVersion($long = true) {
+
+        if ($long) {
+            return $this['bolt_version'] . " " . $this['bolt_name'];
+        } else {
+            return $this['bolt_version'];
+        }
+
+    }
+
 }

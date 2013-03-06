@@ -6,6 +6,10 @@ require_once __DIR__.'/bootstrap.php';
 use Symfony\Component\Console\Application;
 
 $application = new Application();
+
+$application->setName("Bolt console tool - Nut");
+$application->setVersion($app->getVersion());
+
 $application->add(new Bolt\Nut\Greet($app));
 $application->add(new Bolt\Nut\CacheClear($app));
 $application->add(new Bolt\Nut\Info($app));
