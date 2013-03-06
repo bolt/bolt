@@ -76,8 +76,6 @@ class Async implements ControllerProviderInterface
                 base64_encode($name)
             );
 
-            \util::var_dump($url);
-
             $guzzleclient = new \Guzzle\Http\Client($url);
 
             $news = $guzzleclient->get("/")->send()->getBody(true);
