@@ -70,6 +70,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('first', array($this, 'first')),
             new \Twig_SimpleFilter('last', array($this, 'last'))
         );
@@ -202,6 +203,52 @@ class TwigExtension extends \Twig_Extension
         return ucfirst($str);
 
     }
+
+
+    /**
+     * Sorts / orders items of an array
+     *
+     * @param array $array
+     * @return array
+     */
+    public function order($array, $on, $ascending = true)
+    {
+
+        $this->order_on = $on;
+        $this->order_ascending = filter_var($ascending, FILTER_VALIDATE_BOOLEAN);
+
+        uasort($array, array($this, "orderHelper"));
+
+        return $array;
+
+    }
+
+    /**
+     * Helper function for sorting an array of \Bolt\Content
+     *
+     * @param \Bolt\Content|array $a
+     * @param \Bolt\Content|array $b
+     * @return bool
+     */
+    private function orderHelper($a, $b)
+    {
+
+        $on = $this->order_on;
+        $ascending = $this->order_ascending;
+
+        $a_val = $a[$on];
+        $b_val = $b[$on];
+
+        if ($a_val == $b_val) {
+            return 0;
+        } else if ($a_val < $b_val) {
+            return !$ascending;
+        } else {
+            return $ascending;
+        }
+
+    }
+
 
     /**
      * Returns the first item of an array
