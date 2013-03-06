@@ -48,6 +48,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
             new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFunction('image', array($this, 'image')),
+            new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last'))
@@ -68,6 +69,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('current', array($this, 'current')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('image', array($this, 'image')),
+            new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('first', array($this, 'first')),
@@ -525,16 +527,50 @@ class TwigExtension extends \Twig_Extension
         return $thumbnail;
     }
 
+<<<<<<< HEAD
+=======
+
+    /**
+     * Helper function to show an image on a rendered page.
+     *
+     * example: {{ content.image|showimage(320, 240) }}
+     * example: {{ showimage(content.image, 320, 240) }}
+     */
+    public function showimage($filename = "", $width = 100, $height = 100, $crop = "")
+    {
+
+        if (!empty($filename)) {
+
+            $image = $this->thumbnail($filename, $width, $height, $crop);
+
+            $output = sprintf('<img src="%s" width="%s" height="%s">',
+                $image, $width, $height );
+
+        } else {
+            $output = "&nbsp;";
+        }
+
+        return $output;
+
+    }
+
+
+
+>>>>>>> 448223e... Added {{ showimage }} tag, analogous to {{ fancybox }}
     /**
      * Helper function to wrap an image in a fancybox HTML tag, with thumbnail
      *
      * example: {{ content.image|fancybox(320, 240) }}
+<<<<<<< HEAD
      *
      * @param string $filename Image filename
      * @param int $width Image width
      * @param int $height Image height
      * @param string $crop Crop image string identifier
      * @return string HTML output
+=======
+     * example: {{ fancybox(content.image, 320, 240) }}
+>>>>>>> 448223e... Added {{ showimage }} tag, analogous to {{ fancybox }}
      */
     public function fancybox($filename = "", $width = 100, $height = 100, $crop = "")
     {
