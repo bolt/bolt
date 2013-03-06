@@ -3,6 +3,8 @@
 
 namespace FacebookLike;
 
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
+
 class Extension extends \Bolt\BaseExtension
 {
 
@@ -35,7 +37,7 @@ class Extension extends \Bolt\BaseExtension
         if (empty($this->config['scheme'])) { $this->config['scheme'] = "light"; }
         if (empty($this->config['url'])) { $this->config['url'] = $this->app['paths']['canonicalurl']; }
 
-        $this->insertSnippet('endofbody', 'facebookScript');
+        $this->insertSnippet(SnippetLocation::END_OF_BODY, 'facebookScript');
         $this->addTwigFunction('facebooklike', 'facebookLike');
 
     }

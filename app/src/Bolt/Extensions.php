@@ -4,17 +4,70 @@ namespace Bolt;
 
 use Bolt;
 use util;
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
 class Extensions
 {
+    /**
+     * @var \Bolt\Application
+     */
     private $app;
+
+    /**
+     * The extension base folder.
+     *
+     * @var string
+     */
     private $basefolder;
-    private $enabled;
+
+    /**
+     * List of enabled extensions.
+     *
+     * @var array
+     */
+    private $enabled = array();
+
+    /**
+     * Queue with snippets of HTML to insert.
+     *
+     * @var array
+     */
     private $snippetqueue;
+
+    /**
+     * Queue with widgets to insert.
+     *
+     * @var array
+     */
     private $widgetqueue;
+
+    /**
+     * Files which may be in the extensions folder, but have to be ignored.
+     *
+     * @var array
+     */
     private $ignored;
+
+    /**
+     * Whether or not to add jQuery.
+     *
+     * @var bool
+     */
     private $addjquery;
+
+    /**
+     * List of comments in snippets, these must not be replaced, so they are
+     * stored here while the rest of the snippet is processed.
+     *
+     * @var array
+     */
     private $matchedcomments;
+
+    /**
+     * Contains all initialized extensions.
+     *
+     * @var array
+     */
     private $initialized;
 
     public function __construct(Application $app)
@@ -33,6 +86,10 @@ class Extensions
 
     }
 
+    /**
+     * Defines the extensions which are enabled through the configuration and
+     * are actually present in the extensions folder.
+     */
     public function enabledExtensions()
     {
         $list = $this->app['config']['general']['enabled_extensions'];
@@ -117,6 +174,9 @@ class Extensions
         }
 
         $classname = '\\' . $namespace . '\\Extension';
+        /**
+         * @var \Bolt\BaseExtension $extension
+         */
         $extension = new $classname($this->app);
 
         $info = $extension->getInfo();
@@ -195,37 +255,54 @@ class Extensions
 
     }
 
+    /**
+     * Add jQuery to the output.
+     */
     public function addJquery()
     {
         $this->addjquery = true;
     }
 
+    /**
+     * Don't add jQuery to the output.
+     */
     public function disableJquery()
     {
         $this->addjquery = false;
     }
 
-
+    /**
+     * Add a particular CSS file to the output. This will be inserted before the
+     * other css files.
+     *
+     * @param string $filename
+     */
     public function addCss($filename)
     {
 
         $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
 
-        $this->insertSnippet("beforecss", $html);
+        $this->insertSnippet(SnippetLocation::BEFORE_CSS, $html);
 
     }
 
+    /**
+     * Add a particular javascript file to the output. This will be inserted after
+     * the other javascript files.
+     * @param string $filename
+     */
     public function addJavascript($filename)
     {
 
         $html = sprintf('<script src="%s"></script>', $filename);
 
-        $this->insertSnippet("afterjs", $html);
+        $this->insertSnippet(SnippetLocation::AFTER_JS, $html);
 
     }
 
     /**
-     * Insert a widget. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
+     * Insert a widget. And by 'insert' we actually mean 'add it to the queue,
+     * to be processed later'.
      */
     public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = "", $defer = true, $cacheduration = 180, $extraparameters = "")
     {
@@ -250,6 +327,13 @@ class Extensions
 
     }
 
+    /**
+     * Renders a div as a placeholder for a particular type of widget on the
+     * given location.
+     *
+     * @param string $type
+     * @param string $location For convenience, use the constant from Bolt\Extensions\Snippets\Location
+     */
     public function renderWidgetHolder($type, $location)
     {
         if (is_array($this->widgetqueue)) {
@@ -263,13 +347,17 @@ class Extensions
                     }
 
                     echo $html;
-
                 }
             }
         }
     }
 
-
+    /**
+     * Renders the widget identified by the given key.
+     *
+     * @param string $key Widget identifier
+     * @return string HTML
+     */
     public function renderWidget($key)
     {
 
@@ -375,34 +463,34 @@ class Extensions
 
             // then insert it into the HTML, somewhere.
             switch ($item['location']) {
-                case "endofhead":
+                case SnippetLocation::END_OF_HEAD:
                     $html = $this->insertEndOfHead($snippet, $html);
                     break;
-                case "aftermeta":
+                case SnippetLocation::AFTER_META:
                     $html = $this->insertAfterMeta($snippet, $html);
                     break;
-                case "beforecss":
+                case SnippetLocation::BEFORE_CSS:
                     $html = $this->insertBeforeCss($snippet, $html);
                     break;
-                case "aftercss":
+                case SnippetLocation::AFTER_CSS:
                     $html = $this->insertAfterCss($snippet, $html);
                     break;
-                case "beforejs":
+                case SnippetLocation::BEFORE_JS:
                     $html = $this->insertBeforeJs($snippet, $html);
                     break;
-                case "afterjs":
+                case SnippetLocation::AFTER_JS:
                     $html = $this->insertAfterJs($snippet, $html);
                     break;
-                case "startofhead":
+                case SnippetLocation::START_OF_HEAD:
                     $html = $this->insertStartOfHead($snippet, $html);
                     break;
-                case "startofbody":
+                case SnippetLocation::START_OF_BODY:
                     $html = $this->insertStartOfBody($snippet, $html);
                     break;
-                case "endofbody":
+                case SnippetLocation::END_OF_BODY:
                     $html = $this->insertEndOfBody($snippet, $html);
                     break;
-                case "endofhtml":
+                case SnippetLocation::END_OF_HTML:
                     $html = $this->insertEndOfHtml($snippet, $html);
                     break;
                 default:
@@ -490,8 +578,6 @@ class Extensions
 
     }
 
-
-
     /**
      *
      * Helper function to insert some HTML into the head section of an HTML
@@ -524,7 +610,6 @@ class Extensions
     }
 
     /**
-     *
      * Helper function to insert some HTML into the body section of an HTML
      * page, right before the </body> tag.
      *
@@ -556,7 +641,6 @@ class Extensions
 
 
     /**
-     *
      * Helper function to insert some HTML into the html section of an HTML
      * page, right before the </html> tag.
      *
@@ -588,7 +672,6 @@ class Extensions
 
 
     /**
-     *
      * Helper function to insert some HTML into the head section of an HTML page.
      *
      * @param  string $tag
@@ -618,7 +701,6 @@ class Extensions
 
 
     /**
-     *
      * Helper function to insert some HTML into the head section of an HTML page.
      *
      * @param  string $tag
@@ -648,7 +730,6 @@ class Extensions
 
 
     /**
-     *
      * Helper function to insert some HTML before the first CSS include in the page.
      *
      * @param  string $tag
@@ -679,7 +760,6 @@ class Extensions
 
 
     /**
-     *
      * Helper function to insert some HTML before the first javascript include in the page.
      *
      * @param  string $tag
@@ -709,7 +789,6 @@ class Extensions
     }
 
     /**
-     *
      * Helper function to insert some HTML after the last javascript include in the page.
      *
      * @param  string $tag
@@ -737,11 +816,11 @@ class Extensions
 
     }
 
-
     /**
      * Insert jQuery, if it's not inserted already.
      *
      * @param string $html
+     * @return string HTML
      */
     private function insertJquery($html)
     {
@@ -761,12 +840,16 @@ class Extensions
             // We've already got jQuery. Yay, us!
             return $html;
         }
-
     }
 
-
-
-
+    /**
+     * Callback method to identify comments and store them in the matchedcomments
+     * array. These will be put back after the replacements on the HTML are
+     * finished.
+     *
+     * @param string $c
+     * @return string The key under which the comment is stored
+     */
     private function pregcallback($c) {
         $key = "###bolt-comment-".count($this->matchedcomments)."###";
         // Add it to the array of matched comments..
@@ -774,8 +857,5 @@ class Extensions
         return $key;
 
     }
-
-
-
 
 }

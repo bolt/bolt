@@ -3,6 +3,8 @@
 
 namespace TestSnippets;
 
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
+
 class Extension extends \Bolt\BaseExtension
 {
 
@@ -27,39 +29,38 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize() {
 
-        $this->insertSnippet('startofhead', 'callback', "startofhead");
-        $this->insertSnippet('startofhead', "<!-- inserted string snippet startofhead -->");
+        $this->insertSnippet(SnippetLocation::START_OF_HEAD, 'callback', "startofhead");
+        $this->insertSnippet(SnippetLocation::START_OF_HEAD, "<!-- inserted string snippet startofhead -->");
 
-        $this->insertSnippet('endofhead', 'callback', "endofhead");
-        $this->insertSnippet('endofhead', "<!-- inserted string snippet endofhead -->");
+        $this->insertSnippet(SnippetLocation::END_OF_HEAD, 'callback', "endofhead");
+        $this->insertSnippet(SnippetLocation::END_OF_HEAD, "<!-- inserted string snippet endofhead -->");
 
-        $this->insertSnippet('aftermeta', 'callback', "aftermeta");
-        $this->insertSnippet('aftermeta', "<!-- inserted string snippet aftermeta -->");
+        $this->insertSnippet(SnippetLocation::AFTER_META, 'callback', "aftermeta");
+        $this->insertSnippet(SnippetLocation::AFTER_META, "<!-- inserted string snippet aftermeta -->");
 
-        $this->insertSnippet('beforecss', 'callback', "beforecss");
-        $this->insertSnippet('beforecss', "<!-- inserted string snippet beforecss -->");
+        $this->insertSnippet(SnippetLocation::BEFORE_CSS, 'callback', "beforecss");
+        $this->insertSnippet(SnippetLocation::BEFORE_CSS, "<!-- inserted string snippet beforecss -->");
 
-        $this->insertSnippet('aftercss', 'callback', "aftercss");
-        $this->insertSnippet('aftercss', "<!-- inserted string snippet aftercss -->");
+        $this->insertSnippet(SnippetLocation::AFTER_CSS, 'callback', "aftercss");
+        $this->insertSnippet(SnippetLocation::AFTER_CSS, "<!-- inserted string snippet aftercss -->");
 
-        $this->insertSnippet('beforejs', 'callback', "beforejs");
-        $this->insertSnippet('beforejs', "<!-- inserted string snippet beforejs -->");
+        $this->insertSnippet(SnippetLocation::BEFORE_JS, 'callback', "beforejs");
+        $this->insertSnippet(SnippetLocation::BEFORE_JS, "<!-- inserted string snippet beforejs -->");
 
-        $this->insertSnippet('afterjs', 'callback', "afterjs");
-        $this->insertSnippet('afterjs', "<!-- inserted string snippet afterjs -->");
+        $this->insertSnippet(SnippetLocation::AFTER_JS, 'callback', "afterjs");
+        $this->insertSnippet(SnippetLocation::AFTER_JS, "<!-- inserted string snippet afterjs -->");
 
-        $this->insertSnippet('startofbody', 'callback', "startofbody");
-        $this->insertSnippet('startofbody', "<!-- inserted string snippet startofbody -->");
+        $this->insertSnippet(SnippetLocation::START_OF_BODY, 'callback', "startofbody");
+        $this->insertSnippet(SnippetLocation::START_OF_BODY, "<!-- inserted string snippet startofbody -->");
 
-        $this->insertSnippet('endofbody', 'callback', "endofbody");
-        $this->insertSnippet('endofbody', "<!-- inserted string snippet endofbody -->");
+        $this->insertSnippet(SnippetLocation::END_OF_BODY, 'callback', "endofbody");
+        $this->insertSnippet(SnippetLocation::END_OF_BODY, "<!-- inserted string snippet endofbody -->");
 
-        $this->insertSnippet('endofhtml', 'callback', "endofhtml");
-        $this->insertSnippet('endofhtml', "<!-- inserted string snippet endofhtml -->");
+        $this->insertSnippet(SnippetLocation::END_OF_HTML, 'callback', "endofhtml");
+        $this->insertSnippet(SnippetLocation::END_OF_HTML, "<!-- inserted string snippet endofhtml -->");
 
-        $this->insertSnippet('afterhtml', 'callback', "afterhtml");
-        $this->insertSnippet('afterhtml', "<!-- inserted string snippet afterhtml -->");
-
+        $this->insertSnippet(SnippetLocation::AFTER_HTML, 'callback', "afterhtml");
+        $this->insertSnippet(SnippetLocation::AFTER_HTML, "<!-- inserted string snippet afterhtml -->");
     }
 
 

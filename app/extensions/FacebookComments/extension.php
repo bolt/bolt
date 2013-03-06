@@ -3,6 +3,8 @@
 
 namespace FacebookComments;
 
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
+
 class Extension extends \Bolt\BaseExtension
 {
 
@@ -38,7 +40,7 @@ class Extension extends \Bolt\BaseExtension
     function getSnippets()
     {
         return array(
-            array('endofbody', 'facebookScript')
+            array(SnippetLocation::END_OF_BODY, 'facebookScript')
         );
     }
 
