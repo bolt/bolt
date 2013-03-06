@@ -57,7 +57,6 @@ class Async implements ControllerProviderInterface
      * News.
      */
     function dashboardnews(Silex\Application $app) {
-        global $bolt_version;
 
         $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
 
@@ -71,11 +70,13 @@ class Async implements ControllerProviderInterface
             $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
             $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
-                $bolt_version,
+                rawurlencode($app->getVersion()),
                 phpversion(),
                 $driver,
                 base64_encode($name)
             );
+
+            \util::var_dump($url);
 
             $guzzleclient = new \Guzzle\Http\Client($url);
 
