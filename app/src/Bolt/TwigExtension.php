@@ -527,14 +527,17 @@ class TwigExtension extends \Twig_Extension
         return $thumbnail;
     }
 
-<<<<<<< HEAD
-=======
-
     /**
      * Helper function to show an image on a rendered page.
      *
      * example: {{ content.image|showimage(320, 240) }}
      * example: {{ showimage(content.image, 320, 240) }}
+     *
+     * @param string $filename Image filename
+     * @param int $width Image width
+     * @param int $height Image height
+     * @param string $crop Crop image string identifier
+     * @return string HTML output
      */
     public function showimage($filename = "", $width = 100, $height = 100, $crop = "")
     {
@@ -555,22 +558,17 @@ class TwigExtension extends \Twig_Extension
     }
 
 
-
->>>>>>> 448223e... Added {{ showimage }} tag, analogous to {{ fancybox }}
     /**
      * Helper function to wrap an image in a fancybox HTML tag, with thumbnail
      *
      * example: {{ content.image|fancybox(320, 240) }}
-<<<<<<< HEAD
+     * example: {{ fancybox(content.image, 320, 240) }}
      *
      * @param string $filename Image filename
      * @param int $width Image width
      * @param int $height Image height
      * @param string $crop Crop image string identifier
      * @return string HTML output
-=======
-     * example: {{ fancybox(content.image, 320, 240) }}
->>>>>>> 448223e... Added {{ showimage }} tag, analogous to {{ fancybox }}
      */
     public function fancybox($filename = "", $width = 100, $height = 100, $crop = "")
     {
