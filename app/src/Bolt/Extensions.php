@@ -73,7 +73,7 @@ class Extensions
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->basefolder = realpath(__DIR__."/../../extensions/");
+        $this->basefolder = realpath(__DIR__ . "/../../extensions/");
         $this->ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
         $this->enabledExtensions();
         $this->matchedcomments = array();
@@ -100,11 +100,11 @@ class Extensions
         // Make a list of extensions, actually present..
         while (false !== ($foldername = $d->read())) {
 
-            if (in_array($foldername, $this->ignored) || substr($foldername, 0, 2) == "._" ) {
+            if (in_array($foldername, $this->ignored) || substr($foldername, 0, 2) == "._") {
                 continue;
             }
 
-            if (is_dir($this->basefolder."/".$foldername) && is_readable($this->basefolder."/".$foldername."/extension.php")) {
+            if (is_dir($this->basefolder . "/" . $foldername) && is_readable($this->basefolder . "/" . $foldername . "/extension.php")) {
                 $folders[] = $foldername;
             }
 
@@ -131,12 +131,12 @@ class Extensions
 
         while (false !== ($entry = $d->read())) {
 
-            if (in_array($entry, $this->ignored) || substr($entry, 0, 2) == "._" ) {
+            if (in_array($entry, $this->ignored) || substr($entry, 0, 2) == "._") {
                 continue;
             }
 
-            if (is_dir($this->basefolder."/".$entry)) {
-                $info[$entry] = $this->infoHelper($this->basefolder."/".$entry);
+            if (is_dir($this->basefolder . "/" . $entry)) {
+                $info[$entry] = $this->infoHelper($this->basefolder . "/" . $entry);
             }
 
         }
@@ -156,7 +156,7 @@ class Extensions
      */
     private function infoHelper($path)
     {
-        $filename = $path."/extension.php";
+        $filename = $path . "/extension.php";
         $namespace = basename($path);
 
         if (!is_readable($filename)) {
@@ -167,7 +167,7 @@ class Extensions
 
         include_once($filename);
 
-        if (!class_exists($namespace.'\Extension')) {
+        if (!class_exists($namespace . '\Extension')) {
             // No class Extensionname\Extension, skip it!
             $this->app['log']->add("Couldn't initialize $namespace: Class '$namespace\\Extension' doesn't exist", 3);
             return array();
@@ -236,8 +236,6 @@ class Extensions
                     }
                 }
             }
-
-
 
 
             /*
@@ -311,7 +309,7 @@ class Extensions
 
         $sessionkey = !empty($user['sessionkey']) ? $user['sessionkey'] : "";
 
-        $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, $callback)),0,8);
+        $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, $callback)), 0, 8);
 
         $this->widgetqueue[] = array(
             'type' => $type,
@@ -337,8 +335,8 @@ class Extensions
     public function renderWidgetHolder($type, $location)
     {
         if (is_array($this->widgetqueue)) {
-            foreach($this->widgetqueue as $widget) {
-                if ($type == $widget['type'] && $location==$widget['location']) {
+            foreach ($this->widgetqueue as $widget) {
+                if ($type == $widget['type'] && $location == $widget['location']) {
 
                     $html = sprintf("<section><div class='widget' id='widget-%s' data-key='%s'></div></section>", $widget['key'], $widget['key']);
 
@@ -361,10 +359,10 @@ class Extensions
     public function renderWidget($key)
     {
 
-        foreach($this->widgetqueue as $widget) {
+        foreach ($this->widgetqueue as $widget) {
             if ($key == $widget['key']) {
 
-                $cachekey = 'widget_'.$widget['key'];
+                $cachekey = 'widget_' . $widget['key'];
 
                 if ($this->app['cache']->isvalid($cachekey, $widget['cacheduration'])) {
                     // Present in the cache ..
@@ -393,15 +391,18 @@ class Extensions
     /**
      * Call the 'getSnippets' function of an initialized extension, and make sure the snippets are initialized
      */
-    public function getSnippets($extensionname) {
+    public function getSnippets($extensionname)
+    {
 
         $snippets = $this->initialized[$extensionname]->getSnippets();
 
         if (!empty($snippets)) {
-            foreach($snippets as $snippet) {
+            foreach ($snippets as $snippet) {
                 // Make sure 'snippet[2]' is the correct name.
                 $snippet[2] = $extensionname;
-                if (!isset($snippet[3])) { $snippet[3] = ""; }
+                if (!isset($snippet[3])) {
+                    $snippet[3] = "";
+                }
                 $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
             }
         }
@@ -414,7 +415,7 @@ class Extensions
     public function insertSnippet($location, $callback, $extensionname = "core", $extraparameters = "")
     {
 
-        $key = md5($extensionname.$callback.$location);
+        $key = md5($extensionname . $callback . $location);
 
         // http://php.net/manual/en/function.func-get-args.php
 
@@ -426,13 +427,13 @@ class Extensions
         );
 
 
-
     }
 
     /**
      * Clears the snippet queue
      */
-    public function clearSnippetQueue(){
+    public function clearSnippetQueue()
+    {
         $this->snippetqueue = array();
     }
 
@@ -450,7 +451,7 @@ class Extensions
             // Get the snippet, either by using a callback function, or else use the
             // passed string as-is..
 
-            if ( ($item['extension']!="core") && method_exists($this->initialized[$item['extension']], $item['callback'])) {
+            if (($item['extension'] != "core") && method_exists($this->initialized[$item['extension']], $item['callback'])) {
                 // Snippet is defined in the extension itself.
                 $snippet = $this->initialized[$item['extension']]->parseSnippet($item['callback'], $item['extraparameters']);
             } else if (function_exists($item['callback'])) {
@@ -494,13 +495,13 @@ class Extensions
                     $html = $this->insertEndOfHtml($snippet, $html);
                     break;
                 default:
-                    $html .= $snippet."\n";
+                    $html .= $snippet . "\n";
                     break;
             }
 
         }
 
-        if ($this->addjquery==true) {
+        if ($this->addjquery == true) {
             $html = $this->insertJquery($html);
         }
 
@@ -538,7 +539,7 @@ class Extensions
         } else {
 
             // Since we're serving tag soup, just append it.
-            $html .= $tag."\n";
+            $html .= $tag . "\n";
 
         }
 
@@ -570,7 +571,7 @@ class Extensions
         } else {
 
             // Since we're serving tag soup, just append it.
-            $html .= $tag."\n";
+            $html .= $tag . "\n";
 
         }
 
@@ -601,7 +602,7 @@ class Extensions
         } else {
 
             // Since we're serving tag soup, just append it.
-            $html .= $tag."\n";
+            $html .= $tag . "\n";
 
         }
 
@@ -631,7 +632,7 @@ class Extensions
         } else {
 
             // Since we're serving tag soup, just append it.
-            $html .= $tag."\n";
+            $html .= $tag . "\n";
 
         }
 
@@ -662,7 +663,7 @@ class Extensions
         } else {
 
             // Since we're serving tag soup, just append it.
-            $html .= $tag."\n";
+            $html .= $tag . "\n";
 
         }
 
@@ -687,7 +688,7 @@ class Extensions
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
-            $last = count($matches[0])-1;
+            $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
             $html = str_replace_first($matches[0][$last], $replacement, $html);
 
@@ -716,7 +717,7 @@ class Extensions
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
-            $last = count($matches[0])-1;
+            $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
             $html = str_replace_first($matches[0][$last], $replacement, $html);
 
@@ -750,7 +751,7 @@ class Extensions
         } else {
 
             // Since we're serving tag soup, just append it.
-            $html .= $tag."\n";
+            $html .= $tag . "\n";
 
         }
 
@@ -780,7 +781,7 @@ class Extensions
         } else {
 
             // Since we're serving tag soup, just append it.
-            $html .= $tag."\n";
+            $html .= $tag . "\n";
 
         }
 
@@ -804,7 +805,7 @@ class Extensions
             //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
-            $last = count($matches[0])-1;
+            $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
             $html = str_replace_first($matches[0][$last], $replacement, $html);
 
@@ -833,7 +834,7 @@ class Extensions
         // jquery-1.8.2.min.js
         // jquery-1.5.js
         if (!preg_match('/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/', $html)) {
-            $jqueryfile = $this->app['paths']['app']."view/js/jquery-1.9.1.min.js";
+            $jqueryfile = $this->app['paths']['app'] . "view/js/jquery-1.9.1.min.js";
             $html = $this->insertBeforeJs("<script src='$jqueryfile'></script>", $html);
             return $html;
         } else {
@@ -850,10 +851,11 @@ class Extensions
      * @param string $c
      * @return string The key under which the comment is stored
      */
-    private function pregcallback($c) {
-        $key = "###bolt-comment-".count($this->matchedcomments)."###";
+    private function pregcallback($c)
+    {
+        $key = "###bolt-comment-" . count($this->matchedcomments) . "###";
         // Add it to the array of matched comments..
-        $this->matchedcomments["/".$key."/"] = $c[0];
+        $this->matchedcomments["/" . $key . "/"] = $c[0];
         return $key;
 
     }
