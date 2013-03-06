@@ -115,7 +115,7 @@ $app->after(function (Request $request, Response $response) use ($app) {
         // Insert our 'generator' after the last <meta ..> tag.
         // @todo Find a neat solution for this
         if (stripos($response->headers->get('Content-Type'), 'xml') === false){
-            $app['extensions']->insertSnippet('aftermeta', '<meta name="generator" content="Bolt">');
+            $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
         }
 
         $html = $app['extensions']->processSnippetQueue($html);
