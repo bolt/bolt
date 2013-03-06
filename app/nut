@@ -18,4 +18,6 @@ $application->add(new Bolt\Nut\LogClear($app));
 $application->add(new Bolt\Nut\DatabaseCheck($app));
 $application->add(new Bolt\Nut\DatabaseRepair($app));
 $application->add(new Bolt\Nut\TestRunner($app));
+$application->add(new Bolt\Nut\ConfigGet($app));
+$application->add(new Bolt\Nut\ConfigSet($app));
 $application->run();
