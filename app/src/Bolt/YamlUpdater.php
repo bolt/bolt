@@ -140,7 +140,7 @@ class YamlUpdater
     public function prepareValue($value) {
 
         if (is_array($value)) {
-            return "[ " . implode(", ", $value);
+            return "[ " . implode(", ", $value) . " ]";
         }
 
         if (preg_match('/[^a-z0-9]/i', $value)) {

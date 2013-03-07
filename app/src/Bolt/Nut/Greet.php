@@ -12,7 +12,7 @@ class Greet extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('nut:greet')
+            ->setName('greet')
             ->setDescription('Greet someone')
             ->addArgument('name', InputArgument::OPTIONAL, 'Who do you want to greet?')
             ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters');
