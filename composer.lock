@@ -1,5 +1,5 @@
 {
-    "hash": "54faa7761e6c3975372ff9dac641242e",
+    "hash": "1952204a2777cfa25ede9024c0538f10",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -615,6 +615,50 @@
             "time": "2013-03-07 22:30:20"
         },
         {
+            "name": "hautelook/phpass",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hautelook/phpass.git",
+                "reference": "da4c2c693aa4e1c616a350015c90af0da82a0fd8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hautelook/phpass/zipball/da4c2c693aa4e1c616a350015c90af0da82a0fd8",
+                "reference": "da4c2c693aa4e1c616a350015c90af0da82a0fd8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Hautelook": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Public Domain"
+            ],
+            "authors": [
+                {
+                    "name": "Solar Designer",
+                    "email": "solar@openwall.com",
+                    "homepage": "http://openwall.com/phpass/"
+                }
+            ],
+            "description": "Portable PHP password hashing framework",
+            "homepage": "http://github.com/hautelook/phpass/",
+            "keywords": [
+                "blowfish",
+                "crypt",
+                "password",
+                "security"
+            ],
+            "time": "2012-08-31 19:32:39"
+        },
+        {
             "name": "pimple/pimple",
             "version": "dev-master",
             "source": {
@@ -704,12 +748,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "fcd93b346fcc2e611b911e106fb610c665945a3c"
+                "reference": "8e6d30ac82286767be18bb657d371ff525597321"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/fcd93b346fcc2e611b911e106fb610c665945a3c",
-                "reference": "fcd93b346fcc2e611b911e106fb610c665945a3c",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/8e6d30ac82286767be18bb657d371ff525597321",
+                "reference": "8e6d30ac82286767be18bb657d371ff525597321",
                 "shasum": ""
             },
             "require": {
@@ -728,7 +772,7 @@
                 "symfony/css-selector": ">=2.1,<2.3-dev",
                 "symfony/dom-crawler": ">=2.1,<2.3-dev",
                 "symfony/finder": ">=2.1,<2.3-dev",
-                "symfony/form": ">=2.1,<2.3-dev",
+                "symfony/form": ">=2.1.4,<2.3-dev",
                 "symfony/locale": ">=2.1,<2.3-dev",
                 "symfony/monolog-bridge": ">=2.1,<2.3-dev",
                 "symfony/options-resolver": ">=2.1,<2.3-dev",
@@ -743,7 +787,8 @@
             "suggest": {
                 "symfony/browser-kit": ">=2.1,<2.3-dev",
                 "symfony/css-selector": ">=2.1,<2.3-dev",
-                "symfony/dom-crawler": ">=2.1,<2.3-dev"
+                "symfony/dom-crawler": ">=2.1,<2.3-dev",
+                "symfony/form": "To make use of the FormServiceProvider, >= 2.1.4 is required"
             },
             "type": "library",
             "extra": {
@@ -776,7 +821,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-03-08 11:42:34"
+            "time": "2013-03-08 13:19:34"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2054,6 +2099,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "silex/silex": 20,
+        "hautelook/phpass": 20,
         "phpunit/php-code-coverage": 20
     },
     "platform": [
