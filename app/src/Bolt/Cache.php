@@ -115,7 +115,10 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
     }
 
     /**
-     * @deprecated
+     * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
+     *
+     * @see clearCacheHelper
+     *
      */
     public function clearCache()
     {
@@ -130,7 +133,61 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
 
         parent::flushAll();
 
+        $this->clearCacheHelper('', $result);
+
         return $result;
 
     }
+
+    /**
+     * Helper function for clearCache()
+     * @param string $additional
+     * @param array $result
+     */
+    private function clearCacheHelper($additional, &$result)
+    {
+
+        $currentfolder = realpath($this->cacheDir . "/" . $additional);
+
+        if (!file_exists($currentfolder)) {
+            $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
+
+            return;
+        }
+
+        $d = dir($currentfolder);
+
+        while (false !== ($entry = $d->read())) {
+
+            if ($entry == "." || $entry == ".." || $entry == "index.html" || $entry == '.gitignore') {
+                continue;
+            }
+
+            if (is_file($currentfolder."/".$entry)) {
+                if (is_writable($currentfolder."/".$entry) && unlink($currentfolder."/".$entry)) {
+                    $result['successfiles']++;
+                } else {
+                    $result['failedfiles']++;
+                    $result['failed'][] = str_replace($this->dir, "cache", $currentfolder."/".$entry);
+                }
+            }
+
+            if (is_dir($currentfolder."/".$entry)) {
+
+                $this->clearCacheHelper($additional."/".$entry, $result);
+
+                if (@rmdir($currentfolder."/".$entry)) {
+                    $result['successfolders']++;
+                } else {
+                    $result['failedfolders']++;
+                }
+
+            }
+
+        }
+
+        $d->close();
+
+    }
+
 }
