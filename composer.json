@@ -18,6 +18,7 @@
         "twig/twig": ">=1.8,<2.0-dev",
         "guzzle/guzzle": "3.3.*",
         "swiftmailer/swiftmailer": "4.3.*",
+        "htmlawed/htmlawed": "dev-master",
         "dflydev/markdown": "1.0.*",
         "hautelook/phpass": "dev-master"
     },
