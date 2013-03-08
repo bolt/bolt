@@ -193,8 +193,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function markdown($content)
     {
-        include_once __DIR__. "/../../classes/markdown.php";
-        $output = Markdown($content) ;
+        // Parse the field as Markdown, return HTML
+        $markdownParser = new \dflydev\markdown\MarkdownParser();
+        $output = $markdownParser->transformMarkdown($content);
 
         return $output;
     }

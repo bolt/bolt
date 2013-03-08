@@ -17,7 +17,8 @@
         "doctrine/dbal": "2.3.*",
         "twig/twig": ">=1.8,<2.0-dev",
         "guzzle/guzzle": "3.3.*",
-        "swiftmailer/swiftmailer": "4.3.*"
+        "swiftmailer/swiftmailer": "4.3.*",
+        "dflydev/markdown": "1.0.*"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",

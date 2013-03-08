@@ -148,8 +148,9 @@ class Async implements ControllerProviderInterface
 
         $readme = file_get_contents($filename);
 
-        include_once __DIR__. "/../../../classes/markdown.php";
-        $html = \Markdown($readme);
+        // Parse the field as Markdown, return HTML
+        $markdownParser = new \dflydev\markdown\MarkdownParser();
+        $html = $markdownParser->transformMarkdown($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
 
