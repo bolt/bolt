@@ -1,5 +1,5 @@
 {
-    "hash": "1952204a2777cfa25ede9024c0538f10",
+    "hash": "b76fa77db685a680da577d5e66a2b750",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -657,6 +657,40 @@
                 "security"
             ],
             "time": "2012-08-31 19:32:39"
+        },
+        {
+            "name": "htmlawed/htmlawed",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kesar/HTMLawed.git",
+                "reference": "7b8896d1c46bc684b0ab6a1d7a46227ee1c8d800"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kesar/HTMLawed/zipball/7b8896d1c46bc684b0ab6a1d7a46227ee1c8d800",
+                "reference": "7b8896d1c46bc684b0ab6a1d7a46227ee1c8d800",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">4.4.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+",
+                "LGPL-3.0"
+            ],
+            "description": "htmLawed - Process text with HTML markup to make it more compliant with HTML  standards and administrative policies",
+            "homepage": "http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/",
+            "keywords": [
+                "HTMLtidy",
+                "html",
+                "sanitize",
+                "strip",
+                "tags"
+            ],
+            "time": "2013-02-07 13:54:54"
         },
         {
             "name": "pimple/pimple",
@@ -2099,6 +2133,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "silex/silex": 20,
+        "htmlawed/htmlawed": 20,
         "hautelook/phpass": 20,
         "phpunit/php-code-coverage": 20
     },

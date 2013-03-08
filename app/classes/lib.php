@@ -581,7 +581,7 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
  * @return array With two keys: 'string' (resulting string) and length (string length)
  */
 function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true, $returnString = '', $length = 0){
-    require_once __DIR__ . '/htmLawed/htmLawed.php';
+    require_once(BOLT_PROJECT_ROOT_DIR.'/vendor/htmlawed/htmlawed/htmLawed.php');
     $config = array('tidy'=>1, 'schemes'=>'*:*', 'balance' => '1');
     // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
     // from doing it on the beginning of the string :(
