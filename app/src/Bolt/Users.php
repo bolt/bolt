@@ -461,4 +461,27 @@ class Users
 
     }
 
+    /**
+     * Check if a certain field with a certain value doesn't exist already. We use
+     * 'makeSlug', because we shouldn't allow 'admin@example.org', when there already
+     * is an 'ADMIN@EXAMPLE.ORG'.
+     *
+     * @param string $fieldname
+     * @param string $value
+     * @param int $currentid
+     * @return bool
+     */
+    public function checkAvailability($fieldname, $value, $currentid=0)
+    {
+
+        foreach ($this->users as $key => $user) {
+            if ( (makeSlug($user[$fieldname]) == makeSlug($value)) && ($user['id'] != $currentid) ) {
+                return false;
+            }
+        }
+
+        // no clashes found, OK!
+        return true;
+    }
+
 }

@@ -7,7 +7,7 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\Event\DataEvent;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -575,11 +575,10 @@ class Backend implements ControllerProviderInterface
                 ->add('lastip', 'text', array('disabled' => true));
         }
 
-        // Make sure the passwords are identical with a custom validator..
-        $form->addEventListener(FormEvents::POST_BIND, function (DataEvent $event) {
+        // Make sure the passwords are identical and some other check, with a custom validator..
+        $form->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) use ($app) {
 
             $form = $event->getForm();
-
             $id = $form['id']->getData();
             $pass1 = $form['password']->getData();
             $pass2 = $form['password_confirmation']->getData();
@@ -598,7 +597,23 @@ class Backend implements ControllerProviderInterface
                 $form['password_confirmation']->addError(new FormError('Passwords must match.'));
             }
 
+            // Usernames must be unique..
+            if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
+                $form['username']->addError(new FormError('This username is already in use. Choose another username.'));
+            }
+
+            // Email addresses must be unique..
+            if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
+                $form['email']->addError(new FormError('This email address is already in use. Choose another email address.'));
+            }
+
+            // Displaynames must be unique..
+            if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
+                $form['displayname']->addError(new FormError('This Displayname is already in use. Choose another email address.'));
+            }
+
         });
+
 
         /**
          * @var \Symfony\Component\Form\Form $form
@@ -633,6 +648,8 @@ class Backend implements ControllerProviderInterface
         ));
 
     }
+
+
 
     /**
      * Perform actions on users.
