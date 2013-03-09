@@ -49,7 +49,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
-            new \Twig_SimpleFunction('last', array($this, 'last'))
+            new \Twig_SimpleFunction('last', array($this, 'last')),
+            new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html')))
         );
     }
 
@@ -805,7 +806,6 @@ class TwigExtension extends \Twig_Extension
 
     }
 
-
     /**
      * Check if a certain action is allowed for the current user.
      */
@@ -815,4 +815,16 @@ class TwigExtension extends \Twig_Extension
         return $this->app['users']->isAllowed($what);
 
     }
+
+    /**
+     * Redirect the browser to another page.
+     */
+    public function redirect($path)
+    {
+
+        $result = $this->app->redirect($path);
+        return $result;
+
+    }
+
 }
