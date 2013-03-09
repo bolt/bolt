@@ -4,7 +4,7 @@
 
   <div class="row">
 
-    <!-- Main Blog Content -->
+    <!-- Main Blog Content -->  
     <div class="eight columns" role="content">
 
 	{# This template is used for 'listings': Generic pages that list a number of 
@@ -40,6 +40,12 @@
 
     <hr>
 
+    {% else %}
+    <article>
+        <h2>No content found.</h2>
+
+        <p>Unfortunately, no content could be found. Try another page, or go to the <a href="{{ paths.root }}">homepage</a>.</p>
+    </article>
     {% endfor %}
 
     {# If there are more records than will fit on one page, the pager is shown. #}
