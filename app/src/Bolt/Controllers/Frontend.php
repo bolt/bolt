@@ -198,9 +198,11 @@ class Frontend implements ControllerProviderInterface
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']['general']['listing_sort']);
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
 
-        if (!$content) {
-            $app->abort(404, "Content for '$contenttypeslug' not found.");
-        }
+        // We do _not_ abort when there's no content. Instead, we handle this in the template:
+        // {% for record in records %} .. {% else %} no records! {% endif %}
+        // if (!$content) {
+        //     $app->abort(404, "Content for '$contenttypeslug' not found.");
+        // }
 
         // Then, select which template to use, based on our 'cascading templates rules'
         if (!empty($contenttype['listing_template'])) {
