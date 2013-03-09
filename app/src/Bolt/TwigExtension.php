@@ -53,6 +53,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html')))
         );
     }
 
@@ -869,6 +870,17 @@ class TwigExtension extends \Twig_Extension
                 return __($args[0]);
         }
         return null;
+    }
+
+    /**
+     * Redirect the browser to another page.
+     */
+    public function redirect($path)
+    {
+
+        $result = $this->app->redirect($path);
+        return $result;
+
     }
 
 }

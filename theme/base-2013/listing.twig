@@ -44,7 +44,16 @@
     <article>
         <h2>No content found.</h2>
 
-        <p>Unfortunately, no content could be found. Try another page, or go to the <a href="{{ paths.root }}">homepage</a>.</p>
+        <p>
+            Unfortunately, no content could be found. Try another page, or go to the
+            <a href="{{ paths.root }}">homepage</a>.
+        </p>
+
+        {#
+        optionally, you can redirect the browser to another page. Just uncomment the next line to do so.
+        {{ redirect('/') }}
+        #}
+
     </article>
     {% endfor %}
 
