@@ -1624,7 +1624,7 @@ class Storage
 
         $query = sprintf(
             "SELECT * FROM $tablename WHERE content_id IN (%s) AND contenttype=%s AND taxonomytype IN ('%s')",
-            implode(", ", $ids),
+            $this->app['db']->quote(implode(", ", $ids)),
             $this->app['db']->quote($contenttype),
             implode("', '", $taxonomytypes)
         );
@@ -1739,7 +1739,7 @@ class Storage
         $query = sprintf(
             "SELECT * FROM $tablename WHERE from_contenttype=%s AND from_id IN (%s)",
             $this->app['db']->quote($contenttype),
-            implode(", ", $ids)
+            $this->app['db']->quote(implode(", ", $ids))
         );
 
         $rows = $this->app['db']->fetchAll($query);
@@ -1752,7 +1752,7 @@ class Storage
         $query = sprintf(
             "SELECT * FROM $tablename WHERE to_contenttype=%s AND to_id IN (%s)",
             $this->app['db']->quote($contenttype),
-            implode(", ", $ids)
+            $this->app['db']->quote(implode(", ", $ids))
         );
         $rows = $this->app['db']->fetchAll($query);
 
@@ -1880,16 +1880,15 @@ class Storage
             $prefix = "";
         }
 
-        $query = "SELECT id from $tablename WHERE slug='$slug' and id!='$id';";
-        $res = $this->app['db']->query($query)->fetch();
+        $query = "SELECT id from $tablename WHERE slug=? and id!=?";
+        $res = $this->app['db']->executeQuery($query, array($slug, $id))->fetch();
 
         if (!$res) {
             $uri = $prefix . $slug;
         } else {
             for ($i = 1; $i <= 10; $i++) {
                 $newslug = $slug.'-'.$i;
-                $query = "SELECT id from $tablename WHERE slug='$newslug' and id!='$id';";
-                $res = $this->app['db']->query($query)->fetch();
+                $res = $this->app['db']->executeQuery($query, array($newslug, $id))->fetch();
                 if (!$res) {
                     $uri = $prefix . $newslug;
                     break;
