@@ -1634,6 +1634,10 @@ class Storage
             $content[ $row['content_id'] ]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['sortorder']);
         }
 
+        foreach($content as $key => $value) {
+            $content[$key]->sortTaxonomy();
+        }
+
     }
 
     /**
