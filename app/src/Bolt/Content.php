@@ -652,7 +652,12 @@ class Content implements \ArrayAccess
                     continue; // Skip other ids, if we requested a specific id.
                 }
 
-                $records[] = $this->app['storage']->getContent($contenttype."/".$id);
+                $record = $this->app['storage']->getContent($contenttype."/".$id);
+
+                if (!empty($record)) {
+                    $records[] = $this->app['storage']->getContent($contenttype."/".$id);
+                }
+
             }
         }
 

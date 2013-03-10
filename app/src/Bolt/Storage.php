@@ -1737,7 +1737,7 @@ class Storage
         $contenttype = $content[ util::array_first_key($content) ]->contenttype['slug'];
 
         $query = sprintf(
-            "SELECT * FROM $tablename WHERE from_contenttype=%s AND from_id IN (%s)",
+            "SELECT * FROM $tablename WHERE from_contenttype=%s AND from_id IN (%s) ORDER BY id",
             $this->app['db']->quote($contenttype),
             $this->app['db']->quote(implode(", ", $ids))
         );
@@ -1750,7 +1750,7 @@ class Storage
 
         // switch it, flip it and reverse it. wop wop wop.
         $query = sprintf(
-            "SELECT * FROM $tablename WHERE to_contenttype=%s AND to_id IN (%s)",
+            "SELECT * FROM $tablename WHERE to_contenttype=%s AND to_id IN (%s) ORDER BY id",
             $this->app['db']->quote($contenttype),
             $this->app['db']->quote(implode(", ", $ids))
         );
