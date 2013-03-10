@@ -235,7 +235,8 @@ class Users
         $userslug = makeSlug($user);
 
         // for once we don't use getUser(), because we need the password.
-        $user = $this->db->fetchAssoc("SELECT * FROM " . $this->usertable . " WHERE username='$userslug'");
+        $query = "SELECT * FROM " . $this->usertable . " WHERE username=? LIMIT 1";
+        $user = $this->db->executeQuery($query, array($userslug))->fetch();
 
         if (empty($user)) {
             $this->session->getFlashBag()->set('error', 'Username or password not correct. Please check your input.');
