@@ -343,6 +343,28 @@ class Content implements \ArrayAccess
 
     }
 
+    public function sortTaxonomy()
+    {
+        foreach($this->taxonomy as $type => $values){
+            $taxonomytype = $this->app['config']['taxonomy'][$type];
+            // Don't order tags..
+            if ($taxonomytype['behaves_like'] == "tags") {
+                continue;
+            }
+
+            // Order them by the order in the contenttype.
+            $new = array();
+            foreach($this->app['config']['taxonomy'][$type]['options'] as $value) {
+                if ($key = array_search($value, $this->taxonomy[$type])) {
+                    $new[$key] = $value;
+                }
+            }
+            $this->taxonomy[$type] = $new;
+        }
+
+    }
+
+
     public function setRelation($contenttype, $id)
     {
 
