@@ -879,7 +879,9 @@ function getConfig()
     // We add these later, because the order is important: By having theme/ourtheme first,
     // files in that folder will take precedence. For instance when overriding the menu template.
     $config['twigpath'][] = realpath(__DIR__.'/../theme_defaults');
-    $config['twigpath'][] = realpath(__DIR__.'/../extensions');
+
+    // Deprecated! Extensions that use templates, should add their own path: $this->app['twig.loader.filesystem']->addPath(__DIR__);
+    // $config['twigpath'][] = realpath(__DIR__.'/../extensions');
 
     return $config;
 
