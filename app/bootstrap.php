@@ -81,8 +81,8 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array());
 
 // Loading stub functions for when intl / IntlDateFormatter isn't available.
 if (!function_exists('intl_get_error_code')) {
-    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
 }
 
 $app->register(new Bolt\TranslationServiceProvider());
