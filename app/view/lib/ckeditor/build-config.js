@@ -7,8 +7,8 @@
 /**
  * This file was added automatically by CKEditor builder.
  * You may re-use it at any time at http://ckeditor.com/builder to build CKEditor again.
- *
- * NOTE:
+ * 
+ * NOTE: 
  *    This file is not used by CKEditor, you may remove it.
  *    Changing this file will not change your CKEditor configuration.
  */
@@ -56,9 +56,11 @@ var CKBUILDER_CONFIG = {
 		'panelbutton' : 1,
 		'colorbutton' : 1,
 		'resize' : 1,
-		'mediaembed' : 1
+		'mediaembed' : 1,
+		'popup' : 1,
+		'filebrowser' : 1
 	},
 	languages : {
 		'en' : 1,
 	}
-};§
+};

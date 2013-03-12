@@ -155,6 +155,26 @@ CKEDITOR.editorConfig = function( config ) {
     config.height = "250px";
     config.removePlugins = 'elementspath';
     config.resize_dir = 'vertical';
+
+    if (wysiwyg.filebrowser) {
+        if (wysiwyg.filebrowser.browseUrl) {
+            config.filebrowserBrowseUrl = wysiwyg.filebrowser.browseUrl;
+        }
+        if (wysiwyg.filebrowser.imageBrowseUrl) {
+            config.filebrowserImageBrowseUrl = wysiwyg.filebrowser.imageBrowseUrl;
+        }
+        if (wysiwyg.filebrowser.uploadUrl) {
+            config.filebrowserUploadUrl = wysiwyg.filebrowser.uploadUrl;
+        }
+        if (wysiwyg.filebrowser.imageUploadUrl) {
+            config.filebrowserImageUploadUrl = wysiwyg.filebrowser.imageUploadUrl;
+        }
+    } else {
+        config.filebrowserBrowseUrl = '';
+        config.filebrowserImageBrowseUrl = '';
+        config.filebrowserUploadUrl = '';
+        config.filebrowserImageUploadUrl = '';
+    }
 };
 
 
