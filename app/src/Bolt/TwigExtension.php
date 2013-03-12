@@ -52,7 +52,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
-            new \Twig_SimpleFunction('__', array($this, 'trans')),
+            new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
         );
     }
 
@@ -76,7 +76,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('first', array($this, 'first')),
             new \Twig_SimpleFilter('last', array($this, 'last')),
-            new \Twig_SimpleFilter('__', array($this, 'trans')),
+            new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
         );
     }
 

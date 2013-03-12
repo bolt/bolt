@@ -936,9 +936,9 @@ class Backend implements ControllerProviderInterface
             $s = file_get_contents($file);
             // only found in templates
             if ($isTwig($file)) {
-                // 'single quote'|trans
+                // 'single quote'|__
                 //if (preg_match_all("/{{ '([^|}]*)'\|\s*trans(?U).*}}/s",$s,$matches)) {
-                if (preg_match_all("/{{ '([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'\s*\|\s*trans(?U).*}}/s",$s,$matches)) {
+                if (preg_match_all("/{{\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'\s*\|\s*__(?U).*}}/s",$s,$matches)) {
                     //print_r($matches[1]);
                     foreach($matches[1] as $t) {
                         $nstr++;
@@ -947,9 +947,9 @@ class Backend implements ControllerProviderInterface
                         }
                     }
                 }
-                // "double quotes"|trans
+                // "double quotes"|__
                 //if (preg_match_all('/{{ "([^|}]*)"\|\s*trans(?U).*}}/s',$s,$matches)) {
-                if (preg_match_all('/{{ "([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"\s*\|\s*trans(?U).*}}/s',$s,$matches)) {
+                if (preg_match_all('/{{\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"\s*\|\s*__(?U).*}}/s',$s,$matches)) {
                     //print_r($matches[1]);
                     foreach($matches[1] as $t) {
                         $nstr++;
@@ -958,8 +958,8 @@ class Backend implements ControllerProviderInterface
                         }
                     }
                 }
-                // app.translator.trans('single_quote_demo'...
-                if (preg_match_all("/\bapp.translator.trans\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s",$s,$matches)) {
+                // __('single_quote_demo'...
+                if (preg_match_all("/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s",$s,$matches)) {
                     //print_r($matches[1]);
                     foreach($matches[1] as $t) {
                         $nstr++;
@@ -968,8 +968,8 @@ class Backend implements ControllerProviderInterface
                         }
                     }
                 }
-                // app.translator.trans("double_quote_demo"...
-                if (preg_match_all('/\bapp.translator.trans\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s',$s,$matches)) {
+                // __("double_quote_demo"...
+                if (preg_match_all('/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s',$s,$matches)) {
                     //print_r($matches[1]);
                     foreach($matches[1] as $t) {
                         $nstr++;
@@ -979,7 +979,7 @@ class Backend implements ControllerProviderInterface
                     }
                 }
             }
-            // only found in php :
+            // php :
             /** all translatables strings have to be called with:
              *  __("text",$params=array(),$domain='messages',locale=null) // $app['translator']->trans()
              *  __("text",count,$params=array(),$domain='messages',locale=null) // $app['translator']->transChoice()
@@ -1017,21 +1017,48 @@ class Backend implements ControllerProviderInterface
                 }// end for $x
             }
         }
+        $ctypes = $app['config']['contenttypes'];
+        $genContentTypes = function($txt) use ($ctypes) {
+            $stypes=array();
+            foreach ($ctypes as $key => $ctype) {
+                $stypes[]=str_replace('%contenttype%',$ctype['name'],$txt);
+                $stypes[]=str_replace('%contenttype%',$ctype['singular_name'],$txt);
+            }
+            return $stypes;
+        };
         sort($strings);
         $locale = $app['request']->getLocale();
-        $translations = "";
+        $translations = '';
+        $no_translations='';
         foreach($strings as $idx=>$key) {
             $key = stripslashes($key);
             $raw_key = $key;
             $key = Escaper::escapeWithDoubleQuotes($key);
             if ( ($trans = $app['translator']->trans($raw_key)) == $raw_key ) {
+            //if ( ($trans = $app['translator']->trans($key)) == $key ) {
                 // not translated
-                $translations .= ( $key  . ": #\n");
+                $no_translations .= ( $key  . ": #\n");
             } else {
                 $trans = Escaper::escapeWithDoubleQuotes($trans);
                 $translations .= ( $key . ": $trans\n");
             }
+            // generate additionals strings for contenttypes ?
+            if (strpos($raw_key,'%contenttype%') !== false) {
+                // replace
+                foreach($genContentTypes($raw_key) as $ctypekey) {
+                    $key = Escaper::escapeWithDoubleQuotes($ctypekey);
+                    if ( ($trans = $app['translator']->trans($ctypekey)) == $ctypekey ) {
+                    //if ( ($trans = $app['translator']->trans($key)) == $key ) {
+                        // not translated
+                        $no_translations .= ( $key  . ": #\n");
+                    } else {
+                        $trans = Escaper::escapeWithDoubleQuotes($trans);
+                        $translations .= ( $key . ": $trans\n");
+                    }
+                }
+            }
         }
+        $translations = $no_translations . "#\n" . $translations;
         $form = $app['form.factory']->createBuilder('form',array('translations' => $translations))
             ->add('translations', 'textarea', array(
                     'label'      => $app['translator']->trans('Translations'),
