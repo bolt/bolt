@@ -1288,3 +1288,254 @@ function str_replace_first($search, $replace, $subject) {
     }
     return $subject;
 }
+
+/**
+ * i18n made right, second attempt...
+ *
+ * Instead of calling directly $app['translator']->trans(), we check
+ * for the presence of a placeholder named '%contentype%'.
+ *
+ * if one is found, we replace it with the contenttype.name parameter,
+ * and try to get a translated string. If there is not, we revert to
+ * the generic (%contenttype%) string, which must have a translation.
+ *
+ */
+function __() {
+    global $app;
+    $num_args = func_num_args();
+    if (0==$num_args) {
+        return null;
+    }
+    $args = func_get_args();
+    if ($num_args > 4) {
+        $fn = 'transChoice';
+    } elseif ($num_args == 1 || is_array($args[1])) {
+        // if only 1 arg or 2nd arg is an array call trans
+        $fn = 'trans';
+    } else {
+        $fn = 'transChoice';
+    }
+    $tr_args=null;
+    if ( $fn == 'trans' && $num_args > 1) {
+        $tr_args = $args[1];
+    } elseif ($fn == 'transChoice' && $num_args > 2) {
+        $tr_args = $args[2];
+    }
+    if ($tr_args) {
+        $keytype='%contenttype%';
+        if (array_key_exists($keytype,$tr_args)) {
+            // have a %contenttype% placeholder, try to find a
+            // specialized translation
+            $text=str_replace($keytype,$tr_args[$keytype],$args[0]);
+            unset($tr_args[$keytype]);
+            echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
+            if ($fn == 'transChoice') {
+                    $trans = $app['translator']->transChoice(
+                        $text,$args[1],$tr_args,
+                        isset($args[3]) ? $args[3] : 'contenttypes',
+                        isset($args[4]) ? $args[4] : $app['request']->getLocale()
+                    );
+            } else {
+                    $trans = $app['translator']->trans(
+                        $text,$tr_args,
+                        isset($args[2]) ? $args[2] : 'contenttypes',
+                        isset($args[3]) ? $args[3] : $app['request']->getLocale()
+                    );
+            }
+            echo '<!-- translation : '.htmlentities($trans)." -->\n";
+            if ($text != $trans) {
+                return $trans;
+            }
+        }
+    }
+
+    //try {
+    switch($num_args) {
+        case 5:
+            return $app['translator']->transChoice($args[0],$args[1],$args[2],$args[3],$args[4]);
+        case 4:
+            //echo "<!-- 4. call: $fn($args[0],$args[1],$args[2],$args[3]) -->\n";
+            return $app['translator']->$fn($args[0],$args[1],$args[2],$args[3]);
+        case 3:
+            //echo "<!-- 3. call: $fn($args[0],$args[1],$args[2]) -->\n";
+            return $app['translator']->$fn($args[0],$args[1],$args[2]);
+        case 2:
+            //echo "<!-- 2. call: $fn($args[0],$args[1] -->\n";
+            return $app['translator']->$fn($args[0],$args[1]);
+        case 1:
+            //echo "<!-- 1. call: $fn($args[0]) -->\n";
+            return $app['translator']->$fn($args[0]);
+    }
+    /*}
+    catch (\Exception $e) {
+        echo "<!-- ARGHH !!! -->\n";
+        //return $args[0];
+        die($e->getMessage());
+    }*/
+}
+
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Escaper;
+
+/**
+ * find all twig templates and bolt php code, extract translatables
+ * strings, merge with existing translations, return
+ *
+ */
+function gatherTranslatableStrings($locale=null)
+{
+    global $app;
+
+    $isPhp = function($fname) {
+        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'php';
+    };
+
+    $isTwig = function($fname) {
+        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'twig';
+    };
+
+    $ctypes = $app['config']['contenttypes'];
+
+    // function that generates a string for each variation of contenttype
+    $genContentTypes = function($txt) use ($ctypes) {
+        $stypes=array();
+        foreach ($ctypes as $key => $ctype) {
+            $stypes[]=str_replace('%contenttype%',$ctype['name'],$txt);
+            $stypes[]=str_replace('%contenttype%',$ctype['singular_name'],$txt);
+        }
+        return $stypes;
+    };
+
+
+    $finder = new Finder();
+    $finder->files()
+        ->ignoreVCS(true)
+        ->name('*.twig')
+        ->name('*.php')
+        ->notName('*~')
+        ->exclude(array('cache','config','database','resources','tests'))
+        ->in(BOLT_PROJECT_ROOT_DIR.'/theme') //
+        ->in(BOLT_PROJECT_ROOT_DIR.'/app')
+    ;
+    // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
+    $re_dq = '/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s';
+    $re_sq = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";
+    $nstr=0;
+    $strings=array();
+    foreach ($finder as $file) {
+        $s = file_get_contents($file);
+
+        // scan twig templates for  __('...' and __("..."
+        if ($isTwig($file)) {
+            // __('single_quoted_string'...
+            if (preg_match_all("/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s",$s,$matches)) {
+                //print_r($matches[1]);
+                foreach($matches[1] as $t) {
+                    $nstr++;
+                    if (!in_array($t,$strings)) {
+                        $strings[]=$t;
+                        sort($strings);
+                    }
+                }
+            }
+            // __("double_quoted_string"...
+            if (preg_match_all('/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s',$s,$matches)) {
+                //print_r($matches[1]);
+                foreach($matches[1] as $t) {
+                    $nstr++;
+                    if (!in_array($t,$strings)) {
+                        $strings[]=$t;
+                        sort($strings);
+                    }
+                }
+            }
+        }
+
+        // php :
+        /** all translatables strings have to be called with:
+         *  __("text",$params=array(),$domain='messages',locale=null) // $app['translator']->trans()
+         *  __("text",count,$params=array(),$domain='messages',locale=null) // $app['translator']->transChoice()
+         */
+        if ($isPhp($file)) {
+            $tokens = token_get_all($s);
+            $num_tokens = count($tokens);
+            for ($x=0; $x < $num_tokens; $x++) {
+                $token = $tokens[$x];
+                if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
+                    $token = $tokens[++$x];
+                    if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                        $token = $tokens[++$x];
+                    }
+                    if ($x < $num_tokens && !is_array($token) && $token == '(') {
+                        // in our func args...
+                        $token = $tokens[++$x];
+                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                            $token = $tokens[++$x];
+                        }
+                        if (!is_array($token)) {
+                            // give up
+                            continue;
+                        }
+                        if ($token[0] == T_CONSTANT_ENCAPSED_STRING ) {
+                            $t = substr($token[1],1,strlen($token[1])-2);
+                            $nstr++;
+                            if (!in_array($t,$strings)) {
+                                $strings[]=$t;
+                                sort($strings);
+                            }
+                            // TODO: retrieve domain ?
+                        }
+                    }
+                }
+            }// end for $x
+        }
+    }
+
+    sort($strings);
+    if (!$locale) {
+        $locale = $app['request']->getLocale();
+    }
+    $msg_domain = array(
+        'translated' => array(),
+        'not_translated'=>array()
+    );
+    $ctype_domain=array(
+        'translated'=>array(),
+        'not_translated'=>array()
+    );
+
+    foreach($strings as $idx=>$key) {
+        $key = stripslashes($key);
+        $raw_key = $key;
+        $key = Escaper::escapeWithDoubleQuotes($key);
+        if ( ($trans = $app['translator']->trans($raw_key)) == $raw_key ) {
+            // not translated
+            $msg_domain['not_translated'][] = $key;
+        } else {
+            $trans = Escaper::escapeWithDoubleQuotes($trans);
+            $msg_domain['translated'][$key] = $trans;
+        }
+        // generate additionals strings for contenttypes ?
+        if (strpos($raw_key,'%contenttype%') !== false) {
+            // replace
+            foreach($genContentTypes($raw_key) as $ctypekey) {
+                $key = Escaper::escapeWithDoubleQuotes($ctypekey);
+                if ( ($trans = $app['translator']->trans($ctypekey,array(),'contenttypes')) == $ctypekey ) {
+                    // not translated
+                    $ctype_domain['not_translated'][] = $key;
+                } else {
+                    $trans = Escaper::escapeWithDoubleQuotes($trans);
+                    $ctype_domain['translated'][$key] = $trans;
+                }
+            }
+        }
+    }
+
+    sort($msg_domain['not_translated']);
+    ksort($msg_domain['translated']);
+
+    sort($ctype_domain['not_translated']);
+    ksort($ctype_domain['translated']);
+
+    return array($msg_domain,$ctype_domain);
+}

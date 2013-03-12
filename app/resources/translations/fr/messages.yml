@@ -1,117 +1,42 @@
+# app/resources/translations/fr/messages.yml ---- generated on 2013/03/13 00:34:49
+
+# 11 untranslated strings
 "<br><br><p><b>Tip: </b>Add some sample <a href=\"%url%\">Records with Loripsum text</a>.</p>": #
-"Actions": #
-"Actions for %contenttype%": #
-"Actions for Entry": #
-"Actions for Page": #
-"Actions for Kitchensink": #
-"Add ": #
-"Clear filter": #
 "Configuration": #
-"Content was duplicated. Click 'Save %contenttype%' to finalize.": #
-"Content was duplicated. Click 'Save Entries' to finalize.": #
-"Content was duplicated. Click 'Save Pages' to finalize.": #
-"Content was duplicated. Click 'Save Kitchensinks' to finalize.": #
-"Delete %contenttype%": #
-"Delete Entries": #
-"Delete Pages": #
-"Delete Kitchensinks": #
-"Duplicate %contenttype%": #
-"Duplicate Entries": #
-"Duplicate Pages": #
-"Duplicate Kitchensinks": #
-"Edit %contenttype% » %title%": #
-"Edit Entries » %title%": #
-"Edit Pages » %title%": #
-"Edit Kitchensinks » %title%": #
-"Extensions": #
-"File '%s' could not be saved: not valid YAML.": #
-"File Management": #
-"Filtering:": #
-"Latest %contenttype%.": #
-"Latest Entries.": #
-"Latest Entry.": #
-"Latest Pages.": #
-"Latest Page.": #
-"Latest Kitchensinks.": #
-"Latest Kitchensink.": #
-"Login": #
-"Logout %name%": #
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": #
 "Maintenance": #
-"Menu setup": #
-"Meta": #
-"More %contenttype% »": #
-"More Entries »": #
-"More Entry »": #
-"More Pages »": #
-"More Page »": #
-"More Kitchensinks »": #
-"More Kitchensink »": #
-"New %contenttype%": #
-"New Entries": #
-"New Pages": #
-"New Kitchensinks": #
-"No %contenttype% available.": #
-"No Entries available.": #
-"No Pages available.": #
-"No Kitchensinks available.": #
-"Overview » %contenttype%": #
-"Overview » Entry": #
-"Overview » Page": #
-"Overview » Kitchensink": #
-"Page:": #
-"Publish %contenttype%": #
-"Publish Entries": #
-"Publish Pages": #
-"Publish Kitchensinks": #
+"Messages": #
+"Permalink": "Lien permanent"
 "Slug:": #
-"The changes to this %contenttype% have been saved.": #
-"The changes to this Entries have been saved.": #
-"The changes to this Pages have been saved.": #
-"The changes to this Kitchensinks have been saved.": #
-"The new %contenttype% has been saved.": #
-"The new Entries has been saved.": #
-"The new Pages has been saved.": #
-"The new Kitchensinks has been saved.": #
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": #
+"The translations file '%s' is not readable.": #
 "There was an error saving this %contenttype%.": #
-"There was an error saving this Entries.": #
-"There was an error saving this Pages.": #
-"There was an error saving this Kitchensinks.": #
-"Uploaded files": #
-"View %contenttype%": #
-"View Entries": #
-"View Entry": #
-"View Pages": #
-"View Page": #
-"View Kitchensinks": #
-"View Kitchensink": #
-#
+"Written by <em>%name%</em> on %date%": "Écrit par <em>%name%</em> le %date%"
+#-----------------------------------------
 " %s files could not be deleted. You should delete them manually.": " %s fichiers non supprimés. Vous devrez les supprimer manuellement."
-"(no group)": "(aucun groupe)"
+"%contenttype% overview": "Aperçu de %contenttype%"
 "<br><br><p>Go <a href=\"%url%\">back to the Dashboard</a>.<br>": "<br><br><p>Retour au <a href=\"%url%\">tableau de bord</a>.<br>"
 "<p>Modifications made to the database:<p>": "<p>Modifications apportées à la Base %:<p>"
 "<p>Your database is already up to date.<p>": "<p>Votre base de données est déjà à jour.<p>"
 "<p>Your database is now up to date.<p>": "<p>Votre base de données est désormais à jour.</p>"
-"Actions for Entries": "Actions pour les entrées"
-"Actions for Pages": "Actions pour les pages"
-"Actions for Kitchensinks": "Actions pour les bazars"
+"Actions for %contenttype%": "Actions pour %contenttype%"
 "Activity log": "Journal d'activité"
+"Alas, no about!": "Hélas, pas d'à-propos !"
 "Allowed contenttypes": "contentypes autorisés"
 "Author:": "Auteur :"
 "Change status to 'draft'": "Mettre à « brouillon »"
 "Change status to 'held'": "Mettre à « en attente »"
 "Check database": "Vérifier la base de données"
-"Clear sort/filter": "Réinitialiser l'ordre/le filtre"
 "Clear the cache": "Vider le cache"
-"Content": "Contenu"
 "Content '%title%' could not be deleted.": "Le contenu '%title%' ne peut être supprimé."
 "Content '%title%' could not be modified.": "Le contenu '%title%' ne peut être modifié."
 "Content '%title%' has been changed to 'draft'.": "Le contenu '%title%' a été changé en 'draft'."
 "Content '%title%' has been changed to 'held'": "Le contenu '%title%' a été changé en 'held'."
 "Content '%title%' has been deleted.": "Le contenu '%title%' a été supprimé."
 "Content '%title%' is published.": "Le contenu '%title%' est publié."
-"Content was duplicated. Click 'Save Entry' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer l'entrée' pour finaliser."
-"Content was duplicated. Click 'Save Page' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer la page' pour finaliser."
-"Content was duplicated. Click 'Save Kitchensink' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer le bazar' pour finaliser."
+"Content was duplicated. Click 'Save %contenttype%' to finalize.": "Contenu dupliqué. Cliquez sur 'Enregistrer le %contentype%' pour finaliser."
+"Content": "Contenu"
+"Content-types": "Types de contenu"
 "Contenttypes": "Types de contenu"
 "Create a new user": "Créer un nouvel utilisateur"
 "Create the first user": "Créer le premier utilisateur"
@@ -119,68 +44,63 @@
 "Current status:": "Statut actuel :"
 "Dashboard": "Tableau de bord"
 "Database check / update": "Vérification / mise à jour de la base de données"
-"Delete Entry": "Supprimer l'entrée"
-"Delete Page": "Supprimer la page"
-"Delete Kitchensink": "Supprimer le bazar"
+"Delete %contenttype%": "Supprimer le %contenttype%"
 "Deleted %s files from cache.": "Supprimé %s fichiers du cache."
-"Duplicate Entry": "Dupliquer l'entrée"
-"Duplicate Page": "Dupliquer la page"
-"Duplicate Kitchensink": "Dupliquer le bazar"
-"Edit": "Modifier"
-"Edit Entry » %title%": "Modifier l'entrée » %title%"
-"Edit Page » %title%": "Modifier la page » %title%"
-"Edit Kitchensink » %title%": "Modifier le bazar » %title%"
+"Duplicate %contenttype%": "Dupliquer le contenttype%"
+"Edit %contenttype% » %title%": "Modification de %contenttype% » %title%"
 "Edit a user": "Modifier un utilisateur"
 "Edit file '%s'.": "Modifier le fichier '%s'."
+"Edit translations file '%s'.": "Modifier le fichier de traductions '%s'."
+"Edit": "Modifier"
+"Extensions": "Extension"
 "File '%s' could not be saved, for some reason.": "Le fichier '%s' ne peut être enregistré."
+"File '%s' could not be saved: not valid YAML.": "Le fichier '%s' ne peut être enregistré : YAML invalide."
 "File '%s' has been saved.": "Le fichier '%s' a été enregistré."
+"File Management": "Gestion des fichiers"
 "Files in %s": "Fichiers dans %s"
 "Fill the database with Dummy Content": "Remplir la base de donnée avec un contenu bidon"
 "It seems there's no content in the database.": "On dirait qu'il n'y a aucun contenu dans la base de données."
 "Last edited on:": "Dernière modif. le :"
-"New Entry": "Nouvelle entrée"
-"New Page": "Nouvelle page"
-"New Kitchensink": "Nouveau bazar"
-"No Entry available.": "Aucune entrée disponible."
-"No Page available.": "Aucune page disponible."
-"No Kitchensink available.": "Aucun bazar disponible."
+"Latest %contenttype%.": "Derniers %contenttype%."
+"Latest entries": "Dernières entrées"
+"Login": "Connexion"
+"Logout %name%": "Déconnecter %name%"
+"Menu setup": "Réglage du menu"
+"More %contenttype% »": "Plus de %contenttype%"
+"New %contenttype%": "Nouveau %contenttype%"
+"No %contenttype% available.": "Aucun %contenttype%."
+"No recent %contenttype%.": "Aucun %contenttype% récent."
 "No such action for content.": "Action inconnue pour ce contenu."
 "No such action for user '%s'.": "Action inconnue pour l'utilisateur '%s'."
 "Or <a href=\"%url%\">add some more records</a>.</p>": "Ou <a href=\"%url%\">ajouter encore quelques enregistrements</a>.</p>"
 "Order: %sort%": "Tri : %sort%"
-"Overview » Entries": "Aperçu » Entrées"
-"Overview » Pages": "Aperçu » Pages"
-"Overview » Kitchensinks": "Aperçu » Bazars"
+"Overview » %contenttype%": "Aperçu » %contenttype%"
 "Password (confirmation)": "Mot de passe (confirmation)"
 "Passwords must match.": "Les mots de passe diffèrent."
 "Please log on.": "Merci de vous identifier."
-"Publish Entry": "Publier l'entrée"
-"Publish Page": "Publier la page"
-"Publish Kitchensink": "Publier le bazar"
+"Publish %contenttype%": "Publier ce %contenttype%"
 "Published on:": "Publié(e) le :"
+"Read more": "Plus..."
+"Recent %contenttype%": "%contenttype% récents"
+"Search results for <b> %search% </b>.": "Résultats des recherches pour <b> %search% </b>."
 "Settings": "Réglages"
 "Taxonomy": "Taxonomie"
 "The activitylog has been cleared.": "Le journal d'activité a été vidé."
 "The activitylog has been trimmed.": "Le journal d'activité a été raccourci."
-"The changes to this Entry have been saved.": "Les changements de cette entrée ont été enregistrés."
-"The changes to this Page have been saved.": "Les changements de cette page ont été enregistrés."
-"The changes to this Kitchensink have been saved.": "Les changements de ce bazar ont été enregistrés."
+"The changes to this %contenttype% have been saved.": "Les modifications de ce %contenttype% ont été enregistrées."
 "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.": "La base de données a besoin d'être réparée / mise à jour. Allez dans 'Réglages' > 'Vérifier la base de données' pour le faire maintenant."
 "The file '%s' doesn't exist, or is not readable.": "Le fichier '%s' n'existe pas ou ne peut être lu."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Le fichier '%s' ne peut être écrit. Vous devrez utiliser votre éditeur pour modifier ce fichier."
-"The new Entry has been saved.": "La nouvelle entrée a été enregistrée."
-"The new Page has been saved.": "La nouvelle page a été enregistrée."
-"The new Kitchensink has been saved.": "Le nouveau bazar a été enregistré."
+"The new %contenttype% has been saved.": "Le nouveau %contenttype% a été enregistré."
 "There are no users in the database. Please create the first user.": "Aucun utilisateurs dans la base de donnée. Merci de créer le premier utilisateur."
-"There was an error saving this Entry.": "Erreur en sauvegardant cette entrée."
-"There was an error saving this Page.": "Erreur en sauvegardant cette page."
-"There was an error saving this Kitchensink.": "Erreur en sauvegardant ce bazar."
 "This Displayname is already in use. Choose another display name.": "Ce «Displayname» est déja utilisé. Merci d'un choisir un autre"
 "This email address is already in use. Choose another email address.": "Cette adresse email est déjà utilisée. Merci d'en choisir une autre."
 "This username is already in use. Choose another username.": "Ce nom d'utilisateur est déjà utilisé. Merci d'en choisir un autre."
 "This value is too short. It should have 6 characters or more.": "Cette valeur est trop courte. Elle doit avoir au moins 6 caractères."
-"Title / Excerpt": "Titre / Extrait"
+"This website is <a href=\"%url%\" target=\"_blank\" title=\"%title%\">Built with Bolt</a>.": "Ce site web est <a href=\"%url%\" target=\"_blank\" title=\"%title%\">Construit avec Bolt</a>."
 "To get started quickly, add some <a href=\"%url%\">Lorem Ipsum dummy content</a>.": "Pour démarrer rapidement, ajoutez un peu de <a href=\"%url%\">contenu Lorem Ipsum</a>."
+"Translations": "Traductions"
+"Uploaded files": "Fichiers déversés."
 "User %s could not be saved, or nothing was changed.": "L'utilisateur n'a pas été enregistré, ou rien n'a changé."
 "User %s has been saved.": "L'utilisateur %s a été enregistré."
 "User '%s' could not be deleted.": "L'utilisateur '%s' ne peut être supprimé."
@@ -190,10 +110,12 @@
 "User '%s' is disabled.": "L'utilisateur '%s' est désactivé."
 "User '%s' is enabled.": "L'utilisateur '%s' est activé."
 "User is enabled": "L'utilisateur est activé."
+"View %contenttype%": "Voir les %contenttype%"
 "View / edit Templates": "Voir / modifier les templates"
 "View file '%s'.": "Voir le fichier '%s'."
 "View on site": "Voir sur le site"
 "View site": "Voir le site"
+"View translations file '%s'.": "Voir le fichier de traductions '%s'."
 "You do not have the right privileges to edit that record.": "Vous n'avez pas les permissions pour modifier cet enregistrement."
 "You do not have the right privileges to view that page.": "Vous n'avez pas les permissions pour voir cette page."
 "Your database is already up to date.": "Votre base de données est déjà à jour."

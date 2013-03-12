@@ -111,9 +111,11 @@ class Backend implements ControllerProviderInterface
             ->bind('fileedit')
         ;
 
-        $ctl->match("/translation/{tr_locale}", array($this, 'translation'))
+        $ctl->get("/tr/{domain}/{tr_locale}", array($this, 'translation'))
             ->before(array($this, 'before'))
-            ->value('tr_locale', 'fr')
+            ->assert('domain','messages|contenttypes')
+            ->value('domain','messages')
+            ->value('tr_locale',$app['config']['general']['locale'])
             ->method('GET|POST')
             ->bind('translation')
         ;
@@ -879,6 +881,10 @@ class Backend implements ControllerProviderInterface
                 if ($ok) {
                     if (file_put_contents($filename, $contents)) {
                         $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.",array('%s'=>$file)));
+                        // If we've saved a translation, back to it
+                        if (preg_match('#resources/translations/(..)/(.*)\.yml$#',$filename,$m)) {
+                            return redirect('translation', array('domain'=>$m[2],'tr_locale'=>$m[1]));
+                        }
                         // If we've saved contenttypes.yml, update the database..
                         if (basename($file) == "contenttypes.yml") {
                             return redirect('dbupdate', '', "?return=edit");
@@ -905,215 +911,110 @@ class Backend implements ControllerProviderInterface
     /**
      * Prepare/edit/save a translation
      */
-    function translation($tr_locale, Silex\Application $app) {
+    function translation($domain,$tr_locale, Silex\Application $app, Request $request) {
 
-        $isPhp = function($fname) {
-            return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'php';
-        };
-
-        $isTwig = function($fname) {
-            return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'twig';
-        };
-
-
-        $finder = new Finder();
-        $finder->files()
-            ->ignoreVCS(true)
-            ->name('*.twig')
-            ->name('*.php')
-            ->notName('*~')
-            ->exclude(array('cache','config','database','resources','tests'))
-            ->in(BOLT_PROJECT_ROOT_DIR.'/theme') //
-            //->in(BOLT_PROJECT_ROOT_DIR.'/theme_defaults')
-            ->in(BOLT_PROJECT_ROOT_DIR.'/app')
-        ;
-        // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
-        $re_dq = '/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s';
-        $re_sq = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";
-        $nstr=0;
-        $strings=array();
-        foreach ($finder as $file) {
-            $s = file_get_contents($file);
-            // only found in templates
-            if ($isTwig($file)) {
-                // 'single quote'|__
-                //if (preg_match_all("/{{ '([^|}]*)'\|\s*trans(?U).*}}/s",$s,$matches)) {
-                if (preg_match_all("/{{\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'\s*\|\s*__(?U).*}}/s",$s,$matches)) {
-                    //print_r($matches[1]);
-                    foreach($matches[1] as $t) {
-                        $nstr++;
-                        if (!in_array($t,$strings)) {
-                            $strings[]=$t;
-                        }
-                    }
+        list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
+        $short_locale = substr($tr_locale,0,2);
+        $ts = date("Y/m/d H:i:s\n");
+        $content = "# app/resources/translations/$short_locale/$domain.yml ---- generated on $ts\n";
+        if ($domain == 'messages') {
+            $cnt = count($msg['not_translated']);
+            if ($cnt) {
+                $content .= sprintf("# %d untranslated strings\n",$cnt);
+                foreach($msg['not_translated'] as $key) {
+                    $content .= "$key: #\n";
                 }
-                // "double quotes"|__
-                //if (preg_match_all('/{{ "([^|}]*)"\|\s*trans(?U).*}}/s',$s,$matches)) {
-                if (preg_match_all('/{{\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"\s*\|\s*__(?U).*}}/s',$s,$matches)) {
-                    //print_r($matches[1]);
-                    foreach($matches[1] as $t) {
-                        $nstr++;
-                        if (!in_array($t,$strings)) {
-                            $strings[]=$t;
-                        }
-                    }
-                }
-                // __('single_quote_demo'...
-                if (preg_match_all("/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s",$s,$matches)) {
-                    //print_r($matches[1]);
-                    foreach($matches[1] as $t) {
-                        $nstr++;
-                        if (!in_array($t,$strings)) {
-                            $strings[]=$t;
-                        }
-                    }
-                }
-                // __("double_quote_demo"...
-                if (preg_match_all('/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s',$s,$matches)) {
-                    //print_r($matches[1]);
-                    foreach($matches[1] as $t) {
-                        $nstr++;
-                        if (!in_array($t,$strings)) {
-                            $strings[]=$t;
-                        }
-                    }
-                }
-            }
-            // php :
-            /** all translatables strings have to be called with:
-             *  __("text",$params=array(),$domain='messages',locale=null) // $app['translator']->trans()
-             *  __("text",count,$params=array(),$domain='messages',locale=null) // $app['translator']->transChoice()
-             */
-            if ($isPhp($file)) {
-                $tokens = token_get_all($s);
-                $num_tokens = count($tokens);
-                for ($x=0; $x < $num_tokens; $x++) {
-                    $token = $tokens[$x];
-                    if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
-                        $token = $tokens[++$x];
-                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                            $token = $tokens[++$x];
-                        }
-                        if ($x < $num_tokens && !is_array($token) && $token == '(') {
-                            // in our func args...
-                            $token = $tokens[++$x];
-                            if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
-                                $token = $tokens[++$x];
-                            }
-                            if (!is_array($token)) {
-                                // give up
-                                continue;
-                            }
-                            if ($token[0] == T_CONSTANT_ENCAPSED_STRING ) {
-                                $t = substr($token[1],1,strlen($token[1])-2);
-                                $nstr++;
-                                if (!in_array($t,$strings)) {
-                                    $strings[]=$t;
-                                }
-                                // TODO: retrieve domain if any
-                            }
-                        }
-                    }
-                }// end for $x
-            }
-        }
-        $ctypes = $app['config']['contenttypes'];
-        $genContentTypes = function($txt) use ($ctypes) {
-            $stypes=array();
-            foreach ($ctypes as $key => $ctype) {
-                $stypes[]=str_replace('%contenttype%',$ctype['name'],$txt);
-                $stypes[]=str_replace('%contenttype%',$ctype['singular_name'],$txt);
-            }
-            return $stypes;
-        };
-        sort($strings);
-        $locale = $app['request']->getLocale();
-        $translations = '';
-        $no_translations='';
-        foreach($strings as $idx=>$key) {
-            $key = stripslashes($key);
-            $raw_key = $key;
-            $key = Escaper::escapeWithDoubleQuotes($key);
-            if ( ($trans = $app['translator']->trans($raw_key)) == $raw_key ) {
-            //if ( ($trans = $app['translator']->trans($key)) == $key ) {
-                // not translated
-                $no_translations .= ( $key  . ": #\n");
             } else {
-                $trans = Escaper::escapeWithDoubleQuotes($trans);
-                $translations .= ( $key . ": $trans\n");
+                $content .= "# no untranslated strings; good ;-)\n";
             }
-            // generate additionals strings for contenttypes ?
-            if (strpos($raw_key,'%contenttype%') !== false) {
-                // replace
-                foreach($genContentTypes($raw_key) as $ctypekey) {
-                    $key = Escaper::escapeWithDoubleQuotes($ctypekey);
-                    if ( ($trans = $app['translator']->trans($ctypekey)) == $ctypekey ) {
-                    //if ( ($trans = $app['translator']->trans($key)) == $key ) {
-                        // not translated
-                        $no_translations .= ( $key  . ": #\n");
-                    } else {
-                        $trans = Escaper::escapeWithDoubleQuotes($trans);
-                        $translations .= ( $key . ": $trans\n");
-                    }
+            $content .= "#-----------------------------------------\n";
+            foreach($msg['translated'] as $key => $trans) {
+                $content .= "$key: $trans\n";
+            }
+        } else {
+            $cnt = count($ctype['not_translated']);
+            if ($cnt) {
+                $content .= sprintf("# %d untranslated strings\n",$cnt);
+                foreach($ctype['not_translated'] as $key) {
+                    $content .= "$key: #\n";
                 }
+            } else {
+                $content .= "# no untranslated strings: good ;-)\n";
+            }
+            $content .= "#-----------------------------------------\n";
+            foreach($ctype['translated'] as $key => $trans) {
+                $content .= "$key: $trans\n";
             }
         }
-        $translations = $no_translations . "#\n" . $translations;
-        $form = $app['form.factory']->createBuilder('form',array('translations' => $translations))
-            ->add('translations', 'textarea', array(
-                    'label'      => $app['translator']->trans('Translations'),
-                    'attr' => array(
-                        'rows'=>10,
-                        'style'=>'width:98%',
-                        'class'=>'CodeMirror-scroll' )
-                ))
-            ->getForm();
+        //==========================
+        $file = "app/resources/translations/$short_locale/$domain.yml";
+        $filename = realpath(__DIR__."/../../../..")."/$file";
+        $type = 'yml';
 
-        if ('POST' === $app['request']->getMethod()) {
-            $form->bind($app['request']);
+        if (!file_exists($filename) && !is_writable(dirname($filename))) {
+            $app['session']->getFlashBag()->set('info', __(
+                "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
+                array('%s'=> $file)
+            ));
+            $writeallowed = false;
+            $title = __("View translations file '%s'.",array('%s'=>$file));
+        } elseif (file_exists($filename) && !is_readable($filename)) {
+            $error = __("The translations file '%s' is not readable.", array('%s'=>$file));
+            $app->abort(404, $error);
+        } else {
+            $writeallowed = true;
+            $title = __("Edit translations file '%s'.",array('%s'=>$file));
+        }
+
+        $data['contents'] =  $content;
+        $form = $app['form.factory']->createBuilder('form', $data)
+            ->add('contents', 'textarea', array(
+            'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min'=>10)))
+        ));
+
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->getMethod() == "POST") {
+            //$form->bindRequest($request);
+            $form->bind($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
-                $translated = $form->get('translations')->getData();
-                // TODO: check there is no ':' in translations either
-                // TODO: remove not translated
-                // TODO: ask confirmation and/or make a backup before replacing the file !!!
-                try {
-                    $filename = realpath(__DIR__.'/../resources/locales') . "/$locale.yml";
-                    if (!is_writable($filename)) {
-                        $msg = $app['translator']->trans("Can't open file '%filename%' in write mode.",array(
-                            '%filename%' => $filename
-                            ));
-                        throw new \Exception($msg);
+
+                $data = $form->getData();
+                $contents = cleanPostedData($data['contents']) ."\n";
+
+                $ok = true;
+
+                // Before trying to save a yaml file, check if it's valid.
+                if ($type == "yml") {
+                    $yamlparser = new \Symfony\Component\Yaml\Parser();
+                    try {
+                        $ok = $yamlparser->parse($contents);
+                    } catch (Exception $e) {
+                        $ok = false;
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
                     }
-                    $fp = fopen($filename,'w');
-                    if ($fp) {
-                        fwrite($fp,$translated);
-                        fclose($fp);
-                        $msg=$app['translator']->trans("Translation '%locale%' saved in %filename%.",array(
-                            '%locale%'=>$locale,'%filename%',$filename
-                        ));
-                        $app['session']->getFlashBag()->add('success', $msg);
-                    } else {
-                        $msg = $app['translator']->trans("Can't open file '%filename%' in write mode.",array(
-                            '%filename%' => $filename
-                            ));
-                        throw new \Exception($msg);
-                    }
-                } catch (\Exception $e) {
-                    $app['session']->getFlashBag()->add('error', $e->getMessage());
-                    $msg = $app['translator']->trans("Please copy/paste the content below to the file '%filename%', or make it writable by the web server user.",array(
-                        '%filename%' => $filename
-                        ));
-                    $app['session']->getFlashBag()->add('warning', $msg);
                 }
+
+                if ($ok) {
+                    if (file_put_contents($filename, $contents)) {
+                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.",array('%s'=>$file)));
+                    } else {
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.",array('%s'=>$file)));
+                    }
+                }
+
+                return redirect('fileedit', array('file' => $file));
+
             }
         }
 
-        return $app['twig']->render('edittranslation.twig', array(
-            'nstr' => $nstr,
+        return $app['twig']->render('editlocale.twig', array(
             'form' => $form->createView(),
-            'filetype' => 'yml',
-            'writeallowed' => true,
+            'title' => $title,
+            'filetype' => $type,
+            'writeallowed' => $writeallowed
         ));
 
     }

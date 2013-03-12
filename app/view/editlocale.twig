@@ -1,13 +1,15 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
 
-<h1>{{title|default('Translations')}}</h1>
+<h1>{{title}}</h1>
 
 
 <form action="#" method="post" class="form-inline" autocomplete="off">
 
-{{ form_row(form.translations) }}
-    {% if writeallowed %}
+<div>
+<textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ form.vars.value.contents }}</textarea>
+</div>
+{% if writeallowed %}
     {{ form_row(form._token) }}
     <br />
     <input type="submit" name="submit" value="Save" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %} />
@@ -33,7 +35,7 @@
     {% endif %}
 
     <script>
-        var editor = CodeMirror.fromTextArea(document.getElementById("form_translations"), {
+        var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
             lineNumbers: true,
             autofocus: true,
             tabSize: 4,

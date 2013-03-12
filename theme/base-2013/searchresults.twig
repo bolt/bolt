@@ -7,7 +7,7 @@
     <!-- Main Blog Content -->
     <div class="eight columns" role="content">
 
-        <h1>Search results for <b>{{ search }}</b>.</h1>
+        <h1>{{ __('Search results for <b> %search% </b>.',{'%search%':search}) }}</h1>
 
 		{# This is the default template for searchresults. the 'records' array contains 
 		   all of the records matching the current query. If there are no results, the
@@ -43,7 +43,7 @@
         {% else %}
 		
 		<article>
-		  <p>No results found for '{{ search }}'. Please try another search.</p>
+		  <p>{{ --('No results found for '%search%'. Please try another search.',{'%search%':search}) }}</p>
 		</article>
 
         {% endfor %}
