@@ -1624,7 +1624,7 @@ class Storage
 
         $query = sprintf(
             "SELECT * FROM $tablename WHERE content_id IN (%s) AND contenttype=%s AND taxonomytype IN ('%s')",
-            $this->app['db']->quote(implode(", ", $ids)),
+            implode(", ", $ids),
             $this->app['db']->quote($contenttype),
             implode("', '", $taxonomytypes)
         );
@@ -1752,7 +1752,7 @@ class Storage
         $query = sprintf(
             "SELECT * FROM $tablename WHERE to_contenttype=%s AND to_id IN (%s) ORDER BY id",
             $this->app['db']->quote($contenttype),
-            $this->app['db']->quote(implode(", ", $ids))
+            implode(", ", $ids)
         );
         $rows = $this->app['db']->fetchAll($query);
 
