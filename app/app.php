@@ -3,6 +3,92 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+if (! function_exists('__')) {
+    /**
+     * localization made right, first attempt...
+     *
+     * we need to check the array passed as second or third argument,
+     * and for every occurence of, say, %contenttype%, generate a new string
+     * with the remplaced type, for example:
+     * __("This %contenttype% can't be saved.",array('%contenttype%'=>$contenttype['singular']))
+     * would become:
+     * __("This page can't be saved.") // if contenttype is a page
+     *
+     *
+     * A french example of why:
+     *
+     * contenttype = page (female)
+     * "Cette page ne peut être enregistrée."
+     * "Ces pages ne peuvent être enregistrées."
+     *
+     * contenttype = article (male)
+     * "Cet article ne peut être enregistré."
+     * "Ces articles ne peuvent être enregistrés."
+     *
+     * contenttype: lieu (male)
+     * "Ce lieu ne peut être enregistré."
+     * "Ces lieux ne peuvent être enregistrés."
+     *
+     */
+    function __() {
+        global $app;
+        $num_args = func_num_args();
+        if (0==$num_args) {
+            return null;
+        }
+        $args = func_get_args();
+        if ($num_args > 4) {
+            $fn = 'transChoice';
+            //
+        } elseif ($num_args == 1 || is_array($args[1])) {
+            // if only 1 arg or 2nd arg is an array call trans
+            $fn = 'trans';
+        } else {
+            $fn = 'transChoice';
+        }
+        $tr_args=null;
+        if ( $fn == 'trans' && $num_args > 1) {
+            $tr_args = &$args[1];
+        } elseif ($fn == 'transChoice' && $num_args > 2) {
+            $tr_args = &$args[2];
+        }
+        if ($tr_args) {
+            $keytype='%contenttype%';
+            if (array_key_exists($keytype,$tr_args)) {
+                $args[0]=str_replace($keytype,$tr_args[$keytype],$args[0]);
+                unset($tr_args[$keytype]);
+                echo "<!-- replaced: htmlentities($args[0]) -->\n";
+            }
+        }
+
+        //try {
+        switch($num_args) {
+            case 5:
+                return $app['translator']->transChoice($args[0],$args[1],$args[2],$args[3],$args[4]);
+            case 4:
+                //echo "<!-- 4. call: $fn($args[0],$args[1],$args[2],$args[3]) -->\n";
+                return $app['translator']->$fn($args[0],$args[1],$args[2],$args[3]);
+            case 3:
+                //echo "<!-- 3. call: $fn($args[0],$args[1],$args[2]) -->\n";
+                return $app['translator']->$fn($args[0],$args[1],$args[2]);
+            case 2:
+                //echo "<!-- 2. call: $fn($args[0],$args[1] -->\n";
+                return $app['translator']->$fn($args[0],$args[1]);
+            case 1:
+                //echo "<!-- 1. call: $fn($args[0]) -->\n";
+                return $app['translator']->$fn($args[0]);
+        }
+        /*}
+        catch (\Exception $e) {
+            echo "<!-- ARGHH !!! -->\n";
+            //return $args[0];
+            die($e->getMessage());
+        }*/
+    }
+} else {
+    die('function __() already defined!!');
+}
+
 $app->mount('/bolt', new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
 $app->mount('', new Bolt\Controllers\Frontend());
