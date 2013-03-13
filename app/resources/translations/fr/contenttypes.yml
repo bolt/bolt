@@ -1,0 +1,148 @@
+# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/13 10:16:11
+
+# 77 untranslated strings
+"Actions for Brève": "Actions pour les brèves"
+"Brève overview": #
+"Content was duplicated. Click 'Save Brèves' to finalize.": #
+"Content was duplicated. Click 'Save Entries' to finalize.": #
+"Content was duplicated. Click 'Save Kitchensinks' to finalize.": #
+"Content was duplicated. Click 'Save Pages' to finalize.": #
+"Delete Brèves": #
+"Delete Entries": #
+"Delete Kitchensinks": #
+"Delete Pages": #
+"Duplicate Brèves": #
+"Duplicate Entries": #
+"Duplicate Kitchensinks": #
+"Duplicate Pages": #
+"Edit Brèves » %title%": #
+"Edit Entries » %title%": #
+"Edit Kitchensinks » %title%": #
+"Edit Pages » %title%": #
+"Entry overview": #
+"Kitchensink overview": #
+"Latest Brève.": #
+"Latest Entry.": #
+"Latest Kitchensink.": #
+"Latest Page.": #
+"More Brève »": #
+"More Entry »": #
+"More Kitchensink »": #
+"More Page »": #
+"New Brèves": #
+"New Entries": #
+"New Kitchensinks": #
+"New Pages": #
+"No Brèves available.": #
+"No Entries available.": #
+"No Kitchensinks available.": #
+"No Pages available.": #
+"No recent Brèves.": #
+"No recent Entries.": #
+"No recent Entry.": #
+"No recent Kitchensink.": #
+"No recent Kitchensinks.": #
+"No recent Page.": #
+"No recent Pages.": #
+"Overview » Brèves": #
+"Overview » Entry": #
+"Overview » Kitchensink": #
+"Overview » Page": #
+"Page overview": #
+"Pages overview": #
+"Publish Brève": #
+"Publish Brèves": #
+"Publish Entries": #
+"Publish Kitchensinks": #
+"Publish Pages": #
+"Recent Brève": #
+"Recent Entry": #
+"Recent Kitchensink": #
+"Recent Page": #
+"The changes to this Brève have been saved.": #
+"The changes to this Brèves have been saved.": #
+"The changes to this Entries have been saved.": #
+"The changes to this Kitchensinks have been saved.": #
+"The changes to this Pages have been saved.": #
+"The new Brève has been saved.": #
+"The new Brèves has been saved.": #
+"The new Entries has been saved.": #
+"The new Kitchensinks has been saved.": #
+"The new Pages has been saved.": #
+"There was an error saving this Brève.": #
+"There was an error saving this Brèves.": #
+"There was an error saving this Entries.": #
+"There was an error saving this Kitchensinks.": #
+"There was an error saving this Pages.": #
+"View Brève": #
+"View Brèves": #
+"View Kitchensink": #
+"View Kitchensinks": #
+#-----------------------------------------
+"Actions for Brèves": "Actions pour les brèves"
+"Actions for Entries": "Actions pour les entrées"
+"Actions for Entry": "Actions pour les entrées"
+"Actions for Kitchensink": "Action pour les bazars"
+"Actions for Kitchensinks": "Actions pour les bazars"
+"Actions for Page": "Action pour les pages"
+"Actions for Pages": "Actions pour les pages"
+"Brèves overview": "Aperçu des brèves"
+"Content was duplicated. Click 'Save Brève' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer la brève' pour finaliser."
+"Content was duplicated. Click 'Save Entry' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer l'entrée' pour finaliser."
+"Content was duplicated. Click 'Save Kitchensink' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer le bazar' pour finaliser."
+"Content was duplicated. Click 'Save Page' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer la page' pour finaliser."
+"Delete Brève": "Supprimer la brève"
+"Delete Entry": "Supprimer l'entrée"
+"Delete Kitchensink": "Supprimer le bazar"
+"Delete Page": "Supprimer la page"
+"Duplicate Brève": "Dupliquer la brève"
+"Duplicate Entry": "Dupliquer l'entrée"
+"Duplicate Kitchensink": "Dupliquer le bazar"
+"Duplicate Page": "Dupliquer la page"
+"Edit Brève » %title%": "Modifier la brève"
+"Edit Entry » %title%": "Modifier l'entrée » %title%"
+"Edit Kitchensink » %title%": "Modifier le bazar » %title%"
+"Edit Page » %title%": "Modifier la page » %title%"
+"Entries overview": "Apercu des entrées"
+"Kitchensinks overview": "Aperçu des bazars"
+"Latest Brèves.": "Dernières brèves."
+"Latest Entries.": "Dernières entrées."
+"Latest Kitchensinks.": "Derniers bazars."
+"Latest Pages.": "Dernières pages."
+"More Brèves »": "Plus de brèves »"
+"More Entries »": "Plus d'entrées »"
+"More Kitchensinks »": "Plus de bazars »"
+"More Pages »": "Plus de pages »"
+"New Brève": "Nouvelle brève"
+"New Entry": "Nouvelle entrée"
+"New Kitchensink": "Nouveau bazar"
+"New Page": "Nouvelle page"
+"No Brève available.": "Aucune brève."
+"No Entry available.": "Aucune entrée disponible."
+"No Kitchensink available.": "Aucun bazar disponible."
+"No Page available.": "Aucune page disponible."
+"No recent Brève.": "Aucune brève récente."
+"Overview » Brève": "Aperçu » brève"
+"Overview » Entries": "Aperçu » Entrées"
+"Overview » Kitchensinks": "Aperçu » Bazars"
+"Overview » Pages": "Aperçu » Pages"
+"Publish Entry": "Publier l'entrée"
+"Publish Kitchensink": "Publier le bazar"
+"Publish Page": "Publier la page"
+"Recent Brèves": "Les dernières brèves"
+"Recent Entries": "Entrées (très) récentes"
+"Recent Kitchensinks": "Bazars récents"
+"Recent Pages": "Pages récentes"
+"The changes to this Entry have been saved.": "Les changements de cette entrée ont été enregistrés."
+"The changes to this Kitchensink have been saved.": "Les changements de ce bazar ont été enregistrés."
+"The changes to this Page have been saved.": "Les changements de cette page ont été enregistrés."
+"The new Entry has been saved.": "La nouvelle entrée a été enregistrée."
+"The new Kitchensink has been saved.": "Le nouveau bazar a été enregistré."
+"The new Page has been saved.": "La nouvelle page a été enregistrée."
+"There was an error saving this Entry.": "Erreur en sauvegardant cette entrée."
+"There was an error saving this Kitchensink.": "Erreur en sauvegardant ce bazar."
+"There was an error saving this Page.": "Erreur en sauvegardant cette page."
+"View Entries": "Voir les entrées"
+"View Entry": "Voir l'entrée"
+"View Page": "Voir la page"
+"View Pages": "Voir les pages"

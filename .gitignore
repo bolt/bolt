@@ -10,4 +10,5 @@ composer.phar
 .DS_Store
 ._.DS_Store
 .idea
-
+__*
+web

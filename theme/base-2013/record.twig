@@ -89,7 +89,7 @@
 
             {% set relatedrecords = record.related() %}
             {% if relatedrecords is not empty %}
-                <p class="meta">Related content:
+                <p class="meta">{{ --('Related content:') }}
                 <ul>
                     {% for related in relatedrecords %}
                         <li><a href="{{ related.link }}">{{ related.title }}</a></li>
