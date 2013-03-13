@@ -3,7 +3,7 @@
 <div class="row-fluid">
     <div class="span9">
 
-        <h1>{{ title }} <span>{% if pages is defined and  pager.totalpages > 1 %}{{'Page:'|__}} {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
+        <h1>{{ title }} <span>{% if pages is defined and  pager.totalpages > 1 %}{{ __('Page:') }} {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
 
         {% set lastgroup = "----" %}
 
@@ -13,7 +13,7 @@
 
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if content.group is defined and content.group is not sameas(false) and content.group != lastgroup %}
-                <tr class="grouping"><th colspan="5"><h3>{% if content.group %}{{ content.group }}{% else %}{{'(no group)'|__}}{% endif %}</h3></th></tr>
+                <tr class="grouping"><th colspan="5"><h3>{% if content.group %}{{ content.group }}{% else %}{{ __('(no group)') }}{% endif %}</h3></th></tr>
             {% endif %}
 
             {# print the header for the first row.. #}
@@ -29,10 +29,10 @@
                 <tr>
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
-                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>{{'Title / Excerpt'|__}}</a></th>
+                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Title / Excerpt') }}</a></th>
                     <th>&nbsp;</th>
-                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{'Meta'|__}}</a></th>
-                    <th><a href='?'>{{'Actions'|__}}</a></th>
+                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
+                    <th><a href='?'>{{ __('Actions') }}</a></th>
                 </tr>
             {% endif %}
 
@@ -55,15 +55,15 @@
         <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
     </a>
     {% if request('filter') or request('order') %}
-    <a class="btn" href="?">{{ 'Clear sort/filter'|__ }}</a>
+    <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
     {% endif %}
 
-    <h2>{{ 'Filtering:'|__ }}</h2>
+    <h2>{{ __('Filtering:') }}</h2>
 
 <form class="form-inline">
   <input type="text" class="input-small" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;">
-  <button type="submit" class="btn">{{ 'Filter'|trans }}</button>
-      {% if request('filter') %}<p><a href="?">{{ 'Clear filter'|__ }}</a></p>{% endif %}
+  <button type="submit" class="btn">{{ __('Filter') }}</button>
+      {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
 </form>
 
 

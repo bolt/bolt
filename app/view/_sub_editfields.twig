@@ -272,7 +272,7 @@ jQuery(function($) {
 
     <div class="video-right hide-phone">
         <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px;">
-            {% if video.thumbnail!="" %}
+            {% if video.thumbnail|default('') %}
                 <img src="{{ video.thumbnail }}" width="160" height="120">
             {% endif %}
         </div>

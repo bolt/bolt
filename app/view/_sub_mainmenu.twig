@@ -29,7 +29,7 @@
                 <ul class="dropdown-menu">
                     {% if isallowed('files:config') %}
                         <li class="nav-header">{{ __('Configuration') }}</li>
-                        <li><a href="{{ path('users') }}"><i class="icon-group"></i> Users</a></li>
+                        <li><a href="{{ path('users') }}"><i class="icon-group"></i> {{ __('Users') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
                             <i class="icon-cog"></i> {{ __('Configuration') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">

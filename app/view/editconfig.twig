@@ -12,7 +12,7 @@
 {% if writeallowed %}
     {{ form_row(form._token) }}
     <br />
-    <input type="submit" name="submit" value="Save" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %} />
+    <input type="submit" name="submit" value="{{ __('Save') }}" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %} />
 {% endif %}
 </form>
 
@@ -33,19 +33,19 @@
     {% elseif filetype == "js" %}
     <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>
     {% endif %}
-    
+
     <script>
-        var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), { 
-            lineNumbers: true, 
-            autofocus: true, 
+        var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
+            lineNumbers: true,
+            autofocus: true,
             tabSize: 4,
             indentUnit: 4,
             indentWithTabs: false,
             readOnly: {% if writeallowed %}false{% else %}true{% endif %}
         });
-    
+
         editor.setSize(null, $(window).height() - 276);
-    
+
     </script>
 {% endif %}
 

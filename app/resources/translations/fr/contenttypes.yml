@@ -1,7 +1,6 @@
-# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/13 10:16:11
+# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/13 12:41:09
 
-# 77 untranslated strings
-"Actions for Brève": "Actions pour les brèves"
+# 88 untranslated strings
 "Brève overview": #
 "Content was duplicated. Click 'Save Brèves' to finalize.": #
 "Content was duplicated. Click 'Save Entries' to finalize.": #
@@ -21,6 +20,10 @@
 "Edit Pages » %title%": #
 "Entry overview": #
 "Kitchensink overview": #
+"Last modified Brève": #
+"Last modified Entry": #
+"Last modified Kitchensink": #
+"Last modified Page": #
 "Latest Brève.": #
 "Latest Entry.": #
 "Latest Kitchensink.": #
@@ -37,6 +40,14 @@
 "No Entries available.": #
 "No Kitchensinks available.": #
 "No Pages available.": #
+"No latest Brève": #
+"No latest Brèves": #
+"No latest Entries": #
+"No latest Entry": #
+"No latest Kitchensink": #
+"No latest Kitchensinks": #
+"No latest Page": #
+"No latest Pages": #
 "No recent Brèves.": #
 "No recent Entries.": #
 "No recent Entry.": #
@@ -77,8 +88,9 @@
 "View Brève": #
 "View Brèves": #
 "View Kitchensink": #
-"View Kitchensinks": #
+"View Kitchensinks": "Voir les bazars"
 #-----------------------------------------
+"Actions for Brève": "Actions pour les brèves"
 "Actions for Brèves": "Actions pour les brèves"
 "Actions for Entries": "Actions pour les entrées"
 "Actions for Entry": "Actions pour les entrées"
@@ -105,6 +117,10 @@
 "Edit Page » %title%": "Modifier la page » %title%"
 "Entries overview": "Apercu des entrées"
 "Kitchensinks overview": "Aperçu des bazars"
+"Last modified Brèves": "Dernières brèves modifiées"
+"Last modified Entries": "Dernières entrées modifiées"
+"Last modified Kitchensinks": "Derniers bazars modifiés"
+"Last modified Pages": "Dernières pages modifiées"
 "Latest Brèves.": "Dernières brèves."
 "Latest Entries.": "Dernières entrées."
 "Latest Kitchensinks.": "Derniers bazars."
