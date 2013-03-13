@@ -1,0 +1,52 @@
+{% include '_header.twig' with { 'active':'settings' } %}
+
+
+<h1>{{title}}</h1>
+
+
+<form action="" method="post" class="form-inline" autocomplete="off">
+
+<div>
+<textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ form.vars.value.contents }}</textarea>
+</div>
+{% if writeallowed %}
+    {{ form_row(form._token) }}
+    <br />
+    <input type="submit" name="submit" value="{{ __('Save') }}" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %} />
+{% endif %}
+</form>
+
+{% if not ismobileclient() %}
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/codemirror/codemirror.css">
+    <script src="{{ paths.app }}view/lib/codemirror/codemirror.min.js"></script>
+    {% if filetype in ['twig', 'html', 'htm'] %}
+    <script src="{{ paths.app }}view/lib/codemirror/xml.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/css.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/htmlmixed.js"></script>
+    {% elseif filetype == "yml" %}
+    <script src="{{ paths.app }}view/lib/codemirror/yaml.js"></script>
+    {% elseif filetype == "md" %}
+    <script src="{{ paths.app }}view/lib/codemirror/markdown.js"></script>
+    {% elseif filetype in ['css', 'less'] %}
+    <script src="{{ paths.app }}view/lib/codemirror/css.js"></script>
+    {% elseif filetype == "js" %}
+    <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>
+    {% endif %}
+
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
+            lineNumbers: true,
+            autofocus: true,
+            tabSize: 4,
+            indentUnit: 4,
+            indentWithTabs: false,
+            readOnly: {% if writeallowed %}false{% else %}true{% endif %}
+        });
+
+        editor.setSize(null, $(window).height() - 276);
+
+    </script>
+{% endif %}
+
+{% include '_footer.twig' %}
