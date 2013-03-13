@@ -169,6 +169,14 @@ footer ul.dropdown {
   display: none;
 }
 
+/* "bolt_widget" is the default container for widgets in Bolt. */
+.bolt_widget {
+  background: #f2f2f2;
+  border: solid 1px #e6e6e6;
+  margin-bottom: 8px;
+  padding: 6px;
+}
+
 
 /* Pagination ------------------------------------------------------ */
 div.pagination ul {  display: inline-block; width: auto; height: 26px;  }

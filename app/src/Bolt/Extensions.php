@@ -790,26 +790,37 @@ class Extensions
     }
 
     /**
-     * Helper function to insert some HTML after the last javascript include in the page.
+     * Helper function to insert some HTML after the last javascript include.
+     * First in the head section, but if there is no script in the head, place
+     * it anywhere.
      *
      * @param  string $tag
      * @param  string $html
      * @return string
      */
-    public function insertAfterJs($tag, $html)
+    public function insertAfterJs($tag, $html, $insidehead = true)
     {
 
-        // first, attempt to insert it after the last <link> tag, matching indentation..
+        // Set $context: only the part until </head>, or entire document.
+        if ($insidehead) {
+            $pos = strpos($html, "</head>");
+            $context = substr($html, 0, $pos);
+        } else {
+            $context = $html;
+        }
 
-        if (preg_match_all("~^([ \t]*)<script (.*)~mi", $html, $matches)) {
-            //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
-
+        // then, attempt to insert it after the last <script> tag within context, matching indentation..
+        if (preg_match_all("~^([ \t]*)<script (.*)~mi", $context, $matches)) {
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
             $html = str_replace_first($matches[0][$last], $replacement, $html);
 
+        } else if ($insidehead) {
+            // Second attempt: entire document
+            $html = $this->insertAfterJs($tag, $html, false);
         } else {
+            // Just insert it at the end of the head section.
             $html = $this->insertEndOfHead($tag, $html);
         }
 
