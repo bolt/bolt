@@ -58,7 +58,7 @@
             {% if editable %}
                 {% if content.status != "published" %}
                     <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
-                        <i class="icon-star-empty"></i> {{ __('Publish %contenttype%',{'%contenttype%':contenttype.singular_name}) }}</a></li>
+                        <i class="icon-star-empty"></i> {{ __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name}) }}</a></li>
                 {% else %}
                     <li><a href="{{ path('contentaction', { 'action': 'held', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
                         <i class="icon-star"></i> {{ __("Change status to 'held'") }}</a></li>

@@ -345,6 +345,8 @@ class Content implements \ArrayAccess
 
     public function sortTaxonomy()
     {
+        if (!$this->taxonomy) return;
+
         foreach($this->taxonomy as $type => $values){
             $taxonomytype = $this->app['config']['taxonomy'][$type];
             // Don't order tags..
