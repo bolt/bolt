@@ -1,7 +1,7 @@
-# app/resources/translations/fr/contenttypes.yml ---- generated on 2013/03/13 00:28:15
+# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/13 10:16:11
 
-# 81 untranslated strings
-"Actions for Brève": #
+# 77 untranslated strings
+"Actions for Brève": "Actions pour les brèves"
 "Brève overview": #
 "Content was duplicated. Click 'Save Brèves' to finalize.": #
 "Content was duplicated. Click 'Save Entries' to finalize.": #
@@ -55,14 +55,10 @@
 "Publish Entries": #
 "Publish Kitchensinks": #
 "Publish Pages": #
-"Recent Brève": 
-"Recent Brèves": "Les dernières brèves"
-"Recent Entries": "Entrées (très) récentes"
+"Recent Brève": #
 "Recent Entry": #
 "Recent Kitchensink": #
-"Recent Kitchensinks": "Bazars récents"
 "Recent Page": #
-"Recent Pages": "Pages récentes"
 "The changes to this Brève have been saved.": #
 "The changes to this Brèves have been saved.": #
 "The changes to this Entries have been saved.": #
@@ -133,6 +129,10 @@
 "Publish Entry": "Publier l'entrée"
 "Publish Kitchensink": "Publier le bazar"
 "Publish Page": "Publier la page"
+"Recent Brèves": "Les dernières brèves"
+"Recent Entries": "Entrées (très) récentes"
+"Recent Kitchensinks": "Bazars récents"
+"Recent Pages": "Pages récentes"
 "The changes to this Entry have been saved.": "Les changements de cette entrée ont été enregistrés."
 "The changes to this Kitchensink have been saved.": "Les changements de ce bazar ont été enregistrés."
 "The changes to this Page have been saved.": "Les changements de cette page ont été enregistrés."

@@ -1,6 +1,6 @@
 {% if record.taxonomy is defined %}
     {% for type, values in record.taxonomy %}
-        <em>{{ type }}:</em>
+        <em>{{ __('type:') }}</em>
         {% for link, value in values %}
                 <a href="{{ link }}">{{ value }}</a>{% if not loop.last %}, {% endif %}
         {% endfor %}

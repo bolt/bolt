@@ -19,7 +19,7 @@
     {% if app.config.contenttypes|length() > 3 %}
         <div class="btn-group">
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            {{'Add '|__}} &hellip;
+            {{ __('Add &hellip;') }}
             <span class="caret"></span>
           </a>
         <ul class="dropdown-menu">
@@ -49,10 +49,10 @@
 
         {% if multiplecontent %}
 
-            <h3>{{ __('Latest %contenttype%.', {'%contenttype%': contenttype}) }}
+            <h3>{{ __('Latest %contenttype%.', {'%contenttype%': app.config.contenttypes[contenttype].name}) }}
                 <span>
                     <a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}" class='morelink'>
-                        {{ __('More %contenttype% »',{'%contenttype%': contenttype}) }}
+                        {{ __('More %contenttype% »',{'%contenttype%': app.config.contenttypes[contenttype].name}) }}
                     </a>
                     <a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': '' }) }}" class='morelink'>
                         {{ __('New %contenttype%',{'%contenttype%': app.config.contenttypes[contenttype].singular_name}) }}

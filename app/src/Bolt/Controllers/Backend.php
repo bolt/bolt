@@ -111,7 +111,7 @@ class Backend implements ControllerProviderInterface
             ->bind('fileedit')
         ;
 
-        $ctl->get("/tr/{domain}/{tr_locale}", array($this, 'translation'))
+        $ctl->match("/tr/{domain}/{tr_locale}", array($this, 'translation'))
             ->before(array($this, 'before'))
             ->assert('domain','messages|contenttypes')
             ->value('domain','messages')
@@ -916,7 +916,7 @@ class Backend implements ControllerProviderInterface
         list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
         $short_locale = substr($tr_locale,0,2);
         $ts = date("Y/m/d H:i:s\n");
-        $content = "# app/resources/translations/$short_locale/$domain.yml ---- generated on $ts\n";
+        $content = "# app/resources/translations/$short_locale/$domain.yml -- generated on $ts\n";
         if ($domain == 'messages') {
             $cnt = count($msg['not_translated']);
             if ($cnt) {
@@ -974,9 +974,8 @@ class Backend implements ControllerProviderInterface
 
         $form = $form->getForm();
 
-        // Check if the form was POST-ed, and valid. If so, store the user.
+        // Check if the form was POST-ed, and valid. If so, store the file.
         if ($request->getMethod() == "POST") {
-            //$form->bindRequest($request);
             $form->bind($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -1005,7 +1004,8 @@ class Backend implements ControllerProviderInterface
                     }
                 }
 
-                return redirect('fileedit', array('file' => $file));
+                //return redirect('fileedit', array('file' => $file));
+                return redirect('translation',array('domain'=>$domain,'tr_locale'=>$tr_locale));
 
             }
         }
