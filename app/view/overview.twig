@@ -39,7 +39,7 @@
             {% include '_sub_contentrow.twig' with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
 
         {% else %}
-            {{ __('No %contenttype% available.',{'%contenttype%':contenttype.name}) }}
+            {{ __('No %contenttypes% available.',{'%contenttypes%':contenttype.name}) }}
         {% endfor %}
     </table>
 
@@ -49,7 +49,7 @@
     <aside class="span3">
 
     <section>
-    <h2>{{__('Actions for %contenttype%',{'%contenttype%':contenttype.name})}}:</h2>
+    <h2>{{__('Actions for %contenttypes%',{'%contenttypes%':contenttype.name})}}:</h2>
 
     <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': '' }) }}">
         <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}

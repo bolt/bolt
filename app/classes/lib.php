@@ -1272,11 +1272,18 @@ function __() {
     }
     if ($tr_args) {
         $keytype='%contenttype%';
-        if (array_key_exists($keytype,$tr_args)) {
-            // have a %contenttype% placeholder, try to find a
-            // specialized translation
-            $text=str_replace($keytype,$tr_args[$keytype],$args[0]);
-            unset($tr_args[$keytype]);
+        $keytypes='%contenttypes%';
+        $have_singular = array_key_exists($keytype,$tr_args);
+        $have_plural = array_key_exists($keytypes,$tr_args);
+        if ($have_singular || $have_plural) {
+            // have a %contenttype% placeholder, try to find a specialized translation
+            if ($have_singular) {
+                $text=str_replace($keytype,$tr_args[$keytype],$args[0]);
+                unset($tr_args[$keytype]);
+            } else {
+                $text=str_replace($keytypes,$tr_args[$keytypes],$args[0]);
+                unset($tr_args[$keytypes]);
+            }
             echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
             if ($fn == 'transChoice') {
                     $trans = $app['translator']->transChoice(
@@ -1345,16 +1352,23 @@ function gatherTranslatableStrings($locale=null)
 
     $ctypes = $app['config']['contenttypes'];
 
-    // function that generates a string for each variation of contenttype
+    // function that generates a string for each variation of contenttype/contenttypes
     $genContentTypes = function($txt) use ($ctypes) {
         $stypes=array();
-        foreach ($ctypes as $key => $ctype) {
-            $stypes[]=str_replace('%contenttype%',$ctype['name'],$txt);
-            $stypes[]=str_replace('%contenttype%',$ctype['singular_name'],$txt);
+        if (strpos($txt,'%contenttypes%') !== false) {
+            foreach ($ctypes as $key => $ctype) {
+                $stypes[]=str_replace('%contenttypes%',$ctype['name'],$txt);
+            }
+        }
+        if (strpos($txt,'%contenttype%') !== false) {
+            foreach ($ctypes as $key => $ctype) {
+                $stypes[]=str_replace('%contenttype%',$ctype['singular_name'],$txt);
+            }
         }
         return $stypes;
     };
 
+    // step one: gather all translatable strings
 
     $finder = new Finder();
     $finder->files()
@@ -1477,6 +1491,8 @@ function gatherTranslatableStrings($locale=null)
         }
     }
 
+    // step 2: find already translated strings
+
     sort($strings);
     if (!$locale) {
         $locale = $app['request']->getLocale();
@@ -1501,9 +1517,8 @@ function gatherTranslatableStrings($locale=null)
             $trans = Escaper::escapeWithDoubleQuotes($trans);
             $msg_domain['translated'][$key] = $trans;
         }
-        // generate additionals strings for contenttypes ?
-        if (strpos($raw_key,'%contenttype%') !== false) {
-            // replace
+        // step 3: generate additionals strings for contenttypes
+        if (strpos($raw_key,'%contenttype%') !== false || strpos($raw_key,'%contenttypes%')) {
             foreach($genContentTypes($raw_key) as $ctypekey) {
                 $key = Escaper::escapeWithDoubleQuotes($ctypekey);
                 if ( ($trans = $app['translator']->trans($ctypekey,array(),'contenttypes')) == $ctypekey ) {

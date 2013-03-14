@@ -11,7 +11,7 @@
                     {% for slug, contenttype in app.config.contenttypes %}
                         {% if isallowed('contenttype:' ~ slug) %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                <i class="icon-tasks"></i> {{ __('View %contenttype%', {'%contenttype%': contenttype.name}) }}</a></li>
+                                <i class="icon-tasks"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
                                 <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
                             {% if not loop.last %}<li class="divider"></li>{% endif %}

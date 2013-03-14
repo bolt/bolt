@@ -335,7 +335,7 @@ class Backend implements ControllerProviderInterface
         // @todo Do we need pager here?
         $app['pager'] = $pager;
 
-        $app['twig']->addGlobal('title', __('Overview » %contenttype%',array('%contenttype%' => $contenttype['name'])));
+        $app['twig']->addGlobal('title', __('Overview » %contenttypes%',array('%contenttypes%' => $contenttype['name'])));
 
         return $app['twig']->render('overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
