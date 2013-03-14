@@ -3,12 +3,8 @@
 
     <h3>
         {{ __('Relationships') }}
-        <span class="label info-pop" data-html="true" data-title="Relationships"
-            data-content="By selecting other records as a 'relation', you are actually
-            creating a link between this record, and the one you selected. On the
-            website, this can by used for 'related articles', 'see also' or to display
-            how this record fits into a certain structure.
-">Info</span>
+        <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
+            data-content="{{ app.translator.trans('info.relationships',{},'infos') }}">{{ __('Info') }}</span>
     </h3>
 
 {% endif %}

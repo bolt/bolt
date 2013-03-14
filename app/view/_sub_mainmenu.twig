@@ -65,9 +65,8 @@
                     <li class="nav-header">{{ __('Translations') }}</li>
                     {% if isallowed('files:translations') %}
                         <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="icon-flag"></i> {{ __('Messages') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('files:translations') %}
                         <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="icon-flag"></i> {{ __('Content-types') }}</a></li>
+                        <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="icon-flag"></i> {{ __('Infos / about') }}</a></li>
                     {% endif %}
 
                 </ul>

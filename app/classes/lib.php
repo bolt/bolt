@@ -1270,6 +1270,7 @@ function __() {
     } elseif ($fn == 'transChoice' && $num_args > 2) {
         $tr_args = $args[2];
     }
+    // check for contenttype(s) placeholder
     if ($tr_args) {
         $keytype='%contenttype%';
         $keytypes='%contenttypes%';

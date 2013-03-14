@@ -133,11 +133,7 @@
         <label>
             <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                data-content="Use this field to upload a photo or image. Click the button to upload a file from your
-                computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-                from your desktop or from a different browser window. <br />
-                Alternatively, you can use a previously uploaded image. To select a previously uploaded file, just
-                type (part) of the filename in the input area, and it will be autocompleted.">Info</span>
+                data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
         <input type="text" name="{{key}}" id="field-{{key}}"
@@ -185,12 +181,7 @@ $("#field-{{key}}").autocomplete({
         <label>
             <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                  data-content="Use this field to upload a file to include as a download or to use inside a page on the
-                   website. Click the button to upload a file from your computer, or if you're using a recent version
-                   of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
-                   browser window. <br />
-                    Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
-                    type (part) of the filename in the input area, and it will be autocompleted.">Info</span>
+                  data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
         <input type="text" name="{{key}}" id="field-{{key}}"
@@ -208,8 +199,7 @@ $("#field-{{key}}").autocomplete({
         </div>
 
     {% if not ismobileclient() %}
-        <div style="clear: left;" class="hide-tablet"><small>Use the button to upload a file. To select a previously uploaded file, you can
-        type (part) of the filename in the input area, and it will be autocompleted.</small></div>
+        <div style="clear: left;" class="hide-tablet"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
         <script type="text/javascript">
             bindFileUpload('{{key}}');
 
@@ -233,12 +223,8 @@ $("#field-{{key}}").autocomplete({
     <b>
         {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
     </b>
-    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-      data-content="Use this field to upload a set of photos or image. Click the button to upload a file from your
-                computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-                from your desktop or from a different browser window. <br />
-                Alternatively, you can use a previously uploaded image. <br />
-                You can rearrange the images using drag'n'drop, and change the descriptions of the images.">Info</span>
+    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+      data-content="{{ app.translator.trans('info.upload.imagelist',{},'infos') }}">{{ __('Info') }}</span>
 </label>
 <div class="imagelistholder dropzone" id="imagelist-{{key}}">
     <div class="list"></div>
@@ -283,11 +269,7 @@ jQuery(function($) {
             <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
             <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
-                  data-content="Use this field to embed a video inside a page on the website. Just copy/paste the
-                  URL of a video-page on Youtube, Vimeo or almost any other video sharing website. <br>
-                  Bolt will automatically fetch the &amp;lt;embed&amp;gt;-code, with the correct width, height and the original
-                  title. If you change the width or height, the other value will change accordingly, to maintain the
-                  aspect ratio. ">Info</span>
+                  data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
         </label>
         <label>{{ __('URL:') }} <input type="text" name="{{key}}[url]" id="video-{{key}}"
                value='{{ video.url }}' style='width: 60%;'>
@@ -353,12 +335,7 @@ jQuery(function($) {
                 <label>
                     <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
                     <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
-                          data-content="Use this field to get the geolocation of any address, or place the marker
-                          manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
-                          and the corresponding latitude and longitude will be retrieved using the Google Maps API,
-                          together with the closest matching address, according to Google. <br>
-                          If you want to move the marker to a different location, just drag'n'drop the pin on the
-                          mini-map. The latitide and longitude will be updated automatically. ">Info</span>
+                          data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
                 </label>
                 <label>{{ __('Address lookup:') }} <input type="text" name="{{key}}[address]" id="{{key}}-address"
                     value='{{ geolocation.address }}' style='width: 60%;'>
@@ -414,29 +391,7 @@ jQuery(function($) {
     <label>
         <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
         <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-              data-content="Markdown is a text-to-HTML conversion tool for web writers.
-Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
-which is then converted to structurally valid HTML.</p>
-
-<p><strong>{{ __('Quick reference:') }}</strong><br>
-# This is an &amp;lt;h1&amp;gt; tag<br>
-## This is an &amp;lt;h2&amp;gt; tag<br>
-###### This is an &amp;lt;h6&amp;gt; tag</p>
-
-<p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
-this **<strong>is bold</strong>**.
-
-<p>Create <a href='#'>links</a> like this:<br>
-An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
-
-<p>&nbsp; * This is an unordered list<br>
-&nbsp; * Item 2</p>
-
-<p>&nbsp; 1 This is an ordered list<br>
-&nbsp; 2 Item 2</p>
-
-">Info</span>
+              data-content="{{ app.translator.trans('info.markdown',{},'infos') }}">{{ __('Info') }}</span>
 
     </label>
     <textarea id="{{ key }}" name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'

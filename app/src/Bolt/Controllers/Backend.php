@@ -113,7 +113,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match("/tr/{domain}/{tr_locale}", array($this, 'translation'))
             ->before(array($this, 'before'))
-            ->assert('domain','messages|contenttypes')
+            ->assert('domain','messages|contenttypes|infos')
             ->value('domain','messages')
             ->value('tr_locale',$app['config']['general']['locale'])
             ->method('GET|POST')
@@ -913,48 +913,64 @@ class Backend implements ControllerProviderInterface
      */
     function translation($domain,$tr_locale, Silex\Application $app, Request $request) {
 
-        list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
         $short_locale = substr($tr_locale,0,2);
-        $ts = date("Y/m/d H:i:s");
-        $content = "# app/resources/translations/$short_locale/$domain.yml -- generated on $ts\n";
-        if ($domain == 'messages') {
-            $cnt = count($msg['not_translated']);
-            if ($cnt) {
-                $content .= sprintf("# %d untranslated strings\n",$cnt);
-                foreach($msg['not_translated'] as $key) {
-                    $content .= "$key: #\n";
-                }
-                $content .= "#-----------------------------------------\n";
+        $type = 'yml';
+        $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
+        $filename = realpath(__DIR__."/../../../..")."/$file";
+
+        if ($domain == 'infos') {
+            // no gathering here : if the file doesn't exist yet, we load a
+            // copy from the locale_fallback version (en)
+            if (!file_exists($filename)) {
+                $locale_fb = $app['locale_fallback'];
+                $srcfile = "app/resources/translations/$locale_fb/$domain.$locale_fb.$type";
+                $srcfilename = realpath(__DIR__."/../../../..")."/$srcfile";
+                $content = file_get_contents($srcfilename);
             } else {
-                $content .= "# no untranslated strings; good ;-)\n";
-            }
-            $cnt = count($msg['translated']);
-            $content .= sprintf("# %d translated strings\n",$cnt);
-            foreach($msg['translated'] as $key => $trans) {
-                $content .= "$key: $trans\n";
+                $content = file_get_contents($filename);
             }
         } else {
-            $cnt = count($ctype['not_translated']);
-            if ($cnt) {
-                $content .= sprintf("# %d untranslated strings\n",$cnt);
-                foreach($ctype['not_translated'] as $key) {
-                    $content .= "$key: #\n";
+            list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
+            $ts = date("Y/m/d H:i:s");
+            $content = "# $file -- generated on $ts\n";
+            if ($domain == 'messages') {
+                $cnt = count($msg['not_translated']);
+                if ($cnt) {
+                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    foreach($msg['not_translated'] as $key) {
+                        $content .= "$key: #\n";
+                    }
+                    $content .= "#-----------------------------------------\n";
+                } else {
+                    $content .= "# no untranslated strings; good ;-)\n";
                 }
-                $content .= "#-----------------------------------------\n";
+                $cnt = count($msg['translated']);
+                $content .= sprintf("# %d translated strings\n",$cnt);
+                foreach($msg['translated'] as $key => $trans) {
+                    $content .= "$key: $trans\n";
+                }
             } else {
-                $content .= "# no untranslated strings: good ;-)\n";
+                $cnt = count($ctype['not_translated']);
+                if ($cnt) {
+                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    foreach($ctype['not_translated'] as $key) {
+                        $content .= "$key: #\n";
+                    }
+                    $content .= "#-----------------------------------------\n";
+                } else {
+                    $content .= "# no untranslated strings: good ;-)\n";
+                }
+                $cnt = count($ctype['translated']);
+                $content .= sprintf("# %d translated strings\n",$cnt);
+                foreach($ctype['translated'] as $key => $trans) {
+                    $content .= "$key: $trans\n";
+                }
             }
-            $cnt = count($ctype['translated']);
-            $content .= sprintf("# %d translated strings\n",$cnt);
-            foreach($ctype['translated'] as $key => $trans) {
-                $content .= "$key: $trans\n";
-            }
+            //==========================
+            //$file = "app/resources/translations/$short_locale/$domain.yml";
+            //$filename = realpath(__DIR__."/../../../..")."/$file";
+            //$type = 'yml';
         }
-        //==========================
-        $file = "app/resources/translations/$short_locale/$domain.yml";
-        $filename = realpath(__DIR__."/../../../..")."/$file";
-        $type = 'yml';
-
         // maybe no translations yet
         if (!file_exists($filename) && !is_writable(dirname($filename))) {
             $app['session']->getFlashBag()->set('info', __(
