@@ -1,13 +1,8 @@
-# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/13 19:23:40
-
-# 119 untranslated strings
-"Actions for this Brève": "Action pour cette brève"
+# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/14 10:59:27
+# 111 untranslated strings
 "Actions for this Brèves": #
 "Actions for this Entries": #
-"Actions for this Entry": "Action pour cette entrée"
-"Actions for this Kitchensink": "Action pour ce bazar"
 "Actions for this Kitchensinks": #
-"Actions for this Page": "Action pour cette page"
 "Actions for this Pages": #
 "Brève overview": #
 "Content was duplicated. Click 'Save Brèves' to finalize.": #
@@ -69,13 +64,13 @@
 "Overview » Page": #
 "Page overview": #
 "Pages overview": #
-"Preview Brève": #
+"Preview Brève": "Prévisualiser la brève"
 "Preview Brèves": #
 "Preview Entries": #
-"Preview Entry": #
-"Preview Kitchensink": #
+"Preview Entry": "Prévisualiser l'entrée"
+"Preview Kitchensink": "Prévisualiser le bazar"
 "Preview Kitchensinks": #
-"Preview Page": #
+"Preview Page": "Prévisualiser la page"
 "Preview Pages": #
 "Publish Brève": #
 "Publish Brèves": #
@@ -86,13 +81,9 @@
 "Recent Entry": #
 "Recent Kitchensink": #
 "Recent Page": #
-"Save Brève": #
 "Save Brèves": #
 "Save Entries": #
-"Save Entry": #
-"Save Kitchensink": #
 "Save Kitchensinks": #
-"Save Page": #
 "Save Pages": #
 "The changes to this Brève have been saved.": #
 "The changes to this Brèves have been saved.": #
@@ -109,18 +100,19 @@
 "There was an error saving this Entries.": #
 "There was an error saving this Kitchensinks.": #
 "There was an error saving this Pages.": #
-"This Brève was created": #
 "This Brèves was created": #
 "This Entries was created": #
-"This Entry was created": #
 "This Kitchensink was created": #
-"This Kitchensinks was created": #
-"This Page was created": #
 "This Pages was created": #
+"This record is related to Brèves": #
+"This record is related to Entries": #
+"This record is related to Kitchensinks": #
+"This record is related to Pages": #
 "View Brève": #
 "View Brèves": #
 "View Kitchensink": #
 #-----------------------------------------
+# 89 translated strings
 "Actions for Brève": "Actions pour les brèves"
 "Actions for Brèves": "Actions pour les brèves"
 "Actions for Entries": "Actions pour les entrées"
@@ -129,6 +121,10 @@
 "Actions for Kitchensinks": "Actions pour les bazars"
 "Actions for Page": "Action pour les pages"
 "Actions for Pages": "Actions pour les pages"
+"Actions for this Brève": "Action pour cette brève"
+"Actions for this Entry": "Action pour cette entrée"
+"Actions for this Kitchensink": "Action pour ce bazar"
+"Actions for this Page": "Action pour cette page"
 "Brèves overview": "Aperçu des brèves"
 "Content was duplicated. Click 'Save Brève' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer la brève' pour finaliser."
 "Content was duplicated. Click 'Save Entry' to finalize.": "Le contenu a été dupliqué. Cliquez sur 'Enregistrer l'entrée' pour finaliser."
@@ -180,6 +176,10 @@
 "Recent Entries": "Entrées (très) récentes"
 "Recent Kitchensinks": "Bazars récents"
 "Recent Pages": "Pages récentes"
+"Save Brève": "Enregistrer la brève"
+"Save Entry": "Enregistrer l'entrée"
+"Save Kitchensink": "Enregistrer le bazar"
+"Save Page": "Enregistrer la page"
 "The changes to this Entry have been saved.": "Les changements de cette entrée ont été enregistrés."
 "The changes to this Kitchensink have been saved.": "Les changements de ce bazar ont été enregistrés."
 "The changes to this Page have been saved.": "Les changements de cette page ont été enregistrés."
@@ -189,6 +189,14 @@
 "There was an error saving this Entry.": "Erreur en sauvegardant cette entrée."
 "There was an error saving this Kitchensink.": "Erreur en sauvegardant ce bazar."
 "There was an error saving this Page.": "Erreur en sauvegardant cette page."
+"This Brève was created": "Cette brève a été créée"
+"This Entry was created": "Cette entrée a été créée"
+"This Kitchensinks was created": "Ce bazar a été créé"
+"This Page was created": "Cette page a été créée"
+"This record is related to Brève": "Cet enregistrement est relié à la brève"
+"This record is related to Entry": "Cet enregistrement est relié à l'entrée"
+"This record is related to Kitchensink": "Cet enregistrement est relié au bazar"
+"This record is related to Page": "Cet enregistrement est relié à la page"
 "View Entries": "Voir les entrées"
 "View Entry": "Voir l'entrée"
 "View Kitchensinks": "Voir les bazars"

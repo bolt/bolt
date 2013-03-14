@@ -1493,6 +1493,43 @@ function gatherTranslatableStrings($locale=null)
         }
     }
 
+    // add fields name|label for contenttype (forms)
+    foreach($ctypes as $ckey => $contenttype) {
+        foreach($contenttype['fields'] as $fkey => $field) {
+            if (isset($field['label'])) {
+                $t = $field['label'];
+            } else {
+                $t = ucfirst($fkey);
+            }
+            if (!in_array($t,$strings)) {
+                $strings[]=$t;
+            }
+        }
+        // relation name|label if exists
+        if (array_key_exists('relations',$contenttype)) {
+            foreach($contenttype['relations'] as $fkey => $field) {
+                if (isset($field['label'])) {
+                    $t = $field['label'];
+                } else {
+                    $t = ucfirst($fkey);
+                }
+                if (!in_array($t,$strings)) {
+                    $strings[]=$t;
+                }
+            }
+        }
+    }
+
+    // add name + singular_name for taxonomies
+    foreach($app['config']['taxonomy'] as $txkey => $value) {
+        foreach(array('name','singular_name') as $key) {
+            $t = $value[$key];
+            if (!in_array($t,$strings)) {
+                $strings[]=$t;
+            }
+        }
+    }
+
     sort($strings);
     if (!$locale) {
         $locale = $app['request']->getLocale();

@@ -915,7 +915,7 @@ class Backend implements ControllerProviderInterface
 
         list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
         $short_locale = substr($tr_locale,0,2);
-        $ts = date("Y/m/d H:i:s\n");
+        $ts = date("Y/m/d H:i:s");
         $content = "# app/resources/translations/$short_locale/$domain.yml -- generated on $ts\n";
         if ($domain == 'messages') {
             $cnt = count($msg['not_translated']);
@@ -924,10 +924,12 @@ class Backend implements ControllerProviderInterface
                 foreach($msg['not_translated'] as $key) {
                     $content .= "$key: #\n";
                 }
+                $content .= "#-----------------------------------------\n";
             } else {
                 $content .= "# no untranslated strings; good ;-)\n";
             }
-            $content .= "#-----------------------------------------\n";
+            $cnt = count($msg['translated']);
+            $content .= sprintf("# %d translated strings\n",$cnt);
             foreach($msg['translated'] as $key => $trans) {
                 $content .= "$key: $trans\n";
             }
@@ -938,10 +940,12 @@ class Backend implements ControllerProviderInterface
                 foreach($ctype['not_translated'] as $key) {
                     $content .= "$key: #\n";
                 }
+                $content .= "#-----------------------------------------\n";
             } else {
                 $content .= "# no untranslated strings: good ;-)\n";
             }
-            $content .= "#-----------------------------------------\n";
+            $cnt = count($ctype['translated']);
+            $content .= sprintf("# %d translated strings\n",$cnt);
             foreach($ctype['translated'] as $key => $trans) {
                 $content .= "$key: $trans\n";
             }
