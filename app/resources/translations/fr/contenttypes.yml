@@ -1,6 +1,14 @@
-# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/13 12:41:09
+# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/13 19:23:40
 
-# 88 untranslated strings
+# 119 untranslated strings
+"Actions for this Brève": "Action pour cette brève"
+"Actions for this Brèves": #
+"Actions for this Entries": #
+"Actions for this Entry": "Action pour cette entrée"
+"Actions for this Kitchensink": "Action pour ce bazar"
+"Actions for this Kitchensinks": #
+"Actions for this Page": "Action pour cette page"
+"Actions for this Pages": #
 "Brève overview": #
 "Content was duplicated. Click 'Save Brèves' to finalize.": #
 "Content was duplicated. Click 'Save Entries' to finalize.": #
@@ -61,6 +69,14 @@
 "Overview » Page": #
 "Page overview": #
 "Pages overview": #
+"Preview Brève": #
+"Preview Brèves": #
+"Preview Entries": #
+"Preview Entry": #
+"Preview Kitchensink": #
+"Preview Kitchensinks": #
+"Preview Page": #
+"Preview Pages": #
 "Publish Brève": #
 "Publish Brèves": #
 "Publish Entries": #
@@ -70,6 +86,14 @@
 "Recent Entry": #
 "Recent Kitchensink": #
 "Recent Page": #
+"Save Brève": #
+"Save Brèves": #
+"Save Entries": #
+"Save Entry": #
+"Save Kitchensink": #
+"Save Kitchensinks": #
+"Save Page": #
+"Save Pages": #
 "The changes to this Brève have been saved.": #
 "The changes to this Brèves have been saved.": #
 "The changes to this Entries have been saved.": #
@@ -85,10 +109,17 @@
 "There was an error saving this Entries.": #
 "There was an error saving this Kitchensinks.": #
 "There was an error saving this Pages.": #
+"This Brève was created": #
+"This Brèves was created": #
+"This Entries was created": #
+"This Entry was created": #
+"This Kitchensink was created": #
+"This Kitchensinks was created": #
+"This Page was created": #
+"This Pages was created": #
 "View Brève": #
 "View Brèves": #
 "View Kitchensink": #
-"View Kitchensinks": "Voir les bazars"
 #-----------------------------------------
 "Actions for Brève": "Actions pour les brèves"
 "Actions for Brèves": "Actions pour les brèves"
@@ -160,5 +191,6 @@
 "There was an error saving this Page.": "Erreur en sauvegardant cette page."
 "View Entries": "Voir les entrées"
 "View Entry": "Voir l'entrée"
+"View Kitchensinks": "Voir les bazars"
 "View Page": "Voir la page"
 "View Pages": "Voir les pages"

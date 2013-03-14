@@ -86,6 +86,15 @@
     </div>
 {% endif %}
 
+{% if app.session.flashBag.has('warning') %}
+    <div class="alert alert-warning">
+        <button class="close" data-dismiss="alert">×</button>
+        {% for msg in app.session.flashBag.get('warning') %}
+            {{ msg|raw }}
+        {% endfor %}
+    </div>
+{% endif %}
+
 {% if app.session.flashBag.has('success') %}
     <div class="alert alert-success">
         <button class="close" data-dismiss="alert">×</button>
