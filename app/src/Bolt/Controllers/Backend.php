@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Escaper;
 
 class Backend implements ControllerProviderInterface
 {
@@ -109,6 +111,15 @@ class Backend implements ControllerProviderInterface
             ->bind('fileedit')
         ;
 
+        $ctl->match("/tr/{domain}/{tr_locale}", array($this, 'translation'))
+            ->before(array($this, 'before'))
+            ->assert('domain','messages|contenttypes|infos')
+            ->value('domain','messages')
+            ->value('tr_locale',$app['config']['general']['locale'])
+            ->method('GET|POST')
+            ->bind('translation')
+        ;
+
         return $ctl;
     }
 
@@ -122,7 +133,8 @@ class Backend implements ControllerProviderInterface
 
         // Check DB-tables integrity
         if ($app['storage']->checkTablesIntegrity() !== true) {
-            $app['session']->getFlashBag()->set('error', "The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
+            $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
+            $app['session']->getFlashBag()->set('error', $msg);
         }
 
         $limit = $app['config']['general']['recordsperdashboardwidget'];
@@ -146,7 +158,7 @@ class Backend implements ControllerProviderInterface
             $suggestloripsum = false;
         }
 
-        $app['twig']->addGlobal('title', "Dashboard");
+        $app['twig']->addGlobal('title', __("Dashboard"));
 
         return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
 
@@ -197,30 +209,30 @@ class Backend implements ControllerProviderInterface
         $output = $app['storage']->repairTables();
 
         if (empty($output)) {
-            $content = "<p>Your database is already up to date.<p>";
+            $content = __("<p>Your database is already up to date.<p>");
         } else {
-            $content = "<p>Modifications made to the database:<p>";
+            $content = __("<p>Modifications made to the database:<p>");
             $content .= implode("<br>", $output);
-            $content .= "<p>Your database is now up to date.<p>";
+            $content .= __("<p>Your database is now up to date.<p>");
         }
 
-        $content .= "<br><br><p><b>Tip: </b>Add some sample <a href='".path('prefill')."'>Records with Loripsum text</a>.</p>";
+        $content .= __('<br><br><p><b>Tip: </b>Add some sample <a href="%url%">Records with Loripsum text</a>.</p>',array('%url%' => path('prefill')));
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
         $return = $app['request']->query->get('return');
         if ($return=="edit") {
             if (empty($output)) {
-                $content = "Your database is already up to date.";
+                $content = __("Your database is already up to date.");
             } else {
-                $content = "Your database is now up to date.";
+                $content = __("Your database is now up to date.");
             }
             $app['session']->getFlashBag()->set('success', $content);
 
             return redirect('fileedit', array('file' => "app/config/contenttypes.yml"));
         }
 
-        $app['twig']->addGlobal('title', "Database check / update");
+        $app['twig']->addGlobal('title', __("Database check / update"));
 
         return $app['twig']->render('base.twig', array(
             'content' => $content,
@@ -237,10 +249,10 @@ class Backend implements ControllerProviderInterface
 
         $result = $app['cache']->clearCache();
 
-        $output = sprintf("Deleted %s files from cache.", $result['successfiles']);
+        $output = __("Deleted %s files from cache.", array('%s' => $result['successfiles']));
 
         if (!empty($result['failedfiles'])) {
-            $output .= sprintf(" %s files could not be deleted. You should delete them manually.", $result['failedfiles']);
+            $output .= " " .__(" %s files could not be deleted. You should delete them manually.",array('%s' => $result['failedfiles']));
             $app['session']->getFlashBag()->set('error', $output);
         } else {
             $app['session']->getFlashBag()->set('success', $output);
@@ -256,16 +268,16 @@ class Backend implements ControllerProviderInterface
      */
     function activitylog(Silex\Application $app) {
 
-        $title = "Activity log";
+        $title = __('Activity log');
 
         $action = $app['request']->query->get('action');
 
         if ($action=="clear") {
             $app['log']->clear();
-            $app['session']->getFlashBag()->set('success', "The activitylog has been cleared.");
+            $app['session']->getFlashBag()->set('success', __('The activitylog has been cleared.'));
         } else if ($action=="trim") {
             $app['log']->trim();
-            $app['session']->getFlashBag()->set('success', "The activitylog has been trimmed.");
+            $app['session']->getFlashBag()->set('success', __('The activitylog has been trimmed.'));
         }
 
         $activity = $app['log']->getActivity(16);
@@ -283,10 +295,10 @@ class Backend implements ControllerProviderInterface
 
         $content = $app['storage']->preFill();
 
-        $content .= "<br><br><p>Go <a href='". path('dashboard') ."'>back to the Dashboard</a>.<br>";
-        $content .= "Or <a href='". path('prefill') ."'>add some more records</a>.</p>";
+        $content .= __('<br><br><p>Go <a href="%url%">back to the Dashboard</a>.<br>',array('%url%' => path('dashboard')));
+        $content .= __('Or <a href="%url%">add some more records</a>.</p>',array('%url%' => path('prefill')));
 
-        $app['twig']->addGlobal('title', "Fill the database with Dummy Content");
+        $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
         return $app['twig']->render('base.twig', array('content' => $content));
 
@@ -301,7 +313,7 @@ class Backend implements ControllerProviderInterface
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:'.$contenttypeslug)) {
-            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to view that page.");
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to view that page.'));
             return redirect('dashboard');
         }
 
@@ -325,7 +337,7 @@ class Backend implements ControllerProviderInterface
         // @todo Do we need pager here?
         $app['pager'] = $pager;
 
-        $app['twig']->addGlobal('title', "Overview » ". $contenttype['name']);
+        $app['twig']->addGlobal('title', __('Overview » %contenttypes%',array('%contenttypes%' => $contenttype['name'])));
 
         return $app['twig']->render('overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
@@ -342,7 +354,7 @@ class Backend implements ControllerProviderInterface
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:'.$contenttypeslug)) {
-            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to edit that record.");
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
             return redirect('dashboard');
         }
 
@@ -364,16 +376,16 @@ class Backend implements ControllerProviderInterface
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
                 if (!empty($id)) {
-                    $app['session']->getFlashBag()->set('success', "The changes to this " . $contenttype['singular_name'] . " have been saved.");
+                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.',array('%contenttype%'=> $contenttype['singular_name'])));
                 } else {
-                    $app['session']->getFlashBag()->set('success', "The new " . $contenttype['singular_name'] . " has been saved.");
+                    $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.',array('%contenttype%' => $contenttype['singular_name'])));
                 }
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
             } else {
-                $app['session']->getFlashBag()->set('error', "There was an error saving this " . $contenttype['singular_name'] . ".");
+                $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.',array('%contenttype%' => $contenttype['singular_name'])));
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
 
@@ -384,15 +396,15 @@ class Backend implements ControllerProviderInterface
 
             // Check if we're allowed to edit this content..
             if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
-                $app['session']->getFlashBag()->set('error', "You do not have the right privileges to edit that record.");
+                $app['session']->getFlashBag()->set('error',  __('You do not have the right privileges to edit that record.'));
                 return redirect('dashboard');
             }
 
-            $app['twig']->addGlobal('title', "Edit " . $contenttype['singular_name'] . " » ". $content->getTitle());
+            $app['twig']->addGlobal('title', __('Edit %contenttype% » %title%',array('%contenttype%'=> $contenttype['singular_name'],'%title%'=> $content->getTitle())));
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $app['twig']->addGlobal('title', "New " . $contenttype['singular_name']);
+            $app['twig']->addGlobal('title', __('New %contenttype%',array('%contenttype%' => $contenttype['singular_name'])));
             $app['log']->add("New content", 1, $content, 'edit');
 
         }
@@ -404,7 +416,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datepublish', "");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
-            $app['session']->getFlashBag()->set('info', "Content was duplicated. Click 'Save " . $contenttype['singular_name'] . "' to finalize.");
+            $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.",array('%contenttype%'=> $contenttype['singular_name'])));
         }
 
         // Set the users and the current owner of this content.
@@ -437,7 +449,7 @@ class Backend implements ControllerProviderInterface
 
         // Check if we're allowed to edit this content..
         if ( ($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all') ) {
-            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to edit that record.");
+            $app['session']->getFlashBag()->set('error',   __('You do not have the right privileges to edit that record.'));
             return redirect('dashboard');
         }
 
@@ -445,39 +457,39 @@ class Backend implements ControllerProviderInterface
 
             case "held":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'held')) {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' has been changed to 'held'");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'held'",array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be modified.");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
                 }
                 break;
 
             case "publish":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'published')) {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' is published.");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' is published.",array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be modified.");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
                 }
                 break;
 
             case "draft":
                 if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'draft')) {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' has been changed to 'draft'.");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'draft'.",array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be modified.");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
                 }
                 break;
 
             case "delete":
 
                 if (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' has been deleted.");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.",array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', "Content '$title' could not be deleted.");
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.",array('%title%'=>$title)));
                 }
                 break;
 
             default:
-                $app['session']->getFlashBag()->set('error', "No such action for content.");
+                $app['session']->getFlashBag()->set('error', __('No such action for content.'));
 
         }
 
@@ -504,10 +516,10 @@ class Backend implements ControllerProviderInterface
         // Get the user we want to edit (if any)
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
-            $title = "Edit a user";
+            $title = __('Edit a user');
         } else {
             $user = $app['users']->getEmptyUser();
-            $title = "Create a new user";
+            $title = __('Create a new user');
         }
 
         $userlevels = $app['users']->getUserLevels();
@@ -518,7 +530,7 @@ class Backend implements ControllerProviderInterface
         // a user that's allowed to log on.
         if (!$app['users']->getUsers()) {
             $firstuser = true;
-            $title = "Create the first user";
+            $title = __('Create the first user');
             // If we get here, chances are we don't have the tables set up, yet.
             $app['storage']->repairTables();
         } else {
@@ -536,7 +548,7 @@ class Backend implements ControllerProviderInterface
         ))
             ->add('password_confirmation', 'password', array(
             'required' => false,
-            'label' => "Password (confirmation)"
+            'label' => __("Password (confirmation)")
         ))
             ->add('email', 'text', array(
             'constraints' => new Assert\Email(),
@@ -561,13 +573,13 @@ class Backend implements ControllerProviderInterface
                 'choices' => $enabledoptions,
                 'expanded' => false,
                 'constraints' => new Assert\Choice(array_keys($enabledoptions)),
-                'label' => "User is enabled",
+                'label' => __("User is enabled"),
             ))
                 ->add('contenttypes', 'choice', array(
                 'choices' => $contenttypes,
                 'expanded' => true,
                 'multiple' => true,
-                'label' => "Allowed contenttypes",
+                'label' => __("Allowed contenttypes"),
             ));
         }
 
@@ -590,28 +602,28 @@ class Backend implements ControllerProviderInterface
             if ( (empty($id) || !empty($pass1) ) && strlen($pass1) < 6) {
                 // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
                 //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
-                $error = new FormError("This value is too short. It should have 6 characters or more.");
+                $error = new FormError(__("This value is too short. It should have 6 characters or more."));
                 $form['password']->addError($error);
             }
 
             // Passwords must be identical..
             if ($pass1 != $pass2) {
-                $form['password_confirmation']->addError(new FormError('Passwords must match.'));
+                $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
             }
 
             // Usernames must be unique..
             if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
-                $form['username']->addError(new FormError('This username is already in use. Choose another username.'));
+                $form['username']->addError(new FormError(__('This username is already in use. Choose another username.')));
             }
 
             // Email addresses must be unique..
             if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                $form['email']->addError(new FormError('This email address is already in use. Choose another email address.'));
+                $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
             }
 
             // Displaynames must be unique..
             if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                $form['displayname']->addError(new FormError('This Displayname is already in use. Choose another email address.'));
+                $form['displayname']->addError(new FormError(__('This Displayname is already in use. Choose another display name.')));
             }
 
         });
@@ -634,9 +646,9 @@ class Backend implements ControllerProviderInterface
                 $res = $app['users']->saveUser( $user );
                 $app['log']->add("Added user '". $user['displayname']."'.", 3, '', 'user');
                 if ($res) {
-                    $app['session']->getFlashBag()->set('success', "User " . $user['displayname'] . " has been saved.");
+                    $app['session']->getFlashBag()->set('success', __('User %s has been saved.',array('%s' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('error', "User " . $user['displayname'] . " could not be saved, or nothing was changed.");
+                    $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.',array('%s' => $user['displayname'])));
                 }
 
                 return redirect('users');
@@ -672,18 +684,18 @@ class Backend implements ControllerProviderInterface
                 if ($app['users']->setEnabled($id, 0)) {
                     $app['log']->add("Disabled user '". $user['displayname']."'.", 3, '', 'user');
 
-                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' is disabled.");
+                    $app['session']->getFlashBag()->set('info', __("User '%s' is disabled.",array('%s'=>$user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' could not be disabled.");
+                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be disabled.",array('%s'=>$user['displayname'])));
                 }
                 break;
 
             case "enable":
                 if ($app['users']->setEnabled($id, 1)) {
                     $app['log']->add("Enabled user '". $user['displayname']."'.", 3, '', 'user');
-                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' is enabled.");
+                    $app['session']->getFlashBag()->set('info', __("User '%s' is enabled.",array('%s'=>$user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' could not be enabled.");
+                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be enabled.",array('%s'=>$user['displayname'])));
                 }
                 break;
 
@@ -691,14 +703,14 @@ class Backend implements ControllerProviderInterface
 
                 if (checkToken() && $app['users']->deleteUser($id)) {
                     $app['log']->add("Deleted user '". $user['displayname']."'.", 3, '', 'user');
-                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' is deleted.");
+                    $app['session']->getFlashBag()->set('info', __("User '%s' is deleted.",array('%s'=>$user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', "User '{$user['displayname']}' could not be deleted.");
+                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be deleted.",array('%s'=>$user['displayname'])));
                 }
                 break;
 
             default:
-                $app['session']->getFlashBag()->set('error', "No such action for user '{$user['displayname']}'.");
+                $app['session']->getFlashBag()->set('error', __("No such action for user '%s'.",array('%s'=>$user['displayname'])));
 
         }
 
@@ -795,10 +807,10 @@ class Backend implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->getFlashBag()->set('error', "File '" .$file."' could not be saved: not valid YAML.");
+            $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
         }
 
-        $app['twig']->addGlobal('title', "Files in ". $path);
+        $app['twig']->addGlobal('title', __("Files in %s",array('%s' =>$path)));
 
         // Make sure the files and folders are sorted properly.
         ksort($files);
@@ -820,18 +832,20 @@ class Backend implements ControllerProviderInterface
         $type = getExtension($filename);
 
         if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf("The file '%s' doesn't exist, or is not readable.", $file);
+            $error = __("The file '%s' doesn't exist, or is not readable.", array('%s'=>$file));
             $app->abort(404, $error);
         }
 
         if (!is_writable($filename)) {
-            $app['session']->getFlashBag()->set('info', sprintf("The file '%s' is not writable. You will have to use your own editor to make
-                modifications to this file.",  $file));
+            $app['session']->getFlashBag()->set('info', __(
+                "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                array('%s'=> $file)
+            ));
             $writeallowed = false;
-            $title = "View file '$file'.";
+            $title = __("View file '%s'.",array('%s'=>$file));
         } else {
             $writeallowed = true;
-            $title = "Edit file '$file'.";
+            $title = __("Edit file '%s'.",array('%s'=>$file));
         }
 
         $data['contents'] = file_get_contents($filename);
@@ -862,19 +876,23 @@ class Backend implements ControllerProviderInterface
                         $ok = $yamlparser->parse($contents);
                     } catch (Exception $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->set('error', "File '" .$file."' could not be saved: not valid YAML.");
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
                     }
                 }
 
                 if ($ok) {
                     if (file_put_contents($filename, $contents)) {
-                        $app['session']->getFlashBag()->set('info', "File '" .$file."' has been saved.");
+                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.",array('%s'=>$file)));
+                        // If we've saved a translation, back to it
+                        if (preg_match('#resources/translations/(..)/(.*)\.yml$#',$filename,$m)) {
+                            return redirect('translation', array('domain'=>$m[2],'tr_locale'=>$m[1]));
+                        }
                         // If we've saved contenttypes.yml, update the database..
                         if (basename($file) == "contenttypes.yml") {
                             return redirect('dbupdate', '', "?return=edit");
                         }
                     } else {
-                        $app['session']->getFlashBag()->set('error', "File '" .$file."' could not be saved, for some reason.");
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.",array('%s'=>$file)));
                     }
                 }
 
@@ -884,6 +902,145 @@ class Backend implements ControllerProviderInterface
         }
 
         return $app['twig']->render('editconfig.twig', array(
+            'form' => $form->createView(),
+            'title' => $title,
+            'filetype' => $type,
+            'writeallowed' => $writeallowed
+        ));
+
+    }
+
+    /**
+     * Prepare/edit/save a translation
+     */
+    function translation($domain,$tr_locale, Silex\Application $app, Request $request) {
+
+        $short_locale = substr($tr_locale,0,2);
+        $type = 'yml';
+        $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
+        $filename = realpath(__DIR__."/../../../..")."/$file";
+
+        if ($domain == 'infos') {
+            // no gathering here : if the file doesn't exist yet, we load a
+            // copy from the locale_fallback version (en)
+            if (!file_exists($filename)) {
+                $locale_fb = $app['locale_fallback'];
+                $srcfile = "app/resources/translations/$locale_fb/$domain.$locale_fb.$type";
+                $srcfilename = realpath(__DIR__."/../../../..")."/$srcfile";
+                $content = file_get_contents($srcfilename);
+            } else {
+                $content = file_get_contents($filename);
+            }
+        } else {
+            list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
+            $ts = date("Y/m/d H:i:s");
+            $content = "# $file -- generated on $ts\n";
+            if ($domain == 'messages') {
+                $cnt = count($msg['not_translated']);
+                if ($cnt) {
+                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    foreach($msg['not_translated'] as $key) {
+                        $content .= "$key: #\n";
+                    }
+                    $content .= "#-----------------------------------------\n";
+                } else {
+                    $content .= "# no untranslated strings; good ;-)\n";
+                }
+                $cnt = count($msg['translated']);
+                $content .= sprintf("# %d translated strings\n",$cnt);
+                foreach($msg['translated'] as $key => $trans) {
+                    $content .= "$key: $trans\n";
+                }
+            } else {
+                $cnt = count($ctype['not_translated']);
+                if ($cnt) {
+                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    foreach($ctype['not_translated'] as $key) {
+                        $content .= "$key: #\n";
+                    }
+                    $content .= "#-----------------------------------------\n";
+                } else {
+                    $content .= "# no untranslated strings: good ;-)\n";
+                }
+                $cnt = count($ctype['translated']);
+                $content .= sprintf("# %d translated strings\n",$cnt);
+                foreach($ctype['translated'] as $key => $trans) {
+                    $content .= "$key: $trans\n";
+                }
+            }
+            //==========================
+            //$file = "app/resources/translations/$short_locale/$domain.yml";
+            //$filename = realpath(__DIR__."/../../../..")."/$file";
+            //$type = 'yml';
+        }
+        // maybe no translations yet
+        if (!file_exists($filename) && !is_writable(dirname($filename))) {
+            $app['session']->getFlashBag()->set('info', __(
+                "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
+                array('%s'=> $file)
+            ));
+            $writeallowed = false;
+            $title = __("View translations file '%s'.",array('%s'=>$file));
+        } elseif (file_exists($filename) && !is_readable($filename)) {
+            $error = __("The translations file '%s' is not readable.", array('%s'=>$file));
+            $app->abort(404, $error);
+        } elseif (!is_writable($filename)) {
+            $app['session']->getFlashBag()->set('warning', __(
+                "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                array('%s'=> $file)
+            ));
+            $writeallowed = false;
+            $title = __("View file '%s'.",array('%s'=>$file));
+        } else {
+            $writeallowed = true;
+            $title = __("Edit translations file '%s'.",array('%s'=>$file));
+        }
+
+        $data['contents'] =  $content;
+        $form = $app['form.factory']->createBuilder('form', $data)
+            ->add('contents', 'textarea', array(
+            'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min'=>10)))
+        ));
+
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the file.
+        if ($request->getMethod() == "POST") {
+            $form->bind($app['request']->get($form->getName()));
+
+            if ($form->isValid()) {
+
+                $data = $form->getData();
+                $contents = cleanPostedData($data['contents']) ."\n";
+
+                $ok = true;
+
+                // Before trying to save a yaml file, check if it's valid.
+                if ($type == "yml") {
+                    $yamlparser = new \Symfony\Component\Yaml\Parser();
+                    try {
+                        $ok = $yamlparser->parse($contents);
+                    } catch (Exception $e) {
+                        $ok = false;
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
+                    }
+                }
+
+                if ($ok) {
+                    if (file_put_contents($filename, $contents)) {
+                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.",array('%s'=>$file)));
+                    } else {
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.",array('%s'=>$file)));
+                    }
+                }
+
+                //return redirect('fileedit', array('file' => $file));
+                return redirect('translation',array('domain'=>$domain,'tr_locale'=>$tr_locale));
+
+            }
+        }
+
+        return $app['twig']->render('editlocale.twig', array(
             'form' => $form->createView(),
             'title' => $title,
             'filetype' => $type,
@@ -906,10 +1063,10 @@ class Backend implements ControllerProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->checkValidSession() && !$app['users']->isAllowed($route) ) {
-            $app['session']->getFlashBag()->set('info', "Please log on.");
+            $app['session']->getFlashBag()->set('info', __("Please log on."));
             return redirect('login');
         } else if (!$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->set('error', "You do not have the right privileges to view that page.");
+            $app['session']->getFlashBag()->set('error', __("You do not have the right privileges to view that page."));
             return redirect('dashboard');
         }
 
@@ -924,7 +1081,7 @@ class Backend implements ControllerProviderInterface
         // the DB, and let's add a new user.
         if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['storage']->repairTables();
-            $app['session']->getFlashBag()->set('info', "There are no users in the database. Please create the first user.");
+            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
             return redirect('useredit', array('id' => ""));
         }
 

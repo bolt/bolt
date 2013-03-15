@@ -1,26 +1,26 @@
 {% include '_header.twig' %}
 
 
-<h1>Login</h1>
+<h1>{{ __('Login') }}</h1>
 
 <div class="row-fluid">
     <div class="span6">
         <form class="well" method="post">
-            <label>Username</label>
-            <input type="text" name="username" placeholder="Your username…" {% if username is defined %}value="{{username}}"{%endif%}>
-            <label>Password</label>
-            <input type="password" name="password" placeholder="Your password…">
+            <label>{{ __('Username') }}</label>
+            <input type="text" name="username" placeholder="{{ __('Your username…') }}" {% if username is defined %}value="{{username}}"{%endif%}>
+            <label>{{ __('Password') }}</label>
+            <input type="password" name="password" placeholder="{{ __('Your password…') }}">
 
-            <label><button type="submit" class="btn">Log on</button></label>
+            <label><button type="submit" class="btn">{{ __('Log on') }}</button></label>
         </form>
     </div>
 
     <div class="span6">
 
         <blockquote class='quote'>{{ randomquote() }}</blockquote>
-        
+
     </div>
-    
+
 </div>
 
 {% include '_footer.twig' %}

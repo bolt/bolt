@@ -60,6 +60,27 @@ class TranslationServiceProvider implements ServiceProviderInterface
                     }
                 }
             }
+
+            // load fallback for infos domain
+            $locale_fb = $app['locale_fallback'];
+            $translationDir = dirname(dirname(__DIR__)) .
+                '/resources/translations/' . $locale_fb;
+
+            if (is_dir($translationDir)) {
+                $extension = 'yml';
+                $domain='infos';
+                $infosfilename = "$translationDir/$domain.$locale_fb.$extension";
+                if (is_readable($infosfilename)) {
+                    if (array_key_exists($extension, $loaders)) {
+                        if (!array_key_exists($extension, $registeredLoaders)) {
+                            // TranslationFileLoader not yet registered
+                            $app['translator']->addLoader($extension, $loaders[$extension]);
+                        }
+                        $app['translator']->addResource($extension, $infosfilename, $locale_fb, $domain);
+                    }
+                }
+            }
+
         }
     }
 }
