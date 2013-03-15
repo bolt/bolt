@@ -9,10 +9,10 @@
     <table class='dashboardlisting'>
         <tr>
             <th>#</th>
-            <th>Username</th>
-            <th>Level</th>
-            <th>Lastseen</th>
-            <th>Actions</th>
+            <th>{{ __('Username') }}</th>
+            <th>{{ __('Level') }}</th>
+            <th>{{ __('Lastseen') }}</th>
+            <th>{{ __('Actions') }}</th>
         </tr>
         {% for user in users %}
 
@@ -32,7 +32,7 @@
 
                 <div class="btn-group">
                     <button class="btn btn-mini uselink"><a href="{{ path('useredit', { 'id' : user.id }) }}">
-                        <i class="icon-edit"></i> Edit</a>
+                        <i class="icon-edit"></i> {{ __('Edit') }}</a>
                     </button>
                     <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                         <i class="icon-info-sign"></i>
@@ -40,14 +40,14 @@
                     </button>
                     <ul class="dropdown-menu pull-right">
                         {% if user.enabled %}
-                        <li><a href="{{ path('useraction', { 'action': 'disable', 'id': user.id }) }}">Disable {{user.displayname}}</a></li>
+                        <li><a href="{{ path('useraction', { 'action': 'disable', 'id': user.id }) }}">{{ __('Disable %username%',{'%username%':user.displayname}) }}</a></li>
                         {% else %}
-                        <li><a href="{{ path('useraction', { 'action': 'enable', 'id': user.id }) }}">Enable {{user.displayname}}</a></li>
+                        <li><a href="{{ path('useraction', { 'action': 'enable', 'id': user.id }) }}">{{ __('Enable %username%',{'%username%':user.displayname}) }}</a></li>
                         {% endif %}
-                        <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id, token: token() }) }}" class="confirm" data-confirm="Are you sure you want to delete '{{user.displayname}}'?">Delete {{user.displayname}}</a></li>
+                        <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id, token: token() }) }}" class="confirm" data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}">{{ __('Delete %username%',{'%username%':user.displayname}) }}</a></li>
                         <li class="divider"></li>
-                        <li><a class="nolink">Last seen: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
-                        <li><a class="nolink">Last known IP: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
+                        <li><a class="nolink">{{ __('Last seen:') }} <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
+                        <li><a class="nolink">{{ __('Last known IP:') }} <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
                     </ul>
                 </div>
 
@@ -62,8 +62,8 @@
     <aside class="span3">
 
         <section>
-            <h2>Actions for Users</h2>
-            <a class="btn" href="{{ path('useredit', { 'id' : '' }) }}">New user</a>
+            <h2>{{ __('Actions for Users') }}</h2>
+            <a class="btn" href="{{ path('useredit', { 'id' : '' }) }}">{{ __('New user') }}</a>
         </section>
 
         <div id="latestactivity">

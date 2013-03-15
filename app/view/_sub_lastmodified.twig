@@ -1,5 +1,5 @@
 <section>
-    <h2>Last modified {{contenttype.name}}</h2>
+    <h2>{{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}</h2>
     <ul>
     {% for content in latest %}
         <li>
@@ -12,7 +12,7 @@
             </a><small>(<time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>)</small>
         </li>
     {% else %}
-        <li><em>No latest {{contenttype.name}}.</em></li>
+        <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
     {% endfor %}
     </ul>
 </section>

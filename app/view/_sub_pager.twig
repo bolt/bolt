@@ -17,7 +17,8 @@
 <div class="pagination pagination-centered {{class}}">
     <ul>
         <li><span>
-    Showing {{ pager.for }} {{ pager.showing_from }} - {{ pager.showing_to }} of {{  pager.count }}
+    {# Showing {{ pager.for }} {{ pager.showing_from }} - {{ pager.showing_to }} of {{  pager.count }} #}
+    {{ __('Showing %pager_for% %from% - %to% of %count%', {'%pager_for%': pager.for,'%from%': pager.showing_from,'%to%': pager.showing_to,'%count%': pager.count}) }}
         </span></li>
 {# 'first' and 'prev' #}
 {% if pager.current > 1 and class!="narrow" %}

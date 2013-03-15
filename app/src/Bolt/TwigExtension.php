@@ -51,7 +51,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
-            new \Twig_SimpleFunction('last', array($this, 'last'))
+            new \Twig_SimpleFunction('last', array($this, 'last')),
+            new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
         );
     }
 
@@ -74,7 +75,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('first', array($this, 'first')),
-            new \Twig_SimpleFilter('last', array($this, 'last'))
+            new \Twig_SimpleFilter('last', array($this, 'last')),
+            new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
         );
     }
 
@@ -842,4 +844,31 @@ class TwigExtension extends \Twig_Extension
     {
         return $this->app['users']->isAllowed($what);
     }
+
+    /**
+     * Translate using our __()
+     *
+     * @param string $content
+     *
+     * @return string translated content
+     */
+    public function trans()
+    {
+        $args = func_get_args();
+        $num_args = func_num_args();
+        switch($num_args) {
+            case 5:
+                return __($args[0],$args[1],$args[2],$args[3],$args[4]);
+            case 4:
+                return __($args[0],$args[1],$args[2],$args[3]);
+            case 3:
+                return __($args[0],$args[1],$args[2]);
+            case 2:
+                return __($args[0],$args[1]);
+            case 1:
+                return __($args[0]);
+        }
+        return null;
+    }
+
 }
