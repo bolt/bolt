@@ -132,7 +132,9 @@ class Backend implements ControllerProviderInterface
         foreach ($app['config']['contenttypes'] as $key => $contenttype) {
             if ($app['users']->isAllowed('contenttype:'.$key) && $contenttype['show_on_dashboard']==true) {
                 $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
-                $total += count($latest[$key]);
+                if (!empty($latest[$key])) {
+                    $total += count($latest[$key]);
+                }
             }
         }
 
