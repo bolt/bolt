@@ -1519,7 +1519,7 @@ function gatherTranslatableStrings($locale=null)
             $msg_domain['translated'][$key] = $trans;
         }
         // step 3: generate additionals strings for contenttypes
-        if (strpos($raw_key,'%contenttype%') !== false || strpos($raw_key,'%contenttypes%')) {
+        if (strpos($raw_key,'%contenttype%') !== false || strpos($raw_key,'%contenttypes%') !== false) {
             foreach($genContentTypes($raw_key) as $ctypekey) {
                 $key = Escaper::escapeWithDoubleQuotes($ctypekey);
                 if ( ($trans = $app['translator']->trans($ctypekey,array(),'contenttypes')) == $ctypekey ) {

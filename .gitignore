@@ -11,5 +11,6 @@ composer.phar
 ._.DS_Store
 .idea
 __*
+.__*
 web
 theme/mybolt/
