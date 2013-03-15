@@ -10,20 +10,21 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
+# The theme to use. Be sure to copy the theme/default folder, and change the
+# name here accordingly. Don't edit the templates in theme/default, because
+# they _will_ get updated in next releases
+theme: base-2013
+
 # The locale that'll be used by the application. If no locale is set the
-# fallback locale is 'en_GB'. For available options, see: docs.bolt.cm/
+# fallback locale is 'en_GB'. For available options, see: http://docs.bolt.cm/locales
 locale: en_GB
+#timezone: Zulu
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the
 # http:// protocol prefix. Enable the following line to define a canonical url.
 # canonical: example.org
-
-# The theme to use. Be sure to copy the theme/default folder, and change the
-# name here accordingly. Don't edit the templates in theme/default, because
-# they _will_ get updated in next releases
-theme: base-2013
 
 # The default content to use for the homepage, and the template to render it with.
 homepage: page/1
