@@ -1,8 +1,8 @@
-# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/14 21:47:42
+# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/15 17:35:05
 # 1 untranslated strings
-"Infos / about": "Infos / à propos"
+"Related content:": "Voir aussi :"
 #-----------------------------------------
-# 239 translated strings
+# 240 translated strings
 " %s files could not be deleted. You should delete them manually.": " %s fichiers non supprimés. Vous devrez les supprimer manuellement."
 "%contenttypes% overview": "Aperçu des %contenttypes%"
 "(no group)": "(aucun groupe)"
@@ -101,6 +101,7 @@
 "Image": "Image "
 "Imagelist": "Liste d'images"
 "Info": "+Info"
+"Infos / about": "Infos / à propos"
 "Integerfield": "Nombre entier"
 "It seems there's no content in the database.": "On dirait qu'il n'y a aucun contenu dans la base de données."
 "Last edited on:": "Dernière modif. le :"
@@ -208,7 +209,7 @@
 "Upload File": "Envoyer un fichier"
 "Upload Image": "Envoyer une image"
 "Upload image": "Envoyer une image"
-"Uploaded files": "Fichiers déversés."
+"Uploaded files": "Fichiers envoyés."
 "Used Libraries / Components": "Bibliothèques / composants utilisés"
 "User %s could not be saved, or nothing was changed.": "L'utilisateur n'a pas été enregistré, ou rien n'a changé."
 "User %s has been saved.": "L'utilisateur %s a été enregistré."

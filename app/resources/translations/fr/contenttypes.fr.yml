@@ -1,10 +1,10 @@
-# app/resources/translations/fr/contenttypes.yml -- generated on 2013/03/14 15:07:51
+# app/resources/translations/fr/contenttypes.fr.yml -- generated on 2013/03/15 17:51:02
 # 3 untranslated strings
-"Recent Entries": "Entrées récentes"
-"Recent Kitchensinks": "Bazars récents"
-"Recent Pages": "Pages récentes"
+"Entries overview": "Aperçu des entrées"
+"Kitchensinks overview": "Aperçu des «bazars»"
+"Pages overview": "Aperçu des pages"
 #-----------------------------------------
-# 69 translated strings
+# 72 translated strings
 "Actions for Entries": "Actions pour les entrées"
 "Actions for Kitchensinks": "Actions pour les bazars"
 "Actions for Pages": "Actions pour les pages"
@@ -53,6 +53,9 @@
 "Publish Entry": "Publier l'entrée"
 "Publish Kitchensink": "Publier le bazar"
 "Publish Page": "Publier la page"
+"Recent Entries": "Entrées récentes"
+"Recent Kitchensinks": "Bazars récents"
+"Recent Pages": "Pages récentes"
 "Save Entry": "Enregistrer l'entrée"
 "Save Kitchensink": "Enregistrer le bazar"
 "Save Page": "Enregistrer la page"

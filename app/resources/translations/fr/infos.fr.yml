@@ -81,3 +81,12 @@ about:
         Le texte complet de la license se trouve ici, dans le fichier
         <a href="%paths_app%LICENSE.txt">LICENSE.txt</a> inclus.
         </p>
+extension:
+    enable: |
+        <p>Pour activer une extension, l'ajouter au tableau <code>enabled_extensions</code>
+            dans le fichier de configuration <code>config.yml</code>. Utilisez le nom exact
+            de l'extension, comme affiché dans le premier libellé de la ligne du bas dans
+            son panneau. Notez que les noms sont <em>sensibles à la casse</em>, pour éliminer
+            les problèmes avec le système de fichiers.</p>
+            <p>exemple:</p>
+            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
