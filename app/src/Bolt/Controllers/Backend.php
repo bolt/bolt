@@ -942,32 +942,32 @@ class Backend implements ControllerProviderInterface
             if ($domain == 'messages') {
                 $cnt = count($msg['not_translated']);
                 if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($msg['not_translated'] as $key) {
-                        $content .= "$key: #\n";
+                        $content .= "$key:  #\n";
                     }
-                    $content .= "#-----------------------------------------\n";
+                    $content .= "\n#-----------------------------------------\n";
                 } else {
-                    $content .= "# no untranslated strings; good ;-)\n";
+                    $content .= "# no untranslated strings; good ;-)\n\n";
                 }
                 $cnt = count($msg['translated']);
-                $content .= sprintf("# %d translated strings\n",$cnt);
+                $content .= sprintf("# %d translated strings\n\n",$cnt);
                 foreach($msg['translated'] as $key => $trans) {
                     $content .= "$key: $trans\n";
                 }
             } else {
                 $cnt = count($ctype['not_translated']);
                 if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($ctype['not_translated'] as $key) {
-                        $content .= "$key: #\n";
+                        $content .= "$key:  #\n";
                     }
-                    $content .= "#-----------------------------------------\n";
+                    $content .= "\n#-----------------------------------------\n";
                 } else {
-                    $content .= "# no untranslated strings: good ;-)\n";
+                    $content .= "# no untranslated strings: good ;-)\n\n";
                 }
                 $cnt = count($ctype['translated']);
-                $content .= sprintf("# %d translated strings\n",$cnt);
+                $content .= sprintf("# %d translated strings\n\n",$cnt);
                 foreach($ctype['translated'] as $key => $trans) {
                     $content .= "$key: $trans\n";
                 }

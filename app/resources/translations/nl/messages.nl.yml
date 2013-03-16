@@ -1,0 +1,231 @@
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/16 13:28:49
+# 196 untranslated strings
+
+"%contenttypes% overview":  #
+"%s files could not be deleted. You should delete them manually.":  #
+"Actions":  #
+"Activity log":  #
+"Add existing image":  #
+"Add some sample <a href='%url%'>Records with Loripsum text</a>.":  #
+"Add …":  #
+"Address lookup:":  #
+"Alas, no about!":  #
+"Allowed contenttypes":  #
+"Are you sure you want to delete %username%?":  #
+"Author:":  #
+"Below are the third party libraries that are used by Bolt.":  #
+"Body":  #
+"Bolt %version%": Bolt %version% #
+"Bolt - Fatal error.": Bolt - Kritieke foutmelding. #
+"Bolt documentation on Github": Bolt documentatie op Github #
+"Bolt on Github": Bolt op Github #
+"Categories": Categorieën #
+"Category": Categorie #
+"Change status to 'draft'": Zet status op 'klad' #
+"Change status to 'held'": Zet status op 'vasthouden' #
+"Chapter": Hoofdstuk #
+"Chapters": Hoofdstukken #
+"Check database": Controleer de database #
+"Clear Activitylog": Wis activiteitenlog #
+"Clear filter": Wis filter #
+"Clear sort/filter": Wis sortering/filter #
+"Clear the cache": Leeg de cache #
+"Close": Sluit #
+"Configuration": Configuratie #
+"Content '%title%' could not be deleted.":  #
+"Content '%title%' could not be modified.":  #
+"Content '%title%' has been changed to 'draft'.":  #
+"Content '%title%' has been changed to 'held'":  #
+"Content '%title%' has been deleted.":  #
+"Content '%title%' is published.":  #
+"Content was duplicated. Click 'Save %contenttype%' to finalize.":  #
+"Content":  #
+"Content-types":  #
+"Contenttypes":  #
+"Create a new user":  #
+"Create the first user":  #
+"Created on:":  #
+"Current status:":  #
+"Dashboard":  #
+"Database check / update":  #
+"Delete %contenttype%":  #
+"Delete %filename%":  #
+"Delete %username%":  #
+"Deleted %s files from cache.":  #
+"Disable %username%":  #
+"Disabled extensions":  #
+"Duplicate %contenttype%":  #
+"Duplicate %filename%":  #
+"Edit %contenttype% » %title%":  #
+"Edit a user":  #
+"Edit file '%s'.":  #
+"Edit translations file '%s'.":  #
+"Edit":  #
+"Enable %username%":  #
+"Enabled extensions":  #
+"Enabling extensions:":  #
+"Extensions":  #
+"File '%s' could not be saved, for some reason.":  #
+"File '%s' could not be saved: not valid YAML.":  #
+"File '%s' has been saved.":  #
+"File Management":  #
+"Files in %s":  #
+"Files":  #
+"Files: %path%":  #
+"Filesize":  #
+"Fill the database with Dummy Content":  #
+"Filter":  #
+"Filtering:":  #
+"Folders":  #
+"Geolocation":  #
+"Go <a href='%url%'>back to the Dashboard</a>.":  #
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.":  #
+"Image":  #
+"Info":  #
+"Infos / about":  #
+"It seems there's no content in the database.":  #
+"Last edited on:":  #
+"Last known IP:":  #
+"Last modified %contenttypes%":  #
+"Last seen:":  #
+"Lastseen":  #
+"Latest %contenttypes%.":  #
+"Latest activity":  #
+"Latest entries":  #
+"Latitude:":  #
+"Level":  #
+"Log on":  #
+"Login":  #
+"Logout %name%":  #
+"Longitude:":  #
+"Maintenance":  #
+"Matched address:":  #
+"Menu setup":  #
+"Messages":  #
+"Meta":  #
+"Modifications made to the database:":  #
+"Modified":  #
+"More %contenttypes% »":  #
+"New %contenttype%":  #
+"New user":  #
+"No %contenttypes% available.":  #
+"No disabled extensions..":  #
+"No enabled extensions..":  #
+"No latest %contenttype%":  #
+"No recent %contenttype%.":  #
+"No results found for '%search%'. Please try another search.":  #
+"No such action for content.":  #
+"No such action for user '%s'.":  #
+"No video url is set, no video to show.":  #
+"Oops! An error has occurred!":  #
+"Options":  #
+"Or <a href='%url%'>add some more records</a>.</p>":  #
+"Order: %sort%":  #
+"Overview » %contenttypes%":  #
+"Password":  #
+"Passwords must match.":  #
+"Path:":  #
+"Permalink":  #
+"Permalink:":  #
+"Permissions:":  #
+"Please log on.":  #
+"Preview %contenttype%":  #
+"Preview video":  #
+"Preview":  #
+"Publication date:":  #
+"Publish %contenttype%":  #
+"Published on:":  #
+"Read more":  #
+"Recent %contenttypes%":  #
+"Relationships":  #
+"Save %contenttype%":  #
+"Save":  #
+"Search results for <b> %search% </b>.":  #
+"Search":  #
+"Settings":  #
+"Showing %pager_for% %from% - %to% of %count%":  #
+"Sitemap":  #
+"Size:":  #
+"Slug":  #
+"Slug:":  #
+"Sophisticated, lightweight & simple CMS":  #
+"Status:":  #
+"Tag":  #
+"Tags":  #
+"Taxonomy":  #
+"That user does not exist.":  #
+"The activitylog has been cleared.":  #
+"The activitylog has been trimmed.":  #
+"The changes to this %contenttype% have been saved.":  #
+"The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.":  #
+"The file '%s' doesn't exist, or is not readable.":  #
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
+"The new %contenttype% has been saved.":  #
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.":  #
+"The translations file '%s' is not readable.":  #
+"There are no users in the database. Please create the first user.":  #
+"There was an error saving this %contenttype%.":  #
+"This %contenttype% was created":  #
+"This Displayname is already in use. Choose another display name.":  #
+"This email address is already in use. Choose another email address.":  #
+"This record is related to %contenttype%":  #
+"This username is already in use. Choose another username.":  #
+"This value is too short. It should have 6 characters or more.":  #
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.":  #
+"Tip:":  #
+"Title / Excerpt":  #
+"Title":  #
+"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.":  #
+"Translations":  #
+"Trim Activitylog":  #
+"URL:":  #
+"Upload File":  #
+"Upload Image":  #
+"Upload image":  #
+"Uploaded files":  #
+"Used Libraries / Components":  #
+"User %s could not be saved, or nothing was changed.":  #
+"User %s has been saved.":  #
+"User '%s' could not be deleted.":  #
+"User '%s' could not be disabled.":  #
+"User '%s' could not be enabled.":  #
+"User '%s' is deleted.":  #
+"User '%s' is disabled.":  #
+"User '%s' is enabled.":  #
+"User is enabled":  #
+"Username or password not correct. Please check your input.":  #
+"Username":  #
+"Users":  #
+"Video":  #
+
+#-----------------------------------------
+# 28 translated strings
+
+"(no group)": "(geen groep)"
+"About Bolt": "Over Bolt"
+"About": "Over"
+"Actions for %contenttypes%": "Handelingen voor %contenttypes%"
+"Actions for Users": "Handelingen voor Gebruikers"
+"Actions for this %contenttype%": "Handelingen voor dit %contenttype%"
+"Owner:": "Eigenaar"
+"Page:": "Pagina"
+"Password (confirmation)": "Wachtwoord (opnieuw)"
+"View %contenttypes%": "Bekijk %contenttypes%"
+"View / edit Templates": "Bekijk / bewerk templates"
+"View file '%s'.": "Bekijk bestand '%s'"
+"View on site": "Bekijk op site"
+"View site": "Bekijk site"
+"View translations file '%s'.": "Bekijk vertalingenbestand '%s'."
+"Written by <em>%name%</em> on %date%": "Geschreven door <em>%name%</em> op %date%"
+"You do not have the right privileges to edit that record.": "Je bent niet gerechtigd om dat record te wijzigen."
+"You do not have the right privileges to view that page.": "Je bent niet gerechtigd om die pagina te bekijken."
+"You have been logged out.": "Je bent uitgelogd."
+"You've been logged on successfully.": "Je bent succesvol ingelogd."
+"Your account is disabled. Sorry about that.": "Je account is uitgeschakeld. Sorry daarvoor."
+"Your database is already up to date.": "Je database was al bijgewerkt."
+"Your database is now up to date.": "Je database is nu bijgewerkt."
+"Your password": "Je wachtwoord"
+"Your username": "Je inlognaam"
+"and edited": "en bewerkt"
+"more activity": "meer activiteit"
+"type:": "type"
