@@ -1,158 +1,23 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/16 13:28:49
-# 196 untranslated strings
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/16 14:26:05
+# 61 untranslated strings
 
-"%contenttypes% overview":  #
-"%s files could not be deleted. You should delete them manually.":  #
-"Actions":  #
-"Activity log":  #
-"Add existing image":  #
-"Add some sample <a href='%url%'>Records with Loripsum text</a>.":  #
-"Add …":  #
-"Address lookup:":  #
-"Alas, no about!":  #
-"Allowed contenttypes":  #
-"Are you sure you want to delete %username%?":  #
-"Author:":  #
-"Below are the third party libraries that are used by Bolt.":  #
-"Body":  #
-"Bolt %version%": Bolt %version% #
-"Bolt - Fatal error.": Bolt - Kritieke foutmelding. #
-"Bolt documentation on Github": Bolt documentatie op Github #
-"Bolt on Github": Bolt op Github #
-"Categories": Categorieën #
-"Category": Categorie #
-"Change status to 'draft'": Zet status op 'klad' #
-"Change status to 'held'": Zet status op 'vasthouden' #
-"Chapter": Hoofdstuk #
-"Chapters": Hoofdstukken #
-"Check database": Controleer de database #
-"Clear Activitylog": Wis activiteitenlog #
-"Clear filter": Wis filter #
-"Clear sort/filter": Wis sortering/filter #
-"Clear the cache": Leeg de cache #
-"Close": Sluit #
-"Configuration": Configuratie #
-"Content '%title%' could not be deleted.":  #
-"Content '%title%' could not be modified.":  #
-"Content '%title%' has been changed to 'draft'.":  #
-"Content '%title%' has been changed to 'held'":  #
-"Content '%title%' has been deleted.":  #
-"Content '%title%' is published.":  #
-"Content was duplicated. Click 'Save %contenttype%' to finalize.":  #
-"Content":  #
-"Content-types":  #
-"Contenttypes":  #
-"Create a new user":  #
-"Create the first user":  #
-"Created on:":  #
-"Current status:":  #
 "Dashboard":  #
-"Database check / update":  #
-"Delete %contenttype%":  #
-"Delete %filename%":  #
-"Delete %username%":  #
-"Deleted %s files from cache.":  #
-"Disable %username%":  #
-"Disabled extensions":  #
-"Duplicate %contenttype%":  #
-"Duplicate %filename%":  #
-"Edit %contenttype% » %title%":  #
-"Edit a user":  #
-"Edit file '%s'.":  #
-"Edit translations file '%s'.":  #
-"Edit":  #
-"Enable %username%":  #
-"Enabled extensions":  #
-"Enabling extensions:":  #
-"Extensions":  #
-"File '%s' could not be saved, for some reason.":  #
-"File '%s' could not be saved: not valid YAML.":  #
-"File '%s' has been saved.":  #
-"File Management":  #
-"Files in %s":  #
-"Files":  #
-"Files: %path%":  #
-"Filesize":  #
-"Fill the database with Dummy Content":  #
 "Filter":  #
-"Filtering:":  #
-"Folders":  #
-"Geolocation":  #
-"Go <a href='%url%'>back to the Dashboard</a>.":  #
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.":  #
-"Image":  #
 "Info":  #
-"Infos / about":  #
-"It seems there's no content in the database.":  #
-"Last edited on:":  #
-"Last known IP:":  #
-"Last modified %contenttypes%":  #
-"Last seen:":  #
-"Lastseen":  #
-"Latest %contenttypes%.":  #
-"Latest activity":  #
-"Latest entries":  #
-"Latitude:":  #
-"Level":  #
-"Log on":  #
-"Login":  #
-"Logout %name%":  #
-"Longitude:":  #
-"Maintenance":  #
-"Matched address:":  #
-"Menu setup":  #
-"Messages":  #
 "Meta":  #
-"Modifications made to the database:":  #
-"Modified":  #
-"More %contenttypes% »":  #
-"New %contenttype%":  #
-"New user":  #
-"No %contenttypes% available.":  #
-"No disabled extensions..":  #
-"No enabled extensions..":  #
-"No latest %contenttype%":  #
-"No recent %contenttype%.":  #
-"No results found for '%search%'. Please try another search.":  #
-"No such action for content.":  #
-"No such action for user '%s'.":  #
-"No video url is set, no video to show.":  #
-"Oops! An error has occurred!":  #
-"Options":  #
-"Or <a href='%url%'>add some more records</a>.</p>":  #
+"Or <a href='%url%'>add some more records</a>.":  #
 "Order: %sort%":  #
 "Overview » %contenttypes%":  #
-"Password":  #
-"Passwords must match.":  #
-"Path:":  #
 "Permalink":  #
-"Permalink:":  #
-"Permissions:":  #
-"Please log on.":  #
-"Preview %contenttype%":  #
-"Preview video":  #
-"Preview":  #
-"Publication date:":  #
-"Publish %contenttype%":  #
-"Published on:":  #
-"Read more":  #
-"Recent %contenttypes%":  #
-"Relationships":  #
-"Save %contenttype%":  #
-"Save":  #
 "Search results for <b> %search% </b>.":  #
-"Search":  #
-"Settings":  #
 "Showing %pager_for% %from% - %to% of %count%":  #
 "Sitemap":  #
-"Size:":  #
 "Slug":  #
 "Slug:":  #
 "Sophisticated, lightweight & simple CMS":  #
 "Status:":  #
-"Tag":  #
-"Tags":  #
-"Taxonomy":  #
+"Tag": Tag #
+"Tags": Tags #
 "That user does not exist.":  #
 "The activitylog has been cleared.":  #
 "The activitylog has been trimmed.":  #
@@ -199,17 +64,148 @@
 "Video":  #
 
 #-----------------------------------------
-# 28 translated strings
+# 159 translated strings
 
+"%contenttypes% overview": "%contenttypes% overzicht"
+"%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
 "(no group)": "(geen groep)"
 "About Bolt": "Over Bolt"
 "About": "Over"
 "Actions for %contenttypes%": "Handelingen voor %contenttypes%"
 "Actions for Users": "Handelingen voor Gebruikers"
 "Actions for this %contenttype%": "Handelingen voor dit %contenttype%"
+"Actions": "Acties"
+"Activity log": "Activiteitenlog"
+"Add existing image": "Voeg bestaand beeld in"
+"Add some sample <a href='%url%'>Records with Loripsum text</a>.": "Voeg voorbeeld <a href='%url%'>Records met Loripsum tekst</a> in."
+"Add …": "Voeg toe …"
+"Address lookup:": "Adres opzoeken"
+"Alas, no about!": "Helaas, geen 'over ons'!"
+"Allowed contenttypes": "Toegestane contenttypes"
+"Are you sure you want to delete %username%?": "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
+"Author:": "Auteur"
+"Below are the third party libraries that are used by Bolt.": "Hieronder staan de externe libraries waar Bolt gebruik van maakt"
+"Body": "Broodtekst"
+"Bolt - Fatal error.": "Bolt - Kritieke foutmelding."
+"Bolt documentation on Github": "Bolt documentatie op Github"
+"Bolt on Github": "Bolt op Github"
+"Categories": "Categorieën"
+"Category": "Categorie"
+"Change status to 'draft'": "Zet status op 'klad'"
+"Change status to 'held'": "Zet status op 'vasthouden'"
+"Chapter": "Hoofdstuk"
+"Chapters": "Hoofdstukken"
+"Check database": "Controleer de database"
+"Clear Activitylog": "Wis activiteitenlog"
+"Clear filter": "Wis filter"
+"Clear sort/filter": "Wis sortering/filter"
+"Clear the cache": "Leeg de cache"
+"Close": "Sluit"
+"Configuration": "Configuratie"
+"Content '%title%' could not be deleted.": "Inhoud '%title%' kon niet worden opgeslagen."
+"Content '%title%' could not be modified.": "Inhoud '%title%' kon niet worden aangepast."
+"Content '%title%' has been changed to 'draft'.": "Inhoud '%title%' is aangepast naar 'klad'."
+"Content '%title%' has been changed to 'held'": "Inhoud '%title%' is aangepast naar 'vasthouden'."
+"Content '%title%' has been deleted.": "Inhoud '%title%' is verwijderd."
+"Content '%title%' is published.": "Inhoud '%title%'is gepubliceerd."
+"Content was duplicated. Click 'Save %contenttype%' to finalize.": "Inhoud is gedupliceerd. Klik op 'Sla %contenttype% op' om af te ronden."
+"Content": "Inhoud"
+"Contenttypes": "Contenttypen"
+"Create a new user": "Maak een nieuwe gebruiker aan"
+"Create the first user": "Maak de eerste gebruiker aan"
+"Created on:": "Aangemaakt op"
+"Current status:": "Huidige status:"
+"Database check / update": "Database controleren / bijwerken"
+"Delete %contenttype%": "Verwijder %contenttype%"
+"Delete %filename%": "Verwijder %filename%"
+"Delete %username%": "Verwijder %username%"
+"Deleted %s files from cache.": "%s bestanden verwijderd uit de cache"
+"Disable %username%": "Schakel %username% uit"
+"Disabled extensions": "Uitgeschakelde extensies"
+"Duplicate %contenttype%": "Dupliceer %contenttype%"
+"Duplicate %filename%": "Dupliceer %filename%"
+"Edit %contenttype% » %title%": "Bewerk %contenttype% » %title%"
+"Edit a user": "Bewerk een gebruiker"
+"Edit file '%s'.": "Bewerk bestand '%s'"
+"Edit translations file '%s'.": "Bewerk vertalingenbestand '%s'"
+"Edit": "Bewerk"
+"Enable %username%": "Schakel %username% in"
+"Enabled extensions": "Ingeschakelde extensies"
+"Enabling extensions:": "Extensies inschakelen"
+"Extensions": "Extensies"
+"File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
+"File '%s' could not be saved: not valid YAML.": "Bestand '%' kon niet worden opgeslagen: Geen valide YAML"
+"File '%s' has been saved.": "Bestand '%s' is opgeslagen."
+"File Management": "Bestandsbeheer"
+"Files in %s": "Bestanden in '%s'"
+"Files": "Bestanden"
+"Files: %path%": "Bestanden: %path%"
+"Filesize": "Bestandsgrootte"
+"Fill the database with Dummy Content": "Vul de database met Dummy-inhoud"
+"Filtering:": "Filtering"
+"Folders": "Mappen"
+"Geolocation": "Geolocatie"
+"Go <a href='%url%'>back to the Dashboard</a>.": "Ga <a href='%url%'>terug naar het Dashboard</a>."
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
+"Image": "Afbeelding"
+"It seems there's no content in the database.": "Het lijkt er op dat geen inhoud in de database zit"
+"Last edited on:": "Laatst aangepast op:"
+"Last known IP": "Laast bekende IP"
+"Last modified %contenttypes%": "Laatst aangepaste %contenttypes%"
+"Last seen": "Laatst gezien"
+"Latest %contenttypes%.": "Nieuwste %contenttypes%"
+"Latest activity": "Laatste activiteit"
+"Latest entries": "Nieuwste berichten"
+"Latitude:": "Breedtegraad"
+"Level": "Niveau"
+"Log on": "Inloggen"
+"Login": "Log in"
+"Logout %name%": "%name% uitloggen"
+"Long messages": "Lange meldingen"
+"Longitude:": "Lengtegraad"
+"Maintenance": "Onderhoud"
+"Matched address:": "Overeenkomstig adres:"
+"Menu setup": "Menu instellingen"
+"Messages": "Meldingen"
+"Modifications made to the database:": "Aanpassingen gedaan aan de database:"
+"Modified": "Aangepast"
+"More %contenttypes% »": "Meer %contenttype%"
+"New %contenttype%": "Nieuw %contenttype%"
+"New user": "Nieuwe gebruiker"
+"No %contenttypes% available.": "Geen %contenttypes% beschikbaar"
+"No disabled extensions..": "Geen uigeschakelde extensies"
+"No enabled extensions..": "Geen ingeschakelde extensies"
+"No latest %contenttype%": "Geen nieuwste %contenttype%"
+"No recent %contenttype%.": "Geen recente %contenttype%"
+"No results found for '%search%'. Please try another search.": "Geen resultaat gevonden voor '%search%'. Probeer het met een andere zoekterm."
+"No such action for content.": "Die actie kun je niet uitvoeren."
+"No such action for user '%s'.": "Die acite kun je niet uitvoeren op '%s'."
+"No video url is set, no video to show.": "Geen URL van de video ingesteld, dus niets om te tonen."
+"Oops! An error has occurred!": "Oeps! Er is een fout opgetreden."
+"Options": "Opties"
 "Owner:": "Eigenaar"
 "Page:": "Pagina"
 "Password (confirmation)": "Wachtwoord (opnieuw)"
+"Password": "Wachtwoord"
+"Passwords must match.": "Wachtwoorden moeten overeenkomen"
+"Path:": "Pad"
+"Permissions": "Permissies"
+"Please log on.": "Inloggen, graag"
+"Preview %contenttype%": "%contenttype% voorvertonen"
+"Preview video": "Video voorvertonen"
+"Preview": "Voorvertoning"
+"Publication date:": "Publicatiedatum"
+"Publish %contenttype%": "Publiceer %contenttype%"
+"Published on:": "Gepubliceerd op:"
+"Read more": "Lees verder"
+"Recent %contenttypes%": "Recente %contenttypes%"
+"Relationships": "Relaties"
+"Save %contenttype%": "Sla %contenttype% op"
+"Save": "Opslaan"
+"Search": "Zoeken"
+"Settings": "Instellingen"
+"Size:": "Grootte"
+"Taxonomy": "Taxonomie"
 "View %contenttypes%": "Bekijk %contenttypes%"
 "View / edit Templates": "Bekijk / bewerk templates"
 "View file '%s'.": "Bekijk bestand '%s'"

@@ -300,7 +300,7 @@ class Backend implements ControllerProviderInterface
         $content = $app['storage']->preFill();
 
         $content .= '<br><br><p>' . __('Go <a href=\'%url%\'>back to the Dashboard</a>.',array('%url%' => path('dashboard'))) . '<br>';
-        $content .= __('Or <a href=\'%url%\'>add some more records</a>.</p>',array('%url%' => path('prefill')));
+        $content .= __('Or <a href=\'%url%\'>add some more records</a>.',array('%url%' => path('prefill'))) . '</p>';
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 

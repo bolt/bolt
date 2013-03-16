@@ -66,7 +66,7 @@
     {# --------------- slug --------------- #}
 
 {% if field.type == "slug" %}
-<label class='permalink'>{{ __('Permalink:') }}
+<label class='permalink'>{{ __('Permalink') }}:
     <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
     <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
     <span class='sluglocker'><i class='icon-lock'></i></span>
