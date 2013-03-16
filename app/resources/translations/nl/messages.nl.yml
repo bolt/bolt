@@ -1,70 +1,23 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/16 14:26:05
-# 61 untranslated strings
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/16 15:35:03
+# 14 untranslated strings
 
 "Dashboard":  #
 "Filter":  #
 "Info":  #
 "Meta":  #
-"Or <a href='%url%'>add some more records</a>.":  #
-"Order: %sort%":  #
-"Overview » %contenttypes%":  #
 "Permalink":  #
-"Search results for <b> %search% </b>.":  #
-"Showing %pager_for% %from% - %to% of %count%":  #
 "Sitemap":  #
 "Slug":  #
 "Slug:":  #
-"Sophisticated, lightweight & simple CMS":  #
 "Status:":  #
-"Tag": Tag #
-"Tags": Tags #
-"That user does not exist.":  #
-"The activitylog has been cleared.":  #
-"The activitylog has been trimmed.":  #
-"The changes to this %contenttype% have been saved.":  #
-"The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.":  #
-"The file '%s' doesn't exist, or is not readable.":  #
-"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
-"The new %contenttype% has been saved.":  #
-"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.":  #
-"The translations file '%s' is not readable.":  #
-"There are no users in the database. Please create the first user.":  #
-"There was an error saving this %contenttype%.":  #
-"This %contenttype% was created":  #
-"This Displayname is already in use. Choose another display name.":  #
-"This email address is already in use. Choose another email address.":  #
-"This record is related to %contenttype%":  #
-"This username is already in use. Choose another username.":  #
-"This value is too short. It should have 6 characters or more.":  #
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.":  #
-"Tip:":  #
-"Title / Excerpt":  #
-"Title":  #
-"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.":  #
-"Translations":  #
-"Trim Activitylog":  #
+"Tag":  #
+"Tags":  #
+"Tip:": "Tip:" #
 "URL:":  #
-"Upload File":  #
-"Upload Image":  #
-"Upload image":  #
-"Uploaded files":  #
-"Used Libraries / Components":  #
-"User %s could not be saved, or nothing was changed.":  #
-"User %s has been saved.":  #
-"User '%s' could not be deleted.":  #
-"User '%s' could not be disabled.":  #
-"User '%s' could not be enabled.":  #
-"User '%s' is deleted.":  #
-"User '%s' is disabled.":  #
-"User '%s' is enabled.":  #
-"User is enabled":  #
-"Username or password not correct. Please check your input.":  #
-"Username":  #
-"Users":  #
 "Video":  #
 
 #-----------------------------------------
-# 159 translated strings
+# 205 translated strings
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
@@ -132,6 +85,7 @@
 "Enable %username%": "Schakel %username% in"
 "Enabled extensions": "Ingeschakelde extensies"
 "Enabling extensions:": "Extensies inschakelen"
+"Excerpt": "Samenvatting"
 "Extensions": "Extensies"
 "File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
 "File '%s' could not be saved: not valid YAML.": "Bestand '%' kon niet worden opgeslagen: Geen valide YAML"
@@ -169,7 +123,7 @@
 "Messages": "Meldingen"
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modified": "Aangepast"
-"More %contenttypes% »": "Meer %contenttype%"
+"More %contenttypes% »": "Meer %contenttypes%"
 "New %contenttype%": "Nieuw %contenttype%"
 "New user": "Nieuwe gebruiker"
 "No %contenttypes% available.": "Geen %contenttypes% beschikbaar"
@@ -183,6 +137,9 @@
 "No video url is set, no video to show.": "Geen URL van de video ingesteld, dus niets om te tonen."
 "Oops! An error has occurred!": "Oeps! Er is een fout opgetreden."
 "Options": "Opties"
+"Or <a href='%url%'>add some more records</a>.": "Of <a href='%url%'>voeg meer records in</a>."
+"Order: %sort%": "Volgorde: %sort%"
+"Overview » %contenttypes%": "Overzicht » %contenttypes%"
 "Owner:": "Eigenaar"
 "Page:": "Pagina"
 "Password (confirmation)": "Wachtwoord (opnieuw)"
@@ -202,10 +159,52 @@
 "Relationships": "Relaties"
 "Save %contenttype%": "Sla %contenttype% op"
 "Save": "Opslaan"
+"Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>"
 "Search": "Zoeken"
 "Settings": "Instellingen"
+"Showing %pager_for% %from% - %to% of %count%": "Toont %pager_for% %from% - %to% of %count%"
 "Size:": "Grootte"
+"Sophisticated, lightweight & simple CMS": "Weldoordacht, lichtgewicht en eenvoudig CMS"
 "Taxonomy": "Taxonomie"
+"That user does not exist.": "Die gebruiker bestaat niet"
+"The activitylog has been cleared.": "De activiteitenlog is gewist."
+"The activitylog has been trimmed.": "De activiteitenlog is bijgesnoeid"
+"The changes to this %contenttype% have been saved.": "De wijzigingen aan deze %contenttype% zijn opgeslagen."
+"The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.": "De database moet bijgewerkt of gerepareerd worden. Ga naar 'Instellingen' > 'Controleer Database' om dit nu te doen."
+"The file '%s' doesn't exist, or is not readable.": "Het bestand '%s' bestaat niet, of is niet leesbaar."
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Het bestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand te doen."
+"The new %contenttype% has been saved.": "De nieuwe %contenttype% is opgeslagen"
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand te doen."
+"The translations file '%s' is not readable.": "Het vertalingenbestand '%s' is niet leesbaar."
+"There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
+"There was an error saving this %contenttype%.": "Er was een probleem met het oslaan van deze %contenttype%"
+"This %contenttype% was created": "Deze %contenttype% is aangemaakt."
+"This displayname is already in use. Choose another displayname.": "Deze schermnaam is al in gebruik. Kies een andere schermnaam."
+"This email address is already in use. Choose another email address.": "Dit e-mailadres is al in gebruik. Kies een ander adres."
+"This record is related to %contenttype%": "Deze records is gerelateerd aan %contenttype%"
+"This username is already in use. Choose another username.": "Deze gebruikersnaam is al bezet. Kies een andere gebruikersnaam."
+"This value is too short. It should have 6 characters or more.": "Deze waarde is te kort. Hij moet 6 karakters of langer zijn."
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
+"Title": "Titel"
+"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Om snel te kunnen starten, voeg wat <a href='%url%'>Lorem Ipsum dummy content</a> toe."
+"Translations": "Vertalingen"
+"Trim Activitylog": "Snoei activiteitenlog"
+"Upload File": "Upload bestand"
+"Upload image": "Upload beeld"
+"Uploaded files": "Geüploade bestanden"
+"Used Libraries / Components": "Gebruikte libraries / componenten"
+"User %s could not be saved, or nothing was changed.": "Gebruiker %s kon niet worden opgeslagen, of is niet gewijzigd."
+"User %s has been saved.": "Gebruiker %s is opgeslagen"
+"User '%s' could not be deleted.": "Gebruiker '%s' kon niet worden verwijderd"
+"User '%s' could not be disabled.": "Gebruiker '%s' kon niet worden uitgeschakeld"
+"User '%s' could not be enabled.": "Gebruiker '%s' kon niet worden ingeschakeld"
+"User '%s' is deleted.": "Gebruiker '%s' is verwijderd"
+"User '%s' is disabled.": "Gebruiker '%s' is uitgeschakeld"
+"User '%s' is enabled.": "Gebruiker '%s' is ingeschakeld"
+"User is enabled": "Gebruiker is ingeschakeld"
+"Username or password not correct. Please check your input.": "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw"
+"Username": "Gebruikersnaam"
+"Users": "Gebruikers"
 "View %contenttypes%": "Bekijk %contenttypes%"
 "View / edit Templates": "Bekijk / bewerk templates"
 "View file '%s'.": "Bekijk bestand '%s'"

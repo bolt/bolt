@@ -29,7 +29,8 @@
                 <tr>
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
-                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Title / Excerpt') }}</a></th>
+                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>
+                            {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
                     <th>&nbsp;</th>
                     <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
                     <th><a href='?'>{{ __('Actions') }}</a></th>

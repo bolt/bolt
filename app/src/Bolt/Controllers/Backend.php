@@ -627,7 +627,7 @@ class Backend implements ControllerProviderInterface
 
             // Displaynames must be unique..
             if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                $form['displayname']->addError(new FormError(__('This Displayname is already in use. Choose another display name.')));
+                $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
             }
 
         });
