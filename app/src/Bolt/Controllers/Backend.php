@@ -209,14 +209,18 @@ class Backend implements ControllerProviderInterface
         $output = $app['storage']->repairTables();
 
         if (empty($output)) {
-            $content = __("<p>Your database is already up to date.<p>");
+            $content = '<p>' . __('Your database is already up to date.') . '</p>';
         } else {
-            $content = __("<p>Modifications made to the database:<p>");
+            $content = '<p>' . __('Modifications made to the database:') . '</p>';
             $content .= implode("<br>", $output);
-            $content .= __("<p>Your database is now up to date.<p>");
+            $content .= '<p>' . __('Your database is now up to date.') . '</p>';
         }
 
-        $content .= __('<br><br><p><b>Tip: </b>Add some sample <a href="%url%">Records with Loripsum text</a>.</p>',array('%url%' => path('prefill')));
+        $content .= sprintf('<br><br><p><b>%s </b>%s</p>',
+            __('Tip:'),
+            __('Add some sample <a href=\'%url%\'>Records with Loripsum text</a>.', array('%url%' => path('prefill')))
+        );
+
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
@@ -252,7 +256,7 @@ class Backend implements ControllerProviderInterface
         $output = __("Deleted %s files from cache.", array('%s' => $result['successfiles']));
 
         if (!empty($result['failedfiles'])) {
-            $output .= " " .__(" %s files could not be deleted. You should delete them manually.",array('%s' => $result['failedfiles']));
+            $output .= " " .__("%s files could not be deleted. You should delete them manually.",array('%s' => $result['failedfiles']));
             $app['session']->getFlashBag()->set('error', $output);
         } else {
             $app['session']->getFlashBag()->set('success', $output);
@@ -295,8 +299,8 @@ class Backend implements ControllerProviderInterface
 
         $content = $app['storage']->preFill();
 
-        $content .= __('<br><br><p>Go <a href="%url%">back to the Dashboard</a>.<br>',array('%url%' => path('dashboard')));
-        $content .= __('Or <a href="%url%">add some more records</a>.</p>',array('%url%' => path('prefill')));
+        $content .= '<br><br><p>' . __('Go <a href=\'%url%\'>back to the Dashboard</a>.',array('%url%' => path('dashboard'))) . '<br>';
+        $content .= __('Or <a href=\'%url%\'>add some more records</a>.</p>',array('%url%' => path('prefill')));
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
