@@ -1523,7 +1523,6 @@ function gatherTranslatableStrings($locale=null,$translated=array())
         $key = stripslashes($key);
         $raw_key = $key;
         $key = Escaper::escapeWithDoubleQuotes($key);
-        //if ( ($trans = $app['translator']->trans($raw_key)) == $raw_key ) {
         if ( ($trans = $getTranslated($raw_key)) == '' && ($trans = $getTranslated($key)) == '' ) {
             $msg_domain['not_translated'][] = $key;
         } else {
@@ -1534,7 +1533,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
         if (strpos($raw_key,'%contenttype%') !== false || strpos($raw_key,'%contenttypes%') !== false) {
             foreach($genContentTypes($raw_key) as $ctypekey) {
                 $key = Escaper::escapeWithDoubleQuotes($ctypekey);
-                if ( ($trans = $app['translator']->trans($ctypekey,array(),'contenttypes')) == $ctypekey ) {
+                if ( ($trans = $getTranslated($ctypekey)) == '' && ($trans = $getTranslated($key)) == '' ) {
                     // not translated
                     $ctype_domain['not_translated'][] = $key;
                 } else {

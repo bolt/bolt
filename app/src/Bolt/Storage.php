@@ -395,7 +395,7 @@ class Storage
         }
 
 
-        $output .= "\n\n" .__('Done!');
+        $output .= "<br>\n\n" .__('Done!');
 
         return $output;
 

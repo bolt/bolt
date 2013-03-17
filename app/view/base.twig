@@ -18,13 +18,17 @@
         input {
             width: 13px;
             height: 13px;
-            padding: 0 4px;
-            margin:0;
+            padding: 0;
+            margin: 0 8px 0 0 !;
             vertical-align: bottom;
             position: relative;
             top: -1px;
             *overflow: hidden;
         }
+        input[type="checkbox"] {
+            margin: 4px 8px 0px 0;
+        }
+
     </style>
     <form method="post" id="prefill" class="form-horizontal">
         <div class="control-group">
@@ -41,7 +45,7 @@
         </div>
         {{ form_widget(form._token) }}
         <div class="form-actions">
-        <button type="submit" class="btn btn-primary" ><i class="icon-flag"></i> {{ __('Prefill') }}</button>
+        <button type="submit" class="btn btn-primary" ><i class="icon-wrench"></i> {{ __('Prefill') }}</button>
         </div>
     </form>
     {% endif %}

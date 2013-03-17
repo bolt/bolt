@@ -307,7 +307,7 @@ class Backend implements ControllerProviderInterface
         }
         $form = $app['form.factory']->createBuilder('form')
             ->add('contenttypes','choice',array(
-                    'label' => '**ignored** see base.twig',
+                    'label' => '**ignored, see base.twig**',
                     'choices'=> $choices,
                     'multiple'=>true,
                     'expanded' => true,
@@ -320,21 +320,15 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
                 $ctypes = $form->get('contenttypes')->getData();
                 $content = $app['storage']->preFill($ctypes);
-                //$content = '<pre>' . htmlentities(print_r($ctypes,true)) . '</pre>';
                 $app['session']->getFlashBag()->set('success',$content);
                 return redirect('prefill');
             }
         }
 
-        $content='';
-        /*
-        $content .= '<p>' . __('Go <a href=\'%url%\'>back to the Dashboard</a>.',array('%url%' => path('dashboard'))) . '<br>';
-        $content .= __('Or <a href=\'%url%\'>add some more records</a>.',array('%url%' => path('prefill'))) . '</p>';
-        */
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
         return $app['twig']->render('base.twig', array(
-            'content' => $content,
+            'content' => '',
             'contenttypes' => $choices,
             'form'=>$form->createView()
             ));
@@ -987,7 +981,7 @@ class Backend implements ControllerProviderInterface
                 if ($cnt) {
                     $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($msg['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
+                        $content .= "$key: #\n";
                     }
                     $content .= "\n#-----------------------------------------\n";
                 } else {
@@ -1003,7 +997,7 @@ class Backend implements ControllerProviderInterface
                 if ($cnt) {
                     $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($ctype['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
+                        $content .= "$key: #\n";
                     }
                     $content .= "\n#-----------------------------------------\n";
                 } else {
