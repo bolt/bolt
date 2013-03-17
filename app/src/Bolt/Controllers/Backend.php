@@ -981,7 +981,7 @@ class Backend implements ControllerProviderInterface
                 if ($cnt) {
                     $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($msg['not_translated'] as $key) {
-                        $content .= "$key: #\n";
+                        $content .= "$key:  #\n";
                     }
                     $content .= "\n#-----------------------------------------\n";
                 } else {
@@ -997,7 +997,7 @@ class Backend implements ControllerProviderInterface
                 if ($cnt) {
                     $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($ctype['not_translated'] as $key) {
-                        $content .= "$key: #\n";
+                        $content .= "$key:  #\n";
                     }
                     $content .= "\n#-----------------------------------------\n";
                 } else {
