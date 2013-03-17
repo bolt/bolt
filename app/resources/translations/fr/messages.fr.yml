@@ -1,11 +1,7 @@
-# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/17 01:26:46
-# 2 untranslated strings
+# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/17 09:30:12
+# no untranslated strings; good ;-)
 
-"Actions": "Actions"
-"Date": "Date"
-
-#-----------------------------------------
-# 233 translated strings
+# 235 translated strings
 
 "%contenttypes% overview": "Aperçu des %contenttypes%"
 "%s files could not be deleted. You should delete them manually.": " %s fichiers non supprimés. Vous devrez les supprimer manuellement."
@@ -15,6 +11,7 @@
 "Actions for %contenttypes%": "Actions pour les %contenttypes%"
 "Actions for Users": "Actions pour les utilisateurs"
 "Actions for this %contenttype%": "Action pour ce %contenttype%"
+"Actions": "Actions"
 "Activity log": "Journal d'activité"
 "Add existing image": "Ajouter une image existante"
 "Add some sample <a href='%url%'>Records with Loripsum text</a>.": "Ajouter quelques <a href='%url%'>enregistrements de texte Loripsum</a>."
@@ -42,7 +39,7 @@
 "Clear sort/filter": "Effacer le tri/filte"
 "Clear the cache": "Vider le cache"
 "Close": "Fermer"
-"Configuration": "Configuration "
+"Configuration": "Configuration"
 "Content '%title%' could not be deleted.": "Le contenu '%title%' ne peut être supprimé."
 "Content '%title%' could not be modified.": "Le contenu '%title%' ne peut être modifié."
 "Content '%title%' has been changed to 'draft'.": "Le contenu '%title%' a été changé en 'draft'."
@@ -58,6 +55,7 @@
 "Current status:": "Statut actuel :"
 "Dashboard": "Tableau de bord"
 "Database check / update": "Vérification / mise à jour de la base de données"
+"Date": "Date"
 "Datetime": "Date-heure"
 "Delete %contenttype%": "Supprimer le %contenttype%"
 "Delete %filename%": "Supprimer %filename%"
@@ -107,18 +105,18 @@
 "Latest %contenttypes%.": "Derniers %contenttypes%"
 "Latest activity": "Dernières activités"
 "Latest entries": "Dernières entrées"
-"Latitude:": "Latitude :"
+"Latitude:": "Latitude:"
 "Level": "Niveau"
 "Log on": "Se connecter"
 "Login": "Connexion"
 "Logout %name%": "Déconnecter %name%"
 "Long messages": "Messages longs"
 "Longitude:": "Longitude :"
-"Maintenance": "Maintenance "
+"Maintenance": "Maintenance"
 "Markdown": "Markdown "
 "Matched address:": "Adresse trouvée :"
 "Menu setup": "Réglage du menu"
-"Messages": "Messages "
+"Messages": "Messages"
 "Meta": "Meta"
 "Modifications made to the database:": "Modifications apportées à la Base %:"
 "Modified": "Modifié"
@@ -198,12 +196,12 @@
 "This value is too short. It should have 6 characters or more.": "Cette valeur est trop courte. Elle doit avoir au moins 6 caractères."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ce site web <a href='%url%' target='_blank' title='CMS léger, simple &amp; sophistiqué.'>utilise Bolt</a>."
 "This website is <a href=\"%url%\" target=\"_blank\" title=\"Sophisticated, lightweight & simple CMS.\">Built with Bolt</a>.": "Ce site web est <a href=\"%url%\" target=\"_blank\" title=\"CMS sophistiqué, simple & léger.\">construit avec Bolt</a>."
-"Tip:": "Conseil:"
+"Tip:": "Conseil :"
 "Title": "Titre"
 "To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Pour démarrer rapidement, ajoutez un peu de <a href='%url%'>contenu Lorem Ipsum</a>."
 "Translations": "Traductions"
 "Trim Activitylog": "Raccourcir le journal d'activités"
-"URL:": "URL:"
+"URL:": "URL :"
 "Upload File": "Envoyer un fichier"
 "Upload image": "Envoyer une image"
 "Uploaded files": "Fichiers déversés."

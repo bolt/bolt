@@ -927,6 +927,8 @@ class Backend implements ControllerProviderInterface
         $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
         $filename = realpath(__DIR__."/../../../..")."/$file";
 
+        $app['log']->add("Editing translation: $file",$app['debug'] ? 1 : 3);
+
         if ($domain == 'infos') {
             // no gathering here : if the file doesn't exist yet, we load a
             // copy from the locale_fallback version (en)
