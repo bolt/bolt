@@ -1,23 +1,7 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/16 15:35:03
-# 14 untranslated strings
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/17 09:39:13
+# no untranslated strings; good ;-)
 
-"Dashboard":  #
-"Filter":  #
-"Info":  #
-"Meta":  #
-"Permalink":  #
-"Sitemap":  #
-"Slug":  #
-"Slug:":  #
-"Status:":  #
-"Tag":  #
-"Tags":  #
-"Tip:": "Tip:" #
-"URL:":  #
-"Video":  #
-
-#-----------------------------------------
-# 205 translated strings
+# 219 translated strings
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
@@ -68,6 +52,7 @@
 "Create the first user": "Maak de eerste gebruiker aan"
 "Created on:": "Aangemaakt op"
 "Current status:": "Huidige status:"
+"Dashboard": "Dashboard"
 "Database check / update": "Database controleren / bijwerken"
 "Delete %contenttype%": "Verwijder %contenttype%"
 "Delete %filename%": "Verwijder %filename%"
@@ -96,12 +81,14 @@
 "Files: %path%": "Bestanden: %path%"
 "Filesize": "Bestandsgrootte"
 "Fill the database with Dummy Content": "Vul de database met Dummy-inhoud"
+"Filter": "Filter"
 "Filtering:": "Filtering"
 "Folders": "Mappen"
 "Geolocation": "Geolocatie"
 "Go <a href='%url%'>back to the Dashboard</a>.": "Ga <a href='%url%'>terug naar het Dashboard</a>."
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
 "Image": "Afbeelding"
+"Info": "Info"
 "It seems there's no content in the database.": "Het lijkt er op dat geen inhoud in de database zit"
 "Last edited on:": "Laatst aangepast op:"
 "Last known IP": "Laast bekende IP"
@@ -121,6 +108,7 @@
 "Matched address:": "Overeenkomstig adres:"
 "Menu setup": "Menu instellingen"
 "Messages": "Meldingen"
+"Meta": "Meta"
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modified": "Aangepast"
 "More %contenttypes% »": "Meer %contenttypes%"
@@ -146,6 +134,7 @@
 "Password": "Wachtwoord"
 "Passwords must match.": "Wachtwoorden moeten overeenkomen"
 "Path:": "Pad"
+"Permalink": "Permalink"
 "Permissions": "Permissies"
 "Please log on.": "Inloggen, graag"
 "Preview %contenttype%": "%contenttype% voorvertonen"
@@ -163,8 +152,14 @@
 "Search": "Zoeken"
 "Settings": "Instellingen"
 "Showing %pager_for% %from% - %to% of %count%": "Toont %pager_for% %from% - %to% of %count%"
+"Sitemap": "Sitemap"
 "Size:": "Grootte"
+"Slug": "Slug"
+"Slug:": "Slug:"
 "Sophisticated, lightweight & simple CMS": "Weldoordacht, lichtgewicht en eenvoudig CMS"
+"Status:": "Status"
+"Tag": "Tag"
+"Tags": "Tags"
 "Taxonomy": "Taxonomie"
 "That user does not exist.": "Die gebruiker bestaat niet"
 "The activitylog has been cleared.": "De activiteitenlog is gewist."
@@ -185,10 +180,12 @@
 "This username is already in use. Choose another username.": "Deze gebruikersnaam is al bezet. Kies een andere gebruikersnaam."
 "This value is too short. It should have 6 characters or more.": "Deze waarde is te kort. Hij moet 6 karakters of langer zijn."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
+"Tip:": "Tip:"
 "Title": "Titel"
 "To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Om snel te kunnen starten, voeg wat <a href='%url%'>Lorem Ipsum dummy content</a> toe."
 "Translations": "Vertalingen"
 "Trim Activitylog": "Snoei activiteitenlog"
+"URL:": "URL:"
 "Upload File": "Upload bestand"
 "Upload image": "Upload beeld"
 "Uploaded files": "Geüploade bestanden"
@@ -205,6 +202,7 @@
 "Username or password not correct. Please check your input.": "Gebruikersnaam of wachtwoord niet juist. Controleer de invoer, en probeer opnieuw"
 "Username": "Gebruikersnaam"
 "Users": "Gebruikers"
+"Video": "Video"
 "View %contenttypes%": "Bekijk %contenttypes%"
 "View / edit Templates": "Bekijk / bewerk templates"
 "View file '%s'.": "Bekijk bestand '%s'"
