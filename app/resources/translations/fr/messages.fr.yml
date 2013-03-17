@@ -1,9 +1,10 @@
-# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/17 09:30:12
+# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/17 17:23:51
 # no untranslated strings; good ;-)
 
-# 235 translated strings
+# 239 translated strings
 
 "%contenttypes% overview": "Aperçu des %contenttypes%"
+"%contenttypes%": "%contenttypes%"
 "%s files could not be deleted. You should delete them manually.": " %s fichiers non supprimés. Vous devrez les supprimer manuellement."
 "(no group)": "(aucun groupe)"
 "About Bolt": "À propos de Bolt"
@@ -16,6 +17,7 @@
 "Add existing image": "Ajouter une image existante"
 "Add some sample <a href='%url%'>Records with Loripsum text</a>.": "Ajouter quelques <a href='%url%'>enregistrements de texte Loripsum</a>."
 "Add …": "Ajouter &hellip;"
+"Added to <tt>%key%</tt> '%title%'": "Ajouté à <tt>%key%</tt> '%title%'"
 "Address lookup:": "Rechercher l'adresse"
 "Alas, no about!": "Hélas, pas d'à-propos !"
 "Allowed contenttypes": "contentypes autorisés"
@@ -63,6 +65,7 @@
 "Deleted %s files from cache.": "Supprimé %s fichiers du cache."
 "Disable %username%": "Interdire %username%"
 "Disabled extensions": "Extensions désactivées"
+"Done!": "Fait !"
 "Duplicate %contenttype%": "Dupliquer le contenttype%"
 "Duplicate %filename%": "Dupliquer %filename%"
 "Edit %contenttype% » %title%": "Modification de %contenttype% » %title%"
@@ -90,7 +93,6 @@
 "Floatfield": "Nombre flottant"
 "Folders": "Dossiers"
 "Geolocation": "Géolocalisation"
-"Go <a href='%url%'>back to the Dashboard</a>.": "<br><br><p>Retour au <a href='%url%'>tableau de bord</a>.<br>"
 "Html": "Html"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "S'il y avait une page avec un slug 'about', elle serait affichée ici. Mais il n'y en a pas, c'est pourquoi vous voyez cet espace réservé."
 "Image": "Image"
@@ -134,7 +136,6 @@
 "No video url is set, no video to show.": "Aucune url, aucune vidéo à afficher."
 "Oops! An error has occurred!": "Oops ! Une erreur est survenue !"
 "Options": "Options"
-"Or <a href='%url%'>add some more records</a>.": "Ou <a href=\"%url%\">ajouter encore quelques enregistrements</a>."
 "Order: %sort%": "Tri : %sort%"
 "Overview » %contenttypes%": "Aperçu » %contenttypes%"
 "Owner:": "Propriétaire"
@@ -146,6 +147,7 @@
 "Permalink": "Lien permanent"
 "Permissions": "Permissions"
 "Please log on.": "Merci de vous identifier."
+"Prefill": "Pré-remplir"
 "Preview %contenttype%": "Prévisualiser le %contenttype%"
 "Preview video": "Prévisualiser la vidéo"
 "Preview": "Prévisualiser"
@@ -166,6 +168,8 @@
 "Showing %pager_for% %from% - %to% of %count%": "%pager_for% %from% - %to% sur %count%"
 "Sitemap": "Carte du site"
 "Size:": "Taille :"
+"Skipped <tt>%key%</tt> (already has records)": "Sauté <tt>%key%</tt> (n'est pas vide)"
+"Skipped <tt>%key%</tt> (not checked)": "Sauté <tt>%key%</tt> (pas coché)"
 "Slug": "Slug"
 "Slug:": "Slug"
 "Sophisticated, lightweight & simple CMS": "CMS sophistiqué, simple & léger"
