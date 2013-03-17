@@ -47,8 +47,9 @@ class Backend implements ControllerProviderInterface
             ->bind('clearcache')
         ;
 
-        $ctl->get("/prefill", array($this, 'prefill'))
+        $ctl->match("/prefill", array($this, 'prefill'))
             ->before(array($this, 'before'))
+            ->method('GET|POST')
             ->bind('prefill')
         ;
 
@@ -298,16 +299,39 @@ class Backend implements ControllerProviderInterface
     /**
      * Generate some lipsum in the DB.
      */
-    function prefill(Silex\Application $app) {
+    function prefill(Silex\Application $app, Request $request) {
 
-        $content = $app['storage']->preFill();
+        $choices=array();
+        foreach($app['config']['contenttypes'] as $key=>$cttype) {
+            $choices[$key]=__('%contenttypes%',array('%contenttypes%'=>$cttype['name']));
+        }
+        $form = $app['form.factory']->createBuilder('form')
+            ->add('contenttypes','choice',array(
+                    'label' => '**ignored, see base.twig**',
+                    'choices'=> $choices,
+                    'multiple'=>true,
+                    'expanded' => true,
+                ))
+            ->getForm()
+        ;
 
-        $content .= '<br><br><p>' . __('Go <a href=\'%url%\'>back to the Dashboard</a>.',array('%url%' => path('dashboard'))) . '<br>';
-        $content .= __('Or <a href=\'%url%\'>add some more records</a>.',array('%url%' => path('prefill'))) . '</p>';
+        if ($request->getMethod() == "POST") {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $ctypes = $form->get('contenttypes')->getData();
+                $content = $app['storage']->preFill($ctypes);
+                $app['session']->getFlashBag()->set('success',$content);
+                return redirect('prefill');
+            }
+        }
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
-        return $app['twig']->render('base.twig', array('content' => $content));
+        return $app['twig']->render('base.twig', array(
+            'content' => '',
+            'contenttypes' => $choices,
+            'form'=>$form->createView()
+            ));
 
     }
 
