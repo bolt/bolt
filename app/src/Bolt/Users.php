@@ -63,7 +63,7 @@ class Users
             'files:config' => self::DEVELOPER,
             'files:theme' => self::DEVELOPER,
             'files:uploads' => self::ADMIN,
-            'translation' => self::EDITOR,
+            'translation' => self::DEVELOPER,
             'activitylog' => self::ADMIN,
             'fileedit' => self::ADMIN
         );

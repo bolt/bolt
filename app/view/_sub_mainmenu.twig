@@ -61,9 +61,9 @@
                     {% if isallowed('files:uploads') %}
                         <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-hdd"></i> {{ __('Uploaded files') }}</a></li>
                     {% endif %}
+                    {% if isallowed('translation') %}
                     <li class="divider"></li>
                     <li class="nav-header">{{ __('Translations') }}</li>
-                    {% if isallowed('files:translations') %}
                         <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="icon-flag"></i> {{ __('Messages') }}</a></li>
                         <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="icon-flag"></i> {{ __('Long messages') }}</a></li>
                         <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="icon-flag"></i> {{ __('Contenttypes') }}</a></li>
