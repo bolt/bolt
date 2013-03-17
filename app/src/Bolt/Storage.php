@@ -350,11 +350,20 @@ class Storage
     /**
      * Add some records with dummy content..
      *
+     * Only fill the contenttypes passed as parameters
+     * If the parameters is empty, only fill empty tables
+     *
      * @see preFillSingle
      * @return string
      */
-    public function preFill()
+    public function preFill($contenttypes=array())
     {
+        $db = $this->app['db'];
+
+        $hasRecords = function($tablename) use($db) {
+            $count = $db->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
+            return intval($count) > 0;
+        };
 
         $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
 
@@ -363,7 +372,18 @@ class Storage
         // get a list of images..
         $this->images = findFiles('', 'jpg,jpeg,png');
 
+        $empty_only = count($contenttypes) == 0;
+
         foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
+
+            $tablename = $this->prefix . $key;
+            if ($empty_only && $hasRecords($tablename)) {
+                $output .= __("Skipped <tt>%key%</tt> (already has records)",array('%key%' =>$key)) . "<br>\n";
+                continue;
+            } else if (!in_array($key,$contenttypes)) {
+                $output .= __("Skipped <tt>%key%</tt> (not checked)",array('%key%' =>$key)) . "<br>\n";
+                continue;
+            }
 
             $amount = isset($contenttype['prefill']) ? $contenttype['prefill'] : 5;
 
@@ -375,7 +395,7 @@ class Storage
         }
 
 
-        $output .= "\n\nDone!";
+        $output .= "\n\n" .__('Done!');
 
         return $output;
 
@@ -478,7 +498,8 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = "Added to <tt>$key</tt> '" .$contentobject->getTitle() . "'<br>\n";
+        $output = __("Added to <tt>%key%</tt> '%title%'",
+            array('%key'=>$key, '%title%'=>$contentobject->getTitle())) . "<br>\n";
 
         return $output;
 
