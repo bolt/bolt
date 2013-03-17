@@ -12,6 +12,9 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
+use Symfony\Component\Yaml\Unescaper;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 class Backend implements ControllerProviderInterface
 {
@@ -936,7 +939,15 @@ class Backend implements ControllerProviderInterface
                 $content = file_get_contents($filename);
             }
         } else {
-            list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
+            $translated=array();
+            if (is_file($filename) && is_readable($filename)) {
+                try {
+                    $translated = Yaml::parse($filename);
+                } catch (ParseException $e) {
+                    $app['session']->getFlashBag()->set('error',printf("Unable to parse the YAML translations: %s", $e->getMessage()));
+                }
+            }
+            list($msg,$ctype) = gatherTranslatableStrings($tr_locale, $translated);
             $ts = date("Y/m/d H:i:s");
             $content = "# $file -- generated on $ts\n";
             if ($domain == 'messages') {
@@ -944,7 +955,7 @@ class Backend implements ControllerProviderInterface
                 if ($cnt) {
                     $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($msg['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
+                        $content .= "$key: #\n";
                     }
                     $content .= "\n#-----------------------------------------\n";
                 } else {
@@ -960,7 +971,7 @@ class Backend implements ControllerProviderInterface
                 if ($cnt) {
                     $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($ctype['not_translated'] as $key) {
-                        $content .= "$key:  #\n";
+                        $content .= "$key: #\n";
                     }
                     $content .= "\n#-----------------------------------------\n";
                 } else {
@@ -1021,9 +1032,10 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 if ($type == "yml") {
-                    $yamlparser = new \Symfony\Component\Yaml\Parser();
+                    //$yamlparser = new \Symfony\Component\Yaml\Parser();
                     try {
-                        $ok = $yamlparser->parse($contents);
+                        //$ok = $yamlparser->parse($contents);
+                        $ok = Yaml::parse($contents);
                     } catch (Exception $e) {
                         $ok = false;
                         $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
