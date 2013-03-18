@@ -727,6 +727,10 @@ class Content implements \ArrayAccess
     public function fieldtype($key)
     {
 
+        if (empty($this->contenttype['fields'])) {
+            return '';
+        }
+
         foreach ($this->contenttype['fields'] as $name => $field) {
             if ($name == $key) {
                 return $field['type'];
