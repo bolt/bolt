@@ -14,10 +14,13 @@ together with a number of [Symfony](http://symfony.com/) [components](http://sym
 and [other libraries](http://docs.bolt.cm/credits). Bolt is released under the open source 
 [MIT-license](http://opensource.org/licenses/mit-license.php).
 
-Current build status
---------------------
+Current build status and code quality
+-------------------------------------
 
 [![Build Status](https://secure.travis-ci.org/bobdenotter/bolt.png?branch=master)](http://travis-ci.org/bobdenotter/bolt)
+
+For continously inspecting our code, we use Scrutinizer CI. You can find all runs
+on our code base [here](https://scrutinizer-ci.com/g/bobdenotter/bolt/inspections).
 
 Installation
 ------------
@@ -33,17 +36,6 @@ And you're good to go.
 
 More detailed instructions can be found in the [Setup section in the documentation](http://docs.bolt.cm/setup).
 
-Unit tests
-----------
-For running unit tests you need [phpunit](http://www.phpunit.de/)
-
-After installing, you can run the unit test suite by running
-
-    phpunit -c app/
-
-This can now also be done by executing the 'tests:run' command from app/nut.
-
-
 Reporting issues
 ----------------
 When you run into an issue, be sure to provide some details on the issue.
@@ -53,3 +45,13 @@ Please include with your report:
 - the output actually produced.
 
 This way we can reproduce your issue, turn it into a test and prevent the issue from occurring in future versions.
+
+Unit tests
+----------
+For running unit tests you need [phpunit](http://www.phpunit.de/)
+
+After installing, you can run the unit test suite by running
+
+    phpunit -c app/
+
+This can now also be done by executing the 'tests:run' command from app/nut.
