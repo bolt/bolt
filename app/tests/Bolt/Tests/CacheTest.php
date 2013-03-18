@@ -34,11 +34,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 array('foo' => 'bar', 'baz' => 'meh'),
-                serialize(array('foo' => 'bar', 'baz' => 'meh'))
+                array('foo' => 'bar', 'baz' => 'meh')
             ),
             array(
                 new \Bolt\Tests\FooObject(),
-                serialize(new \Bolt\Tests\FooObject())
+                new \Bolt\Tests\FooObject()
             )
         );
     }
