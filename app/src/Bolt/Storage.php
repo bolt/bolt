@@ -15,7 +15,6 @@ class Storage
 
     public function __construct(Silex\Application $app)
     {
-
         $this->app = $app;
 
         $this->prefix = isset($this->app['config']['general']['database']['prefix']) ? $this->app['config']['general']['database']['prefix'] : "bolt_";
@@ -854,7 +853,7 @@ class Storage
 
             foreach ($contenttype['fields'] as $key => $value) {
                 if (in_array($value['type'], array('text', 'textarea', 'html'))) {
-                    $filter_where[] = sprintf("`%s` LIKE '%%%s%%'", $key, $filter);
+                    $filter_where[] = sprintf("%s LIKE '%%%s%%'", $key, $filter);
                 }
             }
 
@@ -932,7 +931,6 @@ class Storage
         $GLOBALS['pager']['search'] = $pager;
 
         return $content;
-
     }
 
     public function searchContentTypes(array $contenttypenames, array $parameters = array(), &$pager = array())
@@ -977,7 +975,7 @@ class Storage
 
                 foreach ($contenttype['fields'] as $key => $value) {
                     if (in_array($value['type'], array('text', 'textarea', 'html'))) {
-                        $filter_where[] = sprintf("`%s`.`%s` LIKE '%%%s%%'", $contenttypetable, $key, $filter);
+                        $filter_where[] = sprintf("%s.%s LIKE '%%%s%%'", $contenttypetable, $key, $filter);
                     }
                 }
 
