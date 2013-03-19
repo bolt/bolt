@@ -1496,7 +1496,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
     // return an empty string otherwise
     $getTranslated = function($key) use ($app, $translated) {
         if ( ($trans = $app['translator']->trans($key)) == $key ) {
-            if (array_key_exists($key,$translated) && !empty($translated[$key])) {
+            if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
                 return $translated[$key];
             }
             return '';
