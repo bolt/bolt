@@ -1063,22 +1063,20 @@ class Backend implements ControllerProviderInterface
                     try {
                         //$ok = $yamlparser->parse($contents);
                         $ok = Yaml::parse($contents);
-                    } catch (Exception $e) {
+                    } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ",array('%s'=>$file)) . $e->getMessage() );
                     }
                 }
 
                 if ($ok) {
                     if (file_put_contents($filename, $contents)) {
                         $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.",array('%s'=>$file)));
+                        return redirect('translation',array('domain'=>$domain,'tr_locale'=>$tr_locale));
                     } else {
                         $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.",array('%s'=>$file)));
                     }
                 }
-
-                //return redirect('fileedit', array('file' => $file));
-                return redirect('translation',array('domain'=>$domain,'tr_locale'=>$tr_locale));
 
             }
         }
