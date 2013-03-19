@@ -19,6 +19,12 @@ class lowlevelchecks
 	    "</u>, so Bolt will not run on your current setup.");
         }
 
+        if (get_magic_quotes_gpc()) {
+            $this->lowlevelError("Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
+                "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the ".
+                "<span style='color: #F00;'>BIG RED BANNER</span> that states that magic_quotes are <u>DEPRECATED</u>. Seriously.");
+        }
+
         if (ini_get('safe_mode')) {
             $this->lowlevelError("Bolt requires Safe mode to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the ".
