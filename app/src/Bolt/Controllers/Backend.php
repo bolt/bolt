@@ -838,7 +838,7 @@ class Backend implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.",array('%s'=>$path)));
         }
 
         $app['twig']->addGlobal('title', __("Files in %s",array('%s' =>$path)));
@@ -890,7 +890,6 @@ class Backend implements ControllerProviderInterface
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->getMethod() == "POST") {
-            //$form->bindRequest($request);
             $form->bind($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -905,10 +904,11 @@ class Backend implements ControllerProviderInterface
                     $yamlparser = new \Symfony\Component\Yaml\Parser();
                     try {
                         $ok = $yamlparser->parse($contents);
-                    } catch (Exception $e) {
+                    } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ",array('%s'=>$file)) . $e->getMessage() );
                     }
+
                 }
 
                 if ($ok) {
@@ -927,7 +927,8 @@ class Backend implements ControllerProviderInterface
                     }
                 }
 
-                return redirect('fileedit', array('file' => $file));
+                // If we reach this point, the form will be shown again, with the error
+                // in the input, so the user can try again.
 
             }
         }
