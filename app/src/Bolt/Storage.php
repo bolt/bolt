@@ -1150,7 +1150,6 @@ class Storage
      */
     public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
-
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
         if (!empty($whereparameters)) {
             $parameters = array_merge((array)$parameters, (array)$whereparameters);
@@ -1238,7 +1237,7 @@ class Storage
 
             foreach ($contenttype['fields'] as $key => $value) {
                 if (in_array($value['type'], array('text', 'textarea', 'html'))) {
-                    $filter_where[] = sprintf("`%s` LIKE '%%%s%%'", $key, $filter);
+                    $filter_where[] = sprintf("%s LIKE '%%%s%%'", $key, $filter);
                 }
             }
 
@@ -1284,10 +1283,6 @@ class Storage
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
 
-        //if (!$returnsingle) {
-            // \util::var_dump($query);
-        //}
-
         $rows = $this->app['db']->fetchAll($query);
 
         // Make sure content is set, and all content has information about its contenttype
@@ -1308,7 +1303,6 @@ class Storage
                 uasort($content, array($this, 'groupingSort'));
             }
         }
-
 
         if (!$returnsingle) {
             // Set up the $pager array with relevant values..
@@ -1342,7 +1336,6 @@ class Storage
         } else {
             return $content;
         }
-
     }
 
     /**
