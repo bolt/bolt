@@ -1,5 +1,5 @@
 {
-    "hash": "efb20e651e23f1af14a5715d8c9d6336",
+    "hash": "67b92fa2df8e53987951e9ee685bf866",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -62,16 +62,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.0",
+            "version": "v1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "v1.0"
+                "reference": "v1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/annotations/archive/v1.0.zip",
-                "reference": "v1.0",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/v1.1",
+                "reference": "v1.1",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2013-01-12 19:23:32"
+            "time": "2013-03-17 14:03:10"
         },
         {
             "name": "doctrine/cache",
@@ -132,12 +132,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "f82e2e24d429d36a02266a584b889bd2d09e4fd2"
+                "reference": "b5716ea776f349a0fedcf0e7d032386c1f696f76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/f82e2e24d429d36a02266a584b889bd2d09e4fd2",
-                "reference": "f82e2e24d429d36a02266a584b889bd2d09e4fd2",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/b5716ea776f349a0fedcf0e7d032386c1f696f76",
+                "reference": "b5716ea776f349a0fedcf0e7d032386c1f696f76",
                 "shasum": ""
             },
             "require": {
@@ -165,7 +165,7 @@
                     "homepage": "http://www.jwage.com/"
                 },
                 {
-                    "name": "Christoph Dorn",
+                    "name": "Guilherme Blanco",
                     "email": "guilhermeblanco@gmail.com",
                     "homepage": "http://www.instaclick.com"
                 },
@@ -178,7 +178,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -190,7 +190,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2013-03-07 12:15:13"
+            "time": "2013-03-17 13:59:02"
         },
         {
             "name": "doctrine/collections",
@@ -198,12 +198,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "560f29c39cfcfbcd210e5d549d993a39d898b04b"
+                "reference": "df2138bcb467533bfe6b3a01301d480aec008b93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/560f29c39cfcfbcd210e5d549d993a39d898b04b",
-                "reference": "560f29c39cfcfbcd210e5d549d993a39d898b04b",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/df2138bcb467533bfe6b3a01301d480aec008b93",
+                "reference": "df2138bcb467533bfe6b3a01301d480aec008b93",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +231,7 @@
                     "homepage": "http://www.jwage.com/"
                 },
                 {
-                    "name": "Christoph Dorn",
+                    "name": "Guilherme Blanco",
                     "email": "guilhermeblanco@gmail.com",
                     "homepage": "http://www.instaclick.com"
                 },
@@ -244,7 +244,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -257,7 +257,7 @@
                 "collections",
                 "iterator"
             ],
-            "time": "2013-03-07 12:15:54"
+            "time": "2013-03-17 14:01:33"
         },
         {
             "name": "doctrine/common",
@@ -339,12 +339,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "569f1aed578585df904c7dbfc43aa39cb09877cc"
+                "reference": "8df9cd3668363f017dfea56b5ad448ea74dae49b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/569f1aed578585df904c7dbfc43aa39cb09877cc",
-                "reference": "569f1aed578585df904c7dbfc43aa39cb09877cc",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/8df9cd3668363f017dfea56b5ad448ea74dae49b",
+                "reference": "8df9cd3668363f017dfea56b5ad448ea74dae49b",
                 "shasum": ""
             },
             "require": {
@@ -394,7 +394,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-03-04 22:37:48"
+            "time": "2013-03-14 21:55:05"
         },
         {
             "name": "doctrine/inflector",
@@ -527,12 +527,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "f2fd4bd43bbdf0bda02f0db6458b7e93fe2d8236"
+                "reference": "fab9eb485948a812dc58a07ab84396ae108ca7f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f2fd4bd43bbdf0bda02f0db6458b7e93fe2d8236",
-                "reference": "f2fd4bd43bbdf0bda02f0db6458b7e93fe2d8236",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/fab9eb485948a812dc58a07ab84396ae108ca7f0",
+                "reference": "fab9eb485948a812dc58a07ab84396ae108ca7f0",
                 "shasum": ""
             },
             "require": {
@@ -612,7 +612,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-03-11 22:42:27"
+            "time": "2013-03-17 20:22:36"
         },
         {
             "name": "hautelook/phpass",
@@ -1313,12 +1313,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpKernel.git",
-                "reference": "2a354f11ea59f58024b087c371dd1d4f9246dc86"
+                "reference": "18efc4bfd228dda0e839854836dbd4c22db090f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/2a354f11ea59f58024b087c371dd1d4f9246dc86",
-                "reference": "2a354f11ea59f58024b087c371dd1d4f9246dc86",
+                "url": "https://api.github.com/repos/symfony/HttpKernel/zipball/18efc4bfd228dda0e839854836dbd4c22db090f1",
+                "reference": "18efc4bfd228dda0e839854836dbd4c22db090f1",
                 "shasum": ""
             },
             "require": {
@@ -1373,7 +1373,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-11 17:23:12"
+            "time": "2013-03-15 10:54:52"
         },
         {
             "name": "symfony/locale",
@@ -2015,20 +2015,20 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "b8711450c866702ba33666a507eb366e4e5d4ff1"
+                "reference": "ecf7920b27003a9412b07dad79dbb5ad1249e6c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/b8711450c866702ba33666a507eb366e4e5d4ff1",
-                "reference": "b8711450c866702ba33666a507eb366e4e5d4ff1",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/ecf7920b27003a9412b07dad79dbb5ad1249e6c3",
+                "reference": "ecf7920b27003a9412b07dad79dbb5ad1249e6c3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.7"
+                "php": ">=5.3.3"
             },
             "type": "library",
             "autoload": {
@@ -2055,7 +2055,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2013-02-18 08:52:11"
+            "time": "2013-01-30 06:08:51"
         },
         {
             "name": "phpunit/php-token-stream",
