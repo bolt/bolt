@@ -1,7 +1,15 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/17 09:39:13
-# no untranslated strings; good ;-)
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/03/19 20:56:08
+# 6 untranslated strings
 
-# 219 translated strings
+"%contenttypes%":  #
+"Added to <tt>%key%</tt> '%title%'":  #
+"File '%s' could not be saved: ": Bestand '%s' kon niet worden opgeslagen:  #
+"Folder '%s' could not be found, or is not readable.":  #
+"Skipped <tt>%key%</tt> (already has records)":  #
+"Skipped <tt>%key%</tt> (not checked)":  #
+
+#-----------------------------------------
+# 220 translated strings
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
@@ -54,12 +62,14 @@
 "Current status:": "Huidige status:"
 "Dashboard": "Dashboard"
 "Database check / update": "Database controleren / bijwerken"
+"Datum": "Datum"
 "Delete %contenttype%": "Verwijder %contenttype%"
 "Delete %filename%": "Verwijder %filename%"
 "Delete %username%": "Verwijder %username%"
 "Deleted %s files from cache.": "%s bestanden verwijderd uit de cache"
 "Disable %username%": "Schakel %username% uit"
 "Disabled extensions": "Uitgeschakelde extensies"
+"Done!": "Klaar!"
 "Duplicate %contenttype%": "Dupliceer %contenttype%"
 "Duplicate %filename%": "Dupliceer %filename%"
 "Edit %contenttype% » %title%": "Bewerk %contenttype% » %title%"
@@ -73,7 +83,6 @@
 "Excerpt": "Samenvatting"
 "Extensions": "Extensies"
 "File '%s' could not be saved, for some reason.": "Bestand '%s' kon niet worden opgeslagen, om onduidelijke reden."
-"File '%s' could not be saved: not valid YAML.": "Bestand '%' kon niet worden opgeslagen: Geen valide YAML"
 "File '%s' has been saved.": "Bestand '%s' is opgeslagen."
 "File Management": "Bestandsbeheer"
 "Files in %s": "Bestanden in '%s'"
@@ -85,7 +94,6 @@
 "Filtering:": "Filtering"
 "Folders": "Mappen"
 "Geolocation": "Geolocatie"
-"Go <a href='%url%'>back to the Dashboard</a>.": "Ga <a href='%url%'>terug naar het Dashboard</a>."
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
 "Image": "Afbeelding"
 "Info": "Info"
@@ -125,7 +133,6 @@
 "No video url is set, no video to show.": "Geen URL van de video ingesteld, dus niets om te tonen."
 "Oops! An error has occurred!": "Oeps! Er is een fout opgetreden."
 "Options": "Opties"
-"Or <a href='%url%'>add some more records</a>.": "Of <a href='%url%'>voeg meer records in</a>."
 "Order: %sort%": "Volgorde: %sort%"
 "Overview » %contenttypes%": "Overzicht » %contenttypes%"
 "Owner:": "Eigenaar"
@@ -137,6 +144,7 @@
 "Permalink": "Permalink"
 "Permissions": "Permissies"
 "Please log on.": "Inloggen, graag"
+"Prefill": "Voorvullen"
 "Preview %contenttype%": "%contenttype% voorvertonen"
 "Preview video": "Video voorvertonen"
 "Preview": "Voorvertoning"
@@ -145,6 +153,7 @@
 "Published on:": "Gepubliceerd op:"
 "Read more": "Lees verder"
 "Recent %contenttypes%": "Recente %contenttypes%"
+"Related content:": "Gerelateerde content"
 "Relationships": "Relaties"
 "Save %contenttype%": "Sla %contenttype% op"
 "Save": "Opslaan"
