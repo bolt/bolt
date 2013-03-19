@@ -1339,7 +1339,7 @@ use Symfony\Component\Yaml\Escaper;
  * strings, merge with existing translations, return
  *
  */
-function gatherTranslatableStrings($locale=null)
+function gatherTranslatableStrings($locale=null,$translated=array())
 {
     global $app;
 
@@ -1492,6 +1492,18 @@ function gatherTranslatableStrings($locale=null)
         }
     }
 
+    // return the previously translated string if exists,
+    // return an empty string otherwise
+    $getTranslated = function($key) use ($app, $translated) {
+        if ( ($trans = $app['translator']->trans($key)) == $key ) {
+            if (array_key_exists($key,$translated) && !empty($translated[$key])) {
+                return $translated[$key];
+            }
+            return '';
+        }
+        return $trans;
+    };
+
     // step 2: find already translated strings
 
     sort($strings);
@@ -1511,8 +1523,7 @@ function gatherTranslatableStrings($locale=null)
         $key = stripslashes($key);
         $raw_key = $key;
         $key = Escaper::escapeWithDoubleQuotes($key);
-        if ( ($trans = $app['translator']->trans($raw_key)) == $raw_key ) {
-            // not translated
+        if ( ($trans = $getTranslated($raw_key)) == '' && ($trans = $getTranslated($key)) == '' ) {
             $msg_domain['not_translated'][] = $key;
         } else {
             $trans = Escaper::escapeWithDoubleQuotes($trans);
@@ -1522,7 +1533,7 @@ function gatherTranslatableStrings($locale=null)
         if (strpos($raw_key,'%contenttype%') !== false || strpos($raw_key,'%contenttypes%') !== false) {
             foreach($genContentTypes($raw_key) as $ctypekey) {
                 $key = Escaper::escapeWithDoubleQuotes($ctypekey);
-                if ( ($trans = $app['translator']->trans($ctypekey,array(),'contenttypes')) == $ctypekey ) {
+                if ( ($trans = $getTranslated($ctypekey)) == '' && ($trans = $getTranslated($key)) == '' ) {
                     // not translated
                     $ctype_domain['not_translated'][] = $key;
                 } else {

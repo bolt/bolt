@@ -12,6 +12,9 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
+use Symfony\Component\Yaml\Unescaper;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 class Backend implements ControllerProviderInterface
 {
@@ -44,8 +47,9 @@ class Backend implements ControllerProviderInterface
             ->bind('clearcache')
         ;
 
-        $ctl->get("/prefill", array($this, 'prefill'))
+        $ctl->match("/prefill", array($this, 'prefill'))
             ->before(array($this, 'before'))
+            ->method('GET|POST')
             ->bind('prefill')
         ;
 
@@ -209,14 +213,18 @@ class Backend implements ControllerProviderInterface
         $output = $app['storage']->repairTables();
 
         if (empty($output)) {
-            $content = __("<p>Your database is already up to date.<p>");
+            $content = '<p>' . __('Your database is already up to date.') . '</p>';
         } else {
-            $content = __("<p>Modifications made to the database:<p>");
+            $content = '<p>' . __('Modifications made to the database:') . '</p>';
             $content .= implode("<br>", $output);
-            $content .= __("<p>Your database is now up to date.<p>");
+            $content .= '<p>' . __('Your database is now up to date.') . '</p>';
         }
 
-        $content .= __('<br><br><p><b>Tip: </b>Add some sample <a href="%url%">Records with Loripsum text</a>.</p>',array('%url%' => path('prefill')));
+        $content .= sprintf('<br><br><p><b>%s </b>%s</p>',
+            __('Tip:'),
+            __('Add some sample <a href=\'%url%\'>Records with Loripsum text</a>.', array('%url%' => path('prefill')))
+        );
+
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
@@ -252,7 +260,7 @@ class Backend implements ControllerProviderInterface
         $output = __("Deleted %s files from cache.", array('%s' => $result['successfiles']));
 
         if (!empty($result['failedfiles'])) {
-            $output .= " " .__(" %s files could not be deleted. You should delete them manually.",array('%s' => $result['failedfiles']));
+            $output .= " " .__("%s files could not be deleted. You should delete them manually.",array('%s' => $result['failedfiles']));
             $app['session']->getFlashBag()->set('error', $output);
         } else {
             $app['session']->getFlashBag()->set('success', $output);
@@ -291,16 +299,39 @@ class Backend implements ControllerProviderInterface
     /**
      * Generate some lipsum in the DB.
      */
-    function prefill(Silex\Application $app) {
+    function prefill(Silex\Application $app, Request $request) {
 
-        $content = $app['storage']->preFill();
+        $choices=array();
+        foreach($app['config']['contenttypes'] as $key=>$cttype) {
+            $choices[$key]=__('%contenttypes%',array('%contenttypes%'=>$cttype['name']));
+        }
+        $form = $app['form.factory']->createBuilder('form')
+            ->add('contenttypes','choice',array(
+                    'label' => '**ignored, see base.twig**',
+                    'choices'=> $choices,
+                    'multiple'=>true,
+                    'expanded' => true,
+                ))
+            ->getForm()
+        ;
 
-        $content .= __('<br><br><p>Go <a href="%url%">back to the Dashboard</a>.<br>',array('%url%' => path('dashboard')));
-        $content .= __('Or <a href="%url%">add some more records</a>.</p>',array('%url%' => path('prefill')));
+        if ($request->getMethod() == "POST") {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $ctypes = $form->get('contenttypes')->getData();
+                $content = $app['storage']->preFill($ctypes);
+                $app['session']->getFlashBag()->set('success',$content);
+                return redirect('prefill');
+            }
+        }
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
-        return $app['twig']->render('base.twig', array('content' => $content));
+        return $app['twig']->render('base.twig', array(
+            'content' => '',
+            'contenttypes' => $choices,
+            'form'=>$form->createView()
+            ));
 
     }
 
@@ -623,7 +654,7 @@ class Backend implements ControllerProviderInterface
 
             // Displaynames must be unique..
             if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                $form['displayname']->addError(new FormError(__('This Displayname is already in use. Choose another display name.')));
+                $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
             }
 
         });
@@ -920,6 +951,8 @@ class Backend implements ControllerProviderInterface
         $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
         $filename = realpath(__DIR__."/../../../..")."/$file";
 
+        $app['log']->add("Editing translation: $file",$app['debug'] ? 1 : 3);
+
         if ($domain == 'infos') {
             // no gathering here : if the file doesn't exist yet, we load a
             // copy from the locale_fallback version (en)
@@ -932,38 +965,46 @@ class Backend implements ControllerProviderInterface
                 $content = file_get_contents($filename);
             }
         } else {
-            list($msg,$ctype) = gatherTranslatableStrings($tr_locale);
+            $translated=array();
+            if (is_file($filename) && is_readable($filename)) {
+                try {
+                    $translated = Yaml::parse($filename);
+                } catch (ParseException $e) {
+                    $app['session']->getFlashBag()->set('error',printf("Unable to parse the YAML translations: %s", $e->getMessage()));
+                }
+            }
+            list($msg,$ctype) = gatherTranslatableStrings($tr_locale, $translated);
             $ts = date("Y/m/d H:i:s");
             $content = "# $file -- generated on $ts\n";
             if ($domain == 'messages') {
                 $cnt = count($msg['not_translated']);
                 if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($msg['not_translated'] as $key) {
-                        $content .= "$key: #\n";
+                        $content .= "$key:  #\n";
                     }
-                    $content .= "#-----------------------------------------\n";
+                    $content .= "\n#-----------------------------------------\n";
                 } else {
-                    $content .= "# no untranslated strings; good ;-)\n";
+                    $content .= "# no untranslated strings; good ;-)\n\n";
                 }
                 $cnt = count($msg['translated']);
-                $content .= sprintf("# %d translated strings\n",$cnt);
+                $content .= sprintf("# %d translated strings\n\n",$cnt);
                 foreach($msg['translated'] as $key => $trans) {
                     $content .= "$key: $trans\n";
                 }
             } else {
                 $cnt = count($ctype['not_translated']);
                 if ($cnt) {
-                    $content .= sprintf("# %d untranslated strings\n",$cnt);
+                    $content .= sprintf("# %d untranslated strings\n\n",$cnt);
                     foreach($ctype['not_translated'] as $key) {
-                        $content .= "$key: #\n";
+                        $content .= "$key:  #\n";
                     }
-                    $content .= "#-----------------------------------------\n";
+                    $content .= "\n#-----------------------------------------\n";
                 } else {
-                    $content .= "# no untranslated strings: good ;-)\n";
+                    $content .= "# no untranslated strings: good ;-)\n\n";
                 }
                 $cnt = count($ctype['translated']);
-                $content .= sprintf("# %d translated strings\n",$cnt);
+                $content .= sprintf("# %d translated strings\n\n",$cnt);
                 foreach($ctype['translated'] as $key => $trans) {
                     $content .= "$key: $trans\n";
                 }
@@ -1017,9 +1058,10 @@ class Backend implements ControllerProviderInterface
 
                 // Before trying to save a yaml file, check if it's valid.
                 if ($type == "yml") {
-                    $yamlparser = new \Symfony\Component\Yaml\Parser();
+                    //$yamlparser = new \Symfony\Component\Yaml\Parser();
                     try {
-                        $ok = $yamlparser->parse($contents);
+                        //$ok = $yamlparser->parse($contents);
+                        $ok = Yaml::parse($contents);
                     } catch (Exception $e) {
                         $ok = false;
                         $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: not valid YAML.",array('%s'=>$file)));

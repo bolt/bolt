@@ -5,7 +5,7 @@
 
         <h1>{{ __('About Bolt') }}</h1>
 
-        <h2>{{ __('Bolt %version%',{'%version%':bolt_version}) }}<small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></h2>
+        <h2>Bolt {{ bolt_version }}<small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></h2>
 
         {{ app.translator.trans('about.bolt',{},'infos')|raw }}
 

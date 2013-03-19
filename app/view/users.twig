@@ -11,7 +11,7 @@
             <th>#</th>
             <th>{{ __('Username') }}</th>
             <th>{{ __('Level') }}</th>
-            <th>{{ __('Lastseen') }}</th>
+            <th>{{ __('Last seen') }}</th>
             <th>{{ __('Actions') }}</th>
         </tr>
         {% for user in users %}
@@ -46,8 +46,8 @@
                         {% endif %}
                         <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id, token: token() }) }}" class="confirm" data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}">{{ __('Delete %username%',{'%username%':user.displayname}) }}</a></li>
                         <li class="divider"></li>
-                        <li><a class="nolink">{{ __('Last seen:') }} <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
-                        <li><a class="nolink">{{ __('Last known IP:') }} <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
+                        <li><a class="nolink">{{ __('Last seen') }}: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
+                        <li><a class="nolink">{{ __('Last known IP') }}: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
                     </ul>
                 </div>
 

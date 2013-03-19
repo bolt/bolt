@@ -84,9 +84,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
     public function get($key, $maxage = false)
     {
         $result = parent::fetch($key);
-        if (is_array($result) || is_object($result)) {
-            $result = serialize($result);
-        }
+
         return $result;
     }
 

@@ -10,7 +10,7 @@
     <div class="alert alert-info">
         <button class="close" data-dismiss="alert">×</button>
         {{ __("It seems there's no content in the database.") }}
-        {{ __('To get started quickly, add some <a href="%url%">Lorem Ipsum dummy content</a>.',{'%url%': path('prefill')}) }}
+        {{ __("To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.",{'%url%': path('prefill')}) }}
     </div>
 
 {%  endif %}
@@ -19,7 +19,7 @@
     {% if app.config.contenttypes|length() > 3 %}
         <div class="btn-group">
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            {{ __('Add &hellip;') }}
+            {{ __('Add …') }}
             <span class="caret"></span>
           </a>
         <ul class="dropdown-menu">

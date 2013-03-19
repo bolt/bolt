@@ -73,6 +73,10 @@ about:
         <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
             found here, in the included <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
         </p>
+prefill:
+    short_help: |
+        <p>Please, check the ContentTypes you want to be automatically filled.<p>
+        <p>If no one is checked, Bolt will only prefill the types that have no content yet.</p>
 extension:
     enable: |
         <p>To enable extensions, add them to the <code>enabled_extensions</code> array in

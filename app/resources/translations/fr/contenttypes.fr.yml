@@ -1,10 +1,8 @@
-# app/resources/translations/fr/contenttypes.fr.yml -- generated on 2013/03/15 17:51:02
-# 3 untranslated strings
-"Entries overview": "Aperçu des entrées"
-"Kitchensinks overview": "Aperçu des «bazars»"
-"Pages overview": "Aperçu des pages"
-#-----------------------------------------
-# 72 translated strings
+# app/resources/translations/fr/contenttypes.fr.yml -- generated on 2013/03/17 17:59:47
+# no untranslated strings: good ;-)
+
+# 78 translated strings
+
 "Actions for Entries": "Actions pour les entrées"
 "Actions for Kitchensinks": "Actions pour les bazars"
 "Actions for Pages": "Actions pour les pages"
@@ -23,6 +21,10 @@
 "Edit Entry » %title%": "Modifier l'entrée » %title%"
 "Edit Kitchensink » %title%": "Modifier le bazar » %title%"
 "Edit Page » %title%": "Modifier la page » %title%"
+"Entries overview": "Aperçu des entrées"
+"Entries": "Entrées"
+"Kitchensinks overview": "Aperçu des bazars"
+"Kitchensinks": "Bazars"
 "Last modified Entries": "Dernières entrées modifiées"
 "Last modified Kitchensinks": "Derniers bazars modifiés"
 "Last modified Pages": "Dernières pages modifiées"
@@ -47,6 +49,8 @@
 "Overview » Entries": "Aperçu » Entrées"
 "Overview » Kitchensinks": "Aperçu » Bazars"
 "Overview » Pages": "Aperçu » Pages"
+"Pages overview": "Aperçu des pages"
+"Pages": "Pages"
 "Preview Entry": "Prévisualiser l'entrée"
 "Preview Kitchensink": "Prévisualiser le bazar"
 "Preview Page": "Prévisualiser la page"

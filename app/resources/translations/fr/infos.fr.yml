@@ -81,6 +81,10 @@ about:
         Le texte complet de la license se trouve ici, dans le fichier
         <a href="%paths_app%LICENSE.txt">LICENSE.txt</a> inclus.
         </p>
+prefill:
+    short_help: |
+        <p>SVP, cochez les types de contenu que vous voulez remplir automatiquement.<p>
+        <p>Si aucun n'est coché, Bolt ne pré-remplira que les types n'ayant encore aucun contenu.</p>
 extension:
     enable: |
         <p>Pour activer une extension, l'ajouter au tableau <code>enabled_extensions</code>
