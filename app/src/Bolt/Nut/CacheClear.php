@@ -2,7 +2,6 @@
 
 namespace Bolt\Nut;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +13,6 @@ class CacheClear extends BaseCommand
         $this
             ->setName('cache:clear')
             ->setDescription('Clear the cache');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
