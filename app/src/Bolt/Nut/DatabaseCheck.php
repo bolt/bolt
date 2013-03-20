@@ -4,7 +4,6 @@ namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 
 class DatabaseCheck extends BaseCommand
 {
@@ -13,7 +12,6 @@ class DatabaseCheck extends BaseCommand
         $this
             ->setName('database:check')
             ->setDescription('Check the database for missing columns.');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -29,6 +27,5 @@ class DatabaseCheck extends BaseCommand
         } else {
             $output->writeln("\nThe database is OK.");
         }
-
     }
 }

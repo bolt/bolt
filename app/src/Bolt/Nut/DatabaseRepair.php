@@ -4,7 +4,6 @@ namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 
 class DatabaseRepair extends BaseCommand
 {
@@ -13,7 +12,6 @@ class DatabaseRepair extends BaseCommand
         $this
             ->setName('database:update')
             ->setDescription('Repair and/or update the database.');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
