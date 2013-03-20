@@ -26,7 +26,7 @@
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",
-        "phpunit/phpunit": "3.7.13"
+        "phpunit/phpunit": "3.7.18"
     },
     "minimum-stability": "dev",
     "autoload": {

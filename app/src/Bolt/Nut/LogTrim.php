@@ -12,15 +12,12 @@ class LogTrim extends BaseCommand
         $this
             ->setName('log:trim')
             ->setDescription('Trim the activitylog to recent/important items only.');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $this->app['log']->clear();
 
         $output->writeln("<info>Activity logs trimmed!</info>");
-
     }
 }
