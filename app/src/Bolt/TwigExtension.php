@@ -735,7 +735,7 @@ class TwigExtension extends \Twig_Extension
             if (!empty($content) && is_object($content) && get_class($content)=='Bolt\Content') {
                 // We have content.
                 if (empty($item['label'])) {
-                    $item['label'] = !empty($content->values['title']) ? $content->values['title'] : $content->values['title'];
+                    $item['label'] = !empty($content->values['title']) ? $content->values['title'] : "";
                 }
                 if (empty($item['title'])) {
                     $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : "";

@@ -256,7 +256,7 @@ class Frontend implements ControllerProviderInterface
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $contenttypeslug,
+                $taxonomytype,
                 basename($app['config']['general']['theme']),
                 $template);
             $app['log']->setValue('templateerror', $error);

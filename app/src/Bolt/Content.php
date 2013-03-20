@@ -538,9 +538,11 @@ class Content implements \ArrayAccess
         } else {
 
             // Grab the first field of type 'text', and assume that's the title.
-            foreach($this->contenttype['fields'] as $key => $field) {
-                if ($field['type']=='text') {
-                    return $this->values[ $key ];
+            if (!empty($this->contenttype['fields'])) {
+                foreach($this->contenttype['fields'] as $key => $field) {
+                    if ($field['type']=='text') {
+                        return $this->values[ $key ];
+                    }
                 }
             }
 
