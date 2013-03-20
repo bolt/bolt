@@ -21,7 +21,6 @@ class Extensions extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $extensions = $this->app['extensions']->getInfo();
 
         // print_r($extensions);

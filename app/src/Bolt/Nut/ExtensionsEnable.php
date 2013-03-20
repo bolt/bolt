@@ -16,7 +16,6 @@ class ExtensionsEnable extends BaseCommand
             ->setDescription('Enables an extension.')
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the extension to enable');
             //->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

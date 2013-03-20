@@ -4,7 +4,6 @@ namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ConfigSet extends BaseCommand
@@ -16,12 +15,10 @@ class ConfigSet extends BaseCommand
             ->setDescription('Set a value from config.yml.')
             ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get.')
             ->addArgument('value', InputArgument::REQUIRED, 'The value you wish to set it to.');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
         $file = $this->app['paths']['apppath']."/config/config.yml";
@@ -36,6 +33,5 @@ class ConfigSet extends BaseCommand
         }
 
         $output->writeln($result);
-
     }
 }

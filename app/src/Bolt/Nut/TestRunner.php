@@ -38,6 +38,5 @@ class TestRunner extends BaseCommand
         else {
             system($executable . ' -c app/');
         }
-
     }
 }
