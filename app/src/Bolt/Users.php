@@ -102,11 +102,11 @@ class Users
             $user['lastseen'] = "0000-00-00";
         }
 
-        if (!isset($user['userlevel'])) {
+        if (empty($user['userlevel'])) {
             $user['userlevel'] = key(array_slice($this->getUserLevels(), -1));
         }
 
-        if (!isset($user['enabled'])) {
+        if (empty($user['enabled'])) {
             $user['enabled'] = 1;
         }
 
