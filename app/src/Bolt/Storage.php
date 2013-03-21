@@ -5,6 +5,7 @@ namespace Bolt;
 use Silex;
 use Bolt;
 use util;
+use Doctrine\DBAL\Connection as DoctrineConn;
 
 class Storage
 {
@@ -760,7 +761,7 @@ class Storage
         // @todo make sure we don't set datecreated
         // @todo update datechanged
 
-        $query = "UPDATE $tablename SET $field = ? WHERE id = ?";
+        $query = sprintf("UPDATE %s SET $field = ? WHERE id = ?", $tablename);
         $stmt = $this->app['db']->prepare($query);
         $stmt->bindValue(1, $value);
         $stmt->bindValue(2, $id);
@@ -1635,12 +1636,14 @@ class Storage
         $taxonomytypes = array_keys($this->app['config']['taxonomy']);
 
         $query = sprintf(
-            "SELECT * FROM $tablename WHERE content_id IN (%s) AND contenttype=%s AND taxonomytype IN ('%s')",
-            implode(", ", $ids),
-            $this->app['db']->quote($contenttype),
-            implode("', '", $taxonomytypes)
+            "SELECT * FROM %s WHERE content_id IN (?) AND contenttype=? AND taxonomytype IN (?)",
+            $tablename
         );
-        $rows = $this->app['db']->fetchAll($query);
+        $rows = $this->app['db']->executeQuery(
+            $query,
+            array($ids, $contenttype, $taxonomytypes),
+            array(DoctrineConn::PARAM_INT_ARRAY, \PDO::PARAM_STR, DoctrineConn::PARAM_STR_ARRAY)
+        )->fetchAll();
 
         foreach ($rows as $key => $row) {
             $content[ $row['content_id'] ]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['sortorder']);
@@ -1677,8 +1680,16 @@ class Storage
         foreach ($taxonomy as $taxonomytype => $newvalues) {
 
             // Get the current values from the DB..
-            $query = "SELECT id, slug, sortorder FROM $tablename WHERE content_id=? AND contenttype=? AND taxonomytype=?";
-            $currentvalues = $this->app['db']->fetchAll($query, array($content_id, $contenttype, $taxonomytype));
+            $query = sprintf(
+                "SELECT id, slug, sortorder FROM %s WHERE content_id=? AND contenttype=? AND taxonomytype=?",
+                $tablename
+            );
+            $currentvalues = $this->app['db']->executeQuery(
+                $query,
+                array($content_id, $contenttype, $taxonomytype),
+                array(\PDO::PARAM_INT, \PDO::PARAM_STR, \PDO::PARAM_STR)
+            )->fetchAll();
+
             if (!empty($currentvalues)) {
                 $currentsortorder = $currentvalues[0]['sortorder'];
                 $currentvalues = makeValuePairs($currentvalues, 'id', 'slug');
@@ -1749,12 +1760,12 @@ class Storage
         $contenttype = $content[ util::array_first_key($content) ]->contenttype['slug'];
 
         $query = sprintf(
-            "SELECT * FROM $tablename WHERE from_contenttype=%s AND from_id IN (%s) ORDER BY id",
-            $this->app['db']->quote($contenttype),
-            $this->app['db']->quote(implode(", ", $ids))
+            "SELECT * FROM %s WHERE from_contenttype=? AND from_id IN (?) ORDER BY id",
+            $tablename
         );
-
-        $rows = $this->app['db']->fetchAll($query);
+        $params = array($this->app['db']->quote($contenttype), $ids);
+        $paramTypes = array(\PDO::PARAM_STR, DoctrineConn::PARAM_INT_ARRAY);
+        $rows = $this->app['db']->executeQuery($query, $params, $paramTypes)->fetchAll();
 
         foreach ($rows as $row) {
             $content[ $row['from_id'] ]->setRelation($row['to_contenttype'], $row['to_id']);
@@ -1762,11 +1773,12 @@ class Storage
 
         // switch it, flip it and reverse it. wop wop wop.
         $query = sprintf(
-            "SELECT * FROM $tablename WHERE to_contenttype=%s AND to_id IN (%s) ORDER BY id",
-            $this->app['db']->quote($contenttype),
-            implode(", ", $ids)
+            "SELECT * FROM %s WHERE to_contenttype=? AND to_id IN (?) ORDER BY id",
+            $tablename
         );
-        $rows = $this->app['db']->fetchAll($query);
+        $params = array($this->app['db']->quote($contenttype), $ids);
+        $paramTypes = array(\PDO::PARAM_STR, DoctrineConn::PARAM_INT_ARRAY);
+        $rows = $this->app['db']->executeQuery($query, $params, $paramTypes)->fetchAll();
 
         foreach ($rows as $row) {
             $content[ $row['to_id'] ]->setRelation($row['from_contenttype'], $row['from_id']);
@@ -1825,8 +1837,15 @@ class Storage
         }
 
         // Get the current values from the DB..
-        $query = "SELECT id, to_contenttype, to_id FROM $tablename WHERE from_id=? AND from_contenttype=?";
-        $currentvalues = $this->app['db']->fetchAll($query, array($content_id, $contenttype));
+        $query = sprintf(
+            "SELECT id, to_contenttype, to_id FROM %s WHERE from_id=? AND from_contenttype=?",
+            $tablename
+        );
+        $currentvalues = $this->app['db']->executeQuery(
+            $query,
+            array($content_id, $contenttype),
+            array(\PDO::PARAM_INT, \PDO::PARAM_STR)
+        )->fetchAll();
 
         // Delete the ones that have been removed.
         foreach ($currentvalues as $currentvalue) {
@@ -1892,15 +1911,26 @@ class Storage
             $prefix = "";
         }
 
-        $query = "SELECT id from $tablename WHERE slug=? and id!=?";
-        $res = $this->app['db']->executeQuery($query, array($slug, $id))->fetch();
+        $query = sprintf(
+            "SELECT id from %s WHERE slug=? and id!=?",
+            $tablename
+        );
+        $res = $this->app['db']->executeQuery(
+            $query,
+            array($slug, $id),
+            array(\PDO::PARAM_STR, \PDO::PARAM_INT)
+        )->fetch();
 
         if (!$res) {
             $uri = $prefix . $slug;
         } else {
             for ($i = 1; $i <= 10; $i++) {
                 $newslug = $slug.'-'.$i;
-                $res = $this->app['db']->executeQuery($query, array($newslug, $id))->fetch();
+                $res = $this->app['db']->executeQuery(
+                    $query,
+                    array($newslug, $id),
+                    array(\PDO::PARAM_STR, \PDO::PARAM_INT)
+                )->fetch();
                 if (!$res) {
                     $uri = $prefix . $newslug;
                     break;

@@ -237,7 +237,7 @@ class Users
 
         // for once we don't use getUser(), because we need the password.
         $query = "SELECT * FROM " . $this->usertable . " WHERE username=? LIMIT 1";
-        $user = $this->db->executeQuery($query, array($userslug))->fetch();
+        $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
             $this->session->getFlashBag()->set('error', __('Username or password not correct. Please check your input.'));

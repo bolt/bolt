@@ -134,7 +134,10 @@ class Log
             $page=1;
         }
 
-        $query = sprintf('SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT ?, ?;', $this->tablename);
+        $query = sprintf(
+            "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT ?, ?;",
+            $this->tablename
+        );
 
         $params = array(
             $codes, $minlevel, intval(($page-1) * $amount), intval($amount)
@@ -149,7 +152,10 @@ class Log
         $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
 
         // Set up the pager
-        $pagerQuery = sprintf("SELECT count(*) as count FROM %s WHERE code IN (?) OR (level >= '?')", $this->tablename);
+        $pagerQuery = sprintf(
+            "SELECT count(*) as count FROM %s WHERE code IN (?) OR (level >= ?)",
+            $this->tablename
+        );
         $params = array($codes, $minlevel);
         $paramTypes = array(DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT);
         $rowcount = $this->app['db']->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
@@ -243,7 +249,7 @@ class Log
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" ) ) {
 
             // sqlite
-            $query = sprintf("DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '?';",
+            $query = sprintf("DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = ?;",
                 $this->tablename
             );
 
