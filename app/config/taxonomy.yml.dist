@@ -1,5 +1,5 @@
-# This file defines the different types of taxonomies in Bolt. This will be
-# further developed and documented, as we get closer to version 1.0.
+# This file defines the different types of taxonomies in Bolt. See the 
+# documentation for details: http://docs.bolt.cm/taxonomies#taxonomies
 
 tags:
     slug: tags
@@ -11,6 +11,7 @@ chapters:
     singular_slug: chapter
     behaves_like: grouping
     options: [ main, meta, other ]
+    order: true
 
 categories:
     name: Categories
@@ -18,5 +19,5 @@ categories:
     singular_name: Category
     singular_slug: category
     behaves_like: categories
-    multiple: 1
+    multiple: true
     options: [ news, events, movies, music, books, life, love, fun ]
