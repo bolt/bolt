@@ -98,7 +98,7 @@ class Users
         // make sure the username is slug-like
         $user['username'] = makeSlug($user['username']);
 
-        if (!isset($user['lastseen'])) {
+        if (empty($user['lastseen'])) {
             $user['lastseen'] = "0000-00-00";
         }
 
