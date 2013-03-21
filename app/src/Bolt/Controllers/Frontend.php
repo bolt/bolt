@@ -133,12 +133,10 @@ class Frontend implements ControllerProviderInterface
 
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        $body = $app['twig']->render($template, array(
+        return $app['twig']->render($template, array(
             'record' => $content,
             $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
         ));
-
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
     }
 
@@ -168,12 +166,10 @@ class Frontend implements ControllerProviderInterface
             $app->abort(404, $error);
         }
 
-        $body = $app['twig']->render($template, array(
+        return $app['twig']->render($template, array(
             'record' => $content,
             $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
         ));
-
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
     }
 
@@ -227,12 +223,10 @@ class Frontend implements ControllerProviderInterface
 
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        $body = $app['twig']->render($template, array(
+        return $app['twig']->render($template, array(
             'records' => $content,
             $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
         ));
-
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
     }
 
@@ -260,7 +254,7 @@ class Frontend implements ControllerProviderInterface
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $contenttypeslug,
+                $taxonomytype,
                 basename($app['config']['general']['theme']),
                 $template);
             $app['log']->setValue('templateerror', $error);
@@ -269,11 +263,9 @@ class Frontend implements ControllerProviderInterface
 
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        $body = $app['twig']->render($template, array(
+        return $app['twig']->render($template, array(
             'records' => $content
         ));
-
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
     }
 
@@ -295,12 +287,11 @@ class Frontend implements ControllerProviderInterface
         $content = $app['storage']->searchAllContentTypes($parameters);
         //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
 
-        $body = $app['twig']->render($template, array(
+        return $app['twig']->render($template, array(
             'records' => $content,
             'search' => $search
         ));
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
 
     public function sitemap(Silex\Application $app, $xml = false)
@@ -340,6 +331,7 @@ class Frontend implements ControllerProviderInterface
         $headers['Cache-Control'] = 's-maxage=3600, public';
 
         return new Response($body, 200, $headers);
+
     }
 
     public function sitemapXml(Silex\Application $app)
