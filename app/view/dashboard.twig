@@ -49,13 +49,10 @@
 
         {% if multiplecontent %}
 
-            <h3>{{ __('Latest %contenttypes%.', {'%contenttypes%': app.config.contenttypes[contenttype].name}) }}
+            <h3>{{ __('Latest %contenttypes%', {'%contenttypes%': app.config.contenttypes[contenttype].name}) }}
                 <span>
                     <a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}" class='morelink'>
                         {{ __('More %contenttypes% »',{'%contenttypes%': app.config.contenttypes[contenttype].name}) }}
-                    </a>
-                    <a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': '' }) }}" class='morelink'>
-                        {{ __('New %contenttype%',{'%contenttype%': app.config.contenttypes[contenttype].singular_name}) }}
                     </a>
                 </span>
             </h3>

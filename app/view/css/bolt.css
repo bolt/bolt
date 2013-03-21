@@ -5,7 +5,7 @@
  * - #194770 - links, slightly blueer
 
  * - #434341 - dark gray
- * - #ebe9dd - Sand light
+ * - #F2F1E4 - Sand light
 
  * not used:
  * - #a5d2db - light green/blue
@@ -15,13 +15,13 @@
  */
 
 body {
-    background-image: url(../img/background.png);
+    /* background-image: url(../img/background.png); - pfft, textures are _sooo_ 2012! */
+    background-color: #FDFDFB;
     font-size: 13px;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
     margin: 0.5em 0;
     font-weight: normal;
 }
@@ -140,7 +140,6 @@ hr {
     font-size: 38px;
     line-height: 38px;
     font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
     margin: 0;
     padding: 8px 0 0 0;
 }
@@ -159,9 +158,8 @@ hr {
 }
 
 .navbar .nav > li > a {
-    color: #DDD;
+    color: #E7E7E7;
     font-weight: bold;
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25);
     padding: 9px 10px 11px;
 }
 
@@ -192,7 +190,7 @@ footer  {
     position: fixed;
     bottom: 0;
     border-top: 1px solid #CCC;
-    background-color: #DDD;
+    background-color: #E7E7E7;
     color: #999;
     width:100%;
     padding: 4px 10px;
@@ -203,7 +201,6 @@ footer  {
     cursor: help;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 12px;
-    text-shadow: none;
 }
 
 .popover {
@@ -218,8 +215,6 @@ footer  {
     font-size: 14px;
     font-weight: normal;
     line-height: 20px;
-    text-shadow: none;
-
 }
 .popover-content p {
     margin: 4px 0;
@@ -235,6 +230,8 @@ footer  {
 
 .morelink {
     font-size: 12px;
+    font-weight: normal;
+    color: rgba(25, 71, 112, 0.8);
     float: right;
     margin-left: 12px;
     text-shadow: none;
@@ -257,7 +254,7 @@ footer  {
     font-weight: bold;
     color: #888;
     padding: 3px 5px;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #E7E7E7;
 }
 
 .dashboardlisting th h2 {
@@ -288,11 +285,11 @@ footer  {
 }
 
 .dashboardlisting tr:first-child {
-    border-top: 1px solid #DDD;
+    border-top: 1px solid #E7E7E7;
 }
 
 .dashboardlisting tr:nth-child(odd) {
-    background-color: #F2F2EC; /* #FAFAF4; */
+    background-color: #F4F4F0; /* #F2F2EC; */
 }
 
 .dashboardlisting tr.dim * {
@@ -304,7 +301,7 @@ footer  {
 }
 
 .dashboardlisting td {
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #E7E7E7;
     padding: 5px;
     vertical-align: top;
     line-height: 18px;
@@ -371,24 +368,31 @@ ul.dropdown-menu li a.nolink {
 
 
 aside section {
-    background-color: #ebe9dd;
-    border: 1px solid #CCB;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
-    box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    background-color: #F2F1E4;
+    border: 1px solid #DDC;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    /* box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1); */
     padding: 0 10px 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 aside section h2 {
     font-size: 16px;
     line-height: 20px;
-    margin: 8px 0 4px;
-    text-shadow: none;
+    margin: 10px 0 6px 0;
     color: #333;
 }
 
+aside .morelink {
+    font-weight: normal;
+}
 
+aside section p {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 4px 0;
+}
 
 aside section p {
     font-size: 12px;
@@ -732,7 +736,7 @@ fieldset.checkbox div {
 }
 
 .cke_toolgroup, .cke_combo_button {
-    border-color: #DDD !important;
+    border-color: #E7E7E7 !important;
     margin: 3px !important;
 }
 
@@ -742,7 +746,7 @@ fieldset.checkbox div {
 
 .cke_button_on {
     background-image: none !important;
-    background-color: #DDD !important;
+    background-color: #E7E7E7 !important;
 }
 
 .cke_contents textarea {
@@ -754,7 +758,7 @@ fieldset.checkbox div {
 }
 
 .cke_maximized {
-    background-color: #DDD !important;
+    background-color: #E7E7E7 !important;
 }
 
 .cke_maximized .cke_contents {
@@ -952,7 +956,6 @@ blockquote.quote cite {
         line-height: 10px;
         position: relative;
         right: 0;
-        text-shadow: none;
         top: 12px;
     }
 
@@ -1028,7 +1031,7 @@ blockquote.quote cite {
 
     .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
         padding: 5px 12px;
-        color: #DDD !important;
+        color: #E7E7E7 !important;
     }
 
     .navbar .btn-navbar {
