@@ -100,6 +100,8 @@ class Users
 
         if (!isset($user['lastseen'])) {
             $user['lastseen'] = "0000-00-00";
+        } elseif ($user['lastseen'] == "") {
+            $user['lastseen'] = "0000-00-00";
         }
 
         if (!isset($user['userlevel'])) {
