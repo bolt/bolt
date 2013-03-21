@@ -98,15 +98,15 @@ class Users
         // make sure the username is slug-like
         $user['username'] = makeSlug($user['username']);
 
-        if (!isset($user['lastseen'])) {
+        if (empty($user['lastseen'])) {
             $user['lastseen'] = "0000-00-00";
         }
 
-        if (!isset($user['userlevel'])) {
+        if (empty($user['userlevel'])) {
             $user['userlevel'] = key(array_slice($this->getUserLevels(), -1));
         }
 
-        if (!isset($user['enabled'])) {
+        if (empty($user['enabled'])) {
             $user['enabled'] = 1;
         }
 
