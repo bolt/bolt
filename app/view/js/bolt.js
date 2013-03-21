@@ -113,7 +113,7 @@ jQuery(function($) {
  */
 CKEDITOR.editorConfig = function( config ) {
 
-    config.language = 'en';
+    config.language = ckeditor_lang || 'en';
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;
     config.entities = false;
@@ -150,7 +150,7 @@ CKEDITOR.editorConfig = function( config ) {
         config.toolbar = config.toolbar.concat({ name: 'colors', items: [ 'TextColor', 'BGColor' ] });
     }
 
-    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source' ] });
+    config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source', '-','About' ] });
 
     config.height = "250px";
     config.removePlugins = 'elementspath';
