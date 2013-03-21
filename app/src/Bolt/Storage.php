@@ -314,7 +314,7 @@ class Storage
                         case 'markdown':
                         case 'geolocation':
                         case 'imagelist':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT NOT NULL DEFAULT \"\";", $tablename, $field);
+                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT;", $tablename, $field);
                             $this->app['db']->query($query);
                             $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
                             break;
