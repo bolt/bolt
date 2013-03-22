@@ -1,7 +1,7 @@
-# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/17 17:23:51
+# app/resources/translations/fr/messages.fr.yml -- generated on 2013/03/21 22:45:16
 # no untranslated strings; good ;-)
 
-# 239 translated strings
+# 242 translated strings
 
 "%contenttypes% overview": "Aperçu des %contenttypes%"
 "%contenttypes%": "%contenttypes%"
@@ -76,10 +76,11 @@
 "Enable %username%": "Permettre %username%"
 "Enabled extensions": "Extensions activées"
 "Enabling extensions:": "Activer une extension :"
+"Entries": "Entrées"
 "Excerpt": "Extrait"
-"Extensions": "Extension"
+"Extensions": "Extensions"
 "File '%s' could not be saved, for some reason.": "Le fichier '%s' ne peut être enregistré."
-"File '%s' could not be saved: not valid YAML.": "Le fichier '%s' ne peut être enregistré : YAML invalide."
+"File '%s' could not be saved: ": "Le fichier '%s' ne peut être enregistré :"
 "File '%s' has been saved.": "Le fichier '%s' a été enregistré."
 "File Management": "Gestion des fichiers"
 "File": "Fichier"
@@ -91,6 +92,7 @@
 "Filter": "Filtrer"
 "Filtering:": "Filtrer sur :"
 "Floatfield": "Nombre flottant"
+"Folder '%s' could not be found, or is not readable.": "Le dossier '%s' est inaccessible"
 "Folders": "Dossiers"
 "Geolocation": "Géolocalisation"
 "Html": "Html"
@@ -98,9 +100,9 @@
 "Image": "Image"
 "Imagelist": "Liste d'images"
 "Info": "+Info"
-"Infos / about": "Infos / à propos"
 "Integerfield": "Nombre entier"
 "It seems there's no content in the database.": "On dirait qu'il n'y a aucun contenu dans la base de données."
+"Kitchensinks": "Bazars"
 "Last edited on:": "Dernière modif. le :"
 "Last known IP": "Dernière IP connue"
 "Last modified %contenttypes%": "Derniers %contenttypes% modifiés"
@@ -157,15 +159,15 @@
 "Published on:": "Publié(e) le :"
 "Read more": "Plus..."
 "Recent %contenttypes%": "%contenttypes% récents"
+"Related content:": "Voir aussi"
 "Relationships": "Relations"
 "Save %contenttype%": "Enregistrer le %contenttype%"
 "Save": "Enregistrer"
 "Search results for <b> %search% </b>.": "Résultats des recherches pour <b> %search% </b>."
 "Search": "Rechercher"
-"Select a page": "Sélectionnez une page"
 "Select zero or more pages": "Sélectionnez des pages"
 "Selectfield": "Sélection"
-"Settings": "Réglages"
+"Settings": "Paramètres"
 "Showing %pager_for% %from% - %to% of %count%": "%pager_for% %from% - %to% sur %count%"
 "Sitemap": "Carte du site"
 "Size:": "Taille :"
