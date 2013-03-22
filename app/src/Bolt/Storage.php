@@ -1767,8 +1767,6 @@ class Storage
         $paramTypes = array(\PDO::PARAM_STR, DoctrineConn::PARAM_INT_ARRAY);
         $rows = $this->app['db']->executeQuery($query, $params, $paramTypes)->fetchAll();
 
-        $rows = $this->app['db']->fetchAll($query);
-
         foreach ($rows as $row) {
             $content[ $row['from_id'] ]->setRelation($row['to_contenttype'], $row['to_id']);
         }
