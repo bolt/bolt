@@ -340,6 +340,9 @@ class Users
                     }
 
                     // Make sure contenttypes is an array.
+                    if (!array_key_exists('contenttypes', $this->users[$key])){
+                        $this->users[$key]['contenttypes'] = "";
+                    }
                     $this->users[$key]['contenttypes'] = unserialize($this->users[$key]['contenttypes']);
                     if (!is_array($this->users[$key]['contenttypes'])) {
                         $this->users[$key]['contenttypes'] = array();
