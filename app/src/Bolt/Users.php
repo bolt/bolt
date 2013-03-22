@@ -46,6 +46,7 @@ class Users
             'settings' => self::ADMIN,
             'login' => self::ANONYMOUS,
             'logout' => self::EDITOR,
+            'dbcheck' => self::ADMIN,
             'dbupdate' => self::ADMIN,
             'clearcache' => self::ADMIN,
             'prefill' => self::DEVELOPER,

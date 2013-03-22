@@ -37,6 +37,11 @@ class Backend implements ControllerProviderInterface
             ->bind('logout')
         ;
 
+        $ctl->get("/dbcheck", array($this, 'dbcheck'))
+            ->before(array($this, 'before'))
+            ->bind('dbcheck')
+        ;
+
         $ctl->get("/dbupdate", array($this, 'dbupdate'))
             ->before(array($this, 'before'))
             ->bind('dbupdate')
@@ -204,6 +209,32 @@ class Backend implements ControllerProviderInterface
         return redirect('login');
 
     }
+
+    /**
+     * Check the database for missing tables and columns. Does not do actual repairs
+     */
+    function dbcheck(Silex\Application $app) {
+
+        $output = $app['storage']->checkTablesIntegrity(); // repairTables();
+
+        if ($output !== true) {
+            $content = '<p>' . __('Modifications needed:') . '</p>';
+            $content .= implode("<br>", $output);
+            $content .= "<br><br><p><a href='".path('dbupdate')."' class='btn btn-primary'>." . __("Update the database") . "</a></p>";
+        } else {
+            $content = __("Your database is already up to date.");
+        }
+
+        $app['twig']->addGlobal('title', __("Database check / update"));
+
+        return $app['twig']->render('base.twig', array(
+            'content' => $content,
+            'active' => "settings"
+        ));
+
+    }
+
+
 
     /**
      * Check the database, create tables, add missing/new columns to tables

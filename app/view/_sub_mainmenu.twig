@@ -45,7 +45,7 @@
                         <li><a href="{{ path('extensions') }}"><i class="icon-briefcase"></i> {{ __('Extensions') }}</a></li>
                     {% endif %}
                     {% if isallowed('dbupdate') %}
-                        <li><a href="{{ path('dbupdate') }}"><i class="icon-wrench"></i> {{ __('Check database') }}</a></li>
+                        <li><a href="{{ path('dbcheck') }}"><i class="icon-wrench"></i> {{ __('Check database') }}</a></li>
                     {% endif %}
                     {% if isallowed('clearcache') %}
                         <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i> {{ __('Clear the cache') }}</a></li>
