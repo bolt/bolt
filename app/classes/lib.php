@@ -189,11 +189,7 @@ function findFilesHelper($additional, &$files, $term = "", $extensions = array()
  */
 function checkVersion($currentversion, $requiredversion)
 {
-    if (version_compare($currentversion, $requiredversion) > -1) {
-        return true;
-    } else {
-        return false;
-    }
+    return version_compare($currentversion, $requiredversion) > -1;
 }
 
 
