@@ -6,6 +6,7 @@ use Silex;
 use Bolt;
 use util;
 use Doctrine\DBAL\Connection as DoctrineConn;
+use Symfony\Component\EventDispatcher\Event;
 
 class Storage
 {
@@ -544,6 +545,11 @@ class Storage
             return false;
         }
 
+        if ($this->app['dispatcher']->hasListeners(StorageEvents::preSave)) {
+            $event = new StorageEvent($content);
+            $this->app['dispatcher']->dispatch(StorageEvents::preSave, $event);
+        }
+
         // Make an array with the allowed columns. these are the columns that are always present.
         $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
         // add the fields for this contenttype,
@@ -636,6 +642,7 @@ class Storage
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
             $id = $this->insertContent($fieldvalues, $contenttype);
+            $content->setValue('id', $id);
         } else {
             $id = $fieldvalues['id'];
             $this->updateContent($fieldvalues, $contenttype);
@@ -643,6 +650,11 @@ class Storage
 
         $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
         $this->updateRelation($contenttype, $id, $content->relation);
+
+        if ($this->app['dispatcher']->hasListeners(StorageEvents::postSave)) {
+            $event = new StorageEvent($content);
+            $this->app['dispatcher']->dispatch(StorageEvents::postSave, $event);
+        }
 
         return $id;
 
@@ -687,6 +699,11 @@ class Storage
             return false;
         }
 
+        if ($this->app['dispatcher']->hasListeners(StorageEvents::preDelete)) {
+            $event = new StorageEvent(array( $contenttype, $id ));
+            $this->app['dispatcher']->dispatch(StorageEvents::preDelete, $event);
+        }
+
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
@@ -701,6 +718,11 @@ class Storage
             $this->app['db']->delete($this->prefix."relations", array('from_contenttype' => $contenttype, 'from_id' => $id));
             $this->app['db']->delete($this->prefix."relations", array('to_contenttype' => $contenttype, 'to_id' => $id));
             $this->app['db']->delete($this->prefix."taxonomy", array('contenttype' => $contenttype, 'content_id' => $id));
+        }
+
+        if ($this->app['dispatcher']->hasListeners(StorageEvents::postDelete)) {
+            $event = new StorageEvent(array( $contenttype, $id ));
+            $this->app['dispatcher']->dispatch(StorageEvents::postDelete, $event);
         }
 
         return $res;
