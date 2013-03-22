@@ -289,20 +289,23 @@ footer  {
 }
 
 .dashboardlisting tr:nth-child(odd) {
-    background-color: #F4F4F0; /* #F2F2EC; */
+    background-color: #F3F3ED; /* #F2F2EC; */
 }
 
-.dashboardlisting tr.dim * {
-    color: #BBB !important;
+.dashboardlisting tr.dim td {
+    opacity: 0.5;
+    -webkit-filter: grayscale(0.2);
+    filter: grayscale(0.2);
 }
 
 .dashboardlisting tr.dim img {
-    opacity: 0.5;
+    -webkit-filter: grayscale(1) blur(1px);
+    filter: grayscale(1) blur(1px);
 }
 
 .dashboardlisting td {
     border-bottom: 1px solid #E7E7E7;
-    padding: 5px;
+    padding: 6px;
     vertical-align: top;
     line-height: 18px;
     font-size: 13px;
@@ -368,7 +371,7 @@ ul.dropdown-menu li a.nolink {
 
 
 aside section {
-    background-color: #F2F1E4;
+    background-color: #F2F1E8;
     border: 1px solid #DDC;
     -moz-border-radius: 2px;
     border-radius: 2px;
