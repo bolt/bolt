@@ -5,6 +5,7 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     "require": {
+        "php": ">=5.3.2",
         "silex/silex": "1.0.*@dev",
         "symfony/yaml": "~2.1",
         "symfony/form": "~2.1",
