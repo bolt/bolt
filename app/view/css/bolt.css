@@ -292,15 +292,19 @@ footer  {
     background-color: #F3F3ED; /* #F2F2EC; */
 }
 
-.dashboardlisting tr.dim td {
+.dashboardlisting tr.dim td.id,
+.dashboardlisting tr.dim td.excerpt,
+.dashboardlisting tr.dim td.listthumb,
+.dashboardlisting tr.dim td.username
+{
     opacity: 0.5;
     -webkit-filter: grayscale(0.2);
     filter: grayscale(0.2);
 }
 
 .dashboardlisting tr.dim img {
-    -webkit-filter: grayscale(1) blur(1px);
-    filter: grayscale(1) blur(1px);
+    -webkit-filter: grayscale(0.6) blur(1px);
+    filter: grayscale(0.6) blur(1px);
 }
 
 .dashboardlisting td {
