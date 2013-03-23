@@ -175,6 +175,26 @@ CKEDITOR.editorConfig = function( config ) {
         config.filebrowserUploadUrl = '';
         config.filebrowserImageUploadUrl = '';
     }
+
+    config.codemirror = {
+        theme: 'default',
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        autoCloseTags: true,
+        autoCloseBrackets: true,
+        enableSearchTools: true,
+        enableCodeFolding: true,
+        enableCodeFormatting: true,
+        autoFormatOnStart: true,
+        autoFormatOnUncomment: true,
+        highlightActiveLine: true,
+        highlightMatches: true,
+        showFormatButton: false,
+        showCommentButton: false,
+        showUncommentButton: false
+    };
+
 };
 
 
