@@ -560,6 +560,11 @@ class Content implements \ArrayAccess
     public function getImage()
     {
 
+        // No fields, no image.
+        if (empty($this->contenttype['fields'])) {
+            return "";
+        }
+
         // Grab the first field of type 'image', and return that.
         foreach($this->contenttype['fields'] as $key => $field) {
             if ($field['type']=='image') {
@@ -754,11 +759,13 @@ class Content implements \ArrayAccess
     {
         $excerpt = array();
 
-        foreach ($this->contenttype['fields'] as $key => $field) {
-            if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
-                && isset($this->values[$key])
-                && !in_array($key, array("title", "name")) ) {
-                $excerpt[] = $this->values[$key];
+        if (!empty($this->contenttype['fields'])) {
+            foreach ($this->contenttype['fields'] as $key => $field) {
+                if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
+                    && isset($this->values[$key])
+                    && !in_array($key, array("title", "name")) ) {
+                    $excerpt[] = $this->values[$key];
+                }
             }
         }
 

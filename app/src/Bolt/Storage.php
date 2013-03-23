@@ -1061,8 +1061,8 @@ class Storage
 
         $tablename = $this->prefix . "taxonomy";
 
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
-        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+        $limit = $parameters['limit'] ?: 100;
+        $page = $parameters['page'] ?: 1;
 
         $where = " WHERE (taxonomytype=". $this->app['db']->quote($taxonomytype) . " AND slug=". $this->app['db']->quote($slug) .")";
 
@@ -1079,7 +1079,7 @@ class Storage
         if (is_array($taxorows)) {
             foreach($taxorows as $row) {
                 $record = $this->getContent($row['contenttype']."/".$row['content_id']);
-                if ($record instanceof \Bolt\Content) {
+                if ($record instanceof \Bolt\Content && !empty($record->id)) {
                     $content[] = $record;
                 }
             }
