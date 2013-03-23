@@ -79,9 +79,8 @@ class Extension extends \Bolt\BaseExtension
      */
     function simpleForm($name="")
     {
-        global $app;
-        
-        $app['twig.loader.filesystem']->addPath(__DIR__, 'SimpleForms');
+
+        $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
         // Select which form to use..
         if (isset($this->config[$name])) {
@@ -106,7 +105,7 @@ class Extension extends \Bolt\BaseExtension
         $error = "";
         $sent = false;
 
-        $form = $app['form.factory']->createBuilder('form');
+        $form = $this->app['form.factory']->createBuilder('form');
 
         foreach ($formconfig['fields'] as $name => $field) {
 
@@ -154,8 +153,8 @@ class Extension extends \Bolt\BaseExtension
 
         $form = $form->getForm();
 
-        if ('POST' == $app['request']->getMethod()) {
-            $form->bind($app['request']);
+        if ('POST' == $this->app['request']->getMethod()) {
+            $form->bind($this->app['request']);
 
             if ($form->isValid()) {
                 $data = $form->getData();
@@ -167,7 +166,7 @@ class Extension extends \Bolt\BaseExtension
                     }
                 }
 
-                $mailhtml = $app['twig']->render("@SimpleForms/".$formconfig['mail_template'], array(
+                $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
                     'form' =>  $data ));
 
                 // echo "<pre>\n" . \util::var_dump($mailhtml, true) . "</pre>\n";
@@ -185,7 +184,7 @@ class Extension extends \Bolt\BaseExtension
                     ->setBody(strip_tags($mailhtml))
                     ->addPart($mailhtml, 'text/html');
 
-                $res = $app['mailer']->send($message);
+                $res = $this->app['mailer']->send($message);
 
                 if ($res) {
                     $message = $formconfig['message_ok'];
@@ -201,10 +200,8 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        $app['twig.path'] = __DIR__;
 
-        
-        $formhtml = $app['twig']->render("@SimpleForms/".$formconfig['template'], array(
+        $formhtml = $this->app['twig']->render($formconfig['template'], array(
             "submit" => "Send",
             "form" => $form->createView(),
             "message" => $message,

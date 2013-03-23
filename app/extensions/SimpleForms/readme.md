@@ -18,6 +18,10 @@ General settings
  - `message_technical: ...` - The message to display when there's a technical error preventing the sending of the email. Most likely this is caused because Swiftmailer can't send the email. Check the Swiftmailer settings in the global `config.yml` if this message is shown.
  - `button_text: Send` - Default text on the 'send' button in the forms.
 
+**Tip**: If you want to copy one of the template files, you should remember to leave out the `assets/` part. For instance, if you copy `simpleforms_form.twig` to `theme/base-2013/my_form.twig`, the corresponding line in `config.yml` should be:
+
+ <pre>template: my_form.twig</pre>
+
 Configuring forms
 -----------------
 You can define multiple forms, where each form has its own section in the `config.yml` file. The default file has two forms defined, namely 'contact' and 'demo'. The structure of a form definition is as follows:
