@@ -53,67 +53,6 @@ class Cache extends FilesystemCache
     }
 
     /**
-     *
-     * Set a value in the cache. If $data is an array or an object it's
-     * serialised.
-     *
-     * Note: only store objects that actually _can_ be serialized and unserialized
-     *
-     * @param $key
-     * @param $data
-     * @param int $lifeTime
-     * @return bool|int
-     * @deprecated
-     */
-    public function set($key, $data, $lifeTime = self::DEFAULT_MAX_AGE)
-    {
-        return parent::save($key, $data, $lifeTime);
-    }
-
-    /**
-     *
-     * Get a stored value from the cache if possible. Otherwise return 'false'. If the
-     * stored value was an array or object, it will NOT be unserialized before it's returned.
-     *
-     * Returns false if no valid cached data was available.
-     *
-     * Note: If you're trying to store 'false' in the cache, the results might
-     * seem a tad bit confusing. ;-)
-     *
-     * @param $key
-     * @return bool|mixed|string
-     * @deprecated
-     */
-    public function get($key)
-    {
-        return parent::fetch($key);
-    }
-
-    /**
-     *
-     * Check if a given key is cached, and not too old.
-     *
-     * @param $key
-     * @param $maxage
-     * @return bool
-     * @deprecated
-     */
-    public function isvalid($key, $maxage)
-    {
-        return parent::contains($key);
-    }
-
-    /**
-     * @param $key
-     * @return bool
-     * @deprecated
-     */
-    public function clear($key)
-    {
-        return parent::delete($key);
-    }
-
-    /**
      * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
      *
      * @see clearCacheHelper
