@@ -26,6 +26,9 @@ $app->before(function () use ($app) {
 // On 'finish' attach the debug-bar, if debug is enabled..
 if ($app['debug'] && ($app['session']->has('user') || $app['config']['general']['debug_show_loggedoff'] ) ) {
 
+    // Register Whoops, to handle errors for logged in users only.
+    $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
+
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
 
@@ -101,6 +104,8 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
         ));
 
     });
+} else {
+    error_reporting(E_ALL ^ E_NOTICE);
 }
 
 
@@ -127,6 +132,8 @@ $app->after(function (Request $request, Response $response) use ($app) {
 });
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+
 
 /**
  * Error page.

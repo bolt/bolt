@@ -107,13 +107,7 @@ $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
 $loader = new Twig_Loader_String();
 $app['twig.loader']->addLoader($loader);
 
-// If debug is set, we set up the custom error handler..
-if ($app['debug']) {
-    $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
-} else {
-    error_reporting(E_ALL ^ E_NOTICE);
-    // error_reporting( E_ALL ^ E_NOTICE ^ E_WARNING );
-}
+
 
 require __DIR__.'/app.php';
 
