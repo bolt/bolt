@@ -204,7 +204,7 @@ class Extension extends \Bolt\BaseExtension
         $app['twig.path'] = __DIR__;
 
         
-        $formhtml = $app['twig']->render("@SimpleForms".$formconfig['template'], array(
+        $formhtml = $app['twig']->render("@SimpleForms/".$formconfig['template'], array(
             "submit" => "Send",
             "form" => $form->createView(),
             "message" => $message,
