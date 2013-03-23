@@ -125,8 +125,6 @@ hr {
     background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
     background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
     background-repeat: repeat-x;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
     min-height: 60px;
 
@@ -205,8 +203,6 @@ footer  {
 
 .popover {
     width: 400px;
-    -webkit-box-shadow: 0 5px 10px  rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.5);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -444,8 +440,6 @@ div.extension {
     border-radius: 6px;
     padding: 0 10px 8px;
     margin: 0 10px 8px 0;
-    -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
-    -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
 
 }
@@ -505,9 +499,11 @@ fieldset.checkbox div {
 
 =======
 #editcontent input,
-#editcontent select {
+#editcontent select,
+#editcontent textarea {
     border-radius: 2px;
     border-color: #CCC;
+    font-size: 100%;
 }
 
 >>>>>>> Tweak, tweak..
@@ -552,11 +548,6 @@ fieldset.checkbox div {
     min-width: 80px;
 }
 
-#editcontent input {
-    font-size: 100%;
-    /* width: 95%; - Why did i think this was a good idea? */
-}
-
 #editcontent input[type=number] {
     width: 20%;
     min-width: 140px;
@@ -572,6 +563,7 @@ fieldset.checkbox div {
     line-height: 21px;
     color: #444;
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+    box-shadow: 0 0 2px rgba(0,0,0,.1);
 }
 
 #editcontent div.video-container {
@@ -743,8 +735,6 @@ fieldset.checkbox div {
     display: block;
     border: 1px solid #CCC;
     padding: 0;
-    -moz-box-shadow: 0 0 2px rgba(0,0,0,.1);
-    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1);
     box-shadow: 0 0 2px rgba(0,0,0,.1);
 }
 
@@ -842,19 +832,19 @@ fieldset.checkbox div {
  */
 
 .select2-container {
-    min-height: 32px;
+    min-height: 30px;
 }
 
 .select2-container-multi .select2-choices {
-    border-radius: 3px;
     color: #555;
-    border-color: #CCC !important;
+    border-radius: 2px;
+    border-color: #CCC;
 }
 
 .select2-container-multi .select2-choices .select2-search-choice {
     border-radius: 3px;
     color: #555;
-    border-color: #CCC !important;
+    border-color: #CCC;
     padding: 4px 5px 5px 15px;
 }
 
@@ -864,6 +854,8 @@ fieldset.checkbox div {
 
 .select2-container a.select2-choice {
     font-weight: normal !important;
+    border-radius: 2px;
+    border-color: #CCC;
 }
 
 .select2-container-multi .select2-choices .select2-search-choice span {
@@ -871,6 +863,16 @@ fieldset.checkbox div {
     font-size: 85%;
 }
 
+.select2-drop-active {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-color: #CCC;
+}
+
+.select2-container .select2-choice div {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
 
 /**
  * End of styles for Select2
