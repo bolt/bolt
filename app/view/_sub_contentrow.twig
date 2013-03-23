@@ -26,7 +26,12 @@
     </td>
     {% if not compact %}
     <td class='username hide-phone'>
-        <i class="icon-user"></i> {% if users[content.username] is defined %}{{ users[content.username].displayname }}{% else %}<s>{{ content.username }}</s>{% endif %}<br>
+        <i class="icon-user"></i>
+            {% if users[content.username] is defined %}
+                {{ users[content.username].displayname|trimtext(15) }}
+            {% else %}
+                <s>{{ content.username|trimtext(15) }}</s>
+            {% endif %}<br>
         {% if content.status=="timed" %}
             <i class="icon-time"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
         {% else %}

@@ -297,7 +297,7 @@ footer  {
 .dashboardlisting tr.dim td.listthumb,
 .dashboardlisting tr.dim td.username
 {
-    opacity: 0.5;
+    opacity: 0.6;
     -webkit-filter: grayscale(0.2);
     filter: grayscale(0.2);
 }
@@ -340,7 +340,7 @@ footer  {
 .dashboardlisting td.excerpt span {
     height: 36px;
     display: block;
-    color: #666;
+    color: #777;
     overflow: hidden;
     word-wrap:break-word;
     word-break:break-all;
@@ -375,7 +375,7 @@ ul.dropdown-menu li a.nolink {
 
 
 aside section {
-    background-color: #F2F1E8;
+    background-color: #F2F1F0;
     border: 1px solid #DDC;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -393,6 +393,8 @@ aside section h2 {
 
 aside .morelink {
     font-weight: normal;
+    line-height: 1em;
+    position: static;
 }
 
 aside section p {
