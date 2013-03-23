@@ -518,7 +518,7 @@ class Backend implements ControllerProviderInterface
         switch ($action) {
 
             case "held":
-                if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'held')) {
+                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'held')) {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'held'",array('%title%'=>$title)));
                 } else {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
@@ -526,7 +526,7 @@ class Backend implements ControllerProviderInterface
                 break;
 
             case "publish":
-                if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'published')) {
+                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'published')) {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' is published.",array('%title%'=>$title)));
                 } else {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
@@ -534,7 +534,7 @@ class Backend implements ControllerProviderInterface
                 break;
 
             case "draft":
-                if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'draft')) {
+                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'draft')) {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'draft'.",array('%title%'=>$title)));
                 } else {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
