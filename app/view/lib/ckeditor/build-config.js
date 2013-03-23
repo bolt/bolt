@@ -58,9 +58,14 @@ var CKBUILDER_CONFIG = {
 		'resize' : 1,
 		'mediaembed' : 1,
 		'popup' : 1,
-		'filebrowser' : 1
+		'filebrowser' : 1,
+		'about' : 1,
+		'codemirror' : 1,
+		'find' : 1
 	},
 	languages : {
+		'nl' : 1,
 		'en' : 1,
+		'fr' : 1,
 	}
 };
