@@ -58,7 +58,7 @@ class Async implements ControllerProviderInterface
      */
     function dashboardnews(Silex\Application $app) {
 
-        $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
+        $news = $app['cache']->fetch('dashboardnews'); // Two hours.
 
         $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 
@@ -84,7 +84,7 @@ class Async implements ControllerProviderInterface
             // For now, just use the most current item.
             $news = current($news);
 
-            $app['cache']->set('dashboardnews', $news);
+            $app['cache']->save('dashboardnews', $news, 7200);
 
         } else {
             $app['log']->add("News: get from cache..", 1);
