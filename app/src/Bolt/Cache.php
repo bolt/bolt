@@ -2,27 +2,26 @@
 
 namespace Bolt;
 
+use Doctrine\Common\Cache\FilesystemCache;
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * Simple, file based cache for volatile data.. Useful for storing non-vital
  * information like feeds, and other stuff that can be recovered easily.
  *
  * @author Bob den Otter, bob@twokings.nl
  *
- **/
-class Cache extends \Doctrine\Common\Cache\FilesystemCache
+ */
+class Cache extends FilesystemCache
 {
-    /**
-     * @var string
-     */
-    private $cacheDir = "";
 
     /**
-     *
+     * Max cache age. Default 10 minutes
      */
-    const DEFAULT_MAX_AGE = 600; // 10 minutes
+    const DEFAULT_MAX_AGE = 600;
 
     /**
-     *
+     * Default cache file extension
      */
     const DEFAULT_EXTENSION = '.boltcache.data';
 
@@ -31,18 +30,23 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
      * files.
      *
      * @param string $cacheDir
-     * @throws \InvalidArgumentException
+     * @throws \Exception|\InvalidArgumentException
      */
     public function __construct($cacheDir = "")
     {
         if ($cacheDir == "") {
-            $this->cacheDir = realpath(__DIR__ . "/../../cache");
+            $cacheDir = realpath(__DIR__ . "/../../cache");
         } else {
-            $this->cacheDir = $cacheDir;
+            // We don't have $app here, so we use the filesystem component
+            // directly here.
+            $filesystem = new Filesystem();
+            if (!$filesystem->isAbsolutePath($cacheDir)){
+                $cacheDir = realpath(__DIR__ . "/" . $cacheDir);
+            }
         }
 
         try {
-            parent::__construct($this->cacheDir, self::DEFAULT_EXTENSION);
+            parent::__construct($cacheDir, self::DEFAULT_EXTENSION);
         } catch (\InvalidArgumentException $e) {
             throw $e;
         }
@@ -145,7 +149,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
     private function clearCacheHelper($additional, &$result)
     {
 
-        $currentfolder = realpath($this->cacheDir . "/" . $additional);
+        $currentfolder = realpath($this->getDirectory() . "/" . $additional);
 
         if (!file_exists($currentfolder)) {
             $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
@@ -166,7 +170,7 @@ class Cache extends \Doctrine\Common\Cache\FilesystemCache
                     $result['successfiles']++;
                 } else {
                     $result['failedfiles']++;
-                    $result['failed'][] = str_replace($this->dir, "cache", $currentfolder."/".$entry);
+                    $result['failed'][] = str_replace($this->getDirectory(), "cache", $currentfolder."/".$entry);
                 }
             }
 
