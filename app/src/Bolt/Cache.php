@@ -81,15 +81,12 @@ class Cache extends FilesystemCache
      * seem a tad bit confusing. ;-)
      *
      * @param $key
-     * @param bool $maxage
      * @return bool|mixed|string
      * @deprecated
      */
-    public function get($key, $maxage = false)
+    public function get($key)
     {
-        $result = parent::fetch($key);
-
-        return $result;
+        return parent::fetch($key);
     }
 
     /**
