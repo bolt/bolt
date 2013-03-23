@@ -16,7 +16,7 @@
 
 body {
     /* background-image: url(../img/background.png); - pfft, textures are _sooo_ 2012! */
-    background-color: #FDFDFB;
+    background-color: #FCFCFA;
     font-size: 13px;
 }
 
@@ -308,7 +308,7 @@ footer  {
 }
 
 .dashboardlisting td {
-    border-bottom: 1px solid #E7E7E7;
+    border-bottom: 1px solid #E5E5E5;
     padding: 6px;
     vertical-align: top;
     line-height: 18px;
@@ -375,7 +375,7 @@ ul.dropdown-menu li a.nolink {
 
 
 aside section {
-    background-color: #F2F1F0;
+    background-color: #F2F1ED;
     border: 1px solid #DDC;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -485,6 +485,7 @@ label span.left {
     min-width: 180px;
 }
 
+<<<<<<< HEAD
 input[type="checkbox"] {
     margin: 4px 8px 0px 0;
 }
@@ -502,6 +503,14 @@ fieldset.checkbox div {
 }
 
 
+=======
+#editcontent input,
+#editcontent select {
+    border-radius: 2px;
+    border-color: #CCC;
+}
+
+>>>>>>> Tweak, tweak..
 #editcontent input.large {
     font-size: 133%;
     width: 95%;
@@ -729,6 +738,15 @@ fieldset.checkbox div {
 }
 
 /** Overrides for CKeditor */
+
+.cke_chrome {
+    display: block;
+    border: 1px solid #CCC;
+    padding: 0;
+    -moz-box-shadow: 0 0 2px rgba(0,0,0,.1);
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1);
+    box-shadow: 0 0 2px rgba(0,0,0,.1);
+}
 
 .cke_bottom {
     display: block !important;
