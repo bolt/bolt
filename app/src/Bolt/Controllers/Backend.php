@@ -477,7 +477,7 @@ class Backend implements ControllerProviderInterface
         switch ($action) {
 
             case "held":
-                if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'held')) {
+                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'held')) {
                     $app['session']->setFlash('info', "Content '$title' has been changed to 'held'");
                 } else {
                     $app['session']->setFlash('info', "Content '$title' could not be modified.");
@@ -485,7 +485,7 @@ class Backend implements ControllerProviderInterface
                 break;
 
             case "publish":
-                if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'published')) {
+                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'published')) {
                     $app['session']->setFlash('info', "Content '$title' is published.");
                 } else {
                     $app['session']->setFlash('info', "Content '$title' could not be modified.");
@@ -493,7 +493,7 @@ class Backend implements ControllerProviderInterface
                 break;
 
             case "draft":
-                if ($app['storage']->changeContent($contenttype['slug'], $id, 'status', 'draft')) {
+                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'draft')) {
                     $app['session']->setFlash('info', "Content '$title' has been changed to 'draft'.");
                 } else {
                     $app['session']->setFlash('info', "Content '$title' could not be modified.");

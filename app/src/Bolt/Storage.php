@@ -523,12 +523,9 @@ class Storage
             return false;
         }
 
-        // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
+
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
-
-            $allowedcolumns[] = $key;
 
             // Set the slug, while we're at it..
             if ($values['type'] == "slug") {
@@ -601,15 +598,16 @@ class Storage
 
             }
 
-            if (!in_array($key, $allowedcolumns)) {
-                // unset columns we don't need to store..
-                unset($fieldvalues[$key]);
-            } else {
+            if ($this->isValidColumn($key, $contenttype)) {
                 // Trim strings..
                 if (is_string($fieldvalues[$key])) {
                     $fieldvalues[$key] = trim($fieldvalues[$key]);
                 }
+            } else {
+                // unset columns we don't need to store..
+                unset($fieldvalues[$key]);
             }
+
         }
 
         // Decide whether to insert a new record, or update an existing one.
@@ -626,35 +624,6 @@ class Storage
         return $id;
 
     }
-
-
-    public function changeContent($contenttype, $id, $column, $value)
-    {
-
-        if (empty($contenttype)) {
-            echo "Contenttype is required.";
-
-            return false;
-        }
-
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
-        // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
-        // add the fields for this contenttype,
-        foreach ($this->app['config']['contenttypes'][$contenttype]['fields'] as $key => $values) {
-            $allowedcolumns[] = $key;
-        }
-
-        $content = array('id' => $id, $column => $value);
-
-        return $this->updateContent($content, $contenttype);
-
-    }
-
 
 
     public function deleteContent($contenttype, $id)
@@ -730,12 +699,18 @@ class Storage
     }
 
 
-    public function updateSingleValue($id, $contenttype, $field, $value)
+    public function updateSingleValue($contenttype, $id, $field, $value)
     {
 
         $tablename = $this->prefix . $contenttype;
 
         $id = intval($id);
+
+        if (!$this->isValidColumn($field, $contenttype)) {
+            $error = sprintf("Can't set %s in %s: Not a valid field.", $field, $contenttype);
+            $this->app['session']->getFlashBag()->set('error', $error);
+            return false;
+        }
 
         // @todo make sure we don't set datecreated
         // @todo update datechanged
@@ -812,9 +787,7 @@ class Storage
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
                 continue; // Skip this one..
             }
-            if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
-                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))
-            ) {
+            if (!$this->isValidColumn($key, $contenttype)) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
 
@@ -1155,6 +1128,11 @@ class Storage
             $contenttypeslug = $match[1];
             $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
+        } elseif (preg_match('#^([a-z0-9_-]+)/random/([0-9]+)$#i', $contenttypeslug, $match)) {
+            // like 'page/random/lorem-ipsum-dolor'
+            $contenttypeslug = $match[1];
+            $parameters['order'] = 'RANDOM';
+            $parameters['limit'] = $match[2];
         }
 
         // When using from the frontend, we assume (by default) that we only want published items,
@@ -1237,24 +1215,7 @@ class Storage
         }
 
         // Order, with a special case for 'RANDOM'.
-        if (empty($parameters['order'])) {
-            if (!empty($contenttype['sort'])) {
-                $queryparams .= " ORDER BY " . $contenttype['sort'];
-            } else {
-                $queryparams .= " ORDER BY datepublish DESC";
-            }
-        } else {
-            if ($parameters['order'] == "RANDOM") {
-                $dboptions = getDBOptions($this->app['config']);
-                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
-            } else {
-                $order = safeString($parameters['order']);
-                if ($order[0] == "-") {
-                    $order = substr($order, 1) . " DESC";
-                }
-                $queryparams .= " ORDER BY " . $order;
-            }
-        }
+        $queryparams .= $this->queryParamOrder($parameters, $contenttype);
 
         // Make the query for the pager..
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
@@ -1323,6 +1284,74 @@ class Storage
         } else {
             return $content;
         }
+
+    }
+
+    /**
+     * Check if a given name is a valid column, and if it can be used in queries.
+     *
+     * @param string $name
+     * @param array $contenttype
+     * @param bool $allowVariants
+     * @return bool
+     */
+    private function isValidColumn($name, $contenttype, $allowVariants = false) {
+
+        // Strip the minus in '-title' if allowed..
+        if ($allowVariants) {
+            if ($name[0] == "-") {
+                $name = substr($name, 1);
+            }
+            $name = preg_replace("/ (desc|asc)/i", "", $name);
+        }
+
+        // Check if the $name is in the contenttype's fields.
+        if(isset($contenttype['fields'][$name])) {
+            return true;
+        }
+
+        if (in_array($name, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))) {
+            return true;
+        }
+
+
+        return false;
+
+    }
+
+    /**
+     * Get the parameter for the 'order by' part of a query.
+     *
+     * @param array $parameters
+     * @param array $contenttype
+     * @return string
+     */
+    private function queryParamOrder($parameters, $contenttype) {
+
+        if (empty($parameters['order'])) {
+            if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
+                $order = $contenttype['sort'];
+            }
+        } else {
+            $parameters['order'] = safeString($parameters['order']);
+            if ($parameters['order'] == "RANDOM") {
+                $dboptions = getDBOptions($this->app['config']);
+                $order = $dboptions['randomfunction'];
+            } elseif ($this->isValidColumn($parameters['order'], $contenttype, true)) {
+                $order = $parameters['order'];
+            }
+        }
+
+        if (!empty($order)) {
+            if ($order[0] == "-") {
+                $order = substr($order, 1) . " DESC";
+            }
+            $param = " ORDER BY " . $order;
+        } else {
+            $param = " ORDER BY datepublish DESC";
+        }
+
+        return $param;
 
     }
 
