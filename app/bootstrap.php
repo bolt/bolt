@@ -109,9 +109,7 @@ $app['twig.loader']->addLoader($loader);
 
 // If debug is set, we set up the custom error handler..
 if ($app['debug']) {
-    ini_set("display_errors", "1");
-    error_reporting (E_ALL );
-    $old_error_handler = set_error_handler("userErrorHandler");
+    $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
 } else {
     error_reporting(E_ALL ^ E_NOTICE);
     // error_reporting( E_ALL ^ E_NOTICE ^ E_WARNING );

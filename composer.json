@@ -23,7 +23,8 @@
         "swiftmailer/swiftmailer": "4.3.*",
         "htmlawed/htmlawed": "dev-master",
         "dflydev/markdown": "1.0.*",
-        "hautelook/phpass": "dev-master"
+        "hautelook/phpass": "dev-master",
+        "filp/whoops": "dev-master"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",
