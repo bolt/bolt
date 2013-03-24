@@ -17,10 +17,10 @@ and [other libraries](http://docs.bolt.cm/credits). Bolt is released under the o
 Current build status and code quality
 -------------------------------------
 
-[![Build Status](https://secure.travis-ci.org/bobdenotter/bolt.png?branch=master)](http://travis-ci.org/bobdenotter/bolt)
+[![Build Status](https://secure.travis-ci.org/bolt/bolt.png?branch=master)](http://travis-ci.org/bolt/bolt)
 
 For continously inspecting our code, we use Scrutinizer CI. You can find all runs
-on our code base [here](https://scrutinizer-ci.com/g/bobdenotter/bolt/inspections).
+on our code base [here](https://scrutinizer-ci.com/g/bolt/bolt/inspections).
 
 Installation
 ------------
