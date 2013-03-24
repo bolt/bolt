@@ -19,7 +19,7 @@ tools:
     php_code_sniffer:
         enabled: true
         config:
-            standard: PSR0,PSR1,PSR2
+            standard: PSR1,PSR2
     php_mess_detector:
         enabled: true
         config:
