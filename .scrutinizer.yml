@@ -7,6 +7,22 @@ tools:
         enabled: true
         config:
             level: all
+    php_cpd:
+        command: phpcpd
+        # Minimum number of identical lines (default: 5)
+        min_lines: 5
+        # Minimum number of identical tokens (default: 70)
+        min_tokens: 70
+        # A list of excluded directories.
+        excluded_dirs: ["vendor/*", "files/*"]
+        # A list of names that should be scanned (default: *.php)
+        names:
+            # Default:
+            - *.php
+        enabled: true
+        filter:
+            paths: ["app/*"]
+            excluded_paths: ["app/tests/*"]
 #    php_code_coverage:
 #        enabled: true
 #        config_path: ~
