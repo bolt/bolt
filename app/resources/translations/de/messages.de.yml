@@ -1,11 +1,27 @@
-# app/resources/translations/de/messages.de.yml -- generated on 2013/03/25 19:54:47
-# 2 untranslated strings
+# app/resources/translations/de/messages.de.yml -- generated on 2013/03/25 22:54:23
+# 18 untranslated strings
 
-"Released:":  "Veröffentlicht"
-"latest update:":  "letztes Update"
+"Created table <tt>%prefix%users</tt>.":  #
+"Date": "Datum"
+"Datetime":  #
+"Field <tt>'datepublish'</tt> in table <tt>%tablename%</tt> is not present.": "Feld <tt>'datepublish'</tt> in Tabelle <tt>%tablename%</tt> ist nicht vorhanden."
+"File":  "Datei"
+"Floatfield":  #
+"Geolocation":  #
+"Html":  #
+"Imagelist":  #
+"Integerfield":  #
+"Markdown":  #
+"Select zero or more pages":  #
+"Selectfield":  #
+"Table <tt>%prefix%log</tt> is not present.":  #
+"Table <tt>%prefix%relations</tt> is not present.":  #
+"Table <tt>%prefix%taxonomy</tt> is not present.":  #
+"Table <tt>%prefix%users</tt> is not present.":  #
+"Textarea":  #
 
 #-----------------------------------------
-# 236 translated strings
+# 233 translated strings
 
 "%contenttypes% overview": "%contenttypes% Übersicht"
 "%contenttypes%": "%contenttypes%"
@@ -40,8 +56,7 @@
 "Chapter": "Kapitel"
 "Chapters": "Kapitel"
 "Check database": "Datenbank überprüfen"
-"Choose the page": "Seite auswählen"
-"Class": "Klasse"
+"Choose an entry": "Eintrag auswählen"
 "Clear Activitylog": "Aktivitätshistorie löschen"
 "Clear filter": "Filter löschen"
 "Clear sort/filter": "Effacer le tri/filte"
@@ -73,7 +88,6 @@
 "Duplicate %contenttype%": "%contenttype% duplizieren"
 "Duplicate %filename%": "%filename% duplizieren"
 "Edit %contenttype% » %title%": "Bearbeiten von %contenttype% » %title%"
-"Edit Config": "Config bearbeiten"
 "Edit a user": "Benutzer bearbeiten"
 "Edit file '%s'.": "Datei '%s' bearbeiten. "
 "Edit translations file '%s'.": "Übersetzungsdatei '%s' bearbeiten."
@@ -83,6 +97,7 @@
 "Enabling extensions:": "Extensions aktivieren:"
 "Excerpt": "Auszug"
 "Extensions": "Extensions"
+"Field <tt>%field%</tt> in table <tt>%tablename%</tt> is not present.": "Feld <tt>%field%</tt> in Tabelle <tt>%tablename%</tt> ist nicht vorhanden."
 "File '%s' could not be saved, for some reason.": "Die Datei  '%s' konnte aus irgendeinem Grund nicht gespeichert werden."
 "File '%s' could not be saved: ": "Die Datei '%s' konnte nicht gespeichert werden:"
 "File '%s' has been saved.": "Die Datei '%s' wurdeF gespeichert."
@@ -162,7 +177,6 @@
 "Save": "Speichern"
 "Search results for <b> %search% </b>.": "Résultats des recherches pour <b> %search% </b>."
 "Search": "Suche"
-"Select  the page": "Die Seite auswählen"
 "Select a page": "Seite auswählen"
 "Settings": "Einstellungen"
 "Showing %pager_for% %from% - %to% of %count%": "%pager_for% %from% - %to% sur %count%"
@@ -174,6 +188,7 @@
 "Slug:": "Slug"
 "Sophisticated, lightweight & simple CMS": "CMS sophistiqué, simple & léger"
 "Status:": "Status:"
+"Table <tt>%tablename%</tt> is not present.": "Tabelle <tt>%tablename%</tt> ist nicht vorhanden."
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomie"
@@ -224,8 +239,6 @@
 "Video": "Video"
 "View %contenttypes%": "%contenttypes% anzeigen"
 "View / edit Templates": "Templates anzeigen/bearbeiten"
-"View Config": "Zeige Config"
-"View Readme": "Readme anzeigen"
 "View file '%s'.": "Zeige Datei '%s'."
 "View on site": "Auf der Site anzeigen"
 "View site": "Site anzeigen"
