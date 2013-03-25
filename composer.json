@@ -1,5 +1,5 @@
 {
-    "name": "bobdenotter/bolt",
+    "name": "bolt/bolt",
     "description": "Sophisticated, lightweight & simple CMS",
     "homepage": "http://bolt.cm",
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
