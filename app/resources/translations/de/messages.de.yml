@@ -108,7 +108,7 @@
 "Filesize": "Dateigröße"
 "Fill the database with Dummy Content": "Datenbank mit Testdaten füllen"
 "Filter": "Filter"
-"Filtering:": "Filter aktiv:"
+"Filtering:": "Filtern:"
 "Folder '%s' could not be found, or is not readable.": "Konnte nicht auf '%s' zugreifen"
 "Folders": "Verzeichnisse"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "S'il y avait une page avec un slug 'about', elle serait affichée ici. Mais il n'y en a pas, c'est pourquoi vous voyez cet espace réservé."
