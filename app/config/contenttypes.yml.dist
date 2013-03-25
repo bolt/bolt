@@ -124,6 +124,7 @@ kitchensink:
             type: date
         integerfield:
             type: integer
+            index: true
         floatfield:
             type: float
         selectfield:
