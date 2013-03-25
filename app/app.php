@@ -109,22 +109,19 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
 $app->after(function (Request $request, Response $response) use ($app) {
 
-    $end = getWhichEnd();
+    // true if we need to consider adding html snippets
+    if (isset($app['htmlsnippets']) && ($app['htmlsnippets'] === true)) {
 
-    if ($end == "frontend") {
+        // only add when content-type is text/html
+        if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
+            $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
 
-        $html = $response->getContent();
+            $html = $response->getContent();
 
-        // Insert our 'generator' after the last <meta ..> tag.
-        // @todo Find a neat solution for this
-        if (stripos($response->headers->get('Content-Type'), 'xml') === false){
-            $app['extensions']->insertSnippet('aftermeta', '<meta name="generator" content="Bolt">');
+            $html = $app['extensions']->processSnippetQueue($html);
+
+            $response->setContent($html);
         }
-
-        $html = $app['extensions']->processSnippetQueue($html);
-
-        $response->setContent($html);
-
     }
 
 });

@@ -68,7 +68,8 @@ class Frontend implements ControllerProviderInterface
             return redirect('useredit', array('id' => ""));
         }
 
-        $app['debugbar'] = true;
+        $app['debugbar']     = true;
+        $app['htmlsnippets'] = true;
 
     }
 
