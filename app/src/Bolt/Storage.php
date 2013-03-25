@@ -10,6 +10,8 @@ use Doctrine\DBAL\Schema\Table;
 use Silex;
 use Bolt;
 use util;
+use Doctrine\DBAL\Connection as DoctrineConn;
+use Symfony\Component\EventDispatcher\Event;
 
 class Storage
 {
