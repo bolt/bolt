@@ -18,7 +18,7 @@ tools:
         # A list of names that should be scanned (default: *.php)
         names:
             # Default:
-            - *.php
+            - "*.php"
         enabled: true
         filter:
             paths: ["app/*"]
