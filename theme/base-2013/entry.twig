@@ -28,6 +28,11 @@
                 <p>{{ record.excerpt(1000) }}</p>
             {% endif %}
 
+            {# if the entry has a video, display it. #}
+            {% if record.video is not empty %}
+                {{ record.video.responsive }}
+            {% endif %}
+
             {{ record.body }}
 
             {% include '_recordfooter.twig' with {record: record} %}
