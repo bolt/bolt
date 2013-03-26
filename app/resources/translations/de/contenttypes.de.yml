@@ -1,31 +1,3 @@
-# app/resources/translations/de/contenttypes.de.yml -- generated on 2013/03/25 22:36:27
-# 21 untranslated strings
-
-"No recent Entry.":  #
-"No recent Kitchensink.":  #
-"No recent Page.":  #
-"Recent Entries":  #
-"Recent Kitchensinks":  #
-"Recent Pages":  #
-"The changes to this Entry have been saved.":  #
-"The changes to this Kitchensink have been saved.":  #
-"The changes to this Page have been saved.":  #
-"The new Entry has been saved.":  #
-"The new Kitchensink has been saved.":  #
-"The new Page has been saved.":  #
-"There was an error saving this Entry.":  #
-"There was an error saving this Kitchensink.":  #
-"There was an error saving this Page.":  #
-"This Entry was created":  #
-"This Kitchensink was created":  #
-"This Page was created":  #
-"This record is related to Entry":  #
-"This record is related to Kitchensink":  #
-"This record is related to Page":  #
-"Table %tablename% is not present.": "Tabelle %tablename% nicht vorhanden"
-#-----------------------------------------
-# 60 translated strings
-
 "Actions for Entries": "Aktionen für Einträge"
 "Actions for Kitchensinks": "Aktionen für Kitchensinks"
 "Actions for Pages": "Aktionen für Seiten"
@@ -69,6 +41,9 @@
 "No latest Entry": "Keine neuesten Einträge"
 "No latest Kitchensink": "Keine neuesten Einträge"
 "No latest Page": "Keine neueste Seite"
+"No recent Entry.": "Keine letzen Einträge"
+"No recent Kitchensink.": "Keine letzten Kitchensinks"
+"No recent Page.": "Keine letzte Seite"
 "Overview » Entries": "Übersicht » Einträge"
 "Overview » Kitchensinks": "Übersicht » Kitchensinks"
 "Overview » Pages": "Übersicht » Seiten"
@@ -80,9 +55,27 @@
 "Publish Entry": "Eintrag veröffentlichen"
 "Publish Kitchensink": "Kitchensink veröffentlichen"
 "Publish Page": "Seite veröffentlichen"
+"Recent Entries": "Letzte Einträge"
+"Recent Kitchensinks": "Letzte Kitchensinks"
+"Recent Pages": "Letzte Seiten"
 "Save Entry": "Eintag speichern"
 "Save Kitchensink": "Kitchensink speichern"
 "Save Page": "Seite speichern"
+"The changes to this Entry have been saved.": "Die Änderungen an diesem Eintrag wurden gespeichert"
+"The changes to this Kitchensink have been saved.": "Die Änderungen an diesem Kitchensink wurden gespeichert"
+"The changes to this Page have been saved.": "Die Änderungen an dieser Seite wurden gespeichert"
+"The new Entry has been saved.": "Der neue Eintrag wurde gespeichert"
+"The new Kitchensink has been saved.": "Der neue Kitchensink wurde gespeichert"
+"The new Page has been saved.": "Die neue Seite wurde gespeichert"
+"There was an error saving this Entry.": "Es gab einen Fehler beim Speichern des Eintrags"
+"There was an error saving this Kitchensink.": "Es gab einen Fehler beim Speichern des Kitchensinks"
+"There was an error saving this Page.": "Es gab einen Fehler beim Speichern der Seite"
+"This Entry was created": "Dieser Eintrag wurde erstellt"
+"This Kitchensink was created": "Dieser Kitchensink wurde erstellt"
+"This Page was created": "Diese Seite wurde erstellt"
+"This record is related to Entry": "Dieser Datensatz steht in Relation zu Eintrag"
+"This record is related to Kitchensink": "Dieser Datensatz steht in Relation zu Kitchensink"
+"This record is related to Page": "Dieser Datensatz steht in Relation zu Seite"
 "View Entries": "Einträge anzeigen"
 "View Kitchensinks": "Kitchensinks anzeigen"
 "View Pages": "Seiten anzeigen"
