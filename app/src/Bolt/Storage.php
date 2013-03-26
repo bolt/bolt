@@ -500,7 +500,7 @@ class Storage
         $this->saveContent($contentobject);
 
         $output = __("Added to <tt>%key%</tt> '%title%'",
-            array('%key'=>$key, '%title%'=>$contentobject->getTitle())) . "<br>\n";
+            array('%key%'=>$key, '%title%'=>$contentobject->getTitle())) . "<br>\n";
 
         return $output;
 
@@ -582,7 +582,7 @@ class Storage
 
             if ($values['type'] == "imagelist") {
 
-                if (strlen($fieldvalues[$key])<3) {
+                if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key])<3) {
                     // Don't store '[]'
                     $fieldvalues[$key] = "";
                 }
