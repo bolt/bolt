@@ -195,6 +195,13 @@ CKEDITOR.editorConfig = function( config ) {
         showUncommentButton: false
     };
 
+    /* Parse override settings from config.yml */
+    for (var key in wysiwyg.ck){
+        if (wysiwyg.ck.hasOwnProperty(key)) {
+             config[key] = wysiwyg.ck[key];
+        }
+    }
+
 };
 
 
