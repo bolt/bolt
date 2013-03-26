@@ -1,9 +1,9 @@
 <?php
 
 if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
-    if (substr(__DIR__, -28) == '/vendor/bolt/bolt/app') { // installed bolt with composer
+    if (substr(__DIR__, -21) == '/vendor/bolt/bolt/app') { // installed bolt with composer
         define('BOLT_COMPOSER_INSTALLED', true);
-        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -28));
+        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
         define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR.'/web');
         define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
     } else {
