@@ -78,9 +78,12 @@ class Frontend implements ControllerProviderInterface
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
+
             if (is_array($content)) {
+                $first = current($content);
                 $twigvars = array(
-                    'records' => $content
+                    'records' => $content,
+                    $first->contenttype['slug'] => $content
                 );
             } else {
                 $twigvars = array(
@@ -88,6 +91,7 @@ class Frontend implements ControllerProviderInterface
                     $content->contenttype['singular_slug'] => $content
                 );
             }
+
             $chosen = 'homepage config';
         } else {
             $template = 'index.twig';
