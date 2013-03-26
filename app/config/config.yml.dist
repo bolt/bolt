@@ -88,16 +88,16 @@ strict_variables: false
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibilty not to break the layout.
 wysiwyg:
-    images: true
+    images: false
     anchor: false
-    tables: true
-    fontcolor: true
-    align: true
+    tables: false
+    fontcolor: false
+    align: false
     subsuper: false
     embed: false
-    ck:
-        allowedContent: false # Set this to 'true' to allow any elements and attributes in Wysiwg Elements
-        contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
+    # ck:
+        # allowedContent: false # Set this to 'true' to allow any elements and attributes in Wysiwg Elements
+        # contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
 
 #wysiwyg_filebrowser:
 #  browseUrl: /kcfinder/browse.php?type=files
