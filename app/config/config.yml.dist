@@ -10,8 +10,8 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
-# The theme to use. Be sure to copy the theme/default folder, and change the
-# name here accordingly. Don't edit the templates in theme/default, because
+# The theme to use. Be sure to copy the theme/base-2013 folder, and change the
+# name here accordingly. Don't edit the templates in theme/base-2013, because
 # they _will_ get updated in next releases
 theme: base-2013
 
@@ -87,13 +87,18 @@ strict_variables: false
 # more ways of breaking the preciously designed layout. By default the most 'dangerous'
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibilty not to break the layout.
-wysiwyg_images: false
-wysiwyg_anchor: false
-wysiwyg_tables: false
-wysiwyg_fontcolor: false
-wysiwyg_align: false
-wysiwyg_subsuper: false
-wysiwyg_embed: false
+wysiwyg:
+    images: false
+    anchor: false
+    tables: false
+    fontcolor: false
+    align: false
+    subsuper: false
+    embed: false
+    # ck:
+        # allowedContent: false # Set this to 'true' to allow any elements and attributes in Wysiwg Elements
+        # contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
+
 #wysiwyg_filebrowser:
 #  browseUrl: /kcfinder/browse.php?type=files
 #  imageBrowseUrl: /kcfinder/browse.php?type=images

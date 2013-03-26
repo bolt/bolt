@@ -26,6 +26,9 @@ $app->before(function () use ($app) {
 // On 'finish' attach the debug-bar, if debug is enabled..
 if ($app['debug'] && ($app['session']->has('user') || $app['config']['general']['debug_show_loggedoff'] ) ) {
 
+    // Register Whoops, to handle errors for logged in users only.
+    $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
+
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
 
@@ -101,32 +104,33 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
         ));
 
     });
+} else {
+    error_reporting(E_ALL ^ E_NOTICE);
 }
 
 
 $app->after(function (Request $request, Response $response) use ($app) {
 
-    $end = getWhichEnd();
+    // true if we need to consider adding html snippets
+    if (isset($app['htmlsnippets']) && ($app['htmlsnippets'] === true)) {
 
-    if ($end == "frontend") {
-
-        $html = $response->getContent();
-
-        // Insert our 'generator' after the last <meta ..> tag.
-        // @todo Find a neat solution for this
-        if (stripos($response->headers->get('Content-Type'), 'xml') === false){
+        // only add when content-type is text/html
+        if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
             $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+
+            $html = $response->getContent();
+
+            $html = $app['extensions']->processSnippetQueue($html);
+
+            $response->setContent($html);
         }
-
-        $html = $app['extensions']->processSnippetQueue($html);
-
-        $response->setContent($html);
-
     }
 
 });
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+
 
 /**
  * Error page.

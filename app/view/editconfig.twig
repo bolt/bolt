@@ -17,13 +17,21 @@
 </form>
 
 {% if not ismobileclient() %}
-    <link rel="stylesheet" href="{{ paths.app }}view/lib/codemirror/codemirror.css">
-    <script src="{{ paths.app }}view/lib/codemirror/codemirror.min.js"></script>
+    {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
+    <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
     {% if filetype in ['twig', 'html', 'htm'] %}
     <script src="{{ paths.app }}view/lib/codemirror/xml.js"></script>
     <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>
     <script src="{{ paths.app }}view/lib/codemirror/css.js"></script>
     <script src="{{ paths.app }}view/lib/codemirror/htmlmixed.js"></script>
+    {% elseif filetype == "php" %}
+    <script src="{{ paths.app }}view/lib/codemirror/matchbrackets.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/css.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/htmlmixed.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/clike.js"></script>
+    <script src="{{ paths.app }}view/lib/codemirror/php.js"></script>
     {% elseif filetype == "yml" %}
     <script src="{{ paths.app }}view/lib/codemirror/yaml.js"></script>
     {% elseif filetype == "md" %}

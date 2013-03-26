@@ -2,6 +2,11 @@
 
 namespace Bolt;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Schema\Table;
 use Silex;
 use Bolt;
 use util;
@@ -120,119 +125,82 @@ class Storage
 
         $output = array();
 
-        $tables = $this->getTables();
+        $currentTables = $this->getTableObjects();
 
         $dboptions = getDBOptions($this->app['config']);
+        /** @var $schemaManager AbstractSchemaManager */
+        $schemaManager = $this->app['db']->getSchemaManager();
 
-        // Create the users table..
-        if (!isset($tables[$this->prefix."users"])) {
+        $comparator = new Comparator();
 
-            $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."users");
-            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
-            $myTable->setPrimaryKey(array("id"));
-            $myTable->addColumn("username", "string", array("length" => 32));
-            $myTable->addColumn("password", "string", array("length" => 64));
-            $myTable->addColumn("email", "string", array("length" => 64));
-            $myTable->addColumn("lastseen", "datetime");
-            $myTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
-            $myTable->addColumn("displayname", "string", array("length" => 32));
-            $myTable->addColumn("userlevel", "string", array("length" => 32));
-            $myTable->addColumn("contenttypes", "string", array("length" => 256));
-            $myTable->addColumn("enabled", "boolean");
+        $tables = array();
 
-            $queries = $schema->toSql($this->app['db']->getDatabasePlatform());
-            $queries = implode("; ", $queries);
-            $this->app['db']->query($queries);
+        $schema = new \Doctrine\DBAL\Schema\Schema();
+        $usersTable = $schema->createTable($this->prefix."users");
+        $usersTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+        $usersTable->setPrimaryKey(array("id"));
+        $usersTable->addColumn("username", "string", array("length" => 32));
+        $usersTable->addIndex( array( 'username' ) );
+        $usersTable->addColumn("password", "string", array("length" => 64));
+        $usersTable->addColumn("email", "string", array("length" => 64));
+        $usersTable->addColumn("lastseen", "datetime");
+        $usersTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
+        $usersTable->addColumn("displayname", "string", array("length" => 32));
+        $usersTable->addColumn("userlevel", "string", array("length" => 32));
+        $usersTable->addColumn("contenttypes", "string", array("length" => 256));
+        $usersTable->addColumn("enabled", "boolean");
+        $usersTable->addIndex( array( 'enabled' ) );
+        $tables[] = $usersTable;
 
-            $output[] = "Created table <tt>" . $this->prefix."users" . "</tt>.";
+        $taxonomyTable = $schema->createTable($this->prefix."taxonomy");
+        $taxonomyTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+        $taxonomyTable->setPrimaryKey(array("id"));
+        $taxonomyTable->addColumn("content_id", "integer", array("unsigned" => true));
+        $taxonomyTable->addIndex( array( 'content_id' ) );
+        $taxonomyTable->addColumn("contenttype", "string", array("length" => 32));
+        $taxonomyTable->addIndex( array( 'contenttype' ) );
+        $taxonomyTable->addColumn("taxonomytype", "string", array("length" => 32));
+        $taxonomyTable->addIndex( array( 'taxonomytype' ) );
+        $taxonomyTable->addColumn("slug", "string", array("length" => 64));
+        $taxonomyTable->addColumn("name", "string", array("length" => 64, "default" => ""));
+        $taxonomyTable->addColumn("sortorder", "integer", array("unsigned" => true, "default" => 0));
+        $taxonomyTable->addIndex( array( 'sortorder' ) );
+        $tables[] = $taxonomyTable;
 
-        } else if (!isset($tables[$this->prefix."users"]['contenttypes'])) {
-            // Check if the contenttypes field is present (added after 0.9.9)
-            $query = sprintf("ALTER TABLE `%s` ADD `contenttypes` VARCHAR( 256 ) NOT NULL DEFAULT \"\";", $this->prefix."users" );
-            $this->app['db']->query($query);
-            $output[] = "Added column <tt>" . 'contenttypes' . "</tt> to table <tt>" . $this->prefix . "users</tt>.";
-        }
+        $relationsTable = $schema->createTable($this->prefix."relations");
+        $relationsTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+        $relationsTable->setPrimaryKey(array("id"));
+        $relationsTable->addColumn("from_contenttype", "string", array("length" => 32));
+        $relationsTable->addIndex( array( 'from_contenttype' ) );
+        $relationsTable->addColumn("from_id", "integer", array("unsigned" => true));
+        $relationsTable->addIndex( array( 'from_id' ) );
+        $relationsTable->addColumn("to_contenttype", "string", array("length" => 32));
+        $relationsTable->addIndex( array( 'to_contenttype' ) );
+        $relationsTable->addColumn("to_id", "integer", array("unsigned" => true));
+        $relationsTable->addIndex( array( 'to_id' ) );
+        $tables[] = $relationsTable;
 
-
-        // Create the taxonomy table..
-        if (!isset($tables[$this->prefix."taxonomy"])) {
-
-            $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."taxonomy");
-            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
-            $myTable->setPrimaryKey(array("id"));
-            $myTable->addColumn("content_id", "integer", array("unsigned" => true));
-            $myTable->addColumn("contenttype", "string", array("length" => 32));
-            $myTable->addColumn("taxonomytype", "string", array("length" => 32));
-            $myTable->addColumn("slug", "string", array("length" => 64));
-            $myTable->addColumn("name", "string", array("length" => 64, "default" => ""));
-            $myTable->addColumn("sortorder", "integer", array("unsigned" => true, "default" => 0));
-
-            $queries = $schema->toSql($this->app['db']->getDatabasePlatform());
-            $queries = implode("; ", $queries);
-            $this->app['db']->query($queries);
-
-            $output[] = "Created table <tt>" . $this->prefix."taxonomy" . "</tt>.";
-
-        } else if (!isset($tables[$this->prefix."taxonomy"]['sortorder'])) {
-            // Check if the sortorder field is present (added after 0.9.4)
-            $query = sprintf("ALTER TABLE `%s` ADD `sortorder` DECIMAL(18) DEFAULT \"0\";", $this->prefix."taxonomy" );
-            $this->app['db']->query($query);
-            $output[] = "Added column <tt>" . 'sortorder' . "</tt> to table <tt>" . $this->prefix . "taxonomy</tt>.";
-        }
-
-
-        // Create the relations table..
-        if (!isset($tables[$this->prefix."relations"])) {
-
-            $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."relations");
-            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
-            $myTable->setPrimaryKey(array("id"));
-            $myTable->addColumn("from_contenttype", "string", array("length" => 32));
-            $myTable->addColumn("from_id", "integer", array("unsigned" => true));
-            $myTable->addColumn("to_contenttype", "string", array("length" => 32));
-            $myTable->addColumn("to_id", "integer", array("unsigned" => true));
-
-            $queries = $schema->toSql($this->app['db']->getDatabasePlatform());
-            $queries = implode("; ", $queries);
-            $this->app['db']->query($queries);
-
-            $output[] = "Created table <tt>" . $this->prefix."relations" . "</tt>.";
-
-        }
-
-
-        // Create the log table..
-        if (!isset($tables[$this->prefix."log"])) {
-
-            $schema = new \Doctrine\DBAL\Schema\Schema();
-            $myTable = $schema->createTable($this->prefix."log");
-            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
-            $myTable->setPrimaryKey(array("id"));
-            $myTable->addColumn("level", "integer", array("unsigned" => true));
-            $myTable->addColumn("date", "datetime");
-            $myTable->addColumn("message", "string", array("length" => 1024));
-            $myTable->addColumn("username", "string", array("length" => 64, "default" => ""));
-            $myTable->addColumn("requesturi", "string", array("length" => 128));
-            $myTable->addColumn("route", "string", array("length" => 128));
-            $myTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
-            $myTable->addColumn("file", "string", array("length" => 128, "default" => ""));
-            $myTable->addColumn("line", "integer", array("unsigned" => true));
-            $myTable->addColumn("contenttype", "string", array("length" => 32));
-            $myTable->addColumn("content_id", "integer", array("unsigned" => true));
-            $myTable->addColumn("code", "string", array("length" => 32));
-            $myTable->addColumn("dump", "string", array("length" => 1024));
-
-            $queries = $schema->toSql($this->app['db']->getDatabasePlatform());
-            $queries = implode("; ", $queries);
-            $this->app['db']->query($queries);
-
-            $output[] = "Created table <tt>" . $this->prefix."log" . "</tt>.";
-
-        }
-
+        $logTable = $schema->createTable($this->prefix."log");
+        $logTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+        $logTable->setPrimaryKey(array("id"));
+        $logTable->addColumn("level", "integer", array("unsigned" => true));
+        $logTable->addIndex( array( 'level' ) );
+        $logTable->addColumn("date", "datetime");
+        $logTable->addIndex( array( 'date' ) );
+        $logTable->addColumn("message", "string", array("length" => 1024));
+        $logTable->addColumn("username", "string", array("length" => 64, "default" => ""));
+        $logTable->addIndex( array( 'username' ) );
+        $logTable->addColumn("requesturi", "string", array("length" => 128));
+        $logTable->addColumn("route", "string", array("length" => 128));
+        $logTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
+        $logTable->addColumn("file", "string", array("length" => 128, "default" => ""));
+        $logTable->addColumn("line", "integer", array("unsigned" => true));
+        $logTable->addColumn("contenttype", "string", array("length" => 32));
+        $logTable->addColumn("content_id", "integer", array("unsigned" => true));
+        $logTable->addColumn("code", "string", array("length" => 32));
+        $logTable->addIndex( array( 'code' ) );
+        $logTable->addColumn("dump", "string", array("length" => 1024));
+        $tables[] = $logTable;
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
@@ -240,108 +208,126 @@ class Storage
             // create the table if necessary..
             $tablename = $this->prefix . makeSlug($key);
 
-            if (!isset($tables[$tablename])) {
-
-                $schema = new \Doctrine\DBAL\Schema\Schema();
-                $myTable = $schema->createTable($tablename);
-                $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
-                $myTable->setPrimaryKey(array("id"));
-                $myTable->addColumn("slug", "string", array("length" => 128));
-                $myTable->addColumn("datecreated", "datetime");
-                $myTable->addColumn("datechanged", "datetime");
-                $myTable->addColumn("datepublish", "datetime");
-                $myTable->addColumn("username", "string", array("length" => 32));
-                $myTable->addColumn("status", "string", array("length" => 32));
-
-                $queries = $schema->toSql($this->app['db']->getDatabasePlatform());
-                $queries = implode("; ", $queries);
-                $this->app['db']->query($queries);
-
-                $output[] = "Created table <tt>" . $tablename . "</tt>.";
-
-            }
-
-            // Check if the datepublish field is present (added after 0.7.7)
-            if (isset($tables[$tablename]) && !isset($tables[$tablename]['datepublish'])) {
-                $query = sprintf("ALTER TABLE `%s` ADD `datepublish` DATETIME NOT NULL DEFAULT \"1970-00-00 00:00:00\";", $tablename);
-                $this->app['db']->query($query);
-                $output[] = "Added column <tt>" . 'datepublish' . "</tt> to table <tt>" . $tablename . "</tt>.";
-            }
+            $myTable = $schema->createTable($tablename);
+            $myTable->addColumn("id", "integer", array("unsigned" => true, 'autoincrement' => true));
+            $myTable->setPrimaryKey(array("id"));
+            $myTable->addColumn("slug", "string", array("length" => 128));
+            $myTable->addIndex( array( 'slug' ) );
+            $myTable->addColumn("datecreated", "datetime");
+            $myTable->addIndex( array( 'datecreated' ) );
+            $myTable->addColumn("datechanged", "datetime");
+            $myTable->addIndex( array( 'datechanged' ) );
+            $myTable->addColumn("datepublish", "datetime");
+            $myTable->addIndex( array( 'datepublish' ) );
+            $myTable->addColumn("username", "string", array("length" => 32));
+            $myTable->addColumn("status", "string", array("length" => 32));
+            $myTable->addIndex( array( 'status' ) );
 
             // Check if all the fields are present in the DB..
             foreach ($contenttype['fields'] as $field => $values) {
 
-                if (!isset($tables[$tablename][$field])) {
+                if (in_array($field, $dboptions['reservedwords'])) {
+                    $error = sprintf("You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
+                        $field,
+                        $dboptions['driver']
+                    );
+                    $this->app['session']->getFlashBag()->set('error', $error);
+                    continue;
+                }
 
-                    // $myTable = $sm->listTableDetails($tablename);
+                switch ($values['type']) {
+                    case 'text':
+                    case 'templateselect':
+                    case 'select':
+                    case 'image':
+                    case 'file':
+                        $myTable->addColumn($field, "string", array("length" => 256, "default" => ""));
+                        break;
+                    case 'float':
+                        $myTable->addColumn($field, "float", array("default" => 0));
+                        break;
+                    case 'number': // deprecated..
+                        $myTable->addColumn($field, "decimal", array("precision" => "18", "scale" => "9", "default" => 0));
+                        break;
+                    case 'integer':
+                        $myTable->addColumn($field, "integer", array("default" => 0));
+                        break;
+                    case 'html':
+                    case 'textarea':
+                    case 'video':
+                    case 'markdown':
+                    case 'geolocation':
+                    case 'imagelist':
+                        $myTable->addColumn($field, "text");
+                        break;
+                    case 'datetime':
+                        $myTable->addColumn($field, "datetime");
+                        break;
+                    case 'date':
+                        $myTable->addColumn($field, "date");
+                        break;
+                    case 'slug':
+                    case 'id':
+                    case 'datecreated':
+                    case 'datechanged':
+                    case 'datepublish':
+                    case 'username':
+                    case 'status':
+                        // These are the default columns. Don't try to add these.
+                        break;
+                    case 'divider':
+                        // Not a real database field
+                        break;
+                    default:
+                        $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
+                }
 
-                    if (in_array($field, $dboptions['reservedwords'])) {
-                        $error = sprintf("You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
-                            $field,
-                            $dboptions['driver']
-                        );
-                        $this->app['session']->getFlashBag()->set('error', $error);
-                        continue;
-                    }
-
-                    switch ($values['type']) {
-                        case 'text':
-                        case 'templateselect':
-                        case 'select':
-                        case 'image':
-                        case 'file':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` VARCHAR( 256 ) NOT NULL DEFAULT \"\";", $tablename, $field);
-                            $this->app['db']->query($query);
-                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
-                            break;
-                        case 'float':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DOUBLE NOT NULL DEFAULT 0;", $tablename, $field);
-                            $this->app['db']->query($query);
-                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
-                            break;
-                        case 'number': // deprecated..
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18,9) NOT NULL DEFAULT 0;", $tablename, $field);
-                            $this->app['db']->query($query);
-                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
-                            break;
-                        case 'integer':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DECIMAL(18) NOT NULL DEFAULT 0;", $tablename, $field);
-                            $this->app['db']->query($query);
-                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
-                            break;
-                        case 'html':
-                        case 'textarea':
-                        case 'video':
-                        case 'markdown':
-                        case 'geolocation':
-                        case 'imagelist':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` TEXT;", $tablename, $field);
-                            $this->app['db']->query($query);
-                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
-                            break;
-                        case 'datetime':
-                        case 'date':
-                            $query = sprintf("ALTER TABLE `%s` ADD `%s` DATETIME", $tablename, $field);
-                            $this->app['db']->query($query);
-                            $output[] = "Added column <tt>" . $field . "</tt> to table <tt>" . $tablename . "</tt>.";
-                            break;
-                        case 'slug':
-                        case 'id':
-                        case 'datecreated':
-                        case 'datechanged':
-                        case 'datepublish':
-                        case 'username':
-                        case 'divider':
-                            // These are the default columns. Don't try to add these.
-                            break;
-                        default:
-                            $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
-                    }
-
+                if (isset($values['index']) && $values['index'] == 'true') {
+                    $myTable->addIndex( array( $field ) );
                 }
 
             }
+            $tables[] = $myTable;
 
+        }
+
+        /** @var $table Table */
+        foreach($tables as $table) {
+            // Create the users table..
+            if (!isset($currentTables[$table->getName()])) {
+
+                /** @var $platform AbstractPlatform */
+                $platform = $this->app['db']->getDatabasePlatform();
+                $queries = $platform->getCreateTableSQL($table);
+                $queries = implode("; ", $queries);
+                $this->app['db']->query($queries);
+
+                $output[] = "Created table <tt>" . $table->getName() . "</tt>.";
+
+            } else {
+
+                $diff = $comparator->diffTable( $currentTables[$table->getName()], $table );
+                if ( $diff ) {
+                    if (!in_array($table->getName(),array($this->prefix."users"))) {
+                        // we don't remove fields from contenttype tables to prevent accidental data removal
+                        if ($diff->removedColumns) {
+                            //var_dump($diff->removedColumns);
+                            /** @var $column Column */
+                            foreach($diff->removedColumns as $column) {
+                                //$output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
+                                //    "is no longer defined in the config, delete manually if no longer needed.</i>";
+                            }
+                        }
+                        $diff->removedColumns = array();
+                    }
+                    // diff may be just deleted columns which we have reset above
+                    // only exec and add output if does really alter anything
+                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                        $schemaManager->alterTable( $diff );
+                        $output[] = "Updated <tt>" . $table->getName() . "</tt> table to match current schema.";
+                    }
+                }
+            }
         }
 
         return $output;
@@ -468,8 +454,10 @@ class Storage
                     }
                     break;
                 case 'datetime':
-                case 'date':
                     $content[$field] = date('Y-m-d H:i:s', time() - rand(-365*24*60*60, 365*24*60*60));
+                    break;
+                case 'date':
+                    $content[$field] = date('Y-m-d', time() - rand(-365*24*60*60, 365*24*60*60));
                     break;
                 case 'float':
                 case 'number': // number is deprecated..
@@ -500,7 +488,7 @@ class Storage
         $this->saveContent($contentobject);
 
         $output = __("Added to <tt>%key%</tt> '%title%'",
-            array('%key'=>$key, '%title%'=>$contentobject->getTitle())) . "<br>\n";
+            array('%key%'=>$key, '%title%'=>$contentobject->getTitle())) . "<br>\n";
 
         return $output;
 
@@ -550,12 +538,8 @@ class Storage
             $this->app['dispatcher']->dispatch(StorageEvents::preSave, $event);
         }
 
-        // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
-
-            $allowedcolumns[] = $key;
 
             // Set the slug, while we're at it..
             if ($values['type'] == "slug") {
@@ -586,7 +570,7 @@ class Storage
 
             if ($values['type'] == "imagelist") {
 
-                if (strlen($fieldvalues[$key])<3) {
+                if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key])<3) {
                     // Don't store '[]'
                     $fieldvalues[$key] = "";
                 }
@@ -628,15 +612,16 @@ class Storage
 
             }
 
-            if (!in_array($key, $allowedcolumns)) {
-                // unset columns we don't need to store..
-                unset($fieldvalues[$key]);
-            } else {
+            if ($this->isValidColumn($key, $contenttype)) {
                 // Trim strings..
                 if (is_string($fieldvalues[$key])) {
                     $fieldvalues[$key] = trim($fieldvalues[$key]);
                 }
+            } else {
+                // unset columns we don't need to store..
+                unset($fieldvalues[$key]);
             }
+
         }
 
         // Decide whether to insert a new record, or update an existing one.
@@ -659,35 +644,6 @@ class Storage
         return $id;
 
     }
-
-
-    public function changeContent($contenttype, $id, $column, $value)
-    {
-
-        if (empty($contenttype)) {
-            echo "Contenttype is required.";
-
-            return false;
-        }
-
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
-        // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
-        // add the fields for this contenttype,
-        foreach ($this->app['config']['contenttypes'][$contenttype]['fields'] as $key => $values) {
-            $allowedcolumns[] = $key;
-        }
-
-        $content = array('id' => $id, $column => $value);
-
-        return $this->updateContent($content, $contenttype);
-
-    }
-
 
 
     public function deleteContent($contenttype, $id)
@@ -773,12 +729,18 @@ class Storage
     }
 
 
-    public function updateSingleValue($id, $contenttype, $field, $value)
+    public function updateSingleValue($contenttype, $id, $field, $value)
     {
 
         $tablename = $this->prefix . $contenttype;
 
         $id = intval($id);
+
+        if (!$this->isValidColumn($field, $contenttype)) {
+            $error = __("Can't set %field% in %contenttype%: Not a valid field.", array('%field%' => $field, '%contenttype%' => $contenttype));
+            $this->app['session']->getFlashBag()->set('error', $error);
+            return false;
+        }
 
         // @todo make sure we don't set datecreated
         // @todo update datechanged
@@ -855,9 +817,7 @@ class Storage
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
                 continue; // Skip this one..
             }
-            if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
-                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))
-            ) {
+            if (!$this->isValidColumn($key, $contenttype)) {
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
 
@@ -1089,8 +1049,8 @@ class Storage
 
         $tablename = $this->prefix . "taxonomy";
 
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
-        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+        $limit = $parameters['limit'] ?: 100;
+        $page = $parameters['page'] ?: 1;
 
         $where = " WHERE (taxonomytype=". $this->app['db']->quote($taxonomytype) . " AND slug=". $this->app['db']->quote($slug) .")";
 
@@ -1107,7 +1067,7 @@ class Storage
         if (is_array($taxorows)) {
             foreach($taxorows as $row) {
                 $record = $this->getContent($row['contenttype']."/".$row['content_id']);
-                if ($record instanceof \Bolt\Content) {
+                if ($record instanceof \Bolt\Content && !empty($record->id)) {
                     $content[] = $record;
                 }
             }
@@ -1196,6 +1156,11 @@ class Storage
             $contenttypeslug = $match[1];
             $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
+        } elseif (preg_match('#^([a-z0-9_-]+)/random/([0-9]+)$#i', $contenttypeslug, $match)) {
+            // like 'page/random/lorem-ipsum-dolor'
+            $contenttypeslug = $match[1];
+            $parameters['order'] = 'RANDOM';
+            $parameters['limit'] = $match[2];
         }
 
         // When using from the frontend, we assume (by default) that we only want published items,
@@ -1278,24 +1243,7 @@ class Storage
         }
 
         // Order, with a special case for 'RANDOM'.
-        if (empty($parameters['order'])) {
-            if (!empty($contenttype['sort'])) {
-                $queryparams .= " ORDER BY " . $contenttype['sort'];
-            } else {
-                $queryparams .= " ORDER BY datepublish DESC";
-            }
-        } else {
-            if ($parameters['order'] == "RANDOM") {
-                $dboptions = getDBOptions($this->app['config']);
-                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
-            } else {
-                $order = safeString($parameters['order']);
-                if ($order[0] == "-") {
-                    $order = substr($order, 1) . " DESC";
-                }
-                $queryparams .= " ORDER BY " . $order;
-            }
-        }
+        $queryparams .= $this->queryParamOrder($parameters, $contenttype);
 
         // Make the query for the pager..
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
@@ -1359,6 +1307,74 @@ class Storage
         } else {
             return $content;
         }
+    }
+
+    /**
+     * Check if a given name is a valid column, and if it can be used in queries.
+     *
+     * @param string $name
+     * @param array $contenttype
+     * @param bool $allowVariants
+     * @return bool
+     */
+    private function isValidColumn($name, $contenttype, $allowVariants = false) {
+
+        // Strip the minus in '-title' if allowed..
+        if ($allowVariants) {
+            if ($name[0] == "-") {
+                $name = substr($name, 1);
+            }
+            $name = preg_replace("/ (desc|asc)/i", "", $name);
+        }
+
+        // Check if the $name is in the contenttype's fields.
+        if(isset($contenttype['fields'][$name])) {
+            return true;
+        }
+
+        if (in_array($name, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))) {
+            return true;
+        }
+
+
+        return false;
+
+    }
+
+    /**
+     * Get the parameter for the 'order by' part of a query.
+     *
+     * @param array $parameters
+     * @param array $contenttype
+     * @return string
+     */
+    private function queryParamOrder($parameters, $contenttype) {
+
+        if (empty($parameters['order'])) {
+            if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
+                $order = $contenttype['sort'];
+            }
+        } else {
+            $parameters['order'] = safeString($parameters['order']);
+            if ($parameters['order'] == "RANDOM") {
+                $dboptions = getDBOptions($this->app['config']);
+                $order = $dboptions['randomfunction'];
+            } elseif ($this->isValidColumn($parameters['order'], $contenttype, true)) {
+                $order = $parameters['order'];
+            }
+        }
+
+        if (!empty($order)) {
+            if ($order[0] == "-") {
+                $order = substr($order, 1) . " DESC";
+            }
+            $param = " ORDER BY " . $order;
+        } else {
+            $param = " ORDER BY datepublish DESC";
+        }
+
+        return $param;
+
     }
 
     /**
@@ -1987,6 +2003,29 @@ class Storage
                 foreach ($table->getColumns() as $column) {
                     $tables[ $table->getName() ][ $column->getName() ] = $column->getType();
                 }
+                // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
+            }
+        }
+
+        return $tables;
+
+    }
+
+    /**
+     * Get an associative array with the bolt_tables tables as Doctrine\DBAL\Schema\Table objects
+     *
+     * @return array
+     */
+    protected function getTableObjects()
+    {
+
+        $sm = $this->app['db']->getSchemaManager();
+
+        $tables = array();
+
+        foreach ($sm->listTables() as $table) {
+            if ( strpos($table->getName(), $this->prefix) == 0 ) {
+                $tables[ $table->getName() ] = $table;
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
         }

@@ -68,7 +68,8 @@ class Frontend implements ControllerProviderInterface
             return redirect('useredit', array('id' => ""));
         }
 
-        $app['debugbar'] = true;
+        $app['debugbar']     = true;
+        $app['htmlsnippets'] = true;
 
     }
 
@@ -77,10 +78,20 @@ class Frontend implements ControllerProviderInterface
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
-            $twigvars = array(
-                'record' => $content,
-                $content->contenttype['singular_slug'] => $content
-            );
+
+            if (is_array($content)) {
+                $first = current($content);
+                $twigvars = array(
+                    'records' => $content,
+                    $first->contenttype['slug'] => $content
+                );
+            } else {
+                $twigvars = array(
+                    'record' => $content,
+                    $content->contenttype['singular_slug'] => $content
+                );
+            }
+
             $chosen = 'homepage config';
         } else {
             $template = 'index.twig';
@@ -187,9 +198,11 @@ class Frontend implements ControllerProviderInterface
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']['general']['listing_sort']);
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
 
-        if (!$content) {
-            $app->abort(404, "Content for '$contenttypeslug' not found.");
-        }
+        // We do _not_ abort when there's no content. Instead, we handle this in the template:
+        // {% for record in records %} .. {% else %} no records! {% endif %}
+        // if (!$content) {
+        //     $app->abort(404, "Content for '$contenttypeslug' not found.");
+        // }
 
         // Then, select which template to use, based on our 'cascading templates rules'
         if (!empty($contenttype['listing_template'])) {

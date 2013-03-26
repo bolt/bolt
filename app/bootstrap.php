@@ -1,9 +1,9 @@
 <?php
 
 if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
-    if (substr(__DIR__, -28) == '/vendor/bobdenotter/bolt/app') { // installed bolt with composer
+    if (substr(__DIR__, -21) == '/vendor/bolt/bolt/app') { // installed bolt with composer
         define('BOLT_COMPOSER_INSTALLED', true);
-        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -28));
+        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
         define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR.'/web');
         define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
     } else {
@@ -107,13 +107,7 @@ $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
 $loader = new Twig_Loader_String();
 $app['twig.loader']->addLoader($loader);
 
-// If debug is set, we set up the custom error handler..
-if ($app['debug']) {
-    $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
-} else {
-    error_reporting(E_ALL ^ E_NOTICE);
-    // error_reporting( E_ALL ^ E_NOTICE ^ E_WARNING );
-}
+
 
 require __DIR__.'/app.php';
 

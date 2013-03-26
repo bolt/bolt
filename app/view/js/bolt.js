@@ -113,7 +113,7 @@ jQuery(function($) {
  */
 CKEDITOR.editorConfig = function( config ) {
 
-    config.language = 'en';
+    config.language = ckeditor_lang || 'en';
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;
     config.entities = false;
@@ -175,6 +175,33 @@ CKEDITOR.editorConfig = function( config ) {
         config.filebrowserUploadUrl = '';
         config.filebrowserImageUploadUrl = '';
     }
+
+    config.codemirror = {
+        theme: 'default',
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        autoCloseTags: true,
+        autoCloseBrackets: true,
+        enableSearchTools: true,
+        enableCodeFolding: true,
+        enableCodeFormatting: true,
+        autoFormatOnStart: true,
+        autoFormatOnUncomment: true,
+        highlightActiveLine: true,
+        highlightMatches: true,
+        showFormatButton: false,
+        showCommentButton: false,
+        showUncommentButton: false
+    };
+
+    /* Parse override settings from config.yml */
+    for (var key in wysiwyg.ck){
+        if (wysiwyg.ck.hasOwnProperty(key)) {
+             config[key] = wysiwyg.ck[key];
+        }
+    }
+
 };
 
 

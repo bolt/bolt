@@ -16,8 +16,8 @@
 
             {% if home.image!="" %}
                 <div class="five columns imageholder">
-                    <a href="{{ image(record.image) }}">
-                        <img src="{{ thumbnail(record.image, 400, 260) }}">
+                    <a href="{{ image(home.image) }}">
+                        <img src="{{ thumbnail(home.image, 400, 260) }}">
                     </a>
                 </div>
             {% endif %}

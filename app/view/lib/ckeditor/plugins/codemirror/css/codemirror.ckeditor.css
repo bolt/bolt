@@ -1,0 +1,74 @@
+/* Extra for the CKEditor CodeMirror Plugin */
+
+.CodeMirror {font:13px/1.4em monospace;}
+
+.CodeMirror .activeline { background: #e8f2ff; }
+
+.CodeMirror .CodeMirror-foldmarker {
+	color: blue;
+	text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
+	font-family: arial;
+	line-height: .3;
+	cursor: pointer;
+}
+
+/* Fixes for themes */
+.cm-s-cobalt .CodeMirror-selected { background: #b36539 !important; }
+.cm-s-erlang-dark .CodeMirror-selected { background: #b36539 !important; }
+.cm-s-lesser-dark .CodeMirror-selected {background: #45443B !important;}
+.cm-s-monokai .CodeMirror-selected {background: #49483E !important;}
+.cm-s-night .CodeMirror-selected { background: #447 !important; }
+.cm-s-rubyblue .CodeMirror-selected { background: #38566F !important; }
+.cm-s-twilight .CodeMirror-selected { background: #323232 !important; }
+.cm-s-xq-dark .CodeMirror-selected { background: #a8f !important; }
+
+.cm-s-blackboard .activeline,
+.cm-s-cobalt .activeline,
+.cm-s-erlang-dark .activeline,
+.cm-s-lesser-dark .activeline,
+.cm-s-monokai .activeline,
+.cm-s-night .activeline,
+.cm-s-rubyblue .activeline,
+.cm-s-vibrant-ink .activeline,
+.cm-s-xq-dark .activeline { background: #757575; }
+.cm-s-twilight .activeline { background:#494949; }
+
+.CodeMirror-focused .cm-matchhighlight {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==);
+    background-position: bottom;
+    background-repeat: repeat-x;
+}
+
+/* Dialog Addon */
+.CodeMirror-dialog {
+  position: absolute;
+  left: 0; right: 0;
+  background: white;
+  z-index: 15;
+  padding: .1em .8em;
+  overflow: hidden;
+  color: #333;
+}
+
+.CodeMirror-dialog-top {
+  border-bottom: 1px solid #eee;
+  top: 0;
+}
+
+.CodeMirror-dialog-bottom {
+  border-top: 1px solid #eee;
+  bottom: 0;
+}
+
+.CodeMirror-dialog input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 20em;
+  color: inherit;
+  font-family: monospace;
+}
+
+.CodeMirror-dialog button {
+  font-size: 70%;
+}

@@ -364,17 +364,17 @@ class Extensions
 
                 $cachekey = 'widget_' . $widget['key'];
 
-                if ($this->app['cache']->isvalid($cachekey, $widget['cacheduration'])) {
+                if ($this->app['cache']->contains($cachekey)) {
                     // Present in the cache ..
-                    $html = $this->app['cache']->get($cachekey);
+                    $html = $this->app['cache']->fetch($cachekey);
                 } else if (method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
                     // Widget is defined in the extension itself.
                     $html = $this->initialized[$widget['extension']]->parseWidget($widget['callback'], $widget['extraparameters']);
-                    $this->app['cache']->set($cachekey, $html);
+                    $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
                 } else if (function_exists($widget['callback'])) {
                     // Widget is a callback in the 'global scope'
                     $html = call_user_func($widget['callback'], $this->app, $widget['extraparameters']);
-                    $this->app['cache']->set($cachekey, $html);
+                    $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
                 } else {
                     // Insert the 'callback' as string.
                     $html = $widget['callback'];
