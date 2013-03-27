@@ -1,0 +1,73 @@
+{% include "_header_basic.twig" %}
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-bolt navbar-inverse">
+        <div class="container">
+            <a class="brand" href="{{ path('dashboard') }}">
+                <strong>bolt</strong> <span class="hidden-phone"> {% if app.config.general.sitename is defined %}- {{app.config.general.sitename}}{% endif %}</span>
+            </a>
+
+        
+			    <ul class="nav pull-right">
+			        <li><a href="" class="filebrowserCloseLink">
+			                <i class="icon-off"></i> {{ __('Cancel') }}</a></li>
+			    </ul>
+		
+
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info">
+	{{ __('Please choose the %contenttype% you want to link to:', {'%contenttype%': contenttype.singular_name}) }}
+</div>
+
+
+<ul class="nav nav-tabs nav-stacked">
+
+{% for record in records %}
+
+<li><a class="filebrowserCallbackLink" href="{{ record.link }}" >{{ record.title }}</a></li>
+{% else %}
+            <li><a class="filebrowserCloseLink">{{ __('No %contenttypes% available.',{'%contenttypes%':contenttype.name}) }}</a></li>
+{% endfor %} 
+</ul>
+
+<hr>
+
+<a href="" class="btn btn-danger filebrowserCloseLink">{{ __('Cancel') }}</a>
+
+<script type='text/javascript'>
+
+
+$(function() {
+
+    var getUrlParam = function( paramName ) {
+	    var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
+	    var match = window.location.search.match(reParam) ;
+
+	    return ( match && match.length > 1 ) ? match[ 1 ] : null ;
+	};
+	var funcNum = getUrlParam('CKEditorFuncNum');
+
+	
+
+	$('a.filebrowserCallbackLink').bind('click', function(e) {
+		e.preventDefault();
+		var url = $(this).attr('href');
+		window.opener.CKEDITOR.tools.callFunction(funcNum, url);	
+		window.close();
+	});
+
+	$('a.filebrowserCloseLink').bind('click', function() {
+		window.close();
+	})
+    
+});
+
+
+</script>
+
+
+
+{% include "_footer.twig" %}
