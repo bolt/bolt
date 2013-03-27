@@ -5,7 +5,7 @@
 
 "%contenttypes% overview": "%contenttypes% Übersicht"
 "%contenttypes%": "%contenttypes%"
-"%s files could not be deleted. You should delete them manually.": " %s Dateien konnten nicht gelöscht werden. Du solltest Sie manuell löschen."
+"%s files could not be deleted. You should delete them manually.": " %s Dateien konnten nicht gelöscht werden. Du solltest sie manuell löschen."
 "(no group)": "(keine Gruppe)"
 "About Bolt": "Über Bolt"
 "About": "Über"
@@ -213,7 +213,7 @@
 "Upload File": "Datei hochladen"
 "Upload image": "Bild hochladen"
 "Uploaded files": "Dateien hochladen"
-"Used Libraries / Components": "Verwewndete Bibliotheken/Komponenten"
+"Used Libraries / Components": "Verwendete Bibliotheken/Komponenten"
 "User %s could not be saved, or nothing was changed.": "Benutzer konnte nicht gespeichert werden, oder  es wurde nichts geändert."
 "User %s has been saved.": "Benutzer %s wurde gespeichert."
 "User '%s' could not be deleted.": "Benutzer '%s' konnte nicht gelöscht werden."
