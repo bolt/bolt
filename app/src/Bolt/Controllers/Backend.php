@@ -108,6 +108,12 @@ class Backend implements ControllerProviderInterface
             ->bind('files')
         ;
 
+        $ctl->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
+            ->before(array($this, 'before'))
+            ->assert('contenttype', '.+')
+            ->bind('contenttype')
+        ;
+
         $ctl->get("/activitylog", array($this, 'activitylog'))
             ->before(array($this, 'before'))
             ->bind('activitylog')
@@ -883,6 +889,25 @@ class Backend implements ControllerProviderInterface
             'files' => $files,
             'folders' => $folders,
             'pathsegments' => $pathsegments
+        ));
+
+    }
+
+    function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request) {
+
+        $records = $app['storage']->getContent($contenttype, array('published'=>true));
+        $contenttype_array = $app['storage']->getContentType($contenttype);
+
+        $results = array();
+        foreach ($records as $key => $record) {
+            $results[] = array('title' => $record['title'],
+                               'link'  => $app['storage']->getUri($record['title'], $record['id'], 'pages')
+            );
+        }
+
+        return $app['twig']->render('filebrowser.twig', array(
+            'records' => $records,
+            'contenttype' => $contenttype_array
         ));
 
     }
