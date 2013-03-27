@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>bolt {% if title is defined %}- {{title}}{% endif %}</title>
+
+    <script src="{{ paths.app }}view/js/jquery-1.9.1.min.js"></script>
+    <script src="{{ paths.app }}view/js/underscore-min.js"></script>
+    <script src="{{ paths.app }}view/js/backbone-min.js"></script>
+    <script src="{{ paths.app }}view/js/jquery-ui-1.10.1.custom.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.10.1.custom.min.css">
+
+    <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
+
+    <script src="{{ paths.app }}view/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/font-awesome.min.css">
+
+    <script src="{{ paths.app }}view/lib/fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/fancybox/jquery.fancybox.css">
+
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/select2/select2.css">
+    <script src="{{ paths.app }}view/lib/select2/select2.js"></script>
+
+    <script src="{{ paths.app }}view/lib/ckeditor/ckeditor.js"></script>
+
+    <script src="{{ paths.app }}view/lib/upload/jquery.iframe-transport.js"></script>
+    <script src="{{ paths.app }}view/lib/upload/jquery.fileupload.js"></script>
+    <link rel="stylesheet" href="{{ paths.app }}view/lib/upload/jquery.fileupload-ui.css">
+
+    <script src="{{ paths.app }}view/js/moment.min.js"></script>
+    <script src="{{ paths.app }}view/js/moment-langs.min.js"></script>
+    <script type="text/javascript">
+        moment.lang('{{ app.locale|default('en') }}');
+    </script>
+
+    <script>var ckeditor_lang="{{ app.locale|default('en') }}";</script>
+    <script src="{{ paths.app }}view/js/bolt.js"></script>
+
+    {# <link rel="stylesheet" href="/app/view/css/responsivebar.css"> #}
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css">
+
+    <link rel="shortcut icon" href="{{ paths.app }}view/img/favicon-bolt.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ paths.app }}view/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ paths.app }}view/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ paths.app }}view/img/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ paths.app }}view/img/apple-touch-icon-144x144.png">
+
+</head>
+<body>

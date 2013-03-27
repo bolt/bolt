@@ -1,6 +1,10 @@
-# app/resources/translations/de/messages.de.yml -- generated on 2013/03/26 02:53:45
-# no untranslated strings; good ;-)
+# app/resources/translations/de/messages.de.yml -- generated on 2013/03/27 03:56:43
+# 2 untranslated strings
 
+"Cancel": "Abbrechen"
+"Please choose the %contenttype% you want to link to:":  "Bitte %contenttype% wählen, wohin verlinkt werden soll."
+
+#-----------------------------------------
 # 243 translated strings
 
 "%contenttypes% overview": "%contenttypes% Übersicht"
