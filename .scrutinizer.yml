@@ -4,7 +4,7 @@ before_commands:
     - composer install --dev
 tools:
     php_cs_fixer:
-        enabled: true
+        enabled: false
         config:
             level: all
     php_cpd:
@@ -14,7 +14,7 @@ tools:
         # Minimum number of identical tokens (default: 70)
         min_tokens: 70
         # A list of excluded directories.
-        # excluded_dirs: ["vendor/*", "files/*"]
+        excluded_dirs: ["vendor","files"]
         # A list of names that should be scanned (default: *.php)
         enabled: true
         filter:
@@ -30,18 +30,18 @@ tools:
 #            paths: ["app/*"]
 #            excluded_paths: ["*/Tests/*", "app/tests/*", "*ServiceProvider.php"]
     php_code_sniffer:
-        enabled: true
+        enabled: false
         config:
             standard: PSR2
     php_mess_detector:
-        enabled: true
+        enabled: false
         config:
             rulesets:
                 - codesize
                 - unusedcode
                 - naming
 #    php_analyzer:
-#        enabled: true
+#        enabled: false
 #        filter:
 #            paths: ["app/*"]
 #            excluded_paths: ["*/Tests/*", "app/tests/*"]
