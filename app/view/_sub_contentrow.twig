@@ -9,11 +9,11 @@
         <strong>
             {% if editable %}
             <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                {{content.getTitle}}{{content.name}}
+                {{content.getTitle}}
             </a>
             {% else %}
             <strong>
-                {{content.getTitle}}{{content.name}}
+                {{content.getTitle}}
             </strong>
             {% endif %}
         </strong>
