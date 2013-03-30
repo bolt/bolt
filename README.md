@@ -39,7 +39,7 @@ After that, you can install Bolt in one line:
 In the above command, `demo/` is the relative path where you want Bolt to be
 installed. `1.0.0` is the version number you'd like to install. For available
 version numbers, check the tags in the [Github repo](https://github.com/bolt/bolt)
-or on the [Pacakgist page](https://packagist.org/packages/bolt/bolt).
+or on the [Packagist page](https://packagist.org/packages/bolt/bolt).
 
 You're now good to go.
 
@@ -66,3 +66,18 @@ After installing, you can run the unit test suite by running
 This can now also be done by using app/nut:
 
     $ php app/nut tests:run
+
+Extensions
+----------
+The available extensions that ship with Bolt are going to be separated once we have a separate extension
+repository. We're planning for a neat way to install and manage extensions. However, this is not ready
+yet. Therefor, we temporarily list available third party extensions on this page.
+
+Currently, these are the third party extensions we're aware of:
+
+- [TweetWidget](https://github.com/bolt/tweetwidget) by @bobdenotter
+- [Gist](https://github.com/bolt/extension-gist) by @bobdenotter
+- [TagCloud](https://github.com/axsy/bolt-extension-tagcloud) by @axsy
+
+The extensions can be placed in the `app/extensions` folder.
+Learn more about writing extensions from our [docs](https://github.com/bolt/bolt-docs/blob/master/source/extensions.md)
