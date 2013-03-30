@@ -26,12 +26,14 @@
 
 {% block choice_widget_expanded %}
     {% spaceless %}
-        <label class="checkbox">
-        {% for child in form %}
-                {{ form_widget(child) }}
-                {{ form_label(child) }}<br/>
+        <fieldset class="checkbox">
+            {% for child in form %}
+                <div>
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+                </div>
             {% endfor %}
-        </label>
+        </fieldset>
     {% endspaceless %}
 {% endblock choice_widget_expanded %}
 

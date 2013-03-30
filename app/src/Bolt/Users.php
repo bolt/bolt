@@ -329,6 +329,10 @@ class Users
             $this->users = array();
 
             try {
+
+                // get the available contenttypes.
+                $allcontenttypes = array_keys($this->app['config']['contenttypes']);
+
                 $tempusers = $this->db->fetchAll($query);
 
                 foreach ($tempusers as $user) {
@@ -346,6 +350,14 @@ class Users
                     if (!is_array($this->users[$key]['contenttypes'])) {
                         $this->users[$key]['contenttypes'] = array();
                     }
+                    // Intersect, to make sure no old/deleted contenttypes show up.
+                    $this->users[$key]['contenttypes'] = array_intersect($this->users[$key]['contenttypes'], $allcontenttypes);
+
+                    // Developers/admins can access all content
+                    if ($this->users[$key]['userlevel'] > self::EDITOR) {
+                        $this->users[$key]['contenttypes'] = $allcontenttypes;
+                    }
+
 
                 }
             } catch (\Exception $e) {
