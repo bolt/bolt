@@ -129,6 +129,11 @@ kitchensink:
         selectfield:
             type: select
             values: [ none, foo, bar ]
+        multiselect:
+            type: select
+            values: [ A-tuin, Donatello, Rafael, Leonardo, Michelangelo, Koopa, Squirtle ]
+            multiple: true
+            postfix: "Select your favourite turtle(s)."
     relations:
         entries:
             multiple: false
