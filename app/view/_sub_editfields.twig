@@ -95,10 +95,8 @@
 {# --------------- select --------------- #}
 
 {% if field.type == "select" %}
-    {{ print(field) }}
     <label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple %}
-        get: {{ print(content.get(key)) }}
         <select name="{{key}}[]" id="{{key}}" multiple>
             {% for value in field.values %}
                 <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
