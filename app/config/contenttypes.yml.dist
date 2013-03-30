@@ -145,7 +145,8 @@ kitchensink:
             order: title
             label: Select zero or more pages
     taxonomy: [ categories, tags, chapters ]
-    showondashboard: true
+    show_on_dashboard: true
+    default_status: draft
 
 
 # possible field types:
