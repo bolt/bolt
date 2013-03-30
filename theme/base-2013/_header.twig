@@ -56,7 +56,7 @@
                 {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's
 	               own _sub_menu.twig. If this file wasn't included in the current theme, the default menu
 	               template in app/theme_defaults/_sub_menu.twig would be used. #}
-                {{ menu() }}
+                {{ menu('main', '_sub_menu.twig') }}
 
                 {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in
 	               the theme, the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
