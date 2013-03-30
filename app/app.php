@@ -116,7 +116,15 @@ $app->after(function (Request $request, Response $response) use ($app) {
 
         // only add when content-type is text/html
         if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
+
+            // Add our meta generator tag..
             $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+
+            // Perhaps add a canonical link..
+            if (!empty($app['config']['general']['canonical'])) {
+                $snippet = sprintf('<link rel="canonical" href="%s">', $app['paths']['canonicalurl']);
+                $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+            }
 
             $html = $response->getContent();
 

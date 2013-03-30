@@ -952,12 +952,23 @@ function getDBOptions($config)
 
 }
 
-function getPaths($config = array())
+function getPaths($original = array())
 {
+
+    // If we passed the entire $app, set the $config
+    if ($original instanceof \Bolt\Application) {
+        if (!empty($original['canonicalpath'])) {
+            $canonicalpath = $original['canonicalpath'];
+        }
+        $config = $original['config'];
+    } else {
+        $config = $original;
+    }
+
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
     if (empty($config)) {
-        $config['general']['theme'] = 'default';
+        $config['general']['theme'] = 'base-2013';
         $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
     }
 
@@ -975,6 +986,10 @@ function getPaths($config = array())
     }
 
     $currentpath = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
+
+    if (empty($canonicalpath)) {
+        $canonicalpath = $currentpath;
+    }
 
     // Set the paths
     $paths = array(
@@ -995,7 +1010,7 @@ function getPaths($config = array())
 
     $paths['hosturl'] = sprintf("%s://%s", $protocol, $paths['hostname']);
     $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);
-    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
+    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $canonicalpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
     if ( isset( $config['general']['theme_path'] ) ) {
@@ -1005,9 +1020,17 @@ function getPaths($config = array())
         $paths['app'] = $path_prefix . "bolt-public/";
     }
 
+    // Set it in $app, optionally.
+    if ($original instanceof \Bolt\Application) {
+        $original['paths'] = $paths;
+        $original['twig']->addGlobal('paths', $paths);
+    }
+
     return $paths;
 
 }
+
+
 
 /**
  *
