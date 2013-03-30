@@ -107,7 +107,7 @@ class Users
             $user['userlevel'] = key(array_slice($this->getUserLevels(), -1));
         }
 
-        if (empty($user['enabled'])) {
+        if (empty($user['enabled']) && $user['enabled']!== 0) {
             $user['enabled'] = 1;
         }
 
