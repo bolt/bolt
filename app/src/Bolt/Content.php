@@ -39,7 +39,12 @@ class Content implements \ArrayAccess
             $values = array();
             if (is_array($this->contenttype)) {
                 foreach($this->contenttype['fields'] as $field => $parameters) {
-                    $values[$field] = "";
+                    // Set the default values.
+                    if (isset($parameters['default'])) {
+                        $values[$key] = $parameters['default'];
+                    } else {
+                        $values[$key] = '';
+                    }
                 }
             }
 
@@ -52,7 +57,13 @@ class Content implements \ArrayAccess
             $values['name'] = "(undefined $contenttypename)";
             $values['title'] = "(undefined $contenttypename)";
 
+            // If default status is set in contentttype..
+            if (!empty($this->contenttype['default_status'])) {
+                $values['status'] = $this->contenttype['default_status'];
+            }
+
             $this->setValues($values);
+
         }
 
         $this->user = $this->app['users']->getCurrentUser();

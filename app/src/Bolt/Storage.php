@@ -732,36 +732,12 @@ class Storage
     public function getEmptyContent($contenttypeslug)
     {
 
-        $contenttype = $this->getContentType($contenttypeslug);
-
         $content = new Bolt\Content($this->app, $contenttypeslug);
 
-        $values = array(
-            'id' => '',
-            'slug' => '',
-            'datecreated' => '',
-            'datechanged' => '',
-            'datepublish' => '',
-            'username' => '',
-            'status' => ''
-        );
-
-        foreach ($contenttype['fields'] as $key => $field) {
-            $values[$key] = '';
-
-            // Set the default values.
-            if (isset($field['default'])) {
-                $values[$key] = $field['default'];
-            } else {
-                $values[$key] = '';
-            }
-
-        }
-
-        $content->setValues($values);
+        // don't use 'undefined contenttype' as title/name
+        $content->setValues(array('name' => '', 'title' => ''));
 
         return $content;
-
 
     }
 
