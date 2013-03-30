@@ -98,12 +98,6 @@ class Storage
 
             // Check if all the fields are present in the DB..
             foreach ($contenttype['fields'] as $field => $values) {
-
-                // Skip over 'divider' fields.
-                if ($values['type'] == "divider") {
-                    continue;
-                }
-
                 if (!isset($tables[$tablename][$field])) {
                     $messages[] = "Field <tt>" . $field . "</tt> in table <tt>" . $tablename . "</tt> is not present.";
                 }
@@ -274,9 +268,6 @@ class Storage
                     case 'username':
                     case 'status':
                         // These are the default columns. Don't try to add these.
-                        break;
-                    case 'divider':
-                        // Not a real database field
                         break;
                     default:
                         $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
