@@ -566,6 +566,10 @@ class Storage
                 $fieldvalues[$key] = round($fieldvalues[$key]);
             }
 
+            if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
+                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+            }
+
         }
 
         // Make sure a username is set.
