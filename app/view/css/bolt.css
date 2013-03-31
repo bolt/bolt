@@ -456,6 +456,9 @@ label {
     min-width: 180px;
     margin: 0.3em 0 0.5em;
     vertical-align: top;
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
 }
 
 label label {
@@ -470,6 +473,10 @@ label span.left {
     display: block;
     float: left;
     min-width: 180px;
+}
+
+input[type="checkbox"] {
+    margin: 4px 8px 0px 0;
 }
 
 fieldset.checkbox {

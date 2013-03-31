@@ -1249,7 +1249,7 @@ function __() {
                 $text=str_replace($keytypes,$tr_args[$keytypes],$args[0]);
                 unset($tr_args[$keytypes]);
             }
-            echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
+            //echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
             if ($fn == 'transChoice') {
                     $trans = $app['translator']->transChoice(
                         $text,$args[1],$tr_args,
@@ -1263,7 +1263,7 @@ function __() {
                         isset($args[3]) ? $args[3] : $app['request']->getLocale()
                     );
             }
-            echo '<!-- translation : '.htmlentities($trans)." -->\n";
+            //echo '<!-- translation : '.htmlentities($trans)." -->\n";
             if ($text != $trans) {
                 return $trans;
             }

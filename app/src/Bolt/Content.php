@@ -38,7 +38,7 @@ class Content implements \ArrayAccess
             // Ininitialize fields with empty values.
             $values = array();
             if (is_array($this->contenttype)) {
-                foreach($this->contenttype['fields'] as $field => $parameters) {
+                foreach($this->contenttype['fields'] as $key => $parameters) {
                     // Set the default values.
                     if (isset($parameters['default'])) {
                         $values[$key] = $parameters['default'];
