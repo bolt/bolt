@@ -126,6 +126,15 @@ $app->after(function (Request $request, Response $response) use ($app) {
                 $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
             }
 
+            // Perhaps add a favicon..
+            if (!empty($app['config']['general']['favicon'])) {
+                $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
+                    $app['paths']['canonical'],
+                    $app['paths']['theme'],
+                    $app['config']['general']['favicon']);
+                $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+            }
+
             $html = $response->getContent();
 
             $html = $app['extensions']->processSnippetQueue($html);
