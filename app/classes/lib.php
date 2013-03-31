@@ -980,6 +980,11 @@ function getPaths($original = array())
         $path_prefix = "/";
     }
 
+    // make sure we're not trying to access bolt as "/index.php/bolt/", because all paths will be broken.
+    if (strpos($_SERVER['REQUEST_URI'], "/index.php") !== false) {
+        simpleredirect(str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
+    }
+
     if (!empty($_SERVER["SERVER_PROTOCOL"])) {
         $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https' : 'http';
     } else {
@@ -1074,6 +1079,26 @@ function redirect($path, $param = array(), $add = '')
     return $app->redirect(path($path, $param, $add));
 
 }
+
+
+/**
+ * Create a simple redirect to a page / path and die.
+ *
+ * @param string $path
+ */
+function simpleredirect($path)
+{
+
+    if (empty($path)) {
+        $path = "/";
+    }
+    header("location: $path");
+    echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
+    echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+    die();
+
+}
+
 
 /**
  * Apparently, some servers don't have fnmatch. Define it here, for those who don't have it.
