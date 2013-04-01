@@ -981,7 +981,7 @@ function getPaths($original = array())
     }
 
     // make sure we're not trying to access bolt as "/index.php/bolt/", because all paths will be broken.
-    if (strpos($_SERVER['REQUEST_URI'], "/index.php") !== false) {
+    if (!empty($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], "/index.php") !== false) {
         simpleredirect(str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
     }
 
