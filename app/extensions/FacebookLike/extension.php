@@ -36,10 +36,10 @@ class Extension extends \Bolt\BaseExtension
             $this->config['style'] = "standard";
         }
         if (empty($this->config['width'])) {
-            $this->config['width'] = "350px"; 
+            $this->config['width'] = "350px";
         }
         if (empty($this->config['verb'])) {
-            $this->config['verb'] = "like"; 
+            $this->config['verb'] = "like";
         }
         if (empty($this->config['scheme'])) {
             $this->config['scheme'] = "light";
