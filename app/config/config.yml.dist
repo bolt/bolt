@@ -24,7 +24,12 @@ locale: en_GB
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the
 # http:// protocol prefix. Enable the following line to define a canonical url.
-# canonical: example.org
+#canonical: example.org
+
+# Bolt can insert a <link rel="shortcut icon"> for all pages on the site. Note
+# that the location given is relative to the currently selected theme. If you
+# want to set the icon yourself, just don't enable the following line.
+#favicon: images/favicon-bolt.ico
 
 # The default content to use for the homepage, and the template to render it with.
 homepage: page/1
@@ -95,15 +100,16 @@ wysiwyg:
     align: false
     subsuper: false
     embed: false
-    # ck:
-        # allowedContent: false # Set this to 'true' to allow any elements and attributes in Wysiwg Elements
-        # contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
-
-#wysiwyg_filebrowser:
-#  browseUrl: /kcfinder/browse.php?type=files
-#  imageBrowseUrl: /kcfinder/browse.php?type=images
-#  uploadUrl: /kcfinder/upload.php?type=files
-#  imageUploadUrl: /kcfinder/upload.php?type=images
+    ck:
+        #allowedContent: true # Set this to 'true' to allow any elements and attributes in Wysiwg Elements 
+        #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
+        filebrowserWindowWidth: '480'
+        filebrowserWindowHeight: '480'
+    filebrowser:
+        browseUrl: /bolt/filebrowser/pages
+        #imageBrowseUrl: ''
+        #uploadUrl: ''
+        #imageUploadUrl: ''
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login

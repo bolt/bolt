@@ -428,6 +428,7 @@ function makeSlug($str)
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
     $str = preg_replace("/[-]+/i", "-", $str);
+    $str = trim($str, "-");
 
     $str = substr($str, 0, 64); // 64 chars ought to be long enough.
 
@@ -952,12 +953,23 @@ function getDBOptions($config)
 
 }
 
-function getPaths($config = array())
+function getPaths($original = array())
 {
+
+    // If we passed the entire $app, set the $config
+    if ($original instanceof \Bolt\Application) {
+        if (!empty($original['canonicalpath'])) {
+            $canonicalpath = $original['canonicalpath'];
+        }
+        $config = $original['config'];
+    } else {
+        $config = $original;
+    }
+
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
     if (empty($config)) {
-        $config['general']['theme'] = 'default';
+        $config['general']['theme'] = 'base-2013';
         $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
     }
 
@@ -968,6 +980,11 @@ function getPaths($config = array())
         $path_prefix = "/";
     }
 
+    // make sure we're not trying to access bolt as "/index.php/bolt/", because all paths will be broken.
+    if (strpos($_SERVER['REQUEST_URI'], "/index.php") !== false) {
+        simpleredirect(str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
+    }
+
     if (!empty($_SERVER["SERVER_PROTOCOL"])) {
         $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https' : 'http';
     } else {
@@ -975,6 +992,10 @@ function getPaths($config = array())
     }
 
     $currentpath = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
+
+    if (empty($canonicalpath)) {
+        $canonicalpath = $currentpath;
+    }
 
     // Set the paths
     $paths = array(
@@ -995,7 +1016,7 @@ function getPaths($config = array())
 
     $paths['hosturl'] = sprintf("%s://%s", $protocol, $paths['hostname']);
     $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);
-    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
+    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $canonicalpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
     if ( isset( $config['general']['theme_path'] ) ) {
@@ -1005,9 +1026,17 @@ function getPaths($config = array())
         $paths['app'] = $path_prefix . "bolt-public/";
     }
 
+    // Set it in $app, optionally.
+    if ($original instanceof \Bolt\Application) {
+        $original['paths'] = $paths;
+        $original['twig']->addGlobal('paths', $paths);
+    }
+
     return $paths;
 
 }
+
+
 
 /**
  *
@@ -1050,6 +1079,26 @@ function redirect($path, $param = array(), $add = '')
     return $app->redirect(path($path, $param, $add));
 
 }
+
+
+/**
+ * Create a simple redirect to a page / path and die.
+ *
+ * @param string $path
+ */
+function simpleredirect($path)
+{
+
+    if (empty($path)) {
+        $path = "/";
+    }
+    header("location: $path");
+    echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
+    echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+    die();
+
+}
+
 
 /**
  * Apparently, some servers don't have fnmatch. Define it here, for those who don't have it.
@@ -1225,7 +1274,7 @@ function __() {
                 $text=str_replace($keytypes,$tr_args[$keytypes],$args[0]);
                 unset($tr_args[$keytypes]);
             }
-            echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
+            //echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
             if ($fn == 'transChoice') {
                     $trans = $app['translator']->transChoice(
                         $text,$args[1],$tr_args,
@@ -1239,7 +1288,7 @@ function __() {
                         isset($args[3]) ? $args[3] : $app['request']->getLocale()
                     );
             }
-            echo '<!-- translation : '.htmlentities($trans)." -->\n";
+            //echo '<!-- translation : '.htmlentities($trans)." -->\n";
             if ($text != $trans) {
                 return $trans;
             }

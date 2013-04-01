@@ -454,7 +454,8 @@ div.extension p {
  */
 label {
     min-width: 180px;
-    margin: 1em 0 0.5em;
+    margin: 0.3em 0 0.5em;
+    vertical-align: top;
 }
 
 label label {
@@ -470,6 +471,23 @@ label span.left {
     float: left;
     min-width: 180px;
 }
+
+input[type="checkbox"] {
+    margin: 4px 8px 0px 0;
+}
+
+fieldset.checkbox {
+    display: inline-block;
+}
+
+fieldset.checkbox label {
+    display: inline;
+}
+
+fieldset.checkbox div {
+    margin: 0.3em 0 0.5em;
+}
+
 
 #editcontent input.large {
     font-size: 133%;

@@ -98,12 +98,6 @@ class Storage
 
             // Check if all the fields are present in the DB..
             foreach ($contenttype['fields'] as $field => $values) {
-
-                // Skip over 'divider' fields.
-                if ($values['type'] == "divider") {
-                    continue;
-                }
-
                 if (!isset($tables[$tablename][$field])) {
                     $messages[] = "Field <tt>" . $field . "</tt> in table <tt>" . $tablename . "</tt> is not present.";
                 }
@@ -274,9 +268,6 @@ class Storage
                     case 'username':
                     case 'status':
                         // These are the default columns. Don't try to add these.
-                        break;
-                    case 'divider':
-                        // Not a real database field
                         break;
                     default:
                         $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
@@ -580,6 +571,10 @@ class Storage
                 $fieldvalues[$key] = round($fieldvalues[$key]);
             }
 
+            if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
+                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+            }
+
         }
 
         // Make sure a username is set.
@@ -758,36 +753,12 @@ class Storage
     public function getEmptyContent($contenttypeslug)
     {
 
-        $contenttype = $this->getContentType($contenttypeslug);
-
         $content = new Bolt\Content($this->app, $contenttypeslug);
 
-        $values = array(
-            'id' => '',
-            'slug' => '',
-            'datecreated' => '',
-            'datechanged' => '',
-            'datepublish' => '',
-            'username' => '',
-            'status' => ''
-        );
-
-        foreach ($contenttype['fields'] as $key => $field) {
-            $values[$key] = '';
-
-            // Set the default values.
-            if (isset($field['default'])) {
-                $values[$key] = $field['default'];
-            } else {
-                $values[$key] = '';
-            }
-
-        }
-
-        $content->setValues($values);
+        // don't use 'undefined contenttype' as title/name
+        $content->setValues(array('name' => '', 'title' => ''));
 
         return $content;
-
 
     }
 

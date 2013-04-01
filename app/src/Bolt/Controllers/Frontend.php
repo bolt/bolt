@@ -142,8 +142,12 @@ class Frontend implements ControllerProviderInterface
             $app->abort(404, $error);
         }
 
+        // Setting the canonical path and the editlink.
+        $app['canonicalpath'] = $content->link();
+        $app['paths'] = getPaths($app);
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
+        // Render the template and return.
         return $app['twig']->render($template, array(
             'record' => $content,
             $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.

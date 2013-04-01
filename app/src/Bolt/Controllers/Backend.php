@@ -108,6 +108,12 @@ class Backend implements ControllerProviderInterface
             ->bind('files')
         ;
 
+        $ctl->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
+            ->before(array($this, 'before'))
+            ->assert('contenttype', '.+')
+            ->bind('contenttype')
+        ;
+
         $ctl->get("/activitylog", array($this, 'activitylog'))
             ->before(array($this, 'before'))
             ->bind('activitylog')
@@ -220,9 +226,13 @@ class Backend implements ControllerProviderInterface
         if ($output !== true) {
             $content = '<p>' . __('Modifications needed:') . '</p>';
             $content .= implode("<br>", $output);
-            $content .= "<br><br><p><a href='".path('dbupdate')."' class='btn btn-primary'>." . __("Update the database") . "</a></p>";
+            $content .= "<br><br><p><a href='".path('dbupdate')."' class='btn btn-primary'>" . __("Update the database") . "</a></p>";
         } else {
             $content = __("Your database is already up to date.");
+            $content .= sprintf('<br><br><p><b>%s </b>%s</p>',
+                __('Tip:'),
+                __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', array('%url%' => path('prefill')))
+            );
         }
 
         $app['twig']->addGlobal('title', __("Database check / update"));
@@ -253,7 +263,7 @@ class Backend implements ControllerProviderInterface
 
         $content .= sprintf('<br><br><p><b>%s </b>%s</p>',
             __('Tip:'),
-            __('Add some sample <a href=\'%url%\'>Records with Loripsum text</a>.', array('%url%' => path('prefill')))
+            __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', array('%url%' => path('prefill')))
         );
 
 
@@ -346,14 +356,12 @@ class Backend implements ControllerProviderInterface
             ->getForm()
         ;
 
-        if ($request->getMethod() == "POST") {
+        if ( ($request->getMethod() == "POST") || ($request->get('force') == 1) ) {
             $form->bind($request);
-            if ($form->isValid()) {
-                $ctypes = $form->get('contenttypes')->getData();
-                $content = $app['storage']->preFill($ctypes);
-                $app['session']->getFlashBag()->set('success',$content);
-                return redirect('prefill');
-            }
+            $ctypes = $form->get('contenttypes')->getData();
+            $content = $app['storage']->preFill($ctypes);
+            $app['session']->getFlashBag()->set('success',$content);
+            return redirect('prefill');
         }
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
@@ -883,6 +891,25 @@ class Backend implements ControllerProviderInterface
             'files' => $files,
             'folders' => $folders,
             'pathsegments' => $pathsegments
+        ));
+
+    }
+
+    function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request) {
+
+        $records = $app['storage']->getContent($contenttype, array('published'=>true));
+        $contenttype_array = $app['storage']->getContentType($contenttype);
+
+        $results = array();
+        foreach ($records as $key => $record) {
+            $results[] = array('title' => $record['title'],
+                               'link'  => $app['storage']->getUri($record['title'], $record['id'], 'pages')
+            );
+        }
+
+        return $app['twig']->render('filebrowser.twig', array(
+            'records' => $records,
+            'contenttype' => $contenttype_array
         ));
 
     }
