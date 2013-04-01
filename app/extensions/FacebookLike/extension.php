@@ -36,6 +36,7 @@ class Extension extends \Bolt\BaseExtension
         if (empty($this->config['verb'])) { $this->config['verb'] = "like"; }
         if (empty($this->config['scheme'])) { $this->config['scheme'] = "light"; }
         if (empty($this->config['url'])) { $this->config['url'] = $this->app['paths']['canonicalurl']; }
+        if (empty($this->config['language'])) { $this->config['language'] = "en_US"; }
 
         $this->insertSnippet(SnippetLocation::END_OF_BODY, 'facebookScript');
         $this->addTwigFunction('facebooklike', 'facebookLike');
@@ -45,13 +46,15 @@ class Extension extends \Bolt\BaseExtension
     function facebookScript()
     {
 
+        $language = $this->config['language'];
+        
         $html = <<< EOM
         <div id="fb-root"></div>
         <script>(function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];
           if (d.getElementById(id)) return;
           js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+          js.src = "//connect.facebook.net/$language/all.js#xfbml=1";
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
 EOM;
