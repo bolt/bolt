@@ -112,6 +112,9 @@ class Users
         }
 
         // Serialize the contenttypes..
+        if (empty($user['contenttypes'])) {
+            $user['contenttypes'] = array();
+        }
         $user['contenttypes'] = serialize($user['contenttypes']);
 
         // Decide whether to insert a new record, or update an existing one.
@@ -132,9 +135,11 @@ class Users
     public function checkValidSession()
     {
         if ($this->app['session']->get('user')) {
-            $session = $this->app['session']->get('user');
-            $database = $this->getUser($session['id']);
-            $this->currentuser = array_merge($session, $database);
+            $this->currentuser = $this->app['session']->get('user');
+            if ($database = $this->getUser($this->currentuser['id'])) {
+                // Update the session with the user from the database.
+                $this->currentuser = array_merge($this->currentuser, $database);
+            }
         } else {
             // no current user, return without doing the rest.
             return false;
