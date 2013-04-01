@@ -1,3 +1,8 @@
+#bolt-debugsection {
+    display: block !important;
+    visibility: visible !important;
+}
+
 #bolt-debugbar {
     position: fixed;
     right: 0;
@@ -27,6 +32,8 @@
     height: 53px;
     z-index: 2147483641;
     cursor: pointer;
+    display: block;
+    visibility: visible;
 }
 
 #bolt-debugbar ul {
