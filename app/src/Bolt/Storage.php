@@ -336,12 +336,6 @@ class Storage
      */
     public function preFill($contenttypes=array())
     {
-        $db = $this->app['db'];
-
-        $hasRecords = function($tablename) use($db) {
-            $count = $db->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
-            return intval($count) > 0;
-        };
 
         $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
 
@@ -350,15 +344,15 @@ class Storage
         // get a list of images..
         $this->images = findFiles('', 'jpg,jpeg,png');
 
-        $empty_only = count($contenttypes) == 0;
+        $empty_only = empty($contenttypes);
 
         foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
 
             $tablename = $this->prefix . $key;
-            if ($empty_only && $hasRecords($tablename)) {
+            if ($empty_only && $this->hasRecords($tablename)) {
                 $output .= __("Skipped <tt>%key%</tt> (already has records)",array('%key%' =>$key)) . "<br>\n";
                 continue;
-            } else if (!in_array($key,$contenttypes)) {
+            } else if (!in_array($key,$contenttypes) && !$empty_only) {
                 $output .= __("Skipped <tt>%key%</tt> (not checked)",array('%key%' =>$key)) . "<br>\n";
                 continue;
             }
@@ -2004,4 +1998,13 @@ class Storage
         return $tables;
 
     }
+
+    protected function hasRecords($tablename)
+    {
+
+        $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $this->app['db']->quote($tablename));
+        return intval($count) > 0;
+
+    }
+
 }
