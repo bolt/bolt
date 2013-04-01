@@ -64,7 +64,7 @@ class Frontend implements ControllerProviderInterface
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-            $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
+            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
             return redirect('useredit', array('id' => ""));
         }
 
