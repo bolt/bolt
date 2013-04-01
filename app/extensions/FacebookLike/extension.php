@@ -8,12 +8,13 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 class Extension extends \Bolt\BaseExtension
 {
 
-    function info()
+    public function info()
     {
 
         $data = array(
             'name' =>"Facebook Like Button",
-            'description' => "A small extension to add a 'Facebook Like'-button to your site, when using <code>{{ facebooklike() }}</code> in your templates.",
+            'description' => "A small extension to add a 'Facebook Like'-button to your site, ".
+                             "when using <code>{{ facebooklike() }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
             'version' => "1.0",
@@ -28,22 +29,34 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
 
-        if (empty($this->config['style'])) { $this->config['style'] = "standard"; }
-        if (empty($this->config['width'])) { $this->config['width'] = "350px"; }
-        if (empty($this->config['verb'])) { $this->config['verb'] = "like"; }
-        if (empty($this->config['scheme'])) { $this->config['scheme'] = "light"; }
-        if (empty($this->config['url'])) { $this->config['url'] = $this->app['paths']['canonicalurl']; }
-        if (empty($this->config['language'])) { $this->config['language'] = "en_US"; }
+        if (empty($this->config['style'])) {
+            $this->config['style'] = "standard";
+        }
+        if (empty($this->config['width'])) {
+            $this->config['width'] = "350px"; 
+        }
+        if (empty($this->config['verb'])) {
+            $this->config['verb'] = "like"; 
+        }
+        if (empty($this->config['scheme'])) {
+            $this->config['scheme'] = "light";
+        }
+        if (empty($this->config['url'])) {
+            $this->config['url'] = $this->app['paths']['canonicalurl'];
+        }
+        if (empty($this->config['language'])) {
+            $this->config['language'] = "en_US";
+        }
 
         $this->insertSnippet(SnippetLocation::END_OF_BODY, 'facebookScript');
         $this->addTwigFunction('facebooklike', 'facebookLike');
 
     }
 
-    function facebookScript()
+    public function facebookScript()
     {
 
         $language = $this->config['language'];
@@ -62,10 +75,7 @@ EOM;
 
     }
 
-
-
-
-    function facebookLike()
+    public function facebookLike()
     {
 
         // code from http://developers.facebook.com/docs/reference/plugins/like/
@@ -85,11 +95,4 @@ EOM;
         return new \Twig_Markup($html, 'UTF-8');
 
     }
-
-
 }
-
-
-
-
-
