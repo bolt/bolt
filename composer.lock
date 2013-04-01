@@ -1,5 +1,5 @@
 {
-    "hash": "e22facdeffe832c8b447a8ecabd6fd90",
+    "hash": "16950bb7902e42cfaf79814698c414c7",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -335,31 +335,38 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "2.3.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "dd69835e0dcc44f7f0726b105e83ae5013622f5c"
+                "reference": "6e70bb192dff7baede8e6adceb030e079ad5707f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/dd69835e0dcc44f7f0726b105e83ae5013622f5c",
-                "reference": "dd69835e0dcc44f7f0726b105e83ae5013622f5c",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/6e70bb192dff7baede8e6adceb030e079ad5707f",
+                "reference": "6e70bb192dff7baede8e6adceb030e079ad5707f",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": ">=2.3.0,<2.5-dev",
+                "doctrine/common": "2.4.x-dev",
                 "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "symfony/console": "2.*"
+            },
+            "suggest": {
+                "symfony/console": "For helpful console commands such as SQL execution and import of files."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3.x-dev"
+                    "dev-master": "2.4.x-dev"
                 }
             },
             "autoload": {
                 "psr-0": {
-                    "Doctrine\\DBAL": "lib/"
+                    "Doctrine\\DBAL\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -394,7 +401,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-03-24 19:16:29"
+            "time": "2013-03-26 19:48:26"
         },
         {
             "name": "doctrine/inflector",
@@ -527,12 +534,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "004db920189f6bd0cd15e2283678e17b4b901f1a"
+                "reference": "805cef94a789d909ceadfb4f70495d7b8a94bc86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/004db920189f6bd0cd15e2283678e17b4b901f1a",
-                "reference": "004db920189f6bd0cd15e2283678e17b4b901f1a",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/805cef94a789d909ceadfb4f70495d7b8a94bc86",
+                "reference": "805cef94a789d909ceadfb4f70495d7b8a94bc86",
                 "shasum": ""
             },
             "require": {
@@ -569,7 +576,7 @@
                 "silex-provider",
                 "whoops"
             ],
-            "time": "2013-03-23 13:43:02"
+            "time": "2013-03-29 09:04:26"
         },
         {
             "name": "guzzle/guzzle",
@@ -577,12 +584,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "6d0908cc56750cdde039f0e92f0f2e0e3a4cc45e"
+                "reference": "393a110ec07881547055c87ba80c9631f8fa9702"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/6d0908cc56750cdde039f0e92f0f2e0e3a4cc45e",
-                "reference": "6d0908cc56750cdde039f0e92f0f2e0e3a4cc45e",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/393a110ec07881547055c87ba80c9631f8fa9702",
+                "reference": "393a110ec07881547055c87ba80c9631f8fa9702",
                 "shasum": ""
             },
             "require": {
@@ -663,7 +670,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2013-03-25 20:11:22"
+            "time": "2013-04-01 06:48:14"
         },
         {
             "name": "hautelook/phpass",
@@ -882,12 +889,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "59e7dbd338b5caba9879ae11524da4a5905f80c1"
+                "reference": "803f809cdaa409e5769b24db952655d7e9187677"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/59e7dbd338b5caba9879ae11524da4a5905f80c1",
-                "reference": "59e7dbd338b5caba9879ae11524da4a5905f80c1",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/803f809cdaa409e5769b24db952655d7e9187677",
+                "reference": "803f809cdaa409e5769b24db952655d7e9187677",
                 "shasum": ""
             },
             "require": {
@@ -955,7 +962,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-03-08 16:56:52"
+            "time": "2013-04-01 08:47:32"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1258,12 +1265,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Form.git",
-                "reference": "1ec4311b512a051c18300e9e1ebc1442f62da5ac"
+                "reference": "8659a898edadadf170dc3697c70c1030f65e8d67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Form/zipball/1ec4311b512a051c18300e9e1ebc1442f62da5ac",
-                "reference": "1ec4311b512a051c18300e9e1ebc1442f62da5ac",
+                "url": "https://api.github.com/repos/symfony/Form/zipball/8659a898edadadf170dc3697c70c1030f65e8d67",
+                "reference": "8659a898edadadf170dc3697c70c1030f65e8d67",
                 "shasum": ""
             },
             "require": {
@@ -1308,7 +1315,7 @@
             ],
             "description": "Symfony Form Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-26 13:01:49"
+            "time": "2013-03-27 09:08:41"
         },
         {
             "name": "symfony/http-foundation",
@@ -1885,12 +1892,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "e8991cc2f9c84b2b5c782203904898717d46e56a"
+                "reference": "399916916533589c95dc04e1afd4aeefa34928ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/e8991cc2f9c84b2b5c782203904898717d46e56a",
-                "reference": "e8991cc2f9c84b2b5c782203904898717d46e56a",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/399916916533589c95dc04e1afd4aeefa34928ad",
+                "reference": "399916916533589c95dc04e1afd4aeefa34928ad",
                 "shasum": ""
             },
             "require": {
@@ -1926,7 +1933,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-03-25 07:43:31"
+            "time": "2013-04-01 08:27:18"
         }
     ],
     "packages-dev": [
@@ -2291,6 +2298,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "silex/silex": 20,
+        "doctrine/dbal": 20,
         "htmlawed/htmlawed": 20,
         "hautelook/phpass": 20,
         "filp/whoops": 20,

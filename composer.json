@@ -16,7 +16,7 @@
         "symfony/console": "~2.1",
         "symfony/filesystem": "~2.1",
         "symfony/finder": "~2.1",
-        "doctrine/dbal": "2.3.*",
+        "doctrine/dbal": "2.4.*@dev",
         "twig/twig": ">=1.8,<2.0-dev",
         "jbroadway/urlify": "1.0.0-stable",
         "guzzle/guzzle": "3.3.*",
