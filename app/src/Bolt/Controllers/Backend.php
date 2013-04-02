@@ -714,7 +714,7 @@ class Backend implements ControllerProviderInterface
                 $user = $form->getData();
 
                 $res = $app['users']->saveUser( $user );
-                $app['log']->add("Added user '". $user['displayname']."'.", 3, '', 'user');
+                $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
                 if ($res) {
                     $app['session']->getFlashBag()->set('success', __('User %s has been saved.',array('%s' => $user['displayname'])));
                 } else {

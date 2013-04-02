@@ -22,6 +22,7 @@
 "Add some sample <a href='%url%'>Records with Loripsum text</a>.": "Agregar algunos registros <a href='%url%'>Lorem Ipsum de ejemplo</a>."
 "Add …": "Agregar …"
 "Added to <tt>%key%</tt> '%title%'": "Agregado a <tt>%key%</tt> '%title%'"
+"Added user '%s'.": "Agregado usuario '%s'."
 "Address lookup:": "Buscar dirección:"
 "Alas, no about!": "Oh, ¡no hay un acerca de!"
 "Allowed contenttypes": "Tipos de contenido permitidos"
