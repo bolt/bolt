@@ -31,6 +31,7 @@
         "phpunit/phpunit": "3.7.18"
     },
     "minimum-stability": "dev",
+    "prefer-stable":true,
     "autoload": {
         "psr-0": {
             "Bolt": "app/src/",
