@@ -12,3 +12,6 @@ scheme: light
 
 # URL to 'like'. Leave blank to use the URL of the current page.
 # url: http://bolt.cm
+
+# language, defaults to en_US
+language: en_US
