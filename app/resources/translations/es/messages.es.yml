@@ -70,6 +70,7 @@
 "Deleted %s files from cache.": "Se eliminaron %s archivos del caché."
 "Disable %username%": "Deshabilitar a %username%"
 "Disabled extensions": "Extensiones deshabilitadas"
+"Displayname": "Nombre visible"
 "Done!": "¡Hecho!"
 "Duplicate %contenttype%": "Duplicar %contenttype%"
 "Duplicate %filename%": "Duplicar %filename%"
