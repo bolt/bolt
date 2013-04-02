@@ -2002,7 +2002,7 @@ class Storage
     protected function hasRecords($tablename)
     {
 
-        $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $this->app['db']->quote($tablename));
+        $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
         return intval($count) > 0;
 
     }
