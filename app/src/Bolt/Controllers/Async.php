@@ -77,19 +77,19 @@ class Async implements ControllerProviderInterface
             );
 
             // If there's a proxy ...
-    		if (!empty($app['config']['general']['httpProxy'])) {
-	            $options = array (
-	                   'curl.options' => array (
-	                          'CURLOPT_PROXY'          => $app['config']['general']['httpProxy']['host'],     
-	                          'CURLOPT_PROXYTYPE'      => 'CURLPROXY_HTTP',
-	                          'CURLOPT_PROXYUSERPWD'   => $app['config']['general']['httpProxy']['user'] . ':' . $app['config']['general']['httpProxy']['password']
-	                   )
-	            );
-				$guzzleclient = new \Guzzle\Http\Client($url, $options);
-			} else {
-				$guzzleclient = new \Guzzle\Http\Client($url);	
-			}
-
+            if (!empty($app['config']['general']['httpProxy'])) {
+                $options = array (
+                    'curl.options' => array (
+                            'CURLOPT_PROXY'          => $app['config']['general']['httpProxy']['host'],     
+                            'CURLOPT_PROXYTYPE'      => 'CURLPROXY_HTTP',
+                            'CURLOPT_PROXYUSERPWD'   => $app['config']['general']['httpProxy']['user'] . ':' . $app['config']['general']['httpProxy']['password']
+                    )
+                );
+                $guzzleclient = new \Guzzle\Http\Client($url, $options);
+            } else {
+                $guzzleclient = new \Guzzle\Http\Client($url);    
+            }
+            
             $news = $guzzleclient->get("/")->send()->getBody(true);
             $news = json_decode($news);
 
