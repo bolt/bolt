@@ -79,7 +79,9 @@ class Frontend implements ControllerProviderInterface
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
 
-            if (is_array($content)) {
+            if (!$content) {
+                $twigvars = array();
+            } else if (is_array($content)) {
                 $first = current($content);
                 $twigvars = array(
                     'records' => $content,
