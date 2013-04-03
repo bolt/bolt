@@ -21,7 +21,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0.5em 0;
     font-weight: normal;
 }
@@ -137,14 +137,14 @@ hr {
     color: #FFF;
     font-size: 38px;
     line-height: 38px;
-    font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 8px 0 0 0;
 }
 
 .navbar .brand strong {
-    font-family: 'allerbold', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: normal;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bold;
 }
 
 .navbar .brand span {
@@ -1069,42 +1069,4 @@ blockquote.quote cite {
 
 }
 
-
-/* http://webfonts.info/browser-support-overview - Just use woff and ttf.. */
-@font-face {
-    font-family: 'alleritalic';
-    src: url('../font/aller_it-webfont.woff') format('woff'),
-    url('../font/aller_it-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-@font-face {
-    font-family: 'allerregular';
-    src: url('../font/aller_rg-webfont.woff') format('woff'),
-    url('../font/aller_rg-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'allerbold';
-
-    src: url('../font/aller_bd-webfont.woff') format('woff'),
-    url('../font/aller_bd-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'allerbold_italic';
-    src: url('../font/aller_bdit-webfont.woff') format('woff'),
-    url('../font/aller_bdit-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
 
