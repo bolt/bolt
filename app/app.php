@@ -21,6 +21,9 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
 
+    // Sanity checks for doubles in in contenttypes.
+    checkConfig($app);
+
 });
 
 // On 'finish' attach the debug-bar, if debug is enabled..
