@@ -1106,22 +1106,22 @@ class Storage
         $returnsingle = false;
 
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
-        if (preg_match('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'entry/12'
+        if (preg_match('#^/?([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
+            // like 'entry/12' or '/page/12345'
             $contenttypeslug = $match[1];
             $parameters['id'] = $match[2];
             $returnsingle = true;
-        } elseif (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/lorem-ipsum-dolor'
+        } elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
+            // like 'page/lorem-ipsum-dolor' or '/page/home'
             $contenttypeslug = $match[1];
             $parameters['slug'] = $match[2];
             $returnsingle = true;
-        } elseif (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
+        } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/latest/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
             $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
-        } elseif (preg_match('#^([a-z0-9_-]+)/random/([0-9]+)$#i', $contenttypeslug, $match)) {
+        } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/random/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
             $parameters['order'] = 'RANDOM';
