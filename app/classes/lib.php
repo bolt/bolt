@@ -860,7 +860,6 @@ function checkConfig(\Bolt\Application $app) {
         //
         foreach($ct['fields'] as $fieldname => $field) {
             if (!empty($field['uses']) && empty($ct['fields'][ $field['uses'] ]) ) {
-                \util::var_dump($field);
                 $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
                     array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $field['uses'] )
                 );
