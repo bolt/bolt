@@ -833,6 +833,79 @@ function getConfig()
 
 }
 
+/**
+ * Sanity checks for doubles in in contenttypes.
+ *
+ */
+function checkConfig(\Bolt\Application $app) {
+
+    // TODO: yeah, we should refactor these things related to config to it's own class.
+
+    $slugs = array();
+
+    foreach ($app['config']['contenttypes'] as $key => $ct) {
+
+        // Make sure any field that has a 'uses' parameter actually points to a field that exists.
+        // For example, this will show a notice:
+        // entries:
+        //   name: Entries
+        //     singular_name: Entry
+        //     fields:
+        //       title:
+        //         type: text
+        //         class: large
+        //       slug:
+        //         type: slug
+        //         uses: name
+        //
+        foreach($ct['fields'] as $fieldname => $field) {
+            if (!empty($field['uses']) && empty($ct['fields'][ $field['uses'] ]) ) {
+                \util::var_dump($field);
+                $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                    array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $field['uses'] )
+                );
+                $app['session']->getFlashBag()->set('error', $error);
+            }
+        }
+
+        // Show some helpful warnings if slugs or names are not unique.
+        if ($ct['slug'] == $ct['singular_slug']) {
+            $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
+                array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
+            );
+            $app['session']->getFlashBag()->set('error', $error);
+        }
+
+        // Show some helpful warnings if slugs or names are not unique.
+        if ($ct['slug'] == $ct['singular_slug']) {
+            $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
+                array( '%contenttype%' => $key, '%name%' => $ct['name'] )
+            );
+            $app['session']->getFlashBag()->set('error', $error);
+        }
+
+        // Keep a running score of used slugs..
+        if (!isset($slugs[ $ct['slug'] ])) { $slugs[ $ct['slug'] ] = 0; }
+        $slugs[ $ct['slug'] ]++;
+        if (!isset($slugs[ $ct['singular_slug'] ])) { $slugs[ $ct['singular_slug'] ] = 0; }
+        $slugs[ $ct['singular_slug'] ]++;
+
+    }
+
+    // if there aren't any other errors, check for duplicates across contenttypes..
+    if (!$app['session']->getFlashBag()->has('error')) {
+        foreach ($slugs as $slug => $count) {
+            if ($count > 1) {
+                $error =  __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                    array( '%slug%' => $slug )
+                );
+                $app['session']->getFlashBag()->set('error', $error);
+            }
+        }
+    }
+
+
+}
 
 function getWhichEnd() {
 
