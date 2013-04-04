@@ -135,3 +135,9 @@ cookies_domain:
 # a harder to decrypt password, but takes longer to compute. '8' is the minimum, '10' is the default,
 # '12' is better.
 hash_strength: 10
+
+# If you want Bolt installation get news through a proxy
+#httpProxy:
+#  host: my.proxy.server
+#  user: usr
+#  password: pwd
