@@ -1,0 +1,30 @@
+#
+# File Managed by Puppet. Do not modify
+#
+
+<VirtualHost *:<%= port %>>
+    ServerAdmin webmaster@<%= name %>
+
+    DocumentRoot <%= docroot %>
+
+    ServerName <%= name %>
+<% if serveraliases != "" -%>
+    ServerAlias <%= serveraliases %>
+<% end -%>
+
+    ErrorLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
+    CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common
+
+    <Directory <%= docroot %>>
+        <IfModule mod_rewrite.c>
+            Options +FollowSymLinks
+        </IfModule>
+
+        DirectoryIndex index.php
+        AllowOverride All
+
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+</VirtualHost>
