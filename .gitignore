@@ -14,5 +14,5 @@ __*
 .__*
 web
 theme/mybolt/
-
+.vagrant
 *.sublime-*
