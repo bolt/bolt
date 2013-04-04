@@ -1462,8 +1462,6 @@ class Storage
             return false;
         }
 
-        // echo "<pre>\n" . util::var_dump($this->app['config']['contenttypes'], true) . "</pre>\n";
-
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
         if (isset($this->app['config']['contenttypes'][$contenttypeslug])) {
             $contenttype = $this->app['config']['contenttypes'][$contenttypeslug];
@@ -1473,20 +1471,13 @@ class Storage
                     $contenttype = $this->app['config']['contenttypes'][$key];
                 }
             }
-
         }
 
         if (!empty($contenttype)) {
-
-            $contenttype['slug'] = makeSlug($contenttype['name']);
-            $contenttype['singular_slug'] = makeSlug($contenttype['singular_name']);
-
             return $contenttype;
-
         } else {
             return false;
         }
-
 
     }
 
