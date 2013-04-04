@@ -1,0 +1,27 @@
+Puppet module: php
+
+# Written by Lab42 #
+# http://www.example42.com
+
+Licence: Apache2
+
+
+DESCRIPTION:
+This module installs php and provides custom defines to manage php modules, pear components and pecl extensions
+
+USAGE:
+include php        # Installs php
+include php::pear  # Installs pear support
+include php::dev   # Installs php-dev
+#TODO include php::absent      # Remove php package.
+
+php::module { mysql: }     # Installs specific module for php
+
+php::pear::module { Crypt-CHAP: }  # Installs pear component using OS package
+php::pear::module { "XML_Serializer": use_package => "no", preferred_state => "beta" }  # Installs pear component with pear command
+php::pear::config { "http_proxy": value => "$proxy_server" } # Configures pear environment
+
+php::pecl::module { "xslcache": }  # Installs pecl module using OS package
+php::pecl::module { "xslcache": use_package => "no", preferred_state => "beta" } # Installs pecl module with pecl command
+php::pecl::config { "http_proxy": value => "$proxy_server" } # Configures pecl environment
+

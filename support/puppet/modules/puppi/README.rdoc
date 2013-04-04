@@ -1,0 +1,230 @@
+= Puppi: A Deploy Automation and SysAdmin helper Puppet module
+
+Written by Alessandro Franceschi / al @ lab42.it
+
+Source: http://www.example42.com
+
+Licence: Apache 2
+
+Puppi is a Puppet module that lets sysadmins standardize, manage and automate the
+deployment of web applications and provides quick and standard commands to obtain informations
+about the system and what's is going on it.
+
+Its structure provides FULL flexibility on the actions required for virtually any kind of
+application deployment and information gathering.
+
+The module provides:
+
+* The puppi command and its whole working environment
+
+* A set of scripts that can be used in chain to automate any kind of deployment
+
+* Puppet defines that make it easy to prepare a puppi set of commands for a project deployment
+
+* Puppet defines to populate the output of the different actions
+
+== HOW TO INSTALL
+
+Download Puppi from GitHub and place it in your modules directory: 
+
+       git clone https://github.com/example42/puppi.git /etc/puppet/modules/puppi
+
+To install Puppi on a node just include the module in a node or in a class that the node uses:
+
+        node 'test' {
+          include puppi
+        }
+
+For full functionality you need some commands and tools used by Puppi scripts. They are provided in the puppi::prerequisites class:
+You can include it too, if you use Example2 modules:
+
+        include puppi::prerequisites
+
+if you use other modules, just be sure to provide somewhere the packages defined there (basically: rsync, curl, mailx, nagios-plugins and unzip).
+
+Once you have puppi included in your nodes you can use the puppi:: defines detailed below to add functionality and actions.
+
+If you use the whole Example42 module set you can activate automatic Puppi integration in these modules.
+Example42 modules currently have 2 different basic layouts, the "Old" 1.0 modules and the "NextGen" 2.0 ones.
+Puppi integration (and the whole parameters evaluation approach) is done in a slightly different way.
+
+With the OldGen modules you just have to set these variables which can be dynamically scope (you can assign values to them in different places):
+
+        $puppi = yes   # Enables puppi integration.
+        $monitor = yes # Enables automatic monitoring 
+        $monitor_tool = "puppi" # Sets puppi as monitoring tool
+
+For the NextGen modules you have to provide the same values as arguments to a class:
+
+        class { 'openssh':
+          puppi        => yes, 
+          monitor      => yes,
+          monitor_tool => 'puppi', 
+        }
+
+or set them in Hiera or in the Top Scope. Note that for these variables you can have both site wide settings:
+
+        $::puppi = yes            # Top Scope variable, affects all modules.
+        $::monitor = yes          # Top Scope variable, affects all modules.
+        $::monitor_tool = "puppi" # Top Scope variable, affects all modules.
+
+and module specific settings, which overrides the site wide ones:
+
+        $::openssh_puppi = yes            # Top Scope variable, affects openssh module.
+        $::openssh_monitor = yes          # Top Scope variable, affects openssh module.
+        $::openssh_monitor_tool = "puppi" # Top Scope variable, affects openssh module.
+
+Note that the variables provided by an External Node Classifier like the Puppet Dashboard or Foreman are top scope variables.
+
+== USAGE OF THE PUPPI COMMAND
+
+        puppi <action> <project_name> [ -options ]
+
+The puppi command has these possibile actions:
+
+* [ puppi init project_name ] : First time initialization of the defined project
+
+* [ puppi deploy project_name ] : Deploys the defined project
+
+* [ puppi rollback project_name ] : Rollback to a previous deploy state 
+
+* [ puppi check ] : Runs project specific and host wide checks 
+
+* [ puppi log ] : Tails system wide or project specific logs 
+
+* [ puppi info topic_name ] : Show system information (for all or only the specified topic)
+
+* [ puppi todo ] : Show things to do (or done) manually on the system
+
+The deploy/rollback/init actions puppi run the commands in /etc/puppi/projects/$project_name/$action,
+log their status and then run the commands in /etc/puppi/projects/$project_name/report to
+provide reporting, in whatever, pluggable, way.
+
+You can also provide some options:
+
+* -f : Force puppi commands execution also on CRITICAL errors
+
+* -i : Interactively ask confirmation for every command
+
+* -t : Test mode. Just show the commands that should be executed without doing anything
+
+* -d <yes|full>: Debug mode. Show debugging info during execution
+
+* -o "parameter=value parameter2=value2" : Set manual options to override defaults. The options must be in parameter=value syntax, separated by spaces and inside double quotes.
+
+Some usage examples:
+
+        puppi check : Run host-wide checks. 
+
+        puppi log : Show system logs
+
+        puppi info : Show general system infos (outputs all the topics available)
+
+        puppi deploy myapp : Deploys myapp according to the logic defined in Puppet manifests
+
+
+== THE PUPPI MODULE
+
+The set of commands needed for each of these actions s entirely managed with specific
+Puppet "basic defines":
+
+[ puppi::project ]  - Creates the main project structure. One or more different deployment projects can exist on a node.
+
+[ puppi::initialize ] - Creates a single command to be placed in the init sequence. It's not required for every project.
+
+[ puppi::deploy ]   - Creates a single command to be placed in the deploy sequence. More than one is generally needed for each project.
+
+[ puppi::rollback ] - Creates a single command to be placed in the rollback sequence. More than one is generally needed for each project.
+
+[ puppi::check ]    - Creates a single check (based on Nagios plugins) for a project or for the whole host (host wide checks are auto generated by Example42 monitor module)
+
+[ puppi::report ]   - Creates a reporting command to be placed in the report sequence.
+
+[ puppi::log ]      - Creates a log filename entry for a project or the whole hosts.
+
+[ puppi::info ]     - Creates an info entry with the commands used to provide info on a topic
+
+Read details in the relevant READMEs
+
+
+== FILE PATHS (all of them are provided, and can be configured, in the puppi module):
+
+/usr/sbin/puppi - Where the puppi command is placed. Currently is a bash script.
+
+/etc/puppi/puppi.conf - Puppi main config file. Here various puppi wide paths are defined
+
+/etc/puppi/checks/ - $checksdir - Here can be placed all the host wide checks. If you use the Example42 monitor module and have "puppi" as $monitor_tool, this directory is automatically filled with Nagios plugins based checks.
+
+/etc/puppi/projects/ - $projectsdir - In this directory you can have one or more projects subdirs, with the commands to be run for deploy, rollback and check actions. They are completely built (and purged) by the Puppet module.
+
+/etc/puppi/scripts/ - $scriptsdir - The general-use scripts directory, these are used by the above commands and may require one or more arguments.
+
+/etc/puppi/logs/ - $logssdir - The general-use directory where are placed files containing the log paths to be used by puppi log
+
+/etc/puppi/info/ - $infodir - The directory where are placed files containing the commands used by puppi info
+
+/var/lib/puppi/archive/ - $archivedir - Where all data to rollback is placed.
+
+/var/log/puppi/ - $logdir - Where logs and reports of the different commands are placed.
+
+/tmp/puppi/ - $workdir - Temporary, scratchable, directory where Puppi places temporary files.
+
+/tmp/puppi/$project/config - A runtime configuration file, where are dinamically placed variables usable by all the scripts invoked by puppi. This is necessary to mantain "state" information that changes on every puppi run (such as the deploy datetime, used for backups).
+
+
+== HOW TO CUSTOMIZE
+It should be clear that with puppi you have full flexibility in the definition of a deployment 
+procedure, since the puppi command is basically a wrapper that executes arbitrary scripts with
+a given sequence, in pure KISS logic.
+
+The advantanges though, are various:
+* You have a common syntax to manage deploys and rollbacks on an host
+
+* In your Puppet manifests you can set in simple, coherent and still flexible and customizable
+  defines all the elements you need for your application deployments. 
+  Think about it: with just a Puppet define you build the whole deploy logic
+
+* Reporting for each deploy/rollback is built-in and extensible 
+
+* Automatic checks can be built in the deploy procedure
+
+* You have a common, growing, set of general-use scripts for typical actions
+
+* You have quick and useful command to see what's happening on the system (puppi check, log, info)
+
+There are different parts where you can customize the behaviour of puppi:
+
+* The set of general-use scripts in /etc/puppi/scripts/ ( this dir is filled with the content
+  of puppi/files/scripts/ ) can/should be enhanced. These can be arbitrary scripts in whatever
+  language. If you want to follow puppi's logic, though, consider that they should import the
+  common and runtime configuration files and have an exit code logic similar to the one of
+  Nagios plugins: 0 is OK, 1 is WARNING, 2 is CRITICAL. Note that by default a script that 
+  exits with WARNING doesn't block the deploy procedure, on the other hand, if a script exits
+  with CRITICAL (exit 2) by default it blocks the procedure.
+  Take a second, also, to explore the runtime config file created by the puppi command that
+  contains variables that can be set and used by the scripts invoked by puppi.
+
+* The custom project defines that describe deploy templates. These are placed in
+  puppi/manifests/project/ and can request all the arguments you want to feed your scripts with.
+  Generally is a good idea to design a standard enough template that can be used for all the 
+  cases where the deployment procedure involves similar steps. Consider also that you can handle
+  exceptions with variables (see the $loadbalancer_ip usage in puppi/manifests/project/maven.pp)
+
+== DEPENDENCIES
+The Example42 puppi module aims to be independent and easily droppable in your set of modules.
+In order to do something useful by default it need some packages that you probably already manage:
+- nagios plugins for the puppi check,
+- curl for some general scripts used in puppi deploy.
+
+Extra elements for check, info and log are automatic included with the relevant application if you use
+the Example42 modules.
+
+== PROJECT STATUS
+Puppi is a work in progress. It has been originally designed to automate deployments in
+a specific environment and more project templates have to be written to manage different 
+scenarios. It has evolved with some commands useful to quickly understand what's 
+happening on the system and how it's configured.
+It has greatly broadened its applications and possibilities with the introduction of the mc-puppi
+mcollective command and the relevant plugin.
+All the puppi commands you can issue to obtain information, check status and manage applications
+deployments are now usable via Mcollective.
