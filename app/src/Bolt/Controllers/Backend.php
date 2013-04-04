@@ -477,14 +477,16 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $app['twig']->addGlobal('title', __('Edit %contenttype% » %title%',array('%contenttype%'=> $contenttype['singular_name'],'%title%'=> $content->getTitle())));
+            $title = sprintf("<strong>%s</strong> » %s", __('Edit %contenttype%', array('%contenttype%'=> $contenttype['singular_name'])), $content->getTitle() );
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $app['twig']->addGlobal('title', __('New %contenttype%',array('%contenttype%' => $contenttype['singular_name'])));
+            $title = sprintf("<strong>%s</strong>", __('New %contenttype%', array('%contenttype%' => $contenttype['singular_name'])));
             $app['log']->add("New content", 1, $content, 'edit');
-
         }
+
+
+        $app['twig']->addGlobal('title', $title);
 
         $duplicate = $app['request']->query->get('duplicate');
         if (!empty($duplicate)) {
@@ -593,10 +595,10 @@ class Backend implements ControllerProviderInterface
         // Get the user we want to edit (if any)
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
-            $title = __('Edit a user');
+            $title = "<strong>" . __('Edit user') . "</strong> » " . $user['displayname'];
         } else {
             $user = $app['users']->getEmptyUser();
-            $title = __('Create a new user');
+            $title = "<strong>" . __('Create a new user') . "</strong>";
         }
 
         $userlevels = $app['users']->getUserLevels();
