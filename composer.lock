@@ -1,5 +1,5 @@
 {
-    "hash": "94841963a504b6f15ff5c3984ff2111a",
+    "hash": "f1d46310ebd8308364fa3aee601bfcea",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -868,12 +868,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "803f809cdaa409e5769b24db952655d7e9187677"
+                "reference": "31139babedb2a4f504737d1d8c5255fca102dae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/803f809cdaa409e5769b24db952655d7e9187677",
-                "reference": "803f809cdaa409e5769b24db952655d7e9187677",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/31139babedb2a4f504737d1d8c5255fca102dae2",
+                "reference": "31139babedb2a4f504737d1d8c5255fca102dae2",
                 "shasum": ""
             },
             "require": {
@@ -941,7 +941,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-04-01 08:47:32"
+            "time": "2013-04-03 19:59:11"
         },
         {
             "name": "swiftmailer/swiftmailer",
