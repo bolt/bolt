@@ -7,8 +7,8 @@ Vagrant::Config.run do |config|
     # please see the online documentation at vagrantup.com.
 
     # This vagrant will be running on centos 6.3, 32bit with Puppet provisioning
-    config.vm.box = 'centos-63-32-puppet'
-    config.vm.box_url = 'https://dl.dropbox.com/sh/9rldlpj3cmdtntc/chqwU6EYaZ/centos-63-32bit-puppet.box'
+    config.vm.box = 'puppetlabs-centos-63-64-puppet'
+    config.vm.box_url = 'http://puppet-vagrant-boxes.puppetlabs.com/centos-63-x64.box'
 
     # The url from where the 'config.vm.box' box will be fetched if it
     # doesn't already exist on the user's system.
@@ -17,23 +17,14 @@ Vagrant::Config.run do |config|
     config.vm.boot_mode = :gui
 
     config.vm.define :bolt do |bolt_config|
-        config.vm.host_name = "www.bolt.dev"
-        #config.vm.share_folder "v-data", ".", "/vagrant/app/cache", :owner => "www-data", :group => "www-data"
+        bolt_config.vm.host_name = "www.bolt.dev"
+        #bolt_config.vm.share_folder "v-data", ".", "/vagrant/app/cache", :owner => "apache", :group => "apache"
 
         # Assign this VM to a host-only network IP, allowing you to access it
         # via the IP. Host-only networks can talk to the host machine as well as
         # any other machines on the same network, but cannot be accessed (through this
         # network interface) by any external networks.
-        config.vm.network :hostonly, "33.33.33.10"
-
-        # Assign this VM to a bridged network, allowing you to connect directly to a
-        # network using the host's network device. This makes the VM appear as another
-        # physical device on your network.
-        # config.vm.network :bridged
-
-        # Forward a port from the guest to the host, which allows for outside
-        # computers to access the VM, whereas host only networking does not.
-        # config.vm.forward_port 80, 8080
+        bolt_config.vm.network :hostonly, "33.33.33.10"
 
         # Share an additional folder to the guest VM. The first argument is
         # an identifier, the second is the path on the guest to mount the
@@ -57,30 +48,5 @@ Vagrant::Config.run do |config|
                 '--debug',
             ]
         end
-
-
-    # Enable provisioning with Puppet stand alone.  Puppet manifests
-    # are contained in a directory path relative to this Vagrantfile.
-    # You will need to create the manifests directory and a manifest in
-    # the file debian-6-64.pp in the manifests_path directory.
-    #
-    # An example Puppet manifest to provision the message of the day:
-    #
-    # # group { "puppet":
-    # #   ensure => "present",
-    # # }
-    # #
-    # # File { owner => 0, group => 0, mode => 0644 }
-    # #
-    # # file { '/etc/motd':
-    # #   content => "Welcome to your Vagrant-built virtual machine!
-    # #               Managed by Puppet.\n"
-    # # }
-    #
-    # config.vm.provision :puppet do |puppet|
-    #   puppet.manifests_path = "manifests"
-    #   puppet.manifest_file  = "debian-6-64.pp"
-    # end
-
     end
 end

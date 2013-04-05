@@ -15,6 +15,5 @@ class params {
 
     $filepath = '/vagrant/support/puppet/modules'
 
-
     $phpmyadmin = true
 }

@@ -6,5 +6,5 @@
                     |____/ \___/|_|\__|     \/   |_|  |_|
 
                     This is your Bolt Virtual Machine.
-                   CentOS 6.3 32 bit | Managed by Puppet
+                   CentOS 6.3 64 bit | Managed by Puppet
     IP: 33.33.33.10, if your local /etc/hosts file is correct: www.bolt.dev
