@@ -114,7 +114,7 @@ $app->after(function (Request $request, Response $response) use ($app) {
 
         // only add when content-type is text/html
         if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
-            $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+            $app['extensions']->insertSnippet("aftermeta", '<meta name="generator" content="Bolt">');
 
             $html = $response->getContent();
 
