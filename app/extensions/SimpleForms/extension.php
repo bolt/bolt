@@ -77,15 +77,15 @@ class Extension extends \Bolt\BaseExtension
      * @param string $name
      * @return string
      */
-    function simpleForm($name="")
+    function simpleForm($formname = "")
     {
         global $app;
 
         // Select which form to use..
-        if (isset($this->config[$name])) {
-            $formconfig = $this->config[$name];
+        if (isset($this->config[$formname])) {
+            $formconfig = $this->config[$formname];
         } else {
-            return "Simpleforms notice: No form known by name '$name'.";
+            return "Simpleforms notice: No form known by name '$formname'.";
         }
 
         // Set the mail configuration for empty fields to the global defaults.
@@ -145,6 +145,10 @@ class Extension extends \Bolt\BaseExtension
                 $options['constraints'][] = new Assert\Email();
             }
 
+            // Yeah, this feels a bit flakey, but I'm not sure how I can get the form type in the template
+            // in another way.
+            $options['attr']['type'] = $field['type'];
+
             $form->add($name, $field['type'], $options);
 
         }
@@ -202,11 +206,11 @@ class Extension extends \Bolt\BaseExtension
 
 
         $formhtml = $app['twig']->render("SimpleForms/".$formconfig['template'], array(
-            "submit" => "Send",
             "form" => $form->createView(),
             "message" => $message,
             "error" => $error,
             "sent" => $sent,
+            "formname" => $formname,
             "button_text" => $formconfig['button_text']
         ));
 

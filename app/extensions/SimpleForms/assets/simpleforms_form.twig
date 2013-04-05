@@ -1,15 +1,15 @@
 {% form_theme form 'SimpleForms/assets/simpleforms_fields.twig' %}
 
 {% if error %}
-    <p class="simpleformserror">{{ error }}</p>
+    <p class="simpleform-error">{{ error }}</p>
 {% endif %}
 {% if message %}
-    <p class="simpleformsmessage">{{ message }}</p>
+    <p class="simpleform-message">{{ message }}</p>
 {% endif %}
 {% if not sent %}
-<form action="#" method="post">
+<form action="#" method="post" class="simpleform simpleform-{{ formname }}">
     {{ form_widget(form) }}
 
-    <input type="submit" name="submit" value="{{ button_text }}" />
+    <input type="submit" name="submit" value="{{ button_text }}" class="simpleform-submit" />
 </form>
 {% endif %}

@@ -1,6 +1,16 @@
 {% block checkbox_widget %}
 {% spaceless %}
     <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
-    {% if value is defined %} <label for="{{ id }}" class="checkbox-placeholder">{{ attr.placeholder }}</label>{% endif %}
+    {% if attr.placeholder is defined %}<label for="{{ id }}" class="checkbox-placeholder">{{ attr.placeholder }}</label>{% endif %}
 {% endspaceless %}
 {% endblock checkbox_widget %}
+
+{% block form_row %}
+    {% spaceless %}
+        <div {% if form.vars.attr.type is defined %}class="simpleform-row simpleform-{{ form.vars.attr.type }}"{% endif %}>
+            {{ form_label(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}

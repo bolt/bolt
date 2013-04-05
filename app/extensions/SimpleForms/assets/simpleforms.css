@@ -4,19 +4,19 @@
  * @see http://www.getskeleton.com/?#forms
  */
 
-form {
+form.simpleform {
     margin: 20px 0;
 }
 
-fieldset {
+form.simpleform fieldset {
     margin-bottom: 20px;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-textarea,
-select {
+form.simpleform input[type="text"],
+form.simpleform input[type="password"],
+form.simpleform input[type="email"],
+form.simpleform textarea,
+form.simpleform select {
     border: 1px solid #ccc;
     padding: 6px 4px;
     outline: none;
@@ -31,14 +31,14 @@ select {
     background: #fff;
 }
 
-select {
+form.simpleform select {
     padding: 0;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-textarea:focus {
+form.simpleform input[type="text"]:focus,
+form.simpleform input[type="password"]:focus,
+form.simpleform input[type="email"]:focus,
+form.simpleform textarea:focus {
     border: 1px solid #aaa;
     color: #444;
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
@@ -46,58 +46,58 @@ textarea:focus {
     box-shadow:  0 0 3px rgba(0,0,0,.2);
 }
 
-input.wide {
+form.simpleform input.wide {
     width: 90%;
 }
 
-textarea {
+form.simpleform textarea {
     min-height: 60px;
     min-width: 90%;
 }
 
-label,
-legend {
+form.simpleform label,
+form.simpleform legend {
     display: block;
     margin: 0.75em 0 0.25em;
 }
 
-select {
+form.simpleform select {
     width: 220px;
 }
 
-input[type="checkbox"] {
+form.simpleform input[type="checkbox"] {
     display: inline;
     margin-right: 1em;
 }
 
-label span,
-legend span {
+form.simpleform label span,
+form.simpleform legend span {
     font-weight: normal;
     font-size: 13px;
     color: #444;
 }
 
-button,
-input[type="button"],
-input[type="submit"] {
+form.simpleform button,
+form.simpleform input[type="button"],
+form.simpleform input[type="submit"] {
     margin-top: 0.75em;
     padding: 4px 14px;
     font-weight: normal;
 }
 
-.checkbox-placeholder {
+form.simpleform .checkbox-placeholder {
     display: inline;
     color: #666;
 }
 
-label.required:after {
+form.simpleform label.required:after {
     content: " *";
     color: #F00;
     font-weight: bold;
 }
 
 
-p.simpleformserror {
+form.simpleform p.simpleform-error {
     padding: 8px 35px 8px 14px;
     margin-bottom: 20px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -109,7 +109,7 @@ p.simpleformserror {
     background-color: #F2DEDE;
 }
 
-p.simpleformsmessage {
+form.simpleform p.simpleform-message {
     padding: 8px 35px 8px 14px;
     margin-bottom: 20px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
