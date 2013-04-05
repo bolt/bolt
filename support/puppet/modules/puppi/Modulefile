@@ -1,8 +1,0 @@
-name    'puppi'
-version '1.2.1'
-source  'git://github.com/example42/puppi'
-author  'lab42'
-license 'Apache'
-summary 'Installs and configures Puppi'
-description 'Installs puppi and creates its environment'
-project_page 'http://www.example42.com'
