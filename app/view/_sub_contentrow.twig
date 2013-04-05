@@ -91,7 +91,7 @@
                             <i class="icon-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
                     {% else %}
                         <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}:
-                            <i class="icon-tag"></i> {{ values|join("")|trimtext(24) }}</a></li>
+                            <i class="icon-tag"></i> {{ values|first|trimtext(24) }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
