@@ -3,7 +3,7 @@ class bolt::web::phpmyadmin {
     # Install PHPMyAdmin on /phpmyadmin
     package { "phpMyAdmin" :
         ensure  => present,
-        require => File["EpelRepo"],
+        #require => File["EpelRepo"],
     }
 
     # Setup our own phpmyadmin configuration file

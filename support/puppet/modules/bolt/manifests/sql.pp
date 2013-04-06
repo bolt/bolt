@@ -1,8 +1,6 @@
 class bolt::sql {
     # should be switchable later on
-    class { "mysql":
-        puppi => true,
-    }
+    include mysql
 
     exec { 'create-db':
         unless => "/usr/bin/mysql -u${params::dbuser} -p${params::dbpass} ${params::dbname}",

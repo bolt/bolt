@@ -9,12 +9,15 @@ class bolt::setup {
     }
 
     # Install some default packages
-    $default_packages = [ "git" ]
+    $default_packages = [ "git", "curl" ]
     package { $default_packages :
         ensure => present,
     }
 
+    class { "epel": }
+
     # Setup a EPEL repo, the default one is disabled.
+    /*
     file { "EpelRepo" :
         path   => "/etc/yum.repos.d/epel.repo",
         source => "${params::filepath}/bolt/files/epel.repo",
@@ -22,5 +25,6 @@ class bolt::setup {
         group  => "root",
         mode  => 0644,
     }
+    */
 
 }

@@ -8,3 +8,4 @@
                     This is your Bolt Virtual Machine.
                    CentOS 6.3 64 bit | Managed by Puppet
     IP: 33.33.33.10, if your local /etc/hosts file is correct: www.bolt.dev
+    Your code is located in /vagrant. phpMyAdmin is at www.bolt.dev/phpmyadmin
