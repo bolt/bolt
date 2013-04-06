@@ -14,11 +14,10 @@ Vagrant::Config.run do |config|
     # doesn't already exist on the user's system.
 
     # Boot with a GUI so you can see the screen. (Default is headless)
-    config.vm.boot_mode = :gui
+    #config.vm.boot_mode = :gui
 
     config.vm.define :bolt do |bolt_config|
         bolt_config.vm.host_name = "www.bolt.dev"
-        #bolt_config.vm.share_folder "v-data", ".", "/vagrant/app/cache", :owner => "apache", :group => "apache"
 
         # Assign this VM to a host-only network IP, allowing you to access it
         # via the IP. Host-only networks can talk to the host machine as well as
@@ -45,7 +44,7 @@ Vagrant::Config.run do |config|
             puppet.manifest_file = "bolt.pp"
             puppet.options = [
                 '--verbose',
-                '--debug',
+                #'--debug',
             ]
         end
     end
