@@ -1955,7 +1955,7 @@ class Storage
         $tables = array();
 
         foreach ($sm->listTables() as $table) {
-            if ( strpos($table->getName(), $this->prefix) == 0 ) {
+            if ( strpos($table->getName(), $this->prefix) === 0 ) {
                 foreach ($table->getColumns() as $column) {
                     $tables[ $table->getName() ][ $column->getName() ] = $column->getType();
                 }
@@ -1980,7 +1980,7 @@ class Storage
         $tables = array();
 
         foreach ($sm->listTables() as $table) {
-            if ( strpos($table->getName(), $this->prefix) == 0 ) {
+            if ( strpos($table->getName(), $this->prefix) === 0 ) {
                 $tables[ $table->getName() ] = $table;
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
