@@ -279,7 +279,14 @@ class Backend implements ControllerProviderInterface
             $app['session']->setFlash('success', $output);
         }
 
-        return redirect('dashboard');
+        $app['twig']->addGlobal('title', "Clear cache");
+
+        $content = "<p><a href='".path('clearcache')."' class='btn btn-primary'>Clear cache again</a></p>";
+
+        return $app['twig']->render('base.twig', array(
+            'content' => $content,
+            'active' => "settings"
+        ));
 
     }
 
