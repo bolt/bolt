@@ -6,7 +6,7 @@ Vagrant::Config.run do |config|
     # options are documented and commented below. For a complete reference,
     # please see the online documentation at vagrantup.com.
 
-    # This vagrant will be running on centos 6.3, 32bit with Puppet provisioning
+    # This vagrant will be running on centos 6.3, 64bit with Puppet provisioning
     config.vm.box = 'puppetlabs-centos-63-64-puppet'
     config.vm.box_url = 'http://puppet-vagrant-boxes.puppetlabs.com/centos-63-x64.box'
 
