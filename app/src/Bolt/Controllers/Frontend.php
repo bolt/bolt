@@ -64,7 +64,7 @@ class Frontend implements ControllerProviderInterface
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-            $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
+            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
             return redirect('useredit', array('id' => ""));
         }
 
@@ -79,7 +79,9 @@ class Frontend implements ControllerProviderInterface
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
 
-            if (is_array($content)) {
+            if (!$content) {
+                $twigvars = array();
+            } else if (is_array($content)) {
                 $first = current($content);
                 $twigvars = array(
                     'records' => $content,
@@ -142,8 +144,12 @@ class Frontend implements ControllerProviderInterface
             $app->abort(404, $error);
         }
 
+        // Setting the canonical path and the editlink.
+        $app['canonicalpath'] = $content->link();
+        $app['paths'] = getPaths($app);
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
+        // Render the template and return.
         return $app['twig']->render($template, array(
             'record' => $content,
             $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.

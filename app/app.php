@@ -21,6 +21,9 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
 
+    // Sanity checks for doubles in in contenttypes.
+    checkConfig($app);
+
 });
 
 // On 'finish' attach the debug-bar, if debug is enabled..
@@ -116,7 +119,24 @@ $app->after(function (Request $request, Response $response) use ($app) {
 
         // only add when content-type is text/html
         if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
+
+            // Add our meta generator tag..
             $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+
+            // Perhaps add a canonical link..
+            if (!empty($app['config']['general']['canonical'])) {
+                $snippet = sprintf('<link rel="canonical" href="%s">', $app['paths']['canonicalurl']);
+                $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+            }
+
+            // Perhaps add a favicon..
+            if (!empty($app['config']['general']['favicon'])) {
+                $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
+                    $app['paths']['canonical'],
+                    $app['paths']['theme'],
+                    $app['config']['general']['favicon']);
+                $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+            }
 
             $html = $response->getContent();
 

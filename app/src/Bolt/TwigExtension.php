@@ -36,6 +36,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('token', array($this, 'token')),
             new \Twig_SimpleFunction('listtemplates', array($this, 'listtemplates')),
             new \Twig_SimpleFunction('listcontent', array($this, 'listcontent')),
+            new \Twig_SimpleFunction('htmllang', array($this, 'htmllang')),
             new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
             new \Twig_SimpleFunction('max', array($this, 'max')),
             new \Twig_SimpleFunction('min', array($this, 'min')),
@@ -99,6 +100,22 @@ class TwigExtension extends \Twig_Extension
         return $output;
 
     }
+
+    /**
+     * Returns the language value for in tags where the language attribute is
+     * required. The _ in the locale will be replaced for -
+     *
+     * @return string
+     */
+    public function htmllang(){
+        $locale = $this->app['config']['general']['locale'];
+        if ($locale == ""){
+            // return fallback
+            return 'en';
+        }
+        return str_replace("_", "-", $locale);
+    }
+
 
     /**
      * Returns the date time in a particular format. Takes the locale into

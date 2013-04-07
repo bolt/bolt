@@ -35,15 +35,35 @@ class Content implements \ArrayAccess
         if (!empty($values)) {
             $this->setValues($values);
         } else {
-            // Return an '(undefined contenttype)'..
-            if (is_array($contenttype)) {
-                $contenttype = $contenttype['name'];
+            // Ininitialize fields with empty values.
+            $values = array();
+            if (is_array($this->contenttype)) {
+                foreach($this->contenttype['fields'] as $key => $parameters) {
+                    // Set the default values.
+                    if (isset($parameters['default'])) {
+                        $values[$key] = $parameters['default'];
+                    } else {
+                        $values[$key] = '';
+                    }
+                }
             }
-            $values = array(
-                'name' => "(undefined $contenttype)",
-                'title' => "(undefined $contenttype)"
-            );
+
+            if (!empty($this->contenttype['singular_name'])) {
+                $contenttypename = $this->contenttype['singular_name'];
+            } else {
+                $contenttypename = "unknown";
+            }
+            // Specify an '(undefined contenttype)'..
+            $values['name'] = "(undefined $contenttypename)";
+            $values['title'] = "(undefined $contenttypename)";
+
+            // If default status is set in contentttype..
+            if (!empty($this->contenttype['default_status'])) {
+                $values['status'] = $this->contenttype['default_status'];
+            }
+
             $this->setValues($values);
+
         }
 
         $this->user = $this->app['users']->getCurrentUser();

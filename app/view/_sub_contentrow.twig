@@ -9,11 +9,11 @@
         <strong>
             {% if editable %}
             <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                {{content.getTitle}}{{content.name}}
+                {{content.getTitle}}
             </a>
             {% else %}
             <strong>
-                {{content.getTitle}}{{content.name}}
+                {{content.getTitle}}
             </strong>
             {% endif %}
         </strong>
@@ -91,7 +91,7 @@
                             <i class="icon-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
                     {% else %}
                         <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}:
-                            <i class="icon-tag"></i> {{ values|join("")|trimtext(24) }}</a></li>
+                            <i class="icon-tag"></i> {{ values|first|trimtext(24) }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>

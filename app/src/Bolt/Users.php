@@ -107,11 +107,14 @@ class Users
             $user['userlevel'] = key(array_slice($this->getUserLevels(), -1));
         }
 
-        if (empty($user['enabled'])) {
+        if (empty($user['enabled']) && $user['enabled']!== 0) {
             $user['enabled'] = 1;
         }
 
         // Serialize the contenttypes..
+        if (empty($user['contenttypes'])) {
+            $user['contenttypes'] = array();
+        }
         $user['contenttypes'] = serialize($user['contenttypes']);
 
         // Decide whether to insert a new record, or update an existing one.
@@ -132,9 +135,11 @@ class Users
     public function checkValidSession()
     {
         if ($this->app['session']->get('user')) {
-            $session = $this->app['session']->get('user');
-            $database = $this->getUser($session['id']);
-            $this->currentuser = array_merge($session, $database);
+            $this->currentuser = $this->app['session']->get('user');
+            if ($database = $this->getUser($this->currentuser['id'])) {
+                // Update the session with the user from the database.
+                $this->currentuser = array_merge($this->currentuser, $database);
+            }
         } else {
             // no current user, return without doing the rest.
             return false;
@@ -328,6 +333,10 @@ class Users
             $this->users = array();
 
             try {
+
+                // get the available contenttypes.
+                $allcontenttypes = array_keys($this->app['config']['contenttypes']);
+
                 $tempusers = $this->db->fetchAll($query);
 
                 foreach ($tempusers as $user) {
@@ -348,6 +357,14 @@ class Users
                     if (!is_array($this->users[$key]['contenttypes'])) {
                         $this->users[$key]['contenttypes'] = array();
                     }
+                    // Intersect, to make sure no old/deleted contenttypes show up.
+                    $this->users[$key]['contenttypes'] = array_intersect($this->users[$key]['contenttypes'], $allcontenttypes);
+
+                    // Developers/admins can access all content
+                    if ($this->users[$key]['userlevel'] > self::EDITOR) {
+                        $this->users[$key]['contenttypes'] = $allcontenttypes;
+                    }
+
 
                 }
             } catch (\Exception $e) {

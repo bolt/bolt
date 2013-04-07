@@ -428,6 +428,7 @@ function makeSlug($str)
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
     $str = preg_replace("/[-]+/i", "-", $str);
+    $str = trim($str, "-");
 
     $str = substr($str, 0, 64); // 64 chars ought to be long enough.
 
@@ -684,6 +685,8 @@ function getConfig()
 
     // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
+    $paths = getPaths($app['config']);
+
     // Assume some sensible defaults for some options
     $defaultconfig = array(
         'sitename' => 'Default Bolt site',
@@ -702,11 +705,22 @@ function getConfig()
         'listing_template' => 'listing.twig',
         'listing_records' => '5',
         'listing_sort' => 'datepublish DESC',
-        'wysiwyg_images' => false,
-        'wysiwyg_tables' => false,
-        'wysiwyg_embed' => false,
-        'wysiwyg_fontcolor' => false,
-        'wysiwyg_align' => false,
+        'wysiwyg' => array(
+            'images' => false,
+            'tables' => false,
+            'embed' => false,
+            'fontcolor' => false,
+            'align' => false,
+            'subsuper' => false,
+            'embed' => false,
+            'ck' => array(
+                'contentsCss' => array(
+                    $paths['app'] . 'view/lib/ckeditor/contents.css',
+                    $paths['app'] . 'view/css/ckeditor.css',
+                ),
+            ),
+            'filebrowser' => array(),
+        ),
         'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",
         'developer_notices' => false,
         'cookies_use_remoteaddr' => true,
@@ -718,7 +732,11 @@ function getConfig()
         'hash_strength' => 10
     );
 
-    $config['general'] = array_merge($defaultconfig, $config['general']);
+    if (isset($config['general']['wysiwyg']) && isset($config['general']['wysiwyg']['ck']) &&
+        isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
+        $config['general']['wysiwyg']['ck']['contentsCss'] = array(1 => $config['general']['wysiwyg']['ck']['contentsCss']);
+    }
+    $config['general'] = array_merge_recursive_distinct($defaultconfig, $config['general']);
 
     // Make sure the cookie_domain for the sessions is set properly.
     if (empty($config['general']['cookies_domain'])) {
@@ -830,6 +848,78 @@ function getConfig()
 
 }
 
+/**
+ * Sanity checks for doubles in in contenttypes.
+ *
+ */
+function checkConfig(\Bolt\Application $app) {
+
+    // TODO: yeah, we should refactor these things related to config to it's own class.
+
+    $slugs = array();
+
+    foreach ($app['config']['contenttypes'] as $key => $ct) {
+
+        // Make sure any field that has a 'uses' parameter actually points to a field that exists.
+        // For example, this will show a notice:
+        // entries:
+        //   name: Entries
+        //     singular_name: Entry
+        //     fields:
+        //       title:
+        //         type: text
+        //         class: large
+        //       slug:
+        //         type: slug
+        //         uses: name
+        //
+        foreach($ct['fields'] as $fieldname => $field) {
+            if (!empty($field['uses']) && empty($ct['fields'][ $field['uses'] ]) ) {
+                $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                    array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $field['uses'] )
+                );
+                $app['session']->getFlashBag()->set('error', $error);
+            }
+        }
+
+        // Show some helpful warnings if slugs or names are not unique.
+        if ($ct['slug'] == $ct['singular_slug']) {
+            $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
+                array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
+            );
+            $app['session']->getFlashBag()->set('error', $error);
+        }
+
+        // Show some helpful warnings if slugs or names are not unique.
+        if ($ct['slug'] == $ct['singular_slug']) {
+            $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
+                array( '%contenttype%' => $key, '%name%' => $ct['name'] )
+            );
+            $app['session']->getFlashBag()->set('error', $error);
+        }
+
+        // Keep a running score of used slugs..
+        if (!isset($slugs[ $ct['slug'] ])) { $slugs[ $ct['slug'] ] = 0; }
+        $slugs[ $ct['slug'] ]++;
+        if (!isset($slugs[ $ct['singular_slug'] ])) { $slugs[ $ct['singular_slug'] ] = 0; }
+        $slugs[ $ct['singular_slug'] ]++;
+
+    }
+
+    // if there aren't any other errors, check for duplicates across contenttypes..
+    if (!$app['session']->getFlashBag()->has('error')) {
+        foreach ($slugs as $slug => $count) {
+            if ($count > 1) {
+                $error =  __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                    array( '%slug%' => $slug )
+                );
+                $app['session']->getFlashBag()->set('error', $error);
+            }
+        }
+    }
+
+
+}
 
 function getWhichEnd() {
 
@@ -952,20 +1042,37 @@ function getDBOptions($config)
 
 }
 
-function getPaths($config = array())
+function getPaths($original = array())
 {
+
+    // If we passed the entire $app, set the $config
+    if ($original instanceof \Bolt\Application) {
+        if (!empty($original['canonicalpath'])) {
+            $canonicalpath = $original['canonicalpath'];
+        }
+        $config = $original['config'];
+    } else {
+        $config = $original;
+    }
+
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
     if (empty($config)) {
-        $config['general']['theme'] = 'default';
+        $config['general']['theme'] = 'base-2013';
         $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
     }
 
     // Set the root
     $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
+    $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
     $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
     if (empty($path_prefix)) {
         $path_prefix = "/";
+    }
+
+    // make sure we're not trying to access bolt as "/index.php/bolt/", because all paths will be broken.
+    if (!empty($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], "/index.php") !== false) {
+        simpleredirect(str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
     }
 
     if (!empty($_SERVER["SERVER_PROTOCOL"])) {
@@ -975,6 +1082,10 @@ function getPaths($config = array())
     }
 
     $currentpath = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
+
+    if (empty($canonicalpath)) {
+        $canonicalpath = $currentpath;
+    }
 
     // Set the paths
     $paths = array(
@@ -995,7 +1106,7 @@ function getPaths($config = array())
 
     $paths['hosturl'] = sprintf("%s://%s", $protocol, $paths['hostname']);
     $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);
-    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
+    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $canonicalpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
     if ( isset( $config['general']['theme_path'] ) ) {
@@ -1005,9 +1116,17 @@ function getPaths($config = array())
         $paths['app'] = $path_prefix . "bolt-public/";
     }
 
+    // Set it in $app, optionally.
+    if ($original instanceof \Bolt\Application) {
+        $original['paths'] = $paths;
+        $original['twig']->addGlobal('paths', $paths);
+    }
+
     return $paths;
 
 }
+
+
 
 /**
  *
@@ -1050,6 +1169,26 @@ function redirect($path, $param = array(), $add = '')
     return $app->redirect(path($path, $param, $add));
 
 }
+
+
+/**
+ * Create a simple redirect to a page / path and die.
+ *
+ * @param string $path
+ */
+function simpleredirect($path)
+{
+
+    if (empty($path)) {
+        $path = "/";
+    }
+    header("location: $path");
+    echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
+    echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+    die();
+
+}
+
 
 /**
  * Apparently, some servers don't have fnmatch. Define it here, for those who don't have it.
@@ -1179,6 +1318,45 @@ function str_replace_first($search, $replace, $subject) {
 }
 
 /**
+ * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
+ * keys to arrays rather than overwriting the value in the first array with the duplicate
+ * value in the second array, as array_merge does. I.e., with array_merge_recursive,
+ * this happens (documented behavior):
+ *
+ * array_merge_recursive(array('key' => 'org value'), array('key' => 'new value'));
+ *     => array('key' => array('org value', 'new value'));
+ *
+ * array_merge_recursive_distinct does not change the datatypes of the values in the arrays.
+ * Matching keys' values in the second array overwrite those in the first array, as is the
+ * case with array_merge, i.e.:
+ *
+ * array_merge_recursive_distinct(array('key' => 'org value'), array('key' => 'new value'));
+ *     => array('key' => array('new value'));
+ *
+ * Parameters are passed by reference, though only for performance reasons. They're not
+ * altered by this function.
+ *
+ * @param array $array1
+ * @param array $array2
+ * @return array
+ * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
+ * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
+ */
+function array_merge_recursive_distinct (array &$array1, array &$array2) {
+    $merged = $array1;
+
+    foreach($array2 as $key => &$value) {
+        if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+            $merged[$key] = array_merge_recursive_distinct($merged [$key], $value);
+        } else {
+            $merged[$key] = $value;
+        }
+    }
+
+    return $merged;
+}
+
+/**
  * i18n made right, second attempt...
  *
  * Instead of calling directly $app['translator']->trans(), we check
@@ -1225,7 +1403,7 @@ function __() {
                 $text=str_replace($keytypes,$tr_args[$keytypes],$args[0]);
                 unset($tr_args[$keytypes]);
             }
-            echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
+            //echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
             if ($fn == 'transChoice') {
                     $trans = $app['translator']->transChoice(
                         $text,$args[1],$tr_args,
@@ -1239,7 +1417,7 @@ function __() {
                         isset($args[3]) ? $args[3] : $app['request']->getLocale()
                     );
             }
-            echo '<!-- translation : '.htmlentities($trans)." -->\n";
+            //echo '<!-- translation : '.htmlentities($trans)." -->\n";
             if ($text != $trans) {
                 return $trans;
             }

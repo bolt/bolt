@@ -96,11 +96,19 @@
 
 {% if field.type == "select" %}
     <label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
-    <select name="{{key}}" id="{{key}}">
-        {% for value in field.values %}
-            <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
-        {% endfor %}
-    </select>
+    {% if field.multiple is defined and field.multiple %}
+        <select name="{{key}}[]" id="{{key}}" multiple>
+            {% for value in field.values %}
+                <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
+            {% endfor %}
+        </select>
+    {% else %}
+        <select name="{{key}}" id="{{key}}">
+            {% for value in field.values %}
+                <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
 {% endif %}
 
 {# --------------- templateselect --------------- #}

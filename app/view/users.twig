@@ -12,6 +12,7 @@
             <th>{{ __('Username') }}</th>
             <th>{{ __('Level') }}</th>
             <th>{{ __('Last seen') }}</th>
+            <th>{{ __('Contenttypes') }}</th>
             <th>{{ __('Actions') }}</th>
         </tr>
         {% for user in users %}
@@ -26,6 +27,13 @@
                     <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
                 {% else %}
                     -
+                {% endif %}
+            </td>
+            <td class='contenttypes'>
+                {% if user.contenttypes|length == app.config.contenttypes|length %}
+                    <em>all</em>
+                {% else %}
+                    {{ user.contenttypes|join(", ") }}
                 {% endif %}
             </td>
             <td class='actions'>

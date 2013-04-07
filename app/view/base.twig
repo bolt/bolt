@@ -8,28 +8,6 @@
 {% endautoescape %}
 
     {% if form|default(null) %}
-    <style>
-        {# http://stackoverflow.com/questions/306252/how-to-align-checkboxes-and-their-labels-consistently-cross-browsers #}
-        label {
-            display: block;
-            padding-left: 15px;
-            text-indent: -15px;
-        }
-        input {
-            width: 13px;
-            height: 13px;
-            padding: 0;
-            margin: 0 8px 0 0 !;
-            vertical-align: bottom;
-            position: relative;
-            top: -1px;
-            *overflow: hidden;
-        }
-        input[type="checkbox"] {
-            margin: 4px 8px 0px 0;
-        }
-
-    </style>
     <form method="post" id="prefill" class="form-horizontal">
         <div class="control-group">
 
@@ -44,9 +22,8 @@
             </div>
         </div>
         {{ form_widget(form._token) }}
-        <div class="form-actions">
-        <button type="submit" class="btn btn-primary" ><i class="icon-wrench"></i> {{ __('Prefill') }}</button>
-        </div>
+
+        <button type="submit" class="btn btn-primary" ><i class="icon-wrench"></i> {{ __('Prefill database') }}</button>
     </form>
     {% endif %}
 

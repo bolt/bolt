@@ -98,12 +98,6 @@ class Storage
 
             // Check if all the fields are present in the DB..
             foreach ($contenttype['fields'] as $field => $values) {
-
-                // Skip over 'divider' fields.
-                if ($values['type'] == "divider") {
-                    continue;
-                }
-
                 if (!isset($tables[$tablename][$field])) {
                     $messages[] = "Field <tt>" . $field . "</tt> in table <tt>" . $tablename . "</tt> is not present.";
                 }
@@ -275,9 +269,6 @@ class Storage
                     case 'status':
                         // These are the default columns. Don't try to add these.
                         break;
-                    case 'divider':
-                        // Not a real database field
-                        break;
                     default:
                         $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
                 }
@@ -345,12 +336,6 @@ class Storage
      */
     public function preFill($contenttypes=array())
     {
-        $db = $this->app['db'];
-
-        $hasRecords = function($tablename) use($db) {
-            $count = $db->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
-            return intval($count) > 0;
-        };
 
         $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
 
@@ -359,15 +344,15 @@ class Storage
         // get a list of images..
         $this->images = findFiles('', 'jpg,jpeg,png');
 
-        $empty_only = count($contenttypes) == 0;
+        $empty_only = empty($contenttypes);
 
         foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
 
             $tablename = $this->prefix . $key;
-            if ($empty_only && $hasRecords($tablename)) {
+            if ($empty_only && $this->hasRecords($tablename)) {
                 $output .= __("Skipped <tt>%key%</tt> (already has records)",array('%key%' =>$key)) . "<br>\n";
                 continue;
-            } else if (!in_array($key,$contenttypes)) {
+            } else if (!in_array($key,$contenttypes) && !$empty_only) {
                 $output .= __("Skipped <tt>%key%</tt> (not checked)",array('%key%' =>$key)) . "<br>\n";
                 continue;
             }
@@ -580,6 +565,10 @@ class Storage
                 $fieldvalues[$key] = round($fieldvalues[$key]);
             }
 
+            if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
+                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+            }
+
         }
 
         // Make sure a username is set.
@@ -758,36 +747,12 @@ class Storage
     public function getEmptyContent($contenttypeslug)
     {
 
-        $contenttype = $this->getContentType($contenttypeslug);
-
         $content = new Bolt\Content($this->app, $contenttypeslug);
 
-        $values = array(
-            'id' => '',
-            'slug' => '',
-            'datecreated' => '',
-            'datechanged' => '',
-            'datepublish' => '',
-            'username' => '',
-            'status' => ''
-        );
-
-        foreach ($contenttype['fields'] as $key => $field) {
-            $values[$key] = '';
-
-            // Set the default values.
-            if (isset($field['default'])) {
-                $values[$key] = $field['default'];
-            } else {
-                $values[$key] = '';
-            }
-
-        }
-
-        $content->setValues($values);
+        // don't use 'undefined contenttype' as title/name
+        $content->setValues(array('name' => '', 'title' => ''));
 
         return $content;
-
 
     }
 
@@ -1141,22 +1106,22 @@ class Storage
         $returnsingle = false;
 
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
-        if (preg_match('#^([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'entry/12'
+        if (preg_match('#^/?([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
+            // like 'entry/12' or '/page/12345'
             $contenttypeslug = $match[1];
             $parameters['id'] = $match[2];
             $returnsingle = true;
-        } elseif (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/lorem-ipsum-dolor'
+        } elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
+            // like 'page/lorem-ipsum-dolor' or '/page/home'
             $contenttypeslug = $match[1];
             $parameters['slug'] = $match[2];
             $returnsingle = true;
-        } elseif (preg_match('#^([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
+        } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/latest/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
             $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
             $parameters['limit'] = $match[3];
-        } elseif (preg_match('#^([a-z0-9_-]+)/random/([0-9]+)$#i', $contenttypeslug, $match)) {
+        } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $contenttypeslug, $match)) {
             // like 'page/random/lorem-ipsum-dolor'
             $contenttypeslug = $match[1];
             $parameters['order'] = 'RANDOM';
@@ -1497,8 +1462,6 @@ class Storage
             return false;
         }
 
-        // echo "<pre>\n" . util::var_dump($this->app['config']['contenttypes'], true) . "</pre>\n";
-
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
         if (isset($this->app['config']['contenttypes'][$contenttypeslug])) {
             $contenttype = $this->app['config']['contenttypes'][$contenttypeslug];
@@ -1508,20 +1471,13 @@ class Storage
                     $contenttype = $this->app['config']['contenttypes'][$key];
                 }
             }
-
         }
 
         if (!empty($contenttype)) {
-
-            $contenttype['slug'] = makeSlug($contenttype['name']);
-            $contenttype['singular_slug'] = makeSlug($contenttype['singular_name']);
-
             return $contenttype;
-
         } else {
             return false;
         }
-
 
     }
 
@@ -2033,4 +1989,13 @@ class Storage
         return $tables;
 
     }
+
+    protected function hasRecords($tablename)
+    {
+
+        $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
+        return intval($count) > 0;
+
+    }
+
 }
