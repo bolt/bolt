@@ -10,6 +10,10 @@
          syntaxCheck="false"
          bootstrap="./tests/bootstrap.php"
         >
+    <php>
+        <server name="HTTP_HOST" value="bolt.dev" />
+        <server name="REQUEST_URI" value="/bolt" />
+    </php>
     <testsuites>
         <testsuite name="Bolt Test Suite">
             <directory suffix="Test.php">./tests</directory>
