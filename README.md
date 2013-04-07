@@ -78,6 +78,7 @@ Currently, these are the third party extensions we're aware of:
 - [TweetWidget](https://github.com/bolt/tweetwidget) by @bobdenotter
 - [Gist](https://github.com/bolt/extension-gist) by @bobdenotter
 - [TagCloud](https://github.com/axsy/bolt-extension-tagcloud) by @axsy
+- [Newsletter subscription](https://github.com/magabriel/bolt-extension-newsletter-subscription) by @magabriel
 
 The extensions can be placed in the `app/extensions` folder.
 Learn more about writing extensions from our [docs](https://github.com/bolt/bolt-docs/blob/master/source/extensions.md)
