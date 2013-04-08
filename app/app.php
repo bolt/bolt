@@ -126,7 +126,7 @@ $app->after(function (Request $request, Response $response) use ($app) {
 
 });
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Error page.
@@ -165,7 +165,7 @@ $app->error(function (\Exception $e) use ($app) {
     $twigvars['trace'] = $trace;
     $twigvars['title'] = "An error has occured!";
 
-    if ( ($e instanceof NotFoundHttpException) && ($end == "frontend") ) {
+    if ( ($e instanceof HttpException) && ($end == "frontend") ) {
 
         $content = $app['storage']->getContent($app['config']['general']['notfound'], array('returnsingle' => true));
 
