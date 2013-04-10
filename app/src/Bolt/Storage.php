@@ -529,7 +529,11 @@ class Storage
             // Set the slug, while we're at it..
             if ($values['type'] == "slug") {
                 if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
-                    $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
+                    $uses = '';
+                    foreach ($values['uses'] as $usesField) {
+                        $uses .= $fieldvalues[$usesField] . ' ';
+                    }
+                    $fieldvalues['slug'] = makeSlug($uses);
                 } else if (!empty($fieldvalues['slug'])) {
                     $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
                 } else {

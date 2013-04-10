@@ -805,6 +805,11 @@ function getConfig()
             $temp['fields'][ $key ] = $value;
         }
 
+        if (isset($temp['fields']['slug']) && isset($temp['fields']['slug']['uses']) &&
+            !is_array($temp['fields']['slug']['uses'])) {
+            $temp['fields']['slug']['uses'] = array($temp['fields']['slug']['uses']);
+        }
+
         // Make sure taxonomy is an array.
         if (isset($temp['taxonomy']) && !is_array($temp['taxonomy'])) {
             $temp['taxonomy'] = array($temp['taxonomy']);
@@ -874,11 +879,15 @@ function checkConfig(\Bolt\Application $app) {
         //         uses: name
         //
         foreach($ct['fields'] as $fieldname => $field) {
-            if (!empty($field['uses']) && empty($ct['fields'][ $field['uses'] ]) ) {
-                $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
-                    array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $field['uses'] )
-                );
-                $app['session']->getFlashBag()->set('error', $error);
+            if (!empty($field['uses']) ) {
+                foreach($field['uses'] as $useField) {
+                    if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
+                        $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                            array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
+                        );
+                        $app['session']->getFlashBag()->set('error', $error);
+                    }
+                }
             }
         }
 
