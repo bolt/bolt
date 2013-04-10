@@ -288,29 +288,37 @@ function bindFileUpload(key) {
  * Functions for working with the automagic URI/Slug generation.
  *
  */
-function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
+function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
 
-    $('#'+usesfield).bind('propertychange input', function() {
-        var field = $('#'+usesfield).val();
-        clearTimeout(makeuritimeout);
-        makeuritimeout = setTimeout( function(){ makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri); }, 200);
-    }).trigger('input');
+    $(usesfields).each( function() {
+        $('#'+this).on('change.bolt', function() {
+            var usesvalue = "";
+            $(usesfields).each( function() {
+                usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
+                usesvalue += " ";
+            })
+            clearTimeout(makeuritimeout);
+            makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, this, slugfield, fulluri); }, 200);
+        }).trigger('change.bolt');
+    });
 
 }
 
-function stopMakeUri(usesfield) {
+function stopMakeUri(usesfields) {
 
-    $('#'+usesfield).unbind('propertychange input');
+    $(usesfields).each( function() {
+        $('#'+this).unbind('change.bolt');
+    });
 
 }
 
 var makeuritimeout;
 
-function makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri) {
+function makeUriAjax(text, contenttypeslug, id, usesfield, slugfield, fulluri) {
     $.ajax({
         url: asyncpath + 'makeuri',
         type: 'GET',
-        data: { title: field, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
+        data: { title: text, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
         success: function(uri) {
             $('#'+slugfield).val(uri);
             $('#show-'+slugfield).html(uri);
