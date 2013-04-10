@@ -3,7 +3,7 @@
 <div class="row-fluid">
     <div class="span9">
 
-        <h1>{{ title }} <span>{% if pages is defined and  pager.totalpages > 1 %}{{ __('Page:') }} {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
+        <h1>{{ title|raw }} <span>{% if pager is defined and pager.totalpages > 1 %}{{ __('Page:') }} {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
 
         {% set lastgroup = "----" %}
 

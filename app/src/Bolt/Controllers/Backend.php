@@ -414,7 +414,8 @@ class Backend implements ControllerProviderInterface
         // @todo Do we need pager here?
         $app['pager'] = $pager;
 
-        $app['twig']->addGlobal('title', __('Overview » %contenttypes%',array('%contenttypes%' => $contenttype['name'])));
+        $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
+        $app['twig']->addGlobal('title', $title);
 
         return $app['twig']->render('overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
@@ -940,10 +941,10 @@ class Backend implements ControllerProviderInterface
                 array('%s'=> $file)
             ));
             $writeallowed = false;
-            $title = __("View file '%s'.",array('%s'=>$file));
+            $title = sprintf("<strong>%s</strong> » %s", __('View file'), $file);
         } else {
             $writeallowed = true;
-            $title = __("Edit file '%s'.",array('%s'=>$file));
+            $title = sprintf("<strong>%s</strong> » %s", __('Edit file'), $file);
         }
 
         $data['contents'] = file_get_contents($filename);
