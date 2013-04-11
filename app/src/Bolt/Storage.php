@@ -1264,6 +1264,7 @@ class Storage
                 'showing_to' => ($page-1)*$limit + count($content)
             );
             $GLOBALS['pager'][$contenttypeslug] = $pager;
+            $this->app['twig']->addGlobal('pager', $pager);
         }
 
         // If we requested a singular item..

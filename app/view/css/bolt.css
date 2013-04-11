@@ -92,8 +92,9 @@ time {
 
 h1 span {
     float: right;
-    font-size: 60%;
-    margin-top: 0.2em;
+    font-size: 50%;
+    margin-top: 0.4em;
+    color: #666;
 }
 
 hr {
