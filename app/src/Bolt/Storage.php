@@ -523,6 +523,8 @@ class Storage
             $this->app['dispatcher']->dispatch(StorageEvents::preSave, $event);
         }
 
+        $fieldvalues['slug'] = ''; // Prevent 'slug may not be NULL'
+
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
 
@@ -532,8 +534,8 @@ class Storage
                     $fieldvalues['slug'] = makeSlug($fieldvalues[ $values['uses'] ]);
                 } else if (!empty($fieldvalues['slug'])) {
                     $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
-                } else {
-                    echo "wut";
+                } else if (empty($fieldvalues['slug']) && $fieldvalues['id']) {
+                    $fieldvalues['slug'] = $fieldvalues['id'];
                 }
             }
 
@@ -616,9 +618,15 @@ class Storage
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
             $id = $this->insertContent($fieldvalues, $contenttype);
+            $fieldvalues['id'] = $id;
             $content->setValue('id', $id);
         } else {
             $id = $fieldvalues['id'];
+            $this->updateContent($fieldvalues, $contenttype);
+        }
+
+        if (empty($fieldvalues['slug'])) {
+            $fieldvalues['slug'] = $id;
             $this->updateContent($fieldvalues, $contenttype);
         }
 
