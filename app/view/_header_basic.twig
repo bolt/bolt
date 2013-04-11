@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>bolt {% if title is defined %}- {{title}}{% endif %}</title>
+    <title>Bolt {% if title is defined %}- {{ title|striptags }}{% endif %}</title>
 
     <script src="{{ paths.app }}view/js/jquery-1.9.1.min.js"></script>
     <script src="{{ paths.app }}view/js/underscore-min.js"></script>
