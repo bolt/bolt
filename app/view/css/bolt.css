@@ -1,6 +1,7 @@
 
 /**
  * Colour scheme:
+ * - #204460 - Bolt blue
  * - #214968 - base blue / #244055
  * - #194770 - links, slightly blueer
 
@@ -55,6 +56,10 @@ a {
 
 a:hover {
         color: #103060;
+}
+
+strong, b {
+    font-weight: 600;
 }
 
 tt, code {
