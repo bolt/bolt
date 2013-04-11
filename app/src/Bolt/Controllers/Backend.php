@@ -301,7 +301,7 @@ class Backend implements ControllerProviderInterface
         $output = __("Deleted %s files from cache.", array('%s' => $result['successfiles']));
 
         if (!empty($result['failedfiles'])) {
-            $output .= " " .__("%s files could not be deleted. You should delete them manually.",array('%s' => $result['failedfiles']));
+            $output .= " " . __("%s files could not be deleted. You should delete them manually.", array('%s' => $result['failedfiles']));
             $app['session']->getFlashBag()->set('error', $output);
         } else {
             $app['session']->getFlashBag()->set('success', $output);
@@ -309,7 +309,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Clear the cache"));
 
-        $content = "<p><a href='".path('clearcache')."' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
+        $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
 
         return $app['twig']->render('base.twig', array(
             'content' => $content,
@@ -351,13 +351,13 @@ class Backend implements ControllerProviderInterface
 
         $choices=array();
         foreach($app['config']['contenttypes'] as $key=>$cttype) {
-            $choices[$key]=__('%contenttypes%',array('%contenttypes%'=>$cttype['name']));
+            $choices[$key] = __('%contenttypes%', array('%contenttypes%'=>$cttype['name']));
         }
         $form = $app['form.factory']->createBuilder('form')
-            ->add('contenttypes','choice',array(
+            ->add('contenttypes', 'choice', array(
                     'label' => '**ignored, see base.twig**',
-                    'choices'=> $choices,
-                    'multiple'=>true,
+                    'choices' => $choices,
+                    'multiple' => true,
                     'expanded' => true,
                 ))
             ->getForm()
@@ -454,16 +454,16 @@ class Backend implements ControllerProviderInterface
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
                 if (!empty($id)) {
-                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.',array('%contenttype%'=> $contenttype['singular_name'])));
+                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%'=> $contenttype['singular_name'])));
                 } else {
-                    $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.',array('%contenttype%' => $contenttype['singular_name'])));
+                    $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 }
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
             } else {
-                $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.',array('%contenttype%' => $contenttype['singular_name'])));
+                $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
 
@@ -496,7 +496,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datepublish', "");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
-            $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.",array('%contenttype%'=> $contenttype['singular_name'])));
+            $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.", array('%contenttype%'=> $contenttype['singular_name'])));
         }
 
         // Set the users and the current owner of this content.
@@ -537,34 +537,34 @@ class Backend implements ControllerProviderInterface
 
             case "held":
                 if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'held')) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'held'",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'held'", array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%'=>$title)));
                 }
                 break;
 
             case "publish":
                 if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'published')) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' is published.",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' is published.", array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%'=>$title)));
                 }
                 break;
 
             case "draft":
                 if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'draft')) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'draft'.",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'draft'.", array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%'=>$title)));
                 }
                 break;
 
             case "delete":
 
                 if (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%'=>$title)));
                 } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.",array('%title%'=>$title)));
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%'=>$title)));
                 }
                 break;
 
@@ -726,9 +726,9 @@ class Backend implements ControllerProviderInterface
                 $res = $app['users']->saveUser( $user );
                 $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
                 if ($res) {
-                    $app['session']->getFlashBag()->set('success', __('User %s has been saved.',array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('success', __('User %s has been saved.', array('%s' => $user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.',array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
                 }
 
                 return redirect('users');
@@ -764,18 +764,18 @@ class Backend implements ControllerProviderInterface
                 if ($app['users']->setEnabled($id, 0)) {
                     $app['log']->add("Disabled user '". $user['displayname']."'.", 3, '', 'user');
 
-                    $app['session']->getFlashBag()->set('info', __("User '%s' is disabled.",array('%s'=>$user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', __("User '%s' is disabled.", array('%s'=>$user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be disabled.",array('%s'=>$user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be disabled.", array('%s'=>$user['displayname'])));
                 }
                 break;
 
             case "enable":
                 if ($app['users']->setEnabled($id, 1)) {
                     $app['log']->add("Enabled user '". $user['displayname']."'.", 3, '', 'user');
-                    $app['session']->getFlashBag()->set('info', __("User '%s' is enabled.",array('%s'=>$user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', __("User '%s' is enabled.", array('%s'=>$user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be enabled.",array('%s'=>$user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be enabled.", array('%s'=>$user['displayname'])));
                 }
                 break;
 
@@ -783,14 +783,14 @@ class Backend implements ControllerProviderInterface
 
                 if (checkToken() && $app['users']->deleteUser($id)) {
                     $app['log']->add("Deleted user '". $user['displayname']."'.", 3, '', 'user');
-                    $app['session']->getFlashBag()->set('info', __("User '%s' is deleted.",array('%s'=>$user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', __("User '%s' is deleted.", array('%s'=>$user['displayname'])));
                 } else {
-                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be deleted.",array('%s'=>$user['displayname'])));
+                    $app['session']->getFlashBag()->set('info', __("User '%s' could not be deleted.", array('%s'=>$user['displayname'])));
                 }
                 break;
 
             default:
-                $app['session']->getFlashBag()->set('error', __("No such action for user '%s'.",array('%s'=>$user['displayname'])));
+                $app['session']->getFlashBag()->set('error', __("No such action for user '%s'.", array('%s'=>$user['displayname'])));
 
         }
 
@@ -887,10 +887,10 @@ class Backend implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.",array('%s'=>$path)));
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s'=>$path)));
         }
 
-        $app['twig']->addGlobal('title', __("Files in %s",array('%s' =>$path)));
+        $app['twig']->addGlobal('title', __("Files in %s", array('%s' =>$path)));
 
         // Make sure the files and folders are sorted properly.
         ksort($files);
@@ -974,14 +974,14 @@ class Backend implements ControllerProviderInterface
                         $ok = $yamlparser->parse($contents);
                     } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ",array('%s'=>$file)) . $e->getMessage() );
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ", array('%s'=>$file)) . $e->getMessage() );
                     }
 
                 }
 
                 if ($ok) {
                     if (file_put_contents($filename, $contents)) {
-                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.",array('%s'=>$file)));
+                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.", array('%s'=>$file)));
                         // If we've saved a translation, back to it
                         if (preg_match('#resources/translations/(..)/(.*)\.yml$#',$filename,$m)) {
                             return redirect('translation', array('domain'=>$m[2],'tr_locale'=>$m[1]));
@@ -991,7 +991,7 @@ class Backend implements ControllerProviderInterface
                             return redirect('dbupdate', '', "?return=edit");
                         }
                     } else {
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.",array('%s'=>$file)));
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.", array('%s'=>$file)));
                     }
                 }
 
@@ -1090,7 +1090,7 @@ class Backend implements ControllerProviderInterface
                 array('%s'=> $file)
             ));
             $writeallowed = false;
-            $title = __("View translations file '%s'.",array('%s'=>$file));
+            $title = __("View translations file '%s'.", array('%s'=>$file));
         } elseif (file_exists($filename) && !is_readable($filename)) {
             $error = __("The translations file '%s' is not readable.", array('%s'=>$file));
             $app->abort(404, $error);
@@ -1100,10 +1100,10 @@ class Backend implements ControllerProviderInterface
                 array('%s'=> $file)
             ));
             $writeallowed = false;
-            $title = __("View file '%s'.",array('%s'=>$file));
+            $title = __("View file '%s'.", array('%s'=>$file));
         } else {
             $writeallowed = true;
-            $title = __("Edit translations file '%s'.",array('%s'=>$file));
+            $title = __("Edit translations file '%s'.", array('%s'=>$file));
         }
 
         $data['contents'] =  $content;
@@ -1133,16 +1133,16 @@ class Backend implements ControllerProviderInterface
                         $ok = Yaml::parse($contents);
                     } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
                         $ok = false;
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ",array('%s'=>$file)) . $e->getMessage() );
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ", array('%s'=>$file)) . $e->getMessage() );
                     }
                 }
 
                 if ($ok) {
                     if (file_put_contents($filename, $contents)) {
-                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.",array('%s'=>$file)));
-                        return redirect('translation',array('domain'=>$domain,'tr_locale'=>$tr_locale));
+                        $app['session']->getFlashBag()->set('info', __("File '%s' has been saved.", array('%s'=>$file)));
+                        return redirect('translation', array('domain'=>$domain,'tr_locale'=>$tr_locale));
                     } else {
-                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.",array('%s'=>$file)));
+                        $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.", array('%s'=>$file)));
                     }
                 }
 
