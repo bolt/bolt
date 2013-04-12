@@ -67,6 +67,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 
 if ($dboptions['driver']=="pdo_sqlite") {
     $app['db']->query("PRAGMA synchronous = OFF");
+} else if ($dboptions['driver']=="pdo_mysql") {
+    // https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
+    $app['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 }
 
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
