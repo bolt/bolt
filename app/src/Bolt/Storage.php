@@ -205,6 +205,12 @@ class Storage
         $logTable->addColumn("dump", "string", array("length" => 1024));
         $tables[] = $logTable;
 
+        $baseTables = array();
+        /** @var $table Table */
+        foreach ($tables as $table) {
+            $baseTables[] = $table->getName();
+        }
+
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
 
@@ -308,7 +314,7 @@ class Storage
 
                 $diff = $comparator->diffTable( $currentTables[$table->getName()], $table );
                 if ( $diff ) {
-                    if (!in_array($table->getName(),array($this->prefix."users"))) {
+                    if (!in_array($table->getName(),$baseTables)) {
                         // we don't remove fields from contenttype tables to prevent accidental data removal
                         if ($diff->removedColumns) {
                             //var_dump($diff->removedColumns);
