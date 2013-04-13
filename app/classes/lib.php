@@ -1068,7 +1068,7 @@ function getPaths($original = array())
     // from lowlevelError().
     if (empty($config)) {
         $config['general']['theme'] = 'base-2013';
-        $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
+        $config['general']['canonical'] = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
     }
 
     // Set the root
