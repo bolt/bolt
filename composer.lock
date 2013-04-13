@@ -446,7 +446,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -514,16 +514,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "1.0.0"
+                "reference": "1.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.0",
-                "reference": "1.0.0",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.1",
+                "reference": "1.0.1",
                 "shasum": ""
             },
             "require": {
@@ -560,7 +560,7 @@
                 "silex-provider",
                 "whoops"
             ],
-            "time": "2013-04-09 14:34:25"
+            "time": "2013-04-12 11:09:30"
         },
         {
             "name": "guzzle/guzzle",
@@ -872,12 +872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "93259933cd7a378abac61f25c94858ed45ee25db"
+                "reference": "1cd7f3f050b78dae4458d93892355720f56659f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/93259933cd7a378abac61f25c94858ed45ee25db",
-                "reference": "93259933cd7a378abac61f25c94858ed45ee25db",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/1cd7f3f050b78dae4458d93892355720f56659f9",
+                "reference": "1cd7f3f050b78dae4458d93892355720f56659f9",
                 "shasum": ""
             },
             "require": {
@@ -946,20 +946,20 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-04-10 10:09:17"
+            "time": "2013-04-11 12:23:56"
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v4.3.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
-                "url": "git://github.com/swiftmailer/swiftmailer.git",
-                "reference": "v4.3.0"
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "v4.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/swiftmailer/swiftmailer/archive/v4.3.0.zip",
-                "reference": "v4.3.0",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/v4.3.1",
+                "reference": "v4.3.1",
                 "shasum": ""
             },
             "require": {
@@ -995,7 +995,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2013-01-08 15:50:34"
+            "time": "2013-04-11 10:22:09"
         },
         {
             "name": "symfony/config",
