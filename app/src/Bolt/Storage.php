@@ -326,6 +326,43 @@ class Storage
     }
 
     /**
+     * Get an object for the content of a specific contenttype. This will be
+     * \Bolt\Content, unless the contenttype defined another class to be used.
+     *
+     * @param array|string $contenttype
+     * @param array $values
+     * @throws \Exception
+     * @return \Bolt\Content
+     */
+    public function getContentObject($contenttype, $values = array()) {
+
+        // Make sure $contenttype is an array, and not just the slug.
+        if (!is_array($contenttype)) {
+            $contenttype = $this->getContentType($contenttype);
+        }
+
+        // If the contenttype has a 'class' specified, and the class exists,
+        // Initialize the content as an object of that class.
+        if (!empty($contenttype['class']) && class_exists($contenttype['class'])) {
+            $content = new $contenttype['class']($this->app, $contenttype, $values);
+
+            // Check if the class actually extends \Bolt\Content..
+            if (!($content instanceof \Bolt\Content)) {
+                throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Content.');
+            }
+
+        } else {
+
+            $content = new \Bolt\Content($this->app, $contenttype, $values);
+
+        }
+
+        return $content;
+
+    }
+
+
+    /**
      * Add some records with dummy content..
      *
      * Only fill the contenttypes passed as parameters
@@ -453,7 +490,7 @@ class Storage
 
         }
 
-        $contentobject = new Bolt\Content($this->app, $contenttype);
+        $contentobject = $this->getContentObject($contenttype);
         $contentobject->setValues($content);
 
         if (!empty($contenttype['taxonomy'])) {
@@ -761,7 +798,7 @@ class Storage
     public function getEmptyContent($contenttypeslug)
     {
 
-        $content = new Bolt\Content($this->app, $contenttypeslug);
+        $content = $this->getContentObject($contenttypeslug);
 
         // don't use 'undefined contenttype' as title/name
         $content->setValues(array('name' => '', 'title' => ''));
@@ -871,7 +908,7 @@ class Storage
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
         foreach ($rows as $row) {
-            $content[ $row['id'] ] = new Bolt\Content($this->app, $contenttype, $row);
+            $content[ $row['id'] ] = $this->getContentObject($contenttype, $row);
         }
 
         // Make sure all content has their taxonomies and relations
@@ -995,7 +1032,7 @@ class Storage
         $content = array();
         foreach ($rows as $row) {
             // @todo Make sure contenttype is set properly..
-            $content[ $row['id'] ] = new Bolt\Content($this->app, '', $row);
+            $content[ $row['id'] ] = $this->getContentObject('', $row);
         }
 
         // Make sure all content has their taxonomies and relations
@@ -1161,7 +1198,7 @@ class Storage
 
         // If we can't match to a valid contenttype, return (undefined) content;
         if (!$contenttype) {
-            $emptycontent = new Bolt\Content($this->app, $contenttypeslug);
+            $emptycontent = $this->getContentObject($contenttypeslug);
             $this->app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
 
             return $emptycontent;
@@ -1238,7 +1275,7 @@ class Storage
         // Make sure content is set, and all content has information about its contenttype
         $content = array();
         foreach ($rows as $row) {
-            $content[ $row['id'] ] = new Bolt\Content($this->app, $contenttype, $row);
+            $content[ $row['id'] ] = $this->getContentObject($contenttype, $row);
         }
 
         // Make sure all content has their taxonomies and relations

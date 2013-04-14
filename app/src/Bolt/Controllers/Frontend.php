@@ -166,7 +166,7 @@ class Frontend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // First, get the preview from Post.
-        $content = new \Bolt\Content($app, $contenttypeslug);
+        $content = $app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
         // Then, select which template to use, based on our 'cascading templates rules'

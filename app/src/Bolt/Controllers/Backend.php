@@ -440,7 +440,7 @@ class Backend implements ControllerProviderInterface
 
         if ($request->getMethod() == "POST") {
 
-            $content = new \Bolt\Content($app, $contenttypeslug);
+            $content = $app['storage']->getContentObject($contenttypeslug);
             $content->setFromPost($request->request->all(), $contenttype);
 
             // Don't try to spoof the $id..
