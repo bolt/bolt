@@ -95,7 +95,7 @@ kitchensink:
             class: large
         slug:
             type: slug
-            uses: [select,title]
+            uses: [ selectfield, title ]
         video:
             type: video
         html:
