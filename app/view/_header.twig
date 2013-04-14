@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
             </a>
             <a class="brand" href="{{ path('dashboard') }}">
-                <strong>Bolt</strong> <span class="hidden-phone"> {% if app.config.general.sitename is defined %}- {{app.config.general.sitename}}{% endif %}</span>
+                <strong>{{ app.config.general.branding.name }}</strong> <span class="hidden-phone"> {% if app.config.general.sitename is defined %}- {{app.config.general.sitename}}{% endif %}</span>
             </a>
 
             {% include '_sub_mainmenu.twig' %}

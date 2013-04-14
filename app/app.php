@@ -3,7 +3,8 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$app->mount('/bolt', new Bolt\Controllers\Backend());
+// Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
+$app->mount($app['config']['general']['branding']['path'], new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
 $app->mount('', new Bolt\Controllers\Frontend());
 
@@ -15,7 +16,7 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('frontend', false);
     $app['twig']->addGlobal('backend', false);
     $app['twig']->addGlobal('async', false);
-    $app['twig']->addGlobal(getWhichEnd(), true);
+    $app['twig']->addGlobal(getWhichEnd($app), true);
 
     $app['twig']->addGlobal('user', $app['users']->getCurrentUser());
     $app['twig']->addGlobal('users', $app['users']->getUsers());
@@ -168,7 +169,7 @@ $app->error(function (\Exception $e) use ($app) {
 
     $app['log']->add($twigvars['message'], 2, '', 'abort');
 
-    $end = getWhichEnd();
+    $end = getWhichEnd($app);
 
     $trace = $e->getTrace();
 

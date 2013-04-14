@@ -75,6 +75,17 @@ sitemap_xml_template: sitemap_xml.twig
 # The default size of image thumbnails, when using {{ record.image|thumbnail }}
 thumbnails: [ 160, 120, c ]
 
+# If you want to 'brand' the Bolt backend for a client, you can change some key variables
+# here, that determine the name of the backend, and adds a primary support/contact link
+# to the footer. Additionally you can change the mount-point for the backend, either for
+# convenience or to obscure it from prying eyes. The Bolt backend is accessible as /bolt/
+# by default, if you change it here, it will only be accessible through the value set in
+# 'path'. Keep the path simple: lowercase only, no extra slashes or other special characters.
+#branding:
+#  name: SuperCMS
+#  path: /admin
+#  provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
+
 # Show the 'debug' nut in the lower right corner for logged-in user. By default,
 # the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'
 # option to show it to all users. You probably do not want to use this in a

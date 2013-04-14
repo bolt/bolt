@@ -729,7 +729,12 @@ function getConfig()
         'cookies_https_only' => false,
         'cookies_lifetime' => 14*24*3600,
         'thumbnails' => array(160, 120, 'c'),
-        'hash_strength' => 10
+        'hash_strength' => 10,
+        'branding' => array(
+            'name' => "Bolt",
+            'path' => "/bolt",
+            'provided_by' => array()
+        )
     );
 
     if (isset($config['general']['wysiwyg']) && isset($config['general']['wysiwyg']['ck']) &&
@@ -752,6 +757,9 @@ function getConfig()
             $config['general']['cookies_domain'] = "";
         }
     }
+
+    // Make sure Bolt's mount point is OK:
+    $config['general']['branding']['path'] = "/" . safeString($config['general']['branding']['path']);
 
     // @todo Think about what to do with these..
     /*
@@ -820,7 +828,7 @@ function getConfig()
     }
 
 
-    $end = getWhichEnd();
+    $end = getWhichEnd($config['general']);
 
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
@@ -930,11 +938,21 @@ function checkConfig(\Bolt\Application $app) {
 
 }
 
-function getWhichEnd() {
+function getWhichEnd($from) {
+
+    if ($from instanceof \Bolt\Application) {
+        $mountpoint = $from['config']['general']['branding']['path'];
+    } else {
+        $mountpoint = $from['branding']['path'];
+    }
 
     if (!empty($_SERVER['REQUEST_URI'])) {
         // Get the script's filename, but _without_ REQUEST_URI.
         $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+        // make sure it starts with '/', like our mountpoint.
+        if (empty($scripturi) || ($scripturi[0] != "/") ) {
+            $scripturi = "/" . $scripturi;
+        }
     } else {
         // We're probably in CLI mode.
         return "cli";
@@ -942,7 +960,7 @@ function getWhichEnd() {
 
     // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
     // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
-    if ( (substr($scripturi,0,5) == "bolt/") || (strpos($scripturi, "/bolt/") !== false) ) {
+    if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
         $end = 'backend';
     } else if ( (substr($scripturi,0,6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
         $end = 'async';

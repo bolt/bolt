@@ -5,6 +5,12 @@
 <br><br>
 
 <footer id="bolt-footer" class="hidden-phone">
+    {% if app.config.general.branding.provided_by[0] is defined %}
+        {{ __("Provided by:") }}
+        <a href="mailto:{{ app.config.general.branding.provided_by[0] }}">
+            {{ app.config.general.branding.provided_by[1] }}
+        </a> -
+    {% endif %}
     <i class="icon-cog"></i> <b>Bolt {{ bolt_version }}</b>: {{ __('Sophisticated, lightweight & simple CMS') }} -
     <i class="icon-heart"></i > <a href="{{ path('about') }}">{{ __('About') }}</a> &ndash;
     <i class="icon-external-link"> </i><a href="http://bolt.cm" target="_blank">Bolt.cm</a>
