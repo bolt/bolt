@@ -523,7 +523,9 @@ class Storage
             $this->app['dispatcher']->dispatch(StorageEvents::preSave, $event);
         }
 
-        $fieldvalues['slug'] = ''; // Prevent 'slug may not be NULL'
+        if (!isset($fieldvalues['slug'])) {
+            $fieldvalues['slug'] = ''; // Prevent 'slug may not be NULL'
+        }
 
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
