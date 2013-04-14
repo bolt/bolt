@@ -860,8 +860,8 @@ function checkConfig(\Bolt\Application $app) {
         //
         foreach($ct['fields'] as $fieldname => $field) {
             if (!empty($field['uses']) && empty($ct['fields'][ $field['uses'] ]) ) {
-                $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
-                    array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $field['uses'] )
+                $error =  sprintf("In the contenttype for '%s', the field '%s' has 'uses: %s', but the field '%s' does not exist. Please edit contenttypes.yml, and correct this.",
+                    $key, $fieldname, $field['uses'], $field['uses']
                 );
                 $app['session']->getFlashBag()->set('error', $error);
             }
@@ -869,16 +869,16 @@ function checkConfig(\Bolt\Application $app) {
 
         // Show some helpful warnings if slugs or names are not unique.
         if ($ct['slug'] == $ct['singular_slug']) {
-            $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
-                array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
+            $error =  sprintf("The slug and singular_slug for '%s' are the same (%s). Please edit contenttypes.yml, and make them distinct.",
+                $key, $ct['slug']
             );
             $app['session']->getFlashBag()->set('error', $error);
         }
 
         // Show some helpful warnings if slugs or names are not unique.
         if ($ct['slug'] == $ct['singular_slug']) {
-            $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
-                array( '%contenttype%' => $key, '%name%' => $ct['name'] )
+            $error =  sprintf("The name and singular_name for '%s' are the same (%s). Please edit contenttypes.yml, and make them distinct.",
+                $key, $ct['slug']
             );
             $app['session']->getFlashBag()->set('error', $error);
         }
@@ -895,8 +895,8 @@ function checkConfig(\Bolt\Application $app) {
     if (!$app['session']->getFlashBag()->has('error')) {
         foreach ($slugs as $slug => $count) {
             if ($count > 1) {
-                $error =  __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
-                    array( '%slug%' => $slug )
+                $error =  sprintf("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                    $slug
                 );
                 $app['session']->getFlashBag()->set('error', $error);
             }
