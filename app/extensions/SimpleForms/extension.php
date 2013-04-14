@@ -61,7 +61,7 @@ class Extension extends \Bolt\BaseExtension
         $this->addCSS($this->config['stylesheet']);
 
         // Set the button text.
-        if (!empty($this->config['button_text'])) {
+        if (empty($this->config['button_text'])) {
             $this->config['button_text'] = "Send";
         }
 
