@@ -1772,7 +1772,7 @@ class Storage
             "SELECT * FROM %s WHERE from_contenttype=? AND from_id IN (?) ORDER BY id",
             $tablename
         );
-        $params = array($this->app['db']->quote($contenttype), $ids);
+        $params = array($contenttype, $ids);
         $paramTypes = array(\PDO::PARAM_STR, DoctrineConn::PARAM_INT_ARRAY);
         $rows = $this->app['db']->executeQuery($query, $params, $paramTypes)->fetchAll();
 
@@ -1785,7 +1785,7 @@ class Storage
             "SELECT * FROM %s WHERE to_contenttype=? AND to_id IN (?) ORDER BY id",
             $tablename
         );
-        $params = array($this->app['db']->quote($contenttype), $ids);
+        $params = array($contenttype, $ids);
         $paramTypes = array(\PDO::PARAM_STR, DoctrineConn::PARAM_INT_ARRAY);
         $rows = $this->app['db']->executeQuery($query, $params, $paramTypes)->fetchAll();
 

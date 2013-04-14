@@ -425,7 +425,7 @@ class TwigExtension extends \Twig_Extension
     public function listcontent($contenttype, $relationoptions, $content)
     {
         // Just the relations for the current record, and just the current $contenttype.
-        $current = $content->relation[$contenttype];
+        $current = isset($content->relation[$contenttype]) ? $content->relation[$contenttype] : null;
 
         // We actually only need the 'order' in options.
         $options = array();
