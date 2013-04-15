@@ -11,7 +11,6 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Connection as DoctrineConn;
 
 class IntegrityChecker
 {
@@ -24,13 +23,9 @@ class IntegrityChecker
      */
     private $prefix;
     /**
-     * @var array
-     */
-    private $checkedfortimed = array();
-    /**
      * @var bool
      */
-    protected $unsigned = true;
+    protected $unsigned = false;
 
     public function __construct(\Bolt\Application $app)
     {
@@ -43,10 +38,8 @@ class IntegrityChecker
             $this->prefix .= "_";
         }
 
-        // workaround for: http://www.doctrine-project.org/jira/browse/DBAL-493
-        if ($this->app->config['general']['database']['driver'] == "pdo_sqlite" ||
-            $this->app->config['general']['database']['driver'] == "sqlite") {
-            $this->unsigned = false; // not supported by sqlite
+        if ($this->app['db']->getDatabasePlatform() instanceof MySqlPlatform) {
+            $this->unsigned = true; // only mysql supports unsigned int
         }
 
     }
