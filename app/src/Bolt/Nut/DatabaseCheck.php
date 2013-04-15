@@ -16,11 +16,11 @@ class DatabaseCheck extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['storage']->checkTablesIntegrity();
+        $messages = $this->app->storage->getIntegrityChecker()->checkTablesIntegrity();
 
-        if ($result !== true) {
+        if (!empty($messages)) {
             $output->writeln("<info>Modifications required:</info>");
-            foreach($result as $line) {
+            foreach($messages as $line) {
                 $output->writeln(" - " . str_replace("tt>", "info>", $line) . "");
             }
             $output->writeln("\nOne or more fields/tables are missing from the Database. Please run 'nut database:update' to fix this.");
