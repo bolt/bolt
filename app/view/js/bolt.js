@@ -291,7 +291,7 @@ function bindFileUpload(key) {
 function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
 
     $(usesfields).each( function() {
-        $('#'+this).on('change.bolt', function() {
+        $('#'+this).on('propertychange.bolt input.bolt change.bolt', function() {
             var usesvalue = "";
             $(usesfields).each( function() {
                 usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
@@ -307,7 +307,7 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
 function stopMakeUri(usesfields) {
 
     $(usesfields).each( function() {
-        $('#'+this).unbind('change.bolt');
+        $('#'+this).unbind('propertychange.bolt input.bolt change.bolt');
     });
 
 }
