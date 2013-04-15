@@ -16,11 +16,20 @@ use Symfony\Component\EventDispatcher\Event;
 class Storage
 {
 
+    /**
+     * @var Application
+     */
     private $app;
+    /**
+     * @var string
+     */
     private $prefix;
+    /**
+     * @var array
+     */
     private $checkedfortimed = array();
 
-    public function __construct(Silex\Application $app)
+    public function __construct(\Bolt\Application $app)
     {
         $this->app = $app;
 
