@@ -299,7 +299,7 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
             })
             clearTimeout(makeuritimeout);
             makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, this, slugfield, fulluri); }, 200);
-        }).trigger('propertychange.bolt input.bolt change.bolt');
+        }).trigger('change.bolt');
     });
 
 }
