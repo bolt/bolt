@@ -59,7 +59,7 @@ class IntegrityChecker
     protected function getTableObjects()
     {
 
-        $sm = $this->app->db->getSchemaManager();
+        $sm = $this->app['db']->getSchemaManager();
 
         $tables = array();
 
@@ -135,7 +135,7 @@ class IntegrityChecker
                     }
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
-                    if ($this->app->db->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $msg = "Table <tt>" . $table->getName() . "</tt> is not the correct schema: ";
                         $msgParts = array();
                         // No check on foreign keys yet because we don't use them
@@ -195,7 +195,7 @@ class IntegrityChecker
         $currentTables = $this->getTableObjects();
 
         /** @var $schemaManager AbstractSchemaManager */
-        $schemaManager = $this->app->db->getSchemaManager();
+        $schemaManager = $this->app['db']->getSchemaManager();
 
         $comparator = new Comparator();
 
@@ -208,10 +208,10 @@ class IntegrityChecker
             if (!isset($currentTables[$table->getName()])) {
 
                 /** @var $platform AbstractPlatform */
-                $platform = $this->app->db->getDatabasePlatform();
+                $platform = $this->app['db']->getDatabasePlatform();
                 $queries = $platform->getCreateTableSQL($table);
                 $queries = implode("; ", $queries);
-                $this->app->db->query($queries);
+                $this->app['db']->query($queries);
 
                 $output[] = "Created table <tt>" . $table->getName() . "</tt>.";
 
@@ -233,7 +233,7 @@ class IntegrityChecker
                     }
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
-                    if ($this->app->db->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $schemaManager->alterTable( $diff );
                         $output[] = "Updated <tt>" . $table->getName() . "</tt> table to match current schema.";
                     }
