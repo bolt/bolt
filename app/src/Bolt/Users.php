@@ -247,7 +247,6 @@ class Users
 
         if (empty($user)) {
             $this->session->getFlashBag()->set('error', __('Username or password not correct. Please check your input.'));
-
             return false;
         }
 
@@ -280,6 +279,7 @@ class Users
             return true;
 
         } else {
+
             $this->session->getFlashBag()->set('error', __('Username or password not correct. Please check your input.'));
             $this->app['log']->add("Failed login attempt for '" . $user['displayname'] . "'.", 3, '', 'issue');
 
@@ -292,10 +292,115 @@ class Users
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
             // Take a nap, to prevent brute-forcing. Zzzzz...
-            session_write_close();
-            sleep(2);
+            sleep(1);
 
             return false;
+        }
+
+    }
+
+    public function resetPasswordRequest($username)
+    {
+
+        $user = $this->getUser($username);
+
+        // For safety, this is the message we display, regardless of whether $user exists.
+        $this->session->getFlashBag()->set('info', __("A password reset link has been sent to '%user%'.", array('%user%' => $username) ));
+
+        if (!empty($user)) {
+
+            $shadowpassword = makeKey(10, true);
+            $shadowtoken = makeKey(32, false);
+
+            $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
+            $shadowhashed = $hasher->HashPassword($shadowpassword);
+
+            $shadowlink = sprintf("%s%sresetpassword?token=%s",
+                $this->app['paths']['hosturl'],
+                $this->app['paths']['bolt'],
+                $shadowtoken
+            );
+
+            // Set the shadow password and related stuff in the database..
+            $update = array(
+                'shadowpassword' => $shadowhashed,
+                'shadowtoken' => $shadowtoken . "-" . str_replace(".", "-", $_SERVER['REMOTE_ADDR']),
+                'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours"))
+            );
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+
+            // Compile the email with the shadow password and reset link..
+            $mailhtml = $this->app['twig']->render('mail/passwordreset.twig', array(
+                'user' => $user,
+                'shadowpassword' => $shadowpassword,
+                'shadowtoken' => $shadowtoken,
+                'shadowvalidity' => $shadowvalidity,
+                'shadowlink' => $shadowlink,
+
+            ));
+
+            // echo $mailhtml;
+
+            $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']['general']['sitename']);
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject($subject)
+                ->setFrom(array($user['email'] => "Bolt"))
+                ->setTo(array($user['email'] => $user['displayname']))
+                ->setBody(strip_tags($mailhtml))
+                ->addPart($mailhtml, 'text/html');
+
+            $res = $this->app['mailer']->send($message);
+
+            if ($res) {
+                $this->app['log']->add("Password request sent to '" . $user['displayname'] . "'.", 3, '', 'issue');
+            } else {
+                $this->app['log']->add("Failed to send password request sent to '" . $user['displayname'] . "'.", 3, '', 'issue');
+            }
+
+
+        }
+
+
+        // Take a nap, to prevent brute-forcing. Zzzzz...
+        sleep(1);
+
+        return true;
+
+    }
+
+
+    public function resetPasswordConfirm($token)
+    {
+
+        $token .= "-" . str_replace(".", "-", $_SERVER['REMOTE_ADDR']);
+
+        $now = date("Y-m-d H:i:s");
+
+        // Let's see if the token is valid, and it's been requested within two hours...
+        $query = "SELECT * FROM " . $this->usertable . " WHERE shadowtoken = ? AND shadowvalidity > ? LIMIT 1;";
+        $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
+
+        if (!empty($user)) {
+
+            // allright, we can reset this user..
+            $this->app['session']->getFlashBag()->set('success', "Password reset successful! You can now log on with the password that was sent to you via email.");
+
+            $update = array(
+                'password' => $user['shadowpassword'],
+                'shadowpassword' => "",
+                'shadowtoken' => "",
+                'shadowvalidity' => "0000-00-00 00:00:00"
+            );
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+
+        } else {
+
+            // That was not a valid token, or too late, or not from the correct IP.
+            $this->app['log']->add("Somebody tried to reset a password with an invalid token.", 3, '', 'issue');
+            $this->app['session']->getFlashBag()->set('error', "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.");
+
+
         }
 
     }
@@ -320,6 +425,10 @@ class Users
         }
 
     }
+
+
+
+
 
     /**
      * Log out the currently logged in user.

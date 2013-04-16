@@ -37,6 +37,11 @@ class Backend implements ControllerProviderInterface
             ->bind('logout')
         ;
 
+        $ctl->match("/resetpassword", array($this, 'resetpassword'))
+            ->bind('resetpassword')
+            ->method('GET')
+        ;
+
         $ctl->get("/dbcheck", array($this, 'dbcheck'))
             ->before(array($this, 'before'))
             ->bind('dbcheck')
@@ -182,12 +187,13 @@ class Backend implements ControllerProviderInterface
 
 
     /**
-     * Login page.
+     * Login page and "Forgotten password" page.
      */
     function login(Silex\Application $app, Request $request) {
 
-        if ($request->getMethod() == "POST") {
+        if ($request->get('action') == "login") {
 
+            // Log in, if credentials are correct.
             $result = $app['users']->login($request->get('username'), $request->get('password'));
 
             if ($result) {
@@ -195,7 +201,13 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
+        } else if ($request->get('action') == "reset") {
+
+            // Send a password request mail, if username exists.
+            $app['users']->resetPasswordRequest($request->get('username'));
+
         }
+
 
         $app['twig']->addGlobal('title', "Login");
 
@@ -215,6 +227,23 @@ class Backend implements ControllerProviderInterface
         return redirect('login');
 
     }
+
+
+    /**
+     * Reset the password. This controller is normally only reached when the user
+     * clicks a "password reset" link in the email.
+     *
+     * @param Silex\Application $app
+     * @param Request $request
+     */
+    function resetpassword(Silex\Application $app, Request $request) {
+
+        $app['users']->resetPasswordConfirm($request->get('token'));
+
+        return redirect('login');
+
+    }
+
 
     /**
      * Check the database for missing tables and columns. Does not do actual repairs

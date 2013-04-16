@@ -346,9 +346,13 @@ function formatFilesize($size)
  * @param int $length
  * @return string
  */
-function makeKey($length)
+function makeKey($length, $stronger = false)
 {
-    $seed = "0123456789abcdefghijklmnopqrstuvwxyz";
+    if ($stronger) {
+        $seed = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*";
+    } else {
+        $seed = "0123456789abcdefghijklmnopqrstuvwxyz";
+    }
     $len = strlen($seed);
     $key = "";
 
@@ -1127,6 +1131,13 @@ function getPaths($original = array())
         $canonicalpath = $currentpath;
     }
 
+    // Set the correct mountpoint..
+    if (!empty($config['general']['branding']['path'])) {
+        $mountpoint = substr($config['general']['branding']['path'], 1) . "/";
+    } else {
+        $mountpoint = "bolt/";
+    }
+
     // Set the paths
     $paths = array(
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
@@ -1136,7 +1147,7 @@ function getPaths($original = array())
         'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
-        'bolt' => $path_prefix . "bolt/",
+        'bolt' => $path_prefix . $mountpoint,
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),

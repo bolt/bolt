@@ -1,21 +1,39 @@
-{% include '_header.twig' %}
+{% include '_header_basic.twig' %}
 
-
-<h1>{{ __('Login') }}</h1>
 
 <div class="row-fluid">
-    <div class="span6">
-        <form class="well" method="post">
+    <div class="span6 offset3">
+
+        <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="200" height="82" alt="Bolt" class="logo">
+
+        {% include '_messages.twig' %}
+
+        <form class="well loginform" method="post">
+
             <label>{{ __('Username') }}</label>
-            <input type="text" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
-            <label>{{ __('Password') }}</label>
-            <input type="password" name="password" placeholder="{{ __('Your password') }} …">
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-user"></i></span>
+                <input type="text" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
+            </div>
 
-            <label><button type="submit" class="btn">{{ __('Log on') }}</button></label>
+            <div class="password">
+                <label style="margin-top: 0px;">{{ __('Password') }}</label>
+                <div class="input-prepend" >
+                    <span class="add-on"><i class="icon-key"></i></span>
+                    <input type="password" name="password" placeholder="{{ __('Your password') }} …">
+                </div>
+            </div>
+
+            <br>
+            <p style="margin-top: 0px;" class="login">
+                <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
+                <button type="button" class="btn forgot" style="margin-left: 20px;"> {{ __('I forgot my password…') }}</button>
+            </p>
+            <p style="margin-top: 0px; display: none;" class="reset">
+                <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
+            </p>
+
         </form>
-    </div>
-
-    <div class="span6">
 
         <blockquote class='quote'>{{ randomquote() }}</blockquote>
 
@@ -23,4 +41,17 @@
 
 </div>
 
-{% include '_footer.twig' %}
+
+<script type="text/javascript">
+    $(function() {
+        $('.forgot').bind('click', function(e){
+            $('.login, .password').slideUp('slow');
+            $('.reset').slideDown('slow');
+            console.log('clicked');
+        });
+    });
+</script>
+
+</body>
+
+</html>

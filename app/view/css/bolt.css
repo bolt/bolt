@@ -30,7 +30,6 @@ h1, h2, h3, h4, h5, h6 {
     text-overflow: ellipsis;
 }
 
-
 h1 {
     font-size: 30px;
     line-height: 36px;
@@ -40,9 +39,6 @@ h2 {
     font-size: 26px;
     line-height: 31px;
 }
-
-
-
 
 a {
     color: #194770; /* #AE311A; */
@@ -71,7 +67,6 @@ pre {
     color: #555;
     padding: 2px 4px;
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
-
 }
 
 small {
@@ -111,6 +106,16 @@ hr {
     font-size: 11px;
     line-height: 16px;
     padding: 2px 6px;
+}
+
+.logo {
+    margin: 80px 0 20px 20px;
+}
+
+.loginform {
+    background-color: #FFF;
+    box-shadow: 0px 0px 150px 10px rgba(0, 0, 0, 0.15);
+
 }
 
 .navbar-fixed-top, .navbar-fixed-bottom  {
@@ -923,23 +928,22 @@ fieldset.checkbox div {
  */
 blockquote.quote {
     border: 0;
-    margin: 15px 30px;
-    font-size: 28px;
-    line-height: 36px;
+    margin: 15px 0px;
+    font-size: 21px;
+    line-height: 26px;
     font-style: italic;
     font-family: "Times New Roman", Georgia;
-    color: #999;
+    color: #AAA;
 }
 
 blockquote.quote cite {
     display: block;
-    margin-top: 12px;
-    margin-left: 30px;
+    margin-top: 8px;
     font-size: 12px;
     line-height: 18px;
     font-style: normal;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: #888;
+    color: #999;
 }
 
 
@@ -1026,8 +1030,8 @@ blockquote.quote cite {
     }
 
     blockquote.quote {
-        font-size: 21px;
-        line-height: 27px;
+        font-size: 18px;
+        line-height: 24px;
         margin: 10px 15px;
     }
 
