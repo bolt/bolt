@@ -141,7 +141,7 @@ kitchensink:
             label: Choose an entry
             order: -id
         pages:
-            multiple: pages
+            multiple: true
             order: title
             label: Select zero or more pages
     taxonomy: [ categories, tags, chapters ]

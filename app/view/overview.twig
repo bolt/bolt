@@ -18,7 +18,17 @@
 
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if content.group is defined and content.group is not sameas(false) and content.group != lastgroup %}
-                <tr class="grouping"><th colspan="5"><h3>{% if content.group %}{{ content.group }}{% else %}{{ __('(no group)') }}{% endif %}</h3></th></tr>
+                <tr class="grouping">
+                    <th colspan="5">
+                        <h3 {% if loop.first %}class="first"{% endif %}>
+                        {% if content.groupname  %}
+                            {{ content.groupname }}
+                        {% else %}
+                            {{ __('(no group)') }}
+                        {% endif %}
+                        </h3>
+                    </th>
+                </tr>
             {% endif %}
 
             {# print the header for the first row.. #}

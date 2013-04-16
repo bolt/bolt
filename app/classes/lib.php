@@ -788,6 +788,19 @@ function getConfig()
         if (!isset($config['taxonomy'][$key]['has_sortorder'])) {
             $config['taxonomy'][$key]['has_sortorder'] = false;
         }
+
+        // Make sure the options are $key => $value pairs, and not have implied integers for keys.
+        if (!empty($config['taxonomy'][$key]['options']) && is_array($config['taxonomy'][$key]['options'])) {
+            $options = array();
+            foreach($config['taxonomy'][$key]['options'] as $optionkey => $value) {
+                if (is_numeric($optionkey)) {
+                    $optionkey = strtolower(safeString($value));
+                }
+                $options[$optionkey] = $value;
+            }
+            $config['taxonomy'][$key]['options'] = $options;
+        }
+
     }
 
     // Clean up contenttypes

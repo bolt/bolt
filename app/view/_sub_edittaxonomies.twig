@@ -1,7 +1,6 @@
 
 {# taxonomies for the contenttype that this record is part of. #}
 {% if contenttype.taxonomy is defined %}
-{% set taxonomies = contenttype.taxonomy %}
 
     <h3>
         {{ __('Taxonomy') }}
@@ -9,7 +8,7 @@
                   data-content="{{ app.translator.trans('info.taxonomy',{},'infos') }}">{{ __('Info') }}</span>
     </h3>
 
-{% for taxonomyslug in taxonomies %}
+{% for taxonomyslug in contenttype.taxonomy %}
 
     {% if config.taxonomy[taxonomyslug] is defined %}
 
@@ -70,8 +69,8 @@
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no group)</option>
                 <option value="" disabled>-----------</option>
-            {% for group in taxonomy.options %}
-                <option value='{{group}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
+            {% for key, group in taxonomy.options %}
+                <option value='{{key}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
             {% endfor %}
             </select>
 

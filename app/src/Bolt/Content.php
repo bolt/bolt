@@ -26,7 +26,7 @@ class Content implements \ArrayAccess
             if (isset($this->contenttype['taxonomy'])) {
                 foreach ($this->contenttype['taxonomy'] as $taxonomytype) {
                     if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-                        $this->setGroup("", $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
+                        $this->setGroup('', '', $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
                     }
                 }
             }
@@ -341,6 +341,13 @@ class Content implements \ArrayAccess
 
     }
 
+    /**
+     * Set a taxonomy for the current object.
+     *
+     * @param $taxonomytype
+     * @param $value
+     * @param int $sortorder
+     */
     public function setTaxonomy($taxonomytype, $value, $sortorder=0)
     {
 
@@ -365,13 +372,24 @@ class Content implements \ArrayAccess
         $this->taxonomy[$taxonomytype][$link] = $value;
         $this->taxonomyorder[$taxonomytype] = $sortorder;
 
+        // Set the 'name', for displaying the pretty name, if there is any.
+        if (!empty($this->app['config']['taxonomy'][$taxonomytype]['options'][$value])) {
+            $name = $this->app['config']['taxonomy'][$taxonomytype]['options'][$value];
+        } else {
+            $name = ucfirst($value);
+        }
+
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-            $this->setGroup($value, $sortorder);
+            $this->setGroup($value, $name, $sortorder);
         }
 
     }
 
+    /**
+     * Sort the taxonomy of the current object, based on the order given in taxonomy.yml.
+     *
+     */
     public function sortTaxonomy()
     {
 
@@ -389,9 +407,11 @@ class Content implements \ArrayAccess
 
             // Order them by the order in the contenttype.
             $new = array();
-            foreach($this->app['config']['taxonomy'][$type]['options'] as $value) {
-                if ($key = array_search($value, $this->taxonomy[$type])) {
-                    $new[$key] = $value;
+            foreach($this->app['config']['taxonomy'][$type]['options'] as $key => $value) {
+                if ($foundkey = array_search($key, $this->taxonomy[$type])) {
+                    $new[$foundkey] = $value;
+                } elseif ($foundkey = array_search($value, $this->taxonomy[$type])) {
+                    $new[$foundkey] = $value;
                 }
             }
             $this->taxonomy[$type] = $new;
@@ -427,9 +447,17 @@ class Content implements \ArrayAccess
 
     }
 
-    public function setGroup($value, $sortorder=false)
+    /**
+     * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
+     *
+     * @param string $value
+     * @param string $name
+     * @param bool $sortorder
+     */
+    public function setGroup($value, $name = "", $sortorder = false)
     {
         $this->group = $value;
+        $this->groupname = $name;
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
         if ($sortorder !== false) {
@@ -438,7 +466,7 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the decoded value
+     * Get the decoded version of a value of the current object.
      *
      * @param string $name   name of the value to get
      * @return mixed         decoded value or null when no value available

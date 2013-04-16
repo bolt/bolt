@@ -25,7 +25,11 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0.5em 0;
     font-weight: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 
 h1 {
     font-size: 30px;
@@ -37,16 +41,7 @@ h2 {
     line-height: 31px;
 }
 
-h3 {
-    margin-bottom: 0;
-}
 
-h1, h2, h3 {
-    margin-top: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 
 a {
@@ -289,8 +284,12 @@ footer  {
     padding: 0px 5px;
 }
 
+.dashboardlisting tr.grouping h3.first {
+    margin-top: 0px;
+}
+
 .dashboardlisting tr.grouping h3 {
-    margin: 0px;
+    margin-bottom: 0px;
 }
 
 .dashboardlisting tr:first-child {
