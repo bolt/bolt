@@ -263,10 +263,13 @@ class Frontend implements ControllerProviderInterface
             $app->abort(404, "Content for '$taxonomytype/$slug' not found.");
         }
 
-        $template = $app['config']['general']['listing_template'];
         $chosen = "taxonomy";
+
+        // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
         if (isset($app['config']['taxonomy'][$taxonomytype]['listing_template'])) {
             $template = $app['config']['taxonomy'][$taxonomytype]['listing_template'];
+        } else {
+            $template = $app['config']['general']['listing_template'];
         }
 
         $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
@@ -286,7 +289,10 @@ class Frontend implements ControllerProviderInterface
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
         return $app['twig']->render($template, array(
-            'records' => $content
+            'records' => $content,
+            'taxonomy' => $app['config']['taxonomy'][$taxonomytype],
+            'taxonomytype' => $taxonomytype,
+            'slug' => $slug
         ));
 
     }
