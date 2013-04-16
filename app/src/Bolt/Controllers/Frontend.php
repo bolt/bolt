@@ -265,6 +265,9 @@ class Frontend implements ControllerProviderInterface
 
         $template = $app['config']['general']['listing_template'];
         $chosen = "taxonomy";
+        if (isset($app['config']['taxonomy'][$taxonomytype]['listing_template'])) {
+            $template = $app['config']['taxonomy'][$taxonomytype]['listing_template'];
+        }
 
         $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
 
