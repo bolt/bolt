@@ -272,11 +272,11 @@ class IntegrityChecker
         $usersTable->addColumn("contenttypes", "string", array("length" => 256));
         $usersTable->addColumn("enabled", "boolean");
         $usersTable->addIndex( array( 'enabled' ) );
-        $usersTable->addColumn("shadowpassword", "string", array("length" => 128));
-        $usersTable->addColumn("shadowtoken", "string", array("length" => 128));
-        $usersTable->addColumn("shadowvalidity", "datetime");
-        $usersTable->addColumn("failedlogins", "integer");
-        $usersTable->addColumn("throttleduntil", "datetime");
+        $usersTable->addColumn("shadowpassword", "string", array("length" => 128, "default" => ""));
+        $usersTable->addColumn("shadowtoken", "string", array("length" => 128, "default" => ""));
+        $usersTable->addColumn("shadowvalidity", "datetime", array("default" => "0000-00-00 00:00:00"));
+        $usersTable->addColumn("failedlogins", "integer", array("default" => 0));
+        $usersTable->addColumn("throttleduntil", "datetime", array("default" => "0000-00-00 00:00:00"));
         $tables[] = $usersTable;
 
         $taxonomyTable = $schema->createTable($this->prefix."taxonomy");

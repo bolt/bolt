@@ -111,6 +111,18 @@ class Users
             $user['enabled'] = 1;
         }
 
+        if (empty($user['shadowvalidity'])) {
+            $user['shadowvalidity'] = "0000-00-00";
+        }
+
+        if (empty($user['throttleduntil'])) {
+            $user['throttleduntil'] = "0000-00-00";
+        }
+
+        if (empty($user['failedlogins'])) {
+            $user['failedlogins'] = 0;
+        }
+
         // Serialize the contenttypes..
         if (empty($user['contenttypes'])) {
             $user['contenttypes'] = array();
@@ -458,7 +470,12 @@ class Users
             'lastip' => '',
             'displayname' => '',
             'userlevel' => key($this->getUserLevels()),
-            'enabled' => '1'
+            'enabled' => '1',
+            'shadowpassword' => '',
+            'shadowtoken' => '',
+            'shadowvalidity' => '',
+            'failedlogins' => 0,
+            'throttleduntil' => ''
         );
 
         return $user;
