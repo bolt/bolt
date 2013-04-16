@@ -160,6 +160,7 @@ class Backend implements ControllerProviderInterface
         $limit = $app['config']['general']['recordsperdashboardwidget'];
 
         $total = 0;
+        $latest = array();
         // get the 'latest' from each of the content types.
         foreach ($app['config']['contenttypes'] as $key => $contenttype) {
             if ($app['users']->isAllowed('contenttype:'.$key) && $contenttype['show_on_dashboard']==true) {
