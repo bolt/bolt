@@ -22,10 +22,6 @@ class IntegrityChecker
      * @var string
      */
     private $prefix;
-    /**
-     * @var bool
-     */
-    protected $unsigned = false;
 
     public function __construct(\Bolt\Application $app)
     {
@@ -37,11 +33,6 @@ class IntegrityChecker
         if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
             $this->prefix .= "_";
         }
-
-        if ($this->app['db']->getDatabasePlatform() instanceof MySqlPlatform) {
-            $this->unsigned = true; // only mysql supports unsigned int
-        }
-
     }
 
     /**
@@ -268,7 +259,7 @@ class IntegrityChecker
         $tables = array();
 
         $usersTable = $schema->createTable($this->prefix."users");
-        $usersTable->addColumn("id", "integer", array("unsigned" => $this->unsigned, 'autoincrement' => true));
+        $usersTable->addColumn("id", "integer", array('autoincrement' => true));
         $usersTable->setPrimaryKey(array("id"));
         $usersTable->addColumn("username", "string", array("length" => 32));
         $usersTable->addIndex( array( 'username' ) );
@@ -284,9 +275,9 @@ class IntegrityChecker
         $tables[] = $usersTable;
 
         $taxonomyTable = $schema->createTable($this->prefix."taxonomy");
-        $taxonomyTable->addColumn("id", "integer", array("unsigned" => $this->unsigned, 'autoincrement' => true));
+        $taxonomyTable->addColumn("id", "integer", array('autoincrement' => true));
         $taxonomyTable->setPrimaryKey(array("id"));
-        $taxonomyTable->addColumn("content_id", "integer", array("unsigned" => $this->unsigned));
+        $taxonomyTable->addColumn("content_id", "integer");
         $taxonomyTable->addIndex( array( 'content_id' ) );
         $taxonomyTable->addColumn("contenttype", "string", array("length" => 32));
         $taxonomyTable->addIndex( array( 'contenttype' ) );
@@ -294,27 +285,27 @@ class IntegrityChecker
         $taxonomyTable->addIndex( array( 'taxonomytype' ) );
         $taxonomyTable->addColumn("slug", "string", array("length" => 64));
         $taxonomyTable->addColumn("name", "string", array("length" => 64, "default" => ""));
-        $taxonomyTable->addColumn("sortorder", "integer", array("unsigned" => $this->unsigned, "default" => 0));
+        $taxonomyTable->addColumn("sortorder", "integer", array("default" => 0));
         $taxonomyTable->addIndex( array( 'sortorder' ) );
         $tables[] = $taxonomyTable;
 
         $relationsTable = $schema->createTable($this->prefix."relations");
-        $relationsTable->addColumn("id", "integer", array("unsigned" => $this->unsigned, 'autoincrement' => true));
+        $relationsTable->addColumn("id", "integer", array('autoincrement' => true));
         $relationsTable->setPrimaryKey(array("id"));
         $relationsTable->addColumn("from_contenttype", "string", array("length" => 32));
         $relationsTable->addIndex( array( 'from_contenttype' ) );
-        $relationsTable->addColumn("from_id", "integer", array("unsigned" => $this->unsigned));
+        $relationsTable->addColumn("from_id", "integer");
         $relationsTable->addIndex( array( 'from_id' ) );
         $relationsTable->addColumn("to_contenttype", "string", array("length" => 32));
         $relationsTable->addIndex( array( 'to_contenttype' ) );
-        $relationsTable->addColumn("to_id", "integer", array("unsigned" => $this->unsigned));
+        $relationsTable->addColumn("to_id", "integer");
         $relationsTable->addIndex( array( 'to_id' ) );
         $tables[] = $relationsTable;
 
         $logTable = $schema->createTable($this->prefix."log");
-        $logTable->addColumn("id", "integer", array("unsigned" => $this->unsigned, 'autoincrement' => true));
+        $logTable->addColumn("id", "integer", array('autoincrement' => true));
         $logTable->setPrimaryKey(array("id"));
-        $logTable->addColumn("level", "integer", array("unsigned" => $this->unsigned));
+        $logTable->addColumn("level", "integer");
         $logTable->addIndex( array( 'level' ) );
         $logTable->addColumn("date", "datetime");
         $logTable->addIndex( array( 'date' ) );
@@ -325,9 +316,9 @@ class IntegrityChecker
         $logTable->addColumn("route", "string", array("length" => 128));
         $logTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
         $logTable->addColumn("file", "string", array("length" => 128, "default" => ""));
-        $logTable->addColumn("line", "integer", array("unsigned" => $this->unsigned));
+        $logTable->addColumn("line", "integer");
         $logTable->addColumn("contenttype", "string", array("length" => 32));
-        $logTable->addColumn("content_id", "integer", array("unsigned" => $this->unsigned));
+        $logTable->addColumn("content_id", "integer");
         $logTable->addColumn("code", "string", array("length" => 32));
         $logTable->addIndex( array( 'code' ) );
         $logTable->addColumn("dump", "string", array("length" => 1024));
@@ -353,7 +344,7 @@ class IntegrityChecker
             $tablename = $this->prefix . makeSlug($key);
 
             $myTable = $schema->createTable($tablename);
-            $myTable->addColumn("id", "integer", array("unsigned" => $this->unsigned, 'autoincrement' => true));
+            $myTable->addColumn("id", "integer", array('autoincrement' => true));
             $myTable->setPrimaryKey(array("id"));
             $myTable->addColumn("slug", "string", array("length" => 128));
             $myTable->addIndex( array( 'slug' ) );
