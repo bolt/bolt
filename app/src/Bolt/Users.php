@@ -263,7 +263,9 @@ class Users
 
             $update = array(
                 'lastseen' => date('Y-m-d H:i:s'),
-                'lastip' => $_SERVER['REMOTE_ADDR']
+                'lastip' => $_SERVER['REMOTE_ADDR'],
+                'failedlogins' => 0,
+                'throttleduntil' => $this->throttleUntil(0)
             );
 
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
@@ -279,8 +281,42 @@ class Users
 
         } else {
             $this->session->getFlashBag()->set('error', __('Username or password not correct. Please check your input.'));
+            $this->app['log']->add("Failed login attempt for '" . $user['displayname'] . "'.", 3, '', 'issue');
+
+            // Update the failed login attempts, and perhaps throttle the logins.
+            $update = array(
+                'failedlogins' => $user['failedlogins'] + 1,
+                'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
+            );
+
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+
+            // Take a nap, to prevent brute-forcing. Zzzzz...
+            session_write_close();
+            sleep(2);
 
             return false;
+        }
+
+    }
+
+    /**
+     * Calculate the amount of time until we should throttle login attempts for a user.
+     * The amount is increased exponentially with each attempt: 1, 4, 9, 16, 25, 36, .. seconds.
+     *
+     * Note: I just realized this is conceptually wrong: we should throttle based on
+     * remote_addr, not username. So, this isn't used, yet.
+     *
+     * @param $attempts
+     * @return string
+     */
+    private function throttleUntil($attempts) {
+
+        if ($attempts < 5 ) {
+            return "0000-00-00 00:00:00";
+        } else {
+            $wait = pow(($attempts - 4), 2);
+            return date("Y-m-d H:i:s", strtotime("+$wait seconds"));
         }
 
     }

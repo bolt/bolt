@@ -263,8 +263,8 @@ class IntegrityChecker
         $usersTable->setPrimaryKey(array("id"));
         $usersTable->addColumn("username", "string", array("length" => 32));
         $usersTable->addIndex( array( 'username' ) );
-        $usersTable->addColumn("password", "string", array("length" => 64));
-        $usersTable->addColumn("email", "string", array("length" => 64));
+        $usersTable->addColumn("password", "string", array("length" => 128));
+        $usersTable->addColumn("email", "string", array("length" => 128));
         $usersTable->addColumn("lastseen", "datetime");
         $usersTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
         $usersTable->addColumn("displayname", "string", array("length" => 32));
@@ -272,6 +272,11 @@ class IntegrityChecker
         $usersTable->addColumn("contenttypes", "string", array("length" => 256));
         $usersTable->addColumn("enabled", "boolean");
         $usersTable->addIndex( array( 'enabled' ) );
+        $usersTable->addColumn("shadowpassword", "string", array("length" => 128));
+        $usersTable->addColumn("shadowtoken", "string", array("length" => 128));
+        $usersTable->addColumn("shadowvalidity", "datetime");
+        $usersTable->addColumn("failedlogins", "integer");
+        $usersTable->addColumn("throttleduntil", "datetime");
         $tables[] = $usersTable;
 
         $taxonomyTable = $schema->createTable($this->prefix."taxonomy");
