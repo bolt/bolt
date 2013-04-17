@@ -1281,8 +1281,13 @@ class Storage
             $contenttype = $this->app['config']['contenttypes'][$contenttypeslug];
         } else {
             foreach ($this->app['config']['contenttypes'] as $key => $ct) {
+                if (isset($ct['singular_slug']) && ($contenttypeslug == $ct['singular_slug'])) {
+                    $contenttype = $this->app['config']['contenttypes'][$key];
+                    break;
+                }
                 if ($contenttypeslug == makeSlug($ct['singular_name']) || $contenttypeslug == makeSlug($ct['name'])) {
                     $contenttype = $this->app['config']['contenttypes'][$key];
+                    break;
                 }
             }
         }
