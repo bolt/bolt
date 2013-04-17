@@ -31,6 +31,7 @@
             </p>
             <p style="margin-top: 0px; display: none;" class="reset">
                 <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
+                <button type="button" class="btn remembered" style="margin-left: 20px;"> {{ __('Back to login') }}</button>
             </p>
 
         </form>
@@ -47,7 +48,10 @@
         $('.forgot').bind('click', function(e){
             $('.login, .password').slideUp('slow');
             $('.reset').slideDown('slow');
-            console.log('clicked');
+        });
+        $('.remembered').bind('click', function(e){
+            $('.login, .password').slideDown('slow');
+            $('.reset').slideUp('slow');
         });
     });
 </script>
