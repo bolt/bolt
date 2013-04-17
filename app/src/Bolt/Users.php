@@ -279,7 +279,12 @@ class Users
                 'throttleduntil' => $this->throttleUntil(0)
             );
 
-            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+            // Attempt to update the last login, but don't break on failure.
+            try {
+                $this->db->update($this->usertable, $update, array('id' => $user['id']));
+            } catch(\Doctrine\DBAL\DBALException $e) {
+                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+            }
 
             $user = $this->getUser($user['id']);
 
