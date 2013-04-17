@@ -395,6 +395,9 @@ ul.dropdown-menu li a.nolink {
     color: #888 !important;
 }
 
+aside {
+    margin-top: 15px;
+}
 
 aside section {
     background-color: #F2F1ED;
@@ -463,7 +466,7 @@ aside .btn {
 div.extension {
     border: 1px solid #CCC;
     background: #FFF;
-    border-radius: 6px;
+    border-radius: 2px;
     padding: 0 10px 8px;
     margin: 0 10px 8px 0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
