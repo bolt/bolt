@@ -112,6 +112,10 @@ hr {
     margin: 80px 0 20px 20px;
 }
 
+.logincontainer {
+    max-width: 600px;
+}
+
 .loginform {
     background-color: #FFF;
     box-shadow: 0px 0px 150px 10px rgba(0, 0, 0, 0.15);
