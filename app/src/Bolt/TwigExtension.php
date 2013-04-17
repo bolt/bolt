@@ -567,19 +567,19 @@ class TwigExtension extends \Twig_Extension
         $thumbconf = $this->app['config']['general']['thumbnails'];
 
         if (empty($width)) {
-            $width = !empty($thumbconf[0]) ? $thumbconf[0] : 100;
+            $width = !empty($thumbconf['default_thumbnail'][0]) ? $thumbconf['default_thumbnail'][0] : 100;
         } else {
             $width = (int)$width;
         }
 
         if (empty($height)) {
-            $height = !empty($thumbconf[1]) ? $thumbconf[1] : 100;
+            $height = !empty($thumbconf['default_thumbnail'][1]) ? $thumbconf['default_thumbnail'][1] : 100;
         } else {
             $height = (int)$height;
         }
 
         if (empty($crop)) {
-            $crop = !empty($thumbconf[2]) ? $thumbconf[2] : 'c';
+            $crop = !empty($thumbconf['cropping']) ? $thumbconf['cropping'] : 'c';
         } else {
             $crop = substr($crop, 0, 1);
         }

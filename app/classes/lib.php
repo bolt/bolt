@@ -732,7 +732,14 @@ function getConfig()
         'cookies_use_httphost' => true,
         'cookies_https_only' => false,
         'cookies_lifetime' => 14*24*3600,
-        'thumbnails' => array(160, 120, 'c'),
+        'thumbnails' => array(
+            'default_thumbnail' => array(160, 120),
+            'default_image' => array(1000, 750),
+            'quality' => 75,
+            'cropping' => 'crop',
+            'notfound_image' => 'view/img/default_notfound.png',
+            'error_image' => 'view/img/default_error.png'
+        ),
         'hash_strength' => 10,
         'branding' => array(
             'name' => "Bolt",

@@ -28,14 +28,31 @@
 
 $requesturi = $_SERVER['REQUEST_URI'];
 
-$res = preg_match("^thumbs/([0-9]+)x([0-9]+)([a-z]?)/(.*)^i", $requesturi , $matches);
+$res = preg_match("^thumbs/([0-9]+)x([0-9]+)([a-z]*)/(.*)^i", $requesturi , $matches);
 
 if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {    
-    //die("Malformed thumbnail URL. Should look like '/thumbs/320x240c/filename.jpg'.");
+    die("Malformed thumbnail URL. Should look like '/thumbs/320x240c/filename.jpg'.");
 }
 
-// Bolt specific: Set LOCAL_FILE_BASE_DIRECTORY, used below..
-define('LOCAL_FILE_BASE_DIRECTORY', dirname(dirname(dirname(__FILE__))));
+/**
+ * Bolt specific: Set BOLT_PROJECT_ROOT_DIR, and Bolt-specific settings..
+ */
+if (substr(__DIR__, -21) == '/vendor/bolt/bolt/app') { // installed bolt with composer
+    define('BOLT_PROJECT_ROOT_DIR', dirname(substr(__DIR__, 0, -21)));
+} else {
+    define('BOLT_PROJECT_ROOT_DIR', dirname(dirname(__DIR__)));
+}
+
+// Let's get on with the rest..
+require_once BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php';
+$yamlparser = new Symfony\Component\Yaml\Parser();
+$config['general'] = $yamlparser->parse(file_get_contents(BOLT_PROJECT_ROOT_DIR .'/app/config/config.yml') . "\n");
+
+// Set some default settings, as defined in our config.yml
+define('DEFAULT_Q', !empty($config['general']['thumbnails']['quality']) ? $config['general']['thumbnails']['quality'] : 70);
+define('DEFAULT_ZC', !empty($config['general']['thumbnails']['cropping']) ? $config['general']['thumbnails']['cropping'] : 'crop');
+define('NOT_FOUND_IMAGE', !empty($config['general']['thumbnails']['notfound_image']) ? "../" . $config['general']['thumbnails']['notfound_image'] : "");
+define('ERROR_IMAGE', !empty($config['general']['thumbnails']['error_image']) ? "../" . $config['general']['thumbnails']['error_image'] : "");
 
 $_GET['src'] = "files/".urldecode($matches[4]);
 $_GET['src'] = str_replace("files/files/", "files/", $_GET['src']);
@@ -45,15 +62,19 @@ $_GET['h'] = $matches[2];
 
 switch ($matches[3]) {
     case "f":
-        $_GET['zc'] = 0; 
+    case "fit":
+        $_GET['zc'] = 0;
         break;
     case "b":
-        $_GET['zc'] = 2; 
+    case "borders":
+        $_GET['zc'] = 2;
         break;
     case "r":
-        $_GET['zc'] = 3; 
+    case "resize":
+        $_GET['zc'] = 3;
         break;
     case "c":
+    case "crop":
     default:
         $_GET['zc'] = 1; 
         break;
@@ -62,6 +83,9 @@ switch ($matches[3]) {
 // Implode back to _SERVER['QUERY_STRING'], because that's used for the cache filename generation, around line 313 or so
 $_SERVER['QUERY_STRING'] = http_build_query($_GET);
 
+/**
+ * End of Bolt-specific settings..
+ */
 
 /*
  * --- TimThumb CONFIGURATION ---
@@ -875,8 +899,8 @@ class timthumb {
 	}
 	protected function calcDocRoot(){
 		$docRoot = @$_SERVER['DOCUMENT_ROOT'];
-		if (defined('LOCAL_FILE_BASE_DIRECTORY')) {
-			$docRoot = LOCAL_FILE_BASE_DIRECTORY;   
+		if (defined('BOLT_PROJECT_ROOT_DIR')) {
+			$docRoot = BOLT_PROJECT_ROOT_DIR;   
 		}
 		if(!isset($docRoot)){ 
 			$this->debug(3, "DOCUMENT_ROOT is not set. This is probably windows. Starting search 1.");
