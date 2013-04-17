@@ -10,7 +10,8 @@
         {# This template is used for 'listings': Generic pages that list a number of
            records from a certain contenttype. These records are available as an array
            called 'records'. In the for-loop below, we iterate over the records that
-           are on this page. #}
+           are on this page. It can be used for overview pages like 'all entries', or
+           'all records tagged with kittens' as well as search result. #}
 
         {# if used for listing a taxonomy: #}
         {% if taxonomytype is defined %}
@@ -21,6 +22,16 @@
                 {% else %}
                     {{ slug }}
                 {% endif %}
+            </h1>
+        {% endif %}
+
+        {# This is also the default template for searchresults. If 'search' is defined,
+           we display an appropriate title. The 'records' array contains all of the
+           records matching the current query. If there are no results, the
+           code in the 'else' part of the for-loop is used. #}
+        {% if search is defined %}
+            <h1>
+                {{ __('Search results for <b> %search% </b>.', { '%search%': search }) }}
             </h1>
         {% endif %}
 
@@ -55,12 +66,24 @@
 
         {% else %}
             <article>
-                <h2>No content found.</h2>
 
-                <p>
-                    Unfortunately, no content could be found. Try another page, or go to the
-                    <a href="{{ paths.root }}">homepage</a>.
-                </p>
+
+                {% if search is defined %}
+
+                    <p>
+                        {{ __("No results found for '%search%'. Please try another search.", { '%search%': search }) }}
+                    </p>
+
+                {% else %}
+
+                    <h2>No content found.</h2>
+
+                    <p>
+                        Unfortunately, no content could be found. Try another page, or go to the
+                        <a href="{{ paths.root }}">homepage</a>.
+                    </p>
+
+                {% endif %}
 
                 {#
                 optionally, you can redirect the browser to another page. Just uncomment the next line to do so.
