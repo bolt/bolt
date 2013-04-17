@@ -27,14 +27,14 @@ class Users
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
+        $this->db = $app['db'];
+        $this->config = $app['config'];
 
         $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
 
         // Hashstrength has a default of '10', don't allow less than '8'.
         $this->hash_strength = max($this->config['general']['hash_strength'], 8);
 
-        $this->db = $app['db'];
-        $this->config = $app['config'];
         $this->usertable = $prefix . "users";
         $this->users = array();
         $this->session = $app['session'];
@@ -157,7 +157,7 @@ class Users
             return false;
         }
 
-        if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS ) {
+        if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS) {
             $this->logout();
             return false;
         }
@@ -181,7 +181,7 @@ class Users
         }
 
         // Check if user is _still_ allowed to log on..
-        if ( ($this->currentuser['userlevel'] < self::EDITOR) || !$this->currentuser['enabled'] ) {
+        if (($this->currentuser['userlevel'] < self::EDITOR) || !$this->currentuser['enabled']) {
             $this->logout();
             return false;
         }
@@ -282,7 +282,7 @@ class Users
             // Attempt to update the last login, but don't break on failure.
             try {
                 $this->db->update($this->usertable, $update, array('id' => $user['id']));
-            } catch(\Doctrine\DBAL\DBALException $e) {
+            } catch (\Doctrine\DBAL\DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
 
@@ -322,7 +322,7 @@ class Users
         $user = $this->getUser($username);
 
         // For safety, this is the message we display, regardless of whether $user exists.
-        $this->session->getFlashBag()->set('info', __("A password reset link has been sent to '%user%'.", array('%user%' => $username) ));
+        $this->session->getFlashBag()->set('info', __("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
 
         if (!empty($user)) {
 
@@ -332,7 +332,8 @@ class Users
             $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
             $shadowhashed = $hasher->HashPassword($shadowpassword);
 
-            $shadowlink = sprintf("%s%sresetpassword?token=%s",
+            $shadowlink = sprintf(
+                "%s%sresetpassword?token=%s",
                 $this->app['paths']['hosturl'],
                 $this->app['paths']['bolt'],
                 $shadowtoken
@@ -351,9 +352,8 @@ class Users
                 'user' => $user,
                 'shadowpassword' => $shadowpassword,
                 'shadowtoken' => $shadowtoken,
-                'shadowvalidity' => $shadowvalidity,
-                'shadowlink' => $shadowlink,
-
+                'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
+                'shadowlink' => $shadowlink
             ));
 
             // echo $mailhtml;
@@ -432,9 +432,10 @@ class Users
      * @param $attempts
      * @return string
      */
-    private function throttleUntil($attempts) {
+    private function throttleUntil($attempts)
+    {
 
-        if ($attempts < 5 ) {
+        if ($attempts < 5) {
             return "0000-00-00 00:00:00";
         } else {
             $wait = pow(($attempts - 4), 2);
@@ -451,7 +452,8 @@ class Users
      * Log out the currently logged in user.
      *
      */
-    public function logout() {
+    public function logout()
+    {
         $this->session->getFlashBag()->set('info', __('You have been logged out.'));
         $this->session->remove('user');
         // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
@@ -517,7 +519,7 @@ class Users
                     }
 
                     // Make sure contenttypes is an array.
-                    if (!array_key_exists('contenttypes', $this->users[$key])){
+                    if (!array_key_exists('contenttypes', $this->users[$key])) {
                         $this->users[$key]['contenttypes'] = "";
                     }
                     $this->users[$key]['contenttypes'] = unserialize($this->users[$key]['contenttypes']);
@@ -561,7 +563,7 @@ class Users
         $this->getUsers();
 
         if (is_numeric($id)) {
-            foreach ($this->users as $key => $user) {
+            foreach ($this->users as $user) {
                 if ($user['id']==$id) {
                     return $user;
                 }
@@ -582,7 +584,8 @@ class Users
      *
      * @return array
      */
-    public function getCurrentUser() {
+    public function getCurrentUser()
+    {
 
         return $this->currentuser;
 
@@ -593,7 +596,8 @@ class Users
      *
      * @return string the username of the current user.
      */
-    public function getCurrentUsername() {
+    public function getCurrentUsername()
+    {
 
         return $this->currentuser['username'];
 
@@ -642,7 +646,7 @@ class Users
     public function isAllowed($what)
     {
 
-        if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel']) ) {
+        if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel'])) {
             // printf(" %s > %s ", $this->allowed[$what], $this->currentuser['userlevel']);
             return false;
         } else {
@@ -664,8 +668,8 @@ class Users
     public function checkAvailability($fieldname, $value, $currentid=0)
     {
 
-        foreach ($this->users as $key => $user) {
-            if ( (makeSlug($user[$fieldname]) == makeSlug($value)) && ($user['id'] != $currentid) ) {
+        foreach ($this->users as $user) {
+            if ((makeSlug($user[$fieldname]) == makeSlug($value)) && ($user['id'] != $currentid)) {
                 return false;
             }
         }
@@ -673,5 +677,4 @@ class Users
         // no clashes found, OK!
         return true;
     }
-
 }
