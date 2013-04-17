@@ -135,6 +135,8 @@
         <div class='imageholder' id="thumbnail-{{key}}">
             {% if content.get(key)!="" %}
             <img src="{{ content.get(key)|thumbnail(120, 120, 'c') }}" width="120" height="120">
+            {% else %}
+            <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
             {% endif %}
         </div>
     </div>
@@ -163,15 +165,22 @@
 {% if not ismobileclient() %}
 
 <script type="text/javascript">
+    $(function() {
+        bindFileUpload('{{key}}');
 
-bindFileUpload('{{key}}');
+        $("#field-{{key}}").autocomplete({
+            source: "{{ paths.async }}filesautocomplete",
+            minLength: 2,
+            close: function(){
+                if ($('#field-{{key}}').val() != "" ) {
+                    $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>");
+                } else {
+                    $('#thumbnail-{{key}}').html("<img src='{{ app.paths.app }}view/img/default_empty.png' width='120' height='120'>");
+                }
+            }
+        });
 
-$("#field-{{key}}").autocomplete({
-    source: "{{ paths.async }}filesautocomplete",
-    minLength: 2,
-    close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>"); }
-});
-
+    });
 </script>
 {% endif %}
 
@@ -211,13 +220,14 @@ $("#field-{{key}}").autocomplete({
     {% if not ismobileclient() %}
         <div style="clear: left;" class="hide-tablet"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
         <script type="text/javascript">
-            bindFileUpload('{{key}}');
+            $(function() {
+                bindFileUpload('{{key}}');
 
-            $("#field-{{key}}").autocomplete({
-                source: "{{ paths.async }}filesautocomplete?ext={{ field.extensions|join(',') }}",
-                minLength: 2
+                $("#field-{{key}}").autocomplete({
+                    source: "{{ paths.async }}filesautocomplete?ext={{ field.extensions|join(',') }}",
+                    minLength: 2
+                });
             });
-
         </script>
     {% endif %}
 
@@ -251,10 +261,10 @@ $("#field-{{key}}").autocomplete({
 </div>
 
 
-<script>
-jQuery(function($) {
-    imagelist = new ImagelistHolder({id: '{{key}}'});
-});
+<script type="text/javascript">
+    $(function() {
+        imagelist = new ImagelistHolder({id: '{{key}}'});
+    });
 </script>
 
 {% endif %}
@@ -267,9 +277,11 @@ jQuery(function($) {
 <div class="dropzone">
 
     <div class="video-right hide-phone">
-        <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px;">
+        <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px; text-align: center; background-color: #F8F8F8;">
             {% if video.thumbnail|default('') %}
                 <img src="{{ video.thumbnail }}" width="160" height="120">
+            {% else %}
+                <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
             {% endif %}
         </div>
     </div>
@@ -410,7 +422,9 @@ jQuery(function($) {
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
 
 <script type="text/javascript">
-    bindMarkdown('{{key}}');
+    $(function() {
+        bindMarkdown('{{key}}');
+    });
 </script>
 
 {% endif %}
@@ -424,10 +438,12 @@ jQuery(function($) {
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
 <input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key) }}">
-<script>
-    $('#{{key}}-date').on('change', function(){
-        var date = $('#{{key}}-date').datepicker( "getDate" );
-        $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date));
+<script type="text/javascript">
+    $(function() {
+        $('#{{key}}-date').on('change', function(){
+            var date = $('#{{key}}-date').datepicker( "getDate" );
+            $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date));
+        });
     });
 </script>
 {% endif %}
@@ -444,11 +460,13 @@ jQuery(function($) {
     value='{% if content.get(key) %}{{ content.get(key)|date('H:i') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>
 <input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key) }}">
-<script>
-    $('#{{key}}-date, #{{key}}-time').on('change', function(){
-        var date = $('#{{key}}-date').datepicker("getDate");
-        var time = $('#{{key}}-time').val() + ":00";
-        $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+<script type="text/javascript">
+    $(function() {
+        $('#{{key}}-date, #{{key}}-time').on('change', function(){
+            var date = $('#{{key}}-date').datepicker("getDate");
+            var time = $('#{{key}}-time').val() + ":00";
+            $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+        });
     });
 </script>
 {% endif %}
