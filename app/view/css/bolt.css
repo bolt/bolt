@@ -166,7 +166,7 @@ hr {
 
 .navbar .brand strong {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .navbar .brand span {
