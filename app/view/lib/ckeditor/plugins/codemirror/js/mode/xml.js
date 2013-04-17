@@ -1,10 +1,328 @@
-﻿CodeMirror.defineMode("xml",function(u,n){function j(a,b){function d(d){b.tokenize=d;return d(a,b)}var l=a.next();if("<"==l){if(a.eat("!"))return a.eat("[")?a.match("CDATA[")?d(o("atom","]]\>")):null:a.match("--")?d(o("comment","--\>")):a.match("DOCTYPE",!0,!0)?(a.eatWhile(/[\w\._\-]/),d(p(1))):null;if(a.eat("?"))return a.eatWhile(/[\w\._\-]/),b.tokenize=o("meta","?>"),"meta";l=a.eat("/");g="";for(var c;c=a.eat(/[^\s\u00a0=<>\"\'\/?]/);)g+=c;if(!g)return"error";h=l?"closeTag":"openTag";b.tokenize=
-q;return"tag"}if("&"==l)return(a.eat("#")?a.eat("x")?a.eatWhile(/[a-fA-F\d]/)&&a.eat(";"):a.eatWhile(/[\d]/)&&a.eat(";"):a.eatWhile(/[\w\.\-:]/)&&a.eat(";"))?"atom":"error";a.eatWhile(/[^&<]/);return null}function q(a,b){var d=a.next();if(">"==d||"/"==d&&a.eat(">"))return b.tokenize=j,h=">"==d?"endTag":"selfcloseTag","tag";if("="==d)return h="equals",null;if(/[\'\"]/.test(d))return b.tokenize=v(d),b.tokenize(a,b);a.eatWhile(/[^\s\u00a0=<>\"\']/);return"word"}function v(a){return function(b,d){for(;!b.eol();)if(b.next()==
-a){d.tokenize=q;break}return"string"}}function o(a,b){return function(d,c){for(;!d.eol();){if(d.match(b)){c.tokenize=j;break}d.next()}return a}}function p(a){return function(b,d){for(var c;null!=(c=b.next());){if("<"==c)return d.tokenize=p(a+1),d.tokenize(b,d);if(">"==c)if(1==a){d.tokenize=j;break}else return d.tokenize=p(a-1),d.tokenize(b,d)}return"meta"}}function k(){for(var a=arguments.length-1;0<=a;a--)c.cc.push(arguments[a])}function e(){k.apply(null,arguments);return!0}function r(){c.context&&
-(c.context=c.context.prev)}function w(a){return"openTag"==a?(c.tagName=g,e(m,x(c.startOfLine))):"closeTag"==a?(a=!1,c.context?c.context.tagName!=g&&(i.implicitlyClosed.hasOwnProperty(c.context.tagName.toLowerCase())&&r(),a=!c.context||c.context.tagName!=g):a=!0,a&&(f="error"),e(y(a))):e()}function x(a){return function(b){var d=c.tagName;c.tagName=null;if("selfcloseTag"==b||"endTag"==b&&i.autoSelfClosers.hasOwnProperty(d.toLowerCase()))return s(d.toLowerCase()),e();"endTag"==b&&(s(d.toLowerCase()),
-b=i.doNotIndent.hasOwnProperty(d)||c.context&&c.context.noIndent,c.context={prev:c.context,tagName:d,indent:c.indented,startOfLine:a,noIndent:b});return e()}}function y(a){return function(b){a&&(f="error");if("endTag"==b)return r(),e();f="error";return e(arguments.callee)}}function s(a){for(var b;c.context;){b=c.context.tagName.toLowerCase();if(!i.contextGrabbers.hasOwnProperty(b)||!i.contextGrabbers[b].hasOwnProperty(a))break;r()}}function m(a){if("word"==a)return f="attribute",e(z,m);if("endTag"==
-a||"selfcloseTag"==a)return k();f="error";return e(m)}function z(a){if("equals"==a)return e(A,m);i.allowMissing?"word"==a&&(f="attribute"):f="error";return"endTag"==a||"selfcloseTag"==a?k():e()}function A(a){if("string"==a)return e(t);if("word"==a&&i.allowUnquoted)return f="string",e();f="error";return"endTag"==a||"selfCloseTag"==a?k():e()}function t(a){return"string"==a?e(t):k()}var B=u.indentUnit,i=n.htmlMode?{autoSelfClosers:{area:!0,base:!0,br:!0,col:!0,command:!0,embed:!0,frame:!0,hr:!0,img:!0,
-input:!0,keygen:!0,link:!0,meta:!0,param:!0,source:!0,track:!0,wbr:!0},implicitlyClosed:{dd:!0,li:!0,optgroup:!0,option:!0,p:!0,rp:!0,rt:!0,tbody:!0,td:!0,tfoot:!0,th:!0,tr:!0},contextGrabbers:{dd:{dd:!0,dt:!0},dt:{dd:!0,dt:!0},li:{li:!0},option:{option:!0,optgroup:!0},optgroup:{optgroup:!0},p:{address:!0,article:!0,aside:!0,blockquote:!0,dir:!0,div:!0,dl:!0,fieldset:!0,footer:!0,form:!0,h1:!0,h2:!0,h3:!0,h4:!0,h5:!0,h6:!0,header:!0,hgroup:!0,hr:!0,menu:!0,nav:!0,ol:!0,p:!0,pre:!0,section:!0,table:!0,
-ul:!0},rp:{rp:!0,rt:!0},rt:{rp:!0,rt:!0},tbody:{tbody:!0,tfoot:!0},td:{td:!0,th:!0},tfoot:{tbody:!0},th:{td:!0,th:!0},thead:{tbody:!0,tfoot:!0},tr:{tr:!0}},doNotIndent:{pre:!0},allowUnquoted:!0,allowMissing:!0}:{autoSelfClosers:{},implicitlyClosed:{},contextGrabbers:{},doNotIndent:{},allowUnquoted:!1,allowMissing:!1},C=n.alignCDATA,g,h,c,f;return{startState:function(){return{tokenize:j,cc:[],indented:0,startOfLine:!0,tagName:null,context:null}},token:function(a,b){a.sol()&&(b.startOfLine=!0,b.indented=
-a.indentation());if(a.eatSpace())return null;f=h=g=null;var d=b.tokenize(a,b);b.type=h;if((d||h)&&"comment"!=d)for(c=b;!(b.cc.pop()||w)(h||d););b.startOfLine=!1;return f||d},indent:function(a,b,d){var c=a.context;if(a.tokenize!=q&&a.tokenize!=j||c&&c.noIndent)return d?d.match(/^(\s*)/)[0].length:0;if(C&&/<!\[CDATA\[/.test(b))return 0;c&&/^<\//.test(b)&&(c=c.prev);for(;c&&!c.startOfLine;)c=c.prev;return c?c.indent+B:0},electricChars:"/",configuration:n.htmlMode?"html":"xml"}});
-CodeMirror.defineMIME("text/xml","xml");CodeMirror.defineMIME("application/xml","xml");CodeMirror.mimeModes.hasOwnProperty("text/html")||CodeMirror.defineMIME("text/html",{name:"xml",htmlMode:!0});
+CodeMirror.defineMode("xml", function(config, parserConfig) {
+  var indentUnit = config.indentUnit;
+  var multilineTagIndentFactor = parserConfig.multilineTagIndentFactor || 1;
+
+  var Kludges = parserConfig.htmlMode ? {
+    autoSelfClosers: {'area': true, 'base': true, 'br': true, 'col': true, 'command': true,
+                      'embed': true, 'frame': true, 'hr': true, 'img': true, 'input': true,
+                      'keygen': true, 'link': true, 'meta': true, 'param': true, 'source': true,
+                      'track': true, 'wbr': true},
+    implicitlyClosed: {'dd': true, 'li': true, 'optgroup': true, 'option': true, 'p': true,
+                       'rp': true, 'rt': true, 'tbody': true, 'td': true, 'tfoot': true,
+                       'th': true, 'tr': true},
+    contextGrabbers: {
+      'dd': {'dd': true, 'dt': true},
+      'dt': {'dd': true, 'dt': true},
+      'li': {'li': true},
+      'option': {'option': true, 'optgroup': true},
+      'optgroup': {'optgroup': true},
+      'p': {'address': true, 'article': true, 'aside': true, 'blockquote': true, 'dir': true,
+            'div': true, 'dl': true, 'fieldset': true, 'footer': true, 'form': true,
+            'h1': true, 'h2': true, 'h3': true, 'h4': true, 'h5': true, 'h6': true,
+            'header': true, 'hgroup': true, 'hr': true, 'menu': true, 'nav': true, 'ol': true,
+            'p': true, 'pre': true, 'section': true, 'table': true, 'ul': true},
+      'rp': {'rp': true, 'rt': true},
+      'rt': {'rp': true, 'rt': true},
+      'tbody': {'tbody': true, 'tfoot': true},
+      'td': {'td': true, 'th': true},
+      'tfoot': {'tbody': true},
+      'th': {'td': true, 'th': true},
+      'thead': {'tbody': true, 'tfoot': true},
+      'tr': {'tr': true}
+    },
+    doNotIndent: {"pre": true},
+    allowUnquoted: true,
+    allowMissing: true
+  } : {
+    autoSelfClosers: {},
+    implicitlyClosed: {},
+    contextGrabbers: {},
+    doNotIndent: {},
+    allowUnquoted: false,
+    allowMissing: false
+  };
+  var alignCDATA = parserConfig.alignCDATA;
+
+  // Return variables for tokenizers
+  var tagName, type;
+
+  function inText(stream, state) {
+    function chain(parser) {
+      state.tokenize = parser;
+      return parser(stream, state);
+    }
+
+    var ch = stream.next();
+    if (ch == "<") {
+      if (stream.eat("!")) {
+        if (stream.eat("[")) {
+          if (stream.match("CDATA[")) return chain(inBlock("atom", "]]>"));
+          else return null;
+        }
+        else if (stream.match("--")) return chain(inBlock("comment", "-->"));
+        else if (stream.match("DOCTYPE", true, true)) {
+          stream.eatWhile(/[\w\._\-]/);
+          return chain(doctype(1));
+        }
+        else return null;
+      }
+      else if (stream.eat("?")) {
+        stream.eatWhile(/[\w\._\-]/);
+        state.tokenize = inBlock("meta", "?>");
+        return "meta";
+      }
+      else {
+        var isClose = stream.eat("/");
+        tagName = "";
+        var c;
+        while ((c = stream.eat(/[^\s\u00a0=<>\"\'\/?]/))) tagName += c;
+        if (!tagName) return "error";
+        type = isClose ? "closeTag" : "openTag";
+        state.tokenize = inTag;
+        return "tag";
+      }
+    }
+    else if (ch == "&") {
+      var ok;
+      if (stream.eat("#")) {
+        if (stream.eat("x")) {
+          ok = stream.eatWhile(/[a-fA-F\d]/) && stream.eat(";");          
+        } else {
+          ok = stream.eatWhile(/[\d]/) && stream.eat(";");
+        }
+      } else {
+        ok = stream.eatWhile(/[\w\.\-:]/) && stream.eat(";");
+      }
+      return ok ? "atom" : "error";
+    }
+    else {
+      stream.eatWhile(/[^&<]/);
+      return null;
+    }
+  }
+
+  function inTag(stream, state) {
+    var ch = stream.next();
+    if (ch == ">" || (ch == "/" && stream.eat(">"))) {
+      state.tokenize = inText;
+      type = ch == ">" ? "endTag" : "selfcloseTag";
+      return "tag";
+    }
+    else if (ch == "=") {
+      type = "equals";
+      return null;
+    }
+    else if (/[\'\"]/.test(ch)) {
+      state.tokenize = inAttribute(ch);
+      return state.tokenize(stream, state);
+    }
+    else {
+      stream.eatWhile(/[^\s\u00a0=<>\"\']/);
+      return "word";
+    }
+  }
+
+  function inAttribute(quote) {
+    return function(stream, state) {
+      while (!stream.eol()) {
+        if (stream.next() == quote) {
+          state.tokenize = inTag;
+          break;
+        }
+      }
+      return "string";
+    };
+  }
+
+  function inBlock(style, terminator) {
+    return function(stream, state) {
+      while (!stream.eol()) {
+        if (stream.match(terminator)) {
+          state.tokenize = inText;
+          break;
+        }
+        stream.next();
+      }
+      return style;
+    };
+  }
+  function doctype(depth) {
+    return function(stream, state) {
+      var ch;
+      while ((ch = stream.next()) != null) {
+        if (ch == "<") {
+          state.tokenize = doctype(depth + 1);
+          return state.tokenize(stream, state);
+        } else if (ch == ">") {
+          if (depth == 1) {
+            state.tokenize = inText;
+            break;
+          } else {
+            state.tokenize = doctype(depth - 1);
+            return state.tokenize(stream, state);
+          }
+        }
+      }
+      return "meta";
+    };
+  }
+
+  var curState, curStream, setStyle;
+  function pass() {
+    for (var i = arguments.length - 1; i >= 0; i--) curState.cc.push(arguments[i]);
+  }
+  function cont() {
+    pass.apply(null, arguments);
+    return true;
+  }
+
+  function pushContext(tagName, startOfLine) {
+    var noIndent = Kludges.doNotIndent.hasOwnProperty(tagName) || (curState.context && curState.context.noIndent);
+    curState.context = {
+      prev: curState.context,
+      tagName: tagName,
+      indent: curState.indented,
+      startOfLine: startOfLine,
+      noIndent: noIndent
+    };
+  }
+  function popContext() {
+    if (curState.context) curState.context = curState.context.prev;
+  }
+
+  function element(type) {
+    if (type == "openTag") {
+      curState.tagName = tagName;
+      curState.tagStart = curStream.column();
+      return cont(attributes, endtag(curState.startOfLine));
+    } else if (type == "closeTag") {
+      var err = false;
+      if (curState.context) {
+        if (curState.context.tagName != tagName) {
+          if (Kludges.implicitlyClosed.hasOwnProperty(curState.context.tagName.toLowerCase())) {
+            popContext();
+          }
+          err = !curState.context || curState.context.tagName != tagName;
+        }
+      } else {
+        err = true;
+      }
+      if (err) setStyle = "error";
+      return cont(endclosetag(err));
+    }
+    return cont();
+  }
+  function endtag(startOfLine) {
+    return function(type) {
+      var tagName = curState.tagName;
+      curState.tagName = curState.tagStart = null;
+      if (type == "selfcloseTag" ||
+          (type == "endTag" && Kludges.autoSelfClosers.hasOwnProperty(tagName.toLowerCase()))) {
+        maybePopContext(tagName.toLowerCase());
+        return cont();
+      }
+      if (type == "endTag") {
+        maybePopContext(tagName.toLowerCase());
+        pushContext(tagName, startOfLine);
+        return cont();
+      }
+      return cont();
+    };
+  }
+  function endclosetag(err) {
+    return function(type) {
+      if (err) setStyle = "error";
+      if (type == "endTag") { popContext(); return cont(); }
+      setStyle = "error";
+      return cont(arguments.callee);
+    };
+  }
+  function maybePopContext(nextTagName) {
+    var parentTagName;
+    while (true) {
+      if (!curState.context) {
+        return;
+      }
+      parentTagName = curState.context.tagName.toLowerCase();
+      if (!Kludges.contextGrabbers.hasOwnProperty(parentTagName) ||
+          !Kludges.contextGrabbers[parentTagName].hasOwnProperty(nextTagName)) {
+        return;
+      }
+      popContext();
+    }
+  }
+
+  function attributes(type) {
+    if (type == "word") {setStyle = "attribute"; return cont(attribute, attributes);}
+    if (type == "endTag" || type == "selfcloseTag") return pass();
+    setStyle = "error";
+    return cont(attributes);
+  }
+  function attribute(type) {
+    if (type == "equals") return cont(attvalue, attributes);
+    if (!Kludges.allowMissing) setStyle = "error";
+    else if (type == "word") setStyle = "attribute";
+    return (type == "endTag" || type == "selfcloseTag") ? pass() : cont();
+  }
+  function attvalue(type) {
+    if (type == "string") return cont(attvaluemaybe);
+    if (type == "word" && Kludges.allowUnquoted) {setStyle = "string"; return cont();}
+    setStyle = "error";
+    return (type == "endTag" || type == "selfCloseTag") ? pass() : cont();
+  }
+  function attvaluemaybe(type) {
+    if (type == "string") return cont(attvaluemaybe);
+    else return pass();
+  }
+
+  return {
+    startState: function() {
+      return {tokenize: inText, cc: [], indented: 0, startOfLine: true, tagName: null, tagStart: null, context: null};
+    },
+
+    token: function(stream, state) {
+      if (!state.tagName && stream.sol()) {
+        state.startOfLine = true;
+        state.indented = stream.indentation();
+      }
+      if (stream.eatSpace()) return null;
+
+      setStyle = type = tagName = null;
+      var style = state.tokenize(stream, state);
+      state.type = type;
+      if ((style || type) && style != "comment") {
+        curState = state; curStream = stream;
+        while (true) {
+          var comb = state.cc.pop() || element;
+          if (comb(type || style)) break;
+        }
+      }
+      state.startOfLine = false;
+      return setStyle || style;
+    },
+
+    indent: function(state, textAfter, fullLine) {
+      var context = state.context;
+      if ((state.tokenize != inTag && state.tokenize != inText) ||
+          context && context.noIndent)
+        return fullLine ? fullLine.match(/^(\s*)/)[0].length : 0;
+      if (state.tagName) return state.tagStart + indentUnit * multilineTagIndentFactor;
+      if (alignCDATA && /<!\[CDATA\[/.test(textAfter)) return 0;
+      if (context && /^<\//.test(textAfter))
+        context = context.prev;
+      while (context && !context.startOfLine)
+        context = context.prev;
+      if (context) return context.indent + indentUnit;
+      else return 0;
+    },
+
+    electricChars: "/",
+
+    configuration: parserConfig.htmlMode ? "html" : "xml"
+  };
+});
+
+CodeMirror.defineMIME("text/xml", "xml");
+CodeMirror.defineMIME("application/xml", "xml");
+if (!CodeMirror.mimeModes.hasOwnProperty("text/html"))
+  CodeMirror.defineMIME("text/html", {name: "xml", htmlMode: true});
