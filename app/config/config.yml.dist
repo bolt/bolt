@@ -38,6 +38,7 @@ homepage_template: index.twig
 # The default content for the 404 page. Uses the 'record_template' template by default.
 # Make sure this is set to an existing record, otherwise visitors will get an error-page
 # when the request a non-existing page.
+# Note: If you are logged on, and debug is set to 'true', you will NOT see the 404 page!!
 notfound: page/not-found
 
 # The default template and amount of records to use for listing-pages on the site.
@@ -112,7 +113,7 @@ wysiwyg:
     subsuper: false
     embed: false
     ck:
-        #allowedContent: true # Set this to 'true' to allow any elements and attributes in Wysiwg Elements 
+        #allowedContent: true # Set this to 'true' to allow any elements and attributes in Wysiwg Elements
         #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
         filebrowserWindowWidth: '480'
         filebrowserWindowHeight: '480'
