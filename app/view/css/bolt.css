@@ -115,7 +115,12 @@ hr {
 .loginform {
     background-color: #FFF;
     box-shadow: 0px 0px 150px 10px rgba(0, 0, 0, 0.15);
+}
 
+.view-site {
+    position: absolute;
+    right: 44px;
+    top: 18px;
 }
 
 .navbar-fixed-top, .navbar-fixed-bottom  {
