@@ -109,7 +109,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
     });
 } else {
-    error_reporting(E_ALL ^ E_NOTICE);
+    error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
 }
 
 
