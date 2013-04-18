@@ -113,7 +113,7 @@ if ($app['debug']) {
     error_reporting (E_ALL );
     $old_error_handler = set_error_handler("userErrorHandler");
 } else {
-    error_reporting(E_ALL ^ E_NOTICE);
+    error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
     // error_reporting( E_ALL ^ E_NOTICE ^ E_WARNING );
 }
 
