@@ -32,6 +32,6 @@ class LogClear extends BaseCommand
 
         $this->app['log']->clear();
 
-        $output->writeln("<info>Activity logs trimmed!</info>");
+        $output->writeln("<info>Activity logs cleared!</info>");
     }
 }
