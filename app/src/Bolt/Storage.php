@@ -1103,7 +1103,7 @@ class Storage
             if ($name[0] == "-") {
                 $name = substr($name, 1);
             }
-            $name = preg_replace("/ (desc|asc)/i", "", $name);
+            $name = $this->getFieldName($name);
         }
 
         // Check if the $name is in the contenttype's fields.
@@ -1118,6 +1118,16 @@ class Storage
 
         return false;
 
+    }
+
+    /**
+     * Get field name, stripping possible " DESC" " ASC" etc
+     *
+     * @param string $name
+     * @return string
+     */
+    private function getFieldName($name) {
+        return preg_replace("/ (desc|asc)$/i", "", $name);
     }
 
     /**
@@ -1178,7 +1188,7 @@ class Storage
             }
 
             // Same group, so we sort on contenttype['sort']
-            $second_sort = $a->contenttype['sort'];
+            $second_sort = $this->getFieldName( $a->contenttype['sort'] );
             if ($a->values[$second_sort] == $b->values[$second_sort]) {
                 return 0;
             } else {
