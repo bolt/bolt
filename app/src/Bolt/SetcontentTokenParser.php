@@ -34,6 +34,8 @@ class SetcontentTokenParser extends \Twig_TokenParser
         // contenttype, or simple expression to content.
         $contenttype = $this->parser->getExpressionParser()->parseExpression();
 
+        $counter = 0;
+
         do {
 
             // where parameter
@@ -64,7 +66,16 @@ class SetcontentTokenParser extends \Twig_TokenParser
                 $arguments['paging'] = true;
             }
 
-        } while (!$this->parser->getStream()->test(\Twig_Token::BLOCK_END_TYPE));
+            // paging / allowpaging  parameter
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'printquery') ) {
+                $this->parser->getStream()->next();
+                $arguments['printquery'] = true;
+            }
+
+            // Make sure we don't get stuck in a loop, if a token can't be parsed..
+            $counter++;
+
+        } while (!$this->parser->getStream()->test(\Twig_Token::BLOCK_END_TYPE) && ($counter < 10));
 
         $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
 
