@@ -977,24 +977,38 @@ class Storage
             $returnsingle = true;
         }
 
-        $tablename = $this->prefix . $contenttype['slug'];
+        // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
+        $from = sprintf("FROM %s%s AS r", $this->prefix, $contenttype['slug']);
 
-        // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
+        // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($parameters as $key => $value) {
+
+            // Skip these..
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
-                continue; // Skip this one..
-            }
-            if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
-                !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status")) ) {
-                continue; // Also skip if 'key' isn't a field in the contenttype.
+                continue;
             }
 
-            $where[] = $this->parseWhereParameter($key, $value);
+            // for all the parameters that are fields
+            if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
+                in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status")) ) {
+                $rkey = "r." . $key;
+                $where[] = $this->parseWhereParameter($rkey, $value);
+            }
+
+
+            // for all the  parameters that are taxonomies
+            if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
+                // Set the new 'from', with LEFT JOIN for taxonomies..
+                $from = sprintf("FROM %s%s AS r LEFT JOIN %staxonomy AS t ON `r`.`id` = `t`.`content_id`", $this->prefix, $contenttype['slug'], $this->prefix);
+                $where[] = $this->parseWhereParameter("t.taxonomytype", $key);
+                $where[] = $this->parseWhereParameter("t.slug", $value);
+                $where[] = $this->parseWhereParameter("t.contenttype", $contenttype['slug']);
+            }
 
         }
 
-        // If we need to filter, add the WHERE for that.
-        // InnoDB doesn't support full text search. WTF is up with that shit?
+        // If we need to filter, add the WHERE for that. InnoDB doesn't support full text search. WTF is up
+        // with that shit? This feature is currently only used when filtering items in the backend.
         if (!empty($parameters['filter'])) {
 
             $filter = safeString($parameters['filter']);
@@ -1024,14 +1038,21 @@ class Storage
         $queryparams .= $this->queryParamOrder($parameters, $contenttype);
 
         // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
+        $pagerquery = "SELECT COUNT(*) AS count $from $queryparams";
 
         // Add the limit
         $queryparams .= sprintf(" LIMIT %s, %s;", ($page-1)*$limit, $limit);
 
         // Make the query to get the results..
-        $query = "SELECT * FROM $tablename" . $queryparams;
+        $query = "SELECT `r`.* $from $queryparams";
 
+        // Print the query, if the parameter is present.
+        if (!empty($parameters['printquery'])) {
+            echo nl2br(htmlentities($query));
+        }
+
+        // Fetch the results.
+        // TODO: Convert this to a loop, to fetch the rows.
         $rows = $this->app['db']->fetchAll($query);
 
         // Make sure content is set, and all content has information about its contenttype
