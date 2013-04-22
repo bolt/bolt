@@ -107,6 +107,11 @@ hr {
     padding: 2px 6px;
 }
 
+.btn-group > .btn-mini a {
+    font-weight: normal;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 .logo {
     margin: 80px 0 20px 20px;
 }
