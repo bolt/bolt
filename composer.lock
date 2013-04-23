@@ -61,16 +61,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.1",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "v1.1"
+                "reference": "v1.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/v1.1",
-                "reference": "v1.1",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/v1.1.1",
+                "reference": "v1.1.1",
                 "shasum": ""
             },
             "require": {
@@ -81,6 +81,11 @@
                 "doctrine/cache": "1.*"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Doctrine\\Common\\Annotations\\": "lib/"
@@ -112,7 +117,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -123,7 +128,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2013-03-17 14:03:10"
+            "time": "2013-04-20 08:30:17"
         },
         {
             "name": "doctrine/cache",
@@ -259,12 +264,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed"
+                "reference": "3506be7467dbd4f923691a00555cf80065d32e59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/33f906e257510247d0bcd60b8b54f47cfb51e3ed",
-                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/3506be7467dbd4f923691a00555cf80065d32e59",
+                "reference": "3506be7467dbd4f923691a00555cf80065d32e59",
                 "shasum": ""
             },
             "require": {
@@ -312,7 +317,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -325,7 +330,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-03-24 17:52:59"
+            "time": "2013-04-16 21:50:30"
         },
         {
             "name": "doctrine/dbal",
@@ -446,7 +451,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -514,16 +519,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "1.0.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "1.0.1"
+                "reference": "1.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.1",
-                "reference": "1.0.1",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.3",
+                "reference": "1.0.3",
                 "shasum": ""
             },
             "require": {
@@ -558,9 +563,10 @@
                 "handling",
                 "library",
                 "silex-provider",
-                "whoops"
+                "whoops",
+                "zf2"
             ],
-            "time": "2013-04-12 11:09:30"
+            "time": "2013-04-23 07:20:17"
         },
         {
             "name": "guzzle/guzzle",
