@@ -1,7 +1,7 @@
 # Set the default handler.
 DirectoryIndex index.php index.html index.htm
 
-<FilesMatch "\.(yml|db)$">
+<FilesMatch "\.(yml|db|twig)$">
     Order deny,allow
     Deny from all
 </FilesMatch>
