@@ -1142,7 +1142,7 @@ class Storage
     }
 
     /**
-     * Get field name, stripping possible " DESC" " ASC" etc
+     * Get field name, stripping possible " DESC" " ASC" etc.
      *
      * @param string $name
      * @return string
@@ -1150,6 +1150,26 @@ class Storage
     private function getFieldName($name) {
         return preg_replace("/ (desc|asc)$/i", "", $name);
     }
+
+
+    /**
+     * Get sorting order of name, stripping possible " DESC" " ASC" etc., and
+     * also return the sorting onrder
+     *
+     * @param string $name
+     * @return string
+     */
+    private function getSortOrder($name) {
+        $fieldname = preg_replace("/ (desc|asc)$/i", "", $name);
+        if ($fieldname[0] == "-") {
+            $fieldname = substr($fieldname, 1);
+        }
+
+        return array($fieldname, ($fieldname == $name));
+
+    }
+
+
 
     /**
      * Get the parameter for the 'order by' part of a query.
@@ -1209,11 +1229,18 @@ class Storage
             }
 
             // Same group, so we sort on contenttype['sort']
-            $second_sort = $this->getFieldName( $a->contenttype['sort'] );
-            if ($a->values[$second_sort] == $b->values[$second_sort]) {
+            list($second_sort, $order) = $this->getSortOrder( $a->contenttype['sort'] );
+
+            $vala = strtolower($a->values[$second_sort]);
+            $valb = strtolower($b->values[$second_sort]);
+
+            if ($vala == $valb) {
                 return 0;
             } else {
-                return ($a->values[$second_sort] < $b->values[$second_sort]) ? -1 : 1;
+                $result = ($vala < $valb) ? -1 : 1;
+                // if $order is false, the 'getSortOrder' indicated that we used something like '-id'.
+                // So, perhaps we need to inverse the result.
+                return $order ? $result : -$result;
             }
         }
         return ($a->group < $b->group) ? -1 : 1;
