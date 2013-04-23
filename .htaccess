@@ -1,6 +1,9 @@
 # Set the default handler.
 DirectoryIndex index.php index.html index.htm
 
+# Prevent directory listing
+Options -Indexes
+
 <FilesMatch "\.(yml|db)$">
     Order deny,allow
     Deny from all
