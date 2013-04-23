@@ -306,7 +306,12 @@ class Users
                 'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
             );
 
-            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+            // Attempt to update the last login, but don't break on failure.
+            try {
+                $this->db->update($this->usertable, $update, array('id' => $user['id']));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+            }
 
             // Take a nap, to prevent brute-forcing. Zzzzz...
             sleep(1);
