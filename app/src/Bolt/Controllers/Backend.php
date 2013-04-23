@@ -361,9 +361,11 @@ class Backend implements ControllerProviderInterface
         if ($action=="clear") {
             $app['log']->clear();
             $app['session']->getFlashBag()->set('success', __('The activitylog has been cleared.'));
+            return redirect('activitylog');
         } else if ($action=="trim") {
             $app['log']->trim();
             $app['session']->getFlashBag()->set('success', __('The activitylog has been trimmed.'));
+            return redirect('activitylog');
         }
 
         $activity = $app['log']->getActivity(16);
