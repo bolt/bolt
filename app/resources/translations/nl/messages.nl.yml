@@ -1,27 +1,13 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2013/04/23 10:31:23
-# 13 untranslated strings
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/04/23 10:43:42
+# no untranslated strings; good ;-)
 
-"A password reset link has been sent to '%user%'.": "Een link om het wachtwoord te resetten is verstuurd aan '%user%'." #
-"Back to login": "Terug naar login" #
-"Deselect all": "Deselecteer alles" #
-"I forgot my password…": "Ik ben mijn wachtwoord vegeten…" #
-"Javascript disabled": "Javascript uitgeschakeld" #
-"Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.": "Momenteel is Javascript uitgeschakeld in je browser. De meeste functionaliteiten in Bolt werken wel, maar voor prettiger gebruik adviseren we om Javascript in te schakelen." #
-"Overview for": "Overzicht van" #
-"Provided by:": "Geleverd door:" #
-"Reset my password": "Reset mijn wachtwoord" #
-"Select all": "Selecteer alles" #
-"Showing": "Toont" #
-"none": "geen" #
-"of": "van" #
-
-#-----------------------------------------
-# 250 translated strings
+# 263 translated strings
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%contenttypes%": "%contenttypes%"
 "%s files could not be deleted. You should delete them manually.": "%s bestanden konden niet verwijderd worden. Verwijder deze handmatig."
 "(no group)": "(geen groep)"
+"A password reset link has been sent to '%user%'.": "Een link om het wachtwoord te resetten is verstuurd aan '%user%'."
 "About Bolt": "Over Bolt"
 "About": "Over"
 "Actions for %contenttypes%": "Handelingen voor %contenttypes%"
@@ -39,6 +25,7 @@
 "Allowed contenttypes": "Toegestane contenttypes"
 "Are you sure you want to delete %username%?": "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
 "Author:": "Auteur"
+"Back to login": "Terug naar login"
 "Below are the third party libraries that are used by Bolt.": "Hieronder staan de externe libraries waar Bolt gebruik van maakt"
 "Body": "Broodtekst"
 "Bolt - Fatal error.": "Bolt - Kritieke foutmelding."
@@ -81,6 +68,7 @@
 "Delete %filename%": "Verwijder %filename%"
 "Delete %username%": "Verwijder %username%"
 "Deleted %s files from cache.": "%s bestanden verwijderd uit de cache"
+"Deselect all": "Deselecteer alles"
 "Disable %username%": "Schakel %username% uit"
 "Disabled extensions": "Uitgeschakelde extensies"
 "Done!": "Klaar!"
@@ -115,6 +103,7 @@
 "Gallery": "Galerij"
 "Geolocation": "Geolocatie"
 "Html": "Html"
+"I forgot my password…": "Ik ben mijn wachtwoord vergeten…"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
 "Image": "Afbeelding"
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "In het contenttype voor '%contenttype%', heeft het veld '%field%' de regel 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml, en corrigeer dit."
@@ -122,6 +111,8 @@
 "Integerfield": "helegetallen veld"
 "Introduction": "Introductie"
 "It seems there's no content in the database.": "Het lijkt er op dat geen inhoud in de database zit"
+"Javascript disabled": "Javascript uitgeschakeld"
+"Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.": "Momenteel is Javascript uitgeschakeld in je browser. De meeste functionaliteiten in Bolt werken wel, maar voor prettiger gebruik adviseren we om Javascript in te schakelen."
 "Kitchensinks": "Kitchensinks"
 "Last edited on:": "Laatst aangepast op:"
 "Last known IP": "Laast bekende IP"
@@ -161,6 +152,7 @@
 "Oops! An error has occurred!": "Oeps! Er is een fout opgetreden."
 "Options": "Opties"
 "Order: %sort%": "Volgorde: %sort%"
+"Overview for": "Overzicht van"
 "Overview": "Overzicht"
 "Owner:": "Eigenaar"
 "Password (confirmation)": "Wachtwoord (opnieuw)"
@@ -175,6 +167,7 @@
 "Preview %contenttype%": "%contenttype% voorvertonen"
 "Preview video": "Video voorvertonen"
 "Preview": "Voorvertoning"
+"Provided by:": "Geleverd door:"
 "Publication date:": "Publicatiedatum"
 "Publish %contenttype%": "Publiceer %contenttype%"
 "Published on:": "Gepubliceerd op:"
@@ -182,13 +175,16 @@
 "Recent %contenttypes%": "Recente %contenttypes%"
 "Related content:": "Gerelateerde content"
 "Relationships": "Relaties"
+"Reset my password": "Reset mijn wachtwoord"
 "Save %contenttype%": "Sla %contenttype% op"
 "Save": "Opslaan"
 "Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>"
 "Search": "Zoeken"
 "Select a page": "Kies een pagina"
+"Select all": "Selecteer alles"
 "Settings": "Instellingen"
 "Showing %pager_for% %from% - %to% of %count%": "Toont %pager_for% %from% - %to% of %count%"
+"Showing": "Toont"
 "Sitemap": "Sitemap"
 "Size:": "Grootte"
 "Skipped <tt>%key%</tt> (already has records)": "Overgeslagen: <tt>%key%</tt> (deze heeft al records)"
@@ -268,3 +264,5 @@
 "Your username": "Je inlognaam"
 "and edited": "en bewerkt"
 "more activity": "meer activiteit"
+"none": "geen"
+"of": "van"
