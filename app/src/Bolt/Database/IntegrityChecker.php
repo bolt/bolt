@@ -33,6 +33,10 @@ class IntegrityChecker
         if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
             $this->prefix .= "_";
         }
+
+        // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
+        $this->checktimer = 3600;
+
     }
 
     /**
@@ -163,8 +167,35 @@ class IntegrityChecker
             }
         }
 
+        // If there were no messages, update the timer, so we don't check it again..
+        // If there _are_ messages, keep checking until it's fixed.
+        if (empty($messages)) {
+            $this->app['session']->set('database_checked', time());
+        }
+
         return $messages;
     }
+
+    /**
+     * Determine if we need to check the table integrity. Do this only once per hour, per session, since it's pretty
+     * time consuming.
+     *
+     * @return boolean Check needed
+     */
+    public function needsCheck()
+    {
+
+        // Only check the DB once an hour, because it's pretty time-consuming.
+        $databasechecked = time() - $this->app['session']->get('database_checked');
+
+        if ($databasechecked < $this->checktimer) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
 
     /**
      * Check and repair tables
