@@ -833,7 +833,7 @@ function getConfig()
         $tempfields = $temp['fields'];
         $temp['fields'] = array();
         foreach($tempfields as $key => $value) {
-			$key = str_replace("-", "_", strtolower(safeString($key, true)));
+            $key = str_replace("-", "_", strtolower(safeString($key, true)));
             $temp['fields'][ $key ] = $value;
         }
 
