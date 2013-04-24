@@ -32,6 +32,8 @@ class Content implements \ArrayAccess
             }
         }
 
+        $this->user = $this->app['users']->getCurrentUser();
+
         if (!empty($values)) {
             $this->setValues($values);
         } else {
@@ -65,8 +67,6 @@ class Content implements \ArrayAccess
             $this->setValues($values);
 
         }
-
-        $this->user = $this->app['users']->getCurrentUser();
 
     }
 
