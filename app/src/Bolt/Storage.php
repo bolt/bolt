@@ -1514,7 +1514,9 @@ class Storage
             $taxonomy = array();
 
             foreach ($taxokeys as $key) {
-                $taxonomy[$key] = $this->app['config']['taxonomy'][$key];
+                if (isset($this->app['config']['taxonomy'][$key])) {
+                    $taxonomy[$key] = $this->app['config']['taxonomy'][$key];
+                }
             }
 
             return $taxonomy;
