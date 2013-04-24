@@ -55,7 +55,7 @@
             {% include '_sub_contentrow.twig' with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
 
         {% else %}
-            {{ __('No %contenttypes% available.',{'%contenttypes%':contenttype.name}) }}
+            {{ __('No %contenttypes% available.', {'%contenttypes%':contenttype.name}) }}
         {% endfor %}
     </table>
 
