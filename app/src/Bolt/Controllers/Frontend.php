@@ -259,15 +259,25 @@ class Frontend implements ControllerProviderInterface
         $order = $app['config']['general']['listing_sort'];
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
+        $taxonomytype = $app['storage']->getTaxonomyType($taxonomytype);
+
+        // No taxonomytype, no possible content..
+        if (empty($taxonomytype)) {
+            return false;
+        } else {
+            $taxonomyslug = $taxonomytype['slug'];
+        }
+
+
         if (!$content) {
-            $app->abort(404, "Content for '$taxonomytype/$slug' not found.");
+            $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
         }
 
         $chosen = "taxonomy";
 
         // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
-        if (isset($app['config']['taxonomy'][$taxonomytype]['listing_template'])) {
-            $template = $app['config']['taxonomy'][$taxonomytype]['listing_template'];
+        if (isset($app['config']['taxonomy'][$taxonomyslug]['listing_template'])) {
+            $template = $app['config']['taxonomy'][$taxonomyslug]['listing_template'];
         } else {
             $template = $app['config']['general']['listing_template'];
         }
@@ -279,7 +289,7 @@ class Frontend implements ControllerProviderInterface
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $taxonomytype,
+                $taxonomyslug,
                 basename($app['config']['general']['theme']),
                 $template);
             $app['log']->setValue('templateerror', $error);
@@ -290,8 +300,8 @@ class Frontend implements ControllerProviderInterface
 
         return $app['twig']->render($template, array(
             'records' => $content,
-            'taxonomy' => $app['config']['taxonomy'][$taxonomytype],
-            'taxonomytype' => $taxonomytype,
+            'taxonomy' => $app['config']['taxonomy'][$taxonomyslug],
+            'taxonomytype' => $taxonomyslug,
             'slug' => $slug
         ));
 

@@ -822,7 +822,7 @@ class Storage
     /**
      * Retrieve content from the database, filtered on taxonomy.
      */
-    public function getContentByTaxonomy($taxonomytype, $slug, $parameters = "")
+    public function getContentByTaxonomy($taxonomyslug, $slug, $parameters = "")
     {
 
         $tablename = $this->prefix . "taxonomy";
@@ -830,7 +830,14 @@ class Storage
         $limit = $parameters['limit'] ?: 100;
         $page = $parameters['page'] ?: 1;
 
-        $where = " WHERE (taxonomytype=". $this->app['db']->quote($taxonomytype) . " AND slug=". $this->app['db']->quote($slug) .")";
+        $taxonomytype = $this->getTaxonomyType($taxonomyslug);
+
+        // No taxonomytype, no possible content..
+        if (empty($taxonomytype)) {
+            return false;
+        }
+
+        $where = " WHERE (taxonomytype=". $this->app['db']->quote($taxonomytype['slug']) . " AND slug=". $this->app['db']->quote($slug) .")";
 
         // Make the query for the pager..
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
@@ -1352,6 +1359,38 @@ class Storage
 
         if (!empty($contenttype)) {
             return $contenttype;
+        } else {
+            return false;
+        }
+
+    }
+
+
+
+    public function getTaxonomyType($taxonomyslug)
+    {
+
+        $taxonomyslug = makeSlug($taxonomyslug);
+
+        // Return false if empty, can't find it..
+        if (empty($taxonomyslug)) {
+            return false;
+        }
+
+        // See if we've either given the correct contenttype, or try to find it by name or singular_name.
+        if (isset($this->app['config']['taxonomy'][$taxonomyslug])) {
+            $taxonomytype = $this->app['config']['taxonomy'][$taxonomyslug];
+        } else {
+            foreach ($this->app['config']['taxonomy'] as $key => $tt) {
+                if (isset($tt['singular_slug']) && ($taxonomyslug == $tt['singular_slug'])) {
+                    $taxonomytype = $this->app['config']['taxonomy'][$key];
+                    break;
+                }
+            }
+        }
+
+        if (!empty($taxonomytype)) {
+            return $taxonomytype;
         } else {
             return false;
         }
