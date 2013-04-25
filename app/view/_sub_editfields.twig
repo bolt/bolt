@@ -158,9 +158,22 @@
             <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
+        <a data-target="#selectImageModal-{{key}}" href="/async/browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Select from server') }}</a>
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
         </div>
+
+        <!-- Modal "select from server"  -->
+        <div class="modal hide modal-wide" id="selectImageModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+            </div>
+        </div>
+
+
 
 {% if not ismobileclient() %}
 
@@ -178,6 +191,21 @@
                     $('#thumbnail-{{key}}').html("<img src='{{ app.paths.app }}view/img/default_empty.png' width='120' height='120'>");
                 }
             }
+        });
+
+        // In the modal dialog, to navigate folders..
+        $('#selectImageModal-{{key}}').on('click','.folder', function(e) {
+            e.preventDefault();
+            $('#selectImageModal-{{key}} .modal-body').load($(this).attr('href'));
+        });
+
+        // In the modal dialog, to select a file..
+        $('#selectImageModal-{{key}}').on('click','.file', function(e) {
+            e.preventDefault();
+            var filename = $(this).attr('href');
+            $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+            $("#field-{{key}}").val(filename);
+            $('#selectImageModal-{{key}}').modal('hide');
         });
 
     });

@@ -209,6 +209,11 @@ hr {
     opacity: 0.5;
 }
 
+.modal-wide {
+    width: 660px;
+    margin-left: -330px;
+}
+
 footer  {
     margin-top: 30px;
     position: fixed;
@@ -686,9 +691,14 @@ fieldset.checkbox div {
 }
 
 .progress {
-    width: 50%;
+    width: 30%;
     display: none;
     margin-bottom: 0;
+}
+
+#editcontent .fileinput-select {
+    margin-top: 2px;
+    float: left;
 }
 
 #editcontent input.editslug {
