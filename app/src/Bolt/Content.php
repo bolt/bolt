@@ -455,9 +455,9 @@ class Content implements \ArrayAccess
      * @param string $name
      * @param bool $sortorder
      */
-    public function setGroup($value, $name = "", $sortorder = false)
+    public function setGroup($group, $name = "", $sortorder = false)
     {
-        $this->group = $value;
+        $this->group = $group;
         $this->groupname = $name;
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
