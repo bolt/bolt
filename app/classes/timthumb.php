@@ -37,16 +37,15 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
 /**
  * Bolt specific: Set BOLT_PROJECT_ROOT_DIR, and Bolt-specific settings..
  */
-if (substr(__DIR__, -21) == '/vendor/bolt/bolt/app') { // installed bolt with composer
-    define('BOLT_PROJECT_ROOT_DIR', dirname(substr(__DIR__, 0, -21)));
+if (substr(__DIR__, -20) == '/bolt-public/classes') { // installed bolt with composer
+    require_once __DIR__ . '/../../../vendor/bolt/bolt/app/bootstrap.php';
 } else {
-    define('BOLT_PROJECT_ROOT_DIR', dirname(dirname(__DIR__)));
+    require_once __DIR__ . '/../bootstrap.php';
 }
 
 // Let's get on with the rest..
-require_once BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php';
 $yamlparser = new Symfony\Component\Yaml\Parser();
-$config['general'] = $yamlparser->parse(file_get_contents(BOLT_PROJECT_ROOT_DIR .'/app/config/config.yml') . "\n");
+$config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR .'/config.yml') . "\n");
 
 // Set some default settings, as defined in our config.yml
 define('DEFAULT_Q', !empty($config['general']['thumbnails']['quality']) ? $config['general']['thumbnails']['quality'] : 70);
@@ -899,8 +898,8 @@ class timthumb {
 	}
 	protected function calcDocRoot(){
 		$docRoot = @$_SERVER['DOCUMENT_ROOT'];
-		if (defined('BOLT_PROJECT_ROOT_DIR')) {
-			$docRoot = BOLT_PROJECT_ROOT_DIR;   
+		if (defined('BOLT_WEB_DIR')) {
+			$docRoot = BOLT_WEB_DIR;
 		}
 		if(!isset($docRoot)){ 
 			$this->debug(3, "DOCUMENT_ROOT is not set. This is probably windows. Starting search 1.");
