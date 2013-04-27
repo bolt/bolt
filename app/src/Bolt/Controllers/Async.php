@@ -330,7 +330,7 @@ class Async implements ControllerProviderInterface
         }
 
         // If there's no active session, don't do anything..
-        if (!$app['users']->checkValidSession()) {
+        if (!$app['users']->isValidSession()) {
             $app->abort(404, "You must be logged in to use this.");
         }
 

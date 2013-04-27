@@ -39,7 +39,8 @@ class Users
         $this->users = array();
         $this->session = $app['session'];
 
-        $this->checkValidSession();
+        // Set 'validsession', to see if the current session is valid.
+        $this->validsession = $this->checkValidSession();
 
         $this->allowed = array(
             'dashboard' => self::EDITOR,
@@ -139,13 +140,25 @@ class Users
     }
 
     /**
+     * Return whether or not the current session is valid.
+     *
+     * @return bool
+     */
+    public function isValidSession()
+    {
+        return $this->validsession;
+    }
+
+    /**
      * We will not allow tampering with sessions, so we make sure the current session
      * is still valid for the device on which it was created, and that the username,
      * ip-address are still the same.
      *
+     * @return bool
      */
     public function checkValidSession()
     {
+
         if ($this->app['session']->get('user')) {
             $this->currentuser = $this->app['session']->get('user');
             if ($database = $this->getUser($this->currentuser['id'])) {
@@ -185,6 +198,18 @@ class Users
             $this->logout();
             return false;
         }
+
+        // Update the session cookie, because Silex doesn't do this. I'm not sure if it
+        // even _is_ Silex's job to do it, but the fact is that we do need it to prevent
+        // users from being logged out automatically after two weeks, regardless of
+        // how active they are in the meantime.
+        setcookie(
+            'bolt_session',
+            $_COOKIE['bolt_session'],
+            time() + $this->app['config']['general']['cookies_lifetime'],
+            '/',
+            $this->app['config']['general']['cookies_domain']
+        );
 
         return true;
 
