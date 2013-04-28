@@ -3,17 +3,27 @@
 
 <h1>{{ title|raw }}</h1>
 
+{% if pathsegments|length > 1 %}
+    <p>{{ __('Path:') }}
+        {% for path, segment in pathsegments %}
+            {% if not loop.first %} / {% endif %}
+            <a href="{{ path('files', { 'path': path }) }}">{{segment}}</a>
+        {% endfor %}
+    </p>
+{% endif %}
 
 <form action="#" method="post" class="form-inline" autocomplete="off">
 
 <div>
 <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ form.vars.value.contents }}</textarea>
 </div>
-{% if writeallowed %}
     {{ form_row(form._token) }}
     <br />
-    <input type="submit" name="submit" value="{{ __('Save') }}" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %} />
-{% endif %}
+    <button type="submit" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %}><i class="icon-flag"></i> {{ __('Save') }}</button>
+    <a class="btn confirm" style="margin-left: 24px;"
+       data-confirm="{{ __("Are you sure you wish to revert? Your changes will be lost, if you don't save them.") }}" href="{{ path('fileedit', { 'file': file }) }}">
+        <i class="icon-undo"></i> {{ __('Revert changes') }}
+    </a>
 </form>
 
 {% if not ismobileclient() %}
@@ -52,7 +62,12 @@
             readOnly: {% if writeallowed %}false{% else %}true{% endif %}
         });
 
-        editor.setSize(null, $(window).height() - 276);
+        var newheight = $(window).height() - 312;
+        if (newheight < 200) {
+            newheight = 200;
+        }
+
+        editor.setSize(null, newheight);
 
     </script>
 {% endif %}

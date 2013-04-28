@@ -965,6 +965,18 @@ class Backend implements ControllerProviderInterface
         $filename = realpath(__DIR__."/../../../../".$file);
         $type = getExtension($filename);
 
+
+        // Get the pathsegments, so we can show the path..
+        $path = dirname($file);
+        $pathsegments = array();
+        $cumulative = "";
+        if (!empty($path)) {
+            foreach (explode("/", $path) as $segment) {
+                $cumulative .= $segment . "/";
+                $pathsegments[ $cumulative ] = $segment;
+            }
+        }
+
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = __("The file '%s' doesn't exist, or is not readable.", array('%s'=>$file));
             $app->abort(404, $error);
@@ -976,10 +988,10 @@ class Backend implements ControllerProviderInterface
                 array('%s'=> $file)
             ));
             $writeallowed = false;
-            $title = sprintf("<strong>%s</strong> » %s", __('View file'), $file);
+            $title = sprintf("<strong>%s</strong> » %s", __('View file'), basename($file));
         } else {
             $writeallowed = true;
-            $title = sprintf("<strong>%s</strong> » %s", __('Edit file'), $file);
+            $title = sprintf("<strong>%s</strong> » %s", __('Edit file'), basename($file));
         }
 
         $data['contents'] = file_get_contents($filename);
@@ -1040,6 +1052,8 @@ class Backend implements ControllerProviderInterface
             'form' => $form->createView(),
             'title' => $title,
             'filetype' => $type,
+            'file' => $file,
+            'pathsegments' => $pathsegments,
             'writeallowed' => $writeallowed
         ));
 

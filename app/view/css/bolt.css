@@ -846,18 +846,17 @@ fieldset.checkbox div {
 .cke_toolbar_separator {
     background-color: #BBB !important;
 }
-}
+
 /* Overrides for CodeMirror */
 
 .CodeMirror {
+    border: 1px solid #DDD !important;
     font-size: 14px;
     line-height: 1em;
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
 }
 
 .CodeMirror-scroll {
-    min-height: 200px;
-    border: 1px solid #CCC;
     background-color: #FFF;
 }
 
