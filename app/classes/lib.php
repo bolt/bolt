@@ -1054,7 +1054,7 @@ function getDBOptions($config)
 
     switch($dboptions['driver']) {
         case 'pdo_mysql':
-            $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '3306');
+            $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '3306';
             $dboptions['reservedwords'] = explode(',', "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
                 "bigint,binary,blob,both,by,call,cascade,case,change,char,character,check,collate,column,condition,constraint," .
                 "continue,convert,create,cross,current_date,current_time,current_timestamp,current_user,cursor,database,databases," .
@@ -1084,7 +1084,7 @@ function getDBOptions($config)
                 "replace,restrict,right,rollback");
             break;
         case 'pdo_pgsql':
-            $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '5432');
+            $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '5432';
             $dboptions['reservedwords'] = explode(',', "all,analyse,analyze,and,any,as,asc,authorization,between,bigint,binary,bit," .
                 "boolean,both,case,cast,char,character,check,coalesce,collate,column,constraint,convert,create,cross,current_date," .
                 "current_time,current_timestamp,current_user,dec,decimal,default,deferrable,desc,distinct,do,else,end,except,exists," .
