@@ -113,12 +113,6 @@ class Backend implements ControllerProviderInterface
             ->bind('files')
         ;
 
-        $ctl->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
-            ->before(array($this, 'before'))
-            ->assert('contenttype', '.+')
-            ->bind('contenttype')
-        ;
-
         $ctl->get("/activitylog", array($this, 'activitylog'))
             ->before(array($this, 'before'))
             ->bind('activitylog')
@@ -931,34 +925,19 @@ class Backend implements ControllerProviderInterface
         ksort($files);
         ksort($folders);
 
-        $twig = 'files.twig';
-        if($request->query->has('CKEditor'))
+        // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
+        // from CKeditor to insert a file..
+        if(!$request->query->has('CKEditor')) {
+            $twig = 'files.twig';
+        } else {
             $twig = 'files_ck.twig';
+        }
 
         return $app['twig']->render($twig, array(
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
             'pathsegments' => $pathsegments
-        ));
-
-    }
-
-    function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request) {
-
-        $records = $app['storage']->getContent($contenttype, array('published'=>true));
-        $contenttype_array = $app['storage']->getContentType($contenttype);
-
-        $results = array();
-        foreach ($records as $key => $record) {
-            $results[] = array('title' => $record['title'],
-                               'link'  => $app['storage']->getUri($record['title'], $record['id'], 'pages')
-            );
-        }
-
-        return $app['twig']->render('filebrowser.twig', array(
-            'records' => $records,
-            'contenttype' => $contenttype_array
         ));
 
     }

@@ -51,11 +51,20 @@ class Async implements ControllerProviderInterface
             ->bind('lastmodified')
         ;
 
+        $ctr->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
+            ->before(array($this, 'before'))
+            ->assert('contenttype', '.*')
+            ->bind('contenttype')
+        ;
+
+
         $ctr->get("/browse/{path}", array($this, 'browse'))
             ->before(array($this, 'before'))
             ->assert('path', '.+')
             ->bind('asyncbrowse')
         ;
+
+
 
         return $ctr;
 
@@ -217,6 +226,39 @@ class Async implements ControllerProviderInterface
         $body = $app['twig']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
+
+    }
+
+    /**
+     * List pages in given contenttype, to easily insert links through the Wysywig editor.
+     *
+     * @param string $contenttype
+     * @param Silex\Application $app
+     * @param Request $request
+     * @return mixed
+     */
+    function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request) {
+
+        $contenttypes = $app['storage']->getContentTypes();
+
+        foreach ($app['storage']->getContentTypes() as $contenttype) {
+
+            $records = $app['storage']->getContent($contenttype, array('published'=>true));
+
+            foreach ($records as $key => $record) {
+                $results[$contenttype][] = array(
+                    'title' => $record->gettitle(),
+                    'id' => $record->id,
+                    'link' => $record->link(),
+                );
+            }
+
+        }
+
+
+        return $app['twig']->render('filebrowser.twig', array(
+            'results' => $results
+        ));
 
     }
 
