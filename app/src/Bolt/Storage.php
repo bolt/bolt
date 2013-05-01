@@ -1052,7 +1052,7 @@ class Storage
         $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
 
         // Make the query to get the results..
-        $query = "SELECT `r`.* $from $queryparams";
+        $query = sprintf( "SELECT %s.* $from $queryparams", $this->app['db']->quoteIdentifier('r'));
 
         // Print the query, if the parameter is present.
         if (!empty($parameters['printquery'])) {
