@@ -1042,11 +1042,11 @@ class Storage
             $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
         }
 
-        // Order, with a special case for 'RANDOM'.
-        $queryparams .= $this->queryParamOrder($parameters, $contenttype);
-
         // Make the query for the pager..
         $pagerquery = "SELECT COUNT(*) AS count $from $queryparams";
+
+        // Order, with a special case for 'RANDOM'.
+        $queryparams .= $this->queryParamOrder($parameters, $contenttype);
 
         // Add the limit
         $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
