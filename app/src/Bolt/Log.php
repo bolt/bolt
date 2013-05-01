@@ -138,9 +138,10 @@ class Log
             "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT ?, ?;",
             $this->tablename
         );
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page-1) * $amount));
 
         $params = array(
-            $codes, $minlevel, intval(($page-1) * $amount), intval($amount)
+            $codes, $minlevel
         );
         $paramTypes = array(
             DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT,

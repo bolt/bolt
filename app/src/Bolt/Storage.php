@@ -660,7 +660,7 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
 
         // Add the limit
-        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
+        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
 
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
@@ -783,7 +783,7 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
 
         // Add the limit
-        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
+        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
 
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
@@ -843,7 +843,8 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
 
         // Add the limit
-        $query = "SELECT * FROM $tablename" . $where . sprintf(" ORDER BY id DESC LIMIT %s, %s;", ($page-1)*$limit, $limit);
+        $query = "SELECT * FROM $tablename" . $where . " ORDER BY id DESC";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page-1)*$limit);
 
         $taxorows = $this->app['db']->fetchAll($query);
 
@@ -1048,7 +1049,7 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count $from $queryparams";
 
         // Add the limit
-        $queryparams .= sprintf(" LIMIT %s, %s;", ($page-1)*$limit, $limit);
+        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
 
         // Make the query to get the results..
         $query = "SELECT `r`.* $from $queryparams";

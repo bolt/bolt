@@ -279,7 +279,8 @@ class Users
         $userslug = makeSlug($user);
 
         // for once we don't use getUser(), because we need the password.
-        $query = "SELECT * FROM " . $this->usertable . " WHERE username=? LIMIT 1";
+        $query = "SELECT * FROM " . $this->usertable . " WHERE username=?";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
@@ -425,7 +426,8 @@ class Users
         $now = date("Y-m-d H:i:s");
 
         // Let's see if the token is valid, and it's been requested within two hours...
-        $query = "SELECT * FROM " . $this->usertable . " WHERE shadowtoken = ? AND shadowvalidity > ? LIMIT 1;";
+        $query = "SELECT * FROM " . $this->usertable . " WHERE shadowtoken = ? AND shadowvalidity > ?";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
 
         if (!empty($user)) {
