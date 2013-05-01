@@ -225,8 +225,9 @@ class IntegrityChecker
                 /** @var $platform AbstractPlatform */
                 $platform = $this->app['db']->getDatabasePlatform();
                 $queries = $platform->getCreateTableSQL($table);
-                $queries = implode("; ", $queries);
-                $this->app['db']->query($queries);
+                foreach($queries as $query) {
+                    $this->app['db']->query($query);
+                }
 
                 $output[] = "Created table <tt>" . $table->getName() . "</tt>.";
 
@@ -305,9 +306,9 @@ class IntegrityChecker
         $usersTable->addIndex( array( 'enabled' ) );
         $usersTable->addColumn("shadowpassword", "string", array("length" => 128, "default" => ""));
         $usersTable->addColumn("shadowtoken", "string", array("length" => 128, "default" => ""));
-        $usersTable->addColumn("shadowvalidity", "datetime", array("default" => "0000-00-00 00:00:00"));
+        $usersTable->addColumn("shadowvalidity", "datetime", array("default" => "1900-01-01 00:00:00"));
         $usersTable->addColumn("failedlogins", "integer", array("default" => 0));
-        $usersTable->addColumn("throttleduntil", "datetime", array("default" => "0000-00-00 00:00:00"));
+        $usersTable->addColumn("throttleduntil", "datetime", array("default" => "1900-01-01 00:00:00"));
         $tables[] = $usersTable;
 
         $taxonomyTable = $schema->createTable($this->prefix."taxonomy");
