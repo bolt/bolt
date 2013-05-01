@@ -1032,7 +1032,7 @@ function getDBOptions($config)
             $randomfunction = "RAND()";
         }
         if ($driver == "postgres" || $driver == "postgresql") {
-            $driver = 'pdo_postgres';
+            $driver = 'pdo_pgsql';
             $randomfunction = "RANDOM()";
         }
 
@@ -1083,7 +1083,7 @@ function getDBOptions($config)
                 "notnull,null,of,offset,on,or,order,outer,plan,pragma,primary,query,raise,references,regexp,reindex,release,rename," .
                 "replace,restrict,right,rollback");
             break;
-        case 'pdo_postgres':
+        case 'pdo_pgsql':
             $dboptions['reservedwords'] = explode(',', "all,analyse,analyze,and,any,as,asc,authorization,between,bigint,binary,bit," .
                 "boolean,both,case,cast,char,character,check,coalesce,collate,column,constraint,convert,create,cross,current_date," .
                 "current_time,current_timestamp,current_user,dec,decimal,default,deferrable,desc,distinct,do,else,end,except,exists," .
