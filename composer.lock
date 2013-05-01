@@ -315,7 +315,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -451,7 +451,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -667,12 +667,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hautelook/phpass.git",
-                "reference": "0.3"
+                "reference": "0.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hautelook/phpass/zipball/0.3",
-                "reference": "0.3",
+                "url": "https://api.github.com/repos/hautelook/phpass/zipball/0.3.1",
+                "reference": "0.3.1",
                 "shasum": ""
             },
             "require": {
@@ -703,7 +703,7 @@
                 "password",
                 "security"
             ],
-            "time": "2012-08-31 19:32:39"
+            "time": "2013-05-01 13:59:26"
         },
         {
             "name": "htmlawed/htmlawed",
@@ -878,12 +878,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "a7f0d0b8a79bd71e9b84f1fd5845d412d35547d7"
+                "reference": "a0b5f746cf4e5f93c9242ecd7804d5c23f419f85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/a7f0d0b8a79bd71e9b84f1fd5845d412d35547d7",
-                "reference": "a7f0d0b8a79bd71e9b84f1fd5845d412d35547d7",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/a0b5f746cf4e5f93c9242ecd7804d5c23f419f85",
+                "reference": "a0b5f746cf4e5f93c9242ecd7804d5c23f419f85",
                 "shasum": ""
             },
             "require": {
@@ -952,7 +952,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-04-26 05:51:45"
+            "time": "2013-04-30 08:55:57"
         },
         {
             "name": "swiftmailer/swiftmailer",
