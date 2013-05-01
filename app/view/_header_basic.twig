@@ -55,4 +55,4 @@
     <link rel="apple-touch-icon" sizes="144x144" href="{{ paths.app }}view/img/apple-touch-icon-144x144.png">
 
 </head>
-<body>
+<body {% if class is defined %}class="{{ class }}"{% endif %}>
