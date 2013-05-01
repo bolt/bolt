@@ -135,7 +135,7 @@ class Log
         }
 
         $query = sprintf(
-            "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC LIMIT ?, ?;",
+            "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC",
             $this->tablename
         );
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page-1) * $amount));
@@ -144,8 +144,7 @@ class Log
             $codes, $minlevel
         );
         $paramTypes = array(
-            DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT,
-            \PDO::PARAM_INT, \PDO::PARAM_INT
+            DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT
         );
 
         $stmt = $this->app['db']->executeQuery($query, $params, $paramTypes);
