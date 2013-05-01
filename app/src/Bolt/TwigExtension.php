@@ -285,7 +285,11 @@ class TwigExtension extends \Twig_Extension
      */
     public function first($array)
     {
-        return \util::array_first($array);
+        if (!is_array($array)) {
+            return false;
+        } else {
+            return reset($array);
+        }
     }
 
     /**
@@ -296,7 +300,11 @@ class TwigExtension extends \Twig_Extension
      */
     public function last($array)
     {
-        return \util::array_last($array);
+        if (!is_array($array)) {
+            return false;
+        } else {
+            return end($array);
+        }
     }
 
 
