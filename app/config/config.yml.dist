@@ -129,7 +129,7 @@ wysiwyg:
         filebrowserWindowHeight: '480'
     filebrowser:
         browseUrl: /bolt/filebrowser/pages
-        #imageBrowseUrl: ''
+        imageBrowseUrl: /bolt/files/files
         #uploadUrl: ''
         #imageUploadUrl: ''
 

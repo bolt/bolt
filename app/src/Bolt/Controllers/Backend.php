@@ -931,7 +931,11 @@ class Backend implements ControllerProviderInterface
         ksort($files);
         ksort($folders);
 
-        return $app['twig']->render('files.twig', array(
+        $twig = 'files.twig';
+        if($request->query->has('CKEditor'))
+            $twig = 'files_ck.twig';
+
+        return $app['twig']->render($twig, array(
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
