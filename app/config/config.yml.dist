@@ -115,20 +115,20 @@ strict_variables: false
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibilty not to break the layout.
 wysiwyg:
-    images: false
+    images: true
     anchor: false
     tables: false
     fontcolor: false
     align: false
     subsuper: false
-    embed: false
+    embed: true
     ck:
         #allowedContent: true # Set this to 'true' to allow any elements and attributes in Wysiwg Elements
         #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
-        filebrowserWindowWidth: '480'
+        filebrowserWindowWidth: '640'
         filebrowserWindowHeight: '480'
     filebrowser:
-        browseUrl: /bolt/filebrowser/pages
+        browseUrl: /async/filebrowser/
         imageBrowseUrl: /bolt/files/files
         #uploadUrl: ''
         #imageUploadUrl: ''

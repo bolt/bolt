@@ -710,20 +710,25 @@ function getConfig()
         'listing_records' => '5',
         'listing_sort' => 'datepublish DESC',
         'wysiwyg' => array(
-            'images' => false,
+            'images' => true,
             'tables' => false,
             'embed' => false,
             'fontcolor' => false,
             'align' => false,
             'subsuper' => false,
-            'embed' => false,
+            'embed' => true,
             'ck' => array(
                 'contentsCss' => array(
                     $paths['app'] . 'view/lib/ckeditor/contents.css',
                     $paths['app'] . 'view/css/ckeditor.css',
                 ),
+                'filebrowserWindowWidth' => 640,
+                'filebrowserWindowHeight' => 480
             ),
-            'filebrowser' => array(),
+            'filebrowser' => array(
+                'browseUrl' => "/async/filebrowser/",
+                'imageBrowseUrl' => "/bolt/files/files"
+            ),
         ),
         'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",
         'developer_notices' => false,
