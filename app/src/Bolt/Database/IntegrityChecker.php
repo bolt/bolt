@@ -3,6 +3,7 @@
 namespace Bolt\Database;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -11,6 +12,7 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\TableDiff;
 
 class IntegrityChecker
 {
@@ -110,17 +112,8 @@ class IntegrityChecker
 
                 $diff = $comparator->diffTable( $currentTables[$table->getName()], $table );
                 if ( $diff ) {
-                    if (!in_array($table->getName(),$baseTables)) {
-                        // we don't remove fields from contenttype tables to prevent accidental data removal
-                        if ($diff->removedColumns) {
-                            /** @var $column Column */
-                            foreach($diff->removedColumns as $column) {
-                                //$output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
-                                //    "is no longer defined in the config, delete manually if no longer needed.</i>";
-                            }
-                        }
-                        $diff->removedColumns = array();
-                    }
+                    $diff = $this->cleanupTableDiff($diff);
+
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
@@ -234,19 +227,8 @@ class IntegrityChecker
             } else {
 
                 $diff = $comparator->diffTable( $currentTables[$table->getName()], $table );
-                if ( $diff ) {
-                    if (!in_array($table->getName(),$baseTables)) {
-                        // we don't remove fields from contenttype tables to prevent accidental data removal
-                        if ($diff->removedColumns) {
-                            //var_dump($diff->removedColumns);
-                            /** @var $column Column */
-                            foreach($diff->removedColumns as $column) {
-                                //$output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
-                                //    "is no longer defined in the config, delete manually if no longer needed.</i>";
-                            }
-                        }
-                        $diff->removedColumns = array();
-                    }
+                if ($diff) {
+                    $diff = $this->cleanupTableDiff($diff);
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
@@ -259,6 +241,46 @@ class IntegrityChecker
 
         return $output;
 
+    }
+
+    /**
+     * Cleanup a table diff, remove changes we want to keep or fix platform specific issues
+     *
+     * @param TableDiff $diff
+     * @return TableDiff
+     */
+    protected function cleanupTableDiff(TableDiff $diff) {
+
+        $baseTables = $this->getBoltTablesNames();
+
+        if (!in_array($diff->fromTable->getName(),$baseTables)) {
+            // we don't remove fields from contenttype tables to prevent accidental data removal
+            if ($diff->removedColumns) {
+                //var_dump($diff->removedColumns);
+                /** @var $column Column */
+                foreach($diff->removedColumns as $column) {
+                    //$output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
+                    //    "is no longer defined in the config, delete manually if no longer needed.</i>";
+                }
+            }
+            $diff->removedColumns = array();
+        }
+
+        // check for default empty string which becomes ''::character varying
+        if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+            if ($diff->changedColumns) {
+                /** @var $column ColumnDiff */
+                foreach($diff->changedColumns as $idx => $column) {
+                    if ($column->changedProperties == array('default') && $column->column->getDefault() == '' &&
+                        $column->fromColumn->getDefault() == "''::character varying")
+                    {
+                        unset($diff->changedColumns[$idx]);
+                    }
+                }
+            }
+        }
+
+        return $diff;
     }
 
     /**
