@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator;
@@ -422,7 +423,6 @@ class Storage
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
-            unset($fieldvalues['id']);
             $id = $this->insertContent($fieldvalues, $contenttype);
             $fieldvalues['id'] = $id;
             $content->setValue('id', $id);
@@ -507,7 +507,11 @@ class Storage
 
         $res = $this->app['db']->insert($tablename, $content);
 
-        $id = $this->app['db']->lastInsertId();
+        $seq = null;
+        if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+            $seq = $tablename.'_id_seq';
+        }
+        $id = $this->app['db']->lastInsertId($seq);
 
         return $id;
 
