@@ -422,6 +422,7 @@ class Storage
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
+            unset($fieldvalues['id']);
             $id = $this->insertContent($fieldvalues, $contenttype);
             $fieldvalues['id'] = $id;
             $content->setValue('id', $id);
