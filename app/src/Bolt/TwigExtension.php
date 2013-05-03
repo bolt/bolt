@@ -793,6 +793,8 @@ class TwigExtension extends \Twig_Extension
                     $item['link'] = $content->link();
                 }
 
+                $item['record'] = $content;
+
             } else {
                 // we assume the user links to this on purpose.
                 $item['link'] = fixPath($this->app['paths']['root'] . $item['path']);

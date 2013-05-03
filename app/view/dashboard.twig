@@ -49,12 +49,13 @@
 
         {% if multiplecontent %}
 
-            <h3>{{ __('Latest %contenttypes%', {'%contenttypes%': app.config.contenttypes[contenttype].name}) }}
+            <h3>
                 <span>
                     <a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}" class='morelink'>
                         {{ __('More %contenttypes% »',{'%contenttypes%': app.config.contenttypes[contenttype].name}) }}
                     </a>
                 </span>
+                {{ __('Latest %contenttypes%', {'%contenttypes%': app.config.contenttypes[contenttype].name}) }}
             </h3>
 
             <table class='dashboardlisting'>

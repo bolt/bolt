@@ -1211,9 +1211,9 @@ class Storage
             if ($order[0] == "-") {
                 $order = substr($order, 1) . " DESC";
             }
-            $param = " ORDER BY " . $order;
+            $param = " ORDER BY `r`." . $order;
         } else {
-            $param = " ORDER BY datepublish DESC";
+            $param = " ORDER BY `r`.datepublish DESC";
         }
 
         return $param;

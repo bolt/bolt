@@ -90,6 +90,10 @@ h1 span {
     color: #666;
 }
 
+h3 span {
+    float: right;
+}
+
 hr {
     clear: both;
     margin: 10px 0;
@@ -263,14 +267,9 @@ footer  {
     font-size: 12px;
     font-weight: normal;
     color: rgba(25, 71, 112, 0.8);
-    float: right;
-    margin-left: 12px;
     text-shadow: none;
-    line-height: 10px;
-    position: relative;
-    right: 0;
-    top: 19px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 18px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .dashboardlisting {
