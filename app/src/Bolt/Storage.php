@@ -1012,7 +1012,10 @@ class Storage
             // for all the  parameters that are taxonomies
             if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
                 // Set the new 'from', with LEFT JOIN for taxonomies..
-                $from = sprintf("FROM %s%s AS r LEFT JOIN %staxonomy AS t ON `r`.`id` = `t`.`content_id`", $this->prefix, $contenttype['slug'], $this->prefix);
+                $from = sprintf("FROM %s%s AS r LEFT JOIN %staxonomy AS t ON %s.%s = %s.%s",
+                    $this->prefix, $contenttype['slug'], $this->prefix, $this->app['db']->quoteIdentifier('r'),
+                    $this->app['db']->quoteIdentifier('id'), $this->app['db']->quoteIdentifier('t'),
+                    $this->app['db']->quoteIdentifier('content_id'));
                 $where[] = $this->parseWhereParameter("t.taxonomytype", $key);
                 $where[] = $this->parseWhereParameter("t.slug", $value);
                 $where[] = $this->parseWhereParameter("t.contenttype", $contenttype['slug']);
@@ -1211,9 +1214,9 @@ class Storage
             if ($order[0] == "-") {
                 $order = substr($order, 1) . " DESC";
             }
-            $param = " ORDER BY `r`." . $order;
+            $param = sprintf(" ORDER BY %s.%s", $this->app['db']->quoteIdentifier('r'), $order);
         } else {
-            $param = " ORDER BY `r`.datepublish DESC";
+            $param = sprintf(" ORDER BY %s.datepublish DESC", $this->app['db']->quoteIdentifier('r'));
         }
 
         return $param;
