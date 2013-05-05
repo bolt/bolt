@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a8097ecb30e84b7b5c9d7f430713ba4b",
+    "hash": "b5c7140329825324c0e95602ba855980",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -334,16 +334,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "2.4.0-BETA1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2.4.0-BETA1"
+                "reference": "873b952c416b2d316ecb1e052f822d57390ac296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2.4.0-BETA1",
-                "reference": "2.4.0-BETA1",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/873b952c416b2d316ecb1e052f822d57390ac296",
+                "reference": "873b952c416b2d316ecb1e052f822d57390ac296",
                 "shasum": ""
             },
             "require": {
@@ -355,7 +355,7 @@
                 "symfony/console": "2.*"
             },
             "suggest": {
-                "symfony/console": "For helpful console commands such as SQL execution and import of files."
+                "symfony/console": "Allows use of the command line interface"
             },
             "type": "library",
             "extra": {
@@ -400,7 +400,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-03-24 18:47:03"
+            "time": "2013-05-04 11:57:47"
         },
         {
             "name": "doctrine/inflector",

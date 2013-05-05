@@ -266,20 +266,6 @@ class IntegrityChecker
             $diff->removedColumns = array();
         }
 
-        // check for default empty string which becomes ''::character varying
-        if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-            if ($diff->changedColumns) {
-                /** @var $column ColumnDiff */
-                foreach($diff->changedColumns as $idx => $column) {
-                    if ($column->changedProperties == array('default') && $column->column->getDefault() == '' &&
-                        $column->fromColumn->getDefault() == "''::character varying")
-                    {
-                        unset($diff->changedColumns[$idx]);
-                    }
-                }
-            }
-        }
-
         return $diff;
     }
 
