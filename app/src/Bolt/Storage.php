@@ -1189,7 +1189,7 @@ class Storage
 
         if (empty($parameters['order'])) {
             if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
-                $order = $contenttype['sort'];
+                $order = $this->app['db']->quoteIdentifier('r') . '.' . $contenttype['sort'];
             }
         } else {
             $parameters['order'] = safeString($parameters['order']);
@@ -1197,7 +1197,7 @@ class Storage
                 $dboptions = getDBOptions($this->app['config']);
                 $order = $dboptions['randomfunction'];
             } elseif ($this->isValidColumn($parameters['order'], $contenttype, true)) {
-                $order = $parameters['order'];
+                $order = $this->app['db']->quoteIdentifier('r') . '.' . $parameters['order'];
             }
         }
 
@@ -1205,9 +1205,9 @@ class Storage
             if ($order[0] == "-") {
                 $order = substr($order, 1) . " DESC";
             }
-            $param = " ORDER BY `r`." . $order;
+            $param = " ORDER BY " . $order;
         } else {
-            $param = " ORDER BY `r`.datepublish DESC";
+            $param = sprintf(" ORDER BY %s.datepublish DESC", $this->app['db']->quoteIdentifier('r'));
         }
 
         return $param;
