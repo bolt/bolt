@@ -282,10 +282,19 @@
             <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
-        <input type="button" data-action="imagelist.addExisting()" value="{{ __('Add existing image') }}" class="btn">
+        <a data-target="#selectImageModal-{{key}}" href="/async/browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Add existing image') }}</a>
     </div>
     <textarea name="{{key}}" id="{{key}}">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
     <div class='clearfix'></div>
+
+    <!-- Modal "select from server"  -->
+    <div class="modal hide modal-wide" id="selectImageModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+        </div>
+    </div>
 </div>
 
 
