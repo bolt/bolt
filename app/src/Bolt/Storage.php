@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator;
@@ -506,7 +507,11 @@ class Storage
 
         $res = $this->app['db']->insert($tablename, $content);
 
-        $id = $this->app['db']->lastInsertId();
+        $seq = null;
+        if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+            $seq = $tablename.'_id_seq';
+        }
+        $id = $this->app['db']->lastInsertId($seq);
 
         return $id;
 
@@ -660,7 +665,7 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
 
         // Add the limit
-        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
+        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
 
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
@@ -783,7 +788,7 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
 
         // Add the limit
-        $queryparams .= sprintf(" LIMIT %s, %s;", ($page - 1) * $limit, $limit);
+        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
 
         // Make the query to get the results..
         $query = "SELECT * FROM $tablename" . $queryparams;
@@ -843,7 +848,8 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
 
         // Add the limit
-        $query = "SELECT * FROM $tablename" . $where . sprintf(" ORDER BY id DESC LIMIT %s, %s;", ($page-1)*$limit, $limit);
+        $query = "SELECT * FROM $tablename" . $where . " ORDER BY id DESC";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page-1)*$limit);
 
         $taxorows = $this->app['db']->fetchAll($query);
 
@@ -1006,7 +1012,10 @@ class Storage
             // for all the  parameters that are taxonomies
             if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
                 // Set the new 'from', with LEFT JOIN for taxonomies..
-                $from = sprintf("FROM %s%s AS r LEFT JOIN %staxonomy AS t ON `r`.`id` = `t`.`content_id`", $this->prefix, $contenttype['slug'], $this->prefix);
+                $from = sprintf("FROM %s%s AS r LEFT JOIN %staxonomy AS t ON %s.%s = %s.%s",
+                    $this->prefix, $contenttype['slug'], $this->prefix, $this->app['db']->quoteIdentifier('r'),
+                    $this->app['db']->quoteIdentifier('id'), $this->app['db']->quoteIdentifier('t'),
+                    $this->app['db']->quoteIdentifier('content_id'));
                 $where[] = $this->parseWhereParameter("t.taxonomytype", $key);
                 $where[] = $this->parseWhereParameter("t.slug", $value);
                 $where[] = $this->parseWhereParameter("t.contenttype", $contenttype['slug']);
@@ -1041,17 +1050,17 @@ class Storage
             $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
         }
 
-        // Order, with a special case for 'RANDOM'.
-        $queryparams .= $this->queryParamOrder($parameters, $contenttype);
-
         // Make the query for the pager..
         $pagerquery = "SELECT COUNT(*) AS count $from $queryparams";
 
+        // Order, with a special case for 'RANDOM'.
+        $queryparams .= $this->queryParamOrder($parameters, $contenttype);
+
         // Add the limit
-        $queryparams .= sprintf(" LIMIT %s, %s;", ($page-1)*$limit, $limit);
+        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
 
         // Make the query to get the results..
-        $query = "SELECT `r`.* $from $queryparams";
+        $query = sprintf( "SELECT %s.* $from $queryparams", $this->app['db']->quoteIdentifier('r'));
 
         // Print the query, if the parameter is present.
         if (!empty($parameters['printquery'])) {
