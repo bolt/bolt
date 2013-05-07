@@ -104,10 +104,7 @@ class Frontend implements ControllerProviderInterface
         $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
 
 
-        $body = $app['twig']->render($template, $twigvars);
-
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
+        return $app['twig']->render($template, $twigvars);
     }
 
     function record(Silex\Application $app, $contenttypeslug, $slug)
