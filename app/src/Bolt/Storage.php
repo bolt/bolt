@@ -1158,10 +1158,31 @@ class Storage
         return preg_replace("/ (desc|asc)$/i", "", $name);
     }
 
+    /**
+     * Get an escaped sortorder for use in SQL, from a fieldname like 'title' or '-id'.
+     *
+     * for example, -id returns `r`.`id` DESC
+     *
+     * @param string $name
+     * @return string
+     */
+    private function getEscapedSortorder($name, $prefix='r') {
+
+        list ($name, $asc) = $this->getSortOrder($name);
+
+        $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+
+        if (!$asc) {
+            $order .= " DESC";
+        }
+
+        return $order;
+
+    }
 
     /**
      * Get sorting order of name, stripping possible " DESC" " ASC" etc., and
-     * also return the sorting onrder
+     * also return the sorting order
      *
      * @param string $name
      * @return string
@@ -1189,7 +1210,7 @@ class Storage
 
         if (empty($parameters['order'])) {
             if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
-                $order = $this->app['db']->quoteIdentifier('r') . '.' . $contenttype['sort'];
+                $order = $this->getEscapedSortorder($contenttype['sort']);
             }
         } else {
             $parameters['order'] = safeString($parameters['order']);
@@ -1197,14 +1218,11 @@ class Storage
                 $dboptions = getDBOptions($this->app['config']);
                 $order = $dboptions['randomfunction'];
             } elseif ($this->isValidColumn($parameters['order'], $contenttype, true)) {
-                $order = $this->app['db']->quoteIdentifier('r') . '.' . $parameters['order'];
+                $order = $this->getEscapedSortorder($parameters['order']);
             }
         }
 
         if (!empty($order)) {
-            if ($order[0] == "-") {
-                $order = substr($order, 1) . " DESC";
-            }
             $param = " ORDER BY " . $order;
         } else {
             $param = sprintf(" ORDER BY %s.datepublish DESC", $this->app['db']->quoteIdentifier('r'));
