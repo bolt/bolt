@@ -2,6 +2,7 @@
 
 Namespace Bolt\Controllers;
 
+use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,27 +93,30 @@ class Async implements ControllerProviderInterface
                 base64_encode($name)
             );
 
+            $curlOptions = array('CURLOPT_CONNECTTIMEOUT' => 5);
             // If there's a proxy ...
             if (!empty($app['config']['general']['httpProxy'])) {
-                $options = array (
-                    'curl.options' => array (
-                            'CURLOPT_PROXY'          => $app['config']['general']['httpProxy']['host'],
-                            'CURLOPT_PROXYTYPE'      => 'CURLPROXY_HTTP',
-                            'CURLOPT_PROXYUSERPWD'   => $app['config']['general']['httpProxy']['user'] . ':' . $app['config']['general']['httpProxy']['password']
-                    )
-                );
-                $guzzleclient = new \Guzzle\Http\Client($url, $options);
-            } else {
-                $guzzleclient = new \Guzzle\Http\Client($url);
+                $curlOptions['CURLOPT_PROXY'] = $app['config']['general']['httpProxy']['host'];
+                $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
+                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']['general']['httpProxy']['user'] . ':' . $app['config']['general']['httpProxy']['password'];
             }
+            $guzzleclient = new \Guzzle\Http\Client($url, array('curl.options' => $curlOptions));
 
-            $news = $guzzleclient->get("/")->send()->getBody(true);
-            $news = json_decode($news);
+            try {
+                $newsData = $guzzleclient->get("/")->send()->getBody(true);
+                $news = json_decode($newsData);
+                if ($news) {
+                    // For now, just use the most current item.
+                    $news = current($news);
 
-            // For now, just use the most current item.
-            $news = current($news);
+                    $app['cache']->save('dashboardnews', $news, 7200);
+                } else {
+                    $app['log']->add("News: got invalid JSON feed", 1);
+                }
 
-            $app['cache']->save('dashboardnews', $news, 7200);
+            } catch(RequestException $re) {
+                $app['log']->add("News: got exception: ".$re->getMessage(), 1);
+            }
 
         } else {
             $app['log']->add("News: get from cache..", 1);
