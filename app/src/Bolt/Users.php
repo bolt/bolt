@@ -101,7 +101,7 @@ class Users
         $user['username'] = makeSlug($user['username']);
 
         if (empty($user['lastseen'])) {
-            $user['lastseen'] = "0000-00-00";
+            $user['lastseen'] = "1900-01-01";
         }
 
         if (empty($user['userlevel'])) {
@@ -113,11 +113,11 @@ class Users
         }
 
         if (empty($user['shadowvalidity'])) {
-            $user['shadowvalidity'] = "0000-00-00";
+            $user['shadowvalidity'] = "1900-01-01";
         }
 
         if (empty($user['throttleduntil'])) {
-            $user['throttleduntil'] = "0000-00-00";
+            $user['throttleduntil'] = "1900-01-01";
         }
 
         if (empty($user['failedlogins'])) {
@@ -132,6 +132,7 @@ class Users
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
+            unset($user['id']);
             return $this->db->insert($this->usertable, $user);
         } else {
             return $this->db->update($this->usertable, $user, array('id' => $user['id']));
@@ -279,7 +280,8 @@ class Users
         $userslug = makeSlug($user);
 
         // for once we don't use getUser(), because we need the password.
-        $query = "SELECT * FROM " . $this->usertable . " WHERE username=? LIMIT 1";
+        $query = "SELECT * FROM " . $this->usertable . " WHERE username=?";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($userslug), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
@@ -425,7 +427,8 @@ class Users
         $now = date("Y-m-d H:i:s");
 
         // Let's see if the token is valid, and it's been requested within two hours...
-        $query = "SELECT * FROM " . $this->usertable . " WHERE shadowtoken = ? AND shadowvalidity > ? LIMIT 1;";
+        $query = "SELECT * FROM " . $this->usertable . " WHERE shadowtoken = ? AND shadowvalidity > ?";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
 
         if (!empty($user)) {
