@@ -82,3 +82,8 @@ Currently, these are the third party extensions we're aware of:
 
 The extensions can be placed in the `app/extensions` folder.
 Learn more about writing extensions from our [docs](https://github.com/bolt/bolt-docs/blob/master/source/extensions.md)
+
+Vagrant and Puppet
+------------------
+You can now use vagrant to create a virtual server easily. Read more about it
+int the [support](https://github.com/bolt/bolt/support) folder.

@@ -1,0 +1,4 @@
+pkg/
+Gemfile.lock
+# TODO: Ignore this for now until we decide what to do with it
+spec/fixtures/manifests/

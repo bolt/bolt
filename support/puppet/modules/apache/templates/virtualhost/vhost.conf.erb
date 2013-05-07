@@ -1,0 +1,12 @@
+# File Managed by Puppet
+
+<VirtualHost *:<%= port %>>
+    ServerAdmin webmaster@<%= name %>
+    DocumentRoot <%= docroot %>
+    ServerName <%= name %>
+<% if serveraliases != "" -%>
+    ServerAlias <%= serveraliases %>
+<% end -%>
+    ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
+    CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common
+</VirtualHost>

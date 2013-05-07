@@ -1,0 +1,23 @@
+---
+default_set: 'centos-63-x64'
+sets:
+  'centos-58-x64':
+    nodes:
+      "main":
+        prefab: 'centos-58-x64'
+  'centos-63-x64':
+    nodes:
+      "main":
+        prefab: 'centos-63-x64'
+  'debian-606-x64':
+    nodes:
+      "main":
+        prefab: 'debian-606-x64'
+  'ubuntu-server-1004-x64':
+    nodes:
+      "main":
+        prefab: 'ubuntu-server-1004-x64'
+  'ubuntu-server-1204-x64':
+    nodes:
+      "main":
+        prefab: 'ubuntu-server-1204-x64'

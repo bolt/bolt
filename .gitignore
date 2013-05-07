@@ -12,7 +12,7 @@ composer.phar
 .idea
 __*
 .__*
-web
+web/*
 theme/mybolt/
-
+.vagrant
 *.sublime-*
