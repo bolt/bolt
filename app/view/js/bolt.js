@@ -558,14 +558,6 @@ var ImagelistHolder = Backbone.View.extend({
         this.bindEvents();
     },
 
-    addExisting: function() {
-        var filename = prompt('Filename of image to add?');
-        var title = prompt('Description of the image?');
-        var image = new Imagemodel({filename: filename, title: title, id: this.list.length});
-        this.list.add(image);
-        this.render();
-    },
-
     render: function() {
         this.list.sort();
         $('.imagelistholder .list').html('');
@@ -643,6 +635,19 @@ var ImagelistHolder = Backbone.View.extend({
 
         $(".imagelistholder div.list").on('blur', 'input', function() {
             imagelist.doneSort();
+        });
+
+        // In the modal dialog, to navigate folders..
+        $('#selectImageModal-imagelist').on('click','.folder', function(e) {
+            e.preventDefault();
+            $('#selectImageModal-imagelist .modal-body').load($(this).attr('href'));
+        });
+
+        // In the modal dialog, to select a file..
+        $('#selectImageModal-imagelist').on('click','.file', function(e) {
+            e.preventDefault();
+            var filename = $(this).attr('href');
+            imagelist.add(filename, filename);
         });
 
     }
