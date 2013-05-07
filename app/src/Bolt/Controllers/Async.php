@@ -2,7 +2,6 @@
 
 Namespace Bolt\Controllers;
 
-use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,7 +75,6 @@ class Async implements ControllerProviderInterface
     function dashboardnews(Silex\Application $app) {
 
         $news = $app['cache']->fetch('dashboardnews'); // Two hours.
-        $news=false;
 
         $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 
