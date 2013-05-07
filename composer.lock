@@ -179,7 +179,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -245,7 +245,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -451,7 +451,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -503,9 +503,9 @@
                     "email": "roman@code-factory.org"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -874,16 +874,16 @@
         },
         {
             "name": "silex/silex",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "a0b5f746cf4e5f93c9242ecd7804d5c23f419f85"
+                "reference": "v1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/a0b5f746cf4e5f93c9242ecd7804d5c23f419f85",
-                "reference": "a0b5f746cf4e5f93c9242ecd7804d5c23f419f85",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/v1.0.0",
+                "reference": "v1.0.0",
                 "shasum": ""
             },
             "require": {
@@ -897,7 +897,7 @@
             "require-dev": {
                 "doctrine/dbal": ">=2.2.0,<2.4.0-dev",
                 "monolog/monolog": ">=1.4,<2.0,>=1.4.1",
-                "swiftmailer/swiftmailer": "4.2.*",
+                "swiftmailer/swiftmailer": "5.*",
                 "symfony/browser-kit": ">=2.1,<2.4-dev",
                 "symfony/config": ">=2.1,<2.4-dev",
                 "symfony/css-selector": ">=2.1,<2.4-dev",
@@ -952,7 +952,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-04-30 08:55:57"
+            "time": "2013-05-03 16:49:57"
         },
         {
             "name": "swiftmailer/swiftmailer",
