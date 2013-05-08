@@ -502,7 +502,7 @@ div.extension p {
  */
 label {
     min-width: 180px;
-    margin: 0.3em 0 0.5em;
+    margin: 0.6em 0 0.6em;
     vertical-align: top;
 }
 
@@ -518,6 +518,7 @@ label span.left {
     display: block;
     float: left;
     min-width: 180px;
+    margin-top: 5px;
 }
 
 input[type="checkbox"] {

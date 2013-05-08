@@ -15,7 +15,7 @@
     {% for relcontenttype, relation in contenttype.relations %}
 
         <label for='relation-{{relcontenttype|trans}}'><b><span class='left'>
-            {% if relation.label %}{{ relation.label|trans }}{% else %}{{ relcontenttype|ucfirst|trans }}{% endif %}:
+            {% if relation.label %}{{ relation.label|trans }}{% else %}{{ relcontenttype|ucfirst|trans }}{% endif %}
         </span></b></label>
 
         {% if relation.multiple is defined and relation.multiple == 1 %}

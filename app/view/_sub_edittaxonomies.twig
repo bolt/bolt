@@ -19,7 +19,7 @@
 
         {% if taxonomy.behaves_like == "tags" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}:</span></b></label>
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
 
             {% if content.taxonomy[taxonomy.slug] is defined %}
                 {% set tags = content.taxonomy[taxonomy.slug]|join(",") %}
@@ -42,7 +42,7 @@
 
         {% if taxonomy.behaves_like == "categories" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}:</span></b></label>
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
 
             {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' multiple>
@@ -64,7 +64,7 @@
 
         {% if taxonomy.behaves_like == "grouping" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}:</span></b></label>
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
 
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no group)</option>
