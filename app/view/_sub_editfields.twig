@@ -477,10 +477,10 @@
 <input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
 <script type="text/javascript">
     $(function() {
-        $('#{{key}}-date').on('change', function(){
+        $('#{{key}}-date').on('change.bolt', function(){
             var date = $('#{{key}}-date').datepicker( "getDate" );
             $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date));
-        });
+        }).trigger('change.bolt');;
     });
 </script>
 {% endif %}
@@ -499,11 +499,11 @@
 <input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
 <script type="text/javascript">
     $(function() {
-        $('#{{key}}-date, #{{key}}-time').on('change', function(){
+        $('#{{key}}-date, #{{key}}-time').on('change.bolt', function(){
             var date = $('#{{key}}-date').datepicker("getDate");
             var time = $('#{{key}}-time').val() + ":00";
             $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
-        });
+        }).trigger('change.bolt');;
     });
 </script>
 {% endif %}
