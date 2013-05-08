@@ -388,27 +388,6 @@ class Storage
         // Clean up fields, check unneeded columns.
         foreach ($fieldvalues as $key => $value) {
 
-            // parse 'formatted dates'.. Wednesday, 15 August 2012 -> 2012-08-15
-            if (strpos($key, "-dateformatted") !== false) {
-                $newkey = str_replace("-dateformatted", "", $key);
-
-                // See if we need to add the time..
-                if (isset($fieldvalues[$newkey.'-timeformatted']) && !empty($fieldvalues[$newkey.'-timeformatted'])) {
-                    $value .= " - " . $fieldvalues[$newkey.'-timeformatted'];
-                } else {
-                    $value .= " - 00:00";
-                }
-
-                $timestamp = \DateTime::createFromFormat("l, d F Y - H:i", $value);
-
-                if ($timestamp instanceof \DateTime) {
-                    $fieldvalues[$newkey] = $timestamp->format('Y-m-d H:i:00');
-                } else {
-                    $fieldvalues[$newkey] = "";
-                }
-
-            }
-
             if ($this->isValidColumn($key, $contenttype)) {
                 // Trim strings..
                 if (is_string($fieldvalues[$key])) {
