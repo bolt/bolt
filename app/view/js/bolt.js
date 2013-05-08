@@ -153,7 +153,11 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source' ] });
 
-    config.height = "250px";
+    config.height = 250;
+    config.autoGrow_onStartup = true;
+    config.autoGrow_minHeight = 150;
+    config.autoGrow_maxHeight = 400;
+    config.autoGrow_bottomSpace = 24;
     config.removePlugins = 'elementspath';
     config.resize_dir = 'vertical';
 

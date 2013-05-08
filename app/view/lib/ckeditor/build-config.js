@@ -61,7 +61,8 @@ var CKBUILDER_CONFIG = {
 		'filebrowser' : 1,
 		'about' : 1,
 		'codemirror' : 1,
-		'find' : 1
+		'find' : 1,
+		'autogrow' : 1
 	},
 	languages : {
 		'nl' : 1,
