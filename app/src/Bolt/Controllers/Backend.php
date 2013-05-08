@@ -147,8 +147,8 @@ class Backend implements ControllerProviderInterface
         getConfig();
 
         // Check DB-tables integrity
-        if ($app->storage->getIntegrityChecker()->needsCheck()) {
-            if (count($app->storage->getIntegrityChecker()->checkTablesIntegrity())>0) {
+        if ($app['storage']->getIntegrityChecker()->needsCheck()) {
+            if (count($app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
                 $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
                 $app['session']->getFlashBag()->set('error', $msg);
             }
@@ -248,7 +248,7 @@ class Backend implements ControllerProviderInterface
      */
     function dbcheck(\Bolt\Application $app) {
 
-        $output = $app->storage->getIntegrityChecker()->checkTablesIntegrity();
+        $output = $app['storage']->getIntegrityChecker()->checkTablesIntegrity();
 
         if (!empty($output)) {
             $content = '<p>' . __('Modifications needed:') . '</p>';
@@ -278,7 +278,7 @@ class Backend implements ControllerProviderInterface
      */
     function dbupdate(Silex\Application $app) {
 
-        $output = $app->storage->getIntegrityChecker()->repairTables();
+        $output = $app['storage']->getIntegrityChecker()->repairTables();
 
         if (empty($output)) {
             $content = '<p>' . __('Your database is already up to date.') . '</p>';
@@ -641,7 +641,7 @@ class Backend implements ControllerProviderInterface
             $firstuser = true;
             $title = __('Create the first user');
             // If we get here, chances are we don't have the tables set up, yet.
-            $app->storage->getIntegrityChecker()->repairTables();
+            $app['storage']->getIntegrityChecker()->repairTables();
         } else {
             $firstuser = false;
         }
@@ -1213,15 +1213,15 @@ class Backend implements ControllerProviderInterface
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
-        if ($app->storage->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
+        if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
             $app['twig']->addGlobal('frontend', false);
             return;
         }
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app->storage->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-            $app->storage->getIntegrityChecker()->repairTables();
+        if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+            $app['storage']->getIntegrityChecker()->repairTables();
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
             return redirect('useredit', array('id' => ""));
         }
