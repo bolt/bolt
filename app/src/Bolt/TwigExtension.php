@@ -130,8 +130,11 @@ class TwigExtension extends \Twig_Extension
             $dateTime = new \DateTime($dateTime);
         }
 
-        $fallbackLocale = array('en_GB', 'en');
-        $locale = array_merge(array($this->app['config']['general']['locale']), $fallbackLocale);
+        $locale = array(
+            $this->app['config']['general']['locale'],
+            $this->app['config']['general']['locale'] . '.utf8',
+            'en_GB', 'en_GB.utf8', 'en'
+        );
 
         $result = setlocale(LC_ALL, $locale);
         if ($result === false){
