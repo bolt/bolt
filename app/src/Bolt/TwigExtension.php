@@ -43,7 +43,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('request', array($this, 'request')),
             new \Twig_SimpleFunction('debugbar', array($this, 'debugbar')),
             new \Twig_SimpleFunction('ismobileclient', array($this, 'isMobileClient')),
-            new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true)),
+            new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true, 'is_safe' => array('html'))),
             new \Twig_SimpleFunction('randomquote', array($this, 'randomquote'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('widget', array($this, 'widget')),
             new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
@@ -738,9 +738,10 @@ class TwigExtension extends \Twig_Extension
      * @param \Twig_Environment $env
      * @param string $identifier Identifier for a particular menu
      * @param string $template The template to use.
+     * @param array $params Extra parameters to pass on to the menu template.
      * @return null
      */
-    public function menu(\Twig_Environment $env, $identifier = "", $template = '_sub_menu.twig')
+    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
     {
 
         $menus = $this->app['config']['menu'];
@@ -763,8 +764,18 @@ class TwigExtension extends \Twig_Extension
 
         }
 
-        echo $env->render($template, array('name' => $name, 'menu' => $menu));
-        return null;
+        $twigvars = array(
+            'name' => $name,
+            'menu' => $menu
+        );
+
+        // If $params is not empty, merge it with twigvars.
+        if (!empty($params) && is_array($params)) {
+            $twigvars = $twigvars + $params;
+        }
+
+        return $env->render($template, $twigvars);
+
     }
 
     /**
