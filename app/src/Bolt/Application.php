@@ -36,7 +36,7 @@ class Application extends BaseApplication
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '1.1';
-        $values['bolt_name'] = 'beta 2';
+        $values['bolt_name'] = 'beta 3';
 
         parent::__construct($values);
     }
