@@ -27,7 +27,7 @@ class Content implements \ArrayAccess
                 foreach ($this->contenttype['taxonomy'] as $taxonomytype) {
                     if (isset($this->app['config']['taxonomy'][$taxonomytype]) &&
                         $this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-                        $this->setGroup('', '', $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
+                        $this->setGroup('', '', $taxonomytype);
                     }
                 }
             }
@@ -382,7 +382,7 @@ class Content implements \ArrayAccess
 
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-            $this->setGroup($value, $name, $sortorder);
+            $this->setGroup($value, $name, $taxonomytype);
         }
 
     }
@@ -453,17 +453,31 @@ class Content implements \ArrayAccess
      *
      * @param string $value
      * @param string $name
-     * @param bool $sortorder
+     * @param string $taxonomytype
      */
-    public function setGroup($group, $name = "", $sortorder = false)
+    public function setGroup($group, $name = "", $taxonomytype)
     {
-        $this->group = $group;
-        $this->groupname = $name;
+        $this->group = array(
+            'slug' => $group,
+            'name' => $name
+        );
+
+        $sortorder = $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'];
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
         if ($sortorder !== false) {
-            $this->sortorder = (int)$sortorder;
+            $this->group['order'] = (int)$sortorder;
         }
+
+        // Set the 'index', so we can sort on it later.
+        $index = array_search($group, array_keys($this->app['config']['taxonomy'][$taxonomytype]['options']));
+
+        if ($index !== false) {
+            $this->group['index'] = $index;
+        } else {
+            $this->group['index'] = 2147483647; // Max for 32 bit int.
+        }
+
     }
 
     /**

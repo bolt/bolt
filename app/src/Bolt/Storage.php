@@ -1229,6 +1229,7 @@ class Storage
      */
     private function groupingSort($a, $b)
     {
+        // Same group, sort within group..
         if ($a->group == $b->group) {
 
             if (!empty($a->sortorder) || !empty($b->sortorder)) {
@@ -1256,7 +1257,9 @@ class Storage
                 return $order ? $result : -$result;
             }
         }
-        return ($a->group < $b->group) ? -1 : 1;
+        // Otherwise, sort based on the group. Or, more specifically, on the index of
+        // the item in the group's taxonomy definition.
+        return ($a->group['index'] < $b->group['index']) ? -1 : 1;
     }
 
     /**

@@ -17,12 +17,12 @@
         {% for content in multiplecontent %}
 
             {# If we have 'grouping', print the row with the groupname.. #}
-            {% if content.group is defined and content.group is not sameas(false) and content.group != lastgroup %}
+            {% if content.group.name is defined and content.group.name is not sameas(false) and content.group.name != lastgroup %}
                 <tr class="grouping">
                     <th colspan="5">
                         <h3 {% if loop.first %}class="first"{% endif %}>
-                        {% if content.groupname  %}
-                            {{ content.groupname }}
+                        {% if content.group.name  %}
+                            {{ content.group.name }}
                         {% else %}
                             {{ __('(no group)') }}
                         {% endif %}
@@ -32,8 +32,8 @@
             {% endif %}
 
             {# print the header for the first row.. #}
-            {% if loop.first or (content.group is defined and content.group != lastgroup) %}
-                {% set lastgroup = content.group %}
+            {% if loop.first or (content.group.name is defined and content.group.name != lastgroup) %}
+                {% set lastgroup = content.group.name %}
                 {% if "filter" in app.request.query.all|keys %}
                     {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
                 {% else %}
