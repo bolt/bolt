@@ -763,12 +763,14 @@ function getConfig()
     if (empty($config['general']['cookies_domain'])) {
 
         // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
-            if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
-                $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
+        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z0-9]/i", $_SERVER["SERVER_NAME"]) ) {
+            if (preg_match("/^www[0-9]*./",$_SERVER["SERVER_NAME"])) {
+                $config['general']['cookies_domain'] = "." . preg_replace("/^www[0-9]*./", "", $_SERVER["SERVER_NAME"]);
             } else {
                 $config['general']['cookies_domain'] = "." .$_SERVER["SERVER_NAME"];
             }
+            // Make sure we don't have consecutive '.'-s in the cookies_domain..
+            $config['general']['cookies_domain'] = str_replace("..", ".", $config['general']['cookies_domain']);
         } else {
             $config['general']['cookies_domain'] = "";
         }
