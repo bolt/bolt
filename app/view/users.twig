@@ -23,7 +23,7 @@
             <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
             <td>{{ userlevels[user.userlevel] }} </td>
             <td>
-                {% if user.lastseen>"1000" %}
+                {% if user.lastseen|date('Y') > "1901" %}
                     <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
                 {% else %}
                     -
