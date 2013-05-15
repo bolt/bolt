@@ -121,9 +121,11 @@ wysiwyg:
     fontcolor: false
     align: false
     subsuper: false
-    embed: true
+    embed: true,
+    anhor: true,
     ck:
-        #allowedContent: true # Set this to 'true' to allow any elements and attributes in Wysiwg Elements
+        allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
+        autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
         #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
         filebrowserWindowWidth: '640'
         filebrowserWindowHeight: '480'

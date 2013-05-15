@@ -719,6 +719,8 @@ function getConfig()
             'embed' => true,
             'anchor' => false,
             'ck' => array(
+                'allowedContent' => true,
+                'autoParagraph' => true,
                 'contentsCss' => array(
                     $paths['app'] . 'view/lib/ckeditor/contents.css',
                     $paths['app'] . 'view/css/ckeditor.css',

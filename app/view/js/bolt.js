@@ -117,7 +117,6 @@ CKEDITOR.editorConfig = function( config ) {
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;
     config.entities = false;
-    config.autoParagraph = false;
     config.toolbar = [
         { name: 'styles', items: [ 'Format' ] },
         { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
