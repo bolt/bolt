@@ -20,12 +20,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.2",
+            'version' => "1.3",
             'required_bolt_version' => "1.0",
-            'highest_bolt_version' => "1.0",
+            'highest_bolt_version' => "1.1",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2013-02-01",
+            'latest_releasedate' => "2013-05-15",
         );
 
         return $data;
@@ -77,16 +77,16 @@ class Extension extends \Bolt\BaseExtension
      * @param string $name
      * @return string
      */
-    function simpleForm($name="")
+    function simpleForm($formname = "")
     {
 
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
         // Select which form to use..
-        if (isset($this->config[$name])) {
-            $formconfig = $this->config[$name];
+        if (isset($this->config[$formname])) {
+            $formconfig = $this->config[$formname];
         } else {
-            return "Simpleforms notice: No form known by name '$name'.";
+            return "Simpleforms notice: No form known by name '$formname'.";
         }
 
         // Set the mail configuration for empty fields to the global defaults.
@@ -146,6 +146,12 @@ class Extension extends \Bolt\BaseExtension
             } elseif ($field['type']=="email") {
                 $options['constraints'][] = new Assert\Email();
             }
+
+            // Yeah, this feels a bit flakey, but I'm not sure how I can get the form type in the template
+            // in another way.
+            $options['attr']['type'] = $field['type'];
+
+            // \util::var_dump($options);
 
             $form->add($name, $field['type'], $options);
 
@@ -207,6 +213,7 @@ class Extension extends \Bolt\BaseExtension
             "message" => $message,
             "error" => $error,
             "sent" => $sent,
+            "formname" => $formname,
             "button_text" => $formconfig['button_text']
         ));
 
