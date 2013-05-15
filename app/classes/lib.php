@@ -717,6 +717,7 @@ function getConfig()
             'align' => false,
             'subsuper' => false,
             'embed' => true,
+            'anchor' => false,
             'ck' => array(
                 'contentsCss' => array(
                     $paths['app'] . 'view/lib/ckeditor/contents.css',
