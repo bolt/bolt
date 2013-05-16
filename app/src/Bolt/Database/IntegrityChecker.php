@@ -298,6 +298,19 @@ class IntegrityChecker
 
         $tables = array();
 
+        $authtokenTable = $schema->createTable($this->prefix."authtoken");
+        $authtokenTable->addColumn("id", "integer", array('autoincrement' => true));
+        $authtokenTable->setPrimaryKey(array("id"));
+        $authtokenTable->addColumn("username", "string", array("length" => 32));
+        $authtokenTable->addIndex( array( 'username' ) );
+        $authtokenTable->addColumn("token", "string", array("length" => 128));
+        $authtokenTable->addColumn("salt", "string", array("length" => 128));
+        $authtokenTable->addColumn("lastseen", "datetime", array("default" => "1900-01-01 00:00:00"));
+        $authtokenTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
+        $authtokenTable->addColumn("useragent", "string", array("length" => 128, "default" => ""));
+        $authtokenTable->addColumn("validity", "datetime", array("default" => "1900-01-01 00:00:00"));
+        $tables[] = $authtokenTable;
+
         $usersTable = $schema->createTable($this->prefix."users");
         $usersTable->addColumn("id", "integer", array('autoincrement' => true));
         $usersTable->setPrimaryKey(array("id"));

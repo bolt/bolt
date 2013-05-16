@@ -614,9 +614,13 @@ class Backend implements ControllerProviderInterface
 
         $title = "Users";
         $users = $app['users']->getUsers();
+        $sessions = $app['users']->getActiveSessions();
         $userlevels = $app['users']->getUserLevels();
 
-        return $app['twig']->render('users.twig', array('users' => $users, 'title' => $title, 'userlevels' => $userlevels ));
+        return $app['twig']->render(
+            'users.twig',
+            array('users' => $users, 'title' => $title, 'userlevels' => $userlevels, 'sessions' => $sessions )
+        );
 
     }
 

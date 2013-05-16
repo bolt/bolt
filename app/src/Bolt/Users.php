@@ -36,6 +36,7 @@ class Users
         $this->hash_strength = max($this->config['general']['hash_strength'], 8);
 
         $this->usertable = $prefix . "users";
+        $this->authtokentable = $prefix . "authtoken";
         $this->users = array();
         $this->session = $app['session'];
 
@@ -167,8 +168,9 @@ class Users
                 $this->currentuser = array_merge($this->currentuser, $database);
             }
         } else {
-            // no current user, return without doing the rest.
-            return false;
+            // no current user, check if we can resume from authtoken cookie, or return without doing the rest.
+            $result = $this->loginAuthtoken();
+            return $result;
         }
 
         if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS) {
@@ -185,7 +187,7 @@ class Users
             }
         }
 
-        $key = $this->getSessionKey($this->currentuser['username']);
+        $key = $this->getAuthtoken($this->currentuser['username']);
 
         if ($key != $this->currentuser['sessionkey']) {
             $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
@@ -200,17 +202,10 @@ class Users
             return false;
         }
 
-        // Update the session cookie, because Silex doesn't do this. I'm not sure if it
-        // even _is_ Silex's job to do it, but the fact is that we do need it to prevent
-        // users from being logged out automatically after two weeks, regardless of
-        // how active they are in the meantime.
-        setcookie(
-            'bolt_session',
-            $_COOKIE['bolt_session'],
-            time() + $this->app['config']['general']['cookies_lifetime'],
-            '/',
-            $this->app['config']['general']['cookies_domain']
-        );
+        // Check if there's a bolt_authtoken cookie. If not, set it.
+        if (empty($_COOKIE['bolt_authtoken'])) {
+            $this->setAuthtoken();
+        }
 
         return true;
 
@@ -222,14 +217,14 @@ class Users
      * @param  string $name
      * @return string
      */
-    private function getSessionKey($name = "")
+    private function getAuthtoken($name = "", $salt = "")
     {
 
         if (empty($name)) {
             return false;
         }
 
-        $key = $name;
+        $key = $name . "-" . $salt;
 
         if ($this->app['config']['general']['cookies_use_remoteaddr']) {
             $key .= "-". $_SERVER['REMOTE_ADDR'];
@@ -247,6 +242,56 @@ class Users
 
     }
 
+    /**
+     * Set the Authtoken cookie and DB-entry. If it's already present, update it.
+     */
+    private function setAuthtoken()
+    {
+
+        $browser = getBrowserInfo();
+
+        $salt = makekey(12);
+        $token = array(
+            'username' => $this->currentuser['username'],
+            'token' => $this->getAuthtoken($this->currentuser['username'], $salt),
+            'salt' => $salt,
+            'validity' => date('Y-m-d H:i:s', time() + $this->app['config']['general']['cookies_lifetime']),
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'lastseen' => date('Y-m-d H:i:s'),
+            'useragent' => sprintf("%s %s - %s", $browser['name'], $browser['version'], $browser['platform'])
+        );
+
+        // Update or set the authtoken cookie..
+        setcookie(
+            'bolt_authtoken',
+            $token['token'],
+            time() + $this->app['config']['general']['cookies_lifetime'],
+            '/',
+            $this->app['config']['general']['cookies_domain']
+        );
+
+        // Check if there's already a token stored for this name / IP combo.
+        $query = "SELECT id FROM " . $this->authtokentable . " WHERE username=? AND ip=?";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+        $row = $this->db->executeQuery($query, array($token['username'], $token['ip']), array(\PDO::PARAM_STR))->fetch();
+
+        // Update or insert the row..
+        if (empty($row)) {
+            $this->db->insert($this->authtokentable, $token);
+        } else {
+            $this->db->update($this->authtokentable, $token, array('id' => $row['id']));
+        }
+
+    }
+
+    public function getActiveSessions() {
+
+        $query = "SELECT * FROM " . $this->authtokentable;
+        $sessions = $this->db->fetchAll($query);
+
+        return $sessions;
+
+    }
 
     /**
      * Remove a user from the database.
@@ -315,10 +360,14 @@ class Users
 
             $user = $this->getUser($user['id']);
 
-            $user['sessionkey'] = $this->getSessionKey($user['username']);
+            $user['sessionkey'] = $this->getAuthtoken($user['username']);
 
             $this->session->set('user', $user);
             $this->session->getFlashBag()->set('success', __("You've been logged on successfully."));
+
+            $this->currentuser = $user;
+
+            $this->setAuthtoken();
 
             return true;
 
@@ -347,6 +396,79 @@ class Users
         }
 
     }
+
+
+    /**
+     * Attempt to login a user via the bolt_authtoken cookie
+     *
+     * @return bool
+     */
+    public function loginAuthtoken()
+    {
+
+        // If there's no cookie, we can't resume a session from the authtoken.
+        if (empty($_COOKIE['bolt_authtoken'])) {
+            return false;
+        }
+
+        $authtoken = $_COOKIE['bolt_authtoken'];
+        $remoteip = $_SERVER['REMOTE_ADDR'];
+
+        // Check if there's already a token stored for this token / IP combo.
+        $query = "SELECT * FROM " . $this->authtokentable . " WHERE token=? AND ip=?";
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+        $row = $this->db->executeQuery($query, array($authtoken, $remoteip), array(\PDO::PARAM_STR))->fetch();
+
+        // If there's no row, we can't resume a session from the authtoken.
+        if (empty($row)) {
+            return false;
+        }
+
+        $checksalt = $this->getAuthtoken($row['username'], $row['salt']);
+
+        if ($checksalt == $row['token']) {
+
+            $user = $this->getUser($row['username']);
+
+            $update = array(
+                'lastseen' => date('Y-m-d H:i:s'),
+                'lastip' => $_SERVER['REMOTE_ADDR'],
+                'failedlogins' => 0,
+                'throttleduntil' => $this->throttleUntil(0)
+            );
+
+            // Attempt to update the last login, but don't break on failure.
+            try {
+                $this->db->update($this->usertable, $update, array('id' => $user['id']));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+            }
+
+            $user['sessionkey'] = $this->getAuthtoken($user['username']);
+
+            $this->session->set('user', $user);
+            $this->session->getFlashBag()->set('success', __("Session resumed."));
+
+            $this->currentuser = $user;
+
+            $this->setAuthtoken();
+
+            return true;
+
+        } else {
+            echo "bummer";
+            \util::var_dump($row);
+            \util::var_dump($checksalt);
+
+            // Delete the authtoken cookie..
+            setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']['general']['cookies_domain']);
+
+            return false;
+
+        }
+
+    }
+
 
     public function resetPasswordRequest($username)
     {
@@ -489,6 +611,14 @@ class Users
     {
         $this->session->getFlashBag()->set('info', __('You have been logged out.'));
         $this->session->remove('user');
+
+        // Remove all auth tokens when logging off a user..
+        $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
+
+        // Remove the cookie..
+        setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']['general']['cookies_domain']);
+
+
         // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
         // $this->session->invalidate();
 
