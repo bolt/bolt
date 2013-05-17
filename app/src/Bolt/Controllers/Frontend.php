@@ -79,32 +79,24 @@ class Frontend implements ControllerProviderInterface
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
 
-            if (!$content) {
-                $twigvars = array();
-            } else if (is_array($content)) {
+            if (is_array($content)) {
                 $first = current($content);
-                $twigvars = array(
-                    'records' => $content,
-                    $first->contenttype['slug'] => $content
-                );
-            } else {
-                $twigvars = array(
-                    'record' => $content,
-                    $content->contenttype['singular_slug'] => $content
-                );
+                $app['twig']->addGlobal('records', $content);
+                $app['twig']->addGlobal($first->contenttype['slug'], $content);
+            } else if (!empty($content)) {
+                $app['twig']->addGlobal('record', $content);
+                $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
             }
 
             $chosen = 'homepage config';
         } else {
             $template = 'index.twig';
-            $twigvars = array();
             $chosen = 'homepage fallback';
         }
 
         $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
 
-
-        return $app['twig']->render($template, $twigvars);
+        return $app['twig']->render($template);
     }
 
     function record(Silex\Application $app, $contenttypeslug, $slug)
@@ -146,11 +138,13 @@ class Frontend implements ControllerProviderInterface
         $app['paths'] = getPaths($app);
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
+        // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
+        // So that they're also available in menu's and templates rendered by extensions.
+        $app['twig']->addGlobal('record', $content);
+        $app['twig']->addGlobal($contenttype['singular_slug'], $content);
+
         // Render the template and return.
-        return $app['twig']->render($template, array(
-            'record' => $content,
-            $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-        ));
+        return $app['twig']->render($template);
 
     }
 
@@ -180,10 +174,12 @@ class Frontend implements ControllerProviderInterface
             $app->abort(404, $error);
         }
 
-        return $app['twig']->render($template, array(
-            'record' => $content,
-            $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-        ));
+        // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
+        // So that they're also available in menu's and templates rendered by extensions.
+        $app['twig']->addGlobal('record', $content);
+        $app['twig']->addGlobal($contenttype['singular_slug'], $content);
+
+        return $app['twig']->render($template);
 
     }
 
@@ -239,10 +235,12 @@ class Frontend implements ControllerProviderInterface
 
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        return $app['twig']->render($template, array(
-            'records' => $content,
-            $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
-        ));
+        // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
+        // So that they're also available in menu's and templates rendered by extensions.
+        $app['twig']->addGlobal('records', $content);
+        $app['twig']->addGlobal($contenttype['slug'], $content);
+
+        return $app['twig']->render($template);
 
     }
 
@@ -295,12 +293,12 @@ class Frontend implements ControllerProviderInterface
 
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        return $app['twig']->render($template, array(
-            'records' => $content,
-            'taxonomy' => $app['config']['taxonomy'][$taxonomyslug],
-            'taxonomytype' => $taxonomyslug,
-            'slug' => $slug
-        ));
+        $app['twig']->addGlobal('records', $content);
+        $app['twig']->addGlobal('slug', $slug);
+        $app['twig']->addGlobal('taxonomy', $app['config']['taxonomy'][$taxonomyslug]);
+        $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
+
+        return $app['twig']->render($template);
 
     }
 
@@ -322,10 +320,10 @@ class Frontend implements ControllerProviderInterface
         $content = $app['storage']->searchAllContentTypes($parameters);
         //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
 
-        return $app['twig']->render($template, array(
-            'records' => $content,
-            'search' => $search
-        ));
+        $app['twig']->addGlobal('records', $content);
+        $app['twig']->addGlobal('search', $search);
+
+        return $app['twig']->render($template);
 
     }
 
