@@ -63,7 +63,25 @@
 {% endif %}
 
 
-    {# --------------- slug --------------- #}
+{# --------------- checkbox --------------- #}
+
+{% if field.type == "checkbox" %}
+<div class="checkboxwrapper">
+    <label for="{{ key }}">
+        <b>
+            <span class='left'>
+                {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+            </span>
+        </b>
+    </label>
+    <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
+           {% if content.get(key) %}checked{% else %}notchecked{% endif %}
+           class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+</div>
+{% endif %}
+
+
+{# --------------- slug --------------- #}
 
 {% if field.type == "slug" %}
 <label class='permalink'>{{ __('Permalink') }}:

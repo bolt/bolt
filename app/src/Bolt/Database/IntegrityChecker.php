@@ -445,6 +445,9 @@ class IntegrityChecker
                     case 'integer':
                         $myTable->addColumn($field, "integer", array("default" => 0));
                         break;
+                    case 'checkbox':
+                        $myTable->addColumn($field, "boolean", array("default" => 0));
+                        break;
                     case 'html':
                     case 'textarea':
                     case 'video':

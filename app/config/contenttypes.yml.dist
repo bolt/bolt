@@ -109,6 +109,9 @@ kitchensink:
             type: imagelist
         file:
             type: file
+        checkbox:
+            type: checkbox
+            label: "This is a checkbox"
         markdown:
             prefix: "<em>This short text comes before the actual field.</em>"
             type: markdown
