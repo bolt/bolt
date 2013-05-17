@@ -1373,93 +1373,31 @@ function containsHTML($str)
     return !empty($matches[3]);
 }
 
-/* Simple PHP Browser Detection
- * @see https://github.com/lineshjose/php-browser-detection/blob/master/php-browser-detection.php
- *
- * @param $arg : returns current browser property. Eg: platform, name, version,
- * @param $agent: it is the $_SERVER['HTTP_USER_AGENT'] value
- * @return string|array
+/**
+ * Simple PHP Browser Detection
  */
-function getBrowserInfo($arg='', $agent='') {
+function getBrowserInfo() {
 
-    if (empty($agent)) {
-        $browser['agent'] = $_SERVER['HTTP_USER_AGENT'];
-    } else {
-        $browser['agent']=$agent;
+    // Create a new Browscap object (loads or creates the cache)
+    $bc = new \phpbrowscap\Browscap(dirname(__DIR__)."/cache/");
+
+    $browser = $bc->getBrowser()->Parent;
+    if (strpos($bc->getBrowser()->browser_name, "CriOS") > 0) {
+        $browser = "Chrome";
     }
 
-    // Platform
-    if ((bool)strpos($browser['agent'], 'iPad') || (bool)strpos($browser['agent'], 'iPhone') ||(bool)strpos($browser['agent'], 'iPod')) {
-        $browser['platform'] = 'iOS';
-    } elseif (((bool)strpos($browser['agent'], 'Linux')) && ((bool)strpos($browser['agent'], 'Android'))) { // for Android
-        $browser['platform'] = 'Android';
-    } elseif (((bool)strpos($browser['agent'], 'Linux')) && (!(bool)strpos($browser['agent'], 'Android'))) { // for Linux
-        $browser['platform'] = 'Linux';
-    } elseif (((bool)strpos($browser['agent'], 'Windows'))) {
-        $browser['platform'] = 'Windows';
-    } elseif (((bool)strpos($browser['agent'], 'Macintosh'))) {
-        $browser['platform'] = 'OS X';
-    } else {
-        $browser['platform'] = 'Other';
-    }
+    $platformversion = ($bc->getBrowser()->Platform_Version == "unknown") ? "" : $bc->getBrowser()->Platform_Version;
 
-    // browser name
-    if ((bool)strpos($browser['agent'], 'Firefox')) { // for iPad
-        $browser['name'] = 'Firefox';
-    } elseif ((bool)strpos($browser['agent'], 'Chrome')) { // for iPhone
-        $browser['name'] = 'Chrome';
-    } elseif ((bool)strpos($browser['agent'], 'MSIE')) { // for iPod
-        $browser['name'] = 'Internet Explorer';
-    } elseif (((bool)strpos($browser['agent'], 'Safari'))) {
-        $browser['name'] = 'Safari';
-    } elseif (((bool)strpos($browser['agent'], 'Opera'))) {
-        $browser['name'] = 'Opera';
-    } else {
-        $browser['name'] = 'Other';
-    }
+    $browser = sprintf("%s / %s %s",
+        $browser,
+        $bc->getBrowser()->Platform,
+        $platformversion
+    );
 
-    // version number
-    if ($browser['name'] == 'Internet Explorer') {
-        $br = 'MSIE';
-    } else {
-        $br = ucfirst($browser['name']);
-    }
+    //\util::var_dump($bc->getBrowser());
 
-    $known = array('Version', $br, 'other');
-    $pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-    if (!preg_match_all($pattern, $browser['agent'], $matches)) {
-        // we have no matching number just continue
-    }
-    // see how many we have
-    $i = count($matches['browser']);
-    if ($i != 1) {
-        //we will have two since we are not using 'other' argument yet
-        //see if version is before or after the name
-        if (strripos($browser['agent'], "Version") < strripos($browser['agent'], $br)) {
-            $version = $matches['version'][0];
-        } else {
-            $version = $matches['version'][1];
-        }
-    } else {
-        $ver = explode('.', $matches['version'][0]);
-        $version = $ver[0];
-    }
-    // check if we have a number
-    if ($version == null || $version == "") {
-        $version = "?";
-    }
+    return trim($browser);
 
-    // Browser verion ------------>
-    $browser['version'] = $version;
-
-    // Major version --------------->
-    $browser['majorver'] = (int)$version;
-
-    if ($arg) {
-        return $browser[$arg];
-    } else {
-        return $browser;
-    }
 }
 
 /**
