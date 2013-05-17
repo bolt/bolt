@@ -612,14 +612,13 @@ class Backend implements ControllerProviderInterface
      */
     function users(Silex\Application $app) {
 
-        $title = "Users";
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
         $userlevels = $app['users']->getUserLevels();
 
         return $app['twig']->render(
             'users.twig',
-            array('users' => $users, 'title' => $title, 'userlevels' => $userlevels, 'sessions' => $sessions )
+            array('users' => $users, 'userlevels' => $userlevels, 'sessions' => $sessions )
         );
 
     }

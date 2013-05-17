@@ -248,8 +248,6 @@ class Users
     private function setAuthtoken()
     {
 
-        $browser = getBrowserInfo();
-
         $salt = makekey(12);
         $token = array(
             'username' => $this->currentuser['username'],
@@ -258,7 +256,7 @@ class Users
             'validity' => date('Y-m-d H:i:s', time() + $this->app['config']['general']['cookies_lifetime']),
             'ip' => $_SERVER['REMOTE_ADDR'],
             'lastseen' => date('Y-m-d H:i:s'),
-            'useragent' => sprintf("%s %s - %s", $browser['name'], $browser['version'], $browser['platform'])
+            'useragent' => getBrowserInfo()
         );
 
         // Update or set the authtoken cookie..
@@ -271,9 +269,9 @@ class Users
         );
 
         // Check if there's already a token stored for this name / IP combo.
-        $query = "SELECT id FROM " . $this->authtokentable . " WHERE username=? AND ip=?";
+        $query = "SELECT id FROM " . $this->authtokentable . " WHERE username=? AND ip=? AND useragent=?";
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $row = $this->db->executeQuery($query, array($token['username'], $token['ip']), array(\PDO::PARAM_STR))->fetch();
+        $row = $this->db->executeQuery($query, array($token['username'], $token['ip'], $token['useragent']), array(\PDO::PARAM_STR))->fetch();
 
         // Update or insert the row..
         if (empty($row)) {
@@ -284,7 +282,10 @@ class Users
 
     }
 
-    public function getActiveSessions() {
+    public function getActiveSessions()
+    {
+
+        $this->deleteExpiredSessions();
 
         $query = "SELECT * FROM " . $this->authtokentable;
         $sessions = $this->db->fetchAll($query);
@@ -292,6 +293,16 @@ class Users
         return $sessions;
 
     }
+
+    private function deleteExpiredSessions()
+    {
+
+        $stmt = $this->db->prepare("DELETE FROM " . $this->authtokentable . " WHERE validity < :now");
+        $stmt->bindValue("now", date("Y-m-d H:i:s"));
+        $stmt->execute();
+
+    }
+
 
     /**
      * Remove a user from the database.
@@ -413,11 +424,14 @@ class Users
 
         $authtoken = $_COOKIE['bolt_authtoken'];
         $remoteip = $_SERVER['REMOTE_ADDR'];
+        $browser = getBrowserInfo();
+
+        $this->deleteExpiredSessions();
 
         // Check if there's already a token stored for this token / IP combo.
-        $query = "SELECT * FROM " . $this->authtokentable . " WHERE token=? AND ip=?";
+        $query = "SELECT * FROM " . $this->authtokentable . " WHERE token=? AND ip=? AND useragent=?";
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $row = $this->db->executeQuery($query, array($authtoken, $remoteip), array(\PDO::PARAM_STR))->fetch();
+        $row = $this->db->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
 
         // If there's no row, we can't resume a session from the authtoken.
         if (empty($row)) {
@@ -612,12 +626,11 @@ class Users
         $this->session->getFlashBag()->set('info', __('You have been logged out.'));
         $this->session->remove('user');
 
-        // Remove all auth tokens when logging off a user..
+        // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
 
         // Remove the cookie..
         setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']['general']['cookies_domain']);
-
 
         // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
         // $this->session->invalidate();

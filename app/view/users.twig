@@ -1,76 +1,102 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
-
 <div class="row-fluid">
     <div class="span9">
 
-        <h1><strong>{{title}}</strong></h1>
+        <h1><strong>{{ __("All users") }}</strong></h1>
 
-    <table class='dashboardlisting'>
-        <tr>
-            <th>#</th>
-            <th>{{ __('Username') }}</th>
-            <th>{{ __('Level') }}</th>
-            <th>{{ __('Last seen') }}</th>
-            <th>{{ __('Contenttypes') }}</th>
-            <th>{{ __('Actions') }}</th>
-        </tr>
-        {% for user in users %}
+        <table class='dashboardlisting'>
+            <tr>
+                <th>#</th>
+                <th>{{ __('Username') }}</th>
+                <th>{{ __('Level') }}</th>
+                <th>{{ __('Last seen') }}</th>
+                <th>{{ __('Contenttypes') }}</th>
+                <th>{{ __('Actions') }}</th>
+            </tr>
+            {% for user in users %}
 
-        <tr class="{% if user.enabled==0 %}dim{% endif %}">
-            <td class='id'>№ {{user.id}}</td>
+                <tr class="{% if user.enabled==0 %}dim{% endif %}">
+                    <td class='id'>№ {{user.id}}</td>
 
-            <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
-            <td>{{ userlevels[user.userlevel] }} </td>
-            <td>
-                {% if user.lastseen|date('Y') > "1901" %}
-                    <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-            <td class='contenttypes'>
-                {% if user.contenttypes|length == app.config.contenttypes|length %}
-                    <em>all</em>
-                {% else %}
-                    {{ user.contenttypes|join(", ") }}
-                {% endif %}
-            </td>
-            <td class='actions'>
-
-                <div class="btn-group">
-                    <button class="btn btn-mini uselink"><a href="{{ path('useredit', { 'id' : user.id }) }}">
-                        <i class="icon-edit"></i> {{ __('Edit') }}</a>
-                    </button>
-                    <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-                        <i class="icon-info-sign"></i>
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu pull-right">
-                        {% if user.enabled %}
-                        <li><a href="{{ path('useraction', { 'action': 'disable', 'id': user.id }) }}">{{ __('Disable %username%',{'%username%':user.displayname}) }}</a></li>
+                    <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
+                    <td>{{ userlevels[user.userlevel] }} </td>
+                    <td>
+                        {% if user.lastseen|date('Y') > "1901" %}
+                            <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
                         {% else %}
-                        <li><a href="{{ path('useraction', { 'action': 'enable', 'id': user.id }) }}">{{ __('Enable %username%',{'%username%':user.displayname}) }}</a></li>
+                            -
                         {% endif %}
-                        <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id, token: token() }) }}" class="confirm" data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}">{{ __('Delete %username%',{'%username%':user.displayname}) }}</a></li>
-                        <li class="divider"></li>
-                        <li><a class="nolink">{{ __('Last seen') }}: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
-                        <li><a class="nolink">{{ __('Last known IP') }}: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
-                    </ul>
-                </div>
+                    </td>
+                    <td class='contenttypes'>
+                        {% if user.contenttypes|length == app.config.contenttypes|length %}
+                            <em>all</em>
+                        {% else %}
+                            {{ user.contenttypes|join(", ") }}
+                        {% endif %}
+                    </td>
+                    <td class='actions'>
 
-            </td>
-        </tr>
+                        <div class="btn-group">
+                            <button class="btn btn-mini uselink"><a href="{{ path('useredit', { 'id' : user.id }) }}">
+                                    <i class="icon-edit"></i> {{ __('Edit') }}</a>
+                            </button>
+                            <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                                <i class="icon-info-sign"></i>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                {% if user.enabled %}
+                                    <li><a href="{{ path('useraction', { 'action': 'disable', 'id': user.id }) }}">{{ __('Disable %username%',{'%username%':user.displayname}) }}</a></li>
+                                {% else %}
+                                    <li><a href="{{ path('useraction', { 'action': 'enable', 'id': user.id }) }}">{{ __('Enable %username%',{'%username%':user.displayname}) }}</a></li>
+                                {% endif %}
+                                <li><a href="{{ path('useraction', { 'action': 'delete', 'id': user.id, token: token() }) }}" class="confirm" data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}">{{ __('Delete %username%',{'%username%':user.displayname}) }}</a></li>
+                                <li class="divider"></li>
+                                <li><a class="nolink">{{ __('Last seen') }}: <strong>{% if user.lastseen>"1000" %}{{ user.lastseen|date("Y-m-d H:i") }}{% else %}-{% endif %}</strong></a></li>
+                                <li><a class="nolink">{{ __('Last known IP') }}: <strong>{% if user.lastip!="" %}{{ user.lastip }}{% else %}-{% endif %}</strong></a></li>
+                            </ul>
+                        </div>
 
-        {% endfor %}
+                    </td>
+                </tr>
 
-    </table>
+            {% endfor %}
+
+        </table>
+
+
+        <h2><strong>{{ __("Current sessions") }}</strong></h2>
+
+        <table class='dashboardlisting'>
+            <tr>
+                <th>{{ __('Username') }}</th>
+                <th>{{ __('Last seen') }}</th>
+                <th>{{ __('Session expires') }}</th>
+                <th>{{ __('IP address') }}</th>
+                <th>{{ __('Browser / platform') }}</th>
+            </tr>
+            {% for session in sessions %}
+
+                <tr>
+                    <td>{{ session.username }}</td>
+                    <td><time class="moment" datetime="{{ session.lastseen|date("c") }}" title="{{ session.lastseen }}">{{ session.lastseen }}</time></td>
+                    <td><time class="moment" datetime="{{ session.validity|date("c") }}" title="{{ session.validity }}">{{ session.validity }}</time></td>
+                    <td>{{ session.ip }}</td>
+                    <td>{{ session.useragent }}</td>
+
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
 
     </div><!-- /span9 -->
     <aside class="span3">
 
         <section>
-            <h2>{{ __('Actions for Users') }}</h2>
+            <h3>{{ __('Actions for Users') }}</h3>
             <a class="btn" href="{{ path('useredit', { 'id' : '' }) }}">{{ __('New user') }}</a>
         </section>
 
