@@ -399,7 +399,7 @@ class IntegrityChecker
         foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
 
             // create the table if necessary..
-            $tablename = $this->prefix . makeSlug($key);
+            $tablename = $this->getTablename($key);
 
             $myTable = $schema->createTable($tablename);
             $myTable->addColumn("id", "integer", array('autoincrement' => true));
@@ -481,5 +481,20 @@ class IntegrityChecker
 
         }
         return $tables;
+    }
+
+    /**
+     * Get the tablename with prefix from a given $name
+     *
+     * @param $name
+     * @return mixed
+     */
+    protected function getTablename($name)
+    {
+
+        $name = str_replace("-", "_", makeSlug($name));
+        $tablename = sprintf("%s%s", $this->prefix, $name);
+        return $tablename;
+
     }
 }

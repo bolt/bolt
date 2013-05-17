@@ -148,7 +148,7 @@ class Storage
 
         foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
 
-            $tablename = $this->prefix . $key;
+            $tablename = $this->getTablename($key);
             if ($empty_only && $this->hasRecords($tablename)) {
                 $output .= __("Skipped <tt>%key%</tt> (already has records)",array('%key%' =>$key)) . "<br>\n";
                 continue;
@@ -447,7 +447,7 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
-        $tablename = $this->prefix . $contenttype;
+        $tablename = $this->getTablename($contenttype);
 
         $res = $this->app['db']->delete($tablename, array('id' => $id));
 
@@ -476,7 +476,7 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
-        $tablename = $this->prefix . $contenttype;
+        $tablename = $this->getTablename($contenttype);
 
         $content['datecreated'] = date('Y-m-d H:i:s');
         $content['datechanged'] = date('Y-m-d H:i:s');
@@ -505,7 +505,7 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
-        $tablename = $this->prefix . $contenttype;
+        $tablename = $this->getTablename($contenttype);
 
         unset($content['datecreated']);
         $content['datechanged'] = date('Y-m-d H:i:s');
@@ -518,7 +518,7 @@ class Storage
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
 
-        $tablename = $this->prefix . $contenttype;
+        $tablename = $this->getTablename($contenttype);
 
         $id = intval($id);
 
@@ -569,8 +569,9 @@ class Storage
         return $result;
     }
 
-    public function searchContentType($contenttypename, array $parameters = array(), &$pager = array()){
-        $tablename = $this->prefix . $contenttypename;
+    public function searchContentType($contenttypename, array $parameters = array(), &$pager = array())
+    {
+        $tablename = $this->getTablename($contenttypename);
 
         $contenttype = $this->app['config']['contenttypes'][$contenttypename];
 
@@ -688,7 +689,7 @@ class Storage
 
         $tables = array();
         foreach ($contenttypenames as $contenttypename) {
-            $contenttypetable = $this->prefix . $contenttypename;
+            $contenttypetable = $this->getTablename($contenttypename);
             $tables [] = $contenttypetable;
 
 
@@ -739,7 +740,7 @@ class Storage
         if (!empty($parameters['paging'])) {
             $page = $this->app['request']->get('page', $page);
         }
-        //$tablename = $this->prefix . $contenttypename;
+
         $tablename = implode(", ", $tables);
 
         $queryparams = "";
@@ -809,7 +810,7 @@ class Storage
     public function getContentByTaxonomy($taxonomyslug, $slug, $parameters = "")
     {
 
-        $tablename = $this->prefix . "taxonomy";
+        $tablename = $this->getTablename("taxonomy");
 
         $limit = $parameters['limit'] ?: 100;
         $page = $parameters['page'] ?: 1;
@@ -872,21 +873,29 @@ class Storage
         }
 
         $this->checkedfortimed[$contenttype['slug']] = true;
-        $tablename = $this->prefix . $contenttype['slug'];
+        $tablename = $this->getTablename($contenttype['slug']);
         $now = date('Y-m-d H:i:s', time());
 
-        // Check if there are any records that need publishing..
-        $query = "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now";
-        $stmt = $this->app['db']->prepare($query);
-        $stmt->bindValue("now", $now);
-        $stmt->execute();
+        try {
 
-        // If there's a result, we need to set these to 'publish'..
-        if ($stmt->fetch() != false) {
-            $query = "UPDATE $tablename SET status = 'published', datechanged = :now, datepublish = :now  WHERE status = 'timed' and datepublish < :now";
+            // Check if there are any records that need publishing..
+            $query = "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now";
             $stmt = $this->app['db']->prepare($query);
             $stmt->bindValue("now", $now);
             $stmt->execute();
+
+            // If there's a result, we need to set these to 'publish'..
+            if ($stmt->fetch() != false) {
+                $query = "UPDATE $tablename SET status = 'published', datechanged = :now, datepublish = :now  WHERE status = 'timed' and datepublish < :now";
+                $stmt = $this->app['db']->prepare($query);
+                $stmt->bindValue("now", $now);
+                $stmt->execute();
+            }
+
+        } catch (\Doctrine\DBAL\DBALException $e) {
+
+            // Oops. Couldn't execute the queries.
+
         }
 
     }
@@ -969,8 +978,15 @@ class Storage
             $returnsingle = true;
         }
 
+        $tablename = $this->getTablename($contenttype['slug']);
+
+        // If the table doesn't exist (yet), return false..
+        if (!$this->tableExists($tablename)) {
+            return false;
+        }
+
         // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
-        $from = sprintf("FROM %s%s AS r", $this->prefix, $contenttype['slug']);
+        $from = sprintf("FROM %s AS r", $tablename);
 
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($parameters as $key => $value) {
@@ -991,9 +1007,12 @@ class Storage
             // for all the  parameters that are taxonomies
             if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
                 // Set the new 'from', with LEFT JOIN for taxonomies..
-                $from = sprintf("FROM %s%s AS r LEFT JOIN %staxonomy AS t ON %s.%s = %s.%s",
-                    $this->prefix, $contenttype['slug'], $this->prefix, $this->app['db']->quoteIdentifier('r'),
-                    $this->app['db']->quoteIdentifier('id'), $this->app['db']->quoteIdentifier('t'),
+                $from = sprintf("FROM %s AS r LEFT JOIN %s AS t ON %s.%s = %s.%s",
+                    $this->getTablename($contenttype['slug']),
+                    $this->getTablename('taxonomy'),
+                    $this->app['db']->quoteIdentifier('r'),
+                    $this->app['db']->quoteIdentifier('id'),
+                    $this->app['db']->quoteIdentifier('t'),
                     $this->app['db']->quoteIdentifier('content_id'));
                 $where[] = $this->parseWhereParameter("t.taxonomytype", $key);
                 $where[] = $this->parseWhereParameter("t.slug", $value);
@@ -1543,7 +1562,7 @@ class Storage
     protected function getTaxonomy($content)
     {
 
-        $tablename = $this->prefix . "taxonomy";
+        $tablename = $this->getTablename("taxonomy");
 
         $ids = util::array_pluck($content, 'id');
 
@@ -1586,7 +1605,7 @@ class Storage
     protected function updateTaxonomy($contenttype, $content_id, $taxonomy)
     {
 
-        $tablename = $this->prefix . "taxonomy";
+        $tablename = $this->getTablename("taxonomy");
 
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
@@ -1669,7 +1688,7 @@ class Storage
     protected function getRelation($content)
     {
 
-        $tablename = $this->prefix . "relations";
+        $tablename = $this->getTablename("relations");
 
         $ids = util::array_pluck($content, 'id');
 
@@ -1750,7 +1769,7 @@ class Storage
     protected function updateRelation($contenttype, $content_id, $relation)
     {
 
-        $tablename = $this->prefix . "relations";
+        $tablename = $this->getTablename("relations");
 
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
@@ -1813,7 +1832,7 @@ class Storage
     {
 
         $contenttype = $this->getContentType($contenttypeslug);
-        $tablename = $this->prefix . $contenttype['slug'];
+        $tablename = $this->getTablename($contenttype['slug']);
 
         $id = intval($id);
         $fulluri = util::str_to_bool($fulluri);
@@ -1876,23 +1895,58 @@ class Storage
      */
     protected function getTables()
     {
+        // Only do this once..
+        if (!empty($this->tables)) {
+            return $this->tables;
+        }
 
         $sm = $this->app['db']->getSchemaManager();
 
-        $tables = array();
+        $this->tables = array();
 
         foreach ($sm->listTables() as $table) {
             if ( strpos($table->getName(), $this->prefix) === 0 ) {
                 foreach ($table->getColumns() as $column) {
-                    $tables[ $table->getName() ][ $column->getName() ] = $column->getType();
+                    $this->tables[ $table->getName() ][ $column->getName() ] = $column->getType();
                 }
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
         }
 
-        return $tables;
+        return $this->tables;
 
     }
+
+    /**
+     * Check if the table $name exists.
+     *
+     * @param $name
+     * @return bool
+     */
+    protected function tableExists($name)
+    {
+
+        $tables = $this->getTables();
+
+        return (!empty($tables[$name]));
+
+    }
+
+    /**
+     * Get the tablename with prefix from a given $name
+     *
+     * @param $name
+     * @return mixed
+     */
+    protected function getTablename($name)
+    {
+
+        $name = str_replace("-", "_", makeSlug($name));
+        $tablename = sprintf("%s%s", $this->prefix, $name);
+        return $tablename;
+
+    }
+
 
     /**
      * Get an associative array with the bolt_tables tables as Doctrine\DBAL\Schema\Table objects
