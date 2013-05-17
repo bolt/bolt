@@ -729,8 +729,8 @@ function getConfig()
                 'filebrowserWindowHeight' => 480
             ),
             'filebrowser' => array(
-                'browseUrl' => "/async/filebrowser/",
-                'imageBrowseUrl' => "/bolt/files/files"
+                'browseUrl' => $paths['async'] . "filebrowser/",
+                'imageBrowseUrl' => $paths['bolt'] . "files/files"
             ),
         ),
         'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",

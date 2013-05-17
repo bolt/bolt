@@ -129,11 +129,6 @@ wysiwyg:
         #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
         filebrowserWindowWidth: '640'
         filebrowserWindowHeight: '480'
-    filebrowser:
-        browseUrl: /async/filebrowser/
-        imageBrowseUrl: /bolt/files/files
-        #uploadUrl: ''
-        #imageUploadUrl: ''
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login
