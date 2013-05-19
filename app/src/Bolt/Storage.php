@@ -1195,13 +1195,20 @@ class Storage
      * @return string
      */
     private function getSortOrder($name) {
-        $fieldname = preg_replace("/ (desc|asc)$/i", "", $name);
-        if ($fieldname[0] == "-") {
-            $fieldname = substr($fieldname, 1);
+
+        $parts = explode(' ', $name);
+        $fieldname = $parts[0];
+        $sort = 'ASC';
+        if (isset($parts[1])) {
+            $sort = $parts[1];
         }
 
-        return array($fieldname, ($fieldname == $name));
+        if ($fieldname[0] == "-") {
+            $fieldname = substr($fieldname, 1);
+            $sort = 'DESC';
+        }
 
+        return array($fieldname, (strtoupper($sort) == 'ASC'));
     }
 
 
