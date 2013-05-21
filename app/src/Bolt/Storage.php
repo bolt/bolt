@@ -510,7 +510,14 @@ class Storage
         unset($content['datecreated']);
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        return $this->app['db']->update($tablename, $content, array('id' => $content['id']));
+        $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
+
+        if ($res == true) {
+            return true;
+        } else {
+            // Attempt to _insert_ it, instead of updating..
+            return $this->app['db']->insert($tablename, $content);
+        }
 
     }
 
