@@ -53,7 +53,8 @@ class Extension extends BoltExtension
                         $to = str_replace('{' . $rparam . '}', $rval, $to);
                     }
                     $uri = $request->getUriForPath('/' . $to);
-                    $subRequest = Request::create($uri, 'GET', array(), $request->cookies->all(), array(), $request->server->all());
+                    $params = ($request->getMethod() == 'POST') ? $request->request->all() : $request->query->all();
+                    $subRequest = Request::create($uri, $request->getMethod(), $params, $request->cookies->all(), $request->files->all(), $request->server->all());
 
                     if ($request->getSession()) {
                         $subRequest->setSession($request->getSession());
