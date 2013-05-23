@@ -369,7 +369,7 @@ if ( ! class_exists( 'util' ) ) {
                 $html .= '<span style="color:#588bff;">arr</span>(' . count( $var ) . ')';
 
                 if ( ! empty( $var ) ) {
-                    $html .= ' <img id="' . $uuid . '" data-expand="data:image/png;base64,' . self::$icon_expand . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;width:9px!important;height:9px!important;" src="data:image/png;base64,' . self::$icon_collapse . '" /><br /><span id="' . $uuid . '-collapsable">[<br />';
+                    $html .= ' <img id="' . $uuid . '" data-collapse="data:image/png;base64,' . self::$icon_collapse . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;width:9px!important;height:9px!important;" src="data:image/png;base64,' . self::$icon_expand . '" /> <span id="' . $uuid . '-collapsable" style="display: none;">[<br />';
 
                     $indent = 4;
                     $longest_key = 0;
@@ -384,7 +384,7 @@ if ( ! class_exists( 'util' ) ) {
 
                     foreach ( $var as $key => $value ) {
                         if ( is_numeric( $key ) ) {
-                            $html .= str_repeat( ' ', $indent ) . str_pad( $key, $longest_key, ' ');
+                            $html .= str_repeat( ' ', $indent ) . str_pad( $key, $longest_key, '_');
                         } else {
                             $html .= str_repeat( ' ', $indent ) . str_pad( '"' . self::htmlentities( $key ) . '"', $longest_key, ' ' );
                         }
@@ -409,29 +409,13 @@ if ( ! class_exists( 'util' ) ) {
                     img.onclick = function() {
                         if ( document.getElementById("' . $uuid . '-collapsable").style.display == "none" ) {
                             document.getElementById("' . $uuid . '-collapsable").style.display = "inline";
+                            img.setAttribute( "data-expand", img.getAttribute("src") );
                             img.src = img.getAttribute("data-collapse");
                             var previousSibling = document.getElementById("' . $uuid . '-collapsable").previousSibling;
-
-                            while ( previousSibling != null && ( previousSibling.nodeType != 1 || previousSibling.tagName.toLowerCase() != "br" ) ) {
-                                previousSibling = previousSibling.previousSibling;
-                            }
-
-                            if ( previousSibling != null && previousSibling.tagName.toLowerCase() == "br" ) {
-                                previousSibling.style.display = "inline";
-                            }
                         } else {
                             document.getElementById("' . $uuid . '-collapsable").style.display = "none";
-                            img.setAttribute( "data-collapse", img.getAttribute("src") );
                             img.src = img.getAttribute("data-expand");
                             var previousSibling = document.getElementById("' . $uuid . '-collapsable").previousSibling;
-
-                            while ( previousSibling != null && ( previousSibling.nodeType != 1 || previousSibling.tagName.toLowerCase() != "br" ) ) {
-                                previousSibling = previousSibling.previousSibling;
-                            }
-
-                            if ( previousSibling != null && previousSibling.tagName.toLowerCase() == "br" ) {
-                                previousSibling.style.display = "none";
-                            }
                         }
                     };
                     })();
@@ -441,7 +425,7 @@ if ( ! class_exists( 'util' ) ) {
             } else if ( is_object( $var ) ) {
                 $uuid = 'include-php-' . uniqid();
 
-                $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') <img id="' . $uuid . '" data-expand="data:image/png;base64,' . self::$icon_expand . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;width:9px!important;height:9px!important;" src="data:image/png;base64,' . self::$icon_collapse . '" /><br /><span id="' . $uuid . '-collapsable">[<br />';
+                $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') <img id="' . $uuid . '" data-collapse="data:image/png;base64,' . self::$icon_collapse . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;width:9px!important;height:9px!important;" src="data:image/png;base64,' . self::$icon_expand . '" /> <span id="' . $uuid . '-collapsable" style="display: none;">[<br />';
 
                 $original = $var;
                 $var = (array) $var;
@@ -494,29 +478,13 @@ if ( ! class_exists( 'util' ) ) {
                 img.onclick = function() {
                     if ( document.getElementById("' . $uuid . '-collapsable").style.display == "none" ) {
                         document.getElementById("' . $uuid . '-collapsable").style.display = "inline";
+                        img.setAttribute( "data-expand", img.getAttribute("src") );
                         img.src = img.getAttribute("data-collapse");
                         var previousSibling = document.getElementById("' . $uuid . '-collapsable").previousSibling;
-
-                        while ( previousSibling != null && ( previousSibling.nodeType != 1 || previousSibling.tagName.toLowerCase() != "br" ) ) {
-                            previousSibling = previousSibling.previousSibling;
-                        }
-
-                        if ( previousSibling != null && previousSibling.tagName.toLowerCase() == "br" ) {
-                            previousSibling.style.display = "inline";
-                        }
                     } else {
                         document.getElementById("' . $uuid . '-collapsable").style.display = "none";
-                        img.setAttribute( "data-collapse", img.getAttribute("src") );
                         img.src = img.getAttribute("data-expand");
                         var previousSibling = document.getElementById("' . $uuid . '-collapsable").previousSibling;
-
-                        while ( previousSibling != null && ( previousSibling.nodeType != 1 || previousSibling.tagName.toLowerCase() != "br" ) ) {
-                            previousSibling = previousSibling.previousSibling;
-                        }
-
-                        if ( previousSibling != null && previousSibling.tagName.toLowerCase() == "br" ) {
-                            previousSibling.style.display = "none";
-                        }
                     }
                 };
                 })();

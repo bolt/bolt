@@ -50,36 +50,61 @@ class Extension extends \Bolt\BaseExtension
 
         $output = "";
 
-        if (!isset($_GET['confirm'])) {
-
-            if (empty($file) || !is_readable($file)) {
-                $output . "<p>File $filename doesn't exist. Correct this in <code>app/extensions/ImportWXR/config.yml</code>, and refresh this page.</p>";
-            } else {
-
-                $output .= sprintf("<p>Ready to convert <code>%s</code>!</p>", $this->config['file']);
-
-                $output .= "<p>This mapping will be used:</p>";
-                $output .= \util::var_dump($this->config['mapping'], true);
-
-                $output .= "<p><a class='btn btn-primary' href='?confirm=1'><strong>Confirm!</strong></a></p>";
-
-            }
-
+        if (!empty($_GET['action'])) {
+            $action = $_GET['action'];
         } else {
+            $action = "start";
+        }
 
-            require_once("src/parsers.php");
+        require_once("src/parsers.php");
+        $parser = new \WXR_Parser();
 
-            $parser = new \WXR_Parser();
+        switch ($action) {
 
-            $res = $parser->parse($file);
+            case "start":
+                if (empty($file) || !is_readable($file)) {
+                    $output . "<p>File $filename doesn't exist. Correct this in <code>app/extensions/ImportWXR/config.yml</code>, and refresh this page.</p>";
+                } else {
 
-            foreach ($res['posts'] as $post) {
-                $output .= $this->importPost($post);
-            }
+                    $output .= sprintf("<p>File <code>%s</code> selected for import.</p>", $this->config['file']);
 
-            //            \util::var_dump($res);
+                    $output .= "<p><a class='btn btn-primary' href='?action=dryrun'><strong>Test a few records</strong></a></p>";
+
+                    $output .= "<p>This mapping will be used:</p>";
+                    $output .= \util::var_dump($this->config['mapping'], true);
+                }
+                break;
+
+            case "confirm":
+
+                $res = $parser->parse($file);
+
+                foreach ($res['posts'] as $post) {
+                    $output .= $this->importPost($post, false);
+                }
+                break;
+
+            case "dryrun":
+
+                $counter = 1;
+
+                $res = $parser->parse($file);
+
+                foreach ($res['posts'] as $post) {
+                    $output .= $this->importPost($post, true);
+                    if ($counter++ >= 4) {
+                        break;
+                    }
+                }
+
+                $output .= sprintf("<p>Looking good? Then click below to import the Records: </p>");
+
+                $output .= "<p><a class='btn btn-primary' href='?action=confirm'><strong>Confirm!</strong></a></p>";
+
+
 
         }
+
 
         return $this->app['twig']->render('base.twig', array(
             'title' => "Import WXR (PivotX / Wordpress XML)",
@@ -89,20 +114,37 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    public function importPost($post) {
+    public function importPost($post, $dryrun = true)
+    {
 
-        //\util::var_dump($post);
+        // If the mapping is not defined, ignore it.
+        if (empty($this->config['mapping'][ $post['post_type'] ])) {
+            return "<p>No mapping defined for posttype '" . $post['post_type'] . "'.</p>";
+        }
 
         // Find out which mapping we should use.
         $mapping = $this->config['mapping'][ $post['post_type'] ];
 
-        //\util::var_dump($mapping);
+        // If the mapped contenttype doesn't exist in Bolt.
+        if (!$this->app['storage']->getContentType($mapping['targetcontenttype'])) {
+            return "<p>Bolt contenttype '". $mapping['targetcontenttype'] . "' for posttype '" . $post['post_type'] . "' does not exist.</p>";
+        }
 
+        // Create the new Bolt Record.
         $record = new \Bolt\Content($this->app, $mapping['targetcontenttype']);
 
+        // 'expand' the postmeta fields to regular fields.
+        if (!empty($post['postmeta']) && is_array($post['postmeta'])) {
+            foreach ($post['postmeta'] as $id => $keyvalue) {
+                $post[$keyvalue['key']] = $keyvalue['value'];
+            }
+        }
+
+        // Iterate through the mappings, see if we can find it.
         foreach ($mapping['fields'] as $from => $to) {
 
             if (isset($post[$from])) {
+                // It's present in the fields.
 
                 $value = $post[$from];
 
@@ -116,205 +158,31 @@ class Extension extends \Bolt\BaseExtension
                         break;
                 }
 
+                switch ($from) {
+                    case "post_parent":
+                        if (!empty($value)) {
+                            $value = $mapping['fields']['post_parent_contenttype'] . "/" . $value;
+                        }
+                        break;
+                }
+
                 $record->setValue($to, $value);
             }
 
         }
 
-        // \util::var_dump($record);
-
-        $this->app['storage']->saveContent($record);
-        $output = "Import: " . $record->get('id') . " - " . $record->get('title') . "<br>";
+        if ($dryrun) {
+            $output = "<p>Original WXR Post <b>\"" . $post['post_title'] . "\"</b> -&gt; Converted Bolt Record :</p>";
+            $output .= \util::var_dump($post, true);
+            $output .= \util::var_dump($record, true);
+            $output .= "\n<hr>\n";
+        } else {
+            $this->app['storage']->saveContent($record);
+            $output = "Import: " . $record->get('id') . " - " . $record->get('title') . "<br>";
+        }
 
         return $output;
 
-
     }
-
-
-    public function import()
-    {
-        // Oude meuk wissen
-        if (!empty($this->config['cleanup'])) {}
-        $stmt = $this->app['db']->query($this->config['cleanup']);
-        $stmt->closeCursor();
-
-        // \util::var_dump($this->config);
-
-        $query = sprintf("SELECT * FROM %s WHERE %s", $this->config['source_table'], $this->config['where']);
-
-        // \util::var_dump($query);
-
-        $stmt = $this->app['db']->query($query);
-
-        $output = "verwerkt: <br>";
-
-        while ($row = $stmt->fetch()) {
-            $content = new \Bolt\Content($this->app, $this->config['target_contenttype']);
-
-            //\util::var_dump($row);
-
-            $row['field1'] = $this->parseCmsTags($row['field1']);
-            $row['introduction'] = $this->parseCmsTags($row['introduction']);
-            $row['body'] = $this->parseCmsTags($row['body']);
-            $row['title'] = trim(str_replace(">", "", $row['title']));
-
-            // \util::var_dump($row['field1']);
-
-            foreach ($this->config['mapping'] as $to => $from) {
-                if (isset($row[$from])) {
-                    $field = $this->scrubfield($row[$from]);
-                    $content->setValue($to, $field);
-                } else {
-                    $content->setValue($to, $from);
-                }
-            }
-
-            $partialcode = substr($row['code'], 0, 5);
-
-            switch ($partialcode) {
-
-                case "0001-":
-                    $content->setTaxonomy("hoofdindeling", "bezoek", $row['page_uid']);
-                    break;
-
-                case "0002-":
-                    $content->setTaxonomy("hoofdindeling", "kinderen", $row['page_uid']);
-                    break;
-
-                case "0003-":
-                    $content->setTaxonomy("hoofdindeling", "projecten", $row['page_uid']);
-                    break;
-
-                case "0004-":
-                    $content->setTaxonomy("hoofdindeling", "collectie", $row['page_uid']);
-                    break;
-
-                case "0006-":
-                    $content->setTaxonomy("hoofdindeling", "educatie", $row['page_uid']);
-                    break;
-
-                case "0008-":
-                    $content->setTaxonomy("hoofdindeling", "onderzoek", $row['page_uid']);
-                    break;
-
-                case "0009-":
-                    $content->setTaxonomy("hoofdindeling", "museum", $row['page_uid']);
-                    break;
-
-                case "0010-":
-                    $content->setTaxonomy("hoofdindeling", "vrienden", $row['page_uid']);
-                    break;
-
-                case "0020-":
-                    $content->setTaxonomy("hoofdindeling", "activiteiten", $row['page_uid']);
-                    break;
-
-                default:
-                    if ($this->config['target_contenttype'] == "paginas") {
-                        $content->setTaxonomy("hoofdindeling", "algemeen", $row['page_uid']);
-                    }
-                    break;
-
-            }
-            //\util::var_dump($content);
-
-            $this->app['storage']->saveContent($content);
-            $output = "Import: " . $row['code'] . " - " . $content->get('title') . "<br>";
-
-        }
-
-        $title = "Import Oude CMS";
-
-        $body = $this->app['twig']->render('base.twig', array(
-            'title' => $title,
-            'content' => $output
-        ));
-
-        return $body;
-
-    }
-
-    private function scrubField($field)
-    {
-
-        if (strpos($field, "CONT:")===0) {
-            $field = str_replace("CONT:/", "oud/", $field);
-        }
-
-        $field = str_replace("CONT/", "oud/", $field);
-        $field = str_replace("CONT:/", "oud/", $field);
-
-        return $field;
-
-    }
-
-
-    private function parseCmsTags($field)
-    {
-
-        // \util::var_dump($field);
-
-        $match = preg_match_all("/\[\[ afbeelding (.*)\]\]/i", $field, $imgs);
-
-        if ($match) {
-            foreach($imgs[1] as $key => $params) {
-                $params = $this->parseParameters($params);
-                $replacement = sprintf("{{ showimage('%s', '%s', '%s') }}", $params['src'], $params['width'], $params['height']);
-                $field = str_replace($imgs[0][$key], $replacement, $field);
-            }
-        }
-
-        $match = preg_match_all("/\[\[ download (.*)\]\]/i", $field, $imgs);
-
-        if ($match) {
-            foreach($imgs[1] as $key => $params) {
-                $params = $this->parseParameters($params);
-                if (empty($params['title']) && empty($params['desc'])) {
-                    $params['title'] = basename($params['src']);
-                }
-                $replacement = sprintf("<a href='/files/%s'>%s %s</a>", $params['src'], $params['title'], $params['desc']);
-                $field = str_replace($imgs[0][$key], $replacement, $field);
-            }
-        }
-
-
-        // \util::var_dump($field);
-
-        return $field;
-
-    }
-
-
-    private function parseParameters($string)
-    {
-
-        $string = str_replace("&quot;", '"', $string);
-
-        $match = preg_match_all('/([a-z]+)=(["\'])(.*?)(["\'])/is', $string, $matches);
-
-        // \util::var_dump($matches);
-
-        $params = array(
-            'name' => "",
-            'src' => "",
-            'alt' => "",
-            'title' => "",
-            'width' => "",
-            'height' => "",
-            'desc' => ""
-        );
-
-        if (!empty($matches)) {
-            foreach($matches[0] as $key => $value) {
-                $params[$matches[1][$key]] = $matches[3][$key];
-            }
-        }
-
-        return $params;
-
-
-    }
-
 
 }
