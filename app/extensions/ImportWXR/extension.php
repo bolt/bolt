@@ -66,6 +66,8 @@ class Extension extends \Bolt\BaseExtension
                     $output . "<p>File $filename doesn't exist. Correct this in <code>app/extensions/ImportWXR/config.yml</code>, and refresh this page.</p>";
                 } else {
 
+                    $output .= sprintf("<p>File <code>%s</code> selected for import.</p>", $this->config['file']);
+
                     $output .= "<p><a class='btn btn-primary' href='?action=dryrun'><strong>Test a few records</strong></a></p>";
 
                     $output .= "<p>This mapping will be used:</p>";
@@ -90,7 +92,7 @@ class Extension extends \Bolt\BaseExtension
 
                 foreach ($res['posts'] as $post) {
                     $output .= $this->importPost($post, true);
-                    if ($counter++ >= 5) {
+                    if ($counter++ >= 4) {
                         break;
                     }
                 }
@@ -112,16 +114,37 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    public function importPost($post, $dryrun = true) {
+    public function importPost($post, $dryrun = true)
+    {
+
+        // If the mapping is not defined, ignore it.
+        if (empty($this->config['mapping'][ $post['post_type'] ])) {
+            return "<p>No mapping defined for posttype '" . $post['post_type'] . "'.</p>";
+        }
 
         // Find out which mapping we should use.
         $mapping = $this->config['mapping'][ $post['post_type'] ];
 
+        // If the mapped contenttype doesn't exist in Bolt.
+        if (!$this->app['storage']->getContentType($mapping['targetcontenttype'])) {
+            return "<p>Bolt contenttype '". $mapping['targetcontenttype'] . "' for posttype '" . $post['post_type'] . "' does not exist.</p>";
+        }
+
+        // Create the new Bolt Record.
         $record = new \Bolt\Content($this->app, $mapping['targetcontenttype']);
 
+        // 'expand' the postmeta fields to regular fields.
+        if (!empty($post['postmeta']) && is_array($post['postmeta'])) {
+            foreach ($post['postmeta'] as $id => $keyvalue) {
+                $post[$keyvalue['key']] = $keyvalue['value'];
+            }
+        }
+
+        // Iterate through the mappings, see if we can find it.
         foreach ($mapping['fields'] as $from => $to) {
 
             if (isset($post[$from])) {
+                // It's present in the fields.
 
                 $value = $post[$from];
 
@@ -132,6 +155,14 @@ class Extension extends \Bolt\BaseExtension
                     case "status":
                         if ($value=="publish") { $value = "published"; }
                         if ($value=="future") { $value = "timed"; }
+                        break;
+                }
+
+                switch ($from) {
+                    case "post_parent":
+                        if (!empty($value)) {
+                            $value = $mapping['fields']['post_parent_contenttype'] . "/" . $value;
+                        }
                         break;
                 }
 
