@@ -20,8 +20,8 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.3",
-            'required_bolt_version' => "1.0",
+            'version' => "1.4",
+            'required_bolt_version' => "1.1",
             'highest_bolt_version' => "1.1",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
@@ -38,23 +38,23 @@ class Extension extends \Bolt\BaseExtension
 
         // fields that the global config should have
         $this->global_fields = array(
-                            'stylesheet',
-                            'template',
-                            'mail_template',
-                            'message_ok',
-                            'message_error',
-                            'message_technical',
-                            'button_text'
+            'stylesheet',
+            'template',
+            'mail_template',
+            'message_ok',
+            'message_error',
+            'message_technical',
+            'button_text'
         );
 
         // labels to translate
         $this->text_labels = array(
-                            'message_ok',
-                            'message_error',
-                            'message_technical',
-                            'button_text',
-                            'label',
-                            'placeholder'
+            'message_ok',
+            'message_error',
+            'message_technical',
+            'button_text',
+            'label',
+            'placeholder'
         );
 
         // Make sure the css is inserted as well..
@@ -143,15 +143,26 @@ class Extension extends \Bolt\BaseExtension
             // Make sure $field has a type, or the form will break.
             if (empty($field['type'])) {
                 $field['type'] = "text";
-            } elseif ($field['type']=="email") {
+            } elseif ($field['type'] == "email") {
+                // if the field is email, check for a valid email address
                 $options['constraints'][] = new Assert\Email();
+            } elseif ($field['type'] == "file") {
+                // if the field is file, make sure we set the accept properly.
+                $accept = array();
+
+                // Don't accept _all_ types. If nothing set in config.yml, set some sensilbe defaults.
+                if (empty($field['filetype'])) {
+                    $field['filetype'] = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt', 'doc', 'docx');
+                }
+                foreach ($field['filetype'] as $ext) {
+                    $accept[] = ".".$ext;
+                }
+                $options['attr']['accept'] = implode(",", $accept);
             }
 
             // Yeah, this feels a bit flakey, but I'm not sure how I can get the form type in the template
             // in another way.
             $options['attr']['type'] = $field['type'];
-
-            // \util::var_dump($options);
 
             $form->add($name, $field['type'], $options);
 
@@ -163,38 +174,19 @@ class Extension extends \Bolt\BaseExtension
             $form->bind($this->app['request']);
 
             if ($form->isValid()) {
-                $data = $form->getData();
 
-                // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
-                foreach($data as $key => $value) {
-                    if (gettype($value)=="boolean") {
-                        $data[$key] = ($value ? "yes" : "no");
-                    }
-                }
-
-                $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
-                    'form' =>  $data ));
-
-                // echo "<pre>\n" . \util::var_dump($mailhtml, true) . "</pre>\n";
-
-                if (!empty($formconfig['mail_subject'])) {
-                    $subject = $formconfig['mail_subject'];
-                } else {
-                    $subject = '[SimpleForms] ' . $name;
-                }
-
-                $message = \Swift_Message::newInstance()
-                    ->setSubject($subject)
-                    ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
-                    ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
-                    ->setBody(strip_tags($mailhtml))
-                    ->addPart($mailhtml, 'text/html');
-
-                $res = $this->app['mailer']->send($message);
+                $res = $this->processForm($formconfig, $form, $formname);
 
                 if ($res) {
                     $message = $formconfig['message_ok'];
                     $sent = true;
+
+                    // If redirect_on_ok is set, redirect to that page when succesful.
+                    if (!empty($formconfig['redirect_on_ok'])) {
+                        $content = $this->app['storage']->getContent($formconfig['redirect_on_ok']);
+                        simpleredirect($content->link(), false);
+                    }
+
                 } else {
                     $error = $formconfig['message_technical'];
                 }
@@ -221,5 +213,84 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
+
+
+    private function processForm($formconfig, $form, $formname)
+    {
+
+        $data = $form->getData();
+
+        // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
+        foreach($data as $key => $value) {
+            if (gettype($value)=="boolean") {
+                $data[$key] = ($value ? "yes" : "no");
+            }
+        }
+
+        // Check if we have fields of type 'file'. If so, fetch them, and move them
+        // to the designated folder.
+        foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
+            if ($fieldvalues['type'] == "file") {
+                if (empty($fieldvalues['storage_location'])) {
+                    die("You must set the storage_location in the field $fieldname.");
+                }
+                $path = __DIR__ . "/" . $fieldvalues['storage_location'];
+                if (!is_writable($path)) {
+                    die("The path $path is not writable.");
+                }
+                $files = $this->app['request']->files->get($form->getName());
+                $originalname = strtolower($files[$fieldname]->getClientOriginalName());
+                $filename = sprintf("%s-%s-%s.%s", $fieldname, date('Y-m-d'), makeKey(8), getExtension($originalname));
+                $link = sprintf("%sapp/extensions/SimpleForms/%s/%s", $this->app['paths']['rooturl'], $fieldvalues['storage_location'], $filename);
+
+                // Make sure the file is in the allowed extensions.
+                if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
+                    // If so, replace the file to designated folder.
+                    $files[$fieldname]->move($path, $filename);
+                    $data[$fieldname] = $link;
+                } else {
+                    $data[$fieldname] = "Invalid upload, ignored ($originalname)";
+                }
+
+
+            }
+        }
+
+
+        // Attempt to insert the data into a table, if specified..
+        if (!empty($formconfig['insert_into_table'])) {
+            try {
+                $this->app['db']->insert($formconfig['insert_into_table'], $data);
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+                echo "Couldn't insert data into table " . $formconfig['insert_into_table'] . ".";
+            }
+
+        }
+
+
+        $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
+            'form' =>  $data ));
+
+        // \util::var_dump($mailhtml);
+
+        if (!empty($formconfig['mail_subject'])) {
+            $subject = $formconfig['mail_subject'];
+        } else {
+            $subject = '[SimpleForms] ' . $formname;
+        }
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+            ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+            ->setBody(strip_tags($mailhtml))
+            ->addPart($mailhtml, 'text/html');
+
+        $res = $this->app['mailer']->send($message);
+
+        return $res;
+
+    }
 
 }

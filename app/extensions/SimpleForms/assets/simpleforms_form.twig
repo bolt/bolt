@@ -7,7 +7,7 @@
     <p class="simpleform-message">{{ message }}</p>
 {% endif %}
 {% if not sent %}
-<form action="#" method="post" class="simpleform simpleform-{{ formname }}">
+<form action="#" method="post" class="simpleform simpleform-{{ formname }}" enctype="multipart/form-data">
     {{ form_widget(form) }}
 
     <input type="submit" name="submit" value="{{ button_text }}" class="simpleform-submit" />
