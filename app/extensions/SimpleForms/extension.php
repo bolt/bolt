@@ -268,7 +268,6 @@ class Extension extends \Bolt\BaseExtension
 
         }
 
-
         $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
             'form' =>  $data ));
 
@@ -280,12 +279,23 @@ class Extension extends \Bolt\BaseExtension
             $subject = '[SimpleForms] ' . $formname;
         }
 
+        // Compile the message..
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
+
+        // If 'submitter_cc' is set, add a 'cc' to the submitter of the form.
+        if (!empty($formconfig['submitter_cc'])) {
+            if (isEmail($formconfig['submitter_cc'])) {
+                $address = $formconfig['submitter_cc'];
+            } else if (!empty($data[$formconfig['submitter_cc']])) {
+                $address = $data[$formconfig['submitter_cc']];
+            }
+            $message->setCC($address);
+        }
 
         $res = $this->app['mailer']->send($message);
 
