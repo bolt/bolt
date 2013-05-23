@@ -13,6 +13,7 @@ use Bolt;
 use util;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Request;
 
 class Storage
 {
@@ -623,7 +624,7 @@ class Storage
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
         // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging'])) {
+        if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
             $page = $this->app['request']->get('page', $page);
         }
 
@@ -744,7 +745,7 @@ class Storage
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
         // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging'])) {
+        if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
             $page = $this->app['request']->get('page', $page);
         }
 
@@ -960,7 +961,7 @@ class Storage
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
         // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging'])) {
+        if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
             $page = $this->app['request']->get('page', $page);
         }
 
@@ -1088,7 +1089,10 @@ class Storage
 
         // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
         // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        $order = $this->app['request']->query->get('page', isset($parameters['order'])?$parameters['order']:null);
+        $order = null;
+        if ($this->app->raw('request') instanceof Request) {
+            $order = $this->app['request']->query->get('page', isset($parameters['order'])?$parameters['order']:null);
+        }
         if (empty($order)) {
             if ($this->getContentTypeGrouping($contenttypeslug)) {
                 uasort($content, array($this, 'groupingSort'));
