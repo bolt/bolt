@@ -1456,6 +1456,93 @@ function array_merge_recursive_distinct (array &$array1, array &$array2) {
     return $merged;
 }
 
+
+
+/**
+ * Checks if the text is a valid email address.
+ *
+ * Given a chain it returns true if $theAdr conforms to RFC 2822.
+ * It does not check the existence of the address.
+ * Suppose a mail of the form
+ *  <pre>
+ *  addr-spec     = local-part "@" domain
+ *  local-part    = dot-atom / quoted-string / obs-local-part
+ *  dot-atom      = [CFWS] dot-atom-text [CFWS]
+ *  dot-atom-text = 1*atext *("." 1*atext)
+ *  atext         = ALPHA / DIGIT /    ; Any character except controls,
+ *        "!" / "#" / "$" / "%" /      ;  SP, and specials.
+ *        "&" / "'" / "*" / "+" /      ;  Used for atoms
+ *        "-" / "/" / "=" / "?" /
+ *        "^" / "_" / "`" / "{" /
+ *        "|" / "}" / "~" / "." /
+ * </pre>
+ *
+ * @param string $theAdr
+ * @return boolean
+ */
+function isEmail($theAdr) {
+
+    // default
+    $result = FALSE;
+
+    // go ahead
+    if(( ''!=$theAdr )||( is_string( $theAdr ))) {
+        $mail_array = explode( '@',$theAdr );
+    }
+
+    if( !is_array( $mail_array )) { return FALSE; }
+
+    if( 2 == count( $mail_array )) {
+        $localpart = $mail_array[0];
+        $domain_array  = explode( '.',$mail_array[1] );
+    } else {
+        return FALSE;
+    }
+    if( !is_array( $domain_array ))  { return FALSE; }
+    if( 1 == count( $domain_array )) { return FALSE; }
+
+    /* relevant info:
+     * $mail_array[0] contains atext
+     * $adr_array  contains parts of address
+     *          and last one must be at least 2 chars
+     */
+
+    $domain_toplevel = array_pop( $domain_array );
+    if(is_string($domain_toplevel) && (strlen($domain_toplevel) > 1)) {
+        // put back
+        $domain_array[] = $domain_toplevel;
+        $domain = implode( '',$domain_array );
+        // now we have two string to test
+        // $domain and $localpart
+        $domain    = preg_replace( "/[a-z0-9]/i","",$domain );
+        $domain    = preg_replace( "/[-|\_]/","",$domain );
+        $localpart = preg_replace( "/[a-z0-9]/i","",$localpart);
+        $localpart = preg_replace(
+            "#[-.|\!|\#|\$|\%|\&|\'|\*|\+|\/|\=|\? |\^|\_|\`|\{|\||\}|\~]#","",$localpart);
+        // If there are no characters left in localpart or domain, the
+        // email address is valid.
+        if(( '' == $domain )&&( '' == $localpart )) { $result = TRUE; }
+    }
+
+    return $result;
+}
+
+
+
+/**
+ * Checks whether the text is an URL or not.
+ *
+ * @param string $url
+ * @return boolean
+ */
+function isUrl($url) {
+
+    return (preg_match("/((ftp|https?):\/\/)?([a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(com\b|edu\b|biz\b|org\b|gov\b|in(?:t|fo)\b|mil\b|net\b|name\b|museum\b|coop\b|aero\b|[a-z][a-z]\b|[0-9]{1,3})/i",$url));
+
+}
+
+
+
 /**
  * i18n made right, second attempt...
  *
