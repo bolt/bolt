@@ -1244,8 +1244,9 @@ function redirect($path, $param = array(), $add = '')
  * Create a simple redirect to a page / path and die.
  *
  * @param string $path
+ * @param boolean $die
  */
-function simpleredirect($path)
+function simpleredirect($path, $die = true)
 {
 
     if (empty($path)) {
@@ -1254,9 +1255,12 @@ function simpleredirect($path)
     header("location: $path");
     echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
     echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
-    die();
+    if ($die) {
+        die();
+    }
 
 }
+
 
 
 /**
