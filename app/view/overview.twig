@@ -32,7 +32,7 @@
             {% endif %}
 
             {# print the header for the first row.. #}
-            {% if loop.first or (content.group.name is defined and content.group.name != lastgroup) %}
+            {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
                 {% set lastgroup = content.group.name %}
                 {% if "filter" in app.request.query.all|keys %}
                     {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
