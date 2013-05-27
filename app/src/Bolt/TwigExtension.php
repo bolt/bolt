@@ -325,22 +325,22 @@ class TwigExtension extends \Twig_Extension
 
         $route_params = $this->app['request']->get('_route_params');
 
-        // check against $_SERVER['REQUEST_URI']
-        if ($_SERVER['REQUEST_URI'] == $content['link']) {
-            return true;
-        }
-
-        // No contenttypeslug or slug -> not 'current'
-        if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
-            return false;
-        }
-
         $link = false;
         if (is_array($content) && isset($content['link'])) {
             $link = $content['link'];
         }
         else if ($content instanceof \Bolt\Content) {
             $link = $content->link();
+        }
+
+        // check against Request Uri
+        if ($this->app['request']->getRequestUri() == $link) {
+            return true;
+        }
+
+        // No contenttypeslug or slug -> not 'current'
+        if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
+            return false;
         }
 
         // check against simple content.link
