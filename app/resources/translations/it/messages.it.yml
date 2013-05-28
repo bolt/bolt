@@ -1,0 +1,269 @@
+# app/resources/translations/it/messages.it.yml -- generated on 2013/05/28 20:42:10
+# 80 untranslated strings
+
+"%contenttypes% overview":  #
+"%s files could not be deleted. You should delete them manually.":  #
+"A password reset link has been sent to '%user%'.":  #
+"Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>":  #
+"Added to <tt>%key%</tt> '%title%'":  #
+"Address lookup:":  #
+"Alas, no about!":  #
+"Allowed contenttypes":  #
+"Are you sure you want to delete %username%?":  #
+"Are you sure you wish to revert? Your changes will be lost, if you don't save them.":  #
+"Below are the third party libraries that are used by Bolt.":  #
+"Can't set %field% in %contenttype%: Not a valid field.":  #
+"Content '%title%' has been changed to 'held'":  #
+"Details are shown above. The importer will now try again with a different parser...":  #
+"Files in %s":  #
+"Fill the database with Dummy Content":  #
+"Folder '%s' could not be found, or is not readable.":  #
+"I forgot my password…":  #
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.":  #
+"In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
+"It seems there's no content in the database.":  #
+"Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.":  #
+"Maintenance":  #
+"Matched address:":  #
+"Modifications needed:":  #
+"No disabled extensions..":  #
+"No enabled extensions..":  #
+"No results found for '%search%'. Please try another search.":  #
+"No such action for content.":  #
+"No such action for user '%s'.":  #
+"No video url is set, no video to show.":  #
+"Overview for":  #
+"Overview": "Overview"
+"Please choose the record you want to link to:":  #
+"Please log on.":  #
+"Prefill database":  #
+"Provided by:":  #
+"Related content:":  #
+"Reset my password":  #
+"Search results for <b> %search% </b>.":  #
+"Session resumed.":  #
+"Skipped <tt>%key%</tt> (already has records)":  #
+"Skipped <tt>%key%</tt> (not checked)":  #
+"Sophisticated, lightweight & simple CMS":  #
+"That user does not exist.":  #
+"The activitylog has been cleared.":  #
+"The activitylog has been trimmed.":  #
+"The changes to this %contenttype% have been saved.":  #
+"The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.":  #
+"The file '%s' doesn't exist, or is not readable.":  #
+"The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
+"The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.":  #
+"The new %contenttype% has been saved.":  #
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.":  #
+"The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.":  #
+"The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.":  #
+"The translations file '%s' is not readable.":  #
+"There are no users in the database. Please create the first user.":  #
+"There was an error saving this %contenttype%.":  #
+"There was an error when reading this WXR file":  #
+"This displayname is already in use. Choose another displayname.":  #
+"This does not appear to be a WXR file, missing/invalid WXR version number":  #
+"This email address is already in use. Choose another email address.":  #
+"This record is related to %contenttype%":  #
+"This username is already in use. Choose another username.":  #
+"This value is too short. It should have 6 characters or more.":  #
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.":  #
+"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.":  #
+"Trim Activitylog":  #
+"Used Libraries / Components":  #
+"User %s could not be saved, or nothing was changed.":  #
+"Username or password not correct. Please check your input.":  #
+"You do not have the right privileges to edit that record.":  #
+"You do not have the right privileges to view that page.":  #
+"You have been logged out.":  #
+"You've been logged on successfully.":  #
+"Your account is disabled. Sorry about that.":  #
+"Your database is already up to date.":  #
+"Your database is now up to date.":  #
+"more activity":  #
+
+#-----------------------------------------
+# 182 translated strings
+
+"%contenttypes%": "%contenttypes%"
+"(no group)": "(nessun gruppo)"
+"About Bolt": "About Bolt"
+"About": "About"
+"Actions for %contenttypes%": "Azioni per %contenttypes%"
+"Actions for Users": "Azioni per gli Utenti"
+"Actions for this %contenttype%": "Azioni per questa %contenttype%"
+"Actions": "Azioni"
+"Activity log": "Registro attività"
+"Add existing image": "Aggiungi immagine esistente"
+"Add …": "Add …"
+"Added user '%s'.": "User '%s' aggiunto."
+"All users": "Tutti gli usenti"
+"Author:": "Autore"
+"Back to login": "Torna alla login"
+"Body": "Corpo"
+"Bolt - Fatal error.": "Bolt - Errore fatale."
+"Bolt documentation on Github": "Documentation Bolt su Github"
+"Bolt on Github": "Bolt su Github"
+"Browser / platform": "Browser / piattaforma"
+"Cancel": "Annulla"
+"Categories": "Categorie"
+"Category": "Categoria"
+"Change status to 'draft'": "Cambio lo stato in 'bozza'"
+"Change status to 'held'": "Cambio lo stato in 'held'"
+"Chapter": "Capitolo"
+"Chapters": "Capitoli"
+"Check database": "Controllo database"
+"Clear Activitylog": "Svuota Activitylog"
+"Clear cache again": "Svuota ancora la cache"
+"Clear filter": "Svuota i filtri"
+"Clear sort/filter": "Svuota ordine/filtro"
+"Clear the cache": "Svuota la cache"
+"Close": "Chiudi"
+"Configuration": "Configurazione"
+"Content '%title%' could not be deleted.": "Il contento '%title%' non può esser cancellato."
+"Content '%title%' could not be modified.": "Il contento '%title%' non può esser modificato."
+"Content '%title%' has been changed to 'draft'.": "La '%title%' è stata modificata in 'bozza'."
+"Content '%title%' has been deleted.": "Il contento '%title%' è stato eliminato."
+"Content '%title%' is published.": "Il contento '%title%' è stato pubblicato."
+"Content was duplicated. Click 'Save %contenttype%' to finalize.": "Il contenuto è stato duplicato. Premi 'Salva %contenttype%' per confermare."
+"Content": "Contenuto"
+"Contenttypes": "Tipi di Contenuto"
+"Create a new user": "Crea un nuovo utente"
+"Create the first user": "Crea il primo utente"
+"Created on:": "Creato il:"
+"Current sessions": "Sessione corrente"
+"Current status:": "Stato Corrente"
+"Dashboard": "Dashboard"
+"Database check / update": "Controllo database / aggiornamento"
+"Date": "Data"
+"Delete %contenttype%": "Elimina %contenttype%"
+"Delete %filename%": "Elimina %filename%"
+"Delete %username%": "Elimina %username%"
+"Deleted %s files from cache.": "Eliminati %s files dalla cache."
+"Deselect all": "Deseleziona tutto"
+"Disable %username%": "Disabilita %username%"
+"Disabled extensions": "Estensioni disabilitate"
+"Done!": "Fatto!"
+"Duplicate %contenttype%": "Duplica %contenttype%"
+"Duplicate %filename%": "Duplica %filename%"
+"Edit %contenttype%": "Modifica %contenttype%"
+"Edit file": "Modifica file"
+"Edit translations file '%s'.": "Modifica file di traduzione '%s'."
+"Edit user": "Modifica utente"
+"Edit": "Modifica"
+"Enable %username%": "Abilita %username%"
+"Enabled extensions": "Estensioni abilitate"
+"Enabling extensions:": "Abilitazione estensioni:"
+"Excerpt": "Estratto"
+"Extensions": "Estensioni"
+"File '%s' could not be saved, for some reason.": "Per quealche motico il file '%s' non può esser salvato."
+"File '%s' could not be saved: ": "Il file '%s' non può esser salvato: "
+"File '%s' has been saved.": "Il file '%s' è stato salvato."
+"File Management": "Gestione File"
+"Files": "Files"
+"Files: %path%": "Files: %path%"
+"Filesize": "Filesize"
+"Filter": "Filtri"
+"Filtering:": "Filtra:"
+"Folders": "Cartelle"
+"IP address": "Indirizzo IP"
+"Image": "Immagine"
+"Images": "Immagini"
+"Info": "Info"
+"Javascript disabled": "Javascript disabilitato"
+"Last edited on:": "Ultima modifica del:"
+"Last known IP": "Ultimo IP conosciuto"
+"Last modified %contenttypes%": "%contenttypes% modificate di recente"
+"Last seen": "Ultima visita"
+"Latest %contenttypes%": "Ultime %contenttypes%"
+"Latest activity": "Ultime attività"
+"Latest entries": "Ultime voci"
+"Latitude:": "Latitudine:"
+"Level": "Livello"
+"Log on": "Log on"
+"Login": "Login"
+"Logout %name%": "Logout %name%"
+"Long messages": "Messaggi lunghi"
+"Longitude:": "Longitudine:"
+"Menu setup": "Menu impostazioni"
+"Messages": "Messagggi"
+"Meta": "Meta"
+"Modifications made to the database:": "Modifiche eseguite al database:"
+"Modified": "Modificato"
+"More %contenttypes% »": "Altre %contenttypes% »"
+"New %contenttype%": "Nuova %contenttype%"
+"New user": "Nuovo utente"
+"No %contenttypes% available.": "Nessun %contenttypes% disponibile."
+"No latest %contenttype%": "L'ultima %contenttype%"
+"No recent %contenttype%.": "Nessuna %contenttype% recente."
+"Oops! An error has occurred!": "Oops! E' avvenuto un errore!"
+"Options": "Opzioni"
+"Order: %sort%": "Ordine: %sort%"
+"Owner:": "Proprietario:"
+"Password (confirmation)": "Password (conferma)"
+"Password": "Password"
+"Passwords must match.": "Le Password devo coincidere."
+"Path:": "Path:"
+"Permalink": "Link permanente"
+"Permissions": "Permessi"
+"Preview %contenttype%": "Anteprima %contenttype%"
+"Preview video": "Anteprima video"
+"Preview": "Anteprima"
+"Publication date:": "Data Pubblicazione:"
+"Publish %contenttype%": "Pubblica %contenttype%"
+"Published on:": "Pubblicato il:"
+"Read more": "Leggi ancora"
+"Recent %contenttypes%": "%contenttypes% recenti"
+"Relationships": "Relazioni"
+"Revert changes": "Ripristina modifiche"
+"Save %contenttype%": "Salva %contenttype%"
+"Save": "Salva"
+"Search": "Cerca"
+"Select all": "Seleziona tutto"
+"Select from server": "Seleziona dal server"
+"Session expires": "Sessione scaduta"
+"Settings": "Impostazioni"
+"Showing %pager_for% %from% - %to% of %count%": "Visualizzo %pager_for% %from% - %to% di %count%"
+"Showing": "Visualizzo"
+"Sitemap": "Sitemap"
+"Size:": "Dimensione:"
+"Slug": "Slug"
+"Slug:": "Slug:"
+"Status:": "Stato:"
+"Tag": "Tag"
+"Tags": "Tags"
+"Taxonomy": "Tassonomia"
+"Template": "Template"
+"Text": "Testo"
+"This %contenttype% was created": "Questa %contenttype% è stata creata"
+"Tip:": "Tip:"
+"Title": "Titolo"
+"Translations": "Traduzioni"
+"URL:": "URL:"
+"Update the database": "Aggiorna il database"
+"Upload File": "Upload File"
+"Upload image": "Upload immagine"
+"Uploaded files": "Files caricati"
+"User %s has been saved.": "L'utente %s è stato salvato."
+"User '%s' could not be deleted.": "L'utente '%s' non può esser elimintato."
+"User '%s' could not be disabled.": "L'utente '%s' non può esser disabilitato."
+"User '%s' could not be enabled.": "L'utente '%s' non può esser abilitato."
+"User '%s' is deleted.": "L'utente '%s' è stato elimintato."
+"User '%s' is disabled.": "L'utente '%s' è stato disabilitato."
+"User '%s' is enabled.": "L'utente '%s' è stato abilitato."
+"User is enabled": "Utente abilitato"
+"Username": "Nome utente"
+"Users": "Utenti"
+"View %contenttypes%": "Mostra %contenttypes%"
+"View / edit Templates": "Mostra / modifica Templates"
+"View file '%s'.": "Mostra file '%s'."
+"View file": "Mostra file"
+"View on site": "Mostra nel sito"
+"View site": "Mostra il sito"
+"View translations file '%s'.": "Mostra file di traduzine '%s'."
+"Written by <em>%name%</em> on %date%": "Scritto da <em>%name%</em> il %date%"
+"Your password": "La tua password"
+"Your username": "Il tuo nome utente"
+"and edited": "e modificata"
+"none": "nessuno"
+"of": "di"
