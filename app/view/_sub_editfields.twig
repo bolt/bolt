@@ -176,7 +176,7 @@
             <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
-        <a data-target="#selectImageModal-{{key}}" href="/async/browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Select from server') }}</a>
+        <a data-target="#selectImageModal-{{key}}" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Select from server') }}</a>
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
         </div>
@@ -300,7 +300,7 @@
             <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
-        <a data-target="#selectImageModal-{{key}}" href="/async/browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Add existing image') }}</a>
+        <a data-target="#selectImageModal-{{key}}" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Add existing image') }}</a>
     </div>
     <textarea name="{{key}}" id="{{key}}">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
     <div class='clearfix'></div>

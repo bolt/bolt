@@ -1,4 +1,3 @@
-
 // Don't break on browsers without console.log();
 try { console.assert(1); } catch(e) { console = { log: function() {}, assert: function() {} } }
 
@@ -608,6 +607,8 @@ var ImagelistHolder = Backbone.View.extend({
 
     bindEvents: function() {
 
+        var contentkey = this.id;
+
         $(".imagelistholder div.list").sortable({
             stop: function() {
                 imagelist.doneSort();
@@ -616,10 +617,10 @@ var ImagelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + this.id).attr('name', 'files[]')
+        $('#fileupload-' + contentkey).attr('name', 'files[]')
             .fileupload({
                 dataType: 'json',
-                dropZone: $('#imagelist-' + this.id),
+                dropZone: $('#imagelist-' + contentkey),
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
                         var filename = decodeURI(file.url).replace("/files/", "");
@@ -641,13 +642,13 @@ var ImagelistHolder = Backbone.View.extend({
         });
 
         // In the modal dialog, to navigate folders..
-        $('#selectImageModal-imagelist').on('click','.folder', function(e) {
+        $('#selectImageModal-' + contentkey).on('click','.folder', function(e) {
             e.preventDefault();
-            $('#selectImageModal-imagelist .modal-body').load($(this).attr('href'));
+            $('#selectImageModal-' + contentkey + ' .modal-body').load($(this).attr('href'));
         });
 
         // In the modal dialog, to select a file..
-        $('#selectImageModal-imagelist').on('click','.file', function(e) {
+        $('#selectImageModal-' + contentkey).on('click','.file', function(e) {
             e.preventDefault();
             var filename = $(this).attr('href');
             imagelist.add(filename, filename);
