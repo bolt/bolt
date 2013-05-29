@@ -35,7 +35,7 @@
                 <tr>
                     <td>
                         {% if file.readable %}
-                            <a class="filebrowserCallbackLink" href="/{{ file.newpath }}">
+                            <a class="filebrowserCallbackLink" href="{{ app.paths.root }}{{ file.newpath }}">
                                 <b>{{ file.filename|trimtext(40) }}</b>
                             </a>
                         {% else %}
