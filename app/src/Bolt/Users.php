@@ -474,10 +474,6 @@ class Users
             return true;
 
         } else {
-            echo "bummer";
-            \util::var_dump($row);
-            \util::var_dump($checksalt);
-
             // Delete the authtoken cookie..
             setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']['general']['cookies_domain']);
 
