@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>Passwords must match.</source>
-                <target>Passwörter müssen überein stimmen.</target>
+                <target>Passwörter müssen übereinstimmen.</target>
             </trans-unit>
         </body>
     </file>
