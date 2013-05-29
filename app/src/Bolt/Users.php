@@ -300,11 +300,13 @@ class Users
 
     private function deleteExpiredSessions()
     {
-
-        $stmt = $this->db->prepare("DELETE FROM " . $this->authtokentable . " WHERE validity < :now");
-        $stmt->bindValue("now", date("Y-m-d H:i:s"));
-        $stmt->execute();
-
+        try {
+            $stmt = $this->db->prepare("DELETE FROM " . $this->authtokentable . " WHERE validity < :now");
+            $stmt->bindValue("now", date("Y-m-d H:i:s"));
+            $stmt->execute();
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        }
     }
 
 
@@ -433,9 +435,13 @@ class Users
         $this->deleteExpiredSessions();
 
         // Check if there's already a token stored for this token / IP combo.
-        $query = "SELECT * FROM " . $this->authtokentable . " WHERE token=? AND ip=? AND useragent=?";
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $row = $this->db->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
+        try {
+            $query = "SELECT * FROM " . $this->authtokentable . " WHERE token=? AND ip=? AND useragent=?";
+            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
+            $row = $this->db->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        }
 
         // If there's no row, we can't resume a session from the authtoken.
         if (empty($row)) {
