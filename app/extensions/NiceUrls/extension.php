@@ -19,14 +19,14 @@ class Extension extends BoltExtension
         $data = array(
             'name' => "NiceUrls",
             'description' => "Allows some shortcuts and nicer urls like example.org/about to link through to example.org/page/about",
-            'author' => "WeDesignIt, Patrick van Kouteren",
+            'author' => "WeDesignIt, Patrick van Kouteren, Miguel Angel Gabriel",
             'link' => "http://www.wedesignit.nl",
-            'version' => "0.4",
-            'required_bolt_version' => "1.0 RC",
+            'version' => "0.5",
+            'required_bolt_version' => "1.1",
             'highest_bolt_version' => "1.1",
             'type' => "General",
             'first_releasedate' => "2012-11-06",
-            'latest_releasedate' => "2013-04-08"
+            'latest_releasedate' => "2013-05-29"
         );
 
         return $data;
@@ -47,6 +47,9 @@ class Extension extends BoltExtension
         $this->processRouting();
     }
 
+    /**
+     * Process routing based on routes definitions from config.yml
+     */
     protected function processRouting()
     {
         foreach ($this->config as $routingData) {
@@ -55,15 +58,16 @@ class Extension extends BoltExtension
                 $app = $this->app;
                 $this->app->match('/' . $from, function (Request $request) use ($app, $from, $routingData) {
                     $app['end'] = 'frontend';
-
-                    $to = \NiceUrls\Extension::transformWildCard($routingData['to']['contenttypeslug'] . '/' . $routingData['to']['slug']);
-
+                    $route = $routingData['to']['contenttypeslug'];
+                    $route.= $routingData['to']['slug'] ? '/' . $routingData['to']['slug'] : '';
+                    $to = $this->transformWildCard($route);
                     foreach ($request->get('_route_params') as $rparam => $rval) {
                         $to = str_replace('{' . $rparam . '}', $rval, $to);
                     }
                     $uri = $request->getUriForPath('/' . $to);
                     $params = ($request->getMethod() == 'POST') ? $request->request->all() : $request->query->all();
-                    $subRequest = Request::create($uri, $request->getMethod(), $params, $request->cookies->all(), $request->files->all(), $request->server->all());
+                    $subRequest = Request::create($uri, $request->getMethod(), $params,
+                            $request->cookies->all(), $request->files->all(), $request->server->all());
 
                     if ($request->getSession()) {
                         $subRequest->setSession($request->getSession());
@@ -82,7 +86,7 @@ class Extension extends BoltExtension
      * @param $string
      * @return mixed
      */
-    public static function transformWildCard($string)
+    protected function transformWildCard($string)
     {
         preg_match_all('/%%[A-Za-z0-9]+%%/', $string, $matches);
         $parts = $matches[0];
@@ -95,7 +99,13 @@ class Extension extends BoltExtension
         return $string;
     }
 
-    function isValidRoutingData($routingData)
+    /**
+     * Validate routing definitions
+     *
+     * @param array $routingData
+     * @return boolean
+     */
+    protected function isValidRoutingData($routingData)
     {
         if (!array_key_exists('from', $routingData)) {
             return false;
@@ -115,34 +125,39 @@ class Extension extends BoltExtension
         return true;
     }
 
-    public function niceUrlFilter($string)
+    /**
+     * Create the Twig filter
+     *
+     * @param string $string
+     * @return \Twig_Markup
+     */
+    public function niceUrlFilter($link)
     {
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config = $yamlparser->parse(file_get_contents(__DIR__ . '/config.yml'));
-
-        // path will have app['paths']['root'] prepended
-        $url = substr($string, strlen($this->app['paths']['root']));
-
-        // extract query
-        $parts = explode('?', $url);
-        $url = $parts[0];
-        $query = isset($parts[1]) ? $parts[1] : '';
+        // path will have app['paths']['root'] prepended, so remove it
+        $url = substr($link, strlen($this->app['paths']['root']));
 
         // extract routing data
         $parts = explode('/', $url);
         $contentTypeSlug = isset($parts[0]) ? $parts[0] : '';
         $slug = isset($parts[1]) ? $parts[1] : '';
 
-        $link = $string;
-
-        foreach ($config as $routingData) {
+        // lookup routing
+        foreach ($this->config as $routingData) {
             if ($this->isValidRoutingData($routingData)) {
+
+                // contenttypeslug must match
                 if ($routingData['to']['contenttypeslug'] == $contentTypeSlug) {
+
+                    // look if slug matches (i.e. "page/about")
                     if ($routingData['to']['slug'] == $slug) {
                         $link = $this->app['paths']['root'].$routingData['from']['slug'];
                         break;
-                    } elseif (strpos($routingData['to']['slug'], '%%') !== false) {
-                        // is a parameterized slug
+                    }
+
+                    // look if slug is parameterized (i.e. "page/%%slug%%")
+                    if (strpos($routingData['to']['slug'], '%%') !== false) {
+                        // is a parameterized slug,
+                        // so replace the "to" parameter with the real slug to get the "from" slug
                         $fromSlug = str_replace($routingData['to']['slug'], $slug, $routingData['from']['slug']);
                         $link = $this->app['paths']['root'].$fromSlug;
                         break;
