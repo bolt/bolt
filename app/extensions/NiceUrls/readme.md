@@ -48,15 +48,15 @@ pages:
       
 </pre>
  
-In this case we have two custom urls, defined by the from slug. Note that the 
-name of the block (about_foo and geo) are just references (e.g. descriptions)
-for you and group a block.
+In this case we have three custom urls, defined by the from slug. Note that the 
+name of the block (`about_foo`, `geo` and `pages`) are just references 
+(e.g. descriptions) for you and group a block.
   
 This config adds the following routing:
  
-`http://example.org/about/foo/bar` will show the contents of `http://example.org/page/about`
-`http://example.org/about` will show the contents of `http://example.org/kitchensink/about`
-`http://example.org/p` will show the contents of `http://example.org/pages`
+- `http://example.org/about/foo/bar` will show the contents of `http://example.org/page/about`
+- `http://example.org/about` will show the contents of `http://example.org/kitchensink/about`
+- `http://example.org/p` will show the contents of `http://example.org/pages`
 
 
 Wildcards in routes
