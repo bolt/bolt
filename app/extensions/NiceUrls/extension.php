@@ -9,13 +9,13 @@ use Bolt\BaseExtension as BoltExtension;
 
 class Extension extends BoltExtension
 {
+    protected $config;
 
     /**
      * Info block for NiceUrls Extension.
      */
-    function info()
+    public function info()
     {
-
         $data = array(
             'name' => "NiceUrls",
             'description' => "Allows some shortcuts and nicer urls like example.org/about to link through to example.org/page/about",
@@ -30,7 +30,6 @@ class Extension extends BoltExtension
         );
 
         return $data;
-
     }
 
     /**
@@ -38,17 +37,27 @@ class Extension extends BoltExtension
      * For subrequests in Silex, see
      * https://github.com/fabpot/Silex/blob/master/doc/cookbook/sub_requests.rst
      */
-    function initialize()
+    public function initialize()
     {
         $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config = $yamlparser->parse(file_get_contents(__DIR__ . '/config.yml'));
-        foreach ($config as $routingData) {
+        $this->config = $yamlparser->parse(file_get_contents(__DIR__ . '/config.yml'));
+
+        $this->addTwigFilter('niceurl', 'niceUrlFilter');
+
+        $this->processRouting();
+    }
+
+    protected function processRouting()
+    {
+        foreach ($this->config as $routingData) {
             if ($this->isValidRoutingData($routingData)) {
                 $from = $this->transformWildCard($routingData['from']['slug']);
                 $app = $this->app;
                 $this->app->match('/' . $from, function (Request $request) use ($app, $from, $routingData) {
                     $app['end'] = 'frontend';
+
                     $to = \NiceUrls\Extension::transformWildCard($routingData['to']['contenttypeslug'] . '/' . $routingData['to']['slug']);
+
                     foreach ($request->get('_route_params') as $rparam => $rval) {
                         $to = str_replace('{' . $rparam . '}', $rval, $to);
                     }
@@ -62,7 +71,7 @@ class Extension extends BoltExtension
 
                     return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST, false);
                 })
-                    ->assert('contenttypeslug', $this->app['storage']->getContentTypeAssert());
+                ->assert('contenttypeslug', $this->app['storage']->getContentTypeAssert());
             }
         }
     }
@@ -104,6 +113,45 @@ class Extension extends BoltExtension
             return false;
         }
         return true;
+    }
+
+    public function niceUrlFilter($string)
+    {
+        $yamlparser = new \Symfony\Component\Yaml\Parser();
+        $config = $yamlparser->parse(file_get_contents(__DIR__ . '/config.yml'));
+
+        // path will have app['paths']['root'] prepended
+        $url = substr($string, strlen($this->app['paths']['root']));
+
+        // extract query
+        $parts = explode('?', $url);
+        $url = $parts[0];
+        $query = isset($parts[1]) ? $parts[1] : '';
+
+        // extract routing data
+        $parts = explode('/', $url);
+        $contentTypeSlug = isset($parts[0]) ? $parts[0] : '';
+        $slug = isset($parts[1]) ? $parts[1] : '';
+
+        $link = $string;
+
+        foreach ($config as $routingData) {
+            if ($this->isValidRoutingData($routingData)) {
+                if ($routingData['to']['contenttypeslug'] == $contentTypeSlug) {
+                    if ($routingData['to']['slug'] == $slug) {
+                        $link = $this->app['paths']['root'].$routingData['from']['slug'];
+                        break;
+                    } elseif (strpos($routingData['to']['slug'], '%%') !== false) {
+                        // is a parameterized slug
+                        $fromSlug = str_replace($routingData['to']['slug'], $slug, $routingData['from']['slug']);
+                        $link = $this->app['paths']['root'].$fromSlug;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return new \Twig_Markup($link, 'UTF-8');
     }
 
 }
