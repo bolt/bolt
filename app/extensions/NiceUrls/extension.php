@@ -48,7 +48,9 @@ class Extension extends BoltExtension
                 $app = $this->app;
                 $this->app->match('/' . $from, function (Request $request) use ($app, $from, $routingData) {
                     $app['end'] = 'frontend';
-                    $to = \NiceUrls\Extension::transformWildCard($routingData['to']['contenttypeslug'] . '/' . $routingData['to']['slug']);
+                    $route = $routingData['to']['contenttypeslug'];
+                    $route.= $routingData['to']['slug'] ? '/' . $routingData['to']['slug'] : '';
+                    $to = \NiceUrls\Extension::transformWildCard($route);
                     foreach ($request->get('_route_params') as $rparam => $rval) {
                         $to = str_replace('{' . $rparam . '}', $rval, $to);
                     }
