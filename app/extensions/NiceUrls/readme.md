@@ -27,6 +27,14 @@ geo:
   to:
     contenttypeslug: kitchensink
     slug: about
+    
+pages:
+  from:
+    slug: p
+  to:
+    contenttypeslug: pages
+    slug: ""
+        
 </pre>
 
 In this case we have two custom urls, defined by the from slug. Note that the
@@ -37,3 +45,4 @@ This config adds the following routing:
 
 http://example.org/about/foo/bar will show the contents of http://example.org/page/about
 http://example.org/about will show the contents of http://example.org/kitchensink/about
+http://example.org/p will show the contents of http://example.org/pages
