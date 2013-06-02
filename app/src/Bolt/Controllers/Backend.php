@@ -474,8 +474,8 @@ class Backend implements ControllerProviderInterface
 
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
-				echo "$id is niet ". $content['id'];
-				die();
+                echo "$id is niet ". $content['id'];
+                die();
                 $app['session']->getFlashBag()->set('error', "Don't try to spoof the id!");
                 return redirect('dashboard');
             }

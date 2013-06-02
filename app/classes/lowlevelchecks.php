@@ -16,7 +16,7 @@ class lowlevelchecks
         // Bolt requires PHP 5.3.2 or higher.
         if (!checkVersion(PHP_VERSION, "5.3.2")) {
             $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". PHP_VERSION .
-	           "</u>, so Bolt will not run on your current setup.");
+               "</u>, so Bolt will not run on your current setup.");
         }
 
         if (get_magic_quotes_gpc()) {
