@@ -6,8 +6,8 @@ echo -n "Enter the version for this release: "
 read ver
 
 if [ ! $ver ]; then 
-	echo "Invalid version."
-	exit
+    echo "Invalid version."
+    exit
 fi
 
 name="select2"
@@ -49,15 +49,15 @@ cat LICENSE | sed "$tokens" >> "$mini"
 echo "*/" >> "$mini"
 
 curl -s \
-	-d compilation_level=SIMPLE_OPTIMIZATIONS \
-	-d output_format=text \
-	-d output_info=compiled_code \
-	--data-urlencode "js_code@$js" \
-	http://closure-compiler.appspot.com/compile \
-	>> "$mini"
+    -d compilation_level=SIMPLE_OPTIMIZATIONS \
+    -d output_format=text \
+    -d output_info=compiled_code \
+    --data-urlencode "js_code@$js" \
+    http://closure-compiler.appspot.com/compile \
+    >> "$mini"
 
 git add "$mini"
-	
+
 git commit -m "release $ver"
 
 echo "Tagging..."

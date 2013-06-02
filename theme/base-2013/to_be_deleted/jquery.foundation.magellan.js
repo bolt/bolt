@@ -13,19 +13,19 @@
 
   $.fn.foundationMagellan = function(options) {
     var $window = $(window),
-  		$document = $(document),
-  		$fixedMagellan = $('[data-magellan-expedition=fixed]'),
-    	defaults = {
-	      threshold: ($fixedMagellan.length) ? $fixedMagellan.outerHeight(true) : 0,
-	      activeClass: 'active'
-	    },
-		options = $.extend({}, defaults, options);
-	
+          $document = $(document),
+          $fixedMagellan = $('[data-magellan-expedition=fixed]'),
+        defaults = {
+          threshold: ($fixedMagellan.length) ? $fixedMagellan.outerHeight(true) : 0,
+          activeClass: 'active'
+        },
+        options = $.extend({}, defaults, options);
+
     // Indicate we have arrived at a destination
     $document.on('magellan.arrival', '[data-magellan-arrival]', function(e) {
-		var $destination = $(this),
-      		$expedition = $destination.closest('[data-magellan-expedition]'),
-			activeClass = $expedition.attr('data-magellan-active-class') || options.activeClass;
+        var $destination = $(this),
+              $expedition = $destination.closest('[data-magellan-expedition]'),
+            activeClass = $expedition.attr('data-magellan-active-class') || options.activeClass;
       $destination
         .closest('[data-magellan-expedition]')
         .find('[data-magellan-arrival]')
