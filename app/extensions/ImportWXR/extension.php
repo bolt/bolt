@@ -36,7 +36,9 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize()
     {
-        $this->app->match('/bolt/importwxr', array($this, 'importwxr'));
+        // Set up routing for the extension.
+        $path = $this->app['config']['general']['branding']['path'] . '/importwxr';
+        $this->app->match($path, array($this, 'importwxr'));
     }
 
     public function importwxr()
@@ -148,6 +150,23 @@ class Extension extends \Bolt\BaseExtension
 
                 $value = $post[$from];
 
+
+                switch ($from) {
+                    case "post_parent":
+                        if (!empty($value)) {
+                            $value = $mapping['fields']['post_parent_contenttype'] . "/" . $value;
+                        }
+                        break;
+                    case "post_date":
+                        if (!empty($value)) {
+                            // WXR seems to use only one date value.
+                            $record->setValue('datechanged', $value);
+                            $record->setValue('datecreated', $value);
+                            $record->setValue('datepublish', $value);
+                        }
+                        break;
+                }
+
                 switch ($to) {
                     case "username":
                         $value = makeSlug($value);
@@ -155,14 +174,6 @@ class Extension extends \Bolt\BaseExtension
                     case "status":
                         if ($value=="publish") { $value = "published"; }
                         if ($value=="future") { $value = "timed"; }
-                        break;
-                }
-
-                switch ($from) {
-                    case "post_parent":
-                        if (!empty($value)) {
-                            $value = $mapping['fields']['post_parent_contenttype'] . "/" . $value;
-                        }
                         break;
                 }
 
