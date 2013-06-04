@@ -18,7 +18,8 @@ class Extension extends BoltExtension
     {
         $data = array(
             'name' => "NiceUrls",
-            'description' => "Allows some shortcuts and nicer urls like example.org/about to link through to example.org/page/about",
+            'description' => "Allows some shortcuts and nicer urls like example.org/about "
+                            ."to link through to example.org/page/about",
             'author' => "WeDesignIt, Patrick van Kouteren, Miguel Angel Gabriel",
             'link' => "http://www.wedesignit.nl",
             'version' => "0.5",
@@ -56,26 +57,34 @@ class Extension extends BoltExtension
             if ($this->isValidRoutingData($routingData)) {
                 $from = $this->transformWildCard($routingData['from']['slug']);
                 $app = $this->app;
-                $this->app->match('/' . $from, function (Request $request) use ($app, $from, $routingData) {
-                    $app['end'] = 'frontend';
-                    $route = $routingData['to']['contenttypeslug'];
-                    $route.= $routingData['to']['slug'] ? '/' . $routingData['to']['slug'] : '';
-                    $to = $this->transformWildCard($route);
-                    foreach ($request->get('_route_params') as $rparam => $rval) {
-                        $to = str_replace('{' . $rparam . '}', $rval, $to);
-                    }
-                    $uri = $request->getUriForPath('/' . $to);
-                    $params = ($request->getMethod() == 'POST') ? $request->request->all() : $request->query->all();
-                    $subRequest = Request::create($uri, $request->getMethod(), $params,
-                            $request->cookies->all(), $request->files->all(), $request->server->all());
+                $this->app->match('/' . $from,
+                        function (Request $request) use ($app, $from, $routingData) {
+                            $app['end'] = 'frontend';
+                            $route = $routingData['to']['contenttypeslug'];
+                            $route.= $routingData['to']['slug'] ? '/' . $routingData['to']['slug'] : '';
+                            $to = $this->transformWildCard($route);
+                            foreach ($request->get('_route_params') as $rparam => $rval) {
+                                $to = str_replace('{' . $rparam . '}', $rval, $to);
+                            }
+                            $uri = $request->getUriForPath('/' . $to);
+                            $params = ($request->getMethod() == 'POST')
+                                    ? $request->request->all()
+                                    : $request->query->all();
 
-                    if ($request->getSession()) {
-                        $subRequest->setSession($request->getSession());
-                    }
+                            $subRequest = Request::create($uri,
+                                                          $request->getMethod(),
+                                                          $params,
+                                                          $request->cookies->all(),
+                                                          $request->files->all(),
+                                                          $request->server->all());
 
-                    return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST, false);
-                })
-                ->assert('contenttypeslug', $this->app['storage']->getContentTypeAssert());
+                            if ($request->getSession()) {
+                                $subRequest->setSession($request->getSession());
+                            }
+
+                            return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST, false);
+                        }
+                )->assert('contenttypeslug', $this->app['storage']->getContentTypeAssert());
             }
         }
     }
