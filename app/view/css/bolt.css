@@ -545,8 +545,13 @@ fieldset.checkbox div {
     font-size: 100%;
 }
 
-#editcontent input.large {
-    font-size: 133%;
+#editcontent input[type=text] {
+    width: 70%;
+    min-width: 200px;
+}
+
+#editcontent input[type=text].large {
+    font-size: 150%;
     width: 95%;
 }
 

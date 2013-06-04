@@ -702,6 +702,7 @@ function getConfig()
         'recordsperpage' => 10,
         'recordsperdashboardwidget' => 5,
         'debug' => false,
+        'debug_show_loggedoff' => false,
         'strict_variables' => false,
         'theme' => "default",
         'debug_compressjs' => true,
