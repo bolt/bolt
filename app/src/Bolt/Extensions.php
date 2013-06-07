@@ -339,12 +339,12 @@ class Extensions
                 if ($type == $widget['type'] && $location == $widget['location']) {
 
                     $html = sprintf(
-						"<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>"
-						, $widget['key']
-						, $widget['key']
-						, $this->renderWidget( $widget['key'] )
-						, empty( $widget['additionalhtml'] ) ? '' : "\n" . $widget['additionalhtml']
-					);
+                        "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>"
+                        , $widget['key']
+                        , $widget['key']
+                        , $this->renderWidget( $widget['key'] )
+                        , empty( $widget['additionalhtml'] ) ? '' : "\n" . $widget['additionalhtml']
+                    );
 
                     echo $html;
                 }
