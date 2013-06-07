@@ -2,6 +2,7 @@
 
 Namespace Bolt\Controllers;
 
+use Guzzle\Http\Exception\RequestException;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,15 +52,30 @@ class Async implements ControllerProviderInterface
             ->bind('lastmodified')
         ;
 
+        $ctr->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
+            ->before(array($this, 'before'))
+            ->assert('contenttype', '.*')
+            ->bind('contenttype')
+        ;
+
+
+        $ctr->get("/browse/{path}", array($this, 'browse'))
+            ->before(array($this, 'before'))
+            ->assert('path', '.+')
+            ->bind('asyncbrowse')
+        ;
+
+
+
         return $ctr;
+
     }
     /**
      * News.
      */
     function dashboardnews(Silex\Application $app) {
-        global $bolt_version;
 
-        $news = $app['cache']->get('dashboardnews', 7200); // Two hours.
+        $news = $app['cache']->fetch('dashboardnews'); // Two hours.
 
         $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 
@@ -71,21 +87,36 @@ class Async implements ControllerProviderInterface
             $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
 
             $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
-                $bolt_version,
+                rawurlencode($app->getVersion()),
                 phpversion(),
                 $driver,
                 base64_encode($name)
             );
 
-            $guzzleclient = new \Guzzle\Http\Client($url);
+            $curlOptions = array('CURLOPT_CONNECTTIMEOUT' => 5);
+            // If there's a proxy ...
+            if (!empty($app['config']['general']['httpProxy'])) {
+                $curlOptions['CURLOPT_PROXY'] = $app['config']['general']['httpProxy']['host'];
+                $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
+                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']['general']['httpProxy']['user'] . ':' . $app['config']['general']['httpProxy']['password'];
+            }
+            $guzzleclient = new \Guzzle\Http\Client($url, array('curl.options' => $curlOptions));
 
-            $news = $guzzleclient->get("/")->send()->getBody(true);
-            $news = json_decode($news);
+            try {
+                $newsData = $guzzleclient->get("/")->send()->getBody(true);
+                $news = json_decode($newsData);
+                if ($news) {
+                    // For now, just use the most current item.
+                    $news = current($news);
 
-            // For now, just use the most current item.
-            $news = current($news);
+                    $app['cache']->save('dashboardnews', $news, 7200);
+                } else {
+                    $app['log']->add("News: got invalid JSON feed", 1);
+                }
 
-            $app['cache']->set('dashboardnews', $news);
+            } catch(RequestException $re) {
+                $app['log']->add("News: got exception: ".$re->getMessage(), 1);
+            }
 
         } else {
             $app['log']->add("News: get from cache..", 1);
@@ -149,8 +180,9 @@ class Async implements ControllerProviderInterface
 
         $readme = file_get_contents($filename);
 
-        include_once __DIR__. "/../../../classes/markdown.php";
-        $html = \Markdown($readme);
+        // Parse the field as Markdown, return HTML
+        $markdownParser = new \dflydev\markdown\MarkdownParser();
+        $html = $markdownParser->transformMarkdown($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
 
@@ -195,11 +227,140 @@ class Async implements ControllerProviderInterface
         // get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
-        $body = $app['twig']->render('sidebar-lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
+        $body = $app['twig']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
 
     }
+
+    /**
+     * List pages in given contenttype, to easily insert links through the Wysywig editor.
+     *
+     * @param string $contenttype
+     * @param Silex\Application $app
+     * @param Request $request
+     * @return mixed
+     */
+    function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request) {
+
+        $contenttypes = $app['storage']->getContentTypes();
+
+        foreach ($app['storage']->getContentTypes() as $contenttype) {
+
+            $records = $app['storage']->getContent($contenttype, array('published'=>true));
+
+            foreach ($records as $key => $record) {
+                $results[$contenttype][] = array(
+                    'title' => $record->gettitle(),
+                    'id' => $record->id,
+                    'link' => $record->link(),
+                );
+            }
+
+        }
+
+
+        return $app['twig']->render('filebrowser.twig', array(
+            'results' => $results
+        ));
+
+    }
+
+
+    /**
+     * List browse on the server, so we can insert them in the file input.
+     *
+     * @param $path
+     * @param Silex\Application $app
+     * @param Request $request
+     * @return mixed
+     */
+    function browse($path, Silex\Application $app, Request $request) {
+
+        $files = array();
+        $folders = array();
+
+        $basefolder = __DIR__."/../../../../";
+        $path = stripTrailingSlash(str_replace("..", "", $path));
+        $currentfolder = realpath($basefolder.$path);
+
+        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+
+        // Get the pathsegments, so we can show the path..
+        $pathsegments = array();
+        $cumulative = "";
+        if (!empty($path)) {
+            foreach (explode("/", $path) as $segment) {
+                $cumulative .= $segment . "/";
+                $pathsegments[ $cumulative ] = $segment;
+            }
+        }
+
+        if (file_exists($currentfolder)) {
+
+            $d = dir($currentfolder);
+
+            while (false !== ($entry = $d->read())) {
+
+                if (in_array($entry, $ignored)) { continue; }
+
+                $fullfilename = $currentfolder."/".$entry;
+
+                if (is_file($fullfilename)) {
+                    $relativepath = str_replace("files/", "", ($path . "/" . $entry));
+                    $files[$entry] = array(
+                        'path' => $path,
+                        'filename' => $entry,
+                        'newpath' => $path . "/" . $entry,
+                        'relativepath' => $relativepath,
+                        'writable' => is_writable($fullfilename),
+                        'readable' => is_readable($fullfilename),
+                        'type' => getExtension($entry),
+                        'filesize' => formatFilesize(filesize($fullfilename)),
+                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
+                        'permissions' => \util::full_permissions($fullfilename)
+                    );
+
+                    if (in_array(getExtension($entry), array('gif', 'jpg', 'png', 'jpeg'))) {
+                        $size = getimagesize($fullfilename);
+                        $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
+                    }
+                }
+
+                if (is_dir($fullfilename)) {
+                    $folders[$entry] = array(
+                        'path' => $path,
+                        'foldername' => $entry,
+                        'newpath' => $path . "/" . $entry,
+                        'writable' => is_writable($fullfilename),
+                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
+                    );
+                }
+
+            }
+
+            $d->close();
+
+        } else {
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s'=>$path)));
+        }
+
+        $app['twig']->addGlobal('title', __("Files in %s", array('%s' =>$path)));
+
+        // Make sure the files and folders are sorted properly.
+        ksort($files);
+        ksort($folders);
+
+        return $app['twig']->render('files_async.twig', array(
+            'path' => $path,
+            'files' => $files,
+            'folders' => $folders,
+            'pathsegments' => $pathsegments
+        ));
+
+    }
+
+
 
     /**
      * Middleware function to do some tasks that should be done for all aynchronous
@@ -215,7 +376,7 @@ class Async implements ControllerProviderInterface
         }
 
         // If there's no active session, don't do anything..
-        if (!$app['users']->checkValidSession()) {
+        if (!$app['users']->isValidSession()) {
             $app->abort(404, "You must be logged in to use this.");
         }
 

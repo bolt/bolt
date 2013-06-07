@@ -3,6 +3,8 @@
 
 namespace GoogleAnalytics;
 
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
+
 class Extension extends \Bolt\BaseExtension
 {
 
@@ -27,7 +29,7 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize() {
 
-        $this->addSnippet('endofhead', 'insertAnalytics');
+        $this->addSnippet(SnippetLocation::END_OF_HEAD, 'insertAnalytics');
 
         $additionalhtml = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
         $additionalhtml .= '<script>google.load("visualization", "1", {packages:["corechart"]}); </script>';
@@ -205,7 +207,8 @@ EOM;
             date('M d')
         );
 
-        $html = $this->app['twig']->render("GoogleAnalytics/widget.twig", array(
+        $this->app['twig.loader.filesystem']->addPath(__DIR__, 'GoogleAnalytics');
+        $html = $this->app['twig']->render("@GoogleAnalytics/widget.twig", array(
             'caption' => $caption,
             'aggr' => $aggr,
             'pageviews' => $pageviews,

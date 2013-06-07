@@ -1,0 +1,8 @@
+/* Overrides for Bolt. */
+.cke_editable {
+    margin: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #333333;
+}

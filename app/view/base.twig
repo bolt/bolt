@@ -1,11 +1,49 @@
 {% include '_header.twig' %}
 
 
-<h1>{{title}}</h1>
+<h1><strong>{{ title }}</strong></h1>
 
 {% autoescape false %}
     {{content}}
 {% endautoescape %}
+
+    {% if form|default(null) %}
+    <form method="post" id="prefill" class="form-horizontal">
+        <div class="control-group">
+
+        <div id="form">
+            <div class="control-group">
+                <div class="info">{{ app.translator.trans('prefill.short_help',{},'infos')|raw }}</div>
+                <div id="form_contenttypes">
+                    {% for key,ctype in contenttypes %}
+                    <label><input type="checkbox" id="form_contenttypes_{{ loop.index0 }}" name="form[contenttypes][]" value="{{ key }}" />{{ ctype }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {{ form_widget(form._token) }}
+
+            <button type="button" class="btn" id="check-all"><i class="icon-check"></i> {{ __('Select all') }}</button>
+            <button type="button" class="btn" id="uncheck-all" ><i class="icon-check-empty"></i> {{ __('Deselect all') }}</button> &nbsp;
+            <button type="submit" class="btn btn-primary" ><i class="icon-wrench"></i> {{ __('Prefill database') }}</button>
+
+<script type="text/javascript">
+    $(function() {
+
+        $('#check-all').on('click', function() {
+            // because jQuery is being retarded. See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
+            $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+        });
+        $('#uncheck-all').on('click', function() {
+            $("#form_contenttypes :checkbox").removeAttr('checked');
+        });
+
+    });
+
+</script>
+
+    </form>
+    {% endif %}
 
 
 {% include '_footer.twig' %}

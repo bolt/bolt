@@ -1,6 +1,6 @@
 
 <section class="news">
-    <h2>Latest activity</h2>
+    <h2>{{ __('Latest activity') }}</h2>
     <ul class='activity'>
 {% for log in activity %}
     {% set username = 'unknown' %}
@@ -27,7 +27,7 @@
 {%  endfor %}
     </ul>
 
-    <p style='text-align: right;'><a href="{{ path('activitylog') }}">more activity »</a></p>
+    <p>&nbsp;<a href="{{ path('activitylog') }}" class="morelink">{{ __('more activity') }} »</a></p>
 
 </section>
 

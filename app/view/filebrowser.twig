@@ -1,0 +1,72 @@
+{% include '_header_basic.twig' with { 'class': 'popup' } %}
+
+<h1>{{ __('Please choose the record you want to link to:', {'%contenttype%': contenttype.singular_name}) }}</h1>
+
+<ul class="nav nav-tabs" id="myTab">
+{% for contenttype, records in results %}
+    <li{% if loop.first %} class="active"{% endif %}>
+        <a href="#{{ contenttype }}" data-toggle="tab">
+            {{ app.config.contenttypes[ contenttype ].name }}
+        </a>
+    </li>
+{% endfor %}
+</ul>
+
+
+
+<div class="tab-content">
+{% for contenttype, records in results %}
+    <div class="tab-pane{% if loop.first %} active{% endif %}" id="{{ contenttype }}">
+        <ul>
+            {% for record in records %}
+                <li><a class="filebrowserCallbackLink" href="{{ record.link }}" >№ {{record.id}}. {{ record.title }}</a></li>
+            {% else %}
+                <li><a class="filebrowserCloseLink">{{ __('No %contenttypes% available.',{'%contenttypes%':contenttype.name}) }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+
+</div>
+
+<hr>
+
+<a href="" class="btn btn-danger filebrowserCloseLink">{{ __('Cancel') }}</a>
+
+<script type='text/javascript'>
+
+
+$(function() {
+
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+
+    var getUrlParam = function( paramName ) {
+        var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
+        var match = window.location.search.match(reParam) ;
+
+        return ( match && match.length > 1 ) ? match[ 1 ] : null ;
+    };
+    var funcNum = getUrlParam('CKEditorFuncNum');
+
+    $('a.filebrowserCallbackLink').bind('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+        window.close();
+    });
+
+    $('a.filebrowserCloseLink').bind('click', function() {
+        window.close();
+    })
+
+});
+
+
+</script>
+
+
+
+{% include "_footer.twig" %}

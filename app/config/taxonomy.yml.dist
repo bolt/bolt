@@ -1,16 +1,18 @@
-# This file defines the different types of taxonomies in Bolt. This will be
-# further developed and documented, as we get closer to version 1.0.
+# This file defines the different types of taxonomies in Bolt. See the 
+# documentation for details: http://docs.bolt.cm/taxonomies#taxonomies
 
 tags:
     slug: tags
     singular_slug: tag
     behaves_like: tags
+    #listing_template: tag-listing.twig #custom template
 
 chapters:
     slug: chapters
     singular_slug: chapter
     behaves_like: grouping
-    options: [ main, meta, other ]
+    options: { main: "The main chapter", meta: "Meta Chapter", other: "The other stuff" }
+    has_sortorder: true
 
 categories:
     name: Categories
@@ -18,5 +20,5 @@ categories:
     singular_name: Category
     singular_slug: category
     behaves_like: categories
-    multiple: 1
+    multiple: true
     options: [ news, events, movies, music, books, life, love, fun ]

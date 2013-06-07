@@ -5,10 +5,10 @@ namespace NiceUrls;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Bolt\BaseExtension as BoltExtension;
 
-class Extension extends \Bolt\BaseExtension
+class Extension extends BoltExtension
 {
-
 
     /**
      * Info block for NiceUrls Extension.
@@ -21,12 +21,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "Allows some shortcuts and nicer urls like example.org/about to link through to example.org/page/about",
             'author' => "WeDesignIt, Patrick van Kouteren",
             'link' => "http://www.wedesignit.nl",
-            'version' => "0.3",
+            'version' => "0.4",
             'required_bolt_version' => "1.0 RC",
-            'highest_bolt_version' => "1.0 RC",
+            'highest_bolt_version' => "1.1",
             'type' => "General",
             'first_releasedate' => "2012-11-06",
-            'latest_releasedate' => "2013-02-05"
+            'latest_releasedate' => "2013-04-08"
         );
 
         return $data;
@@ -53,7 +53,8 @@ class Extension extends \Bolt\BaseExtension
                         $to = str_replace('{' . $rparam . '}', $rval, $to);
                     }
                     $uri = $request->getUriForPath('/' . $to);
-                    $subRequest = Request::create($uri, 'GET', array(), $request->cookies->all(), array(), $request->server->all());
+                    $params = ($request->getMethod() == 'POST') ? $request->request->all() : $request->query->all();
+                    $subRequest = Request::create($uri, $request->getMethod(), $params, $request->cookies->all(), $request->files->all(), $request->server->all());
 
                     if ($request->getSession()) {
                         $subRequest->setSession($request->getSession());
@@ -61,7 +62,6 @@ class Extension extends \Bolt\BaseExtension
 
                     return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST, false);
                 })
-                    ->before('Bolt\Controllers\Frontend::before')
                     ->assert('contenttypeslug', $this->app['storage']->getContentTypeAssert());
             }
         }

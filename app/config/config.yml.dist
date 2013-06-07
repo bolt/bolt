@@ -10,20 +10,26 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
+# The theme to use. Be sure to copy the theme/base-2013 folder, and change the
+# name here accordingly. Don't edit the templates in theme/base-2013, because
+# they _will_ get updated in next releases
+theme: base-2013
+
 # The locale that'll be used by the application. If no locale is set the
-# fallback locale is 'en_GB'. For available options, see: docs.bolt.cm/
+# fallback locale is 'en_GB'. For available options, see: http://docs.bolt.cm/locales
 locale: en_GB
+#timezone: Zulu
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the
 # http:// protocol prefix. Enable the following line to define a canonical url.
-# canonical: example.org
+#canonical: example.org
 
-# The theme to use. Be sure to copy the theme/default folder, and change the
-# name here accordingly. Don't edit the templates in theme/default, because
-# they _will_ get updated in next releases
-theme: base-2013
+# Bolt can insert a <link rel="shortcut icon"> for all pages on the site. Note
+# that the location given is relative to the currently selected theme. If you
+# want to set the icon yourself, just don't enable the following line.
+#favicon: images/favicon-bolt.ico
 
 # The default content to use for the homepage, and the template to render it with.
 homepage: page/1
@@ -32,6 +38,7 @@ homepage_template: index.twig
 # The default content for the 404 page. Uses the 'record_template' template by default.
 # Make sure this is set to an existing record, otherwise visitors will get an error-page
 # when the request a non-existing page.
+# Note: If you are logged on, and debug is set to 'true', you will NOT see the 404 page!!
 notfound: page/not-found
 
 # The default template and amount of records to use for listing-pages on the site.
@@ -47,11 +54,11 @@ listing_sort: datepublish DESC
 
 # Template for showing the search results. If not defined, uses the settings
 # for listing_template and listing_records
-search_results_template: searchresults.twig
+search_results_template: listing.twig
 search_results_records: 10
 
 # The list of enabled extensions. For Example:
-# GoogleAnalytics, FacebookLike, TwitterButton, FacebookComments, Disqus, RSSFeed, Simpleforms.
+# GoogleAnalytics, FacebookLike, TwitterButton, FacebookComments, Disqus, RSSFeed, SimpleForms.
 # Read each 'readme.md' from the Bolt Extensions screen, to see what they do.
 enabled_extensions: [  ]
 
@@ -66,8 +73,29 @@ recordsperpage: 10
 sitemap_template: sitemap.twig
 sitemap_xml_template: sitemap_xml.twig
 
-# The default size of image thumbnails, when using {{ record.image|thumbnail }}
-thumbnails: [ 160, 120, c ]
+# Default settings for thumbnails. Quality should be between 0 (horrible) and
+# 100 (best, huge image). Cropping is one of either crop, fit, borders, resize.
+# default_thumbnail is the default size of images, when using {{ record.image|thumbnail() }}
+# default_image is the default size of images, when using {{ record.image|image() }}
+# Note: if you change these values, you might need to clear the cache before they show up.
+thumbnails:
+  default_thumbnail: [ 160, 120 ]
+  default_image: [ 1000, 750 ]
+  quality: 80
+  cropping: crop
+  notfound_image: view/img/default_notfound.png
+  error_image: view/img/default_error.png
+
+# If you want to 'brand' the Bolt backend for a client, you can change some key variables
+# here, that determine the name of the backend, and adds a primary support/contact link
+# to the footer. Additionally you can change the mount-point for the backend, either for
+# convenience or to obscure it from prying eyes. The Bolt backend is accessible as /bolt/
+# by default, if you change it here, it will only be accessible through the value set in
+# 'path'. Keep the path simple: lowercase only, no extra slashes or other special characters.
+#branding:
+#  name: SuperCMS
+#  path: /admin
+#  provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
 
 # Show the 'debug' nut in the lower right corner for logged-in user. By default,
 # the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'
@@ -86,13 +114,21 @@ strict_variables: false
 # more ways of breaking the preciously designed layout. By default the most 'dangerous'
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibilty not to break the layout.
-wysiwyg_images: false
-wysiwyg_anchor: false
-wysiwyg_tables: false
-wysiwyg_fontcolor: false
-wysiwyg_align: false
-wysiwyg_subsuper: false
-wysiwyg_embed: false
+wysiwyg:
+    images: true
+    anchor: false
+    tables: false
+    fontcolor: false
+    align: false
+    subsuper: false
+    embed: true,
+    anhor: true,
+    ck:
+        allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
+        autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
+        #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
+        filebrowserWindowWidth: '640'
+        filebrowserWindowHeight: '480'
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login
@@ -118,3 +154,9 @@ cookies_domain:
 # a harder to decrypt password, but takes longer to compute. '8' is the minimum, '10' is the default,
 # '12' is better.
 hash_strength: 10
+
+# If you want Bolt installation get news through a proxy
+#httpProxy:
+#  host: my.proxy.server
+#  user: usr
+#  password: pwd

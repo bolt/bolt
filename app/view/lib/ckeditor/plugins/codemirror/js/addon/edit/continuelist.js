@@ -1,0 +1,1 @@
+﻿(function(){var d=/^(\s*)([*+-]|(\d+)\.)(\s*)/;CodeMirror.commands.newlineAndIndentContinueMarkdownList=function(b){var c=b.getCursor(),a;if(!b.getStateAfter(c.line).list||!(a=b.getLine(c.line).match(d)))b.execCommand("newlineAndIndent");else{var c=a[1],e=a[4];a=0<="*+-".indexOf(a[2])?a[2]:parseInt(a[3],10)+1+".";b.replaceSelection("\n"+c+a+e,"end")}}})();

@@ -1,0 +1,18 @@
+<section>
+    <h2>{{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}</h2>
+    <ul>
+    {% for content in latest %}
+        <li>
+           № {{content.id}}. <a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
+            {% if content.title is defined %}
+                {{content.title|trimtext(70) }}
+            {% else %}
+                {{content.name|trimtext(70) }}
+            {% endif %}
+            </a><small>(<time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>)</small>
+        </li>
+    {% else %}
+        <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
+    {% endfor %}
+    </ul>
+</section>

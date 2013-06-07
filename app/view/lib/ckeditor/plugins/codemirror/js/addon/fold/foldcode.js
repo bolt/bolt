@@ -1,0 +1,2 @@
+﻿CodeMirror.newFoldFunction=function(i,a){null==a&&(a="↔");if("string"==typeof a){var f=document.createTextNode(a),a=document.createElement("span");a.appendChild(f);a.className="CodeMirror-foldmarker"}return function(g,c){"number"==typeof c&&(c=CodeMirror.Pos(c,0));var d=i(g,c);if(d){for(var b=g.findMarksAt(d.from),h=0,e=0;e<b.length;++e)b[e].__isFold&&(++h,b[e].clear());if(!h){b=a.cloneNode(!0);CodeMirror.on(b,"mousedown",function(){f.clear()});var f=g.markText(d.from,d.to,{replacedWith:b,clearOnEnter:!0,
+__isFold:!0})}}}};

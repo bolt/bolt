@@ -12,7 +12,7 @@
 
 {% if field.type == "text" and ( field.variant is not defined or field.variant == "" ) %}
 <label><b>
-    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </b></label>
 <input type="text" name="{{key}}" id="{{key}}"
     value='{{ content.get(key) }}'
@@ -21,7 +21,7 @@
 
 {% if field.type == "text" and field.variant is defined and field.variant == "inline" %}
 <label><b><span class='left'>
-    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
 <input type="text" name="{{key}}" id="{{key}}"
     value='{{ content.get(key) }}'
@@ -44,7 +44,7 @@
 
 {% if field.type == "float" %}
     <label><b><span class='left'>
-    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.00000001"
            value='{{ 0 + content.get(key) }}'
@@ -55,7 +55,7 @@
 
 {% if field.type == "integer" %}
     <label><b><span class='left'>
-    {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="1"
            value='{{ 0 + content.get(key) }}'
@@ -63,10 +63,28 @@
 {% endif %}
 
 
-    {# --------------- slug --------------- #}
+{# --------------- checkbox --------------- #}
+
+{% if field.type == "checkbox" %}
+<div class="checkboxwrapper">
+    <label for="{{ key }}">
+        <b>
+            <span class='left'>
+                {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+            </span>
+        </b>
+    </label>
+    <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
+           {% if content.get(key) %}checked{% else %}notchecked{% endif %}
+           class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+</div>
+{% endif %}
+
+
+{# --------------- slug --------------- #}
 
 {% if field.type == "slug" %}
-<label class='permalink'>Permalink:
+<label class='permalink'>{{ __('Permalink') }}:
     <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
     <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
     <span class='sluglocker'><i class='icon-lock'></i></span>
@@ -75,18 +93,20 @@
 
 {% if field.uses is defined %}
 <script type="text/javascript">
-    $('.sluglocker').bind('click', function() {
-       if ($('.sluglocker i').hasClass('icon-lock')) {
-           $('.sluglocker i').removeClass('icon-lock').addClass('icon-unlock');
-           makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', '{{ field.uses }}', '{{key}}', false);
-       } else {
-           $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
-           stopMakeUri('{{ field.uses }}');
-       }
+    $(function() {
+        $('.sluglocker').bind('click', function() {
+           if ($('.sluglocker i').hasClass('icon-lock')) {
+               $('.sluglocker i').removeClass('icon-lock').addClass('icon-unlock');
+               makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{key}}', false);
+           } else {
+               $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
+               stopMakeUri({{ field.uses|json_encode|raw }});
+           }
+        });
+    {% if content.get(key) is empty  %}
+        $('.sluglocker').trigger('click');
+    {% endif %}
     });
-{% if content.get(key) is empty  %}
-    $('.sluglocker').trigger('click');
-{% endif %}
 </script>
 {% endif %}
 
@@ -95,18 +115,26 @@
 {# --------------- select --------------- #}
 
 {% if field.type == "select" %}
-    <label><b><span class='left'>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</span></b></label>
-    <select name="{{key}}" id="{{key}}">
-        {% for value in field.values %}
-            <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
-        {% endfor %}
-    </select>
+    <label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
+    {% if field.multiple is defined and field.multiple %}
+        <select name="{{key}}[]" id="{{key}}" multiple>
+            {% for value in field.values %}
+                <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
+            {% endfor %}
+        </select>
+    {% else %}
+        <select name="{{key}}" id="{{key}}">
+            {% for value in field.values %}
+                <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
 {% endif %}
 
 {# --------------- templateselect --------------- #}
 
 {% if field.type == "templateselect" %}
-<label><b><span class='left'>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</span></b></label>
+<label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     <select name="{{key}}" id="{{key}}">
         <option value="">(default template)</option>
         <option value="" disabled>-----------</option>
@@ -125,19 +153,17 @@
         <div class='imageholder' id="thumbnail-{{key}}">
             {% if content.get(key)!="" %}
             <img src="{{ content.get(key)|thumbnail(120, 120, 'c') }}" width="120" height="120">
+            {% else %}
+            <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
             {% endif %}
         </div>
     </div>
     <div class="image-container">
 
         <label>
-            <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
+            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                data-content="Use this field to upload a photo or image. Click the button to upload a file from your
-                computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-                from your desktop or from a different browser window. <br />
-                Alternatively, you can use a previously uploaded image. To select a previously uploaded file, just
-                type (part) of the filename in the input area, and it will be autocompleted.">Info</span>
+                data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
         <input type="text" name="{{key}}" id="field-{{key}}"
@@ -147,25 +173,60 @@
 <!-- The fileinput-button span is used to style the file input field as button -->
         <span class="btn btn-info fileinput-button">
             <i class="icon-upload"></i>
-            <span>Upload Image</span>
+            <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
+        <a data-target="#selectImageModal-{{key}}" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Select from server') }}</a>
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
         </div>
 
+        <!-- Modal "select from server"  -->
+        <div class="modal hide modal-wide" id="selectImageModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+            </div>
+        </div>
+
+
+
 {% if not ismobileclient() %}
 
 <script type="text/javascript">
+    $(function() {
+        bindFileUpload('{{key}}');
 
-bindFileUpload('{{key}}');
+        $("#field-{{key}}").autocomplete({
+            source: "{{ paths.async }}filesautocomplete",
+            minLength: 2,
+            close: function(){
+                if ($('#field-{{key}}').val() != "" ) {
+                    $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>");
+                } else {
+                    $('#thumbnail-{{key}}').html("<img src='{{ app.paths.app }}view/img/default_empty.png' width='120' height='120'>");
+                }
+            }
+        });
 
-$("#field-{{key}}").autocomplete({
-    source: "{{ paths.async }}filesautocomplete",
-    minLength: 2,
-    close: function(){ $('#thumbnail-{{key}}').html("<img src='/thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>"); }
-});
+        // In the modal dialog, to navigate folders..
+        $('#selectImageModal-{{key}}').on('click','.folder', function(e) {
+            e.preventDefault();
+            $('#selectImageModal-{{key}} .modal-body').load($(this).attr('href'));
+        });
 
+        // In the modal dialog, to select a file..
+        $('#selectImageModal-{{key}}').on('click','.file', function(e) {
+            e.preventDefault();
+            var filename = $(this).attr('href');
+            $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+            $("#field-{{key}}").val(filename);
+            $('#selectImageModal-{{key}}').modal('hide');
+        });
+
+    });
 </script>
 {% endif %}
 
@@ -183,14 +244,9 @@ $("#field-{{key}}").autocomplete({
     <div class="image-container">
 
         <label>
-            <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
+            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                  data-content="Use this field to upload a file to include as a download or to use inside a page on the
-                   website. Click the button to upload a file from your computer, or if you're using a recent version
-                   of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
-                   browser window. <br />
-                    Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
-                    type (part) of the filename in the input area, and it will be autocompleted.">Info</span>
+                  data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
         <input type="text" name="{{key}}" id="field-{{key}}"
@@ -200,7 +256,7 @@ $("#field-{{key}}").autocomplete({
 <!-- The fileinput-button span is used to style the file input field as button -->
         <span class="btn btn-info fileinput-button">
             <i class="icon-upload"></i>
-            <span>Upload File</span>
+            <span>{{ __('Upload File') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
         <div class="progress progress-striped active" id="progress-{{key}}">
@@ -208,16 +264,16 @@ $("#field-{{key}}").autocomplete({
         </div>
 
     {% if not ismobileclient() %}
-        <div style="clear: left;" class="hide-tablet"><small>Use the button to upload a file. To select a previously uploaded file, you can
-        type (part) of the filename in the input area, and it will be autocompleted.</small></div>
+        <div style="clear: left;" class="hide-tablet"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
         <script type="text/javascript">
-            bindFileUpload('{{key}}');
+            $(function() {
+                bindFileUpload('{{key}}');
 
-            $("#field-{{key}}").autocomplete({
-                source: "{{ paths.async }}filesautocomplete?ext={{ field.extensions|join(',') }}",
-                minLength: 2
+                $("#field-{{key}}").autocomplete({
+                    source: "{{ paths.async }}filesautocomplete?ext={{ field.extensions|join(',') }}",
+                    minLength: 2
+                });
             });
-
         </script>
     {% endif %}
 
@@ -231,34 +287,39 @@ $("#field-{{key}}").autocomplete({
 {% if field.type == "imagelist" %}
 <label>
     <b>
-        {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+        {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
     </b>
-    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-      data-content="Use this field to upload a set of photos or image. Click the button to upload a file from your
-                computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-                from your desktop or from a different browser window. <br />
-                Alternatively, you can use a previously uploaded image. <br />
-                You can rearrange the images using drag'n'drop, and change the descriptions of the images.">Info</span>
+    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+      data-content="{{ app.translator.trans('info.upload.imagelist',{},'infos') }}">{{ __('Info') }}</span>
 </label>
 <div class="imagelistholder dropzone" id="imagelist-{{key}}">
     <div class="list"></div>
     <div class="buttons">
         <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
             <i class="icon-upload"></i>
-            <span>Upload image</span>
+            <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
-        <input type="button" data-action="imagelist.addExisting()" value="Add existing image" class="btn">
+        <a data-target="#selectImageModal-{{key}}" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Add existing image') }}</a>
     </div>
     <textarea name="{{key}}" id="{{key}}">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
     <div class='clearfix'></div>
+
+    <!-- Modal "select from server"  -->
+    <div class="modal hide modal-wide" id="selectImageModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+        </div>
+    </div>
 </div>
 
 
-<script>
-jQuery(function($) {
-    imagelist = new ImagelistHolder({id: '{{key}}'});
-});
+<script type="text/javascript">
+    $(function() {
+        imagelist = new ImagelistHolder({id: '{{key}}'});
+    });
 </script>
 
 {% endif %}
@@ -271,32 +332,30 @@ jQuery(function($) {
 <div class="dropzone">
 
     <div class="video-right hide-phone">
-        <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px;">
-            {% if video.thumbnail!="" %}
+        <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px; text-align: center; background-color: #F8F8F8;">
+            {% if video.thumbnail|default('') %}
                 <img src="{{ video.thumbnail }}" width="160" height="120">
+            {% else %}
+                <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
             {% endif %}
         </div>
     </div>
 
     <div class="video-container">
         <label>
-            <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
+            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
-            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                  data-content="Use this field to embed a video inside a page on the website. Just copy/paste the
-                  URL of a video-page on Youtube, Vimeo or almost any other video sharing website. <br>
-                  Bolt will automatically fetch the &amp;lt;embed&amp;gt;-code, with the correct width, height and the original
-                  title. If you change the width or height, the other value will change accordingly, to maintain the
-                  aspect ratio. ">Info</span>
+            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+                  data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
         </label>
-        <label>URL: <input type="text" name="{{key}}[url]" id="video-{{key}}"
+        <label>{{ __('URL:') }} <input type="text" name="{{key}}[url]" id="video-{{key}}"
                value='{{ video.url }}' style='width: 60%;'>
         </label>
 
-        <label>Size: <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width }}" style='width: 60px; min-width: 60px;'>
+        <label>{{ __('Size:') }} <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width }}" style='width: 60px; min-width: 60px;'>
         x <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height }}" style='width: 60px; min-width: 60px;'>
             pixels.
-            <span class="hide-tablet"><a href="#myModal" role="button" class="btn" data-toggle="modal" style='float: right;'>Preview video</a></span>
+            <span class="hide-tablet"><a href="#myModal" role="button" class="btn" data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a></span>
         </label>
 
         <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio }}">
@@ -319,11 +378,11 @@ jQuery(function($) {
         {% if video.html %}
         {{ video.html }}
         {% else %}
-        <p>No video url is set, no video to show.</p>
+        <p>{{ __('No video url is set, no video to show.') }}</p>
         {% endif %}
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
     </div>
 </div>
 
@@ -351,24 +410,19 @@ jQuery(function($) {
 
             <div class="map-container">
                 <label>
-                    <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
-                    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                          data-content="Use this field to get the geolocation of any address, or place the marker
-                          manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
-                          and the corresponding latitude and longitude will be retrieved using the Google Maps API,
-                          together with the closest matching address, according to Google. <br>
-                          If you want to move the marker to a different location, just drag'n'drop the pin on the
-                          mini-map. The latitide and longitude will be updated automatically. ">Info</span>
+                    <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+                    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+                          data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
                 </label>
-                <label>Address lookup: <input type="text" name="{{key}}[address]" id="{{key}}-address"
+                <label>{{ __('Address lookup:') }} <input type="text" name="{{key}}[address]" id="{{key}}-address"
                     value='{{ geolocation.address }}' style='width: 60%;'>
                 </label>
-                <label>Latitude: <input type="text" name="{{key}}[latitude]" id="{{key}}-latitude"
+                <label>{{ __('Latitude:') }} <input type="text" name="{{key}}[latitude]" id="{{key}}-latitude"
                     value='{{ geolocation.latitude }}' style='width: 30%;'>
-                 - Longitude: <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude"
+                 - {{ __('Longitude:') }} <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude"
                     value='{{ geolocation.longitude }}' style='width: 30%;'>
                 </label>
-                <p>Matched address:
+                <p>{{ __('Matched address:') }}
                 <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address }}</span></p>
                 <input type="hidden" name="{{key}}[formatted_address]" id="{{key}}-formatted_address"
                        value='{{ geolocation.formatted_address }}' style='width: 30%;'>
@@ -392,7 +446,7 @@ jQuery(function($) {
 {# --------------- html --------------- #}
 
 {% if field.type == "html" %}
-<label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>
     {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
@@ -402,7 +456,7 @@ jQuery(function($) {
 {# --------------- textarea --------------- #}
 
 {% if field.type == "textarea" %}
-<label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 {% endif %}
@@ -412,31 +466,9 @@ jQuery(function($) {
 
 {% if field.type == "markdown" %}
     <label>
-        <b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b>
+        <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
         <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-              data-content="Markdown is a text-to-HTML conversion tool for web writers.
-Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
-which is then converted to structurally valid HTML.</p>
-
-<p><strong>Quick reference:</strong><br>
-# This is an &amp;lt;h1&amp;gt; tag<br>
-## This is an &amp;lt;h2&amp;gt; tag<br>
-###### This is an &amp;lt;h6&amp;gt; tag</p>
-
-<p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
-this **<strong>is bold</strong>**.
-
-<p>Create <a href='#'>links</a> like this:<br>
-An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
-
-<p>&nbsp; * This is an unordered list<br>
-&nbsp; * Item 2</p>
-
-<p>&nbsp; 1 This is an ordered list<br>
-&nbsp; 2 Item 2</p>
-
-">Info</span>
+              data-content="{{ app.translator.trans('info.markdown',{},'infos') }}">{{ __('Info') }}</span>
 
     </label>
     <textarea id="{{ key }}" name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
@@ -445,7 +477,9 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
 
 <script type="text/javascript">
-    bindMarkdown('{{key}}');
+    $(function() {
+        bindMarkdown('{{key}}');
+    });
 </script>
 
 {% endif %}
@@ -454,23 +488,42 @@ An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
 {# --------------- date --------------- #}
 
 {% if field.type == "date" %}
-<label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
+<input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
+<script type="text/javascript">
+    $(function() {
+        $('#{{key}}-date').on('change.bolt', function(){
+            var date = $('#{{key}}-date').datepicker( "getDate" );
+            $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date));
+        }).trigger('change.bolt');;
+    });
+</script>
 {% endif %}
 
 
 {# --------------- datetime --------------- #}
 
 {% if field.type == "datetime" %}
-<label><b>{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
 <input type="text" name="{{key}}-timeformatted" id="{{key}}-time"
     value='{% if content.get(key) %}{{ content.get(key)|date('H:i') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>
+<input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
+<script type="text/javascript">
+    $(function() {
+        $('#{{key}}-date, #{{key}}-time').on('change.bolt', function(){
+            var date = $('#{{key}}-date').datepicker("getDate");
+            var time = $('#{{key}}-time').val() + ":00";
+            $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+        }).trigger('change.bolt');;
+    });
+</script>
 {% endif %}
 
 

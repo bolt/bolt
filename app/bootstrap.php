@@ -1,9 +1,9 @@
 <?php
 
 if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
-    if (substr(__DIR__, -28) == '/vendor/bobdenotter/bolt/app') { // installed bolt with composer
+    if (substr(__DIR__, -21) == '/vendor/bolt/bolt/app') { // installed bolt with composer
         define('BOLT_COMPOSER_INSTALLED', true);
-        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -28));
+        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
         define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR.'/web');
         define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR.'/config');
     } else {
@@ -47,9 +47,7 @@ $app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
-        'name' => 'bolt_session',
-        'cookie_lifetime' => $config['general']['cookies_lifetime'],
-        'cookie_domain' => $config['general']['cookies_domain']
+        'name' => 'bolt_session'
     )
 ));
 
@@ -67,6 +65,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 
 if ($dboptions['driver']=="pdo_sqlite") {
     $app['db']->query("PRAGMA synchronous = OFF");
+} else if ($dboptions['driver']=="pdo_mysql") {
+    // https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
+    $app['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 }
 
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
@@ -81,8 +82,8 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array());
 
 // Loading stub functions for when intl / IntlDateFormatter isn't available.
 if (!function_exists('intl_get_error_code')) {
-    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/Locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+    require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
 }
 
 $app->register(new Bolt\TranslationServiceProvider());
@@ -95,7 +96,7 @@ $app->register(new Bolt\ExtensionServiceProvider(), array());
 $app['paths'] = getPaths($config);
 $app['twig']->addGlobal('paths', $app['paths']);
 
-$app['end'] = getWhichEnd();
+$app['end'] = getWhichEnd($app);
 
 $app['editlink'] = "";
 
@@ -107,15 +108,7 @@ $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
 $loader = new Twig_Loader_String();
 $app['twig.loader']->addLoader($loader);
 
-// If debug is set, we set up the custom error handler..
-if ($app['debug']) {
-    ini_set("display_errors", "1");
-    error_reporting (E_ALL );
-    $old_error_handler = set_error_handler("userErrorHandler");
-} else {
-    error_reporting(E_ALL ^ E_NOTICE);
-    // error_reporting( E_ALL ^ E_NOTICE ^ E_WARNING );
-}
+
 
 require __DIR__.'/app.php';
 

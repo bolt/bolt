@@ -2,13 +2,9 @@
 {% if content.relation is not empty or contenttype.relations is defined %}
 
     <h3>
-        Relationships
-        <span class="label info-pop" data-html="true" data-title="Relationships"
-            data-content="By selecting other records as a 'relation', you are actually
-            creating a link between this record, and the one you selected. On the
-            website, this can by used for 'related articles', 'see also' or to display
-            how this record fits into a certain structure.
-">Info</span>
+        {{ __('Relationships') }}
+        <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
+            data-content="{{ app.translator.trans('info.relationships',{},'infos') }}">{{ __('Info') }}</span>
     </h3>
 
 {% endif %}
@@ -18,8 +14,8 @@
 
     {% for relcontenttype, relation in contenttype.relations %}
 
-        <label for='relation-{{relcontenttype}}'><b><span class='left'>
-            {% if relation.label %}{{ relation.label }}{% else %}{{ relcontenttype|ucfirst }}{% endif %}:
+        <label for='relation-{{relcontenttype|trans}}'><b><span class='left'>
+            {% if relation.label %}{{ relation.label|trans }}{% else %}{{ relcontenttype|ucfirst|trans }}{% endif %}
         </span></b></label>
 
         {% if relation.multiple is defined and relation.multiple == 1 %}
@@ -54,7 +50,7 @@
             {% for id in ids %}
                 {% setcontent record = reltype~"/"~id %}
                 {% if record %}
-                    This record is related to {{ record.contenttype.singular_name }} № {{ record.id }} -
+                    {{ __('This record is related to %contenttype%',{'%contenttype%': record.contenttype.singular_name}) }} № {{ record.id }} -
                     <strong>{{ record.title }}</strong> (<a href="{{ path('editcontent', { 'contenttypeslug': record.contenttype.slug, 'id': record.id }) }}">edit</a>)<br>
                 {% endif %}
             {% endfor %}

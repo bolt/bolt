@@ -15,4 +15,3 @@ abstract class BaseCommand extends Command
         $this->app = $app;
     }
 }
-

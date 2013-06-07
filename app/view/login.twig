@@ -1,26 +1,64 @@
-{% include '_header.twig' %}
+{% include '_header_basic.twig' %}
 
-
-<h1>Login</h1>
-
-<div class="row-fluid">
-    <div class="span6">
-        <form class="well" method="post">
-            <label>Username</label>
-            <input type="text" name="username" placeholder="Your username…" {% if username is defined %}value="{{username}}"{%endif%}>
-            <label>Password</label>
-            <input type="password" name="password" placeholder="Your password…">
-
-            <label><button type="submit" class="btn">Log on</button></label>
-        </form>
-    </div>
-
-    <div class="span6">
-
-        <blockquote class='quote'>{{ randomquote() }}</blockquote>
-        
-    </div>
-    
+<div class="view-site">
+    <a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>
 </div>
 
-{% include '_footer.twig' %}
+<div class="row-fluid">
+    <div class="span6 offset3 logincontainer">
+
+        <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
+
+        {% include '_messages.twig' %}
+
+        <form class="well loginform" method="post">
+
+            <label>{{ __('Username') }}</label>
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-user"></i></span>
+                <input type="text" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
+            </div>
+
+            <div class="password">
+                <label style="margin-top: 0px;">{{ __('Password') }}</label>
+                <div class="input-prepend" >
+                    <span class="add-on"><i class="icon-key"></i></span>
+                    <input type="password" name="password" placeholder="{{ __('Your password') }} …">
+                </div>
+            </div>
+
+            <br>
+            <p style="margin-top: 0px;" class="login">
+                <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
+                <button type="button" class="btn btn-link forgot" style="float: right;"> {{ __('I forgot my password…') }}</button>
+            </p>
+            <p style="margin-top: 0px; display: none;" class="reset">
+                <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
+                <button type="button" class="btn btn-link remembered" style="float: right;"> {{ __('Back to login') }}</button>
+            </p>
+
+        </form>
+
+        <blockquote class='quote'>{{ randomquote() }}</blockquote>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(function() {
+        $('.forgot').bind('click', function(e){
+            $('.login, .password').slideUp('slow');
+            $('.reset').slideDown('slow');
+        });
+        $('.remembered').bind('click', function(e){
+            $('.login, .password').slideDown('slow');
+            $('.reset').slideUp('slow');
+        });
+    });
+</script>
+
+</body>
+
+</html>

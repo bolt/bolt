@@ -1,4 +1,3 @@
-
 // Don't break on browsers without console.log();
 try { console.assert(1); } catch(e) { console = { log: function() {}, assert: function() {} } }
 
@@ -113,9 +112,10 @@ jQuery(function($) {
  */
 CKEDITOR.editorConfig = function( config ) {
 
-    config.language = 'en';
+    config.language = ckeditor_lang || 'en';
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;
+    config.entities = false;
     config.toolbar = [
         { name: 'styles', items: [ 'Format' ] },
         { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
@@ -151,9 +151,60 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.toolbar = config.toolbar.concat({ name: 'tools', items: [ 'SpecialChar', '-', 'RemoveFormat', 'Maximize', '-', 'Source' ] });
 
-    config.height = "250px";
+    config.height = 250;
+    config.autoGrow_onStartup = true;
+    config.autoGrow_minHeight = 150;
+    config.autoGrow_maxHeight = 400;
+    config.autoGrow_bottomSpace = 24;
     config.removePlugins = 'elementspath';
     config.resize_dir = 'vertical';
+
+    if (wysiwyg.filebrowser) {
+        if (wysiwyg.filebrowser.browseUrl) {
+            config.filebrowserBrowseUrl = wysiwyg.filebrowser.browseUrl;
+        }
+        if (wysiwyg.filebrowser.imageBrowseUrl) {
+            config.filebrowserImageBrowseUrl = wysiwyg.filebrowser.imageBrowseUrl;
+        }
+        if (wysiwyg.filebrowser.uploadUrl) {
+            config.filebrowserUploadUrl = wysiwyg.filebrowser.uploadUrl;
+        }
+        if (wysiwyg.filebrowser.imageUploadUrl) {
+            config.filebrowserImageUploadUrl = wysiwyg.filebrowser.imageUploadUrl;
+        }
+    } else {
+        config.filebrowserBrowseUrl = '';
+        config.filebrowserImageBrowseUrl = '';
+        config.filebrowserUploadUrl = '';
+        config.filebrowserImageUploadUrl = '';
+    }
+
+    config.codemirror = {
+        theme: 'default',
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        autoCloseTags: true,
+        autoCloseBrackets: true,
+        enableSearchTools: true,
+        enableCodeFolding: true,
+        enableCodeFormatting: true,
+        autoFormatOnStart: true,
+        autoFormatOnUncomment: true,
+        highlightActiveLine: true,
+        highlightMatches: true,
+        showFormatButton: false,
+        showCommentButton: false,
+        showUncommentButton: false
+    };
+
+    /* Parse override settings from config.yml */
+    for (var key in wysiwyg.ck){
+        if (wysiwyg.ck.hasOwnProperty(key)) {
+             config[key] = wysiwyg.ck[key];
+        }
+    }
+
 };
 
 
@@ -240,29 +291,37 @@ function bindFileUpload(key) {
  * Functions for working with the automagic URI/Slug generation.
  *
  */
-function makeUri(contenttypeslug, id, usesfield, slugfield, fulluri) {
+function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
 
-    $('#'+usesfield).bind('propertychange input', function() {
-        var field = $('#'+usesfield).val();
-        clearTimeout(makeuritimeout);
-        makeuritimeout = setTimeout( function(){ makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri); }, 200);
-    }).trigger('input');
+    $(usesfields).each( function() {
+        $('#'+this).on('propertychange.bolt input.bolt change.bolt', function() {
+            var usesvalue = "";
+            $(usesfields).each( function() {
+                usesvalue += $("#"+this).val() ? $("#"+this).val() : "";
+                usesvalue += " ";
+            })
+            clearTimeout(makeuritimeout);
+            makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, this, slugfield, fulluri); }, 200);
+        }).trigger('change.bolt');
+    });
 
 }
 
-function stopMakeUri(usesfield) {
+function stopMakeUri(usesfields) {
 
-    $('#'+usesfield).unbind('propertychange input');
+    $(usesfields).each( function() {
+        $('#'+this).unbind('propertychange.bolt input.bolt change.bolt');
+    });
 
 }
 
 var makeuritimeout;
 
-function makeUriAjax(field, contenttypeslug, id, usesfield, slugfield, fulluri) {
+function makeUriAjax(text, contenttypeslug, id, usesfield, slugfield, fulluri) {
     $.ajax({
         url: asyncpath + 'makeuri',
         type: 'GET',
-        data: { title: field, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
+        data: { title: text, contenttypeslug: contenttypeslug, id: id, fulluri: fulluri },
         success: function(uri) {
             $('#'+slugfield).val(uri);
             $('#show-'+slugfield).html(uri);
@@ -501,14 +560,6 @@ var ImagelistHolder = Backbone.View.extend({
         this.bindEvents();
     },
 
-    addExisting: function() {
-        var filename = prompt('Filename of image to add?');
-        var title = prompt('Description of the image?');
-        var image = new Imagemodel({filename: filename, title: title, id: this.list.length});
-        this.list.add(image);
-        this.render();
-    },
-
     render: function() {
         this.list.sort();
         $('.imagelistholder .list').html('');
@@ -556,6 +607,8 @@ var ImagelistHolder = Backbone.View.extend({
 
     bindEvents: function() {
 
+        var contentkey = this.id;
+
         $(".imagelistholder div.list").sortable({
             stop: function() {
                 imagelist.doneSort();
@@ -564,10 +617,10 @@ var ImagelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + this.id).attr('name', 'files[]')
+        $('#fileupload-' + contentkey).attr('name', 'files[]')
             .fileupload({
                 dataType: 'json',
-                dropZone: $('#imagelist-' + this.id),
+                dropZone: $('#imagelist-' + contentkey),
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
                         var filename = decodeURI(file.url).replace("/files/", "");
@@ -586,6 +639,19 @@ var ImagelistHolder = Backbone.View.extend({
 
         $(".imagelistholder div.list").on('blur', 'input', function() {
             imagelist.doneSort();
+        });
+
+        // In the modal dialog, to navigate folders..
+        $('#selectImageModal-' + contentkey).on('click','.folder', function(e) {
+            e.preventDefault();
+            $('#selectImageModal-' + contentkey + ' .modal-body').load($(this).attr('href'));
+        });
+
+        // In the modal dialog, to select a file..
+        $('#selectImageModal-' + contentkey).on('click','.file', function(e) {
+            e.preventDefault();
+            var filename = $(this).attr('href');
+            imagelist.add(filename, filename);
         });
 
     }

@@ -34,36 +34,48 @@ class SetcontentTokenParser extends \Twig_TokenParser
         // contenttype, or simple expression to content.
         $contenttype = $this->parser->getExpressionParser()->parseExpression();
 
+        $counter = 0;
 
-        if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'where')) {
-            $this->parser->getStream()->next();
-            $wherearguments = $this->parser->getExpressionParser()->parseExpression();
-        }
+        do {
 
-        if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'limit')) {
-            $this->parser->getStream()->next();
+            // where parameter
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'where')) {
+                $this->parser->getStream()->next();
+                $wherearguments = $this->parser->getExpressionParser()->parseExpression();
+            }
 
-            $limit = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');
-            $arguments['limit'] = $limit;
+            // limit parameter
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'limit')) {
+                $this->parser->getStream()->next();
+                $limit = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');
+                $arguments['limit'] = $limit;
+            }
 
-        }
+            // order / orderby parameter
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'order') ||
+                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'orderby') ) {
+                $this->parser->getStream()->next();
+                $order = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');
+                $arguments['order'] = $order;
+            }
 
-        if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'order') ||
-            $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'orderby') ) {
-            $this->parser->getStream()->next();
+            // paging / allowpaging  parameter
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'paging') ||
+                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'allowpaging') ) {
+                $this->parser->getStream()->next();
+                $arguments['paging'] = true;
+            }
 
-            $order = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');
-            $arguments['order'] = $order;
+            // paging / allowpaging  parameter
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'printquery') ) {
+                $this->parser->getStream()->next();
+                $arguments['printquery'] = true;
+            }
 
-        }
+            // Make sure we don't get stuck in a loop, if a token can't be parsed..
+            $counter++;
 
-        if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'paging') ||
-            $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'allowpaging') ) {
-            $this->parser->getStream()->next();
-
-            $arguments['paging'] = true;
-
-        }
+        } while (!$this->parser->getStream()->test(\Twig_Token::BLOCK_END_TYPE) && ($counter < 10));
 
         $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
 

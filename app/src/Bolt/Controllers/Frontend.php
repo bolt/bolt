@@ -58,17 +58,18 @@ class Frontend implements ControllerProviderInterface
         return $ctr;
     }
 
-    function before(Request $request, Silex\Application $app)
+    function before(Request $request, \Bolt\Application $app)
     {
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['storage']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-            $app['session']->setFlash('info', "There are no users in the database. Please create the first user.");
+        if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
             return redirect('useredit', array('id' => ""));
         }
 
-        $app['debugbar'] = true;
+        $app['debugbar']     = true;
+        $app['htmlsnippets'] = true;
 
     }
 
@@ -77,24 +78,25 @@ class Frontend implements ControllerProviderInterface
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
             $content = $app['storage']->getContent($app['config']['general']['homepage']);
-            $twigvars = array(
-                'record' => $content,
-                $content->contenttype['singular_slug'] => $content
-            );
+
+            if (is_array($content)) {
+                $first = current($content);
+                $app['twig']->addGlobal('records', $content);
+                $app['twig']->addGlobal($first->contenttype['slug'], $content);
+            } else if (!empty($content)) {
+                $app['twig']->addGlobal('record', $content);
+                $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
+            }
+
             $chosen = 'homepage config';
         } else {
             $template = 'index.twig';
-            $twigvars = array();
             $chosen = 'homepage fallback';
         }
 
         $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
 
-
-        $body = $app['twig']->render($template, $twigvars);
-
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
+        return $app['twig']->render($template);
     }
 
     function record(Silex\Application $app, $contenttypeslug, $slug)
@@ -131,14 +133,18 @@ class Frontend implements ControllerProviderInterface
             $app->abort(404, $error);
         }
 
+        // Setting the canonical path and the editlink.
+        $app['canonicalpath'] = $content->link();
+        $app['paths'] = getPaths($app);
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        $body = $app['twig']->render($template, array(
-            'record' => $content,
-            $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-        ));
+        // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
+        // So that they're also available in menu's and templates rendered by extensions.
+        $app['twig']->addGlobal('record', $content);
+        $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        // Render the template and return.
+        return $app['twig']->render($template);
 
     }
 
@@ -151,7 +157,7 @@ class Frontend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // First, get the preview from Post.
-        $content = new \Bolt\Content($app, $contenttypeslug);
+        $content = $app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
         // Then, select which template to use, based on our 'cascading templates rules'
@@ -168,12 +174,12 @@ class Frontend implements ControllerProviderInterface
             $app->abort(404, $error);
         }
 
-        $body = $app['twig']->render($template, array(
-            'record' => $content,
-            $contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-        ));
+        // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
+        // So that they're also available in menu's and templates rendered by extensions.
+        $app['twig']->addGlobal('record', $content);
+        $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return $app['twig']->render($template);
 
     }
 
@@ -191,9 +197,11 @@ class Frontend implements ControllerProviderInterface
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']['general']['listing_sort']);
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
 
-        if (!$content) {
-            $app->abort(404, "Content for '$contenttypeslug' not found.");
-        }
+        // We do _not_ abort when there's no content. Instead, we handle this in the template:
+        // {% for record in records %} .. {% else %} no records! {% endif %}
+        // if (!$content) {
+        //     $app->abort(404, "Content for '$contenttypeslug' not found.");
+        // }
 
         // Then, select which template to use, based on our 'cascading templates rules'
         if (!empty($contenttype['listing_template'])) {
@@ -227,12 +235,12 @@ class Frontend implements ControllerProviderInterface
 
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        $body = $app['twig']->render($template, array(
-            'records' => $content,
-            $contenttype['slug'] => $content // Make sure we can also access it as {{ pages }} for pages, etc.
-        ));
+        // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
+        // So that they're also available in menu's and templates rendered by extensions.
+        $app['twig']->addGlobal('records', $content);
+        $app['twig']->addGlobal($contenttype['slug'], $content);
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return $app['twig']->render($template);
 
     }
 
@@ -246,12 +254,28 @@ class Frontend implements ControllerProviderInterface
         $order = $app['config']['general']['listing_sort'];
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
-        if (!$content) {
-            $app->abort(404, "Content for '$taxonomytype/$slug' not found.");
+        $taxonomytype = $app['storage']->getTaxonomyType($taxonomytype);
+
+        // No taxonomytype, no possible content..
+        if (empty($taxonomytype)) {
+            return false;
+        } else {
+            $taxonomyslug = $taxonomytype['slug'];
         }
 
-        $template = $app['config']['general']['listing_template'];
+
+        if (!$content) {
+            $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
+        }
+
         $chosen = "taxonomy";
+
+        // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
+        if (isset($app['config']['taxonomy'][$taxonomyslug]['listing_template'])) {
+            $template = $app['config']['taxonomy'][$taxonomyslug]['listing_template'];
+        } else {
+            $template = $app['config']['general']['listing_template'];
+        }
 
         $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
 
@@ -260,7 +284,7 @@ class Frontend implements ControllerProviderInterface
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
-                $contenttypeslug,
+                $taxonomyslug,
                 basename($app['config']['general']['theme']),
                 $template);
             $app['log']->setValue('templateerror', $error);
@@ -269,11 +293,12 @@ class Frontend implements ControllerProviderInterface
 
         // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
-        $body = $app['twig']->render($template, array(
-            'records' => $content
-        ));
+        $app['twig']->addGlobal('records', $content);
+        $app['twig']->addGlobal('slug', $slug);
+        $app['twig']->addGlobal('taxonomy', $app['config']['taxonomy'][$taxonomyslug]);
+        $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return $app['twig']->render($template);
 
     }
 
@@ -295,12 +320,11 @@ class Frontend implements ControllerProviderInterface
         $content = $app['storage']->searchAllContentTypes($parameters);
         //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
 
-        $body = $app['twig']->render($template, array(
-            'records' => $content,
-            'search' => $search
-        ));
+        $app['twig']->addGlobal('records', $content);
+        $app['twig']->addGlobal('search', $search);
 
-        return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
+        return $app['twig']->render($template);
+
     }
 
     public function sitemap(Silex\Application $app, $xml = false)
@@ -340,6 +364,7 @@ class Frontend implements ControllerProviderInterface
         $headers['Cache-Control'] = 's-maxage=3600, public';
 
         return new Response($body, 200, $headers);
+
     }
 
     public function sitemapXml(Silex\Application $app)

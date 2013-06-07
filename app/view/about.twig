@@ -3,26 +3,25 @@
 <div class="row-fluid">
     <div class="span9">
 
-        <h1>About Bolt</h1>
+        <h1><strong>{{ __('About Bolt') }}</strong></h1>
 
-        <h2>Bolt {{bolt_version}}<small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></h2>
+        <h2>Bolt {{ bolt_version }}<small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></h2>
 
-        <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
-            developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
-            components. If you are a developer you're very welcome to help in the further development of Bolt.  </p>
-        <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
-            found here, in the included <a href="{{ paths.app }}LICENSE.txt">LICENSE.txt</a>. </p>
+        {{ app.translator.trans('about.bolt',{},'infos')|raw }}
+
+        {{ app.translator.trans('about.licence',{'%paths_app%':paths.app},'infos')|raw }}
+
 
         <p>
-            <a href="https://github.com/bobdenotter/bolt" class="btn btn-info" target="_blank"><i class="icon-github-alt"></i> Bolt on Github</a>
-            <a href="https://github.com/bobdenotter/bolt-docs" class="btn btn-info" target="_blank"><i class="icon-github-alt"></i> Bolt documentation on Github</a>
+            <a href="https://github.com/bolt/bolt" class="btn btn-info" target="_blank"><i class="icon-github-alt"></i> {{ __('Bolt on Github') }}</a>
+            <a href="https://github.com/bolt/bolt-docs" class="btn btn-info" target="_blank"><i class="icon-github-alt"></i> {{ __('Bolt documentation on Github') }}</a>
         </p>
 
         <br>
 
-        <h2>Used Libraries / Components</h2>
+        <h2>{{ __('Used Libraries / Components') }}</h2>
 
-        <p>Below are the third party libraries that are used by Bolt. </p>
+        <p>{{ __('Below are the third party libraries that are used by Bolt.') }} </p>
 
         <ul>
             <li>The awesome <a href="http://silex.sensiolabs.org/">Silex, PHP micro-framework</a> and a lot of the
@@ -30,6 +29,7 @@
             <li>The <a href="http://www.doctrine-project.org">Doctrine DBAL</a> for database access and abstraction.</li>
             <li><a href="http://twig.sensiolabs.org/">Twig, flexible, fast, and secure template engine</a>.</li>
             <li>Various other PHP libraries, like: <a href="http://www.openwall.com/phpass/">Phpass</a>,
+                <a href="http://filp.github.io/whoops/">Whoops!</a>,
                 <a href="http://brandonwamboldt.github.com/utilphp/">Util.php</a>,
                 <a href="http://guzzlephp.org/">Guzzle</a> and
                 <a href="http://www.binarymoon.co.uk/projects/timthumb/">Timthumb</a>

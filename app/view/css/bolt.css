@@ -1,11 +1,11 @@
-
 /**
  * Colour scheme:
+ * - #204460 - Bolt blue
  * - #214968 - base blue / #244055
  * - #194770 - links, slightly blueer
 
  * - #434341 - dark gray
- * - #ebe9dd - Sand light
+ * - #F2F1E4 - Sand light
 
  * not used:
  * - #a5d2db - light green/blue
@@ -15,33 +15,33 @@
  */
 
 body {
-    background-image: url(../img/background.png);
+    /* background-image: url(../img/background.png); - pfft, textures are _sooo_ 2012! */
+    background-color: #FCFCFA;
     font-size: 13px;
 }
 
+body.popup {
+    padding: 0px 12px;
+}
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0.5em 0;
     font-weight: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 h1 {
     font-size: 30px;
     line-height: 36px;
-    margin-top: 0;
 }
 
 h2 {
     font-size: 26px;
     line-height: 31px;
-    margin-top: 0;
 }
-
-h3 {
-    margin-bottom: 0;
-}
-
 
 a {
     color: #194770; /* #AE311A; */
@@ -50,6 +50,10 @@ a {
 
 a:hover {
         color: #103060;
+}
+
+strong, b {
+    font-weight: 600;
 }
 
 tt, code {
@@ -66,7 +70,6 @@ pre {
     color: #555;
     padding: 2px 4px;
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
-
 }
 
 small {
@@ -82,8 +85,13 @@ time {
 
 h1 span {
     float: right;
-    font-size: 60%;
-    margin-top: 0.2em;
+    font-size: 50%;
+    margin-top: 0.4em;
+    color: #666;
+}
+
+h3 span {
+    float: right;
 }
 
 hr {
@@ -96,13 +104,39 @@ hr {
 }
 
 .btn {
-    font-size: 13px;
+    font-size: 14px;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal !important;
 }
 
 .btn-group > .btn-mini {
     font-size: 11px;
     line-height: 16px;
     padding: 2px 6px;
+}
+
+.btn-group > .btn-mini a {
+    font-weight: normal;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.logo {
+    margin: 80px 0 20px 20px;
+}
+
+.logincontainer {
+    max-width: 600px;
+}
+
+.loginform {
+    background-color: #FFF;
+    box-shadow: 0px 0px 150px 10px rgba(0, 0, 0, 0.15);
+}
+
+.view-site {
+    position: absolute;
+    right: 44px;
+    top: 18px;
 }
 
 .navbar-fixed-top, .navbar-fixed-bottom  {
@@ -125,8 +159,6 @@ hr {
     background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
     background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
     background-repeat: repeat-x;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
     min-height: 60px;
 
@@ -139,15 +171,14 @@ hr {
     color: #FFF;
     font-size: 38px;
     line-height: 38px;
-    font-family: 'allerregular', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.3), 1px 1px 0px rgba(255, 255, 255, 0.3) ;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 8px 0 0 0;
 }
 
 .navbar .brand strong {
-    font-family: 'allerbold', Candara, "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: normal;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 
 .navbar .brand span {
@@ -159,9 +190,8 @@ hr {
 }
 
 .navbar .nav > li > a {
-    color: #DDD;
+    color: #E7E7E7;
     font-weight: bold;
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.25);
     padding: 9px 10px 11px;
 }
 
@@ -187,12 +217,17 @@ hr {
     opacity: 0.5;
 }
 
+.modal-wide {
+    width: 660px;
+    margin-left: -330px;
+}
+
 footer  {
     margin-top: 30px;
     position: fixed;
     bottom: 0;
     border-top: 1px solid #CCC;
-    background-color: #DDD;
+    background-color: #E7E7E7;
     color: #999;
     width:100%;
     padding: 4px 10px;
@@ -203,13 +238,10 @@ footer  {
     cursor: help;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 12px;
-    text-shadow: none;
 }
 
 .popover {
     width: 400px;
-    -webkit-box-shadow: 0 5px 10px  rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.5);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -218,8 +250,6 @@ footer  {
     font-size: 14px;
     font-weight: normal;
     line-height: 20px;
-    text-shadow: none;
-
 }
 .popover-content p {
     margin: 4px 0;
@@ -235,14 +265,11 @@ footer  {
 
 .morelink {
     font-size: 12px;
-    float: right;
-    margin-left: 12px;
+    font-weight: normal;
+    color: rgba(25, 71, 112, 0.8);
     text-shadow: none;
-    line-height: 10px;
-    position: relative;
-    right: 0;
-    top: 19px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 18px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .dashboardlisting {
@@ -257,7 +284,7 @@ footer  {
     font-weight: bold;
     color: #888;
     padding: 3px 5px;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #E7E7E7;
 }
 
 .dashboardlisting th h2 {
@@ -283,29 +310,40 @@ footer  {
     padding: 0px 5px;
 }
 
+.dashboardlisting tr.grouping h3.first {
+    margin-top: 0px;
+}
+
 .dashboardlisting tr.grouping h3 {
-    margin: 0px;
+    margin-bottom: 0px;
 }
 
 .dashboardlisting tr:first-child {
-    border-top: 1px solid #DDD;
+    border-top: 1px solid #E7E7E7;
 }
 
 .dashboardlisting tr:nth-child(odd) {
-    background-color: #F2F2EC; /* #FAFAF4; */
+    background-color: #F3F3ED; /* #F2F2EC; */
 }
 
-.dashboardlisting tr.dim * {
-    color: #BBB !important;
+.dashboardlisting tr.dim td.id,
+.dashboardlisting tr.dim td.excerpt,
+.dashboardlisting tr.dim td.listthumb,
+.dashboardlisting tr.dim td.username
+{
+    opacity: 0.6;
+    -webkit-filter: grayscale(0.2);
+    filter: grayscale(0.2);
 }
 
 .dashboardlisting tr.dim img {
-    opacity: 0.5;
+    -webkit-filter: grayscale(0.6) blur(1px);
+    filter: grayscale(0.6) blur(1px);
 }
 
 .dashboardlisting td {
-    border-bottom: 1px solid #DDD;
-    padding: 5px;
+    border-bottom: 1px solid #E5E5E5;
+    padding: 6px;
     vertical-align: top;
     line-height: 18px;
     font-size: 13px;
@@ -336,7 +374,7 @@ footer  {
 .dashboardlisting td.excerpt span {
     height: 36px;
     display: block;
-    color: #666;
+    color: #777;
     overflow: hidden;
     word-wrap:break-word;
     word-break:break-all;
@@ -369,30 +407,42 @@ ul.dropdown-menu li a.nolink {
     color: #888 !important;
 }
 
+aside {
+    margin-top: 15px;
+}
 
 aside section {
-    background-color: #ebe9dd;
-    border: 1px solid #CCB;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
-    box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    background-color: #F2F1ED;
+    border: 1px solid #DDC;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    /* box-shadow:  2px 2px 2px 0px rgba(0, 0, 0, 0.1); */
     padding: 0 10px 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 aside section h2 {
-    font-size: 16px;
-    line-height: 20px;
-    margin: 8px 0 4px;
-    text-shadow: none;
+    font-size: 17px;
+    line-height: 21px;
+    margin: 10px 0 6px 0;
     color: #333;
 }
 
-
+aside .morelink {
+    font-weight: normal;
+    line-height: 1em;
+    position: static;
+}
 
 aside section p {
     font-size: 12px;
     line-height: 16px;
+    margin: 4px 0;
+}
+
+aside section p {
+    font-size: 12px;
+    line-height: 18px;
     margin: 4px 0;
 }
 
@@ -428,18 +478,16 @@ aside .btn {
 div.extension {
     border: 1px solid #CCC;
     background: #FFF;
-    border-radius: 6px;
+    border-radius: 2px;
     padding: 0 10px 8px;
     margin: 0 10px 8px 0;
-    -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
-    -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
 
 }
 
 div.extension h3 {
-    font-size: 16px;
-    line-height: 26px;
+    font-size: 17px;
+    line-height: 28px;
     margin: 4px 0 0;
 }
 
@@ -454,7 +502,8 @@ div.extension p {
  */
 label {
     min-width: 180px;
-    margin: 1em 0 0.5em;
+    margin: 0.6em 0 0.6em;
+    vertical-align: top;
 }
 
 label label {
@@ -469,10 +518,40 @@ label span.left {
     display: block;
     float: left;
     min-width: 180px;
+    margin-top: 5px;
 }
 
-#editcontent input.large {
-    font-size: 133%;
+input[type="checkbox"] {
+    margin: 4px 8px 0px 0;
+}
+
+fieldset.checkbox {
+    display: inline-block;
+}
+
+fieldset.checkbox label {
+    display: inline;
+}
+
+fieldset.checkbox div {
+    margin: 0.3em 0 0.5em;
+}
+
+#editcontent input,
+#editcontent select,
+#editcontent textarea {
+    border-radius: 2px;
+    border-color: #CCC;
+    font-size: 100%;
+}
+
+#editcontent input[type=text] {
+    width: 70%;
+    min-width: 200px;
+}
+
+#editcontent input[type=text].large {
+    font-size: 150%;
     width: 95%;
 }
 
@@ -512,11 +591,6 @@ label span.left {
     min-width: 80px;
 }
 
-#editcontent input {
-    font-size: 100%;
-    /* width: 95%; - Why did i think this was a good idea? */
-}
-
 #editcontent input[type=number] {
     width: 20%;
     min-width: 140px;
@@ -532,6 +606,7 @@ label span.left {
     line-height: 21px;
     color: #444;
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+    box-shadow: 0 0 2px rgba(0,0,0,.1);
 }
 
 #editcontent div.video-container {
@@ -587,6 +662,18 @@ label span.left {
     margin-top: 2px;
 }
 
+#editcontent .checkboxwrapper {
+    padding: 0 0 12px 0;
+}
+
+#editcontent .checkboxwrapper span.left {
+    min-width: 220px;
+}
+
+#editcontent .checkboxwrapper input {
+    margin-top: 8px;
+}
+
 #editcontent .mapholder {
     border: 1px solid #BBB;
     width: 200px;
@@ -615,10 +702,23 @@ label span.left {
     opacity: 0.7;
 }
 
+#editcontent .clearfix {
+    margin-bottom: 12px;
+}
+
+#editcontent small {
+    font-size: 12px;
+    color: #666;
+}
+
 .progress {
-    width: 50%;
+    width: 30%;
     display: none;
     margin-bottom: 0;
+}
+
+#editcontent .fileinput-select {
+    float: left;
 }
 
 #editcontent input.editslug {
@@ -630,6 +730,10 @@ label span.left {
     display: inline-block;
     padding: 0 3px;
     cursor: pointer;
+}
+
+#editcontent div.imagelistholder.dropzone {
+    height: auto;
 }
 
 #editcontent div.imagelistholder textarea {
@@ -699,6 +803,17 @@ label span.left {
 
 /** Overrides for CKeditor */
 
+.cke_reset_all, .cke_reset_all * {
+    max-width: 1000px;
+}
+
+.cke_chrome {
+    display: block;
+    border: 1px solid #CCC;
+    padding: 0;
+    box-shadow: 0 0 2px rgba(0,0,0,.1);
+}
+
 .cke_bottom {
     display: block !important;
     float: right;
@@ -714,7 +829,7 @@ label span.left {
 }
 
 .cke_toolgroup, .cke_combo_button {
-    border-color: #DDD !important;
+    border-color: #E7E7E7 !important;
     margin: 3px !important;
 }
 
@@ -724,7 +839,7 @@ label span.left {
 
 .cke_button_on {
     background-image: none !important;
-    background-color: #DDD !important;
+    background-color: #E7E7E7 !important;
 }
 
 .cke_contents textarea {
@@ -736,7 +851,7 @@ label span.left {
 }
 
 .cke_maximized {
-    background-color: #DDD !important;
+    background-color: #E7E7E7 !important;
 }
 
 .cke_maximized .cke_contents {
@@ -755,18 +870,17 @@ label span.left {
 .cke_toolbar_separator {
     background-color: #BBB !important;
 }
-}
+
 /* Overrides for CodeMirror */
 
 .CodeMirror {
+    border: 1px solid #DDD !important;
     font-size: 14px;
     line-height: 1em;
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
 }
 
 .CodeMirror-scroll {
-    min-height: 200px;
-    border: 1px solid #CCC;
     background-color: #FFF;
 }
 
@@ -793,19 +907,19 @@ label span.left {
  */
 
 .select2-container {
-    min-height: 32px;
+    min-height: 30px;
 }
 
 .select2-container-multi .select2-choices {
-    border-radius: 3px;
     color: #555;
-    border-color: #CCC !important;
+    border-radius: 2px;
+    border-color: #CCC;
 }
 
 .select2-container-multi .select2-choices .select2-search-choice {
     border-radius: 3px;
     color: #555;
-    border-color: #CCC !important;
+    border-color: #CCC;
     padding: 4px 5px 5px 15px;
 }
 
@@ -815,6 +929,8 @@ label span.left {
 
 .select2-container a.select2-choice {
     font-weight: normal !important;
+    border-radius: 2px;
+    border-color: #CCC;
 }
 
 .select2-container-multi .select2-choices .select2-search-choice span {
@@ -822,6 +938,16 @@ label span.left {
     font-size: 85%;
 }
 
+.select2-drop-active {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-color: #CCC;
+}
+
+.select2-container .select2-choice div {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
 
 /**
  * End of styles for Select2
@@ -864,23 +990,22 @@ label span.left {
  */
 blockquote.quote {
     border: 0;
-    margin: 15px 30px;
-    font-size: 28px;
-    line-height: 36px;
+    margin: 15px 0px;
+    font-size: 21px;
+    line-height: 26px;
     font-style: italic;
     font-family: "Times New Roman", Georgia;
-    color: #999;
+    color: #AAA;
 }
 
 blockquote.quote cite {
     display: block;
-    margin-top: 12px;
-    margin-left: 30px;
+    margin-top: 8px;
     font-size: 12px;
     line-height: 18px;
     font-style: normal;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: #888;
+    color: #999;
 }
 
 
@@ -934,7 +1059,6 @@ blockquote.quote cite {
         line-height: 10px;
         position: relative;
         right: 0;
-        text-shadow: none;
         top: 12px;
     }
 
@@ -968,8 +1092,8 @@ blockquote.quote cite {
     }
 
     blockquote.quote {
-        font-size: 21px;
-        line-height: 27px;
+        font-size: 18px;
+        line-height: 24px;
         margin: 10px 15px;
     }
 
@@ -1010,7 +1134,7 @@ blockquote.quote cite {
 
     .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
         padding: 5px 12px;
-        color: #DDD !important;
+        color: #E7E7E7 !important;
     }
 
     .navbar .btn-navbar {
@@ -1019,42 +1143,4 @@ blockquote.quote cite {
 
 }
 
-
-/* http://webfonts.info/browser-support-overview - Just use woff and ttf.. */
-@font-face {
-    font-family: 'alleritalic';
-    src: url('../font/aller_it-webfont.woff') format('woff'),
-    url('../font/aller_it-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-@font-face {
-    font-family: 'allerregular';
-    src: url('../font/aller_rg-webfont.woff') format('woff'),
-    url('../font/aller_rg-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'allerbold';
-
-    src: url('../font/aller_bd-webfont.woff') format('woff'),
-    url('../font/aller_bd-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'allerbold_italic';
-    src: url('../font/aller_bdit-webfont.woff') format('woff'),
-    url('../font/aller_bdit-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
 

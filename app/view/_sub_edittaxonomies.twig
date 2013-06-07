@@ -1,20 +1,14 @@
 
 {# taxonomies for the contenttype that this record is part of. #}
 {% if contenttype.taxonomy is defined %}
-{% set taxonomies = contenttype.taxonomy %}
 
     <h3>
-        Taxonomy
-        <span class="label info-pop" data-html="true" data-title="Taxonomy"
-                  data-content="By selecting one or more taxonomies for this record,
-                  you are classifying this record to have those properties. On the
-                  website this can be used to group certain records together, or
-                  to automatically create links to records that share a
-                  classification.
-    ">Info</span>
+        {{ __('Taxonomy') }}
+        <span class="label info-pop" data-html="true" data-title="{{ __('Taxonomy') }}"
+                  data-content="{{ app.translator.trans('info.taxonomy',{},'infos') }}">{{ __('Info') }}</span>
     </h3>
 
-{% for taxonomyslug in taxonomies %}
+{% for taxonomyslug in contenttype.taxonomy %}
 
     {% if config.taxonomy[taxonomyslug] is defined %}
 
@@ -25,7 +19,7 @@
 
         {% if taxonomy.behaves_like == "tags" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name }}:</span></b></label>
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
 
             {% if content.taxonomy[taxonomy.slug] is defined %}
                 {% set tags = content.taxonomy[taxonomy.slug]|join(",") %}
@@ -48,7 +42,7 @@
 
         {% if taxonomy.behaves_like == "categories" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name }}:</span></b></label>
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
 
             {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' multiple>
@@ -70,20 +64,25 @@
 
         {% if taxonomy.behaves_like == "grouping" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name }}:</span></b></label>
+            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
 
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no group)</option>
                 <option value="" disabled>-----------</option>
-            {% for group in taxonomy.options %}
-                <option value='{{group}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
+            {% for key, group in taxonomy.options %}
+                <option value='{{key}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
             {% endfor %}
             </select>
 
             {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
                 <label for="taxonomy-order-{{taxonomy.slug}}" style='display: inline;'>- Order:</label>
+                {% if content.taxonomyorder is defined and content.taxonomyorder is iterable %}
+                    {% set torder = 0 + content.taxonomyorder[taxonomy.slug] %}
+                {% else %}
+                    {% set torder = 0 %}
+                {% endif %}
                 <input type="number" name="taxonomy-order[{{taxonomy.slug}}]" id="taxonomy-order-{{taxonomy.slug}}" step="1"
-                       value='{{ 0 + content.taxonomyorder[taxonomy.slug] }}' class='verynarrow'>
+                       value='{{ torder }}' class='verynarrow'>
             {% endif %}
 
         {% endif %}

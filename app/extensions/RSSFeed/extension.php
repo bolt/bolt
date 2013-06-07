@@ -87,7 +87,9 @@ class Extension extends \Bolt\BaseExtension
             $template = $defaultTemplate;
         }
 
-        $body = $this->app['twig']->render('RSSFeed/assets/' . $template, array(
+        $this->app['twig.loader.filesystem']->addPath(__DIR__.'/assets/');
+
+        $body = $this->app['twig']->render($template, array(
             'records' => $content,
             'content_length' => $contentLength,
             $contenttype['slug'] => $content,

@@ -1,10 +1,10 @@
 {% include '_header.twig' %}
 
 
-<h1>Files: {{path}}</h1>
+<h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
 
 {% if pathsegments|length > 1 %}
-    <p>Path: 
+    <p>{{ __('Path:') }}
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
     <a href="{{ path('files', { 'path': path }) }}">{{segment}}</a>
@@ -14,7 +14,7 @@
 
 {% if folders|length > 0 %}
 <table class='dashboardlisting'>
-    <tr><th>Folders</th><th>Modified</th></tr>
+    <tr><th>{{ __('Folders') }}</th><th>{{ __('Modified') }}</th></tr>
 {% for folder in folders %}
     <tr>
         <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
@@ -28,7 +28,7 @@
 
 {% if files|length > 0 %}
 <table class='dashboardlisting'>
-    <tr><th>Files</th><th>Filesize</th><th>&nbsp;</th><th>Modified</th><th>&nbsp;</th></tr>
+    <tr><th>{{ __('Files') }}</th><th>{{ __('Filesize') }}</th><th>&nbsp;</th><th>{{ __('Modified') }}</th><th>&nbsp;</th></tr>
 {% for file in files %}
     <tr>
         <td>
@@ -65,23 +65,23 @@
         <td class='actions'>
             <div class="btn-group">
             <button class="btn btn-mini">
-                <i class="icon-edit"></i> Options</button>
+                <i class="icon-edit"></i> {{ __('Options') }}</button>
             <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
             <span class="caret"></span>
             </button>
-            
+
             <ul class="dropdown-menu pull-right">
                 <li><a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
-                    <i class="icon-ban-circle"></i> Delete {{ file.filename }}</a></li>
+                    <i class="icon-ban-circle"></i> {{ __('Delete %filename%',{'%filename%':file.filename}) }}</a></li>
                 <li><a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
-                    <i class="icon-copy"></i> Duplicate {{ file.filename }}</a></li>
+                    <i class="icon-copy"></i> {{ __('Duplicate %filename%',{'%filename%':file.filename}) }}</a></li>
                 <li class="divider"></li>
-                <li><a class="nolink">Permissions: 
-                        <strong><tt>{{ file.permissions }}</tt></strong></a></li>          
-                                  
+                <li><a class="nolink">{{ __('Permissions') }}:
+                        <strong><tt>{{ file.permissions }}</tt></strong></a></li>
+
             </ul>
             </div>
-        
+
         </td>
     </tr>
 {% endfor %}

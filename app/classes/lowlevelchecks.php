@@ -14,9 +14,18 @@ class lowlevelchecks
     {
 
         // Bolt requires PHP 5.3.2 or higher.
-        if (!checkVersion(phpversion(), "5.3.2")) {
-            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". phpversion(). 
-	    "</u>, so Bolt will not run on your current setup.");
+        if (!checkVersion(PHP_VERSION, "5.3.2")) {
+            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". PHP_VERSION .
+	           "</u>, so Bolt will not run on your current setup.");
+        }
+
+        if (get_magic_quotes_gpc()) {
+            $this->lowlevelError("Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
+                "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the ".
+                "<span style='color: #F00;'>BIG RED BANNER</span> that states that magic_quotes are <u>DEPRECATED</u>. Seriously. <br><br>" .
+                "If you can't change it in the server-settings, or your admin won't do it for you, try adding this line to your " .
+                "`.htaccess`-file: <pre>php_value magic_quotes_gpc off</pre>"
+                );
         }
 
         if (ini_get('safe_mode')) {

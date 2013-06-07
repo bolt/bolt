@@ -1,0 +1,96 @@
+info:
+    upload:
+        image: |
+            Utilisez ce champ pour envoyer une photo ou une image. Cliquez sur le bouton pour
+            envoyer un fichier depuis votre ordinateur, ou si vous utilisez une version récente
+            de Chrome ou Firefox, vous pouvez simplement glisser/déplacer le fichier depuis
+            votre bureau ou une autre fenêtre du navigateur.<br/>
+            Ou vous pouvez aussi utiliser une image déjà envoyée. Pour sélectionner un fichier déjà envoyé,
+            il vous suffit de saisir une partie du nom de fichier dans la zone de saisie, il sera
+            automatiquement complété.
+        file: |
+            Utilisez ce champ pour envoyer un fichier à inclure comme téléchargement ou à utiliser dans
+            une page sur le site. Cliquez sur le bouton pour
+            envoyer un fichier depuis votre ordinateur, ou si vous utilisez une version récente
+            de Chrome ou Firefox, vous pouvez simplement glisser/déplacer le fichier depuis
+            votre bureau ou une autre fenêtre du navigateur.<br/>
+            Ou vous pouvez aussi utiliser un fichier déjà envoyé. Pour sélectionner un fichier déjà envoyé,
+            il vous suffit de saisir une partie du nom de fichier dans la zone de saisie, il sera
+            automatiquement complété.
+        filesmall: |
+            Utilisez le bouton pour envoyer un fichier. Pour sélectionner un fichier déjà
+            envoyé, tapez une partie de son nom dans la zone de saisie, il sera auto-complété.
+        imagelist: |
+            Utilisez ce champ pour envoyer une série de photos ou d'images.Cliquez sur le bouton pour
+            envoyer un fichier depuis votre ordinateur, ou si vous utilisez une version récente
+            de Chrome ou Firefox, vous pouvez simplement glisser/déplacer le fichier depuis
+            votre bureau ou une autre fenêtre du navigateur.<br/>
+            Ou vous pouvez aussi utiliser un fichier déjà envoyé.<br/>
+            Vous pouvez réarranger les images par glisser/déplacer, et changer leurs descriptions.
+        video: |
+            Utilisez ce champ pour intégrer une vidéo dans une page du site. Copiez/colleez simplement
+            l'URL d'une page vidéo sur Youtbe, Vimeo ou pratiquement n'importe quel site de partage de
+            video.<br/>
+            Bolt récupèrera automatiquement le code d'intégration, avec les dimensions correctes et
+            le titre original. Si vous changez la largeur ou la hauteur, l'autre valeur changera aussi
+            pour maintenir le ratio.
+    geolocation: |
+        Utilisez ce champ pour obtenir la géo-localisation de n'importe quelle adresse, ou placez un
+        marqueur manuellement en déplaçant la punaise. En premier lieu, entrez une adresse (approximative) dans
+        le champ 'adresse', les longitudes et latitudes correspondantes seront récupérées avec l'API de Google Maps,
+        en même temps que l'adresse la plus proche, selon Google.<br/>
+        Si vous voulez déplacer le marqueur à un autre endroit, glissez/déplacez simplement la punaise sur
+        la mini-carte. Les latitudes et longitudes seront automatiquement mise à jour.
+    markdown: |
+        Markdown est un outil de conversion texte-vers-HTML pour les rédacteurs web.
+        <p>Markdown vous permet d'écrire dans un format texte facile à lire, facile à écrire,
+        qui est ensuite transformé en HTML structurellement correct.</p>
+            <p><strong>Référence rapide:</strong><br>
+            # Une balise &amp;lt;h1&amp;gt;<br>
+            ## Une balise &amp;lt;h2&amp;gt;<br>
+            ###### Une balise &amp;lt;h6&amp;gt;</p>
+            <p>Ceci _<em>est en italique</em>_, ceci __<strong>est en gras</strong>__, et ceci
+            ___<em><strong>est gras et italique</strong></em>___. Vous pouvez aussi utiliser l'étoile: ceci *<em>est en italique</em>*,
+            ceci **<strong>en gras</strong>**.
+            <p>Créez des <a href='#'>liens</a> comme ceci :<br>
+            Un [super site web](http://example.org/ &amp;quot;Titre du lien&amp;quot;)</p>
+            <p>&nbsp; * Une liste non ordonnée<br>
+            &nbsp; * Élément 2</p>
+            <p>&nbsp; 1 Une liste ordonnée<br>
+            &nbsp; 2 Deuxième élément</p>
+    relationships: |
+        En sélectionnant d'autres enregistrements en tant que 'relation', vous
+        créez effectivement un lien entre cet enregistrement et celui sélectionné.
+        Sur le site web, cela peut être utilisé pour créer un 'articles en rapport',
+        'voir aussi', ou pour afficher de quelle manière cet enregistrement s'insère
+        dans une certaine structure.
+    taxonomy: |
+        En sélectionnant une ou plusieurs taxonomies pour cet enregistrement,
+        vous le classifiez avec ces catégories. Sur le site, ça peut être utilisé
+        pour regrouper certains enregistrements, ou pour créer automatiquement
+        des liens vers les enregistrements qui partagent une classification.
+about:
+    bolt: |
+        <p>Bolt est un CMS qui s'efforce d'être simple, rapide et plaisant à utiliser. Aussi
+        bien pour les développeurs que les rédacteurs de contenu. Bolt est Open Source, et
+        en tant que tel utilise d'autres composants Open Source. Si vous êtes développeur,
+        vous être bienvenu pour aider à la poursuite du développement de Bolt.
+        </p>
+    licence: |
+        <p>Toutes les parties de Bolt sont libres d'être utilisées selon la license open-source MIT.
+        Le texte complet de la license se trouve ici, dans le fichier
+        <a href="%paths_app%LICENSE.txt">LICENSE.txt</a> inclus.
+        </p>
+prefill:
+    short_help: |
+        <p>SVP, cochez les types de contenu que vous voulez remplir automatiquement.<p>
+        <p>Si aucun n'est coché, Bolt ne pré-remplira que les types n'ayant encore aucun contenu.</p>
+extension:
+    enable: |
+        <p>Pour activer une extension, l'ajouter au tableau <code>enabled_extensions</code>
+            dans le fichier de configuration <code>config.yml</code>. Utilisez le nom exact
+            de l'extension, comme affiché dans le premier libellé de la ligne du bas dans
+            son panneau. Notez que les noms sont <em>sensibles à la casse</em>, pour éliminer
+            les problèmes avec le système de fichiers.</p>
+            <p>exemple:</p>
+            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>

@@ -3,6 +3,7 @@
 namespace Bolt\Tests;
 
 use Bolt\Cache;
+use Symfony\Component\Filesystem\Filesystem;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,61 +11,47 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Bolt\Cache
      */
-    protected $object;
-    protected $cachePath;
-
-    protected $cacheFiles = array();
+    protected $cache;
+    /**
+     * Real path to cache workspace directory
+     * @var string
+     */
+    protected $workspace;
 
     public function setUp()
     {
-        $this->cachePath = __DIR__ . '/../../cache';
-        $this->object = new Cache($this->cachePath);
-    }
-
-    /**
-     * Uses reflection to return a private or protected class method to be able to
-     * test class internals.
-     *
-     * @param string $name
-     *
-     * @return \ReflectionMethod
-     */
-    public function getMethod($name)
-    {
-        $class = new \ReflectionClass('\\Bolt\\Cache');
-        $method = $class->getMethod($name);
-        $method->setAccessible(TRUE);
-        return $method;
-    }
-
-    /*
-     * Tests if unique file names are generated
-     */
-    public function testGetFileName()
-    {
-        $key = 'foo';
-        $getFilenameMethod = $this->getMethod('getFilename');
-
-        $correctlyHashed = $this->cachePath . "/c_" .
-                substr(md5($key), 0, 18) . ".cache";
-
-        $notCorrectlyHashed = $this->cachePath . "/c_" .
-                substr(md5($key), 1, 19) .".cache";
-
-        $result = $getFilenameMethod->invokeArgs($this->object, array($key));
-        $this->assertEquals($correctlyHashed, $result);
-        $this->assertNotEquals($notCorrectlyHashed, $result);
+        $this->workspace = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . time() . rand(0, 1000);
+        mkdir($this->workspace, 0777, true);
+        $this->workspace = realpath($this->workspace);
+        $this->cache = new Cache($this->workspace);
     }
 
     public function tearDown()
     {
-        // remove used cached files
-        foreach ($this->cacheFiles as $cacheFile) {
-            unlink($cacheFile);
-        }
-        $this->object->clearCache();
+        $this->cache->flushAll();
+        $this->clean($this->workspace);
     }
 
+    /**
+     * @param string $file
+     */
+    private function clean($file)
+    {
+        if (is_dir($file) && !is_link($file)) {
+            $dir = new \FilesystemIterator($file);
+            foreach ($dir as $childFile) {
+                $this->clean($childFile);
+            }
+
+            rmdir($file);
+        } else {
+            unlink($file);
+        }
+    }
+
+    /**
+     * @return array
+     */
     public static function setProvider()
     {
         return array(
@@ -74,11 +61,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 array('foo' => 'bar', 'baz' => 'meh'),
-                serialize(array('foo' => 'bar', 'baz' => 'meh'))
+                array('foo' => 'bar', 'baz' => 'meh')
             ),
             array(
                 new \Bolt\Tests\FooObject(),
-                serialize(new \Bolt\Tests\FooObject())
+                new \Bolt\Tests\FooObject()
             )
         );
     }
@@ -89,15 +76,37 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testSet($value, $expected)
     {
         $key = 'foo';
-        $this->object->set($key, $value);
-        // We've just checked the get file name method, so we can use this now
-        $getFilenameMethod = $this->getMethod('getFilename');
-        $cacheFilePath = $getFilenameMethod->invokeArgs(
-            $this->object, array($key)
-        );
-        $this->assertTrue(file_exists($cacheFilePath));
-        $this->cacheFiles [] = $cacheFilePath;
-        $this->assertEquals($expected, file_get_contents($cacheFilePath));
+        $this->cache->save($key, $value);
+        $this->assertEquals($expected, $this->cache->fetch($key));
     }
 
+    /**
+     * Checks if giving a relative path results in the same path under water.
+     */
+    public function testCacheDirLocation()
+    {
+        $cacheDirLocation = $this->cache->getDirectory();
+        $filesystem = new Filesystem();
+        $relative = $filesystem->makePathRelative($cacheDirLocation, __DIR__);
+        $newCache = new Cache($relative);
+        $this->assertEquals($cacheDirLocation, $newCache->getDirectory());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testNonExistingDirCantBeCreated()
+    {
+        $newCache = new Cache("/foo/bar/baz");
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testUnwriteableCacheDir()
+    {
+        $this->clean($this->workspace);
+        mkdir($this->workspace, 0400);
+        $this->cache = new Cache($this->workspace);
+    }
 }

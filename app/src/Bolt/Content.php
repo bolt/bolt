@@ -25,28 +25,49 @@ class Content implements \ArrayAccess
             // If this contenttype has a taxonomy with 'grouping', initialize the group.
             if (isset($this->contenttype['taxonomy'])) {
                 foreach ($this->contenttype['taxonomy'] as $taxonomytype) {
-                    if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-                        $this->setGroup("", $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder']);
+                    if (isset($this->app['config']['taxonomy'][$taxonomytype]) &&
+                        $this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
+                        $this->setGroup('', '', $taxonomytype);
                     }
                 }
             }
         }
 
+        $this->user = $this->app['users']->getCurrentUser();
+
         if (!empty($values)) {
             $this->setValues($values);
         } else {
-            // Return an '(undefined contenttype)'..
-            if (is_array($contenttype)) {
-                $contenttype = $contenttype['name'];
+            // Ininitialize fields with empty values.
+            $values = array();
+            if (is_array($this->contenttype)) {
+                foreach($this->contenttype['fields'] as $key => $parameters) {
+                    // Set the default values.
+                    if (isset($parameters['default'])) {
+                        $values[$key] = $parameters['default'];
+                    } else {
+                        $values[$key] = '';
+                    }
+                }
             }
-            $values = array(
-                'name' => "(undefined $contenttype)",
-                'title' => "(undefined $contenttype)"
-            );
-            $this->setValues($values);
-        }
 
-        $this->user = $this->app['users']->getCurrentUser();
+            if (!empty($this->contenttype['singular_name'])) {
+                $contenttypename = $this->contenttype['singular_name'];
+            } else {
+                $contenttypename = "unknown";
+            }
+            // Specify an '(undefined contenttype)'..
+            $values['name'] = "(undefined $contenttypename)";
+            $values['title'] = "(undefined $contenttypename)";
+
+            // If default status is set in contentttype..
+            if (!empty($this->contenttype['default_status'])) {
+                $values['status'] = $this->contenttype['default_status'];
+            }
+
+            $this->setValues($values);
+
+        }
 
     }
 
@@ -57,6 +78,8 @@ class Content implements \ArrayAccess
             $this->setValue($key, $value);
         }
 
+        $now = date("Y-m-d H:i:s");
+
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
             $this->values['datecreated'] = "1970-01-01 00:00:00";
@@ -64,12 +87,12 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datepublish']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datepublish'])) {
-            $this->values['datepublish'] = date("Y-m-d H:i:s");
+            $this->values['datepublish'] = $now;
         }
 
         if (!isset($this->values['datechanged']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
-            $this->values['datechanged'] = date("Y-m-d H:i:s");
+            $this->values['datechanged'] = $now;
         }
 
         // Check if the values need to be unserialized, and pre-processed.
@@ -110,6 +133,15 @@ class Content implements \ArrayAccess
 
                 $this->values[$key] = $video;
             }
+
+            // Make sure 'date' and 'datetime' don't end in " :00".
+            if ($this->fieldtype($key)=="datetime") {
+                if (strpos($this->values[$key], ":")===false) {
+                    $this->values[$key] = trim($this->values[$key]) . " 00:00:00";
+                }
+                $this->values[$key] = str_replace(" :00", " 00:00", $this->values[$key]);
+            }
+
         }
 
     }
@@ -162,16 +194,19 @@ class Content implements \ArrayAccess
 
         $values = cleanPostedData($values);
 
-        // Some field types need to do things to the POST-ed value.
-        foreach ($contenttype['fields'] as $fieldname => $field) {
-
-
-
-        }
-
         // Make sure we set the correct username, if the current user isn't allowed to change it.
         if (!$this->app['users']->isAllowed('editcontent:all')) {
             $values['username'] = $this->app['users']->getCurrentUsername();
+        }
+
+        // Make sure we have a proper status..
+        if (!in_array($values['status'], array('published', 'timed', 'held', 'draft'))) {
+            $values['status'] = "published";
+        }
+
+        // If we set a 'publishdate' in the future, and the status is 'published', set it to 'timed' instead.
+        if ($values['datepublish'] > date("Y-m-d H:i:s") && $values['status'] == "published") {
+            $values['status'] = "timed";
         }
 
         // Get the taxonomies from the POST-ed values. We don't support 'order' for taxonomies that
@@ -307,6 +342,13 @@ class Content implements \ArrayAccess
 
     }
 
+    /**
+     * Set a taxonomy for the current object.
+     *
+     * @param $taxonomytype
+     * @param $value
+     * @param int $sortorder
+     */
     public function setTaxonomy($taxonomytype, $value, $sortorder=0)
     {
 
@@ -325,15 +367,59 @@ class Content implements \ArrayAccess
             $sortorder = (int)$sortorder;
         }
 
-        $this->taxonomy[$taxonomytype][] = $value;
+        // Make the 'key' of the array an absolute link to the taxonomy.
+        $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $value);
+
+        $this->taxonomy[$taxonomytype][$link] = $value;
         $this->taxonomyorder[$taxonomytype] = $sortorder;
+
+        // Set the 'name', for displaying the pretty name, if there is any.
+        if (!empty($this->app['config']['taxonomy'][$taxonomytype]['options'][$value])) {
+            $name = $this->app['config']['taxonomy'][$taxonomytype]['options'][$value];
+        } else {
+            $name = ucfirst($value);
+        }
 
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-            $this->setGroup($value, $sortorder);
+            $this->setGroup($value, $name, $taxonomytype);
         }
 
     }
+
+    /**
+     * Sort the taxonomy of the current object, based on the order given in taxonomy.yml.
+     *
+     */
+    public function sortTaxonomy()
+    {
+
+        if (empty($this->taxonomy)) {
+            // Nothing to do here.
+            return;
+        }
+
+        foreach($this->taxonomy as $type => $values){
+            $taxonomytype = $this->app['config']['taxonomy'][$type];
+            // Don't order tags..
+            if ($taxonomytype['behaves_like'] == "tags") {
+                continue;
+            }
+
+            // Order them by the order in the contenttype.
+            $new = array();
+            foreach($this->app['config']['taxonomy'][$type]['options'] as $key => $value) {
+                if ($foundkey = array_search($key, $this->taxonomy[$type])) {
+                    $new[$foundkey] = $value;
+                } elseif ($foundkey = array_search($value, $this->taxonomy[$type])) {
+                    $new[$foundkey] = $value;
+                }
+            }
+            $this->taxonomy[$type] = $new;
+        }
+
+    }
+
 
     public function setRelation($contenttype, $id)
     {
@@ -362,18 +448,40 @@ class Content implements \ArrayAccess
 
     }
 
-    public function setGroup($value, $sortorder=false)
+    /**
+     * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
+     *
+     * @param string $value
+     * @param string $name
+     * @param string $taxonomytype
+     */
+    public function setGroup($group, $name = "", $taxonomytype)
     {
-        $this->group = $value;
+        $this->group = array(
+            'slug' => $group,
+            'name' => $name
+        );
+
+        $sortorder = $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'];
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
         if ($sortorder !== false) {
-            $this->sortorder = (int)$sortorder;
+            $this->group['order'] = (int)$sortorder;
         }
+
+        // Set the 'index', so we can sort on it later.
+        $index = array_search($group, array_keys($this->app['config']['taxonomy'][$taxonomytype]['options']));
+
+        if ($index !== false) {
+            $this->group['index'] = $index;
+        } else {
+            $this->group['index'] = 2147483647; // Max for 32 bit int.
+        }
+
     }
 
     /**
-     * Get the decoded value
+     * Get the decoded version of a value of the current object.
      *
      * @param string $name   name of the value to get
      * @return mixed         decoded value or null when no value available
@@ -391,8 +499,9 @@ class Content implements \ArrayAccess
                     $value = $this->preParse($this->values[$name]);
 
                     // Parse the field as Markdown, return HTML
-                    include_once __DIR__. "/../../classes/markdown.php";
-                    $value = new \Twig_Markup(Markdown($value), 'UTF-8');
+                    $markdownParser = new \dflydev\markdown\MarkdownParser();
+                    $value = $markdownParser->transformMarkdown($value);
+                    $value = new \Twig_Markup($value, 'UTF-8');
                     break;
 
                 case 'html':
@@ -493,9 +602,11 @@ class Content implements \ArrayAccess
         } else {
 
             // Grab the first field of type 'text', and assume that's the title.
-            foreach($this->contenttype['fields'] as $key => $field) {
-                if ($field['type']=='text') {
-                    return $this->values[ $key ];
+            if (!empty($this->contenttype['fields'])) {
+                foreach($this->contenttype['fields'] as $key => $field) {
+                    if ($field['type']=='text') {
+                        return $this->values[ $key ];
+                    }
                 }
             }
 
@@ -511,6 +622,11 @@ class Content implements \ArrayAccess
      */
     public function getImage()
     {
+
+        // No fields, no image.
+        if (empty($this->contenttype['fields'])) {
+            return "";
+        }
 
         // Grab the first field of type 'image', and return that.
         foreach($this->contenttype['fields'] as $key => $field) {
@@ -621,7 +737,12 @@ class Content implements \ArrayAccess
                     continue; // Skip other ids, if we requested a specific id.
                 }
 
-                $records[] = $this->app['storage']->getContent($contenttype."/".$id);
+                $record = $this->app['storage']->getContent($contenttype."/".$id);
+
+                if (!empty($record)) {
+                    $records[] = $this->app['storage']->getContent($contenttype."/".$id);
+                }
+
             }
         }
 
@@ -676,6 +797,10 @@ class Content implements \ArrayAccess
     public function fieldtype($key)
     {
 
+        if (empty($this->contenttype['fields'])) {
+            return '';
+        }
+
         foreach ($this->contenttype['fields'] as $name => $field) {
             if ($name == $key) {
                 return $field['type'];
@@ -697,11 +822,13 @@ class Content implements \ArrayAccess
     {
         $excerpt = array();
 
-        foreach ($this->contenttype['fields'] as $key => $field) {
-            if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
-                && isset($this->values[$key])
-                && !in_array($key, array("title", "name")) ) {
-                $excerpt[] = $this->values[$key];
+        if (!empty($this->contenttype['fields'])) {
+            foreach ($this->contenttype['fields'] as $key => $field) {
+                if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
+                    && isset($this->values[$key])
+                    && !in_array($key, array("title", "name")) ) {
+                    $excerpt[] = $this->values[$key];
+                }
             }
         }
 

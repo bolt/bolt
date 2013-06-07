@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>{{ app.config.general.sitename }}</title>
+        <atom:link href="{{ paths.currenturl }}" rel="self"
+                   type="application/rss+xml"/>
+        <link>{{ paths.rooturl }}</link>
+{% if app.config.general.payoff is defined %}
+        <description>{{ app.config.general.payoff }}</description>
+{% endif %}
+        <language>en-us</language>
+        <generator>Bolt</generator>
+
+{% for record in records %}
+            <item>
+                <title>{{ record.title|striptags }}</title>
+                <link>{{ paths.hosturl }}{{ record.link }}</link>
+                <pubDate>
+                    {{ record.datepublish|date("r") }}
+                </pubDate>
+                <author>
+                    {{ record.user.email }} ({{ record.user.displayname }})
+                </author>
+                <guid isPermaLink="false">{{ record.contenttype.singular_slug }}/{{ record.id }}</guid>
+{% if record.taxonomy.categories is defined %}
+{% for category in record.taxonomy.categories %}
+                <category><![CDATA[ {{ category }} ]]></category>
+{% endfor %}
+{% endif %}
+
+{% if content_length == 0 %}
+                <description>{{ record.rss_safe('body')|raw }}</description>
+{% else %}
+                <description>
+                        {{ record.rss_safe('body', content_length)|raw }}
+                </description>
+{% endif %}
+            </item>
+
+{% endfor %}
+
+    </channel>
+</rss>

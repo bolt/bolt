@@ -3,7 +3,12 @@
 <div class="row-fluid">
     <div class="span9">
 
-        <h1>Overview » {{contenttype.name }} <span>{% if pages is defined and  pager.totalpages > 1 %}Page: {{pager.current}}/{{pager.totalpages}}{%endif %}</span></h1>
+        <h1>
+            {{ title|raw }}
+            <span>{% if pager is defined and pager.totalpages > 1 %}
+                {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
+            {%endif %}</span>
+        </h1>
 
         {% set lastgroup = "----" %}
 
@@ -12,13 +17,23 @@
         {% for content in multiplecontent %}
 
             {# If we have 'grouping', print the row with the groupname.. #}
-            {% if content.group is defined and content.group is not sameas(false) and content.group != lastgroup %}
-                <tr class="grouping"><th colspan="5"><h3>{% if content.group %}{{ content.group }}{% else %}(no group){% endif %}</h3></th></tr>
+            {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+                <tr class="grouping">
+                    <th colspan="5">
+                        <h3 {% if loop.first %}class="first"{% endif %}>
+                            {% if content.group.name  %}
+                                {{ content.group.name }}
+                            {% else %}
+                                {{ __('(no group)') }}
+                            {% endif %}
+                        </h3>
+                    </th>
+                </tr>
             {% endif %}
 
             {# print the header for the first row.. #}
-            {% if loop.first or (content.group is defined and content.group != lastgroup) %}
-                {% set lastgroup = content.group %}
+            {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+                {% set lastgroup = content.group.name %}
                 {% if "filter" in app.request.query.all|keys %}
                     {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
                 {% else %}
@@ -29,17 +44,18 @@
                 <tr>
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
-                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>Title / Excerpt</a></th>
+                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>
+                            {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
                     <th>&nbsp;</th>
-                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>Meta</a></th>
-                    <th><a href='?'>Actions</a></th>
+                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
+                    <th><a href='?'>{{ __('Actions') }}</a></th>
                 </tr>
             {% endif %}
 
             {% include '_sub_contentrow.twig' with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
 
         {% else %}
-            No {{contenttype.name}} available.
+            {{ __('No %contenttypes% available.', {'%contenttypes%':contenttype.name}) }}
         {% endfor %}
     </table>
 
@@ -49,21 +65,21 @@
     <aside class="span3">
 
     <section>
-    <h2>Actions for {{contenttype.name}}:</h2>
+    <h2>{{__('Actions for %contenttypes%',{'%contenttypes%':contenttype.name})}}:</h2>
 
     <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': '' }) }}">
-        <i class="icon-plus"></i> New {{ contenttype.singular_name }}
+        <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
     </a>
     {% if request('filter') or request('order') %}
-    <a class="btn" href="?">Clear sort/filter</a>
+    <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
     {% endif %}
 
-    <h2>Filtering:</h2>
+    <h2>{{ __('Filtering:') }}</h2>
 
 <form class="form-inline">
   <input type="text" class="input-small" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;">
-  <button type="submit" class="btn">Filter</button>
-      {% if request('filter') %}<p><a href="?">Clear filter</a></p>{% endif %}
+  <button type="submit" class="btn">{{ __('Filter') }}</button>
+      {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
 </form>
 
 

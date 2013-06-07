@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Sitemap</title>
+    <title>{{ __('Sitemap') }}</title>
 </head>
 <body>
-    <h1>Sitemap</h1>
+    <h1>{{ __('Sitemap') }}</h1>
     <ul>
     {% for entry in entries %}
         <li><a href="{{ entry.link }}">{{ entry.title }}</a></li>

@@ -1,0 +1,79 @@
+{% include '_header_basic.twig' with { 'class': 'popup' } %}
+
+
+<h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
+
+{% if pathsegments|length > 1 %}
+    <p>{{ __('Path:') }}
+        {% for path, segment in pathsegments %}
+            {% if not loop.first %} / {% endif %}
+            <a href="{{ path('files', { 'path': path, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">{{segment}}</a>
+        {% endfor %}
+    </p>
+{% endif %}
+
+{% if folders|length > 0 %}
+    <table class='dashboardlisting'>
+        <tr><th>{{ __('Folders') }}</th><th>{{ __('Modified') }}</th></tr>
+{% for folder in folders %}
+            <tr>
+                <td><a href="{{ path('files', { 'path': folder.newpath, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}"><i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
+                <td>
+                    <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">{{ folder.modified }}</time>
+                </td>
+            </tr>
+{% endfor %}
+    </table>
+{% endif %}
+
+
+{% if files|length > 0 %}
+    <table class='dashboardlisting'>
+        <tr><th>{{ __('Files') }}</th><th>{{ __('Filesize') }}</th><th>&nbsp;</th><th>&nbsp;</th></tr>
+        {% for file in files %}
+            {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
+                <tr>
+                    <td>
+                        {% if file.readable %}
+                            <a class="filebrowserCallbackLink" href="{{ app.paths.root }}{{ file.newpath }}">
+                                <b>{{ file.filename|trimtext(40) }}</b>
+                            </a>
+                        {% else %}
+                            <b>{{ file.filename|trimtext(40) }} </b><i class="icon-lock"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ file.filesize }}.</td>
+                    <td>{% if file.imagesize is defined %}{{ file.imagesize }} px.{% endif %}</td>
+                    <td>
+                        <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-mini fancybox" rel='fancybox' title="Image: {{ file.filename }}">Preview</a>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endif %}
+
+<script type='text/javascript'>
+
+    $(function() {
+
+        var getUrlParam = function( paramName ) {
+            var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
+            var match = window.location.search.match(reParam) ;
+
+            return ( match && match.length > 1 ) ? match[ 1 ] : null ;
+        };
+        var funcNum = getUrlParam('CKEditorFuncNum');
+
+        $('a.filebrowserCallbackLink').bind('click', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+            window.close();
+        });
+
+    });
+
+</script>
+
+{% include '_footer.twig' %}

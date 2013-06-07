@@ -3,7 +3,8 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$app->mount('/bolt', new Bolt\Controllers\Backend());
+// Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
+$app->mount($app['config']['general']['branding']['path'], new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
 $app->mount('', new Bolt\Controllers\Frontend());
 
@@ -15,16 +16,22 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('frontend', false);
     $app['twig']->addGlobal('backend', false);
     $app['twig']->addGlobal('async', false);
-    $app['twig']->addGlobal(getWhichEnd(), true);
+    $app['twig']->addGlobal(getWhichEnd($app), true);
 
     $app['twig']->addGlobal('user', $app['users']->getCurrentUser());
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
 
+    // Sanity checks for doubles in in contenttypes.
+    checkConfig($app);
+
 });
 
 // On 'finish' attach the debug-bar, if debug is enabled..
 if ($app['debug'] && ($app['session']->has('user') || $app['config']['general']['debug_show_loggedoff'] ) ) {
+
+    // Register Whoops, to handle errors for logged in users only.
+    $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
 
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
@@ -101,32 +108,50 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
         ));
 
     });
+} else {
+    error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
 }
 
 
 $app->after(function (Request $request, Response $response) use ($app) {
 
-    $end = getWhichEnd();
+    // true if we need to consider adding html snippets
+    if (isset($app['htmlsnippets']) && ($app['htmlsnippets'] === true)) {
 
-    if ($end == "frontend") {
+        // only add when content-type is text/html
+        if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
 
-        $html = $response->getContent();
+            // Add our meta generator tag..
+            $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
 
-        // Insert our 'generator' after the last <meta ..> tag.
-        // @todo Find a neat solution for this
-        if (stripos($response->headers->get('Content-Type'), 'xml') === false){
-            $app['extensions']->insertSnippet('aftermeta', '<meta name="generator" content="Bolt">');
+            // Perhaps add a canonical link..
+            if (!empty($app['config']['general']['canonical'])) {
+                $snippet = sprintf('<link rel="canonical" href="%s">', $app['paths']['canonicalurl']);
+                $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+            }
+
+            // Perhaps add a favicon..
+            if (!empty($app['config']['general']['favicon'])) {
+                $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
+                    $app['paths']['canonical'],
+                    $app['paths']['theme'],
+                    $app['config']['general']['favicon']);
+                $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+            }
+
+            $html = $response->getContent();
+
+            $html = $app['extensions']->processSnippetQueue($html);
+
+            $response->setContent($html);
         }
-
-        $html = $app['extensions']->processSnippetQueue($html);
-
-        $response->setContent($html);
-
     }
 
 });
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+
 
 /**
  * Error page.
@@ -144,7 +169,7 @@ $app->error(function (\Exception $e) use ($app) {
 
     $app['log']->add($twigvars['message'], 2, '', 'abort');
 
-    $end = getWhichEnd();
+    $end = getWhichEnd($app);
 
     $trace = $e->getTrace();
 
@@ -165,7 +190,7 @@ $app->error(function (\Exception $e) use ($app) {
     $twigvars['trace'] = $trace;
     $twigvars['title'] = "An error has occured!";
 
-    if ( ($e instanceof NotFoundHttpException) && ($end == "frontend") ) {
+    if ( ($e instanceof HttpException) && ($end == "frontend") ) {
 
         $content = $app['storage']->getContent($app['config']['general']['notfound'], array('returnsingle' => true));
 

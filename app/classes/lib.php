@@ -71,7 +71,7 @@ function checkToken($token = "")
     if ($token === getToken()) {
         return true;
     } else {
-        $app['session']->setFlash('error', "The security token was incorrect. Please try again.");
+        $app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
 
         return false;
     }
@@ -189,11 +189,7 @@ function findFilesHelper($additional, &$files, $term = "", $extensions = array()
  */
 function checkVersion($currentversion, $requiredversion)
 {
-    if (version_compare($currentversion, $requiredversion) > -1) {
-        return true;
-    } else {
-        return false;
-    }
+    return version_compare($currentversion, $requiredversion) > -1;
 }
 
 
@@ -350,9 +346,13 @@ function formatFilesize($size)
  * @param int $length
  * @return string
  */
-function makeKey($length)
+function makeKey($length, $stronger = false)
 {
-    $seed = "0123456789abcdefghijklmnopqrstuvwxyz";
+    if ($stronger) {
+        $seed = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*";
+    } else {
+        $seed = "0123456789abcdefghijklmnopqrstuvwxyz";
+    }
     $len = strlen($seed);
     $key = "";
 
@@ -396,63 +396,10 @@ function getExtension($filename)
  */
 function safeString($str, $strict = false, $extrachars = "")
 {
-    // replace UTF-8 non ISO-8859-1 first
-    $str = strtr($str, array(
-        "\xC3\x80"=>'A', "\xC3\x81"=>'A', "\xC3\x82"=>'A', "\xC3\x83"=>'A',
-        "\xC3\x84"=>'A', "\xC3\x85"=>'A', "\xC3\x87"=>'C', "\xC3\x88"=>'E',
-        "\xC3\x89"=>'E', "\xC3\x8A"=>'E', "\xC3\x8B"=>'E', "\xC3\x8C"=>'I',
-        "\xC3\x8D"=>'I', "\xC3\x8E"=>'I', "\xC3\x8F"=>'I', "\xC3\x90"=>'D',
-        "\xC3\x91"=>'N', "\xC3\x92"=>'O', "\xC3\x93"=>'O', "\xC3\x94"=>'O',
-        "\xC3\x95"=>'O', "\xC3\x96"=>'O', "\xC3\x97"=>'x', "\xC3\x98"=>'O',
-        "\xC3\x99"=>'U', "\xC3\x9A"=>'U', "\xC3\x9B"=>'U', "\xC3\x9C"=>'U',
-        "\xC3\x9D"=>'Y', "\xC3\xA0"=>'a', "\xC3\xA1"=>'a', "\xC3\xA2"=>'a',
-        "\xC3\xA3"=>'a', "\xC3\xA4"=>'a', "\xC3\xA5"=>'a', "\xC3\xA7"=>'c',
-        "\xC3\xA8"=>'e', "\xC3\xA9"=>'e', "\xC3\xAA"=>'e', "\xC3\xAB"=>'e',
-        "\xC3\xAC"=>'i', "\xC3\xAD"=>'i', "\xC3\xAE"=>'i', "\xC3\xAF"=>'i',
-        "\xC3\xB1"=>'n', "\xC3\xB2"=>'o', "\xC3\xB3"=>'o', "\xC3\xB4"=>'o',
-        "\xC3\xB5"=>'o', "\xC3\xB6"=>'o', "\xC3\xB8"=>'o', "\xC3\xB9"=>'u',
-        "\xC3\xBA"=>'u', "\xC3\xBB"=>'u', "\xC3\xBC"=>'u', "\xC3\xBD"=>'y',
-        "\xC3\xBF"=>'y', "\xC4\x80"=>'A', "\xC4\x81"=>'a', "\xC4\x82"=>'A',
-        "\xC4\x83"=>'a', "\xC4\x84"=>'A', "\xC4\x85"=>'a', "\xC4\x86"=>'C',
-        "\xC4\x87"=>'c', "\xC4\x88"=>'C', "\xC4\x89"=>'c', "\xC4\x8A"=>'C',
-        "\xC4\x8B"=>'c', "\xC4\x8C"=>'C', "\xC4\x8D"=>'c', "\xC4\x8E"=>'D',
-        "\xC4\x8F"=>'d', "\xC4\x90"=>'D', "\xC4\x91"=>'d', "\xC4\x92"=>'E',
-        "\xC4\x93"=>'e', "\xC4\x94"=>'E', "\xC4\x95"=>'e', "\xC4\x96"=>'E',
-        "\xC4\x97"=>'e', "\xC4\x98"=>'E', "\xC4\x99"=>'e', "\xC4\x9A"=>'E',
-        "\xC4\x9B"=>'e', "\xC4\x9C"=>'G', "\xC4\x9D"=>'g', "\xC4\x9E"=>'G',
-        "\xC4\x9F"=>'g', "\xC4\xA0"=>'G', "\xC4\xA1"=>'g', "\xC4\xA2"=>'G',
-        "\xC4\xA3"=>'g', "\xC4\xA4"=>'H', "\xC4\xA5"=>'h', "\xC4\xA6"=>'H',
-        "\xC4\xA7"=>'h', "\xC4\xA8"=>'I', "\xC4\xA9"=>'i', "\xC4\xAA"=>'I',
-        "\xC4\xAB"=>'i', "\xC4\xAC"=>'I', "\xC4\xAD"=>'i', "\xC4\xAE"=>'I',
-        "\xC4\xAF"=>'i', "\xC4\xB0"=>'I', "\xC4\xB1"=>'i', "\xC4\xB4"=>'J',
-        "\xC4\xB5"=>'j', "\xC4\xB6"=>'K', "\xC4\xB7"=>'k', "\xC4\xB8"=>'k',
-        "\xC4\xB9"=>'L', "\xC4\xBA"=>'l', "\xC4\xBB"=>'L', "\xC4\xBC"=>'l',
-        "\xC4\xBD"=>'L', "\xC4\xBE"=>'l', "\xC4\xBF"=>'L', "\xC5\x80"=>'l',
-        "\xC5\x81"=>'L', "\xC5\x82"=>'l', "\xC5\x83"=>'N', "\xC5\x84"=>'n',
-        "\xC5\x85"=>'N', "\xC5\x86"=>'n', "\xC5\x87"=>'N', "\xC5\x88"=>'n',
-        "\xC5\x89"=>'n', "\xC5\x8A"=>'N', "\xC5\x8B"=>'n', "\xC5\x8C"=>'O',
-        "\xC5\x8D"=>'o', "\xC5\x8E"=>'O', "\xC5\x8F"=>'o', "\xC5\x90"=>'O',
-        "\xC5\x91"=>'o', "\xC5\x94"=>'R', "\xC5\x95"=>'r', "\xC5\x96"=>'R',
-        "\xC5\x97"=>'r', "\xC5\x98"=>'R', "\xC5\x99"=>'r', "\xC5\x9A"=>'S',
-        "\xC5\x9B"=>'s', "\xC5\x9C"=>'S', "\xC5\x9D"=>'s', "\xC5\x9E"=>'S',
-        "\xC5\x9F"=>'s', "\xC5\xA0"=>'S', "\xC5\xA1"=>'s', "\xC5\xA2"=>'T',
-        "\xC5\xA3"=>'t', "\xC5\xA4"=>'T', "\xC5\xA5"=>'t', "\xC5\xA6"=>'T',
-        "\xC5\xA7"=>'t', "\xC5\xA8"=>'U', "\xC5\xA9"=>'u', "\xC5\xAA"=>'U',
-        "\xC5\xAB"=>'u', "\xC5\xAC"=>'U', "\xC5\xAD"=>'u', "\xC5\xAE"=>'U',
-        "\xC5\xAF"=>'u', "\xC5\xB0"=>'U', "\xC5\xB1"=>'u', "\xC5\xB2"=>'U',
-        "\xC5\xB3"=>'u', "\xC5\xB4"=>'W', "\xC5\xB5"=>'w', "\xC5\xB6"=>'Y',
-        "\xC5\xB7"=>'y', "\xC5\xB8"=>'Y', "\xC5\xB9"=>'Z', "\xC5\xBA"=>'z',
-        "\xC5\xBB"=>'Z', "\xC5\xBC"=>'z', "\xC5\xBD"=>'Z', "\xC5\xBE"=>'z',
-        ));
 
-    // utf8_decode assumes that the input is ISO-8859-1 characters encoded
-    // with UTF-8. This is OK since we want US-ASCII in the end.
-    $str = trim(utf8_decode($str));
+    $str = URLify::downcode($str);
 
-    $str = strtr($str, array("\xC4"=>"Ae", "\xC6"=>"AE", "\xD6"=>"Oe", "\xDC"=>"Ue", "\xDE"=>"TH",
-        "\xDF"=>"ss", "\xE4"=>"ae", "\xE6"=>"ae", "\xF6"=>"oe", "\xFC"=>"ue", "\xFE"=>"th"));
-
-    $str=str_replace("&amp;", "", $str);
+    $str = str_replace("&amp;", "", $str);
 
     $delim = '/';
     if ($extrachars != "") {
@@ -485,6 +432,7 @@ function makeSlug($str)
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
     $str = preg_replace("/[-]+/i", "-", $str);
+    $str = trim($str, "-");
 
     $str = substr($str, 0, 64); // 64 chars ought to be long enough.
 
@@ -581,7 +529,7 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
  * @return array With two keys: 'string' (resulting string) and length (string length)
  */
 function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true, $returnString = '', $length = 0){
-    require_once __DIR__ . '/htmLawed/htmLawed.php';
+    require_once(BOLT_PROJECT_ROOT_DIR.'/vendor/htmlawed/htmlawed/htmLawed.php');
     $config = array('tidy'=>1, 'schemes'=>'*:*', 'balance' => '1');
     // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
     // from doing it on the beginning of the string :(
@@ -624,8 +572,8 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
         $closingTag = $matches[4][0][0];
 
         // Step 2: Split at the first tag
-        $head = substr($str, 0, $matchedHTMLIndex);
-        $tail = substr($str, $matchedHTMLIndex + $matchedHTMLLength);
+        $head = mb_substr($str, 0, $matchedHTMLIndex, "UTF-8");
+        $tail = mb_substr($str, $matchedHTMLIndex + $matchedHTMLLength, mb_strlen($str), "UTF-8");
 
         // Step 3: Do recursiveFunction on first part
         if ($head != ''){
@@ -662,7 +610,7 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
 function trimString($str, $trimLength, $nbsp = false, $hellip = true){
     $strLength = getStringLength($str);
     if ($strLength > $trimLength) {
-        $str = substr($str, 0, $trimLength);
+        $str = mb_substr($str, 0, $trimLength, "UTF-8");
         $resultingLength = $trimLength;
         if ($hellip) {
             $str .= '…';
@@ -689,7 +637,7 @@ function trimString($str, $trimLength, $nbsp = false, $hellip = true){
  */
 function getStringLength($str){
     if (function_exists('mb_strwidth') ) {
-        return mb_strwidth($str);
+        return mb_strwidth($str, "UTF-8");
     } else {
         return strlen($str);
     }
@@ -741,6 +689,8 @@ function getConfig()
 
     // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
+    $paths = getPaths($app['config']);
+
     // Assume some sensible defaults for some options
     $defaultconfig = array(
         'sitename' => 'Default Bolt site',
@@ -752,6 +702,7 @@ function getConfig()
         'recordsperpage' => 10,
         'recordsperdashboardwidget' => 5,
         'debug' => false,
+        'debug_show_loggedoff' => false,
         'strict_variables' => false,
         'theme' => "default",
         'debug_compressjs' => true,
@@ -759,11 +710,30 @@ function getConfig()
         'listing_template' => 'listing.twig',
         'listing_records' => '5',
         'listing_sort' => 'datepublish DESC',
-        'wysiwyg_images' => false,
-        'wysiwyg_tables' => false,
-        'wysiwyg_embed' => false,
-        'wysiwyg_fontcolor' => false,
-        'wysiwyg_align' => false,
+        'wysiwyg' => array(
+            'images' => true,
+            'tables' => false,
+            'embed' => false,
+            'fontcolor' => false,
+            'align' => false,
+            'subsuper' => false,
+            'embed' => true,
+            'anchor' => false,
+            'ck' => array(
+                'allowedContent' => true,
+                'autoParagraph' => true,
+                'contentsCss' => array(
+                    $paths['app'] . 'view/lib/ckeditor/contents.css',
+                    $paths['app'] . 'view/css/ckeditor.css',
+                ),
+                'filebrowserWindowWidth' => 640,
+                'filebrowserWindowHeight' => 480
+            ),
+            'filebrowser' => array(
+                'browseUrl' => $paths['async'] . "filebrowser/",
+                'imageBrowseUrl' => $paths['bolt'] . "files/files"
+            ),
+        ),
         'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",
         'developer_notices' => false,
         'cookies_use_remoteaddr' => true,
@@ -771,26 +741,47 @@ function getConfig()
         'cookies_use_httphost' => true,
         'cookies_https_only' => false,
         'cookies_lifetime' => 14*24*3600,
-        'thumbnails' => array(160, 120, 'c'),
-        'hash_strength' => 10
+        'thumbnails' => array(
+            'default_thumbnail' => array(160, 120),
+            'default_image' => array(1000, 750),
+            'quality' => 75,
+            'cropping' => 'crop',
+            'notfound_image' => 'view/img/default_notfound.png',
+            'error_image' => 'view/img/default_error.png'
+        ),
+        'hash_strength' => 10,
+        'branding' => array(
+            'name' => "Bolt",
+            'path' => "/bolt",
+            'provided_by' => array()
+        )
     );
 
-    $config['general'] = array_merge($defaultconfig, $config['general']);
+    if (isset($config['general']['wysiwyg']) && isset($config['general']['wysiwyg']['ck']) &&
+        isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
+        $config['general']['wysiwyg']['ck']['contentsCss'] = array(1 => $config['general']['wysiwyg']['ck']['contentsCss']);
+    }
+    $config['general'] = array_merge_recursive_distinct($defaultconfig, $config['general']);
 
     // Make sure the cookie_domain for the sessions is set properly.
     if (empty($config['general']['cookies_domain'])) {
 
         // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z]/i", $_SERVER["SERVER_NAME"]) ) {
-            if (preg_match("/^www./",$_SERVER["SERVER_NAME"])) {
-                $config['general']['cookies_domain'] = "." . preg_replace("/^www./", "", $_SERVER["SERVER_NAME"]);
+        if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z0-9]/i", $_SERVER["SERVER_NAME"]) ) {
+            if (preg_match("/^www[0-9]*./",$_SERVER["SERVER_NAME"])) {
+                $config['general']['cookies_domain'] = "." . preg_replace("/^www[0-9]*./", "", $_SERVER["SERVER_NAME"]);
             } else {
                 $config['general']['cookies_domain'] = "." .$_SERVER["SERVER_NAME"];
             }
+            // Make sure we don't have consecutive '.'-s in the cookies_domain..
+            $config['general']['cookies_domain'] = str_replace("..", ".", $config['general']['cookies_domain']);
         } else {
             $config['general']['cookies_domain'] = "";
         }
     }
+
+    // Make sure Bolt's mount point is OK:
+    $config['general']['branding']['path'] = "/" . safeString($config['general']['branding']['path']);
 
     // @todo Think about what to do with these..
     /*
@@ -819,6 +810,19 @@ function getConfig()
         if (!isset($config['taxonomy'][$key]['has_sortorder'])) {
             $config['taxonomy'][$key]['has_sortorder'] = false;
         }
+
+        // Make sure the options are $key => $value pairs, and not have implied integers for keys.
+        if (!empty($config['taxonomy'][$key]['options']) && is_array($config['taxonomy'][$key]['options'])) {
+            $options = array();
+            foreach($config['taxonomy'][$key]['options'] as $optionkey => $value) {
+                if (is_numeric($optionkey)) {
+                    $optionkey = strtolower(safeString($value));
+                }
+                $options[$optionkey] = $value;
+            }
+            $config['taxonomy'][$key]['options'] = $options;
+        }
+
     }
 
     // Clean up contenttypes
@@ -840,8 +844,13 @@ function getConfig()
         $tempfields = $temp['fields'];
         $temp['fields'] = array();
         foreach($tempfields as $key => $value) {
-			$key = str_replace("-", "_", strtolower(safeString($key, true)));
+            $key = str_replace("-", "_", strtolower(safeString($key, true)));
             $temp['fields'][ $key ] = $value;
+        }
+
+        if (isset($temp['fields']['slug']) && isset($temp['fields']['slug']['uses']) &&
+            !is_array($temp['fields']['slug']['uses'])) {
+            $temp['fields']['slug']['uses'] = array($temp['fields']['slug']['uses']);
         }
 
         // Make sure taxonomy is an array.
@@ -854,7 +863,7 @@ function getConfig()
     }
 
 
-    $end = getWhichEnd();
+    $end = getWhichEnd($config['general']);
 
     // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
     $themepath = realpath(__DIR__.'/../../theme/'. basename($config['general']['theme']));
@@ -872,25 +881,113 @@ function getConfig()
 
     // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
     if (!file_exists($themepath) && (gettype($app['session']) == "object") ) {
-        $app['session']->setFlash('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
+        $app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
         $app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
     }
 
     // We add these later, because the order is important: By having theme/ourtheme first,
     // files in that folder will take precedence. For instance when overriding the menu template.
     $config['twigpath'][] = realpath(__DIR__.'/../theme_defaults');
-    $config['twigpath'][] = realpath(__DIR__.'/../extensions');
+
+    // Deprecated! Extensions that use templates, should add their own path: $this->app['twig.loader.filesystem']->addPath(__DIR__);
+    // $config['twigpath'][] = realpath(__DIR__.'/../extensions');
 
     return $config;
 
 }
 
+/**
+ * Sanity checks for doubles in in contenttypes.
+ *
+ */
+function checkConfig(\Bolt\Application $app) {
 
-function getWhichEnd() {
+    // TODO: yeah, we should refactor these things related to config to it's own class.
+
+    $slugs = array();
+
+    foreach ($app['config']['contenttypes'] as $key => $ct) {
+
+        // Make sure any field that has a 'uses' parameter actually points to a field that exists.
+        // For example, this will show a notice:
+        // entries:
+        //   name: Entries
+        //     singular_name: Entry
+        //     fields:
+        //       title:
+        //         type: text
+        //         class: large
+        //       slug:
+        //         type: slug
+        //         uses: name
+        //
+        foreach($ct['fields'] as $fieldname => $field) {
+            if (!empty($field['uses']) ) {
+                foreach($field['uses'] as $useField) {
+                    if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
+                        $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                            array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
+                        );
+                        $app['session']->getFlashBag()->set('error', $error);
+                    }
+                }
+            }
+        }
+
+        // Show some helpful warnings if slugs or names are not unique.
+        if ($ct['slug'] == $ct['singular_slug']) {
+            $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
+                array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
+            );
+            $app['session']->getFlashBag()->set('error', $error);
+        }
+
+        // Show some helpful warnings if slugs or names are not unique.
+        if ($ct['slug'] == $ct['singular_slug']) {
+            $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
+                array( '%contenttype%' => $key, '%name%' => $ct['name'] )
+            );
+            $app['session']->getFlashBag()->set('error', $error);
+        }
+
+        // Keep a running score of used slugs..
+        if (!isset($slugs[ $ct['slug'] ])) { $slugs[ $ct['slug'] ] = 0; }
+        $slugs[ $ct['slug'] ]++;
+        if (!isset($slugs[ $ct['singular_slug'] ])) { $slugs[ $ct['singular_slug'] ] = 0; }
+        $slugs[ $ct['singular_slug'] ]++;
+
+    }
+
+    // if there aren't any other errors, check for duplicates across contenttypes..
+    if (!$app['session']->getFlashBag()->has('error')) {
+        foreach ($slugs as $slug => $count) {
+            if ($count > 1) {
+                $error =  __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                    array( '%slug%' => $slug )
+                );
+                $app['session']->getFlashBag()->set('error', $error);
+            }
+        }
+    }
+
+
+}
+
+function getWhichEnd($from) {
+
+    if ($from instanceof \Bolt\Application) {
+        $mountpoint = $from['config']['general']['branding']['path'];
+    } else {
+        $mountpoint = $from['branding']['path'];
+    }
 
     if (!empty($_SERVER['REQUEST_URI'])) {
         // Get the script's filename, but _without_ REQUEST_URI.
         $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+        // make sure it starts with '/', like our mountpoint.
+        if (empty($scripturi) || ($scripturi[0] != "/") ) {
+            $scripturi = "/" . $scripturi;
+        }
     } else {
         // We're probably in CLI mode.
         return "cli";
@@ -898,7 +995,7 @@ function getWhichEnd() {
 
     // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
     // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
-    if ( (substr($scripturi,0,5) == "bolt/") || (strpos($scripturi, "/bolt/") !== false) ) {
+    if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
         $end = 'backend';
     } else if ( (substr($scripturi,0,6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
         $end = 'async';
@@ -941,7 +1038,7 @@ function getDBOptions($config)
             $randomfunction = "RAND()";
         }
         if ($driver == "postgres" || $driver == "postgresql") {
-            $driver = 'pdo_postgres';
+            $driver = 'pdo_pgsql';
             $randomfunction = "RANDOM()";
         }
 
@@ -951,7 +1048,6 @@ function getDBOptions($config)
             'dbname'    => $configdb['databasename'],
             'user'      => $configdb['username'],
             'password'  => $configdb['password'],
-            'port'      => (isset($configdb['port']) ? $configdb['port'] : '3306'),
             'randomfunction' => $randomfunction
         );
         if (!isset($configdb['charset'])) {
@@ -964,6 +1060,7 @@ function getDBOptions($config)
 
     switch($dboptions['driver']) {
         case 'pdo_mysql':
+            $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '3306';
             $dboptions['reservedwords'] = explode(',', "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
                 "bigint,binary,blob,both,by,call,cascade,case,change,char,character,check,collate,column,condition,constraint," .
                 "continue,convert,create,cross,current_date,current_time,current_timestamp,current_user,cursor,database,databases," .
@@ -992,7 +1089,8 @@ function getDBOptions($config)
                 "notnull,null,of,offset,on,or,order,outer,plan,pragma,primary,query,raise,references,regexp,reindex,release,rename," .
                 "replace,restrict,right,rollback");
             break;
-        case 'pdo_postgres':
+        case 'pdo_pgsql':
+            $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '5432';
             $dboptions['reservedwords'] = explode(',', "all,analyse,analyze,and,any,as,asc,authorization,between,bigint,binary,bit," .
                 "boolean,both,case,cast,char,character,check,coalesce,collate,column,constraint,convert,create,cross,current_date," .
                 "current_time,current_timestamp,current_user,dec,decimal,default,deferrable,desc,distinct,do,else,end,except,exists," .
@@ -1007,20 +1105,37 @@ function getDBOptions($config)
 
 }
 
-function getPaths($config = array())
+function getPaths($original = array())
 {
+
+    // If we passed the entire $app, set the $config
+    if ($original instanceof \Bolt\Application) {
+        if (!empty($original['canonicalpath'])) {
+            $canonicalpath = $original['canonicalpath'];
+        }
+        $config = $original['config'];
+    } else {
+        $config = $original;
+    }
+
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
     if (empty($config)) {
-        $config['general']['theme'] = 'default';
-        $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
+        $config['general']['theme'] = 'base-2013';
+        $config['general']['canonical'] = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
     }
 
     // Set the root
     $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
+    $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
     $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
     if (empty($path_prefix)) {
         $path_prefix = "/";
+    }
+
+    // make sure we're not trying to access bolt as "/index.php/bolt/", because all paths will be broken.
+    if (!empty($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], "/index.php") !== false) {
+        simpleredirect(str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
     }
 
     if (!empty($_SERVER["SERVER_PROTOCOL"])) {
@@ -1031,6 +1146,17 @@ function getPaths($config = array())
 
     $currentpath = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
 
+    if (empty($canonicalpath)) {
+        $canonicalpath = $currentpath;
+    }
+
+    // Set the correct mountpoint..
+    if (!empty($config['general']['branding']['path'])) {
+        $mountpoint = substr($config['general']['branding']['path'], 1) . "/";
+    } else {
+        $mountpoint = "bolt/";
+    }
+
     // Set the paths
     $paths = array(
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
@@ -1040,7 +1166,7 @@ function getPaths($config = array())
         'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
-        'bolt' => $path_prefix . "bolt/",
+        'bolt' => $path_prefix . $mountpoint,
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
@@ -1050,7 +1176,7 @@ function getPaths($config = array())
 
     $paths['hosturl'] = sprintf("%s://%s", $protocol, $paths['hostname']);
     $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);
-    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $currentpath);
+    $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $canonicalpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
     if ( isset( $config['general']['theme_path'] ) ) {
@@ -1060,9 +1186,17 @@ function getPaths($config = array())
         $paths['app'] = $path_prefix . "bolt-public/";
     }
 
+    // Set it in $app, optionally.
+    if ($original instanceof \Bolt\Application) {
+        $original['paths'] = $paths;
+        $original['twig']->addGlobal('paths', $paths);
+    }
+
     return $paths;
 
 }
+
+
 
 /**
  *
@@ -1107,60 +1241,28 @@ function redirect($path, $param = array(), $add = '')
 }
 
 
-
 /**
- * If debug is enabled this function handles the errors and warnings
+ * Create a simple redirect to a page / path and die.
  *
- * @param integer $errno
- * @param string $errmsg
- * @param string $filename
- * @param integer $linenum
- * @param array $vars
+ * @param string $path
+ * @param boolean $die
  */
-function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars)
+function simpleredirect($path, $die = true)
 {
-    global $app;
 
-    $replevel = error_reporting();
-    if ( ( $errno & $replevel ) != $errno ) {
-        // we shall remain quiet.
-        return;
+    if (empty($path)) {
+        $path = "/";
     }
-
-    // define an assoc array of error string
-    // in reality the only entries we should
-    // consider are 2,8,256,512 and 1024
-    $errortype = array (
-        1    => "Error",
-        2    => "Warning",
-        4    => "Parsing Error",
-        8    => "Notice",
-        16   => "Core Error",
-        32   => "Core Warning",
-        64   => "Compile Error",
-        128  => "Compile Warning",
-        256  => "User Error",
-        512  => "User Warning",
-        1024 => "User Notice",
-        2048 => "Strict",
-        4096 => "Recoverable Error",
-        8192 => "Deprecated",
-        16384 => "User Deprecated"
-
-    );
-
-    $root = dirname($_SERVER['DOCUMENT_ROOT']);
-    $filename = str_replace($root, "", $filename);
-
-    $err = sprintf("<b>PHP-%s</b>: %s.", $errortype[$errno], $errmsg);
-
-    if ($app['config']['general']['developer_notices']) {
-        echo "<p><strong>$err</strong>, $filename, $linenum</p>";
+    header("location: $path");
+    echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";
+    echo "<script>window.setTimeout(function(){ window.location='$path'; }, 500);</script>";
+    if ($die) {
+        die();
     }
-
-    $app['log']->errorhandler($err, $filename, $linenum);
 
 }
+
+
 
 /**
  * Apparently, some servers don't have fnmatch. Define it here, for those who don't have it.
@@ -1277,6 +1379,33 @@ function containsHTML($str)
 }
 
 /**
+ * Simple PHP Browser Detection
+ */
+function getBrowserInfo() {
+
+    // Create a new Browscap object (loads or creates the cache)
+    $bc = new \phpbrowscap\Browscap(dirname(__DIR__)."/cache/");
+
+    $browser = $bc->getBrowser()->Parent;
+    if (strpos($bc->getBrowser()->browser_name, "CriOS") > 0) {
+        $browser = "Chrome";
+    }
+
+    $platformversion = ($bc->getBrowser()->Platform_Version == "unknown") ? "" : $bc->getBrowser()->Platform_Version;
+
+    $browser = sprintf("%s / %s %s",
+        $browser,
+        $bc->getBrowser()->Platform,
+        $platformversion
+    );
+
+    //\util::var_dump($bc->getBrowser());
+
+    return trim($browser);
+
+}
+
+/**
  * Replace the first occurence of a string only. Behaves like str_replace, but
  * replaces _only_ the _first_ occurence.
  * @see http://stackoverflow.com/a/2606638
@@ -1287,4 +1416,445 @@ function str_replace_first($search, $replace, $subject) {
         $subject = substr_replace($subject, $replace, $pos, strlen($search));
     }
     return $subject;
+}
+
+/**
+ * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
+ * keys to arrays rather than overwriting the value in the first array with the duplicate
+ * value in the second array, as array_merge does. I.e., with array_merge_recursive,
+ * this happens (documented behavior):
+ *
+ * array_merge_recursive(array('key' => 'org value'), array('key' => 'new value'));
+ *     => array('key' => array('org value', 'new value'));
+ *
+ * array_merge_recursive_distinct does not change the datatypes of the values in the arrays.
+ * Matching keys' values in the second array overwrite those in the first array, as is the
+ * case with array_merge, i.e.:
+ *
+ * array_merge_recursive_distinct(array('key' => 'org value'), array('key' => 'new value'));
+ *     => array('key' => array('new value'));
+ *
+ * Parameters are passed by reference, though only for performance reasons. They're not
+ * altered by this function.
+ *
+ * @param array $array1
+ * @param array $array2
+ * @return array
+ * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
+ * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
+ */
+function array_merge_recursive_distinct (array &$array1, array &$array2) {
+    $merged = $array1;
+
+    foreach($array2 as $key => &$value) {
+        if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+            $merged[$key] = array_merge_recursive_distinct($merged [$key], $value);
+        } else {
+            $merged[$key] = $value;
+        }
+    }
+
+    return $merged;
+}
+
+
+
+/**
+ * Checks if the text is a valid email address.
+ *
+ * Given a chain it returns true if $theAdr conforms to RFC 2822.
+ * It does not check the existence of the address.
+ * Suppose a mail of the form
+ *  <pre>
+ *  addr-spec     = local-part "@" domain
+ *  local-part    = dot-atom / quoted-string / obs-local-part
+ *  dot-atom      = [CFWS] dot-atom-text [CFWS]
+ *  dot-atom-text = 1*atext *("." 1*atext)
+ *  atext         = ALPHA / DIGIT /    ; Any character except controls,
+ *        "!" / "#" / "$" / "%" /      ;  SP, and specials.
+ *        "&" / "'" / "*" / "+" /      ;  Used for atoms
+ *        "-" / "/" / "=" / "?" /
+ *        "^" / "_" / "`" / "{" /
+ *        "|" / "}" / "~" / "." /
+ * </pre>
+ *
+ * @param string $theAdr
+ * @return boolean
+ */
+function isEmail($theAdr) {
+
+    // default
+    $result = FALSE;
+
+    // go ahead
+    if(( ''!=$theAdr )||( is_string( $theAdr ))) {
+        $mail_array = explode( '@',$theAdr );
+    }
+
+    if( !is_array( $mail_array )) { return FALSE; }
+
+    if( 2 == count( $mail_array )) {
+        $localpart = $mail_array[0];
+        $domain_array  = explode( '.',$mail_array[1] );
+    } else {
+        return FALSE;
+    }
+    if( !is_array( $domain_array ))  { return FALSE; }
+    if( 1 == count( $domain_array )) { return FALSE; }
+
+    /* relevant info:
+     * $mail_array[0] contains atext
+     * $adr_array  contains parts of address
+     *          and last one must be at least 2 chars
+     */
+
+    $domain_toplevel = array_pop( $domain_array );
+    if(is_string($domain_toplevel) && (strlen($domain_toplevel) > 1)) {
+        // put back
+        $domain_array[] = $domain_toplevel;
+        $domain = implode( '',$domain_array );
+        // now we have two string to test
+        // $domain and $localpart
+        $domain    = preg_replace( "/[a-z0-9]/i","",$domain );
+        $domain    = preg_replace( "/[-|\_]/","",$domain );
+        $localpart = preg_replace( "/[a-z0-9]/i","",$localpart);
+        $localpart = preg_replace(
+            "#[-.|\!|\#|\$|\%|\&|\'|\*|\+|\/|\=|\? |\^|\_|\`|\{|\||\}|\~]#","",$localpart);
+        // If there are no characters left in localpart or domain, the
+        // email address is valid.
+        if(( '' == $domain )&&( '' == $localpart )) { $result = TRUE; }
+    }
+
+    return $result;
+}
+
+
+
+/**
+ * Checks whether the text is an URL or not.
+ *
+ * @param string $url
+ * @return boolean
+ */
+function isUrl($url) {
+
+    return (preg_match("/((ftp|https?):\/\/)?([a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(com\b|edu\b|biz\b|org\b|gov\b|in(?:t|fo)\b|mil\b|net\b|name\b|museum\b|coop\b|aero\b|[a-z][a-z]\b|[0-9]{1,3})/i",$url));
+
+}
+
+
+
+/**
+ * i18n made right, second attempt...
+ *
+ * Instead of calling directly $app['translator']->trans(), we check
+ * for the presence of a placeholder named '%contentype%'.
+ *
+ * if one is found, we replace it with the contenttype.name parameter,
+ * and try to get a translated string. If there is not, we revert to
+ * the generic (%contenttype%) string, which must have a translation.
+ *
+ */
+function __() {
+    global $app;
+    $num_args = func_num_args();
+    if (0==$num_args) {
+        return null;
+    }
+    $args = func_get_args();
+    if ($num_args > 4) {
+        $fn = 'transChoice';
+    } elseif ($num_args == 1 || is_array($args[1])) {
+        // if only 1 arg or 2nd arg is an array call trans
+        $fn = 'trans';
+    } else {
+        $fn = 'transChoice';
+    }
+    $tr_args=null;
+    if ( $fn == 'trans' && $num_args > 1) {
+        $tr_args = $args[1];
+    } elseif ($fn == 'transChoice' && $num_args > 2) {
+        $tr_args = $args[2];
+    }
+    // check for contenttype(s) placeholder
+    if ($tr_args) {
+        $keytype='%contenttype%';
+        $keytypes='%contenttypes%';
+        $have_singular = array_key_exists($keytype,$tr_args);
+        $have_plural = array_key_exists($keytypes,$tr_args);
+        if ($have_singular || $have_plural) {
+            // have a %contenttype% placeholder, try to find a specialized translation
+            if ($have_singular) {
+                $text=str_replace($keytype,$tr_args[$keytype],$args[0]);
+                unset($tr_args[$keytype]);
+            } else {
+                $text=str_replace($keytypes,$tr_args[$keytypes],$args[0]);
+                unset($tr_args[$keytypes]);
+            }
+            //echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
+            if ($fn == 'transChoice') {
+                    $trans = $app['translator']->transChoice(
+                        $text,$args[1],$tr_args,
+                        isset($args[3]) ? $args[3] : 'contenttypes',
+                        isset($args[4]) ? $args[4] : $app['request']->getLocale()
+                    );
+            } else {
+                    $trans = $app['translator']->trans(
+                        $text,$tr_args,
+                        isset($args[2]) ? $args[2] : 'contenttypes',
+                        isset($args[3]) ? $args[3] : $app['request']->getLocale()
+                    );
+            }
+            //echo '<!-- translation : '.htmlentities($trans)." -->\n";
+            if ($text != $trans) {
+                return $trans;
+            }
+        }
+    }
+
+    //try {
+    switch($num_args) {
+        case 5:
+            return $app['translator']->transChoice($args[0],$args[1],$args[2],$args[3],$args[4]);
+        case 4:
+            //echo "<!-- 4. call: $fn($args[0],$args[1],$args[2],$args[3]) -->\n";
+            return $app['translator']->$fn($args[0],$args[1],$args[2],$args[3]);
+        case 3:
+            //echo "<!-- 3. call: $fn($args[0],$args[1],$args[2]) -->\n";
+            return $app['translator']->$fn($args[0],$args[1],$args[2]);
+        case 2:
+            //echo "<!-- 2. call: $fn($args[0],$args[1] -->\n";
+            return $app['translator']->$fn($args[0],$args[1]);
+        case 1:
+            //echo "<!-- 1. call: $fn($args[0]) -->\n";
+            return $app['translator']->$fn($args[0]);
+    }
+    /*}
+    catch (\Exception $e) {
+        echo "<!-- ARGHH !!! -->\n";
+        //return $args[0];
+        die($e->getMessage());
+    }*/
+}
+
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Escaper;
+
+/**
+ * find all twig templates and bolt php code, extract translatables
+ * strings, merge with existing translations, return
+ *
+ */
+function gatherTranslatableStrings($locale=null,$translated=array())
+{
+    global $app;
+
+    $isPhp = function($fname) {
+        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'php';
+    };
+
+    $isTwig = function($fname) {
+        return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'twig';
+    };
+
+    $ctypes = $app['config']['contenttypes'];
+
+    // function that generates a string for each variation of contenttype/contenttypes
+    $genContentTypes = function($txt) use ($ctypes) {
+        $stypes=array();
+        if (strpos($txt,'%contenttypes%') !== false) {
+            foreach ($ctypes as $key => $ctype) {
+                $stypes[]=str_replace('%contenttypes%',$ctype['name'],$txt);
+            }
+        }
+        if (strpos($txt,'%contenttype%') !== false) {
+            foreach ($ctypes as $key => $ctype) {
+                $stypes[]=str_replace('%contenttype%',$ctype['singular_name'],$txt);
+            }
+        }
+        return $stypes;
+    };
+
+    // step one: gather all translatable strings
+
+    $finder = new Finder();
+    $finder->files()
+        ->ignoreVCS(true)
+        ->name('*.twig')
+        ->name('*.php')
+        ->notName('*~')
+        ->exclude(array('cache','config','database','resources','tests'))
+        ->in(BOLT_PROJECT_ROOT_DIR.'/theme') //
+        ->in(BOLT_PROJECT_ROOT_DIR.'/app')
+    ;
+    // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
+    $re_dq = '/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s';
+    $re_sq = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";
+    $nstr=0;
+    $strings=array();
+    foreach ($finder as $file) {
+        $s = file_get_contents($file);
+
+        // scan twig templates for  __('...' and __("..."
+        if ($isTwig($file)) {
+            // __('single_quoted_string'...
+            if (preg_match_all("/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s",$s,$matches)) {
+                //print_r($matches[1]);
+                foreach($matches[1] as $t) {
+                    $nstr++;
+                    if (!in_array($t,$strings)) {
+                        $strings[]=$t;
+                        sort($strings);
+                    }
+                }
+            }
+            // __("double_quoted_string"...
+            if (preg_match_all('/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s',$s,$matches)) {
+                //print_r($matches[1]);
+                foreach($matches[1] as $t) {
+                    $nstr++;
+                    if (!in_array($t,$strings)) {
+                        $strings[]=$t;
+                        sort($strings);
+                    }
+                }
+            }
+        }
+
+        // php :
+        /** all translatables strings have to be called with:
+         *  __("text",$params=array(),$domain='messages',locale=null) // $app['translator']->trans()
+         *  __("text",count,$params=array(),$domain='messages',locale=null) // $app['translator']->transChoice()
+         */
+        if ($isPhp($file)) {
+            $tokens = token_get_all($s);
+            $num_tokens = count($tokens);
+            for ($x=0; $x < $num_tokens; $x++) {
+                $token = $tokens[$x];
+                if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
+                    $token = $tokens[++$x];
+                    if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                        $token = $tokens[++$x];
+                    }
+                    if ($x < $num_tokens && !is_array($token) && $token == '(') {
+                        // in our func args...
+                        $token = $tokens[++$x];
+                        if ($x < $num_tokens && is_array($token) && $token[0] == T_WHITESPACE) {
+                            $token = $tokens[++$x];
+                        }
+                        if (!is_array($token)) {
+                            // give up
+                            continue;
+                        }
+                        if ($token[0] == T_CONSTANT_ENCAPSED_STRING ) {
+                            $t = substr($token[1],1,strlen($token[1])-2);
+                            $nstr++;
+                            if (!in_array($t,$strings)) {
+                                $strings[]=$t;
+                                sort($strings);
+                            }
+                            // TODO: retrieve domain ?
+                        }
+                    }
+                }
+            }// end for $x
+        }
+    }
+
+    // add fields name|label for contenttype (forms)
+    foreach($ctypes as $ckey => $contenttype) {
+        foreach($contenttype['fields'] as $fkey => $field) {
+            if (isset($field['label'])) {
+                $t = $field['label'];
+            } else {
+                $t = ucfirst($fkey);
+            }
+            if (!in_array($t,$strings)) {
+                $strings[]=$t;
+            }
+        }
+        // relation name|label if exists
+        if (array_key_exists('relations',$contenttype)) {
+            foreach($contenttype['relations'] as $fkey => $field) {
+                if (isset($field['label'])) {
+                    $t = $field['label'];
+                } else {
+                    $t = ucfirst($fkey);
+                }
+                if (!in_array($t,$strings)) {
+                    $strings[]=$t;
+                }
+            }
+        }
+    }
+
+    // add name + singular_name for taxonomies
+    foreach($app['config']['taxonomy'] as $txkey => $value) {
+        foreach(array('name','singular_name') as $key) {
+            $t = $value[$key];
+            if (!in_array($t,$strings)) {
+                $strings[]=$t;
+            }
+        }
+    }
+
+    // return the previously translated string if exists,
+    // return an empty string otherwise
+    $getTranslated = function($key) use ($app, $translated) {
+        if ( ($trans = $app['translator']->trans($key)) == $key ) {
+            if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
+                return $translated[$key];
+            }
+            return '';
+        }
+        return $trans;
+    };
+
+    // step 2: find already translated strings
+
+    sort($strings);
+    if (!$locale) {
+        $locale = $app['request']->getLocale();
+    }
+    $msg_domain = array(
+        'translated' => array(),
+        'not_translated'=>array()
+    );
+    $ctype_domain=array(
+        'translated'=>array(),
+        'not_translated'=>array()
+    );
+
+    foreach($strings as $idx=>$key) {
+        $key = stripslashes($key);
+        $raw_key = $key;
+        $key = Escaper::escapeWithDoubleQuotes($key);
+        if ( ($trans = $getTranslated($raw_key)) == '' && ($trans = $getTranslated($key)) == '' ) {
+            $msg_domain['not_translated'][] = $key;
+        } else {
+            $trans = Escaper::escapeWithDoubleQuotes($trans);
+            $msg_domain['translated'][$key] = $trans;
+        }
+        // step 3: generate additionals strings for contenttypes
+        if (strpos($raw_key,'%contenttype%') !== false || strpos($raw_key,'%contenttypes%') !== false) {
+            foreach($genContentTypes($raw_key) as $ctypekey) {
+                $key = Escaper::escapeWithDoubleQuotes($ctypekey);
+                if ( ($trans = $getTranslated($ctypekey)) == '' && ($trans = $getTranslated($key)) == '' ) {
+                    // not translated
+                    $ctype_domain['not_translated'][] = $key;
+                } else {
+                    $trans = Escaper::escapeWithDoubleQuotes($trans);
+                    $ctype_domain['translated'][$key] = $trans;
+                }
+            }
+        }
+    }
+
+    sort($msg_domain['not_translated']);
+    ksort($msg_domain['translated']);
+
+    sort($ctype_domain['not_translated']);
+    ksort($ctype_domain['translated']);
+
+    return array($msg_domain,$ctype_domain);
 }

@@ -3,6 +3,7 @@
 
 namespace Disqus;
 
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
 class Extension extends \Bolt\BaseExtension
 {
@@ -91,7 +92,7 @@ EOM;
 
         $script = str_replace("%shortname%", $this->config['disqus_name'], $script);
 
-        $this->addSnippet('endofbody', $script);
+        $this->addSnippet(SnippetLocation::END_OF_BODY, $script);
 
         $html = '%hosturl%%link%#disqus_thread';
 

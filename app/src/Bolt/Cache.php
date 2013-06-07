@@ -2,146 +2,62 @@
 
 namespace Bolt;
 
+use Doctrine\Common\Cache\FilesystemCache;
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * Simple, file based cache for volatile data.. Useful for storing non-vital
  * information like feeds, and other stuff that can be recovered easily.
  *
  * @author Bob den Otter, bob@twokings.nl
  *
- **/
-class Cache
+ */
+class Cache extends FilesystemCache
 {
-    private $dir = "";
-    private $maxage = 600; // 10 minutes
+
+    /**
+     * Max cache age. Default 10 minutes
+     */
+    const DEFAULT_MAX_AGE = 600;
+
+    /**
+     * Default cache file extension
+     */
+    const DEFAULT_EXTENSION = '.boltcache.data';
 
     /**
      * Set up the object. Initialize the proper folder for storing the
      * files.
+     *
+     * @param string $cacheDir
+     * @throws \Exception|\InvalidArgumentException
      */
     public function __construct($cacheDir = "")
     {
-        if ($cacheDir == ""){
-            // Default
-            $this->dir = realpath(__DIR__ . "/../../cache");
-        }
-        else {
-            $this->dir = $cacheDir;
-        }
-
-        if (!is_writable($this->dir)) {
-            // simple warning + die here. This shouldn't occur in practice, as it's
-            // already checked in lowlevelchecks.php
-            echo "<p>cache folder isn't writable. Please fix this.</p>";
-            die();
-        }
-
-    }
-
-    /**
-     *
-     * Set a value in the cache. If $data is an array or an object it's
-     * serialised.
-     *
-     * Note: only store objects that actually _can_ be serialized and unserialized
-     *
-     * @param $key
-     * @param $data
-     */
-    public function set($key, $data)
-    {
-
-        $filename = $this->getFilename($key);
-
-        if (is_array($data) || is_object($data)) {
-            $data = serialize($data);
-        }
-
-        file_put_contents($filename, $data);
-
-    }
-
-    /**
-     *
-     * Get a stored value from the cache if possible. Otherwise return 'false'. If the
-     * stored value was an array or object, it will be unserialized before it's returned.
-     *
-     * Returns false if no valid cached data was available.
-     *
-     * Note: If you're trying to store 'false' in the cache, the results might
-     * seem a tad bit confusing. ;-)
-     *
-     * @param $key
-     * @param  int               $maxage Maximum age of cache in seconds.
-     * @return bool|mixed|string
-     */
-    public function get($key, $maxage = false)
-    {
-
-        $filename = $this->getFilename($key);
-
-        // No file, we can stop..
-        if (!file_exists($filename)) {
-            return false;
-        }
-
-        $age = date("U") - filectime($filename);
-
-        if (empty($maxage)) {
-            $maxage = $this->maxage;
-        }
-
-        if ($age < $maxage) {
-            $data = file_get_contents($filename);
-
-            $unserdata = @unserialize($data);
-
-            if ($unserdata !== false || $data === 'b:0;') {
-                return $unserdata;
-            } else {
-                return $data;
-            }
-
+        if ($cacheDir == "") {
+            $cacheDir = realpath(__DIR__ . "/../../cache");
         } else {
-            return false;
+            // We don't have $app here, so we use the filesystem component
+            // directly here.
+            $filesystem = new Filesystem();
+            if (!$filesystem->isAbsolutePath($cacheDir)){
+                $cacheDir = realpath(__DIR__ . "/" . $cacheDir);
+            }
         }
 
+        try {
+            parent::__construct($cacheDir, self::DEFAULT_EXTENSION);
+        } catch (\InvalidArgumentException $e) {
+            throw $e;
+        }
     }
 
     /**
+     * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
      *
-     * Check if a given key is cached, and not too old.
+     * @see clearCacheHelper
      *
-     * @param $key
-     * @param $maxage
-     * @return bool
      */
-    public function isvalid($key, $maxage)
-    {
-
-        $filename = $this->getFilename($key);
-
-        // No file, we can stop..
-        if (!file_exists($filename)) {
-            return false;
-        }
-
-        $age = date("U") - filectime($filename);
-
-        if (empty($maxage)) {
-            $maxage = $this->maxage;
-        }
-
-        return ($age < $maxage);
-
-    }
-
-    public function clear($key)
-    {
-        // @todo clear a certain cached value.
-    }
-
-
-
     public function clearCache()
     {
         $result = array(
@@ -153,17 +69,23 @@ class Cache
             'log' => ''
         );
 
+        parent::flushAll();
+
         $this->clearCacheHelper('', $result);
 
         return $result;
 
     }
 
-
+    /**
+     * Helper function for clearCache()
+     * @param string $additional
+     * @param array $result
+     */
     private function clearCacheHelper($additional, &$result)
     {
 
-        $currentfolder = realpath($this->dir."/".$additional);
+        $currentfolder = realpath($this->getDirectory() . "/" . $additional);
 
         if (!file_exists($currentfolder)) {
             $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
@@ -184,7 +106,7 @@ class Cache
                     $result['successfiles']++;
                 } else {
                     $result['failedfiles']++;
-                    $result['failed'][] = str_replace($this->dir, "cache", $currentfolder."/".$entry);
+                    $result['failed'][] = str_replace($this->getDirectory(), "cache", $currentfolder."/".$entry);
                 }
             }
 
@@ -206,8 +128,4 @@ class Cache
 
     }
 
-    private function getFilename($key)
-    {
-        return sprintf("%s/c_%s.cache", $this->dir, substr(md5($key), 0, 18));
-    }
 }

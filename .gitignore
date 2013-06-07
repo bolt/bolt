@@ -10,4 +10,9 @@ composer.phar
 .DS_Store
 ._.DS_Store
 .idea
+__*
+.__*
+web
+theme/mybolt/
 
+*.sublime-*

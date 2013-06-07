@@ -4,7 +4,6 @@ namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 
 class DatabaseCheck extends BaseCommand
 {
@@ -12,24 +11,21 @@ class DatabaseCheck extends BaseCommand
     {
         $this
             ->setName('database:check')
-            ->setDescription('Check and repair/update the database.');
-
+            ->setDescription('Check the database for missing columns.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['storage']->repairTables();
+        $messages = $this->app['storage']->getIntegrityChecker()->checkTablesIntegrity();
 
-        if (empty($result)) {
-            $content = "<info>Your database is already up to date.</info>";
-        } else {
-            $content = "<info>Modifications made to the database:</info>\n";
-            foreach($result as $line) {
-                $content .= " - ". strip_tags($line) . "\n";
+        if (!empty($messages)) {
+            $output->writeln("<info>Modifications required:</info>");
+            foreach($messages as $line) {
+                $output->writeln(" - " . str_replace("tt>", "info>", $line) . "");
             }
-            $content .= "<info>Your database is now up to date.</info>";
+            $output->writeln("\nOne or more fields/tables are missing from the Database. Please run 'nut database:update' to fix this.");
+        } else {
+            $output->writeln("\nThe database is OK.");
         }
-
-        $output->writeln($content);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Bolt\Nut;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,7 +14,6 @@ class LogClear extends BaseCommand
             ->setName('log:clear')
             ->setDescription('Clear (truncate) the activitylog.')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'If set, no confirmation will be required');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -34,7 +32,6 @@ class LogClear extends BaseCommand
 
         $this->app['log']->clear();
 
-        $output->writeln("<info>Activity logs trimmed!</info>");
-
+        $output->writeln("<info>Activity logs cleared!</info>");
     }
 }

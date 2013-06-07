@@ -3,7 +3,7 @@
 <div class="row-fluid">
     <div class="span9">
 
-    <h2>{{ title }}</h2>
+    <h1>{{ title|raw }}</h1>
 
     <form method="post" id="editcontent" enctype="multipart/form-data">
 
@@ -15,26 +15,34 @@
 
         {% include '_sub_edittaxonomies.twig' %}
 
-        <label><b><span class='left'>Id:</span></b>
+        <label><b><span class='left'>Id (№)</span></b>
         <input type='text' readonly=readonly name='id' value='{{ content.id }}' class="narrow">
         </label>
 
-        <label><b><span class='left'>Publication date:</span></b>
+        <label><b><span class='left'>{{ __('Publication date:') }}</span></b>
         </label>
             <input type="text" name="datepublish-dateformatted" id="datepublish-date"
                    value='{{ content.datepublish|date('l, d F Y') }}' class='datepicker'>
             <input type="text" name="datepublish-timeformatted" id="datepublish-time"
                    value='{{ content.datepublish|date('H:i') }}' class='timepicker'>
+            <input type="hidden" name="datepublish" id="datepublish" value="{{ content.datepublish }}">
+            <script>
+                $('#datepublish-date, #datepublish-time').on('change', function(){
+                    var date = $('#datepublish-date').datepicker("getDate");
+                    var time = $('#datepublish-time').val() + ":00";
+                    $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+                });
+            </script>
 
         {% if content.datecreated > '1970-01-01 01:01:01' %}
-        <br>This {{ contenttype.singular_name }} was created
+        <p>{{ __('This %contenttype% was created', {'%contenttype%': contenttype.singular_name}) }}
         <time class="moment" datetime="{{ content.datecreated|date("c") }}" title="{{ content.datecreated }}">{{ content.datecreated }}</time>
-        and edited
+        {{ __('and edited') }}
         <time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>.
-        {% endif %}
+        {% endif %}</p>
 
 
-        <label><b><span class='left'>Status:</span></b>
+        <label><b><span class='left'>{{ __('Status:') }}</span></b>
         <select name="status">
             <option value="published" {% if content.status == "published" %}selected{% endif %}>Published</option>
             <option value="held" {% if content.status == "held" %}selected{% endif %}>Not published</option>
@@ -44,7 +52,7 @@
         </select>
         </label>
 
-        <label><b><span class='left'>Owner:</span></b>
+        <label><b><span class='left'>{{ __('Owner:') }}</span></b>
         <select name="username">
             {% for user in users %}
                 <option value="{{ user.username }}" {% if user.username == contentowner %}selected{% endif %}>{{user.displayname}}</option>
@@ -53,26 +61,25 @@
         </label>
 
         <button type="submit" class="btn btn-primary" id="savebutton" style="margin-right: 8px;">
-            <i class="icon-flag"></i> Save {{ contenttype.singular_name }}
+            <i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
         </button>
 
         <button type="button" class="btn btn-info" id="previewbutton">
-            <i class="icon-external-link"></i> Preview {{ contenttype.singular_name }}
+            <i class="icon-external-link"></i> {{ __('Preview %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
         </button>
 
 
     </form>
 
-
     </div><!-- /span9 -->
     <aside class="span3">
 
     <section>
-    <h2>Actions for this {{ contenttype.singular_name }}</h2>
+    <h2>{{ __('Actions for this %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</h2>
 
-    <button type="submit" class="btn btn-primary" id="sidebarsavebutton" style="margin-right: 8px;"><i class="icon-flag"></i> Save {{ contenttype.singular_name }}</a>
+    <button type="submit" class="btn btn-primary" id="sidebarsavebutton" style="margin-right: 8px;"><i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</button>
 
-    <button type="button" class="btn btn-info" id="sidebarpreviewbutton"><i class="icon-external-link"></i> Preview </a>
+    <button type="button" class="btn btn-info" id="sidebarpreviewbutton"><i class="icon-external-link"></i> {{ __('Preview') }} </button>
 
     <script>
         // Save the page..

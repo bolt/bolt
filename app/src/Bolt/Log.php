@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Doctrine\DBAL\Connection as DoctrineConn;
 
 /**
  * Simple logging class for Bolt
@@ -126,34 +127,39 @@ class Log
 
     public function getActivity($amount = 10, $minlevel = 1)
     {
-
-        $codes = "'save content', 'login', 'logout', 'fixme', 'user'";
+        $codes = array('save content', 'login', 'logout', 'fixme', 'user');
 
         $page = $this->app['request']->query->get('page');
         if (empty($page)) {
             $page=1;
         }
 
-        $query = sprintf('SELECT * FROM %s WHERE code IN (%s) OR (level >= %s) ORDER BY date DESC LIMIT %s, %s;',
-            $this->tablename,
-            $codes,
-            $minlevel,
-            intval(($page-1)*$amount),
-            intval($amount)
-            );
+        $query = sprintf(
+            "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC",
+            $this->tablename
+        );
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page-1) * $amount));
 
-        // echo "<pre>\n" . util::var_dump($query, true) . "</pre>\n";
+        $params = array(
+            $codes, $minlevel
+        );
+        $paramTypes = array(
+            DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT
+        );
 
-        $stmt = $this->app['db']->executeQuery($query);
+        $stmt = $this->app['db']->executeQuery($query, $params, $paramTypes);
 
         $rows = $stmt->fetchAll(2); // 2 = Query::HYDRATE_COLUMN
 
         // Set up the pager
-        $pagerquery = sprintf('SELECT count(*) as count FROM %s WHERE code IN (%s) OR (level >= %s)',
-            $this->tablename,
-            $codes,
-            $minlevel);
-        $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
+        $pagerQuery = sprintf(
+            "SELECT count(*) as count FROM %s WHERE code IN (?) OR (level >= ?)",
+            $this->tablename
+        );
+        $params = array($codes, $minlevel);
+        $paramTypes = array(DoctrineConn::PARAM_STR_ARRAY, \PDO::PARAM_INT);
+        $rowcount = $this->app['db']->executeQuery($pagerQuery, $params, $paramTypes)->fetch();
+
         $pager = array(
             'for' => 'activity',
             'count' => $rowcount['count'],
@@ -166,7 +172,6 @@ class Log
         $GLOBALS['pager']['activity'] = $pager;
 
         return $rows;
-
     }
 
     /**
@@ -211,22 +216,29 @@ class Log
 
     public function trim() {
 
-        $query = sprintf('DELETE FROM %s WHERE level="1";',
+        $query = sprintf("DELETE FROM %s WHERE level='1';",
             $this->tablename
         );
         $this->app['db']->executeQuery($query);
 
-        $query = sprintf('DELETE FROM %s WHERE level="2" AND date < "%s";',
-            $this->tablename,
-            date('Y-m-d H:i:s', strtotime('-2 day'))
+        $query = sprintf("DELETE FROM %s WHERE level='2' AND date < '?';",
+            $this->tablename
         );
-        $this->app['db']->executeQuery($query);
 
-        $query = sprintf('DELETE FROM %s WHERE date < "%s";',
-            $this->tablename,
-            date('Y-m-d H:i:s', strtotime('-7 day'))
+        $this->app['db']->executeQuery(
+            $query,
+            array(date('Y-m-d H:i:s', strtotime('-2 day'))),
+            array(\PDO::PARAM_STR)
         );
-        $this->app['db']->executeQuery($query);
+
+        $query = sprintf("DELETE FROM %s WHERE date < '?';",
+            $this->tablename
+        );
+        $this->app['db']->executeQuery(
+            $query,
+            array(date('Y-m-d H:i:s', strtotime('-7 day'))),
+            array(\PDO::PARAM_STR)
+        );
 
     }
 
@@ -237,8 +249,7 @@ class Log
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" ) ) {
 
             // sqlite
-            $query = sprintf('DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = %s;',
-                $this->tablename,
+            $query = sprintf("DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = ?;",
                 $this->tablename
             );
 
@@ -252,7 +263,7 @@ class Log
         }
         // @todo: handle postgres (and other non mysql) database syntax
 
-        $this->app['db']->executeQuery($query);
+        $this->app['db']->executeQuery($query, array($this->tablename), array(\PDO::PARAM_STR));
 
     }
 
