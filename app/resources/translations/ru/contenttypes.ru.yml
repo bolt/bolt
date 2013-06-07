@@ -1,0 +1,65 @@
+# app/resources/translations/ru/contenttypes.ru.yml -- generated on 2013/06/07 12:17:41
+# 58 untranslated strings
+
+"Actions for Entries":  "Действия для публикаций"
+"Actions for Pages":  "Действия для страниц"
+"Actions for this Entry":  #
+"Actions for this Page":  #
+"Can't set %field% in Entry: Not a valid field.":  #
+"Can't set %field% in Page: Not a valid field.":  #
+"Content was duplicated. Click 'Save Entry' to finalize.":  #
+"Content was duplicated. Click 'Save Page' to finalize.":  #
+"Delete Entry":  "Удалить публикацию"
+"Delete Page":  "Удалить страницу"
+"Duplicate Entry":  #
+"Duplicate Page":  #
+"Edit Entry":  "Редактировать публикацию"
+"Edit Page":  "Редактировать страницу"
+"Entries overview":  #
+"Entries":  "Публикации"
+"In the contenttype for 'Entry', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
+"In the contenttype for 'Page', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
+"Last modified Entries":  #
+"Last modified Pages":  #
+"Latest Entries":  #
+"Latest Pages":  #
+"More Entries »":  #
+"More Pages »":  #
+"New Entry":  "Новая публикация"
+"New Page":  "Новая страница"
+"No Entries available.":  #
+"No Pages available.":  #
+"No latest Entry":  #
+"No latest Page":  #
+"No recent Entry.":  #
+"No recent Page.":  #
+"Pages overview":  #
+"Pages":  "Страницы"
+"Preview Entry":  #
+"Preview Page":  #
+"Publish Entry":  #
+"Publish Page":  #
+"Recent Entries":  #
+"Recent Pages":  #
+"Save Entry":  #
+"Save Page":  #
+"The changes to this Entry have been saved.":  #
+"The changes to this Page have been saved.":  #
+"The name and singular_name for 'Entry' are the same (%name%). Please edit contenttypes.yml, and make them distinct.":  #
+"The name and singular_name for 'Page' are the same (%name%). Please edit contenttypes.yml, and make them distinct.":  #
+"The new Entry has been saved.":  #
+"The new Page has been saved.":  #
+"The slug and singular_slug for 'Entry' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.":  #
+"The slug and singular_slug for 'Page' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.":  #
+"There was an error saving this Entry.":  #
+"There was an error saving this Page.":  #
+"This Entry was created":  #
+"This Page was created":  #
+"This record is related to Entry":  #
+"This record is related to Page":  #
+"View Entries":  #
+"View Pages":  #
+
+#-----------------------------------------
+# 0 translated strings
+
