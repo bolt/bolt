@@ -57,13 +57,14 @@ class Extension extends BoltExtension
             if ($this->isValidRoutingData($routingData)) {
                 $from = $this->transformWildCard($routingData['from']['slug']);
                 $app = $this->app;
+                $me = $this;
                 $this->app->match(
                     '/' . $from,
-                    function (Request $request) use ($app, $from, $routingData) {
+                    function (Request $request) use ($me, $app, $from, $routingData) {
                         $app['end'] = 'frontend';
                         $route = $routingData['to']['contenttypeslug'];
                         $route.= $routingData['to']['slug'] ? '/' . $routingData['to']['slug'] : '';
-                        $to = $this->transformWildCard($route);
+                        $to = $me->transformWildCard($route);
                         foreach ($request->get('_route_params') as $rparam => $rval) {
                             $to = str_replace('{' . $rparam . '}', $rval, $to);
                         }
@@ -95,10 +96,13 @@ class Extension extends BoltExtension
     /**
      * Transforms YML-safe wildcard %% to enclosure in curly braces for symfony
      * routing.
+     * Note that scope MUST be public for PHP 5.3 compatibility with closure
+     * scope implementation.
+     *
      * @param $string
      * @return mixed
      */
-    protected function transformWildCard($string)
+    public function transformWildCard($string)
     {
         preg_match_all('/%%[A-Za-z0-9]+%%/', $string, $matches);
         $parts = $matches[0];
