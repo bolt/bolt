@@ -12,7 +12,7 @@
             {# use 'setcontent' to set the variable 'home' to "page/1", which is
                shorthand for "the record in Pages, with id 1". #}
             {% setcontent home = "page/1" %}
-            {% if home.title is defined %}
+            {% if home.title is defined and home.title is not empty %}
                 <h1>{{ home.title }}</h1>
             {% endif %}
 
@@ -25,15 +25,15 @@
             {% endif %}
 
             {# display something introduction-like.. #}
-            {% if home.introduction is defined %}
+            {% if home.introduction is defined and home.introduction is not empty %}
                 {{ home.introduction }}
-            {% elseif home.teaser is defined %}
+            {% elseif home.teaser is defined and home.teaser is not empty %}
                 {{ home.teaser }}
             {% elseif home is not empty %}
                 <p>{{ home.excerpt(500) }}</p>
             {% endif %}
 
-            {% if home.link is defined %}
+            {% if home.link is defined and home.link is not empty %}
                 <a href="{{ home.link }}">Read more &raquo;</a>
             {% endif %}
 
