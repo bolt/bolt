@@ -12,9 +12,11 @@
             {# use 'setcontent' to set the variable 'home' to "page/1", which is
                shorthand for "the record in Pages, with id 1". #}
             {% setcontent home = "page/1" %}
-            <h1>{{ home.title }}</h1>
+            {% if home.title is defined %}
+                <h1>{{ home.title }}</h1>
+            {% endif %}
 
-            {% if home.image!="" %}
+            {% if home.image is defined and home.image is not empty %}
                 <div class="five columns imageholder">
                     <a href="{{ image(home.image) }}">
                         <img src="{{ thumbnail(home.image, 400, 260) }}">
@@ -23,15 +25,17 @@
             {% endif %}
 
             {# display something introduction-like.. #}
-            {% if home.introduction %}
+            {% if home.introduction is defined %}
                 {{ home.introduction }}
-            {% elseif home.teaser %}
+            {% elseif home.teaser is defined %}
                 {{ home.teaser }}
-            {% else %}
+            {% elseif home is not empty %}
                 <p>{{ home.excerpt(500) }}</p>
             {% endif %}
 
-            <a href="{{ home.link }}">Read more &raquo;</a>
+            {% if home.link is defined %}
+                <a href="{{ home.link }}">Read more &raquo;</a>
+            {% endif %}
 
             {# Tip: If you're curious what all of the available fields of this
                record contain, just use {{ print(home) }}, to print it all. #}
