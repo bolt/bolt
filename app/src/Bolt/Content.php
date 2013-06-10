@@ -528,19 +528,34 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * If passed value contains Twig tags, parse the string as Twig, and return the results
+     * If passed snippet contains Twig tags, parse the string as Twig, and return the results
      *
-     * @param string $value
+     * @param string $snippet
      * @return string
      */
-    public function preParse($value) {
+    public function preParse($snippet) {
 
-        if ( strpos($value, "{{")!==false || strpos($value, "{%")!==false || strpos($value, "{#")!==false ) {
-            $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-            $value = $this->app['twig']->render($value);
+        // Quickly verify that we actually need to parse the snippet!
+        if ( strpos($snippet, "{{")!==false || strpos($snippet, "{%")!==false || strpos($snippet, "{#")!==false ) {
+
+            $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
+
+            // Keep the current loader.
+            $oldloader = $this->app['twig']->getLoader();
+
+            // Set the string loader..
+            $loader = new \Twig_Loader_Array(array('bolt_template_snippet' => $snippet));
+            $this->app['twig']->setLoader($loader);
+
+            // Render the snippet.
+            $snippet = $this->app['twig']->render('bolt_template_snippet');
+
+            // Switch back to the old loader.
+            $this->app['twig']->setLoader($oldloader);
+
         }
 
-        return $value;
+        return $snippet;
 
     }
 
