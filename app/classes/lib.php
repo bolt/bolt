@@ -1386,19 +1386,23 @@ function getBrowserInfo() {
     // Create a new Browscap object (loads or creates the cache)
     $bc = new \phpbrowscap\Browscap(dirname(__DIR__)."/cache/");
 
-    $browser = $bc->getBrowser()->Parent;
-    if (strpos($bc->getBrowser()->browser_name, "CriOS") > 0) {
-        $browser = "Chrome";
+    try {
+        $browser = $bc->getBrowser()->Parent;
+        if (strpos($bc->getBrowser()->browser_name, "CriOS") > 0) {
+            $browser = "Chrome";
+        }
+
+        $platformversion = ($bc->getBrowser()->Platform_Version == "unknown") ? "" : $bc->getBrowser()->Platform_Version;
+
+        $browser = sprintf("%s / %s %s",
+            $browser,
+            $bc->getBrowser()->Platform,
+            $platformversion
+        );
+
+    } catch (Exception $e) {
+        $browser = "Unknown";
     }
-
-    $platformversion = ($bc->getBrowser()->Platform_Version == "unknown") ? "" : $bc->getBrowser()->Platform_Version;
-
-    $browser = sprintf("%s / %s %s",
-        $browser,
-        $bc->getBrowser()->Platform,
-        $platformversion
-    );
-
     //\util::var_dump($bc->getBrowser());
 
     return trim($browser);
