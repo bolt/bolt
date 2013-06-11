@@ -1384,7 +1384,9 @@ function containsHTML($str)
 function getBrowserInfo() {
 
     // Create a new Browscap object (loads or creates the cache)
-    $bc = new \phpbrowscap\Browscap(dirname(__DIR__)."/cache/");
+    $bc = new \phpbrowscap\Browscap(dirname(__DIR__)."/resources/browscap/");
+
+    $bc->doAutoUpdate = false;
 
     try {
         $browser = $bc->getBrowser()->Parent;

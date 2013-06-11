@@ -97,8 +97,7 @@ class Cache extends FilesystemCache
 
         while (false !== ($entry = $d->read())) {
 
-            // Files to exclide. browscap.ini and cache.php belong to \garetjax\phpbrowscap.
-            $exclude = array('.', '..', 'index.html', '.gitignore', 'browscap.ini', 'cache.php');
+            $exclude = array('.', '..', 'index.html', '.gitignore');
 
             if (in_array($entry, $exclude)) {
                 continue;

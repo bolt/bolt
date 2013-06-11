@@ -621,6 +621,7 @@ class Backend implements ControllerProviderInterface
             array('users' => $users, 'userlevels' => $userlevels, 'sessions' => $sessions )
         );
 
+
     }
 
     function useredit($id, \Bolt\Application $app, Request $request) {
