@@ -1,4 +1,5 @@
 {% include '_header.twig' with { 'active':'settings' } %}
+{% form_theme form 'form_bolt_layout.twig' %}
 
 
 <h1>{{title}}</h1>
@@ -10,7 +11,7 @@
 <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ form.vars.value.contents }}</textarea>
 </div>
 {% if writeallowed %}
-    {{ form_row(form._token) }}
+    {{ form_widget(form._token) }}
     <br />
     <input type="submit" name="submit" value="{{ __('Save') }}" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %} />
 {% endif %}
