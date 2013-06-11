@@ -12,10 +12,6 @@
     {% endspaceless %}
 {% endblock form_row %}
 
-{% block _form__token_widget %}
-    <input type="hidden" id="{{ id }}" name="{{ full_name }}" value="{{ value }}">
-{% endblock _form__token_widget %}
-
 {% block form_errors %}
     {% spaceless %}
         {% for error in errors %}
