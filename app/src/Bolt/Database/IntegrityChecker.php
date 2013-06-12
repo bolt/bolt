@@ -454,7 +454,7 @@ class IntegrityChecker
                     case 'markdown':
                     case 'geolocation':
                     case 'imagelist':
-                        $myTable->addColumn($field, "text");
+                        $myTable->addColumn($field, "text", array("default" => ""));
                         break;
                     case 'datetime':
                         $myTable->addColumn($field, "datetime");

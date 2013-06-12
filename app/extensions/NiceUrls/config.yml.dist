@@ -15,6 +15,15 @@ about_foo:
   to:
     contenttypeslug: entry
     slug: yada
+    
+## Also for contenttype only urls
+pages:
+  from:
+    slug: p
+  to:
+    contenttypeslug: pages
+    slug: ""
+    
 ## (Named) Wildcards are allowed. BUT make sure you don't use wildcards all the
 ## way as the routing can get confused.
 ##

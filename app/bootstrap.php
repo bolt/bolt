@@ -59,6 +59,12 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'strict_variables' => $config['general']['strict_variables'],
         'autoescape' => true )
 ));
+
+// Add the string loader..
+$loader = new Twig_Loader_String();
+$app['twig.loader']->addLoader($loader);
+
+
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
@@ -103,11 +109,6 @@ $app['editlink'] = "";
 // Add the Bolt Twig functions, filters and tags.
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
-
-// Add the string loader..
-$loader = new Twig_Loader_String();
-$app['twig.loader']->addLoader($loader);
-
 
 
 require __DIR__.'/app.php';
