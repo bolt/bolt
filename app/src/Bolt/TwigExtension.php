@@ -654,8 +654,13 @@ class TwigExtension extends \Twig_Extension
 
         if (!empty($filename)) {
 
+            $thumbconf = $this->app['config']['general']['thumbnails'];
+
+            $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
+            $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 800;
+
             $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
-            $large = $this->thumbnail($filename, 1000, 1000, 'r');
+            $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
 
             $output = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
                     <img src="%s" width="%s" height="%s"></a>',
