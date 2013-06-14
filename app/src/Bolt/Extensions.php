@@ -338,11 +338,13 @@ class Extensions
             foreach ($this->widgetqueue as $widget) {
                 if ($type == $widget['type'] && $location == $widget['location']) {
 
-                    $html = sprintf("<section><div class='widget' id='widget-%s' data-key='%s'></div></section>", $widget['key'], $widget['key']);
-
-                    if (!empty($widget['additionalhtml'])) {
-                        $html .= "\n" . $widget['additionalhtml'];
-                    }
+                    $html = sprintf(
+                        "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>"
+                        , $widget['key']
+                        , $widget['key']
+                        , $this->renderWidget( $widget['key'] )
+                        , empty( $widget['additionalhtml'] ) ? '' : "\n" . $widget['additionalhtml']
+                    );
 
                     echo $html;
                 }
