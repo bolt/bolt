@@ -348,10 +348,17 @@ class Frontend implements ControllerProviderInterface
                 }
             }
         }
+
+        foreach($links as $idx => $link) {
+            if(in_array($link['link'], $app['config']['general']['sitemap']['ignore'])) {
+                unset($links[$idx]);
+            }
+        }
+
         if ($xml) {
-            $template = $app['config']['general']['sitemap_xml_template'];
+            $template = $app['config']['general']['sitemap']['xml_template'];
         } else {
-            $template = $app['config']['general']['sitemap_template'];
+            $template = $app['config']['general']['sitemap']['template'];
         }
 
         $body = $app['twig']->render($template, array(
@@ -361,7 +368,6 @@ class Frontend implements ControllerProviderInterface
         if ($xml) {
             $headers['Content-Type'] = 'application/xml; charset=utf-8';
         }
-        $headers['Cache-Control'] = 's-maxage=3600, public';
 
         return new Response($body, 200, $headers);
 

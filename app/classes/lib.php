@@ -697,8 +697,11 @@ function getConfig()
         'homepage' => 'page/*',
         'homepage_template' => 'index.twig',
         'locale' => 'en_GB',
-        'sitemap_template' => 'sitemap.twig',
-        'sitemap_xml_template' => 'sitemap_xml.twig',
+        'sitemap' => array(
+            'template' => 'sitemap.twig',
+            'xml_template' => 'sitemap_xml.twig',
+            'ignore' => array(),
+        ),
         'recordsperpage' => 10,
         'recordsperdashboardwidget' => 5,
         'debug' => false,
@@ -760,6 +763,14 @@ function getConfig()
     if (isset($config['general']['wysiwyg']) && isset($config['general']['wysiwyg']['ck']) &&
         isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
         $config['general']['wysiwyg']['ck']['contentsCss'] = array(1 => $config['general']['wysiwyg']['ck']['contentsCss']);
+    }
+    if(isset($config['sitemap_template'])) {
+        $config['sitemap']['template'] = $config['sitemap_template'];
+        unset($config['sitemap_template']);
+    }
+    if(isset($config['sitemap_xml_template'])) {
+        $config['sitemap']['xml_template'] = $config['sitemap_xml_template'];
+        unset($config['sitemap_xml_template']);
     }
     $config['general'] = array_merge_recursive_distinct($defaultconfig, $config['general']);
 
