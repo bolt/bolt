@@ -20,6 +20,14 @@ theme: base-2013
 locale: en_GB
 #timezone: Zulu
 
+# Set maintenance mode true or false
+# While in maintenance mode, only users of level editor or higher can access the site.
+# All other visitors are presented with a notice that the site is currently offline.
+# The default template file can be found in /app/theme_defaults/ and overriden with
+# this option using your own theme.
+maintenance_mode: false
+maintenance_template: maintenance_default.twig
+
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the

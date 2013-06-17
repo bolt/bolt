@@ -71,6 +71,17 @@ class Frontend implements ControllerProviderInterface
         $app['debugbar']     = true;
         $app['htmlsnippets'] = true;
 
+        // If we are in maintenance mode and current user is not logged in, show maintenance notice.
+        if ($app['config']['general']['maintenance_mode']) {
+
+            $user = $app['users']->getCurrentUser();
+            $template = $app['config']['general']['maintenance_template'];
+            $body = $app['twig']->render($template);
+
+            if($user['userlevel'] < 2) {
+                return new Response($body, 503);
+            }
+        }
     }
 
     function homepage(Silex\Application $app)
