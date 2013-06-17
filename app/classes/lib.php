@@ -757,7 +757,8 @@ function getConfig()
             'name' => "Bolt",
             'path' => "/bolt",
             'provided_by' => array()
-        )
+        ),
+        'maintenance_mode' => false
     );
 
     if (isset($config['general']['wysiwyg']) && isset($config['general']['wysiwyg']['ck']) &&
