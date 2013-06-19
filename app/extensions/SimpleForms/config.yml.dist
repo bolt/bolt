@@ -30,8 +30,8 @@ contact:
 # A demo form to showcase various options for fields. Use as
 # {{ simpleform('demo') }} in your templates.
 demo:
-  recipient_email: bob@twokings.nl
-  recipient_name: Bob
+  recipient_email: info@example.org
+  recipient_name: Info
   fields:
     subject:
       type: text
