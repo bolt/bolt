@@ -606,7 +606,7 @@ class Storage
             $filter_where = array();
 
             foreach ($contenttype['fields'] as $key => $value) {
-                if (in_array($value['type'], array('text', 'textarea', 'html'))) {
+                if (in_array($value['type'], array('text', 'textarea', 'html', 'markdown'))) {
                     $filter_where[] = sprintf("%s LIKE '%%%s%%'", $key, $filter);
                 }
             }
@@ -728,7 +728,7 @@ class Storage
                 $filter_where = array();
 
                 foreach ($contenttype['fields'] as $key => $value) {
-                    if (in_array($value['type'], array('text', 'textarea', 'html'))) {
+                    if (in_array($value['type'], array('text', 'textarea', 'html', 'markdown'))) {
                         $filter_where[] = sprintf("%s.%s LIKE '%%%s%%'", $contenttypetable, $key, $filter);
                     }
                 }
@@ -1038,7 +1038,7 @@ class Storage
             $filter_where = array();
 
             foreach ($contenttype['fields'] as $key => $value) {
-                if (in_array($value['type'], array('text', 'textarea', 'html'))) {
+                if (in_array($value['type'], array('text', 'textarea', 'html', 'markdown'))) {
                     $filter_where[] = sprintf("%s LIKE '%%%s%%'", $key, $filter);
                 }
             }
