@@ -994,8 +994,10 @@ function getWhichEnd($from) {
     }
 
     if (!empty($_SERVER['REQUEST_URI'])) {
-        // Get the script's filename, but _without_ REQUEST_URI.
-        $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+        // Get the script's filename, but _without_ REQUEST_URI. We need to str_replace the slashes, because of a
+        // weird quirk in dirname on windows: http://nl1.php.net/dirname#refsect1-function.dirname-notes
+        $scriptdirname = "#" . str_replace("\\", "/", dirname($_SERVER['SCRIPT_NAME']));
+        $scripturi = str_replace($scriptdirname, '', "#".$_SERVER['REQUEST_URI']);
         // make sure it starts with '/', like our mountpoint.
         if (empty($scripturi) || ($scripturi[0] != "/") ) {
             $scripturi = "/" . $scripturi;
