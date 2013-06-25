@@ -325,7 +325,7 @@ class Frontend implements ControllerProviderInterface
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
 
         $search = $request->get('search');
-        $parameters = array('filter' => $search);
+        $parameters = array('filter' => $search, 'status' => 'published');
 
         //$content = $searchterms . " and " . $resultsPP;
         $content = $app['storage']->searchAllContentTypes($parameters);
