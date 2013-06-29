@@ -802,7 +802,7 @@ fieldset.checkbox div {
 }
 
 .preview {
-    margin: 0;
+    padding: 0;
 }
 
 /** Overrides for CKeditor */
