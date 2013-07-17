@@ -533,25 +533,28 @@ class Content implements \ArrayAccess
      * @param string $snippet
      * @return string
      */
-    public function preParse($snippet) {
+    public function preParse($snippet)
+    {
 
         // Quickly verify that we actually need to parse the snippet!
         if ( strpos($snippet, "{{")!==false || strpos($snippet, "{%")!==false || strpos($snippet, "{#")!==false ) {
 
             $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
 
-            // Keep the current loader.
-            $oldloader = $this->app['twig']->getLoader();
-
-            // Set the string loader..
-            $loader = new \Twig_Loader_Array(array('bolt_template_snippet' => $snippet));
-            $this->app['twig']->setLoader($loader);
-
-            // Render the snippet.
-            $snippet = $this->app['twig']->render('bolt_template_snippet');
-
-            // Switch back to the old loader.
-            $this->app['twig']->setLoader($oldloader);
+            // There's a problem with Twig: parsing snippets that are longer than the filesystem limit for filenames.
+            // This is because Twig will _first_ attempt to locate the snippet as a file, and only _then_ parse it as a
+            // snippet. Therefore, if the snippet is too long, we split it, and parse it in several parts.
+            if (strlen($snippet) > 1800) {
+                // (First part), (opening twig brackets, rest of tag, closing twig brackets), (rest of string)
+                preg_match('/(.*)({[{%#].*}[}%#])(.*)/ms', $snippet, $parts);
+                if (count($parts)==4) {
+                    // Note: $parts[0] is always the entire snippet. We only need to parse parts 1, 2, 3..
+                    $snippet = $this->preParse($parts[1]) . $this->preParse($parts[2]) . $this->preParse($parts[3]);
+                }
+            } else {
+                // Render the snippet.
+                $snippet = $this->app['twig']->render($snippet);
+            }
 
         }
 
