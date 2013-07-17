@@ -261,7 +261,7 @@ class Storage
             foreach ($contenttype['taxonomy'] as $taxonomy) {
                 if (isset($this->app['config']['taxonomy'][$taxonomy]['options'])) {
                     $options = $this->app['config']['taxonomy'][$taxonomy]['options'];
-                    $contentobject->setTaxonomy($taxonomy, $options[array_rand($options)]);
+                    $contentobject->setTaxonomy($taxonomy, array_rand($options), rand(1,1000));
                 }
                 if ( isset($this->app['config']['taxonomy'][$taxonomy]['behaves_like']) &&
                     ($this->app['config']['taxonomy'][$taxonomy]['behaves_like'] == "tags") ) {
@@ -269,7 +269,6 @@ class Storage
                 }
             }
         }
-
 
         $this->saveContent($contentobject);
 
@@ -1267,7 +1266,7 @@ class Storage
     private function groupingSort($a, $b)
     {
         // Same group, sort within group..
-        if ($a->group == $b->group) {
+        if ($a->group['slug'] == $b->group['slug']) {
 
             if (!empty($a->sortorder) || !empty($b->sortorder)) {
                 if (empty($a->sortorder) ) {

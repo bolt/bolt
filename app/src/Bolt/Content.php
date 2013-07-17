@@ -365,13 +365,14 @@ class Content implements \ArrayAccess
             $sortorder = false;
         } else {
             $sortorder = (int)$sortorder;
+            // Note: by doing this we assume a contenttype can have only one taxonomy which has has_sortorder: true.
+            $this->sortorder = $sortorder;
         }
 
         // Make the 'key' of the array an absolute link to the taxonomy.
         $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $value);
 
         $this->taxonomy[$taxonomytype][$link] = $value;
-        $this->taxonomyorder[$taxonomytype] = $sortorder;
 
         // Set the 'name', for displaying the pretty name, if there is any.
         if (!empty($this->app['config']['taxonomy'][$taxonomytype]['options'][$value])) {
@@ -382,7 +383,7 @@ class Content implements \ArrayAccess
 
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-            $this->setGroup($value, $name, $taxonomytype);
+            $this->setGroup($value, $name, $taxonomytype, $sortorder);
         }
 
     }
@@ -393,7 +394,6 @@ class Content implements \ArrayAccess
      */
     public function sortTaxonomy()
     {
-
         if (empty($this->taxonomy)) {
             // Nothing to do here.
             return;
@@ -455,17 +455,17 @@ class Content implements \ArrayAccess
      * @param string $name
      * @param string $taxonomytype
      */
-    public function setGroup($group, $name = "", $taxonomytype)
+    public function setGroup($group, $name = "", $taxonomytype, $sortorder = 0)
     {
         $this->group = array(
             'slug' => $group,
             'name' => $name
         );
 
-        $sortorder = $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'];
+        $has_sortorder = $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'];
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
-        if ($sortorder !== false) {
+        if ($has_sortorder !== false) {
             $this->group['order'] = (int)$sortorder;
         }
 
