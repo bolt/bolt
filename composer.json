@@ -14,7 +14,7 @@
         "htmlawed/htmlawed": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
         "php": ">=5.3.2",
-        "silex/silex": "~1.0",
+        "silex/silex": "1.*",
         "swiftmailer/swiftmailer": "5.*",
         "symfony/config": "~2.3",
         "symfony/console": "~2.3",
