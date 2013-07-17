@@ -546,8 +546,8 @@ class Content implements \ArrayAccess
             // snippet. Therefore, if the snippet is too long, we split it, and parse it in several parts.
             if (strlen($snippet) > 1800) {
                 // (First part), (opening twig brackets, rest of tag, closing twig brackets), (rest of string)
-                preg_match('/(.*)({[{%#].*[}%#]})(.*)/ms', $snippet, $parts);
-                if (count($parts)==4) {
+                $result = preg_match('/(.*)({[{%#].*[}%#]})(.*)/ms', $snippet, $parts);
+                if ($result && count($parts)==4) {
                     // Note: $parts[0] is always the entire snippet. We only need to parse parts 1, 2, 3..
                     $snippet = $this->preParse($parts[1]) . $this->preParse($parts[2]) . $this->preParse($parts[3]);
                 }
