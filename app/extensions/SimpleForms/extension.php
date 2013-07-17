@@ -114,9 +114,24 @@ class Extension extends \Bolt\BaseExtension
             if (!empty($field['label'])) {
                 $options['label'] = $field['label'];
             }
+
+            if (!empty($field['value'])) {
+                $options['attr']['value'] = $field['value'];
+            }
+
+            if (!empty($field['allow_override']) && !empty($_GET[$name])) {
+                $value = strip_tags($_GET[$name]); // Note Symfony's form also takes care of escaping this.
+                $options['attr']['value'] = $value;
+            }
+
+            if (!empty($field['read_only'])) {
+                $options['read_only'] = $field['read_only'];
+            }
+
             if (!empty($field['placeholder'])) {
                 $options['attr']['placeholder'] = $field['placeholder'];
             }
+
             if (!empty($field['class'])) {
                 $options['attr']['class'] = $field['class'];
             }
@@ -127,6 +142,7 @@ class Extension extends \Bolt\BaseExtension
             } else {
                 $options['required'] = false;
             }
+
             if (!empty($field['choices']) && is_array($field['choices'])) {
                 // Make the keys more sensible.
                 $options['choices'] = array();
@@ -134,12 +150,15 @@ class Extension extends \Bolt\BaseExtension
                     $options['choices'][ safeString($option)] = $option;
                 }
             }
+
             if (!empty($field['expanded'])) {
                 $options['expanded'] = $field['expanded'];
             }
+
             if (!empty($field['multiple'])) {
                 $options['multiple'] = $field['multiple'];
             }
+
             // Make sure $field has a type, or the form will break.
             if (empty($field['type'])) {
                 $field['type'] = "text";
