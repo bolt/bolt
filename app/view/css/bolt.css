@@ -238,6 +238,8 @@ footer  {
     cursor: help;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 12px;
+    float: none;
+    vertical-align: 2px;
 }
 
 .popover {
