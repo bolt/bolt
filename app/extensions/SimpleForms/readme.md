@@ -61,7 +61,7 @@ emails. Use the `mail_subject` value to set the subject of the confirmation emai
 used to override the global setting for the text on the 'send' button.
 
 Each of the 'General settings' mentioned above can be overridden for a specific form. So, you can create forms that use
-different templates and different messages. 
+different templates and different messages.
 
 The fields of the form are defined in the 'fields'-array. Every field is defined by its name, with its options. For example:
 
