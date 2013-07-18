@@ -28,7 +28,7 @@
 {% if not ismobileclient() %}
     {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
     <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
-    <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.js"></script>
+    <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
     {% if filetype in ['twig', 'html', 'htm'] %}
     <script src="{{ paths.app }}view/lib/codemirror/xml.js"></script>
     <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>
