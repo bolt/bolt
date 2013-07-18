@@ -8,7 +8,7 @@ class Application extends BaseApplication
 {
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '1.1.3';
+        $values['bolt_version'] = '1.1.4';
         $values['bolt_name'] = '';
 
         parent::__construct($values);
