@@ -474,8 +474,6 @@ class Backend implements ControllerProviderInterface
 
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
-				echo "$id is niet ". $content['id'];
-				die();
                 $app['session']->getFlashBag()->set('error', "Don't try to spoof the id!");
                 return redirect('dashboard');
             }
@@ -521,6 +519,7 @@ class Backend implements ControllerProviderInterface
         $duplicate = $app['request']->query->get('duplicate');
         if (!empty($duplicate)) {
             $content->setValue('id', "");
+            $content->setValue('slug', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
             $content->setValue('datechanged', "");
