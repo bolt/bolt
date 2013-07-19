@@ -1,0 +1,9 @@
+# sitemap settings
+
+template: assets/sitemap.twig
+xml_template: assets/sitemap_xml.twig
+
+ignore:
+  - /page/home
+  - /page/error404
+  - /page/private

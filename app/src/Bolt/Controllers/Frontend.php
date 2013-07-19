@@ -22,14 +22,6 @@ class Frontend implements ControllerProviderInterface
             ->before(array($this, 'before'))
         ;
 
-        $ctr->match('/sitemap', array($this, 'sitemap'))
-            ->before(array($this, 'before'))
-        ;
-
-        $ctr->match('/sitemap.xml', array($this, 'sitemapXml'))
-            ->before(array($this, 'before'))
-        ;
-
         $ctr->match('/preview/{contenttypeslug}', array($this, 'preview'))
             ->before(array($this, 'before'))
             ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
@@ -52,8 +44,6 @@ class Frontend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
         ;
-
-
 
         return $ctr;
     }
@@ -160,8 +150,6 @@ class Frontend implements ControllerProviderInterface
     }
 
 
-
-
     function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
 
@@ -193,9 +181,6 @@ class Frontend implements ControllerProviderInterface
         return $app['twig']->render($template);
 
     }
-
-
-
 
     function listing(Silex\Application $app, $contenttypeslug)
     {
@@ -254,7 +239,6 @@ class Frontend implements ControllerProviderInterface
         return $app['twig']->render($template);
 
     }
-
 
     function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
@@ -336,57 +320,6 @@ class Frontend implements ControllerProviderInterface
 
         return $app['twig']->render($template);
 
-    }
-
-    public function sitemap(Silex\Application $app, $xml = false)
-    {
-        if($xml){
-            $app['extensions']->clearSnippetQueue();
-            $app['extensions']->disableJquery();
-            $app['debugbar'] = false;
-        }
-
-        $links = array(array('link' => $app['paths']['root'], 'title' => $app['config']['general']['sitename']));
-        foreach( $app['config']['contenttypes'] as $contenttype ) {
-            if (isset($contenttype['listing_template'])) {
-                $links[] = array( 'link' => $app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
-            }
-            if (isset($contenttype['record_template'])) {
-                $content = $app['storage']->getContent($contenttype['slug']);
-                foreach( $content as $entry ) {
-                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
-                        'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
-                }
-            }
-        }
-
-        foreach($links as $idx => $link) {
-            if(in_array($link['link'], $app['config']['general']['sitemap']['ignore'])) {
-                unset($links[$idx]);
-            }
-        }
-
-        if ($xml) {
-            $template = $app['config']['general']['sitemap']['xml_template'];
-        } else {
-            $template = $app['config']['general']['sitemap']['template'];
-        }
-
-        $body = $app['twig']->render($template, array(
-            'entries' => $links
-        ));
-        $headers = array();
-        if ($xml) {
-            $headers['Content-Type'] = 'application/xml; charset=utf-8';
-        }
-
-        return new Response($body, 200, $headers);
-
-    }
-
-    public function sitemapXml(Silex\Application $app)
-    {
-        return $this->sitemap($app,true);
     }
 
 
