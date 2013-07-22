@@ -62,7 +62,8 @@ var CKBUILDER_CONFIG = {
 		'about' : 1,
 		'codemirror' : 1,
 		'find' : 1,
-		'autogrow' : 1
+		'autogrow' : 1,
+		'indentlist' : 1
 	},
 	languages : {
 		'nl' : 1,

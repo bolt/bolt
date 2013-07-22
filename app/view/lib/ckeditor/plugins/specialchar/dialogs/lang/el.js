@@ -1,6 +1,6 @@
 ﻿/*
  Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- For licensing, see LICENSE.html or http://ckeditor.com/license
+ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang("specialchar","el",{euro:"Σύμβολο Ευρώ",lsquo:"Αριστερός χαρακτήρας μονού εισαγωγικού",rsquo:"Δεξιός χαρακτήρας μονού εισαγωγικού",ldquo:"Αριστερός χαρακτήρας διπλού εισαγωγικού",rdquo:"Δεξιός χαρακτήρας διπλού εισαγωγικού",ndash:"Παύλα en",mdash:"Παύλα em",iexcl:"Ανάποδο θαυμαστικό",cent:"Σύμβολο Σεντ",pound:"Σύμβολο λίρας",curren:"Σύμβολο συναλλαγματικής μονάδας",yen:"Σύμβολο Γιέν",brvbar:"Σπασμένη μπάρα",sect:"Σύμβολο τμήματος",uml:"Διαίρεση",copy:"Σύμβολο πνευματικών δικαιωμάτων",
 ordf:"Feminine ordinal indicator",laquo:"Αριστερός χαρακτήρας διπλού εισαγωγικού",not:"Δεν έχει υπογράψει ",reg:"Εγγεγραμμένο σημάδι ",macr:"Macron",deg:"Εγγεγραμμένο σημάδι ",sup2:"Superscript two",sup3:"Superscript three",acute:"Οξεία προφορά ",micro:"Micro σημάδι ",para:"Micro σημάδι ",middot:"Μέση τελεια",cedil:"Υποστιγμή ",sup1:"Superscript one",ordm:"Αρσενικος τακτικός δείκτης ",raquo:"Δεξιος χαρακτήρας διπλού εισαγωγικού",frac14:"Χυδαίο κλάσμα του ενός τετάρτου ",frac12:"Χυδαίο κλάσμα το ήμισυ ",
