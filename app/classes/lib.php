@@ -934,7 +934,7 @@ function checkConfig(\Bolt\Application $app) {
         //         uses: name
         //
         foreach($ct['fields'] as $fieldname => $field) {
-            if (!empty($field['uses']) ) {
+            if (is_array($field) && !empty($field['uses']) ) {
                 foreach($field['uses'] as $useField) {
                     if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
                         $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
