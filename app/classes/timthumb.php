@@ -26,7 +26,12 @@
 
 // echo "<pre>\n" . print_r($_SERVER, true) . "</pre>\n";
 
-$requesturi = $_SERVER['REQUEST_URI'];
+if (isset($_SERVER['REDIRECT_URL'])) {
+    $requesturi = $_SERVER['REDIRECT_URL'];
+}
+else {
+    $requesturi = $_SERVER['REQUEST_URI'];
+}
 
 $res = preg_match("^thumbs/([0-9]+)x([0-9]+)([a-z]*)/(.*)^i", $requesturi , $matches);
 
