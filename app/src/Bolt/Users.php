@@ -828,8 +828,13 @@ class Users
     public function isAllowed($what)
     {
 
+        if (substr($what, 0, 12) == 'contenttype:') {
+            $contenttype = substr($what, 12);
+            $validContenttypes = $this->users[$this->currentuser['username']]['contenttypes'];
+            return in_array($contenttype, $validContenttypes);
+        }
+
         if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel'])) {
-            // printf(" %s > %s ", $this->allowed[$what], $this->currentuser['userlevel']);
             return false;
         } else {
             return true;
