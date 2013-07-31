@@ -924,6 +924,8 @@ class TwigExtension extends \Twig_Extension
     public function redirect($path)
     {
 
+        simpleredirect($path);
+
         $result = $this->app->redirect($path);
         return $result;
 
