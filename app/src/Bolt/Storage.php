@@ -567,7 +567,9 @@ class Storage
         // use LIMIT and OFFSET! If we'd want to use it, this should be rewritten.
         // Results aggregator
         $result = array();
+
         foreach($this->getContentTypes() as $contenttype){
+
             $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters, $pager);
             foreach($contentTypeSearchResults as $searchresult){
                 $result []= $searchresult;
@@ -581,6 +583,11 @@ class Storage
         $tablename = $this->getTablename($contenttypename);
 
         $contenttype = $this->app['config']['contenttypes'][$contenttypename];
+
+        // If this contenttype has 'searchable: false', we skip it.
+        if ($contenttype['searchable'] === false) {
+            return array();
+        }
 
         // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
         foreach ($parameters as $key => $value) {

@@ -852,6 +852,10 @@ function getConfig()
         if (!isset($temp['sort'])) {
             $temp['sort'] = "id";
         }
+        if (!isset($temp['searchable'])) {
+            $temp['searchable'] = true;
+        }
+
         // Make sure all fields are lowercase and 'safe'.
         $tempfields = $temp['fields'];
         $temp['fields'] = array();

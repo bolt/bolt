@@ -152,6 +152,7 @@ kitchensink:
     taxonomy: [ categories, tags, chapters ]
     show_on_dashboard: true
     default_status: draft
+    searchable: false
 
 
 # possible field types:
