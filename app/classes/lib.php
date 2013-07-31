@@ -946,7 +946,7 @@ function checkConfig(\Bolt\Application $app) {
             }
         }
 
-        // Show some helpful warnings if slugs or names are not unique.
+        // Show some helpful warnings if slugs or names are not set correctly.
         if ($ct['slug'] == $ct['singular_slug']) {
             $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
                 array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
@@ -954,8 +954,7 @@ function checkConfig(\Bolt\Application $app) {
             $app['session']->getFlashBag()->set('error', $error);
         }
 
-        // Show some helpful warnings if slugs or names are not unique.
-        if ($ct['slug'] == $ct['singular_slug']) {
+        if ($ct['name'] == $ct['singular_name']) {
             $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
                 array( '%contenttype%' => $key, '%name%' => $ct['name'] )
             );
@@ -967,6 +966,19 @@ function checkConfig(\Bolt\Application $app) {
         $slugs[ $ct['slug'] ]++;
         if (!isset($slugs[ $ct['singular_slug'] ])) { $slugs[ $ct['singular_slug'] ] = 0; }
         $slugs[ $ct['singular_slug'] ]++;
+
+    }
+
+    // Sanity checks for taxomy.yml
+    foreach ($app['config']['taxonomy'] as $key => $taxo) {
+
+        // Show some helpful warnings if slugs or keys are not set correctly.
+        if ($taxo['slug'] != $key) {
+            $error =  __("The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
+                array( '%taxonomytype%' => $key, '%slug%' => $taxo['slug'] )
+            );
+            $app['session']->getFlashBag()->set('error', $error);
+        }
 
     }
 

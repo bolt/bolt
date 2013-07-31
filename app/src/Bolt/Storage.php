@@ -1624,17 +1624,21 @@ class Storage
 
         $tablename = $this->getTablename("taxonomy");
 
-        // Make sure $contenttype is a 'slug'
+        // Make sure $contenttypeslug is a 'slug'
         if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
+            $contenttypeslug = $contenttype['slug'];
+        } else {
+            $contenttypeslug = $contenttype;
         }
 
-        if (empty($taxonomy)) {
-            // nothing to do here..
-            return;
-        }
+        foreach ($contenttype['taxonomy'] as $taxonomytype) {
 
-        foreach ($taxonomy as $taxonomytype => $newvalues) {
+            // Set 'newvalues to 'empty array' if not defined
+            if (!empty($taxonomy[$taxonomytype])) {
+                $newvalues = $taxonomy[$taxonomytype];
+            } else {
+                $newvalues = array();
+            }
 
             // Get the current values from the DB..
             $query = sprintf(
@@ -1643,7 +1647,7 @@ class Storage
             );
             $currentvalues = $this->app['db']->executeQuery(
                 $query,
-                array($content_id, $contenttype, $taxonomytype),
+                array($content_id, $contenttypeslug, $taxonomytype),
                 array(\PDO::PARAM_INT, \PDO::PARAM_STR, \PDO::PARAM_STR)
             )->fetchAll();
 
@@ -1669,7 +1673,7 @@ class Storage
                     // Insert it!
                     $row = array(
                         'content_id' => $content_id,
-                        'contenttype' => $contenttype,
+                        'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
                         'slug' => $value,
                         'sortorder' => $sortorder
