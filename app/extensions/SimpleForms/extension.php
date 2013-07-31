@@ -34,7 +34,6 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize()
     {
-        if (empty($this->config['stylesheet'])) { $this->config['stylesheet'] = "assets/simpleforms.css"; }
 
         // fields that the global config should have
         $this->global_fields = array(
@@ -58,7 +57,9 @@ class Extension extends \Bolt\BaseExtension
         );
 
         // Make sure the css is inserted as well..
-        $this->addCSS($this->config['stylesheet']);
+        if (!empty($this->config['stylesheet'])) {
+            $this->addCSS($this->config['stylesheet']);
+        }
 
         // Set the button text.
         if (empty($this->config['button_text'])) {
