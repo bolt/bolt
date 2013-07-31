@@ -689,7 +689,7 @@ function getConfig()
 
     // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
-    $paths = getPaths($app['config']);
+    $paths = getPaths($config);
 
     // Assume some sensible defaults for some options
     $defaultconfig = array(
@@ -1146,8 +1146,10 @@ function getPaths($original = array())
 
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
-    if (empty($config)) {
+    if (empty($config['general']['theme'])) {
         $config['general']['theme'] = 'base-2013';
+    }
+    if (empty($config['general']['canonical'])) {
         $config['general']['canonical'] = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
     }
 
