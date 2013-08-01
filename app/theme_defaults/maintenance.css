@@ -1,0 +1,46 @@
+body {
+    background-color: #FCFCFA;
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0.5em 0;
+    font-weight: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+h1 {
+    font-size: 30px;
+    line-height: 36px;
+}
+
+
+.logo {
+    margin: 80px 0 20px 20px;
+}
+
+.container {
+    position: absolute;
+    max-width: 620px;
+    margin-left: -320px;
+    left: 50%;
+}
+
+.alert {
+    padding: 20px 40px 20px 20px;
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 150px 10px rgba(0, 0, 0, 0.15);
+}
