@@ -88,6 +88,9 @@ to modify the functionality or appearance:
   - `read_only` - Set the field to `readonly` in the generated HTML. (yes, we're aware of the inconsistency between
     'read_only' and 'readonly'. 'read_only' is the name of the option in Symfony's Form component, while 'readonly' is
     the name of the attribute in the generated HTML)
+  - `prefix` - Add a snippet of HTML to output _before_ the `<div>` with the field's row. 
+  - `postfix` - Add a snippet of HTML to output _after_ the `<div>` with the field's row. You can use these attributes to insert labels, headings or to divide the form in `<fieldset>`'s.
+  
 
 The different fieldtypes are as follows, with a short example outlining the specific options for that field. Remember you can also use the basic options as well.
 

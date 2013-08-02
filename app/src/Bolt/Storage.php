@@ -1770,6 +1770,11 @@ class Storage
             $contenttypeslug = $contenttype;
         }
 
+        // If our contenttype has no taxonomies, there's nothing for us to do here.
+        if (!isset($contenttype['taxonomy'])) {
+            return;
+        }
+
         foreach ($contenttype['taxonomy'] as $taxonomytype) {
 
             // Set 'newvalues to 'empty array' if not defined

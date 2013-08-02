@@ -59,6 +59,8 @@ class Extension extends \Bolt\BaseExtension
         // Make sure the css is inserted as well..
         if (!empty($this->config['stylesheet'])) {
             $this->addCSS($this->config['stylesheet']);
+        } else {
+            $this->config['stylesheet'] = "";
         }
 
         // Set the button text.
@@ -135,6 +137,13 @@ class Extension extends \Bolt\BaseExtension
 
             if (!empty($field['class'])) {
                 $options['attr']['class'] = $field['class'];
+            }
+
+            if (!empty($field['prefix'])) {
+                $options['attr']['prefix'] = $field['prefix'];
+            }
+            if (!empty($field['postfix'])) {
+                $options['attr']['postfix'] = $field['postfix'];
             }
 
             if (!empty($field['required']) && $field['required'] == true) {
