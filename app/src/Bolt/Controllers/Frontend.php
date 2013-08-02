@@ -297,7 +297,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    public function search(Request $request, Silex\Application $app)
+    public function searchNotWeighted(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
         $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
@@ -320,6 +320,54 @@ class Frontend implements ControllerProviderInterface
 
         return $app['twig']->render($template);
 
+    }
+
+    public function searchWeighted(Request $request, Silex\Application $app)
+    {
+        $q = $request->get('q');
+
+        // Make paging work
+        $page_size = 10;
+        $page      = 1;
+        if ($request->query->has('page')) {
+            $page = intval($request->get('page'));
+        }
+        if ($page < 1) {
+            $page = 1;
+        }
+        $offset = ($page - 1) * $page_size;
+        $limit  = $page_size;
+
+        $result = $app['storage']->searchContent($q, null, $limit, $offset);
+
+        $pager = array(
+            'for' => 'search',
+            'count' => $result['no_of_results'],
+            'totalpages' => ceil($result['no_of_results'] / $page_size),
+            'current' => $page,
+            'showing_from' => $offset + 1,
+            'showing_to' => $offset + count($result['results'])
+        );
+
+        $app['twig']->addGlobal('records', $result['results']);
+        $app['twig']->addGlobal('search', $result['query']['use_q']);
+        $app['twig']->addGlobal('search', $result['query']['use_q']);
+
+        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
+
+        return $app['twig']->render($template);
+    }
+
+    public function search(Request $request, Silex\Application $app)
+    {
+        // Use the older non-weighted search?
+        if ($request->query->has('search')) {
+            $search = $request->get('search');
+
+            return $this->searchNotWeighted($request, $app);
+        }
+
+        return $this->searchWeighted($request, $app);
     }
 
 

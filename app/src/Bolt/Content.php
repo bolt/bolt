@@ -13,6 +13,9 @@ class Content implements \ArrayAccess
     public $relation;
     public $contenttype;
 
+    // The last time we weight a searchresult
+    private $last_weight = 0;
+
     public function __construct(Silex\Application $app, $contenttype = "", $values = "")
     {
 
@@ -890,6 +893,108 @@ class Content implements \ArrayAccess
             }
         }
         return "";
+    }
+
+    /**
+     * Weight a text part relative to some other part
+     *
+     * @param	string		the subject to search in
+     * @param	string		the complete search term (lowercased)
+     * @param	array		all the individuele search terms (lowercased)
+     * @param	integer		maximum number of points to return
+     * @return	integer		the weight
+     */
+    private function weighQueryText($subject, $complete, $words, $max) {
+        $low_subject = mb_strtolower(trim($subject));
+
+        if ($low_subject == $complete) {
+            // a complete match is 100% of the maximum
+            return round((100/100) * $max);
+        }
+        if (strstr($low_subject,$complete)) {
+            // when the whole query is found somewhere is 70% of the maximum
+            return round((70/100) * $max);
+        }
+
+        $word_matches = 0;
+        $cnt_words    = count($words);
+        for($i=0; $i < $cnt_words; $i++) {
+            if (strstr(' '.$low_subject.' ',' '.$words[$i].' ')) {
+                $word_matches++;
+            }
+        }
+        if ($word_matches > 0) {
+            // word matches are maximum of 50% of the maximum per word
+            return round(($word_matches/$cnt_words) * (50/100) * $max);
+        }
+
+        return 0;
+    }
+
+    /**
+     * Calculate the default field weights
+     *
+     * This gives more weight to the 'slug pointer fields'.
+     */
+    private function getFieldWeights()
+    {
+        // This could be more configurable
+        // (see also Storage->searchSingleContentType)
+        $searchable_types = array( 'text', 'textarea', 'html', 'markdown' );
+
+        $fields = array();
+
+        foreach($this->contenttype['fields'] as $key => $config) {
+            if (in_array($config['type'], $searchable_types)) {
+                $fields[$key] = 50;
+            }
+        }
+
+        foreach($this->contenttype['fields'] as $key => $config) {
+            $weight = 0;
+
+            if ($config['type'] == 'slug') {
+                foreach($config['uses'] as $ptr_field) {
+                    if (isset($fields[$key])) {
+                        $fields[$key] = 100;
+                    }
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Weigh this content against a query
+     *
+     * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
+     *
+     * @param array $query    Query to weigh against
+     */
+    public function weighSearchResult($query)
+    {
+        static $contenttype_fields = null;
+
+        $ct = $this->contenttype['slug'];
+        if ((is_null($contenttype_fields)) || (!isset($contenttype_fields[$ct]))) {
+            // Should run only once per contenttype (e.g. singlular_name)
+            $contenttype_fields[$ct] = $this->getFieldWeights();
+        }
+
+        $weight = 0;
+        foreach($contenttype_fields[$ct] as $key => $field_weight) {
+            $weight += $this->weighQueryText($this->values[$key], $query['use_q'], $query['words'], $field_weight);
+        }
+
+        $this->last_weight = $weight;
+    }
+
+    /**
+     */
+    public function getSearchResultWeight()
+    {
+        return $this->last_weight;
     }
 
     /**

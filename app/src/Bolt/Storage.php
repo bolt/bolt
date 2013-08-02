@@ -560,6 +560,139 @@ class Storage
 
     }
 
+    /**
+     * Decode search query into searchable parts
+     */
+    private function decodeSearchQuery($q)
+    {
+        $words = preg_split('|[\r\n\t ]+|', trim($q));
+
+        $words = array_map(function($word){
+            return mb_strtolower($word);
+        }, $words);
+        $words = array_filter($words, function($word){
+            return strlen($word) >= 2;
+        });
+
+        return array(
+            'valid' => count($words) > 0,
+            'in_q' => $q,
+            'use_q' => implode(' ', $words),
+            'words' => $words
+        );
+    }
+
+    /**
+     * Search through a single contenttype
+     *
+     * Search, weigh and return the results.
+     */
+    private function searchSingleContentType($query, $contenttype, $table, $fields)
+    {
+        // This could be even more configurable
+        // (see also Content->getFieldWeights)
+        $searchable_types = array( 'text', 'textarea', 'html', 'markdown' );
+
+        // Build fields 'WHERE'
+        $fields_where = array();
+        foreach($fields as $field => $fieldconfig) {
+            if (in_array($fieldconfig['type'], $searchable_types)) {
+                foreach($query['words'] as $word) {
+                    $fields_where[] = sprintf('%s.%s LIKE \'%%%s%%\'', $table, $field, $word);
+                }
+            }
+        }
+
+        // Build actual where
+        $where = array();
+        $where[] = sprintf('%s.status = "published"', $table);
+        $where[] = '( '.implode(' OR ', $fields_where).' )';
+
+        // Build SQL query
+        $select  = 'SELECT   *';
+        $select .= ' FROM     '.$table;
+        $select .= ' WHERE   '.implode(' AND ', $where);
+
+        // Run Query
+        $results = $this->app['db']->fetchAll($select);
+
+        // Convert and weight
+        $contents = array();
+        foreach($results as $result) {
+            $index      = count($contents);
+            $contents[] = $this->getContentObject($contenttype, $result);
+
+            $contents[$index]->weighSearchResult($query);
+        }
+
+        return $contents;
+    }
+
+    /**
+     * Search through actual content
+     *
+     * @param string $q                     search string
+     * @param array<string> $contenttypes   contenttype names to search for
+     *                                      null means every searchable contenttype
+     * @param integer $limit                limit the number of results
+     * @param integer $offset               skip this number of results
+     */
+    public function searchContent($q, array $contenttypes = null, $limit = 100, $offset = 0)
+    {
+        $query = $this->decodeSearchQuery($q);
+        if (!$query['valid']) {
+            return false;
+        }
+
+        $app_ct = $this->app['config']['contenttypes'];
+
+        // By default we only search through searchable contenttypes
+        if (is_null($contenttypes)) {
+            $contenttypes = array_keys($app_ct);
+            $contenttypes = array_filter($contenttypes, function($ct) use ($app_ct){
+                if (isset($app_ct[$ct]['searchable']) && ($app_ct[$ct]['searchable'] == false)) {
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        // Build our search results array
+        $results = array();
+        foreach ($contenttypes as $contenttype) {
+            $table = $this->getTablename($contenttype);
+            $fields = $app_ct[$contenttype]['fields'];
+
+            $sub_results = $this->searchSingleContentType($query, $contenttype, $table, $fields);
+
+            $results = array_merge($results, $sub_results);
+        }
+
+        // Sort the results
+        usort($results, function(&$a, &$b){
+            if ($a->getSearchResultWeight() > $b->getSearchResultWeight()) {
+                return -1;
+            }
+            if ($a->getSearchResultWeight() < $b->getSearchResultWeight()) {
+                return +1;
+            }
+            return 0;
+        });
+
+        $no_of_results = count($results);
+
+        $page_results = array();
+        if ($offset < $no_of_results) {
+            $page_results = array_slice($results, $offset, $limit);
+        }
+
+        return array(
+            'query' => $query,
+            'no_of_results' => $no_of_results,
+            'results' => $page_results
+        );
+    }
+
     public function searchAllContentTypes(array $parameters = array(), &$pager = array())
     {
         //return $this->searchContentTypes($this->getContentTypes(), $parameters, $pager);
@@ -687,8 +820,7 @@ class Storage
             'showing_to' => ($page-1)*$limit + count($content)
         );
 
-        //$GLOBALS['pager'][$contenttypeslug] = $pager;
-        $GLOBALS['pager']['search'] = $pager;
+        // @todo Need to rewrite pager-code to make the pager work properly
 
         return $content;
     }
