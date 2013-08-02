@@ -349,9 +349,12 @@ class Frontend implements ControllerProviderInterface
             'showing_to' => $offset + count($result['results'])
         );
 
+        $GLOBALS['pager']['search'] = $pager;
+        $GLOBALS['pager']['search']['link'] = '/search?q='.rawurlencode($q).'&page=';
+
         $app['twig']->addGlobal('records', $result['results']);
         $app['twig']->addGlobal('search', $result['query']['use_q']);
-        $app['twig']->addGlobal('search', $result['query']['use_q']);
+        $app['twig']->addGlobal('searchresult', $result);
 
         $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
 

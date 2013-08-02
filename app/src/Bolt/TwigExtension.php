@@ -487,8 +487,17 @@ class TwigExtension extends \Twig_Extension
             $thisPager = array_pop($pager);
         }
 
-        echo $env->render($template, array('pager' => $thisPager, 'surr' => $surr, 'class' => $class));
-        return null;
+        $context = array(
+            'pager' => $thisPager,
+            'surr' => $surr,
+            'class' => $class
+        );
+
+        if (isset($pager['link'])) {
+            $context['link'] = $pager['link'];
+        }
+
+        return new \Twig_Markup($env->render($template, $context), 'utf-8');
     }
 
 
