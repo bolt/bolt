@@ -598,7 +598,7 @@ class Storage
         foreach($fields as $field => $fieldconfig) {
             if (in_array($fieldconfig['type'], $searchable_types)) {
                 foreach($query['words'] as $word) {
-                    $fields_where[] = sprintf('%s.%s LIKE \'%%%s%%\'', $table, $field, $word);
+                    $fields_where[] = sprintf('%s.%s LIKE %s', $table, $field, $this->app['db']->quote('%'.$word.'%'));
                 }
             }
         }
