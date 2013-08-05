@@ -667,6 +667,8 @@ function hackislyParseRegexTemplates($obj)
 
 }
 
+<<<<<<< HEAD
+=======
 function getConfig()
 {
     global $app;
@@ -911,6 +913,7 @@ function getConfig()
     return $config;
 
 }
+>>>>>>> 947d912731b4d826e1a16d2f4386e9e23fa16f61
 
 /**
  * Sanity checks for doubles in in contenttypes.
@@ -1202,7 +1205,7 @@ function getPaths($original = array())
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
-        'canonical' => $config['general']['canonical'],
+        'canonical' => isset($config['general']['canonical']) ? $config['general']['canonical'] : "",
         'current' => $currentpath
     );
 
