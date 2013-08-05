@@ -181,11 +181,6 @@ class Config extends \Bolt\RecursiveArrayAccess
             'homepage' => 'page/*',
             'homepage_template' => 'index.twig',
             'locale' => 'en_GB',
-            'sitemap' => array(
-                'template' => 'sitemap.twig',
-                'xml_template' => 'sitemap_xml.twig',
-                'ignore' => array(),
-            ),
             'recordsperpage' => 10,
             'recordsperdashboardwidget' => 5,
             'debug' => false,
