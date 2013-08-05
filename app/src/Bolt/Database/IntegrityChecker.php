@@ -421,6 +421,8 @@ class IntegrityChecker
             $myTable->addIndex( array( 'datechanged' ) );
             $myTable->addColumn("datepublish", "datetime");
             $myTable->addIndex( array( 'datepublish' ) );
+            $myTable->addColumn("datedepublish", "datetime");
+            $myTable->addIndex( array( 'datedepublish' ) );
             $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("status", "string", array("length" => 32));
             $myTable->addIndex( array( 'status' ) );
@@ -476,6 +478,7 @@ class IntegrityChecker
                     case 'datecreated':
                     case 'datechanged':
                     case 'datepublish':
+                    case 'datedepublish':
                     case 'username':
                     case 'status':
                         // These are the default columns. Don't try to add these.

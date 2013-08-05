@@ -98,6 +98,11 @@ class Content implements \ArrayAccess
             $this->values['datechanged'] = $now;
         }
 
+        if (!isset($this->values['datedepublish']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
+            $this->values['datedepublish'] = "0000-00-00 00:00:00";
+        }
+
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
             if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
@@ -170,7 +175,7 @@ class Content implements \ArrayAccess
 
 
         // Only set values if they have are actually a field.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'taxonomy');
         if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
             return;
         }
