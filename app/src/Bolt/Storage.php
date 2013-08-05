@@ -609,7 +609,7 @@ class Storage
         $filter_where = array();
         if (!is_null($filter)) {
             foreach($fields as $field => $fieldconfig) {
-                if (isset($filter[$field]) && ) {
+                if (isset($filter[$field])) {
                     $filter_where[] = $this->parseWhereParameter($table.'.'.$field, $filter[$field]);
                 }
             }
