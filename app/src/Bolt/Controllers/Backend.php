@@ -522,6 +522,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('slug', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
+            $content->setValue('datedepublish', "");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.", array('%contenttype%'=> $contenttype['singular_name'])));

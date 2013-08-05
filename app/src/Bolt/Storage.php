@@ -191,6 +191,7 @@ class Storage
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
         $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
+        $content['datedepublish'] = "0000-00-00 00:00:00";
 
         $content['username'] = array_rand($this->app['users']->getUsers());
 
@@ -847,7 +848,7 @@ class Storage
                     continue; // Skip this one..
                 }
                 if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
-                    !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))
+                    !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "datedepublish", "username", "status"))
                 ) {
                     continue; // Also skip if 'key' isn't a field in the contenttype.
                 }
@@ -1014,11 +1015,11 @@ class Storage
     public function publishTimedRecords($contenttype)
     {
         // We need to do this only once per contenttype, max.
-        if (isset($this->checkedfortimed[$contenttype['slug']])) {
+        if (isset($this->checkedfortimed["publish-" . $contenttype['slug']])) {
             return;
         }
 
-        $this->checkedfortimed[$contenttype['slug']] = true;
+        $this->checkedfortimed["publish-" . $contenttype['slug']] = true;
         $tablename = $this->getTablename($contenttype['slug']);
         $now = date('Y-m-d H:i:s', time());
 
@@ -1033,6 +1034,47 @@ class Storage
             // If there's a result, we need to set these to 'publish'..
             if ($stmt->fetch() != false) {
                 $query = "UPDATE $tablename SET status = 'published', datechanged = :now, datepublish = :now  WHERE status = 'timed' and datepublish < :now";
+                $stmt = $this->app['db']->prepare($query);
+                $stmt->bindValue("now", $now);
+                $stmt->execute();
+            }
+
+        } catch (\Doctrine\DBAL\DBALException $e) {
+
+            // Oops. Couldn't execute the queries.
+
+        }
+
+    }
+
+
+    /**
+     * Check (and update) any records that need to be updated from "published" to "held".
+     *
+     * @param array $contenttype
+     */
+    public function depublishExpiredRecords($contenttype)
+    {
+        // We need to do this only once per contenttype, max.
+        if (isset($this->checkedfortimed["depublish-" . $contenttype['slug']])) {
+            return;
+        }
+
+        $this->checkedfortimed["depublish-" . $contenttype['slug']] = true;
+        $tablename = $this->getTablename($contenttype['slug']);
+        $now = date('Y-m-d H:i:s', time());
+
+        try {
+
+            // Check if there are any records that need depublishing..
+            $query = "SELECT id FROM $tablename WHERE status = 'published' and datedepublish < :now and datedepublish > '0000-00-00 00:00:01' ";
+            $stmt = $this->app['db']->prepare($query);
+            $stmt->bindValue("now", $now);
+            $stmt->execute();
+
+            // If there's a result, we need to set these to 'held'..
+            if ($stmt->fetch() != false) {
+                $query = "UPDATE $tablename SET status = 'held', datechanged = :now, datedepublish = '0000-00-00 00:00:00'  WHERE status = 'published' and datedepublish < :now and datedepublish > '0000-00-00 00:00:01'";
                 $stmt = $this->app['db']->prepare($query);
                 $stmt->bindValue("now", $now);
                 $stmt->execute();
@@ -1113,8 +1155,9 @@ class Storage
             return $emptycontent;
         }
 
-        // Check if we need to 'publish' any 'timed' records.
+        // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
         $this->publishTimedRecords($contenttype);
+        $this->depublishExpiredRecords($contenttype);
 
         // If requesting something with a content-type slug in singular, return only the first item.
         // If requesting a record with a specific 'id', return only the first item.
@@ -1144,7 +1187,7 @@ class Storage
 
             // for all the parameters that are fields
             if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
-                in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status")) ) {
+                in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "datedepublish", "username", "status")) ) {
                 $rkey = "r." . $key;
                 $where[] = $this->parseWhereParameter($rkey, $value);
             }
@@ -1295,7 +1338,7 @@ class Storage
             return true;
         }
 
-        if (in_array($name, array("id", "slug", "datecreated", "datechanged", "datepublish", "username", "status"))) {
+        if (in_array($name, array("id", "slug", "datecreated", "datechanged", "datepublish", "datedepublish", "username", "status"))) {
             return true;
         }
 
