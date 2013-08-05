@@ -34,7 +34,7 @@ $config = new \Bolt\Config();
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($config);
 
-$dboptions = getDBOptions($config);
+$dboptions = $config->getDBOptions();
 
 $app = new Bolt\Application();
 

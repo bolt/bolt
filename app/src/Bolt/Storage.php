@@ -802,7 +802,7 @@ class Storage
         // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
             if ($parameters['order'] == "RANDOM") {
-                $dboptions = getDBOptions($this->app['config']);
+                $dboptions = $this->app['config']->getDBOptions();
                 $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
             } else {
                 $order = safeString($parameters['order']);
@@ -924,7 +924,7 @@ class Storage
         // Order, with a special case for 'RANDOM'.
         if (!empty($parameters['order'])) {
             if ($parameters['order'] == "RANDOM") {
-                $dboptions = getDBOptions($this->app['config']);
+                $dboptions = $this->app['config']->getDBOptions();
                 $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
             } else {
                 $order = safeString($parameters['order']);
@@ -1445,7 +1445,7 @@ class Storage
         } else {
             $parameters['order'] = safeString($parameters['order']);
             if ($parameters['order'] == "RANDOM") {
-                $dboptions = getDBOptions($this->app['config']);
+                $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
             } elseif ($this->isValidColumn($parameters['order'], $contenttype, true)) {
                 $order = $this->getEscapedSortorder($parameters['order']);

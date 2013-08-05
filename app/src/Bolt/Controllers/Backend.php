@@ -142,10 +142,6 @@ class Backend implements ControllerProviderInterface
      */
     function dashboard(\Bolt\Application $app) {
 
-        // Re-do getConfig. Mainly so we can log errors.
-        // TODO: figure out if there's a better way, as this takes about 200ms.
-        getConfig();
-
         // Check DB-tables integrity
         if ($app['storage']->getIntegrityChecker()->needsCheck()) {
             if (count($app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
