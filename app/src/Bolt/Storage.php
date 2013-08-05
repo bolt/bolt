@@ -1179,10 +1179,6 @@ class Storage
             return $emptycontent;
         }
 
-        // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
-        $this->publishTimedRecords($contenttype);
-        $this->depublishExpiredRecords($contenttype);
-
         // If requesting something with a content-type slug in singular, return only the first item.
         // If requesting a record with a specific 'id', return only the first item.
         if ( ($contenttype['singular_slug'] == $contenttypeslug)
@@ -1197,6 +1193,10 @@ class Storage
         if (!$this->tableExists($tablename)) {
             return false;
         }
+
+        // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
+        $this->publishTimedRecords($contenttype);
+        $this->depublishExpiredRecords($contenttype);
 
         // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
         $from = sprintf("FROM %s AS r", $tablename);
