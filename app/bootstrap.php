@@ -27,9 +27,9 @@ require_once BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php';
 require_once __DIR__.'/classes/util.php';
 
 // Start the timer:
-$starttime=getMicrotime();
+$starttime = getMicrotime();
 
-$config = getConfig();
+$config = new \Bolt\Config();
 
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($config);
