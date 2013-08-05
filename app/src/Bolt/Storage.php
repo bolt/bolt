@@ -587,7 +587,7 @@ class Storage
      *
      * Search, weigh and return the results.
      */
-    private function searchSingleContentType($query, $contenttype, $table, $fields)
+    private function searchSingleContentType($query, $contenttype, $table, $fields, array $filter = null)
     {
         // This could be even more configurable
         // (see also Content->getFieldWeights)
@@ -603,10 +603,21 @@ class Storage
             }
         }
 
+        // Build filter 'WHERE"
+        $filter_where = array();
+        if (!is_null($filter)) {
+            foreach($fields as $field => $fieldconfig) {
+                if (isset($filter[$field])) {
+                    $filter_where[] = $this->parseWhereParameter($table.'.'.$field, $filter[$field]);
+                }
+            }
+        }
+
         // Build actual where
         $where = array();
         $where[] = sprintf('%s.status = "published"', $table);
         $where[] = '( '.implode(' OR ', $fields_where).' )';
+        $where   = array_merge($where, $filter_where);
 
         // Build SQL query
         $select  = 'SELECT   *';
@@ -631,13 +642,20 @@ class Storage
     /**
      * Search through actual content
      *
+     * Unless the query is invalid it will always return a 'result array'. It may
+     * complain in the log but it won't abort.
+     *
      * @param string $q                     search string
      * @param array<string> $contenttypes   contenttype names to search for
      *                                      null means every searchable contenttype
+     * @param array<string,array> $filters  additional filters for contenttypes
+     *                                      <key is contenttype and array is filter>
      * @param integer $limit                limit the number of results
      * @param integer $offset               skip this number of results
+     * @return mixed                        false if query is invalid,
+     *                                      an array with results if query was executed
      */
-    public function searchContent($q, array $contenttypes = null, $limit = 100, $offset = 0)
+    public function searchContent($q, array $contenttypes = null, array $filters = null, $limit = 100, $offset = 0)
     {
         $query = $this->decodeSearchQuery($q);
         if (!$query['valid']) {
@@ -660,10 +678,15 @@ class Storage
         // Build our search results array
         $results = array();
         foreach ($contenttypes as $contenttype) {
-            $table = $this->getTablename($contenttype);
+            $table  = $this->getTablename($contenttype);
             $fields = $app_ct[$contenttype]['fields'];
+            $filter = null;
 
-            $sub_results = $this->searchSingleContentType($query, $contenttype, $table, $fields);
+            if (is_array($filters) && isset($filters[$contenttype])) {
+                $filter = $filters[$contenttype];
+            }
+
+            $sub_results = $this->searchSingleContentType($query, $contenttype, $table, $fields, $filter);
 
             $results = array_merge($results, $sub_results);
         }

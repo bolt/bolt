@@ -338,7 +338,29 @@ class Frontend implements ControllerProviderInterface
         $offset = ($page - 1) * $page_size;
         $limit  = $page_size;
 
-        $result = $app['storage']->searchContent($q, null, $limit, $offset);
+        // set-up filters from URL
+        $filters = array();
+        foreach($request->query->all() as $key => $value) {
+            if (strpos($key, '_') > 0) {
+                list($contenttypeslug, $field) = explode('_', $key, 2);
+                if (isset($filters[$contenttypeslug])) {
+                    $filters[$contenttypeslug][$field] = $value;
+                }
+                else {
+                    $contenttype = $app['storage']->getContentType($contenttypeslug);
+                    if (is_array($contenttype)) {
+                        $filters[$contenttypeslug] = array(
+                            $field => $value
+                        );
+                    }
+                }
+            }
+        }
+        if (count($filters) == 0) {
+            $filters = null;
+        }
+
+        $result = $app['storage']->searchContent($q, null, $filters, $limit, $offset);
 
         $pager = array(
             'for' => 'search',
