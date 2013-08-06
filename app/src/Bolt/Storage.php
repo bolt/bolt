@@ -1113,21 +1113,28 @@ class Storage
     }
 
     /**
-     * Split into meta-parameters and searchable parameters
+     * Split into meta-parameters and contenttype parameters
      * 
      * @see $this->decodeContentQuery()
      */
     private function organizeQueryParameters($in_parameters = null)
     {
-        $meta_parameters  = array();
-        $where_parameters = array();
+        $meta_parameters  = array(
+            'order' => false
+        );
+        $ctype_parameters = array();
         if (is_array($in_parameters)) {
             foreach($in_parameters as $key => $value) {
-                if (in_array($key, array('order', 'page', 'limit', 'offset', 'filter', 'returnsingle', 'printquery'))) {
+                if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging'))) {
                     $meta_parameters[$key] = $value;
                 }
                 else {
-                    $where_parameters[$key] = $value;
+                    $ctype_parameters[$key] = $value;
+
+                    if (($key == 'order') && ($value != '')) {
+                        // something is sorted
+                        $meta_parameters['order'] = true;
+                    }
                 }
             }
         }
@@ -1139,7 +1146,17 @@ class Storage
             $meta_parameters['page'] = 1;
         }
 
-        return array($meta_parameters, $where_parameters);
+        // oof!
+        if (!empty($meta_parameters['paging']) && $this->app->raw('request') instanceof Request) {
+            $meta_parameters['page'] = $this->app['request']->get('page', $meta_parameters['page']);
+        }
+
+        // oof, part deux!
+        if (($meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
+            $meta_parameters['order'] = $this->app['request']->get('order', false);
+        }
+
+        return array($meta_parameters, $ctype_parameters);
     }
 
     /**
@@ -1149,27 +1166,30 @@ class Storage
      *
      * @param array $decoded           a pre-set decoded array to fill
      * @param array $meta_parameters   meta parameters
-     * @param array $where_parameters  searchable parameters
+     * @param array $ctype_parameters  contenttype parameters
      */
-    private function parseTextQuery($textquery, array &$decoded, array &$meta_parameters, array &$where_parameters)
+    private function parseTextQuery($textquery, array &$decoded, array &$meta_parameters, array &$ctype_parameters)
     {
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
         if (preg_match('#^/?([a-z0-9_-]+)/([0-9]+)$#i', $textquery, $match)) {
             // like 'entry/12' or '/page/12345'
             $decoded['contenttypes'][] = $match[1];
             $decoded['return_single']  = true;
-            $where_parameters['id']    = $match[2];
-        } elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $textquery, $match)) {
+            $ctype_parameters['id']    = $match[2];
+        }
+        elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $textquery, $match)) {
             // like 'page/lorem-ipsum-dolor' or '/page/home'
             $decoded['contenttypes'][] = $match[1];
             $decoded['return_single']  = true;
-            $where_parameters['slug']  = $match[2];
-        } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
+            $ctype_parameters['slug']  = $match[2];
+        }
+        elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/latest/5'
             $decoded['contenttypes'][] = $match[1];
             $meta_parameters['order']  = 'datepublish ' . ($match[2]=='latest' ? 'DESC' : 'ASC');
             $meta_parameters['limit']  = $match[3];
-        } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
+        }
+        elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/random/4'
             $decoded['contenttypes'][] = $match[1];
             $meta_parameters['order']  = 'RANDOM';
@@ -1178,15 +1198,15 @@ class Storage
         else {
             $decoded['contenttypes'][] = $textquery;
 
-            if (isset($where_parameters['id']) && (is_numeric($where_parameters['id']))) {
+            if (isset($ctype_parameters['id']) && (is_numeric($ctype_parameters['id']))) {
                 $decoded['return_single'] = true;
             }
         }
 
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
-        if (isset($this->app['end']) && $this->app['end']=="frontend" && empty($where_parameters['status'])) {
-            $where_parameters['status'] = "published";
+        if (isset($this->app['end']) && $this->app['end']=="frontend" && empty($ctype_parameters['status'])) {
+            $ctype_parameters['status'] = "published";
         }
 
         if (isset($meta_parameters['returnsingle'])) {
@@ -1198,7 +1218,7 @@ class Storage
         echo '<pre>';
         var_dump($decoded);
         var_dump($meta_parameters);
-        var_dump($where_parameters);
+        var_dump($ctype_parameters);
         echo '<hr/>';
         //*/
     }
@@ -1208,13 +1228,13 @@ class Storage
      *
      * @see $this->decodeContentQuery()
      */
-    private function prepareDecodedQueryForUse(&$decoded, &$meta_parameters, &$where_parameters)
+    private function prepareDecodedQueryForUse(&$decoded, &$meta_parameters, &$ctype_parameters)
     {
         // If there is only 1 contenttype we assume the where is NOT nested
         if (count($decoded['contenttypes']) == 1) {
             // So we need to add this nesting
-            $where_parameters = array(
-                $decoded['contenttypes'][0] => $where_parameters
+            $ctype_parameters = array(
+                $decoded['contenttypes'][0] => $ctype_parameters
             );
         }
         else {
@@ -1222,10 +1242,49 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if ($decoded['sort_callback'] !== false) {
+        if ($decoded['order_callback'] !== false) {
             // Callback sorting disables pagination
             $decoded['self_paginated'] = false;
         }
+
+        if ($meta_parameters['order'] === false) {
+            if (count($decoded['contenttypes']) == 1) {
+                if ($this->getContentTypeGrouping($decoded['contenttypes'][0])) {
+                    $decoded['order_callback'] = array($this, 'groupingSort');
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the parameter for the 'order by' part of a query.
+     *
+     * @param array $contenttype
+     * @param string $order_value
+     * @return string
+     */
+    private function decodeQueryOrder($contenttype, $order_value)
+    {
+        $order = false;
+
+        if ($order_value === false) {
+            if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
+                $order = $this->getEscapedSortorder($contenttype['sort'], false);
+            }
+        }
+        else {
+            $par_order = safeString($order_value);
+            if ($par_order == 'RANDOM') {
+                $dboptions = getDBOptions($this->app['config']);
+                $order = $dboptions['randomfunction'];
+            }
+            elseif ($this->isValidColumn($par_order, $contenttype, true)) {
+                $order = $this->getEscapedSortorder($par_order, false);
+            }
+        }
+
+        return $order;
+
     }
 
     /**
@@ -1237,12 +1296,13 @@ class Storage
      *    contenttypes           - array, contenttypeslugs that will be returned
      *    return_single          - boolean, true if only 1 result should be returned
      *    self_paginated         - boolean, true if already be paginated
-     *    sort_callback          - callback, sort results post-hydration after everything is merged
+     *    order_callback         - callback, sort results post-hydration after everything is merged
      *    queries                - array of SQL query parts
      *       tablename             - tablename
      *       contenttype           - contenttype array
      *       from                  - from part
      *       where                 - where part
+     *       order                 - order part
      *       params                - bind-parameters
      *    parameters             - parameters to use after the queries
      */
@@ -1252,36 +1312,53 @@ class Storage
             'contenttypes'        => array(),
             'return_single'       => false,
             'self_paginated'      => true,
-            'sort_callback'       => false,
+            'order_callback'      => false,
             'queries'             => array(),
             'parameters'          => array(),
         );
 
-        list($meta_parameters, $where_parameters) = $this->organizeQueryParameters($in_parameters);
+        list($meta_parameters, $ctype_parameters) = $this->organizeQueryParameters($in_parameters);
 
-        $this->parseTextQuery($textquery, $decoded, $meta_parameters, $where_parameters);
+        $this->parseTextQuery($textquery, $decoded, $meta_parameters, $ctype_parameters);
 
-        $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $where_parameters);
+        $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $ctype_parameters);
 
         $decoded['parameters'] = $meta_parameters;
 
+        //echo '<pre>'; var_dump($decoded); echo '</pre>';
+
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
-        foreach ($where_parameters as $contenttypeslug => $actual_where) {
+        foreach ($ctype_parameters as $contenttypeslug => $actual_parameters) {
             $contenttype = $this->getContentType($contenttypeslug);
             $tablename   = $this->getTablename($contenttype['slug']);
             $where       = array();
+            $order       = array();
 
             $query  = array(
                 'tablename' => $tablename,
                 'contenttype' => $contenttype,
                 'from' => sprintf('FROM %s', $tablename),
                 'where' => '',
+                'order' => '',
                 'params' => array()
             );
 
-            if (is_array($actual_where)) {
+            if (is_array($actual_parameters)) {
                 // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
-                foreach ($actual_where as $key => $value) {
+                foreach ($actual_parameters as $key => $value) {
+
+                    if ($key == 'order') {
+                        $order_value = $this->decodeQueryOrder($contenttype, $value);
+                        if ($order_value !== false) {
+                            $order[] = $order_value;
+                        }
+                        continue;
+                    }
+
+                    if ($key == 'filter') {
+                        // @todo do something!
+                        continue;
+                    }
 
                     // for all the parameters that are fields
                     if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
@@ -1309,10 +1386,16 @@ class Storage
                 }
             }
 
-            // @todo handle $parameter['filter']
+            if (count($order) == 0) {
+                // we didn't add table, maybe this is an issue
+                $order[] = 'datepublish DESC';
+            }
 
             if (count($where) > 0) {
                 $query['where'] = 'WHERE ( '.implode(' AND ', $where).' )';
+            }
+            if (count($order) > 0) {
+                $query['order'] = 'ORDER BY '.implode(', ', $order);
             }
 
             $decoded['queries'][] = $query;
@@ -1381,7 +1464,7 @@ class Storage
             return false;
         }
 
-        $this->app['log']->add('Storage: running textquery: '.$textquery);
+        //$this->app['log']->add('Storage: running textquery: '.$textquery);
 
         // Run checks and some actions (@todo put these somewhere else?)
         if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
@@ -1389,23 +1472,26 @@ class Storage
         }
 
         // Perform actual queries and hydrate
-        $total_results = 0;
+        $total_results = false;
         $results       = false;
         foreach($decoded['queries'] as $query) {
-            $statement = sprintf('SELECT %s.* %s %s',
+            $statement = sprintf('SELECT %s.* %s %s %s',
                 $query['tablename'],
                 $query['from'],
-                $query['where']
+                $query['where'],
+                $query['order']
             );
 
             if ($decoded['self_paginated'] === true) {
                 // self pagination requires an extra query to return the actual number of results
-                $count_statement = sprintf('SELECT COUNT(*) as count %s %s',
-                    $query['from'],
-                    $query['where']
-                );
-                $count_row     = $this->app['db']->executeQuery($count_statement)->fetch();
-                $total_results = $count_row['count'];
+                if ($decoded['return_single'] === false) {
+                    $count_statement = sprintf('SELECT COUNT(*) as count %s %s',
+                        $query['from'],
+                        $query['where']
+                    );
+                    $count_row     = $this->app['db']->executeQuery($count_statement)->fetch();
+                    $total_results = $count_row['count'];
+                }
 
 
                 $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
@@ -1428,17 +1514,17 @@ class Storage
             }
         }
 
-        if ($decoded['self_paginated'] === false) {
+        if ($total_results === false) {
             $total_results = count($results);
         }
 
         // Perform post hydration callback
-        if ($decoded['sort_callback'] !== false) {
-            if (is_scalar($decoded['sort_callback']) && ($decoded['sort_callback'] == 'RANDOM')) {
+        if ($decoded['order_callback'] !== false) {
+            if (is_scalar($decoded['order_callback']) && ($decoded['order_callback'] == 'RANDOM')) {
                 shuffle($results);
             }
             else {
-                uasort($results, $decoded['sort_callback']);
+                uasort($results, $decoded['order_callback']);
             }
         }
 
@@ -1452,9 +1538,6 @@ class Storage
         if ($limit !== false) {
             $results = array_slice($results, $offset, $limit);
         }
-
-        // @todo return_single etc
-        // @todo set pager
 
         if ($decoded['return_single']) {
             if (util::array_first_key($results)) {
@@ -1736,7 +1819,7 @@ class Storage
 
         // Strip the minus in '-title' if allowed..
         if ($allowVariants) {
-            if ($name[0] == "-") {
+            if ((strlen($name) > 0) && ($name[0] == "-")) {
                 $name = substr($name, 1);
             }
             $name = $this->getFieldName($name);
@@ -1778,7 +1861,12 @@ class Storage
 
         list ($name, $asc) = $this->getSortOrder($name);
 
-        $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+        if ($prefix !== false) {
+            $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+        }
+        else {
+            $order = $this->app['db']->quoteIdentifier($name);
+        }
 
         if (!$asc) {
             $order .= " DESC";
