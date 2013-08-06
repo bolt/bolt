@@ -29,21 +29,19 @@ require_once __DIR__.'/classes/util.php';
 // Start the timer:
 $starttime = getMicrotime();
 
-$config = new \Bolt\Config();
-
-// Finally, check if the app/database folder is writable, if it needs to be.
-$checker->doDatabaseCheck($config);
-
-$dboptions = $config->getDBOptions();
-
 $app = new Bolt\Application();
 
-$app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
+$app->register(new Bolt\ConfigServiceProvider());
+
+// Finally, check if the app/database folder is writable, if it needs to be.
+$checker->doDatabaseCheck($app['config']);
+
+$dboptions = $app['config']->getDBOptions();
+
+$app['debug'] = (!empty($config['general']['debug'])) ? $app['config']['general']['debug'] : false;
 $app['debugbar'] = false;
 
-list ($app['locale'], $app['territory']) = explode('_', $config['general']['locale']);
-
-$app['config'] = $config;
+list ($app['locale'], $app['territory']) = explode('_', $app['config']['general']['locale']);
 
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
@@ -52,11 +50,11 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
 ));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => $config['twigpath'],
+    'twig.path' => $app['config']['twigpath'],
     'twig.options' => array(
         'debug'=>true,
         'cache' => __DIR__.'/cache/',
-        'strict_variables' => $config['general']['strict_variables'],
+        'strict_variables' => $app['config']['general']['strict_variables'],
         'autoescape' => true )
 ));
 
@@ -99,7 +97,7 @@ $app->register(new Bolt\UsersServiceProvider(), array());
 $app->register(new Bolt\CacheServiceProvider(), array());
 $app->register(new Bolt\ExtensionServiceProvider(), array());
 
-$app['paths'] = getPaths($config);
+$app['paths'] = getPaths($app['config']);
 $app['twig']->addGlobal('paths', $app['paths']);
 
 $app['editlink'] = "";

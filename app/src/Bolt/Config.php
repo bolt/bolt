@@ -14,12 +14,14 @@ use Symfony\Component\Filesystem\Filesystem;
 class Config extends \Bolt\RecursiveArrayAccess
 {
 
-    function __construct($data = array()) {
-        parent::__construct($data);
+    private $app;
 
+    function __construct(\Bolt\Application $app) {
+
+        $this->app = $app;
         $this->getConfig();
 
-    }
+   }
 
     function getConfig()
     {
@@ -168,6 +170,97 @@ class Config extends \Bolt\RecursiveArrayAccess
         }
 
     }
+
+
+
+    /**
+     * Sanity checks for doubles in in contenttypes.
+     *
+     */
+    function checkConfig() {
+
+        $slugs = array();
+
+        foreach ($this['contenttypes'] as $key => $ct) {
+
+            // Make sure any field that has a 'uses' parameter actually points to a field that exists.
+            // For example, this will show a notice:
+            // entries:
+            //   name: Entries
+            //     singular_name: Entry
+            //     fields:
+            //       title:
+            //         type: text
+            //         class: large
+            //       slug:
+            //         type: slug
+            //         uses: name
+            //
+            foreach($ct['fields'] as $fieldname => $field) {
+                if (is_array($field) && !empty($field['uses']) ) {
+                    foreach($field['uses'] as $useField) {
+                        if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
+                            $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                                array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
+                            );
+                            $this->app['session']->getFlashBag()->set('error', $error);
+                        }
+                    }
+                }
+            }
+
+            // Show some helpful warnings if slugs or names are not set correctly.
+            if ($ct['slug'] == $ct['singular_slug']) {
+                $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
+                    array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
+                );
+                $this->app['session']->getFlashBag()->set('error', $error);
+            }
+
+            if ($ct['name'] == $ct['singular_name']) {
+                $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
+                    array( '%contenttype%' => $key, '%name%' => $ct['name'] )
+                );
+                $this->app['session']->getFlashBag()->set('error', $error);
+            }
+
+            // Keep a running score of used slugs..
+            if (!isset($slugs[ $ct['slug'] ])) { $slugs[ $ct['slug'] ] = 0; }
+            $slugs[ $ct['slug'] ]++;
+            if (!isset($slugs[ $ct['singular_slug'] ])) { $slugs[ $ct['singular_slug'] ] = 0; }
+            $slugs[ $ct['singular_slug'] ]++;
+
+        }
+
+        // Sanity checks for taxomy.yml
+        foreach ($this['taxonomy'] as $key => $taxo) {
+
+            // Show some helpful warnings if slugs or keys are not set correctly.
+            if ($taxo['slug'] != $key) {
+                $error =  __("The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
+                    array( '%taxonomytype%' => $key, '%slug%' => $taxo['slug'] )
+                );
+                $this->app['session']->getFlashBag()->set('error', $error);
+            }
+
+        }
+
+        // if there aren't any other errors, check for duplicates across contenttypes..
+        if (!$this->app['session']->getFlashBag()->has('error')) {
+            foreach ($slugs as $slug => $count) {
+                if ($count > 1) {
+                    $error =  __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                        array( '%slug%' => $slug )
+                    );
+                    $this->app['session']->getFlashBag()->set('error', $error);
+                }
+            }
+        }
+
+
+    }
+
+
 
     /**
      * Assume sensible defaults for a number of options.

@@ -11,9 +11,9 @@ class ConfigServiceProvider implements ServiceProviderInterface
     public function register(SilexApplication $app)
     {
 
-        $app['cache'] = $app->share(function () {
+        $app['config'] = $app->share(function ($app) {
 
-            $config = new Bolt\Config();
+            $config = new Bolt\Config($app);
 
             return $config;
 

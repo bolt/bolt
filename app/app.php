@@ -23,7 +23,7 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('config', $app['config']);
 
     // Sanity checks for doubles in in contenttypes.
-    checkConfig($app);
+    $app['config']->checkConfig();
 
 });
 
