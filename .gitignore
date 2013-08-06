@@ -14,5 +14,9 @@ __*
 .__*
 web
 theme/mybolt/
+Vagrantfile
+.vagrant
+scrutinizer.phar
+php-cs-fixer.phar
 
 *.sublime-*
