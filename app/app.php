@@ -16,7 +16,7 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('frontend', false);
     $app['twig']->addGlobal('backend', false);
     $app['twig']->addGlobal('async', false);
-    $app['twig']->addGlobal(getWhichEnd($app), true);
+    $app['twig']->addGlobal($app['config']->getWhichEnd(), true);
 
     $app['twig']->addGlobal('user', $app['users']->getCurrentUser());
     $app['twig']->addGlobal('users', $app['users']->getUsers());
@@ -169,7 +169,7 @@ $app->error(function (\Exception $e) use ($app) {
 
     $app['log']->add($twigvars['message'], 2, '', 'abort');
 
-    $end = getWhichEnd($app);
+    $end = $app['config']->getWhichEnd();
 
     $trace = $e->getTrace();
 

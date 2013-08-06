@@ -136,9 +136,6 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         }
 
-
-        $end = getWhichEnd($config['general']);
-
         // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
         $themepath = realpath(__DIR__.'/../../../theme/'. basename($config['general']['theme']));
         if ( isset( $config['general']['theme_path'] ) )
@@ -146,6 +143,8 @@ class Config extends \Bolt\RecursiveArrayAccess
             $themepath = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
         }
         $config['theme_path'] = $themepath;
+
+        $end = $this->getWhichEnd($config['general']['branding']['path']);
 
         if ( $end == "frontend" && file_exists($themepath) ) {
             $config['twigpath'] = array($themepath);
@@ -348,5 +347,48 @@ class Config extends \Bolt\RecursiveArrayAccess
     }
 
 
+    /**
+     * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
+     *
+     * @param string $mountpoint
+     * @return string
+     */
+    function getWhichEnd($mountpoint = "")
+    {
+
+        if (empty($mountpoint)) {
+            $mountpoint = $this['general']['branding']['path'];
+        }
+
+        if (!empty($_SERVER['REQUEST_URI'])) {
+            // Get the script's filename, but _without_ REQUEST_URI. We need to str_replace the slashes, because of a
+            // weird quirk in dirname on windows: http://nl1.php.net/dirname#refsect1-function.dirname-notes
+            $scriptdirname = "#" . str_replace("\\", "/", dirname($_SERVER['SCRIPT_NAME']));
+            $scripturi = str_replace($scriptdirname, '', "#".$_SERVER['REQUEST_URI']);
+            // make sure it starts with '/', like our mountpoint.
+            if (empty($scripturi) || ($scripturi[0] != "/") ) {
+                $scripturi = "/" . $scripturi;
+            }
+        } else {
+            // We're probably in CLI mode.
+            $this->app['end'] = "cli";
+            return "cli";
+        }
+
+        // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
+        // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
+        if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
+            $end = 'backend';
+        } else if ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
+            $end = 'async';
+        } else {
+            $end = 'frontend';
+        }
+
+        $this->app['end'] = $end;
+
+        return $end;
+
+    }
 
 }
