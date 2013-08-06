@@ -468,8 +468,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             return "cli";
         }
 
-        // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the Backend..
-        // Yeah.. Awesome.. Add the theme folder if it exists and is readable.
+        // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the backend or in async.
         if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
             $end = 'backend';
         } else if ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
