@@ -38,7 +38,7 @@ $checker->doDatabaseCheck($app['config']);
 
 $dboptions = $app['config']->getDBOptions();
 
-$app['debug'] = (!empty($config['general']['debug'])) ? $app['config']['general']['debug'] : false;
+$app['debug'] = (!empty($app['config']['general']['debug'])) ? $app['config']['general']['debug'] : false;
 $app['debugbar'] = false;
 
 list ($app['locale'], $app['territory']) = explode('_', $app['config']['general']['locale']);
