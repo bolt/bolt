@@ -803,6 +803,10 @@ fieldset.checkbox div {
     opacity: 0.5;
 }
 
+.preview {
+    padding: 0;
+}
+
 /** Overrides for CKeditor */
 
 .cke_reset_all, .cke_reset_all * {
