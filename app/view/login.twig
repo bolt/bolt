@@ -20,10 +20,15 @@
             </div>
 
             <div class="password">
-                <label style="margin-top: 0px;">{{ __('Password') }}</label>
+                <label>
+                    {{ __('Password') }}
+                    <span class="togglepass show"><i class="icon-eye-close"></i> {{ __('Show') }}</span>
+                    <span class="togglepass hide"><i class="icon-eye-open"></i> {{ __('Hide') }}</span>
+                </label>
                 <div class="input-prepend" >
                     <span class="add-on"><i class="icon-key"></i></span>
                     <input type="password" name="password" placeholder="{{ __('Your password') }} …">
+
                 </div>
             </div>
 
