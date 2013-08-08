@@ -315,13 +315,13 @@ class Async implements ControllerProviderInterface
                         'relativepath' => $relativepath,
                         'writable' => is_writable($fullfilename),
                         'readable' => is_readable($fullfilename),
-                        'type' => getExtension($entry),
+                        'type' => strtolower(getExtension($entry)),
                         'filesize' => formatFilesize(filesize($fullfilename)),
                         'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
                         'permissions' => \util::full_permissions($fullfilename)
                     );
 
-                    if (in_array(getExtension($entry), array('gif', 'jpg', 'png', 'jpeg'))) {
+                    if (in_array(strtolower(getExtension($entry)), array('gif', 'jpg', 'png', 'jpeg'))) {
                         $size = getimagesize($fullfilename);
                         $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                     }
