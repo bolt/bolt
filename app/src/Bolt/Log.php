@@ -244,7 +244,7 @@ class Log
 
     public function clear() {
 
-        $configdb = getDBOptions($this->app['config']);
+        $configdb = $this->app['config']->getDBOptions();
 
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" ) ) {
 

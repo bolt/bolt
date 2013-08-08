@@ -233,7 +233,7 @@ class Users
             $key .= "-". $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']['general']['cookies_use_httphost']) {
-            $key .= "-". $_SERVER['HTTP_HOST'];
+            $key .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
         }
 
         $key = md5($key);

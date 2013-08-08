@@ -400,7 +400,7 @@ class IntegrityChecker
      */
     protected function getContentTypeTablesSchema(Schema $schema) {
 
-        $dboptions = getDBOptions($this->app['config']);
+        $dboptions = $this->app['config']->getDBOptions();
 
         $tables = array();
 
