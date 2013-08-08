@@ -1203,8 +1203,9 @@ class Storage
         }
 
         $app_ct = $this->app['config']['contenttypes'];
-        $contenttypes = array_map(function($name) use ($app_ct){
-            $ct = $this->getContentType($name);
+        $instance = $this;
+        $contenttypes = array_map(function($name) use ($app_ct, $instance){
+            $ct = $instance->getContentType($name);
             return $ct['slug'];
         }, $contenttypes);
 
