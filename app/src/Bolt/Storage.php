@@ -1814,7 +1814,7 @@ class Storage
      */
     public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
-        if (true) {
+        if (false) {
             return $this->getContentOld($contenttypeslug, $parameters, $pager, $whereparameters);
         }
 
