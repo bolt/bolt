@@ -52,7 +52,13 @@ class Config extends \Bolt\RecursiveArrayAccess
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($config['general']['cookies_domain'])) {
 
-            $hostname = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME'];
+            if (isset($_SERVER['HTTP_HOST'])) {
+                $hostname = $_SERVER['HTTP_HOST'];
+            } elseif (isset($_SERVER['SERVER_NAME'])) {
+                $hostname = $_SERVER['SERVER_NAME'];
+            } else {
+                $hostname = "";
+            }
 
             // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
             if ((strpos($hostname, ".") > 0) && preg_match("/[a-z0-9]/i", $hostname) ) {

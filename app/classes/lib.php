@@ -978,6 +978,21 @@ function getBrowserInfo() {
 }
 
 /**
+ * Update our app/resources/browscap/ files.
+ */
+function updateBrowscap() {
+
+    // Create a new Browscap object (loads or creates the cache)
+    $bc = new \phpbrowscap\Browscap(dirname(__DIR__)."/resources/browscap/");
+
+    $bc->doAutoUpdate = true;
+
+    $browser = $bc->getBrowser();
+
+    print_r($browser);
+
+}
+/**
  * Replace the first occurence of a string only. Behaves like str_replace, but
  * replaces _only_ the _first_ occurence.
  * @see http://stackoverflow.com/a/2606638

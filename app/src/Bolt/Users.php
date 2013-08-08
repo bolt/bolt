@@ -17,7 +17,7 @@ class Users
     public $db;
     public $config;
     public $usertable;
-    public $sessiontable;
+    public $authtokentable;
     public $users;
     public $session;
     public $currentuser;
