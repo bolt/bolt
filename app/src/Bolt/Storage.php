@@ -1114,6 +1114,7 @@ class Storage
 
     /**
      * Split into meta-parameters and contenttype parameters
+     * (tightly coupled to $this->getContent())
      * 
      * @see $this->decodeContentQuery()
      */
@@ -1161,6 +1162,7 @@ class Storage
 
     /**
      * Parse textquery into useable arguments
+     * (tightly coupled to $this->getContent())
      * 
      * @see $this->decodeContentQuery()
      *
@@ -1225,6 +1227,7 @@ class Storage
 
     /**
      * Prepare decoded for actual use
+     * (tightly coupled to $this->getContent())
      *
      * @see $this->decodeContentQuery()
      */
@@ -1258,6 +1261,7 @@ class Storage
 
     /**
      * Get the parameter for the 'order by' part of a query.
+     * (tightly coupled to $this->getContent())
      *
      * @param array $contenttype
      * @param string $order_value
@@ -1289,6 +1293,7 @@ class Storage
 
     /**
      * Decode a content textquery
+     * (tightly coupled to $this->getContent())
      *
      * @param string $query      the query (eg. page/about, entries/latest/5)
      * @param array $parameters  parameters to the query
@@ -1449,6 +1454,14 @@ class Storage
         return $objects;
     }
 
+    /**
+     * getContent based on a 'human readable query'
+     *
+     * Used directly by {% setcontent %} but also in other parts.
+     * This code has been split into multiple methods in the spirit of separation of concerns,
+     * but the situation is still far from ideal.
+     * Where applicable each 'concern' notes the coupling in the local documentation.
+     */
     public function getContentNew($textquery, $parameters = '', &$pager = array(), $whereparameters)
     {
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
@@ -1518,7 +1531,7 @@ class Storage
             $total_results = count($results);
         }
 
-        // Perform post hydration callback
+        // Perform post hydration ordering
         if ($decoded['order_callback'] !== false) {
             if (is_scalar($decoded['order_callback']) && ($decoded['order_callback'] == 'RANDOM')) {
                 shuffle($results);
@@ -1539,6 +1552,7 @@ class Storage
             $results = array_slice($results, $offset, $limit);
         }
 
+        // Return content
         if ($decoded['return_single']) {
             if (util::array_first_key($results)) {
                 return util::array_first($results);
@@ -1800,7 +1814,7 @@ class Storage
      */
     public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
-        if (false) {
+        if (true) {
             return $this->getContentOld($contenttypeslug, $parameters, $pager, $whereparameters);
         }
 
