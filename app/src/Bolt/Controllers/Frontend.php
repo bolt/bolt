@@ -322,9 +322,15 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    public function searchWeighted(Request $request, Silex\Application $app)
+    public function search(Request $request, Silex\Application $app)
     {
-        $q = $request->get('q');
+        $q = '';
+        if ($request->query->has('q')) {
+            $q = $request->get('q');
+        }
+        else if ($request->query->has('search')) {
+            $q = $request->get('search');
+        }
 
         // Make paging work
         $page_size = 10;
@@ -381,18 +387,6 @@ class Frontend implements ControllerProviderInterface
         $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
 
         return $app['twig']->render($template);
-    }
-
-    public function search(Request $request, Silex\Application $app)
-    {
-        // Use the older non-weighted search?
-        if ($request->query->has('search')) {
-            $search = $request->get('search');
-
-            return $this->searchNotWeighted($request, $app);
-        }
-
-        return $this->searchWeighted($request, $app);
     }
 
 
