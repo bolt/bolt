@@ -72,7 +72,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('current', array($this, 'current')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('image', array($this, 'image')),
-            new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
