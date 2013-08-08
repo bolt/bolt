@@ -642,7 +642,9 @@ class Storage
     }
 
     /**
-     * Compare the search weights
+     * Compare by search weights
+     *
+     * Or fallback to dates or title
      */
     private function compareSearchWeights($a, $b)
     {
@@ -652,7 +654,15 @@ class Storage
         if ($a->getSearchResultWeight() < $b->getSearchResultWeight()) {
             return +1;
         }
-        return 0;
+        if ($a['datepublish'] > $b['datepublish']) {
+            // later is more important
+            return -1;
+        }
+        if ($a['datepublish'] < $b['datepublish']) {
+            // earlier is less important
+            return +1;
+        }
+        return strcasecmp($a['title'], $b['title']);
     }
 
     /**
@@ -689,13 +699,18 @@ class Storage
                 }
                 return true;
             });
+            $contenttypes = array_map(function($ct) use ($app_ct){
+                return $app_ct[$ct]['slug'];
+            }, $contenttypes);
         }
 
         // Build our search results array
         $results = array();
         foreach ($contenttypes as $contenttype) {
+            $ctconfig = $this->getContentType($contenttype);
+
             $table  = $this->getTablename($contenttype);
-            $fields = $app_ct[$contenttype]['fields'];
+            $fields = $ctconfig['fields'];
             $filter = null;
 
             if (is_array($filters) && isset($filters[$contenttype])) {
@@ -709,17 +724,6 @@ class Storage
 
         // Sort the results
         usort($results, array($this, 'compareSearchWeights'));
-        /*
-        usort($results, function(&$a, &$b){
-            if ($a->getSearchResultWeight() > $b->getSearchResultWeight()) {
-                return -1;
-            }
-            if ($a->getSearchResultWeight() < $b->getSearchResultWeight()) {
-                return +1;
-            }
-            return 0;
-        });
-         */
 
         $no_of_results = count($results);
 
@@ -1213,6 +1217,9 @@ class Storage
      */
     private function parseTextQuery($textquery, array &$decoded, array &$meta_parameters, array &$ctype_parameters)
     {
+        // Our default callback
+        $decoded['queries_callback'] = array($this, 'executeGetContentQueries');
+
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
         if (preg_match('#^/?([a-z0-9_-]+)/([0-9]+)$#i', $textquery, $match)) {
             // like 'entry/12' or '/page/12345'
@@ -1245,6 +1252,8 @@ class Storage
             if (count($match) >= 3) {
                 $meta_parameters['limit']  = $match[3];
             }
+
+            $decoded['queries_callback'] = array($this, 'executeGetContentSearch');
         }
         else {
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
@@ -1540,35 +1549,33 @@ class Storage
     }
 
     /**
-     * getContent based on a 'human readable query'
-     *
-     * Used directly by {% setcontent %} but also in other parts.
-     * This code has been split into multiple methods in the spirit of separation of concerns,
-     * but the situation is still far from ideal.
-     * Where applicable each 'concern' notes the coupling in the local documentation.
+     * Execute the content queries
+     * (tightly coupled to $this->getContentNew())
+     * 
+     * @see $this->getContentNew()
      */
-    public function getContentNew($textquery, $parameters = '', &$pager = array(), $whereparameters)
+    private function executeGetContentSearch($decoded, $parameters)
     {
-        // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
-        if (!empty($whereparameters)) {
-            $parameters = array_merge((array)$parameters, (array)$whereparameters);
-        }
+        $results = $this->searchContent(
+            $parameters['filter'],
+            $decoded['contenttypes'],
+            null
+        );
 
-        // Decode this textquery
-        $decoded = $this->decodeContentQuery($textquery, $parameters);
-        if ($decoded === false) {
-            $this->app['log']->add("Storage: No valid query '$textquery'");
+        return array(
+            $results['results'],
+            $results['no_of_results']
+        );
+    }
 
-            return false;
-        }
-
-        //$this->app['log']->add('Storage: running textquery: '.$textquery);
-
-        // Run checks and some actions (@todo put these somewhere else?)
-        if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
-            return false;
-        }
-
+    /**
+     * Execute the content queries
+     * (tightly coupled to $this->getContentNew())
+     * 
+     * @see $this->getContentNew()
+     */
+    private function executeGetContentQueries($decoded, $parameters)
+    {
         // Perform actual queries and hydrate
         $total_results = false;
         $results       = false;
@@ -1615,6 +1622,45 @@ class Storage
         if ($total_results === false) {
             $total_results = count($results);
         }
+
+        return array($results, $total_results);
+    }
+
+    /**
+     * getContent based on a 'human readable query'
+     *
+     * Used directly by {% setcontent %} but also in other parts.
+     * This code has been split into multiple methods in the spirit of separation of concerns,
+     * but the situation is still far from ideal.
+     * Where applicable each 'concern' notes the coupling in the local documentation.
+     */
+    public function getContentNew($textquery, $parameters = '', &$pager = array(), $whereparameters)
+    {
+        // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
+        if (!empty($whereparameters)) {
+            $parameters = array_merge((array)$parameters, (array)$whereparameters);
+        }
+
+        // Decode this textquery
+        $decoded = $this->decodeContentQuery($textquery, $parameters);
+        if ($decoded === false) {
+            $this->app['log']->add("Storage: No valid query '$textquery'");
+
+            return false;
+        }
+
+        //$this->app['log']->add('Storage: running textquery: '.$textquery);
+
+        // Run checks and some actions (@todo put these somewhere else?)
+        if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
+            return false;
+        }
+
+        // Run the actual queries
+        list($results, $total_results) = call_user_func(
+            $decoded['queries_callback'],
+            $decoded, $parameters
+        );
 
         // Perform post hydration ordering
         if ($decoded['order_callback'] !== false) {
