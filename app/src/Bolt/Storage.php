@@ -1361,7 +1361,21 @@ class Storage
                     }
 
                     if ($key == 'filter') {
-                        // @todo do something!
+                        $filter = safeString($value);
+
+                        $filter_where = array();
+                        foreach ($contenttype['fields'] as $name => $fieldconfig) {
+                            if (in_array($fieldconfig['type'], array('text', 'textarea', 'html', 'markdown'))) {
+                                $filter_where[] = sprintf('%s.%s LIKE %s',
+                                    $tablename,
+                                    $name,
+                                    $this->app['db']->quote('%'.$value.'%')
+                                );
+                            }
+                        }
+                        if (count($filter_where) > 0) {
+                            $where[] = '(' . implode(' OR ', $filter_where) . ')';
+                        }
                         continue;
                     }
 
