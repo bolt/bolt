@@ -1202,6 +1202,12 @@ class Storage
             $contenttypes[] = $text;
         }
 
+        $app_ct = $this->app['config']['contenttypes'];
+        $contenttypes = array_map(function($name) use ($app_ct){
+            $ct = $this->getContentType($name);
+            return $ct['slug'];
+        }, $contenttypes);
+
         return $contenttypes;
     }
 
@@ -1227,6 +1233,16 @@ class Storage
             $decoded['return_single'] = true;
             $ctype_parameters['id']   = $match[2];
         }
+        elseif (preg_match('#^/?([a-z0-9_(\),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
+            // like 'page/search or '(entry,page)/search'
+            $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
+            $meta_parameters['order']  = array($this, 'compareSearchWeights');
+            if (count($match) >= 3) {
+                $meta_parameters['limit']  = $match[3];
+            }
+
+            $decoded['queries_callback'] = array($this, 'executeGetContentSearch');
+        }
         elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $textquery, $match)) {
             // like 'page/lorem-ipsum-dolor' or '/page/home'
             $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
@@ -1244,16 +1260,6 @@ class Storage
             $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
             $meta_parameters['order']  = 'RANDOM';
             $meta_parameters['limit']  = $match[2];
-        }
-        elseif (preg_match('#^/?([a-z0-9_(),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
-            // like 'page/search or '(entry,page)/search'
-            $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
-            $meta_parameters['order']  = array($this, 'compareSearchWeights');
-            if (count($match) >= 3) {
-                $meta_parameters['limit']  = $match[3];
-            }
-
-            $decoded['queries_callback'] = array($this, 'executeGetContentSearch');
         }
         else {
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
@@ -1559,7 +1565,8 @@ class Storage
         $results = $this->searchContent(
             $parameters['filter'],
             $decoded['contenttypes'],
-            null
+            null,
+            isset($decoded['parameters']['limit']) ? $decoded['parameters']['limit'] : 2000
         );
 
         return array(
