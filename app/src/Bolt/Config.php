@@ -357,7 +357,7 @@ class Config extends \Bolt\RecursiveArrayAccess
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => __DIR__ . "/../database/" . $basename,
+                'path' => __DIR__ . "/../../database/" . $basename,
                 'randomfunction' => "RANDOM()"
             );
 
