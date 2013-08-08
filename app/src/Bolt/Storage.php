@@ -642,6 +642,20 @@ class Storage
     }
 
     /**
+     * Compare the search weights
+     */
+    private function compareSearchWeights($a, $b)
+    {
+        if ($a->getSearchResultWeight() > $b->getSearchResultWeight()) {
+            return -1;
+        }
+        if ($a->getSearchResultWeight() < $b->getSearchResultWeight()) {
+            return +1;
+        }
+        return 0;
+    }
+
+    /**
      * Search through actual content
      *
      * Unless the query is invalid it will always return a 'result array'. It may
@@ -694,6 +708,8 @@ class Storage
         }
 
         // Sort the results
+        usort($results, array($this, 'compareSearchWeights'));
+        /*
         usort($results, function(&$a, &$b){
             if ($a->getSearchResultWeight() > $b->getSearchResultWeight()) {
                 return -1;
@@ -703,6 +719,7 @@ class Storage
             }
             return 0;
         });
+         */
 
         $no_of_results = count($results);
 
@@ -1161,6 +1178,30 @@ class Storage
     }
 
     /**
+     * Decode a contenttypes argument from text
+     * 
+     * (entry,page) -> array('entry', 'page')
+     * event -> array('event')
+     *
+     * @param string $text      text with contenttypes
+     * @return array            array with contenttype(slug)s
+     */
+    private function decodeContentTypesFromText($text)
+    {
+        $contenttypes = array();
+
+        if ((substr($text, 0, 1) == '(') &&
+            (substr($text, -1) == ')')) {
+            $contenttypes = explode(',', substr($text, 1, -1));
+        }
+        else {
+            $contenttypes[] = $text;
+        }
+
+        return $contenttypes;
+    }
+
+    /**
      * Parse textquery into useable arguments
      * (tightly coupled to $this->getContent())
      * 
@@ -1175,30 +1216,38 @@ class Storage
         // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
         if (preg_match('#^/?([a-z0-9_-]+)/([0-9]+)$#i', $textquery, $match)) {
             // like 'entry/12' or '/page/12345'
-            $decoded['contenttypes'][] = $match[1];
-            $decoded['return_single']  = true;
-            $ctype_parameters['id']    = $match[2];
+            $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
+            $decoded['return_single'] = true;
+            $ctype_parameters['id']   = $match[2];
         }
         elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $textquery, $match)) {
             // like 'page/lorem-ipsum-dolor' or '/page/home'
-            $decoded['contenttypes'][] = $match[1];
-            $decoded['return_single']  = true;
-            $ctype_parameters['slug']  = $match[2];
+            $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
+            $decoded['return_single'] = true;
+            $ctype_parameters['slug'] = $match[2];
         }
         elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/latest/5'
-            $decoded['contenttypes'][] = $match[1];
-            $meta_parameters['order']  = 'datepublish ' . ($match[2]=='latest' ? 'DESC' : 'ASC');
-            $meta_parameters['limit']  = $match[3];
+            $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
+            $meta_parameters['order'] = 'datepublish ' . ($match[2]=='latest' ? 'DESC' : 'ASC');
+            $meta_parameters['limit'] = $match[3];
         }
         elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/random/4'
-            $decoded['contenttypes'][] = $match[1];
+            $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
             $meta_parameters['order']  = 'RANDOM';
             $meta_parameters['limit']  = $match[2];
         }
+        elseif (preg_match('#^/?([a-z0-9_(),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
+            // like 'page/search or '(entry,page)/search'
+            $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
+            $meta_parameters['order']  = array($this, 'compareSearchWeights');
+            if (count($match) >= 3) {
+                $meta_parameters['limit']  = $match[3];
+            }
+        }
         else {
-            $decoded['contenttypes'][] = $textquery;
+            $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
 
             if (isset($ctype_parameters['id']) && (is_numeric($ctype_parameters['id']))) {
                 $decoded['return_single'] = true;
@@ -1241,6 +1290,25 @@ class Storage
             );
         }
         else {
+            // We need to set every non-contenttypeslug parameters to each individual contenttypes
+            $global_parameters = array();
+            foreach($ctype_parameters as $key => $parameter) {
+                if (!in_array($key, $decoded['contenttypes'])) {
+                    $global_parameters[$key] = $parameter;
+                }
+            }
+            foreach($global_parameters as $key => $parameter) {
+                unset($ctype_parameters[$key]);
+                foreach($decoded['contenttypes'] as $contenttype) {
+                    if (!isset($ctype_parameters[$contenttype])) {
+                        $ctype_parameters[$contenttype] = array();
+                    }
+                    if (!isset($ctype_parameters[$contenttype][$key])) {
+                        $ctype_parameters[$contenttype][$key] = $parameter;
+                    }
+                }
+            }
+
             // In this case query pagination never makes sense!
             $decoded['self_paginated'] = false;
         }
@@ -1330,8 +1398,6 @@ class Storage
 
         $decoded['parameters'] = $meta_parameters;
 
-        //echo '<pre>'; var_dump($decoded); echo '</pre>';
-
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($ctype_parameters as $contenttypeslug => $actual_parameters) {
             $contenttype = $this->getContentType($contenttypeslug);
@@ -1347,6 +1413,11 @@ class Storage
                 'order' => '',
                 'params' => array()
             );
+
+            if ($contenttype === false) {
+                $this->app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
+                continue;
+            }
 
             if (is_array($actual_parameters)) {
                 // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
