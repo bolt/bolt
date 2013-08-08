@@ -43,7 +43,9 @@
             <td>{{ file.filesize }}.</td>
             <td>{% if file.imagesize is defined %}{{ file.imagesize }} px.{% endif %}</td>
             <td>
-                <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-mini fancybox" rel='fancybox' title="Image: {{ file.filename }}">Preview</a>
+                <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn preview fancybox" rel='fancybox' title="Image: {{ file.filename }}">
+                <img src="{{ file.newpath|thumbnail(100, 100, 'r') }}" alt="Image: {{ file.filename }}"><br />
+                Preview</a>
             </td>
         </tr>
     {% endif %}
