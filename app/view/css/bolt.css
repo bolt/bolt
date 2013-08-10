@@ -378,6 +378,10 @@ footer  {
     padding: 4px 2px 2px;
 }
 
+.dashboardlisting td.listthumb img {
+    max-width: inherit; /* correcting an issue that first popped up in Chrome-dev 30. */
+}
+
 .dashboardlisting td.actions {
     min-width: 78px;
     text-align: right;
