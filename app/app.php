@@ -23,6 +23,7 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('config', $app['config']);
 
     // Sanity checks for doubles in in contenttypes.
+    // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
     $app['config']->checkConfig();
 
 });

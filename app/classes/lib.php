@@ -992,6 +992,136 @@ function updateBrowscap() {
     print_r($browser);
 
 }
+
+
+
+/**
+ * Loads a serialized file, unserializes it, and returns it.
+ *
+ * If the file isn't readable (or doesn't exist) or reading it fails,
+ * false is returned.
+ *
+ * @param string $filename
+ * @param boolean $silent Set to true if you want an visible error.
+ * @return mixed
+ */
+function loadSerialize($filename, $silent=false) {
+
+    $filename = fixpath($filename);
+
+    if (!is_readable($filename)) {
+
+        // If we're setting up PivotX, we can't set the paths before we initialise
+        // the configuration and vice-versa. So, we just bail out if the paths aren't
+        // set yet.
+        if(empty($PIVOTX['paths']['pivotx_path'])) { return; }
+
+        if (is_readable($PIVOTX['paths']['pivotx_path'].$filename)) {
+            $filename = $PIVOTX['paths']['pivotx_path'].$filename;
+        } else {
+            $filename = "../".$filename;
+        }
+    }
+
+    if (!is_readable($filename)) {
+
+        if ($silent) {
+            return FALSE;
+        }
+
+        $message = sprintf(__("<p>The following file could not be read:</p>%s" .
+            "<p>Try logging in with your ftp-client and make the file readable. " .
+            "Else try to go <a href='javascript:history.go(-1)'>back</a> to the last page.</p>"),
+            '<pre>' . htmlspecialchars($filename) . '</pre>'
+        );
+        renderErrorpage(__("File is not readable!"), $message);
+    }
+
+    $serialized_data = trim(implode("", file($filename)));
+
+    $serialized_data = str_replace("<?php /* bolt */ die(); ?>", "", $serialized_data);
+
+    @$data = unserialize($serialized_data);
+    if (is_array($data)) {
+        return $data;
+    } else {
+        $temp_serialized_data = preg_replace("/\r\n/", "\n", $serialized_data);
+        if (@$data = unserialize($temp_serialized_data)) {
+            return $data;
+        } else {
+            $temp_serialized_data = preg_replace("/\n/", "\r\n", $serialized_data);
+            if (@$data = unserialize($temp_serialized_data)) {
+                return $data;
+            } else {
+                return FALSE;
+            }
+        }
+    }
+}
+
+// This function serializes some data and then saves it.
+function saveSerialize($filename, &$data) {
+
+    $filename = fixPath($filename);
+
+    $ser_string = "<?php /* bolt */ die(); ?>".serialize($data);
+
+    // disallow user to interrupt
+    ignore_user_abort(true);
+
+    $old_umask = umask(0111);
+
+    // open the file and lock it.
+    if($fp=fopen($filename, "a")) {
+
+        if (flock( $fp, LOCK_EX | LOCK_NB )) {
+
+            // Truncate the file (since we opened it for 'appending')
+            ftruncate($fp, 0);
+
+            // Write to our locked, empty file.
+            if (fwrite($fp, $ser_string)) {
+                flock( $fp, LOCK_UN );
+                fclose($fp);
+            } else {
+                flock( $fp, LOCK_UN );
+                fclose($fp);
+
+                // todo: handle errors better.
+                echo("Error opening file<br/><br/>The file <b>$filename</b> could not be written! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
+                die();
+                return false;
+            }
+
+        } else {
+            fclose($fp);
+
+            // todo: handle errors better.
+            echo("Error opening file<br/><br/>Could not lock <b>$filename</b> for writing! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
+            die();
+            return false;
+
+        }
+
+    } else {
+        // todo: handle errors better.
+        echo("Error opening file<br/><br/>The file <b>$filename</b> could not be opened for writing! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
+        debug_printbacktrace();
+        die();
+        return false;
+    }
+    umask($old_umask);
+
+    // reset the users ability to interrupt the script
+    ignore_user_abort(false);
+
+
+    return true;
+
+}
+
+
+
 /**
  * Replace the first occurence of a string only. Behaves like str_replace, but
  * replaces _only_ the _first_ occurence.

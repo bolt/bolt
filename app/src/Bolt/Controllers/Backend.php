@@ -142,14 +142,6 @@ class Backend implements ControllerProviderInterface
      */
     function dashboard(\Bolt\Application $app) {
 
-        // Check DB-tables integrity
-        if ($app['storage']->getIntegrityChecker()->needsCheck()) {
-            if (count($app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
-                $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
-                $app['session']->getFlashBag()->set('error', $msg);
-            }
-        }
-
         $limit = $app['config']['general']['recordsperdashboardwidget'];
 
         $total = 0;

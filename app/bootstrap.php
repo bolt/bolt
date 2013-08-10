@@ -31,6 +31,11 @@ $starttime = getMicrotime();
 
 $app = new Bolt\Application();
 
+$app->register(new Silex\Provider\SessionServiceProvider(), array(
+    'session.storage.options' => array(
+        'name' => 'bolt_session'
+    )
+));
 $app->register(new Bolt\ConfigServiceProvider());
 
 // Finally, check if the app/database folder is writable, if it needs to be.
@@ -43,11 +48,6 @@ $app['debugbar'] = false;
 
 list ($app['locale'], $app['territory']) = explode('_', $app['config']['general']['locale']);
 
-$app->register(new Silex\Provider\SessionServiceProvider(), array(
-    'session.storage.options' => array(
-        'name' => 'bolt_session'
-    )
-));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $app['config']['twigpath'],

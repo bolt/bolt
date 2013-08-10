@@ -19,10 +19,22 @@ class Config extends \Bolt\RecursiveArrayAccess
     function __construct(\Bolt\Application $app) {
 
         $this->app = $app;
-        $this->getConfig();
 
-   }
+        if (!$this->loadCache()) {
+            $this->getConfig();
+            $this->saveCache();
 
+            // if we have to reload the config, we will also want to make sure the DB integrity is checked.
+            $this->app['session']->set('database_checked', 0);
+        }
+        
+        $this->setTwigPath();
+
+    }
+
+    /**
+     * Load the configuration from the various YML files.
+     */
     function getConfig()
     {
 
@@ -32,8 +44,8 @@ class Config extends \Bolt\RecursiveArrayAccess
         $config['taxonomy'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/taxonomy.yml') . "\n");
         $tempcontenttypes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/contenttypes.yml') . "\n");
         $config['menu'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/menu.yml') . "\n");
+        $config['extensions'] = array();
 
-        // @todo: What is this? Do we want this 'local' config?
         if(file_exists(BOLT_CONFIG_DIR.'/config_local.yml')) {
             $localconfig = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config_local.yml') . "\n");
             $config['general'] = array_merge($config['general'], $localconfig);
@@ -146,32 +158,6 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         }
 
-        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        $themepath = realpath(__DIR__.'/../../../theme/'. basename($config['general']['theme']));
-        if ( isset( $config['general']['theme_path'] ) )
-        {
-            $themepath = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
-        }
-        $config['theme_path'] = $themepath;
-
-        $end = $this->getWhichEnd($config['general']['branding']['path']);
-
-        if ( $end == "frontend" && file_exists($themepath) ) {
-            $config['twigpath'] = array($themepath);
-        } else {
-            $config['twigpath'] = array(realpath(__DIR__.'/../../view'));
-        }
-
-        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
-            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
-            $this->app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
-        }
-
-        // We add these later, because the order is important: By having theme/ourtheme first,
-        // files in that folder will take precedence. For instance when overriding the menu template.
-        $config['twigpath'][] = realpath(__DIR__.'/../../theme_defaults');
-
         // Set all the distinctive arrays as part of our Config object.
         foreach ($config as $key => $array) {
             $this[$key] = $array;
@@ -186,6 +172,15 @@ class Config extends \Bolt\RecursiveArrayAccess
      *
      */
     function checkConfig() {
+
+        // Check DB-tables integrity
+        if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
+            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
+                $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
+                $this->app['session']->getFlashBag()->set('error', $msg);
+                return;
+            }
+        }
 
         $slugs = array();
 
@@ -340,6 +335,91 @@ class Config extends \Bolt\RecursiveArrayAccess
             'maintenance_mode' => false
         );
 
+
+    }
+
+    private function setTwigPath() {
+
+        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+        $themepath = realpath(__DIR__.'/../../../theme/'. basename($this['general']['theme']));
+        if ( isset( $this['general']['theme_path'] ) )
+        {
+            $themepath = BOLT_PROJECT_ROOT_DIR . $this['general']['theme_path'];
+        }
+        $config['theme_path'] = $themepath;
+
+        $end = $this->getWhichEnd($this['general']['branding']['path']);
+
+        if ( $end == "frontend" && file_exists($themepath) ) {
+            $twigpath = array($themepath);
+        } else {
+            $twigpath = array(realpath(__DIR__.'/../../view'));
+        }
+
+        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
+        if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
+            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
+            $this->app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
+        }
+
+        // We add these later, because the order is important: By having theme/ourtheme first,
+        // files in that folder will take precedence. For instance when overriding the menu template.
+        $twigpath[] = realpath(__DIR__.'/../../theme_defaults');
+        
+        $this['twigpath'] = $twigpath;
+
+    }
+    
+
+    private function loadCache()
+    {
+        /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
+           it shouldn't trigger an update for the cache, while the others should.
+        */
+        $timestamps = array(
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/config.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/taxonomy.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/contenttypes.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/menu.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config_local.yml') ? filemtime(BOLT_CONFIG_DIR.'/config_local.yml') : 0,
+        );
+        $cachetimestamp = file_exists(__DIR__ . "/../../cache/config_cache.php") ? filemtime(__DIR__ . "/../../cache/config_cache.php") : 0;
+
+        //\util::var_dump($timestamps);
+        //\util::var_dump($cachetimestamp);
+
+        if ($cachetimestamp > max($timestamps)) {
+
+            $data = loadSerialize(__DIR__ . "/../../cache/config_cache.php");
+
+            // Check if we loaded actual data.
+            if (count($data)>3 && !empty($data['general'])) {
+                // Set all the distinctive arrays as part of our Config object.
+                foreach ($data as $key => $array) {
+                    $this[$key] = $array;
+                }
+                return true;
+            }
+
+        }
+
+        return false;
+
+
+    }
+
+    private function saveCache()
+    {
+
+        $data = array(
+            'general' => $this['general'],
+            'contenttypes' => $this['contenttypes'],
+            'taxonomy' => $this['taxonomy'],
+            'menu' => $this['menu'],
+            'extensions' => $this['extensions']
+        );
+
+        saveSerialize(__DIR__ . "/../../cache/config_cache.php", $data);
 
     }
 
