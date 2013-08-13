@@ -300,7 +300,10 @@ class Extension extends \Bolt\BaseExtension
                     // If so, replace the file to designated folder.
                     $files[$fieldname]->move($path, $filename);
                     $data[$fieldname] = $link;
-                    $attachments[] = Swift_Attachment::fromPath($link)->setFilename($originalname);
+
+                    if($formconfig['attach_files'] == 'true') {
+                        $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
+                    }
                 } else {
                     $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                 }
