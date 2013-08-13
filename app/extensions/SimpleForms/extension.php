@@ -49,8 +49,10 @@ class Extension extends \Bolt\BaseExtension
             'recipient_cc_name',
             'recipient_bcc_email',
             'testmode',
-            'testmode_recipient'
+            'testmode_recipient',
+            'debugmode'
         );
+        // note that debugmode is undocumented
 
         // labels to translate
         $this->text_labels = array(
@@ -102,14 +104,20 @@ class Extension extends \Bolt\BaseExtension
         foreach($this->global_fields as $configkey) {
             if (!array_key_exists($configkey, $formconfig) && !empty($this->config[$configkey])) {
                 $formconfig[$configkey] = $this->config[$configkey];
-            } else {
-                $formconfig[$configkey] = null;
+            } elseif(!array_key_exists($configkey, $formconfig) && empty($this->config[$configkey])) {
+                $formconfig[$configkey] = false;
             }
         }
 
         // tanslate labels if labels extension exists
         if($this->labelsenabled) {
             $this->labelfields($formconfig);
+        }
+
+
+        if($formconfig['debugmode']==true) {
+            \util::var_dump($formconfig);
+            \util::var_dump($formname);
         }
 
         $message = "";
@@ -257,7 +265,7 @@ class Extension extends \Bolt\BaseExtension
 
         $data = $form->getData();
 
-        if($formconfig['testmode']==true) {
+        if($formconfig['debugmode']==true) {
             \util::var_dump($formconfig);
             \util::var_dump($form);
             \util::var_dump($formname);
@@ -316,7 +324,9 @@ class Extension extends \Bolt\BaseExtension
         $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
             'form' =>  $data ));
 
-        // \util::var_dump($mailhtml);
+        if($formconfig['debugmode']==true) {
+            \util::var_dump($mailhtml);
+        }
 
         if (!empty($formconfig['mail_subject'])) {
             $subject = $formconfig['mail_subject'];
