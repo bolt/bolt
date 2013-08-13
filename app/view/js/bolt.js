@@ -103,6 +103,19 @@ jQuery(function($) {
 
     });
 
+    // Toggleclass options for showing / hiding the password input.
+    $(".togglepass").on('click', function() {
+        if ($(this).hasClass('show')) {
+            $('input[name="password"]').attr('type', 'text');
+            $('.togglepass.show').hide();
+            $('.togglepass.hide').show();
+        } else {
+            $('input[name="password"]').attr('type', 'password');
+            $('.togglepass.show').show();
+            $('.togglepass.hide').hide();
+        }
+    });
+
 
 });
 

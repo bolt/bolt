@@ -642,6 +642,30 @@ class Storage
     }
 
     /**
+     * Compare by search weights
+     *
+     * Or fallback to dates or title
+     */
+    private function compareSearchWeights($a, $b)
+    {
+        if ($a->getSearchResultWeight() > $b->getSearchResultWeight()) {
+            return -1;
+        }
+        if ($a->getSearchResultWeight() < $b->getSearchResultWeight()) {
+            return +1;
+        }
+        if ($a['datepublish'] > $b['datepublish']) {
+            // later is more important
+            return -1;
+        }
+        if ($a['datepublish'] < $b['datepublish']) {
+            // earlier is less important
+            return +1;
+        }
+        return strcasecmp($a['title'], $b['title']);
+    }
+
+    /**
      * Search through actual content
      *
      * Unless the query is invalid it will always return a 'result array'. It may
@@ -675,13 +699,18 @@ class Storage
                 }
                 return true;
             });
+            $contenttypes = array_map(function($ct) use ($app_ct){
+                return $app_ct[$ct]['slug'];
+            }, $contenttypes);
         }
 
         // Build our search results array
         $results = array();
         foreach ($contenttypes as $contenttype) {
+            $ctconfig = $this->getContentType($contenttype);
+
             $table  = $this->getTablename($contenttype);
-            $fields = $app_ct[$contenttype]['fields'];
+            $fields = $ctconfig['fields'];
             $filter = null;
 
             if (is_array($filters) && isset($filters[$contenttype])) {
@@ -694,15 +723,7 @@ class Storage
         }
 
         // Sort the results
-        usort($results, function(&$a, &$b){
-            if ($a->getSearchResultWeight() > $b->getSearchResultWeight()) {
-                return -1;
-            }
-            if ($a->getSearchResultWeight() < $b->getSearchResultWeight()) {
-                return +1;
-            }
-            return 0;
-        });
+        usort($results, array($this, 'compareSearchWeights'));
 
         $no_of_results = count($results);
 
@@ -1112,6 +1133,594 @@ class Storage
 
     }
 
+    /**
+     * Split into meta-parameters and contenttype parameters
+     * (tightly coupled to $this->getContent())
+     * 
+     * @see $this->decodeContentQuery()
+     */
+    private function organizeQueryParameters($in_parameters = null)
+    {
+        $meta_parameters  = array(
+            'order' => false
+        );
+        $ctype_parameters = array();
+        if (is_array($in_parameters)) {
+            foreach($in_parameters as $key => $value) {
+                if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging'))) {
+                    $meta_parameters[$key] = $value;
+                }
+                else {
+                    $ctype_parameters[$key] = $value;
+
+                    if (($key == 'order') && ($value != '')) {
+                        // something is sorted
+                        $meta_parameters['order'] = true;
+                    }
+                }
+            }
+        }
+
+        if (!isset($meta_parameters['limit'])) {
+            $meta_parameters['limit'] = 100;
+        }
+        if (!isset($meta_parameters['page'])) {
+            $meta_parameters['page'] = 1;
+        }
+
+        // oof!
+        if (!empty($meta_parameters['paging']) && $this->app->raw('request') instanceof Request) {
+            $meta_parameters['page'] = $this->app['request']->get('page', $meta_parameters['page']);
+        }
+
+        // oof, part deux!
+        if (($meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
+            $meta_parameters['order'] = $this->app['request']->get('order', false);
+        }
+
+        return array($meta_parameters, $ctype_parameters);
+    }
+
+    /**
+     * Decode a contenttypes argument from text
+     * 
+     * (entry,page) -> array('entry', 'page')
+     * event -> array('event')
+     *
+     * @param string $text      text with contenttypes
+     * @return array            array with contenttype(slug)s
+     */
+    private function decodeContentTypesFromText($text)
+    {
+        $contenttypes = array();
+
+        if ((substr($text, 0, 1) == '(') &&
+            (substr($text, -1) == ')')) {
+            $contenttypes = explode(',', substr($text, 1, -1));
+        }
+        else {
+            $contenttypes[] = $text;
+        }
+
+        $app_ct = $this->app['config']['contenttypes'];
+        $instance = $this;
+        $contenttypes = array_map(function($name) use ($app_ct, $instance){
+            $ct = $instance->getContentType($name);
+            return $ct['slug'];
+        }, $contenttypes);
+
+        return $contenttypes;
+    }
+
+    /**
+     * Parse textquery into useable arguments
+     * (tightly coupled to $this->getContent())
+     * 
+     * @see $this->decodeContentQuery()
+     *
+     * @param array $decoded           a pre-set decoded array to fill
+     * @param array $meta_parameters   meta parameters
+     * @param array $ctype_parameters  contenttype parameters
+     */
+    private function parseTextQuery($textquery, array &$decoded, array &$meta_parameters, array &$ctype_parameters)
+    {
+        // Our default callback
+        $decoded['queries_callback'] = array($this, 'executeGetContentQueries');
+
+        // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
+        if (preg_match('#^/?([a-z0-9_-]+)/([0-9]+)$#i', $textquery, $match)) {
+            // like 'entry/12' or '/page/12345'
+            $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
+            $decoded['return_single'] = true;
+            $ctype_parameters['id']   = $match[2];
+        }
+        elseif (preg_match('#^/?([a-z0-9_(\),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
+            // like 'page/search or '(entry,page)/search'
+            $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
+            $meta_parameters['order']  = array($this, 'compareSearchWeights');
+            if (count($match) >= 3) {
+                $meta_parameters['limit']  = $match[3];
+            }
+
+            $decoded['queries_callback'] = array($this, 'executeGetContentSearch');
+        }
+        elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $textquery, $match)) {
+            // like 'page/lorem-ipsum-dolor' or '/page/home'
+            $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
+            $decoded['return_single'] = true;
+            $ctype_parameters['slug'] = $match[2];
+        }
+        elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
+            // like 'page/latest/5'
+            $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
+            $meta_parameters['order'] = 'datepublish ' . ($match[2]=='latest' ? 'DESC' : 'ASC');
+            $meta_parameters['limit'] = $match[3];
+        }
+        elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
+            // like 'page/random/4'
+            $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
+            $meta_parameters['order']  = 'RANDOM';
+            $meta_parameters['limit']  = $match[2];
+        }
+        else {
+            $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
+
+            if (isset($ctype_parameters['id']) && (is_numeric($ctype_parameters['id']))) {
+                $decoded['return_single'] = true;
+            }
+        }
+
+        // When using from the frontend, we assume (by default) that we only want published items,
+        // unless something else is specified explicitly
+        if (isset($this->app['end']) && $this->app['end']=="frontend" && empty($ctype_parameters['status'])) {
+            $ctype_parameters['status'] = "published";
+        }
+
+        if (isset($meta_parameters['returnsingle'])) {
+            $decoded['return_single'] = $meta_parameters['returnsingle'];
+            unset($meta_parameters['returnsingle']);
+        }
+
+        /*
+        echo '<pre>';
+        var_dump($decoded);
+        var_dump($meta_parameters);
+        var_dump($ctype_parameters);
+        echo '<hr/>';
+        //*/
+    }
+
+    /**
+     * Prepare decoded for actual use
+     * (tightly coupled to $this->getContent())
+     *
+     * @see $this->decodeContentQuery()
+     */
+    private function prepareDecodedQueryForUse(&$decoded, &$meta_parameters, &$ctype_parameters)
+    {
+        // If there is only 1 contenttype we assume the where is NOT nested
+        if (count($decoded['contenttypes']) == 1) {
+            // So we need to add this nesting
+            $ctype_parameters = array(
+                $decoded['contenttypes'][0] => $ctype_parameters
+            );
+        }
+        else {
+            // We need to set every non-contenttypeslug parameters to each individual contenttypes
+            $global_parameters = array();
+            foreach($ctype_parameters as $key => $parameter) {
+                if (!in_array($key, $decoded['contenttypes'])) {
+                    $global_parameters[$key] = $parameter;
+                }
+            }
+            foreach($global_parameters as $key => $parameter) {
+                unset($ctype_parameters[$key]);
+                foreach($decoded['contenttypes'] as $contenttype) {
+                    if (!isset($ctype_parameters[$contenttype])) {
+                        $ctype_parameters[$contenttype] = array();
+                    }
+                    if (!isset($ctype_parameters[$contenttype][$key])) {
+                        $ctype_parameters[$contenttype][$key] = $parameter;
+                    }
+                }
+            }
+
+            // In this case query pagination never makes sense!
+            $decoded['self_paginated'] = false;
+        }
+
+        if ($decoded['order_callback'] !== false) {
+            // Callback sorting disables pagination
+            $decoded['self_paginated'] = false;
+        }
+
+        if ($meta_parameters['order'] === false) {
+            if (count($decoded['contenttypes']) == 1) {
+                if ($this->getContentTypeGrouping($decoded['contenttypes'][0])) {
+                    $decoded['order_callback'] = array($this, 'groupingSort');
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the parameter for the 'order by' part of a query.
+     * (tightly coupled to $this->getContent())
+     *
+     * @param array $contenttype
+     * @param string $order_value
+     * @return string
+     */
+    private function decodeQueryOrder($contenttype, $order_value)
+    {
+        $order = false;
+
+        if ($order_value === false) {
+            if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
+                $order = $this->getEscapedSortorder($contenttype['sort'], false);
+            }
+        }
+        else {
+            $par_order = safeString($order_value);
+            if ($par_order == 'RANDOM') {
+                $dboptions = getDBOptions($this->app['config']);
+                $order = $dboptions['randomfunction'];
+            }
+            elseif ($this->isValidColumn($par_order, $contenttype, true)) {
+                $order = $this->getEscapedSortorder($par_order, false);
+            }
+        }
+
+        return $order;
+
+    }
+
+    /**
+     * Decode a content textquery
+     * (tightly coupled to $this->getContent())
+     *
+     * @param string $query      the query (eg. page/about, entries/latest/5)
+     * @param array $parameters  parameters to the query
+     * @return array             decoded query, keys:
+     *    contenttypes           - array, contenttypeslugs that will be returned
+     *    return_single          - boolean, true if only 1 result should be returned
+     *    self_paginated         - boolean, true if already be paginated
+     *    order_callback         - callback, sort results post-hydration after everything is merged
+     *    queries                - array of SQL query parts
+     *       tablename             - tablename
+     *       contenttype           - contenttype array
+     *       from                  - from part
+     *       where                 - where part
+     *       order                 - order part
+     *       params                - bind-parameters
+     *    parameters             - parameters to use after the queries
+     */
+    private function decodeContentQuery($textquery, $in_parameters = null)
+    {
+        $decoded = array(
+            'contenttypes'        => array(),
+            'return_single'       => false,
+            'self_paginated'      => true,
+            'order_callback'      => false,
+            'queries'             => array(),
+            'parameters'          => array(),
+        );
+
+        list($meta_parameters, $ctype_parameters) = $this->organizeQueryParameters($in_parameters);
+
+        $this->parseTextQuery($textquery, $decoded, $meta_parameters, $ctype_parameters);
+
+        $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $ctype_parameters);
+
+        $decoded['parameters'] = $meta_parameters;
+
+        // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
+        foreach ($ctype_parameters as $contenttypeslug => $actual_parameters) {
+            $contenttype = $this->getContentType($contenttypeslug);
+            $tablename   = $this->getTablename($contenttype['slug']);
+            $where       = array();
+            $order       = array();
+
+            $query  = array(
+                'tablename' => $tablename,
+                'contenttype' => $contenttype,
+                'from' => sprintf('FROM %s', $tablename),
+                'where' => '',
+                'order' => '',
+                'params' => array()
+            );
+
+            if ($contenttype === false) {
+                $this->app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
+                continue;
+            }
+
+            if (is_array($actual_parameters)) {
+                // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
+                foreach ($actual_parameters as $key => $value) {
+
+                    if ($key == 'order') {
+                        $order_value = $this->decodeQueryOrder($contenttype, $value);
+                        if ($order_value !== false) {
+                            $order[] = $order_value;
+                        }
+                        continue;
+                    }
+
+                    if ($key == 'filter') {
+                        $filter = safeString($value);
+
+                        $filter_where = array();
+                        foreach ($contenttype['fields'] as $name => $fieldconfig) {
+                            if (in_array($fieldconfig['type'], array('text', 'textarea', 'html', 'markdown'))) {
+                                $filter_where[] = sprintf('%s.%s LIKE %s',
+                                    $tablename,
+                                    $name,
+                                    $this->app['db']->quote('%'.$value.'%')
+                                );
+                            }
+                        }
+                        if (count($filter_where) > 0) {
+                            $where[] = '(' . implode(' OR ', $filter_where) . ')';
+                        }
+                        continue;
+                    }
+
+                    // for all the parameters that are fields
+                    if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
+                        in_array($key, array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status')) ) {
+                        $rkey = $tablename.'.' . $key;
+                        $where[] = $this->parseWhereParameter($rkey, $value);
+                    }
+
+
+                    // for all the  parameters that are taxonomies
+                    if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
+                        // Set the new 'from', with LEFT JOIN for taxonomies..
+                        $query['from'] = sprintf('FROM %s LEFT JOIN %s ON %s.%s = %s.%s',
+                            $tablename,
+                            $this->getTablename('taxonomy'),
+                            $tablename,
+                            $this->app['db']->quoteIdentifier('id'),
+                            $this->getTablename('taxonomy'),
+                            $this->app['db']->quoteIdentifier('content_id'));
+                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.taxonomytype', $key);
+                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.slug', $value);
+                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.contenttype', $contenttype['slug']);
+                    }
+
+                }
+            }
+
+            if (count($order) == 0) {
+                // we didn't add table, maybe this is an issue
+                $order[] = 'datepublish DESC';
+            }
+
+            if (count($where) > 0) {
+                $query['where'] = 'WHERE ( '.implode(' AND ', $where).' )';
+            }
+            if (count($order) > 0) {
+                $query['order'] = 'ORDER BY '.implode(', ', $order);
+            }
+
+            $decoded['queries'][] = $query;
+        }
+
+        return $decoded;
+    }
+
+    /**
+     * Run existence and perform publish/depublishes
+     *
+     * @param array<string> contenttypeslugs to check
+     * @return mixed        false, if any table doesn't exist
+     *                      true, if all is fine
+     */
+    private function runContenttypeChecks(array $contenttypes)
+    {
+        foreach($contenttypes as $contenttypeslug) {
+            $contenttype = $this->getContentType($contenttypeslug);
+
+            $tablename = $this->getTablename($contenttype['slug']);
+
+            // If the table doesn't exist (yet), return false..
+            if (!$this->tableExists($tablename)) {
+                return false;
+            }
+
+            // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
+            $this->publishTimedRecords($contenttype);
+            $this->depublishExpiredRecords($contenttype);
+        }
+
+        return true;
+    }
+
+    /**
+     * Hydrate database rows into objects
+     */
+    private function hydrateRows($contenttype, $rows)
+    {
+        // Make sure content is set, and all content has information about its contenttype
+        $objects = array();
+        foreach ($rows as $row) {
+            $objects[ $row['id'] ] = $this->getContentObject($contenttype, $row);
+        }
+
+        // Make sure all content has their taxonomies and relations
+        $this->getTaxonomy($objects);
+        $this->getRelation($objects);
+
+        return $objects;
+    }
+
+    /**
+     * Execute the content queries
+     * (tightly coupled to $this->getContentNew())
+     * 
+     * @see $this->getContentNew()
+     */
+    private function executeGetContentSearch($decoded, $parameters)
+    {
+        $results = $this->searchContent(
+            $parameters['filter'],
+            $decoded['contenttypes'],
+            null,
+            isset($decoded['parameters']['limit']) ? $decoded['parameters']['limit'] : 2000
+        );
+
+        return array(
+            $results['results'],
+            $results['no_of_results']
+        );
+    }
+
+    /**
+     * Execute the content queries
+     * (tightly coupled to $this->getContentNew())
+     * 
+     * @see $this->getContentNew()
+     */
+    private function executeGetContentQueries($decoded, $parameters)
+    {
+        // Perform actual queries and hydrate
+        $total_results = false;
+        $results       = false;
+        foreach($decoded['queries'] as $query) {
+            $statement = sprintf('SELECT %s.* %s %s %s',
+                $query['tablename'],
+                $query['from'],
+                $query['where'],
+                $query['order']
+            );
+
+            if ($decoded['self_paginated'] === true) {
+                // self pagination requires an extra query to return the actual number of results
+                if ($decoded['return_single'] === false) {
+                    $count_statement = sprintf('SELECT COUNT(*) as count %s %s',
+                        $query['from'],
+                        $query['where']
+                    );
+                    $count_row     = $this->app['db']->executeQuery($count_statement)->fetch();
+                    $total_results = $count_row['count'];
+                }
+
+
+                $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
+                $limit  = $decoded['parameters']['limit'];
+
+                // @todo this will can fail when actually using params on certain databases
+                $statement = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($statement, $limit, $offset);
+            }
+
+            $rows = $this->app['db']->fetchAll($statement, $query['params']);
+
+            $subresults = $this->hydrateRows($query['contenttype'], $rows);
+
+            if ($results === false) {
+                $results = $subresults;
+            }
+            else {
+                // We can no longer maintain keys when merging subresults
+                $results = array_merge($results, array_values($subresults));
+            }
+        }
+
+        if ($total_results === false) {
+            $total_results = count($results);
+        }
+
+        return array($results, $total_results);
+    }
+
+    /**
+     * getContent based on a 'human readable query'
+     *
+     * Used directly by {% setcontent %} but also in other parts.
+     * This code has been split into multiple methods in the spirit of separation of concerns,
+     * but the situation is still far from ideal.
+     * Where applicable each 'concern' notes the coupling in the local documentation.
+     */
+    public function getContentNew($textquery, $parameters = '', &$pager = array(), $whereparameters)
+    {
+        // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
+        if (!empty($whereparameters)) {
+            $parameters = array_merge((array)$parameters, (array)$whereparameters);
+        }
+
+        // Decode this textquery
+        $decoded = $this->decodeContentQuery($textquery, $parameters);
+        if ($decoded === false) {
+            $this->app['log']->add("Storage: No valid query '$textquery'");
+
+            return false;
+        }
+
+        //$this->app['log']->add('Storage: running textquery: '.$textquery);
+
+        // Run checks and some actions (@todo put these somewhere else?)
+        if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
+            return false;
+        }
+
+        // Run the actual queries
+        list($results, $total_results) = call_user_func(
+            $decoded['queries_callback'],
+            $decoded, $parameters
+        );
+
+        // Perform post hydration ordering
+        if ($decoded['order_callback'] !== false) {
+            if (is_scalar($decoded['order_callback']) && ($decoded['order_callback'] == 'RANDOM')) {
+                shuffle($results);
+            }
+            else {
+                uasort($results, $decoded['order_callback']);
+            }
+        }
+
+        // Perform pagination if necessary
+        $offset = 0;
+        $limit  = false;
+        if (($decoded['self_paginated'] == false) && (isset($decoded['parameters']['page']))) {
+            $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
+            $limit  = $decoded['parameters']['limit'];
+        }
+        if ($limit !== false) {
+            $results = array_slice($results, $offset, $limit);
+        }
+
+        // Return content
+        if ($decoded['return_single']) {
+            if (util::array_first_key($results)) {
+                return util::array_first($results);
+            }
+
+            $msg = sprintf(
+                "Storage: requested specific query '%s', not found.",
+                $textquery
+            );
+            $this->app['log']->add($msg);
+
+            return false;
+        }
+
+        // Set up the $pager array with relevant values..
+        $pager_name = $decoded['contenttypes'][0];
+        $pager = array(
+            'for' => $pager_name,
+            'count' => $total_results,
+            'totalpages' => ceil($total_results / $decoded['parameters']['limit']),
+            'current' => $decoded['parameters']['page'],
+            'showing_from' => ($decoded['parameters']['page']-1)*$decoded['parameters']['limit'] + 1,
+            'showing_to' => ($decoded['parameters']['page']-1)*$decoded['parameters']['limit'] + count($results)
+        );
+        $GLOBALS['pager'][$pager_name] = $pager;
+        $this->app['twig']->addGlobal('pager', $pager);
+
+        return $results;
+    }
 
     /**
      * Retrieve content from the database.
@@ -1122,7 +1731,7 @@ class Storage
      * @param array $whereparameters
      * @return array|Content|bool|mixed
      */
-    public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
+    public function getContentOld($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
     {
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
         if (!empty($whereparameters)) {
@@ -1340,6 +1949,18 @@ class Storage
     }
 
     /**
+     * Switchable getContent between old and new implementation
+     */
+    public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
+    {
+        if (false) {
+            return $this->getContentOld($contenttypeslug, $parameters, $pager, $whereparameters);
+        }
+
+        return $this->getContentNew($contenttypeslug, $parameters, $pager, $whereparameters);
+    }
+
+    /**
      * Check if a given name is a valid column, and if it can be used in queries.
      *
      * @param string $name
@@ -1351,7 +1972,7 @@ class Storage
 
         // Strip the minus in '-title' if allowed..
         if ($allowVariants) {
-            if ($name[0] == "-") {
+            if ((strlen($name) > 0) && ($name[0] == "-")) {
                 $name = substr($name, 1);
             }
             $name = $this->getFieldName($name);
@@ -1393,7 +2014,12 @@ class Storage
 
         list ($name, $asc) = $this->getSortOrder($name);
 
-        $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+        if ($prefix !== false) {
+            $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+        }
+        else {
+            $order = $this->app['db']->quoteIdentifier($name);
+        }
 
         if (!$asc) {
             $order .= " DESC";

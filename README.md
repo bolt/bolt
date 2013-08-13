@@ -18,6 +18,7 @@ Current build status and code quality
 -------------------------------------
 
 [![Build Status](https://secure.travis-ci.org/bolt/bolt.png?branch=master)](http://travis-ci.org/bolt/bolt)
+[![Scrutinizer Continuous Inspections](https://scrutinizer-ci.com/g/bolt/bolt/badges/general.png?s=74400dd068f81fe3ba434e5952b961bb83bbea62)](https://scrutinizer-ci.com/g/bolt/bolt/)
 
 For continously inspecting our code, we use Scrutinizer CI. You can find all runs
 on our code base [here](https://scrutinizer-ci.com/g/bolt/bolt/inspections).

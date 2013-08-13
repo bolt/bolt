@@ -14,13 +14,27 @@ use Symfony\Component\Filesystem\Filesystem;
 class Config extends \Bolt\RecursiveArrayAccess
 {
 
-    function __construct($data = array()) {
-        parent::__construct($data);
+    private $app;
 
-        $this->getConfig();
+    function __construct(\Bolt\Application $app) {
+
+        $this->app = $app;
+
+        if (!$this->loadCache()) {
+            $this->getConfig();
+            $this->saveCache();
+
+            // if we have to reload the config, we will also want to make sure the DB integrity is checked.
+            $this->app['session']->set('database_checked', 0);
+        }
+        
+        $this->setTwigPath();
 
     }
 
+    /**
+     * Load the configuration from the various YML files.
+     */
     function getConfig()
     {
 
@@ -30,8 +44,8 @@ class Config extends \Bolt\RecursiveArrayAccess
         $config['taxonomy'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/taxonomy.yml') . "\n");
         $tempcontenttypes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/contenttypes.yml') . "\n");
         $config['menu'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/menu.yml') . "\n");
+        $config['extensions'] = array();
 
-        // @todo: What is this? Do we want this 'local' config?
         if(file_exists(BOLT_CONFIG_DIR.'/config_local.yml')) {
             $localconfig = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config_local.yml') . "\n");
             $config['general'] = array_merge($config['general'], $localconfig);
@@ -50,12 +64,20 @@ class Config extends \Bolt\RecursiveArrayAccess
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($config['general']['cookies_domain'])) {
 
+            if (isset($_SERVER['HTTP_HOST'])) {
+                $hostname = $_SERVER['HTTP_HOST'];
+            } elseif (isset($_SERVER['SERVER_NAME'])) {
+                $hostname = $_SERVER['SERVER_NAME'];
+            } else {
+                $hostname = "";
+            }
+
             // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-            if (isset($_SERVER["SERVER_NAME"]) && (strpos($_SERVER["SERVER_NAME"], ".") > 0) && preg_match("/[a-z0-9]/i", $_SERVER["SERVER_NAME"]) ) {
-                if (preg_match("/^www[0-9]*./",$_SERVER["SERVER_NAME"])) {
-                    $config['general']['cookies_domain'] = "." . preg_replace("/^www[0-9]*./", "", $_SERVER["SERVER_NAME"]);
+            if ((strpos($hostname, ".") > 0) && preg_match("/[a-z0-9]/i", $hostname) ) {
+                if (preg_match("/^www[0-9]*./", $hostname)) {
+                    $config['general']['cookies_domain'] = "." . preg_replace("/^www[0-9]*./", "", $hostname);
                 } else {
-                    $config['general']['cookies_domain'] = "." .$_SERVER["SERVER_NAME"];
+                    $config['general']['cookies_domain'] = "." . $hostname;
                 }
                 // Make sure we don't have consecutive '.'-s in the cookies_domain..
                 $config['general']['cookies_domain'] = str_replace("..", ".", $config['general']['cookies_domain']);
@@ -136,39 +158,112 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         }
 
-
-        $end = getWhichEnd($config['general']);
-
-        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        $themepath = realpath(__DIR__.'/../../../theme/'. basename($config['general']['theme']));
-        if ( isset( $config['general']['theme_path'] ) )
-        {
-            $themepath = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
-        }
-        $config['theme_path'] = $themepath;
-
-        if ( $end == "frontend" && file_exists($themepath) ) {
-            $config['twigpath'] = array($themepath);
-        } else {
-            $config['twigpath'] = array(realpath(__DIR__.'/../../view'));
-        }
-
-        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
-            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
-            $this->app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
-        }
-
-        // We add these later, because the order is important: By having theme/ourtheme first,
-        // files in that folder will take precedence. For instance when overriding the menu template.
-        $config['twigpath'][] = realpath(__DIR__.'/../../theme_defaults');
-
         // Set all the distinctive arrays as part of our Config object.
         foreach ($config as $key => $array) {
             $this[$key] = $array;
         }
 
     }
+
+
+
+    /**
+     * Sanity checks for doubles in in contenttypes.
+     *
+     */
+    function checkConfig() {
+
+        // Check DB-tables integrity
+        if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
+            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
+                $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
+                $this->app['session']->getFlashBag()->set('error', $msg);
+                return;
+            }
+        }
+
+        $slugs = array();
+
+        foreach ($this['contenttypes'] as $key => $ct) {
+
+            // Make sure any field that has a 'uses' parameter actually points to a field that exists.
+            // For example, this will show a notice:
+            // entries:
+            //   name: Entries
+            //     singular_name: Entry
+            //     fields:
+            //       title:
+            //         type: text
+            //         class: large
+            //       slug:
+            //         type: slug
+            //         uses: name
+            //
+            foreach($ct['fields'] as $fieldname => $field) {
+                if (is_array($field) && !empty($field['uses']) ) {
+                    foreach($field['uses'] as $useField) {
+                        if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
+                            $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                                array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
+                            );
+                            $this->app['session']->getFlashBag()->set('error', $error);
+                        }
+                    }
+                }
+            }
+
+            // Show some helpful warnings if slugs or names are not set correctly.
+            if ($ct['slug'] == $ct['singular_slug']) {
+                $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
+                    array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
+                );
+                $this->app['session']->getFlashBag()->set('error', $error);
+            }
+
+            if ($ct['name'] == $ct['singular_name']) {
+                $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
+                    array( '%contenttype%' => $key, '%name%' => $ct['name'] )
+                );
+                $this->app['session']->getFlashBag()->set('error', $error);
+            }
+
+            // Keep a running score of used slugs..
+            if (!isset($slugs[ $ct['slug'] ])) { $slugs[ $ct['slug'] ] = 0; }
+            $slugs[ $ct['slug'] ]++;
+            if (!isset($slugs[ $ct['singular_slug'] ])) { $slugs[ $ct['singular_slug'] ] = 0; }
+            $slugs[ $ct['singular_slug'] ]++;
+
+        }
+
+        // Sanity checks for taxomy.yml
+        foreach ($this['taxonomy'] as $key => $taxo) {
+
+            // Show some helpful warnings if slugs or keys are not set correctly.
+            if ($taxo['slug'] != $key) {
+                $error =  __("The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
+                    array( '%taxonomytype%' => $key, '%slug%' => $taxo['slug'] )
+                );
+                $this->app['session']->getFlashBag()->set('error', $error);
+            }
+
+        }
+
+        // if there aren't any other errors, check for duplicates across contenttypes..
+        if (!$this->app['session']->getFlashBag()->has('error')) {
+            foreach ($slugs as $slug => $count) {
+                if ($count > 1) {
+                    $error =  __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                        array( '%slug%' => $slug )
+                    );
+                    $this->app['session']->getFlashBag()->set('error', $error);
+                }
+            }
+        }
+
+
+    }
+
+
 
     /**
      * Assume sensible defaults for a number of options.
@@ -243,6 +338,91 @@ class Config extends \Bolt\RecursiveArrayAccess
 
     }
 
+    private function setTwigPath() {
+
+        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+        $themepath = realpath(__DIR__.'/../../../theme/'. basename($this['general']['theme']));
+        if ( isset( $this['general']['theme_path'] ) )
+        {
+            $themepath = BOLT_PROJECT_ROOT_DIR . $this['general']['theme_path'];
+        }
+        $config['theme_path'] = $themepath;
+
+        $end = $this->getWhichEnd($this['general']['branding']['path']);
+
+        if ( $end == "frontend" && file_exists($themepath) ) {
+            $twigpath = array($themepath);
+        } else {
+            $twigpath = array(realpath(__DIR__.'/../../view'));
+        }
+
+        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
+        if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
+            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
+            $this->app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
+        }
+
+        // We add these later, because the order is important: By having theme/ourtheme first,
+        // files in that folder will take precedence. For instance when overriding the menu template.
+        $twigpath[] = realpath(__DIR__.'/../../theme_defaults');
+        
+        $this['twigpath'] = $twigpath;
+
+    }
+    
+
+    private function loadCache()
+    {
+        /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
+           it shouldn't trigger an update for the cache, while the others should.
+        */
+        $timestamps = array(
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/config.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/taxonomy.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/contenttypes.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/menu.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config_local.yml') ? filemtime(BOLT_CONFIG_DIR.'/config_local.yml') : 0,
+        );
+        $cachetimestamp = file_exists(__DIR__ . "/../../cache/config_cache.php") ? filemtime(__DIR__ . "/../../cache/config_cache.php") : 0;
+
+        //\util::var_dump($timestamps);
+        //\util::var_dump($cachetimestamp);
+
+        if ($cachetimestamp > max($timestamps)) {
+
+            $data = loadSerialize(__DIR__ . "/../../cache/config_cache.php");
+
+            // Check if we loaded actual data.
+            if (count($data)>3 && !empty($data['general'])) {
+                // Set all the distinctive arrays as part of our Config object.
+                foreach ($data as $key => $array) {
+                    $this[$key] = $array;
+                }
+                return true;
+            }
+
+        }
+
+        return false;
+
+
+    }
+
+    private function saveCache()
+    {
+
+        $data = array(
+            'general' => $this['general'],
+            'contenttypes' => $this['contenttypes'],
+            'taxonomy' => $this['taxonomy'],
+            'menu' => $this['menu'],
+            'extensions' => $this['extensions']
+        );
+
+        saveSerialize(__DIR__ . "/../../cache/config_cache.php", $data);
+
+    }
+
 
     /**
      * Get an associative array with the correct options for the chosen database type.
@@ -263,7 +443,7 @@ class Config extends \Bolt\RecursiveArrayAccess
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => __DIR__ . "/../database/" . $basename,
+                'path' => __DIR__ . "/../../database/" . $basename,
                 'randomfunction' => "RANDOM()"
             );
 
@@ -348,5 +528,47 @@ class Config extends \Bolt\RecursiveArrayAccess
     }
 
 
+    /**
+     * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
+     *
+     * @param string $mountpoint
+     * @return string
+     */
+    function getWhichEnd($mountpoint = "")
+    {
+
+        if (empty($mountpoint)) {
+            $mountpoint = $this['general']['branding']['path'];
+        }
+
+        if (!empty($_SERVER['REQUEST_URI'])) {
+            // Get the script's filename, but _without_ REQUEST_URI. We need to str_replace the slashes, because of a
+            // weird quirk in dirname on windows: http://nl1.php.net/dirname#refsect1-function.dirname-notes
+            $scriptdirname = "#" . str_replace("\\", "/", dirname($_SERVER['SCRIPT_NAME']));
+            $scripturi = str_replace($scriptdirname, '', "#".$_SERVER['REQUEST_URI']);
+            // make sure it starts with '/', like our mountpoint.
+            if (empty($scripturi) || ($scripturi[0] != "/") ) {
+                $scripturi = "/" . $scripturi;
+            }
+        } else {
+            // We're probably in CLI mode.
+            $this->app['end'] = "cli";
+            return "cli";
+        }
+
+        // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the backend or in async.
+        if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
+            $end = 'backend';
+        } else if ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
+            $end = 'async';
+        } else {
+            $end = 'frontend';
+        }
+
+        $this->app['end'] = $end;
+
+        return $end;
+
+    }
 
 }
