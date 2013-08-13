@@ -410,16 +410,6 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        // If 'submitter_cc' is set, add a 'cc' to the submitter of the form.
-        if (!empty($formconfig['submitter_cc'])) {
-            if (isEmail($formconfig['submitter_cc'])) {
-                $address = $formconfig['submitter_cc'];
-            } else if (!empty($data[$formconfig['submitter_cc']])) {
-                $address = $data[$formconfig['submitter_cc']];
-            }
-            $message->setCc($address);
-        }
-
         $res = $this->app['mailer']->send($message);
 
         if ($res) {
