@@ -119,6 +119,7 @@ class Extension extends \Bolt\BaseExtension
         if($formconfig['debugmode']==true) {
             \util::var_dump($formconfig);
             \util::var_dump($formname);
+            \util::var_dump($this->app['paths']);
         }
 
         $message = "";
@@ -271,6 +272,7 @@ class Extension extends \Bolt\BaseExtension
             \util::var_dump($form);
             \util::var_dump($formname);
             \util::var_dump($data);
+            \util::var_dump($this->app['request']->files);
         }
 
         // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
@@ -284,32 +286,44 @@ class Extension extends \Bolt\BaseExtension
         // to the designated folder.
         foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
             if ($fieldvalues['type'] == "file") {
-                if (empty($fieldvalues['storage_location'])) {
-                    die("You must set the storage_location in the field $fieldname.");
+                if (empty($formconfig['storage_location']) && $formconfig['attach_files']===false) {
+                    die("You must set the storage_location in the field $fieldname if you do not use attachments.");
+                } elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
+                    // temporary files location will be a subdirectory of the cache
+                    $path = $this->app['paths']['apppath'] . '/cache/';
+                    $linkpath = $this->app['paths']['app'] . '/cache/';
+                } else {
+                    // files location will be a subdirectory of the files
+                    $path = $this->app['paths']['filespath'] . "/". $fieldvalues['storage_location'];
+                    $linkpath = $this->app['paths']['files'] .  "/". $fieldvalues['storage_location'];
                 }
-                $path = __DIR__ . "/" . $fieldvalues['storage_location'];
+
                 if (!is_writable($path)) {
                     die("The path $path is not writable.");
                 }
+
                 $files = $this->app['request']->files->get($form->getName());
                 $originalname = strtolower($files[$fieldname]->getClientOriginalName());
                 $filename = sprintf("%s-%s-%s.%s", $fieldname, date('Y-m-d'), makeKey(8), getExtension($originalname));
-                $link = sprintf("%sapp/extensions/SimpleForms/%s/%s", $this->app['paths']['rooturl'], $fieldvalues['storage_location'], $filename);
+                $link = sprintf("%s/%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
 
                 // Make sure the file is in the allowed extensions.
                 if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
                     // If so, replace the file to designated folder.
                     $files[$fieldname]->move($path, $filename);
+                    // by default we send a link
                     $data[$fieldname] = $link;
-
                     if($formconfig['attach_files'] == 'true') {
+                        // if there is an attachment and no saved file on the server
+                        // only send the original name and the attachment
+                        if(empty($formconfig['storage_location'])) {
+                            $data[$fieldname] = $originalname;
+                        }
                         $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
                     }
                 } else {
                     $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                 }
-
-
             }
         }
 
@@ -320,6 +334,8 @@ class Extension extends \Bolt\BaseExtension
                 $this->app['db']->insert($formconfig['insert_into_table'], $data);
             } catch (\Doctrine\DBAL\DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+                $keys = array_keys($data);
+                $this->app['log']->add("SimpleForms could not insert data into table". $formconfig['insert_into_table'] . ' ('.join(', ', $keys).') - check if the table exists.', 3);
                 echo "Couldn't insert data into table " . $formconfig['insert_into_table'] . ".";
             }
 
