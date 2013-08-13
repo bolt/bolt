@@ -44,6 +44,7 @@ class Extension extends \Bolt\BaseExtension
             'message_error',
             'message_technical',
             'button_text',
+            'attach_files',
             'recipient_cc_email',
             'recipient_cc_name',
             'recipient_bcc_email',
