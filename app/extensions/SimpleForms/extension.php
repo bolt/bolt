@@ -97,10 +97,12 @@ class Extension extends \Bolt\BaseExtension
             return "Simpleforms notice: No form known by name '$formname'.";
         }
 
-        // Set the mail configuration for empty fields to the global defaults.
+        // Set the mail configuration for empty fields to the global defaults if they exist
         foreach($this->global_fields as $configkey) {
-            if (empty($formconfig[$configkey])) {
+            if (!array_key_exists($configkey, $formconfig) && !empty($this->config[$configkey])) {
                 $formconfig[$configkey] = $this->config[$configkey];
+            } else {
+                $formconfig[$configkey] = null;
             }
         }
 
@@ -332,6 +334,7 @@ class Extension extends \Bolt\BaseExtension
                 $message->attach($attachment);
             }
         }
+
         // check for testmode
         if($formconfig['testmode']==true) {
             // override recipient with debug recipient
