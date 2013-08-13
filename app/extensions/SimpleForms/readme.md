@@ -28,6 +28,15 @@ General settings
     Most likely this is caused because Swiftmailer can't send the email. Check the Swiftmailer settings in the global
     `config.yml` if this message is shown.
  - `button_text: Send` - Default text on the 'send' button in the forms.
+ - `recipient_cc_email: info@example.com` - Use this value to set a global cc email address, this email address will receive a copy of
+    all emails sent with simpleforms
+ - `recipient_cc_name: Info` - Use this as the display name for the cc email address
+ - `recipient_bcc_email: info@example.com` - Use this value to set a global bcc email address, this email address will receive a blind copy of
+    all emails sent with simpleforms - this value does not have a display name
+ - `testmode: true` - Sets a global testmode, you can use this to for development if you do not want other people to be bothered by
+    endless testing emails. If you set this value to `true` all email will be sent to the `testmode_recipient` and all other
+    recipient and cc addresses will be ignored. The default value is false.
+ - `testmode_recipient: info@example.com` - The email where all test emails should go.
 
 **Tip**: If you want to copy one of the template files, you should remember to leave out the `assets/` part. For
 instance, if you copy `simpleforms_form.twig` to `theme/base-2013/my_form.twig`, the corresponding line in `config.yml`
@@ -37,7 +46,8 @@ should be:
 
 Configuring forms
 -----------------
-You can define multiple forms, where each form has its own section in the `config.yml` file. The default file has two forms defined, namely 'contact' and 'demo'. The structure of a form definition is as follows:
+You can define multiple forms, where each form has its own section in the `config.yml` file.
+The default file has two forms defined, namely 'contact' and 'demo'. The structure of a form definition is as follows:
 
 <pre>
 myformname:
@@ -89,35 +99,57 @@ to modify the functionality or appearance:
     'read_only' and 'readonly'. 'read_only' is the name of the option in Symfony's Form component, while 'readonly' is
     the name of the attribute in the generated HTML)
   - `prefix` - Add a snippet of HTML to output _before_ the `<div>` with the field's row. 
-  - `postfix` - Add a snippet of HTML to output _after_ the `<div>` with the field's row. You can use these attributes to insert labels, headings or to divide the form in `<fieldset>`'s.
-  
+  - `postfix` - Add a snippet of HTML to output _after_ the `<div>` with the field's row.
+    You can use these attributes to insert labels, headings or to divide the form in `<fieldset>`'s.
+  - `use_as` - Only for email fields, you can use `to_email`, `from_email`, `cc_email` or `bcc_email`
+    to use the entered email as an extra address.
+  - `use_with: fieldname` - An optional name for an email, use this on a text field and enter the fieldname of an email field.
+    If entered the value in this field will be used as the display name for that email address.
 
-The different fieldtypes are as follows, with a short example outlining the specific options for that field. Remember you can also use the basic options as well.
+The different fieldtypes are as follows, with a short example outlining the specific options for that field.
+Remember you can also use the basic options as well.
 
 **Standard text input:**
 
     name:
       type: text
 
-**Email input**
+**Email input:**
 
     email:
       type: email
 
-**Text area (multi line input)**
+**Text area (multi line input):**
 
     message:
       type: textarea
 
-**Select box (pulldown)**
+**Select box (pulldown):**
 
     favorite:
       type: choice
       choices: [ Kittens, Puppies, Penguins, Koala bears, "I don't like animals" ]
 
-**Checkbox**
+**Checkbox:**
 
     option1:
       type: checkbox
 
 
+If you want to send a copy of the an email address the visitor entered, you can use the 'use_as' and
+'use_with' options for email and text fields.
+
+You can define as many email fields as you like and the addresses will be used, you need to add the
+'use_with' option for each field if you want nice display names.
+
+**Email input with extra recipient:**
+
+    recipient:
+      type: email
+      use_as: to_email|from_email|cc_email|bcc_email
+
+**Email name text input (optional):**
+
+    name:
+      type: text
+      use_with: recipient
