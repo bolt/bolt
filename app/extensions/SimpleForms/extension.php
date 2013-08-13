@@ -257,10 +257,12 @@ class Extension extends \Bolt\BaseExtension
 
         $data = $form->getData();
 
-        \util::var_dump($formconfig);
-        \util::var_dump($form);
-        \util::var_dump($formname);
-        \util::var_dump($data);
+        if($formconfig['testmode']==true) {
+            \util::var_dump($formconfig);
+            \util::var_dump($form);
+            \util::var_dump($formname);
+            \util::var_dump($data);
+        }
 
         // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
         foreach($data as $key => $value) {
