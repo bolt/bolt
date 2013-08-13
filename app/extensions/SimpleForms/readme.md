@@ -103,8 +103,8 @@ to modify the functionality or appearance:
     You can use these attributes to insert labels, headings or to divide the form in `<fieldset>`'s.
   - `use_as` - Only for email fields, you can use `to_email`, `from_email`, `cc_email` or `bcc_email`
     to use the entered email as an extra address.
-  - `use_with: fieldname` - An optional name for an email, use this on a text field and enter the fieldname of an email field.
-    If entered the value in this field will be used as the display name for that email address.
+  - `use_with: fieldname` - An optional name for an email email field.
+    If entered the value of the field with the entered fieldname will be used as the display name for that email address.
 
 The different fieldtypes are as follows, with a short example outlining the specific options for that field.
 Remember you can also use the basic options as well.
@@ -147,9 +147,4 @@ You can define as many email fields as you like and the addresses will be used, 
     recipient:
       type: email
       use_as: to_email|from_email|cc_email|bcc_email
-
-**Email name text input (optional):**
-
-    name:
-      type: text
-      use_with: recipient
+      use_with: another_fieldname
