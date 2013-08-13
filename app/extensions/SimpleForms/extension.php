@@ -287,6 +287,7 @@ class Extension extends \Bolt\BaseExtension
                     // If so, replace the file to designated folder.
                     $files[$fieldname]->move($path, $filename);
                     $data[$fieldname] = $link;
+                    $attachments[] = Swift_Attachment::fromPath($link)->setFilename($originalname);
                 } else {
                     $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                 }
@@ -326,6 +327,11 @@ class Extension extends \Bolt\BaseExtension
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
+        if(($formconfig['attach_files'] == 'true') && is_array($attachments)) {
+            foreach($attachments as $attachment) {
+                $message->attach($attachment);
+            }
+        }
         // check for testmode
         if($formconfig['testmode']==true) {
             // override recipient with debug recipient
