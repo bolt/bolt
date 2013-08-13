@@ -20,12 +20,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.5",
+            'version' => "1.6",
             'required_bolt_version' => "1.1",
             'highest_bolt_version' => "1.1",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2013-07-17",
+            'latest_releasedate' => "2013-08-13",
         );
 
         return $data;
@@ -43,7 +43,12 @@ class Extension extends \Bolt\BaseExtension
             'message_ok',
             'message_error',
             'message_technical',
-            'button_text'
+            'button_text',
+            'recipient_cc_email',
+            'recipient_cc_name',
+            'recipient_bcc_email',
+            'testmode',
+            'testmode_recipient'
         );
 
         // labels to translate
@@ -249,6 +254,11 @@ class Extension extends \Bolt\BaseExtension
 
         $data = $form->getData();
 
+        \util::var_dump($formconfig);
+        \util::var_dump($form);
+        \util::var_dump($formname);
+        \util::var_dump($data);
+
         // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
         foreach($data as $key => $value) {
             if (gettype($value)=="boolean") {
@@ -316,6 +326,65 @@ class Extension extends \Bolt\BaseExtension
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
+        // check for testmode
+        if($formconfig['testmode']==true) {
+            // override recipient with debug recipient
+            $message->setTo(array($formconfig['testmode_recipient'] => $formconfig['recipient_name']));
+
+            // do not add other cc and bcc addresses in testmode
+            if(!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
+                $this->app['log']->add('Did not set Cc for '. $formname . ' to '. $formconfig['recipient_cc_email'] . ' (in testmode)', 3);
+            }
+            if(!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
+                $this->app['log']->add('Did not set Bcc for '. $formname . ' to '. $formconfig['recipient_bcc_email'] . ' (in testmode)', 3);
+            }
+        } else {
+            // only add other recipients when not in testmode
+            if(!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
+                $message->setCc($formconfig['recipient_cc_email']);
+                $this->app['log']->add('Added Cc for '. $formname . ' to '. $formconfig['recipient_cc_email'], 3);
+            }
+            if(!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
+                $message->setBcc($formconfig['recipient_bcc_email']);
+                $this->app['log']->add('Added Bcc for '. $formname . ' to '. $formconfig['recipient_bcc_email'], 3);
+            }
+
+            // check for other email addresses to be added
+            foreach($formconfig['fields'] as $key => $values) {
+                if ($values['type']=="email" && in_array($values['use_as'], array('to_email', 'from_email', 'cc_email', 'bcc_email'))) {
+                    $tmp_email = $data[$key];
+
+                    if(isset($values['use_with'])) {
+                        $tmp_name = $data[$values['use_with']];
+                        if(!$tmp_name) {
+                            $tmp_name = $tmp_email;
+                        }
+                    } else {
+                        $tmp_name = $tmp_email;
+                    }
+                    switch($values['use_as']) {
+                        case 'from_email':
+                            // override from address
+                            $message->setSender($formconfig['recipient_email']); // just to be clear who really sent it
+                            $message->setFrom(array($tmp_email => $tmp_name));
+                            break;
+                        case 'to_email':
+                            // add another recipient
+                            $message->addTo($tmp_email, $tmp_name);
+                            break;
+                        case 'cc_email':
+                            // add a copy address
+                            $message->addCc($tmp_email, $tmp_name);
+                            break;
+                        case 'bcc_email':
+                            // add a blind copy address
+                            $message->addBcc($tmp_email, $tmp_name);
+                            break;
+                    }
+                }
+            }
+        }
+
         // If 'submitter_cc' is set, add a 'cc' to the submitter of the form.
         if (!empty($formconfig['submitter_cc'])) {
             if (isEmail($formconfig['submitter_cc'])) {
@@ -323,10 +392,18 @@ class Extension extends \Bolt\BaseExtension
             } else if (!empty($data[$formconfig['submitter_cc']])) {
                 $address = $data[$formconfig['submitter_cc']];
             }
-            $message->setCC($address);
+            $message->setCc($address);
         }
 
         $res = $this->app['mailer']->send($message);
+
+        if ($res) {
+            if($formconfig['testmode']) {
+                $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['testmode_recipient'] . ' (in testmode) - ' . $formconfig['recipient_name'], 3);
+            } else {
+                $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['recipient_email'] . ' - ' . $formconfig['recipient_name'], 3);
+            }
+        }
 
         return $res;
 
