@@ -50,9 +50,10 @@ class Extension extends \Bolt\BaseExtension
             'recipient_bcc_email',
             'testmode',
             'testmode_recipient',
-            'debugmode'
+            'debugmode',
+            'insert_into_table'
         );
-        // note that debugmode is undocumented
+        // note that debugmode and insert_into_table are undocumented
 
         // labels to translate
         $this->text_labels = array(
