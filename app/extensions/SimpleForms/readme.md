@@ -135,6 +135,7 @@ Remember you can also use the basic options as well.
     option1:
       type: checkbox
 
+**Email input with extra recipient:**
 
 If you want to send a copy of the an email address the visitor entered, you can use the 'use_as' and
 'use_with' options for email and text fields.
@@ -142,9 +143,26 @@ If you want to send a copy of the an email address the visitor entered, you can 
 You can define as many email fields as you like and the addresses will be used, you need to add the
 'use_with' option for each field if you want nice display names.
 
-**Email input with extra recipient:**
 
     recipient:
       type: email
       use_as: to_email|from_email|cc_email|bcc_email
       use_with: another_fieldname
+
+**Upload:**
+
+Uploads are special, complicated and unsafe
+
+    upload:
+      type: file
+      storage_location: test
+      filetype:
+        ext1: txt
+        ext2: zip
+        ext3: odf
+
+
+If you set the `attach_files` option in the form to attach files, uploaded files will be attached to the email.
+If do not set `attach_files` you will only get a link in your email.
+
+    attach_files: true
