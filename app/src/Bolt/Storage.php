@@ -762,7 +762,7 @@ class Storage
         $contenttype = $this->app['config']['contenttypes'][$contenttypename];
 
         // If this contenttype has 'searchable: false', we skip it.
-        if ($contenttype['searchable'] === false) {
+        if (isset($contenttype['searchable']) && $contenttype['searchable'] === false) {
             return array();
         }
 
