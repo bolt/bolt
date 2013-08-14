@@ -181,7 +181,7 @@ If do not set `attach_files` you will only get a link in your email.
 
 There is an option to keep a logfile in the database of all form submissions.
 For this log you need to make a table with columns named after the fieldnames in the form and set the `insert_into_table`
-fot the form to the tablename. This extension will not automatically create the table, and it will produce an error if
+for the form to the tablename. This extension will not automatically create the table, and it will produce an error if
 the table isn't present, or the columns don't line up.
 
   - `insert_into_table: tablename`
