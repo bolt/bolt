@@ -291,11 +291,11 @@ class Extension extends \Bolt\BaseExtension
                 } elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
                     // temporary files location will be a subdirectory of the cache
                     $path = $this->app['paths']['apppath'] . '/cache';
-                    $linkpath = $this->app['paths']['app'] . '/cache';
+                    $linkpath = $this->app['paths']['app'] . 'cache';
                 } else {
                     // files location will be a subdirectory of the files
                     $path = $this->app['paths']['filespath'] . "/". $fieldvalues['storage_location'];
-                    $linkpath = $this->app['paths']['files'] .  "/". $fieldvalues['storage_location'];
+                    $linkpath = $this->app['paths']['files'] . $fieldvalues['storage_location'];
                 }
 
                 if (!is_writable($path)) {
@@ -305,7 +305,7 @@ class Extension extends \Bolt\BaseExtension
                 $files = $this->app['request']->files->get($form->getName());
                 $originalname = strtolower($files[$fieldname]->getClientOriginalName());
                 $filename = sprintf("%s-%s-%s.%s", $fieldname, date('Y-m-d'), makeKey(8), getExtension($originalname));
-                $link = sprintf("%s/%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
+                $link = sprintf("%s%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
 
                 // Make sure the file is in the allowed extensions.
                 if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
@@ -313,11 +313,12 @@ class Extension extends \Bolt\BaseExtension
                     $files[$fieldname]->move($path, $filename);
                     // by default we send a link
                     $data[$fieldname] = $link;
+
                     if($formconfig['attach_files'] == 'true') {
                         // if there is an attachment and no saved file on the server
                         // only send the original name and the attachment
                         if(empty($formconfig['storage_location'])) {
-                            $data[$fieldname] = $originalname;
+                            $data[$fieldname] = $originalname ." ($link)";
                         }
                         $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
                     }
@@ -407,7 +408,7 @@ class Extension extends \Bolt\BaseExtension
                     switch($values['use_as']) {
                         case 'from_email':
                             // override from address
-                            $message->setSender($formconfig['recipient_email']); // just to be clear who really sent it
+                            //$message->setSender($formconfig['recipient_email']); // just to be clear who really sent it
                             $message->setFrom(array($tmp_email => $tmp_name));
                             break;
                         case 'to_email':
