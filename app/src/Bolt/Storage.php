@@ -401,6 +401,9 @@ class Storage
 
         }
 
+        // We need to verify if the slug is unique. If not, we update it.
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $fieldvalues['id'], $contenttype['slug'], false);
+
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
             $id = $this->insertContent($fieldvalues, $contenttype);
@@ -408,11 +411,6 @@ class Storage
             $content->setValue('id', $id);
         } else {
             $id = $fieldvalues['id'];
-            $this->updateContent($fieldvalues, $contenttype);
-        }
-
-        if (empty($fieldvalues['slug'])) {
-            $fieldvalues['slug'] = $id;
             $this->updateContent($fieldvalues, $contenttype);
         }
 
@@ -764,7 +762,7 @@ class Storage
         $contenttype = $this->app['config']['contenttypes'][$contenttypename];
 
         // If this contenttype has 'searchable: false', we skip it.
-        if ($contenttype['searchable'] === false) {
+        if (isset($contenttype['searchable']) && $contenttype['searchable'] === false) {
             return array();
         }
 

@@ -978,7 +978,8 @@ class timthumb {
 		foreach ($sub_directories as $sub){
 			$base .= $sub . '/';
 			$this->debug(3, "Trying file as: " . $base . $src);
-			if(file_exists($base . $src)){
+            // Note: the '@' was added for bolt: file_exists gives a warning when open_basedir is set, and we don't want that.
+			if(@file_exists($base . $src)){
 				$this->debug(3, "Found file as: " . $base . $src);
 				$real = $this->realpath($base . $src);
 				if(stripos($real, $this->realpath($this->docRoot)) === 0){

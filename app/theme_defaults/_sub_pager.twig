@@ -15,7 +15,6 @@
     {% set link = pager.link %}
 {% else %}
     {% set link = "?" ~ filter ~ order ~ "page=" %}
-    set link
 {% endif %}
 
 {% if pager.totalpages > 1 %}
