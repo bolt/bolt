@@ -20,12 +20,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.5",
+            'version' => "1.6",
             'required_bolt_version' => "1.1",
             'highest_bolt_version' => "1.1",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2013-07-17",
+            'latest_releasedate' => "2013-08-14",
         );
 
         return $data;
@@ -43,8 +43,17 @@ class Extension extends \Bolt\BaseExtension
             'message_ok',
             'message_error',
             'message_technical',
-            'button_text'
+            'button_text',
+            'attach_files',
+            'recipient_cc_email',
+            'recipient_cc_name',
+            'recipient_bcc_email',
+            'testmode',
+            'testmode_recipient',
+            'debugmode',
+            'insert_into_table'
         );
+        // note that debugmode and insert_into_table are undocumented
 
         // labels to translate
         $this->text_labels = array(
@@ -92,16 +101,25 @@ class Extension extends \Bolt\BaseExtension
             return "Simpleforms notice: No form known by name '$formname'.";
         }
 
-        // Set the mail configuration for empty fields to the global defaults.
+        // Set the mail configuration for empty fields to the global defaults if they exist
         foreach($this->global_fields as $configkey) {
-            if (empty($formconfig[$configkey])) {
+            if (!array_key_exists($configkey, $formconfig) && !empty($this->config[$configkey])) {
                 $formconfig[$configkey] = $this->config[$configkey];
+            } elseif(!array_key_exists($configkey, $formconfig) && empty($this->config[$configkey])) {
+                $formconfig[$configkey] = false;
             }
         }
 
         // tanslate labels if labels extension exists
         if($this->labelsenabled) {
             $this->labelfields($formconfig);
+        }
+
+
+        if($formconfig['debugmode']==true) {
+            \util::var_dump($formconfig);
+            \util::var_dump($formname);
+            \util::var_dump($this->app['paths']);
         }
 
         $message = "";
@@ -249,6 +267,14 @@ class Extension extends \Bolt\BaseExtension
 
         $data = $form->getData();
 
+        if($formconfig['debugmode']==true) {
+            \util::var_dump($formconfig);
+            \util::var_dump($form);
+            \util::var_dump($formname);
+            \util::var_dump($data);
+            \util::var_dump($this->app['request']->files);
+        }
+
         // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
         foreach($data as $key => $value) {
             if (gettype($value)=="boolean") {
@@ -260,28 +286,45 @@ class Extension extends \Bolt\BaseExtension
         // to the designated folder.
         foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
             if ($fieldvalues['type'] == "file") {
-                if (empty($fieldvalues['storage_location'])) {
-                    die("You must set the storage_location in the field $fieldname.");
+                if (empty($formconfig['storage_location']) && $formconfig['attach_files']===false) {
+                    die("You must set the storage_location in the field $fieldname if you do not use attachments.");
+                } elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
+                    // temporary files location will be a subdirectory of the cache
+                    $path = $this->app['paths']['apppath'] . '/cache';
+                    $linkpath = $this->app['paths']['app'] . 'cache';
+                } else {
+                    // files location will be a subdirectory of the files
+                    $path = $this->app['paths']['filespath'] . "/". $fieldvalues['storage_location'];
+                    $linkpath = $this->app['paths']['files'] . $fieldvalues['storage_location'];
                 }
-                $path = __DIR__ . "/" . $fieldvalues['storage_location'];
+
                 if (!is_writable($path)) {
                     die("The path $path is not writable.");
                 }
+
                 $files = $this->app['request']->files->get($form->getName());
                 $originalname = strtolower($files[$fieldname]->getClientOriginalName());
                 $filename = sprintf("%s-%s-%s.%s", $fieldname, date('Y-m-d'), makeKey(8), getExtension($originalname));
-                $link = sprintf("%sapp/extensions/SimpleForms/%s/%s", $this->app['paths']['rooturl'], $fieldvalues['storage_location'], $filename);
+                $link = sprintf("%s%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
 
                 // Make sure the file is in the allowed extensions.
                 if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
                     // If so, replace the file to designated folder.
                     $files[$fieldname]->move($path, $filename);
+                    // by default we send a link
                     $data[$fieldname] = $link;
+
+                    if($formconfig['attach_files'] == 'true') {
+                        // if there is an attachment and no saved file on the server
+                        // only send the original name and the attachment
+                        if(empty($formconfig['storage_location'])) {
+                            $data[$fieldname] = $originalname ." ($link)";
+                        }
+                        $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
+                    }
                 } else {
                     $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                 }
-
-
             }
         }
 
@@ -292,6 +335,8 @@ class Extension extends \Bolt\BaseExtension
                 $this->app['db']->insert($formconfig['insert_into_table'], $data);
             } catch (\Doctrine\DBAL\DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+                $keys = array_keys($data);
+                $this->app['log']->add("SimpleForms could not insert data into table". $formconfig['insert_into_table'] . ' ('.join(', ', $keys).') - check if the table exists.', 3);
                 echo "Couldn't insert data into table " . $formconfig['insert_into_table'] . ".";
             }
 
@@ -300,7 +345,9 @@ class Extension extends \Bolt\BaseExtension
         $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
             'form' =>  $data ));
 
-        // \util::var_dump($mailhtml);
+        if($formconfig['debugmode']==true) {
+            \util::var_dump($mailhtml);
+        }
 
         if (!empty($formconfig['mail_subject'])) {
             $subject = $formconfig['mail_subject'];
@@ -316,17 +363,80 @@ class Extension extends \Bolt\BaseExtension
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
-        // If 'submitter_cc' is set, add a 'cc' to the submitter of the form.
-        if (!empty($formconfig['submitter_cc'])) {
-            if (isEmail($formconfig['submitter_cc'])) {
-                $address = $formconfig['submitter_cc'];
-            } else if (!empty($data[$formconfig['submitter_cc']])) {
-                $address = $data[$formconfig['submitter_cc']];
+        if(($formconfig['attach_files'] == 'true') && is_array($attachments)) {
+            foreach($attachments as $attachment) {
+                $message->attach($attachment);
             }
-            $message->setCC($address);
+        }
+
+        // check for testmode
+        if($formconfig['testmode']==true) {
+            // override recipient with debug recipient
+            $message->setTo(array($formconfig['testmode_recipient'] => $formconfig['recipient_name']));
+
+            // do not add other cc and bcc addresses in testmode
+            if(!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
+                $this->app['log']->add('Did not set Cc for '. $formname . ' to '. $formconfig['recipient_cc_email'] . ' (in testmode)', 3);
+            }
+            if(!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
+                $this->app['log']->add('Did not set Bcc for '. $formname . ' to '. $formconfig['recipient_bcc_email'] . ' (in testmode)', 3);
+            }
+        } else {
+            // only add other recipients when not in testmode
+            if(!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
+                $message->setCc($formconfig['recipient_cc_email']);
+                $this->app['log']->add('Added Cc for '. $formname . ' to '. $formconfig['recipient_cc_email'], 3);
+            }
+            if(!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
+                $message->setBcc($formconfig['recipient_bcc_email']);
+                $this->app['log']->add('Added Bcc for '. $formname . ' to '. $formconfig['recipient_bcc_email'], 3);
+            }
+
+            // check for other email addresses to be added
+            foreach($formconfig['fields'] as $key => $values) {
+                if ($values['type']=="email" && in_array($values['use_as'], array('to_email', 'from_email', 'cc_email', 'bcc_email'))) {
+                    $tmp_email = $data[$key];
+
+                    if(isset($values['use_with'])) {
+                        $tmp_name = $data[$values['use_with']];
+                        if(!$tmp_name) {
+                            $tmp_name = $tmp_email;
+                        }
+                    } else {
+                        $tmp_name = $tmp_email;
+                    }
+                    switch($values['use_as']) {
+                        case 'from_email':
+                            // override from address
+                            //$message->setSender($formconfig['recipient_email']); // just to be clear who really sent it
+                            $message->setFrom(array($tmp_email => $tmp_name));
+                            break;
+                        case 'to_email':
+                            // add another recipient
+                            $message->addTo($tmp_email, $tmp_name);
+                            break;
+                        case 'cc_email':
+                            // add a copy address
+                            $message->addCc($tmp_email, $tmp_name);
+                            break;
+                        case 'bcc_email':
+                            // add a blind copy address
+                            $message->addBcc($tmp_email, $tmp_name);
+                            break;
+                    }
+                }
+            }
         }
 
         $res = $this->app['mailer']->send($message);
+
+        if ($res) {
+            if($formconfig['testmode']) {
+                $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['testmode_recipient'] . ' (in testmode) - ' . $formconfig['recipient_name'], 3);
+            } else {
+                $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['recipient_email'] . ' - ' . $formconfig['recipient_name'], 3);
+            }
+        }
 
         return $res;
 
