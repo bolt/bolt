@@ -167,3 +167,11 @@ If you set the `attach_files` option in the form to attach files, uploaded files
 If do not set `attach_files` you will only get a link in your email.
 
     attach_files: true
+
+** Save to database **
+
+There is an option to keep a logfile in the databaase of all form submissions.
+For this log you need to make a table with columns named after the fieldnames in the form and set the `insert_into_table`
+fot the form to the tablename
+
+  - `insert_into_table: tablename`
