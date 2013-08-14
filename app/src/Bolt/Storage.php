@@ -1610,8 +1610,13 @@ class Storage
                 $offset = ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'];
                 $limit  = $decoded['parameters']['limit'];
 
-                // @todo this will can fail when actually using params on certain databases
+                // @todo this will fail when actually using params on certain databases
                 $statement = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($statement, $limit, $offset);
+            }
+
+            if (!empty($decoded['parameters']['printquery'])) {
+                // @todo formalize this
+                echo nl2br(htmlentities($statement));
             }
 
             $rows = $this->app['db']->fetchAll($statement, $query['params']);
