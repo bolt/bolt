@@ -8,6 +8,22 @@ message_error: There was an error in the form. Please check the form, and try ag
 message_technical: There were some technical difficulties, so your message was not sent. We apologize for the inconvenience.
 button_text: Send
 
+# global cc email address
+# set this value to an email address that will receive a copy of every email from simpleforms
+# recipient_cc_email: info@example.com
+# recipient_cc_name: Info
+
+# global bcc email address
+# set this value to an email address that will receive a blind copy of every email from simpleforms
+# recipient_bcc_email: info@example.com
+
+# global testmode
+# for development all email will be sent to this address
+# all other recipient and cc addresses will be ignored
+# remove or set 'testmode' to false for a production site
+testmode : true
+testmode_recipient: info@example.com
+
 # A simple contact form. Use as {{ simpleform('contact') }} in your templates.
 contact:
   recipient_email: info@example.org
@@ -32,6 +48,8 @@ contact:
 demo:
   recipient_email: info@example.org
   recipient_name: Info
+  recipient_cc_email: another@example.com
+  recipient_cc_name: Another Email Address
   fields:
     subject:
       type: text
@@ -48,6 +66,8 @@ demo:
       label: Email address
       required: true
       placeholder: Your email ..
+      use_as: from_email
+      use_with: name
     message:
       type: textarea
       required: true
