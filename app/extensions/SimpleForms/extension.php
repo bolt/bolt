@@ -25,7 +25,7 @@ class Extension extends \Bolt\BaseExtension
             'highest_bolt_version' => "1.1",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2013-08-13",
+            'latest_releasedate' => "2013-08-14",
         );
 
         return $data;
