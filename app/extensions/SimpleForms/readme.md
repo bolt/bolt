@@ -135,13 +135,22 @@ Remember you can also use the basic options as well.
     option1:
       type: checkbox
 
+**Date input:**
+
+    some_date:
+      type: date
+      format: "Y-m-d"
+
+The `format` option is used for formatting the date in the emails. You can use the options that are available in
+PHP's `date()` function. See the [documentation for details](http://php.net/date).
+
 **Email input with extra recipient:**
 
-If you want to send a copy of the an email address the visitor entered, you can use the 'use_as' and
-'use_with' options for email and text fields.
+If you want to send a copy of the an email address the visitor entered, you can use the `use_as` and
+`use_with` options for email and text fields.
 
 You can define as many email fields as you like and the addresses will be used, you need to add the
-'use_with' option for each field if you want nice display names.
+`use_with` option for each field if you want nice display names.
 
     recipient:
       type: email
@@ -170,8 +179,9 @@ If do not set `attach_files` you will only get a link in your email.
 
 **Save to database:**
 
-There is an option to keep a logfile in the databaase of all form submissions.
+There is an option to keep a logfile in the database of all form submissions.
 For this log you need to make a table with columns named after the fieldnames in the form and set the `insert_into_table`
-fot the form to the tablename
+fot the form to the tablename. This extension will not automatically create the table, and it will produce an error if
+the table isn't present, or the columns don't line up.
 
   - `insert_into_table: tablename`
