@@ -11,13 +11,20 @@ class Routes implements ControllerProviderInterface
 {
     public function connect(Silex\Application $app)
     {
-        $ctr = $app['controllers_factory'];
+        $ctr = false;
 
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $routes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/routes.yml.dist') . "\n");
+        $filename = BOLT_CONFIG_DIR.'/routes.yml';
+        if (is_readable($filename)) {
+            $yamlparser = new \Symfony\Component\Yaml\Parser();
+            $routes = $yamlparser->parse(file_get_contents($filename) . "\n");
 
-        if (is_array($routes)) {
-            $ctr = $this->addRoutes($app, $routes);
+            if (is_array($routes)) {
+                $ctr = $this->addRoutes($app, $routes);
+            }
+        }
+
+        if ($ctr === false) {
+            $ctr = $app['controllers_factory'];
         }
 
         return $ctr;
