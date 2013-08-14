@@ -1253,14 +1253,20 @@ class Storage
         elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/latest/5'
             $decoded['contenttypes']  = $this->decodeContentTypesFromText($match[1]);
-            $meta_parameters['order'] = 'datepublish ' . ($match[2]=='latest' ? 'DESC' : 'ASC');
-            $meta_parameters['limit'] = $match[3];
+            if (!isset($meta_parameters['order'])) {
+                $meta_parameters['order'] = 'datepublish ' . ($match[2]=='latest' ? 'DESC' : 'ASC');
+            }
+            if (!isset($meta_parameters['limit'])) {
+                $meta_parameters['limit'] = $match[3];
+            }
         }
         elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/random/4'
             $decoded['contenttypes']   = $this->decodeContentTypesFromText($match[1]);
             $meta_parameters['order']  = 'RANDOM';
-            $meta_parameters['limit']  = $match[2];
+            if (!isset($meta_parameters['limit'])) {
+                $meta_parameters['limit']  = $match[2];
+            }
         }
         else {
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
@@ -1282,11 +1288,12 @@ class Storage
         }
 
         /*
-        echo '<pre>';
-        var_dump($decoded);
+        echo '<pre>parseTextQuery:';
+        echo '<strong>'.$textquery.'</strong><br/>';
+        //var_dump($decoded);
         var_dump($meta_parameters);
         var_dump($ctype_parameters);
-        echo '<hr/>';
+        echo '</pre><hr/>';
         //*/
     }
 
@@ -1355,7 +1362,7 @@ class Storage
     {
         $order = false;
 
-        if ($order_value === false) {
+        if (($order_value === false) || ($order_value === '')) {
             if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
                 $order = $this->getEscapedSortorder($contenttype['sort'], false);
             }
@@ -1406,6 +1413,13 @@ class Storage
             'parameters'          => array(),
         );
 
+        /*
+        echo '<pre>decodeContentQuery before:';
+        echo '<strong>'.$textquery.'</strong><br/>';
+        var_dump($in_parameters);
+        echo '</pre><hr/>';
+        //*/
+
         list($meta_parameters, $ctype_parameters) = $this->organizeQueryParameters($in_parameters);
 
         $this->parseTextQuery($textquery, $decoded, $meta_parameters, $ctype_parameters);
@@ -1413,6 +1427,13 @@ class Storage
         $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $ctype_parameters);
 
         $decoded['parameters'] = $meta_parameters;
+
+        /*
+        echo '<pre>decodeContentQuery after:';
+        echo '<strong>'.$textquery.'</strong><br/>';
+        var_dump($decoded['parameters']);
+        echo '</pre><hr/>';
+        //*/
 
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($ctype_parameters as $contenttypeslug => $actual_parameters) {
