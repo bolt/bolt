@@ -1,5 +1,4 @@
 <?php
-
 namespace Bolt\Controllers;
 
 use Silex;
@@ -7,13 +6,22 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+
+/**
+ * Configurable routes controller
+ *
+ * Read and add routes based on a routes.yml file.
+ */
 class Routes implements ControllerProviderInterface
 {
+    /**
+     * Connect this controller to the application
+     */
     public function connect(Silex\Application $app)
     {
         $ctr = false;
 
-        $filename = BOLT_CONFIG_DIR.'/routes.yml';
+        $filename = BOLT_CONFIG_DIR.'/routes.yml.dist';
         if (is_readable($filename)) {
             $yamlparser = new \Symfony\Component\Yaml\Parser();
             $routes = $yamlparser->parse(file_get_contents($filename) . "\n");
@@ -30,6 +38,9 @@ class Routes implements ControllerProviderInterface
         return $ctr;
     }
 
+    /**
+     * Add routes based on the parsed array
+     */
     private function addRoutes(Silex\Application $app, array $routes)
     {
         $ctr = $app['controllers_factory'];
@@ -38,48 +49,64 @@ class Routes implements ControllerProviderInterface
             $path         = false;
             $to           = false;
             $controller   = false;
+            $host         = false;
             $_controller  = false;
             $_before      = false;
             $_after       = false;
+            $defaults     = array();
             $requirements = array();
+
+
+            // parse YAML structure
+
             if (isset($route['path'])) {
                 $path = $route['path'];
             }
             if (isset($route['defaults'])) {
-                $default = $route['defaults'];
-                if (isset($default['_controller'])) {
-                    $to = $default['_controller'];
+                $defaults = $route['defaults'];
+                if (isset($defaults['_controller'])) {
+                    $to = $defaults['_controller'];
                     if (strpos($to, '::') > 0) {
-                        $_controller = explode('::', $default['_controller']);
+                        $_controller = explode('::', $defaults['_controller']);
+
+                        if (class_exists($_controller[0])) {
+                            $instance = new $_controller[0];
+
+                            $to = array($instance, $_controller[1]);
+                        }
                     }
-                    /*
-                    $_controller = explode('::', $default['_controller']);
-                    if (class_exists($_controller[0])) {
-                        $instance = new $_controller[0];
-                        $to       = array($instance, $_controller[1]);
-                    }
-                    //*/
+                    unset($defaults['_controller']);
                 }
-                if (isset($default['_before'])) {
-                    if ((substr($default['_before'] ,0, 2) == '::') && (is_array($_controller))) {
-                        $_before = $_controller[0].$default['_before'];
+                if (isset($defaults['_before'])) {
+                    if ((substr($defaults['_before'] ,0, 2) == '::') && (is_array($to))) {
+                        //$_before = $_controller[0].$defaults['_before'];
+                        $_before = array($to[0], substr($defaults['_before'], 2));
                     }
                     else {
-                        $_before = $default['_before'];
+                        $_before = $defaults['_before'];
                     }
+                    unset($defaults['_before']);
                 }
-                if (isset($default['_after'])) {
-                    if ((substr($default['_after'] ,0, 2) == '::') && (is_array($_controller))) {
-                        $_after = $_controller[0].$default['_after'];
+                if (isset($defaults['_after'])) {
+                    if ((substr($defaults['_after'] ,0, 2) == '::') && (is_array($to))) {
+                        //$_after = $_controller[0].$defaults['_after'];
+                        $_after = array($to[0], substr($defaults['_after'], 2));
                     }
                     else {
-                        $_after = $default['_after'];
+                        $_after = $defaults['_after'];
                     }
+                    unset($defaults['_after']);
                 }
             }
             if (isset($route['requirements']) && (is_array($route['requirements']))) {
                 $requirements = $route['requirements'];
             }
+            if (isset($route['host'])) {
+                $host = $route['host'];
+            }
+
+
+            // add Route
 
             if (($path !== false) && ($to !== false)) {
                 $controller = $ctr->match($path, $to);
@@ -94,6 +121,9 @@ class Routes implements ControllerProviderInterface
             
                 foreach($requirements as $variable => $regexp) {
                     $controller->assert($variable, $regexp);
+                }
+                foreach($defaults as $variable => $default) {
+                    $controller->value($variable, $default);
                 }
 
                 $controller->bind($binding);
