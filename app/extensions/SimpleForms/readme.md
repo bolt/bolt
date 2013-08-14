@@ -143,7 +143,6 @@ If you want to send a copy of the an email address the visitor entered, you can 
 You can define as many email fields as you like and the addresses will be used, you need to add the
 'use_with' option for each field if you want nice display names.
 
-
     recipient:
       type: email
       use_as: to_email|from_email|cc_email|bcc_email
@@ -151,16 +150,18 @@ You can define as many email fields as you like and the addresses will be used, 
 
 **Upload:**
 
-Uploads are special, complicated and unsafe
+Uploads are special, complicated and unsafe.
 
     upload:
       type: file
-      storage_location: test
+      storage_location: directoryname
       filetype:
         ext1: txt
         ext2: zip
-        ext3: odf
+        ext3: docx
 
+The storage_location must be set, and a directory for the storage must be created inside your SimpleForms directory.
+This is unfortunately very unsafe, so should only be used if you know what you're getting into.
 
 If you set the `attach_files` option in the form to attach files, uploaded files will be attached to the email.
 If do not set `attach_files` you will only get a link in your email.
