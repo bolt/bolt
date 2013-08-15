@@ -32,24 +32,36 @@ class Config extends \Bolt\RecursiveArrayAccess
 
     }
 
+    private function parseConfigYaml($basename, $default = array())
+    {
+        static $yamlparser = false;
+        
+        if ($yamlparser === false) {
+            $yamlparser = new \Symfony\Component\Yaml\Parser();
+        }
+
+        $filename = BOLT_CONFIG_DIR . '/' . $basename;
+        if (is_readable($filename)) {
+            return $yamlparser->parse(file_get_contents($filename) . "\n");
+        }
+
+        return $default;
+    }
+
     /**
      * Load the configuration from the various YML files.
      */
     function getConfig()
     {
+        $config = array();
 
         // Read the config
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config.yml') . "\n");
-        $config['taxonomy'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/taxonomy.yml') . "\n");
-        $tempcontenttypes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/contenttypes.yml') . "\n");
-        $config['menu'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/menu.yml') . "\n");
+        $config['general']    = array_merge($this->parseConfigYaml('config.yml'), $this->parseConfigYaml('config_local.yml'));
+        $config['taxonomy']   = $this->parseConfigYaml('taxonomy.yml');
+        $tempcontenttypes     = $this->parseConfigYaml('contenttypes.yml');
+        $config['menu']       = $this->parseConfigYaml('menu.yml');
+        $config['routes']     = $this->parseConfigYaml('routes.yml');
         $config['extensions'] = array();
-
-        if(file_exists(BOLT_CONFIG_DIR.'/config_local.yml')) {
-            $localconfig = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config_local.yml') . "\n");
-            $config['general'] = array_merge($config['general'], $localconfig);
-        }
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
