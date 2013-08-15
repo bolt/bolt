@@ -152,6 +152,11 @@ You can define as many email fields as you like and the addresses will be used, 
 
 Uploads are special, complicated and unsafe.
 
+<pre>
+myformname:
+  recipient_email: info@example.org
+  recipient_name: Info
+  fields:
     upload:
       type: file
       storage_location: directoryname
@@ -159,14 +164,37 @@ Uploads are special, complicated and unsafe.
         ext1: txt
         ext2: zip
         ext3: docx
+</pre>
 
-The storage_location must be set, and a directory for the storage must be created inside your SimpleForms directory.
-This is unfortunately very unsafe, so should only be used if you know what you're getting into.
+The storage_location must be set for a field definition, and a writable directory with the corresponding directoryname 
+must be created inside your files directory.
 
-If you set the `attach_files` option in the form to attach files, uploaded files will be attached to the email.
-If do not set `attach_files` you will only get a link in your email.
+You can also set the storage location to 'false' and the files will be temporarily stored in your cache folder. 
+Use this if you want to attach the files to your emails but do not weant to keep a long term storage for them.
 
-    attach_files: true
+If you set the `attach_files` option in the form definition, uploaded files will be attached to the email.
+If you do not set `attach_files` you will only get a link in your email.
+
+<pre>
+myformname:
+  recipient_email: info@example.org
+  recipient_name: Info
+  attach_files: true
+  fields:
+    fieldname:
+      type: ..
+      ..
+    upload:
+      type: file
+      storage_location: false
+      filetype:
+        ext1: txt
+        ext2: zip
+        ext3: docx
+      ..
+  button_text: Send the Demo form!
+</pre>
+
 
 **Save to database:**
 
@@ -174,4 +202,17 @@ There is an option to keep a logfile in the databaase of all form submissions.
 For this log you need to make a table with columns named after the fieldnames in the form and set the `insert_into_table`
 fot the form to the tablename
 
-  - `insert_into_table: tablename`
+<pre>
+myformname:
+  recipient_email: info@example.org
+  recipient_name: Info
+  insert_into_table: tablename
+  fields:
+    fieldname:
+      type: ..
+      ..
+    fieldname:
+      type: ..
+      ..
+  button_text: Send the Demo form!
+</pre>
