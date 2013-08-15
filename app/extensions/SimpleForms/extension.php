@@ -330,7 +330,7 @@ class Extension extends \Bolt\BaseExtension
             }
 
             // Fields of type 'date' are \DateTime objects. Convert them to string, for sending in emails, etc.
-            if ($fieldvalues['type'] == "date") {
+            if (($fieldvalues['type'] == "date") && ($data[$fieldname] instanceof \DateTime)) {
                 $format = isset($fieldvalues['format']) ? $fieldvalues['format'] : "Y-m-d";
                 $data[$fieldname] = $data[$fieldname]->format($format);
             }
