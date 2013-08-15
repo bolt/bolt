@@ -21,14 +21,9 @@ class Routes implements ControllerProviderInterface
     {
         $ctr = false;
 
-        $filename = BOLT_CONFIG_DIR.'/routes.yml.dist';
-        if (is_readable($filename)) {
-            $yamlparser = new \Symfony\Component\Yaml\Parser();
-            $routes = $yamlparser->parse(file_get_contents($filename) . "\n");
-
-            if (is_array($routes)) {
-                $ctr = $this->addRoutes($app, $routes);
-            }
+        $routes = $app['config']['routes'];
+        if (is_array($routes)) {
+            $ctr = $this->addRoutes($app, $routes);
         }
 
         if ($ctr === false) {
