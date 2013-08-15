@@ -29,10 +29,10 @@ General settings
     `config.yml` if this message is shown.
  - `button_text: Send` - Default text on the 'send' button in the forms.
  - `recipient_cc_email: info@example.com` - Use this value to set a global cc email address, this email address will receive a copy of
-    all emails sent with simpleforms
- - `recipient_cc_name: Info` - Use this as the display name for the cc email address
+    all emails sent with simpleforms.
+ - `recipient_cc_name: Info` - Use this as the display name for the cc email address.
  - `recipient_bcc_email: info@example.com` - Use this value to set a global bcc email address, this email address will receive a blind copy of
-    all emails sent with simpleforms - this value does not have a display name
+    all emails sent with simpleforms - this value does not have a display name.
  - `testmode: true` - Sets a global testmode, you can use this to for development if you do not want other people to be bothered by
     endless testing emails. If you set this value to `true` all email will be sent to the `testmode_recipient` and all other
     recipient and cc addresses will be ignored. The default value is false.
@@ -73,7 +73,7 @@ used to override the global setting for the text on the 'send' button.
 Each of the 'General settings' mentioned above can be overridden for a specific form. So, you can create forms that use
 different templates and different messages.
 
-The fields of the form are defined in the 'fields'-array. Every field is defined by its name, with its options. For example:
+The fields of the form are defined in the `fields`-array. Every field is defined by its name, with its options. For example:
 
 <pre>
     subject:
@@ -98,13 +98,14 @@ to modify the functionality or appearance:
   - `read_only` - Set the field to `readonly` in the generated HTML. (yes, we're aware of the inconsistency between
     'read_only' and 'readonly'. 'read_only' is the name of the option in Symfony's Form component, while 'readonly' is
     the name of the attribute in the generated HTML)
-  - `prefix` - Add a snippet of HTML to output _before_ the `<div>` with the field's row. 
+  - `prefix` - Add a snippet of HTML to output _before_ the `<div>` with the field's row.
   - `postfix` - Add a snippet of HTML to output _after_ the `<div>` with the field's row.
     You can use these attributes to insert labels, headings or to divide the form in `<fieldset>`'s.
   - `use_as` - Only for email fields, you can use `to_email`, `from_email`, `cc_email` or `bcc_email`
     to use the entered email as an extra address.
-  - `use_with: fieldname` - An optional name for an email email field.
-    If entered the value of the field with the entered fieldname will be used as the display name for that email address.
+  - `use_with: fieldname` - An optional name for an email field. Use this to reference another field, that will be used
+    to display the name of the person, used in the `use_as`. Doing this, you can make emails with proper recipients, that
+    will be shown as `Example person <info@example.org>`. See the 'Email input with extra recipient' example below. 
 
 The different fieldtypes are as follows, with a short example outlining the specific options for that field.
 Remember you can also use the basic options as well.
@@ -135,18 +136,30 @@ Remember you can also use the basic options as well.
     option1:
       type: checkbox
 
+**Date input:**
+
+    some_date:
+      type: date
+      format: "Y-m-d"
+
+The `format` option is used for formatting the date in the emails. You can use the options that are available in
+PHP's `date()` function. See the [documentation for details](http://php.net/date).
+
 **Email input with extra recipient:**
 
-If you want to send a copy of the an email address the visitor entered, you can use the 'use_as' and
-'use_with' options for email and text fields.
+If you want to send a copy of the an email address the visitor entered, you can use the `use_as` and
+`use_with` options for email and text fields.
 
 You can define as many email fields as you like and the addresses will be used, you need to add the
-'use_with' option for each field if you want nice display names.
+`use_with` option for each field if you want nice display names.
 
     recipient:
       type: email
       use_as: to_email|from_email|cc_email|bcc_email
       use_with: another_fieldname
+    another_fieldname:
+      type: text
+      label: "The name of the person this email is sent to"
 
 **Upload:**
 
@@ -166,10 +179,10 @@ myformname:
         ext3: docx
 </pre>
 
-The storage_location must be set for a field definition, and a writable directory with the corresponding directoryname 
+The storage_location must be set for a field definition, and a writable directory with the corresponding directoryname
 must be created inside your files directory.
 
-You can also set the storage location to 'false' and the files will be temporarily stored in your cache folder. 
+You can also set the storage location to 'false' and the files will be temporarily stored in your cache folder.
 Use this if you want to attach the files to your emails but do not weant to keep a long term storage for them.
 
 If you set the `attach_files` option in the form definition, uploaded files will be attached to the email.
@@ -200,7 +213,8 @@ myformname:
 
 There is an option to keep a logfile in the database of all form submissions.
 For this log you need to make a table with columns named after the fieldnames in the form and set the `insert_into_table`
-fot the form to the tablename
+for the form to the tablename. This extension will not automatically create the table, and it will produce an error if
+the table isn't present or the columns don't line up.
 
 <pre>
 myformname:
