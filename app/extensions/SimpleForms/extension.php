@@ -20,7 +20,7 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.6",
+            'version' => "1.7",
             'required_bolt_version' => "1.1",
             'highest_bolt_version' => "1.1",
             'type' => "Twig function",
@@ -282,9 +282,11 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        // Check if we have fields of type 'file'. If so, fetch them, and move them
-        // to the designated folder.
+        // Some fieldtypes (like 'date' and 'file') require post-processing.
         foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
+
+            // Check if we have fields of type 'file'. If so, fetch them, and move them
+            // to the designated folder.
             if ($fieldvalues['type'] == "file") {
                 if (empty($formconfig['storage_location']) && $formconfig['attach_files']===false) {
                     die("You must set the storage_location in the field $fieldname if you do not use attachments.");
@@ -326,8 +328,14 @@ class Extension extends \Bolt\BaseExtension
                     $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                 }
             }
-        }
 
+            // Fields of type 'date' are \DateTime objects. Convert them to string, for sending in emails, etc.
+            if ($fieldvalues['type'] == "date") {
+                $format = isset($fieldvalues['format']) ? $fieldvalues['format'] : "Y-m-d";
+                $data[$fieldname] = $data[$fieldname]->format($format);
+            }
+
+        }
 
         // Attempt to insert the data into a table, if specified..
         if (!empty($formconfig['insert_into_table'])) {
@@ -339,7 +347,6 @@ class Extension extends \Bolt\BaseExtension
                 $this->app['log']->add("SimpleForms could not insert data into table". $formconfig['insert_into_table'] . ' ('.join(', ', $keys).') - check if the table exists.', 3);
                 echo "Couldn't insert data into table " . $formconfig['insert_into_table'] . ".";
             }
-
         }
 
         $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
