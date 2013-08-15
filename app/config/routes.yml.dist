@@ -1,0 +1,52 @@
+# This file defines user-definable routes.
+# 
+#
+
+homepage:
+    path:     /
+    defaults: { _controller: 'Bolt\Controllers\Frontend::homepage', _before:'::before' }
+
+search:
+    path:     /search
+    defaults: { _controller: 'Bolt\Controllers\Frontend::search', _before:'::before' }
+
+preview:
+    path:     /preview/{contenttypeslug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::preview', _before:'::before' }
+    requirements:
+        contenttypeslug:    'Bolt\Controllers\Routes::getAnyContentTypeRequirement'
+
+contentlink:
+    path:     /{contenttypeslug}/{slug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::record', _before:'::before' }
+    requirements:
+        contenttypeslug:    'Bolt\Controllers\Routes::getAnyContentTypeRequirement'
+
+taxonomylink:
+    path:     /{taxonomytype}/{slug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::taxonomy', _before:'::before' }
+    requirements:
+        taxonomytypeslug:   'Bolt\Controllers\Routes::getAnyTaxonomyTypeRequirement'
+
+contentlisting:
+    path:     /{contenttypeslug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::listing', _before:'::before' }
+    requirements:
+        contenttypeslug:    'Bolt\Controllers\Routes::getPluralContentTypeRequirement'
+
+
+#
+# A route with a host requirement
+# 
+#example:
+#    path:     /example
+#    defaults: { _controller: 'Bolt\Controllers\Frontend::homepage', _before:'::before' }
+#    host:     'www.mydomain.org'
+
+#
+# An override for a specific contenttype
+#
+#pagebinding:
+#    path:           /{slug}
+#    defaults:       { _controller: 'Bolt\Controllers\Frontend::record', _before:'::before', 'contenttypeslug': 'page' }
+#    contenttype:    page

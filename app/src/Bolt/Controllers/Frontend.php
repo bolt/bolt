@@ -3,54 +3,19 @@
 namespace Bolt\Controllers;
 
 use Silex;
-use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Frontend implements ControllerProviderInterface
+/**
+ * Standard Frontend actions
+ *
+ * Strictly speaking this is no longer a controller, but logically
+ * it still is.
+ */
+class Frontend
 {
-    public function connect(Silex\Application $app)
+    public static function before(Request $request, \Bolt\Application $app)
     {
-        $ctr = $app['controllers_factory'];
-
-        $ctr->match("/", array($this, 'homepage'))
-            ->before(array($this, 'before'))
-            ->bind('homepage')
-        ;
-
-        $ctr->match('/search', array($this, 'search'))
-            ->before(array($this, 'before'))
-        ;
-
-        $ctr->match('/preview/{contenttypeslug}', array($this, 'preview'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
-            ->bind('preview')
-        ;
-
-        $ctr->match('/{contenttypeslug}/{slug}', array($this, 'record'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
-            ->bind('contentlink')
-        ;
-
-        $ctr->match('/{taxonomytype}/{slug}', array($this, 'taxonomy'))
-            ->before(array($this, 'before'))
-            ->assert('taxonomytype', $app['storage']->getTaxonomyTypeAssert(true))
-            ->bind('taxonomylink')
-        ;
-
-        $ctr->match('/{contenttypeslug}', array($this, 'listing'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
-        ;
-
-        return $ctr;
-    }
-
-    function before(Request $request, \Bolt\Application $app)
-    {
-
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
@@ -74,7 +39,7 @@ class Frontend implements ControllerProviderInterface
         }
     }
 
-    function homepage(Silex\Application $app)
+    public static function homepage(Silex\Application $app)
     {
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
@@ -100,7 +65,7 @@ class Frontend implements ControllerProviderInterface
         return $app['twig']->render($template);
     }
 
-    function record(Silex\Application $app, $contenttypeslug, $slug)
+    public static function record(Silex\Application $app, $contenttypeslug, $slug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -150,7 +115,7 @@ class Frontend implements ControllerProviderInterface
     }
 
 
-    function preview(Request $request, Silex\Application $app, $contenttypeslug)
+    public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -182,7 +147,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    function listing(Silex\Application $app, $contenttypeslug)
+    public static function listing(Silex\Application $app, $contenttypeslug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -240,7 +205,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    function taxonomy(Silex\Application $app, $taxonomytype, $slug)
+    public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
 
         // First, get some content
@@ -297,7 +262,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    public function searchNotWeighted(Request $request, Silex\Application $app)
+    public static function searchNotWeighted(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
         $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
@@ -322,7 +287,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    public function search(Request $request, Silex\Application $app)
+    public static function search(Request $request, Silex\Application $app)
     {
         $q = '';
         if ($request->query->has('q')) {

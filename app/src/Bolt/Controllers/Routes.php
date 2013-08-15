@@ -10,15 +10,23 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Configurable routes controller
  *
- * Read and add routes based on a routes.yml file.
+ * Add routes from a configuration file.
  */
 class Routes implements ControllerProviderInterface
 {
+    // Dirty trick to allow for easy route-requirements
+    // @todo fix this (create service, abstract away, figure something else..)
+    private static $app = false;
+
     /**
      * Connect this controller to the application
      */
     public function connect(Silex\Application $app)
     {
+        if (self::$app === false) {
+            self::$app = $app;
+        }
+
         $ctr = false;
 
         $routes = $app['config']['routes'];
@@ -40,10 +48,10 @@ class Routes implements ControllerProviderInterface
     {
         $ctr = $app['controllers_factory'];
 
-        foreach($routes as $binding => $route) {
+        foreach($routes as $binding => $routeconfig) {
             $path         = false;
             $to           = false;
-            $controller   = false;
+            $route        = false;
             $host         = false;
             $_controller  = false;
             $_before      = false;
@@ -54,27 +62,20 @@ class Routes implements ControllerProviderInterface
 
             // parse YAML structure
 
-            if (isset($route['path'])) {
-                $path = $route['path'];
+            if (isset($routeconfig['path'])) {
+                $path = $routeconfig['path'];
             }
-            if (isset($route['defaults'])) {
-                $defaults = $route['defaults'];
+            if (isset($routeconfig['defaults'])) {
+                $defaults = $routeconfig['defaults'];
                 if (isset($defaults['_controller'])) {
                     $to = $defaults['_controller'];
                     if (strpos($to, '::') > 0) {
-                        $_controller = explode('::', $defaults['_controller']);
-
-                        if (class_exists($_controller[0])) {
-                            $instance = new $_controller[0];
-
-                            $to = array($instance, $_controller[1]);
-                        }
+                        $to = explode('::', $defaults['_controller']);
                     }
                     unset($defaults['_controller']);
                 }
                 if (isset($defaults['_before'])) {
                     if ((substr($defaults['_before'] ,0, 2) == '::') && (is_array($to))) {
-                        //$_before = $_controller[0].$defaults['_before'];
                         $_before = array($to[0], substr($defaults['_before'], 2));
                     }
                     else {
@@ -84,7 +85,6 @@ class Routes implements ControllerProviderInterface
                 }
                 if (isset($defaults['_after'])) {
                     if ((substr($defaults['_after'] ,0, 2) == '::') && (is_array($to))) {
-                        //$_after = $_controller[0].$defaults['_after'];
                         $_after = array($to[0], substr($defaults['_after'], 2));
                     }
                     else {
@@ -93,64 +93,86 @@ class Routes implements ControllerProviderInterface
                     unset($defaults['_after']);
                 }
             }
-            if (isset($route['requirements']) && (is_array($route['requirements']))) {
-                $requirements = $route['requirements'];
+            if (isset($routeconfig['requirements']) && (is_array($routeconfig['requirements']))) {
+                $requirements = $routeconfig['requirements'];
             }
-            if (isset($route['host'])) {
-                $host = $route['host'];
+            if (isset($routeconfig['host'])) {
+                $host = $routeconfig['host'];
             }
 
 
-            // add Route
+            // build an actual route
 
             if (($path !== false) && ($to !== false)) {
-                $controller = $ctr->match($path, $to);
+                $route = $ctr->match($path, $to);
             }
-            if ($controller !== false) {
+            if ($route !== false) {
                 if ($_before !== false) {
-                    $controller->before($_before);
+                    $route->before($_before);
                 }
                 if ($_after !== false) {
-                    $controller->after($_after);
+                    $route->after($_after);
                 }
             
                 foreach($requirements as $variable => $regexp) {
-                    $controller->assert($variable, $regexp);
+                    $route->assert($variable, $this->getProperRegexp($regexp));
                 }
                 foreach($defaults as $variable => $default) {
-                    $controller->value($variable, $default);
+                    $route->value($variable, $default);
+                }
+                if ($host !== false) {
+                    $route->setHost($host);
                 }
 
-                $controller->bind($binding);
+                $route->bind($binding);
             }
         }
 
         return $ctr;
     }
 
-    function before(Request $request, \Bolt\Application $app)
+    /**
+     * Return a proper regexp
+     *
+     * Bolt allows 
+     */
+    private function getProperRegexp($regexp)
     {
-
-        // If there are no users in the users table, or the table doesn't exist. Repair
-        // the DB, and let's add a new user.
-        if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
-            return redirect('useredit', array('id' => ""));
+        if (strpos($regexp, '::') > 0) {
+            return call_user_func($regexp);
         }
+        return $regexp;
+    }
 
-        $app['debugbar']     = true;
-        $app['htmlsnippets'] = true;
+    /**
+     * Return plural and singular contenttypeslugs
+     */
+    public static function getAnyContentTypeRequirement()
+    {
+        return self::$app['storage']->getContentTypeAssert(true);
+    }
 
-        // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        if ($app['config']['general']['maintenance_mode']) {
+    /**
+     * Return only plural contenttypeslugs
+     */
+    public static function getPluralContentTypeRequirement()
+    {
+        return self::$app['storage']->getContentTypeAssert(false);
+    }
 
-            $user = $app['users']->getCurrentUser();
-            $template = $app['config']['general']['maintenance_template'];
-            $body = $app['twig']->render($template);
+    /**
+     * Return plural and singular taxonomytypeslugs
+     */
+    public static function getAnyTaxonomyTypeRequirement()
+    {
+        return self::$app['storage']->getTaxonomyTypeAssert(true);
+    }
 
-            if($user['userlevel'] < 2) {
-                return new Response($body, 503);
-            }
-        }
+    /**
+     * Return only plural taxonomytypeslugs
+     */
+    public static function getPluralTaxonomyTypeRequirement()
+    {
+        return self::$app['storage']->getTaxonomyTypeAssert(false);
     }
 }
