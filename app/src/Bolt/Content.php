@@ -680,21 +680,21 @@ class Content implements \ArrayAccess
      */
     public function link($param = "")
     {
-
-        // @todo use Silex' UrlGeneratorServiceProvider instead.
-
         // If there's no valid content, return no link.
         if (empty($this->id)) {
-            return "";
+            return '';
         }
 
-        $link = sprintf("%s%s/%s",
-            $this->app['paths']['root'],
-            $this->contenttype['singular_slug'],
-            $this->values['slug'] );
+        $linkbinding = 'contentlink';
+        foreach($this->app['config']['routes'] as $binding => $route) {
+            if (isset($route['contenttype'])) {
+                $linkbinding = $binding;
+                break;
+            }
+        }
+        $link = $this->app['url_generator']->generate($linkbinding, array('contenttypeslug' => $this->contenttype['singular_slug'], 'slug' => $this->values['slug']));
 
         return $link;
-
     }
 
     /**
