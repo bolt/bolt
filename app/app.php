@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 $app->mount($app['config']['general']['branding']['path'], new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
 $app->mount('', new Bolt\Controllers\Routes());
-$app->mount('', new Bolt\Controllers\Frontend());
 
 $app->before(function () use ($app) {
 
