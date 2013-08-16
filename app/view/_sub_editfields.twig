@@ -74,6 +74,8 @@
             </span>
         </b>
     </label>
+    {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
+    <input type="hidden" name="{{key}}" id="{{key}}" value='0'>
     <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
            {% if content.get(key) %}checked{% else %}notchecked{% endif %}
            class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
