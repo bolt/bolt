@@ -105,7 +105,7 @@ to modify the functionality or appearance:
     to use the entered email as an extra address.
   - `use_with: fieldname` - An optional name for an email field. Use this to reference another field, that will be used
     to display the name of the person, used in the `use_as`. Doing this, you can make emails with proper recipients, that
-    will be shown as `Example person <info@example.org>`. See the 'Email input with extra recipient' example below. 
+    will be shown as `Example person <info@example.org>`. See the 'Email input with extra recipient' example below.
 
 The different fieldtypes are as follows, with a short example outlining the specific options for that field.
 Remember you can also use the basic options as well.
