@@ -10,7 +10,18 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
         define('BOLT_COMPOSER_INSTALLED', false);
         define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
         define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
-        define('BOLT_CONFIG_DIR', __DIR__.'/config');
+
+        // Set the config folder location. If we haven't set the constant in index.php, use one of the
+        // default values.
+        if (!defined("BOLT_CONFIG_DIR")) {
+            if (file_exists(__DIR__.'/config')) {
+                // Default value, /app/config/..
+                define('BOLT_CONFIG_DIR', __DIR__.'/config');
+            } else {
+                // otherwise use /config, outside of the webroot folder.
+                define('BOLT_CONFIG_DIR', dirname(dirname(__DIR__)).'/config');
+            }
+        }
     }
 }
 
