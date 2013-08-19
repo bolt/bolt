@@ -60,6 +60,16 @@ class Routes implements ControllerProviderInterface
             $requirements = array();
 
 
+            // set some defaults in the YAML
+
+            if ((!isset($routeconfig['defaults'])) || (!isset($routeconfig['defaults']['_before']))) {
+                $routeconfig['defaults']['_before'] = '::before';
+            }
+            if ((!isset($routeconfig['defaults'])) || (!isset($routeconfig['defaults']['_after']))) {
+                $routeconfig['defaults']['_after'] = '::after';
+            }
+
+
             // parse YAML structure
 
             if (isset($routeconfig['path'])) {
@@ -107,10 +117,10 @@ class Routes implements ControllerProviderInterface
                 $route = $ctr->match($path, $to);
             }
             if ($route !== false) {
-                if ($_before !== false) {
+                if (($_before !== false) && (is_callable($_before))) {
                     $route->before($_before);
                 }
-                if ($_after !== false) {
+                if (($_after !== false) && (is_callable($_after))) {
                     $route->after($_after);
                 }
             
