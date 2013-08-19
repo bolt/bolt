@@ -26,7 +26,7 @@ taxonomylink:
     path:     /{taxonomytype}/{slug}
     defaults: { _controller: 'Bolt\Controllers\Frontend::taxonomy', _before:'::before' }
     requirements:
-        taxonomytypeslug:   'Bolt\Controllers\Routes::getAnyTaxonomyTypeRequirement'
+        taxonomytype:   'Bolt\Controllers\Routes::getAnyTaxonomyTypeRequirement'
 
 contentlisting:
     path:     /{contenttypeslug}
