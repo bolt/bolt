@@ -937,9 +937,16 @@ class Backend implements ControllerProviderInterface
 
     function fileedit($file, Silex\Application $app, Request $request) {
 
-        $filename = realpath(__DIR__."/../../../../".$file);
-        $type = getExtension($filename);
+        if (dirname($file) == "app/config") {
+            // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
+            // correct BOLT_CONFIG_DIR, which might be 'app/config', but it might be something else.
+            $filename = realpath(BOLT_CONFIG_DIR . "/" . basename($file));
+        } else {
+            // otherwise just realpath it, relative to the 'webroot'.
+            $filename = realpath(__DIR__."/../../../../".$file);
+        }
 
+        $type = getExtension($filename);
 
         // Get the pathsegments, so we can show the path..
         $path = dirname($file);
