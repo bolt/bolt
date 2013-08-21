@@ -1205,7 +1205,7 @@ class Backend implements ControllerProviderInterface
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
-        if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
+        if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->get('_route') != 'useredit') {
             $app['twig']->addGlobal('frontend', false);
             return;
         }
