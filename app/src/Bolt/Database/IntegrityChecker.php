@@ -207,6 +207,10 @@ class IntegrityChecker
     public function repairTables()
     {
 
+        // When repairing tables we want to start with an empty flashbag. Otherwise we get another
+        // 'repair your DB'-notice, right after we're done repairing.
+        $this->app['session']->getFlashBag()->clear();
+
         $output = array();
 
         $currentTables = $this->getTableObjects();
