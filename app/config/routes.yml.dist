@@ -1,0 +1,60 @@
+# This file defines user-definable routes.
+# 
+#
+
+homepage:
+    path:     /
+    defaults: { _controller: 'Bolt\Controllers\Frontend::homepage' }
+
+search:
+    path:     /search
+    defaults: { _controller: 'Bolt\Controllers\Frontend::search' }
+
+preview:
+    path:     /preview/{contenttypeslug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::preview' }
+    requirements:
+        contenttypeslug:    'Bolt\Controllers\Routes::getAnyContentTypeRequirement'
+
+contentlink:
+    path:     /{contenttypeslug}/{slug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::record' }
+    requirements:
+        contenttypeslug:    'Bolt\Controllers\Routes::getAnyContentTypeRequirement'
+
+taxonomylink:
+    path:     /{taxonomytype}/{slug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::taxonomy' }
+    requirements:
+        taxonomytype:   'Bolt\Controllers\Routes::getAnyTaxonomyTypeRequirement'
+
+contentlisting:
+    path:     /{contenttypeslug}
+    defaults: { _controller: 'Bolt\Controllers\Frontend::listing' }
+    requirements:
+        contenttypeslug:    'Bolt\Controllers\Routes::getPluralContentTypeRequirement'
+
+
+#
+# A route with a host requirement
+# 
+#example:
+#    path:     /example
+#    defaults: { _controller: 'Bolt\Controllers\Frontend::homepage' }
+#    host:     'www.mydomain.org'
+
+#
+# An override for a specific contenttype
+#
+#pagebinding:
+#    path:           /{slug}
+#    defaults:       { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page' }
+#    contenttype:    page
+
+#
+# Supported defaults are:
+#    _controller     the controller class::method to be called
+#    _before         the before to call, if non-existent the 'before()' of the controller will be called
+#    _after          the after to call, if non-existent the 'after()' of the controller will be called
+#
+# Both _before and _after support a shortcut notation which re-uses the controller class: '::before'

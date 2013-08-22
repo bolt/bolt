@@ -103,6 +103,19 @@ jQuery(function($) {
 
     });
 
+    // Toggleclass options for showing / hiding the password input.
+    $(".togglepass").on('click', function() {
+        if ($(this).hasClass('show')) {
+            $('input[name="password"]').attr('type', 'text');
+            $('.togglepass.show').hide();
+            $('.togglepass.hide').show();
+        } else {
+            $('input[name="password"]').attr('type', 'password');
+            $('.togglepass.show').show();
+            $('.togglepass.hide').hide();
+        }
+    });
+
 
 });
 
@@ -562,21 +575,24 @@ var ImagelistHolder = Backbone.View.extend({
 
     render: function() {
         this.list.sort();
-        $('.imagelistholder .list').html('');
+
+        var $list = $('#imagelist-'+this.id+' .list');
+        $list.html('');
         _.each(this.list.models, function(image){
             var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
                 "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
                 _.escape(image.get('title'))  + "'><a href='#'><i class='icon-remove'></i></a></div>";
-            $('.imagelistholder .list').append(html);
+            $list.append(html);
         });
         if (this.list.models.length == 0) {
-            $('.imagelistholder .list').append("<p>No images in the list, yet.</p>");
+            $list.append("<p>No images in the list, yet.</p>");
         }
         this.serialize();
     },
 
     add: function(filename, title) {
         var image = new Imagemodel({filename: filename, title: title, id: this.list.length });
+
         this.list.add(image);
         this.render();
     },
@@ -606,12 +622,13 @@ var ImagelistHolder = Backbone.View.extend({
     },
 
     bindEvents: function() {
+        var $this = this,
+            contentkey = this.id,
+            $holder = $('#imagelist-'+this.id);
 
-        var contentkey = this.id;
-
-        $(".imagelistholder div.list").sortable({
+        $holder.find("div.list").sortable({
             stop: function() {
-                imagelist.doneSort();
+                $this.doneSort();
             },
             delay: 100,
             distance: 5
@@ -620,25 +637,25 @@ var ImagelistHolder = Backbone.View.extend({
         $('#fileupload-' + contentkey).attr('name', 'files[]')
             .fileupload({
                 dataType: 'json',
-                dropZone: $('#imagelist-' + contentkey),
+                dropZone: $holder,
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
                         var filename = decodeURI(file.url).replace("/files/", "");
-                        imagelist.add(filename, filename);
+                        $this.add(filename, filename);
                     });
                 }
             });
 
-        $(".imagelistholder div.list").on('click', 'a', function(e) {
+        $holder.find("div.list").on('click', 'a', function(e) {
             e.preventDefault();
             if (confirm('Are you sure you want to remove this image?')) {
                 var id = $(this).parent().data('id');
-                imagelist.remove(id);
+                $this.remove(id);
             }
         });
 
-        $(".imagelistholder div.list").on('blur', 'input', function() {
-            imagelist.doneSort();
+        $holder.find("div.list").on('blur', 'input', function() {
+            $this.doneSort();
         });
 
         // In the modal dialog, to navigate folders..
@@ -651,9 +668,8 @@ var ImagelistHolder = Backbone.View.extend({
         $('#selectImageModal-' + contentkey).on('click','.file', function(e) {
             e.preventDefault();
             var filename = $(this).attr('href');
-            imagelist.add(filename, filename);
+            $this.add(filename, filename);
         });
 
     }
-
 });

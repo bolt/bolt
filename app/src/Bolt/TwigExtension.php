@@ -72,7 +72,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('current', array($this, 'current')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('image', array($this, 'image')),
-            new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
@@ -487,8 +487,17 @@ class TwigExtension extends \Twig_Extension
             $thisPager = array_pop($pager);
         }
 
-        echo $env->render($template, array('pager' => $thisPager, 'surr' => $surr, 'class' => $class));
-        return null;
+        $context = array(
+            'pager' => $thisPager,
+            'surr' => $surr,
+            'class' => $class
+        );
+
+        if (isset($pager['link'])) {
+            $context['link'] = $pager['link'];
+        }
+
+        return new \Twig_Markup($env->render($template, $context), 'utf-8');
     }
 
 
@@ -654,8 +663,13 @@ class TwigExtension extends \Twig_Extension
 
         if (!empty($filename)) {
 
+            $thumbconf = $this->app['config']['general']['thumbnails'];
+
+            $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
+            $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 800;
+
             $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
-            $large = $this->thumbnail($filename, 1000, 1000, 'r');
+            $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
 
             $output = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
                     <img src="%s" width="%s" height="%s"></a>',
@@ -918,6 +932,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function redirect($path)
     {
+
+        simpleredirect($path);
 
         $result = $this->app->redirect($path);
         return $result;

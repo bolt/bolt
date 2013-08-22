@@ -165,26 +165,27 @@ CodeMirror.defineMode("css-base", function(config, parserConfig) {
         if (type == "variable-definition") state.stack.push("propertyValue");
         return "variable-2";
       } else if (style == "property") {
-        if (context == "propertyValue"){
-          if (valueKeywords[stream.current()]) {
+        var word = stream.current().toLowerCase();
+        if (context == "propertyValue") {
+          if (valueKeywords.hasOwnProperty(word)) {
             style = "string-2";
-          } else if (colorKeywords[stream.current()]) {
+          } else if (colorKeywords.hasOwnProperty(word)) {
             style = "keyword";
           } else {
             style = "variable-2";
           }
         } else if (context == "rule") {
-          if (!propertyKeywords[stream.current()]) {
+          if (!propertyKeywords.hasOwnProperty(word)) {
             style += " error";
           }
         } else if (context == "block") {
           // if a value is present in both property, value, or color, the order
           // of preference is property -> color -> value
-          if (propertyKeywords[stream.current()]) {
+          if (propertyKeywords.hasOwnProperty(word)) {
             style = "property";
-          } else if (colorKeywords[stream.current()]) {
+          } else if (colorKeywords.hasOwnProperty(word)) {
             style = "keyword";
-          } else if (valueKeywords[stream.current()]) {
+          } else if (valueKeywords.hasOwnProperty(word)) {
             style = "string-2";
           } else {
             style = "tag";
@@ -194,42 +195,42 @@ CodeMirror.defineMode("css-base", function(config, parserConfig) {
         } else if (context == "@media") {
           if (atMediaTypes[stream.current()]) {
             style = "attribute"; // Known attribute
-          } else if (/^(only|not)$/i.test(stream.current())) {
+          } else if (/^(only|not)$/.test(word)) {
             style = "keyword";
-          } else if (stream.current().toLowerCase() == "and") {
+          } else if (word == "and") {
             style = "error"; // "and" is only allowed in @mediaType
-          } else if (atMediaFeatures[stream.current()]) {
+          } else if (atMediaFeatures.hasOwnProperty(word)) {
             style = "error"; // Known property, should be in @mediaType(
           } else {
             // Unknown, expecting keyword or attribute, assuming attribute
             style = "attribute error";
           }
         } else if (context == "@mediaType") {
-          if (atMediaTypes[stream.current()]) {
+          if (atMediaTypes.hasOwnProperty(word)) {
             style = "attribute";
-          } else if (stream.current().toLowerCase() == "and") {
+          } else if (word == "and") {
             style = "operator";
-          } else if (/^(only|not)$/i.test(stream.current())) {
+          } else if (/^(only|not)$/.test(word)) {
             style = "error"; // Only allowed in @media
-          } else if (atMediaFeatures[stream.current()]) {
-            style = "error"; // Known property, should be in parentheses
           } else {
             // Unknown attribute or property, but expecting property (preceded
             // by "and"). Should be in parentheses
             style = "error";
           }
         } else if (context == "@mediaType(") {
-          if (propertyKeywords[stream.current()]) {
+          if (propertyKeywords.hasOwnProperty(word)) {
             // do nothing, remains "property"
-          } else if (atMediaTypes[stream.current()]) {
+          } else if (atMediaTypes.hasOwnProperty(word)) {
             style = "error"; // Known property, should be in parentheses
-          } else if (stream.current().toLowerCase() == "and") {
+          } else if (word == "and") {
             style = "operator";
-          } else if (/^(only|not)$/i.test(stream.current())) {
+          } else if (/^(only|not)$/.test(word)) {
             style = "error"; // Only allowed in @media
           } else {
             style += " error";
           }
+        } else if (context == "@import") {
+          style = "tag";
         } else {
           style = "error";
         }
@@ -266,6 +267,7 @@ CodeMirror.defineMode("css-base", function(config, parserConfig) {
       }
       else if (type == "interpolation") state.stack.push("interpolation");
       else if (type == "@media") state.stack.push("@media");
+      else if (type == "@import") state.stack.push("@import");
       else if (context == "@media" && /\b(keyword|attribute)\b/.test(style))
         state.stack.push("@mediaType");
       else if (context == "@mediaType" && stream.current() == ",") state.stack.pop();
@@ -273,6 +275,7 @@ CodeMirror.defineMode("css-base", function(config, parserConfig) {
       else if (context == "@mediaType(" && type == ")") state.stack.pop();
       else if ((context == "rule" || context == "block") && type == ":") state.stack.push("propertyValue");
       else if (context == "propertyValue" && type == ";") state.stack.pop();
+      else if (context == "@import" && type == ";") state.stack.pop();
       return style;
     },
 
@@ -283,7 +286,9 @@ CodeMirror.defineMode("css-base", function(config, parserConfig) {
       return state.baseIndent + n * indentUnit;
     },
 
-    electricChars: "}"
+    electricChars: "}",
+    blockCommentStart: "/*",
+    blockCommentEnd: "*/"
   };
 });
 
@@ -387,12 +392,46 @@ CodeMirror.defineMode("css-base", function(config, parserConfig) {
     "vertical-align", "visibility", "voice-balance", "voice-duration",
     "voice-family", "voice-pitch", "voice-range", "voice-rate", "voice-stress",
     "voice-volume", "volume", "white-space", "widows", "width", "word-break",
-    "word-spacing", "word-wrap", "z-index"
+    "word-spacing", "word-wrap", "z-index",
+    // SVG-specific
+    "clip-path", "clip-rule", "mask", "enable-background", "filter", "flood-color",
+    "flood-opacity", "lighting-color", "stop-color", "stop-opacity", "pointer-events",
+    "color-interpolation", "color-interpolation-filters", "color-profile",
+    "color-rendering", "fill", "fill-opacity", "fill-rule", "image-rendering",
+    "marker", "marker-end", "marker-mid", "marker-start", "shape-rendering", "stroke",
+    "stroke-dasharray", "stroke-dashoffset", "stroke-linecap", "stroke-linejoin",
+    "stroke-miterlimit", "stroke-opacity", "stroke-width", "text-rendering",
+    "baseline-shift", "dominant-baseline", "glyph-orientation-horizontal",
+    "glyph-orientation-vertical", "kerning", "text-anchor", "writing-mode"
   ]);
 
   var colorKeywords = keySet([
-    "black", "silver", "gray", "white", "maroon", "red", "purple", "fuchsia",
-    "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"
+    "aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige",
+    "bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown",
+    "burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue",
+    "cornsilk", "crimson", "cyan", "darkblue", "darkcyan", "darkgoldenrod",
+    "darkgray", "darkgreen", "darkkhaki", "darkmagenta", "darkolivegreen",
+    "darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen",
+    "darkslateblue", "darkslategray", "darkturquoise", "darkviolet",
+    "deeppink", "deepskyblue", "dimgray", "dodgerblue", "firebrick",
+    "floralwhite", "forestgreen", "fuchsia", "gainsboro", "ghostwhite",
+    "gold", "goldenrod", "gray", "green", "greenyellow", "honeydew",
+    "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender",
+    "lavenderblush", "lawngreen", "lemonchiffon", "lightblue", "lightcoral",
+    "lightcyan", "lightgoldenrodyellow", "lightgray", "lightgreen", "lightpink",
+    "lightsalmon", "lightseagreen", "lightskyblue", "lightslategray",
+    "lightsteelblue", "lightyellow", "lime", "limegreen", "linen", "magenta",
+    "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple",
+    "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise",
+    "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin",
+    "navajowhite", "navy", "oldlace", "olive", "olivedrab", "orange", "orangered",
+    "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred",
+    "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue",
+    "purple", "red", "rosybrown", "royalblue", "saddlebrown", "salmon",
+    "sandybrown", "seagreen", "seashell", "sienna", "silver", "skyblue",
+    "slateblue", "slategray", "snow", "springgreen", "steelblue", "tan",
+    "teal", "thistle", "tomato", "turquoise", "violet", "wheat", "white",
+    "whitesmoke", "yellow", "yellowgreen"
   ]);
 
   var valueKeywords = keySet([
@@ -475,7 +514,7 @@ CodeMirror.defineMode("css-base", function(config, parserConfig) {
     "upper-alpha", "upper-armenian", "upper-greek", "upper-hexadecimal",
     "upper-latin", "upper-norwegian", "upper-roman", "uppercase", "urdu", "url",
     "vertical", "vertical-text", "visible", "visibleFill", "visiblePainted",
-    "visibleStroke", "visual", "w-resize", "wait", "wave", "white", "wider",
+    "visibleStroke", "visual", "w-resize", "wait", "wave", "wider",
     "window", "windowframe", "windowtext", "x-large", "x-small", "xor",
     "xx-large", "xx-small"
   ]);

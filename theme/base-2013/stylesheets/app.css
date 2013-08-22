@@ -265,8 +265,9 @@ div.pagination ul li.active a:hover, ul.pagination li.current a:focus { backgrou
     font-size: 15px;
   }
 
-div.imageholder {
-  background-color: #FFF;
-  margin: 0 -17px 10px -17px;
+  div.imageholder {
+    float: none;
+    margin: 0 -17px 10px -17px;
+  }
 
 }

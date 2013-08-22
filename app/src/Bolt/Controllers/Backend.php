@@ -142,18 +142,6 @@ class Backend implements ControllerProviderInterface
      */
     function dashboard(\Bolt\Application $app) {
 
-        // Re-do getConfig. Mainly so we can log errors.
-        // TODO: figure out if there's a better way, as this takes about 200ms.
-        getConfig();
-
-        // Check DB-tables integrity
-        if ($app['storage']->getIntegrityChecker()->needsCheck()) {
-            if (count($app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
-                $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
-                $app['session']->getFlashBag()->set('error', $msg);
-            }
-        }
-
         $limit = $app['config']['general']['recordsperdashboardwidget'];
 
         $total = 0;
@@ -474,8 +462,6 @@ class Backend implements ControllerProviderInterface
 
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
-				echo "$id is niet ". $content['id'];
-				die();
                 $app['session']->getFlashBag()->set('error', "Don't try to spoof the id!");
                 return redirect('dashboard');
             }
@@ -521,8 +507,10 @@ class Backend implements ControllerProviderInterface
         $duplicate = $app['request']->query->get('duplicate');
         if (!empty($duplicate)) {
             $content->setValue('id', "");
+            $content->setValue('slug', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
+            $content->setValue('datedepublish', "");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.", array('%contenttype%'=> $contenttype['singular_name'])));
@@ -620,6 +608,7 @@ class Backend implements ControllerProviderInterface
             'users.twig',
             array('users' => $users, 'userlevels' => $userlevels, 'sessions' => $sessions )
         );
+
 
     }
 
@@ -948,9 +937,16 @@ class Backend implements ControllerProviderInterface
 
     function fileedit($file, Silex\Application $app, Request $request) {
 
-        $filename = realpath(__DIR__."/../../../../".$file);
-        $type = getExtension($filename);
+        if (dirname($file) == "app/config") {
+            // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
+            // correct BOLT_CONFIG_DIR, which might be 'app/config', but it might be something else.
+            $filename = realpath(BOLT_CONFIG_DIR . "/" . basename($file));
+        } else {
+            // otherwise just realpath it, relative to the 'webroot'.
+            $filename = realpath(__DIR__."/../../../../".$file);
+        }
 
+        $type = getExtension($filename);
 
         // Get the pathsegments, so we can show the path..
         $path = dirname($file);
@@ -1216,7 +1212,7 @@ class Backend implements ControllerProviderInterface
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
-        if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->getPathInfo()=="/bolt/users/edit/") {
+        if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $request->get('_route') != 'useredit') {
             $app['twig']->addGlobal('frontend', false);
             return;
         }

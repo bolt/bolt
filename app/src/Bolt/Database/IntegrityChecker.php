@@ -3,7 +3,7 @@
 namespace Bolt\Database;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -24,6 +24,11 @@ class IntegrityChecker
      * @var string
      */
     private $prefix;
+    /**
+     * Default value for TEXT fields, differs per platform
+     * @var string|null
+     */
+    private $textDefault = null;
 
     public function __construct(\Bolt\Application $app)
     {
@@ -38,6 +43,10 @@ class IntegrityChecker
 
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
+
+        if($this->app['db']->getDatabasePlatform() instanceof SqlitePlatform) {
+            $this->textDefault = '';
+        }
 
     }
 
@@ -197,6 +206,10 @@ class IntegrityChecker
      */
     public function repairTables()
     {
+
+        // When repairing tables we want to start with an empty flashbag. Otherwise we get another
+        // 'repair your DB'-notice, right after we're done repairing.
+        $this->app['session']->getFlashBag()->clear();
 
         $output = array();
 
@@ -391,7 +404,7 @@ class IntegrityChecker
      */
     protected function getContentTypeTablesSchema(Schema $schema) {
 
-        $dboptions = getDBOptions($this->app['config']);
+        $dboptions = $this->app['config']->getDBOptions();
 
         $tables = array();
 
@@ -412,6 +425,8 @@ class IntegrityChecker
             $myTable->addIndex( array( 'datechanged' ) );
             $myTable->addColumn("datepublish", "datetime");
             $myTable->addIndex( array( 'datepublish' ) );
+            $myTable->addColumn("datedepublish", "datetime");
+            $myTable->addIndex( array( 'datedepublish' ) );
             $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("status", "string", array("length" => 32));
             $myTable->addIndex( array( 'status' ) );
@@ -431,7 +446,6 @@ class IntegrityChecker
                 switch ($values['type']) {
                     case 'text':
                     case 'templateselect':
-                    case 'select':
                     case 'image':
                     case 'file':
                         $myTable->addColumn($field, "string", array("length" => 256, "default" => ""));
@@ -454,7 +468,8 @@ class IntegrityChecker
                     case 'markdown':
                     case 'geolocation':
                     case 'imagelist':
-                        $myTable->addColumn($field, "text", array("default" => ""));
+                    case 'select':
+                        $myTable->addColumn($field, "text", array("default" => $this->textDefault));
                         break;
                     case 'datetime':
                         $myTable->addColumn($field, "datetime");
@@ -467,6 +482,7 @@ class IntegrityChecker
                     case 'datecreated':
                     case 'datechanged':
                     case 'datepublish':
+                    case 'datedepublish':
                     case 'username':
                     case 'status':
                         // These are the default columns. Don't try to add these.

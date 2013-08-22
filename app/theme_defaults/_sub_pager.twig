@@ -11,7 +11,11 @@
     {% set order = "" %}
 {% endif %}
 
-{% set link = "?" ~ filter ~ order ~ "page=" %}
+{% if pager.link is defined %}
+    {% set link = pager.link %}
+{% else %}
+    {% set link = "?" ~ filter ~ order ~ "page=" %}
+{% endif %}
 
 {% if pager.totalpages > 1 %}
 <div class="pagination pagination-centered {{class}}">

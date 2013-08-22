@@ -1,8 +1,6 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
-
-<h1>{{title}}</h1>
-
+<h1>{{ title }}</h1>
 
 <form action="" method="post" class="form-inline" autocomplete="off">
 
@@ -10,7 +8,7 @@
 <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ form.vars.value.contents }}</textarea>
 </div>
 {% if writeallowed %}
-    {{ form_row(form._token) }}
+    {{ form_widget(form._token) }}
     <br />
     <input type="submit" name="submit" value="{{ __('Save') }}" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %} />
 {% endif %}
@@ -19,7 +17,7 @@
 {% if not ismobileclient() %}
     {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
     <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
-    <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.js"></script>
+    <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
     <script src="{{ paths.app }}view/lib/codemirror/yaml.js"></script>
 
     <script>

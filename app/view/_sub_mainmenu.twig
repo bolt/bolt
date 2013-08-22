@@ -31,13 +31,26 @@
                         <li class="nav-header">{{ __('Configuration') }}</li>
                         <li><a href="{{ path('users') }}"><i class="icon-group"></i> {{ __('Users') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
-                            <i class="icon-cog"></i> {{ __('Configuration') }}</a></li>
+                                <i class="icon-cog"></i> {{ __('Configuration') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
-                            <i class="icon-cog"></i> {{ __('Contenttypes') }}</a></li>
+                                <i class="icon-cog"></i> {{ __('Contenttypes') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/menu.yml'}) }}">
-                            <i class="icon-cog"></i> {{ __('Menu setup') }}</a></li>
+                                <i class="icon-cog"></i> {{ __('Menu setup') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/taxonomy.yml'}) }}">
-                            <i class="icon-tags"></i> {{ __('Taxonomy') }}</a></li>
+                                <i class="icon-tags"></i> {{ __('Taxonomy') }}</a></li>
+                        <li class="divider"></li>
+                    {% endif %}
+
+                    {% if app.extensions.hasMenuoptions %}
+                        <li class="nav-header">{{ __('Extensions') }}</li>
+                        {% for extension in app.extensions.getMenuoptions %}
+                            <li>
+                                <a href="{{ extension.path }}">
+                                    <i class="{{ extension.icon|default('icon-expand') }}"></i>
+                                    {{ extension.label }}
+                                </a>
+                            </li>
+                        {% endfor %}
                         <li class="divider"></li>
                     {% endif %}
                     <li class="nav-header">{{ __('Maintenance') }}</li>

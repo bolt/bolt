@@ -3,7 +3,7 @@
 
 main:
   - label: Home
-    title: This is the first menu item. Fo shizzle!
+    title: This is the first menu item.
     path: homepage
     class: first
   - label: Second item

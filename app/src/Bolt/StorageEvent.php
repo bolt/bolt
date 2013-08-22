@@ -6,6 +6,16 @@ use Bolt;
 use util;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Our specific Event instance for Storage Events
+ *
+ * For preSave and postSave you may assume you can directly access the 
+ * content using $this->getContent(). The id will be available in a 
+ * postSave but is not guarenteerd for a preSave (since it could be
+ * new).
+ * For preDelete and postDelete the content won't be available, but the
+ * $this->getId() and $this->getContentType() will be set.
+ */
 class StorageEvent extends Event
 {
     /**

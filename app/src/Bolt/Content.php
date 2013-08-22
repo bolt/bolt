@@ -13,6 +13,9 @@ class Content implements \ArrayAccess
     public $relation;
     public $contenttype;
 
+    // The last time we weight a searchresult
+    private $last_weight = 0;
+
     public function __construct(Silex\Application $app, $contenttype = "", $values = "")
     {
 
@@ -95,6 +98,11 @@ class Content implements \ArrayAccess
             $this->values['datechanged'] = $now;
         }
 
+        if (!isset($this->values['datedepublish']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
+            $this->values['datedepublish'] = "0000-00-00 00:00:00";
+        }
+
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
             if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
@@ -167,7 +175,7 @@ class Content implements \ArrayAccess
 
 
         // Only set values if they have are actually a field.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'username', 'status', 'taxonomy');
+        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'taxonomy');
         if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
             return;
         }
@@ -365,13 +373,14 @@ class Content implements \ArrayAccess
             $sortorder = false;
         } else {
             $sortorder = (int)$sortorder;
+            // Note: by doing this we assume a contenttype can have only one taxonomy which has has_sortorder: true.
+            $this->sortorder = $sortorder;
         }
 
         // Make the 'key' of the array an absolute link to the taxonomy.
         $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $value);
 
         $this->taxonomy[$taxonomytype][$link] = $value;
-        $this->taxonomyorder[$taxonomytype] = $sortorder;
 
         // Set the 'name', for displaying the pretty name, if there is any.
         if (!empty($this->app['config']['taxonomy'][$taxonomytype]['options'][$value])) {
@@ -382,7 +391,7 @@ class Content implements \ArrayAccess
 
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
-            $this->setGroup($value, $name, $taxonomytype);
+            $this->setGroup($value, $name, $taxonomytype, $sortorder);
         }
 
     }
@@ -393,7 +402,6 @@ class Content implements \ArrayAccess
      */
     public function sortTaxonomy()
     {
-
         if (empty($this->taxonomy)) {
             // Nothing to do here.
             return;
@@ -455,17 +463,17 @@ class Content implements \ArrayAccess
      * @param string $name
      * @param string $taxonomytype
      */
-    public function setGroup($group, $name = "", $taxonomytype)
+    public function setGroup($group, $name = "", $taxonomytype, $sortorder = 0)
     {
         $this->group = array(
             'slug' => $group,
             'name' => $name
         );
 
-        $sortorder = $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'];
+        $has_sortorder = $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'];
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
-        if ($sortorder !== false) {
+        if ($has_sortorder !== false) {
             $this->group['order'] = (int)$sortorder;
         }
 
@@ -528,19 +536,37 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * If passed value contains Twig tags, parse the string as Twig, and return the results
+     * If passed snippet contains Twig tags, parse the string as Twig, and return the results
      *
-     * @param string $value
+     * @param string $snippet
      * @return string
      */
-    public function preParse($value) {
+    public function preParse($snippet)
+    {
 
-        if ( strpos($value, "{{")!==false || strpos($value, "{%")!==false || strpos($value, "{#")!==false ) {
-            $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-            $value = $this->app['twig']->render($value);
+        // Quickly verify that we actually need to parse the snippet!
+        if ( strpos($snippet, "{{")!==false || strpos($snippet, "{%")!==false || strpos($snippet, "{#")!==false ) {
+
+            $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
+
+            // There's a problem with Twig: parsing snippets that are longer than the filesystem limit for filenames.
+            // This is because Twig will _first_ attempt to locate the snippet as a file, and only _then_ parse it as a
+            // snippet. Therefore, if the snippet is too long, we split it, and parse it in several parts.
+            if (strlen($snippet) > 1800) {
+                // (First part), (opening twig brackets, rest of tag, closing twig brackets), (rest of string)
+                $result = preg_match('/(.*)({[{%#].*[}%#]})(.*)/ms', $snippet, $parts);
+                if ($result && count($parts)==4) {
+                    // Note: $parts[0] is always the entire snippet. We only need to parse parts 1, 2, 3..
+                    $snippet = $this->preParse($parts[1]) . $this->preParse($parts[2]) . $this->preParse($parts[3]);
+                }
+            } else {
+                // Render the snippet.
+                $snippet = $this->app['twig']->render($snippet);
+            }
+
         }
 
-        return $value;
+        return $snippet;
 
     }
 
@@ -654,21 +680,37 @@ class Content implements \ArrayAccess
      */
     public function link($param = "")
     {
-
-        // @todo use Silex' UrlGeneratorServiceProvider instead.
-
         // If there's no valid content, return no link.
         if (empty($this->id)) {
-            return "";
+            return '';
         }
 
-        $link = sprintf("%s%s/%s",
-            $this->app['paths']['root'],
-            $this->contenttype['singular_slug'],
-            $this->values['slug'] );
+        $linkbinding = 'contentlink';
+        foreach($this->app['config']['routes'] as $binding => $route) {
+            if (isset($route['contenttype'])) {
+                $linkbinding = $binding;
+                break;
+            }
+        }
+
+        $params = array(
+            'contenttypeslug' => $this->contenttype['singular_slug'],
+            'id' => $this->id,
+            'slug' => $this->values['slug']
+        );
+        foreach(array('datecreated', 'datepublish') as $key) {
+            $params[$key] = substr($this->values[$key], 0, 10);
+        }
+
+        $link = $this->app['url_generator']->generate($linkbinding, $params);
+
+        // since our $params contained all possible arguments and the ->generate()
+        // added all $params which it didn't need in the query-string we can
+        // safely strip the query-string.
+        // NB. this does mean we don't support routes with query strings
+        $link = preg_replace('|(.+)[?].*|', '\\1', $link);
 
         return $link;
-
     }
 
     /**
@@ -681,7 +723,8 @@ class Content implements \ArrayAccess
         $params = array(
             $field => '>'.$this->values[$field],
             'limit' => 1,
-            'order' => $field . ' ASC'
+            'order' => $field . ' ASC',
+            'returnsingle' => true
         );
 
         $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
@@ -700,7 +743,8 @@ class Content implements \ArrayAccess
         $params = array(
             $field => '<'.$this->values[$field],
             'limit' => 1,
-            'order' => $field . ' DESC'
+            'order' => $field . ' DESC',
+            'returnsingle' => true
         );
 
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
@@ -872,6 +916,108 @@ class Content implements \ArrayAccess
             }
         }
         return "";
+    }
+
+    /**
+     * Weight a text part relative to some other part
+     *
+     * @param	string		the subject to search in
+     * @param	string		the complete search term (lowercased)
+     * @param	array		all the individuele search terms (lowercased)
+     * @param	integer		maximum number of points to return
+     * @return	integer		the weight
+     */
+    private function weighQueryText($subject, $complete, $words, $max) {
+        $low_subject = mb_strtolower(trim($subject));
+
+        if ($low_subject == $complete) {
+            // a complete match is 100% of the maximum
+            return round((100/100) * $max);
+        }
+        if (strstr($low_subject,$complete)) {
+            // when the whole query is found somewhere is 70% of the maximum
+            return round((70/100) * $max);
+        }
+
+        $word_matches = 0;
+        $cnt_words    = count($words);
+        for($i=0; $i < $cnt_words; $i++) {
+            if (strstr(' '.$low_subject.' ',' '.$words[$i].' ')) {
+                $word_matches++;
+            }
+        }
+        if ($word_matches > 0) {
+            // word matches are maximum of 50% of the maximum per word
+            return round(($word_matches/$cnt_words) * (50/100) * $max);
+        }
+
+        return 0;
+    }
+
+    /**
+     * Calculate the default field weights
+     *
+     * This gives more weight to the 'slug pointer fields'.
+     */
+    private function getFieldWeights()
+    {
+        // This could be more configurable
+        // (see also Storage->searchSingleContentType)
+        $searchable_types = array( 'text', 'textarea', 'html', 'markdown' );
+
+        $fields = array();
+
+        foreach($this->contenttype['fields'] as $key => $config) {
+            if (in_array($config['type'], $searchable_types)) {
+                $fields[$key] = 50;
+            }
+        }
+
+        foreach($this->contenttype['fields'] as $key => $config) {
+            $weight = 0;
+
+            if ($config['type'] == 'slug') {
+                foreach($config['uses'] as $ptr_field) {
+                    if (isset($fields[$key])) {
+                        $fields[$key] = 100;
+                    }
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Weigh this content against a query
+     *
+     * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
+     *
+     * @param array $query    Query to weigh against
+     */
+    public function weighSearchResult($query)
+    {
+        static $contenttype_fields = null;
+
+        $ct = $this->contenttype['slug'];
+        if ((is_null($contenttype_fields)) || (!isset($contenttype_fields[$ct]))) {
+            // Should run only once per contenttype (e.g. singlular_name)
+            $contenttype_fields[$ct] = $this->getFieldWeights();
+        }
+
+        $weight = 0;
+        foreach($contenttype_fields[$ct] as $key => $field_weight) {
+            $weight += $this->weighQueryText($this->values[$key], $query['use_q'], $query['words'], $field_weight);
+        }
+
+        $this->last_weight = $weight;
+    }
+
+    /**
+     */
+    public function getSearchResultWeight()
+    {
+        return $this->last_weight;
     }
 
     /**

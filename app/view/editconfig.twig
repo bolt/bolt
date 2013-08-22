@@ -1,6 +1,5 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
-
 <h1>{{ title|raw }}</h1>
 
 {% if pathsegments|length > 1 %}
@@ -15,9 +14,9 @@
 <form action="#" method="post" class="form-inline" autocomplete="off">
 
 <div>
-<textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ form.vars.value.contents }}</textarea>
+<textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%; min-height: 350px;">{{ form.vars.value.contents }}</textarea>
 </div>
-    {{ form_row(form._token) }}
+    {{ form_widget(form._token) }}
     <br />
     <button type="submit" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %}><i class="icon-flag"></i> {{ __('Save') }}</button>
     <a class="btn confirm" style="margin-left: 24px;"
@@ -29,7 +28,7 @@
 {% if not ismobileclient() %}
     {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
     <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
-    <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.js"></script>
+    <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
     {% if filetype in ['twig', 'html', 'htm'] %}
     <script src="{{ paths.app }}view/lib/codemirror/xml.js"></script>
     <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>

@@ -76,13 +76,13 @@
 
             {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
                 <label for="taxonomy-order-{{taxonomy.slug}}" style='display: inline;'>- Order:</label>
-                {% if content.taxonomyorder is defined and content.taxonomyorder is iterable %}
-                    {% set torder = 0 + content.taxonomyorder[taxonomy.slug] %}
+                {% if content.sortorder %}
+                    {% set sortorder = content.sortorder %}
                 {% else %}
-                    {% set torder = 0 %}
+                    {% set sortorder = 0 %}
                 {% endif %}
                 <input type="number" name="taxonomy-order[{{taxonomy.slug}}]" id="taxonomy-order-{{taxonomy.slug}}" step="1"
-                       value='{{ torder }}' class='verynarrow'>
+                       value='{{ sortorder }}' class='verynarrow'>
             {% endif %}
 
         {% endif %}

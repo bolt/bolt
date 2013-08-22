@@ -3,64 +3,19 @@
 namespace Bolt\Controllers;
 
 use Silex;
-use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Frontend implements ControllerProviderInterface
+/**
+ * Standard Frontend actions
+ *
+ * Strictly speaking this is no longer a controller, but logically
+ * it still is.
+ */
+class Frontend
 {
-    public function connect(Silex\Application $app)
+    public static function before(Request $request, \Bolt\Application $app)
     {
-        $ctr = $app['controllers_factory'];
-
-        $ctr->match("/", array($this, 'homepage'))
-            ->before(array($this, 'before'))
-            ->bind('homepage')
-        ;
-
-        $ctr->match('/search', array($this, 'search'))
-            ->before(array($this, 'before'))
-        ;
-
-        $ctr->match('/sitemap', array($this, 'sitemap'))
-            ->before(array($this, 'before'))
-        ;
-
-        $ctr->match('/sitemap.xml', array($this, 'sitemapXml'))
-            ->before(array($this, 'before'))
-        ;
-
-        $ctr->match('/preview/{contenttypeslug}', array($this, 'preview'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
-            ->bind('preview')
-        ;
-
-        $ctr->match('/{contenttypeslug}/{slug}', array($this, 'record'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
-            ->bind('contentlink')
-        ;
-
-        $ctr->match('/{taxonomytype}/{slug}', array($this, 'taxonomy'))
-            ->before(array($this, 'before'))
-            ->assert('taxonomytype', $app['storage']->getTaxonomyTypeAssert(true))
-            ->bind('taxonomylink')
-        ;
-
-        $ctr->match('/{contenttypeslug}', array($this, 'listing'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
-        ;
-
-
-
-        return $ctr;
-    }
-
-    function before(Request $request, \Bolt\Application $app)
-    {
-
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
@@ -71,9 +26,20 @@ class Frontend implements ControllerProviderInterface
         $app['debugbar']     = true;
         $app['htmlsnippets'] = true;
 
+        // If we are in maintenance mode and current user is not logged in, show maintenance notice.
+        if ($app['config']['general']['maintenance_mode']) {
+
+            $user = $app['users']->getCurrentUser();
+            $template = $app['config']['general']['maintenance_template'];
+            $body = $app['twig']->render($template);
+
+            if($user['userlevel'] < 2) {
+                return new Response($body, 503);
+            }
+        }
     }
 
-    function homepage(Silex\Application $app)
+    public static function homepage(Silex\Application $app)
     {
         if (!empty($app['config']['general']['homepage_template'])) {
             $template = $app['config']['general']['homepage_template'];
@@ -99,7 +65,7 @@ class Frontend implements ControllerProviderInterface
         return $app['twig']->render($template);
     }
 
-    function record(Silex\Application $app, $contenttypeslug, $slug)
+    public static function record(Silex\Application $app, $contenttypeslug, $slug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -136,7 +102,7 @@ class Frontend implements ControllerProviderInterface
         // Setting the canonical path and the editlink.
         $app['canonicalpath'] = $content->link();
         $app['paths'] = getPaths($app);
-        $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
+        $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
@@ -149,9 +115,7 @@ class Frontend implements ControllerProviderInterface
     }
 
 
-
-
-    function preview(Request $request, Silex\Application $app, $contenttypeslug)
+    public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -183,10 +147,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-
-
-
-    function listing(Silex\Application $app, $contenttypeslug)
+    public static function listing(Silex\Application $app, $contenttypeslug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -244,8 +205,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-
-    function taxonomy(Silex\Application $app, $taxonomytype, $slug)
+    public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
 
         // First, get some content
@@ -302,7 +262,7 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    public function search(Request $request, Silex\Application $app)
+    public static function searchNotWeighted(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
         $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
@@ -314,7 +274,7 @@ class Frontend implements ControllerProviderInterface
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
 
         $search = $request->get('search');
-        $parameters = array('filter' => $search);
+        $parameters = array('filter' => $search, 'status' => 'published');
 
         //$content = $searchterms . " and " . $resultsPP;
         $content = $app['storage']->searchAllContentTypes($parameters);
@@ -327,49 +287,71 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    public function sitemap(Silex\Application $app, $xml = false)
+    public static function search(Request $request, Silex\Application $app)
     {
-        if($xml){
-            $app['extensions']->clearSnippetQueue();
-            $app['extensions']->disableJquery();
-            $app['debugbar'] = false;
+        $q = '';
+        if ($request->query->has('q')) {
+            $q = $request->get('q');
+        }
+        else if ($request->query->has('search')) {
+            $q = $request->get('search');
         }
 
-        $links = array(array('link' => $app['paths']['root'], 'title' => $app['config']['general']['sitename']));
-        foreach( $app['config']['contenttypes'] as $contenttype ) {
-            if (isset($contenttype['listing_template'])) {
-                $links[] = array( 'link' => $app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
-            }
-            if (isset($contenttype['record_template'])) {
-                $content = $app['storage']->getContent($contenttype['slug']);
-                foreach( $content as $entry ) {
-                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
-                        'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
+        // Make paging work
+        $page_size = 10;
+        $page      = 1;
+        if ($request->query->has('page')) {
+            $page = intval($request->get('page'));
+        }
+        if ($page < 1) {
+            $page = 1;
+        }
+        $offset = ($page - 1) * $page_size;
+        $limit  = $page_size;
+
+        // set-up filters from URL
+        $filters = array();
+        foreach($request->query->all() as $key => $value) {
+            if (strpos($key, '_') > 0) {
+                list($contenttypeslug, $field) = explode('_', $key, 2);
+                if (isset($filters[$contenttypeslug])) {
+                    $filters[$contenttypeslug][$field] = $value;
+                }
+                else {
+                    $contenttype = $app['storage']->getContentType($contenttypeslug);
+                    if (is_array($contenttype)) {
+                        $filters[$contenttypeslug] = array(
+                            $field => $value
+                        );
+                    }
                 }
             }
         }
-        if ($xml) {
-            $template = $app['config']['general']['sitemap_xml_template'];
-        } else {
-            $template = $app['config']['general']['sitemap_template'];
+        if (count($filters) == 0) {
+            $filters = null;
         }
 
-        $body = $app['twig']->render($template, array(
-            'entries' => $links
-        ));
-        $headers = array();
-        if ($xml) {
-            $headers['Content-Type'] = 'application/xml; charset=utf-8';
-        }
-        $headers['Cache-Control'] = 's-maxage=3600, public';
+        $result = $app['storage']->searchContent($q, null, $filters, $limit, $offset);
 
-        return new Response($body, 200, $headers);
+        $pager = array(
+            'for' => 'search',
+            'count' => $result['no_of_results'],
+            'totalpages' => ceil($result['no_of_results'] / $page_size),
+            'current' => $page,
+            'showing_from' => $offset + 1,
+            'showing_to' => $offset + count($result['results'])
+        );
 
-    }
+        $GLOBALS['pager']['search'] = $pager;
+        $GLOBALS['pager']['search']['link'] = '/search?q='.rawurlencode($q).'&page=';
 
-    public function sitemapXml(Silex\Application $app)
-    {
-        return $this->sitemap($app,true);
+        $app['twig']->addGlobal('records', $result['results']);
+        $app['twig']->addGlobal('search', $result['query']['use_q']);
+        $app['twig']->addGlobal('searchresult', $result);
+
+        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
+
+        return $app['twig']->render($template);
     }
 
 

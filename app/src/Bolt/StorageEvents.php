@@ -1,6 +1,9 @@
 <?php
 namespace Bolt;
 
+/**
+ * Definitions for all possible StorageEvents
+ */
 final class StorageEvents
 {
     private function __construct() {}

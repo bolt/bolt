@@ -20,6 +20,14 @@ theme: base-2013
 locale: en_GB
 #timezone: Zulu
 
+# Set maintenance mode true or false
+# While in maintenance mode, only users of level editor or higher can access the site.
+# All other visitors are presented with a notice that the site is currently offline.
+# The default template file can be found in /app/theme_defaults/ and overriden with
+# this option using your own theme.
+maintenance_mode: false
+maintenance_template: maintenance_default.twig
+
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the
@@ -68,10 +76,6 @@ add_jquery: false
 # The default amount of records to show on overview pages. Can be overridden
 # for each contenttype.
 recordsperpage: 10
-
-# template to use for sitemap and sitemap.xml
-sitemap_template: sitemap.twig
-sitemap_xml_template: sitemap_xml.twig
 
 # Default settings for thumbnails. Quality should be between 0 (horrible) and
 # 100 (best, huge image). Cropping is one of either crop, fit, borders, resize.
@@ -122,7 +126,6 @@ wysiwyg:
     align: false
     subsuper: false
     embed: true,
-    anhor: true,
     ck:
         allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
         autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks

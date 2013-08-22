@@ -12,6 +12,7 @@ $application->setVersion($app->getVersion());
 
 $application->add(new Bolt\Nut\CacheClear($app));
 $application->add(new Bolt\Nut\Info($app));
+$application->add(new Bolt\Nut\Browscap($app));
 $application->add(new Bolt\Nut\LogTrim($app));
 $application->add(new Bolt\Nut\LogClear($app));
 $application->add(new Bolt\Nut\DatabaseCheck($app));

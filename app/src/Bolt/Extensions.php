@@ -42,6 +42,13 @@ class Extensions
     private $widgetqueue;
 
     /**
+     * List of menu items to add in the backend
+     *
+     * @var array
+     */
+    private $menuoptions;
+
+    /**
      * Files which may be in the extensions folder, but have to be ignored.
      *
      * @var array
@@ -338,11 +345,13 @@ class Extensions
             foreach ($this->widgetqueue as $widget) {
                 if ($type == $widget['type'] && $location == $widget['location']) {
 
-                    $html = sprintf("<section><div class='widget' id='widget-%s' data-key='%s'></div></section>", $widget['key'], $widget['key']);
-
-                    if (!empty($widget['additionalhtml'])) {
-                        $html .= "\n" . $widget['additionalhtml'];
-                    }
+                    $html = sprintf(
+                        "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>"
+                        , $widget['key']
+                        , $widget['key']
+                        , $this->renderWidget( $widget['key'] )
+                        , empty( $widget['additionalhtml'] ) ? '' : "\n" . $widget['additionalhtml']
+                    );
 
                     echo $html;
                 }
@@ -845,13 +854,61 @@ class Extensions
         // jquery-1.8.2.min.js
         // jquery-1.5.js
         if (!preg_match('/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/', $html)) {
-            $jqueryfile = $this->app['paths']['app'] . "view/js/jquery-1.9.1.min.js";
+            $jqueryfile = $this->app['paths']['app'] . "view/js/jquery-1.10.2.min.js";
             $html = $this->insertBeforeJs("<script src='$jqueryfile'></script>", $html);
             return $html;
         } else {
             // We've already got jQuery. Yay, us!
             return $html;
         }
+    }
+
+
+    /**
+     * Add a menu-option to the 'settings' menu. Note that the item is only added if the current user
+     * has a sufficient high enough userlevel
+     *
+     * @see \Bolt\BaseExtension\addMenuOption()
+     *
+     * @param string $label
+     * @param string $path
+     * @param bool $icon
+     * @param int $userlevel
+     */
+    public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
+    {
+
+        if ($this->app['users']->currentuser['userlevel'] >= $userlevel) {
+
+            $this->menuoptions[$path] = array(
+                'label' => $label,
+                'path' => $path,
+                'icon' => $icon,
+                'userlevel' => $userlevel
+            );
+
+        }
+
+    }
+
+    /**
+     * Check if there are additional menu-options set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function hasMenuOptions()
+    {
+        return (!empty($this->menuoptions));
+    }
+
+    /**
+     * Get an array with the additional menu-options that are set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function getMenuOptions()
+    {
+        return $this->menuoptions;
     }
 
     /**

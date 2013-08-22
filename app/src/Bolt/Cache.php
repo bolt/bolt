@@ -97,7 +97,9 @@ class Cache extends FilesystemCache
 
         while (false !== ($entry = $d->read())) {
 
-            if ($entry == "." || $entry == ".." || $entry == "index.html" || $entry == '.gitignore') {
+            $exclude = array('.', '..', 'index.html', '.gitignore');
+
+            if (in_array($entry, $exclude)) {
                 continue;
             }
 

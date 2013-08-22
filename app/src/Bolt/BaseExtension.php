@@ -282,10 +282,15 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     public function addJavascript($filename)
     {
 
-        // check if the file is located relative to the current extension.
-        if (file_exists($this->basepath."/".$filename)) {
+        // check if the file exists.
+        if (file_exists($this->basepath . "/" . $filename)) {
+            // file is located relative to the current extension.
             $this->app['extensions']->addJavascript($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
+        } else if (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
+            // file is located relative to the theme path.
+            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename);
         } else {
+            // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
         }
 
@@ -298,14 +303,56 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addCSS($filename) {
 
-        // check if the file is located relative to the current extension.
-        if (file_exists($this->basepath."/".$filename)) {
+        // check if the file exists.
+        if (file_exists($this->basepath . "/" . $filename)) {
+            // file is located relative to the current extension.
             $this->app['extensions']->addCss($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
+        } else if (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
+            // file is located relative to the theme path.
+            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename);
         } else {
+            // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
         }
 
     }
+
+    /**
+     * Add a menu-option to the 'settings' menu. Note that the item is only added if the current user
+     * has a sufficient high enough userlevel
+     *
+     * @see \Bolt\Extensions\addMenuOption()
+     *
+     * @param string $label
+     * @param string $path
+     * @param bool $icon
+     * @param int $userlevel
+     */
+    public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
+    {
+        $this->menuoptions[$path] = $this->app['extensions']->addMenuOption($label, $path, $icon, $userlevel);
+    }
+
+    /**
+     * Check if there are additional menu-options set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function hasMenuOptions()
+    {
+        return $this->app['extensions']->hasMenuOption();
+    }
+
+    /**
+     * Get an array with the additional menu-options that are set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function getMenuOptions()
+    {
+        return $this->app['extensions']->getMenuOption();
+    }
+
 
     /**
      * Parse a snippet, an pass on the generated HTML to the caller (Extensions)
@@ -354,6 +401,27 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $this->addWidget($type, $location, $callback, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
     }
+
+    /**
+     * Check if a user is logged in, and has the proper required userlevel. If
+     * not, we redirect the user to the dashboard.
+     *
+     * The default level is '2', which is equal to \Bolt\Users::EDITOR
+     *
+     * @param int $level
+     */
+    public function requireUserLevel($level = 2)
+    {
+
+        if (($this->app['users']->currentuser['userlevel'] < $level)) {
+            simpleredirect($this->app['config']['general']['branding']['path']);
+            return false;
+        }
+
+        return true;
+
+    }
+
 
     /**
      * Parse a widget, an pass on the generated HTML to the caller (Extensions)

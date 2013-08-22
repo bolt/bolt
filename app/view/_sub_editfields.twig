@@ -74,6 +74,8 @@
             </span>
         </b>
     </label>
+    {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
+    <input type="hidden" name="{{key}}" id="{{key}}" value='0'>
     <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
            {% if content.get(key) %}checked{% else %}notchecked{% endif %}
            class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
@@ -117,13 +119,13 @@
 {% if field.type == "select" %}
     <label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
-        <select name="{{key}}[]" id="{{key}}" multiple>
+        <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
             {% for value in field.values %}
                 <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
             {% endfor %}
         </select>
     {% else %}
-        <select name="{{key}}" id="{{key}}">
+        <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
             {% for value in field.values %}
                 <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
             {% endfor %}

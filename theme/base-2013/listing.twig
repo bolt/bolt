@@ -31,7 +31,7 @@
            code in the 'else' part of the for-loop is used. #}
         {% if search is defined %}
             <h1>
-                {{ __('Search results for <b> %search% </b>.', { '%search%': search }) }}
+                {{ __('Search results for <b> %search% </b>.', { '%search%': search|escape }) }}
             </h1>
         {% endif %}
 
@@ -71,7 +71,7 @@
                 {% if search is defined %}
 
                     <p>
-                        {{ __("No results found for '%search%'. Please try another search.", { '%search%': search }) }}
+                        {{ __("No results found for '%search%'. Please try another search.", { '%search%': search|escape }) }}
                     </p>
 
                 {% else %}

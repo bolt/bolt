@@ -10,7 +10,18 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
         define('BOLT_COMPOSER_INSTALLED', false);
         define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
         define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
-        define('BOLT_CONFIG_DIR', __DIR__.'/config');
+
+        // Set the config folder location. If we haven't set the constant in index.php, use one of the
+        // default values.
+        if (!defined("BOLT_CONFIG_DIR")) {
+            if (file_exists(__DIR__.'/config')) {
+                // Default value, /app/config/..
+                define('BOLT_CONFIG_DIR', __DIR__.'/config');
+            } else {
+                // otherwise use /config, outside of the webroot folder.
+                define('BOLT_CONFIG_DIR', dirname(dirname(__DIR__)).'/config');
+            }
+        }
     }
 }
 
@@ -27,38 +38,42 @@ require_once BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php';
 require_once __DIR__.'/classes/util.php';
 
 // Start the timer:
-$starttime=getMicrotime();
-
-$config = getConfig();
-
-// Finally, check if the app/database folder is writable, if it needs to be.
-$checker->doDatabaseCheck($config);
-
-$dboptions = getDBOptions($config);
+$starttime = getMicrotime();
 
 $app = new Bolt\Application();
-
-$app['debug'] = (!empty($config['general']['debug'])) ? $config['general']['debug'] : false;
-$app['debugbar'] = false;
-
-list ($app['locale'], $app['territory']) = explode('_', $config['general']['locale']);
-
-$app['config'] = $config;
 
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
         'name' => 'bolt_session'
     )
 ));
+$app->register(new Bolt\ConfigServiceProvider());
+
+// Finally, check if the app/database folder is writable, if it needs to be.
+$checker->doDatabaseCheck($app['config']);
+
+$dboptions = $app['config']->getDBOptions();
+
+$app['debug'] = (!empty($app['config']['general']['debug'])) ? $app['config']['general']['debug'] : false;
+$app['debugbar'] = false;
+
+list ($app['locale'], $app['territory']) = explode('_', $app['config']['general']['locale']);
+
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => $config['twigpath'],
+    'twig.path' => $app['config']['twigpath'],
     'twig.options' => array(
         'debug'=>true,
         'cache' => __DIR__.'/cache/',
-        'strict_variables' => $config['general']['strict_variables'],
+        'strict_variables' => $app['config']['general']['strict_variables'],
         'autoescape' => true )
 ));
+
+// Add the string loader..
+$loader = new Twig_Loader_String();
+$app['twig.loader']->addLoader($loader);
+
+
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
@@ -93,21 +108,14 @@ $app->register(new Bolt\UsersServiceProvider(), array());
 $app->register(new Bolt\CacheServiceProvider(), array());
 $app->register(new Bolt\ExtensionServiceProvider(), array());
 
-$app['paths'] = getPaths($config);
+$app['paths'] = getPaths($app['config']);
 $app['twig']->addGlobal('paths', $app['paths']);
-
-$app['end'] = getWhichEnd($app);
 
 $app['editlink'] = "";
 
 // Add the Bolt Twig functions, filters and tags.
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
-
-// Add the string loader..
-$loader = new Twig_Loader_String();
-$app['twig.loader']->addLoader($loader);
-
 
 
 require __DIR__.'/app.php';

@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
 $app->mount($app['config']['general']['branding']['path'], new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
-$app->mount('', new Bolt\Controllers\Frontend());
+$app->mount('', new Bolt\Controllers\Routes());
 
 $app->before(function () use ($app) {
 
@@ -16,14 +16,15 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('frontend', false);
     $app['twig']->addGlobal('backend', false);
     $app['twig']->addGlobal('async', false);
-    $app['twig']->addGlobal(getWhichEnd($app), true);
+    $app['twig']->addGlobal($app['config']->getWhichEnd(), true);
 
     $app['twig']->addGlobal('user', $app['users']->getCurrentUser());
     $app['twig']->addGlobal('users', $app['users']->getUsers());
     $app['twig']->addGlobal('config', $app['config']);
 
     // Sanity checks for doubles in in contenttypes.
-    checkConfig($app);
+    // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
+    $app['config']->checkConfig();
 
 });
 
@@ -169,7 +170,7 @@ $app->error(function (\Exception $e) use ($app) {
 
     $app['log']->add($twigvars['message'], 2, '', 'abort');
 
-    $end = getWhichEnd($app);
+    $end = $app['config']->getWhichEnd();
 
     $trace = $e->getTrace();
 
