@@ -784,7 +784,9 @@ class Storage
         // Meh, InnoDB doesn't support full text search.
         if (!empty($parameters['filter'])) {
 
-            $filter = safeString($parameters['filter']);
+            //$filter = safeString($parameters['filter']);
+            // Russian characters was removed from the search query ;-(
+            $filter = preg_replace("[^a-zA-Zа-яА-ЯЁё0-9 _.,-]", "", $parameters["filter"]);
 
             $filter_where = array();
 
