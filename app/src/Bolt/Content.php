@@ -692,7 +692,23 @@ class Content implements \ArrayAccess
                 break;
             }
         }
-        $link = $this->app['url_generator']->generate($linkbinding, array('contenttypeslug' => $this->contenttype['singular_slug'], 'slug' => $this->values['slug']));
+
+        $params = array(
+            'contenttypeslug' => $this->contenttype['singular_slug'],
+            'id' => $this->id,
+            'slug' => $this->values['slug']
+        );
+        foreach(array('datecreated', 'datepublish') as $key) {
+            $params[$key] = substr($this->values[$key], 0, 10);
+        }
+
+        $link = $this->app['url_generator']->generate($linkbinding, $params);
+
+        // since our $params contained all possible arguments and the ->generate()
+        // added all $params which it didn't need in the query-string we can
+        // safely strip the query-string.
+        // NB. this does mean we don't support routes with query strings
+        $link = preg_replace('|(.+)[?].*|', '\\1', $link);
 
         return $link;
     }
