@@ -723,7 +723,8 @@ class Content implements \ArrayAccess
         $params = array(
             $field => '>'.$this->values[$field],
             'limit' => 1,
-            'order' => $field . ' ASC'
+            'order' => $field . ' ASC',
+            'returnsingle' => true
         );
 
         $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
@@ -742,7 +743,8 @@ class Content implements \ArrayAccess
         $params = array(
             $field => '<'.$this->values[$field],
             'limit' => 1,
-            'order' => $field . ' DESC'
+            'order' => $field . ' DESC',
+            'returnsingle' => true
         );
 
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
