@@ -446,7 +446,6 @@ class IntegrityChecker
                 switch ($values['type']) {
                     case 'text':
                     case 'templateselect':
-                    case 'select':
                     case 'image':
                     case 'file':
                         $myTable->addColumn($field, "string", array("length" => 256, "default" => ""));
@@ -469,6 +468,7 @@ class IntegrityChecker
                     case 'markdown':
                     case 'geolocation':
                     case 'imagelist':
+                    case 'select':
                         $myTable->addColumn($field, "text", array("default" => $this->textDefault));
                         break;
                     case 'datetime':
