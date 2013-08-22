@@ -42,6 +42,13 @@ class Extensions
     private $widgetqueue;
 
     /**
+     * List of menu items to add in the backend
+     *
+     * @var array
+     */
+    private $menuoptions;
+
+    /**
      * Files which may be in the extensions folder, but have to be ignored.
      *
      * @var array
@@ -854,6 +861,54 @@ class Extensions
             // We've already got jQuery. Yay, us!
             return $html;
         }
+    }
+
+
+    /**
+     * Add a menu-option to the 'settings' menu. Note that the item is only added if the current user
+     * has a sufficient high enough userlevel
+     *
+     * @see \Bolt\BaseExtension\addMenuOption()
+     *
+     * @param string $label
+     * @param string $path
+     * @param bool $icon
+     * @param int $userlevel
+     */
+    public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
+    {
+
+        if ($this->app['users']->currentuser['userlevel'] >= $userlevel) {
+
+            $this->menuoptions[$path] = array(
+                'label' => $label,
+                'path' => $path,
+                'icon' => $icon,
+                'userlevel' => $userlevel
+            );
+
+        }
+
+    }
+
+    /**
+     * Check if there are additional menu-options set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function hasMenuOptions()
+    {
+        return (!empty($this->menuoptions));
+    }
+
+    /**
+     * Get an array with the additional menu-options that are set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function getMenuOptions()
+    {
+        return $this->menuoptions;
     }
 
     /**

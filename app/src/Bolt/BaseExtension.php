@@ -318,6 +318,43 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
+     * Add a menu-option to the 'settings' menu. Note that the item is only added if the current user
+     * has a sufficient high enough userlevel
+     *
+     * @see \Bolt\Extensions\addMenuOption()
+     *
+     * @param string $label
+     * @param string $path
+     * @param bool $icon
+     * @param int $userlevel
+     */
+    public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
+    {
+        $this->menuoptions[$path] = $this->app['extensions']->addMenuOption($label, $path, $icon, $userlevel);
+    }
+
+    /**
+     * Check if there are additional menu-options set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function hasMenuOptions()
+    {
+        return $this->app['extensions']->hasMenuOption();
+    }
+
+    /**
+     * Get an array with the additional menu-options that are set for the current user.
+     *
+     * @see \Bolt\Extensions\hasMenuOptions()
+     */
+    public function getMenuOptions()
+    {
+        return $this->app['extensions']->getMenuOption();
+    }
+
+
+    /**
      * Parse a snippet, an pass on the generated HTML to the caller (Extensions)
      *
      * @param string $callback
@@ -364,6 +401,27 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $this->addWidget($type, $location, $callback, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
     }
+
+    /**
+     * Check if a user is logged in, and has the proper required userlevel. If
+     * not, we redirect the user to the dashboard.
+     *
+     * The default level is '2', which is equal to \Bolt\Users::EDITOR
+     *
+     * @param int $level
+     */
+    public function requireUserLevel($level = 2)
+    {
+
+        if (($this->app['users']->currentuser['userlevel'] < $level)) {
+            simpleredirect($this->app['config']['general']['branding']['path']);
+            return false;
+        }
+
+        return true;
+
+    }
+
 
     /**
      * Parse a widget, an pass on the generated HTML to the caller (Extensions)
