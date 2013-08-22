@@ -668,7 +668,7 @@ function hackislyParseRegexTemplates($obj)
 
 
 
-function getPaths($original = array())
+function getPaths($original)
 {
 
     // If we passed the entire $app, set the $config
@@ -684,10 +684,10 @@ function getPaths($original = array())
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
     if (empty($config['general']['theme'])) {
-        $config['general']['theme'] = 'base-2013';
+        $config->set('general/theme', 'base-2013');
     }
-    if (empty($config['general']['canonical'])) {
-        $config['general']['canonical'] = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+    if (empty($config['general']['canonical']) && isset($_SERVER['HTTP_HOST'])) {
+        $config->set('general/canonical', $_SERVER['HTTP_HOST']);
     }
 
     // Set the root
