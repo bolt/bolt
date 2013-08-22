@@ -2205,7 +2205,9 @@ class Storage
         // Set the correct operator for the where clause
         $operator = "=";
 
-        if ($value[0] == "!") {
+        $first = substr($value, 0, 1);
+
+        if ($first == "!") {
             $operator = "!=";
             $value = substr($value, 1);
         } elseif (substr($value, 0, 2) == "<=") {
@@ -2214,13 +2216,13 @@ class Storage
         } elseif (substr($value, 0, 2) == ">=") {
             $operator = ">=";
             $value = substr($value, 2);
-        } elseif ($value[0] == "<") {
+        } elseif ($first == "<") {
             $operator = "<";
             $value = substr($value, 1);
-        } elseif ($value[0] == ">") {
+        } elseif ($first == ">") {
             $operator = ">";
             $value = substr($value, 1);
-        } elseif ($value[0] == "%" || $value[strlen($value)-1] == "%" ) {
+        } elseif ($first == "%" || substr($value, -1) == "%" ) {
             $operator = "LIKE";
         }
 
