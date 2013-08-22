@@ -1495,18 +1495,42 @@ class Storage
 
                     // for all the  parameters that are taxonomies
                     if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
-                        // Set the new 'from', with LEFT JOIN for taxonomies..
-                        $query['from'] = sprintf('FROM %s LEFT JOIN %s ON %s.%s = %s.%s',
-                            $tablename,
-                            $this->getTablename('taxonomy'),
-                            $tablename,
+
+                        // check if we're trying to use "!" as a way of 'not'. If so, we need to do a 'NOT IN', instead
+                        // of 'IN'. And, the parameter in the subselect needs to be without "!" as a consequence.
+                        if (strpos($value, "!") !== false) {
+                            $notin = "NOT ";
+                            $value = str_replace("!", "", $value);
+                        } else {
+                            $notin = "";
+                        }
+
+                        // Set the extra '$where', with subselect for taxonomies..
+                        $where[] = sprintf('%s %s IN (SELECT content_id AS id FROM %s where %s AND %s AND %s)',
                             $this->app['db']->quoteIdentifier('id'),
+                            $notin,
                             $this->getTablename('taxonomy'),
-                            $this->app['db']->quoteIdentifier('content_id'));
-                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.taxonomytype', $key);
-                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.slug', $value);
-                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.contenttype', $contenttype['slug']);
+                            $this->parseWhereParameter($this->getTablename('taxonomy').'.taxonomytype', $key),
+                            $this->parseWhereParameter($this->getTablename('taxonomy').'.slug', $value),
+                            $this->parseWhereParameter($this->getTablename('taxonomy').'.contenttype', $contenttype['slug'])
+                        );
                     }
+
+//                    // for all the  parameters that are taxonomies
+//                    if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
+//                        // Set the new 'from', with LEFT JOIN for taxonomies..
+//                        $query['from'] = sprintf('FROM %s LEFT JOIN %s ON %s.%s = %s.%s',
+//                            $tablename,
+//                            $this->getTablename('taxonomy'),
+//                            $tablename,
+//                            $this->app['db']->quoteIdentifier('id'),
+//                            $this->getTablename('taxonomy'),
+//                            $this->app['db']->quoteIdentifier('content_id'));
+//                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.taxonomytype', $key);
+//                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.slug', $value);
+//                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.contenttype', $contenttype['slug']);
+//                    }
+
 
                 }
             }
