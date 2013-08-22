@@ -60,12 +60,13 @@ class Extension extends \Bolt\BaseExtension
             if (isset($contenttype['listing_template'])) {
                 $links[] = array( 'link' => $this->app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
             }
-            if (isset($contenttype['record_template'])) {
-                $content = $this->app['storage']->getContent($contenttype['slug']);
-                foreach( $content as $entry ) {
-                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
-                        'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
-                }
+            $content = $this->app['storage']->getContent(
+                $contenttype['slug'],
+                array('limit' => 10000, 'order' => 'datepublish desc')
+            );
+            foreach( $content as $entry ) {
+                $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
+                    'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
             }
         }
 
