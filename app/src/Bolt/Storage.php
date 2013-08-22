@@ -402,7 +402,7 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $fieldvalues['id'], $contenttype['slug'], false);
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $fieldvalues['id'], $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
@@ -1134,7 +1134,7 @@ class Storage
     /**
      * Split into meta-parameters and contenttype parameters
      * (tightly coupled to $this->getContent())
-     * 
+     *
      * @see $this->decodeContentQuery()
      */
     private function organizeQueryParameters($in_parameters = null)
@@ -1181,7 +1181,7 @@ class Storage
 
     /**
      * Decode a contenttypes argument from text
-     * 
+     *
      * (entry,page) -> array('entry', 'page')
      * event -> array('event')
      *
@@ -1213,7 +1213,7 @@ class Storage
     /**
      * Parse textquery into useable arguments
      * (tightly coupled to $this->getContent())
-     * 
+     *
      * @see $this->decodeContentQuery()
      *
      * @param array $decoded           a pre-set decoded array to fill
@@ -1577,7 +1577,7 @@ class Storage
     /**
      * Execute the content queries
      * (tightly coupled to $this->getContentNew())
-     * 
+     *
      * @see $this->getContentNew()
      */
     private function executeGetContentSearch($decoded, $parameters)
@@ -1598,7 +1598,7 @@ class Storage
     /**
      * Execute the content queries
      * (tightly coupled to $this->getContentNew())
-     * 
+     *
      * @see $this->getContentNew()
      */
     private function executeGetContentQueries($decoded, $parameters)
@@ -2710,7 +2710,7 @@ class Storage
     }
 
 
-    public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true)
+    public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true)
     {
 
         $contenttype = $this->getContentType($contenttypeslug);
@@ -2764,6 +2764,11 @@ class Storage
                 $slug = trimText($slug, 32, false, false) . "-" . makeKey(6);
                 $uri = $prefix . $slug;
             }
+        }
+
+        // When storing, we should never have an empty slug/URI. If we can't make a nice one, set it to 'slug-XXXX'.
+        if (!$allowempty && empty($uri)) {
+            $uri = 'slug-' . makeKey(6);
         }
 
         return $uri;
