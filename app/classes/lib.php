@@ -684,10 +684,18 @@ function getPaths($original)
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
     if (empty($config['general']['theme'])) {
-        $config->set('general/theme', 'base-2013');
+        if ($config instanceof \Bolt\Config) { // Temp fix! @todo: Fix this properly.
+            $config->set('general/theme', 'base-2013');
+        } else {
+            $config['general']['theme'] = 'base-2013';
+        }
     }
     if (empty($config['general']['canonical']) && isset($_SERVER['HTTP_HOST'])) {
-        $config->set('general/canonical', $_SERVER['HTTP_HOST']);
+        if ($config instanceof \Bolt\Config) { // Temp fix! @todo: Fix this properly.
+            $config->set('general/canonical', $_SERVER['HTTP_HOST']);
+        } else {
+            $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
+        }
     }
 
     // Set the root
