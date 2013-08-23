@@ -784,7 +784,7 @@ class Storage
         // Meh, InnoDB doesn't support full text search.
         if (!empty($parameters['filter'])) {
 
-            $filter = safeString($parameters['filter']);
+            $filter = $this->app['db']->quote($parameters['filter']);
 
             $filter_where = array();
 
@@ -905,7 +905,7 @@ class Storage
             // Meh, InnoDB doesn't support full text search.
             if (!empty($parameters['filter'])) {
 
-                $filter = safeString($parameters['filter']);
+                $filter = $this->app['db']->quote($parameters['filter']);
 
                 $filter_where = array();
 
@@ -1468,7 +1468,7 @@ class Storage
                     }
 
                     if ($key == 'filter') {
-                        $filter = safeString($value);
+                        $filter = $this->app['db']->quote($value);
 
                         $filter_where = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
