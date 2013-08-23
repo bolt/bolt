@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Search;
 
 use Silex;
 use Bolt;
@@ -20,7 +20,7 @@ class SearchEvent extends Event
     protected $filter;
 
 
-    public function __construct(\Doctrine\DBAL\Query\QueryBuilder $queryBuilder, $contenttype, $filter) 
+    public function __construct(\Bolt\Search\QueryBuilderAdapterInterface $queryBuilder, $contenttype, $filter) 
     {
         $this->contenttype = $contenttype;
         $this->queryBuilder = $queryBuilder;

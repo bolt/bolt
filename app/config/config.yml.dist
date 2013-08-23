@@ -163,3 +163,7 @@ hash_strength: 10
 #  host: my.proxy.server
 #  user: usr
 #  password: pwd
+
+# ZendSearch index path
+search:
+  index_path: /data/search.index

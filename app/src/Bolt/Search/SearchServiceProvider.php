@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Search;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -27,8 +27,6 @@ class SearchServiceProvider implements ServiceProviderInterface
 
     public function register(Application $app) 
     {
-        // Path to the search index files
-        self::$indexPath = BOLT_PROJECT_ROOT_DIR . $app["config"]["general"]["search"]["index_path"];
         // Content indexing on save
         $app["dispatcher"]->addListener(\Bolt\StorageEvents::postSave, function($event) use($app) 
         {
@@ -46,7 +44,7 @@ class SearchServiceProvider implements ServiceProviderInterface
             $doc = new Document();
             $doc->addField(Field::keyword("pk", $content->id));
             $doc->addField(Field::keyword("type", $content->contenttype["name"]));
-            foreach (self::getSearchFields($content->contenttype["fields"]) as $key => $val) {
+            foreach (self::getSearchFields($content->contenttype["fields"]) as $key) {
                 $doc->addField(Field::unStored($key, $content->values[$key]));
             }
             $index->addDocument($doc);
@@ -72,8 +70,9 @@ class SearchServiceProvider implements ServiceProviderInterface
             foreach ($hits as $hit) {
                 $ids[] = $hit->getDocument()->pk;
             }
-            if(count($ids))
-                $queryBuilder->where("id IN (" . implode(",", $ids) . ")");
+            if(count($ids)) {
+                $queryBuilder->modifyQuery($ids);
+            }
         });
         // Register search index resource
         $app["search"] = $app->share(function() use ($app) 
@@ -107,18 +106,21 @@ class SearchServiceProvider implements ServiceProviderInterface
     {
         $analyzer = new AnalyzerUtf8CaseInsensitive();
         Analyzer::setDefault($analyzer);
-        if(file_exists(self::$indexPath)) {
-            return Search::open(self::$indexPath);
-        } else {
-            return Search::create(self::$indexPath);
+        try {
+            $index = Search::open(self::$indexPath);
+        } catch(\ZendSearch\Lucene\Exception\RuntimeException $e) {
+            $index = Search::create(self::$indexPath);
         }
+        return $index;
     }
 
     /**
      * Bootstraps the application. Required by interface
      */
-    public function boot(Application $app) {
-        
+    public function boot(Application $app) 
+    {
+        // Path to the search index files
+        self::$indexPath = $app['search.root_dir'] . $app["config"]["general"]["search"]["index_path"];
     }
 }
 

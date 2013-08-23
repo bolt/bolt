@@ -98,7 +98,9 @@ $app->register(new Bolt\StorageServiceProvider(), array());
 $app->register(new Bolt\UsersServiceProvider(), array());
 $app->register(new Bolt\CacheServiceProvider(), array());
 $app->register(new Bolt\ExtensionServiceProvider(), array());
-$app->register(new Bolt\SearchServiceProvider());
+$app->register(new Bolt\Search\SearchServiceProvider(), array(
+    "search.root_dir" => BOLT_PROJECT_ROOT_DIR
+));
 
 $app['paths'] = getPaths($config);
 $app['twig']->addGlobal('paths', $app['paths']);

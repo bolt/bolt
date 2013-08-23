@@ -580,10 +580,10 @@ class Storage
     {
         $tablename = $this->getTablename($contenttypename);
         $queryBuilder = $this->app["db"]->createQueryBuilder();
-
         $contenttype = $this->app['config']['contenttypes'][$contenttypename];
 
         // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
+        $where = array();
         foreach ($parameters as $key => $value) {
             if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
                 continue; // Skip this one..
@@ -592,22 +592,24 @@ class Storage
                 continue; // Also skip if 'key' isn't a field in the contenttype.
             }
             $where[] = $queryBuilder->expr()
-                    ->eq(sprintf("`%s`", $key), sprintf("'%s'", mysql_real_escape_string($value)));
+                    ->eq(sprintf("%s", $key), sprintf("'%s'", mysql_real_escape_string($value)));
+        }
+        if(count($where)) {
+            $queryBuilder->where($queryBuilder->expr()->andx()->addMultiple($where));
         }
         
         // @todo update with nice search string
         // If we need to filter, add the WHERE for that.
         // Meh, InnoDB doesn't support full text search.
         if (!empty($parameters['filter'])) {
-            $filter = mysql_real_escape_string($parameters["filter"]);
             $filter_where = array();
             foreach ($contenttype['fields'] as $key => $value) {
                 if (in_array($value['type'], array('text', 'textarea', 'html', 'markdown'))) {
-                    $filter_where[] = $queryBuilder->expr()
-                            ->like(sprintf("`%s`", $key), sprintf("'%%%s%%'", $filter));
+                    $filter = $this->app["db"]->quote(sprintf("%%%s%%", $parameters['filter']));
+                    $filter_where[] = $queryBuilder->expr()->like(sprintf("%s", $key), $filter);
                 }
             }
-            $where = array_merge($where, $filter_where);
+            $queryBuilder->andWhere($queryBuilder->expr()->orx()->addMultiple($filter_where));
         }
 
         // @todo This is preparation for stage 2..
@@ -632,9 +634,6 @@ class Storage
             }
             $queryBuilder->add("orderBy", $order);
         }
-        
-        $queryBuilder->add("where", $queryBuilder->expr()->andx()->addMultiple($where));
-        
 
         // Make the query for the pager..
         $pagerquery = $queryBuilder
@@ -652,14 +651,14 @@ class Storage
         
         // Add event trigger
         if ($this->app['dispatcher']->hasListeners(StorageEvents::preSearch)) {
-            $filter = isset($filter) ?: "";
-            $event = new SearchEvent($queryBuilder, $contenttype, $filter);
+            $filter = isset($parameters['filter']) ? $parameters['filter'] : "";
+            $adapter = new \Bolt\Search\DoctineDBALQueryBuilderAdapter($queryBuilder);
+            $event = new \Bolt\Search\SearchEvent($adapter, $contenttype, $filter);
             $this->app['dispatcher']->dispatch(StorageEvents::preSearch, $event);
         }
 
         // Make the query to get the results..
         $query = $queryBuilder->getSql();
-
         $rows = $this->app['db']->fetchAll($query);
 
         // Make sure content is set, and all content has information about its contenttype
