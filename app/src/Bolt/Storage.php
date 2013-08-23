@@ -1159,9 +1159,6 @@ class Storage
             }
         }
 
-        if (!isset($meta_parameters['limit'])) {
-            $meta_parameters['limit'] = 100;
-        }
         if (!isset($meta_parameters['page'])) {
             $meta_parameters['page'] = 1;
         }
@@ -1345,6 +1342,10 @@ class Storage
                     $decoded['order_callback'] = array($this, 'groupingSort');
                 }
             }
+        }
+
+        if (!isset($meta_parameters['limit'])) {
+            $meta_parameters['limit'] = 100;
         }
     }
 
