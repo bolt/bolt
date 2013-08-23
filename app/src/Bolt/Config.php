@@ -27,7 +27,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
             $this->app['session']->set('database_checked', 0);
         }
-        
+
         $this->setTwigPath();
 
     }
@@ -35,7 +35,7 @@ class Config extends \Bolt\RecursiveArrayAccess
     private function parseConfigYaml($basename, $default = array())
     {
         static $yamlparser = false;
-        
+
         if ($yamlparser === false) {
             $yamlparser = new \Symfony\Component\Yaml\Parser();
         }
@@ -57,7 +57,7 @@ class Config extends \Bolt\RecursiveArrayAccess
      * @param mixed $value
      * @return bool
      */
-    public function set(string $path, $value)
+    public function set($path, $value)
     {
         $path = explode("/", $path);
 
@@ -464,11 +464,11 @@ class Config extends \Bolt\RecursiveArrayAccess
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
         $twigpath[] = realpath(__DIR__.'/../../theme_defaults');
-        
+
         $this['twigpath'] = $twigpath;
 
     }
-    
+
 
     private function loadCache()
     {
