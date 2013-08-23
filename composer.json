@@ -5,43 +5,53 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     "require": {
-        "dflydev/markdown": "1.0.*",
+        "php": ">=5.3.3",
+        "silex/silex": "~1.0",
+        "symfony/yaml": "~2.2",
+        "symfony/form": "~2.2",
+        "symfony/validator": "~2.2",
+        "symfony/config": "~2.2",
+        "symfony/twig-bridge": "~2.2",
+        "symfony/translation": "~2.2",
+        "symfony/console": "~2.2",
+        "symfony/filesystem": "~2.2",
+        "symfony/finder": "~2.2",
         "doctrine/dbal": "2.4.x-dev",
-        "filp/whoops": "1.*",
-        "garetjax/phpbrowscap": "dev-master",
-        "guzzle/guzzle": "3.3.*",
-        "hautelook/phpass": "dev-master",
-        "htmlawed/htmlawed": "dev-master",
+        "twig/twig": ">=1.8,<2.0-dev",
         "jbroadway/urlify": "1.0.0-stable",
-        "php": ">=5.3.2",
-        "silex/silex": "1.*",
+        "guzzle/guzzle": "3.3.*",
         "swiftmailer/swiftmailer": "5.*",
-        "symfony/config": "~2.3",
-        "symfony/console": "~2.3",
-        "symfony/filesystem": "~2.3",
-        "symfony/finder": "~2.3",
-        "symfony/form": "~2.3",
-        "symfony/translation": "~2.3",
-        "symfony/twig-bridge": "~2.3",
-        "symfony/validator": "~2.3",
-        "symfony/yaml": "~2.3",
-        "twig/twig": ">=1.8,<2.0-dev"
+        "htmlawed/htmlawed": "dev-master",
+        "dflydev/markdown": "1.0.*",
+        "hautelook/phpass": "dev-master",
+        "filp/whoops": "1.*",
+        "garetjax/phpbrowscap": "*",
+        "zendframework/zendsearch": "0.1",
+        "zendframework/zend-stdlib": "2.*"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",
-        "phpunit/phpunit": "3.7.18",
-        "phpunit/dbunit": "1.2.3",
-        "phpmd/phpmd": "1.5.0",
-        "sebastian/phpcpd": "1.4.3",
-        "squizlabs/php_codesniffer": "1.4.6"
+        "phpunit/phpunit": "3.7.18"
     },
-    "minimum-stability": "beta",
-    "preferred-install": "dist",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
         "psr-0": {
             "Bolt": "app/src/",
-            "Bolt\\Tests": "app/tests"
+            "Bolt\\Tests": "app/tests",
+            "ZendSearch": "vendor/zendframework/zendsearch/library/"
         }
-    }
+    },
+    "repositories": [{
+        "type": "package",
+        "package": {
+            "name": "zendframework/zendsearch",
+            "version": "0.1",
+            "source": {
+                "url": "https://github.com/zendframework/ZendSearch.git",
+                "type": "git",
+                "reference": "master"
+            }
+        }
+    }]
 }

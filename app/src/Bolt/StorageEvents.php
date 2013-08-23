@@ -14,4 +14,6 @@ final class StorageEvents
 
     const preDelete    = 'preDelete';
     const postDelete   = 'postDelete';
+    
+    const preSearch    = 'preSearch';
 }
