@@ -16,7 +16,10 @@
 </b></label>
 <input type="text" name="{{key}}" id="{{key}}"
     value='{{ content.get(key) }}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+    class='{% if field.class is defined %}{{ field.class }}{% endif %}'
+    {% if field.required is defined and field.required %}
+        required="required" pattern="{% if field.pattern is defined %}{{ field.pattern }}{% else %}*{1,255}${% endif %}"
+    {% endif %}>
 {% endif %}
 
 {% if field.type == "text" and field.variant is defined and field.variant == "inline" %}
@@ -25,7 +28,10 @@
 </span></b></label>
 <input type="text" name="{{key}}" id="{{key}}"
     value='{{ content.get(key) }}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %} narrow'>
+    class='{% if field.class is defined %}{{ field.class }}{% endif %} narrow'
+    {% if field.required is defined and field.required %}
+    required="required" pattern="{% if field.pattern is defined %}{{ field.pattern }}{% else %}*{1,255}${% endif %}"
+    {% endif %}>
 {% endif %}
 
 
@@ -89,7 +95,7 @@
 <label class='permalink'>{{ __('Permalink') }}:
     <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
     <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
-    <span class='sluglocker'><i class='icon-lock'></i></span>
+    <span class='sluglocker'><i class='icon-lock'></i></span> <span class='slugedit'><i class='icon-pencil'></i></span>
 </label>
 
 
@@ -104,6 +110,17 @@
                $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
                stopMakeUri({{ field.uses|json_encode|raw }});
            }
+        });
+        $('.slugedit').bind('click', function() {
+
+            newslug = prompt("Set the slug to:");
+
+            $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
+            stopMakeUri({{ field.uses|json_encode|raw }});
+
+            makeUriAjax(newslug, '{{ content.contenttype.slug }}', '{{ content.id }}', '{{key}}', false)
+
+
         });
     {% if content.get(key) is empty  %}
         $('.sluglocker').trigger('click');
@@ -350,7 +367,7 @@
             <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
                   data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
         </label>
-        <label>{{ __('URL:') }} <input type="text" name="{{key}}[url]" id="video-{{key}}"
+        <label>{{ __('URL:') }} <input type="url" name="{{key}}[url]" id="video-{{key}}"
                value='{{ video.url }}' style='width: 60%;'>
         </label>
 
@@ -450,7 +467,8 @@
 {% if field.type == "html" %}
 <label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
-    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
+    {% if field.required is defined and field.required %}required{% endif %}>
     {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
 </textarea>
 {% endif %}
@@ -460,7 +478,9 @@
 {% if field.type == "textarea" %}
 <label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
-    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
+    {% if field.required is defined and field.required %}required{% endif %}
+    >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 {% endif %}
 
 
@@ -474,7 +494,8 @@
 
     </label>
     <textarea id="{{ key }}" name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
-              style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+              style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}' {% if field.required is defined and field.required %}required{% endif %}
+            >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
 

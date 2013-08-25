@@ -27,7 +27,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
             $this->app['session']->set('database_checked', 0);
         }
-        
+
         $this->setTwigPath();
 
     }
@@ -35,7 +35,7 @@ class Config extends \Bolt\RecursiveArrayAccess
     private function parseConfigYaml($basename, $default = array())
     {
         static $yamlparser = false;
-        
+
         if ($yamlparser === false) {
             $yamlparser = new \Symfony\Component\Yaml\Parser();
         }
@@ -47,6 +47,93 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         return $default;
     }
+
+    /**
+     * Set a config value, using a path. For example:
+     *
+     * $app['config']->set('general/branding/name', 'Bolt');
+     *
+     * @param string $path
+     * @param mixed $value
+     * @return bool
+     */
+    public function set($path, $value)
+    {
+        $path = explode("/", $path);
+
+        // Only do something if we get at least one key.
+        if (empty($path[0])) {
+            $logline = "Config: can't set empty path to '" . (string)$value ."'";
+            $this->app['log']->add($logline, 3, '', 'config');
+            return false;
+        }
+
+        // Set the base config, or initialize it.
+        if (isset($this[ $path[0] ])) {
+            $tempdata = $this[ $path[0] ];
+        } else {
+            $tempdata = array();
+        }
+
+        // Set the correct value.
+        if (count($path)==2) {
+            $tempdata[ $path[1] ] = $value;
+        } else if (count($path)==3) {
+            $tempdata[ $path[1] ][ $path[2] ] = $value;
+        } else if (count($path)==4) {
+            $tempdata[ $path[1] ][ $path[2] ][ $path[3] ] = $value;
+        } else if (count($path)==5) {
+            $tempdata[ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ] = $value;
+        } else {
+            $logline = "Config: can't set path " . implode("/", $path) . " to '" . (string)$value ."'";
+            $this->app['log']->add($logline, 3, '', 'config');
+            return false;
+        }
+
+        // Store it.
+        $this[ $path[0] ] = $tempdata;
+
+        return true;
+
+    }
+
+    /**
+     * Get a config value, using a path. For example:
+     *
+     * $var = $config->get('general/wysiwyg/ck/contentsCss');
+     *
+     * @param string $path
+     * @return mixed
+     */
+    function get(string $path)
+    {
+
+        $path = explode("/", $path);
+
+        // Only do something if we get at least one key.
+        if (empty($path[0]) || !isset($this[ $path[0] ]) ) {
+            return false;
+        }
+
+        $value = null;
+
+        // Get the correct value.
+        if (count($path)==1) {
+            $value = $this[ $path[0] ];
+        } else if (count($path)==2) {
+            $value = $this[ $path[0] ][ $path[1] ];
+        } else if (count($path)==3) {
+            $value = $this[ $path[0] ][ $path[1] ][ $path[2] ];
+        } else if (count($path)==4) {
+            $value = $this[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ];
+        } else if (count($path)==5) {
+            $value = $this[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ];
+        }
+
+        return $value;
+
+    }
+
 
     /**
      * Load the configuration from the various YML files.
@@ -377,11 +464,11 @@ class Config extends \Bolt\RecursiveArrayAccess
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
         $twigpath[] = realpath(__DIR__.'/../../theme_defaults');
-        
+
         $this['twigpath'] = $twigpath;
 
     }
-    
+
 
     private function loadCache()
     {

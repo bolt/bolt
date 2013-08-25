@@ -314,7 +314,7 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
                 usesvalue += " ";
             })
             clearTimeout(makeuritimeout);
-            makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, this, slugfield, fulluri); }, 200);
+            makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
         }).trigger('change.bolt');
     });
 
@@ -325,12 +325,13 @@ function stopMakeUri(usesfields) {
     $(usesfields).each( function() {
         $('#'+this).unbind('propertychange.bolt input.bolt change.bolt');
     });
+    clearTimeout(makeuritimeout);
 
 }
 
 var makeuritimeout;
 
-function makeUriAjax(text, contenttypeslug, id, usesfield, slugfield, fulluri) {
+function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     $.ajax({
         url: asyncpath + 'makeuri',
         type: 'GET',
