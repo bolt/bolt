@@ -93,6 +93,8 @@ kitchensink:
         title:
             type: text
             class: large
+            required: true
+            pattern: "*{2,255}" # see: http://html5pattern.com/
         slug:
             type: slug
             uses: [ selectfield, title ]

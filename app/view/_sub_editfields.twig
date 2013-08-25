@@ -16,7 +16,11 @@
 </b></label>
 <input type="text" name="{{key}}" id="{{key}}"
     value='{{ content.get(key) }}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+    class='{% if field.class is defined %}{{ field.class }}{% endif %}'
+    {% if field.required is defined and field.required %}
+        required="required" pattern="{% if field.pattern is defined %}{{ field.pattern }}{% else %}*{1,255}${% endif %}"
+    {% endif %}
+>
 {% endif %}
 
 {% if field.type == "text" and field.variant is defined and field.variant == "inline" %}
