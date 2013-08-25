@@ -567,7 +567,7 @@ class Storage
         $words = preg_split('|[\r\n\t ]+|', trim($q));
 
         $words = array_map(function($word){
-            return mb_strtolower($word);
+            return mb_strtolower($word, "UTF-8");
         }, $words);
         $words = array_filter($words, function($word){
             return strlen($word) >= 2;
