@@ -741,7 +741,9 @@ fieldset.checkbox div {
     display: none;
 }
 
-#editcontent .sluglocker {
+#editcontent .sluglocker,
+#editcontent .slugedit
+{
     color: #666;
     display: inline-block;
     padding: 0 3px;

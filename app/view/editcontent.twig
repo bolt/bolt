@@ -97,9 +97,8 @@
 
     <script>
         // Save the page..
-        $('#savebutton, #sidebarsavebutton').bind('click', function(e){
-            e.preventDefault();
-            $('#editcontent').attr('action', '').attr('target', "_self").submit();
+        $('#sidebarsavebutton').bind('click', function(e){
+            $('#savebutton').trigger('click');
         });
 
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
@@ -107,7 +106,7 @@
             e.preventDefault();
             var link = "{{ paths.root }}" + "preview" + "/{{ contenttype.singular_slug }}";
             $('#editcontent').attr('action', link).attr('target', "_blank").submit();
-
+            $('#editcontent').attr('action', link).attr('target', "_self")
         });
     </script>
 
