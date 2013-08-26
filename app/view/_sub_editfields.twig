@@ -14,13 +14,12 @@
     <label><b>{% if field.variant == "inline" %}<span class='left'>{% endif %}
         {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 {% if field.variant == "inline" %}</span>{% endif %}</b></label>
-<input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
-       value='{{ content.get(key) }}'
-       class='{% if field.class is defined %}{{ field.class }}{% endif %} {% if field.variant == "inline" %}narrow{% endif %}'
-        {% if field.required is defined and field.required %}
-    required="required"
-    {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
-        {% endif %}>
+    <input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
+        value='{{ content.get(key) }}'
+        class='{% if field.class is defined %}{{ field.class }}{% endif %} {% if field.variant == "inline" %}narrow{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
 
 
@@ -31,8 +30,11 @@
         {% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
     </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.000000001"
-           value='{{ 0 + content.get(key) }}'
-           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+        value='{{ 0 + content.get(key) }}'
+        class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
 
 {# --------------- float --------------- #}
@@ -42,8 +44,11 @@
     {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.00000001"
-           value='{{ 0 + content.get(key) }}'
-           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+        value='{{ 0 + content.get(key) }}'
+        class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
 
 {# --------------- integer --------------- #}
@@ -53,10 +58,12 @@
     {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="1"
-           value='{{ 0 + content.get(key) }}'
-           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+        value='{{ 0 + content.get(key) }}'
+        class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
-
 
 {# --------------- checkbox --------------- #}
 
