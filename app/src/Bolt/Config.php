@@ -147,7 +147,7 @@ class Config extends \Bolt\RecursiveArrayAccess
         $config['taxonomy']   = $this->parseConfigYaml('taxonomy.yml');
         $tempcontenttypes     = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']       = $this->parseConfigYaml('menu.yml');
-        $config['routes']     = $this->parseConfigYaml('routing.yml');
+        $config['routing']     = $this->parseConfigYaml('routing.yml');
         $config['extensions'] = array();
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
@@ -516,7 +516,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             'contenttypes' => $this['contenttypes'],
             'taxonomy' => $this['taxonomy'],
             'menu' => $this['menu'],
-            'routes' => $this['routes'],
+            'routing' => $this['routing'],
             'extensions' => $this['extensions']
         );
 
