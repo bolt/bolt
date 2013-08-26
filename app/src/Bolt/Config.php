@@ -105,7 +105,7 @@ class Config extends \Bolt\RecursiveArrayAccess
      * @param string $path
      * @return mixed
      */
-    function get(string $path)
+    function get($path)
     {
 
         $path = explode("/", $path);
