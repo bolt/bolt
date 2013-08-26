@@ -561,12 +561,14 @@ fieldset.checkbox div {
     font-size: 100%;
 }
 
+#editcontent input[type=email],
+#editcontent input[type=url],
 #editcontent input[type=text] {
     width: 70%;
     min-width: 200px;
 }
 
-#editcontent input[type=text].large {
+#editcontent input.large {
     font-size: 150%;
     width: 95%;
 }
@@ -576,8 +578,7 @@ fieldset.checkbox div {
     min-width: 200px;
 }
 
-#editcontent input.verynarrow,
-#editcontent input[type=number].verynarrow {
+#editcontent input.verynarrow {
     width: 8%;
     min-width: 50px;
 }

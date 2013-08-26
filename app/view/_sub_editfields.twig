@@ -10,28 +10,17 @@
 
 {# --------------- text --------------- #}
 
-{% if field.type == "text" and ( field.variant is not defined or field.variant == "" ) %}
-<label><b>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-</b></label>
-<input type="text" name="{{key}}" id="{{key}}"
-    value='{{ content.get(key) }}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %}'
-    {% if field.required is defined and field.required %}
-        required="required" pattern="{% if field.pattern is defined %}{{ field.pattern }}{% else %}*{1,255}${% endif %}"
-    {% endif %}>
-{% endif %}
-
-{% if field.type == "text" and field.variant is defined and field.variant == "inline" %}
-<label><b><span class='left'>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-</span></b></label>
-<input type="text" name="{{key}}" id="{{key}}"
-    value='{{ content.get(key) }}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %} narrow'
-    {% if field.required is defined and field.required %}
-    required="required" pattern="{% if field.pattern is defined %}{{ field.pattern }}{% else %}*{1,255}${% endif %}"
-    {% endif %}>
+{% if field.type == "text" %}
+    <label><b>{% if field.variant == "inline" %}<span class='left'>{% endif %}
+        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+{% if field.variant == "inline" %}</span>{% endif %}</b></label>
+<input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
+       value='{{ content.get(key) }}'
+       class='{% if field.class is defined %}{{ field.class }}{% endif %} {% if field.variant == "inline" %}narrow{% endif %}'
+        {% if field.required is defined and field.required %}
+    required="required"
+    {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
+        {% endif %}>
 {% endif %}
 
 
@@ -39,7 +28,7 @@
 
 {% if field.type == "number" %}
     <label><b><span class='left'>
-        {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+        {% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
     </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.000000001"
            value='{{ 0 + content.get(key) }}'
@@ -50,7 +39,7 @@
 
 {% if field.type == "float" %}
     <label><b><span class='left'>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+    {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.00000001"
            value='{{ 0 + content.get(key) }}'
@@ -61,7 +50,7 @@
 
 {% if field.type == "integer" %}
     <label><b><span class='left'>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+    {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="1"
            value='{{ 0 + content.get(key) }}'
@@ -76,7 +65,7 @@
     <label for="{{ key }}">
         <b>
             <span class='left'>
-                {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+                {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
             </span>
         </b>
     </label>
@@ -134,7 +123,7 @@
 {# --------------- select --------------- #}
 
 {% if field.type == "select" %}
-    <label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
+    <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
             {% for value in field.values %}
@@ -153,7 +142,7 @@
 {# --------------- templateselect --------------- #}
 
 {% if field.type == "templateselect" %}
-<label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
+<label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     <select name="{{key}}" id="{{key}}">
         <option value="">(default template)</option>
         <option value="" disabled>-----------</option>
@@ -180,8 +169,8 @@
     <div class="image-container">
 
         <label>
-            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                 data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
@@ -263,8 +252,8 @@
     <div class="image-container">
 
         <label>
-            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                   data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
@@ -306,9 +295,9 @@
 {% if field.type == "imagelist" %}
 <label>
     <b>
-        {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
     </b>
-    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+    <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
       data-content="{{ app.translator.trans('info.upload.imagelist',{},'infos') }}">{{ __('Info') }}</span>
 </label>
 <div class="imagelistholder dropzone" id="imagelist-{{key}}">
@@ -362,9 +351,9 @@
 
     <div class="video-container">
         <label>
-            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
-            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
                   data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
         </label>
         <label>{{ __('URL:') }} <input type="url" name="{{key}}[url]" id="video-{{key}}"
@@ -429,8 +418,8 @@
 
             <div class="map-container">
                 <label>
-                    <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-                    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+                    <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+                    <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
                           data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
                 </label>
                 <label>{{ __('Address lookup:') }} <input type="text" name="{{key}}[address]" id="{{key}}-address"
@@ -465,7 +454,7 @@
 {# --------------- html --------------- #}
 
 {% if field.type == "html" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
     {% if field.required is defined and field.required %}required{% endif %}>
@@ -476,7 +465,7 @@
 {# --------------- textarea --------------- #}
 
 {% if field.type == "textarea" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
     {% if field.required is defined and field.required %}required{% endif %}
@@ -488,8 +477,8 @@
 
 {% if field.type == "markdown" %}
     <label>
-        <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-        <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+        <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
               data-content="{{ app.translator.trans('info.markdown',{},'infos') }}">{{ __('Info') }}</span>
 
     </label>
@@ -511,7 +500,7 @@
 {# --------------- date --------------- #}
 
 {% if field.type == "date" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
@@ -530,7 +519,7 @@
 {# --------------- datetime --------------- #}
 
 {% if field.type == "datetime" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
