@@ -299,6 +299,8 @@ class Config extends \Bolt\RecursiveArrayAccess
             //         uses: name
             //
             foreach($ct['fields'] as $fieldname => $field) {
+
+                // Check 'uses'
                 if (is_array($field) && !empty($field['uses']) ) {
                     foreach($field['uses'] as $useField) {
                         if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
@@ -308,6 +310,23 @@ class Config extends \Bolt\RecursiveArrayAccess
                             $this->app['session']->getFlashBag()->set('error', $error);
                         }
                     }
+                }
+
+                // Make sure we have a 'label', 'class', 'variant' and 'default'.
+                if (!isset($field['label'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/label", "");
+                }
+                if (!isset($field['class'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/class", "");
+                }
+                if (!isset($field['variant'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/variant", "");
+                }
+                if (!isset($field['default'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/default", "");
+                }
+                if (!isset($field['pattern'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/pattern", "");
                 }
             }
 
