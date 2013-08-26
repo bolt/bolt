@@ -14,25 +14,25 @@ preview:
     path:     /preview/{contenttypeslug}
     defaults: { _controller: 'Bolt\Controllers\Frontend::preview' }
     requirements:
-        contenttypeslug:    'Bolt\Controllers\Routes::getAnyContentTypeRequirement'
+        contenttypeslug:    'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
 
 contentlink:
     path:     /{contenttypeslug}/{slug}
     defaults: { _controller: 'Bolt\Controllers\Frontend::record' }
     requirements:
-        contenttypeslug:    'Bolt\Controllers\Routes::getAnyContentTypeRequirement'
+        contenttypeslug:    'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
 
 taxonomylink:
     path:     /{taxonomytype}/{slug}
     defaults: { _controller: 'Bolt\Controllers\Frontend::taxonomy' }
     requirements:
-        taxonomytype:   'Bolt\Controllers\Routes::getAnyTaxonomyTypeRequirement'
+        taxonomytype:   'Bolt\Controllers\Routing::getAnyTaxonomyTypeRequirement'
 
 contentlisting:
     path:     /{contenttypeslug}
     defaults: { _controller: 'Bolt\Controllers\Frontend::listing' }
     requirements:
-        contenttypeslug:    'Bolt\Controllers\Routes::getPluralContentTypeRequirement'
+        contenttypeslug:    'Bolt\Controllers\Routing::getPluralContentTypeRequirement'
 
 
 #

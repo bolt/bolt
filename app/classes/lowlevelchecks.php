@@ -63,7 +63,7 @@ class lowlevelchecks
         $this->lowlevelConfigFix('menu.yml');
         $this->lowlevelConfigFix('contenttypes.yml');
         $this->lowlevelConfigFix('taxonomy.yml');
-        $this->lowlevelConfigFix('routes.yml');
+        $this->lowlevelConfigFix('routing.yml');
 
         // $this->lowlevelError("Done");
 

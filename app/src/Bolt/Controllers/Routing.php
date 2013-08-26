@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * Add routes from a configuration file.
  */
-class Routes implements ControllerProviderInterface
+class Routing implements ControllerProviderInterface
 {
     // Dirty trick to allow for easy route-requirements
     // @todo fix this (create service, abstract away, figure something else..)

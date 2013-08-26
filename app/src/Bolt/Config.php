@@ -147,7 +147,7 @@ class Config extends \Bolt\RecursiveArrayAccess
         $config['taxonomy']   = $this->parseConfigYaml('taxonomy.yml');
         $tempcontenttypes     = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']       = $this->parseConfigYaml('menu.yml');
-        $config['routes']     = $this->parseConfigYaml('routes.yml');
+        $config['routes']     = $this->parseConfigYaml('routing.yml');
         $config['extensions'] = array();
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
@@ -480,7 +480,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             file_exists(BOLT_CONFIG_DIR.'/taxonomy.yml') ? filemtime(BOLT_CONFIG_DIR.'/taxonomy.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR.'/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR.'/contenttypes.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR.'/menu.yml') ? filemtime(BOLT_CONFIG_DIR.'/menu.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR.'/routes.yml') ? filemtime(BOLT_CONFIG_DIR.'/routes.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/routing.yml') ? filemtime(BOLT_CONFIG_DIR.'/routing.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR.'/config_local.yml') ? filemtime(BOLT_CONFIG_DIR.'/config_local.yml') : 0,
         );
         $cachetimestamp = file_exists(__DIR__ . "/../../cache/config_cache.php") ? filemtime(__DIR__ . "/../../cache/config_cache.php") : 0;
