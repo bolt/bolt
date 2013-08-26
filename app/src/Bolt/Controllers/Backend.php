@@ -140,7 +140,9 @@ class Backend implements ControllerProviderInterface
     /**
      * Dashboard or "root".
      */
-    function dashboard(\Bolt\Application $app) {
+    function dashboard(\Bolt\Application $app)
+    {
+
 
         $limit = $app['config']['general']['recordsperdashboardwidget'];
 
@@ -175,7 +177,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Login page and "Forgotten password" page.
      */
-    function login(Silex\Application $app, Request $request) {
+    function login(Silex\Application $app, Request $request)
+    {
 
         if ($request->get('action') == "login") {
 
@@ -204,7 +207,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Logout page.
      */
-    function logout(Silex\Application $app) {
+    function logout(Silex\Application $app)
+    {
 
         $app['log']->add("Logout", 3, '', 'logout');
 
@@ -222,7 +226,8 @@ class Backend implements ControllerProviderInterface
      * @param Silex\Application $app
      * @param Request $request
      */
-    function resetpassword(Silex\Application $app, Request $request) {
+    function resetpassword(Silex\Application $app, Request $request)
+    {
 
         $app['users']->resetPasswordConfirm($request->get('token'));
 
@@ -234,7 +239,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database for missing tables and columns. Does not do actual repairs
      */
-    function dbcheck(\Bolt\Application $app) {
+    function dbcheck(\Bolt\Application $app)
+    {
 
         $output = $app['storage']->getIntegrityChecker()->checkTablesIntegrity();
 
@@ -264,7 +270,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function dbupdate(Silex\Application $app) {
+    function dbupdate(Silex\Application $app)
+    {
 
         $output = $app['storage']->getIntegrityChecker()->repairTables();
 
@@ -309,7 +316,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Clear the cache.
      */
-    function clearcache(Silex\Application $app) {
+    function clearcache(Silex\Application $app)
+    {
 
         $result = $app['cache']->clearCache();
 
@@ -337,7 +345,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the activity-log.
      */
-    function activitylog(Silex\Application $app) {
+    function activitylog(Silex\Application $app)
+    {
 
         $title = __('Activity log');
 
@@ -364,7 +373,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Generate some lipsum in the DB.
      */
-    function prefill(Silex\Application $app, Request $request) {
+    function prefill(Silex\Application $app, Request $request)
+    {
 
         $choices=array();
         foreach($app['config']['contenttypes'] as $key=>$cttype) {
@@ -402,7 +412,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    function overview(Silex\Application $app, $contenttypeslug) {
+    function overview(Silex\Application $app, $contenttypeslug)
+    {
 
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
@@ -444,7 +455,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a unit of content, or create a new one.
      */
-    function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request) {
+    function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request)
+    {
 
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
@@ -537,7 +549,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on content.
      */
-    function contentaction(Silex\Application $app, $action, $contenttypeslug, $id, Request $request) {
+    function contentaction(Silex\Application $app, $action, $contenttypeslug, $id)
+    {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -598,7 +611,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show a list of all available users.
      */
-    function users(Silex\Application $app) {
+    function users(Silex\Application $app)
+    {
 
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
@@ -612,7 +626,8 @@ class Backend implements ControllerProviderInterface
 
     }
 
-    function useredit($id, \Bolt\Application $app, Request $request) {
+    function useredit($id, \Bolt\Application $app, Request $request)
+    {
 
         // Get the user we want to edit (if any)
         if (!empty($id)) {
@@ -769,7 +784,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on users.
      */
-    function useraction(Silex\Application $app, $action, $id) {
+    function useraction(Silex\Application $app, $action, $id)
+    {
 
         $user = $app['users']->getUser($id);
 
@@ -823,7 +839,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the 'about' page
      */
-    function about(Silex\Application $app) {
+    function about(Silex\Application $app)
+    {
         return $app['twig']->render('about.twig');
 
     }
@@ -832,7 +849,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Show a list of all available extensions.
      */
-    function extensions(Silex\Application $app) {
+    function extensions(Silex\Application $app)
+    {
 
         $title = "Extensions";
 
@@ -843,7 +861,8 @@ class Backend implements ControllerProviderInterface
     }
 
 
-    function files($path, Silex\Application $app, Request $request) {
+    function files($path, Silex\Application $app, Request $request)
+    {
 
         $files = array();
         $folders = array();
@@ -935,7 +954,8 @@ class Backend implements ControllerProviderInterface
     }
 
 
-    function fileedit($file, Silex\Application $app, Request $request) {
+    function fileedit($file, Silex\Application $app, Request $request)
+    {
 
         if (dirname($file) == "app/config") {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
@@ -1044,7 +1064,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Prepare/edit/save a translation
      */
-    function translation($domain,$tr_locale, Silex\Application $app, Request $request) {
+    function translation($domain,$tr_locale, Silex\Application $app, Request $request)
+    {
 
         $short_locale = substr($tr_locale,0,2);
         $type = 'yml';
