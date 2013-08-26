@@ -47,7 +47,7 @@ contentlisting:
 #
 # Routes examples:
 #
-# Example to redirect old '.html' pages
+# Example to route old '.html' pages
 #
 #oldpages:
 #    path:     /{slug}.html
