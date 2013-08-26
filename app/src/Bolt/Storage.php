@@ -1601,9 +1601,9 @@ class Storage
 
     /**
      * Execute the content queries
-     * (tightly coupled to $this->getContentNew())
+     * (tightly coupled to $this->getContent())
      *
-     * @see $this->getContentNew()
+     * @see $this->getContent()
      */
     private function executeGetContentSearch($decoded, $parameters)
     {
@@ -1622,9 +1622,9 @@ class Storage
 
     /**
      * Execute the content queries
-     * (tightly coupled to $this->getContentNew())
+     * (tightly coupled to $this->getContent())
      *
-     * @see $this->getContentNew()
+     * @see $this->getContent()
      */
     private function executeGetContentQueries($decoded, $parameters)
     {
@@ -1691,7 +1691,7 @@ class Storage
      * but the situation is still far from ideal.
      * Where applicable each 'concern' notes the coupling in the local documentation.
      */
-    public function getContentNew($textquery, $parameters = '', &$pager = array(), $whereparameters)
+    public function getContent($textquery, $parameters = '', &$pager = array(), &$whereparameters = array())
     {
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
         if (!empty($whereparameters)) {
@@ -1769,244 +1769,6 @@ class Storage
         $this->app['twig']->addGlobal('pager', $pager);
 
         return $results;
-    }
-
-    /**
-     * Retrieve content from the database.
-     *
-     * @param string $contenttypeslug
-     * @param string $parameters
-     * @param array $pager
-     * @param array $whereparameters
-     * @return array|Content|bool|mixed
-     */
-    public function getContentOld($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
-    {
-        // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
-        if (!empty($whereparameters)) {
-            $parameters = array_merge((array)$parameters, (array)$whereparameters);
-        }
-
-        $returnsingle = false;
-
-        // Some special cases, like 'entry/1' or 'page/about' need to be caught before further processing.
-        if (preg_match('#^/?([a-z0-9_-]+)/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'entry/12' or '/page/12345'
-            $contenttypeslug = $match[1];
-            $parameters['id'] = $match[2];
-            $returnsingle = true;
-        } elseif (preg_match('#^/?([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/lorem-ipsum-dolor' or '/page/home'
-            $contenttypeslug = $match[1];
-            $parameters['slug'] = $match[2];
-            $returnsingle = true;
-        } elseif (preg_match('#^/?([a-z0-9_-]+)/(latest|first)/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/latest/lorem-ipsum-dolor'
-            $contenttypeslug = $match[1];
-            $parameters['order'] = 'datepublish ' . ($match[2]=="latest" ? "DESC" : "ASC");
-            $parameters['limit'] = $match[3];
-        } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $contenttypeslug, $match)) {
-            // like 'page/random/lorem-ipsum-dolor'
-            $contenttypeslug = $match[1];
-            $parameters['order'] = 'RANDOM';
-            $parameters['limit'] = $match[2];
-        }
-
-        // When using from the frontend, we assume (by default) that we only want published items,
-        // unless something else is specified explicitly
-        if (isset($this->app['end']) && $this->app['end']=="frontend" && empty($parameters['status'])) {
-            $parameters['status'] = "published";
-        }
-
-
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
-        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
-
-        // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
-            $page = $this->app['request']->get('page', $page);
-        }
-
-        $contenttype = $this->getContentType($contenttypeslug);
-
-        // If we can't match to a valid contenttype, return (undefined) content;
-        if (!$contenttype) {
-            $emptycontent = $this->getContentObject($contenttypeslug);
-            $this->app['log']->add("Storage: No valid contenttype '$contenttypeslug'");
-
-            return $emptycontent;
-        }
-
-        // If requesting something with a content-type slug in singular, return only the first item.
-        // If requesting a record with a specific 'id', return only the first item.
-        if ( ($contenttype['singular_slug'] == $contenttypeslug)
-            || isset($parameters['returnsingle'])
-            || (!empty($parameters['id']) && is_numeric($parameters['id']) ) ) {
-            $returnsingle = true;
-        }
-
-        $tablename = $this->getTablename($contenttype['slug']);
-
-        // If the table doesn't exist (yet), return false..
-        if (!$this->tableExists($tablename)) {
-            return false;
-        }
-
-        // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
-        $this->publishTimedRecords($contenttype);
-        $this->depublishExpiredRecords($contenttype);
-
-        // Set the 'FROM' part of the query, without the LEFT JOIN (i.e. no taxonomies..)
-        $from = sprintf("FROM %s AS r", $tablename);
-
-        // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
-        foreach ($parameters as $key => $value) {
-
-            // Skip these..
-            if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
-                continue;
-            }
-
-            // for all the parameters that are fields
-            if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
-                in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "datedepublish", "username", "status")) ) {
-                $rkey = "r." . $key;
-                $where[] = $this->parseWhereParameter($rkey, $value);
-            }
-
-
-            // for all the  parameters that are taxonomies
-            if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
-                // Set the new 'from', with LEFT JOIN for taxonomies..
-                $from = sprintf("FROM %s AS r LEFT JOIN %s AS t ON %s.%s = %s.%s",
-                    $this->getTablename($contenttype['slug']),
-                    $this->getTablename('taxonomy'),
-                    $this->app['db']->quoteIdentifier('r'),
-                    $this->app['db']->quoteIdentifier('id'),
-                    $this->app['db']->quoteIdentifier('t'),
-                    $this->app['db']->quoteIdentifier('content_id'));
-                $where[] = $this->parseWhereParameter("t.taxonomytype", $key);
-                $where[] = $this->parseWhereParameter("t.slug", $value);
-                $where[] = $this->parseWhereParameter("t.contenttype", $contenttype['slug']);
-            }
-
-        }
-
-        // If we need to filter, add the WHERE for that. InnoDB doesn't support full text search. WTF is up
-        // with that shit? This feature is currently only used when filtering items in the backend.
-        if (!empty($parameters['filter'])) {
-
-            $filter = safeString($parameters['filter']);
-
-            $filter_where = array();
-
-            foreach ($contenttype['fields'] as $key => $value) {
-                if (in_array($value['type'], array('text', 'textarea', 'html', 'markdown'))) {
-                    $filter_where[] = sprintf("%s LIKE '%%%s%%'", $key, $filter);
-                }
-            }
-
-            if (!empty($filter_where)) {
-                $where[] = "(" . implode(" OR ", $filter_where) . ")";
-            }
-
-        }
-
-        $queryparams = "";
-
-        // implode 'where'
-        if (!empty($where)) {
-            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
-        }
-
-        // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count $from $queryparams";
-
-        // Order, with a special case for 'RANDOM'.
-        $queryparams .= $this->queryParamOrder($parameters, $contenttype);
-
-        // Add the limit
-        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page-1)*$limit);
-
-        // Make the query to get the results..
-        $query = sprintf("SELECT %s.* %s %s", $this->app['db']->quoteIdentifier('r'), $from, $queryparams);
-
-        // Print the query, if the parameter is present.
-        if (!empty($parameters['printquery'])) {
-            echo nl2br(htmlentities($query));
-        }
-
-        // Fetch the results.
-        // TODO: Convert this to a loop, to fetch the rows.
-        $rows = $this->app['db']->fetchAll($query);
-
-        // Make sure content is set, and all content has information about its contenttype
-        $content = array();
-        foreach ($rows as $row) {
-            $content[ $row['id'] ] = $this->getContentObject($contenttype, $row);
-        }
-
-        // Make sure all content has their taxonomies and relations
-        $this->getTaxonomy($content);
-        $this->getRelation($content);
-
-        // Iterate over the contenttype's taxonomy, check if there's one we can use for grouping.
-        // But only if we're not sorting manually (i.e. have a ?order=.. parameter or $parameter['order'] )
-        $order = null;
-        if ($this->app->raw('request') instanceof Request) {
-            $order = $this->app['request']->query->get('page', isset($parameters['order'])?$parameters['order']:null);
-        }
-        if (empty($order)) {
-            if ($this->getContentTypeGrouping($contenttypeslug)) {
-                uasort($content, array($this, 'groupingSort'));
-            }
-        }
-
-        if (!$returnsingle) {
-            // Set up the $pager array with relevant values..
-            $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
-            $pager = array(
-                'for' => $contenttypeslug,
-                'count' => $rowcount['count'],
-                'totalpages' => ceil($rowcount['count'] / $limit),
-                'current' => $page,
-                'showing_from' => ($page-1)*$limit + 1,
-                'showing_to' => ($page-1)*$limit + count($content)
-            );
-            $GLOBALS['pager'][$contenttypeslug] = $pager;
-            $this->app['twig']->addGlobal('pager', $pager);
-        }
-
-        // If we requested a singular item..
-        if ($returnsingle) {
-            if (util::array_first_key($content)) {
-                return util::array_first($content);
-            } else {
-                $msg = sprintf(
-                    "Storage: requested specific single content '%s%s%s', not found.",
-                    $contenttypeslug,
-                    isset($match[2]) ? "/".$match[2] : "",
-                    isset($match[3]) ? "/".$match[3] : ""
-                );
-                $this->app['log']->add($msg);
-
-                return false;
-            }
-        } else {
-            return $content;
-        }
-    }
-
-    /**
-     * Switchable getContent between old and new implementation
-     */
-    public function getContent($contenttypeslug, $parameters = "", &$pager = array(), $whereparameters = array())
-    {
-        if (false) {
-            return $this->getContentOld($contenttypeslug, $parameters, $pager, $whereparameters);
-        }
-
-        return $this->getContentNew($contenttypeslug, $parameters, $pager, $whereparameters);
     }
 
     /**
