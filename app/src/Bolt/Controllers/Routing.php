@@ -29,7 +29,7 @@ class Routing implements ControllerProviderInterface
 
         $ctr = false;
 
-        $routes = $app['config']['routes'];
+        $routes = $app['config']['routing'];
         if (is_array($routes)) {
             $ctr = $this->addRoutes($app, $routes);
         }
@@ -123,7 +123,7 @@ class Routing implements ControllerProviderInterface
                 if (($_after !== false) && (is_callable($_after))) {
                     $route->after($_after);
                 }
-            
+
                 foreach($requirements as $variable => $regexp) {
                     $proper_regexp = $this->getProperRegexp($regexp);
                     $route->assert($variable, $proper_regexp);
@@ -145,7 +145,7 @@ class Routing implements ControllerProviderInterface
     /**
      * Return a proper regexp
      *
-     * Bolt allows 
+     * Bolt allows
      */
     private function getProperRegexp($regexp)
     {

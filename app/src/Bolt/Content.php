@@ -686,7 +686,7 @@ class Content implements \ArrayAccess
         }
 
         $linkbinding = 'contentlink';
-        foreach($this->app['config']['routes'] as $binding => $route) {
+        foreach($this->app['config']['routing'] as $binding => $route) {
             if (isset($route['contenttype'])) {
                 $linkbinding = $binding;
                 break;
