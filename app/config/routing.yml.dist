@@ -73,6 +73,14 @@ contentlisting:
 #    contenttype:    page
 #
 #
+# Example single record override
+#
+#aboutbinding:
+#    path:           /about
+#    defaults:       { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page', 'slug': 'about' }
+#    recordslug:     page/about
+#
+#
 # Supported internal defaults are:
 #    _controller     the controller class::method to be called
 #    _before         the before to call, if non-existent the 'before()' of the controller will be called
