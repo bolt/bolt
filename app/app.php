@@ -29,7 +29,10 @@ $app->before(function () use ($app) {
 });
 
 // On 'finish' attach the debug-bar, if debug is enabled..
-if ($app['debug'] && ($app['session']->has('user') || $app['config']['general']['debug_show_loggedoff'] ) ) {
+if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('general/debug_show_loggedoff') ) ) {
+
+    // Set the error_reporting to the level specified in config.yml
+    error_reporting($app['config']->get('general/debug_error_level'));
 
     // Register Whoops, to handle errors for logged in users only.
     $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);

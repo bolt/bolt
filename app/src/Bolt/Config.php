@@ -398,6 +398,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             'recordsperdashboardwidget' => 5,
             'debug' => false,
             'debug_show_loggedoff' => false,
+            'debug_error_level' => 6135, // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
             'strict_variables' => false,
             'theme' => "default",
             'debug_compressjs' => true,
