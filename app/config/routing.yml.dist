@@ -61,7 +61,7 @@ contentlisting:
 # 
 #example:
 #    path:     /example
-#    defaults: { _controller: 'Bolt\Controllers\Frontend::homepage' }
+#    defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page', 'slug': 'example' }
 #    host:     'www.mydomain.org'
 #
 #
