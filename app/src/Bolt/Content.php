@@ -685,9 +685,15 @@ class Content implements \ArrayAccess
             return '';
         }
 
+        $slugreference = $this->getReference();
+
         $linkbinding = 'contentlink';
         foreach($this->app['config']['routing'] as $binding => $route) {
-            if (isset($route['contenttype'])) {
+            if (isset($route['recordslug']) && ($route['recordslug'] == $slugreference)) {
+                $linkbinding = $binding;
+                break;
+            }
+            if (isset($route['contenttype']) && ($route['contenttype'] == $this->contenttype['singular_slug'])) {
                 $linkbinding = $binding;
                 break;
             }
