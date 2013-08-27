@@ -1208,6 +1208,23 @@ class Storage
     }
 
     /**
+     * Return the proper contenttype for a singlular slug
+     *
+     * @return mixed    name of contenttype if the singular_slug was found
+     *                  false, if singular_slug was not found
+     */
+    private function searchSingularContentTypeSlug($singular_slug)
+    {
+        foreach ($this->app['config']['contenttypes'] as $key => $ct) {
+            if (isset($ct['singular_slug']) && ($ct['singular_slug'] == $singular_slug)) {
+                return $this->app['config']['contenttypes'][$key]['slug'];
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Parse textquery into useable arguments
      * (tightly coupled to $this->getContent())
      *
@@ -1262,6 +1279,11 @@ class Storage
             if (!isset($meta_parameters['limit'])) {
                 $meta_parameters['limit']  = $match[2];
             }
+        }
+        elseif (($searched_contenttype = $this->searchSingularContentTypeSlug($textquery)) !== false) {
+            // like 'page'
+            $decoded['contenttypes']  = array($searched_contenttype);
+            $decoded['return_single'] = true;
         }
         else {
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
