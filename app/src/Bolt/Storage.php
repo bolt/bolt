@@ -1691,7 +1691,7 @@ class Storage
      * but the situation is still far from ideal.
      * Where applicable each 'concern' notes the coupling in the local documentation.
      */
-    public function getContent($textquery, $parameters = '', &$pager = array(), &$whereparameters = array())
+    public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
         if (!empty($whereparameters)) {
