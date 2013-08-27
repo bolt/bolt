@@ -20,7 +20,7 @@ class Extension extends \Bolt\BaseExtension
             'link' => "http://dereulenspiegel.blogger.com",
             'version' => "0.1",
             'required_bolt_version' => "1.0.2",
-            'highest_bolt_version' => "1.0.2",
+            'highest_bolt_version' => "1.2",
             'type' => "General",
             'first_releasedate' => "2013-08-21",
             'latest_releasedate' => "2013-08-21",
@@ -38,23 +38,19 @@ class Extension extends \Bolt\BaseExtension
     function initialize()
     {
 
-        // If yourextension has a 'config.yml', it is automatically loaded.
-        // $foo = $this->config['bar'];
-
         // Add javascript file
-        // $this->addJavascript("assets/plusone.js");
-	$snippet = <<< EOM
-	<script type="text/javascript">
-  window.___gcfg = {lang: '%lang%'};
-
-  (function() {
+	    $snippet = <<< EOM
+<script type="text/javascript">
+window.___gcfg = {lang: '%lang%'};
+(function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
+})();
 </script>
 EOM;
-	$snippet = str_replace("%lang%", $this->config['lang'], $snippet);
+	    $snippet = str_replace("%lang%", $this->config['lang'], $snippet);
+
         // Add string snippet to endofbody
         $this->insertSnippet('endofbody', $snippet);
 
@@ -66,20 +62,19 @@ EOM;
     /**
      * Twig function {{ plusone() }} in +1 Button extension.
      */
-    function twigPlusone($name="")
+    function twigPlusone()
     {
 
         $html= <<< EOM
-		<div class="g-plusone" data-size="%size%" data-annotation="%annotation%" data-width="%width%">
+		<div class="g-plusone" data-size="%size%" data-annotation="%annotation%" data-width="%width%"></div>
 EOM;
-	$html = str_replace("%size%", $this->config['style'], $html);
-	$html = str_replace("%annotation%", $this->config['annotation'], $html);
-	$html = str_replace("%width%", $this->config['width'], $html);
+        $html = str_replace("%size%", $this->config['style'], $html);
+        $html = str_replace("%annotation%", $this->config['annotation'], $html);
+        $html = str_replace("%width%", $this->config['width'], $html);
 
         return new \Twig_Markup($html, 'UTF-8');
 
     }
-
 
 }
 
