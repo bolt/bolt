@@ -103,9 +103,10 @@ class Config extends \Bolt\RecursiveArrayAccess
      * $var = $config->get('general/wysiwyg/ck/contentsCss');
      *
      * @param string $path
+     * @param string $default
      * @return mixed
      */
-    function get($path)
+    function get($path, $default = null)
     {
 
         $path = explode("/", $path);
@@ -130,7 +131,11 @@ class Config extends \Bolt\RecursiveArrayAccess
             $value = $this[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ];
         }
 
-        return $value;
+        if ($value != null) {
+            return $value;
+        } else {
+            return $default;
+        }
 
     }
 
