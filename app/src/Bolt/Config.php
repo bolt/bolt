@@ -472,9 +472,8 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
         if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
-            $theme = basename($this->get('general/theme'));
-            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . $theme . "' does not exist, or is not writable.");
-            $this->app['log']->add("Template folder 'theme/" . $theme . "' does not exist, or is not writable.", 3);
+            $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
+            $this->app['session']->getFlashBag()->set('error', $error);
         }
 
         // We add these later, because the order is important: By having theme/ourtheme first,

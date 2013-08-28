@@ -42,14 +42,13 @@ $starttime = getMicrotime();
 
 $app = new Bolt\Application();
 
-$app->register(new Bolt\LogServiceProvider(), array());
-
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
         'name' => 'bolt_session'
     )
 ));
 $app->register(new Bolt\ConfigServiceProvider());
+$app->register(new Bolt\LogServiceProvider(), array());
 
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($app['config']);
