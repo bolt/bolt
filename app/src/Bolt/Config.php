@@ -460,14 +460,9 @@ class Config extends \Bolt\RecursiveArrayAccess
     private function setTwigPath() {
 
         // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        $themepath = realpath(__DIR__.'/../../../theme/'. basename($this['general']['theme']));
-        if ( isset( $this['general']['theme_path'] ) )
-        {
-            $themepath = BOLT_PROJECT_ROOT_DIR . $this['general']['theme_path'];
-        }
-        $config['theme_path'] = $themepath;
+        $themepath = realpath(__DIR__.'/../../../theme/'. basename($this->get('general/theme')));
 
-        $end = $this->getWhichEnd($this['general']['branding']['path']);
+        $end = $this->getWhichEnd($this->get('general/branding/path'));
 
         if ( $end == "frontend" && file_exists($themepath) ) {
             $twigpath = array($themepath);
@@ -477,8 +472,9 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
         if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
-            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
-            $this->app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
+            $theme = basename($this->get('general/theme'));
+            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . $theme . "' does not exist, or is not writable.");
+            $this->app['log']->add("Template folder 'theme/" . $theme . "' does not exist, or is not writable.", 3);
         }
 
         // We add these later, because the order is important: By having theme/ourtheme first,
@@ -659,7 +655,7 @@ class Config extends \Bolt\RecursiveArrayAccess
     {
 
         if (empty($mountpoint)) {
-            $mountpoint = $this['general']['branding']['path'];
+            $mountpoint = $this->get('general/branding/path');
         }
 
         if (!empty($_SERVER['REQUEST_URI'])) {

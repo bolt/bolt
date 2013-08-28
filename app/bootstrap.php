@@ -42,6 +42,8 @@ $starttime = getMicrotime();
 
 $app = new Bolt\Application();
 
+$app->register(new Bolt\LogServiceProvider(), array());
+
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
         'name' => 'bolt_session'
@@ -102,7 +104,6 @@ if (!function_exists('intl_get_error_code')) {
 }
 
 $app->register(new Bolt\TranslationServiceProvider());
-$app->register(new Bolt\LogServiceProvider(), array());
 $app->register(new Bolt\StorageServiceProvider(), array());
 $app->register(new Bolt\UsersServiceProvider(), array());
 $app->register(new Bolt\CacheServiceProvider(), array());

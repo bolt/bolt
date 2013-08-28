@@ -28,14 +28,7 @@ class Log
         $this->app = $app;
         $this->user = $app['session']->get('user');
 
-        $this->prefix = isset($app['config']['general']['database']['prefix']) ? $app['config']['general']['database']['prefix'] : "bolt_";
-
-        // Make sure prefix ends in '_'. Prefixes without '_' are lame..
-        if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
-            $this->prefix .= "_";
-        }
-
-        $this->tablename = $this->prefix . "log";
+        $this->tablename = "";
 
         $this->route = "";
 
@@ -73,6 +66,8 @@ class Log
         if ($this->app['debug']==false && $level<3) {
             return;
         }
+
+        $this->checkTablename();
 
         $backtrace = debug_backtrace();
 
@@ -127,6 +122,9 @@ class Log
 
     public function getActivity($amount = 10, $minlevel = 1)
     {
+
+        $this->checkTablename();
+
         $codes = array('save content', 'login', 'logout', 'fixme', 'user');
 
         $page = $this->app['request']->query->get('page');
@@ -216,6 +214,8 @@ class Log
 
     public function trim() {
 
+        $this->checkTablename();
+
         $query = sprintf("DELETE FROM %s WHERE level='1';",
             $this->tablename
         );
@@ -244,6 +244,8 @@ class Log
 
     public function clear() {
 
+        $this->checkTablename();
+
         $configdb = $this->app['config']->getDBOptions();
 
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" ) ) {
@@ -267,6 +269,22 @@ class Log
 
     }
 
+    private function checkTablename()
+    {
 
+        if (!empty($this->tablename)) {
+            return;
+        }
+
+        $this->prefix = isset($app['config']['general']['database']['prefix']) ? $app['config']['general']['database']['prefix'] : "bolt_";
+
+        // Make sure prefix ends in '_'. Prefixes without '_' are lame..
+        if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
+            $this->prefix .= "_";
+        }
+
+        $this->tablename = $this->prefix . "log";
+
+    }
 
 }
