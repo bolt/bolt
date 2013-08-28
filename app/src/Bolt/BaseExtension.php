@@ -379,7 +379,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $type
      * @param string $location
-     * @param string $callback
+     * @param mixed $callback
      * @param string $additionalhtml
      * @param bool $defer
      * @param int $cacheduration
