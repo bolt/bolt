@@ -235,26 +235,12 @@ class Extensions
                     $this->initialized[$extension]->getConfig();
                     $this->initialized[$extension]->initialize();
 
-                    // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
-                    $this->getSnippets($extension);
-
                     if ($this->initialized[$extension] instanceof \Twig_Extension) {
                         $this->app['twig']->addExtension($this->initialized[$extension]);
                     }
                 }
             }
 
-
-            /*
-                if (function_exists($extension.'\init')) {
-                    call_user_func($extension.'\init', $this->app);
-                } else {
-                    $this->app['log']->add("Couldn't initialize $extension: function 'init()' doesn't exist", 3);
-                }
-            } else {
-                $this->app['log']->add("Couldn't initialize $extension: file '$filename' not readable", 3);
-            }
-            */
 
         }
 

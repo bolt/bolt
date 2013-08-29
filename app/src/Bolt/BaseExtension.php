@@ -244,7 +244,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->snippetlist[] = array($name, $callback, $this->namespace, $var1, $var2, $var3);
+        $this->app['extensions']->insertSnippet($name, $callback, $this->namespace, $var1, $var2, $var3);
     }
 
 
@@ -253,7 +253,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function insertSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->addSnippet($name, $callback, $var1, $var2, $var3);
+        $this->addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "");
     }
 
 
