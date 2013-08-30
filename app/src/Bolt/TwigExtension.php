@@ -188,6 +188,7 @@ class TwigExtension extends \Twig_Extension
             $output = "";
         }
 
+        $output = str_replace(">", "> ", $output);
         $output = trimText(strip_tags($output), $length) ;
 
         return $output;

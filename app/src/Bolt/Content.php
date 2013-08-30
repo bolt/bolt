@@ -882,8 +882,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        $excerpt = implode(" ", $excerpt);
-
+        $excerpt = str_replace(">", "> ", implode(" ", $excerpt));
         $excerpt = trimText(strip_tags($excerpt), $length) ;
 
         return new \Twig_Markup($excerpt, 'UTF-8');
