@@ -84,7 +84,7 @@ class Async implements ControllerProviderInterface
 
             $app['log']->add("News: fetch from remote server..", 1);
 
-            $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
+            $driver = $app['config']->get('general/database/driver', 'sqlite');
 
             $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
                 rawurlencode($app->getVersion()),
@@ -95,10 +95,10 @@ class Async implements ControllerProviderInterface
 
             $curlOptions = array('CURLOPT_CONNECTTIMEOUT' => 5);
             // If there's a proxy ...
-            if (!empty($app['config']['general']['httpProxy'])) {
-                $curlOptions['CURLOPT_PROXY'] = $app['config']['general']['httpProxy']['host'];
+            if ($app['config']->get('general/httpProxy')) {
+                $curlOptions['CURLOPT_PROXY'] = $app['config']->get('general/httpProxy/host');
                 $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
-                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']['general']['httpProxy']['user'] . ':' . $app['config']['general']['httpProxy']['password'];
+                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password');
             }
             $guzzleclient = new \Guzzle\Http\Client($url, array('curl.options' => $curlOptions));
 

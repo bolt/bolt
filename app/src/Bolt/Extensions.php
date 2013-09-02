@@ -85,7 +85,7 @@ class Extensions
         $this->enabledExtensions();
         $this->matchedcomments = array();
 
-        if (isset($app['config']['general']['add_jquery']) && $app['config']['general']['add_jquery'] == true) {
+        if ($app['config']->get('general/add_jquery')) {
             $this->addjquery = true;
         } else {
             $this->addjquery = false;
@@ -99,7 +99,7 @@ class Extensions
      */
     public function enabledExtensions()
     {
-        $list = $this->app['config']['general']['enabled_extensions'];
+        $list = $this->app['config']->get('general/enabled_extensions');
         $folders = array();
 
         $d = dir($this->basefolder);

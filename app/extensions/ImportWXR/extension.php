@@ -37,7 +37,7 @@ class Extension extends \Bolt\BaseExtension
     function initialize()
     {
         // Set up routing for the extension.
-        $path = $this->app['config']['general']['branding']['path'] . '/importwxr';
+        $path = $this->app['config']->get('general/branding/path') . '/importwxr';
         $this->app->match($path, array($this, 'importwxr'));
     }
 

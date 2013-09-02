@@ -55,8 +55,8 @@ class Extension extends \Bolt\BaseExtension
             $this->app['debugbar'] = false;
         }
 
-        $links = array(array('link' => $this->app['paths']['root'], 'title' => $this->app['config']['general']['sitename']));
-        foreach( $this->app['config']['contenttypes'] as $contenttype ) {
+        $links = array(array('link' => $this->app['paths']['root'], 'title' => $this->app['config']->get('general/sitename')));
+        foreach( $this->app['config']->get('contenttypes') as $contenttype ) {
             if (isset($contenttype['listing_template'])) {
                 $links[] = array( 'link' => $this->app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
             }

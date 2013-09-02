@@ -414,7 +414,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
 
         if (($this->app['users']->currentuser['userlevel'] < $level)) {
-            simpleredirect($this->app['config']['general']['branding']['path']);
+            simpleredirect($this->app['config']->get('general/branding/path'));
             return false;
         }
 

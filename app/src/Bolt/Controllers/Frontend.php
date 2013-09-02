@@ -27,10 +27,10 @@ class Frontend
         $app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        if ($app['config']['general']['maintenance_mode']) {
+        if ($app['config']->get('general/maintenance_mode')) {
 
             $user = $app['users']->getCurrentUser();
-            $template = $app['config']['general']['maintenance_template'];
+            $template = $app['config']->get('general/maintenance_template');
             $body = $app['twig']->render($template);
 
             if($user['userlevel'] < 2) {
@@ -41,9 +41,9 @@ class Frontend
 
     public static function homepage(Silex\Application $app)
     {
-        if (!empty($app['config']['general']['homepage_template'])) {
-            $template = $app['config']['general']['homepage_template'];
-            $content = $app['storage']->getContent($app['config']['general']['homepage']);
+        if ($app['config']->get('general/homepage_template')) {
+            $template = $app['config']->get('general/homepage_template');
+            $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
             if (is_array($content)) {
                 $first = current($content);
@@ -60,7 +60,7 @@ class Frontend
             $chosen = 'homepage fallback';
         }
 
-        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $app['twig']->render($template);
     }
@@ -93,7 +93,7 @@ class Frontend
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
                 $content->getTitle(),
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -132,7 +132,7 @@ class Frontend
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
                 $content->getTitle(),
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -154,8 +154,8 @@ class Frontend
 
         // First, get some content
         $page = $app['request']->query->get('page', 1);
-        $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
-        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']['general']['listing_sort']);
+        $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
+        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         // We do _not_ abort when there's no content. Instead, we handle this in the template:
@@ -174,13 +174,13 @@ class Frontend
                 $template = $contenttype['slug'] . ".twig";
                 $chosen = "slug";
             } else {
-                $template = $app['config']['general']['listing_template'];
+                $template = $app['config']->get('general/listing_template');
                 $chosen = "config";
 
             }
         }
 
-        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
 
         // Fallback: If file is not OK, show an error page
@@ -188,7 +188,7 @@ class Frontend
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
                 $contenttypeslug,
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -210,8 +210,8 @@ class Frontend
 
         // First, get some content
         $page = $app['request']->query->get('page', 1);
-        $amount = $app['config']['general']['listing_records'];
-        $order = $app['config']['general']['listing_sort'];
+        $amount = $app['config']->get('general/listing_records');
+        $order = $app['config']->get('general/listing_sort');
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         $taxonomytype = $app['storage']->getTaxonomyType($taxonomytype);
@@ -231,13 +231,13 @@ class Frontend
         $chosen = "taxonomy";
 
         // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
-        if (isset($app['config']['taxonomy'][$taxonomyslug]['listing_template'])) {
-            $template = $app['config']['taxonomy'][$taxonomyslug]['listing_template'];
+        if ($app['config']->get('taxonomy/'.$taxonomyslug.'/listing_template')) {
+            $template = $app['config']->get('taxonomy/'.$taxonomyslug.'/listing_template');
         } else {
-            $template = $app['config']['general']['listing_template'];
+            $template = $app['config']->get('general/listing_template');
         }
 
-        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
 
         // Fallback: If file is not OK, show an error page
@@ -245,7 +245,7 @@ class Frontend
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
                 $taxonomyslug,
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -255,7 +255,7 @@ class Frontend
 
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('slug', $slug);
-        $app['twig']->addGlobal('taxonomy', $app['config']['taxonomy'][$taxonomyslug]);
+        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/'.$taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
         return $app['twig']->render($template);
@@ -265,10 +265,10 @@ class Frontend
     public static function searchNotWeighted(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
-        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
+        $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
 
         // @todo Preparation for stage 2
-        //$resultsPP = (int) $app['config']['general']['search_results_records'];
+        //$resultsPP = (int) $app['config']->get('general/search_results_records');
         //$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
@@ -349,7 +349,7 @@ class Frontend
         $app['twig']->addGlobal('search', $result['query']['use_q']);
         $app['twig']->addGlobal('searchresult', $result);
 
-        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
+        $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
 
         return $app['twig']->render($template);
     }

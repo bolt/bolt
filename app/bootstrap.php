@@ -55,18 +55,18 @@ $checker->doDatabaseCheck($app['config']);
 
 $dboptions = $app['config']->getDBOptions();
 
-$app['debug'] = (!empty($app['config']['general']['debug'])) ? $app['config']['general']['debug'] : false;
+$app['debug'] = $app['config']->get('general/debug', false);
 $app['debugbar'] = false;
 
-list ($app['locale'], $app['territory']) = explode('_', $app['config']['general']['locale']);
+list ($app['locale'], $app['territory']) = explode('_', $app['config']->get('general/locale'));
 
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => $app['config']['twigpath'],
+    'twig.path' => $app['config']->get('twigpath'),
     'twig.options' => array(
         'debug'=>true,
         'cache' => __DIR__.'/cache/',
-        'strict_variables' => $app['config']['general']['strict_variables'],
+        'strict_variables' => $app['config']->get('general/strict_variables'),
         'autoescape' => true )
 ));
 

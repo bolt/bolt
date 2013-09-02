@@ -28,8 +28,7 @@ class Content implements \ArrayAccess
             // If this contenttype has a taxonomy with 'grouping', initialize the group.
             if (isset($this->contenttype['taxonomy'])) {
                 foreach ($this->contenttype['taxonomy'] as $taxonomytype) {
-                    if (isset($this->app['config']['taxonomy'][$taxonomytype]) &&
-                        $this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
+                    if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
                         $this->setGroup('', '', $taxonomytype);
                     }
                 }
@@ -369,7 +368,7 @@ class Content implements \ArrayAccess
         }
 
         // Make sure sortorder is set correctly;
-        if ($this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'] == false) {
+        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/has_sortorder') == false) {
             $sortorder = false;
         } else {
             $sortorder = (int)$sortorder;
@@ -383,14 +382,14 @@ class Content implements \ArrayAccess
         $this->taxonomy[$taxonomytype][$link] = $value;
 
         // Set the 'name', for displaying the pretty name, if there is any.
-        if (!empty($this->app['config']['taxonomy'][$taxonomytype]['options'][$value])) {
-            $name = $this->app['config']['taxonomy'][$taxonomytype]['options'][$value];
+        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$value)) {
+            $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$value);
         } else {
             $name = ucfirst($value);
         }
 
         // If it's a "grouping" type, set $this->group.
-        if ($this->app['config']['taxonomy'][$taxonomytype]['behaves_like'] == "grouping") {
+        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
             $this->setGroup($value, $name, $taxonomytype, $sortorder);
         }
 
@@ -470,7 +469,7 @@ class Content implements \ArrayAccess
             'name' => $name
         );
 
-        $has_sortorder = $this->app['config']['taxonomy'][$taxonomytype]['has_sortorder'];
+        $has_sortorder = $this->app['config']->get('taxonomy/'.$taxonomytype.'/has_sortorder');
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
         if ($has_sortorder !== false) {
@@ -478,7 +477,7 @@ class Content implements \ArrayAccess
         }
 
         // Set the 'index', so we can sort on it later.
-        $index = array_search($group, array_keys($this->app['config']['taxonomy'][$taxonomytype]['options']));
+        $index = array_search($group, array_keys($this->app['config']->get('taxonomy/'.$taxonomytype.'/options')));
 
         if ($index !== false) {
             $this->group['index'] = $index;

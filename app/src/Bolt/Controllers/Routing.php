@@ -29,7 +29,7 @@ class Routing implements ControllerProviderInterface
 
         $ctr = false;
 
-        $routes = $app['config']['routing'];
+        $routes = $app['config']->get('routing');
         if (is_array($routes)) {
             $ctr = $this->addRoutes($app, $routes);
         }

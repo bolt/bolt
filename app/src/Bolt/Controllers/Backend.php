@@ -129,7 +129,7 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->assert('domain','messages|contenttypes|infos')
             ->value('domain','messages')
-            ->value('tr_locale',$app['config']['general']['locale'])
+            ->value('tr_locale', $app['config']->get('general/locale'))
             ->method('GET|POST')
             ->bind('translation')
         ;
@@ -144,12 +144,12 @@ class Backend implements ControllerProviderInterface
     {
 
 
-        $limit = $app['config']['general']['recordsperdashboardwidget'];
+        $limit = $app['config']->get('general/recordsperdashboardwidget');
 
         $total = 0;
         $latest = array();
         // get the 'latest' from each of the content types.
-        foreach ($app['config']['contenttypes'] as $key => $contenttype) {
+        foreach ($app['config']->get('contenttypes') as $key => $contenttype) {
             if ($app['users']->isAllowed('contenttype:'.$key) && $contenttype['show_on_dashboard']==true) {
                 $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
                 if (!empty($latest[$key])) {
@@ -377,7 +377,7 @@ class Backend implements ControllerProviderInterface
     {
 
         $choices=array();
-        foreach($app['config']['contenttypes'] as $key=>$cttype) {
+        foreach($app['config']->get('contenttypes') as $key=>$cttype) {
             $choices[$key] = __('%contenttypes%', array('%contenttypes%'=>$cttype['name']));
         }
         $form = $app['form.factory']->createBuilder('form')
@@ -432,7 +432,7 @@ class Backend implements ControllerProviderInterface
         if (!empty($contenttype['recordsperpage'])) {
             $limit = $contenttype['recordsperpage'];
         } else {
-            $limit = $app['config']['general']['recordsperpage'];
+            $limit = $app['config']->get('general/recordsperpage');
         }
 
 
@@ -640,7 +640,7 @@ class Backend implements ControllerProviderInterface
 
         $userlevels = $app['users']->getUserLevels();
         $enabledoptions = array(1 => 'yes', 0 => 'no');
-        $contenttypes = makeValuepairs($app['config']['contenttypes'], 'slug', 'name');
+        $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
 
         // If we're creating the first user, we should make sure that we can only create
         // a user that's allowed to log on.

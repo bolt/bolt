@@ -34,7 +34,7 @@ class IntegrityChecker
     {
         $this->app = $app;
 
-        $this->prefix = isset($this->app['config']['general']['database']['prefix']) ? $this->app['config']['general']['database']['prefix'] : "bolt_";
+        $this->prefix = $this->app['config']->get('general/database/prefix' , "bolt_");
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
         if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
@@ -409,7 +409,7 @@ class IntegrityChecker
         $tables = array();
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
-        foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
+        foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
 
             // create the table if necessary..
             $tablename = $this->getTablename($key);

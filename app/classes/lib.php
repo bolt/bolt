@@ -1381,7 +1381,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
         return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'twig';
     };
 
-    $ctypes = $app['config']['contenttypes'];
+    $ctypes = $app['config']->get('contenttypes');
 
     // function that generates a string for each variation of contenttype/contenttypes
     $genContentTypes = function($txt) use ($ctypes) {
@@ -1513,7 +1513,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
     }
 
     // add name + singular_name for taxonomies
-    foreach($app['config']['taxonomy'] as $txkey => $value) {
+    foreach($app['config']->get('taxonomy') as $txkey => $value) {
         foreach(array('name','singular_name') as $key) {
             $t = $value[$key];
             if (!in_array($t,$strings)) {

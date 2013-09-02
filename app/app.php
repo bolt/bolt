@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
-$app->mount($app['config']['general']['branding']['path'], new Bolt\Controllers\Backend());
+$app->mount($app['config']->get('general/branding/path'), new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
 $app->mount('', new Bolt\Controllers\Routing());
 
@@ -129,17 +129,18 @@ $app->after(function (Request $request, Response $response) use ($app) {
             $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
 
             // Perhaps add a canonical link..
-            if (!empty($app['config']['general']['canonical'])) {
+
+            if ($app['config']->get('general/canonical')) {
                 $snippet = sprintf('<link rel="canonical" href="%s">', $app['paths']['canonicalurl']);
                 $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
             }
 
             // Perhaps add a favicon..
-            if (!empty($app['config']['general']['favicon'])) {
+            if ($app['config']->get('general/favicon')) {
                 $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
                     $app['paths']['canonical'],
                     $app['paths']['theme'],
-                    $app['config']['general']['favicon']);
+                    $app['config']->get('general/favicon'));
                 $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
             }
 
@@ -196,7 +197,7 @@ $app->error(function (\Exception $e) use ($app) {
 
     if ( ($e instanceof HttpException) && ($end == "frontend") ) {
 
-        $content = $app['storage']->getContent($app['config']['general']['notfound'], array('returnsingle' => true));
+        $content = $app['storage']->getContent($app['config']->get('general/notfound'), array('returnsingle' => true));
 
         // Then, select which template to use, based on our 'cascading templates rules'
         if ($content instanceof \Bolt\Content && !empty($content->id)) {

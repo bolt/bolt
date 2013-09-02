@@ -395,6 +395,7 @@ class Config extends \Bolt\RecursiveArrayAccess
     {
 
         $this->defaultconfig = array(
+            'database' => array('prefix' => 'bolt_'),
             'sitename' => 'Default Bolt site',
             'homepage' => 'page/*',
             'homepage_template' => 'index.twig',
