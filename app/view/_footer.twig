@@ -3,12 +3,12 @@
 </div> <!-- /container -->
 
 <br><br>
-
+{{ print(app.config.get('general/branding')) }}
 <footer id="bolt-footer" class="hidden-phone">
-    {% if app.config.general.branding.provided_by[0] is defined %}
+    {% if app.config.get('general/branding/provided_by/0') %}
         {{ __("Provided by:") }}
-        <a href="mailto:{{ app.config.general.branding.provided_by[0] }}">
-            {{ app.config.general.branding.provided_by[1] }}
+        <a href="mailto:{{ app.config.get('general/branding/provided_by/0') }}">
+            {{ app.config.get('general/branding/provided_by/1') }}
         </a> -
     {% endif %}
     <i class="icon-cog"></i> <b>Bolt {{ bolt_version }}</b>: {{ __('Sophisticated, lightweight & simple CMS') }} -
@@ -20,14 +20,14 @@
 
 <script>
     var path = "{{ paths.bolt }}"; var asyncpath = "{{ paths.async }}"; var apppath = "{{ paths.app }}";
-    var wysiwyg = { 
-       images: {{ 0 + config.general.wysiwyg.images }}, 
-       tables: {{ 0 + config.general.wysiwyg.tables }}, 
-       anchor: {{ 0 + config.general.wysiwyg.anchor }}, 
-       fontcolor: {{ 0 + config.general.wysiwyg.fontcolor }}, 
-       align: {{ 0 + config.general.wysiwyg.align }}, 
-       subsuper: {{ 0 + config.general.wysiwyg.subsuper }}, 
-       embed: {{ 0 + config.general.wysiwyg.embed }}, 
+    var wysiwyg = {
+       images: {{ 0 + config.general.wysiwyg.images }},
+       tables: {{ 0 + config.general.wysiwyg.tables }},
+       anchor: {{ 0 + config.general.wysiwyg.anchor }},
+       fontcolor: {{ 0 + config.general.wysiwyg.fontcolor }},
+       align: {{ 0 + config.general.wysiwyg.align }},
+       subsuper: {{ 0 + config.general.wysiwyg.subsuper }},
+       embed: {{ 0 + config.general.wysiwyg.embed }},
        {%  if config.general.wysiwyg.ck is iterable %}ck: {{ config.general.wysiwyg.ck|json_encode()|raw }},{% endif %}
        {%  if config.general.wysiwyg.filebrowser is iterable %}filebrowser: {{ config.general.wysiwyg.filebrowser|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
        };

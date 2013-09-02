@@ -12,7 +12,7 @@
                     <i class="icon-sitemap"></i> {{ __('Content') }} <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    {% for slug, contenttype in app.config.contenttypes %}
+                    {% for slug, contenttype in app.config.get('contenttypes') %}
                         {% if isallowed('contenttype:' ~ slug) %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
                                 <i class="icon-tasks"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>

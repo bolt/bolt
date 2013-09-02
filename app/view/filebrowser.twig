@@ -6,7 +6,7 @@
 {% for contenttype, records in results %}
     <li{% if loop.first %} class="active"{% endif %}>
         <a href="#{{ contenttype }}" data-toggle="tab">
-            {{ app.config.contenttypes[ contenttype ].name }}
+            {{ app.config.get('contenttypes')[ contenttype ].name }}
         </a>
     </li>
 {% endfor %}
