@@ -407,7 +407,7 @@ class Content implements \ArrayAccess
         }
 
         foreach($this->taxonomy as $type => $values){
-            $taxonomytype = $this->app['config']['taxonomy'][$type];
+            $taxonomytype = $this->app['config']->get('taxonomy/'.$type);
             // Don't order tags..
             if ($taxonomytype['behaves_like'] == "tags") {
                 continue;
@@ -415,7 +415,7 @@ class Content implements \ArrayAccess
 
             // Order them by the order in the contenttype.
             $new = array();
-            foreach($this->app['config']['taxonomy'][$type]['options'] as $key => $value) {
+            foreach($this->app['config']->get('taxonomy/'.$type.'/options') as $key => $value) {
                 if ($foundkey = array_search($key, $this->taxonomy[$type])) {
                     $new[$foundkey] = $value;
                 } elseif ($foundkey = array_search($value, $this->taxonomy[$type])) {
@@ -687,7 +687,7 @@ class Content implements \ArrayAccess
         $slugreference = $this->getReference();
 
         $linkbinding = 'contentlink';
-        foreach($this->app['config']['routing'] as $binding => $route) {
+        foreach($this->app['config']->get('routing') as $binding => $route) {
             if (isset($route['recordslug']) && ($route['recordslug'] == $slugreference)) {
                 $linkbinding = $binding;
                 break;
@@ -807,7 +807,7 @@ class Content implements \ArrayAccess
     public function template()
     {
 
-        $template = $this->app['config']['general']['record_template'];
+        $template = $this->app['config']->get('general/record_template');
         $chosen = 'config';
 
 
@@ -832,7 +832,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        $this->app['log']->setValue('templatechosen', $this->app['config']['general']['theme'] . "/$template ($chosen)");
+        $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
 

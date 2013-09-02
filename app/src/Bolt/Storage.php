@@ -149,7 +149,7 @@ class Storage
 
         $empty_only = empty($contenttypes);
 
-        foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
+        foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
 
             $tablename = $this->getTablename($key);
             if ($empty_only && $this->hasRecords($tablename)) {
@@ -262,12 +262,11 @@ class Storage
 
         if (!empty($contenttype['taxonomy'])) {
             foreach ($contenttype['taxonomy'] as $taxonomy) {
-                if (isset($this->app['config']['taxonomy'][$taxonomy]['options'])) {
-                    $options = $this->app['config']['taxonomy'][$taxonomy]['options'];
+                if ($this->app['config']->get('taxonomy/'.$taxonomy.'/options')) {
+                    $options = $this->app['config']->get('taxonomy/'.$taxonomy.'/options');
                     $contentobject->setTaxonomy($taxonomy, array_rand($options), rand(1,1000));
                 }
-                if ( isset($this->app['config']['taxonomy'][$taxonomy]['behaves_like']) &&
-                    ($this->app['config']['taxonomy'][$taxonomy]['behaves_like'] == "tags") ) {
+                if ($this->app['config']->get('taxonomy/'.$taxonomy.'/behaves_like') == "tags") {
                     $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
                 }
             }
@@ -688,7 +687,7 @@ class Storage
             return false;
         }
 
-        $app_ct = $this->app['config']['contenttypes'];
+        $app_ct = $this->app['config']->get('contenttypes');
 
         // By default we only search through searchable contenttypes
         if (is_null($contenttypes)) {
@@ -761,7 +760,7 @@ class Storage
     {
         $tablename = $this->getTablename($contenttypename);
 
-        $contenttype = $this->app['config']['contenttypes'][$contenttypename];
+        $contenttype = $this->app['config']->get('contenttypes/'.$contenttypename);
 
         // If this contenttype has 'searchable: false', we skip it.
         if (isset($contenttype['searchable']) && $contenttype['searchable'] === false) {
@@ -885,7 +884,7 @@ class Storage
             $tables [] = $contenttypetable;
 
 
-            $contenttype = $this->app['config']['contenttypes'][$contenttypename];
+            $contenttype = $this->app['config']->get('contenttypes/'.$contenttypename);
 
             // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
             foreach ($parameters as $key => $value) {
@@ -1199,7 +1198,7 @@ class Storage
             $contenttypes[] = $text;
         }
 
-        $app_ct = $this->app['config']['contenttypes'];
+        $app_ct = $this->app['config']->get('contenttypes');
         $instance = $this;
         $contenttypes = array_map(function($name) use ($app_ct, $instance){
             $ct = $instance->getContentType($name);
@@ -1217,9 +1216,9 @@ class Storage
      */
     private function searchSingularContentTypeSlug($singular_slug)
     {
-        foreach ($this->app['config']['contenttypes'] as $key => $ct) {
+        foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
             if (isset($ct['singular_slug']) && ($ct['singular_slug'] == $singular_slug)) {
-                return $this->app['config']['contenttypes'][$key]['slug'];
+                return $this->app['config']->get('contenttypes/'.$key.'/slug');
             }
         }
 
@@ -2056,16 +2055,16 @@ class Storage
         }
 
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
-        if (isset($this->app['config']['contenttypes'][$contenttypeslug])) {
-            $contenttype = $this->app['config']['contenttypes'][$contenttypeslug];
+        if ($this->app['config']->get('contenttypes/'.$contenttypeslug)) {
+            $contenttype = $this->app['config']->get('contenttypes/'.$contenttypeslug);
         } else {
-            foreach ($this->app['config']['contenttypes'] as $key => $ct) {
+            foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
                 if (isset($ct['singular_slug']) && ($contenttypeslug == $ct['singular_slug'])) {
-                    $contenttype = $this->app['config']['contenttypes'][$key];
+                    $contenttype = $this->app['config']->get('contenttypes/'.$key);
                     break;
                 }
                 if ($contenttypeslug == makeSlug($ct['singular_name']) || $contenttypeslug == makeSlug($ct['name'])) {
-                    $contenttype = $this->app['config']['contenttypes'][$key];
+                    $contenttype = $this->app['config']->get('contenttypes/'.$key);
                     break;
                 }
             }
@@ -2092,12 +2091,12 @@ class Storage
         }
 
         // See if we've either given the correct contenttype, or try to find it by name or singular_name.
-        if (isset($this->app['config']['taxonomy'][$taxonomyslug])) {
-            $taxonomytype = $this->app['config']['taxonomy'][$taxonomyslug];
+        if ($this->app['config']->get('taxonomy/'.$taxonomyslug)) {
+            $taxonomytype = $this->app['config']->get('taxonomy/'.$taxonomyslug);
         } else {
-            foreach ($this->app['config']['taxonomy'] as $key => $tt) {
+            foreach ($this->app['config']->get('taxonomy') as $key => $tt) {
                 if (isset($tt['singular_slug']) && ($taxonomyslug == $tt['singular_slug'])) {
-                    $taxonomytype = $this->app['config']['taxonomy'][$key];
+                    $taxonomytype = $this->app['config']->get('taxonomy/'.$key);
                     break;
                 }
             }
@@ -2120,7 +2119,7 @@ class Storage
      */
     public function getContentTypes()
     {
-        return array_keys($this->app['config']['contenttypes']);
+        return array_keys($this->app['config']->get('contenttypes'));
 
     }
 
@@ -2135,7 +2134,7 @@ class Storage
     {
 
         $slugs = array();
-        foreach ($this->app['config']['contenttypes'] as $type) {
+        foreach ($this->app['config']->get('contenttypes') as $type) {
             $slugs[] = $type['slug'];
             if ($includesingular) {
                 $slugs[] = $type['singular_slug'];
@@ -2156,7 +2155,7 @@ class Storage
     {
 
         $slugs = array();
-        foreach ($this->app['config']['taxonomy'] as $type) {
+        foreach ($this->app['config']->get('taxonomy') as $type) {
             $slugs[] = $type['slug'];
             if ($includesingular) {
                 $slugs[] = $type['singular_slug'];
@@ -2228,8 +2227,8 @@ class Storage
             $taxonomy = array();
 
             foreach ($taxokeys as $key) {
-                if (isset($this->app['config']['taxonomy'][$key])) {
-                    $taxonomy[$key] = $this->app['config']['taxonomy'][$key];
+                if ($this->app['config']->get('taxonomy/'.$key)) {
+                    $taxonomy[$key] = $this->app['config']->get('taxonomy/'.$key);
                 }
             }
 
@@ -2259,7 +2258,7 @@ class Storage
         // Get the contenttype from first $content
         $contenttype = $content[ util::array_first_key($content) ]->contenttype['slug'];
 
-        $taxonomytypes = array_keys($this->app['config']['taxonomy']);
+        $taxonomytypes = array_keys($this->app['config']->get('taxonomy'));
 
         $query = sprintf(
             "SELECT * FROM %s WHERE content_id IN (?) AND contenttype=? AND taxonomytype IN (?)",

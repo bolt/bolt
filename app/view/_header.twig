@@ -12,6 +12,8 @@
                 <strong>{{ app.config.general.branding.name }}</strong> <span class="hidden-phone"> {% if app.config.general.sitename is defined %}- {{app.config.general.sitename}}{% endif %}</span>
             </a>
 
+            {{ print(app.config.get('general/branding/name')) }}
+
             {% include '_sub_mainmenu.twig' %}
 
         </div>

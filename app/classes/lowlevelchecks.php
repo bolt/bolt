@@ -76,7 +76,7 @@ class lowlevelchecks
      */
     public function doDatabaseCheck($config)
     {
-        $cfg = $config['general']['database'];
+        $cfg = $config->get('general/database');
 
         if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
             if(empty($cfg['password'])) {

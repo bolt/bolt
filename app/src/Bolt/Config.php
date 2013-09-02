@@ -11,10 +11,12 @@ use Symfony\Component\Filesystem\Filesystem;
  * @author Bob den Otter, bob@twokings.nl
  *
  */
-class Config extends \Bolt\RecursiveArrayAccess
+class Config
 {
 
     private $app;
+
+    private $data;
 
     function __construct(\Bolt\Application $app) {
 
@@ -69,29 +71,26 @@ class Config extends \Bolt\RecursiveArrayAccess
         }
 
         // Set the base config, or initialize it.
-        if (isset($this[ $path[0] ])) {
-            $tempdata = $this[ $path[0] ];
+        if (isset($this->data[ $path[0] ])) {
+            $tempdata = $this->data[ $path[0] ];
         } else {
             $tempdata = array();
         }
 
         // Set the correct value.
         if (count($path)==2) {
-            $tempdata[ $path[1] ] = $value;
+            $this->data[ $path[0] ][ $path[1] ] = $value;
         } else if (count($path)==3) {
-            $tempdata[ $path[1] ][ $path[2] ] = $value;
+            $this->data[ $path[0] ][ $path[1] ][ $path[2] ] = $value;
         } else if (count($path)==4) {
-            $tempdata[ $path[1] ][ $path[2] ][ $path[3] ] = $value;
+            $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ] = $value;
         } else if (count($path)==5) {
-            $tempdata[ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ] = $value;
+            $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ] = $value;
         } else {
             $logline = "Config: can't set path " . implode("/", $path) . " to '" . (string)$value ."'";
             $this->app['log']->add($logline, 3, '', 'config');
             return false;
         }
-
-        // Store it.
-        $this[ $path[0] ] = $tempdata;
 
         return true;
 
@@ -112,23 +111,23 @@ class Config extends \Bolt\RecursiveArrayAccess
         $path = explode("/", $path);
 
         // Only do something if we get at least one key.
-        if (empty($path[0]) || !isset($this[ $path[0] ]) ) {
+        if (empty($path[0]) || !isset($this->data[ $path[0] ]) ) {
             return false;
         }
 
         $value = null;
 
         // Get the correct value.
-        if (count($path)==1) {
-            $value = $this[ $path[0] ];
-        } else if (count($path)==2) {
-            $value = $this[ $path[0] ][ $path[1] ];
-        } else if (count($path)==3) {
-            $value = $this[ $path[0] ][ $path[1] ][ $path[2] ];
-        } else if (count($path)==4) {
-            $value = $this[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ];
-        } else if (count($path)==5) {
-            $value = $this[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ];
+        if (count($path)==1 && isset($this->data[ $path[0] ])) {
+            $value = $this->data[ $path[0] ];
+        } else if (count($path)==2 && isset($this->data[ $path[0] ][ $path[1] ])) {
+            $value = $this->data[ $path[0] ][ $path[1] ];
+        } else if (count($path)==3 && isset($this->data[ $path[0] ][ $path[1] ][ $path[2] ])) {
+            $value = $this->data[ $path[0] ][ $path[1] ][ $path[2] ];
+        } else if (count($path)==4 && isset($this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ])) {
+            $value = $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ];
+        } else if (count($path)==5 && isset($this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ])) {
+            $value = $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ];
         }
 
         if ($value != null) {
@@ -263,9 +262,7 @@ class Config extends \Bolt\RecursiveArrayAccess
         }
 
         // Set all the distinctive arrays as part of our Config object.
-        foreach ($config as $key => $array) {
-            $this[$key] = $array;
-        }
+        $this->data = $config;
 
     }
 
@@ -288,7 +285,7 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         $slugs = array();
 
-        foreach ($this['contenttypes'] as $key => $ct) {
+        foreach ($this->data['contenttypes'] as $key => $ct) {
 
             // Make sure any field that has a 'uses' parameter actually points to a field that exists.
             // For example, this will show a notice:
@@ -359,7 +356,7 @@ class Config extends \Bolt\RecursiveArrayAccess
         }
 
         // Sanity checks for taxomy.yml
-        foreach ($this['taxonomy'] as $key => $taxo) {
+        foreach ($this->data['taxonomy'] as $key => $taxo) {
 
             // Show some helpful warnings if slugs or keys are not set correctly.
             if ($taxo['slug'] != $key) {
@@ -486,7 +483,7 @@ class Config extends \Bolt\RecursiveArrayAccess
         // files in that folder will take precedence. For instance when overriding the menu template.
         $twigpath[] = realpath(__DIR__.'/../../theme_defaults');
 
-        $this['twigpath'] = $twigpath;
+        $this->data['twigpath'] = $twigpath;
 
     }
 
@@ -511,14 +508,10 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         if ($cachetimestamp > max($timestamps)) {
 
-            $data = loadSerialize(__DIR__ . "/../../cache/config_cache.php");
+            $this->data = loadSerialize(__DIR__ . "/../../cache/config_cache.php");
 
             // Check if we loaded actual data.
-            if (count($data)>3 && !empty($data['general'])) {
-                // Set all the distinctive arrays as part of our Config object.
-                foreach ($data as $key => $array) {
-                    $this[$key] = $array;
-                }
+            if (count($this->data)>3 && !empty($this->data['general'])) {
                 return true;
             }
 
@@ -532,16 +525,7 @@ class Config extends \Bolt\RecursiveArrayAccess
     private function saveCache()
     {
 
-        $data = array(
-            'general' => $this['general'],
-            'contenttypes' => $this['contenttypes'],
-            'taxonomy' => $this['taxonomy'],
-            'menu' => $this['menu'],
-            'routing' => $this['routing'],
-            'extensions' => $this['extensions']
-        );
-
-        saveSerialize(__DIR__ . "/../../cache/config_cache.php", $data);
+        saveSerialize(__DIR__ . "/../../cache/config_cache.php", $this->data);
 
     }
 
@@ -554,7 +538,7 @@ class Config extends \Bolt\RecursiveArrayAccess
 
     function getDBOptions()
     {
-        $configdb = $this['general']['database'];
+        $configdb = $this->data['general']['database'];
 
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
 

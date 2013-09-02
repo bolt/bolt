@@ -683,19 +683,45 @@ function getPaths($original)
 
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
-    if (empty($config['general']['theme'])) {
-        if ($config instanceof \Bolt\Config) { // Temp fix! @todo: Fix this properly.
+    // Temp fix! @todo: Fix this properly.
+    if ($config instanceof \Bolt\Config) {
+        if (!$config->get('general/theme')) {
             $config->set('general/theme', 'base-2013');
+        }
+        if (!$config->get('general/canonical') && isset($_SERVER['HTTP_HOST'])) {
+            $config->set('general/canonical', $_SERVER['HTTP_HOST']);
+        }
+
+        // Set the correct mountpoint..
+        if ($config->get('general/branding/path')) {
+            $mountpoint = substr($config->get('general/branding/path'), 1) . "/";
         } else {
+            $mountpoint = "bolt/";
+        }
+
+        $theme = $config->get('general/theme');
+
+        $canonical = $config->get('general/canonical', "");
+
+    } else {
+        if (empty($config['general']['theme'])) {
             $config['general']['theme'] = 'base-2013';
         }
-    }
-    if (empty($config['general']['canonical']) && isset($_SERVER['HTTP_HOST'])) {
-        if ($config instanceof \Bolt\Config) { // Temp fix! @todo: Fix this properly.
-            $config->set('general/canonical', $_SERVER['HTTP_HOST']);
-        } else {
+        if (empty($config['general']['canonical']) && isset($_SERVER['HTTP_HOST'])) {
             $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
         }
+
+        // Set the correct mountpoint..
+        if (!empty($config['general']['branding']['path'])) {
+            $mountpoint = substr($config['general']['branding']['path'], 1) . "/";
+        } else {
+            $mountpoint = "bolt/";
+        }
+
+        $theme = $config['general']['theme'];
+
+        $canonical = isset($config['general']['canonical']) ? $config['general']['canonical'] : "";
+
     }
 
     // Set the root
@@ -723,27 +749,20 @@ function getPaths($original)
         $canonicalpath = $currentpath;
     }
 
-    // Set the correct mountpoint..
-    if (!empty($config['general']['branding']['path'])) {
-        $mountpoint = substr($config['general']['branding']['path'], 1) . "/";
-    } else {
-        $mountpoint = "bolt/";
-    }
-
     // Set the paths
     $paths = array(
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
         'root' => $path_prefix,
         'rootpath' => realpath(__DIR__ . "/../../"),
-        'theme' => $path_prefix . "theme/" . $config['general']['theme'] . "/",
-        'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
+        'theme' => $path_prefix . "theme/" . $theme . "/",
+        'themepath' => realpath(__DIR__ . "/../../theme/" . $theme),
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
         'bolt' => $path_prefix . $mountpoint,
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
-        'canonical' => isset($config['general']['canonical']) ? $config['general']['canonical'] : "",
+        'canonical' => $canonical,
         'current' => $currentpath
     );
 
@@ -752,9 +771,17 @@ function getPaths($original)
     $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $canonicalpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
-    if ( isset( $config['general']['theme_path'] ) ) {
-        $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+    // Temp fix! @todo: Fix this properly.
+    if ($config instanceof \Bolt\Config) {
+        if ($config->get('general/theme_path')) {
+            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config->get('general/theme_path');
+        }
+    } else {
+        if ( isset( $config['general']['theme_path'] ) ) {
+            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+        }
     }
+
     if ( BOLT_COMPOSER_INSTALLED ) {
         $paths['app'] = $path_prefix . "bolt-public/";
     }

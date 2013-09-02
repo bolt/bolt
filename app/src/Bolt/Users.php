@@ -28,12 +28,11 @@ class Users
     {
         $this->app = $app;
         $this->db = $app['db'];
-        $this->config = $app['config'];
 
-        $prefix = isset($this->config['general']['database']['prefix']) ? $this->config['general']['database']['prefix'] : "bolt_";
+        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
 
         // Hashstrength has a default of '10', don't allow less than '8'.
-        $this->hash_strength = max($this->config['general']['hash_strength'], 8);
+        $this->hash_strength = max($this->app['config']->get('general/hash_strength'), 8);
 
         $this->usertable = $prefix . "users";
         $this->authtokentable = $prefix . "authtoken";
@@ -179,7 +178,7 @@ class Users
         }
 
         // set the rights for each of the contenttypes for this user.
-        foreach ($this->app['config']['contenttypes'] as $key => $contenttype) {
+        foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
             if (in_array($key, $this->currentuser['contenttypes'])) {
                 $this->allowed['contenttype:' . $key] = self::EDITOR;
             } else {
@@ -226,13 +225,13 @@ class Users
 
         $key = $name . "-" . $salt;
 
-        if ($this->app['config']['general']['cookies_use_remoteaddr']) {
+        if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
             $key .= "-". $_SERVER['REMOTE_ADDR'];
         }
-        if ($this->app['config']['general']['cookies_use_browseragent']) {
+        if ($this->app['config']->get('general/cookies_use_browseragent')) {
             $key .= "-". $_SERVER['HTTP_USER_AGENT'];
         }
-        if ($this->app['config']['general']['cookies_use_httphost']) {
+        if ($this->app['config']->get('general/cookies_use_httphost')) {
             $key .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
         }
 
@@ -253,7 +252,7 @@ class Users
             'username' => $this->currentuser['username'],
             'token' => $this->getAuthtoken($this->currentuser['username'], $salt),
             'salt' => $salt,
-            'validity' => date('Y-m-d H:i:s', time() + $this->app['config']['general']['cookies_lifetime']),
+            'validity' => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
             'ip' => $_SERVER['REMOTE_ADDR'],
             'lastseen' => date('Y-m-d H:i:s'),
             'useragent' => getBrowserInfo()
@@ -263,9 +262,9 @@ class Users
         setcookie(
             'bolt_authtoken',
             $token['token'],
-            time() + $this->app['config']['general']['cookies_lifetime'],
+            time() + $this->app['config']->get('general/cookies_lifetime'),
             '/',
-            $this->app['config']['general']['cookies_domain']
+            $this->app['config']->get('general/cookies_domain')
         );
 
         try {
@@ -481,7 +480,7 @@ class Users
 
         } else {
             // Delete the authtoken cookie..
-            setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']['general']['cookies_domain']);
+            setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']->get('general/cookies_domain'));
 
             return false;
 
@@ -532,7 +531,7 @@ class Users
 
             // echo $mailhtml;
 
-            $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']['general']['sitename']);
+            $subject = sprintf("[ Bolt / %s ] Password reset.", $this->app['config']->get('general/sitename'));
 
             $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
@@ -636,7 +635,7 @@ class Users
         $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
 
         // Remove the cookie..
-        setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']['general']['cookies_domain']);
+        setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']->get('general/cookies_domain'));
 
         // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
         // $this->session->invalidate();
@@ -686,7 +685,7 @@ class Users
             try {
 
                 // get the available contenttypes.
-                $allcontenttypes = array_keys($this->app['config']['contenttypes']);
+                $allcontenttypes = array_keys($this->app['config']->get('contenttypes'));
 
                 $tempusers = $this->db->fetchAll($query);
 

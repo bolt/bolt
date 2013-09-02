@@ -108,7 +108,7 @@ class TwigExtension extends \Twig_Extension
      * @return string
      */
     public function htmllang(){
-        $locale = $this->app['config']['general']['locale'];
+        $locale = $this->app['config']->get('general/locale');
         if ($locale == ""){
             // return fallback
             return 'en';
@@ -131,8 +131,8 @@ class TwigExtension extends \Twig_Extension
         }
 
         $locale = array(
-            $this->app['config']['general']['locale'],
-            $this->app['config']['general']['locale'] . '.utf8',
+            $this->app['config']->get('general/locale'),
+            $this->app['config']->get('general/locale') . '.utf8',
             'en_GB', 'en_GB.utf8', 'en'
         );
 
@@ -586,7 +586,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function thumbnail($filename, $width = '', $height = '', $crop = "")
     {
-        $thumbconf = $this->app['config']['general']['thumbnails'];
+        $thumbconf = $this->app['config']->get('general/thumbnails');
 
         if (empty($width)) {
             $width = !empty($thumbconf['default_thumbnail'][0]) ? $thumbconf['default_thumbnail'][0] : 100;
@@ -665,7 +665,7 @@ class TwigExtension extends \Twig_Extension
 
         if (!empty($filename)) {
 
-            $thumbconf = $this->app['config']['general']['thumbnails'];
+            $thumbconf = $this->app['config']->get('general/thumbnails');
 
             $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
             $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 800;
@@ -760,7 +760,7 @@ class TwigExtension extends \Twig_Extension
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
     {
 
-        $menus = $this->app['config']['menu'];
+        $menus = $this->app['config']->get('menu');
 
         if (!empty($identifier) && isset($menus[$identifier]) ) {
             $name = strtolower($identifier);
