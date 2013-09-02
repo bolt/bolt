@@ -11,8 +11,8 @@
        sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
     <title>
       {% if record.title is defined %}{{ record.title|striptags }} | {% endif %}
-      {{ app.config.general.sitename }}
-      {% if record.title is not defined and app.config.general.payoff is defined %} | {{ app.config.general.payoff }}{% endif %}
+      {{ app.config.get('general/sitename') }}
+      {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif %}
     </title>
 
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
@@ -46,7 +46,7 @@
 
     <nav class="top-bar">
         <ul>
-            <li class="name"><h1><a href="{{ paths.root }}">{{ app.config.general.sitename }}</a></h1></li>
+            <li class="name"><h1><a href="{{ paths.root }}">{{ app.config.get('general/sitename') }}</a></h1></li>
             <li class="toggle-topbar"><a href="#"></a></li>
         </ul>
         <section>
@@ -71,10 +71,10 @@
 
     <div class="headerphoto">
         <img src="{{ paths.root }}theme/base-2013/images/header_3.jpg" width="1200" height="350" />
-        {# the values in the 'app.config.general' array are taken directly from the file app/config/config.yml #}
-        <p><span>{{ app.config.general.sitename }}</span>
-            {% if app.config.general.payoff is defined %}
-                <br><small>{{ app.config.general.payoff }}</small>
+        {# the values in the 'app.config' object are taken directly from the file app/config/config.yml #}
+        <p><span>{{ app.config.get('general/sitename') }}</span>
+            {% if app.config.get('general/payoff') %}
+                <br><small>{{ app.config.get('general/payoff') }}</small>
             {% endif %}
         </p>
     </div>

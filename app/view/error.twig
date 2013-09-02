@@ -10,7 +10,7 @@
     <li>Code: {{ code }}</li>
 </ul>
 
-{% if app.config.general.debug %}
+{% if app.config.get('general/debug') %}
     {% for i in trace %}
         {% if i.line is defined and i.class is defined %}
             <p>
