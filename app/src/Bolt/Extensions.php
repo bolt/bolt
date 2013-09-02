@@ -100,6 +100,13 @@ class Extensions
     public function enabledExtensions()
     {
         $list = $this->app['config']->get('general/enabled_extensions');
+
+        // No activated extensions, nothing to do here.
+        if (!is_array($list)) {
+            $this->enabled = array();
+            return;
+        }
+
         $folders = array();
 
         $d = dir($this->basefolder);
