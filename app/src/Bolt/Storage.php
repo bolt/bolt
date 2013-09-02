@@ -21,10 +21,12 @@ class Storage
      * @var Application
      */
     private $app;
+
     /**
      * @var string
      */
-    private $prefix;
+    private $prefix = "bolt_";
+
     /**
      * @var array
      */
@@ -2594,8 +2596,8 @@ class Storage
     protected function getTables()
     {
         // Only do this once..
-        if (!empty($this->tables)) {
-            return $this->tables;
+        if (!empty($this->app['tables'])) {
+            return $this->app['tables'];
         }
 
         $sm = $this->app['db']->getSchemaManager();
@@ -2610,6 +2612,9 @@ class Storage
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
         }
+
+        // @todo: Fix this!! Move this to '$app->config'..
+        $this->app['tables'] = $this->tables;
 
         return $this->tables;
 
@@ -2645,29 +2650,6 @@ class Storage
 
     }
 
-
-    /**
-     * Get an associative array with the bolt_tables tables as Doctrine\DBAL\Schema\Table objects
-     *
-     * @return array
-     */
-    protected function getTableObjects()
-    {
-
-        $sm = $this->app['db']->getSchemaManager();
-
-        $tables = array();
-
-        foreach ($sm->listTables() as $table) {
-            if ( strpos($table->getName(), $this->prefix) === 0 ) {
-                $tables[ $table->getName() ] = $table;
-                // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
-            }
-        }
-
-        return $tables;
-
-    }
 
     protected function hasRecords($tablename)
     {
