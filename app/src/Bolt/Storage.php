@@ -2481,6 +2481,20 @@ class Storage
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
         )->fetchAll();
 
+        // And the other way around..
+        $query = sprintf(
+            "SELECT id, from_contenttype AS to_contenttype, from_id AS to_id FROM %s WHERE to_id=? AND to_contenttype=?",
+            $tablename
+        );
+        $currentvalues2 = $this->app['db']->executeQuery(
+            $query,
+            array($content_id, $contenttype),
+            array(\PDO::PARAM_INT, \PDO::PARAM_STR)
+        )->fetchAll();
+
+        // Merge them.
+        $currentvalues = array_merge($currentvalues, $currentvalues2);
+
         // Delete the ones that have been removed.
         foreach ($currentvalues as $currentvalue) {
 
