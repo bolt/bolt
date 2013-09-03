@@ -21,15 +21,15 @@
 <script>
     var path = "{{ paths.bolt }}"; var asyncpath = "{{ paths.async }}"; var apppath = "{{ paths.app }}";
     var wysiwyg = {
-       images: {{ 0 + config.general.wysiwyg.images }},
-       tables: {{ 0 + config.general.wysiwyg.tables }},
-       anchor: {{ 0 + config.general.wysiwyg.anchor }},
-       fontcolor: {{ 0 + config.general.wysiwyg.fontcolor }},
-       align: {{ 0 + config.general.wysiwyg.align }},
-       subsuper: {{ 0 + config.general.wysiwyg.subsuper }},
-       embed: {{ 0 + config.general.wysiwyg.embed }},
-       {%  if config.general.wysiwyg.ck is iterable %}ck: {{ config.general.wysiwyg.ck|json_encode()|raw }},{% endif %}
-       {%  if config.general.wysiwyg.filebrowser is iterable %}filebrowser: {{ config.general.wysiwyg.filebrowser|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
+       images: {{ 0 + config.get('general/wysiwyg/images') }},
+       tables: {{ 0 + config.get('general/wysiwyg/tables') }},
+       anchor: {{ 0 + config.get('general/wysiwyg/anchor') }},
+       fontcolor: {{ 0 + config.get('general/wysiwyg/fontcolor') }},
+       align: {{ 0 + config.get('general/wysiwyg/align') }},
+       subsuper: {{ 0 + config.get('general/wysiwyg/subsuper') }},
+       embed: {{ 0 + config.get('general/wysiwyg/embed') }},
+       {%  if config.get('general/wysiwyg/ck') is iterable %}ck: {{ config.get('general/wysiwyg/ck')|json_encode()|raw }},{% endif %}
+       {%  if config.get('general/wysiwyg/filebrowser') is iterable %}filebrowser: {{ config.get('general/wysiwyg/filebrowser')|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
        };
 </script>
 

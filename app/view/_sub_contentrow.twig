@@ -92,10 +92,10 @@
                     <i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</a></li>
                 {% for taxonomyslug, values in content.taxonomy %}
                     {% if values|length > 1 %}
-                        <li><a class="nolink">{{ config.taxonomy[taxonomyslug].name }}:
+                        <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
                             <i class="icon-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
                     {% else %}
-                        <li><a class="nolink">{{ config.taxonomy[taxonomyslug].singular_name }}:
+                        <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
                             <i class="icon-tag"></i> {{ values|first|trimtext(24) }}</a></li>
                     {% endif %}
                 {% endfor %}
