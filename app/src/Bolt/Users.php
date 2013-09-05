@@ -830,7 +830,7 @@ class Users
         if (substr($what, 0, 12) == 'contenttype:') {
             $contenttype = substr($what, 12);
             $validContenttypes = $this->users[$this->currentuser['username']]['contenttypes'];
-            return in_array($contenttype, $validContenttypes);
+            return (is_array($validContenttypes) && in_array($contenttype, $validContenttypes));
         }
 
         if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel'])) {
