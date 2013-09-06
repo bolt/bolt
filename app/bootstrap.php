@@ -60,6 +60,10 @@ $app['debugbar'] = false;
 
 list ($app['locale'], $app['territory']) = explode('_', $app['config']->get('general/locale'));
 
+// Set The Timezone Based on the Config, fallback to UTC
+date_default_timezone_set(
+    $app['config']->get('general/timezone')?:'UTC'
+);
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $app['config']->get('twigpath'),
