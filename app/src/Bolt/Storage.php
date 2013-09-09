@@ -2465,11 +2465,6 @@ class Storage
 
         $tablename = $this->getTablename("relations");
 
-        // Make sure $contenttype is a 'slug'
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
         // Get the current values from the DB..
         $query = sprintf(
             "SELECT id, to_contenttype, to_id FROM %s WHERE from_id=? AND from_contenttype=?",
@@ -2477,7 +2472,7 @@ class Storage
         );
         $currentvalues = $this->app['db']->executeQuery(
             $query,
-            array($content_id, $contenttype),
+            array($content_id, $contenttype['slug']),
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
         )->fetchAll();
 
@@ -2488,7 +2483,7 @@ class Storage
         );
         $currentvalues2 = $this->app['db']->executeQuery(
             $query,
-            array($content_id, $contenttype),
+            array($content_id, $contenttype['slug']),
             array(\PDO::PARAM_INT, \PDO::PARAM_STR)
         )->fetchAll();
 
@@ -2498,6 +2493,7 @@ class Storage
         // Delete the ones that have been removed, but only if the contenttype defines the relations. For if we have
         // example, if we have a relation from 'pages' to 'entries', do not delete them when editing an 'entry'.
         foreach ($currentvalues as $currentvalue) {
+
             if ( ( !isset($relation[ $currentvalue['to_contenttype'] ]) ||
                 !in_array($currentvalue['to_id'], $relation[ $currentvalue['to_contenttype'] ])) &&
                 isset($contenttype['relations'][ $currentvalue['to_contenttype'] ] )
@@ -2505,6 +2501,7 @@ class Storage
                 $this->app['db']->delete($tablename, array('id' => $currentvalue['id']));
             }
         }
+
 
         // Make an easier array out of $currentvalues.
         $tempvalues = $currentvalues;
@@ -2522,7 +2519,7 @@ class Storage
                     if (!in_array($to_contenttype."/".$value, $currentvalues) && (!empty($value))) {
                         // Insert it!
                         $row = array(
-                            'from_contenttype' => $contenttype,
+                            'from_contenttype' => $contenttype['slug'],
                             'from_id' => $content_id,
                             'to_contenttype' => $to_contenttype,
                             'to_id' => $value
