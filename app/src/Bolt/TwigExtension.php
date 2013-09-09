@@ -495,8 +495,8 @@ class TwigExtension extends \Twig_Extension
             'class' => $class
         );
 
-        if (isset($pager['link'])) {
-            $context['link'] = $pager['link'];
+        if (isset($thisPager['link'])) {
+            $context['link'] = $thisPager['link'];
         }
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');
