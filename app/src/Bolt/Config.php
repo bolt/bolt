@@ -15,12 +15,14 @@ class Config
 {
 
     private $app;
-
+    private $reservedfieldnames;
     private $data;
 
     function __construct(\Bolt\Application $app) {
 
         $this->app = $app;
+
+        $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status');
 
         if (!$this->loadCache()) {
             $this->getConfig();
@@ -302,10 +304,11 @@ class Config
             //
             foreach($ct['fields'] as $fieldname => $field) {
 
-                // Check 'uses'
+                // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
+                // for the fields that are always present, like 'id'.
                 if (is_array($field) && !empty($field['uses']) ) {
                     foreach($field['uses'] as $useField) {
-                        if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
+                        if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) && !in_array($useField, $this->reservedfieldnames) ) {
                             $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
                                 array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
                             );
