@@ -2495,11 +2495,13 @@ class Storage
         // Merge them.
         $currentvalues = array_merge($currentvalues, $currentvalues2);
 
-        // Delete the ones that have been removed.
+        // Delete the ones that have been removed, but only if the contenttype defines the relations. For if we have
+        // example, if we have a relation from 'pages' to 'entries', do not delete them when editing an 'entry'.
         foreach ($currentvalues as $currentvalue) {
-
-            if (!isset($relation[ $currentvalue['to_contenttype'] ]) ||
-                !in_array($currentvalue['to_id'], $relation[ $currentvalue['to_contenttype'] ])) {
+            if ( ( !isset($relation[ $currentvalue['to_contenttype'] ]) ||
+                !in_array($currentvalue['to_id'], $relation[ $currentvalue['to_contenttype'] ])) &&
+                isset($contenttype['relations'][ $currentvalue['to_contenttype'] ] )
+            ) {
                 $this->app['db']->delete($tablename, array('id' => $currentvalue['id']));
             }
         }
