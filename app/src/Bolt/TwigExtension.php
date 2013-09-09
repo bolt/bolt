@@ -240,13 +240,14 @@ class TwigExtension extends \Twig_Extension
      * Sorts / orders items of an array
      *
      * @param array $array
+     * @param string $on
      * @return array
      */
-    public function order($array, $on, $ascending = true)
+    public function order($array, $on)
     {
 
-        $this->order_on = $on;
-        $this->order_ascending = filter_var($ascending, FILTER_VALIDATE_BOOLEAN);
+        // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
+        list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
 
         uasort($array, array($this, "orderHelper"));
 

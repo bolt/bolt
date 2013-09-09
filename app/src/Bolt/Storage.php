@@ -1870,7 +1870,7 @@ class Storage
      * @param string $name
      * @return string
      */
-    private function getSortOrder($name) {
+    public function getSortOrder($name) {
 
         $parts = explode(' ', $name);
         $fieldname = $parts[0];
