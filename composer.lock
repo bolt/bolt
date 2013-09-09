@@ -268,16 +268,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "2.4.0-RC4",
+            "version": "v2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "2.4.0-RC4"
+                "reference": "ceb18cf9b0230f3ea208b6238130fd415abda0a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/2.4.0-RC4",
-                "reference": "2.4.0-RC4",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/ceb18cf9b0230f3ea208b6238130fd415abda0a7",
+                "reference": "ceb18cf9b0230f3ea208b6238130fd415abda0a7",
                 "shasum": ""
             },
             "require": {
@@ -338,39 +338,34 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-06-21 12:11:28"
+            "time": "2013-09-07 10:20:34"
         },
         {
             "name": "doctrine/dbal",
-            "version": "dev-master",
+            "version": "2.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "7ffb2701931aeae3bb32fa2012b9a575f3a7929b"
+                "reference": "814e53d0c538a995e3a36452710d4c039f6c2723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/7ffb2701931aeae3bb32fa2012b9a575f3a7929b",
-                "reference": "7ffb2701931aeae3bb32fa2012b9a575f3a7929b",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/814e53d0c538a995e3a36452710d4c039f6c2723",
+                "reference": "814e53d0c538a995e3a36452710d4c039f6c2723",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "2.4.*@beta",
+                "doctrine/common": "~2.4",
                 "php": ">=5.3.2"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*",
-                "symfony/console": "2.*"
+                "symfony/console": "~2.0"
             },
             "suggest": {
                 "symfony/console": "Allows use of the command line interface"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.4.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Doctrine\\DBAL\\": "lib/"
@@ -408,7 +403,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-08-24 01:02:33"
+            "time": "2013-09-08 07:51:49"
         },
         {
             "name": "doctrine/inflector",
@@ -459,7 +454,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -582,12 +577,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/GaretJax/phpbrowscap.git",
-                "reference": "f5bb0876fc5e592aa6bbb35adf35e67f7effb532"
+                "reference": "3ef579990aae725949782dc068ed0050d5bbc4d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GaretJax/phpbrowscap/zipball/f5bb0876fc5e592aa6bbb35adf35e67f7effb532",
-                "reference": "f5bb0876fc5e592aa6bbb35adf35e67f7effb532",
+                "url": "https://api.github.com/repos/GaretJax/phpbrowscap/zipball/3ef579990aae725949782dc068ed0050d5bbc4d1",
+                "reference": "3ef579990aae725949782dc068ed0050d5bbc4d1",
                 "shasum": ""
             },
             "require": {
@@ -617,7 +612,7 @@
                 "get_browser",
                 "user agent"
             ],
-            "time": "2013-08-26 20:59:32"
+            "time": "2013-09-06 21:31:44"
         },
         {
             "name": "guzzle/guzzle",
