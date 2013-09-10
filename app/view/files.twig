@@ -69,10 +69,8 @@
         </td>
         <td class='actions'>
             <div class="btn-group">
-            <button class="btn btn-mini">
-                <i class="icon-edit"></i> {{ __('Options') }}
-            </button>
             <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                {{ __('Options') }}
                 <span class="caret"></span>
             </button>
 
@@ -83,7 +81,7 @@
                     <i class="icon-copy"></i> {{ __('Duplicate %filename%',{'%filename%':file.filename}) }}</a></li>
                 <li class="divider"></li>
                 <li><a class="nolink">{{ __('Permissions') }}:
-                        <strong><tt>{{ file.permissions }}</tt></strong></a></li>
+                        <strong><code>{{ file.permissions }}</code></strong></a></li>
 
             </ul>
             </div>
