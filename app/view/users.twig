@@ -38,9 +38,9 @@
                     <td class='actions'>
 
                         <div class="btn-group">
-                            <button class="btn btn-mini uselink"><a href="{{ path('useredit', { 'id' : user.id }) }}">
-                                    <i class="icon-edit"></i> {{ __('Edit') }}</a>
-                            </button>
+                            <a href="{{ path('useredit', { 'id' : user.id }) }}" class="btn btn-mini">
+                                    <i class="icon-edit"></i> {{ __('Edit') }}
+                            </a>
                             <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                                 <i class="icon-info-sign"></i>
                                 <span class="caret"></span>

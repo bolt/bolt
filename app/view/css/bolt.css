@@ -49,7 +49,7 @@ a {
 }
 
 a:hover {
-        color: #103060;
+    color: #103060;
 }
 
 strong, b {
@@ -115,9 +115,10 @@ hr {
     padding: 2px 6px;
 }
 
-.btn-group > .btn-mini a {
+.btn-group > a.btn-mini {
     font-weight: normal;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #194770;
 }
 
 .logo {
