@@ -16,7 +16,7 @@ class lowlevelchecks
         // Bolt requires PHP 5.3.2 or higher.
         if (!checkVersion(PHP_VERSION, "5.3.2")) {
             $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". PHP_VERSION .
-	           "</u>, so Bolt will not run on your current setup.");
+            "</u>, so Bolt will not run on your current setup.");
         }
 
         if (get_magic_quotes_gpc()) {
@@ -29,7 +29,7 @@ class lowlevelchecks
         }
 
         if (ini_get('safe_mode')) {
-            $this->lowlevelError("Bolt requires Safe mode to be <b>off</b>. Please send your hoster to " .
+            $this->lowlevelError("Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the ".
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously.");
         }
