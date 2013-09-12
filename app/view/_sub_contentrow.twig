@@ -46,10 +46,9 @@
     <td class='actions'>
         <div class="btn-group">
             {% if editable %}
-            <button class="btn btn-mini uselink">
-                <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
-                <i class="icon-edit"></i> {{ __('Edit') }}</a>
-            </button>
+            <a class="btn btn-mini" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
+                <i class="icon-edit"></i> {{ __('Edit') }}
+            </a>
             {% endif %}
             <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                 <i class="icon-info-sign"></i>

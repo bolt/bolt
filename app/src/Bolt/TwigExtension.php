@@ -477,12 +477,12 @@ class TwigExtension extends \Twig_Extension
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
         // @todo Yuck, $GLOBALS.. figure out a better way to do this.
-        $pager = $GLOBALS['pager'];
-
-        if (!is_array($pager)) {
+        if ( !isset($GLOBALS['pager']) || !is_array($GLOBALS['pager']) ) {
             // nothing to page..
             return "";
         }
+
+        $pager = $GLOBALS['pager'];
 
         if (!empty($pagerName)) {
             $thisPager = $pager[$pagerName];
