@@ -11,7 +11,7 @@ if (version_compare(PHP_VERSION, '5.3.2') < 0) {
 
 // PHP -S (built-in webserver) doesn't handle static assets without a `return false`
 // For more information, see: http://silex.sensiolabs.org/doc/web_servers.html#php-5-4
-if (php_sapi_name() === 'cli-server') {
+if ('cli-server' === php_sapi_name()) {
     $filename = __DIR__.preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
 
     // If it is a file, just return false.
