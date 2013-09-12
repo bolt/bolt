@@ -53,13 +53,23 @@ $yamlparser = new Symfony\Component\Yaml\Parser();
 $config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR .'/config.yml') . "\n");
 
 // Set some default settings, as defined in our config.yml
-define('DEFAULT_Q', !empty($config['general']['thumbnails']['quality']) ? $config['general']['thumbnails']['quality'] : 70);
-define('DEFAULT_ZC', !empty($config['general']['thumbnails']['cropping']) ? $config['general']['thumbnails']['cropping'] : 'crop');
-define('NOT_FOUND_IMAGE', !empty($config['general']['thumbnails']['notfound_image']) ? "../" . $config['general']['thumbnails']['notfound_image'] : "");
-define('ERROR_IMAGE', !empty($config['general']['thumbnails']['error_image']) ? "../" . $config['general']['thumbnails']['error_image'] : "");
+define('DEFAULT_Q', !empty($config['general']['thumbnails']['quality'])
+    ? $config['general']['thumbnails']['quality']
+    : 70);
+define('DEFAULT_ZC', !empty($config['general']['thumbnails']['cropping'])
+    ? $config['general']['thumbnails']['cropping']
+    : 'crop');
+define('NOT_FOUND_IMAGE', !empty($config['general']['thumbnails']['notfound_image'])
+    ? "../" . $config['general']['thumbnails']['notfound_image']
+    : "");
+define('ERROR_IMAGE', !empty($config['general']['thumbnails']['error_image'])
+    ? "../" . $config['general']['thumbnails']['error_image']
+    : "");
 
 // A CLI-server hack
-"cli-server" === php_sapi_name() && !defined('FILE_CACHE_DIRECTORY') && define('FILE_CACHE_DIRECTORY', BOLT_PROJECT_ROOT_DIR . '/app/' . 'cache/thumbs/');
+"cli-server" === php_sapi_name() && !defined('FILE_CACHE_DIRECTORY')
+    && define('FILE_CACHE_DIRECTORY', BOLT_PROJECT_ROOT_DIR . '/app/' . 'cache/thumbs/');
+
 /* This might look a bit odd, but for now it's a convenient way to make sure we're serving images from
    either files/ or theme/.
    @todo: Yeah, we should clean this up sometime.
