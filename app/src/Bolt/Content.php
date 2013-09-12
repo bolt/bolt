@@ -692,7 +692,8 @@ class Content implements \ArrayAccess
                 $linkbinding = $binding;
                 break;
             }
-            if (isset($route['contenttype']) && ($route['contenttype'] == $this->contenttype['singular_slug'])) {
+            if (isset($route['contenttype']) &&
+                ( ($route['contenttype'] == $this->contenttype['singular_slug']) || ($route['contenttype'] == $this->contenttype['slug']) ) ) {
                 $linkbinding = $binding;
                 break;
             }
