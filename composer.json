@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "dflydev/markdown": "1.0.*",
-        "doctrine/dbal": "2.4.x-dev",
+        "doctrine/dbal": "~2.4",
         "filp/whoops": "1.*",
         "garetjax/phpbrowscap": "dev-master",
         "guzzle/guzzle": "3.3.*",

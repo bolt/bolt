@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6de22b72c35fddf84f9cdd6fdb596de1",
+    "hash": "5e36a3aa3442a1b0d10c8337eba018f1",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -342,16 +342,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "2.4.x-dev",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "814e53d0c538a995e3a36452710d4c039f6c2723"
+                "reference": "3eb557f144ec41e6e84997e43acb1946c92fbc88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/814e53d0c538a995e3a36452710d4c039f6c2723",
-                "reference": "814e53d0c538a995e3a36452710d4c039f6c2723",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/3eb557f144ec41e6e84997e43acb1946c92fbc88",
+                "reference": "3eb557f144ec41e6e84997e43acb1946c92fbc88",
                 "shasum": ""
             },
             "require": {
@@ -403,7 +403,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-09-08 07:51:49"
+            "time": "2013-09-07 10:49:18"
         },
         {
             "name": "doctrine/inflector",
@@ -2222,16 +2222,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "1.2.12",
+            "version": "1.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "1.2.12"
+                "reference": "466e7cd2554b4e264c9e3f31216d25ac0e5f3d94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/1.2.12",
-                "reference": "1.2.12",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/466e7cd2554b4e264c9e3f31216d25ac0e5f3d94",
+                "reference": "466e7cd2554b4e264c9e3f31216d25ac0e5f3d94",
                 "shasum": ""
             },
             "require": {
@@ -2279,7 +2279,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-07-06 06:26:16"
+            "time": "2013-09-10 08:14:32"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2946,7 +2946,6 @@
     ],
     "minimum-stability": "beta",
     "stability-flags": {
-        "doctrine/dbal": 20,
         "garetjax/phpbrowscap": 20,
         "hautelook/phpass": 20,
         "htmlawed/htmlawed": 20,
