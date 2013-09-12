@@ -728,7 +728,7 @@ function getPaths($original)
     $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
     $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
     $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
-    if (empty($path_prefix)) {
+    if (empty($path_prefix) || 'cli-server' === php_sapi_name()) {
         $path_prefix = "/";
     }
 
