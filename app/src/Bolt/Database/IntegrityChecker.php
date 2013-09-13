@@ -425,7 +425,7 @@ class IntegrityChecker
             $myTable->addIndex( array( 'datechanged' ) );
             $myTable->addColumn("datepublish", "datetime");
             $myTable->addIndex( array( 'datepublish' ) );
-            $myTable->addColumn("datedepublish", "datetime");
+            $myTable->addColumn("datedepublish", "datetime", array("default" => "1900-01-01 00:00:00"));
             $myTable->addIndex( array( 'datedepublish' ) );
             $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("status", "string", array("length" => 32));

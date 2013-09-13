@@ -193,7 +193,7 @@ class Storage
         $content['contenttype'] = $key;
         $content['datecreated'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
         $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365*24*60*60));
-        $content['datedepublish'] = "0000-00-00 00:00:00";
+        $content['datedepublish'] = "1900-01-01 00:00:00";
 
         $content['username'] = array_rand($this->app['users']->getUsers());
 
@@ -1111,14 +1111,14 @@ class Storage
         try {
 
             // Check if there are any records that need depublishing..
-            $query = "SELECT id FROM $tablename WHERE status = 'published' and datedepublish < :now and datedepublish > '0000-00-00 00:00:01' ";
+            $query = "SELECT id FROM $tablename WHERE status = 'published' and datedepublish < :now and datedepublish > '1900-01-01 00:00:01' ";
             $stmt = $this->app['db']->prepare($query);
             $stmt->bindValue("now", $now);
             $stmt->execute();
 
             // If there's a result, we need to set these to 'held'..
             if ($stmt->fetch() != false) {
-                $query = "UPDATE $tablename SET status = 'held', datechanged = :now, datedepublish = '0000-00-00 00:00:00'  WHERE status = 'published' and datedepublish < :now and datedepublish > '0000-00-00 00:00:01'";
+                $query = "UPDATE $tablename SET status = 'held', datechanged = :now, datedepublish = '1900-01-01 00:00:00'  WHERE status = 'published' and datedepublish < :now and datedepublish > '1900-01-01 00:00:01'";
                 $stmt = $this->app['db']->prepare($query);
                 $stmt->bindValue("now", $now);
                 $stmt->execute();
