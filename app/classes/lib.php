@@ -668,7 +668,7 @@ function hackislyParseRegexTemplates($obj)
 
 
 
-function getPaths($original)
+function getPaths($original = array() )
 {
 
     // If we passed the entire $app, set the $config
