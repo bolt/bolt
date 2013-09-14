@@ -40,8 +40,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
 
-    // @todo See if we can squeeze this into $app->after, instead of ->finish()
-    $app->finish(function (Request $request, Response $response) use ($app, $logger) {
+    $app->after(function (Request $request, Response $response) use ($app, $logger) {
 
         // Make sure debug is _still_ enabled, and/or the debugbar isn't turned off in code.
         if (!$app['debug'] || !$app['debugbar']) {
@@ -81,8 +80,6 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
 
         $log = $app['log']->getMemorylog();
 
-        // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";
-
         $servervars = array(
             'cookies <small>($_COOKIES)</small>' => $request->cookies->all(),
             'headers' => makeValuepairs($request->headers->all(), '', '0'),
@@ -94,7 +91,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
             'statuscode' => $response->getStatusCode()
         );
 
-        echo $app['twig']->render('debugbar.twig', array(
+        $response->setContent($response->getContent() . $app['twig']->render('debugbar.twig', array(
             'timetaken' => timeTaken(),
             'memtaken' => getMem(),
             'maxmemtaken' => getMaxMem(),
@@ -109,9 +106,9 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
             'editlink' => $app['editlink'],
             'paths' => getPaths($app['config']),
             'logvalues' => $app['log']->getValues()
-        ));
+        )));
 
-    });
+    }, \Silex\Application::LATE_EVENT);
 } else {
     error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
 }
