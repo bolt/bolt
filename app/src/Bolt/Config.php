@@ -72,27 +72,17 @@ class Config
             return false;
         }
 
-        // Set the base config, or initialize it.
-        if (isset($this->data[ $path[0] ])) {
-            $tempdata = $this->data[ $path[0] ];
-        } else {
-            $tempdata = array();
+        $part = &$this->data;
+
+        foreach ($path as $key) {
+            if (!isset($part[$key])) {
+                $part[$key] = array();
+            }
+
+            $part = &$part[$key];
         }
 
-        // Set the correct value.
-        if (count($path)==2) {
-            $this->data[ $path[0] ][ $path[1] ] = $value;
-        } else if (count($path)==3) {
-            $this->data[ $path[0] ][ $path[1] ][ $path[2] ] = $value;
-        } else if (count($path)==4) {
-            $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ] = $value;
-        } else if (count($path)==5) {
-            $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ] = $value;
-        } else {
-            $logline = "Config: can't set path " . implode("/", $path) . " to '" . (string)$value ."'";
-            $this->app['log']->add($logline, 3, '', 'config');
-            return false;
-        }
+        $part = $value;
 
         return true;
 
@@ -117,19 +107,17 @@ class Config
             return false;
         }
 
+        $part = &$this->data;
         $value = null;
 
-        // Get the correct value.
-        if (count($path)==1 && isset($this->data[ $path[0] ])) {
-            $value = $this->data[ $path[0] ];
-        } else if (count($path)==2 && isset($this->data[ $path[0] ][ $path[1] ])) {
-            $value = $this->data[ $path[0] ][ $path[1] ];
-        } else if (count($path)==3 && isset($this->data[ $path[0] ][ $path[1] ][ $path[2] ])) {
-            $value = $this->data[ $path[0] ][ $path[1] ][ $path[2] ];
-        } else if (count($path)==4 && isset($this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ])) {
-            $value = $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ];
-        } else if (count($path)==5 && isset($this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ])) {
-            $value = $this->data[ $path[0] ][ $path[1] ][ $path[2] ][ $path[3] ][ $path[4] ];
+        foreach ($path as $key) {
+            if (!isset($part[$key])) {
+                $value = null;
+                break;
+            }
+
+            $value = $part[$key];
+            $part = &$part[$key];
         }
 
         if ($value != null) {
