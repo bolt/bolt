@@ -323,7 +323,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -454,7 +454,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -2416,16 +2416,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "1.2.0"
+                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/1.2.0",
-                "reference": "1.2.0",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
+                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
                 "shasum": ""
             },
             "require": {
@@ -2462,7 +2462,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2013-08-04 05:57:48"
+            "time": "2013-09-13 04:58:23"
         },
         {
             "name": "phpunit/phpunit",
