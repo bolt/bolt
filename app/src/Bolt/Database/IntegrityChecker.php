@@ -44,7 +44,7 @@ class IntegrityChecker
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
 
-        if($this->app['db']->getDatabasePlatform() instanceof SqlitePlatform) {
+        if ($this->app['db']->getDatabasePlatform() instanceof SqlitePlatform) {
             $this->textDefault = '';
         }
 
@@ -111,7 +111,7 @@ class IntegrityChecker
         $tables = $this->getTablesSchema();
 
         /** @var $table Table */
-        foreach($tables as $table) {
+        foreach ($tables as $table) {
             // Create the users table..
             if (!isset($currentTables[$table->getName()])) {
 
@@ -120,7 +120,7 @@ class IntegrityChecker
             } else {
 
                 $diff = $comparator->diffTable( $currentTables[$table->getName()], $table );
-                if ( $diff ) {
+                if ($diff) {
                     $diff = $this->cleanupTableDiff($diff);
 
                     // diff may be just deleted columns which we have reset above
@@ -130,36 +130,36 @@ class IntegrityChecker
                         $msgParts = array();
                         // No check on foreign keys yet because we don't use them
                         /** @var $col Column */
-                        foreach( $diff->addedColumns as $col ) {
+                        foreach ($diff->addedColumns as $col) {
                             $msgParts[] = "missing column <tt>" . $col->getName() . "</tt>";
                         }
                         /** @var $index Index */
-                        foreach( $diff->addedIndexes as $index ) {
+                        foreach ($diff->addedIndexes as $index) {
                             $msgParts[] = "missing index on <tt>" . implode( ', ', $index->getUnquotedColumns() ) . "</tt>";
                         }
                         ///** @var $fk ForeignKeyConstraint */
-                        //foreach( $diff->addedForeignKeys as $fk ) {
+                        //foreach ($diff->addedForeignKeys as $fk) {
                         //    $msgParts[] = "missing foreign key <tt>" . $fk->getName() . "</tt>";
                         //}
                         /** @var $col ColumnDiff */
-                        foreach( $diff->changedColumns as $col ) {
+                        foreach ($diff->changedColumns as $col) {
                             $msgParts[] = "invalid column <tt>" . $col->oldColumnName . "</tt>";
                         }
                         /** @var $index Index */
-                        foreach( $diff->changedIndexes as $index ) {
+                        foreach ($diff->changedIndexes as $index) {
                             $msgParts[] = "invalid index on <tt>" . implode( ', ', $index->getUnquotedColumns() ) . "</tt>";
                         }
                         ///** @var $fk ForeignKeyConstraint */
-                        //foreach( $diff->changedForeignKeys as $fk ) {
+                        //foreach ($diff->changedForeignKeys as $fk) {
                         //    $msgParts[] = "invalid foreign key " . $fk->getName() . "</tt>";
                         //}
-                        foreach( $diff->removedColumns as $colName => $val ) {
+                        foreach ($diff->removedColumns as $colName => $val) {
                             $msgParts[] = "removed column <tt>" . $colName . "</tt>";
                         }
-                        foreach( $diff->removedIndexes as $indexName => $val ) {
+                        foreach ($diff->removedIndexes as $indexName => $val) {
                             $msgParts[] = "removed index <tt>" . $indexName . "</tt>";
                         }
-                        //foreach( $diff->removedForeignKeys as $fkName => $val ) {
+                        //foreach ($diff->removedForeignKeys as $fkName => $val) {
                         //    $msgParts[] = "removed foreign key <tt>" . $fkName . "</tt>";
                         //}
                         $msg .= implode( ', ', $msgParts );
@@ -198,7 +198,6 @@ class IntegrityChecker
 
     }
 
-
     /**
      * Check and repair tables
      *
@@ -224,14 +223,14 @@ class IntegrityChecker
         $tables = $this->getTablesSchema();
 
         /** @var $table Table */
-        foreach($tables as $table) {
+        foreach ($tables as $table) {
             // Create the users table..
             if (!isset($currentTables[$table->getName()])) {
 
                 /** @var $platform AbstractPlatform */
                 $platform = $this->app['db']->getDatabasePlatform();
                 $queries = $platform->getCreateTableSQL($table);
-                foreach($queries as $query) {
+                foreach ($queries as $query) {
                     $this->app['db']->query($query);
                 }
 
@@ -259,11 +258,11 @@ class IntegrityChecker
     /**
      * Cleanup a table diff, remove changes we want to keep or fix platform specific issues
      *
-     * @param TableDiff $diff
+     * @param  TableDiff $diff
      * @return TableDiff
      */
-    protected function cleanupTableDiff(TableDiff $diff) {
-
+    protected function cleanupTableDiff(TableDiff $diff)
+    {
         $baseTables = $this->getBoltTablesNames();
 
         if (!in_array($diff->fromTable->getName(),$baseTables)) {
@@ -271,7 +270,7 @@ class IntegrityChecker
             if ($diff->removedColumns) {
                 //var_dump($diff->removedColumns);
                 /** @var $column Column */
-                foreach($diff->removedColumns as $column) {
+                foreach ($diff->removedColumns as $column) {
                     //$output[] = "<i>Field <tt>" . $column->getName() . "</tt> in <tt>" . $table->getName() . "</tt> " .
                     //    "is no longer defined in the config, delete manually if no longer needed.</i>";
                 }
@@ -285,30 +284,33 @@ class IntegrityChecker
     /**
      * @return array
      */
-    protected function getTablesSchema() {
-
+    protected function getTablesSchema()
+    {
         $schema = new Schema();
+
         return array_merge( $this->getBoltTablesSchema($schema), $this->getContentTypeTablesSchema($schema) );
     }
 
     /**
      * @return array
      */
-    protected function getBoltTablesNames() {
+    protected function getBoltTablesNames()
+    {
         $baseTables = array();
         /** @var $table Table */
-        foreach($this->getBoltTablesSchema(new Schema()) as $table) {
+        foreach ($this->getBoltTablesSchema(new Schema()) as $table) {
             $baseTables[] = $table->getName();
         }
+
         return $baseTables;
     }
 
     /**
-     * @param Schema $schema
+     * @param  Schema $schema
      * @return array
      */
-    protected function getBoltTablesSchema(Schema $schema) {
-
+    protected function getBoltTablesSchema(Schema $schema)
+    {
         $tables = array();
 
         $authtokenTable = $schema->createTable($this->prefix."authtoken");
@@ -399,11 +401,11 @@ class IntegrityChecker
     }
 
     /**
-     * @param Schema $schema
+     * @param  Schema $schema
      * @return array
      */
-    protected function getContentTypeTablesSchema(Schema $schema) {
-
+    protected function getContentTypeTablesSchema(Schema $schema)
+    {
         $dboptions = $this->app['config']->getDBOptions();
 
         $tables = array();
@@ -499,6 +501,7 @@ class IntegrityChecker
             $tables[] = $myTable;
 
         }
+
         return $tables;
     }
 
@@ -513,6 +516,7 @@ class IntegrityChecker
 
         $name = str_replace("-", "_", makeSlug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
+
         return $tablename;
 
     }

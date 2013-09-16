@@ -133,6 +133,7 @@ class Users
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
             unset($user['id']);
+
             return $this->db->insert($this->usertable, $user);
         } else {
             return $this->db->update($this->usertable, $user, array('id' => $user['id']));
@@ -169,11 +170,13 @@ class Users
         } else {
             // no current user, check if we can resume from authtoken cookie, or return without doing the rest.
             $result = $this->loginAuthtoken();
+
             return $result;
         }
 
         if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS) {
             $this->logout();
+
             return false;
         }
 
@@ -192,12 +195,14 @@ class Users
             $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
             $this->app['log']->add("Automatically logged out user '".$this->currentuser['username']."': Session data didn't match.", 3, '', 'issue');
             $this->logout();
+
             return false;
         }
 
         // Check if user is _still_ allowed to log on..
         if (($this->currentuser['userlevel'] < self::EDITOR) || !$this->currentuser['enabled']) {
             $this->logout();
+
             return false;
         }
 
@@ -347,6 +352,7 @@ class Users
 
         if (empty($user)) {
             $this->session->getFlashBag()->set('error', __('Username or password not correct. Please check your input.'));
+
             return false;
         }
 
@@ -613,6 +619,7 @@ class Users
             return "0000-00-00 00:00:00";
         } else {
             $wait = pow(($attempts - 4), 2);
+
             return date("Y-m-d H:i:s", strtotime("+$wait seconds"));
         }
 
@@ -767,7 +774,6 @@ class Users
      */
     public function getCurrentUser()
     {
-
         return $this->currentuser;
 
     }
@@ -779,7 +785,6 @@ class Users
      */
     public function getCurrentUsername()
     {
-
         return $this->currentuser['username'];
 
     }
@@ -830,6 +835,7 @@ class Users
         if (substr($what, 0, 12) == 'contenttype:') {
             $contenttype = substr($what, 12);
             $validContenttypes = $this->users[$this->currentuser['username']]['contenttypes'];
+
             return (is_array($validContenttypes) && in_array($contenttype, $validContenttypes));
         }
 
@@ -846,9 +852,9 @@ class Users
      * 'makeSlug', because we shouldn't allow 'admin@example.org', when there already
      * is an 'ADMIN@EXAMPLE.ORG'.
      *
-     * @param string $fieldname
-     * @param string $value
-     * @param int $currentid
+     * @param  string $fieldname
+     * @param  string $value
+     * @param  int    $currentid
      * @return bool
      */
     public function checkAvailability($fieldname, $value, $currentid=0)

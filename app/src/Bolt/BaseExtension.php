@@ -2,13 +2,12 @@
 
 namespace Bolt;
 
-interface BaseExtensionInterface
+interface BaseExtension
 {
     public function __construct(Application $app);
     public function initialize();
     public function getInfo();
 }
-
 
 abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
 {
@@ -80,6 +79,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         if (is_readable($configfile)) {
             $yamlparser = new \Symfony\Component\Yaml\Parser();
             $this->config = $yamlparser->parse(file_get_contents($configfile) . "\n");
+
             return $this->config;
         }
 
@@ -108,7 +108,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         return false;
 
     }
-
 
     public function getName()
     {
@@ -179,7 +178,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function getFunctions()
     {
-
         return $this->functionlist;
 
     }
@@ -197,14 +195,12 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
     }
 
-
     /**
      * Return the available Twig Filters, override for \Twig_extension::getFilters
      * @return array
      */
     public function getFilters()
     {
-
         return $this->filterlist;
 
     }
@@ -221,7 +217,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback));
 
     }
-
 
     /**
      * Return the available Snippets, used in \Bolt\Extensions
@@ -247,7 +242,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->app['extensions']->insertSnippet($name, $callback, $this->namespace, $var1, $var2, $var3);
     }
 
-
     /**
      * Insert a snippet into the generated HTML. Deprecated, use addSnippet() instead.
      */
@@ -255,7 +249,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $this->addSnippet($name, $callback, $var1, $var2, $var3);
     }
-
 
     /**
      * Make sure jQuery is added.
@@ -286,7 +279,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
             $this->app['extensions']->addJavascript($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
-        } else if (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
+        } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
             $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename);
         } else {
@@ -301,13 +294,13 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $filename
      */
-    public function addCSS($filename) {
-
+    public function addCSS($filename)
+    {
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
             $this->app['extensions']->addCss($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
-        } else if (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
+        } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
             $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename);
         } else {
@@ -325,8 +318,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $label
      * @param string $path
-     * @param bool $icon
-     * @param int $userlevel
+     * @param bool   $icon
+     * @param int    $userlevel
      */
     public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
     {
@@ -357,10 +350,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     /**
      * Parse a snippet, an pass on the generated HTML to the caller (Extensions)
      *
-     * @param string $callback
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
+     * @param  string      $callback
+     * @param  string      $var1
+     * @param  string      $var2
+     * @param  string      $var3
      * @return bool|string
      */
     public function parseSnippet($callback, $var1 = "", $var2 = "", $var3 = "")
@@ -379,10 +372,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $type
      * @param string $location
-     * @param mixed $callback
+     * @param mixed  $callback
      * @param string $additionalhtml
-     * @param bool $defer
-     * @param int $cacheduration
+     * @param bool   $defer
+     * @param int    $cacheduration
      * @param string $var1
      * @param string $var2
      * @param string $var3
@@ -415,6 +408,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         if (($this->app['users']->currentuser['userlevel'] < $level)) {
             simpleredirect($this->app['config']->get('general/branding/path'));
+
             return false;
         }
 
@@ -426,10 +420,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     /**
      * Parse a widget, an pass on the generated HTML to the caller (Extensions)
      *
-     * @param string $callback
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
+     * @param  string      $callback
+     * @param  string      $var1
+     * @param  string      $var2
+     * @param  string      $var3
      * @return bool|string
      */
     public function parseWidget($callback, $var1 = "", $var2 = "", $var3 = "")
