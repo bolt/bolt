@@ -20,7 +20,7 @@ class DatabaseCheck extends BaseCommand
 
         if (!empty($messages)) {
             $output->writeln("<info>Modifications required:</info>");
-            foreach($messages as $line) {
+            foreach ($messages as $line) {
                 $output->writeln(" - " . str_replace("tt>", "info>", $line) . "");
             }
             $output->writeln("\nOne or more fields/tables are missing from the Database. Please run 'nut database:update' to fix this.");

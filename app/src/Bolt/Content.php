@@ -1,6 +1,6 @@
 <?php
 
-Namespace Bolt;
+namespace Bolt;
 
 Use Silex;
 
@@ -43,7 +43,7 @@ class Content implements \ArrayAccess
             // Ininitialize fields with empty values.
             $values = array();
             if (is_array($this->contenttype)) {
-                foreach($this->contenttype['fields'] as $key => $parameters) {
+                foreach ($this->contenttype['fields'] as $key => $parameters) {
                     // Set the default values.
                     if (isset($parameters['default'])) {
                         $values[$key] = $parameters['default'];
@@ -76,7 +76,7 @@ class Content implements \ArrayAccess
     public function setValues(Array $values)
     {
 
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             $this->setValue($key, $value);
         }
 
@@ -172,13 +172,11 @@ class Content implements \ArrayAccess
             $this->user = $this->app['users']->getUser($value);
         }
 
-
         // Only set values if they have are actually a field.
         $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'taxonomy');
         if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
             return;
         }
-
 
         if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish') {
             if ( !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value) ) {
@@ -361,9 +359,10 @@ class Content implements \ArrayAccess
 
         // If $value is an array, recurse over it, adding each one by itself.
         if (is_array($value)) {
-            foreach($value as $single) {
+            foreach ($value as $single) {
                 $this->setTaxonomy($taxonomytype, $single, $sortorder);
             }
+
             return;
         }
 
@@ -371,7 +370,7 @@ class Content implements \ArrayAccess
         if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/has_sortorder') == false) {
             $sortorder = false;
         } else {
-            $sortorder = (int)$sortorder;
+            $sortorder = (int) $sortorder;
             // Note: by doing this we assume a contenttype can have only one taxonomy which has has_sortorder: true.
             $this->sortorder = $sortorder;
         }
@@ -406,7 +405,7 @@ class Content implements \ArrayAccess
             return;
         }
 
-        foreach($this->taxonomy as $type => $values){
+        foreach ($this->taxonomy as $type => $values) {
             $taxonomytype = $this->app['config']->get('taxonomy/'.$type);
             // Don't order tags..
             if ($taxonomytype['behaves_like'] == "tags") {
@@ -415,7 +414,7 @@ class Content implements \ArrayAccess
 
             // Order them by the order in the contenttype.
             $new = array();
-            foreach($this->app['config']->get('taxonomy/'.$type.'/options') as $key => $value) {
+            foreach ($this->app['config']->get('taxonomy/'.$type.'/options') as $key => $value) {
                 if ($foundkey = array_search($key, $this->taxonomy[$type])) {
                     $new[$foundkey] = $value;
                 } elseif ($foundkey = array_search($value, $this->taxonomy[$type])) {
@@ -473,7 +472,7 @@ class Content implements \ArrayAccess
 
         // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
         if ($has_sortorder !== false) {
-            $this->group['order'] = (int)$sortorder;
+            $this->group['order'] = (int) $sortorder;
         }
 
         // Set the 'index', so we can sort on it later.
@@ -490,8 +489,8 @@ class Content implements \ArrayAccess
     /**
      * Get the decoded version of a value of the current object.
      *
-     * @param string $name   name of the value to get
-     * @return mixed         decoded value or null when no value available
+     * @param  string $name name of the value to get
+     * @return mixed  decoded value or null when no value available
      */
     public function getDecodedValue($name)
     {
@@ -537,7 +536,7 @@ class Content implements \ArrayAccess
     /**
      * If passed snippet contains Twig tags, parse the string as Twig, and return the results
      *
-     * @param string $snippet
+     * @param  string $snippet
      * @return string
      */
     public function preParse($snippet)
@@ -573,9 +572,9 @@ class Content implements \ArrayAccess
      * Magic __call function, used for when templates use {{ content.title }},
      * so we can map it to $this->values['title']
      *
-     * @param string $name       method name originally called
-     * @param array $arguments   arguments to the call
-     * @return mixed             return value of the call
+     * @param  string $name      method name originally called
+     * @param  array  $arguments arguments to the call
+     * @return mixed  return value of the call
      */
     public function __call($name, $arguments)
     {
@@ -628,7 +627,7 @@ class Content implements \ArrayAccess
 
             // Grab the first field of type 'text', and assume that's the title.
             if (!empty($this->contenttype['fields'])) {
-                foreach($this->contenttype['fields'] as $key => $field) {
+                foreach ($this->contenttype['fields'] as $key => $field) {
                     if ($field['type']=='text') {
                         return $this->values[ $key ];
                     }
@@ -654,7 +653,7 @@ class Content implements \ArrayAccess
         }
 
         // Grab the first field of type 'image', and return that.
-        foreach($this->contenttype['fields'] as $key => $field) {
+        foreach ($this->contenttype['fields'] as $key => $field) {
             if ($field['type']=='image') {
                 return $this->values[ $key ];
             }
@@ -671,6 +670,7 @@ class Content implements \ArrayAccess
     public function getReference()
     {
         $reference = $this->contenttype['singular_slug'] . "/" . $this->values['slug'];
+
         return $reference;
     }
 
@@ -687,7 +687,7 @@ class Content implements \ArrayAccess
         $slugreference = $this->getReference();
 
         $linkbinding = 'contentlink';
-        foreach($this->app['config']->get('routing') as $binding => $route) {
+        foreach ($this->app['config']->get('routing') as $binding => $route) {
             if (isset($route['recordslug']) && ($route['recordslug'] == $slugreference)) {
                 $linkbinding = $binding;
                 break;
@@ -704,7 +704,7 @@ class Content implements \ArrayAccess
             'id' => $this->id,
             'slug' => $this->values['slug']
         );
-        foreach(array('datecreated', 'datepublish') as $key) {
+        foreach (array('datecreated', 'datepublish') as $key) {
             $params[$key] = substr($this->values[$key], 0, 10);
         }
 
@@ -722,8 +722,8 @@ class Content implements \ArrayAccess
     /**
      * Get the previous record. ('previous' is defined as 'latest one published before this one')
      */
-    public function previous($field = "datepublish") {
-
+    public function previous($field = "datepublish")
+    {
         $field = safeString($field);
 
         $params = array(
@@ -742,8 +742,8 @@ class Content implements \ArrayAccess
     /**
      * Get the next record. ('next' is defined as 'first one published after this one')
      */
-    public function next($field = "datepublish") {
-
+    public function next($field = "datepublish")
+    {
         $field = safeString($field);
 
         $params = array(
@@ -775,13 +775,13 @@ class Content implements \ArrayAccess
 
         $records = array();
 
-        foreach($this->relation as $contenttype => $ids) {
+        foreach ($this->relation as $contenttype => $ids) {
 
             if (!empty($filtercontenttype) && ($contenttype!=$filtercontenttype) ) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
 
-            foreach($ids as $id) {
+            foreach ($ids as $id) {
 
                 if (!empty($filterid) && ($id!=$filterid) ) {
                     continue; // Skip other ids, if we requested a specific id.
@@ -893,14 +893,14 @@ class Content implements \ArrayAccess
      * Creates RSS safe content. Wraps it in CDATA tags, strips style and
      * scripts out. Can optionally also return a (cleaned) excerpt.
      *
-     * @param string $field The field to clean up
-     * @param int $excerptLength Number of chars of the excerpt
+     * @param  string $field         The field to clean up
+     * @param  int    $excerptLength Number of chars of the excerpt
      * @return string RSS safe string
      */
     public function rss_safe($field = '', $excerptLength = 0)
     {
-        if (array_key_exists($field, $this->values)){
-            if ($this->fieldtype($field) == 'html'){
+        if (array_key_exists($field, $this->values)) {
+            if ($this->fieldtype($field) == 'html') {
                 $value = $this->values[$field];
                 // Completely remove style and script blocks
                 // Remove script tags
@@ -911,15 +911,16 @@ class Content implements \ArrayAccess
                 // How about 'blockquote'?
                 $allowedTags = array('a', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'u', 'strike');
                 $result = strip_tags($value, '<' . implode('><', $allowedTags) . '>');
-                if ($excerptLength > 0){
+                if ($excerptLength > 0) {
                     $result = trimText($result, $excerptLength, false, true, false);
                 }
+
                 return '<![CDATA[ ' . $result . ' ]]>';
-            }
-            else {
+            } else {
                 return $this->values[$field];
             }
         }
+
         return "";
     }
 
@@ -930,9 +931,10 @@ class Content implements \ArrayAccess
      * @param	string		the complete search term (lowercased)
      * @param	array		all the individuele search terms (lowercased)
      * @param	integer		maximum number of points to return
-     * @return	integer		the weight
+     * @return integer the weight
      */
-    private function weighQueryText($subject, $complete, $words, $max) {
+    private function weighQueryText($subject, $complete, $words, $max)
+    {
         $low_subject = mb_strtolower(trim($subject));
 
         if ($low_subject == $complete) {
@@ -946,7 +948,7 @@ class Content implements \ArrayAccess
 
         $word_matches = 0;
         $cnt_words    = count($words);
-        for($i=0; $i < $cnt_words; $i++) {
+        for ($i=0; $i < $cnt_words; $i++) {
             if (strstr(' '.$low_subject.' ',' '.$words[$i].' ')) {
                 $word_matches++;
             }
@@ -972,17 +974,17 @@ class Content implements \ArrayAccess
 
         $fields = array();
 
-        foreach($this->contenttype['fields'] as $key => $config) {
+        foreach ($this->contenttype['fields'] as $key => $config) {
             if (in_array($config['type'], $searchable_types)) {
                 $fields[$key] = 50;
             }
         }
 
-        foreach($this->contenttype['fields'] as $key => $config) {
+        foreach ($this->contenttype['fields'] as $key => $config) {
             $weight = 0;
 
             if ($config['type'] == 'slug') {
-                foreach($config['uses'] as $ptr_field) {
+                foreach ($config['uses'] as $ptr_field) {
                     if (isset($fields[$key])) {
                         $fields[$key] = 100;
                     }
@@ -998,7 +1000,7 @@ class Content implements \ArrayAccess
      *
      * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
      *
-     * @param array $query    Query to weigh against
+     * @param array $query Query to weigh against
      */
     public function weighSearchResult($query)
     {
@@ -1011,7 +1013,7 @@ class Content implements \ArrayAccess
         }
 
         $weight = 0;
-        foreach($contenttype_fields[$ct] as $key => $field_weight) {
+        foreach ($contenttype_fields[$ct] as $key => $field_weight) {
             $weight += $this->weighQueryText($this->values[$key], $query['use_q'], $query['words'], $field_weight);
         }
 

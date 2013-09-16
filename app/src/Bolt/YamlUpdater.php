@@ -21,6 +21,7 @@ class YamlUpdater
     {
         if (!is_readable($filename)) {
             echo "can't read $filename\n";
+
             return false;
         }
 
@@ -35,16 +36,16 @@ class YamlUpdater
     /**
      * Get a value from the yml. return an array with info
      *
-     * @param string $key
+     * @param  string $key
      * @return bool|array
      */
-    public function get($key) {
-
+    public function get($key)
+    {
         $this->pointer = 0;
         $result = false;
         $keyparts = explode("/", $key);
 
-        foreach($keyparts as $count => $keypart) {
+        foreach ($keyparts as $count => $keypart) {
             $result = $this->find($keypart, $count);
         }
 
@@ -54,14 +55,13 @@ class YamlUpdater
             return false;
         }
 
-
     }
 
     /**
      * Find a specific part of the key, starting from $this->pointer
      *
      * @param $keypart
-     * @param int $indent
+     * @param  int $indent
      * @return bool|int
      */
     private function find($keypart, $indent = 0)
@@ -77,6 +77,7 @@ class YamlUpdater
             return $this->pointer;
         } else {
             $this->pointer++;
+
             return $this->find($keypart, $indent);
         }
     }
@@ -122,11 +123,9 @@ class YamlUpdater
         $this->file[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
 
         // print_r($match);
-
         return $this->save();
 
     }
-
 
     /**
      * Make sure the value is escaped as a yaml value..
@@ -134,11 +133,11 @@ class YamlUpdater
      * array('one', 'two', 'three') => [ one, two, three ]
      * "usin' quotes" => 'usin'' quotes
      *
-     * @param string $value
+     * @param  string $value
      * @return string
      */
-    public function prepareValue($value) {
-
+    public function prepareValue($value)
+    {
         if (is_array($value)) {
             return "[ " . implode(", ", $value) . " ]";
         }
@@ -164,10 +163,11 @@ class YamlUpdater
     /**
      * Save our modified .yml file.
      * @param bool $makebackup
+     * @return bool true if save was successful
      */
     public function save($makebackup = true)
     {
-        if($makebackup) {
+        if ($makebackup) {
             // TODO: make a backup..
         }
 
@@ -176,12 +176,12 @@ class YamlUpdater
 
         if (is_readable($tmpfile) && is_writable($this->filename)) {
             rename($tmpfile, $this->filename);
+
             return true;
         } else {
             return false;
         }
 
     }
-
 
 }

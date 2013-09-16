@@ -28,7 +28,7 @@ class ExtensionsEnable extends BaseCommand
         $lines = array();
         $update = false;
 
-        foreach($extensions as $key => $extension) {
+        foreach ($extensions as $key => $extension) {
             if ($extension['enabled']) {
                 $enabled[] = $key;
             }
