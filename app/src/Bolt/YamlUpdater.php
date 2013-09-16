@@ -5,22 +5,47 @@ namespace Bolt;
 /**
  * Allows (simple) modifications of Bolt .yml files.
  *
- * @author Bob den Otter, bob@twokings.nl
+ * @author Bob den Otter <bob@twokings.nl>
  *
  **/
 class YamlUpdater
 {
 
+    /**
+     * Denotes if the file is changed.
+     * @var bool
+     */
     private $changed = false;
+    /**
+     * "File pointer". Basically used as offset for searching.
+     * @var int
+     */
     private $pointer = 0;
+    /**
+     * Number of lines in the file.
+     * @var int
+     */
     private $lines = 0;
+    /**
+     * Contains a line of the file per index.
+     * @var array
+     */
     private $file = array();
+
+    /**
+     * @var string
+     */
     private $filename;
 
+    /**
+     * Creates an updater for the given file.
+     *
+     * @param string $filename The file to modify
+     */
     public function __construct($filename = "")
     {
         if (!is_readable($filename)) {
-            echo "can't read $filename\n";
+            echo "Can't read $filename\n";
 
             return false;
         }
@@ -30,7 +55,7 @@ class YamlUpdater
         $this->lines = count($this->file);
 
         $this->changed = false;
-
+        return true;
     }
 
     /**
@@ -41,6 +66,7 @@ class YamlUpdater
      */
     public function get($key)
     {
+        // @todo $this->pointer is not used
         $this->pointer = 0;
         $result = false;
         $keyparts = explode("/", $key);
@@ -157,7 +183,7 @@ class YamlUpdater
      */
     public function verify()
     {
-
+        // @todo IMPLEMENT ME :'(
     }
 
     /**
