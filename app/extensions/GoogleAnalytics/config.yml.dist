@@ -5,6 +5,7 @@ webproperty: UA-12345678-1
 widget: false
 widget_position: right_first
 
+# see: https://accounts.google.com/DisplayUnlockCaptcha 
 ga_email: xxxxx@gmail.com
 ga_password: xxxxxxxxxxx
 # NOTE: the 'ga_profile_id' is _not_ the same as the 'webproperty'.
