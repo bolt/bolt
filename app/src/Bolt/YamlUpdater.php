@@ -66,7 +66,7 @@ class YamlUpdater
      */
     public function get($key)
     {
-        // @todo $this->pointer is not used
+        // resets pointer
         $this->pointer = 0;
         $result = false;
         $keyparts = explode("/", $key);
