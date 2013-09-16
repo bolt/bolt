@@ -29,7 +29,7 @@ class Extensions extends BaseCommand
         $disabled = "";
         $lines = array();
 
-        foreach($extensions as $key => $extension) {
+        foreach ($extensions as $key => $extension) {
             $line = sprintf("%-20s v. %-7s", $key, $extension['version']);
             if ($extension['enabled']) {
                 $line .= "<info>[+]</info>\n";

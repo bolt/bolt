@@ -2,9 +2,6 @@
 
 namespace Bolt;
 
-use Doctrine\Common\Cache\FilesystemCache;
-use Symfony\Component\Filesystem\Filesystem;
-
 /**
  * Class for our config object. Implemented as an extension of RecursiveArrayAccess
  *
@@ -18,8 +15,8 @@ class Config
     private $reservedfieldnames;
     private $data;
 
-    function __construct(\Bolt\Application $app) {
-
+    public function __construct(\Bolt\Application $app)
+    {
         $this->app = $app;
 
         $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status');
@@ -57,8 +54,8 @@ class Config
      *
      * $app['config']->set('general/branding/name', 'Bolt');
      *
-     * @param string $path
-     * @param mixed $value
+     * @param  string $path
+     * @param  mixed  $value
      * @return bool
      */
     public function set($path, $value)
@@ -67,8 +64,9 @@ class Config
 
         // Only do something if we get at least one key.
         if (empty($path[0])) {
-            $logline = "Config: can't set empty path to '" . (string)$value ."'";
+            $logline = "Config: can't set empty path to '" . (string) $value ."'";
             $this->app['log']->add($logline, 3, '', 'config');
+
             return false;
         }
 
@@ -93,11 +91,11 @@ class Config
      *
      * $var = $config->get('general/wysiwyg/ck/contentsCss');
      *
-     * @param string $path
-     * @param string $default
+     * @param  string $path
+     * @param  string $default
      * @return mixed
      */
-    function get($path, $default = null)
+    public function get($path, $default = null)
     {
 
         $path = explode("/", $path);
@@ -128,11 +126,10 @@ class Config
 
     }
 
-
     /**
      * Load the configuration from the various YML files.
      */
-    function getConfig()
+    public function getConfig()
     {
         $config = array();
 
@@ -203,7 +200,7 @@ class Config
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($config['taxonomy'][$key]['options']) && is_array($config['taxonomy'][$key]['options'])) {
                 $options = array();
-                foreach($config['taxonomy'][$key]['options'] as $optionkey => $value) {
+                foreach ($config['taxonomy'][$key]['options'] as $optionkey => $value) {
                     if (is_numeric($optionkey)) {
                         $optionkey = strtolower(safeString($value));
                     }
@@ -232,7 +229,7 @@ class Config
             // Make sure all fields are lowercase and 'safe'.
             $tempfields = $temp['fields'];
             $temp['fields'] = array();
-            foreach($tempfields as $key => $value) {
+            foreach ($tempfields as $key => $value) {
                 $key = str_replace("-", "_", strtolower(safeString($key, true)));
                 $temp['fields'][ $key ] = $value;
             }
@@ -262,13 +259,14 @@ class Config
      * Sanity checks for doubles in in contenttypes.
      *
      */
-    function checkConfig() {
-
+    public function checkConfig()
+    {
         // Check DB-tables integrity
         if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
             if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
                 $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
                 $this->app['session']->getFlashBag()->set('error', $msg);
+
                 return;
             }
         }
@@ -290,12 +288,12 @@ class Config
             //         type: slug
             //         uses: name
             //
-            foreach($ct['fields'] as $fieldname => $field) {
+            foreach ($ct['fields'] as $fieldname => $field) {
 
                 // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
                 // for the fields that are always present, like 'id'.
                 if (is_array($field) && !empty($field['uses']) ) {
-                    foreach($field['uses'] as $useField) {
+                    foreach ($field['uses'] as $useField) {
                         if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) && !in_array($useField, $this->reservedfieldnames) ) {
                             $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
                                 array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
@@ -451,8 +449,8 @@ class Config
 
     }
 
-    private function setTwigPath() {
-
+    private function setTwigPath()
+    {
         // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
         $themepath = realpath(__DIR__.'/../../../theme/'. basename($this->get('general/theme')));
 
@@ -477,7 +475,6 @@ class Config
         $this->data['twigpath'] = $twigpath;
 
     }
-
 
     private function loadCache()
     {
@@ -510,7 +507,6 @@ class Config
 
         return false;
 
-
     }
 
     private function saveCache()
@@ -520,14 +516,13 @@ class Config
 
     }
 
-
     /**
      * Get an associative array with the correct options for the chosen database type.
      *
      * @return array
      */
 
-    function getDBOptions()
+    public function getDBOptions()
     {
         $configdb = $this->data['general']['database'];
 
@@ -577,7 +572,7 @@ class Config
 
         }
 
-        switch($dboptions['driver']) {
+        switch ($dboptions['driver']) {
             case 'pdo_mysql':
                 $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '3306';
                 $dboptions['reservedwords'] = explode(',', "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
@@ -624,14 +619,13 @@ class Config
 
     }
 
-
     /**
      * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
      *
-     * @param string $mountpoint
+     * @param  string $mountpoint
      * @return string
      */
-    function getWhichEnd($mountpoint = "")
+    public function getWhichEnd($mountpoint = "")
     {
 
         if (empty($mountpoint)) {
@@ -650,13 +644,14 @@ class Config
         } else {
             // We're probably in CLI mode.
             $this->app['end'] = "cli";
+
             return "cli";
         }
 
         // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the backend or in async.
         if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
             $end = 'backend';
-        } else if ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
+        } elseif ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
             $end = 'async';
         } else {
             $end = 'frontend';

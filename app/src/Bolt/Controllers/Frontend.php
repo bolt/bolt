@@ -20,6 +20,7 @@ class Frontend
         // the DB, and let's add a new user.
         if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+
             return redirect('useredit', array('id' => ""));
         }
 
@@ -33,7 +34,7 @@ class Frontend
             $template = $app['config']->get('general/maintenance_template');
             $body = $app['twig']->render($template);
 
-            if($user['userlevel'] < 2) {
+            if ($user['userlevel'] < 2) {
                 return new Response($body, 503);
             }
         }
@@ -49,7 +50,7 @@ class Frontend
                 $first = current($content);
                 $app['twig']->addGlobal('records', $content);
                 $app['twig']->addGlobal($first->contenttype['slug'], $content);
-            } else if (!empty($content)) {
+            } elseif (!empty($content)) {
                 $app['twig']->addGlobal('record', $content);
                 $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
             }
@@ -187,7 +188,6 @@ class Frontend
 
         $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
-
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
@@ -228,7 +228,6 @@ class Frontend
             $taxonomyslug = $taxonomytype['slug'];
         }
 
-
         if (!$content) {
             $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
         }
@@ -243,7 +242,6 @@ class Frontend
         }
 
         $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
-
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
@@ -297,8 +295,7 @@ class Frontend
         $q = '';
         if ($request->query->has('q')) {
             $q = $request->get('q');
-        }
-        else if ($request->query->has('search')) {
+        } elseif ($request->query->has('search')) {
             $q = $request->get('search');
         }
 
@@ -316,13 +313,12 @@ class Frontend
 
         // set-up filters from URL
         $filters = array();
-        foreach($request->query->all() as $key => $value) {
+        foreach ($request->query->all() as $key => $value) {
             if (strpos($key, '_') > 0) {
                 list($contenttypeslug, $field) = explode('_', $key, 2);
                 if (isset($filters[$contenttypeslug])) {
                     $filters[$contenttypeslug][$field] = $value;
-                }
-                else {
+                } else {
                     $contenttype = $app['storage']->getContentType($contenttypeslug);
                     if (is_array($contenttype)) {
                         $filters[$contenttypeslug] = array(
@@ -358,6 +354,5 @@ class Frontend
 
         return $app['twig']->render($template);
     }
-
 
 }

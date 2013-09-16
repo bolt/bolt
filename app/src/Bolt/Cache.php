@@ -29,7 +29,7 @@ class Cache extends FilesystemCache
      * Set up the object. Initialize the proper folder for storing the
      * files.
      *
-     * @param string $cacheDir
+     * @param  string                               $cacheDir
      * @throws \Exception|\InvalidArgumentException
      */
     public function __construct($cacheDir = "")
@@ -40,7 +40,7 @@ class Cache extends FilesystemCache
             // We don't have $app here, so we use the filesystem component
             // directly here.
             $filesystem = new Filesystem();
-            if (!$filesystem->isAbsolutePath($cacheDir)){
+            if (!$filesystem->isAbsolutePath($cacheDir)) {
                 $cacheDir = realpath(__DIR__ . "/" . $cacheDir);
             }
         }
@@ -80,7 +80,7 @@ class Cache extends FilesystemCache
     /**
      * Helper function for clearCache()
      * @param string $additional
-     * @param array $result
+     * @param array  $result
      */
     private function clearCacheHelper($additional, &$result)
     {
