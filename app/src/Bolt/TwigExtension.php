@@ -336,7 +336,8 @@ class TwigExtension extends \Twig_Extension
         }
 
         // check against Request Uri
-        if ($this->app['request']->getRequestUri() == $link) {
+        $temp = explode('?', $this->app['request']->getRequestUri());
+        if ($temp[0] == $link) {
             return true;
         }
 
