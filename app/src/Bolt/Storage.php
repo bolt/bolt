@@ -1363,7 +1363,7 @@ class Storage
         else {
             $par_order = safeString($order_value);
             if ($par_order == 'RANDOM') {
-                $dboptions = getDBOptions($this->app['config']);
+                $dboptions = $this->app['config']->getDBOptions();
                 $order = $dboptions['randomfunction'];
             }
             elseif ($this->isValidColumn($par_order, $contenttype, true)) {
