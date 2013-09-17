@@ -1,6 +1,6 @@
 <?php
 
-Namespace Bolt\Controllers;
+namespace Bolt\Controllers;
 
 use Guzzle\Http\Exception\RequestException;
 use Silex;
@@ -58,14 +58,11 @@ class Async implements ControllerProviderInterface
             ->bind('contenttype')
         ;
 
-
         $ctr->get("/browse/{path}", array($this, 'browse'))
             ->before(array($this, 'before'))
             ->assert('path', '.+')
             ->bind('asyncbrowse')
         ;
-
-
 
         return $ctr;
 
@@ -73,8 +70,8 @@ class Async implements ControllerProviderInterface
     /**
      * News.
      */
-    function dashboardnews(Silex\Application $app) {
-
+    public function dashboardnews(Silex\Application $app)
+    {
         $news = $app['cache']->fetch('dashboardnews'); // Two hours.
 
         $name = !empty($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
@@ -84,7 +81,7 @@ class Async implements ControllerProviderInterface
 
             $app['log']->add("News: fetch from remote server..", 1);
 
-            $driver = !empty($app['config']['general']['database']['driver']) ? $app['config']['general']['database']['driver'] : 'sqlite';
+            $driver = $app['config']->get('general/database/driver', 'sqlite');
 
             $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
                 rawurlencode($app->getVersion()),
@@ -95,10 +92,10 @@ class Async implements ControllerProviderInterface
 
             $curlOptions = array('CURLOPT_CONNECTTIMEOUT' => 5);
             // If there's a proxy ...
-            if (!empty($app['config']['general']['httpProxy'])) {
-                $curlOptions['CURLOPT_PROXY'] = $app['config']['general']['httpProxy']['host'];
+            if ($app['config']->get('general/httpProxy')) {
+                $curlOptions['CURLOPT_PROXY'] = $app['config']->get('general/httpProxy/host');
                 $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
-                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']['general']['httpProxy']['user'] . ':' . $app['config']['general']['httpProxy']['password'];
+                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password');
             }
             $guzzleclient = new \Guzzle\Http\Client($url, array('curl.options' => $curlOptions));
 
@@ -114,7 +111,7 @@ class Async implements ControllerProviderInterface
                     $app['log']->add("News: got invalid JSON feed", 1);
                 }
 
-            } catch(RequestException $re) {
+            } catch (RequestException $re) {
                 $app['log']->add("News: got exception: ".$re->getMessage(), 1);
             }
 
@@ -131,8 +128,8 @@ class Async implements ControllerProviderInterface
     /**
      * Get the 'latest activity' for the dashboard..
      */
-    function latestactivity(Silex\Application $app) {
-
+    public function latestactivity(Silex\Application $app)
+    {
         $activity = $app['log']->getActivity(8, 3);
 
         $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity));
@@ -141,8 +138,8 @@ class Async implements ControllerProviderInterface
 
     }
 
-    function filesautocomplete(Silex\Application $app, Request $request) {
-
+    public function filesautocomplete(Silex\Application $app, Request $request)
+    {
         $term = $request->get('term');
 
         $ext = $request->query->get('ext');
@@ -164,16 +161,16 @@ class Async implements ControllerProviderInterface
      * Render a widget, and return the HTML, so it can be inserted in the page.
      *
      */
-    function widget($key, Silex\Application $app, Request $request) {
-
+    public function widget($key, Silex\Application $app, Request $request)
+    {
         $html = $app['extensions']->renderWidget($key);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
 
     }
 
-    function readme($extension, Silex\Application $app, Request $request) {
-
+    public function readme($extension, Silex\Application $app, Request $request)
+    {
         $filename = __DIR__."/../../../extensions/".$extension."/readme.md";
 
         //echo "<pre>\n" . \util::var_dump($filename, true) . "</pre>\n";
@@ -188,8 +185,8 @@ class Async implements ControllerProviderInterface
 
     }
 
-    function markdownify(Silex\Application $app, Request $request) {
-
+    public function markdownify(Silex\Application $app, Request $request)
+    {
         $html = $request->request->get('html');
 
         if (isHtml($html)) {
@@ -207,8 +204,8 @@ class Async implements ControllerProviderInterface
 
     }
 
-    function makeuri(Silex\Application $app, Request $request) {
-
+    public function makeuri(Silex\Application $app, Request $request)
+    {
         $uri = $app['storage']->getUri($request->query->get('title'), $request->query->get('id'), $request->query->get('contenttypeslug'), $request->query->get('fulluri'));
 
         return $uri;
@@ -219,8 +216,8 @@ class Async implements ControllerProviderInterface
     /**
      * Latest {contenttype} to show a small listing in the sidebars..
      */
-    function lastmodified(Silex\Application $app, $contenttypeslug) {
-
+    public function lastmodified(Silex\Application $app, $contenttypeslug)
+    {
         // Get the proper contenttype..
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -236,13 +233,13 @@ class Async implements ControllerProviderInterface
     /**
      * List pages in given contenttype, to easily insert links through the Wysywig editor.
      *
-     * @param string $contenttype
-     * @param Silex\Application $app
-     * @param Request $request
+     * @param  string            $contenttype
+     * @param  Silex\Application $app
+     * @param  Request           $request
      * @return mixed
      */
-    function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request) {
-
+    public function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request)
+    {
         $contenttypes = $app['storage']->getContentTypes();
 
         foreach ($app['storage']->getContentTypes() as $contenttype) {
@@ -259,7 +256,6 @@ class Async implements ControllerProviderInterface
 
         }
 
-
         return $app['twig']->render('filebrowser.twig', array(
             'results' => $results
         ));
@@ -271,12 +267,12 @@ class Async implements ControllerProviderInterface
      * List browse on the server, so we can insert them in the file input.
      *
      * @param $path
-     * @param Silex\Application $app
-     * @param Request $request
+     * @param  Silex\Application $app
+     * @param  Request           $request
      * @return mixed
      */
-    function browse($path, Silex\Application $app, Request $request) {
-
+    public function browse($path, Silex\Application $app, Request $request)
+    {
         $files = array();
         $folders = array();
 
@@ -366,8 +362,8 @@ class Async implements ControllerProviderInterface
      * Middleware function to do some tasks that should be done for all aynchronous
      * requests.
      */
-    function before(Request $request, Silex\Application $app) {
-
+    public function before(Request $request, Silex\Application $app)
+    {
         // Only set which endpoint it is, if it's not already set. Which it is, in cases like
         // when it's embedded on a page using {{ render() }}
         // @todo Is this still needed?
@@ -381,6 +377,5 @@ class Async implements ControllerProviderInterface
         }
 
     }
-
 
 }

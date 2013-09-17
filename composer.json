@@ -6,9 +6,9 @@
     "license": "MIT",
     "require": {
         "dflydev/markdown": "1.0.*",
-        "doctrine/dbal": "2.4.x-dev",
+        "doctrine/dbal": "~2.4",
         "filp/whoops": "1.*",
-        "garetjax/phpbrowscap": "*",
+        "garetjax/phpbrowscap": "dev-master",
         "guzzle/guzzle": "3.3.*",
         "hautelook/phpass": "dev-master",
         "htmlawed/htmlawed": "dev-master",
@@ -35,7 +35,8 @@
         "sebastian/phpcpd": "1.4.3",
         "squizlabs/php_codesniffer": "1.4.6"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "beta",
+    "preferred-install": "dist",
     "prefer-stable": true,
     "autoload": {
         "psr-0": {

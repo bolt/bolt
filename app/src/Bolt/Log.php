@@ -28,7 +28,7 @@ class Log
         $this->app = $app;
         $this->user = $app['session']->get('user');
 
-        $this->prefix = isset($app['config']['general']['database']['prefix']) ? $app['config']['general']['database']['prefix'] : "bolt_";
+        $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
         if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
@@ -188,7 +188,7 @@ class Log
     /**
      * Getting a previously set value
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     public function getValue($key)
@@ -203,19 +203,18 @@ class Log
     /**
      * Getting all previously set values
      *
-     * @param string $key
+     * @param  string $key
      * @return array
      */
     public function getValues()
     {
-
         return $this->values;
 
     }
 
 
-    public function trim() {
-
+    public function trim()
+    {
         $query = sprintf("DELETE FROM %s WHERE level='1';",
             $this->tablename
         );
@@ -242,8 +241,8 @@ class Log
 
     }
 
-    public function clear() {
-
+    public function clear()
+    {
         $configdb = $this->app['config']->getDBOptions();
 
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" ) ) {
@@ -266,7 +265,5 @@ class Log
         $this->app['db']->executeQuery($query, array($this->tablename), array(\PDO::PARAM_STR));
 
     }
-
-
 
 }

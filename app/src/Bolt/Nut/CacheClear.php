@@ -3,7 +3,6 @@
 namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CacheClear extends BaseCommand
@@ -23,7 +22,7 @@ class CacheClear extends BaseCommand
 
         if (!empty($result['failedfiles'])) {
             $output->writeln(sprintf("<error>These %s files could not be deleted. You should delete them manually.</error>", $result['failedfiles']));
-            foreach($result['failed'] as $failed) {
+            foreach ($result['failed'] as $failed) {
                 $output->writeln(" - $failed");
             }
             $output->writeln("");

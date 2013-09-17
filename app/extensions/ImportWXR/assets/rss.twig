@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>{{ app.config.general.sitename }}</title>
+        <title>{{ app.config.get('general/sitename') }}</title>
         <atom:link href="{{ paths.currenturl }}" rel="self"
                    type="application/rss+xml"/>
         <link>{{ paths.rooturl }}</link>
-{% if app.config.general.payoff is defined %}
-        <description>{{ app.config.general.payoff }}</description>
+{% if app.config.get('general/payoff') is defined %}
+        <description>{{ app.config.get('general/payoff') }}</description>
 {% endif %}
         <language>en-us</language>
         <generator>Bolt</generator>

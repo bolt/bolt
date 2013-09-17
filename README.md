@@ -26,25 +26,7 @@ on our code base [here](https://scrutinizer-ci.com/g/bolt/bolt/inspections).
 Installation
 ------------
 
-Because Bolt is now on [Packagist](https://packagist.org/packages/bolt/bolt),
-installing is even more easy by using [Composer](http://getcomposer.org).
-
-Installing composer can be done from the command line like so:
-
-    $ curl -s http://getcomposer.org/installer | php
-
-After that, you can install Bolt in one line:
-
-    $ php composer.phar create-project bolt/bolt demo/ 1.0.0
-
-In the above command, `demo/` is the relative path where you want Bolt to be
-installed. `1.0.0` is the version number you'd like to install. For available
-version numbers, check the tags in the [Github repo](https://github.com/bolt/bolt)
-or on the [Packagist page](https://packagist.org/packages/bolt/bolt).
-
-You're now good to go.
-
-More detailed instructions can be found in the [Setup section in the documentation](http://docs.bolt.cm/setup).
+Detailed instructions can be found in the [Setup section in the documentation](http://docs.bolt.cm/setup).
 
 Reporting issues
 ----------------

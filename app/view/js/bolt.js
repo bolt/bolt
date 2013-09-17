@@ -66,13 +66,6 @@ jQuery(function($) {
     // See https://github.com/twitter/bootstrap/issues/2975
     // $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 
-    // Strictly speaking it's not allowed to use <a> inside a <button>, so Firefox ignores the
-    // links in our dropdowns. Workaround:
-    $('button.uselink').bind('click', function() {
-        var link = $(this).find('a').attr('href');
-        if (link != "") { window.location = link; }
-    });
-
     // Initialize popovers.
     $('.info-pop').popover({
         trigger: 'hover',
@@ -314,7 +307,7 @@ function makeUri(contenttypeslug, id, usesfields, slugfield, fulluri) {
                 usesvalue += " ";
             })
             clearTimeout(makeuritimeout);
-            makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, this, slugfield, fulluri); }, 200);
+            makeuritimeout = setTimeout( function(){ makeUriAjax(usesvalue, contenttypeslug, id, slugfield, fulluri); }, 200);
         }).trigger('change.bolt');
     });
 
@@ -325,12 +318,13 @@ function stopMakeUri(usesfields) {
     $(usesfields).each( function() {
         $('#'+this).unbind('propertychange.bolt input.bolt change.bolt');
     });
+    clearTimeout(makeuritimeout);
 
 }
 
 var makeuritimeout;
 
-function makeUriAjax(text, contenttypeslug, id, usesfield, slugfield, fulluri) {
+function makeUriAjax(text, contenttypeslug, id, slugfield, fulluri) {
     $.ajax({
         url: asyncpath + 'makeuri',
         type: 'GET',
@@ -575,21 +569,24 @@ var ImagelistHolder = Backbone.View.extend({
 
     render: function() {
         this.list.sort();
-        $('.imagelistholder .list').html('');
+
+        var $list = $('#imagelist-'+this.id+' .list');
+        $list.html('');
         _.each(this.list.models, function(image){
             var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
                 "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
                 _.escape(image.get('title'))  + "'><a href='#'><i class='icon-remove'></i></a></div>";
-            $('.imagelistholder .list').append(html);
+            $list.append(html);
         });
         if (this.list.models.length == 0) {
-            $('.imagelistholder .list').append("<p>No images in the list, yet.</p>");
+            $list.append("<p>No images in the list, yet.</p>");
         }
         this.serialize();
     },
 
     add: function(filename, title) {
         var image = new Imagemodel({filename: filename, title: title, id: this.list.length });
+
         this.list.add(image);
         this.render();
     },
@@ -619,12 +616,13 @@ var ImagelistHolder = Backbone.View.extend({
     },
 
     bindEvents: function() {
+        var $this = this,
+            contentkey = this.id,
+            $holder = $('#imagelist-'+this.id);
 
-        var contentkey = this.id;
-
-        $(".imagelistholder div.list").sortable({
+        $holder.find("div.list").sortable({
             stop: function() {
-                imagelist.doneSort();
+                $this.doneSort();
             },
             delay: 100,
             distance: 5
@@ -633,25 +631,25 @@ var ImagelistHolder = Backbone.View.extend({
         $('#fileupload-' + contentkey).attr('name', 'files[]')
             .fileupload({
                 dataType: 'json',
-                dropZone: $('#imagelist-' + contentkey),
+                dropZone: $holder,
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
                         var filename = decodeURI(file.url).replace("/files/", "");
-                        imagelist.add(filename, filename);
+                        $this.add(filename, filename);
                     });
                 }
             });
 
-        $(".imagelistholder div.list").on('click', 'a', function(e) {
+        $holder.find("div.list").on('click', 'a', function(e) {
             e.preventDefault();
             if (confirm('Are you sure you want to remove this image?')) {
                 var id = $(this).parent().data('id');
-                imagelist.remove(id);
+                $this.remove(id);
             }
         });
 
-        $(".imagelistholder div.list").on('blur', 'input', function() {
-            imagelist.doneSort();
+        $holder.find("div.list").on('blur', 'input', function() {
+            $this.doneSort();
         });
 
         // In the modal dialog, to navigate folders..
@@ -664,9 +662,8 @@ var ImagelistHolder = Backbone.View.extend({
         $('#selectImageModal-' + contentkey).on('click','.file', function(e) {
             e.preventDefault();
             var filename = $(this).attr('href');
-            imagelist.add(filename, filename);
+            $this.add(filename, filename);
         });
 
     }
-
 });

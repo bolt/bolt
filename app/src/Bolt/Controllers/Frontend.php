@@ -3,58 +3,24 @@
 namespace Bolt\Controllers;
 
 use Silex;
-use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Frontend implements ControllerProviderInterface
+/**
+ * Standard Frontend actions
+ *
+ * Strictly speaking this is no longer a controller, but logically
+ * it still is.
+ */
+class Frontend
 {
-    public function connect(Silex\Application $app)
+    public static function before(Request $request, \Bolt\Application $app)
     {
-        $ctr = $app['controllers_factory'];
-
-        $ctr->match("/", array($this, 'homepage'))
-            ->before(array($this, 'before'))
-            ->bind('homepage')
-        ;
-
-        $ctr->match('/search', array($this, 'search'))
-            ->before(array($this, 'before'))
-        ;
-
-        $ctr->match('/preview/{contenttypeslug}', array($this, 'preview'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
-            ->bind('preview')
-        ;
-
-        $ctr->match('/{contenttypeslug}/{slug}', array($this, 'record'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert(true))
-            ->bind('contentlink')
-        ;
-
-        $ctr->match('/{taxonomytype}/{slug}', array($this, 'taxonomy'))
-            ->before(array($this, 'before'))
-            ->assert('taxonomytype', $app['storage']->getTaxonomyTypeAssert(true))
-            ->bind('taxonomylink')
-        ;
-
-        $ctr->match('/{contenttypeslug}', array($this, 'listing'))
-            ->before(array($this, 'before'))
-            ->assert('contenttypeslug', $app['storage']->getContentTypeAssert())
-        ;
-
-        return $ctr;
-    }
-
-    function before(Request $request, \Bolt\Application $app)
-    {
-
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+
             return redirect('useredit', array('id' => ""));
         }
 
@@ -62,29 +28,29 @@ class Frontend implements ControllerProviderInterface
         $app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-        if ($app['config']['general']['maintenance_mode']) {
+        if ($app['config']->get('general/maintenance_mode')) {
 
             $user = $app['users']->getCurrentUser();
-            $template = $app['config']['general']['maintenance_template'];
+            $template = $app['config']->get('general/maintenance_template');
             $body = $app['twig']->render($template);
 
-            if($user['userlevel'] < 2) {
+            if ($user['userlevel'] < 2) {
                 return new Response($body, 503);
             }
         }
     }
 
-    function homepage(Silex\Application $app)
+    public static function homepage(Silex\Application $app)
     {
-        if (!empty($app['config']['general']['homepage_template'])) {
-            $template = $app['config']['general']['homepage_template'];
-            $content = $app['storage']->getContent($app['config']['general']['homepage']);
+        if ($app['config']->get('general/homepage_template')) {
+            $template = $app['config']->get('general/homepage_template');
+            $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
             if (is_array($content)) {
                 $first = current($content);
                 $app['twig']->addGlobal('records', $content);
                 $app['twig']->addGlobal($first->contenttype['slug'], $content);
-            } else if (!empty($content)) {
+            } elseif (!empty($content)) {
                 $app['twig']->addGlobal('record', $content);
                 $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
             }
@@ -95,12 +61,12 @@ class Frontend implements ControllerProviderInterface
             $chosen = 'homepage fallback';
         }
 
-        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
+        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $app['twig']->render($template);
     }
 
-    function record(Silex\Application $app, $contenttypeslug, $slug)
+    public static function record(Silex\Application $app, $contenttypeslug, $slug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -117,6 +83,11 @@ class Frontend implements ControllerProviderInterface
 
         // No content, no page!
         if (!$content) {
+            // There's one special edge-case we check for: if the request is for the backend, without trailing
+            // slash and it is intercepted by custom routing, we forward the client to that location.
+            if ($slug == trim($app['config']->get('general/branding/path'), "/")) {
+                simpleredirect($app['config']->get('general/branding/path') . "/");
+            }
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
 
@@ -128,7 +99,7 @@ class Frontend implements ControllerProviderInterface
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
                 $content->getTitle(),
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -137,7 +108,7 @@ class Frontend implements ControllerProviderInterface
         // Setting the canonical path and the editlink.
         $app['canonicalpath'] = $content->link();
         $app['paths'] = getPaths($app);
-        $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
+        $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
@@ -150,7 +121,7 @@ class Frontend implements ControllerProviderInterface
     }
 
 
-    function preview(Request $request, Silex\Application $app, $contenttypeslug)
+    public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
@@ -167,7 +138,7 @@ class Frontend implements ControllerProviderInterface
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
                 $content->getTitle(),
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -182,15 +153,15 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    function listing(Silex\Application $app, $contenttypeslug)
+    public static function listing(Silex\Application $app, $contenttypeslug)
     {
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // First, get some content
         $page = $app['request']->query->get('page', 1);
-        $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']['general']['listing_records']);
-        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']['general']['listing_sort']);
+        $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
+        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         // We do _not_ abort when there's no content. Instead, we handle this in the template:
@@ -209,21 +180,20 @@ class Frontend implements ControllerProviderInterface
                 $template = $contenttype['slug'] . ".twig";
                 $chosen = "slug";
             } else {
-                $template = $app['config']['general']['listing_template'];
+                $template = $app['config']->get('general/listing_template');
                 $chosen = "config";
 
             }
         }
 
-        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
-
+        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
                 $contenttypeslug,
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -240,13 +210,13 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    function taxonomy(Silex\Application $app, $taxonomytype, $slug)
+    public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
 
         // First, get some content
         $page = $app['request']->query->get('page', 1);
-        $amount = $app['config']['general']['listing_records'];
-        $order = $app['config']['general']['listing_sort'];
+        $amount = $app['config']->get('general/listing_records');
+        $order = $app['config']->get('general/listing_sort');
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
         $taxonomytype = $app['storage']->getTaxonomyType($taxonomytype);
@@ -258,7 +228,6 @@ class Frontend implements ControllerProviderInterface
             $taxonomyslug = $taxonomytype['slug'];
         }
 
-
         if (!$content) {
             $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
         }
@@ -266,21 +235,20 @@ class Frontend implements ControllerProviderInterface
         $chosen = "taxonomy";
 
         // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
-        if (isset($app['config']['taxonomy'][$taxonomyslug]['listing_template'])) {
-            $template = $app['config']['taxonomy'][$taxonomyslug]['listing_template'];
+        if ($app['config']->get('taxonomy/'.$taxonomyslug.'/listing_template')) {
+            $template = $app['config']->get('taxonomy/'.$taxonomyslug.'/listing_template');
         } else {
-            $template = $app['config']['general']['listing_template'];
+            $template = $app['config']->get('general/listing_template');
         }
 
-        $app['log']->setValue('templatechosen', $app['config']['general']['theme'] . "/$template ($chosen)");
-
+        $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
             $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
                 $taxonomyslug,
-                basename($app['config']['general']['theme']),
+                basename($app['config']->get('general/theme')),
                 $template);
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
@@ -290,20 +258,20 @@ class Frontend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('slug', $slug);
-        $app['twig']->addGlobal('taxonomy', $app['config']['taxonomy'][$taxonomyslug]);
+        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/'.$taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
         return $app['twig']->render($template);
 
     }
 
-    public function searchNotWeighted(Request $request, Silex\Application $app)
+    public static function searchNotWeighted(Request $request, Silex\Application $app)
     {
         //$searchterms =  safeString($request->get('search'));
-        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
+        $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
 
         // @todo Preparation for stage 2
-        //$resultsPP = (int) $app['config']['general']['search_results_records'];
+        //$resultsPP = (int) $app['config']->get('general/search_results_records');
         //$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
 
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
@@ -322,13 +290,12 @@ class Frontend implements ControllerProviderInterface
 
     }
 
-    public function search(Request $request, Silex\Application $app)
+    public static function search(Request $request, Silex\Application $app)
     {
         $q = '';
         if ($request->query->has('q')) {
             $q = $request->get('q');
-        }
-        else if ($request->query->has('search')) {
+        } elseif ($request->query->has('search')) {
             $q = $request->get('search');
         }
 
@@ -346,13 +313,12 @@ class Frontend implements ControllerProviderInterface
 
         // set-up filters from URL
         $filters = array();
-        foreach($request->query->all() as $key => $value) {
+        foreach ($request->query->all() as $key => $value) {
             if (strpos($key, '_') > 0) {
                 list($contenttypeslug, $field) = explode('_', $key, 2);
                 if (isset($filters[$contenttypeslug])) {
                     $filters[$contenttypeslug][$field] = $value;
-                }
-                else {
+                } else {
                     $contenttype = $app['storage']->getContentType($contenttypeslug);
                     if (is_array($contenttype)) {
                         $filters[$contenttypeslug] = array(
@@ -384,10 +350,9 @@ class Frontend implements ControllerProviderInterface
         $app['twig']->addGlobal('search', $result['query']['use_q']);
         $app['twig']->addGlobal('searchresult', $result);
 
-        $template = (!empty($app['config']['general']['search_results_template'])) ? $app['config']['general']['search_results_template'] : $app['config']['general']['listing_template'] ;
+        $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
 
         return $app['twig']->render($template);
     }
-
 
 }

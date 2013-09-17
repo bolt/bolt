@@ -66,10 +66,16 @@ class SetcontentTokenParser extends \Twig_TokenParser
                 $arguments['paging'] = true;
             }
 
-            // paging / allowpaging  parameter
+            // printquery  parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'printquery') ) {
                 $this->parser->getStream()->next();
                 $arguments['printquery'] = true;
+            }
+
+            // returnsingle  parameter
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'returnsingle') ) {
+                $this->parser->getStream()->next();
+                $arguments['returnsingle'] = true;
             }
 
             // Make sure we don't get stuck in a loop, if a token can't be parsed..

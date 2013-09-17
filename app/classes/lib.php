@@ -206,7 +206,7 @@ function checkVersion($currentversion, $requiredversion)
 function fixPath($path, $nodoubleleadingslashes = true)
 {
 
-    $path = str_replace("\/", "/", stripTrailingSlash($path));
+    $path = str_replace("\\", "/", stripTrailingSlash($path));
 
     // Handle double leading slash (that shouldn't be removed).
     if (!$nodoubleleadingslashes && (strpos($path,'//') === 0)) {
@@ -432,9 +432,8 @@ function makeSlug($str)
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
     $str = preg_replace("/[-]+/i", "-", $str);
-    $str = trim($str, "-");
-
     $str = substr($str, 0, 64); // 64 chars ought to be long enough.
+    $str = trim($str, " -"); // Make sure it doesn't start or end with '-'..
 
     return $str;
 
@@ -669,7 +668,7 @@ function hackislyParseRegexTemplates($obj)
 
 
 
-function getPaths($original = array())
+function getPaths($original = array() )
 {
 
     // If we passed the entire $app, set the $config
@@ -684,18 +683,52 @@ function getPaths($original = array())
 
     // Make sure $config is not empty. This is for when this function is called
     // from lowlevelError().
-    if (empty($config['general']['theme'])) {
-        $config['general']['theme'] = 'base-2013';
-    }
-    if (empty($config['general']['canonical'])) {
-        $config['general']['canonical'] = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+    // Temp fix! @todo: Fix this properly.
+    if ($config instanceof \Bolt\Config) {
+        if (!$config->get('general/theme')) {
+            $config->set('general/theme', 'base-2013');
+        }
+        if (!$config->get('general/canonical') && isset($_SERVER['HTTP_HOST'])) {
+            $config->set('general/canonical', $_SERVER['HTTP_HOST']);
+        }
+
+        // Set the correct mountpoint..
+        if ($config->get('general/branding/path')) {
+            $mountpoint = substr($config->get('general/branding/path'), 1) . "/";
+        } else {
+            $mountpoint = "bolt/";
+        }
+
+        $theme = $config->get('general/theme');
+
+        $canonical = $config->get('general/canonical', "");
+
+    } else {
+        if (empty($config['general']['theme'])) {
+            $config['general']['theme'] = 'base-2013';
+        }
+        if (empty($config['general']['canonical']) && isset($_SERVER['HTTP_HOST'])) {
+            $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
+        }
+
+        // Set the correct mountpoint..
+        if (!empty($config['general']['branding']['path'])) {
+            $mountpoint = substr($config['general']['branding']['path'], 1) . "/";
+        } else {
+            $mountpoint = "bolt/";
+        }
+
+        $theme = $config['general']['theme'];
+
+        $canonical = isset($config['general']['canonical']) ? $config['general']['canonical'] : "";
+
     }
 
     // Set the root
     $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
     $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
     $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
-    if (empty($path_prefix)) {
+    if (empty($path_prefix) || 'cli-server' === php_sapi_name()) {
         $path_prefix = "/";
     }
 
@@ -716,27 +749,20 @@ function getPaths($original = array())
         $canonicalpath = $currentpath;
     }
 
-    // Set the correct mountpoint..
-    if (!empty($config['general']['branding']['path'])) {
-        $mountpoint = substr($config['general']['branding']['path'], 1) . "/";
-    } else {
-        $mountpoint = "bolt/";
-    }
-
     // Set the paths
     $paths = array(
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
         'root' => $path_prefix,
         'rootpath' => realpath(__DIR__ . "/../../"),
-        'theme' => $path_prefix . "theme/" . $config['general']['theme'] . "/",
-        'themepath' => realpath(__DIR__ . "/../../theme/" . $config['general']['theme']),
+        'theme' => $path_prefix . "theme/" . $theme . "/",
+        'themepath' => realpath(__DIR__ . "/../../theme/" . $theme),
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
         'bolt' => $path_prefix . $mountpoint,
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
         'filespath' => realpath(__DIR__ . "/../../files"),
-        'canonical' => isset($config['general']['canonical']) ? $config['general']['canonical'] : "",
+        'canonical' => $canonical,
         'current' => $currentpath
     );
 
@@ -745,9 +771,17 @@ function getPaths($original = array())
     $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $canonicalpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
 
-    if ( isset( $config['general']['theme_path'] ) ) {
-        $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+    // Temp fix! @todo: Fix this properly.
+    if ($config instanceof \Bolt\Config) {
+        if ($config->get('general/theme_path')) {
+            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config->get('general/theme_path');
+        }
+    } else {
+        if ( isset( $config['general']['theme_path'] ) ) {
+            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+        }
     }
+
     if ( BOLT_COMPOSER_INSTALLED ) {
         $paths['app'] = $path_prefix . "bolt-public/";
     }
@@ -992,6 +1026,136 @@ function updateBrowscap() {
     print_r($browser);
 
 }
+
+
+
+/**
+ * Loads a serialized file, unserializes it, and returns it.
+ *
+ * If the file isn't readable (or doesn't exist) or reading it fails,
+ * false is returned.
+ *
+ * @param string $filename
+ * @param boolean $silent Set to true if you want an visible error.
+ * @return mixed
+ */
+function loadSerialize($filename, $silent=false) {
+
+    $filename = fixpath($filename);
+
+    if (!is_readable($filename)) {
+
+        // If we're setting up PivotX, we can't set the paths before we initialise
+        // the configuration and vice-versa. So, we just bail out if the paths aren't
+        // set yet.
+        if(empty($PIVOTX['paths']['pivotx_path'])) { return; }
+
+        if (is_readable($PIVOTX['paths']['pivotx_path'].$filename)) {
+            $filename = $PIVOTX['paths']['pivotx_path'].$filename;
+        } else {
+            $filename = "../".$filename;
+        }
+    }
+
+    if (!is_readable($filename)) {
+
+        if ($silent) {
+            return FALSE;
+        }
+
+        $message = sprintf(__("<p>The following file could not be read:</p>%s" .
+            "<p>Try logging in with your ftp-client and make the file readable. " .
+            "Else try to go <a href='javascript:history.go(-1)'>back</a> to the last page.</p>"),
+            '<pre>' . htmlspecialchars($filename) . '</pre>'
+        );
+        renderErrorpage(__("File is not readable!"), $message);
+    }
+
+    $serialized_data = trim(implode("", file($filename)));
+
+    $serialized_data = str_replace("<?php /* bolt */ die(); ?>", "", $serialized_data);
+
+    @$data = unserialize($serialized_data);
+    if (is_array($data)) {
+        return $data;
+    } else {
+        $temp_serialized_data = preg_replace("/\r\n/", "\n", $serialized_data);
+        if (@$data = unserialize($temp_serialized_data)) {
+            return $data;
+        } else {
+            $temp_serialized_data = preg_replace("/\n/", "\r\n", $serialized_data);
+            if (@$data = unserialize($temp_serialized_data)) {
+                return $data;
+            } else {
+                return FALSE;
+            }
+        }
+    }
+}
+
+// This function serializes some data and then saves it.
+function saveSerialize($filename, &$data) {
+
+    $filename = fixPath($filename);
+
+    $ser_string = "<?php /* bolt */ die(); ?>".serialize($data);
+
+    // disallow user to interrupt
+    ignore_user_abort(true);
+
+    $old_umask = umask(0111);
+
+    // open the file and lock it.
+    if($fp=fopen($filename, "a")) {
+
+        if (flock( $fp, LOCK_EX | LOCK_NB )) {
+
+            // Truncate the file (since we opened it for 'appending')
+            ftruncate($fp, 0);
+
+            // Write to our locked, empty file.
+            if (fwrite($fp, $ser_string)) {
+                flock( $fp, LOCK_UN );
+                fclose($fp);
+            } else {
+                flock( $fp, LOCK_UN );
+                fclose($fp);
+
+                // todo: handle errors better.
+                echo("Error opening file<br/><br/>The file <b>$filename</b> could not be written! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
+                die();
+                return false;
+            }
+
+        } else {
+            fclose($fp);
+
+            // todo: handle errors better.
+            echo("Error opening file<br/><br/>Could not lock <b>$filename</b> for writing! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
+            die();
+            return false;
+
+        }
+
+    } else {
+        // todo: handle errors better.
+        echo("Error opening file<br/><br/>The file <b>$filename</b> could not be opened for writing! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
+        debug_printbacktrace();
+        die();
+        return false;
+    }
+    umask($old_umask);
+
+    // reset the users ability to interrupt the script
+    ignore_user_abort(false);
+
+
+    return true;
+
+}
+
+
+
 /**
  * Replace the first occurence of a string only. Behaves like str_replace, but
  * replaces _only_ the _first_ occurence.
@@ -1244,7 +1408,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
         return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'twig';
     };
 
-    $ctypes = $app['config']['contenttypes'];
+    $ctypes = $app['config']->get('contenttypes');
 
     // function that generates a string for each variation of contenttype/contenttypes
     $genContentTypes = function($txt) use ($ctypes) {
@@ -1376,7 +1540,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
     }
 
     // add name + singular_name for taxonomies
-    foreach($app['config']['taxonomy'] as $txkey => $value) {
+    foreach($app['config']->get('taxonomy') as $txkey => $value) {
         foreach(array('name','singular_name') as $key) {
             $t = $value[$key];
             if (!in_array($t,$strings)) {

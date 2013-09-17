@@ -1,9 +1,7 @@
 app/cache/*
 app/config/*.yml
 *config.yml
-app/database/*.db
-app/extensions/AlbumPager
-app/extensions/AlbumPager/*
+app/database/*
 files/*
 vendor/
 composer.phar
@@ -13,10 +11,8 @@ composer.phar
 __*
 .__*
 web
-theme/mybolt/
 Vagrantfile
 .vagrant
 scrutinizer.phar
 php-cs-fixer.phar
-
 *.sublime-*

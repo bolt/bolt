@@ -10,22 +10,16 @@
 
 {# --------------- text --------------- #}
 
-{% if field.type == "text" and ( field.variant is not defined or field.variant == "" ) %}
-<label><b>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-</b></label>
-<input type="text" name="{{key}}" id="{{key}}"
-    value='{{ content.get(key) }}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
-{% endif %}
-
-{% if field.type == "text" and field.variant is defined and field.variant == "inline" %}
-<label><b><span class='left'>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-</span></b></label>
-<input type="text" name="{{key}}" id="{{key}}"
-    value='{{ content.get(key) }}'
-    class='{% if field.class is defined %}{{ field.class }}{% endif %} narrow'>
+{% if field.type == "text" %}
+    <label><b>{% if field.variant == "inline" %}<span class='left'>{% endif %}
+        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+{% if field.variant == "inline" %}</span>{% endif %}</b></label>
+    <input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
+        value='{{ content.get(key) }}'
+        class='{% if field.class is defined %}{{ field.class }}{% endif %} {% if field.variant == "inline" %}narrow{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
 
 
@@ -33,35 +27,43 @@
 
 {% if field.type == "number" %}
     <label><b><span class='left'>
-        {% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
+        {% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
     </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.000000001"
-           value='{{ 0 + content.get(key) }}'
-           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+        value='{{ 0 + content.get(key) }}'
+        class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
 
 {# --------------- float --------------- #}
 
 {% if field.type == "float" %}
     <label><b><span class='left'>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+    {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.00000001"
-           value='{{ 0 + content.get(key) }}'
-           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+        value='{{ 0 + content.get(key) }}'
+        class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
 
 {# --------------- integer --------------- #}
 
 {% if field.type == "integer" %}
     <label><b><span class='left'>
-    {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+    {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="1"
-           value='{{ 0 + content.get(key) }}'
-           class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'>
+        value='{{ 0 + content.get(key) }}'
+        class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
+        {% if field.required is defined and field.required %}required="required"{% endif %}
+        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
+        >
 {% endif %}
-
 
 {# --------------- checkbox --------------- #}
 
@@ -70,10 +72,12 @@
     <label for="{{ key }}">
         <b>
             <span class='left'>
-                {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+                {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
             </span>
         </b>
     </label>
+    {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
+    <input type="hidden" name="{{key}}" id="{{key}}" value='0'>
     <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
            {% if content.get(key) %}checked{% else %}notchecked{% endif %}
            class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
@@ -87,7 +91,7 @@
 <label class='permalink'>{{ __('Permalink') }}:
     <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
     <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
-    <span class='sluglocker'><i class='icon-lock'></i></span>
+    <span class='sluglocker'><i class='icon-lock'></i></span> <span class='slugedit'><i class='icon-pencil'></i></span>
 </label>
 
 
@@ -103,6 +107,17 @@
                stopMakeUri({{ field.uses|json_encode|raw }});
            }
         });
+        $('.slugedit').bind('click', function() {
+
+            newslug = prompt("Set the slug to:");
+
+            $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
+            stopMakeUri({{ field.uses|json_encode|raw }});
+
+            makeUriAjax(newslug, '{{ content.contenttype.slug }}', '{{ content.id }}', '{{key}}', false)
+
+
+        });
     {% if content.get(key) is empty  %}
         $('.sluglocker').trigger('click');
     {% endif %}
@@ -115,15 +130,15 @@
 {# --------------- select --------------- #}
 
 {% if field.type == "select" %}
-    <label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
+    <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
-        <select name="{{key}}[]" id="{{key}}" multiple>
+        <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
             {% for value in field.values %}
                 <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
             {% endfor %}
         </select>
     {% else %}
-        <select name="{{key}}" id="{{key}}">
+        <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
             {% for value in field.values %}
                 <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
             {% endfor %}
@@ -134,7 +149,7 @@
 {# --------------- templateselect --------------- #}
 
 {% if field.type == "templateselect" %}
-<label><b><span class='left'>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
+<label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     <select name="{{key}}" id="{{key}}">
         <option value="">(default template)</option>
         <option value="" disabled>-----------</option>
@@ -161,8 +176,8 @@
     <div class="image-container">
 
         <label>
-            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                 data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
@@ -244,8 +259,8 @@
     <div class="image-container">
 
         <label>
-            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
                   data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
@@ -287,9 +302,9 @@
 {% if field.type == "imagelist" %}
 <label>
     <b>
-        {% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
     </b>
-    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+    <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
       data-content="{{ app.translator.trans('info.upload.imagelist',{},'infos') }}">{{ __('Info') }}</span>
 </label>
 <div class="imagelistholder dropzone" id="imagelist-{{key}}">
@@ -343,12 +358,12 @@
 
     <div class="video-container">
         <label>
-            <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
             (<span id="video-{{key}}-text">{% if video.title %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
-            <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
                   data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
         </label>
-        <label>{{ __('URL:') }} <input type="text" name="{{key}}[url]" id="video-{{key}}"
+        <label>{{ __('URL:') }} <input type="url" name="{{key}}[url]" id="video-{{key}}"
                value='{{ video.url }}' style='width: 60%;'>
         </label>
 
@@ -410,8 +425,8 @@
 
             <div class="map-container">
                 <label>
-                    <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-                    <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+                    <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+                    <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
                           data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
                 </label>
                 <label>{{ __('Address lookup:') }} <input type="text" name="{{key}}[address]" id="{{key}}-address"
@@ -446,9 +461,10 @@
 {# --------------- html --------------- #}
 
 {% if field.type == "html" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
-    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
+    {% if field.required is defined and field.required %}required{% endif %}>
     {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
 </textarea>
 {% endif %}
@@ -456,9 +472,11 @@
 {# --------------- textarea --------------- #}
 
 {% if field.type == "textarea" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
-    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
+    {% if field.required is defined and field.required %}required{% endif %}
+    >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 {% endif %}
 
 
@@ -466,13 +484,14 @@
 
 {% if field.type == "markdown" %}
     <label>
-        <b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-        <span class="label info-pop" data-html="true" data-title="{% if field.label is defined %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+        <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
               data-content="{{ app.translator.trans('info.markdown',{},'infos') }}">{{ __('Info') }}</span>
 
     </label>
     <textarea id="{{ key }}" name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'
-              style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'>{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+              style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}' {% if field.required is defined and field.required %}required{% endif %}
+            >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
 
@@ -488,9 +507,9 @@
 {# --------------- date --------------- #}
 
 {% if field.type == "date" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
-    value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
+    value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
 <input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
 <script type="text/javascript">
@@ -507,12 +526,12 @@
 {# --------------- datetime --------------- #}
 
 {% if field.type == "datetime" %}
-<label><b>{% if field.label is defined %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
-    value='{% if content.get(key) %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
+    value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
 <input type="text" name="{{key}}-timeformatted" id="{{key}}-time"
-    value='{% if content.get(key) %}{{ content.get(key)|date('H:i') }}{% endif %}'
+    value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('H:i') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>
 <input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
 <script type="text/javascript">

@@ -8,14 +8,14 @@ class Application extends BaseApplication
 {
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '1.1.5';
-        $values['bolt_name'] = 'prerelease';
+        $values['bolt_version'] = '1.2.2';
+        $values['bolt_name'] = 'dev';
 
         parent::__construct($values);
     }
 
     /**
-     * @param string $name
+     * @param  string                    $name
      * @return mixed
      * @throws \InvalidArgumentException
      * @deprecated
@@ -36,7 +36,7 @@ class Application extends BaseApplication
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      * @deprecated
      */
     public function __set($name, $value)
@@ -54,8 +54,8 @@ class Application extends BaseApplication
         return (array_key_exists($name, $this));
     }
 
-    public function getVersion($long = true) {
-
+    public function getVersion($long = true)
+    {
         if ($long) {
             return $this['bolt_version'] . " " . $this['bolt_name'];
         } else {

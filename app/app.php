@@ -4,9 +4,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
-$app->mount($app['config']['general']['branding']['path'], new Bolt\Controllers\Backend());
+$app->mount($app['config']->get('general/branding/path'), new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
-$app->mount('', new Bolt\Controllers\Frontend());
+$app->mount('', new Bolt\Controllers\Routing());
 
 $app->before(function () use ($app) {
 
@@ -23,12 +23,16 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('config', $app['config']);
 
     // Sanity checks for doubles in in contenttypes.
+    // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
     $app['config']->checkConfig();
 
 });
 
 // On 'finish' attach the debug-bar, if debug is enabled..
-if ($app['debug'] && ($app['session']->has('user') || $app['config']['general']['debug_show_loggedoff'] ) ) {
+if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('general/debug_show_loggedoff') ) ) {
+
+    // Set the error_reporting to the level specified in config.yml
+    error_reporting($app['config']->get('general/debug_error_level'));
 
     // Register Whoops, to handle errors for logged in users only.
     $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
@@ -36,8 +40,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
     $logger = new Doctrine\DBAL\Logging\DebugStack();
     $app['db.config']->setSQLLogger($logger);
 
-    // @todo See if we can squeeze this into $app->after, instead of ->finish()
-    $app->finish(function (Request $request, Response $response) use ($app, $logger) {
+    $app->after(function (Request $request, Response $response) use ($app, $logger) {
 
         // Make sure debug is _still_ enabled, and/or the debugbar isn't turned off in code.
         if (!$app['debug'] || !$app['debugbar']) {
@@ -77,8 +80,6 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
 
         $log = $app['log']->getMemorylog();
 
-        // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";
-
         $servervars = array(
             'cookies <small>($_COOKIES)</small>' => $request->cookies->all(),
             'headers' => makeValuepairs($request->headers->all(), '', '0'),
@@ -90,7 +91,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
             'statuscode' => $response->getStatusCode()
         );
 
-        echo $app['twig']->render('debugbar.twig', array(
+        $response->setContent($response->getContent() . $app['twig']->render('debugbar.twig', array(
             'timetaken' => timeTaken(),
             'memtaken' => getMem(),
             'maxmemtaken' => getMaxMem(),
@@ -105,9 +106,9 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']['general'][
             'editlink' => $app['editlink'],
             'paths' => getPaths($app['config']),
             'logvalues' => $app['log']->getValues()
-        ));
+        )));
 
-    });
+    }, \Silex\Application::LATE_EVENT);
 } else {
     error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
 }
@@ -125,17 +126,18 @@ $app->after(function (Request $request, Response $response) use ($app) {
             $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
 
             // Perhaps add a canonical link..
-            if (!empty($app['config']['general']['canonical'])) {
+
+            if ($app['config']->get('general/canonical')) {
                 $snippet = sprintf('<link rel="canonical" href="%s">', $app['paths']['canonicalurl']);
                 $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
             }
 
             // Perhaps add a favicon..
-            if (!empty($app['config']['general']['favicon'])) {
+            if ($app['config']->get('general/favicon')) {
                 $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
                     $app['paths']['canonical'],
                     $app['paths']['theme'],
-                    $app['config']['general']['favicon']);
+                    $app['config']->get('general/favicon'));
                 $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
             }
 
@@ -192,7 +194,7 @@ $app->error(function (\Exception $e) use ($app) {
 
     if ( ($e instanceof HttpException) && ($end == "frontend") ) {
 
-        $content = $app['storage']->getContent($app['config']['general']['notfound'], array('returnsingle' => true));
+        $content = $app['storage']->getContent($app['config']->get('general/notfound'), array('returnsingle' => true));
 
         // Then, select which template to use, based on our 'cascading templates rules'
         if ($content instanceof \Bolt\Content && !empty($content->id)) {

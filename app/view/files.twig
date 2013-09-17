@@ -1,4 +1,4 @@
-{% include '_header.twig' %}
+{% include '_header.twig' with { 'active':'settings' } %}
 
 
 <h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
@@ -69,10 +69,9 @@
         </td>
         <td class='actions'>
             <div class="btn-group">
-            <button class="btn btn-mini">
-                <i class="icon-edit"></i> {{ __('Options') }}</button>
             <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <span class="caret"></span>
+                {{ __('Options') }}
+                <span class="caret"></span>
             </button>
 
             <ul class="dropdown-menu pull-right">
@@ -82,7 +81,7 @@
                     <i class="icon-copy"></i> {{ __('Duplicate %filename%',{'%filename%':file.filename}) }}</a></li>
                 <li class="divider"></li>
                 <li><a class="nolink">{{ __('Permissions') }}:
-                        <strong><tt>{{ file.permissions }}</tt></strong></a></li>
+                        <strong><code>{{ file.permissions }}</code></strong></a></li>
 
             </ul>
             </div>

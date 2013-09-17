@@ -15,4 +15,4 @@ text will be replaced with the actual amount of comments.
 
     <a href="{{ disquslink(record.link) }}">Comment</a>
 
-This is assuming `record` is the record. If not, replace it with the appropiate variable name.
+This is assuming `record` is the record. If not, replace it with the appropriate variable name.

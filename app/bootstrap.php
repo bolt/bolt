@@ -10,7 +10,18 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
         define('BOLT_COMPOSER_INSTALLED', false);
         define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
         define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
-        define('BOLT_CONFIG_DIR', __DIR__.'/config');
+
+        // Set the config folder location. If we haven't set the constant in index.php, use one of the
+        // default values.
+        if (!defined("BOLT_CONFIG_DIR")) {
+            if (file_exists(__DIR__.'/config')) {
+                // Default value, /app/config/..
+                define('BOLT_CONFIG_DIR', __DIR__.'/config');
+            } else {
+                // otherwise use /config, outside of the webroot folder.
+                define('BOLT_CONFIG_DIR', dirname(dirname(__DIR__)).'/config');
+            }
+        }
     }
 }
 
@@ -31,30 +42,35 @@ $starttime = getMicrotime();
 
 $app = new Bolt\Application();
 
+$app->register(new Silex\Provider\SessionServiceProvider(), array(
+    'session.storage.options' => array(
+        'name' => 'bolt_session'
+    )
+));
 $app->register(new Bolt\ConfigServiceProvider());
+$app->register(new Bolt\LogServiceProvider(), array());
 
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($app['config']);
 
 $dboptions = $app['config']->getDBOptions();
 
-$app['debug'] = (!empty($app['config']['general']['debug'])) ? $app['config']['general']['debug'] : false;
+$app['debug'] = $app['config']->get('general/debug', false);
 $app['debugbar'] = false;
 
-list ($app['locale'], $app['territory']) = explode('_', $app['config']['general']['locale']);
+list ($app['locale'], $app['territory']) = explode('_', $app['config']->get('general/locale'));
 
-$app->register(new Silex\Provider\SessionServiceProvider(), array(
-    'session.storage.options' => array(
-        'name' => 'bolt_session'
-    )
-));
+// Set The Timezone Based on the Config, fallback to UTC
+date_default_timezone_set(
+    $app['config']->get('general/timezone')?:'UTC'
+);
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => $app['config']['twigpath'],
+    'twig.path' => $app['config']->get('twigpath'),
     'twig.options' => array(
         'debug'=>true,
         'cache' => __DIR__.'/cache/',
-        'strict_variables' => $app['config']['general']['strict_variables'],
+        'strict_variables' => $app['config']->get('general/strict_variables'),
         'autoescape' => true )
 ));
 
@@ -91,7 +107,6 @@ if (!function_exists('intl_get_error_code')) {
 }
 
 $app->register(new Bolt\TranslationServiceProvider());
-$app->register(new Bolt\LogServiceProvider(), array());
 $app->register(new Bolt\StorageServiceProvider(), array());
 $app->register(new Bolt\UsersServiceProvider(), array());
 $app->register(new Bolt\CacheServiceProvider(), array());

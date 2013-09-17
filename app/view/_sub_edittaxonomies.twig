@@ -10,9 +10,9 @@
 
 {% for taxonomyslug in contenttype.taxonomy %}
 
-    {% if config.taxonomy[taxonomyslug] is defined %}
+    {% if config.get('taxonomy')[taxonomyslug] is defined %}
 
-        {% set taxonomy = config.taxonomy[taxonomyslug] %}
+        {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
 
         {# ---------- tags ---------- #}

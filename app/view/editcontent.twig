@@ -91,15 +91,18 @@
     <section>
     <h2>{{ __('Actions for this %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</h2>
 
-    <button type="submit" class="btn btn-primary" id="sidebarsavebutton" style="margin-right: 8px;"><i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</button>
+    <button type="submit" class="btn btn-primary" id="sidebarsavebutton" style="margin-right: 8px;">
+        <i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+    </button>
 
-    <button type="button" class="btn btn-info" id="sidebarpreviewbutton"><i class="icon-external-link"></i> {{ __('Preview') }} </button>
+    <button type="button" class="btn btn-info" id="sidebarpreviewbutton">
+        <i class="icon-external-link"></i> {{ __('Preview') }}
+    </button>
 
     <script>
         // Save the page..
-        $('#savebutton, #sidebarsavebutton').bind('click', function(e){
-            e.preventDefault();
-            $('#editcontent').attr('action', '').attr('target', "_self").submit();
+        $('#sidebarsavebutton').bind('click', function(e){
+            $('#savebutton').trigger('click');
         });
 
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
@@ -107,7 +110,7 @@
             e.preventDefault();
             var link = "{{ paths.root }}" + "preview" + "/{{ contenttype.singular_slug }}";
             $('#editcontent').attr('action', link).attr('target', "_blank").submit();
-
+            $('#editcontent').attr('action', link).attr('target', "_self")
         });
     </script>
 

@@ -2,42 +2,144 @@
 
 namespace Bolt;
 
-use Doctrine\Common\Cache\FilesystemCache;
-use Symfony\Component\Filesystem\Filesystem;
-
 /**
  * Class for our config object. Implemented as an extension of RecursiveArrayAccess
  *
  * @author Bob den Otter, bob@twokings.nl
  *
  */
-class Config extends \Bolt\RecursiveArrayAccess
+class Config
 {
 
     private $app;
+    private $reservedfieldnames;
+    private $data;
 
-    function __construct(\Bolt\Application $app) {
-
+    public function __construct(\Bolt\Application $app)
+    {
         $this->app = $app;
-        $this->getConfig();
 
-   }
+        $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status');
 
-    function getConfig()
+        if (!$this->loadCache()) {
+            $this->getConfig();
+            $this->saveCache();
+
+            // if we have to reload the config, we will also want to make sure the DB integrity is checked.
+            $this->app['session']->set('database_checked', 0);
+        }
+
+        $this->setTwigPath();
+
+    }
+
+    private function parseConfigYaml($basename, $default = array())
+    {
+        static $yamlparser = false;
+
+        if ($yamlparser === false) {
+            $yamlparser = new \Symfony\Component\Yaml\Parser();
+        }
+
+        $filename = BOLT_CONFIG_DIR . '/' . $basename;
+        if (is_readable($filename)) {
+            return $yamlparser->parse(file_get_contents($filename) . "\n");
+        }
+
+        return $default;
+    }
+
+    /**
+     * Set a config value, using a path. For example:
+     *
+     * $app['config']->set('general/branding/name', 'Bolt');
+     *
+     * @param  string $path
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function set($path, $value)
+    {
+        $path = explode("/", $path);
+
+        // Only do something if we get at least one key.
+        if (empty($path[0])) {
+            $logline = "Config: can't set empty path to '" . (string) $value ."'";
+            $this->app['log']->add($logline, 3, '', 'config');
+
+            return false;
+        }
+
+        $part = &$this->data;
+
+        foreach ($path as $key) {
+            if (!isset($part[$key])) {
+                $part[$key] = array();
+            }
+
+            $part = &$part[$key];
+        }
+
+        $part = $value;
+
+        return true;
+
+    }
+
+    /**
+     * Get a config value, using a path. For example:
+     *
+     * $var = $config->get('general/wysiwyg/ck/contentsCss');
+     *
+     * @param  string $path
+     * @param  string $default
+     * @return mixed
+     */
+    public function get($path, $default = null)
     {
 
-        // Read the config
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-        $config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config.yml') . "\n");
-        $config['taxonomy'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/taxonomy.yml') . "\n");
-        $tempcontenttypes = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/contenttypes.yml') . "\n");
-        $config['menu'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/menu.yml') . "\n");
+        $path = explode("/", $path);
 
-        // @todo: What is this? Do we want this 'local' config?
-        if(file_exists(BOLT_CONFIG_DIR.'/config_local.yml')) {
-            $localconfig = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR.'/config_local.yml') . "\n");
-            $config['general'] = array_merge($config['general'], $localconfig);
+        // Only do something if we get at least one key.
+        if (empty($path[0]) || !isset($this->data[ $path[0] ]) ) {
+            return false;
         }
+
+        $part = &$this->data;
+        $value = null;
+
+        foreach ($path as $key) {
+            if (!isset($part[$key])) {
+                $value = null;
+                break;
+            }
+
+            $value = $part[$key];
+            $part = &$part[$key];
+        }
+
+        if ($value != null) {
+            return $value;
+        } else {
+            return $default;
+        }
+
+    }
+
+    /**
+     * Load the configuration from the various YML files.
+     */
+    public function getConfig()
+    {
+        $config = array();
+
+        // Read the config
+        $config['general']    = array_merge($this->parseConfigYaml('config.yml'), $this->parseConfigYaml('config_local.yml'));
+        $config['taxonomy']   = $this->parseConfigYaml('taxonomy.yml');
+        $tempcontenttypes     = $this->parseConfigYaml('contenttypes.yml');
+        $config['menu']       = $this->parseConfigYaml('menu.yml');
+        $config['routing']     = $this->parseConfigYaml('routing.yml');
+        $config['extensions'] = array();
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
@@ -98,7 +200,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($config['taxonomy'][$key]['options']) && is_array($config['taxonomy'][$key]['options'])) {
                 $options = array();
-                foreach($config['taxonomy'][$key]['options'] as $optionkey => $value) {
+                foreach ($config['taxonomy'][$key]['options'] as $optionkey => $value) {
                     if (is_numeric($optionkey)) {
                         $optionkey = strtolower(safeString($value));
                     }
@@ -127,7 +229,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             // Make sure all fields are lowercase and 'safe'.
             $tempfields = $temp['fields'];
             $temp['fields'] = array();
-            foreach($tempfields as $key => $value) {
+            foreach ($tempfields as $key => $value) {
                 $key = str_replace("-", "_", strtolower(safeString($key, true)));
                 $temp['fields'][ $key ] = $value;
             }
@@ -146,36 +248,8 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         }
 
-        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        $themepath = realpath(__DIR__.'/../../../theme/'. basename($config['general']['theme']));
-        if ( isset( $config['general']['theme_path'] ) )
-        {
-            $themepath = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
-        }
-        $config['theme_path'] = $themepath;
-
-        $end = $this->getWhichEnd($config['general']['branding']['path']);
-
-        if ( $end == "frontend" && file_exists($themepath) ) {
-            $config['twigpath'] = array($themepath);
-        } else {
-            $config['twigpath'] = array(realpath(__DIR__.'/../../view'));
-        }
-
-        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
-            $this->app['session']->getFlashBag()->set('error', "Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.");
-            $this->app['log']->add("Template folder 'theme/" . basename($config['general']['theme']) . "' does not exist, or is not writable.", 3);
-        }
-
-        // We add these later, because the order is important: By having theme/ourtheme first,
-        // files in that folder will take precedence. For instance when overriding the menu template.
-        $config['twigpath'][] = realpath(__DIR__.'/../../theme_defaults');
-
         // Set all the distinctive arrays as part of our Config object.
-        foreach ($config as $key => $array) {
-            $this[$key] = $array;
-        }
+        $this->data = $config;
 
     }
 
@@ -185,11 +259,21 @@ class Config extends \Bolt\RecursiveArrayAccess
      * Sanity checks for doubles in in contenttypes.
      *
      */
-    function checkConfig() {
+    public function checkConfig()
+    {
+        // Check DB-tables integrity
+        if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
+            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
+                $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
+                $this->app['session']->getFlashBag()->set('error', $msg);
+
+                return;
+            }
+        }
 
         $slugs = array();
 
-        foreach ($this['contenttypes'] as $key => $ct) {
+        foreach ($this->data['contenttypes'] as $key => $ct) {
 
             // Make sure any field that has a 'uses' parameter actually points to a field that exists.
             // For example, this will show a notice:
@@ -204,16 +288,36 @@ class Config extends \Bolt\RecursiveArrayAccess
             //         type: slug
             //         uses: name
             //
-            foreach($ct['fields'] as $fieldname => $field) {
+            foreach ($ct['fields'] as $fieldname => $field) {
+
+                // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
+                // for the fields that are always present, like 'id'.
                 if (is_array($field) && !empty($field['uses']) ) {
-                    foreach($field['uses'] as $useField) {
-                        if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) ) {
+                    foreach ($field['uses'] as $useField) {
+                        if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) && !in_array($useField, $this->reservedfieldnames) ) {
                             $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
                                 array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
                             );
                             $this->app['session']->getFlashBag()->set('error', $error);
                         }
                     }
+                }
+
+                // Make sure we have a 'label', 'class', 'variant' and 'default'.
+                if (!isset($field['label'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/label", "");
+                }
+                if (!isset($field['class'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/class", "");
+                }
+                if (!isset($field['variant'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/variant", "");
+                }
+                if (!isset($field['default'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/default", "");
+                }
+                if (!isset($field['pattern'])) {
+                    $this->set("contenttypes/$key/fields/$fieldname/pattern", "");
                 }
             }
 
@@ -241,7 +345,7 @@ class Config extends \Bolt\RecursiveArrayAccess
         }
 
         // Sanity checks for taxomy.yml
-        foreach ($this['taxonomy'] as $key => $taxo) {
+        foreach ($this->data['taxonomy'] as $key => $taxo) {
 
             // Show some helpful warnings if slugs or keys are not set correctly.
             if ($taxo['slug'] != $key) {
@@ -277,6 +381,7 @@ class Config extends \Bolt\RecursiveArrayAccess
     {
 
         $this->defaultconfig = array(
+            'database' => array('prefix' => 'bolt_'),
             'sitename' => 'Default Bolt site',
             'homepage' => 'page/*',
             'homepage_template' => 'index.twig',
@@ -285,6 +390,7 @@ class Config extends \Bolt\RecursiveArrayAccess
             'recordsperdashboardwidget' => 5,
             'debug' => false,
             'debug_show_loggedoff' => false,
+            'debug_error_level' => 6135, // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
             'strict_variables' => false,
             'theme' => "default",
             'debug_compressjs' => true,
@@ -343,6 +449,72 @@ class Config extends \Bolt\RecursiveArrayAccess
 
     }
 
+    private function setTwigPath()
+    {
+        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+        $themepath = realpath(__DIR__.'/../../../theme/'. basename($this->get('general/theme')));
+
+        $end = $this->getWhichEnd($this->get('general/branding/path'));
+
+        if ( $end == "frontend" && file_exists($themepath) ) {
+            $twigpath = array($themepath);
+        } else {
+            $twigpath = array(realpath(__DIR__.'/../../view'));
+        }
+
+        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
+        if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
+            $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
+            $this->app['session']->getFlashBag()->set('error', $error);
+        }
+
+        // We add these later, because the order is important: By having theme/ourtheme first,
+        // files in that folder will take precedence. For instance when overriding the menu template.
+        $twigpath[] = realpath(__DIR__.'/../../theme_defaults');
+
+        $this->data['twigpath'] = $twigpath;
+
+    }
+
+    private function loadCache()
+    {
+        /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
+           it shouldn't trigger an update for the cache, while the others should.
+        */
+        $timestamps = array(
+            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/config.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/taxonomy.yml') ? filemtime(BOLT_CONFIG_DIR.'/taxonomy.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR.'/contenttypes.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/menu.yml') ? filemtime(BOLT_CONFIG_DIR.'/menu.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/routing.yml') ? filemtime(BOLT_CONFIG_DIR.'/routing.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR.'/config_local.yml') ? filemtime(BOLT_CONFIG_DIR.'/config_local.yml') : 0,
+        );
+        $cachetimestamp = file_exists(__DIR__ . "/../../cache/config_cache.php") ? filemtime(__DIR__ . "/../../cache/config_cache.php") : 0;
+
+        //\util::var_dump($timestamps);
+        //\util::var_dump($cachetimestamp);
+
+        if ($cachetimestamp > max($timestamps)) {
+
+            $this->data = loadSerialize(__DIR__ . "/../../cache/config_cache.php");
+
+            // Check if we loaded actual data.
+            if (count($this->data)>3 && !empty($this->data['general'])) {
+                return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
+    private function saveCache()
+    {
+
+        saveSerialize(__DIR__ . "/../../cache/config_cache.php", $this->data);
+
+    }
 
     /**
      * Get an associative array with the correct options for the chosen database type.
@@ -350,9 +522,9 @@ class Config extends \Bolt\RecursiveArrayAccess
      * @return array
      */
 
-    function getDBOptions()
+    public function getDBOptions()
     {
-        $configdb = $this['general']['database'];
+        $configdb = $this->data['general']['database'];
 
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
 
@@ -400,7 +572,7 @@ class Config extends \Bolt\RecursiveArrayAccess
 
         }
 
-        switch($dboptions['driver']) {
+        switch ($dboptions['driver']) {
             case 'pdo_mysql':
                 $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '3306';
                 $dboptions['reservedwords'] = explode(',', "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
@@ -447,18 +619,17 @@ class Config extends \Bolt\RecursiveArrayAccess
 
     }
 
-
     /**
      * Utility function to determine which 'end' we're using right now. Can be either "frontend", "backend", "async" or "cli".
      *
-     * @param string $mountpoint
+     * @param  string $mountpoint
      * @return string
      */
-    function getWhichEnd($mountpoint = "")
+    public function getWhichEnd($mountpoint = "")
     {
 
         if (empty($mountpoint)) {
-            $mountpoint = $this['general']['branding']['path'];
+            $mountpoint = $this->get('general/branding/path');
         }
 
         if (!empty($_SERVER['REQUEST_URI'])) {
@@ -473,13 +644,14 @@ class Config extends \Bolt\RecursiveArrayAccess
         } else {
             // We're probably in CLI mode.
             $this->app['end'] = "cli";
+
             return "cli";
         }
 
         // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the backend or in async.
         if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
             $end = 'backend';
-        } else if ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
+        } elseif ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
             $end = 'async';
         } else {
             $end = 'frontend';

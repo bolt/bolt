@@ -1,0 +1,10 @@
+# Configuration file for +1 Button
+# small, medium, tall, standard
+style: medium
+
+lang: en
+
+width: 300
+
+# inline, none
+annotation: inline
