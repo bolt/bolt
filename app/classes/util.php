@@ -364,7 +364,7 @@ if ( ! class_exists( 'util' ) ) {
             } else if ( is_resource( $var ) ) {
                 $html .= '<span style="color:#588bff;">res</span>("' . get_resource_type( $var ) . '") <strong>"' . $var . '"</strong>';
             } else if ( is_array( $var ) ) {
-                $uuid = 'include-php-' . uniqid();
+                $uuid =  uniqid('include-php-',true);
 
                 $html .= '<span style="color:#588bff;">arr</span>(' . count( $var ) . ')';
 
@@ -423,7 +423,7 @@ if ( ! class_exists( 'util' ) ) {
                 }
 
             } else if ( is_object( $var ) ) {
-                $uuid = 'include-php-' . uniqid();
+                $uuid =  uniqid('include-php-',true);
 
                 $html .= '<span style="color:#588bff;">object</span>(' . get_class( $var ) . ') <img id="' . $uuid . '" data-collapse="data:image/png;base64,' . self::$icon_collapse . '" style="position:relative;left:-5px;top:-1px;cursor:pointer;width:9px!important;height:9px!important;" src="data:image/png;base64,' . self::$icon_expand . '" /> <span id="' . $uuid . '-collapsable" style="display: none;">[<br />';
 
