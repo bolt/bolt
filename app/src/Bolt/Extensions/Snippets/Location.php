@@ -15,8 +15,8 @@ namespace Bolt\Extensions\Snippets;
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @link    http://bolt.cm
  */
-class Location {
-
+class Location
+{
     const AFTER_CSS = "aftercss";
     const AFTER_JS = "afterjs";
     const AFTER_META = "aftermeta";
@@ -37,9 +37,11 @@ class Location {
      *
      * @return array
      */
-    public function listAll(){
+    public function listAll()
+    {
         // use reflection for this
         $reflection = new \ReflectionClass($this);
+
         return $reflection->getConstants();
     }
 }

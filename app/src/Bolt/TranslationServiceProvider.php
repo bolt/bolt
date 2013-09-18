@@ -14,7 +14,6 @@ class TranslationServiceProvider implements ServiceProviderInterface
         return null;
     }
 
-
     /**
      * Bootstraps the application.
      *

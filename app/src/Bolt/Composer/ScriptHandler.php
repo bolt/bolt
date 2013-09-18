@@ -15,8 +15,7 @@ class ScriptHandler
         $options = self::getOptions($event);
         $webDir = $options['bolt-web-dir'];
         $dirMode = $options['bolt-dir-mode'];
-        if ( is_string( $dirMode ) )
-        {
+        if ( is_string( $dirMode ) ) {
             $dirMode = octdec( $dirMode );
         }
 
@@ -32,16 +31,14 @@ class ScriptHandler
         $filesystem->remove($targetDir);
         $filesystem->mkdir($targetDir, $dirMode);
         //$filesystem->mkdir($targetDir, $dirMode);
-        foreach( array( 'css', 'font', 'img', 'js', 'lib' ) as $dir )
-        {
+        foreach ( array( 'css', 'font', 'img', 'js', 'lib' ) as $dir ) {
             $filesystem->mirror(__DIR__.'/../../../view/'.$dir, $targetDir.'/view/'.$dir);
         }
         $filesystem->mirror(__DIR__.'/../../../classes/upload', $targetDir.'/classes/upload');
         $filesystem->copy(__DIR__.'/../../../app.php',$targetDir.'/app.php');
         $filesystem->copy(__DIR__.'/../../../classes/timthumb.php',$targetDir.'/classes/timthumb.php');
 
-        if(!$filesystem->exists($webDir.'/files/'))
-        {
+        if (!$filesystem->exists($webDir.'/files/')) {
             $filesystem->mirror(__DIR__.'/../../../../files', $webDir.'/files');
         }
     }

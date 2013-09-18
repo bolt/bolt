@@ -104,6 +104,7 @@ class Extensions
         // No activated extensions, nothing to do here.
         if (!is_array($list)) {
             $this->enabled = array();
+
             return;
         }
 
@@ -176,6 +177,7 @@ class Extensions
         if (!is_readable($filename)) {
             // No extension.php in the folder, skip it!
             $this->app['log']->add("Couldn't initialize $namespace: 'extension.php' doesn't exist", 3);
+
             return array();
         }
 
@@ -184,6 +186,7 @@ class Extensions
         if (!class_exists($namespace . '\Extension')) {
             // No class Extensionname\Extension, skip it!
             $this->app['log']->add("Couldn't initialize $namespace: Class '$namespace\\Extension' doesn't exist", 3);
+
             return array();
         }
 
@@ -198,11 +201,9 @@ class Extensions
         $info['enabled'] = $this->isEnabled($namespace);
 
         // \util::var_dump($info);
-
         return $info;
 
     }
-
 
     /**
      * Check if an extension is enabled, case sensitive.
@@ -214,7 +215,6 @@ class Extensions
     {
         return in_array($name, $this->enabled);
     }
-
 
     /**
      * Initialize the enabled extensions.
@@ -232,6 +232,7 @@ class Extensions
 
                 if (!class_exists($classname)) {
                     $this->app['log']->add("Couldn't initialize $extension: Class '$classname' doesn't exist", 3);
+
                     return;
                 }
 
@@ -247,7 +248,6 @@ class Extensions
                     }
                 }
             }
-
 
         }
 
@@ -355,7 +355,7 @@ class Extensions
     /**
      * Renders the widget identified by the given key.
      *
-     * @param string $key Widget identifier
+     * @param  string $key Widget identifier
      * @return string HTML
      */
     public function renderWidget($key)
@@ -369,11 +369,11 @@ class Extensions
                 if ($this->app['cache']->contains($cachekey)) {
                     // Present in the cache ..
                     $html = $this->app['cache']->fetch($cachekey);
-                } else if (is_string($widget['callback']) && method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
+                } elseif (is_string($widget['callback']) && method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
                     // Widget is defined in the extension itself.
                     $html = $this->initialized[$widget['extension']]->parseWidget($widget['callback'], $widget['extraparameters']);
                     $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
-                } else if (is_callable($widget['callback'])) {
+                } elseif (is_callable($widget['callback'])) {
                     // Widget is a callback in the 'global scope'
                     $html = call_user_func($widget['callback'], $this->app, $widget['extraparameters']);
                     $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
@@ -456,7 +456,7 @@ class Extensions
             if (($item['extension'] != "core") && method_exists($this->initialized[$item['extension']], $item['callback'])) {
                 // Snippet is defined in the extension itself.
                 $snippet = $this->initialized[$item['extension']]->parseSnippet($item['callback'], $item['extraparameters']);
-            } else if (function_exists($item['callback'])) {
+            } elseif (function_exists($item['callback'])) {
                 // Snippet is a callback in the 'global scope'
                 $snippet = call_user_func($item['callback'], $this->app, $item['extraparameters']);
             } else {
@@ -512,11 +512,9 @@ class Extensions
             $html = preg_replace(array_keys($this->matchedcomments), $this->matchedcomments, $html, 1);
         }
 
-
         return $html;
 
     }
-
 
     /**
      *
@@ -642,7 +640,6 @@ class Extensions
 
     }
 
-
     /**
      * Helper function to insert some HTML into the html section of an HTML
      * page, right before the </html> tag.
@@ -761,7 +758,6 @@ class Extensions
 
     }
 
-
     /**
      * Helper function to insert some HTML before the first javascript include in the page.
      *
@@ -818,7 +814,7 @@ class Extensions
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
             $html = str_replace_first($matches[0][$last], $replacement, $html);
 
-        } else if ($insidehead) {
+        } elseif ($insidehead) {
             // Second attempt: entire document
             $html = $this->insertAfterJs($tag, $html, false);
         } else {
@@ -833,7 +829,7 @@ class Extensions
     /**
      * Insert jQuery, if it's not inserted already.
      *
-     * @param string $html
+     * @param  string $html
      * @return string HTML
      */
     private function insertJquery($html)
@@ -849,6 +845,7 @@ class Extensions
         if (!preg_match('/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/', $html)) {
             $jqueryfile = $this->app['paths']['app'] . "view/js/jquery-1.10.2.min.js";
             $html = $this->insertBeforeJs("<script src='$jqueryfile'></script>", $html);
+
             return $html;
         } else {
             // We've already got jQuery. Yay, us!
@@ -865,8 +862,8 @@ class Extensions
      *
      * @param string $label
      * @param string $path
-     * @param bool $icon
-     * @param int $userlevel
+     * @param bool   $icon
+     * @param int    $userlevel
      */
     public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
     {
@@ -909,7 +906,7 @@ class Extensions
      * array. These will be put back after the replacements on the HTML are
      * finished.
      *
-     * @param string $c
+     * @param  string $c
      * @return string The key under which the comment is stored
      */
     private function pregcallback($c)
@@ -917,6 +914,7 @@ class Extensions
         $key = "###bolt-comment-" . count($this->matchedcomments) . "###";
         // Add it to the array of matched comments..
         $this->matchedcomments["/" . $key . "/"] = $c[0];
+
         return $key;
 
     }
