@@ -121,19 +121,30 @@ strict_variables: false
 # options are set to 'false'. If you choose to enable them for your editors, please
 # instruct them thoroughly on their responsibilty not to break the layout.
 wysiwyg:
-    images: true
-    anchor: false
-    tables: false
-    fontcolor: false
-    align: false
-    subsuper: false
-    embed: true,
-    ck:
-        allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
-        autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
-        #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
-        filebrowserWindowWidth: '640'
-        filebrowserWindowHeight: '480'
+  images: true
+  anchor: true
+  tables: true
+  fontcolor: false
+  align: true
+  subsuper: false
+  embed: true,
+  anhor: true,
+  ck:
+    allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
+    autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
+    #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
+    filebrowserWindowWidth: '640'
+    filebrowserWindowHeight: '480'
+
+# by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
+# instead. Uncomment the following lines to use an SMTP server with authentication.
+#mailoptions:
+#  host: localhost
+#  port: 25
+#  username: username
+#  password: password
+#  encryption: null
+#  auth_mode: null
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login
