@@ -42,12 +42,12 @@ class lowlevelchecks
         }
 
         // Check if the app/cache file is present and writable
-        if (!file_exists(__DIR__.'/../cache')) {
+        if (!file_exists(dirname(__FILE__).'/../cache')) {
             $this->lowlevelError("The folder <code>app/cache/</code> doesn't exist. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
-        if (!is_writable(__DIR__.'/../cache')) {
+        if (!is_writable(dirname(__FILE__).'/../cache')) {
             $this->lowlevelError("The folder <code>app/cache/</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
@@ -114,13 +114,13 @@ class lowlevelchecks
         }
 
         // Check if the app/database folder and .db file are present and writable
-        if (!is_writable(__DIR__.'/../database')) {
+        if (!is_writable(dirname(__FILE__).'/../database')) {
             $this->lowlevelError("The folder <code>app/database/</code> doesn't exist or it is not writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
         // If the .db file is present, make sure it is writable
-        if (file_exists(__DIR__.'/../database/'.$filename) && !is_writable(__DIR__.'/../database/'.$filename)) {
+        if (file_exists(dirname(__FILE__).'/../database/'.$filename) && !is_writable(dirname(__FILE__).'/../database/'.$filename)) {
             $this->lowlevelError("The database file <code>app/database/$filename</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file.");
         }
@@ -160,8 +160,19 @@ class lowlevelchecks
      */
     private function lowlevelError($message)
     {
+        // Set the root
+        $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
+        $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
+        $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
+        if (empty($path_prefix) || 'cli-server' === php_sapi_name()) {
+            $path_prefix = "/";
+        }
 
-        $paths = getPaths();
+        $app_path = $path_prefix . 'app/';
+
+        if ( BOLT_COMPOSER_INSTALLED ) {
+            $app_path = $path_prefix . "bolt-public/";
+        }
 
         $html = <<< EOM
 <!DOCTYPE html>
@@ -198,7 +209,7 @@ class lowlevelchecks
 EOM;
 
         $html = str_replace("%error%", $message, $html);
-        $html = str_replace("%path%", $paths['app'], $html);
+        $html = str_replace("%path%", $app_path, $html);
 
         echo $html;
 
