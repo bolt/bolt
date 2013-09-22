@@ -1,63 +1,105 @@
-redirects:
-    # Define your redirects using the following syntax:
-    #
-    # (Do not use leading slashes! All paths are relative to the root of the domain. Also,
-    # trailing slashes will be stripped)
-
-    # Example 1: Redirecting an old page to a new one
-    #
-    # Here, a request made to `Default/Pages/AboutUs.aspx` will be redirected to
-    # `page/about-us`:
-
-    aboutus:
-        from: 'Default/Pages/AboutUs.aspx'
-        to: 'page/about-us'
-
-    # Example 2: Using arguments to match multiple requests in one rule
-    #
-    # Here, all requests to a `slug` that matches `any` (regex: [a-z0-9\.\-\_\%\=\s]+)
-    # followed by a period and a common extension (`ext`, regex: aspx?|f?cgi|s?html?|jhtml|jsp|phps?)
-    # will be redirected to `page/{slug}`.
-    #
-    # For example, `test.aspx` will redirect to `page/test`
-    #
-    # Note: All redirects will be made lower case before the header is sent.
-
-    pages:
-        from: '{slug:any}.{ext:ext}'
-        to: 'page/{slug}'
-
-    # Here, we'll allow everything
-    # Be sure to make sure `routing.yml` can handle them!
-
-    nestedpages:
-        from: '{slug:all}.{ext:ext}'
-        to: 'page/{slug}'
-
-    # Example 3: Doing the above for blog posts
-    #
-    # Here, all requests that match `blog/{year}/{month}/{slug}`, where `year` and
-    # `month` are numbers and `slug` is a segment (regex: [a-z0-9\-\_]+) are redirected
-    # to `blog-post/{slug}`.
-    #
-    # For example, `blog/2013/09/my-awesome-post` would redirect to `blog-post/my-awesome-post`
-
-    blogposts:
-        from: 'blog/{year:num}/{month:num}/{slug:segment}'
-        to: 'blog-post/{slug}'
-
-    # Possible param types:
-    #
-    # :all is interpreted as: .*
-    # :alpha is interpreted as: [a-z]+
-    # :alphanum is interpreted as: [a-z0-9]+
-    # :any is interpreted as: [a-z0-9\.\-\_\%\=\s]+
-    # :num is interpreted as: [0-9]+
-    # :segment is interpreted as: [a-z0-9\-\_]+
-    # :segments is interpreted as: [a-z0-9\-\_\/]+
-    # :ext is interpreted as: aspx?|f?cgi|s?html?|jhtml|jsp|phps?
-
+# Options
+#
+# Set options for the extensions
+#
+# See the docs for more information:
+# http://code.foundrybusiness.co.za/bolt-redirector/options
 
 options:
     # Auto slugging should be enabled. Makes slugs friendly. Like cats.
     autoslug: true
+
+    # If there is a query string, append it to the destination path.
+    #
+    # Disabled by default as Bolt generally doesn't need them. But, if
+    # you have an extension that does need them, best to turn it on.
+    append_query_string: false
+
+# These are the main on-site redirects.
+#
+# See the docs for more information:
+# http://code.foundrybusiness.co.za/bolt-redirector/redirects
+# http://code.foundrybusiness.co.za/bolt-redirector/wildcards
+# http://code.foundrybusiness.co.za/bolt-redirector/route-moulding
+
+redirects:
+    # Uncomment the ones that you'd like to use
+
+    #page:
+    #    from: '{name:segment}.html'
+    #    to: 'page/{name}'
+
+    #nested_page: # Make sure routing.yml can handle nested paths!
+    #    from: '{path}.html'
+    #    to: 'page/{path}'
+
+    #facebook:
+    #    from: 'redirect/facebook'
+    #    to: 'https://www.facebook.com/{@facebook_page}'
+
+    #facebook_path:
+    #    from: 'redirect/facebook/{path}'
+    #    to: 'https://www.facebook.com/{@facebook_page}/{path}'
+
+    #author:
+    #    from: 'author'
+    #    to: 'http://{@author_website}/'
+
+    #new_admin:
+    #    from: 'wp-admin'
+    #    to: '{@admin_path}' # See global variables in docs
+
+    #routed_page:
+    #    from: 'pages/{slug:segment}.aspx'
+    #    to: 'route: pagebinding'
+
+    #trim_language: # See capture prevention in docs
+    #    from: '<en|fr>/{contenttypeslug:segment}/{slug:segment}'
+    #    to: 'route: contentlink'
+
+    # For those who like simplicity, use short-hand notation
+    # http://code.foundrybusiness.co.za/bolt-redirector/redirects#short-hand
+
+    #'{name}.{ext}': 'page/{name}'
+
+    #'blog': 'news'
+
+# Variables
+#
+# A simple array to make variable replacements in destination paths using the
+# {@<variable>} syntax. Be sure to avoid using global variables here as
+# they'll be overwritten!
+#
+# See the docs for more information:
+# http://code.foundrybusiness.co.za/bolt-redirector/variables
+
+variables:
+    # Uncomment the ones that you'd like to use
+
+    #facebook_page: 'my-facebook-page'
+    #author_website: 'code.foundrybusiness.co.za'
+
+# JIT (Just In Time) Replacements
+#
+# These replacements are made just before the actual redirect, so they
+# must match any parts in `to` patterns from the above array.
+#
+# For conciseness, try to match an entire destination, as other URIs
+# could be inadvertantly affected. If other URIs won't contain the
+# string, then you can keep it as short as needed.
+#
+# Also, regular expressions are allowed here. Capture with \\n
+#
+# See the docs for more information:
+# http://code.foundrybusiness.co.za/bolt-redirector/jits
+
+jits:
+    # Uncomment the ones that you'd like to use
+
+    #news_bar:
+    #    replace: 'news/foo'
+    #    with: 'news/bar'
+
+    # For those who like simplicity, use short-hand notation:
+
+    #'page/foo': 'page/foo-bar'

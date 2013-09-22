@@ -94,7 +94,13 @@ $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
     'http_cache.cache_dir' => __DIR__.'/cache/',
 ));
 
+
+// Setup Swiftmailer, with optional SMTP settings. If no settings are provided in config.yml, mail() is used.
 $app->register(new Silex\Provider\SwiftmailerServiceProvider());
+if ($app['config']->get('general/mailoptions')) {
+    $app['swiftmailer.options'] = $app['config']->get('general/mailoptions');
+}
+
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
