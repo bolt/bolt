@@ -1971,6 +1971,13 @@ class Storage
             $param2 = $this->parseWhereParameter($key, $value2);
 
             return sprintf("( %s OR %s )", $param1, $param2);
+        } elseif (strpos($value, " ||| ") !== false) {
+            $parts = explode(" ||| ", $value);
+            $result = '( ';
+            for ($i = 0; $i < count($parts); $i+=2) {
+                $result.= ' (' . $this->parseWhereParameter($parts[$i], $parts[$i+1]) . ') OR ';
+            }
+            return substr($result, 0, -4) . ') ';
         } elseif (strpos($value, " && ") !== false) {
             list($value1, $value2) = explode(" && ", $value);
             $param1 = $this->parseWhereParameter($key, $value1);
