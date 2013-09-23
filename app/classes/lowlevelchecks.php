@@ -54,6 +54,12 @@ class LowlevelChecks
         }
 
         // Check if .htaccess is present and readable
+        // tdammers@gmail.com: This is actually a bad thing to check: it means
+        // that if we're running on nginx, or rewrites have been set up in the
+        // main apache config (which is more efficient than doing it in
+        // .htaccess), we still need a dummy .htaccess just for the sake of
+        // this check. Plus we can't really tell whether what's *inside*
+        // htaccess is doing the right thing or not.
         if (!is_readable(BOLT_WEB_DIR.'/.htaccess')) {
             $this->lowlevelError("The file <code>" . 
                 htmlspecialchars(BOLT_WEB_DIR, ENT_QUOTES) .
