@@ -62,11 +62,11 @@ class LowlevelChecks
         }
 
         // If the config folder is OK, but the config files are missing, attempt to fix it.
-        $this->lowlevelConfigFix('config.yml');
-        $this->lowlevelConfigFix('menu.yml');
-        $this->lowlevelConfigFix('contenttypes.yml');
-        $this->lowlevelConfigFix('taxonomy.yml');
-        $this->lowlevelConfigFix('routing.yml');
+        $this->lowlevelConfigFix('config');
+        $this->lowlevelConfigFix('menu');
+        $this->lowlevelConfigFix('contenttypes');
+        $this->lowlevelConfigFix('taxonomy');
+        $this->lowlevelConfigFix('routing');
 
         // $this->lowlevelError("Done");
 
@@ -136,12 +136,12 @@ class LowlevelChecks
      * Check if a config file is present and writable. If not, try to create it
      * from the filename.dist.
      *
-     * @param string $name
+     * @param string $name Filename stem; .yml extension will be added automatically.
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(BOLT_CONFIG_DIR."/") . "/" . str_replace(".yml", ".yml.dist", $name);
-        $ymlname = realpath(BOLT_CONFIG_DIR."/") . "/" . $name;
+        $distname = realpath(BOLT_CONFIG_DIR."/") . "/$name.yml.dist";
+        $ymlname = realpath(BOLT_CONFIG_DIR."/") . "/$name.yml";
 
         if (file_exists($ymlname)) {
             return; // Okidoki..
@@ -150,8 +150,8 @@ class LowlevelChecks
         if (!@rename($distname, $ymlname)) {
             $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
-                $name,
-                htmlspecialchars(str_replace(".yml", ".yml.dist", $name), ENT_QUOTES)
+                htmlspecialchars($name . ".yml", ENT_QUOTES),
+                htmlspecialchars($name . ".yml.dist", ENT_QUOTES));
             );
             $this->lowlevelError($message);
         }
