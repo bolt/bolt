@@ -157,7 +157,7 @@ class LowlevelChecks
             $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
                 htmlspecialchars($name . ".yml", ENT_QUOTES),
-                htmlspecialchars($name . ".yml.dist", ENT_QUOTES));
+                htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
             );
             $this->lowlevelError($message);
         }
