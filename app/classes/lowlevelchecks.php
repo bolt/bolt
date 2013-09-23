@@ -219,6 +219,12 @@ EOM;
         $html = str_replace("%error%", $message, $html);
         $html = str_replace("%path%", htmlspecialchars($app_path, ENT_QUOTES), $html);
 
+        // TODO: Information disclosure vulnerability. A misconfigured system
+        // will give an attacker detailed information about the state of the
+        // system.
+        // Suggested solution: in the config file, provide a whitelist of hosts
+        // that may access the self-configuration functionality, and only
+        // expose the information to URLs on the whitelist.
         echo $html;
 
         die();
