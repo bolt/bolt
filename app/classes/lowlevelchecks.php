@@ -230,7 +230,7 @@ EOM;
         // system.
         // Suggested solution: in the config file, provide a whitelist of hosts
         // that may access the self-configuration functionality, and only
-        // expose the information to URLs on the whitelist.
+        // expose the information to hosts on the whitelist.
         echo $html;
 
         die();
