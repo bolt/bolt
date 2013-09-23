@@ -16,3 +16,5 @@ Vagrantfile
 scrutinizer.phar
 php-cs-fixer.phar
 *.sublime-*
+.*.swp
+/tags
