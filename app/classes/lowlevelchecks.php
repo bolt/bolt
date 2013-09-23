@@ -15,8 +15,9 @@ class LowlevelChecks
 
         // Bolt requires PHP 5.3.2 or higher.
         if (!checkVersion(PHP_VERSION, "5.3.2")) {
-            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". PHP_VERSION .
-            "</u>, so Bolt will not run on your current setup.");
+            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. " .
+                "You have PHP <u>" . htmlspecialchars(PHP_VERSION, ENT_QUOTES) .
+                "</u>, so Bolt will not run on your current setup.");
         }
 
         if (get_magic_quotes_gpc()) {
@@ -54,7 +55,9 @@ class LowlevelChecks
 
         // Check if .htaccess is present and readable
         if (!is_readable(BOLT_WEB_DIR.'/.htaccess')) {
-            $this->lowlevelError("The file <code>" . BOLT_WEB_DIR . "/.htaccess</code> doesn't exist. Make sure it's " .
+            $this->lowlevelError("The file <code>" . 
+                htmlspecialchars(BOLT_WEB_DIR, ENT_QUOTES) .
+                "/.htaccess</code> doesn't exist. Make sure it's " .
                 "present and readable to the user that the webserver is using.");
         }
 
@@ -121,7 +124,9 @@ class LowlevelChecks
 
         // If the .db file is present, make sure it is writable
         if (file_exists(dirname(__FILE__).'/../database/'.$filename) && !is_writable(dirname(__FILE__).'/../database/'.$filename)) {
-            $this->lowlevelError("The database file <code>app/database/$filename</code> isn't writable. Make sure it's " .
+            $this->lowlevelError("The database file <code>app/database/" .
+                htmlspecialchars($filename, ENT_QUOTES) .
+                "</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file.");
         }
 
@@ -146,7 +151,7 @@ class LowlevelChecks
             $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
                 $name,
-                str_replace(".yml", ".yml.dist", $name)
+                htmlspecialchars(str_replace(".yml", ".yml.dist", $name), ENT_QUOTES)
             );
             $this->lowlevelError($message);
         }
@@ -155,6 +160,9 @@ class LowlevelChecks
 
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
+     *
+     * Security caveat: the message is inserted into the page unescaped, so
+     * make sure that it contains valid HTML with proper encoding applied.
      *
      * @param string $message
      */
@@ -209,7 +217,7 @@ class LowlevelChecks
 EOM;
 
         $html = str_replace("%error%", $message, $html);
-        $html = str_replace("%path%", $app_path, $html);
+        $html = str_replace("%path%", htmlspecialchars($app_path, ENT_QUOTES), $html);
 
         echo $html;
 
