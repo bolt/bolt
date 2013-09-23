@@ -45,7 +45,7 @@ $app = new Bolt\Application();
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
         'name' => 'bolt_session',
-		'cookie_httponly' => true
+        'cookie_httponly' => true
     )
 ));
 $app->register(new Bolt\ConfigServiceProvider());

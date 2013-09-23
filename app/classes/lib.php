@@ -262,7 +262,7 @@ function stripTrailingSlash($path)
  */
 function getMicrotime()
 {
-	return microtime(true);
+    return microtime(true);
 }
 
 /**
