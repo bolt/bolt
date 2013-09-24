@@ -61,7 +61,7 @@ class Users
             'contentaction' => self::EDITOR,
             'about' => self::EDITOR,
             'extensions' => self::DEVELOPER,
-            'files' => self::ADMIN,
+            'files' => self::EDITOR,
             'files:config' => self::DEVELOPER,
             'files:theme' => self::DEVELOPER,
             'files:uploads' => self::ADMIN,
