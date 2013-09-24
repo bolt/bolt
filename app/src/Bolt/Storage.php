@@ -329,20 +329,7 @@ class Storage
                 if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
                     $uses = '';
                     foreach ($values['uses'] as $usesField) {
-                        $hasFormat = false;
-                        if (!empty($values['format'][$usesField])) {
-                            $params = $values['format'][$usesField]['params'];
-                            foreach ($params as $key => $param) {
-                                if ((string) $param == '%field%')
-                                    $params[$key] = $fieldvalues[$usesField];
-                            }
-                            if ($format = @call_user_func_array($values['format'][$usesField]['function'], $params)) {
-                                $uses .= $format . ' ';
-                                $hasFormat = true;
-                            }
-                        }
-                        if (!$hasFormat)
-                            $uses .= $fieldvalues[$usesField] . ' ';
+                        $uses .= $fieldvalues[$usesField] . ' ';
                     }
                     $fieldvalues['slug'] = makeSlug($uses);
                 } elseif (!empty($fieldvalues['slug'])) {
