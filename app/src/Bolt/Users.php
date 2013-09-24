@@ -61,7 +61,7 @@ class Users
             'contentaction' => self::EDITOR,
             'about' => self::EDITOR,
             'extensions' => self::DEVELOPER,
-            'files' => self::ADMIN,
+            'files' => self::EDITOR,
             'files:config' => self::DEVELOPER,
             'files:theme' => self::DEVELOPER,
             'files:uploads' => self::ADMIN,
@@ -269,8 +269,10 @@ class Users
             $token['token'],
             time() + $this->app['config']->get('general/cookies_lifetime'),
             '/',
-            $this->app['config']->get('general/cookies_domain')
-        );
+            $this->app['config']->get('general/cookies_domain'),
+            false,
+            true
+		);
 
         try {
             // Check if there's already a token stored for this name / IP combo.
@@ -486,7 +488,15 @@ class Users
 
         } else {
             // Delete the authtoken cookie..
-            setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']->get('general/cookies_domain'));
+            setcookie(
+                'bolt_authtoken',
+                '',
+                time() -1 ,
+                '/',
+                $this->app['config']->get('general/cookies_domain'),
+                false,
+                true
+			);
 
             return false;
 
@@ -642,7 +652,15 @@ class Users
         $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
 
         // Remove the cookie..
-        setcookie('bolt_authtoken', '', time() -1 , '/', $this->app['config']->get('general/cookies_domain'));
+        setcookie(
+            'bolt_authtoken',
+            '',
+            time() -1 ,
+            '/',
+            $this->app['config']->get('general/cookies_domain'),
+            false,
+            true
+		);
 
         // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
         // $this->session->invalidate();

@@ -4,7 +4,7 @@
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
  */
-class lowlevelchecks
+class LowlevelChecks
 {
 
     /**
@@ -15,8 +15,9 @@ class lowlevelchecks
 
         // Bolt requires PHP 5.3.2 or higher.
         if (!checkVersion(PHP_VERSION, "5.3.2")) {
-            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. You have PHP <u>". PHP_VERSION .
-            "</u>, so Bolt will not run on your current setup.");
+            $this->lowlevelError("Bolt requires PHP <u>5.3.2</u> or higher. " .
+                "You have PHP <u>" . htmlspecialchars(PHP_VERSION, ENT_QUOTES) .
+                "</u>, so Bolt will not run on your current setup.");
         }
 
         if (get_magic_quotes_gpc()) {
@@ -42,28 +43,36 @@ class lowlevelchecks
         }
 
         // Check if the app/cache file is present and writable
-        if (!file_exists(__DIR__.'/../cache')) {
+        if (!file_exists(dirname(__FILE__).'/../cache')) {
             $this->lowlevelError("The folder <code>app/cache/</code> doesn't exist. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
-        if (!is_writable(__DIR__.'/../cache')) {
+        if (!is_writable(dirname(__FILE__).'/../cache')) {
             $this->lowlevelError("The folder <code>app/cache/</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
         // Check if .htaccess is present and readable
+        // tdammers@gmail.com: This is actually a bad thing to check: it means
+        // that if we're running on nginx, or rewrites have been set up in the
+        // main apache config (which is more efficient than doing it in
+        // .htaccess), we still need a dummy .htaccess just for the sake of
+        // this check. Plus we can't really tell whether what's *inside*
+        // htaccess is doing the right thing or not.
         if (!is_readable(BOLT_WEB_DIR.'/.htaccess')) {
-            $this->lowlevelError("The file <code>" . BOLT_WEB_DIR . "/.htaccess</code> doesn't exist. Make sure it's " .
+            $this->lowlevelError("The file <code>" . 
+                htmlspecialchars(BOLT_WEB_DIR, ENT_QUOTES) .
+                "/.htaccess</code> doesn't exist. Make sure it's " .
                 "present and readable to the user that the webserver is using.");
         }
 
         // If the config folder is OK, but the config files are missing, attempt to fix it.
-        $this->lowlevelConfigFix('config.yml');
-        $this->lowlevelConfigFix('menu.yml');
-        $this->lowlevelConfigFix('contenttypes.yml');
-        $this->lowlevelConfigFix('taxonomy.yml');
-        $this->lowlevelConfigFix('routing.yml');
+        $this->lowlevelConfigFix('config');
+        $this->lowlevelConfigFix('menu');
+        $this->lowlevelConfigFix('contenttypes');
+        $this->lowlevelConfigFix('taxonomy');
+        $this->lowlevelConfigFix('routing');
 
         // $this->lowlevelError("Done");
 
@@ -114,14 +123,16 @@ class lowlevelchecks
         }
 
         // Check if the app/database folder and .db file are present and writable
-        if (!is_writable(__DIR__.'/../database')) {
+        if (!is_writable(dirname(__FILE__).'/../database')) {
             $this->lowlevelError("The folder <code>app/database/</code> doesn't exist or it is not writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
         // If the .db file is present, make sure it is writable
-        if (file_exists(__DIR__.'/../database/'.$filename) && !is_writable(__DIR__.'/../database/'.$filename)) {
-            $this->lowlevelError("The database file <code>app/database/$filename</code> isn't writable. Make sure it's " .
+        if (file_exists(dirname(__FILE__).'/../database/'.$filename) && !is_writable(dirname(__FILE__).'/../database/'.$filename)) {
+            $this->lowlevelError("The database file <code>app/database/" .
+                htmlspecialchars($filename, ENT_QUOTES) .
+                "</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file.");
         }
 
@@ -131,12 +142,12 @@ class lowlevelchecks
      * Check if a config file is present and writable. If not, try to create it
      * from the filename.dist.
      *
-     * @param string $name
+     * @param string $name Filename stem; .yml extension will be added automatically.
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(BOLT_CONFIG_DIR."/") . "/" . str_replace(".yml", ".yml.dist", $name);
-        $ymlname = realpath(BOLT_CONFIG_DIR."/") . "/" . $name;
+        $distname = realpath(BOLT_CONFIG_DIR."/") . "/$name.yml.dist";
+        $ymlname = realpath(BOLT_CONFIG_DIR."/") . "/$name.yml";
 
         if (file_exists($ymlname)) {
             return; // Okidoki..
@@ -145,8 +156,8 @@ class lowlevelchecks
         if (!@rename($distname, $ymlname)) {
             $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
-                $name,
-                str_replace(".yml", ".yml.dist", $name)
+                htmlspecialchars($name . ".yml", ENT_QUOTES),
+                htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
             );
             $this->lowlevelError($message);
         }
@@ -156,12 +167,26 @@ class lowlevelchecks
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
      *
+     * Security caveat: the message is inserted into the page unescaped, so
+     * make sure that it contains valid HTML with proper encoding applied.
+     *
      * @param string $message
      */
     private function lowlevelError($message)
     {
+        // Set the root
+        $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
+        $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
+        $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
+        if (empty($path_prefix) || 'cli-server' === php_sapi_name()) {
+            $path_prefix = "/";
+        }
 
-        $paths = getPaths();
+        $app_path = $path_prefix . 'app/';
+
+        if ( BOLT_COMPOSER_INSTALLED ) {
+            $app_path = $path_prefix . "bolt-public/";
+        }
 
         $html = <<< EOM
 <!DOCTYPE html>
@@ -198,8 +223,14 @@ class lowlevelchecks
 EOM;
 
         $html = str_replace("%error%", $message, $html);
-        $html = str_replace("%path%", $paths['app'], $html);
+        $html = str_replace("%path%", htmlspecialchars($app_path, ENT_QUOTES), $html);
 
+        // TODO: Information disclosure vulnerability. A misconfigured system
+        // will give an attacker detailed information about the state of the
+        // system.
+        // Suggested solution: in the config file, provide a whitelist of hosts
+        // that may access the self-configuration functionality, and only
+        // expose the information to hosts on the whitelist.
         echo $html;
 
         die();
