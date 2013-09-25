@@ -410,7 +410,7 @@ class Backend implements ControllerProviderInterface
 
 
         $multiplecontent = $app['storage']->getContent($contenttype['slug'],
-            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter), $pager);
+            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter));
 
         // @todo Do we need pager here?
         $app['pager'] = $pager;
