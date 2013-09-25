@@ -117,7 +117,7 @@ $app->register(new Bolt\TranslationServiceProvider());
 $app->register(new Bolt\StorageServiceProvider(), array());
 $app->register(new Bolt\UsersServiceProvider(), array());
 $app->register(new Bolt\Provider\CacheServiceProvider());
-$app->register(new Bolt\ExtensionServiceProvider(), array());
+$app->register(new Bolt\Provider\ExtensionServiceProvider());
 
 $app['paths'] = getPaths($app['config']);
 $app['twig']->addGlobal('paths', $app['paths']);
