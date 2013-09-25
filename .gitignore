@@ -12,7 +12,7 @@ __*
 .__*
 web
 Vagrantfile
-.vagrant
+.vagrant*
 scrutinizer.phar
 php-cs-fixer.phar
 *.sublime-*

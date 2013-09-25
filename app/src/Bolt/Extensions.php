@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt;
 use util;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
+use Bolt\Extensions\BaseExtensionInterface;
 
 class Extensions
 {
@@ -238,7 +239,7 @@ class Extensions
 
                 $this->initialized[$extension] = new $classname($this->app);
 
-                if ($this->initialized[$extension] instanceof \Bolt\BaseExtensionInterface) {
+                if ($this->initialized[$extension] instanceof BaseExtensionInterface) {
 
                     $this->initialized[$extension]->getConfig();
                     $this->initialized[$extension]->initialize();
@@ -342,8 +343,8 @@ class Extensions
                         "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>"
                         , $widget['key']
                         , $widget['key']
-                        , $this->renderWidget( $widget['key'] )
-                        , empty( $widget['additionalhtml'] ) ? '' : "\n" . $widget['additionalhtml']
+                        , $this->renderWidget($widget['key'])
+                        , empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
                     );
 
                     echo $html;
@@ -862,8 +863,8 @@ class Extensions
      *
      * @param string $label
      * @param string $path
-     * @param bool   $icon
-     * @param int    $userlevel
+     * @param bool $icon
+     * @param int $userlevel
      */
     public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
     {

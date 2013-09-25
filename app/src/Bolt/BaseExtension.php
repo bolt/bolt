@@ -2,12 +2,7 @@
 
 namespace Bolt;
 
-interface BaseExtensionInterface
-{
-    public function __construct(Application $app);
-    public function initialize();
-    public function getInfo();
-}
+use Bolt\Extensions\BaseExtensionInterface;
 
 abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
 {

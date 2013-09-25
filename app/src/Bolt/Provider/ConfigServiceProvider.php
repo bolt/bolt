@@ -1,21 +1,21 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Provider;
 
 use Bolt;
 use Silex\Application as SilexApplication;
 use Silex\ServiceProviderInterface;
 
-class StorageServiceProvider implements ServiceProviderInterface
+class ConfigServiceProvider implements ServiceProviderInterface
 {
     public function register(SilexApplication $app)
     {
 
-        $app['storage'] = $app->share(function ($app) {
+        $app['config'] = $app->share(function ($app) {
 
-            $storage = new Bolt\Storage($app);
+            $config = new Bolt\Config($app);
 
-            return $storage;
+            return $config;
 
         });
 

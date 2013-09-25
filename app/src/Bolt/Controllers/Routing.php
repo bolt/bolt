@@ -46,14 +46,14 @@ class Routing implements ControllerProviderInterface
         $ctr = $app['controllers_factory'];
 
         foreach ($routes as $binding => $routeconfig) {
-            $path         = false;
-            $to           = false;
-            $route        = false;
-            $host         = false;
-            $_controller  = false;
-            $_before      = false;
-            $_after       = false;
-            $defaults     = array();
+            $path = false;
+            $to = false;
+            $route = false;
+            $host = false;
+            $_controller = false;
+            $_before = false;
+            $_after = false;
+            $defaults = array();
             $requirements = array();
 
             // set some defaults in the YAML
@@ -80,7 +80,7 @@ class Routing implements ControllerProviderInterface
                     unset($defaults['_controller']);
                 }
                 if (isset($defaults['_before'])) {
-                    if ((substr($defaults['_before'] ,0, 2) == '::') && (is_array($to))) {
+                    if ((substr($defaults['_before'], 0, 2) == '::') && (is_array($to))) {
                         $_before = array($to[0], substr($defaults['_before'], 2));
                     } else {
                         $_before = $defaults['_before'];
@@ -88,7 +88,7 @@ class Routing implements ControllerProviderInterface
                     unset($defaults['_before']);
                 }
                 if (isset($defaults['_after'])) {
-                    if ((substr($defaults['_after'] ,0, 2) == '::') && (is_array($to))) {
+                    if ((substr($defaults['_after'], 0, 2) == '::') && (is_array($to))) {
                         $_after = array($to[0], substr($defaults['_after'], 2));
                     } else {
                         $_after = $defaults['_after'];
