@@ -16,57 +16,48 @@ class Async implements ControllerProviderInterface
 
         $ctr->get("/dashboardnews", array($this, 'dashboardnews'))
             ->before(array($this, 'before'))
-            ->bind('dashboardnews')
-        ;
+            ->bind('dashboardnews');
 
         $ctr->get("/latestactivity", array($this, 'latestactivity'))
             ->before(array($this, 'before'))
-            ->bind('latestactivity')
-        ;
+            ->bind('latestactivity');
 
         $ctr->get("/filesautocomplete", array($this, 'filesautocomplete'))
-            ->before(array($this, 'before'))
-        ;
+            ->before(array($this, 'before'));
 
         $ctr->get("/readme/{extension}", array($this, 'readme'))
             ->before(array($this, 'before'))
-            ->bind('readme')
-        ;
+            ->bind('readme');
 
         $ctr->get("/widget/{key}", array($this, 'widget'))
             ->before(array($this, 'before'))
-            ->bind('widget')
-        ;
+            ->bind('widget');
 
         $ctr->post("/markdownify", array($this, 'markdownify'))
             ->before(array($this, 'before'))
-            ->bind('markdownify')
-        ;
+            ->bind('markdownify');
 
         $ctr->get("/makeuri", array($this, 'makeuri'))
-            ->before(array($this, 'before'))
-        ;
+            ->before(array($this, 'before'));
 
         $ctr->get("/lastmodified/{contenttypeslug}", array($this, 'lastmodified'))
             ->before(array($this, 'before'))
-            ->bind('lastmodified')
-        ;
+            ->bind('lastmodified');
 
         $ctr->get("/filebrowser/{contenttype}", array($this, 'filebrowser'))
             ->before(array($this, 'before'))
             ->assert('contenttype', '.*')
-            ->bind('contenttype')
-        ;
+            ->bind('contenttype');
 
         $ctr->get("/browse/{path}", array($this, 'browse'))
             ->before(array($this, 'before'))
             ->assert('path', '.+')
-            ->bind('asyncbrowse')
-        ;
+            ->bind('asyncbrowse');
 
         return $ctr;
 
     }
+
     /**
      * News.
      */
@@ -112,14 +103,14 @@ class Async implements ControllerProviderInterface
                 }
 
             } catch (RequestException $re) {
-                $app['log']->add("News: got exception: ".$re->getMessage(), 1);
+                $app['log']->add("News: got exception: " . $re->getMessage(), 1);
             }
 
         } else {
             $app['log']->add("News: get from cache..", 1);
         }
 
-        $body = $app['twig']->render('dashboard-news.twig', array('news' => $news ));
+        $body = $app['twig']->render('dashboard-news.twig', array('news' => $news));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
@@ -171,7 +162,7 @@ class Async implements ControllerProviderInterface
 
     public function readme($extension, Silex\Application $app, Request $request)
     {
-        $filename = __DIR__."/../../../extensions/".$extension."/readme.md";
+        $filename = __DIR__ . "/../../../extensions/" . $extension . "/readme.md";
 
         //echo "<pre>\n" . \util::var_dump($filename, true) . "</pre>\n";
 
@@ -191,7 +182,7 @@ class Async implements ControllerProviderInterface
 
         if (isHtml($html)) {
 
-            require_once(__DIR__.'/../../../classes/markdownify/markdownify_extra.php');
+            require_once(__DIR__ . '/../../../classes/markdownify/markdownify_extra.php');
             $md = new \Markdownify(false, 80, false);
 
             $output = $md->parseString($html);
@@ -224,7 +215,7 @@ class Async implements ControllerProviderInterface
         // get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
-        $body = $app['twig']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype ));
+        $body = $app['twig']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
 
@@ -244,7 +235,7 @@ class Async implements ControllerProviderInterface
 
         foreach ($app['storage']->getContentTypes() as $contenttype) {
 
-            $records = $app['storage']->getContent($contenttype, array('published'=>true));
+            $records = $app['storage']->getContent($contenttype, array('published' => true));
 
             foreach ($records as $key => $record) {
                 $results[$contenttype][] = array(
@@ -276,9 +267,9 @@ class Async implements ControllerProviderInterface
         $files = array();
         $folders = array();
 
-        $basefolder = __DIR__."/../../../../";
+        $basefolder = __DIR__ . "/../../../../";
         $path = stripTrailingSlash(str_replace("..", "", $path));
-        $currentfolder = realpath($basefolder.$path);
+        $currentfolder = realpath($basefolder . $path);
 
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
@@ -288,7 +279,7 @@ class Async implements ControllerProviderInterface
         if (!empty($path)) {
             foreach (explode("/", $path) as $segment) {
                 $cumulative .= $segment . "/";
-                $pathsegments[ $cumulative ] = $segment;
+                $pathsegments[$cumulative] = $segment;
             }
         }
 
@@ -298,9 +289,11 @@ class Async implements ControllerProviderInterface
 
             while (false !== ($entry = $d->read())) {
 
-                if (in_array($entry, $ignored)) { continue; }
+                if (in_array($entry, $ignored)) {
+                    continue;
+                }
 
-                $fullfilename = $currentfolder."/".$entry;
+                $fullfilename = $currentfolder . "/" . $entry;
 
                 if (is_file($fullfilename)) {
                     $relativepath = str_replace("files/", "", ($path . "/" . $entry));
@@ -338,10 +331,10 @@ class Async implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s'=>$path)));
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
         }
 
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' =>$path)));
+        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
 
         // Make sure the files and folders are sorted properly.
         ksort($files);
@@ -355,7 +348,6 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-
 
 
     /**
