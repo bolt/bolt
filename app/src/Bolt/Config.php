@@ -55,7 +55,7 @@ class Config
      * $app['config']->set('general/branding/name', 'Bolt');
      *
      * @param  string $path
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return bool
      */
     public function set($path, $value)
@@ -64,20 +64,20 @@ class Config
 
         // Only do something if we get at least one key.
         if (empty($path[0])) {
-            $logline = "Config: can't set empty path to '" . (string) $value ."'";
+            $logline = "Config: can't set empty path to '" . (string) $value . "'";
             $this->app['log']->add($logline, 3, '', 'config');
 
             return false;
         }
 
-        $part = &$this->data;
+        $part = & $this->data;
 
         foreach ($path as $key) {
             if (!isset($part[$key])) {
                 $part[$key] = array();
             }
 
-            $part = &$part[$key];
+            $part = & $part[$key];
         }
 
         $part = $value;
@@ -101,11 +101,11 @@ class Config
         $path = explode("/", $path);
 
         // Only do something if we get at least one key.
-        if (empty($path[0]) || !isset($this->data[ $path[0] ]) ) {
+        if (empty($path[0]) || !isset($this->data[$path[0]])) {
             return false;
         }
 
-        $part = &$this->data;
+        $part = & $this->data;
         $value = null;
 
         foreach ($path as $key) {
@@ -115,7 +115,7 @@ class Config
             }
 
             $value = $part[$key];
-            $part = &$part[$key];
+            $part = & $part[$key];
         }
 
         if ($value != null) {
@@ -134,11 +134,11 @@ class Config
         $config = array();
 
         // Read the config
-        $config['general']    = array_merge($this->parseConfigYaml('config.yml'), $this->parseConfigYaml('config_local.yml'));
-        $config['taxonomy']   = $this->parseConfigYaml('taxonomy.yml');
-        $tempcontenttypes     = $this->parseConfigYaml('contenttypes.yml');
-        $config['menu']       = $this->parseConfigYaml('menu.yml');
-        $config['routing']     = $this->parseConfigYaml('routing.yml');
+        $config['general'] = array_merge($this->parseConfigYaml('config.yml'), $this->parseConfigYaml('config_local.yml'));
+        $config['taxonomy'] = $this->parseConfigYaml('taxonomy.yml');
+        $tempcontenttypes = $this->parseConfigYaml('contenttypes.yml');
+        $config['menu'] = $this->parseConfigYaml('menu.yml');
+        $config['routing'] = $this->parseConfigYaml('routing.yml');
         $config['extensions'] = array();
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
@@ -163,7 +163,7 @@ class Config
             }
 
             // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-            if ((strpos($hostname, ".") > 0) && preg_match("/[a-z0-9]/i", $hostname) ) {
+            if ((strpos($hostname, ".") > 0) && preg_match("/[a-z0-9]/i", $hostname)) {
                 if (preg_match("/^www[0-9]*./", $hostname)) {
                     $config['general']['cookies_domain'] = "." . preg_replace("/^www[0-9]*./", "", $hostname);
                 } else {
@@ -231,11 +231,12 @@ class Config
             $temp['fields'] = array();
             foreach ($tempfields as $key => $value) {
                 $key = str_replace("-", "_", strtolower(safeString($key, true)));
-                $temp['fields'][ $key ] = $value;
+                $temp['fields'][$key] = $value;
             }
 
             if (isset($temp['fields']['slug']) && isset($temp['fields']['slug']['uses']) &&
-                !is_array($temp['fields']['slug']['uses'])) {
+                !is_array($temp['fields']['slug']['uses'])
+            ) {
                 $temp['fields']['slug']['uses'] = array($temp['fields']['slug']['uses']);
             }
 
@@ -244,7 +245,7 @@ class Config
                 $temp['taxonomy'] = array($temp['taxonomy']);
             }
 
-            $config['contenttypes'][ $temp['slug'] ] = $temp;
+            $config['contenttypes'][$temp['slug']] = $temp;
 
         }
 
@@ -252,7 +253,6 @@ class Config
         $this->data = $config;
 
     }
-
 
 
     /**
@@ -263,7 +263,7 @@ class Config
     {
         // Check DB-tables integrity
         if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
-            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity())>0) {
+            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity()) > 0) {
                 $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
                 $this->app['session']->getFlashBag()->set('error', $msg);
 
@@ -292,11 +292,11 @@ class Config
 
                 // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
                 // for the fields that are always present, like 'id'.
-                if (is_array($field) && !empty($field['uses']) ) {
+                if (is_array($field) && !empty($field['uses'])) {
                     foreach ($field['uses'] as $useField) {
-                        if (!empty($field['uses']) && empty($ct['fields'][ $useField ]) && !in_array($useField, $this->reservedfieldnames) ) {
-                            $error =  __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
-                                array( '%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField )
+                        if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedfieldnames)) {
+                            $error = __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                                array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
                             $this->app['session']->getFlashBag()->set('error', $error);
                         }
@@ -323,24 +323,28 @@ class Config
 
             // Show some helpful warnings if slugs or names are not set correctly.
             if ($ct['slug'] == $ct['singular_slug']) {
-                $error =  __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
-                    array( '%contenttype%' => $key, '%slug%' => $ct['slug'] )
+                $error = __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
+                    array('%contenttype%' => $key, '%slug%' => $ct['slug'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
             }
 
             if ($ct['name'] == $ct['singular_name']) {
-                $error =  __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
-                    array( '%contenttype%' => $key, '%name%' => $ct['name'] )
+                $error = __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
+                    array('%contenttype%' => $key, '%name%' => $ct['name'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
             }
 
             // Keep a running score of used slugs..
-            if (!isset($slugs[ $ct['slug'] ])) { $slugs[ $ct['slug'] ] = 0; }
-            $slugs[ $ct['slug'] ]++;
-            if (!isset($slugs[ $ct['singular_slug'] ])) { $slugs[ $ct['singular_slug'] ] = 0; }
-            $slugs[ $ct['singular_slug'] ]++;
+            if (!isset($slugs[$ct['slug']])) {
+                $slugs[$ct['slug']] = 0;
+            }
+            $slugs[$ct['slug']]++;
+            if (!isset($slugs[$ct['singular_slug']])) {
+                $slugs[$ct['singular_slug']] = 0;
+            }
+            $slugs[$ct['singular_slug']]++;
 
         }
 
@@ -349,8 +353,8 @@ class Config
 
             // Show some helpful warnings if slugs or keys are not set correctly.
             if ($taxo['slug'] != $key) {
-                $error =  __("The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
-                    array( '%taxonomytype%' => $key, '%slug%' => $taxo['slug'] )
+                $error = __("The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
+                    array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
             }
@@ -361,8 +365,8 @@ class Config
         if (!$this->app['session']->getFlashBag()->has('error')) {
             foreach ($slugs as $slug => $count) {
                 if ($count > 1) {
-                    $error =  __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
-                        array( '%slug%' => $slug )
+                    $error = __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                        array('%slug%' => $slug)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
                 }
@@ -371,7 +375,6 @@ class Config
 
 
     }
-
 
 
     /**
@@ -428,7 +431,7 @@ class Config
             'cookies_use_browseragent' => false,
             'cookies_use_httphost' => true,
             'cookies_https_only' => false,
-            'cookies_lifetime' => 14*24*3600,
+            'cookies_lifetime' => 14 * 24 * 3600,
             'thumbnails' => array(
                 'default_thumbnail' => array(160, 120),
                 'default_image' => array(1000, 750),
@@ -452,25 +455,25 @@ class Config
     private function setTwigPath()
     {
         // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        $themepath = realpath(__DIR__.'/../../../theme/'. basename($this->get('general/theme')));
+        $themepath = realpath(__DIR__ . '/../../../theme/' . basename($this->get('general/theme')));
 
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
-        if ( $end == "frontend" && file_exists($themepath) ) {
+        if ($end == "frontend" && file_exists($themepath)) {
             $twigpath = array($themepath);
         } else {
-            $twigpath = array(realpath(__DIR__.'/../../view'));
+            $twigpath = array(realpath(__DIR__ . '/../../view'));
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == "object") ) {
+        if (!file_exists($themepath) && (gettype($this->app['session']) == "object")) {
             $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
         }
 
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
-        $twigpath[] = realpath(__DIR__.'/../../theme_defaults');
+        $twigpath[] = realpath(__DIR__ . '/../../theme_defaults');
 
         $this->data['twigpath'] = $twigpath;
 
@@ -482,12 +485,12 @@ class Config
            it shouldn't trigger an update for the cache, while the others should.
         */
         $timestamps = array(
-            file_exists(BOLT_CONFIG_DIR.'/config.yml') ? filemtime(BOLT_CONFIG_DIR.'/config.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR.'/taxonomy.yml') ? filemtime(BOLT_CONFIG_DIR.'/taxonomy.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR.'/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR.'/contenttypes.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR.'/menu.yml') ? filemtime(BOLT_CONFIG_DIR.'/menu.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR.'/routing.yml') ? filemtime(BOLT_CONFIG_DIR.'/routing.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR.'/config_local.yml') ? filemtime(BOLT_CONFIG_DIR.'/config_local.yml') : 0,
+            file_exists(BOLT_CONFIG_DIR . '/config.yml') ? filemtime(BOLT_CONFIG_DIR . '/config.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/taxonomy.yml') ? filemtime(BOLT_CONFIG_DIR . '/taxonomy.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR . '/contenttypes.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/menu.yml') ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/routing.yml') ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
         );
         $cachetimestamp = file_exists(__DIR__ . "/../../cache/config_cache.php") ? filemtime(__DIR__ . "/../../cache/config_cache.php") : 0;
 
@@ -499,7 +502,7 @@ class Config
             $this->data = loadSerialize(__DIR__ . "/../../cache/config_cache.php");
 
             // Check if we loaded actual data.
-            if (count($this->data)>3 && !empty($this->data['general'])) {
+            if (count($this->data) > 3 && !empty($this->data['general'])) {
                 return true;
             }
 
@@ -526,10 +529,10 @@ class Config
     {
         $configdb = $this->data['general']['database'];
 
-        if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite" ) ) {
+        if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite")) {
 
             $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : "bolt";
-            if (getExtension($basename)!="db") {
+            if (getExtension($basename) != "db") {
                 $basename .= ".db";
             }
 
@@ -557,11 +560,11 @@ class Config
             }
 
             $dboptions = array(
-                'driver'    => $driver,
-                'host'      => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
-                'dbname'    => $configdb['databasename'],
-                'user'      => $configdb['username'],
-                'password'  => $configdb['password'],
+                'driver' => $driver,
+                'host' => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
+                'dbname' => $configdb['databasename'],
+                'user' => $configdb['username'],
+                'password' => $configdb['password'],
                 'randomfunction' => $randomfunction
             );
             if (!isset($configdb['charset'])) {
@@ -636,9 +639,9 @@ class Config
             // Get the script's filename, but _without_ REQUEST_URI. We need to str_replace the slashes, because of a
             // weird quirk in dirname on windows: http://nl1.php.net/dirname#refsect1-function.dirname-notes
             $scriptdirname = "#" . str_replace("\\", "/", dirname($_SERVER['SCRIPT_NAME']));
-            $scripturi = str_replace($scriptdirname, '', "#".$_SERVER['REQUEST_URI']);
+            $scripturi = str_replace($scriptdirname, '', "#" . $_SERVER['REQUEST_URI']);
             // make sure it starts with '/', like our mountpoint.
-            if (empty($scripturi) || ($scripturi[0] != "/") ) {
+            if (empty($scripturi) || ($scripturi[0] != "/")) {
                 $scripturi = "/" . $scripturi;
             }
         } else {
@@ -649,9 +652,9 @@ class Config
         }
 
         // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the backend or in async.
-        if ( (substr($scripturi, 0, strlen($mountpoint)) == $mountpoint) ) {
+        if ((substr($scripturi, 0, strlen($mountpoint)) == $mountpoint)) {
             $end = 'backend';
-        } elseif ( (substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false) ) {
+        } elseif ((substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false)) {
             $end = 'async';
         } else {
             $end = 'frontend';

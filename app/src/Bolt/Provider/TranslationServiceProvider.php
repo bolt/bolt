@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Provider;
 
 use Bolt;
 use Silex\ServiceProviderInterface;

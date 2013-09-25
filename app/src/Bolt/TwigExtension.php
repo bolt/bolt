@@ -89,7 +89,7 @@ class TwigExtension extends \Twig_Extension
      * @see util::php
      * @see http://brandonwamboldt.github.com/utilphp/
      *
-     * @param  mixed  $var
+     * @param  mixed $var
      * @return string
      */
     public function printDump($var)
@@ -123,7 +123,7 @@ class TwigExtension extends \Twig_Extension
      * Returns the date time in a particular format. Takes the locale into
      * account.
      * @param  string|\DateTime $dateTime
-     * @param  string           $format
+     * @param  string $format
      * @return string           Formatted date and time
      */
     public function localedatetime($dateTime, $format = "%B %e, %Y %H:%M")
@@ -163,7 +163,7 @@ class TwigExtension extends \Twig_Extension
      * Create an excerpt for the given content
      *
      * @param  string $content
-     * @param  int    $length  Defaults to 200 characters
+     * @param  int $length  Defaults to 200 characters
      * @return string Resulting excerpt
      */
     public function excerpt($content, $length = 200)
@@ -193,7 +193,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         $output = str_replace(">", "> ", $output);
-        $output = trimText(strip_tags($output), $length) ;
+        $output = trimText(strip_tags($output), $length);
 
         return $output;
 
@@ -203,13 +203,13 @@ class TwigExtension extends \Twig_Extension
      * Trims the given string to a particular length.
      *
      * @param  string $content
-     * @param  int    $length  Defaults to 200
+     * @param  int $length  Defaults to 200
      * @return string Trimmed output
      *
      */
     public function trim($content, $length = 200)
     {
-        $output = trimText(strip_tags($content), $length) ;
+        $output = trimText(strip_tags($content), $length);
 
         return $output;
     }
@@ -243,7 +243,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Sorts / orders items of an array
      *
-     * @param  array  $array
+     * @param  array $array
      * @param  string $on
      * @return array
      */
@@ -348,14 +348,15 @@ class TwigExtension extends \Twig_Extension
         }
 
         // check against simple content.link
-        if ("/".$route_params['contenttypeslug']."/".$route_params['slug'] == $link) {
+        if ("/" . $route_params['contenttypeslug'] . "/" . $route_params['slug'] == $link) {
             return true;
         }
 
         // if the current requested page is for the same slug or singularslug..
         if (isset($content['contenttype']) &&
             ($route_params['contenttypeslug'] == $content['contenttype']['slug'] ||
-                $route_params['contenttypeslug'] == $content['contenttype']['singular_slug']) ) {
+                $route_params['contenttypeslug'] == $content['contenttype']['singular_slug'])
+        ) {
 
             // .. and the slugs should match..
             if ($route_params['slug'] == $content['slug']) {
@@ -404,7 +405,7 @@ class TwigExtension extends \Twig_Extension
                 continue;
             }
 
-            if (is_file($foldername."/".$file) && is_readable($foldername."/".$file)) {
+            if (is_file($foldername . "/" . $file) && is_readable($foldername . "/" . $file)) {
 
                 if (!empty($filter) && !fnmatch($filter, $file)) {
                     continue;
@@ -427,13 +428,12 @@ class TwigExtension extends \Twig_Extension
     }
 
 
-
     /**
      * Lists content of a specific contenttype, specifically for editing
      * relations in the backend.
      *
-     * @param  string        $contenttype
-     * @param  array         $relationoptions
+     * @param  string $contenttype
+     * @param  array $relationoptions
      * @param  \Bolt\Content $content
      * @return string
      */
@@ -470,16 +470,16 @@ class TwigExtension extends \Twig_Extension
      * Output a simple pager, for paged pages.
      *
      * @param  \Twig_Environment $env
-     * @param  string            $pagerName
-     * @param  int               $surr
-     * @param  string            $template  The template to apply
-     * @param  string            $class
+     * @param  string $pagerName
+     * @param  int $surr
+     * @param  string $template  The template to apply
+     * @param  string $class
      * @return string            The rendered pager HTML
      */
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
         // @todo Yuck, $GLOBALS.. figure out a better way to do this.
-        if ( !isset($GLOBALS['pager']) || !is_array($GLOBALS['pager']) ) {
+        if (!isset($GLOBALS['pager']) || !is_array($GLOBALS['pager'])) {
             // nothing to page..
             return "";
         }
@@ -532,13 +532,12 @@ class TwigExtension extends \Twig_Extension
     }
 
 
-
     /**
      * Return the requested parameter from $_REQUEST, $_GET or $_POST..
      *
      * @param  string $parameter    The parameter to get
      * @param  string $from         "GET", "POST", all the other falls back to REQUEST.
-     * @param  bool   $stripslashes Apply stripslashes. Defaults to false.
+     * @param  bool $stripslashes Apply stripslashes. Defaults to false.
      * @return mixed
      */
     public function request($parameter, $from = "", $stripslashes = false)
@@ -580,10 +579,10 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to make a path to an image thumbnail.
      *
-     * @param  string     $filename Target filename
+     * @param  string $filename Target filename
      * @param  string|int $width    Target width
      * @param  string|int $height   Target height
-     * @param  string     $crop     String identifier for cropped images
+     * @param  string $crop     String identifier for cropped images
      * @return string     Thumbnail path
      */
     public function thumbnail($filename, $width = '', $height = '', $crop = "")
@@ -626,8 +625,8 @@ class TwigExtension extends \Twig_Extension
      * example: {{ showimage(content.image, 320, 240) }}
      *
      * @param  string $filename Image filename
-     * @param  int    $width    Image width
-     * @param  int    $height   Image height
+     * @param  int $width    Image width
+     * @param  int $height   Image height
      * @param  string $crop     Crop image string identifier
      * @return string HTML output
      */
@@ -639,7 +638,7 @@ class TwigExtension extends \Twig_Extension
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
             $output = sprintf('<img src="%s" width="%s" height="%s">',
-                $image, $width, $height );
+                $image, $width, $height);
 
         } else {
             $output = "&nbsp;";
@@ -656,8 +655,8 @@ class TwigExtension extends \Twig_Extension
      * example: {{ fancybox(content.image, 320, 240) }}
      *
      * @param  string $filename Image filename
-     * @param  int    $width    Image width
-     * @param  int    $height   Image height
+     * @param  int $width    Image width
+     * @param  int $height   Image height
      * @param  string $crop     Crop image string identifier
      * @return string HTML output
      */
@@ -676,7 +675,7 @@ class TwigExtension extends \Twig_Extension
 
             $output = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
                     <img src="%s" width="%s" height="%s"></a>',
-                $large, $filename, $thumbnail, $width, $height );
+                $large, $filename, $thumbnail, $width, $height);
 
         } else {
             $output = "&nbsp;";
@@ -689,10 +688,10 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to make a path to an image.
      *
-     * @param  string     $filename Target filename
+     * @param  string $filename Target filename
      * @param  string|int $width    Target width
      * @param  string|int $height   Target height
-     * @param  string     $crop     String identifier for cropped images
+     * @param  string $crop     String identifier for cropped images
      * @return string     Image path
      */
     public function image($filename, $width = "", $height = "", $crop = "")
@@ -742,7 +741,8 @@ class TwigExtension extends \Twig_Extension
     public function isMobileClient()
     {
         if (preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
-            $_SERVER['HTTP_USER_AGENT'])) {
+            $_SERVER['HTTP_USER_AGENT'])
+        ) {
             return true;
         } else {
             return false;
@@ -753,9 +753,9 @@ class TwigExtension extends \Twig_Extension
      * Output a menu.
      *
      * @param  \Twig_Environment $env
-     * @param  string            $identifier Identifier for a particular menu
-     * @param  string            $template   The template to use.
-     * @param  array             $params     Extra parameters to pass on to the menu template.
+     * @param  string $identifier Identifier for a particular menu
+     * @param  string $template   The template to use.
+     * @param  array $params     Extra parameters to pass on to the menu template.
      * @return null
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
@@ -763,7 +763,7 @@ class TwigExtension extends \Twig_Extension
 
         $menus = $this->app['config']->get('menu');
 
-        if (!empty($identifier) && isset($menus[$identifier]) ) {
+        if (!empty($identifier) && isset($menus[$identifier])) {
             $name = strtolower($identifier);
             $menu = $menus[$identifier];
         } else {
@@ -812,7 +812,7 @@ class TwigExtension extends \Twig_Extension
                 $content = $this->app['storage']->getContent($item['path']);
             }
 
-            if (!empty($content) && is_object($content) && get_class($content)=='Bolt\Content') {
+            if (!empty($content) && is_object($content) && get_class($content) == 'Bolt\Content') {
                 // We have content.
                 if (empty($item['label'])) {
                     $item['label'] = !empty($content->values['title']) ? $content->values['title'] : "";
@@ -917,13 +917,13 @@ class TwigExtension extends \Twig_Extension
         $num_args = func_num_args();
         switch ($num_args) {
             case 5:
-                return __($args[0],$args[1],$args[2],$args[3],$args[4]);
+                return __($args[0], $args[1], $args[2], $args[3], $args[4]);
             case 4:
-                return __($args[0],$args[1],$args[2],$args[3]);
+                return __($args[0], $args[1], $args[2], $args[3]);
             case 3:
-                return __($args[0],$args[1],$args[2]);
+                return __($args[0], $args[1], $args[2]);
             case 2:
-                return __($args[0],$args[1]);
+                return __($args[0], $args[1]);
             case 1:
                 return __($args[0]);
         }
