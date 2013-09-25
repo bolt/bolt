@@ -48,7 +48,7 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
         'cookie_httponly' => true
     )
 ));
-$app->register(new Bolt\ConfigServiceProvider());
+$app->register(new Bolt\Provider\ConfigServiceProvider());
 $app->register(new Bolt\LogServiceProvider(), array());
 
 // Finally, check if the app/database folder is writable, if it needs to be.
