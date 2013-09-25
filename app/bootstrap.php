@@ -116,7 +116,7 @@ if (!function_exists('intl_get_error_code')) {
 $app->register(new Bolt\TranslationServiceProvider());
 $app->register(new Bolt\StorageServiceProvider(), array());
 $app->register(new Bolt\UsersServiceProvider(), array());
-$app->register(new Bolt\CacheServiceProvider(), array());
+$app->register(new Bolt\Provider\CacheServiceProvider());
 $app->register(new Bolt\ExtensionServiceProvider(), array());
 
 $app['paths'] = getPaths($app['config']);
