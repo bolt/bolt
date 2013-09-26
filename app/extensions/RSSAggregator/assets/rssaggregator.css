@@ -1,0 +1,26 @@
+/* CSS file for RSS Aggregator extension */
+
+.rss-aggregator {
+
+}
+
+.rss-aggregator ul {
+	list-style-type: none;
+}
+
+.rss-aggregator ul li {
+	margin-bottom: 10px;
+}
+
+.rss-aggregator-title {
+	font-weight: bold;
+}
+
+.rss-aggregator-desc {
+	display: block;
+}
+
+.rss-aggregator-date {
+	font-size: 0.8em;
+	font-style: italic;
+}
