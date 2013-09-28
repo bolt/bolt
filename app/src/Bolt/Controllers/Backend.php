@@ -87,7 +87,7 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('useraction');
 
-        $ctl->get("/files/{path}", array($this, 'files'))
+        $ctl->match("/files/{path}", array($this, 'files'))
             ->before(array($this, 'before'))
             ->assert('path', '.+')
             ->bind('files');
@@ -830,15 +830,34 @@ class Backend implements ControllerProviderInterface
 
     }
 
-    public function files($path, Silex\Application $app, Request $request)
-    {
+    function files($path, Silex\Application $app, Request $request) {
+        
+        $form = $app['form.factory']
+                    ->createBuilder('form')
+                    ->add('FileUpload', 'file')
+                    ->getForm();
 
         $files = array();
         $folders = array();
 
-        $basefolder = __DIR__ . "/../../../../";
+        $basefolder = __DIR__."/../../../../";
         $path = stripTrailingSlash(str_replace("..", "", $path));
-        $currentfolder = realpath($basefolder . $path);
+        $currentfolder = realpath($basefolder.$path);
+        
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $files = $request->files->get($form->getName());
+                /* Make sure that Upload Directory is properly configured and writable */
+                $filename = $files['FileUpload']->getClientOriginalName();
+                $files['FileUpload']->move($currentfolder, $filename);
+
+            }
+            //$subRequest = Request::create('/bolt/files/files', 'GET');
+            //return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+            header('Location: /bolt/files/files');
+            exit;
+        }
 
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
@@ -848,7 +867,7 @@ class Backend implements ControllerProviderInterface
         if (!empty($path)) {
             foreach (explode("/", $path) as $segment) {
                 $cumulative .= $segment . "/";
-                $pathsegments[$cumulative] = $segment;
+                $pathsegments[ $cumulative ] = $segment;
             }
         }
 
@@ -858,11 +877,9 @@ class Backend implements ControllerProviderInterface
 
             while (false !== ($entry = $d->read())) {
 
-                if (in_array($entry, $ignored)) {
-                    continue;
-                }
+                if (in_array($entry, $ignored)) { continue; }
 
-                $fullfilename = $currentfolder . "/" . $entry;
+                $fullfilename = $currentfolder."/".$entry;
 
                 if (is_file($fullfilename)) {
                     $files[$entry] = array(
@@ -898,10 +915,10 @@ class Backend implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s'=>$path)));
         }
 
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
+        $app['twig']->addGlobal('title', __("Files in %s", array('%s' =>$path)));
 
         // Make sure the files and folders are sorted properly.
         ksort($files);
@@ -909,7 +926,7 @@ class Backend implements ControllerProviderInterface
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file..
-        if (!$request->query->has('CKEditor')) {
+        if(!$request->query->has('CKEditor')) {
             $twig = 'files.twig';
         } else {
             $twig = 'files_ck.twig';
@@ -919,9 +936,9 @@ class Backend implements ControllerProviderInterface
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
-            'pathsegments' => $pathsegments
+            'pathsegments' => $pathsegments,
+            'form' => $form->createView()
         ));
-
     }
 
     public function fileedit($file, Silex\Application $app, Request $request)
