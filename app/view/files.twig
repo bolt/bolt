@@ -3,6 +3,13 @@
 
 <h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
 
+<form action="" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+        {{ form_widget(form) }}
+    </fieldset>
+    <input class="btn" type="submit" name="{{ __('Upload File') }}" />
+</form>
+
 {% if pathsegments|length > 1 %}
     <p>{{ __('Path:') }}
     {% for path, segment in pathsegments %}
