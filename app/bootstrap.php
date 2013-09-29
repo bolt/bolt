@@ -118,6 +118,7 @@ $app->register(new Bolt\Provider\StorageServiceProvider());
 $app->register(new Bolt\Provider\UsersServiceProvider());
 $app->register(new Bolt\Provider\CacheServiceProvider());
 $app->register(new Bolt\Provider\ExtensionServiceProvider());
+$app->register(new Bolt\Provider\StackServiceProvider());
 
 $app['paths'] = getPaths($app['config']);
 $app['twig']->addGlobal('paths', $app['paths']);

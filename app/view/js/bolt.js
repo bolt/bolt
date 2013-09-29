@@ -15,7 +15,7 @@ jQuery(function($) {
     });
 
     // Helper to make things like '<button data-action="eventView.load()">' work
-    $('button, input[type=button]').on('click', function(e){
+    $('button, input[type=button], a').on('click', function(e){
         var action = $(this).data('action');
         if (typeof(action) != "undefined" && (action != "") ) {
             eval(action);
@@ -521,6 +521,26 @@ function bindMarkdown(key) {
 
 }
 
+/**
+ * Add a file to our simple Stack.
+ *
+ * @param string filename
+ * @param string filepath
+ */
+function addToStack(filename) {
+    console.log('add to stack: ', filename);
+
+    $.ajax({
+        url: asyncpath + 'addstack/' + filename,
+        type: 'GET',
+        success: function(result) {
+            console.log('Added file to stack');
+        },
+        error: function() {
+            console.log('Failed to add file to stack');
+        }
+    });
+}
 
 /**
  * Model, Collection and View for Imagelist.
