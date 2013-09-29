@@ -9,7 +9,11 @@
     {% endif %}
     <li>
         {%  if log.code == "save content" %}
-            Saved {{ app.config.get('contenttypes')[log.contenttype].singular_name }}
+            Saved {% if app.config.get('contenttypes')[log.contenttype] is defined %}
+                {{ app.config.get('contenttypes')[log.contenttype].singular_name }}
+            {% else %}
+                {{ log.contenttype }}
+            {% endif %}
             "<strong>{{ log.message }}</strong>" by <em>{{ username }}</em>
         {%  elseif log.code == "login" %}
             <em>{{ username }}</em> logged in
