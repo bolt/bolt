@@ -732,7 +732,7 @@ fieldset.checkbox div {
 }
 
 #editcontent div.image-container {
-    height: 120px;
+    height: 140px;
     padding-right: 130px;
 }
 
@@ -797,13 +797,13 @@ fieldset.checkbox div {
 
 #editcontent .dropzone {
     margin: 1em 0 0.5em;
-    height: 120px;
+    height: 140px;
     width: 97%;
     clear: both;
 }
 
 #editcontent .geolocation {
-    height: 170px;
+    height: 180px;
 }
 
 #editcontent .dropzone.hover, #editcontent .dropzone.in  {

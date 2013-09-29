@@ -55,6 +55,8 @@ class Stack
     public function listitems($count = 100, $typefilter = "")
     {
 
+        $typefilter = explode(",", $typefilter);
+
         $items = $this->items;
 
         $items = array_slice($items, 0, $count);
@@ -70,7 +72,7 @@ class Stack
             }
 
             // Skip this one, if it doesn't match the type.
-            if ( ($typefilter != "") && ($typefilter != $type) ) {
+            if ( !empty($typefilter) && (!in_array($type, $typefilter)) ) {
                 continue;
             }
 

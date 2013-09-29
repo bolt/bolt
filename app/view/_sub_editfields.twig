@@ -194,7 +194,7 @@
             </span>
         </div>
 
-        <div class="btn-group" style="margin-left: 8px;">
+        <div class="btn-group" style="margin-left: 0px;">
             <a data-target="#selectImageModal-{{key}}" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">
                 <i class="icon-upload-alt"></i>
                 {{ __('Select from server') }}
@@ -272,6 +272,7 @@
 
         // In the Stack pulldown, to select a file..
         $('#stack-{{key}} li').on('click', function(e) {
+            e.preventDefault();
             var file = $(this).find('a').data('filepath');
             $('#field-{{key}}').val(file);
             $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI( file )+"' width='120' height='120'>");
@@ -302,14 +303,36 @@
 
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
-            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'>
+            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'><br>
 
 <!-- The fileinput-button span is used to style the file input field as button -->
-        <span class="btn btn-info fileinput-button">
-            <i class="icon-upload"></i>
-            <span>{{ __('Upload File') }}</span>
-            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
-        </span>
+        <div class="btn-group">
+            <span class="btn btn-info fileinput-button">
+                <i class="icon-upload"></i>
+                <span>{{ __('Upload File') }}</span>
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
+            </span>
+        </div>
+
+        {% set items = stackitems(20, 'other,documents') %}
+        {% if items %}
+            <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-paper-clip"></i>
+                    {{ __('Select from stack') }}
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu" id="stack-{{key}}">
+                    {% for item in items %}
+                        <li>
+                            <a href="#" data-filepath="{{ item.filepath }}">{{ item.basename }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
         </div>
@@ -324,6 +347,14 @@
                     source: "{{ paths.async }}filesautocomplete?ext={{ field.extensions|join(',') }}",
                     minLength: 2
                 });
+
+                // In the Stack pulldown, to select a file..
+                $('#stack-{{key}} li').on('click', function(e) {
+                    e.preventDefault();
+                    var file = $(this).find('a').data('filepath');
+                    $('#field-{{key}}').val(file);
+                });
+
             });
         </script>
     {% endif %}
