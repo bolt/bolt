@@ -1492,6 +1492,22 @@ class Storage
                         continue;
                     }
 
+                    // build OR parts if key contains "|||"
+                    if (strpos($key, " ||| ") !== false) {
+                        $keyParts = explode(" ||| ", $key);
+                        $valParts = explode(" ||| ", $value);
+                        $orPart = '( ';
+                        for ($i = 0; $i < count($keyParts); $i++) {
+                            if (in_array($keyParts[$i], $this->getContentTypeFields($contenttype['slug'])) ||
+                                in_array($keyParts[$i], array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status')) ) {
+                                $rkey = $tablename . '.' . $keyParts[$i];
+                                $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i]) . ') OR ';
+                            }
+                        }
+                        if (strlen($orPart) > 2)
+                            $where[] = substr($orPart, 0, -4) . ') ';
+                    }
+
                     // for all the parameters that are fields
                     if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
                         in_array($key, array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status')) ) {
@@ -1958,13 +1974,6 @@ class Storage
             $param2 = $this->parseWhereParameter($key, $value2);
 
             return sprintf("( %s OR %s )", $param1, $param2);
-        } elseif (strpos($value, " ||| ") !== false) {
-            $parts = explode(" ||| ", $value);
-            $result = '( ';
-            for ($i = 0; $i < count($parts); $i+=2) {
-                $result.= ' (' . $this->parseWhereParameter($parts[$i], $parts[$i+1]) . ') OR ';
-            }
-            return substr($result, 0, -4) . ') ';
         } elseif (strpos($value, " && ") !== false) {
             list($value1, $value2) = explode(" && ", $value);
             $param1 = $this->parseWhereParameter($key, $value1);
