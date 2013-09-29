@@ -48,8 +48,8 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
         'cookie_httponly' => true
     )
 ));
-$app->register(new Bolt\ConfigServiceProvider());
-$app->register(new Bolt\LogServiceProvider(), array());
+$app->register(new Bolt\Provider\ConfigServiceProvider());
+$app->register(new Bolt\Provider\LogServiceProvider());
 
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($app['config']);
@@ -113,11 +113,11 @@ if (!function_exists('intl_get_error_code')) {
     require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
 }
 
-$app->register(new Bolt\TranslationServiceProvider());
-$app->register(new Bolt\StorageServiceProvider(), array());
-$app->register(new Bolt\UsersServiceProvider(), array());
-$app->register(new Bolt\CacheServiceProvider(), array());
-$app->register(new Bolt\ExtensionServiceProvider(), array());
+$app->register(new Bolt\Provider\TranslationServiceProvider());
+$app->register(new Bolt\Provider\StorageServiceProvider());
+$app->register(new Bolt\Provider\UsersServiceProvider());
+$app->register(new Bolt\Provider\CacheServiceProvider());
+$app->register(new Bolt\Provider\ExtensionServiceProvider());
 
 $app['paths'] = getPaths($app['config']);
 $app['twig']->addGlobal('paths', $app['paths']);

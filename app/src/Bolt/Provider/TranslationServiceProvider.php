@@ -1,8 +1,7 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Provider;
 
-use Bolt;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
 
@@ -24,18 +23,19 @@ class TranslationServiceProvider implements ServiceProviderInterface
     public function boot(\Silex\Application $app)
     {
         if (isset($app['translator'])) {
+            $paths = getPaths($app);
+
             $loaders = array(
                 'csv' => new TranslationLoader\CsvFileLoader(),
                 'ini' => new TranslationLoader\IniFileLoader(),
-                'mo'  => new TranslationLoader\MoFileLoader(),
+                'mo' => new TranslationLoader\MoFileLoader(),
                 'php' => new TranslationLoader\PhpFileLoader(),
                 'xlf' => new TranslationLoader\XliffFileLoader(),
                 'yml' => new TranslationLoader\YamlFileLoader(),
             );
             $registeredLoaders = array();
             // Directory to look for translation file(s)
-            $translationDir = dirname(dirname(__DIR__)) .
-                '/resources/translations/' . $app['locale'];
+            $translationDir = $paths['apppath'] . '/resources/translations/' . $app['locale'];
 
             if (is_dir($translationDir)) {
                 $iterator = new \DirectoryIterator($translationDir);
@@ -62,12 +62,11 @@ class TranslationServiceProvider implements ServiceProviderInterface
 
             // load fallback for infos domain
             $locale_fb = $app['locale_fallback'];
-            $translationDir = dirname(dirname(__DIR__)) .
-                '/resources/translations/' . $locale_fb;
+            $translationDir = $paths['apppath'] . '/resources/translations/' . $locale_fb;
 
             if (is_dir($translationDir)) {
                 $extension = 'yml';
-                $domain='infos';
+                $domain = 'infos';
                 $infosfilename = "$translationDir/$domain.$locale_fb.$extension";
                 if (is_readable($infosfilename)) {
                     if (array_key_exists($extension, $loaders)) {
@@ -79,7 +78,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                     }
                 }
             }
-
         }
     }
+
 }

@@ -24,7 +24,7 @@ class Frontend
             return redirect('useredit', array('id' => ""));
         }
 
-        $app['debugbar']     = true;
+        $app['debugbar'] = true;
         $app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
@@ -235,8 +235,8 @@ class Frontend
         $chosen = "taxonomy";
 
         // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
-        if ($app['config']->get('taxonomy/'.$taxonomyslug.'/listing_template')) {
-            $template = $app['config']->get('taxonomy/'.$taxonomyslug.'/listing_template');
+        if ($app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template')) {
+            $template = $app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template');
         } else {
             $template = $app['config']->get('general/listing_template');
         }
@@ -258,7 +258,7 @@ class Frontend
 
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('slug', $slug);
-        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/'.$taxonomyslug));
+        $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
         return $app['twig']->render($template);
@@ -301,7 +301,7 @@ class Frontend
 
         // Make paging work
         $page_size = 10;
-        $page      = 1;
+        $page = 1;
         if ($request->query->has('page')) {
             $page = intval($request->get('page'));
         }
@@ -309,7 +309,7 @@ class Frontend
             $page = 1;
         }
         $offset = ($page - 1) * $page_size;
-        $limit  = $page_size;
+        $limit = $page_size;
 
         // set-up filters from URL
         $filters = array();
@@ -344,7 +344,7 @@ class Frontend
         );
 
         $GLOBALS['pager']['search'] = $pager;
-        $GLOBALS['pager']['search']['link'] = '/search?q='.rawurlencode($q).'&page=';
+        $GLOBALS['pager']['search']['link'] = '/search?q=' . rawurlencode($q) . '&page=';
 
         $app['twig']->addGlobal('records', $result['results']);
         $app['twig']->addGlobal('search', $result['query']['use_q']);
