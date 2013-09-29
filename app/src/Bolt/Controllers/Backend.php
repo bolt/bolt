@@ -830,34 +830,46 @@ class Backend implements ControllerProviderInterface
 
     }
 
-    function files($path, Silex\Application $app, Request $request) {
-        
-        $form = $app['form.factory']
-                    ->createBuilder('form')
-                    ->add('FileUpload', 'file')
-                    ->getForm();
+    public function files($path, Silex\Application $app, Request $request)
+    {
 
         $files = array();
         $folders = array();
 
-        $basefolder = __DIR__."/../../../../";
+        $basefolder = __DIR__ . "/../../../../";
         $path = stripTrailingSlash(str_replace("..", "", $path));
-        $currentfolder = realpath($basefolder.$path);
-        
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $files = $request->files->get($form->getName());
-                /* Make sure that Upload Directory is properly configured and writable */
-                $filename = $files['FileUpload']->getClientOriginalName();
-                $files['FileUpload']->move($currentfolder, $filename);
+        $currentfolder = realpath($basefolder . $path);
 
+        if (is_writable($currentfolder)) {
+
+            // Define the "Upload here" form.
+            $form = $app['form.factory']
+                ->createBuilder('form')
+                ->add('FileUpload', 'file', array('label' => "Upload a file to this folder:"))
+                ->getForm();
+
+            // Handle the upload.
+            if ($request->isMethod('POST')) {
+                $form->bind($request);
+                if ($form->isValid()) {
+                    $files = $request->files->get($form->getName());
+                    /* Make sure that Upload Directory is properly configured and writable */
+                    $filename = $files['FileUpload']->getClientOriginalName();
+                    $files['FileUpload']->move($currentfolder, $filename);
+                    $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
+                } else {
+                    $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));
+                }
+                return redirect('files', array('path' => $path));
             }
-            //$subRequest = Request::create('/bolt/files/files', 'GET');
-            //return $app->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
-            header('Location: /bolt/files/files');
-            exit;
+
+            $formview = $form->createView();
+
+        } else {
+            // Folder not writable, don't show an upload.
+            $formview = false;
         }
+
 
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
@@ -867,7 +879,7 @@ class Backend implements ControllerProviderInterface
         if (!empty($path)) {
             foreach (explode("/", $path) as $segment) {
                 $cumulative .= $segment . "/";
-                $pathsegments[ $cumulative ] = $segment;
+                $pathsegments[$cumulative] = $segment;
             }
         }
 
@@ -877,9 +889,11 @@ class Backend implements ControllerProviderInterface
 
             while (false !== ($entry = $d->read())) {
 
-                if (in_array($entry, $ignored)) { continue; }
+                if (in_array($entry, $ignored)) {
+                    continue;
+                }
 
-                $fullfilename = $currentfolder."/".$entry;
+                $fullfilename = $currentfolder . "/" . $entry;
 
                 if (is_file($fullfilename)) {
                     $files[$entry] = array(
@@ -915,10 +929,10 @@ class Backend implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s'=>$path)));
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
         }
 
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' =>$path)));
+        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
 
         // Make sure the files and folders are sorted properly.
         ksort($files);
@@ -926,7 +940,7 @@ class Backend implements ControllerProviderInterface
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file..
-        if(!$request->query->has('CKEditor')) {
+        if (!$request->query->has('CKEditor')) {
             $twig = 'files.twig';
         } else {
             $twig = 'files_ck.twig';
@@ -937,8 +951,9 @@ class Backend implements ControllerProviderInterface
             'files' => $files,
             'folders' => $folders,
             'pathsegments' => $pathsegments,
-            'form' => $form->createView()
+            'form' => $formview
         ));
+
     }
 
     public function fileedit($file, Silex\Application $app, Request $request)

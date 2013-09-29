@@ -1,14 +1,7 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
 
-<h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
-
-<form action="" method="post" {{ form_enctype(form) }}>
-    <fieldset>
-        {{ form_widget(form) }}
-    </fieldset>
-    <input class="btn" type="submit" name="{{ __('Upload File') }}" />
-</form>
+<h1>{{ __('Files: %path%', { '%path%' : path } ) }}</h1>
 
 {% if pathsegments|length > 1 %}
     <p>{{ __('Path:') }}
@@ -97,6 +90,28 @@
     </tr>
 {% endfor %}
 </table>
+{% endif %}
+
+{# only show the "Upload here" form, if the folder is writable. #}
+{% if form != false %}
+    <hr />
+    <form action="" method="post" {{ form_enctype(form) }}>
+        <fieldset>
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-info" style="margin-top: 4px;">
+                <i class="icon-upload"></i>
+                <span>{{ __('Upload file') }}</span>
+            </button>
+        </fieldset>
+    </form>
+
+    <script type="text/javascript">
+        $(function() {
+            $('input[type=file]').bootstrapFileInput();
+        });
+    </script>
+{% else %}
+    <p><i class="icon-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
 {% endif %}
 
 
