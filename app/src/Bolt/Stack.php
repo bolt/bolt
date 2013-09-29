@@ -74,7 +74,6 @@ class Stack
 
             // Skip this one, if it doesn't match the type.
             if ( !empty($typefilter) && (!in_array($type, $typefilter)) ) {
-                echo "[skip]";
                 continue;
             }
 
