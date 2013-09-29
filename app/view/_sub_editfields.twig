@@ -186,12 +186,41 @@
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'>
 
 <!-- The fileinput-button span is used to style the file input field as button -->
-        <span class="btn btn-info fileinput-button">
-            <i class="icon-upload"></i>
-            <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
-        </span>
-        <a data-target="#selectImageModal-{{key}}" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">{{ __('Select from server') }}</a>
+        <div class="btn-group">
+            <span class="btn btn-info fileinput-button">
+                <i class="icon-upload"></i>
+                <span>{{ __('Upload image') }}</span>
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
+            </span>
+        </div>
+
+        <div class="btn-group" style="margin-left: 8px;">
+            <a data-target="#selectImageModal-{{key}}" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">
+                <i class="icon-upload-alt"></i>
+                {{ __('Select from server') }}
+            </a>
+        </div>
+
+        {% set items = stackitems(20, 'image') %}
+        {% if items %}
+        <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-paper-clip"></i>
+                {{ __('Select from stack') }}
+                <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu" id="stack-{{key}}">
+                {% for item in items %}
+                    <li>
+                        <a href="#" data-filepath="{{ item.filepath }}">{{ item.basename }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+
         <div class="progress progress-striped active" id="progress-{{key}}">
             <div class="bar" style="width: 0%;"></div>
         </div>
@@ -239,6 +268,13 @@
             $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
             $("#field-{{key}}").val(filename);
             $('#selectImageModal-{{key}}').modal('hide');
+        });
+
+        // In the Stack pulldown, to select a file..
+        $('#stack-{{key}} li').on('click', function(e) {
+            var file = $(this).find('a').data('filepath');
+            $('#field-{{key}}').val(file);
+            $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI( file )+"' width='120' height='120'>");
         });
 
     });

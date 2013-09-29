@@ -116,7 +116,10 @@
 
     </section>
 
-{{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
+    {{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
+
+    {{ render(path("showstack", {'items': 5 } )) }}
+
 
     </aside>
 </div>

@@ -62,37 +62,33 @@
     {{ pager() }}
 
     </div><!-- /span9 -->
+
     <aside class="span3">
 
     <section>
-    <h2>{{__('Actions for %contenttypes%',{'%contenttypes%':contenttype.name})}}:</h2>
+        <h2>{{__('Actions for %contenttypes%',{'%contenttypes%':contenttype.name})}}:</h2>
 
-    <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': '' }) }}">
-        <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
-    </a>
-    {% if request('filter') or request('order') %}
-    <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
-    {% endif %}
+        <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': '' }) }}">
+            <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+        </a>
+        {% if request('filter') or request('order') %}
+        <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
+        {% endif %}
 
-    <h2>{{ __('Filtering:') }}</h2>
+        <h2>{{ __('Filtering:') }}</h2>
 
-<form class="form-inline">
-  <input type="text" class="input-small" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;">
-  <button type="submit" class="btn">{{ __('Filter') }}</button>
-      {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
-</form>
+        <form class="form-inline">
+          <input type="text" class="input-small" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;">
+          <button type="submit" class="btn">{{ __('Filter') }}</button>
+              {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
+        </form>
 
 
     </section>
 
-    {{ render(path("showstack", {'items': 5 } )) }}
-
-
-
     {{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
 
-
-
+    {{ render(path("showstack", {'items': 5 } )) }}
 
     </aside>
 </div>

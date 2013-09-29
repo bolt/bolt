@@ -493,6 +493,8 @@ aside .btn {
  */
 #stackholder {
     height: 120px;
+    padding: 12px 0 12px 2px;
+    overflow: hidden;
 }
 
 .stackitem {
@@ -527,7 +529,7 @@ aside .btn {
 
 .stackitem:hover {
     z-index: 120 !important;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, .5);
 }
 
 .stackitem.item-1 {
@@ -568,6 +570,16 @@ aside .btn {
 .stackitem.item-5 {
     z-index: 106;
     margin-top: -6px;
+}
+
+.stackitem.item-6 {
+    z-index: 105;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+    margin-top: 5px;
 }
 
 
@@ -812,7 +824,7 @@ fieldset.checkbox div {
 }
 
 .progress {
-    width: 30%;
+    width: 20%;
     display: none;
     margin-bottom: 0;
 }

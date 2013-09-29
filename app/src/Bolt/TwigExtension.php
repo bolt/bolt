@@ -54,7 +54,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html')))
+            new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('stackitems', array($this, 'stackitems'))
         );
     }
 
@@ -944,5 +945,22 @@ class TwigExtension extends \Twig_Extension
         return $result;
 
     }
+
+
+
+    /**
+     * Return an array with the items on the stack
+     *
+     * @param string type
+     */
+    public function stackitems($amount = 20, $type = "")
+    {
+
+        $items = $this->app['stack']->listitems($amount, $type);
+
+        return $items;
+
+    }
+
 
 }

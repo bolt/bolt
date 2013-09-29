@@ -85,6 +85,8 @@
 
     {{ render(path("dashboardnews")) }}
 
+    {{ render(path("showstack", {'items': 7 } )) }}
+
     {{ widget('dashboard', 'right_first') }}
 
     <div id="latestactivity">

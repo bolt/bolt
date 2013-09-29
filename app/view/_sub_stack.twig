@@ -1,10 +1,8 @@
 <section>
-    <h2>{{ __('Files on the stack') }}</h2>
+    <h2><i class="icon-paper-clip"></i> {{ __('Files on the stack') }}</h2>
 
     <div id="stackholder">
         {% for item in stack %}
-
-        {#  print(item) #}
 
         <div class="stackitem item-{{ loop.index }} {{ item.type }}">
             {% if item.type == "image" %}

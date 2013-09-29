@@ -52,7 +52,7 @@ class Stack
         }
     }
 
-    public function listitems($count = 100)
+    public function listitems($count = 100, $typefilter = "")
     {
 
         $items = $this->items;
@@ -69,6 +69,12 @@ class Stack
                 $type = "other";
             }
 
+            // Skip this one, if it doesn't match the type.
+            if ( ($typefilter != "") && ($typefilter != $type) ) {
+                continue;
+            }
+
+            //add it to our list..
             $list[] = array(
                 'basename' => basename($item),
                 'extension' => $extension,

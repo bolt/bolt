@@ -273,6 +273,10 @@ function bindFileUpload(key) {
                         $('#field-' + key).val(filename);
                         $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
                         window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 1500);
+
+                        // Add the uploaded file to our stack..
+                        addToStack(filename);
+
                     } else {
                         alert("Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable.");
                         window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 50);
