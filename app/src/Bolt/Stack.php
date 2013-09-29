@@ -55,10 +55,11 @@ class Stack
     public function listitems($count = 100, $typefilter = "")
     {
 
-        $typefilter = explode(",", $typefilter);
+        if (!empty($typefilter)) {
+            $typefilter = explode(",", $typefilter);
+        }
 
         $items = $this->items;
-
         $items = array_slice($items, 0, $count);
 
         foreach ($items as $item) {
@@ -73,6 +74,7 @@ class Stack
 
             // Skip this one, if it doesn't match the type.
             if ( !empty($typefilter) && (!in_array($type, $typefilter)) ) {
+                echo "[skip]";
                 continue;
             }
 
@@ -94,7 +96,6 @@ class Stack
 
         $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
 
-        \util::var_dump($this->items);
         $_SESSION['items'] = serialize($this->items);
     }
 
