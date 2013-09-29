@@ -1490,6 +1490,22 @@ class Storage
                         continue;
                     }
 
+                    // build OR parts if key contains "|||"
+                    if (strpos($key, " ||| ") !== false) {
+                        $keyParts = explode(" ||| ", $key);
+                        $valParts = explode(" ||| ", $value);
+                        $orPart = '( ';
+                        for ($i = 0; $i < count($keyParts); $i++) {
+                            if (in_array($keyParts[$i], $this->getContentTypeFields($contenttype['slug'])) ||
+                                in_array($keyParts[$i], array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status')) ) {
+                                $rkey = $tablename . '.' . $keyParts[$i];
+                                $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i]) . ') OR ';
+                            }
+                        }
+                        if (strlen($orPart) > 2)
+                            $where[] = substr($orPart, 0, -4) . ') ';
+                    }
+
                     // for all the parameters that are fields
                     if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
                         in_array($key, array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status'))
