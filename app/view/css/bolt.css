@@ -489,6 +489,89 @@ aside .btn {
 }
 
 /**
+ * Stacked files
+ */
+#stackholder {
+    height: 120px;
+}
+
+.stackitem {
+    border: 6px solid #fff;
+    background-color: #DDD;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
+    width: 100px;
+    height: 100px;
+    position: relative;
+    float: left;
+    left: 0px;
+    margin-right: -80px;
+    overflow: hidden;
+}
+
+.stackitem strong {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    margin: 10px auto;
+}
+
+.stackitem small {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0px 5px;
+    word-break: break-all;
+}
+
+
+.stackitem:hover {
+    z-index: 120 !important;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
+}
+
+.stackitem.item-1 {
+    z-index: 110;
+}
+
+
+.stackitem.item-2 {
+    z-index: 109;
+    -webkit-transform: rotate(4deg);
+    -moz-transform: rotate(4deg);
+    -o-transform: rotate(4deg);
+    -ms-transform: rotate(4deg);
+    transform: rotate(4deg);
+    margin-top: 8px;
+}
+
+.stackitem.item-3 {
+    z-index: 108;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+    margin-top: -8px;
+}
+
+.stackitem.item-4 {
+    z-index: 107;
+    -webkit-transform: rotate(9deg);
+    -moz-transform: rotate(9deg);
+    -o-transform: rotate(9deg);
+    -ms-transform: rotate(9deg);
+    transform: rotate(9deg);
+    margin-top: 3px;
+}
+
+.stackitem.item-5 {
+    z-index: 106;
+    margin-top: -6px;
+}
+
+
+/**
  * Extensions screen
  */
 
@@ -499,10 +582,9 @@ div.extension {
     padding: 0 10px 8px;
     margin: 0 10px 8px 0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
-
 }
 
-div.extension h3 {
+
     font-size: 17px;
     line-height: 28px;
     margin: 4px 0 0;

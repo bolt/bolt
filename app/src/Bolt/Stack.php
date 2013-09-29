@@ -11,7 +11,7 @@ namespace Bolt;
 class Stack
 {
 
-    const MAX_ITEMS = 6;
+    const MAX_ITEMS = 10;
 
     private $items;
     private $imagetypes = array('jpg', 'jpeg', 'png', 'gif');
@@ -31,13 +31,14 @@ class Stack
     public function add($filename)
     {
 
+        // If the item is already on the stack, delete it, so it can be added to the front.
         if (in_array($filename, $this->items)) {
-            return false;
-        } else {
-            array_unshift($this->items, $filename);
-            $this->persist();
-            return true;
+            $this->delete($filename);
         }
+
+        array_unshift($this->items, $filename);
+        $this->persist();
+        return true;
 
     }
 
@@ -51,10 +52,12 @@ class Stack
         }
     }
 
-    public function listitems()
+    public function listitems($count = 100)
     {
 
         $items = $this->items;
+
+        $items = array_slice($items, 0, $count);
 
         foreach ($items as $item) {
             $extension = getExtension($item);
@@ -80,6 +83,9 @@ class Stack
 
     public function persist()
     {
+
+        $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
+
         \util::var_dump($this->items);
         $_SESSION['items'] = serialize($this->items);
     }

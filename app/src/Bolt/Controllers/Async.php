@@ -375,12 +375,13 @@ class Async implements ControllerProviderInterface
     public function showstack(Silex\Application $app)
     {
 
+        $count = $app->request->get('items', 10);
 
-        $items = $app['stack']->listitems();
+        $stack = $app['stack']->listitems($count);
 
-        \util::var_dump($items);
-
-        return true;
+        return $app['twig']->render('_sub_stack.twig', array(
+            'stack' => $stack
+        ));
 
     }
 

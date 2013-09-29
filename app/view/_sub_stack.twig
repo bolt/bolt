@@ -1,0 +1,21 @@
+<section>
+    <h2>{{ __('Files on the stack') }}</h2>
+
+    <div id="stackholder">
+        {% for item in stack %}
+
+        {#  print(item) #}
+
+        <div class="stackitem item-{{ loop.index }} {{ item.type }}">
+            {% if item.type == "image" %}
+                <img src="{{ item.filepath|thumbnail(200,200) }}" width="200" height="200">
+            {% else %}
+               <strong>{{ item.extension|upper }}</strong>
+               <small>{{ item.basename }}</small>
+            {% endif %}
+        </div>
+        {% else %}
+            <p>{{  __("No items on the stack yet.") }}</p>
+        {% endfor %}
+    </div>
+</section>
