@@ -125,10 +125,9 @@ wysiwyg:
   anchor: true
   tables: true
   fontcolor: false
-  align: true
+  align: false
   subsuper: false
-  embed: true,
-  anhor: true,
+  embed: true
   ck:
     allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
     autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
