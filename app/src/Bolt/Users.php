@@ -81,7 +81,7 @@ class Users
     public function saveUser($user)
     {
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled', 'contenttypes');
+        $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled', 'contenttypes', 'stack');
 
         // unset columns we don't need to store..
         foreach ($user as $key => $value) {

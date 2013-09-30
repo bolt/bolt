@@ -268,6 +268,19 @@ footer  {
     margin: 4px 0;
 }
 
+/* Note: We only use popover-bottom for items on the stack. If we start using it
+   for anything else, we need to specify the selector further */
+.popover.bottom {
+    width: 220px;
+    margin-left: 110px;
+    margin-top: 4px;
+}
+
+.popover.bottom .popover-content, .popover.bottom .popover-content code {
+    font-size: 12px;
+    overflow:hidden;
+}
+
 /**
  * Dashboard specific stuff
  */

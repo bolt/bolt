@@ -338,6 +338,7 @@ class IntegrityChecker
         $usersTable->addColumn("displayname", "string", array("length" => 32));
         $usersTable->addColumn("userlevel", "string", array("length" => 32));
         $usersTable->addColumn("contenttypes", "string", array("length" => 256));
+        $usersTable->addColumn("stack", "string", array("length" => 1024));
         $usersTable->addColumn("enabled", "boolean");
         $usersTable->addIndex( array( 'enabled' ) );
         $usersTable->addColumn("shadowpassword", "string", array("length" => 128, "default" => ""));

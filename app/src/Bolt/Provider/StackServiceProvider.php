@@ -11,9 +11,9 @@ class StackServiceProvider implements ServiceProviderInterface
     public function register(SilexApplication $app)
     {
 
-        $app['stack'] = $app->share(function () {
+        $app['stack'] = $app->share(function ($app) {
 
-            $stack = new Bolt\Stack();
+            $stack = new Bolt\Stack($app);
 
             return $stack;
 
