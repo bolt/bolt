@@ -60,7 +60,7 @@ class Stack
         }
 
         $items = $this->items;
-        $items = array_slice($items, 0, $count);
+        $list = array();
 
         foreach ($items as $item) {
             $extension = getExtension($item);
@@ -85,6 +85,8 @@ class Stack
                 'type' => $type
             );
         }
+
+        $list = array_slice($list, 0, $count);
 
         return $list;
 
