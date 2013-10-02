@@ -2,6 +2,19 @@
     <section>
         <h2><i class="icon-paper-clip"></i> {{ __('Files on the stack') }}</h2>
 
+        <div id="protostack">
+
+            <div class="stackitem image info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+                <img src="" width="100" height="100">
+            </div>
+
+            <div class="stackitem other info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+                <strong>HTML</strong>
+                <small>index.html</small>
+            </div>
+
+        </div>
+
         <div id="stackholder">
             {% for item in stack %}
 
@@ -62,10 +75,7 @@
             // In the modal dialog, to select a file..
             $('#selectImageModal-stack').on('click','.file', function(e) {
                 e.preventDefault();
-                var filename = $(this).attr('href');
-                alert(filename);
-                $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
-                $("#field-{{key}}").val(filename);
+                addToStack($(this).attr('href'));
                 $('#selectImageModal-stack').modal('hide');
             });
 

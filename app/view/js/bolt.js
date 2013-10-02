@@ -271,7 +271,7 @@ function bindFileUpload(key) {
                     if (file.error == undefined) {
                         var filename = decodeURI(file.url).replace("/files/", "");
                         $('#field-' + key).val(filename);
-                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+                        $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename) +"' width='120' height='120'>");
                         window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack..
@@ -529,30 +529,40 @@ function bindMarkdown(key) {
  * Add a file to our simple Stack.
  *
  * @param string filename
- * @param string filepath
  */
-function addToStack(filename, type) {
-    console.log('add to stack: ', filename);
+function addToStack(filename) {
 
-    if (type == null) {
-        type = "file";
+    var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+    if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif" ) {
+        type = "image";
+    } else {
+        type = "other";
     }
 
     $.ajax({
         url: asyncpath + 'addstack/' + filename,
         type: 'GET',
         success: function(result) {
-            console.log('Added file to stack');
+            console.log('Added file ' + filename  + ' to stack');
 
-            // Move all current items one down..
-            stack = $('div.stackitem');
+            // Move all current items one down, and remove the last one
+            stack = $('#stackholder div.stackitem');
             for (var i=stack.length; i>=1; i--) {
-                var item = $("div.stackitem.item-" + i);
-                $("div.stackitem.item-" + i).addClass('item-' + (i+1)).removeClass('item-' + i);
+                var item = $("#stackholder div.stackitem.item-" + i);
+                item.addClass('item-' + (i+1)).removeClass('item-' + i);
+            }
+            if ($("#stackholder div.stackitem.item-8").is('*')) {
+                $("#stackholder div.stackitem.item-8").remove();
             }
 
             // Insert new item at the front..
-
+            if (type == "image") {
+                var html = $('#protostack div.image').clone();
+                $(html).find('img').attr('src', path + "../thumbs/100x100c/"+encodeURI(filename) );
+            } else {
+                var html = $('#protostack div.other').clone();
+            }
+            $('#stackholder').prepend(html);
         },
         error: function() {
             console.log('Failed to add file to stack');

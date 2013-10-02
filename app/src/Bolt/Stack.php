@@ -84,7 +84,7 @@ class Stack
         $list = array();
 
         foreach ($items as $item) {
-            $extension = getExtension($item);
+            $extension = strtolower(getExtension($item));
             if (in_array($extension, $this->imagetypes)) {
                 $type = "image";
             } else if (in_array($extension, $this->documenttypes)) {
