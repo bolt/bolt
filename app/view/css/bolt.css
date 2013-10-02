@@ -504,6 +504,10 @@ aside .btn {
 /**
  * Stacked files
  */
+#protostack {
+    display: none;
+}
+
 #stackholder {
     height: 120px;
     padding: 12px 0 12px 2px;
