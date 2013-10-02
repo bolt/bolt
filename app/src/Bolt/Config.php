@@ -455,7 +455,8 @@ class Config
     private function setTwigPath()
     {
         // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        $themepath = realpath(__DIR__ . '/../../../theme/' . basename($this->get('general/theme')));
+
+        $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme/' . basename($this->get('general/theme')));
 
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
