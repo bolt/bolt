@@ -511,7 +511,7 @@ aside .btn {
 #stackholder {
     height: 120px;
     padding: 12px 0 12px 2px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .stackitem {
@@ -526,6 +526,8 @@ aside .btn {
     margin-right: -80px;
     overflow: hidden;
 }
+
+
 
 .stackitem strong {
     display: block;
@@ -597,6 +599,17 @@ aside .btn {
     -ms-transform: rotate(-3deg);
     transform: rotate(-3deg);
     margin-top: 5px;
+}
+
+.stackitem.dragstackitem {
+    border: 6px solid #FFF !important;
+    z-index: 200;
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+    transform: rotate(0);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .6) !important;
 }
 
 

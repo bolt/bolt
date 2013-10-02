@@ -59,30 +59,4 @@
     </section>
 
 
-
-{% if not ismobileclient() %}
-
-    <script type="text/javascript">
-        $(function() {
-            bindFileUpload('stack');
-
-            // In the modal dialog, to navigate folders..
-            $('#selectImageModal-stack').on('click','.folder', function(e) {
-                e.preventDefault();
-                $('#selectImageModal-stack .modal-body').load($(this).attr('href'));
-            });
-
-            // In the modal dialog, to select a file..
-            $('#selectImageModal-stack').on('click','.file', function(e) {
-                e.preventDefault();
-                addToStack($(this).attr('href'));
-                $('#selectImageModal-stack').modal('hide');
-            });
-
-
-        });
-    </script>
-{% endif %}
-
-
 {% endif %}

@@ -109,6 +109,7 @@ jQuery(function($) {
         }
     });
 
+    stack = new Stack();
 
 });
 
@@ -275,7 +276,7 @@ function bindFileUpload(key) {
                         window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 1500);
 
                         // Add the uploaded file to our stack..
-                        addToStack(filename);
+                        stack.addToStack(filename);
 
                     } else {
                         alert("Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable.");
@@ -526,49 +527,101 @@ function bindMarkdown(key) {
 }
 
 /**
- * Add a file to our simple Stack.
- *
- * @param string filename
+ * Backbone object for all Stack-related functionality.
  */
-function addToStack(filename) {
+var Stack = Backbone.Model.extend({
 
-    var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
-    if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif" ) {
-        type = "image";
-    } else {
-        type = "other";
+    defaults: {
+    },
+
+    /**
+     * If we have a 'stackholder' on the page, bind the uploader and file-selector.
+     */
+    initialize: function() {
+
+        if ($('#stackholder').is('*')) {
+            this.bindEvents();
+        }
+
+    },
+
+    bindEvents: function() {
+
+        bindFileUpload('stack');
+
+        // In the modal dialog, to navigate folders..
+        $('#selectImageModal-stack').on('click','.folder', function(e) {
+            e.preventDefault();
+            $('#selectImageModal-stack .modal-body').load($(this).attr('href'));
+        });
+
+        // In the modal dialog, to select a file..
+        $('#selectImageModal-stack').on('click','.file', function(e) {
+            e.preventDefault();
+            stack.addToStack($(this).attr('href'));
+            $('#selectImageModal-stack').modal('hide');
+        });
+
+        // Make the Stacked items draggable.
+        $('#stackholder .stackitem').draggable({
+                revert: true,
+                helper: "clone",
+                stack: "#set div",
+                start: function( event, ui ) {
+                    $(ui.helper).addClass("dragstackitem");
+                }
+        });
+
+    },
+
+    /**
+     * Add a file to our simple Stack.
+     *
+     * @param string filename
+     */
+    addToStack: function(filename) {
+
+        var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+        if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif" ) {
+            type = "image";
+        } else {
+            type = "other";
+        }
+
+        $.ajax({
+            url: asyncpath + 'addstack/' + filename,
+            type: 'GET',
+            success: function(result) {
+                console.log('Added file ' + filename  + ' to stack');
+
+                // Move all current items one down, and remove the last one
+                stack = $('#stackholder div.stackitem');
+                for (var i=stack.length; i>=1; i--) {
+                    var item = $("#stackholder div.stackitem.item-" + i);
+                    item.addClass('item-' + (i+1)).removeClass('item-' + i);
+                }
+                if ($("#stackholder div.stackitem.item-8").is('*')) {
+                    $("#stackholder div.stackitem.item-8").remove();
+                }
+
+                // Insert new item at the front..
+                if (type == "image") {
+                    var html = $('#protostack div.image').clone();
+                    $(html).find('img').attr('src', path + "../thumbs/100x100c/"+encodeURI(filename) );
+                } else {
+                    var html = $('#protostack div.other').clone();
+                }
+                $('#stackholder').prepend(html);
+            },
+            error: function() {
+                console.log('Failed to add file to stack');
+            }
+        });
     }
 
-    $.ajax({
-        url: asyncpath + 'addstack/' + filename,
-        type: 'GET',
-        success: function(result) {
-            console.log('Added file ' + filename  + ' to stack');
+});
 
-            // Move all current items one down, and remove the last one
-            stack = $('#stackholder div.stackitem');
-            for (var i=stack.length; i>=1; i--) {
-                var item = $("#stackholder div.stackitem.item-" + i);
-                item.addClass('item-' + (i+1)).removeClass('item-' + i);
-            }
-            if ($("#stackholder div.stackitem.item-8").is('*')) {
-                $("#stackholder div.stackitem.item-8").remove();
-            }
 
-            // Insert new item at the front..
-            if (type == "image") {
-                var html = $('#protostack div.image').clone();
-                $(html).find('img').attr('src', path + "../thumbs/100x100c/"+encodeURI(filename) );
-            } else {
-                var html = $('#protostack div.other').clone();
-            }
-            $('#stackholder').prepend(html);
-        },
-        error: function() {
-            console.log('Failed to add file to stack');
-        }
-    });
-}
 
 /**
  * Model, Collection and View for Imagelist.
