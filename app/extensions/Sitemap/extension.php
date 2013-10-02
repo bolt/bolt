@@ -5,6 +5,7 @@ namespace Sitemap;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
 class Extension extends \Bolt\BaseExtension
 {
@@ -44,6 +45,8 @@ class Extension extends \Bolt\BaseExtension
         // Set up the routes for the sitemap..
         $this->app->match("/sitemap", array($this, 'sitemap'));
         $this->app->match("/sitemap.xml", array($this, 'sitemapXml'));
+
+        $this->insertSnippet(SnippetLocation::END_OF_HEAD, 'headsnippet');
 
     }
 
@@ -102,6 +105,17 @@ class Extension extends \Bolt\BaseExtension
         return $this->sitemap(true);
     }
 
+    public function headsnippet()
+    {
+
+        $snippet = sprintf(
+            '<link rel="sitemap" type="application/xml" title="Sitemap" href="%ssitemap.xml">',
+            $this->app['paths']['rooturl']
+        );
+
+        return $snippet;
+
+    }
 
 
 }
