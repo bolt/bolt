@@ -213,7 +213,7 @@
             <ul class="dropdown-menu" id="stack-{{key}}">
                 {% for item in items %}
                     <li>
-                        <a href="#" data-filepath="{{ item.filepath }}">{{ item.basename }}</a>
+                        <a href="#" data-filepath="{{ item.filepath }}">{{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small></a>
                     </li>
                 {% endfor %}
             </ul>

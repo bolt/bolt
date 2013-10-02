@@ -6,7 +6,7 @@
             {% for item in stack %}
 
             <div class="stackitem item-{{ loop.index }} {{ item.type }} info-pop"
-                 data-placement="bottom" data-trigger="click" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
+                 data-placement="bottom" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
                 {% if item.type == "image" %}
                     <img src="{{ item.filepath|thumbnail(100,100) }}" width="100" height="100">
                 {% else %}
