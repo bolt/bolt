@@ -124,6 +124,14 @@ class Users
             $user['failedlogins'] = 0;
         }
 
+        // Make sure the 'stack' is set.
+        if (empty($user['stack'])) {
+            $user['stack'] = serialize(array());
+        } elseif (is_array($user['stack'])) {
+            $user['stack'] = serialize($user['stack']);
+        }
+
+
         // Serialize the contenttypes..
         if (empty($user['contenttypes'])) {
             $user['contenttypes'] = array();
