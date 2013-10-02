@@ -18,5 +18,61 @@
             {% endfor %}
         </div>
 
+        <div class="btn-group">
+            <span class="btn btn-info fileinput-button">
+                <i class="icon-upload"></i>
+                <span>{{ __('Upload image') }}</span>
+                <input id="fileupload-stack" type="file" name="fileupload-stack[]" data-url="{{ paths.app }}classes/upload/">
+            </span>
+        </div>
+
+        <div class="btn-group" style="margin-left: 0px;">
+            <a data-target="#selectImageModal-stack" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">
+                <i class="icon-upload-alt"></i>
+                {{ __('Select from server') }}
+            </a>
+        </div>
+
+        <!-- Modal "select from server"  -->
+        <div class="modal hide modal-wide" id="selectImageModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+            </div>
+        </div>
+
     </section>
+
+
+
+{% if not ismobileclient() %}
+
+    <script type="text/javascript">
+        $(function() {
+            bindFileUpload('stack');
+
+            // In the modal dialog, to navigate folders..
+            $('#selectImageModal-stack').on('click','.folder', function(e) {
+                e.preventDefault();
+                $('#selectImageModal-stack .modal-body').load($(this).attr('href'));
+            });
+
+            // In the modal dialog, to select a file..
+            $('#selectImageModal-stack').on('click','.file', function(e) {
+                e.preventDefault();
+                var filename = $(this).attr('href');
+                alert(filename);
+                $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI(filename)+"' width='120' height='120'>");
+                $("#field-{{key}}").val(filename);
+                $('#selectImageModal-stack').modal('hide');
+            });
+
+
+        });
+    </script>
+{% endif %}
+
+
 {% endif %}

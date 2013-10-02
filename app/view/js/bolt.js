@@ -531,14 +531,28 @@ function bindMarkdown(key) {
  * @param string filename
  * @param string filepath
  */
-function addToStack(filename) {
+function addToStack(filename, type) {
     console.log('add to stack: ', filename);
+
+    if (type == null) {
+        type = "file";
+    }
 
     $.ajax({
         url: asyncpath + 'addstack/' + filename,
         type: 'GET',
         success: function(result) {
             console.log('Added file to stack');
+
+            // Move all current items one down..
+            stack = $('div.stackitem');
+            for (var i=stack.length; i>=1; i--) {
+                var item = $("div.stackitem.item-" + i);
+                $("div.stackitem.item-" + i).addClass('item-' + (i+1)).removeClass('item-' + i);
+            }
+
+            // Insert new item at the front..
+
         },
         error: function() {
             console.log('Failed to add file to stack');
