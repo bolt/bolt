@@ -179,8 +179,8 @@ class LowlevelChecks
         if (strlen($key) !== 10) {
             $this->lowlevelError("The cryptographic random number generator you configured,
                 <code>" . htmlspecialchars($method, ENT_QUOTES)  . "</code>, appears to
-                be unsupported on this environment. Consider switching to a different
-                cryptographic RNG.");
+                be unsupported or malfunctioning on this environment.
+                Consider switching to a different cryptographic RNG.");
         }
     }
 

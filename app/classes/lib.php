@@ -358,17 +358,36 @@ function readBytes($filename, $count) {
  * @param bool $stronger If FALSE, use only lowercase letters and digits; if
  *                       TRUE, also use uppercase letters and special chars.
  * @param mixed $method If set, use the specified RNG
+ * @throws Exception If anything goes wrong, this function throws a generic exception.
  * @return string
  */
 function makeKey($length, $stronger = false, $method = false)
 {
-	if (empty($method)) {
-		global $app;
-		$keygenMode = $app['config']->get('general/crypto_rng');
-	}
-	else {
-		$keygenMode = $method;
-	}
+    if (empty($method)) {
+        global $app;
+        $keygenMode = $app['config']->get('general/crypto_rng');
+    }
+    else {
+        $keygenMode = $method;
+    }
+
+    if (empty($method) || $method === "auto") {
+        $methods = array('dev-urandom', 'mt_rand', 'rand');
+        foreach ($methods as $method) {
+            try {
+                $key = makeKey($length, $stronger, $method);
+                if (!empty($key)) {
+                    return $key;
+                }
+            }
+            catch (\Exception $ex) {
+                // ON ERROR RESUME NEXT
+                // Seriously though, we'll just try the next method, and when
+                // they all fail, we'll throw after all. Promise.
+            }
+        }
+        throw new \Exception("Cryptographic RNG is configured as automatic, but none of the available methods seemed to be functional.");
+    }
 
     if ($stronger) {
         $seed = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*";
@@ -394,7 +413,7 @@ function makeKey($length, $stronger = false, $method = false)
             $bytes = readBytes('/dev/random', $length);
             break;
         default:
-            die("Key generation method '$keygenMode' not found");
+            throw new \Exception("Key generation method '$keygenMode' not found");
     }
 
     $runningVal = 0;
@@ -404,6 +423,9 @@ function makeKey($length, $stronger = false, $method = false)
         $key .= $seed[$offset];
     }
 
+    if (strlen($key) !== $length) {
+        throw new \Exception("Cryptographic key invalid; expected length $length, but found " . strlen($key));
+    }
     return $key;
 }
 
