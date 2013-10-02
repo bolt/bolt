@@ -280,7 +280,7 @@ class Users
             $this->app['config']->get('general/cookies_domain'),
             false,
             true
-		);
+        );
 
         try {
             // Check if there's already a token stored for this name / IP combo.
@@ -504,7 +504,7 @@ class Users
                 $this->app['config']->get('general/cookies_domain'),
                 false,
                 true
-			);
+            );
 
             return false;
 
@@ -668,7 +668,7 @@ class Users
             $this->app['config']->get('general/cookies_domain'),
             false,
             true
-		);
+        );
 
         // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
         // $this->session->invalidate();
