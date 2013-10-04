@@ -337,15 +337,58 @@ function formatFilesize($size)
 
 }
 
+function readBytes($filename, $count) {
+    $f = fopen($filename, 'rb');
+    $rawBytes = str_split(fread($f, $count));
+    $bytes = array_map('ord', $rawBytes);
+    fclose($f);
+    return $bytes;
+}
 
 /**
  * Makes a random key with the specified length.
  *
+ * Currently supported RNGs are:
+ * "dev-random" - UNIX/Linux only; read bytes from /dev/random
+ * "dev-urandom" - UNIX/Linux only, recommended; read bytes from /dev/urandom
+ * "rand" - Use libc's rand(). Not recommended.
+ * "mt_rand" - Use PHP's Mersenne Twister implementation. Not recommended.
+ *
  * @param int $length
+ * @param bool $stronger If FALSE, use only lowercase letters and digits; if
+ *                       TRUE, also use uppercase letters and special chars.
+ * @param mixed $method If set, use the specified RNG
+ * @throws Exception If anything goes wrong, this function throws a generic exception.
  * @return string
  */
-function makeKey($length, $stronger = false)
+function makeKey($length, $stronger = false, $method = false)
 {
+    if (empty($method)) {
+        global $app;
+        $keygenMode = $app['config']->get('general/crypto_rng');
+    }
+    else {
+        $keygenMode = $method;
+    }
+
+    if (empty($method) || $method === "auto") {
+        $methods = array('dev-urandom', 'mt_rand', 'rand');
+        foreach ($methods as $method) {
+            try {
+                $key = makeKey($length, $stronger, $method);
+                if (!empty($key)) {
+                    return $key;
+                }
+            }
+            catch (\Exception $ex) {
+                // ON ERROR RESUME NEXT
+                // Seriously though, we'll just try the next method, and when
+                // they all fail, we'll throw after all. Promise.
+            }
+        }
+        throw new \Exception("Cryptographic RNG is configured as automatic, but none of the available methods seemed to be functional.");
+    }
+
     if ($stronger) {
         $seed = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*";
     } else {
@@ -354,12 +397,36 @@ function makeKey($length, $stronger = false)
     $len = strlen($seed);
     $key = "";
 
-    for ($i=0; $i<$length; $i++) {
-        $key .= $seed[ rand(0, $len-1) ];
+    switch ($keygenMode) {
+        case 'rand':
+            for ($i = 0; $i < $length; $i++)
+                $bytes[] = rand(0, $len - 1);
+            break;
+        case 'mt_rand':
+            for ($i = 0; $i < $length; $i++)
+                $bytes[] = rand(0, $len - 1);
+            break;
+        case 'dev-urandom':
+            $bytes = readBytes('/dev/urandom', $length);
+            break;
+        case 'dev-random':
+            $bytes = readBytes('/dev/random', $length);
+            break;
+        default:
+            throw new \Exception("Key generation method '$keygenMode' not found");
     }
 
-    return $key;
+    $runningVal = 0;
+    foreach ($bytes as $byte) {
+        $runningVal += $byte;
+        $offset = $runningVal % $len;
+        $key .= $seed[$offset];
+    }
 
+    if (strlen($key) !== $length) {
+        throw new \Exception("Cryptographic key invalid; expected length $length, but found " . strlen($key));
+    }
+    return $key;
 }
 
 
