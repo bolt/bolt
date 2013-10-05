@@ -134,5 +134,3 @@ require __DIR__.'/app.php';
 
 // Initialize enabled extensions.
 $app['extensions']->initialize();
-
-$checker->doPostLoadChecks();

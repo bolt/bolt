@@ -164,25 +164,6 @@ class LowlevelChecks
 
     }
 
-    public function doPostLoadChecks() {
-        global $app;
-
-        /* Check if a key generation function has been configured. */
-        $method = $app['config']->get('general/crypto_rng');
-
-        if (empty($method)) {
-            $this->lowlevelError("No cryptographic random number generator configured.
-                Set <code>general/crypto_rng</code> to a suitable value and try again.");
-        }
-        /* Let's see if we can generate random keys. */
-        $key = makeKey(10);
-        if (strlen($key) !== 10) {
-            $this->lowlevelError("The cryptographic random number generator you configured,
-                <code>" . htmlspecialchars($method, ENT_QUOTES)  . "</code>, appears to
-                be unsupported or malfunctioning on this environment.
-                Consider switching to a different cryptographic RNG.");
-        }
-    }
 
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
