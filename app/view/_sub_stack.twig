@@ -34,20 +34,20 @@
         <div class="btn-group">
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
-                <span>{{ __('Upload image') }}</span>
+                <span>{{ __('Upload') }}</span>
                 <input id="fileupload-stack" type="file" name="fileupload-stack[]" data-url="{{ paths.app }}classes/upload/">
             </span>
         </div>
 
         <div class="btn-group" style="margin-left: 0px;">
-            <a data-target="#selectImageModal-stack" href="{{ paths.async }}browse/files" class="btn fileinput-select" data-toggle="modal">
+            <a data-target="#selectModal-stack" href="{{ paths.async }}browse/files?key=stack" class="btn fileinput-select" data-toggle="modal">
                 <i class="icon-upload-alt"></i>
                 {{ __('Select from server') }}
             </a>
         </div>
 
         <!-- Modal "select from server"  -->
-        <div class="modal hide modal-wide" id="selectImageModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal hide modal-wide" id="selectModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
             <div class="modal-body">
             </div>

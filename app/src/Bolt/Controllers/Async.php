@@ -276,6 +276,10 @@ class Async implements ControllerProviderInterface
         $files = array();
         $folders = array();
 
+        // $key is linked to the fieldname of the original field, so we can
+        // Set the selected value in the proper field
+        $key = $app->request->get('key');
+
         $basefolder = __DIR__ . "/../../../../";
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder . $path);
@@ -353,7 +357,8 @@ class Async implements ControllerProviderInterface
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
-            'pathsegments' => $pathsegments
+            'pathsegments' => $pathsegments,
+            'key' => $key
         ));
 
     }

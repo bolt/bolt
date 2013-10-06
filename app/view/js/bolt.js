@@ -14,14 +14,7 @@ jQuery(function($) {
         helpers: { overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.5)' } } }
     });
 
-    // Helper to make things like '<button data-action="eventView.load()">' work
-    $('button, input[type=button], a').on('click', function(e){
-        var action = $(this).data('action');
-        if (typeof(action) != "undefined" && (action != "") ) {
-            eval(action);
-            e.preventDefault();
-        }
-    });
+    initActions();
 
     // Show 'dropzone' for jQuery file uploader.
     // @todo make it prettier, and distinguish between '.in' and '.hover'.
@@ -112,6 +105,26 @@ jQuery(function($) {
     stack = new Stack();
 
 });
+
+
+/**
+ * Helper to make things like '<button data-action="eventView.load()">' work
+ */
+function initActions() {
+
+    // Unbind the clicks, with the 'action' namespace.
+    $('button, input[type=button], a').off('click.action');
+
+    // Bind the clicks, with the 'action' namespace.
+    $('button, input[type=button], a').on('click.action', function(e){
+        var action = $(this).data('action');
+        if (typeof(action) != "undefined" && (action != "") ) {
+            eval(action);
+            e.preventDefault();
+        }
+    });
+
+}
 
 
 /**
@@ -555,13 +568,6 @@ var Stack = Backbone.Model.extend({
             $('#selectImageModal-stack .modal-body').load($(this).attr('href'));
         });
 
-        // In the modal dialog, to select a file..
-        $('#selectImageModal-stack').on('click','.file', function(e) {
-            e.preventDefault();
-            stack.addToStack($(this).attr('href'));
-            $('#selectImageModal-stack').modal('hide');
-        });
-
         // Make the Stacked items draggable.
         $('#stackholder .stackitem').draggable({
                 revert: true,
@@ -595,7 +601,7 @@ var Stack = Backbone.Model.extend({
                 console.log('Added file ' + filename  + ' to stack');
 
                 // Move all current items one down, and remove the last one
-                stack = $('#stackholder div.stackitem');
+                var stack = $('#stackholder div.stackitem');
                 for (var i=stack.length; i>=1; i--) {
                     var item = $("#stackholder div.stackitem.item-" + i);
                     item.addClass('item-' + (i+1)).removeClass('item-' + i);
@@ -610,6 +616,8 @@ var Stack = Backbone.Model.extend({
                     $(html).find('img').attr('src', path + "../thumbs/100x100c/"+encodeURI(filename) );
                 } else {
                     var html = $('#protostack div.other').clone();
+                    $(html).find('strong').html(ext.toUpperCase());
+                    $(html).find('small').html(filename);
                 }
                 $('#stackholder').prepend(html);
             },
@@ -620,7 +628,7 @@ var Stack = Backbone.Model.extend({
     },
 
     selectFromPulldown: function(key, filename) {
-        alert(key + " = " + filename);
+        console.log("select: ", key + " = " + filename);
 
         if ($('#field-' + key).is('*')) {
             $('#field-' + key).val(filename);
@@ -629,6 +637,19 @@ var Stack = Backbone.Model.extend({
             src = path + "../thumbs/120x120c/"+encodeURI( filename );
             $('#thumbnail-' + key).html("<img src='" + src + "' width='120' height='120'>");
         }
+        if ($('#selectModal-' + key).is('*')) {
+            $('#selectModal-' + key).modal('hide');
+        }
+
+        // If we need to place it on the stack as well..
+        if (key == "stack") {
+            stack.addToStack(filename);
+        }
+
+    },
+
+    changeFolder: function(key, foldername) {
+        $('#selectModal-' + key + ' .modal-body').load(foldername);
     }
 
 });

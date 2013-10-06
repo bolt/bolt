@@ -4,7 +4,7 @@
     <p>{{ __('Path:') }}
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
-    <a href="{{ path('asyncbrowse', { 'path': path }) }}" class="folder">{{segment}}</a>
+    <a href="{{ path('asyncbrowse', { 'path': path, 'key': key }) }}" class="folder">{{segment}}</a>
     {% endfor %}
     </p>
 {% endif %}
@@ -15,7 +15,7 @@
 {% for folder in folders %}
     <tr>
         <td>
-            <a href="{{ path('asyncbrowse', { 'path': folder.newpath }) }}" class="folder">
+            <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': folder.newpath, 'key': key }) }}');" class="folder">
                 <i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b>
             </a>
         </td>
@@ -33,7 +33,7 @@
         <tr>
             <td>
                 {% if file.readable %}
-                    <a href="{{ file.relativepath }}" class='file'>
+                    <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ file.relativepath }}');" class='file'>
                         <b>{{ file.filename|trimtext(40) }}</b>
                     </a>
                 {% else %}
@@ -54,3 +54,9 @@
 {% endfor %}
 </table>
 {% endif %}
+
+<script type="text/javascript">
+    $(function() {
+        initActions();
+    });
+</script>
