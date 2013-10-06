@@ -85,7 +85,7 @@
 
     {{ render(path("dashboardnews")) }}
 
-    {{ render(path("showstack", {'items': 7 } )) }}
+    {{ render(path("showstack", {'items': 7, 'options': 'full' } )) }}
 
     {{ widget('dashboard', 'right_first') }}
 

@@ -21,7 +21,7 @@ body {
 }
 
 body.popup {
-    padding: 0px 12px;
+    padding: 6px 12px 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -527,7 +527,9 @@ aside .btn {
     overflow: hidden;
 }
 
-
+.stackitem-wide {
+    margin-right: -35px
+}
 
 .stackitem strong {
     display: block;
@@ -593,12 +595,22 @@ aside .btn {
 
 .stackitem.item-6 {
     z-index: 105;
-    -webkit-transform: rotate(-3deg);
-    -moz-transform: rotate(-3deg);
-    -o-transform: rotate(-3deg);
-    -ms-transform: rotate(-3deg);
-    transform: rotate(-3deg);
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -o-transform: rotate(3deg);
+    -ms-transform: rotate(3deg);
+    transform: rotate(3deg);
     margin-top: 5px;
+}
+
+.stackitem.item-7 {
+    z-index: 104;
+    -webkit-transform: rotate(-5deg);
+    -moz-transform: rotate(-5deg);
+    -o-transform: rotate(-5deg);
+    -ms-transform: rotate(-5deg);
+    transform: rotate(-5deg);
+    margin-top: -3px;
 }
 
 .stackitem.dragstackitem {
@@ -626,7 +638,7 @@ div.extension {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
 }
 
-
+div.extension h3 {
     font-size: 17px;
     line-height: 28px;
     margin: 4px 0 0;

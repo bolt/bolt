@@ -1,5 +1,10 @@
 {% include '_header_basic.twig' with { 'class': 'popup' } %}
 
+{# Only show the stack on the topmost level. #}
+{% if path == "files" %}
+    {# Show the stack with the latest items. #}
+    {{ render(path("showstack", {'items': 7, 'options': 'minimal' } )) }}
+{% endif %}
 
 <h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
 
@@ -55,6 +60,7 @@
         {% endfor %}
     </table>
 {% endif %}
+
 
 <script type='text/javascript'>
 

@@ -381,11 +381,13 @@ class Async implements ControllerProviderInterface
     {
 
         $count = $app->request->get('items', 10);
+        $options = $app->request->get('options', false);
 
         $stack = $app['stack']->listitems($count);
 
         return $app['twig']->render('_sub_stack.twig', array(
-            'stack' => $stack
+            'stack' => $stack,
+            'options' => $options
         ));
 
     }
