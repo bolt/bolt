@@ -122,7 +122,7 @@ strict_variables: false
 # instruct them thoroughly on their responsibilty not to break the layout.
 wysiwyg:
   images: true
-  anchor: true
+  anchor: false
   tables: true
   fontcolor: false
   align: false
@@ -131,9 +131,6 @@ wysiwyg:
   ck:
     allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
     autoParagraph: true # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
-    #contentsCss: '' # Absolute Path to CSS File on Server because it's loaded by JavaScript stylesheetparser
-    filebrowserWindowWidth: '640'
-    filebrowserWindowHeight: '480'
 
 # by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
 # instead. Uncomment the following lines to use an SMTP server with authentication.
