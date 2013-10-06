@@ -108,9 +108,9 @@
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
         $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
             e.preventDefault();
-            var link = "{{ paths.root }}" + "preview" + "/{{ contenttype.singular_slug }}";
-            $('#editcontent').attr('action', link).attr('target', "_blank").submit();
-            $('#editcontent').attr('action', link).attr('target', "_self")
+            var newaction = "{{ paths.root }}" + "preview" + "/{{ contenttype.singular_slug }}";
+            $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
+            $('#editcontent').attr('action', '').attr('target', "_self");
         });
     </script>
 
