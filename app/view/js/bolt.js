@@ -630,18 +630,29 @@ var Stack = Backbone.Model.extend({
     selectFromPulldown: function(key, filename) {
         console.log("select: ", key + " = " + filename);
 
+        // For "normal" file and image fields..
         if ($('#field-' + key).is('*')) {
+            console.log('is!');
             $('#field-' + key).val(filename);
         }
+
+        // For Imagelist fields..
+        if (typeof imagelist[key] == "object") {
+            imagelist[key].add(filename, filename);
+        }
+
+        // If the field has a thumbnail, set it.
         if ($('#thumbnail-' + key).is('*')) {
             src = path + "../thumbs/120x120c/"+encodeURI( filename );
             $('#thumbnail-' + key).html("<img src='" + src + "' width='120' height='120'>");
         }
+
+        // Close the modal dialog, if this image/file was selected through one.
         if ($('#selectModal-' + key).is('*')) {
             $('#selectModal-' + key).modal('hide');
         }
 
-        // If we need to place it on the stack as well..
+        // If we need to place it on the stack as well, do so.
         if (key == "stack") {
             stack.addToStack(filename);
         }

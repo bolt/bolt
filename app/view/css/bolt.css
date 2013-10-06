@@ -892,9 +892,6 @@ fieldset.checkbox div {
     height: auto;
 }
 
-#editcontent div.imagelistholder textarea {
-    display: none;
-}
 
 #editcontent div.imagelistholder p {
     padding: 8px;
@@ -919,6 +916,7 @@ fieldset.checkbox div {
     border-radius: 3px;
     cursor: ns-resize;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
 
 
@@ -941,7 +939,6 @@ fieldset.checkbox div {
 }
 
 #editcontent div.imagelistholder div.buttons {
-    display: inline;
     float: left;
     padding: 7px 8px;
 }
