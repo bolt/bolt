@@ -636,8 +636,8 @@ var Stack = Backbone.Model.extend({
             $('#field-' + key).val(filename);
         }
 
-        // For Imagelist fields..
-        if (typeof imagelist[key] == "object") {
+        // For Imagelist fields. Check if imagelist[key] is an object.
+        if (typeof imagelist == "object" && typeof imagelist[key] == "object") {
             imagelist[key].add(filename, filename);
         }
 
