@@ -213,7 +213,7 @@
             <ul class="dropdown-menu" id="stack-{{key}}">
                 {% for item in items %}
                     <li>
-                        <a href="#" data-filepath="{{ item.filepath }}">{{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small></a>
+                        <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small></a>
                     </li>
                 {% endfor %}
             </ul>
@@ -270,14 +270,6 @@
             $('#selectImageModal-{{key}}').modal('hide');
         });
 
-        // In the Stack pulldown, to select a file..
-        $('#stack-{{key}} li').on('click', function(e) {
-            e.preventDefault();
-            var file = $(this).find('a').data('filepath');
-            $('#field-{{key}}').val(file);
-            $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI( file )+"' width='120' height='120'>");
-        });
-
     });
 </script>
 {% endif %}
@@ -314,7 +306,7 @@
             </span>
         </div>
 
-        {% set items = stackitems(7, 'other,documents') %}
+        {% set items = stackitems(7, 'other,document') %}
         {% if items %}
             <div class="btn-group">
                 <a class="btn dropdown-toggle" data-toggle="dropdown">
@@ -326,7 +318,7 @@
                 <ul class="dropdown-menu" id="stack-{{key}}">
                     {% for item in items %}
                         <li>
-                            <a href="#" data-filepath="{{ item.filepath }}">{{ item.basename }}</a>
+                            <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }})</small></a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -346,13 +338,6 @@
                 $("#field-{{key}}").autocomplete({
                     source: "{{ paths.async }}filesautocomplete?ext={{ field.extensions|join(',') }}",
                     minLength: 2
-                });
-
-                // In the Stack pulldown, to select a file..
-                $('#stack-{{key}} li').on('click', function(e) {
-                    e.preventDefault();
-                    var file = $(this).find('a').data('filepath');
-                    $('#field-{{key}}').val(file);
                 });
 
             });

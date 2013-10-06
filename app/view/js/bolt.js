@@ -617,6 +617,18 @@ var Stack = Backbone.Model.extend({
                 console.log('Failed to add file to stack');
             }
         });
+    },
+
+    selectFromPulldown: function(key, filename) {
+        alert(key + " = " + filename);
+
+        if ($('#field-' + key).is('*')) {
+            $('#field-' + key).val(filename);
+        }
+        if ($('#thumbnail-' + key).is('*')) {
+            src = path + "../thumbs/120x120c/"+encodeURI( filename );
+            $('#thumbnail-' + key).html("<img src='" + src + "' width='120' height='120'>");
+        }
     }
 
 });
