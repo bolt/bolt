@@ -133,13 +133,10 @@ class TwigExtension extends \Twig_Extension
             $dateTime = new \DateTime($dateTime);
         }
 
-        $locale = array(
-            $this->app['config']->get('general/locale'),
-            $this->app['config']->get('general/locale') . '.utf8',
-            'en_GB', 'en_GB.utf8', 'en'
-        );
-
-        $result = setlocale(LC_ALL, $locale);
+        // According to http://php.net/manual/en/function.setlocale.php manual
+        // if the second parameter is "0", the locale setting is not affected,
+        // only the current setting is returned.
+        $result = setlocale(LC_ALL, 0);
         if ($result === false) {
             // This shouldn't occur, but.. Dude!
             // You ain't even got locale or English on your platform??

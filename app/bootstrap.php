@@ -66,6 +66,14 @@ date_default_timezone_set(
     $app['config']->get('general/timezone')?:'UTC'
 );
 
+// Set default locale
+$locale = array(
+    $app['config']->get('general/locale') . '.utf8',
+    $app['config']->get('general/locale'),
+    'en_GB.utf8', 'en_GB', 'en'
+);
+setlocale(LC_ALL, $locale);
+
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => $app['config']->get('twigpath'),
     'twig.options' => array(
@@ -89,6 +97,10 @@ if ($dboptions['driver']=="pdo_sqlite") {
 } else if ($dboptions['driver']=="pdo_mysql") {
     // https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
     $app['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+    // set utf8 on names and connection as all tables has this charset
+    $app['db']->query("SET NAMES 'utf8';");
+    $app['db']->query("SET CHARACTER SET 'utf8';");
+    $app['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
 }
 
 $app->register(new Silex\Provider\HttpCacheServiceProvider(), array(
