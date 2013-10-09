@@ -1499,7 +1499,8 @@ class Storage
                             if (in_array($keyParts[$i], $this->getContentTypeFields($contenttype['slug'])) ||
                                 in_array($keyParts[$i], array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status')) ) {
                                 $rkey = $tablename . '.' . $keyParts[$i];
-                                $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i]) . ') OR ';
+                                $fieldtype = $this->getContentTypeFieldType($contenttype['slug'], $keyParts[$i]);
+                                $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
                             }
                         }
                         if (strlen($orPart) > 2)
@@ -1511,7 +1512,8 @@ class Storage
                         in_array($key, array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status'))
                     ) {
                         $rkey = $tablename . '.' . $key;
-                        $where[] = $this->parseWhereParameter($rkey, $value);
+                        $fieldtype = $this->getContentTypeFieldType($contenttype['slug'], $key);
+                        $where[] = $this->parseWhereParameter($rkey, $value, $fieldtype);
                     }
 
                     // for all the  parameters that are taxonomies
@@ -1536,22 +1538,6 @@ class Storage
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.contenttype', $contenttype['slug'])
                         );
                     }
-
-//                    // for all the  parameters that are taxonomies
-//                    if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug'])) ) {
-//                        // Set the new 'from', with LEFT JOIN for taxonomies..
-//                        $query['from'] = sprintf('FROM %s LEFT JOIN %s ON %s.%s = %s.%s',
-//                            $tablename,
-//                            $this->getTablename('taxonomy'),
-//                            $tablename,
-//                            $this->app['db']->quoteIdentifier('id'),
-//                            $this->getTablename('taxonomy'),
-//                            $this->app['db']->quoteIdentifier('content_id'));
-//                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.taxonomytype', $key);
-//                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.slug', $value);
-//                        $where[] = $this->parseWhereParameter($this->getTablename('taxonomy').'.contenttype', $contenttype['slug']);
-//                    }
-
 
                 }
             }
@@ -1959,8 +1945,13 @@ class Storage
     /**
      * Helper function to set the proper 'where' parameter,
      * when getting values like '<2012' or '!bob'
+     *
+     * @param  string $key
+     * @param  string $value
+     * @param  mixed $fieldtype
+     * @return string
      */
-    private function parseWhereParameter($key, $value)
+    private function parseWhereParameter($key, $value, $fieldtype = false)
     {
 
         $value = trim($value);
@@ -1968,14 +1959,14 @@ class Storage
         // check if we need to split..
         if (strpos($value, " || ") !== false) {
             list($value1, $value2) = explode(" || ", $value);
-            $param1 = $this->parseWhereParameter($key, $value1);
-            $param2 = $this->parseWhereParameter($key, $value2);
+            $param1 = $this->parseWhereParameter($key, $value1, $fieldtype);
+            $param2 = $this->parseWhereParameter($key, $value2, $fieldtype);
 
             return sprintf("( %s OR %s )", $param1, $param2);
         } elseif (strpos($value, " && ") !== false) {
             list($value1, $value2) = explode(" && ", $value);
-            $param1 = $this->parseWhereParameter($key, $value1);
-            $param2 = $this->parseWhereParameter($key, $value2);
+            $param1 = $this->parseWhereParameter($key, $value1, $fieldtype);
+            $param2 = $this->parseWhereParameter($key, $value2, $fieldtype);
 
             return sprintf("( %s AND %s )", $param1, $param2);
         }
@@ -2004,7 +1995,8 @@ class Storage
             $operator = "LIKE";
         }
 
-        if (($timestamp = strtotime($value)) !== false) {
+        // Use strtotime to allow selections like "< last monday" or "this year"
+        if (in_array($fieldtype, array('date', 'datetime')) && ($timestamp = strtotime($value)) !== false) {
             $value = date('Y-m-d H:i:s', $timestamp);
         }
 
@@ -2013,15 +2005,13 @@ class Storage
         return $parameter;
     }
 
+
     /**
-     * Deprecated: use getContent.
+     * Get the contenttype as an array, based on the given $contenttypeslug
+     *
+     * @param  string $contenttypeslug
+     * @return bool|array
      */
-    public function getSingleContent($contenttypeslug, $parameters = array())
-    {
-        return $this->getContent($contenttypeslug, $parameters);
-
-    }
-
     public function getContentType($contenttypeslug)
     {
 
@@ -2056,6 +2046,12 @@ class Storage
 
     }
 
+    /**
+     * Get the taxonomy as an array, based on the given $taxonomyslug
+     *
+     * @param  string $taxonomyslug
+     * @return bool|array
+     */
     public function getTaxonomyType($taxonomyslug)
     {
 
@@ -2156,6 +2152,33 @@ class Storage
         }
 
     }
+
+    /**
+     * Get the fieldtype for a given contenttype and fieldname
+     *
+     * @param  string $contenttypeslug
+     * @param  string $fieldname
+     * @return array  $fields
+     */
+    public function getContentTypeFieldType($contenttypeslug, $fieldname)
+    {
+
+        $contenttype = $this->getContentType($contenttypeslug);
+
+        \util::var_dump($contenttype['fields']);
+
+        if (in_array($fieldname, array('datecreated', 'datechanged', 'datepublish', 'datedepublish'))) {
+            return "datetime";
+        } else if (isset($contenttype['fields'][$fieldname]['type'])) {
+            return $contenttype['fields'][$fieldname]['type'];
+        } else {
+            return false;
+        }
+
+    }
+
+
+
 
     /**
      * Check if a given contenttype has a grouping, and if it does, return it.

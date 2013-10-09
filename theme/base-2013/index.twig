@@ -51,6 +51,7 @@
            requesting multiple entries, so 'records' will be an array containing each
            of the entries. That's why we use the 'for' loop to iterate over them all. #}
         {% setcontent records = "entries/latest/6" allowpaging %}
+        {% setcontent records = "entries" where { "title": "< tomorrow" } allowpaging printquery %}
         {% for record in records %}
             <article>
 
