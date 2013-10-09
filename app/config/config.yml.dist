@@ -6,6 +6,12 @@ database:
   driver: sqlite
   databasename: bolt
 
+# Set 'enabled' to 'true' to log all content changes in the database.
+# Unless you need to rigorously monitor every change to your site's content, it
+# is recommended to keep this disabled.
+changelog:
+  enabled: false
+
 # The name of the website
 sitename: A sample site
 payoff: The amazing payoff goes here
