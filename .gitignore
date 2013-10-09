@@ -18,3 +18,4 @@ php-cs-fixer.phar
 *.sublime-*
 .*.swp
 /tags
+.swp
