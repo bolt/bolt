@@ -2165,8 +2165,6 @@ class Storage
 
         $contenttype = $this->getContentType($contenttypeslug);
 
-        \util::var_dump($contenttype['fields']);
-
         if (in_array($fieldname, array('datecreated', 'datechanged', 'datepublish', 'datedepublish'))) {
             return "datetime";
         } else if (isset($contenttype['fields'][$fieldname]['type'])) {
