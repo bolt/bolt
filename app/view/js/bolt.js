@@ -583,16 +583,6 @@ var Stack = Backbone.Model.extend({
             $('#selectImageModal-stack .modal-body').load($(this).attr('href'));
         });
 
-        // Make the Stacked items draggable.
-        $('#stackholder .stackitem').draggable({
-                revert: true,
-                helper: "clone",
-                stack: "#set div",
-                start: function( event, ui ) {
-                    $(ui.helper).addClass("dragstackitem");
-                }
-        });
-
     },
 
     /**

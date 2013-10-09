@@ -613,17 +613,6 @@ aside .btn {
     margin-top: -3px;
 }
 
-.stackitem.dragstackitem {
-    border: 6px solid #FFF !important;
-    z-index: 200;
-    -webkit-transform: rotate(0);
-    -moz-transform: rotate(0);
-    -o-transform: rotate(0);
-    -ms-transform: rotate(0);
-    transform: rotate(0);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .6) !important;
-}
-
 
 /**
  * Extensions screen
