@@ -2004,24 +2004,13 @@ class Storage
             $operator = "LIKE";
         }
 
-        // special cases, for 'NOW', 'TODAY', 'YESTERDAY', 'TOMORROW'
-        if ($value == "NOW") {
-            $value = date('Y-m-d H:i:s');
-        }
-        if ($value == "TODAY") {
-            $value = date('Y-m-d 00:00:00');
-        }
-        if ($value == "YESTERDAY") {
-            $value = date('Y-m-d 00:00:00', strtotime('yesterday'));
-        }
-        if ($value == "TOMORROW") {
-            $value = date('Y-m-d 00:00:00', strtotime('tomorrow'));
+        if (($timestamp = strtotime($value)) !== false) {
+            $value = date('Y-m-d H:i:s', $timestamp);
         }
 
         $parameter = sprintf("%s %s %s", $this->app['db']->quoteIdentifier($key), $operator, $this->app['db']->quote($value));
 
         return $parameter;
-
     }
 
     /**
