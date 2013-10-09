@@ -489,6 +489,7 @@ class Storage
 
     private function updateContent($content, $contenttype)
     {
+        global $app;
 
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
@@ -497,8 +498,26 @@ class Storage
 
         $tablename = $this->getTablename($contenttype);
 
-        unset($content['datecreated']);
         $content['datechanged'] = date('Y-m-d H:i:s');
+
+        if ($app['config']->get('general/changelog/enabled')) {
+            $oldContent = $app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$content['id']]);
+            $log_filename = $app['config']->get('general/changelog/logfile');
+            $f = fopen($log_filename, 'a');
+            if (!$f) {
+                throw new \Exception("Could not open log file for writing ($log_filename)");
+            }
+            $str = sprintf("UPDATE: %s %s\n", $contenttype, $content['id']);
+            $diff = DeepDiff::deep_diff($oldContent, $content);
+            foreach ($diff as $item) {
+                list($k, $old, $new) = $item;
+                $str .= "$k: $old -> $new\n";
+            }
+            fprintf($f, "%s\n", $str);
+            fclose($f);
+        }
+
+        unset($content['datecreated']);
 
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
