@@ -297,6 +297,66 @@ class Storage
         return $picked;
     }
 
+    private function writeChangelog($action, $contenttype, $contentid = null, $newContent = null) {
+        global $app;
+
+        $allowed = array('INSERT', 'UPDATE', 'DELETE');
+        if (!in_array($action, $allowed)) {
+            throw new \Exception("Invalid action '$action' specified for changelog (must be one of [ " . implode(', ', $allowed) . " ])");
+        }
+
+        if ($app['config']->get('general/changelog/enabled')) {
+            $tablename = $this->getTablename($contenttype);
+            if ($action === 'INSERT') {
+                $oldContent = null;
+            }
+            else {
+                $oldContent = $app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$contentid]);
+            }
+            if (empty($oldContent) && empty($newContent)) {
+                throw new \Exception("Tried to log something that cannot be (deleting a non-existent entity)");
+            }
+            elseif (empty($oldContent)) {
+                $action = 'INSERT';
+            }
+            elseif (empty($newContent)) {
+                $action = 'DELETE';
+            }
+            else {
+                $action = 'UPDATE';
+            }
+            $log_filename = $app['config']->get('general/changelog/logfile');
+            $str = '';
+            switch ($action) {
+                case 'UPDATE':
+                    $diff = DeepDiff::deep_diff($oldContent, $newContent);
+                    foreach ($diff as $item) {
+                        list($k, $old, $new) = $item;
+                        $str .= "$k: $old -> $new\n";
+                    }
+                    break;
+                case 'INSERT':
+                    foreach ($newContent as $k => $val) {
+                        $str .= "$k: $val\n";
+                    }
+                    break;
+                case 'DELETE':
+                    foreach ($oldContent as $k => $val) {
+                        $str .= "$k: $val\n";
+                    }
+                    break;
+            }
+            $user = $app['users']->getCurrentUser();
+            $entry['date'] = date('Y-m-d H:i:s');
+            $entry['username'] = $user['username'];
+            $entry['contenttype'] = $contenttype;
+            $entry['contentid'] = $contentid;
+            $entry['mutation_type'] = $action;
+            $entry['diff'] = $str;
+            $app['db']->insert($this->getTablename('content_changelog'), $entry);
+        }
+    }
+
     public function saveContent($content, $contenttype = "")
     {
 
@@ -437,6 +497,8 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
+        $this->writeChangelog('DELETE', $contenttype, $id);
+
         $tablename = $this->getTablename($contenttype);
 
         $res = $this->app['db']->delete($tablename, array('id' => $id));
@@ -482,6 +544,8 @@ class Storage
         }
         $id = $this->app['db']->lastInsertId($seq);
 
+        $this->writeChangelog('INSERT', $contenttype, $id, $content);
+
         return $id;
 
     }
@@ -500,22 +564,7 @@ class Storage
 
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        if ($app['config']->get('general/changelog/enabled')) {
-            $oldContent = $app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$content['id']]);
-            $log_filename = $app['config']->get('general/changelog/logfile');
-            $f = fopen($log_filename, 'a');
-            if (!$f) {
-                throw new \Exception("Could not open log file for writing ($log_filename)");
-            }
-            $str = sprintf("UPDATE: %s %s\n", $contenttype, $content['id']);
-            $diff = DeepDiff::deep_diff($oldContent, $content);
-            foreach ($diff as $item) {
-                list($k, $old, $new) = $item;
-                $str .= "$k: $old -> $new\n";
-            }
-            fprintf($f, "%s\n", $str);
-            fclose($f);
-        }
+        $this->writeChangelog('UPDATE', $contenttype, $content['id'], $content);
 
         unset($content['datecreated']);
 
@@ -547,6 +596,8 @@ class Storage
 
         // @todo make sure we don't set datecreated
         // @todo update datechanged
+
+        $this->writeChangelog('UPDATE', $contenttype, $id, array($field => $value));
 
         $query = sprintf("UPDATE %s SET $field = ? WHERE id = ?", $tablename);
         $stmt = $this->app['db']->prepare($query);
