@@ -297,7 +297,46 @@ class Storage
         return $picked;
     }
 
-    private function writeChangelog($action, $contenttype, $contentid = null, $newContent = null) {
+    /**
+     * Writes a content-changelog entry for a newly-created entry.
+     */
+    private function logInsert($contenttype, $contentid, $content) {
+        $this->writeChangelog('INSERT', $contenttype, $contentid, $content);
+    }
+
+    /**
+     * Writes a content-changelog entry for an updated entry.
+     * This function must be called *before* the actual update, because it
+     * fetches the old content from the database.
+     */
+    private function logUpdate($contenttype, $contentid, $newContent) {
+        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent);
+    }
+
+    /**
+     * Writes a content-changelog entry for a deleted entry.
+     * This function must be called *before* the actual update, because it
+     */
+    private function logDelete($contenttype, $contentid) {
+        $this->writeChangelog('DELETE', $contenttype, $contentid);
+    }
+
+    /**
+     * Writes a content-changelog entry.
+     *
+     * @param string $action Must be one of 'INSERT', 'UPDATE', or 'DELETE'.
+     * @param string $contenttype The contenttype setting to log.
+     * @param int $contentid ID of the content item to log.
+     * @param array $newContent For 'INSERT' and 'UPDATE', the new content;
+     *                          null for 'DELETE'.
+     *
+     * For the 'UPDATE' and 'DELETE' actions, this function fetches the
+     * previous data from the database; this means that you must call it
+     * _before_ running the actual update/delete query; for the 'INSERT'
+     * action, this is not necessary, and since you really want to provide
+     * an ID, you can only really call the logging function _after_ the update.
+     */
+    private function writeChangelog($action, $contenttype, $contentid, $newContent = null) {
         global $app;
 
         $allowed = array('INSERT', 'UPDATE', 'DELETE');
@@ -314,16 +353,13 @@ class Storage
                 $oldContent = $app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$contentid]);
             }
             if (empty($oldContent) && empty($newContent)) {
-                throw new \Exception("Tried to log something that cannot be (deleting a non-existent entity)");
+                throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
             }
-            elseif (empty($oldContent)) {
-                $action = 'INSERT';
+            if (empty($oldContent) && in_array($action, array('UPDATE', 'DELETE'))) {
+                throw new \Exception("Cannot log action $action when old content doesn't exist");
             }
-            elseif (empty($newContent)) {
-                $action = 'DELETE';
-            }
-            else {
-                $action = 'UPDATE';
+            if (empty($newContent) && in_array($action, array('INSERT', 'UPDATE'))) {
+                throw new \Exception("Cannot log action $action when new content is empty");
             }
             $log_filename = $app['config']->get('general/changelog/logfile');
             $str = '';
@@ -497,7 +533,7 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
-        $this->writeChangelog('DELETE', $contenttype, $id);
+        $this->logDelete($contenttype, $id);
 
         $tablename = $this->getTablename($contenttype);
 
@@ -544,7 +580,7 @@ class Storage
         }
         $id = $this->app['db']->lastInsertId($seq);
 
-        $this->writeChangelog('INSERT', $contenttype, $id, $content);
+        $this->logInsert($contenttype, $id, $content);
 
         return $id;
 
@@ -564,7 +600,7 @@ class Storage
 
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        $this->writeChangelog('UPDATE', $contenttype, $content['id'], $content);
+        $this->logUpdate($contenttype, $content['id'], $content);
 
         unset($content['datecreated']);
 
@@ -597,7 +633,7 @@ class Storage
         // @todo make sure we don't set datecreated
         // @todo update datechanged
 
-        $this->writeChangelog('UPDATE', $contenttype, $id, array($field => $value));
+        $this->logUpdate($contenttype, $id, array($field => $value));
 
         $query = sprintf("UPDATE %s SET $field = ? WHERE id = ?", $tablename);
         $stmt = $this->app['db']->prepare($query);
