@@ -398,6 +398,28 @@ class IntegrityChecker
         $logTable->addColumn("dump", "string", array("length" => 1024));
         $tables[] = $logTable;
 
+        $contentChangelogTable = $schema->createTable($this->prefix."content_changelog");
+        $contentChangelogTable->addColumn("id", "integer", array('autoincrement' => true));
+        $contentChangelogTable->setPrimaryKey(array("id"));
+        $contentChangelogTable->addColumn("date", "datetime");
+        $contentChangelogTable->addIndex( array( 'date' ) );
+        $contentChangelogTable->addColumn("username", "string", array("length" => 64, "default" => ""));
+        $contentChangelogTable->addIndex( array( 'username' ) );
+
+        // contenttype and contentid refer to the entity type we're changing
+        $contentChangelogTable->addColumn("contenttype", "string", array('length' => 128));
+        $contentChangelogTable->addIndex( array( 'contenttype' ) );
+        $contentChangelogTable->addColumn("contentid", "integer", array());
+        $contentChangelogTable->addIndex( array( 'contentid' ) );
+
+        // should be one of 'UPDATE', 'INSERT', 'DELETE'
+        $contentChangelogTable->addColumn("mutation_type", "string", array('length' => 16));
+        $contentChangelogTable->addIndex( array( 'mutation_type' ) );
+
+        // a plain-text summary of the differences between the old and the new version
+        $contentChangelogTable->addColumn("diff", "string", array());
+        $tables[] = $contentChangelogTable;
+
         return $tables;
     }
 
