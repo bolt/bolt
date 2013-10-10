@@ -392,19 +392,25 @@ class Storage
     }
 
     public function getChangelogByContentType($contenttype, $options) {
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
         $tablename = $this->getTablename('content_changelog');
-        $sql = "SELECT * FROM $tablename WHERE contenttype = ?";
+        $content_tablename = $this->getTablename($contenttype);
+        $sql = "SELECT log.*, content.title " .
+               "    FROM $tablename as log " .
+               "    LEFT JOIN $content_tablename as content " .
+               "    ON content.id = log.contentid " .
+               "    WHERE contenttype = ?";
         if (isset($options['order'])) {
             $sql .= " ORDER BY " . $options['order'];
         }
         if (isset($options['limit'])) {
             $sql .= " LIMIT " . intval($options['limit']);
         }
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
         $params = array($contenttype);
-        $this->app['db']->fetchAssoc($sql, $params);
+        
+        return $this->app['db']->fetchAll($sql, $params);
     }
 
     public function saveContent($content, $contenttype = "")
