@@ -1,16 +1,26 @@
 {% import '_sub_crosslinks.twig' as crosslinks %}
 <section>
-    <h2>{{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}</h2>
+    <h2>
+    {% if filtered %}
+        {{ 'Recent modifications' }}
+    {% else %}
+        {{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}
+    {% endif %}
+    </h2>
     <ul>
     {% if changelog is defined %}
         {% set action_map = { 'INSERT': 'created', 'UPDATE': 'modified', 'DELETE': 'deleted' } %}
         {% for index, entry in changelog %}
             <li>
                 {% set action_name = action_map[entry.mutation_type] %}
-                {% if entry.title %}
-                    {% set title = crosslinks.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
+                {% if filtered %}
+                    {% set title = contenttype.singular_name %}
                 {% else %}
-                    {% set title = __('%name% #%id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
+                    {% if entry.title %}
+                        {% set title = crosslinks.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
+                    {% else %}
+                        {% set title = __('%name% #%id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
+                    {% endif %}
                 {% endif %}
                № {{index + 1}}. {{ title }} {{ action_name }} by {{ entry.username }} <small>(<time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>)</small>
             </li>

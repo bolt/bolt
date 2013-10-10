@@ -391,6 +391,17 @@ class Storage
         }
     }
 
+    /**
+     * Get content changelog entries by content type.
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param array $options An array with additional options. Currently, the
+     *                       following options are supported:
+     *                       - 'limit' (int)
+     *                       - 'order' (string)
+     *                       - 'contentid' (int), to filter further by content ID
+     */
     public function getChangelogByContentType($contenttype, $options) {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
@@ -401,15 +412,19 @@ class Storage
                "    FROM $tablename as log " .
                "    LEFT JOIN $content_tablename as content " .
                "    ON content.id = log.contentid " .
-               "    WHERE contenttype = ?";
+               "    WHERE contenttype = ? ";
+        $params = array($contenttype);
+        if (isset($options['contentid'])) {
+            $sql .= "    AND contentid = ? ";
+            $params[] = intval($options['contentid']);
+        }
         if (isset($options['order'])) {
             $sql .= " ORDER BY " . $options['order'];
         }
         if (isset($options['limit'])) {
             $sql .= " LIMIT " . intval($options['limit']);
         }
-        $params = array($contenttype);
-        
+
         return $this->app['db']->fetchAll($sql, $params);
     }
 

@@ -121,7 +121,7 @@
 
     </section>
 
-    {{ render(path("lastmodified", {"contenttypeslug": contenttype.slug} )) }}
+    {{ render(path("lastmodified", {"contenttypeslug": contenttype.slug, "contentid": content.id} )) }}
 
     {{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}
 

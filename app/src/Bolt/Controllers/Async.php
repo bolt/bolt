@@ -40,7 +40,8 @@ class Async implements ControllerProviderInterface
         $ctr->get("/makeuri", array($this, 'makeuri'))
             ->before(array($this, 'before'));
 
-        $ctr->get("/lastmodified/{contenttypeslug}", array($this, 'lastmodified'))
+        $ctr->get("/lastmodified/{contenttypeslug}/{contentid}", array($this, 'lastmodified'))
+            ->value('contentid', '')
             ->before(array($this, 'before'))
             ->bind('lastmodified');
 
@@ -216,13 +217,13 @@ class Async implements ControllerProviderInterface
     /**
      * Latest {contenttype} to show a small listing in the sidebars..
      */
-    public function lastmodified(Silex\Application $app, $contenttypeslug)
+    public function lastmodified(Silex\Application $app, $contenttypeslug, $contentid = null)
     {
         // Let's find out how we should determine what the latest changes were:
         $contentLogEnabled = (bool)$app['config']->get('general/changelog/enabled');
 
         if ($contentLogEnabled) {
-            return $this->lastmodifiedByContentLog($app, $contenttypeslug);
+            return $this->lastmodifiedByContentLog($app, $contenttypeslug, $contentid);
         }
         else {
             return $this->lastmodifiedSimple($app, $contenttypeslug);
@@ -240,14 +241,23 @@ class Async implements ControllerProviderInterface
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
-    private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug) {
+    private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid) {
         // Get the proper contenttype..
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // get the changelog for the requested contenttype.
-        $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], array('limit' => 5, 'order' => 'date DESC'));
+        $options = array('limit' => 5, 'order' => 'date DESC');
+        if (intval($contentid) == 0) {
+            $isFiltered = false;
+        }
+        else {
+            $isFiltered = true;
+            $options['contentid'] = intval($contentid);
+        }
+        $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], $options);
 
-        $body = $app['twig']->render('_sub_lastmodified.twig', array('changelog' => $changelog, 'contenttype' => $contenttype));
+        $renderVars = array('changelog' => $changelog, 'contenttype' => $contenttype, 'filtered' => $isFiltered);
+        $body = $app['twig']->render('_sub_lastmodified.twig', $renderVars);
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
