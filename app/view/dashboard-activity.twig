@@ -1,28 +1,35 @@
+{% import '_sub_crosslinks.twig' as crosslinks %}
 
 <section class="news">
     <h2>{{ __('Latest activity') }}</h2>
     <ul class='activity'>
 {% for log in activity %}
-    {% set username = 'unknown' %}
     {% if attribute(users, log.username) is defined %}
-        {% set username = attribute(users, log.username).displayname %}
+        {% set userlink = crosslinks.userlink(attribute(users, log.username)) %}
+    {% else %}
+        {% set userlink = 'unknown' %}
     {% endif %}
     <li>
         {%  if log.code == "save content" %}
-            Saved {% if app.config.get('contenttypes')[log.contenttype] is defined %}
-                {{ app.config.get('contenttypes')[log.contenttype].singular_name }}
+            {% if app.config.get('contenttypes')[log.contenttype] is defined %}
+                {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
+                {% set contenttype_display_name = contenttype.singular_name %}
+                {% set content_display_name = crosslinks.contentlink_by_id(contenttype, log.message, log.content_id) %}
             {% else %}
-                {{ log.contenttype }}
+                {% set contenttype_display_name = log.contenttype %}
+                {% set content_display_name = log.message %}
             {% endif %}
-            "<strong>{{ log.message }}</strong>" by <em>{{ username }}</em>
+
+            Saved {{ contenttype_display_name }}
+            "<strong>{{ content_display_name }}</strong>" by <em>{{ userlink }}</em>
         {%  elseif log.code == "login" %}
-            <em>{{ username }}</em> logged in
+            <em>{{ userlink }}</em> logged in
         {%  elseif log.code == "logout" %}
-            <em>{{ username }}</em> logged out
+            <em>{{ userlink }}</em> logged out
         {%  elseif log.code == "fixme" %}
             <b>Fixme:</b> {{ log.message }}
         {%  elseif log.code == "user" %}
-            <b>{{ log.message }}</b> by {{ username }}
+            <b>{{ log.message }}</b> by {{ userlink }}
         {%  else %}
             {{ log.message }}
         {%  endif %}
