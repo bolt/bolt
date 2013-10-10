@@ -337,20 +337,18 @@ class Storage
      * an ID, you can only really call the logging function _after_ the update.
      */
     private function writeChangelog($action, $contenttype, $contentid, $newContent = null) {
-        global $app;
-
         $allowed = array('INSERT', 'UPDATE', 'DELETE');
         if (!in_array($action, $allowed)) {
             throw new \Exception("Invalid action '$action' specified for changelog (must be one of [ " . implode(', ', $allowed) . " ])");
         }
 
-        if ($app['config']->get('general/changelog/enabled')) {
+        if ($this->app['config']->get('general/changelog/enabled')) {
             $tablename = $this->getTablename($contenttype);
             if ($action === 'INSERT') {
                 $oldContent = null;
             }
             else {
-                $oldContent = $app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$contentid]);
+                $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$contentid]);
             }
             if (empty($oldContent) && empty($newContent)) {
                 throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
@@ -361,7 +359,7 @@ class Storage
             if (empty($newContent) && in_array($action, array('INSERT', 'UPDATE'))) {
                 throw new \Exception("Cannot log action $action when new content is empty");
             }
-            $log_filename = $app['config']->get('general/changelog/logfile');
+            $log_filename = $this->app['config']->get('general/changelog/logfile');
             $str = '';
             switch ($action) {
                 case 'UPDATE':
@@ -382,15 +380,31 @@ class Storage
                     }
                     break;
             }
-            $user = $app['users']->getCurrentUser();
+            $user = $this->app['users']->getCurrentUser();
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['username'] = $user['username'];
             $entry['contenttype'] = $contenttype;
             $entry['contentid'] = $contentid;
             $entry['mutation_type'] = $action;
             $entry['diff'] = $str;
-            $app['db']->insert($this->getTablename('content_changelog'), $entry);
+            $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
         }
+    }
+
+    public function getChangelogByContentType($contenttype, $options) {
+        $tablename = $this->getTablename('content_changelog');
+        $sql = "SELECT * FROM $tablename WHERE contenttype = ?";
+        if (isset($options['order'])) {
+            $sql .= " ORDER BY " . $options['order'];
+        }
+        if (isset($options['limit'])) {
+            $sql .= " LIMIT " . intval($options['limit']);
+        }
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+        $params = array($contenttype);
+        $this->app['db']->fetchAssoc($sql, $params);
     }
 
     public function saveContent($content, $contenttype = "")
@@ -589,8 +603,6 @@ class Storage
 
     private function updateContent($content, $contenttype)
     {
-        global $app;
-
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];

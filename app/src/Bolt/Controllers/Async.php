@@ -218,6 +218,18 @@ class Async implements ControllerProviderInterface
      */
     public function lastmodified(Silex\Application $app, $contenttypeslug)
     {
+        // Let's find out how we should determine what the latest changes were:
+        $contentLogEnabled = (bool)$app['config']->get('general/changelog/enabled');
+
+        if ($contentLogEnabled) {
+            return $this->lastmodifiedByContentLog($app, $contenttypeslug);
+        }
+        else {
+            return $this->lastmodifiedSimple($app, $contenttypeslug);
+        }
+    }
+
+    private function lastmodifiedSimple(Silex\Application $app, $contenttypeslug) {
         // Get the proper contenttype..
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -225,9 +237,18 @@ class Async implements ControllerProviderInterface
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
         $body = $app['twig']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
-
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
+    }
 
+    private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug) {
+        // Get the proper contenttype..
+        $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        // get the changelog for the requested contenttype.
+        $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], array('limit' => 5, 'order' => 'date DESC'));
+
+        $body = $app['twig']->render('_sub_lastmodified.twig', array('changelog' => $changelog, 'contenttype' => $contenttype));
+        return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
     /**

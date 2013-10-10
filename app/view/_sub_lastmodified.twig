@@ -2,12 +2,22 @@
 <section>
     <h2>{{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}</h2>
     <ul>
-    {% for content in latest %}
-        <li>
-           № {{content.id}}. {{ crosslinks.contentlink(contenttype, content) }}<small>(<time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>)</small>
-        </li>
+    {% if changelog is defined %}
+        {% for index, entry in changelog %}
+            <li>
+               № {{index + 1}}. {{ todo }}<small>(<time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>)</small>
+            </li>
+        {% else %}
+            <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
+        {% endfor %}
     {% else %}
-        <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
-    {% endfor %}
+        {% for content in latest %}
+            <li>
+               № {{content.id}}. {{ crosslinks.contentlink(contenttype, content) }}<small>(<time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>)</small>
+            </li>
+        {% else %}
+            <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
+        {% endfor %}
+    {% endif %}
     </ul>
 </section>
