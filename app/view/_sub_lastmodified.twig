@@ -1,4 +1,4 @@
-{% import '_sub_crosslinks.twig' as crosslinks %}
+{% import '_sub_pretty.twig' as pretty %}
 <section>
     <h2>
     {% if filtered %}
@@ -9,7 +9,6 @@
     </h2>
     <ul>
     {% if changelog is defined %}
-        {% set action_map = { 'INSERT': 'created', 'UPDATE': 'modified', 'DELETE': 'deleted' } %}
         {% for index, entry in changelog %}
             <li>
                 {% set action_name = action_map[entry.mutation_type] %}
@@ -17,12 +16,12 @@
                     {% set title = contenttype.singular_name %}
                 {% else %}
                     {% if entry.title %}
-                        {% set title = crosslinks.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
+                        {% set title = pretty.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
                     {% else %}
                         {% set title = __('%name% #%id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
                     {% endif %}
                 {% endif %}
-               № {{index + 1}}. {{ title }} {{ action_name }} by {{ entry.username }} <small>(<time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>)</small>
+               № {{index + 1}}. {{ title }} {{ pretty.changelogmutation(entry.mutation_type) }} by {{ entry.username }} <small>(<time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>)</small>
             </li>
         {% else %}
             <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
@@ -30,7 +29,7 @@
     {% else %}
         {% for content in latest %}
             <li>
-               № {{content.id}}. {{ crosslinks.contentlink(contenttype, content) }}<small>(<time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>)</small>
+               № {{content.id}}. {{ pretty.contentlink(contenttype, content) }}<small>(<time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>)</small>
             </li>
         {% else %}
             <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>

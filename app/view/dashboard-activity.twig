@@ -1,11 +1,11 @@
-{% import '_sub_crosslinks.twig' as crosslinks %}
+{% import '_sub_pretty.twig' as pretty %}
 
 <section class="news">
     <h2>{{ __('Latest activity') }}</h2>
     <ul class='activity'>
 {% for log in activity %}
     {% if attribute(users, log.username) is defined %}
-        {% set userlink = crosslinks.userlink(attribute(users, log.username)) %}
+        {% set userlink = pretty.userlink(attribute(users, log.username)) %}
     {% else %}
         {% set userlink = 'unknown' %}
     {% endif %}
@@ -14,7 +14,7 @@
             {% if app.config.get('contenttypes')[log.contenttype] is defined %}
                 {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
                 {% set contenttype_display_name = contenttype.singular_name %}
-                {% set content_display_name = crosslinks.contentlink_by_id(contenttype, log.message, log.content_id) %}
+                {% set content_display_name = pretty.contentlink_by_id(contenttype, log.message, log.content_id) %}
             {% else %}
                 {% set contenttype_display_name = log.contenttype %}
                 {% set content_display_name = log.message %}

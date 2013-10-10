@@ -20,3 +20,8 @@
     {% endif %}
     {{ crosslinks.contentlink_by_id(contenttype, title, content.id) }}
 {% endmacro %}
+
+{% macro changelogmutation(raw) %}
+    {% set mapping = {'UPDATE': 'changed', 'INSERT': 'created', 'DELETE': 'deleted'} %}
+    <span class="changelogmutation">{% if mapping[raw] is defined %}{{ mapping[raw] }}{%else%}{{ raw }}{%endif%}</span>
+{% endmacro %}

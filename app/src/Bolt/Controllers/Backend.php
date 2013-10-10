@@ -65,6 +65,16 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('contentaction');
 
+        $ctl->get("/changelog/{contenttype}/{contentid}", array($this, 'changelogItem'))
+            ->value('contentid', '')
+            ->before(array($this, 'before'))
+            ->bind('changelog');
+
+        $ctl->get("/changelog/{contenttype}", array($this, 'changelogList'))
+            ->value('contentid', '')
+            ->before(array($this, 'before'))
+            ->bind('changelog');
+
         $ctl->get("/users", array($this, 'users'))
             ->before(array($this, 'before'))
             ->bind('users');
@@ -424,6 +434,13 @@ class Backend implements ControllerProviderInterface
 
     }
 
+    public function changelogList($contenttype, Silex\Application $app, Request $request)
+    {
+        $options = array('order' => 'date DESC');
+        $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
+        $renderVars = array('contenttype' => $contenttype, 'entries' => $logEntries);
+        return $app['twig']->render('changeloglist.twig', $renderVars);
+    }
 
     /**
      * Edit a unit of content, or create a new one.
