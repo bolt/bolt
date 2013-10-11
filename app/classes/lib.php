@@ -371,7 +371,7 @@ function makeKey($length, $stronger = false, $method = false)
         $keygenMode = $method;
     }
 
-    if (empty($method) || $method === "auto") {
+    if (empty($keygenMode) || $keygenMode === "auto") {
         $methods = array('dev-urandom', 'mt_rand', 'rand');
         foreach ($methods as $method) {
             try {
