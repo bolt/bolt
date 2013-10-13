@@ -67,3 +67,7 @@ The extensions can be placed in the `app/extensions` folder.
 Learn more about writing extensions from our [docs](https://github.com/bolt/bolt-docs/blob/master/source/extensions.md)
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bobdenotter/bolt/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bolt/bolt/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
