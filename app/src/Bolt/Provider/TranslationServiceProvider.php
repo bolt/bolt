@@ -61,7 +61,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
             }
 
             // load fallback for infos domain
-            $locale_fb = $app['locale_fallback'];
+            $locale_fb = current($app['locale_fallbacks']);
             $translationDir = $paths['apppath'] . '/resources/translations/' . $locale_fb;
 
             if (is_dir($translationDir)) {
