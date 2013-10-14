@@ -435,11 +435,11 @@ class Backend implements ControllerProviderInterface
 
     public function changelogList($contenttype, $contentid, Silex\Application $app, Request $request)
     {
+        $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
         $options = array(
                 'order' => 'date DESC',
                 'contentid' => $contentid,
             );
-        $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
         $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
         $renderVars = array(
             'contenttype' => $contenttype,

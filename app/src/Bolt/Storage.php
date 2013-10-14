@@ -430,7 +430,7 @@ class Storage
             $sql .= " LIMIT " . intval($options['limit']);
         }
 
-        return $this->app['db']->fetchAssoc($sql, $params);
+        return $this->app['db']->fetchAll($sql, $params);
     }
 
     /**

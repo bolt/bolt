@@ -3,7 +3,7 @@
 
 <div class="row-fluid">
     <div class="span9">
-        <h1>Change Log: {{ content.title }}</h1>
+        <h1><strong>Change Log</strong> » {{ content.title }}</h1>
         <p>{{ pretty.changelogmutation(entry.mutation_type) }} on {{ entry.date }} by {{ entry.username }}</p>
         <h3>Changes:</h3>
         <pre>{{ entry.diff }}</pre>

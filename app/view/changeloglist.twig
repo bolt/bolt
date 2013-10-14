@@ -1,23 +1,21 @@
 {% import '_sub_pretty.twig' as pretty %}
 {% include '_header.twig' %}
 
-{%macro details_link(contenttype, content, id, inner) %}
-    <a href={{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': id }) }}>{{ inner }}</a>
-{%endmacro%}
-
 {% from _self import details_link %}
 <div class="row-fluid">
     <div class="span9">
-        <h1>Change Log: {{ content.title }}</h1>
-        <table>
+        <h1><strong>Change Log</strong> » {{ content.title }}</h1>
+        <ul>
         {% for entry in entries %}
-            <tr>
-                <td>{{ details_link(contenttype, content, entry.id, pretty.changelogmutation(entry.mutation_type)) }}</td>
-                <td>{{ details_link(contenttype, content, entry.id, entry.username) }}</td>
-                <td>{{ details_link(contenttype, content, entry.id, entry.date) }}</td>
-            </tr>
+            <li>
+                <a href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': entry.id }) }}">
+                {{ pretty.changelogmutation(entry.mutation_type) }} by
+                {{ entry.username }} on
+                {{ entry.date }}
+                </a>
+            </li>
         {% endfor %}
-        </table>
+        </ul>
     </div>
 </div>
 
