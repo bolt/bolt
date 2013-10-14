@@ -411,7 +411,7 @@ class Storage
         $content_tablename = $this->getTablename($contenttype);
         $sql = "SELECT log.*, content.title " .
                "    FROM $tablename as log " .
-               "    LEFT JOIN $content_tablename as content " .
+               "    INNER JOIN $content_tablename as content " .
                "    ON content.id = log.contentid " .
                "    WHERE contenttype = ? ";
         $params = array($contenttype);
