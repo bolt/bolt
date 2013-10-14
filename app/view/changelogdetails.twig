@@ -23,7 +23,7 @@
             <span class="pager-forward">at last change</span>
             {% endif %}
         </p>
-        <h3>{{ pretty.changelogmutation(entry.mutation_type) }} on {{ pretty.datetime(entry.date) }} by {{ entry.username }}</h3>
+        <h3>{{ pretty.changelogmutation(entry.mutation_type) }} {{ pretty.datetime(entry.date) }} by {{ entry.username }}</h3>
         <pre>{{ entry.diff }}</pre>
     </div>
 </div>
