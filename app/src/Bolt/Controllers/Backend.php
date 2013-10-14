@@ -65,15 +65,13 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('contentaction');
 
-        $ctl->get("/changelog/{contenttype}/{contentid}", array($this, 'changelogItem'))
-            ->value('contentid', '')
+        $ctl->get("/changelog/{contenttype}/{contentid}", array($this, 'changelogList'))
             ->before(array($this, 'before'))
-            ->bind('changelog');
+            ->bind('changeloglist');
 
-        $ctl->get("/changelog/{contenttype}", array($this, 'changelogList'))
-            ->value('contentid', '')
+        $ctl->get("/changelog/{contenttype}/{contentid}/{id}", array($this, 'changelogDetails'))
             ->before(array($this, 'before'))
-            ->bind('changelog');
+            ->bind('changelogdetails');
 
         $ctl->get("/users", array($this, 'users'))
             ->before(array($this, 'before'))
@@ -434,12 +432,38 @@ class Backend implements ControllerProviderInterface
 
     }
 
-    public function changelogList($contenttype, Silex\Application $app, Request $request)
+    public function changelogList($contenttype, $contentid, Silex\Application $app, Request $request)
     {
-        $options = array('order' => 'date DESC');
+        $options = array(
+                'order' => 'date DESC',
+                'contentid' => $contentid,
+            );
+        $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
         $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
-        $renderVars = array('contenttype' => $contenttype, 'entries' => $logEntries);
+        $renderVars = array(
+            'contenttype' => $contenttype,
+            'entries' => $logEntries,
+            'content' => $content,
+            );
         return $app['twig']->render('changeloglist.twig', $renderVars);
+    }
+
+    public function changelogDetails($contenttype, $contentid, $id, Silex\Application $app, Request $request)
+    {
+        $options = array(
+                'order' => 'date DESC',
+                'contentid' => $contentid,
+                'id' => $id,
+                'limit' => 1,
+            );
+        $entry = $app['storage']->getChangelogEntry($id);
+        $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
+        $renderVars = array(
+            'contenttype' => $contenttype,
+            'entry' => $entry,
+            'content' => $content,
+            );
+        return $app['twig']->render('changelogdetails.twig', $renderVars);
     }
 
     /**

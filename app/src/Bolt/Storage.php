@@ -401,6 +401,7 @@ class Storage
      *                       - 'limit' (int)
      *                       - 'order' (string)
      *                       - 'contentid' (int), to filter further by content ID
+     *                       - 'id' (int), to filter by a specific changelog entry ID
      */
     public function getChangelogByContentType($contenttype, $options) {
         if (is_array($contenttype)) {
@@ -418,6 +419,10 @@ class Storage
             $sql .= "    AND contentid = ? ";
             $params[] = intval($options['contentid']);
         }
+        if (isset($options['id'])) {
+            $sql .= "    AND log.id = ? ";
+            $params[] = intval($options['contentid']);
+        }
         if (isset($options['order'])) {
             $sql .= " ORDER BY " . $options['order'];
         }
@@ -425,7 +430,25 @@ class Storage
             $sql .= " LIMIT " . intval($options['limit']);
         }
 
-        return $this->app['db']->fetchAll($sql, $params);
+        return $this->app['db']->fetchAssoc($sql, $params);
+    }
+
+    /**
+     * Get a content changelog entry by ID
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param int $id The content-changelog ID
+     */
+    public function getChangelogEntry($id) {
+        $tablename = $this->getTablename('content_changelog');
+        $sql = "SELECT log.* " .
+               "    FROM $tablename as log " .
+               "    WHERE log.id = ?" .
+               "    LIMIT 1";
+        $params = array($id);
+
+        return $this->app['db']->fetchAssoc($sql, $params);
     }
 
     public function saveContent($content, $contenttype = "")

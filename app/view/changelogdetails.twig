@@ -1,0 +1,16 @@
+{% import '_sub_pretty.twig' as pretty %}
+{% include '_header.twig' %}
+
+<div class="row-fluid">
+    <div class="span9">
+        <h1>Change Log: {{ content.title }}</h1>
+        <p>{{ pretty.changelogmutation(entry.mutation_type) }} on {{ entry.date }} by {{ entry.username }}</p>
+        <h3>Changes:</h3>
+        <pre>{{ entry.diff }}</pre>
+        </pre>
+    </div>
+</div>
+
+{% include '_footer.twig' %}
+
+
