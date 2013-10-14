@@ -451,21 +451,19 @@ class Backend implements ControllerProviderInterface
 
     public function changelogDetails($contenttype, $contentid, $id, Silex\Application $app, Request $request)
     {
-        $options = array(
-                'order' => 'date DESC',
-                'contentid' => $contentid,
-                'id' => $id,
-                'limit' => 1,
-            );
-        $entry = $app['storage']->getChangelogEntry($id);
+        $entry = $app['storage']->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
             $error = __("The requested changelog entry doesn't exist.");
             $app->abort(404, $error);
         }
+        $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
+        $next = $app['storage']->getNextChangelogEntry($contenttype, $contentid, $id);
         $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
         $renderVars = array(
             'contenttype' => $contenttype,
             'entry' => $entry,
+            'nextEntry' => $next,
+            'prevEntry' => $prev,
             'content' => $content,
             );
         return $app['twig']->render('changelogdetails.twig', $renderVars);

@@ -21,7 +21,11 @@
                         {% set title = __('%name% #%id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
                     {% endif %}
                 {% endif %}
-               № {{index + 1}}. {{ title }} {{ pretty.changelogmutation(entry.mutation_type) }} by {{ entry.username }} <small>(<time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>)</small>
+               № {{index + 1}}.
+               {{ title }}
+               {{ pretty.changelogmutation(entry.mutation_type) }}
+               by {{ entry.username }}
+               <small>({{ pretty.datetime(entry.date) }})</small>
             </li>
         {% else %}
             <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
@@ -29,11 +33,18 @@
     {% else %}
         {% for content in latest %}
             <li>
-               № {{content.id}}. {{ pretty.contentlink(contenttype, content) }}<small>(<time class="moment" datetime="{{ content.datechanged|date("c") }}" title="{{ content.datechanged }}">{{ content.datechanged }}</time>)</small>
+               № {{content.id}}.
+               {{ pretty.contentlink(contenttype, content) }}
+               <small>({{ pretty.datetime(content.datechanged) }})</small>
             </li>
         {% else %}
             <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
         {% endfor %}
     {% endif %}
     </ul>
+    {% if changelog is defined and contentid and filtered %}
+        <a href="{{ path('changeloglist', { 'contenttype': contenttype.slug, 'contentid': contentid }) }}">
+            Full list...
+        </a>
+    {% endif %}
 </section>

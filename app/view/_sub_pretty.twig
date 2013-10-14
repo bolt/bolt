@@ -23,5 +23,9 @@
 
 {% macro changelogmutation(raw) %}
     {% set mapping = {'UPDATE': 'changed', 'INSERT': 'created', 'DELETE': 'deleted'} %}
-    <span class="changelogmutation">{% if mapping[raw] is defined %}{{ mapping[raw] }}{%else%}{{ raw }}{%endif%}</span>
+    {% if mapping[raw] is defined %}{{ mapping[raw] }}{%else%}{{ raw }}{%endif%}
+{% endmacro %}
+
+{% macro datetime(d) %}
+<time class="moment" datetime="{{ d|date("c") }}" title="{{ d }}">{{ d }}</time>
 {% endmacro %}

@@ -256,7 +256,12 @@ class Async implements ControllerProviderInterface
         }
         $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], $options);
 
-        $renderVars = array('changelog' => $changelog, 'contenttype' => $contenttype, 'filtered' => $isFiltered);
+        $renderVars = array(
+            'changelog' => $changelog,
+            'contenttype' => $contenttype,
+            'contentid' => $contentid,
+            'filtered' => $isFiltered,
+            );
         $body = $app['twig']->render('_sub_lastmodified.twig', $renderVars);
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }

@@ -11,11 +11,14 @@
                 <a href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': entry.id }) }}">
                 {{ pretty.changelogmutation(entry.mutation_type) }} by
                 {{ entry.username }} on
-                {{ entry.date }}
+                {{ pretty.datetime(entry.date) }}
                 </a>
             </li>
         {% endfor %}
         </ul>
+        <a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">
+            back to editing
+        </a>
     </div>
 </div>
 

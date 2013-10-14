@@ -4,10 +4,27 @@
 <div class="row-fluid">
     <div class="span9">
         <h1><strong>Change Log</strong> » {{ content.title }}</h1>
-        <p>{{ pretty.changelogmutation(entry.mutation_type) }} on {{ entry.date }} by {{ entry.username }}</p>
-        <h3>Changes:</h3>
+        <p class="pager-inline">
+            {% if prevEntry %}
+            <a class="pager-back" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': prevEntry.id }) }}">
+                « previous change
+            </a>
+            {% else %}
+            <span class="pager-back">at first change</span>
+            {% endif %}
+            <a class="pager-middle" href="{{ path('changeloglist', { 'contenttype': contenttype, 'contentid': content.id }) }}">
+                show all changes
+            </a>
+            {% if nextEntry %}
+            <a class="pager-forward" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': nextEntry.id }) }}">
+                next change »
+            </a>
+            {% else %}
+            <span class="pager-forward">at last change</span>
+            {% endif %}
+        </p>
+        <h3>{{ pretty.changelogmutation(entry.mutation_type) }} on {{ pretty.datetime(entry.date) }} by {{ entry.username }}</h3>
         <pre>{{ entry.diff }}</pre>
-        </pre>
     </div>
 </div>
 

@@ -440,13 +440,72 @@ class Storage
      *                           'slug'
      * @param int $id The content-changelog ID
      */
-    public function getChangelogEntry($id) {
+    public function getChangelogEntry($contenttype, $contentid, $id) {
+        return $this->_getChangelogEntry($contenttype, $contentid, $id, '=');
+    }
+
+    /**
+     * Get the content changelog entry that follows the given ID.
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param int $id The content-changelog ID
+     */
+    public function getNextChangelogEntry($contenttype, $contentid, $id) {
+        return $this->_getChangelogEntry($contenttype, $contentid, $id, '>');
+    }
+
+    /**
+     * Get the content changelog entry that precedes the given ID.
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param int $id The content-changelog ID
+     */
+    public function getPrevChangelogEntry($contenttype, $contentid, $id) {
+        return $this->_getChangelogEntry($contenttype, $contentid, $id, '<');
+    }
+
+    /**
+     * Get one changelog entry from the database.
+     *
+     * @param mixed $contenttype Should be a string content type slug, or an
+     *                           associative array containing a key named
+     *                           'slug'
+     * @param int $id The content-changelog ID
+     * @param string $cmp_op One of '=', '<', '>'; this parameter is used
+     *                       to select either the ID itself, or the subsequent
+     *                       or preceding entry.
+     */
+    private function _getChangelogEntry($contenttype, $contentid, $id, $cmp_op) {
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+        switch ($cmp_op) {
+            case '=':
+                $ordering = ''; // no need to order
+                break;
+            case '<':
+                $ordering = " ORDER BY date DESC";
+                break;
+            case '>':
+                $ordering = " ORDER BY date ";
+                break;
+            default:
+                throw new \Exception("Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '$cmd_op')");
+        }
         $tablename = $this->getTablename('content_changelog');
+        $content_tablename = $this->getTablename($contenttype);
         $sql = "SELECT log.* " .
                "    FROM $tablename as log " .
-               "    WHERE log.id = ?" .
+               "    INNER JOIN $content_tablename as content " .
+               "    ON content.id = log.contentid " .
+               "    WHERE log.id $cmp_op ? " .
+               "    AND content.id = ? " .
+               "    AND contenttype = ? " .
+               $ordering . 
                "    LIMIT 1";
-        $params = array($id);
+        $params = array($id, $contentid, $contenttype);
 
         return $this->app['db']->fetchAssoc($sql, $params);
     }
