@@ -26,6 +26,4 @@
     {% if mapping[raw] is defined %}{{ mapping[raw] }}{%else%}{{ raw }}{%endif%}
 {% endmacro %}
 
-{% macro datetime(d) %}
-<time class="moment" datetime="{{ d|date("c") }}" title="{{ d }}">{{ d }}</time>
-{% endmacro %}
+{% macro datetime(d) %}<time class="moment" datetime="{{ d|date("c") }}" title="{{ d }}">{{ d }}</time>{% endmacro %}

@@ -26,6 +26,7 @@
                {{ pretty.changelogmutation(entry.mutation_type) }}
                by {{ entry.username }}
                <small>({{ pretty.datetime(entry.date) }})</small>
+               <small><a href="{{ path('changelogdetails', { 'contenttype':contenttype.slug, 'contentid': entry.contentid, 'id': entry.id }) }}">view</a></small>
             </li>
         {% else %}
             <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
