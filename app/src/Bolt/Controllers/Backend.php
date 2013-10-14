@@ -71,6 +71,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get("/changelog/{contenttype}/{contentid}/{id}", array($this, 'changelogDetails'))
             ->before(array($this, 'before'))
+            ->assert('id', '\d*')
             ->bind('changelogdetails');
 
         $ctl->get("/users", array($this, 'users'))
@@ -457,6 +458,10 @@ class Backend implements ControllerProviderInterface
                 'limit' => 1,
             );
         $entry = $app['storage']->getChangelogEntry($id);
+        if (empty($entry)) {
+            $error = __("The requested changelog entry doesn't exist.");
+            $app->abort(404, $error);
+        }
         $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
         $renderVars = array(
             'contenttype' => $contenttype,
