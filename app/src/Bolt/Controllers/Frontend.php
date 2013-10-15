@@ -276,7 +276,7 @@ class Frontend
 
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
 
-        $search = $request->get('search');
+        $search = cleanPostedData($request->get('search'), false);
         $parameters = array('filter' => $search, 'status' => 'published');
 
         //$content = $searchterms . " and " . $resultsPP;
@@ -298,6 +298,7 @@ class Frontend
         } elseif ($request->query->has('search')) {
             $q = $request->get('search');
         }
+        $q = cleanPostedData($q, false);
 
         // Make paging work
         $page_size = 10;

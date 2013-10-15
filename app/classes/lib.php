@@ -85,7 +85,7 @@ function checkToken($token = "")
  * @param mixed $var
  * @return string
  */
-function cleanPostedData($var)
+function cleanPostedData($var, $stripslashes = true)
 {
     if (is_array($var)) {
 
@@ -95,10 +95,14 @@ function cleanPostedData($var)
 
     } elseif (is_string($var)) {
 
+        // expand tabs
         $var = str_replace("\t", "    ", $var);
 
+        // prune control characters
+        $var = preg_replace('/[[:cntrl:][:space:]]/', ' ', $var);
+
         // Ah, the joys of \"magic quotes\"!
-        if (get_magic_quotes_gpc()) {
+        if ($stripslashes && get_magic_quotes_gpc()) {
             $var = stripslashes($var);
         }
 
@@ -107,7 +111,6 @@ function cleanPostedData($var)
     return $var;
 
 }
-
 
 function findFiles($term, $extensions = "")
 {
