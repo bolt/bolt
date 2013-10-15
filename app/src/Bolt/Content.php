@@ -507,6 +507,7 @@ class Content implements \ArrayAccess
                     // Parse the field as Markdown, return HTML
                     $markdownParser = new \dflydev\markdown\MarkdownParser();
                     $value = $markdownParser->transformMarkdown($value);
+                    $value = lawText($value);
                     $value = new \Twig_Markup($value, 'UTF-8');
                     break;
 
