@@ -22,10 +22,15 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('dashboard');
 
-        $ctl->match("/login", array($this, 'login'))
-            ->method('GET|POST')
+        $ctl->match("/login", array($this, 'getLogin'))
+            ->method('GET')
             ->before(array($this, 'before'))
             ->bind('login');
+
+        $ctl->match("/login", array($this, 'postLogin'))
+            ->method('POST')
+            ->before(array($this, 'before'))
+            ->bind('postLogin');
 
         $ctl->get("/logout", array($this, 'logout'))
             ->bind('logout');
@@ -156,35 +161,45 @@ class Backend implements ControllerProviderInterface
     }
 
 
+    public function postLogin(Silex\Application $app, Request $request)
+    {
+        switch ($request->get('action')) {
+            case 'login':   
+                // Log in, if credentials are correct.
+                $result = $app['users']->login($request->get('username'), $request->get('password'));
+
+                if ($result) {
+                    $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
+
+                    return redirect('dashboard');
+                }
+                return $this->getLogin($app, $request);
+
+            case 'reset':
+                // Send a password request mail, if username exists.
+                $username = trim($request->get('username'));
+                if (empty($username)) {
+                    $app['users']->session->getFlashBag()->set('error', __("Please provide a username", array()));
+                }
+                else {
+                    $app['users']->resetPasswordRequest($request->get('username'));
+                    return redirect('login');
+                }
+                return $this->getLogin($app, $request);
+
+            default:
+                // Let's not disclose any internal information.
+                return abort(400, 'Invalid request');
+        }
+    }
+
     /**
      * Login page and "Forgotten password" page.
      */
-    public function login(Silex\Application $app, Request $request)
+    public function getLogin(Silex\Application $app, Request $request)
     {
-
-        if ($request->get('action') == "login") {
-
-            // Log in, if credentials are correct.
-            $result = $app['users']->login($request->get('username'), $request->get('password'));
-
-            if ($result) {
-                $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
-
-                return redirect('dashboard');
-            }
-
-        } elseif ($request->get('action') == "reset") {
-
-            // Send a password request mail, if username exists.
-            $app['users']->resetPasswordRequest($request->get('username'));
-
-        }
-
-
         $app['twig']->addGlobal('title', "Login");
-
         return $app['twig']->render('login.twig');
-
     }
 
     /**
