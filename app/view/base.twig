@@ -2,9 +2,11 @@
 
 <h1><strong>{{ title }}</strong></h1>
 
-{% autoescape false %}
-    {{content}}
-{% endautoescape %}
+{% block content %}
+    {% autoescape false %}
+        {{content}}
+    {% endautoescape %}
+{% endblock %}
 
     {% if form|default(null) %}
     <form method="post" id="prefill" class="form-horizontal">

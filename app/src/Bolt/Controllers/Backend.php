@@ -243,21 +243,11 @@ class Backend implements ControllerProviderInterface
 
         $output = $app['storage']->getIntegrityChecker()->checkTablesIntegrity();
 
-        if (!empty($output)) {
-            $content = '<p>' . __('Modifications needed:') . '</p>';
-            $content .= implode("<br>", $output);
-            $content .= "<br><br><p><a href='" . path('dbupdate') . "' class='btn btn-primary'>" . __("Update the database") . "</a></p>";
-        } else {
-            $content = __("Your database is already up to date.");
-            $content .= sprintf('<br><br><p><b>%s </b>%s</p>',
-                __('Tip:'),
-                __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', array('%url%' => path('prefill')))
-            );
-        }
-
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['twig']->render('base.twig', array(
+        return $app['twig']->render('dbcheck.twig', array(
+            'uptodate' => empty($output),
+            'required_modifications' => $output,
             'content' => $content,
             'active' => "settings"
         ));
