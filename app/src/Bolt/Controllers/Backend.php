@@ -45,6 +45,7 @@ class Backend implements ControllerProviderInterface
             ->bind('dbcheck');
 
         $ctl->get("/dbupdate", array($this, 'dbupdate'))
+            ->method('POST')
             ->before(array($this, 'before'))
             ->bind('dbupdate');
 
@@ -246,9 +247,7 @@ class Backend implements ControllerProviderInterface
         $app['twig']->addGlobal('title', __("Database check / update"));
 
         return $app['twig']->render('dbcheck.twig', array(
-            'uptodate' => empty($output),
             'required_modifications' => $output,
-            'content' => $content,
             'active' => "settings"
         ));
 
@@ -265,7 +264,7 @@ class Backend implements ControllerProviderInterface
         if (empty($output)) {
             $content = '<p>' . __('Your database is already up to date.') . '</p>';
         } else {
-            $content = '<p>' . __('Modifications made to the database:') . '</p>';
+            $content = '<p>' . __('') . '</p>';
             $content .= implode("<br>", $output);
             $content .= '<p>' . __('Your database is now up to date.') . '</p>';
         }
@@ -291,8 +290,8 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['twig']->render('base.twig', array(
-            'content' => $content,
+        return $app['twig']->render('dbcheck.twig', array(
+            'modifications' => $output,
             'active' => "settings"
         ));
 

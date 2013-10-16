@@ -1,15 +1,28 @@
 {% extends 'base.twig' %}
 {% block content %}
-    {% if uptodate %}
-        {{ __("Your database is already up to date.") }}
-        <br><br><p><b>{{ __('Tip:') }}</b>
-            {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
+    {% if modifications %}
+        <p>{{ __('Modifications made to the database:') }}</p>
+        {% for item in modifications %}
+            {{ item|raw }}<br/>
+        {% endfor %}
+        <p>
+            {{ __('Your database is now up to date.') }}
         </p>
-    {% else %}
+    {% elseif required_modifications %}
         <p>{{ __('Modifications needed:') }}</p>
         {% for item in required_modifications %}
             {{ item|raw }}<br/>
         {% endfor %}
-        <br/><br/><p><a href="{{ path('dbupdate') }}" class="btn btn-primary">{{ __('Update the database') }}</a></p>
+        <br/><br/>
+        <form action="{{ path('dbupdate') }}" method="POST">
+            <p>
+                <button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button>
+            </p>
+        </form>
+    {% else %}
+        {{ __("Your database is already up to date.") }}
+        <br><br><p><b>{{ __('Tip:') }}</b>
+        {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
+        </p>
     {% endif %}
 {% endblock %}
