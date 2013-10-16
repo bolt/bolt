@@ -45,7 +45,6 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 foreach ($iterator as $fileInfo) {
                     if ($fileInfo->isFile()) {
                         $extension = getExtension($fileInfo->getFilename());
-                        // $extension = $fileInfo->getExtension(); -- not available before 5.3.7.
                         if (array_key_exists($extension, $loaders)) {
                             if (!array_key_exists($extension, $registeredLoaders)) {
                                 // TranslationFileLoader not yet registered
@@ -60,9 +59,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 }
             }
 
-            // load fallback for infos domain
-            $locale_fb = current($app['locale_fallbacks']);
-            $translationDir = $paths['apppath'] . '/resources/translations/' . $locale_fb;
+            // Load fallback for infos domain
+            $translationDir = dirname(dirname(__DIR__)) . '/resources/translations/en';
 
             if (is_dir($translationDir)) {
                 $extension = 'yml';
