@@ -200,10 +200,34 @@ hr {
     line-height: 19px;
 }
 
+.navbar .nav > li > form > button.btn,
 .navbar .nav > li > a {
     color: #E7E7E7;
     font-weight: bold;
     padding: 9px 10px 11px;
+    margin: 0 0 0 0;
+}
+
+.navbar .nav > li > form > button.btn {
+    line-height: inherit;
+    border-width: 0;
+    vertical-align: inherit;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    display: inline;
+    font-weight: bold !important;
+    font-size: 13px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.navbar form {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    display: inline;
+}
+
+.navbar .nav > li > form > button.btn:hover {
+    color: white;
+    text-decoration: none;
 }
 
 .navbar .nav .active > a,

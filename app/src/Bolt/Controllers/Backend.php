@@ -33,6 +33,7 @@ class Backend implements ControllerProviderInterface
             ->bind('postLogin');
 
         $ctl->get("/logout", array($this, 'logout'))
+            ->method('POST')
             ->bind('logout');
 
         $ctl->match("/resetpassword", array($this, 'resetpassword'))
