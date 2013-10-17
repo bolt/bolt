@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Bolt\Permissions;
 
 class Backend implements ControllerProviderInterface
 {
@@ -761,6 +762,12 @@ class Backend implements ControllerProviderInterface
         $userlevels = $app['users']->getUserLevels();
         $enabledoptions = array(1 => 'yes', 0 => 'no');
         $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
+        $allRoles = Permissions::getDefinedRoles($app);
+        $roles = array();
+        $userRoles = $user['roles'];
+        foreach ($allRoles as $roleName => $role) {
+            $roles[$roleName] = $role['label'];
+        }
 
         // If we're creating the first user, we should make sure that we can only create
         // a user that's allowed to log on.
@@ -769,6 +776,8 @@ class Backend implements ControllerProviderInterface
             $title = __('Create the first user');
             // If we get here, chances are we don't have the tables set up, yet.
             $app['storage']->getIntegrityChecker()->repairTables();
+            // Grant 'root' to first user by default
+            $user['roles'] = array(Permissions::ROLE_ROOT);
         } else {
             $firstuser = false;
         }
@@ -804,12 +813,18 @@ class Backend implements ControllerProviderInterface
                 'choices' => $userlevels,
                 'expanded' => false,
                 'constraints' => new Assert\Choice(array_keys($userlevels))
-            ))
+                ))
                 ->add('enabled', 'choice', array(
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
                     'label' => __("User is enabled"),
+                ))
+                ->add('roles', 'choice', array(
+                    'choices' => $roles,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'label' => __("Assigned roles"),
                 ))
                 ->add('contenttypes', 'choice', array(
                     'choices' => $contenttypes,

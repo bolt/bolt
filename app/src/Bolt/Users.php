@@ -81,7 +81,20 @@ class Users
     public function saveUser($user)
     {
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array('id', 'username', 'password', 'email', 'lastseen', 'lastip', 'displayname', 'userlevel', 'enabled', 'contenttypes', 'stack');
+        $allowedcolumns = array(
+                'id',
+                'username',
+                'password',
+                'email',
+                'lastseen',
+                'lastip',
+                'displayname',
+                'userlevel',
+                'enabled',
+                'contenttypes',
+                'stack',
+                'roles',
+            );
 
         // unset columns we don't need to store..
         foreach ($user as $key => $value) {
@@ -129,6 +142,14 @@ class Users
             $user['stack'] = serialize(array());
         } elseif (is_array($user['stack'])) {
             $user['stack'] = serialize($user['stack']);
+        }
+
+        // Serialize roles array
+        if (empty($user['roles']) || !is_array($user['roles'])) {
+            $user['roles'] = '[]';
+        }
+        else {
+            $user['roles'] = json_encode(array_values($user['roles']));
         }
 
 
@@ -748,7 +769,12 @@ class Users
                         $this->users[$key]['contenttypes'] = $allcontenttypes;
                     }
 
-
+                    $roles = json_decode($this->users[$key]['roles']);
+                    if (!is_array($roles)) {
+                        $roles = array();
+                    }
+                    $roles[] = Permissions::ROLE_EVERYBODY;
+                    $this->users[$key]['roles'] = $roles;
                 }
             } catch (\Exception $e) {
                 // Nope. No users.
