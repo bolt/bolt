@@ -4241,7 +4241,8 @@ class phpQueryObject
 		$debug = phpQuery::$debug;
 		phpQuery::$debug = false;
 //		print __FILE__.':'.__LINE__."\n";
-		var_dump($this->htmlOuter());
+		$res = var_dump($this->htmlOuter(), true);
+        echo $res;
 		return $this;
 	}
 	public function dumpWhois() {
