@@ -5013,8 +5013,11 @@ abstract class phpQuery {
 		return ! is_array($input) && substr(trim($input), 0, 1) == '<';
 	}
 	public static function debug($text) {
-		if (self::$debug)
-			print var_dump($text);
+		if (self::$debug) {
+            $res = var_dump($text, true);
+            echo $res;
+        }
+
 	}
 	/**
 	 * Make an AJAX request.
