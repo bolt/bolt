@@ -4250,7 +4250,8 @@ class phpQueryObject
 		$debug = phpQuery::$debug;
 		phpQuery::$debug = false;
 //		print __FILE__.':'.__LINE__."\n";
-		var_dump('whois', $this->whois());
+		$res = var_dump('whois', $this->whois(), true);
+        echo $res;
 		phpQuery::$debug = $debug;
 		return $this;
 	}
@@ -4259,7 +4260,8 @@ class phpQueryObject
 		$debug = phpQuery::$debug;
 		phpQuery::$debug = false;
 //		print __FILE__.':'.__LINE__."\n";
-		var_dump('length', $this->length());
+		$res = var_dump('length', $this->length(), true);
+        echo $res;
 		phpQuery::$debug = $debug;
 		return $this;
 	}
@@ -4292,7 +4294,8 @@ class phpQueryObject
 	 */
 	public function dumpDie() {
 		print __FILE__.':'.__LINE__;
-		var_dump($this->htmlOuter());
+		$res = var_dump($this->htmlOuter(), true);
+        echo $res;
 		die();
 	}
 }
