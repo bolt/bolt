@@ -348,7 +348,7 @@ class Storage
                 $oldContent = null;
             }
             else {
-                $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$contentid]);
+                $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentid));
             }
             if (empty($oldContent) && empty($newContent)) {
                 throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
