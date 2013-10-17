@@ -1,0 +1,40 @@
+roles:
+  root:
+    description: "this user can do all"
+    label: "Root user"
+  editor:
+    description: "this user can edit stuff"
+    label: "Editor"
+
+
+is_root: root
+can_login: [ editor, .., .. ]
+can_useradministrate: [ chief-editor ]
+
+contenttype-all:
+    can_edit: [ admin, chief-editor, owner ]
+    can_publish: [ admin, chief-editor ]
+    can_create: [ admin, chief-editor ]
+    can_delete: [ admin, chief-editor ]
+    can_publish: [ admin, chief-editor ]
+    can_depublish: [ admin, chief-editor ]
+
+contenttype-default:
+    can_edit: [ editor, uploader ]
+    can_publish: [ editor, uploader ]
+    can_create: [ editor, uploader ]
+    can_delete: [ ]
+    can_publish: [ ]
+    can_depublish: [ ]
+
+contenttypes:
+  pages:
+    can_edit: [ editor, uploader ]
+    can_publish: [ chief-editor ]
+    can_create:
+    can_delete:
+  entries:
+    can_edit:
+    can_publish:
+    can_create:
+    can_delete:

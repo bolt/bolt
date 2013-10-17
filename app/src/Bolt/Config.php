@@ -140,6 +140,7 @@ class Config
         $tempcontenttypes = $this->parseConfigYaml('contenttypes.yml');
         $config['menu'] = $this->parseConfigYaml('menu.yml');
         $config['routing'] = $this->parseConfigYaml('routing.yml');
+        $config['permissions'] = $this->parseConfigYaml('permissions.yml');
         $config['extensions'] = array();
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
