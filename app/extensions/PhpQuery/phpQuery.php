@@ -1391,7 +1391,8 @@ class phpQueryObject
 		if (! phpQuery::$debug )
 			return;
 		print('<pre>');
-		print_r($in);
+		$res = print_r($in, true);
+        print($res);
 		// file debug
 //		file_put_contents(dirname(__FILE__).'/phpQuery.log', print_r($in, true)."\n", FILE_APPEND);
 		// quite handy debug trace
