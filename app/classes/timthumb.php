@@ -24,8 +24,6 @@
  * 'r' (resize) -> zc=3
  */
 
-// echo "<pre>\n" . print_r($_SERVER, true) . "</pre>\n";
-
 // @see: http://stackoverflow.com/questions/6483912/php-serverredirect-url-vs-serverrequest-uri
 if (!empty($_SERVER['REQUEST_URI'])) {
     $requesturi = $_SERVER['REQUEST_URI'];
@@ -77,7 +75,7 @@ define('ERROR_IMAGE', !empty($config['general']['thumbnails']['error_image'])
 $_GET['src'] = "files/".urldecode($matches[4]);
 $_GET['src'] = str_replace("files/files/", "files/", $_GET['src']);
 $_GET['src'] = str_replace("files/theme/", "theme/", $_GET['src']);
-
+$_GET['requestname'] = $matches[0];
 $_GET['w'] = $matches[1];
 $_GET['h'] = $matches[2];
 
@@ -894,6 +892,10 @@ class timthumb {
 		file_put_contents($tempfile4, $this->filePrependSecurityBlock . $imgType . ' ?' . '>'); //6 extra bytes, first 3 being image type
 		file_put_contents($tempfile4, $fp, FILE_APPEND);
 		fclose($fp);
+
+        // Added for Bolt: copy the cachefile to a 'nicely named file' in thumbs/
+        $this->boltSaveCopy($tempfile);
+
 		@unlink($tempfile);
 		$this->debug(3, "Locking and replacing cache file.");
 		$lockFile = $this->cachefile . '.lock';
@@ -918,6 +920,33 @@ class timthumb {
 		imagedestroy($image);
 		return true;
 	}
+
+    /**
+     * Saves a copy of the created thumbnail with a 'nice' filename, like /thumbs/320x240/sample.jpg.
+     * This makes it possible for subsequent requests to the same image, to circumvent the PHP layer altogether.
+     *
+     * @param $filename
+     */
+    protected function boltSaveCopy($filename)
+    {
+        global $config;
+
+        if ($config['general']['thumbnails'] != true) {
+            return;
+        }
+
+        // Make sure the paths exists. Try to create it, if possible.
+        $pathparts = explode("/", $_GET['requestname']);
+        $path = dirname(dirname(__DIR__)) . "/" . implode("/", array_slice($pathparts, 0, (count($pathparts)-1)));
+        makeDir($path);
+
+        // Copy the file, and chmod
+        $newfilename = dirname(dirname(__DIR__)) . "/" . urldecode($_GET['requestname']);
+        copy($filename, $newfilename);
+        @chmod($newfilename, octdec('0666'));
+
+    }
+
 	protected function calcDocRoot(){
 		$docRoot = @$_SERVER['DOCUMENT_ROOT'];
 		if (defined('BOLT_WEB_DIR')) {
