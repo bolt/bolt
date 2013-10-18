@@ -6,12 +6,6 @@ database:
   driver: sqlite
   databasename: bolt
 
-# Set 'enabled' to 'true' to log all content changes in the database.
-# Unless you need to rigorously monitor every change to your site's content, it
-# is recommended to keep this disabled.
-changelog:
-  enabled: false
-
 # The name of the website
 sitename: A sample site
 payoff: The amazing payoff goes here
@@ -83,6 +77,12 @@ add_jquery: false
 # for each contenttype.
 recordsperpage: 10
 
+# Set 'enabled' to 'true' to log all content changes in the database.
+# Unless you need to rigorously monitor every change to your site's content, it
+# is recommended to keep this disabled.
+changelog:
+  enabled: false
+
 # Default settings for thumbnails. Quality should be between 0 (horrible) and
 # 100 (best, huge image). Cropping is one of either crop, fit, borders, resize.
 # default_thumbnail is the default size of images, when using {{ record.image|thumbnail() }}
@@ -149,10 +149,10 @@ wysiwyg:
 #  auth_mode: null
 
 # Set the method to get random numbers. Options: dev-random, dev-urandom, rand, mt_rand
+# - "mt_rand" - Use PHP's Mersenne Twister implementation. Not recommended, unless other options won't work.
 # - "dev-random" - UNIX/Linux only; read bytes from /dev/random
 # - "dev-urandom" - UNIX/Linux only, recommended; read bytes from /dev/urandom
 # - "rand" - Use libc's rand(). Not recommended.
-# - "mt_rand" - Use PHP's Mersenne Twister implementation. Not recommended.
 crypto_rng: mt_rand
 
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
