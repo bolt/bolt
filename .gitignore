@@ -20,3 +20,7 @@ php-cs-fixer.phar
 .*.swp
 /tags
 .swp
+*.lock
+.gitignore
+
+composer.lock
