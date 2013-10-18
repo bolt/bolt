@@ -26,10 +26,7 @@ function makeDir($name)
         }
     }
 
-    if (empty($mode)) {
-        $mode = '0777';
-    }
-    $mode_dec = octdec($mode);
+    $mode_dec = octdec('0777');
 
     $oldumask = umask(0);
     $success = @mkdir($name, $mode_dec);
