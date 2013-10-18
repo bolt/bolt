@@ -99,7 +99,7 @@ function cleanPostedData($var, $stripslashes = true)
         $var = str_replace("\t", "    ", $var);
 
         // prune control characters
-        $var = preg_replace('/[[:cntrl:][:space:]]/', ' ', $var);
+        // $var = preg_replace('/[[:cntrl:][:space:]]/', ' ', $var);
 
         // Ah, the joys of \"magic quotes\"!
         if ($stripslashes && get_magic_quotes_gpc()) {
