@@ -3,6 +3,7 @@ app/config/*.yml
 *config.yml
 app/database/*
 files/*
+thumbs/
 vendor/
 composer.phar
 .DS_Store
