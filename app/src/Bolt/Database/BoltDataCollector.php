@@ -16,6 +16,8 @@ class BoltDataCollector extends DataCollector
     protected $version;
     protected $name;
 
+    protected $data;
+
     public function __construct(\Bolt\Application $app)
     {
         $this->version = $app['bolt_version'];
@@ -30,23 +32,21 @@ class BoltDataCollector extends DataCollector
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
+        $this->data = array(
+            'version' => $this->version,
+            'name' => $this->name
+        );
 
     }
 
     public function getVersion()
     {
-        // @TODO: Figure out why $this->version does not work. In __construct it's set correctly..
-        global $app;
-
-        return $app['bolt_version'];
+        return $this->data['version'];
     }
 
     public function getVersionName()
     {
-        // @TODO: Figure out why $this->name does not work. In __construct it's set correctly..
-        global $app;
-
-        return $app['bolt_name'];
+        return $this->data['name'];
     }
 
 
