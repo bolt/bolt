@@ -17,7 +17,7 @@ class DatabaseDataCollector extends DataCollector
     private $logger;
 
     protected $data;
-
+    
     public function __construct(DebugStack $logger)
     {
         $this->logger = $logger;
@@ -38,21 +38,41 @@ class DatabaseDataCollector extends DataCollector
 
     public function getQueryCount()
     {
-        return count($this->data['queries']);
+        return count($this->trim($this->data['queries']));
     }
 
     public function getQueries()
     {
-        return $this->data['queries'];
+        return $this->trim($this->data['queries']);
     }
 
     public function getTime()
     {
         $time = 0;
-        foreach ($this->data['queries'] as $query) {
+        foreach ($this->trim($this->data['queries']) as $query) {
             $time += $query['executionMS'];
         }
 
         return $time;
     }
+    
+    private function trim(array $queries)
+    {   
+        $return = array();
+        foreach ($queries as $query)
+        {
+            // Skip "PRAGMA .." and similar queries by SQLITE.
+            if ( (strpos($query['sql'], "PRAGMA ")===0)
+                || (strpos($query['sql'], "SELECT DISTINCT k.`CONSTRAINT_NAME`")===0)
+                || (strpos($query['sql'], "SELECT TABLE_NAME AS `Table`")===0)
+                || (strpos($query['sql'], "SELECT COLUMN_NAME AS Field")===0) )
+            {
+                continue;
+            }
+            $return[] = $query;
+        }
+        
+        return $return;
+    }
+    
 }
