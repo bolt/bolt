@@ -37,11 +37,19 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     // Register Whoops, to handle errors for logged in users only.
     $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
     $app->register(new Silex\Provider\ServiceControllerServiceProvider);
+
+    // Register the Silex/Symfony web debug toolbar.
     $app->register(new Silex\Provider\WebProfilerServiceProvider(), array(
         'profiler.cache_dir' => __DIR__.'/cache/profiler',
         'profiler.mount_prefix' => '/_profiler', // this is the default
     ));
+
+    // Register the toolbar item for our Database query log.
     $app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
+
+    // Register the toolbar item for our bolt nipple.
+    $app->register(new Bolt\Provider\BoltProfilerServiceProvider());
+
     $app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
     $app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
 
