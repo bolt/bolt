@@ -25,7 +25,8 @@
         "symfony/twig-bridge": "~2.3",
         "symfony/validator": "~2.3",
         "symfony/yaml": "~2.3",
-        "twig/twig": ">=1.8,<2.0-dev"
+        "twig/twig": ">=1.8,<2.0-dev",
+        "silex/web-profiler": "~1.0"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",
@@ -33,11 +34,12 @@
         "phpunit/dbunit": "1.2.3",
         "phpmd/phpmd": "1.5.0",
         "sebastian/phpcpd": "1.4.3",
-        "squizlabs/php_codesniffer": "1.4.6",
-        "silex/web-profiler": "~1.0"
+        "squizlabs/php_codesniffer": "1.4.6"
     },
     "minimum-stability": "beta",
-    "preferred-install": "dist",
+    "config": {
+        "preferred-install": "dist"
+    },
     "prefer-stable": true,
     "autoload": {
         "psr-0": {
