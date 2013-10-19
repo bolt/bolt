@@ -34,81 +34,20 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     // Set the error_reporting to the level specified in config.yml
     error_reporting($app['config']->get('general/debug_error_level'));
 
+	// Set the error_reporting to the level specified in config.yml
+    error_reporting($app['config']->get('general/debug_error_level'));
+
     // Register Whoops, to handle errors for logged in users only.
     $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
+	$app->register(new Silex\Provider\ServiceControllerServiceProvider);
+	$app->register(new Silex\Provider\WebProfilerServiceProvider(), array(
+	    'profiler.cache_dir' => __DIR__.'/cache/profiler',
+	    'profiler.mount_prefix' => '/_profiler', // this is the default
+	));
+	$app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
+	$app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
+	$app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
 
-    $logger = new Doctrine\DBAL\Logging\DebugStack();
-    $app['db.config']->setSQLLogger($logger);
-
-    $app->after(function (Request $request, Response $response) use ($app, $logger) {
-
-        // Make sure debug is _still_ enabled, and/or the debugbar isn't turned off in code.
-        if (!$app['debug'] || !$app['debugbar']) {
-            return "";
-        }
-
-        $queries = array();
-        $querycount = 0;
-        $querytime = 0;
-
-        foreach ($logger->queries as $query) {
-
-            // Skip "PRAGMA .." and similar queries by SQLITE.
-            if ( (strpos($query['sql'], "PRAGMA ")===0) || (strpos($query['sql'], "SELECT DISTINCT k.`CONSTRAINT_NAME`")===0) ||
-            (strpos($query['sql'], "SELECT TABLE_NAME AS `Table`")===0) ||   (strpos($query['sql'], "SELECT COLUMN_NAME AS Field")===0)  ){
-                continue;
-            }
-
-            $queries[] = array(
-                'query' => $query['sql'],
-                'params' => $query['params'],
-                'types' => $query['types'],
-                'duration' => sprintf("%0.2f", $query['executionMS'])
-            );
-
-            $querycount++;
-            $querytime += $query['executionMS'];
-
-        }
-
-
-        $twig = $app['twig.loader'];
-        $templates = hackislyParseRegexTemplates($twig);
-
-        $route = $request->get('_route') ;
-        $route_params = $request->get('_route_params') ;
-
-        $log = $app['log']->getMemorylog();
-
-        $servervars = array(
-            'cookies <small>($_COOKIES)</small>' => $request->cookies->all(),
-            'headers' => makeValuepairs($request->headers->all(), '', '0'),
-            'query <small>($_GET)</small>' => $request->query->all(),
-            'request <small>($_POST)</small>' => $request->request->all(),
-            'session <small>($_SESSION)</small>' => $request->getSession()->all(),
-            'server <small>($_SERVER)</small>' => $request->server->all(),
-            'response' => makeValuepairs($response->headers->all(), '', '0'),
-            'statuscode' => $response->getStatusCode()
-        );
-
-        $response->setContent($response->getContent() . $app['twig']->render('debugbar.twig', array(
-            'timetaken' => timeTaken(),
-            'memtaken' => getMem(),
-            'maxmemtaken' => getMaxMem(),
-            'querycount' => $querycount,
-            'querytime' => sprintf("%0.2f", $querytime),
-            'queries' => $queries,
-            'servervars' => $servervars,
-            'templates' => $templates,
-            'log' => $log,
-            'route' => "/".$route,
-            'route_params' => $route_params,
-            'editlink' => $app['editlink'],
-            'paths' => getPaths($app['config']),
-            'logvalues' => $app['log']->getValues()
-        )));
-
-    }, \Silex\Application::LATE_EVENT);
 } else {
     error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
 }

@@ -1,0 +1,62 @@
+{% extends app.request.isXmlHttpRequest ? '@WebProfiler/Profiler/ajax_layout.html.twig' : '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <img width="20" height="28" alt="Database" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQRJREFUeNpi/P//PwM1ARMDlcGogZQDlpMnT7pxc3NbA9nhQKxOpL5rQLwJiPeBsI6Ozl+YBOOOHTv+AOllQNwtLS39F2owKYZ/gRq8G4i3ggxEToggWzvc3d2Pk+1lNL4fFAs6ODi8JzdS7mMRVyDVoAMHDsANdAPiOCC+jCQvQKqBQB/BDbwBxK5AHA3E/kB8nKJkA8TMQBwLxaBIKQbi70AvTADSBiSadwFXpCikpKQU8PDwkGTaly9fHFigkaKIJid4584dkiMFFI6jkTJII0WVmpHCAixZQEXWYhDeuXMnyLsVlEQKI45qFBQZ8eRECi4DBaAlDqle/8A48ip6gAADANdQY88Uc0oGAAAAAElFTkSuQmCC" />
+        <span class="sf-toolbar-status{% if 50 < collector.querycount %} sf-toolbar-status-yellow{% endif %}">{{ collector.querycount }}</span>
+        {% if collector.querycount > 0 %}
+            <span class="sf-toolbar-info-piece-additional-detail">in {{ '%0.2f'|format(collector.time * 1000) }} ms</span>
+        {% endif %}
+    {% endset %}
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>DB Queries</b>
+            <span>{{ collector.querycount }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Query time</b>
+            <span>{{ '%0.2f'|format(collector.time * 1000) }} ms</span>
+        </div>
+    {% endset %}
+    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': profiler_url } %}
+{% endblock %}
+
+{% block menu %}
+<span class="label">
+    <span class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAABLUlEQVR42u3TP0vDQBiA8UK/gDiLzi0IhU4OEunk5OQUAhGSOBUCzqWfIKSzX8DRySF0URCcMjWLIJjFD9Cpk/D6HITecEPUuzhIAz8CIdyTP/f2iqI4qaqqDx8l5Ic2uIeP/bquezCokOAFF+oCN3t4gPzSEjc4NEPaCldQbzjELTYW0RJzHDchwwem+ons6ZBpLSJ7nueJC22h0V+FzmwWV0ee59vQNV67CGVZJmEYbkNjfpY6X6I0Qo4/3RMmTdDDspuQVsJvgkP3IdMbIkIjLPBoadG2646iKJI0Ta2wxm6OdnP0/Tk6DYJgHcfxpw21RtscDTDDnaVZ26474GkkSRIrrPEv5sgMTfHe+cA2O6wPH6vOBpYQNALneHb96XTEDI6dzpEZ0VzO0Rf3pP5LMLI4tAAAAABJRU5ErkJggg==" alt="" /></span>
+    <strong>Doctrine</strong>
+    <span class="count">
+        <span>{{ collector.querycount }}</span>
+        <span>{{ '%0.0f'|format(collector.time * 1000) }} ms</span>
+    </span>
+</span>
+{% endblock %}
+
+{% block panel %}
+        {{ block('queries') }}
+{% endblock %}
+
+{% block queries %}
+    <h2>Queries</h2>
+
+    {% if collector.queries is empty %}
+        <p>
+            <em>No queries.</em>
+        </p>
+    {% else %}
+        <ul class="alt">
+            {% for i, query in collector.queries %}
+                <li class="{{ cycle(['odd', 'even'], i) }}">
+                    <small style="float: right;">
+                        <strong>Parameters</strong>: {{ query.params|json_encode }} <br />
+                        <strong>Time</strong>: {{ '%0.2f'|format(query.executionMS * 1000) }} ms
+                    </small>
+                    <code >
+                        {{ query.sql|raw }}
+                    </code>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}
