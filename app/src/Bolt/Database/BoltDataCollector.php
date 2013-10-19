@@ -13,15 +13,13 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 class BoltDataCollector extends DataCollector
 {
-    protected $version;
-    protected $name;
+    protected $app;
 
     protected $data;
 
     public function __construct(\Bolt\Application $app)
     {
-        $this->version = $app['bolt_version'];
-        $this->name = $app['bolt_name'];
+        $this->app = $app;
     }
 
 
@@ -33,8 +31,11 @@ class BoltDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = array(
-            'version' => $this->version,
-            'name' => $this->name
+            'version' => $this->app['bolt_version'],
+            'name' => $this->app['bolt_name'],
+            'templates' => hackislyParseRegexTemplates($this->app['twig.loader']),
+            'templatechosen' => $this->app['log']->getValue('templatechosen'),
+            'templateerror' => $this->app['log']->getValue('templateerror')
         );
 
     }
@@ -47,6 +48,22 @@ class BoltDataCollector extends DataCollector
     public function getVersionName()
     {
         return $this->data['name'];
+    }
+
+    public function getTemplates()
+    {
+        return $this->data['templates'];
+    }
+
+    public function getChosenTemplate()
+    {
+        return $this->data['templatechosen'];
+    }
+
+
+    public function getTemplateError()
+    {
+        return $this->data['templateerror'];
     }
 
 

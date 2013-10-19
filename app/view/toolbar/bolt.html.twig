@@ -23,14 +23,28 @@
     {% endset %}
 
     {% set text %}
+
+        {% if collector.chosentemplate is not empty %}
         <div class="sf-toolbar-info-piece">
-            <b>DB Queries</b>
-            <span>{{ collector.querycount }}</span>
+            <b>Primary template</b>
+                <span>{{ collector.chosentemplate }}
+                    {% if collector.templateerror is not empty %}
+                        {{ collector.templateerror }}
+                    {% endif %}
+                </span>
         </div>
+        {% endif %}
+
         <div class="sf-toolbar-info-piece">
-            <b>Query time</b>
-            <span>{{ '%0.2f'|format(collector.time * 1000) }} ms</span>
+            <b>Used templates</b>
+                <span>
+                    {% for template in collector.templates %}
+                        {{loop.index }}. {{template}}<br>
+                    {% endfor %}
+                </span>
         </div>
+
+
     {% endset %}
     {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': profiler_url } %}
 {% endblock %}
