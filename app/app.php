@@ -34,19 +34,16 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     // Set the error_reporting to the level specified in config.yml
     error_reporting($app['config']->get('general/debug_error_level'));
 
-	// Set the error_reporting to the level specified in config.yml
-    error_reporting($app['config']->get('general/debug_error_level'));
-
     // Register Whoops, to handle errors for logged in users only.
     $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
-	$app->register(new Silex\Provider\ServiceControllerServiceProvider);
-	$app->register(new Silex\Provider\WebProfilerServiceProvider(), array(
-	    'profiler.cache_dir' => __DIR__.'/cache/profiler',
-	    'profiler.mount_prefix' => '/_profiler', // this is the default
-	));
-	$app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
-	$app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
-	$app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
+    $app->register(new Silex\Provider\ServiceControllerServiceProvider);
+    $app->register(new Silex\Provider\WebProfilerServiceProvider(), array(
+        'profiler.cache_dir' => __DIR__.'/cache/profiler',
+        'profiler.mount_prefix' => '/_profiler', // this is the default
+    ));
+    $app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
+    $app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
+    $app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
 
 } else {
     error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
