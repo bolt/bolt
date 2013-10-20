@@ -23,9 +23,24 @@
 
     {% set text %}
 
+        <span>
+
+            <strong>Bolt - </strong> {{ collector.payoff }}<br>
+
+            {{ collector.fullversion }} - {{ collector.aboutlink|raw }} - Visit <a href="http://bolt.cm" target="_blank">Bolt.cm</a></strong> <br>
+
+
+            {% if collector.branding is not empty %}
+                {{ collector.branding|raw }}
+            {% endif %}
+
+            <hr>
+
+        </span>
+
         {% if collector.chosentemplate is not empty %}
         <div class="sf-toolbar-info-piece">
-            <b>Primary template</b>
+            <b>Primary template:</b>
                 <span>{{ collector.chosentemplate }}
                     {% if collector.templateerror is not empty %}
                         {{ collector.templateerror }}
@@ -35,7 +50,7 @@
         {% endif %}
 
         <div class="sf-toolbar-info-piece">
-            <b>Used templates</b>
+            <b>Used templates:</b>
                 <span>
                     {% for template in collector.templates %}
                         {{loop.index }}. {{template}}<br>

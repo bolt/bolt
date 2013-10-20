@@ -33,16 +33,34 @@ class BoltDataCollector extends DataCollector
         $this->data = array(
             'version' => $this->app['bolt_version'],
             'name' => $this->app['bolt_name'],
+            'fullversion' => sprintf('%s %s %s', __("Version: "), $this->app['bolt_version'], $this->app['bolt_name']),
             'templates' => hackislyParseRegexTemplates($this->app['twig.loader']),
             'templatechosen' => $this->app['log']->getValue('templatechosen'),
-            'templateerror' => $this->app['log']->getValue('templateerror')
+            'templateerror' => $this->app['log']->getValue('templateerror'),
+            'payoff' => __('Sophisticated, lightweight & simple CMS'),
+            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", path('about'), __('About') )
         );
+
+        if ($this->app['config']->get('general/branding/provided_by/0')) {
+            $this->data['branding'] = sprintf(
+                "%s <a href=\"mailto:%s\">%s</a>",
+                __("Provided by:"),
+                $this->app['config']->get('general/branding/provided_by/0'),
+                $this->app['config']->get('general/branding/provided_by/1')
+            );
+        }
+
 
     }
 
     public function getVersion()
     {
         return $this->data['version'];
+    }
+
+    public function getFullVersion()
+    {
+        return $this->data['fullversion'];
     }
 
     public function getVersionName()
@@ -64,6 +82,22 @@ class BoltDataCollector extends DataCollector
     public function getTemplateError()
     {
         return $this->data['templateerror'];
+    }
+
+    public function getBranding()
+    {
+        return $this->data['branding'];
+    }
+
+    public function getPayoff()
+    {
+        return $this->data['payoff'];
+    }
+
+
+    public function getAboutlink()
+    {
+        return $this->data['aboutlink'];
     }
 
 

@@ -85,7 +85,7 @@ class Cache extends FilesystemCache
 
     /**
      * Helper function for clearCache()
-     * 
+     *
      * @param string $startFolder
      * @param string $additional
      * @param array $result
