@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class BoltDataCollector extends DataCollector
 {
     protected $app;
-
     protected $data;
 
     public function __construct(\Bolt\Application $app)
@@ -28,6 +27,13 @@ class BoltDataCollector extends DataCollector
         return 'bolt';
     }
 
+    /**
+     * Collect the date for the Toolbar item.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param \Exception $exception
+     */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = array(
@@ -53,48 +59,93 @@ class BoltDataCollector extends DataCollector
 
     }
 
+    /**
+     * Getter for version
+     *
+     * @return string
+     */
     public function getVersion()
     {
         return $this->data['version'];
     }
 
+    /**
+     * Getter for fullversion
+     *
+     * @return string
+     */
     public function getFullVersion()
     {
         return $this->data['fullversion'];
     }
 
+    /**
+     * Getter for name
+     *
+     * @return string
+     */
     public function getVersionName()
     {
         return $this->data['name'];
     }
 
+    /**
+     * Getter for templates
+     *
+     * @return array
+     */
     public function getTemplates()
     {
         return $this->data['templates'];
     }
 
+    /**
+     * Getter for templatechosen
+     *
+     * @return string
+     */
     public function getChosenTemplate()
     {
         return $this->data['templatechosen'];
     }
 
 
+    /**
+     * Getter for templateerror
+     *
+     * @return string
+     */
     public function getTemplateError()
     {
         return $this->data['templateerror'];
     }
 
+    /**
+     * Getter for branding
+     *
+     * @return string
+     */
     public function getBranding()
     {
         return $this->data['branding'];
     }
 
+    /**
+     * Getter for payoff
+     *
+     * @return string
+     */
     public function getPayoff()
     {
         return $this->data['payoff'];
     }
 
 
+    /**
+     * Getter for aboutlink
+     *
+     * @return string
+     */
     public function getAboutlink()
     {
         return $this->data['aboutlink'];
