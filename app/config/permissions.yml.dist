@@ -5,33 +5,32 @@ roles:
 
 
 global:
-    can_login: [ editor, .., .. ]
-    can_useradministrate: [ chief-editor ]
+    login: [ editor, .., .. ]
+    useradministrate: [ chief-editor ]
 
 contenttype-all:
-    can_edit: [ admin, chief-editor, owner ]
-    can_publish: [ admin, chief-editor ]
-    can_create: [ admin, chief-editor ]
-    can_delete: [ admin, chief-editor ]
-    can_publish: [ admin, chief-editor ]
-    can_depublish: [ admin, chief-editor ]
+    edit: [ admin, chief-editor, owner ]
+    create: [ admin, chief-editor ]
+    delete: [ admin, chief-editor ]
+    publish: [ admin, chief-editor ]
+    depublish: [ admin, chief-editor ]
 
 contenttype-default:
-    can_edit: [ editor, uploader ]
-    can_publish: [ editor, uploader ]
-    can_create: [ editor, uploader ]
-    can_delete: [ ]
-    can_publish: [ ]
-    can_depublish: [ ]
+    edit: [ editor, uploader ]
+    publish: [ editor, uploader ]
+    create: [ editor, uploader ]
+    delete: [ ]
+    publish: [ ]
+    depublish: [ ]
 
 contenttypes:
   pages:
-    can_edit: [ editor, uploader ]
-    can_publish: [ chief-editor ]
-    can_create:
-    can_delete:
+    edit: [ editor, uploader ]
+    publish: [ chief-editor ]
+    create:
+    delete:
   entries:
-    can_edit:
-    can_publish:
-    can_create:
-    can_delete:
+    edit:
+    publish:
+    create:
+    delete:
