@@ -17,8 +17,10 @@
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
                                 <i class="icon-tasks"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             {% if loop.length < 5 %}
-                            <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
-                                <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
+                                {% if isallowed('contenttype:' ~ slug ~ ':create') %}
+                                <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
+                                    <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
+                                {% endif %}
                                 {% if not loop.last %}<li class="divider"></li>{% endif %}
                             {% endif %}
                         {% endif %}
