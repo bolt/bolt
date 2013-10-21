@@ -128,6 +128,7 @@ if (!function_exists('intl_get_error_code')) {
 $app->register(new Bolt\Provider\TranslationServiceProvider());
 $app->register(new Bolt\Provider\StorageServiceProvider());
 $app->register(new Bolt\Provider\UsersServiceProvider());
+$app->register(new Bolt\Provider\PermissionsServiceProvider());
 $app->register(new Bolt\Provider\CacheServiceProvider());
 $app->register(new Bolt\Provider\ExtensionServiceProvider());
 $app->register(new Bolt\Provider\StackServiceProvider());
