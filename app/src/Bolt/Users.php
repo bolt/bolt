@@ -772,7 +772,7 @@ class Users
                     if (!is_array($roles)) {
                         $roles = array();
                     }
-                    $roles[] = Permissions::ROLE_EVERYBODY;
+                    $roles[] = Permissions::ROLE_EVERYONE;
                     $this->users[$key]['roles'] = $roles;
                 }
             } catch (\Exception $e) {
@@ -884,10 +884,19 @@ class Users
     {
 
         if (substr($what, 0, 12) == 'contenttype:') {
-            $contenttype = substr($what, 12);
-            $validContenttypes = $this->users[$this->currentuser['username']]['contenttypes'];
+            list($_, $contenttype, $permission) = explode(':', $what);
+            // for backwards compatibility: checks of the form
+            // 'contenttype:foobar' fall back on the most general permission,
+            // 'view', leaving the actual check to the update pages.
+            if (empty($permission)) {
+                $permission = 'view';
+            }
 
-            return (is_array($validContenttypes) && in_array($contenttype, $validContenttypes));
+            $userRoles = $this->users[$this->currentuser['username']]['roles'];
+            $permissionRoles = $this->app['permissions']->getRolesByContentTypePermission($permission, $contenttype);
+            $permissionRoles[] = Permissions::ROLE_ROOT;
+            $intersection = array_intersect($userRoles, $permissionRoles);
+            return (!empty($intersection));
         }
 
         if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel'])) {

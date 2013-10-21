@@ -8,7 +8,7 @@ use Silex;
  * This class implements role-based permissions.
  */
 class Permissions {
-    const ROLE_EVERYBODY = 'everybody';
+    const ROLE_EVERYONE = 'everyone';
     const ROLE_ROOT = 'root';
     const ROLE_OWNER = 'owner';
 
@@ -26,7 +26,7 @@ class Permissions {
 
     public function getRole($roleName) {
         switch ($roleName) {
-            case self::ROLE_EVERYBODY:
+            case self::ROLE_EVERYONE:
                 return array('label' => 'Everybody', 'description' => 'Built-in role, automatically granted to every registered user', 'builtin' => true);
             case self::ROLE_OWNER:
                 return array('label' => 'Owner', 'description' => 'Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.', 'builtin' => true);
@@ -54,7 +54,7 @@ class Permissions {
         if (!is_array($userRoleNames)) {
             throw new \Exception('Expected a user-like array, but the "roles" property is not an array');
         }
-        $userRoleNames[] = self::ROLE_EVERYBODY;
+        $userRoleNames[] = self::ROLE_EVERYONE;
         if ($content && $content['user'] && $content['user']['id'] === $user['id']) {
             $userRoleNames[] = self::ROLE_OWNER;
         }
