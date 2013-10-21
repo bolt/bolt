@@ -762,7 +762,7 @@ class Backend implements ControllerProviderInterface
         $userlevels = $app['users']->getUserLevels();
         $enabledoptions = array(1 => 'yes', 0 => 'no');
         $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
-        $allRoles = Permissions::getDefinedRoles($app);
+        $allRoles = $app['permissions']->getDefinedRoles($app);
         $roles = array();
         $userRoles = $user['roles'];
         foreach ($allRoles as $roleName => $role) {
