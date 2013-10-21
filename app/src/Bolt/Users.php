@@ -730,7 +730,6 @@ class Users
      */
     public function getUsers()
     {
-
         if (empty($this->users) || !is_array($this->users)) {
 
             $query = "SELECT * FROM " . $this->usertable;
