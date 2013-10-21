@@ -1,15 +1,12 @@
 roles:
-  root:
-    description: "this user can do all"
-    label: "Root user"
   editor:
     description: "this user can edit stuff"
     label: "Editor"
 
 
-is_root: root
-can_login: [ editor, .., .. ]
-can_useradministrate: [ chief-editor ]
+global:
+    can_login: [ editor, .., .. ]
+    can_useradministrate: [ chief-editor ]
 
 contenttype-all:
     can_edit: [ admin, chief-editor, owner ]
