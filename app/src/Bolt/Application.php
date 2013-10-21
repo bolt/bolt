@@ -15,37 +15,6 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param  string                    $name
-     * @return mixed
-     * @throws \InvalidArgumentException
-     * @deprecated
-     */
-    public function __get($name)
-    {
-        trigger_error('$app->'.$name.' is deprecated, use $app[\''.$name.'\'] instead',E_USER_DEPRECATED);
-        if (isset($name)) {
-            return $this[$name];
-        }
-
-        if (strcasecmp('dbPrefix', $name) == 0) {
-            return $this->config['general']['database']['prefix'];
-        }
-
-        throw new \InvalidArgumentException;
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     * @deprecated
-     */
-    public function __set($name, $value)
-    {
-        trigger_error('$app->'.$name.' is deprecated, use $app[\''.$name.'\'] instead',E_USER_DEPRECATED);
-        $this[$name] = $value;
-    }
-
-    /**
      * @param $name
      * @return bool
      */

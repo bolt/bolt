@@ -359,7 +359,7 @@ class Async implements ControllerProviderInterface
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
-        $key = $app->request->get('key');
+        $key = $app['request']->get('key');
 
         $basefolder = __DIR__ . "/../../../../";
         $path = stripTrailingSlash(str_replace("..", "", $path));
@@ -461,8 +461,8 @@ class Async implements ControllerProviderInterface
     public function showstack(Silex\Application $app)
     {
 
-        $count = $app->request->get('items', 10);
-        $options = $app->request->get('options', false);
+        $count = $app['request']->get('items', 10);
+        $options = $app['request']->get('options', false);
 
         $stack = $app['stack']->listitems($count);
 
