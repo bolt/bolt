@@ -1,36 +1,34 @@
 roles:
-  editor:
-    description: "this user can edit stuff"
-    label: "Editor"
-
+    editor:
+        description: This user can edit stuff
+        label: Editor
+    chief-editor:
+        description: This user can edit anything
+        label: Chief Editor
+    guest:
+        label: Guest Editor
 
 global:
-    login: [ editor, .., .. ]
-    useradministrate: [ chief-editor ]
+    login: [ editor ]
+    user-admin: [ admin, chief-editor ]
+    contenttype-edit: [ admin ]
+    config-edit: [ admin ]
 
 contenttype-all:
-    edit: [ admin, chief-editor, owner ]
+    edit: [ admin, chief-editor ]
     create: [ admin, chief-editor ]
-    delete: [ admin, chief-editor ]
     publish: [ admin, chief-editor ]
     depublish: [ admin, chief-editor ]
+    delete: [ admin ]
 
 contenttype-default:
-    edit: [ editor, uploader ]
-    publish: [ editor, uploader ]
-    create: [ editor, uploader ]
-    delete: [ ]
-    publish: [ ]
-    depublish: [ ]
+    edit: [ editor ]
+    create: [ editor ]
+    view: [ everyone ]
 
 contenttypes:
   pages:
-    edit: [ editor, uploader ]
-    publish: [ chief-editor ]
-    create:
-    delete:
+    edit: [ editor, guest ]
   entries:
-    edit:
-    publish:
-    create:
-    delete:
+  kitchensinks:
+    view: [ admin, editor, chief-editor ]

@@ -99,6 +99,11 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('useredit');
 
+        $ctl->match("/roles", array($this, 'roles'))
+            ->before(array($this, 'before'))
+            ->method('GET')
+            ->bind('roles');
+
         $ctl->get("/about", array($this, 'about'))
             ->before(array($this, 'before'))
             ->bind('about');
@@ -745,6 +750,25 @@ class Backend implements ControllerProviderInterface
             array('users' => $users, 'userlevels' => $userlevels, 'sessions' => $sessions)
         );
 
+    }
+
+    public function roles(\Bolt\Application $app)
+    {
+        $contenttypes = $app['config']->get('contenttypes');
+        $permissions = array('view', 'edit', 'create', 'publish', 'depublish');
+        $effectivePermissions = array();
+        foreach ($contenttypes as $contenttype) {
+            foreach ($permissions as $permission) {
+                $effectivePermissions[$contenttype['slug']][$permission] =
+                    $app['permissions']->getRolesByContentTypePermission($permission, $contenttype['slug']);
+            }
+        }
+        $globalPermissions = $app['permissions']->getGlobalRoles();
+        return $app['twig']->render('roles.twig',
+            array(
+                'effectivePermissions' => $effectivePermissions,
+                'globalPermissions' => $globalPermissions,
+            ));
     }
 
     public function useredit($id, \Bolt\Application $app, Request $request)

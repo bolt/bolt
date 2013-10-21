@@ -65,6 +65,10 @@ class Permissions {
                 $userRoleNames));
     }
 
+    /**
+     * Checks whether the specified $roleName grants permission $permissionName
+     * for the $contenttype in question (NULL for global permissions).
+     */
     public function checkRolePermission($roleName, $permissionName, $contenttype = null) {
         if ($contenttype === null) {
             return $this->checkRoleGlobalPermission($roleName, $permissionName);
@@ -75,8 +79,42 @@ class Permissions {
     }
 
     public function checkRoleGlobalPermission($roleName, $permissionName) {
-        $roles = $this->app['config']->get("global/$permissionName");
+        $roles = $this->getRolesByGlobalPermission($permissionName);
         return in_array($roleName, $roles);
+    }
+
+    public function checkRoleContentTypePermission($roleName, $permissionName, $contenttype) {
+        $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
+        return in_array($roleName, $roles);
+    }
+
+    public function getRolesByGlobalPermission($permissionName) {
+        return $this->app['config']->get("permissions/global/$permissionName");
+    }
+
+    public function getGlobalRoles() {
+        return $this->app['config']->get("permissions/global");
+    }
+
+    public function getRolesByContentTypePermission($permissionName, $contenttype) {
+        // Here's how it works:
+        // - if a permission is granted through 'contenttype-all', it is effectively granted
+        // - if a permission is granted through 'contenttypes/$contenttype', it is effectively granted
+        // - if 'contenttypes/$contenttype/$permissionName' is not set, *and* the permission is granted through 'contenttype-default', it is effectively granted
+        // - otherwise, the permission is denied
+        $overrideRoles = $this->app['config']->get("permissions/contenttype-all/$permissionName");
+        if (!is_array($overrideRoles)) {
+            $overrideRoles = array();
+        }
+        $contenttypeRoles = $this->app['config']->get("permissions/contenttypes/$contenttype/$permissionName");
+        if (!is_array($contenttypeRoles)) {
+            $contenttypeRoles = $this->app['config']->get("permissions/contenttype-default/$permissionName");
+        }
+        if (!is_array($contenttypeRoles)) {
+            $contenttypeRoles = array();
+        }
+        $effectiveRoles = array_unique(array_merge($overrideRoles, $contenttypeRoles));
+        return $effectiveRoles;
     }
 
 }
