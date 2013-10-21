@@ -91,7 +91,7 @@ namespace Redirector {
         public function initializeConfiguration()
         {
             // Get the routing.yml configuration
-            $this->routes = $this->app->config->get('routing');
+            $this->routes = $this->app['config']->get('routing');
 
             // Set the configuration defaults
             $config = array(
@@ -270,7 +270,7 @@ namespace Redirector {
 
                         // Merge global variables with those defined by the user
                         $self->variables = array_merge($self->variables, array(
-                            'admin_path' => $app->config->get('general/branding/path'),
+                            'admin_path' => $app['config']->get('general/branding/path'),
                         ));
                         // Replace variables with actual data
                         foreach ($self->variables as $variable => $data) {
