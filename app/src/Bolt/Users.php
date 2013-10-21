@@ -882,6 +882,11 @@ class Users
 
     public function isAllowed($what)
     {
+        $userRoles = $this->users[$this->currentuser['username']]['roles'];
+        if (!is_array($userRoles)) {
+            $userRoles = array();
+        }
+        $userRoles[] = Permissions::ROLE_EVERYONE;
 
         if (substr($what, 0, 12) == 'contenttype:') {
             list($_, $contenttype, $permission) = explode(':', $what);
@@ -892,19 +897,10 @@ class Users
                 $permission = 'view';
             }
 
-            $userRoles = $this->users[$this->currentuser['username']]['roles'];
-            $permissionRoles = $this->app['permissions']->getRolesByContentTypePermission($permission, $contenttype);
-            $permissionRoles[] = Permissions::ROLE_ROOT;
-            $intersection = array_intersect($userRoles, $permissionRoles);
-            return (!empty($intersection));
+            return $this->app['permissions']->checkPermission($userRoles, $permission, $contenttype);
         }
-
-        if (isset($this->allowed[$what]) && ($this->allowed[$what] > $this->currentuser['userlevel'])) {
-            return false;
-        } else {
-            return true;
-        }
-
+        
+        $this->app['permissions']->checkPermission($userRoles, $what);
     }
 
     /**

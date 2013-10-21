@@ -65,6 +65,15 @@ class Permissions {
                 $userRoleNames));
     }
 
+    public function checkPermission($roleNames, $permissionName, $contenttype = null) {
+        foreach ($roleNames as $roleName) {
+            if ($this->checkRolePermission($roleName, $permissionName, $contenttype)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Checks whether the specified $roleName grants permission $permissionName
      * for the $contenttype in question (NULL for global permissions).
@@ -80,6 +89,9 @@ class Permissions {
 
     public function checkRoleGlobalPermission($roleName, $permissionName) {
         $roles = $this->getRolesByGlobalPermission($permissionName);
+        if (!is_array($roles)) {
+            throw new \Exception("Configuration error: $permissionName is not granted to any roles.");
+        }
         return in_array($roleName, $roles);
     }
 
