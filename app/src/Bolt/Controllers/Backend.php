@@ -626,7 +626,7 @@ class Backend implements ControllerProviderInterface
             }
 
             // Check if we're allowed to edit this content..
-            if (($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all')) {
+            if (($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('contenttype:')) {
                 $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
 
                 return redirect('dashboard');
@@ -1411,11 +1411,12 @@ class Backend implements ControllerProviderInterface
         $app['debugbar'] = true;
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
+        $routePermission = str_replace(':', '-', $route);
+        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($routePermission)) {
             $app['session']->getFlashBag()->set('info', __("Please log on."));
 
             return redirect('login');
-        } elseif (!$app['users']->isAllowed($route)) {
+        } elseif (!$app['users']->isAllowed($routePermission)) {
             $app['session']->getFlashBag()->set('error', __("You do not have the right privileges to view that page."));
 
             return redirect('dashboard');
