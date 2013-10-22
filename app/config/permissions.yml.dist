@@ -1,3 +1,14 @@
+# This file defines role-based access control for your Bolt site.
+# First, we need to define some roles. There are three built-in roles that you
+# should never add manually:
+# - 'root', the "superuser" role; Bolt will automatically grant all permissions
+#   to this role. Manually adding it to any permission is pointless, because it
+#   implicitly grants every permission anyway.
+# - 'everyone', the "anonymous" role; every user automatically has this role.
+#   Adding the 'everyone' role to any permission will grant it to all users.
+# - 'owner': this role is only valid in the context of an individual content
+#   item, and the user who "owns" the item (usually the person who created it)
+#   will be in the 'owner' role.
 roles:
     editor:
         description: This user can edit stuff
@@ -14,8 +25,14 @@ roles:
     guest:
         label: Guest Editor
 
+# Now we'll define some permissions. Each permission comes with a list of roles
+# that grant access.
+
+# The first set of permissions are the 'global' permissions; these are not tied
+# to any content types, but rather apply to global, non-content activity in
+# Bolt's backend. Most of these permissions map directly to backend routes.
 global:
-    about: [ editor, admin, developer ]
+    about: [ editor, admin, developer ] # view the 'About Bolt' page
     activitylog: [ admin, developer ]
     clearcache: [ admin, developer ]
     contentaction: [ editor, admin, developer ]
@@ -39,6 +56,41 @@ global:
     useredit: [ admin, developer ]
     users: [ admin, developer ]
 
+# For content type related actions, permissions can be set individually for
+# each content type. For this, we define three groups of permission sets.
+# The 'contenttype-all' permission sets *overrides*; any roles specified here
+# will grant a permission for all content types, regardless of the rest of this
+# section.
+# The 'contenttype-default' contains rules that are used when the desired
+# content type does not define a rule for this permission itself.
+# The 'contenttypes' section specifies permissions for individual content
+# types.
+#
+# To understand how this works, it may be best to follow the permission checker
+# through its decision-making process.
+#
+# First, it checks whether the current user is in the "root" role; if so, it
+# short-circuits and always grants anything unconditionally.
+#
+# Otherwise, it checks whether any of the current user's roles match any of the
+# roles in contenttype-all/{permission}. If so, the search is over, and the
+# permission can be granted.
+#
+# The next step is to find contenttypes/{contenttype}/{permission}. If it is
+# found, then the permission can be granted if and only if any of the user's
+# roles match any role in contenttypes/{contenttype}/{permission}.
+#
+# If either contenttypes/{contenttype} or
+# contenttypes/{contenttype}/{permission} is absent, the permission checker
+# uses contenttype-default/{permission} instead. If any role exists in both the
+# user's roles and contenttype-default/{permission}, the permission can be
+# granted.
+#
+# Note especially that an *empty* set of roles in the contenttype section means
+# something else than the *absence* of the permission. If the permission is
+# defined with an empty role list, it overrides the role list in
+# contenttype-default; but if the permission is not mentioned, the
+# corresponding entry in contenttype-default applies.
 contenttype-all:
     edit: [ admin, chief-editor ]
     create: [ admin, chief-editor ]
