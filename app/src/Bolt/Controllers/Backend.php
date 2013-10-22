@@ -1410,18 +1410,6 @@ class Backend implements ControllerProviderInterface
 
         $app['debugbar'] = true;
 
-        // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        $routePermission = str_replace(':', '-', $route);
-        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($routePermission)) {
-            $app['session']->getFlashBag()->set('info', __("Please log on."));
-
-            return redirect('login');
-        } elseif (!$app['users']->isAllowed($routePermission)) {
-            $app['session']->getFlashBag()->set('error', __("You do not have the right privileges to view that page."));
-
-            return redirect('dashboard');
-        }
-
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
         if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
@@ -1437,6 +1425,18 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
 
             return redirect('useredit', array('id' => ""));
+        }
+
+        // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
+        $routePermission = str_replace(':', '-', $route);
+        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($routePermission)) {
+            $app['session']->getFlashBag()->set('info', __("Please log on."));
+
+            return redirect('login');
+        } elseif (!$app['users']->isAllowed($routePermission)) {
+            $app['session']->getFlashBag()->set('error', __("You do not have the right privileges to view that page."));
+
+            return redirect('dashboard');
         }
 
     }

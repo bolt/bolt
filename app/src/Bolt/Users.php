@@ -900,7 +900,7 @@ class Users
             return $this->app['permissions']->checkPermission($userRoles, $permission, $contenttype);
         }
         
-        $this->app['permissions']->checkPermission($userRoles, $what);
+        return $this->app['permissions']->checkPermission($userRoles, $what);
     }
 
     /**
