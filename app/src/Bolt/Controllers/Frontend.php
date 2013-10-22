@@ -276,7 +276,7 @@ class Frontend
 
         //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
 
-        $search = cleanPostedData($request->get('search'), false);
+        $search = cleanPostedData($request->get('search'), false, true);
         $parameters = array('filter' => $search, 'status' => 'published');
 
         //$content = $searchterms . " and " . $resultsPP;

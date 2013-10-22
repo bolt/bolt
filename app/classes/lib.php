@@ -82,7 +82,7 @@ function checkToken($token = "")
  * @param mixed $var
  * @return string
  */
-function cleanPostedData($var, $stripslashes = true)
+function cleanPostedData($var, $stripslashes = true, $strip_control_chars = false)
 {
     if (is_array($var)) {
 
@@ -96,7 +96,9 @@ function cleanPostedData($var, $stripslashes = true)
         $var = str_replace("\t", "    ", $var);
 
         // prune control characters
-        // $var = preg_replace('/[[:cntrl:][:space:]]/', ' ', $var);
+        if ($strip_control_chars) {
+            $var = preg_replace('/[[:cntrl:][:space:]]/', ' ', $var);
+        }
 
         // Ah, the joys of \"magic quotes\"!
         if ($stripslashes && get_magic_quotes_gpc()) {
