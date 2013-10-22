@@ -1428,12 +1428,12 @@ class Backend implements ControllerProviderInterface
         }
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        $routePermission = str_replace(':', '-', $route);
-        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($routePermission)) {
+        error_log($route);
+        if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->set('info', __("Please log on."));
 
             return redirect('login');
-        } elseif (!$app['users']->isAllowed($routePermission)) {
+        } elseif (!$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->set('error', __("You do not have the right privileges to view that page."));
 
             return redirect('dashboard');

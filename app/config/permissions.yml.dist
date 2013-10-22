@@ -5,14 +5,39 @@ roles:
     chief-editor:
         description: This user can edit anything
         label: Chief Editor
+    admin:
+        description: User-level administrator.
+        label: Administrator
+    developer:
+        description: Developer access. Only required to change system-level settings.
+        label: Developer
     guest:
         label: Guest Editor
 
 global:
-    login: [ editor ]
-    user-admin: [ admin, chief-editor ]
-    contenttype-edit: [ admin ]
-    config-edit: [ admin ]
+    about: [ editor, admin, developer ]
+    activitylog: [ admin, developer ]
+    clearcache: [ admin, developer ]
+    contentaction: [ editor, admin, developer ]
+    dashboard: [ everyone ]
+    dbcheck: [ admin, developer ]
+    dbupdate: [ admin, developer ]
+    extensions: [ developer ]
+    fileedit: [ admin, developer ]
+    files:config: [ developer ]
+    files:theme: [ developer ]
+    files:uploads: [ admin, developer ]
+    files: [ editor, admin, developer ]
+    login: [ everyone ]
+    postLogin: [ everyone ]
+    logout: [ editor, admin, developer ]
+    overview: [ editor, admin, developer ]
+    prefill: [ developer ]
+    settings: [ admin, developer, everyone ]
+    translation: [ developer ]
+    useraction: [ admin, developer ]
+    useredit: [ admin, developer ]
+    users: [ admin, developer ]
 
 contenttype-all:
     edit: [ admin, chief-editor ]
@@ -29,6 +54,7 @@ contenttype-default:
 contenttypes:
   pages:
     edit: [ editor, guest ]
+    create: [ editor, guest ]
   entries:
   kitchensinks:
     view: [ admin, editor, chief-editor ]

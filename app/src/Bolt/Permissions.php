@@ -66,11 +66,24 @@ class Permissions {
     }
 
     public function checkPermission($roleNames, $permissionName, $contenttype = null) {
+        $roleNames = array_unique($roleNames);
+        if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
+                error_log("Granting '$permissionName' " .
+                    ($contenttype ? "for $contenttype " : "") .
+                    "to root user");
+                return true;
+        }
         foreach ($roleNames as $roleName) {
             if ($this->checkRolePermission($roleName, $permissionName, $contenttype)) {
+                error_log("Granting '$permissionName' " .
+                    ($contenttype ? "for $contenttype " : "") .
+                    "based on role $roleName");
                 return true;
             }
         }
+        error_log("Not granting '$permissionName' " .
+            ($contenttype ? "for $contenttype " : "") .
+            "; available roles: " . implode(', ', $roleNames));
         return false;
     }
 
