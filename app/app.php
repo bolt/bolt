@@ -47,6 +47,16 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
 	$app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
 	$app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
 	$app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
+	
+	$app->register(new Bolt\Provider\TwigProfilerServiceProvider());
+
+	$app->after(function () use ($app) {
+	    
+	    foreach(hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+    	    $app['twig.logger']->collectTemplateData($template);
+        }
+        
+	});
 
 } else {
     error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
