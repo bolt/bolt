@@ -36,6 +36,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
 
     // Register Whoops, to handle errors for logged in users only.
     $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
+
     $app->register(new Silex\Provider\ServiceControllerServiceProvider);
 
     // Register the Silex/Symfony web debug toolbar.
@@ -50,8 +51,19 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     // Register the toolbar item for our bolt nipple.
     $app->register(new Bolt\Provider\BoltProfilerServiceProvider());
 
+    // Register the toolbar item for the Twig toolbar item.
+    $app->register(new Bolt\Provider\TwigProfilerServiceProvider());
+
     $app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
     $app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
+
+    $app->after(function () use ($app) {
+
+        foreach(hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+            $app['twig.logger']->collectTemplateData($template);
+        }
+
+    });
 
 } else {
     error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
