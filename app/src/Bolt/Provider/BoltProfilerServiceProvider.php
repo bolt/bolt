@@ -2,10 +2,9 @@
 
 namespace Bolt\Provider;
 
-use Doctrine\DBAL\Logging\DebugStack;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\Database\BoltDataCollector;
+use Bolt\DataCollector\BoltDataCollector;
 
 class BoltProfilerServiceProvider implements ServiceProviderInterface
 {

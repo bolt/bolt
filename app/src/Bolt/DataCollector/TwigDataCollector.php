@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\DataCollector;
 
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TwigDataCollector extends DataCollector
 {
     private $app;
-    
+
     protected $data;
 
     /**
@@ -22,7 +22,7 @@ class TwigDataCollector extends DataCollector
      *
      * @param Application $app    The Silex app
      */
-    public function __construct(Application $app)
+    public function __construct(\Bolt\Application $app)
     {
         $this->app = $app;
     }
