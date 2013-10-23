@@ -12,7 +12,7 @@ class TwigProfilerServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['data_collector.templates'] = array_merge($app['data_collector.templates'], array(
-            array('twig', '@BoltProfiler/twig.html.twig'),
+            array('twig', '@BoltProfiler/toolbar/twig.html.twig'),
         ));
 
         $app['data_collectors'] = array_merge($app['data_collectors'], array(

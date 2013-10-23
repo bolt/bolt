@@ -39,9 +39,6 @@ class BoltDataCollector extends DataCollector
             'version' => $this->app['bolt_version'],
             'name' => $this->app['bolt_name'],
             'fullversion' => sprintf('%s %s %s', __("Version: "), $this->app['bolt_version'], $this->app['bolt_name']),
-            'templates' => hackislyParseRegexTemplates($this->app['twig.loader']),
-            'templatechosen' => $this->app['log']->getValue('templatechosen'),
-            'templateerror' => $this->app['log']->getValue('templateerror'),
             'payoff' => __('Sophisticated, lightweight & simple CMS'),
             'aboutlink' => sprintf("<a href=\"%s\">%s</a>", path('about'), __('About') )
         );
@@ -88,36 +85,6 @@ class BoltDataCollector extends DataCollector
         return $this->data['name'];
     }
 
-    /**
-     * Getter for templates
-     *
-     * @return array
-     */
-    public function getTemplates()
-    {
-        return $this->data['templates'];
-    }
-
-    /**
-     * Getter for templatechosen
-     *
-     * @return string
-     */
-    public function getChosenTemplate()
-    {
-        return $this->data['templatechosen'];
-    }
-
-
-    /**
-     * Getter for templateerror
-     *
-     * @return string
-     */
-    public function getTemplateError()
-    {
-        return $this->data['templateerror'];
-    }
 
     /**
      * Getter for branding

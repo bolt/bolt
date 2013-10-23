@@ -12,7 +12,7 @@ class DatabaseProfilerServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['data_collector.templates'] = array_merge($app['data_collector.templates'], array(
-            array('db', '@BoltProfiler/db.html.twig'),
+            array('db', '@BoltProfiler/toolbar/db.html.twig'),
         ));
 
         $app['data_collectors'] = array_merge($app['data_collectors'], array(
