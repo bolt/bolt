@@ -43,11 +43,10 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
 	$app->register(new Silex\Provider\WebProfilerServiceProvider(), array(
 	    'profiler.cache_dir' => __DIR__.'/cache/profiler',
 	    'profiler.mount_prefix' => '/_profiler', // this is the default
+	    'profiler.templates_path' => __DIR__ . '/view/profiler'
 	));
 	$app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
-	$app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
 	$app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
-	
 	$app->register(new Bolt\Provider\TwigProfilerServiceProvider());
 
 	$app->after(function () use ($app) {

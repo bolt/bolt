@@ -1,0 +1,199 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {# Symfony Logo #}
+    {% set icon %}
+        <a href="http://symfony.com/">
+            <img width="28" height="28" alt="Symfony" src="data:image/png;base64,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">
+            <span>
+                {% if collector.applicationname %}
+                    {{ collector.applicationname }} {{ collector.applicationversion }}
+                {% else %}
+                    {{ collector.symfonyversion }}
+                {% endif %}
+            </span>
+        </a>
+    {% endset %}
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            Bolt <b>{{ app.bolt_version }}</b>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <a href="http://http://docs.bolt.cm" rel="help">Bolt Documentation</a>
+        </div>
+    {% endset %}
+    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': false } %}
+
+    {# PHP Information #}
+    {% set icon %}
+        <a href="{{ path('_profiler_phpinfo') }}">
+            <img width="26" height="28" alt="PHP" src="data:image/png;base64,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">
+        </a>
+    {% endset %}
+    {% set text %}
+        {% spaceless %}
+            <div class="sf-toolbar-info-piece sf-toolbar-info-php">
+                <b>PHP</b>
+                <span>{{ collector.phpversion }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece sf-toolbar-info-php-ext">
+                <b>PHP Extensions</b>
+                <span class="sf-toolbar-status sf-toolbar-status-{{ collector.hasxdebug ? 'green' : 'red' }}">xdebug</span>
+                <span class="sf-toolbar-status sf-toolbar-status-{{ collector.hasaccelerator ? 'green' : 'red' }}">accel</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>PHP SAPI</b>
+                <span>{{ collector.sapiName }}</span>
+            </div>
+        {% endspaceless %}
+    {% endset %}
+    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': false } %}
+
+    {# Environment #}
+    {% set debug_status_class %}sf-toolbar-status sf-toolbar-status-{{ collector.debug ? 'green' : 'red' }}{% endset %}
+    {% set icon %}
+        <img width="21" height="28" alt="Environment" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAcCAMAAAC5xgRsAAAAZlBMVEX///////////////////////////////////////////////////////////////////////////////////////////+ZmZmZmZlISEhJSUmdnZ1HR0fR0dFZWVlpaWlfX18/Pz+puygPAAAAIXRSTlMACwwlJygpLzIzNjs8QEtMUmd6e32AucDBw8fIydTm6u5l8MjvAAAAo0lEQVR42r2P2Q6CMBBFL6XsZRGRfZv//0nbDBNEE19MnJeTc5ILKf58ahiUwzy/AJpIWwREwQnEXRdbGCLjrO+djWRvVMiJcigxB7viGogxDdJpSmHEmCVPS7YczJvgUu+CS30IvtbNYZMvsGVo2mVpG/kbm4auiCpdcC3YPCAhSpAdUzaAn6qPKZtUT6ZSzb4bi2hdo9MQ1nX4ASjfV+/4/Z40pyCHrNTbIgAAAABJRU5ErkJggg==">
+        <span class="sf-toolbar-info-piece-additional-detail {{ debug_status_class }}"> </span>
+        <span class="sf-toolbar-info-piece-additional sf-toolbar-status">{{ token }}</span>
+        {% if 'n/a' != collector.appname or 'n/a' != collector.env %}
+            <span class="sf-toolbar-info-piece-additional-detail">
+                <span class="sf-toolbar-info-with-delimiter">{{ collector.appname }}</span>
+                <span>{{ collector.env }}</span>
+            </span>
+        {% endif %}
+    {% endset %}
+    {% set text %}
+        {% spaceless %}
+            {% if 'n/a' != collector.appname %}
+                <div class="sf-toolbar-info-piece">
+                    <b>Name</b>
+                    <span>{{ collector.appname }}</span>
+                </div>
+            {% endif %}
+            {% if 'n/a' != collector.env %}
+                <div class="sf-toolbar-info-piece">
+                    <b>Environment</b>
+                    <span>{{ collector.env }}</span>
+                </div>
+            {% endif %}
+            {% if 'n/a' != collector.debug %}
+                <div class="sf-toolbar-info-piece">
+                    <b>Debug</b>
+                    <span class="{{ debug_status_class }}">{{ collector.debug ? 'en' : 'dis' }}abled</span>
+                </div>
+            {% endif %}
+            <div class="sf-toolbar-info-piece">
+                <b>Token</b>
+                <span>
+                    {% if profiler_url %}
+                        <a href="{{ profiler_url }}">{{ collector.token }}</a>
+                    {% else %}
+                        {{ collector.token }}
+                    {% endif %}
+                </span>
+            </div>
+        {% endspaceless %}
+    {% endset %}
+    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': profiler_url } %}
+{% endblock %}
+
+{% block menu %}
+<span class="label">
+    <span class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAcCAMAAAC5xgRsAAAAZlBMVEX///////////////////////////////////////////////////////////////////////////////////////////+ZmZmZmZlISEhJSUmdnZ1HR0fR0dFZWVlpaWlfX18/Pz+puygPAAAAIXRSTlMACwwlJygpLzIzNjs8QEtMUmd6e32AucDBw8fIydTm6u5l8MjvAAAAo0lEQVR42r2P2Q6CMBBFL6XsZRGRfZv//0nbDBNEE19MnJeTc5ILKf58ahiUwzy/AJpIWwREwQnEXRdbGCLjrO+djWRvVMiJcigxB7viGogxDdJpSmHEmCVPS7YczJvgUu+CS30IvtbNYZMvsGVo2mVpG/kbm4auiCpdcC3YPCAhSpAdUzaAn6qPKZtUT6ZSzb4bi2hdo9MQ1nX4ASjfV+/4/Z40pyCHrNTbIgAAAABJRU5ErkJggg==" alt="Configuration"></span>
+    <strong>Config</strong>
+</span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Project Configuration</h2>
+    <table>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            {% if collector.applicationname %}
+                <th>Application</th>
+                <td>{{ collector.applicationname }} {{ collector.applicationversion }} (on Symfony {{ collector.symfonyversion }})</td>
+            {% else %}
+                <th>Symfony version</th>
+                <td>{{ collector.symfonyversion }}</td>
+            {% endif %}
+        </tr>
+        {% if 'n/a' != collector.appname %}
+            <tr>
+                <th>Application name</th>
+                <td>{{ collector.appname }}</td>
+            </tr>
+        {% endif %}
+        {% if 'n/a' != collector.env %}
+            <tr>
+                <th>Environment</th>
+                <td>{{ collector.env }}</td>
+            </tr>
+        {% endif %}
+        {% if 'n/a' != collector.debug %}
+            <tr>
+                <th>Debug</th>
+                <td>{{ collector.debug ? 'enabled' : 'disabled' }}</td>
+            </tr>
+        {% endif %}
+    </table>
+
+    <h2>PHP configuration</h2>
+    <table>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <th>PHP version</th>
+            <td>{{ collector.phpversion }}</td>
+        </tr>
+        <tr>
+            <th>Xdebug</th>
+            <td>{{ collector.hasxdebug ? 'enabled' : 'disabled' }}</td>
+        </tr>
+        <tr>
+            <th>PHP acceleration</th>
+            <td>{{ collector.hasaccelerator ? 'enabled' : 'disabled' }}</td>
+        </tr>
+        <tr>
+            <th>XCache</th>
+            <td>{{ collector.hasxcache ? 'enabled' : 'disabled' }}</td>
+        </tr>
+        <tr>
+            <th>APC</th>
+            <td>{{ collector.hasapc ? 'enabled' : 'disabled' }}</td>
+        </tr>
+        <tr>
+            <th>Zend OPcache</th>
+            <td>{{ collector.haszendopcache ? 'enabled' : 'disabled' }}</td>
+        </tr>
+        <tr>
+            <th>EAccelerator</th>
+            <td>{{ collector.haseaccelerator ? 'enabled' : 'disabled' }}</td>
+        </tr>
+        <tr>
+            <th>Full PHP configuration</th>
+            <td><a href="{{ path('_profiler_phpinfo') }}"><code>phpinfo</code></a></td>
+        </tr>
+    </table>
+
+    {% if collector.bundles %}
+        <h2>Active bundles</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Path</th>
+            </tr>
+            {% set bundles = collector.bundles %}
+            {% for name in bundles|keys|sort %}
+            <tr>
+                <th>{{ name }}</th>
+                <td>{{ bundles[name] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
