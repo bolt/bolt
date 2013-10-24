@@ -950,13 +950,14 @@ class Content implements \ArrayAccess
         $word_matches = 0;
         $cnt_words    = count($words);
         for ($i=0; $i < $cnt_words; $i++) {
-            if (strstr(' '.$low_subject.' ',' '.$words[$i].' ')) {
+            if (strstr($low_subject, $words[$i])) {
                 $word_matches++;
             }
         }
         if ($word_matches > 0) {
-            // word matches are maximum of 50% of the maximum per word
-            return round(($word_matches/$cnt_words) * (50/100) * $max);
+            // marcel: word matches are maximum of 50% of the maximum per word
+            // xiao: made (100/100) instead of (50/100).
+            return round(($word_matches/$cnt_words) * (100/100) * $max);
         }
 
         return 0;
@@ -977,7 +978,7 @@ class Content implements \ArrayAccess
 
         foreach ($this->contenttype['fields'] as $key => $config) {
             if (in_array($config['type'], $searchable_types)) {
-                $fields[$key] = 50;
+                $fields[$key] = isset($config['searchweight']) ? $config['searchweight'] : 50;
             }
         }
 
@@ -997,6 +998,24 @@ class Content implements \ArrayAccess
     }
 
     /**
+     * Calculate the default taxonomy weights
+     * 
+     * Adds weights to taxonomies that behave like tags
+     */
+    private function getTaxonomyWeights()
+    {
+        $taxonomies = array();
+
+        foreach ($this->contenttype['taxonomy'] as $key) {
+            if ($this->app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
+                $taxonomies[$key] = $this->app['config']->get('taxonomy/'.$key.'/searchweight', 75);
+            }
+        }
+
+        return $taxonomies;
+    }
+
+    /**
      * Weigh this content against a query
      *
      * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
@@ -1006,16 +1025,22 @@ class Content implements \ArrayAccess
     public function weighSearchResult($query)
     {
         static $contenttype_fields = null;
+        static $contenttype_taxonomies = null;
 
         $ct = $this->contenttype['slug'];
         if ((is_null($contenttype_fields)) || (!isset($contenttype_fields[$ct]))) {
             // Should run only once per contenttype (e.g. singlular_name)
             $contenttype_fields[$ct] = $this->getFieldWeights();
+            $contenttype_taxonomies[$ct] = $this->getTaxonomyWeights();
         }
 
         $weight = 0;
         foreach ($contenttype_fields[$ct] as $key => $field_weight) {
             $weight += $this->weighQueryText($this->values[$key], $query['use_q'], $query['words'], $field_weight);
+        }
+
+        foreach ($contenttype_taxonomies[$ct] as $key => $taxonomy_weight) {
+            $weight += $this->weighQueryText(implode(' ', $this->taxonomy[$key]), $query['use_q'], $query['words'], $taxonomy_weight);
         }
 
         $this->last_weight = $weight;

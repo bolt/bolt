@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\DataCollector;
 
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,15 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 class TwigDataCollector extends DataCollector
 {
     private $app;
-    
+
     protected $data;
 
     /**
      * The Constructor for the Twig Datacollector
      *
-     * @param Application $app    The Silex app
+     * @param \Bolt\Application $app The Silex app
      */
-    public function __construct(Application $app)
+    public function __construct(\Bolt\Application $app)
     {
         $this->app = $app;
     }
@@ -92,10 +92,16 @@ class TwigDataCollector extends DataCollector
             }
         }
 
-        $this->data['extensions'] = $extensions;
-        $this->data['tests'] = $tests;
-        $this->data['filters'] = $filters;
-        $this->data['functions'] = $functions;
+        $this->data = array(
+            'extensions' => $extensions,
+            'tests' => $tests,
+            'filters' => $filters,
+            'functions' => $functions,
+            'templates' => hackislyParseRegexTemplates($this->app['twig.loader']),
+            'templatechosen' => $this->app['log']->getValue('templatechosen'),
+            'templateerror' => $this->app['log']->getValue('templateerror')
+        );
+
     }
 
     /**
@@ -151,6 +157,27 @@ class TwigDataCollector extends DataCollector
     public function getTemplates()
     {
         return isset($this->data['templates']) ? $this->data['templates'] : array();
+    }
+
+    /**
+     * Getter for templatechosen
+     *
+     * @return string
+     */
+    public function getChosenTemplate()
+    {
+        return $this->data['templatechosen'];
+    }
+
+
+    /**
+     * Getter for templateerror
+     *
+     * @return string
+     */
+    public function getTemplateError()
+    {
+        return $this->data['templateerror'];
     }
 
     /**

@@ -7,8 +7,11 @@ php:
 
 script:
   - phpunit -c app/
+  - ./run-functional-tests
 
 before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar self-update
   - php composer.phar install
+  - mkdir -p tests/_log
+  - chmod 777 tests/_log

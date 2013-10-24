@@ -956,6 +956,12 @@ fieldset.checkbox div {
     padding: 7px 8px;
 }
 
+#editcontent div.tagcloud {
+    margin-left: 180px;
+    margin-top: 6px;
+    width: 70%;
+}
+
 .ui-sortable-helper {
     border: 1px solid #999;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -1219,6 +1225,11 @@ blockquote.quote cite {
     .hide-phone {
         display: none;
         visibility: hidden;
+    }
+
+    #editcontent div.tagcloud {
+        margin-left: 0;
+        width: 100%;
     }
 
 }

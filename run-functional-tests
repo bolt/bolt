@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+PHP_NEW_ENOUGH=$(php -r 'echo ((PHP_VERSION_ID < 50400) ? "" : "1\n");')
+if [ "$PHP_NEW_ENOUGH" ]
+    then
+        php -S localhost:8123 -t . index.php &
+        SERVER_PID=$!
+        ./codecept build
+        ./codecept run
+        kill "$SERVER_PID"
+    else
+        PHP_VERSION=$(php -r 'echo PHP_VERSION;')
+        echo "Cannot run codeception integration tests, because the installed PHP version ($PHP_VERSION) does not support the built-in web server."
+fi

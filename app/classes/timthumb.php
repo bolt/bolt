@@ -931,7 +931,7 @@ class timthumb {
     {
         global $config;
 
-        if ($config['general']['thumbnails'] != true) {
+        if ($config['general']['thumbnails']['save_files'] != true) {
             return;
         }
 

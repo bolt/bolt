@@ -799,11 +799,12 @@ class Storage
      *
      * Search, weigh and return the results.
      */
-    private function searchSingleContentType($query, $contenttype, $table, $fields, array $filter = null)
+    private function searchSingleContentType($query, $contenttype, $fields, array $filter = null)
     {
         // This could be even more configurable
         // (see also Content->getFieldWeights)
         $searchable_types = array('text', 'textarea', 'html', 'markdown');
+        $table = $this->getTablename($contenttype);
 
         // Build fields 'WHERE'
         $fields_where = array();
@@ -811,6 +812,17 @@ class Storage
             if (in_array($fieldconfig['type'], $searchable_types)) {
                 foreach ($query['words'] as $word) {
                     $fields_where[] = sprintf('%s.%s LIKE %s', $table, $field, $this->app['db']->quote('%' . $word . '%'));
+                }
+            }
+        }
+
+        // make taxonomies work
+        $taxonomytable = $this->getTablename('taxonomy');
+        $taxonomies    = $this->getContentTypeTaxonomy($contenttype);
+        foreach ($taxonomies as $taxonomy) {
+            if ($taxonomy['behaves_like'] == 'tags') {
+                foreach ($query['words'] as $word) {
+                    $fields_where[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
                 }
             }
         }
@@ -829,27 +841,33 @@ class Storage
         // Build actual where
         $where = array();
         $where[] = sprintf('%s.status = "published"', $table);
+        $where[] = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
         $where[] = '( ' . implode(' OR ', $fields_where) . ' )';
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
-        $select = 'SELECT   *';
-        $select .= ' FROM     ' . $table;
-        $select .= ' WHERE   ' . implode(' AND ', $where);
+        $select  = sprintf('SELECT   %s.id', $table);
+        $select .= ' FROM ' . $table;
+        $select .= ' LEFT JOIN ' . $taxonomytable;
+        $select .=  sprintf(' ON %s.id = %s.content_id', $table, $taxonomytable);
+        $select .= ' WHERE ' . implode(' AND ', $where);
 
         // Run Query
         $results = $this->app['db']->fetchAll($select);
 
-        // Convert and weight
-        $contents = array();
-        foreach ($results as $result) {
-            $index = count($contents);
-            $contents[] = $this->getContentObject($contenttype, $result);
+        if (!empty($results)) {
 
-            $contents[$index]->weighSearchResult($query);
+            $ids = implode(' || ', \util::array_pluck($results, 'id'));
+
+            $results = $this->getContent($contenttype, array('id' => $ids, 'returnsingle' => false));
+
+            // Convert and weight
+            foreach ($results as $result) {
+                $result->weighSearchResult($query);
+            }
         }
 
-        return $contents;
+        return $results;
     }
 
     /**
@@ -930,10 +948,11 @@ class Storage
                 $filter = $filters[$contenttype];
             }
 
-            $sub_results = $this->searchSingleContentType($query, $contenttype, $table, $fields, $filter);
+            $sub_results = $this->searchSingleContentType($query, $contenttype, $fields, $filter);
 
             $results = array_merge($results, $sub_results);
         }
+
 
         // Sort the results
         usort($results, array($this, 'compareSearchWeights'));
@@ -2179,17 +2198,20 @@ class Storage
 
         // check if we need to split..
         if (strpos($value, " || ") !== false) {
-            list($value1, $value2) = explode(" || ", $value);
-            $param1 = $this->parseWhereParameter($key, $value1, $fieldtype);
-            $param2 = $this->parseWhereParameter($key, $value2, $fieldtype);
+            $values = explode(" || ", $value);
+            foreach ($values as $index => $value) {
+                $values[$index] = $this->parseWhereParameter($key, $value, $fieldtype);
+            }
 
-            return sprintf("( %s OR %s )", $param1, $param2);
+            return "( " . implode(" OR ", $values) . " )";
+
         } elseif (strpos($value, " && ") !== false) {
-            list($value1, $value2) = explode(" && ", $value);
-            $param1 = $this->parseWhereParameter($key, $value1, $fieldtype);
-            $param2 = $this->parseWhereParameter($key, $value2, $fieldtype);
+            $values = explode(" && ", $value);
+            foreach ($values as $index => $value) {
+                $values[$index] = $this->parseWhereParameter($key, $value, $fieldtype);
+            }
 
-            return sprintf("( %s AND %s )", $param1, $param2);
+            return "( " . implode(" AND ", $values) . " )";
         }
 
         // Set the correct operator for the where clause

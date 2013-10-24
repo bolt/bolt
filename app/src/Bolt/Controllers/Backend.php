@@ -1090,10 +1090,7 @@ class Backend implements ControllerProviderInterface
                         if (preg_match('#resources/translations/(..)/(.*)\.yml$#', $filename, $m)) {
                             return redirect('translation', array('domain' => $m[2], 'tr_locale' => $m[1]));
                         }
-                        // If we've saved contenttypes.yml, update the database..
-                        if (basename($file) == "contenttypes.yml") {
-                            return redirect('dbupdate', '', "?return=edit");
-                        }
+                        redirect('fileedit', array('file' => $file), '');
                     } else {
                         $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.", array('%s' => $file)));
                     }

@@ -24,3 +24,5 @@ php-cs-fixer.phar
 .gitignore
 
 composer.lock
+tests/_log
+tests/*/*Guy.php

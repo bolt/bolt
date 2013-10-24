@@ -210,6 +210,11 @@ class Config
                 $config['taxonomy'][$key]['options'] = $options;
             }
 
+            // If taxonomy is like tags, set 'tagcloud' to true by default.
+            if ( ($config['taxonomy'][$key]['behaves_like'] == "tags") && (!isset($config['taxonomy'][$key]['tagcloud'])) ) {
+                $config['taxonomy'][$key]['tagcloud'] = true;
+            }
+
         }
 
         // Clean up contenttypes

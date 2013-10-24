@@ -69,9 +69,15 @@ class Cache extends FilesystemCache
             'log' => ''
         );
 
+        // Clear Doctrine's folder..
         parent::flushAll();
 
-        $this->clearCacheHelper('', $result);
+        // Clear our own cache folder..
+        $this->clearCacheHelper($this->getDirectory(), '', $result);
+
+        // Clear the thumbs folder..
+        $path = dirname(dirname(dirname(__DIR__))) . "/thumbs";
+        $this->clearCacheHelper($path, '', $result);
 
         return $result;
 
@@ -79,13 +85,15 @@ class Cache extends FilesystemCache
 
     /**
      * Helper function for clearCache()
+     *
+     * @param string $startFolder
      * @param string $additional
-     * @param array  $result
+     * @param array $result
      */
-    private function clearCacheHelper($additional, &$result)
+    private function clearCacheHelper($startFolder, $additional, &$result)
     {
 
-        $currentfolder = realpath($this->getDirectory() . "/" . $additional);
+        $currentfolder = realpath($startFolder . "/" . $additional);
 
         if (!file_exists($currentfolder)) {
             $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
@@ -108,13 +116,13 @@ class Cache extends FilesystemCache
                     $result['successfiles']++;
                 } else {
                     $result['failedfiles']++;
-                    $result['failed'][] = str_replace($this->getDirectory(), "cache", $currentfolder."/".$entry);
+                    $result['failed'][] = str_replace($startFolder, "cache", $currentfolder."/".$entry);
                 }
             }
 
             if (is_dir($currentfolder."/".$entry)) {
 
-                $this->clearCacheHelper($additional."/".$entry, $result);
+                $this->clearCacheHelper($startFolder, $additional."/".$entry, $result);
 
                 if (@rmdir($currentfolder."/".$entry)) {
                     $result['successfolders']++;
