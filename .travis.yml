@@ -10,7 +10,6 @@ script:
   - ./run-functional-tests
 
 before_script:
-  - php -r 'exit(PHP_VERSION_ID < 50400);'; export PHP_5_3=$?
   - wget http://getcomposer.org/composer.phar
   - php composer.phar self-update
   - php composer.phar install
