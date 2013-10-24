@@ -16,5 +16,4 @@ before_script:
   - php composer.phar install
   - mkdir -p tests/_log
   - chmod 777 tests/_log
-  - ./codecept build
-  - if [ ! "$PHP_5_3"]; then php -S localhost:8123 -t . index.php & ./codecept run; fi
+  - ./run-functional-tests
