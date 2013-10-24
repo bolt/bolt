@@ -11,6 +11,9 @@ settings:
     log: true
 modules:
     config:
+        PhpBrowser:
+            # url: 'http://bolt.localhost/'
+            url: 'http://localhost:8123/'
         Db:
             dsn: 'sqlite:app/database/bolt.db'
             user: ''
