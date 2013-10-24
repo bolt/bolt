@@ -7,7 +7,7 @@ php:
 
 script:
   - phpunit -c app/
-  - ./codecept run
+  - ./run-functional-tests
 
 before_script:
   - php -r 'exit(PHP_VERSION_ID < 50400);'; export PHP_5_3=$?
@@ -16,4 +16,3 @@ before_script:
   - php composer.phar install
   - mkdir -p tests/_log
   - chmod 777 tests/_log
-  - ./run-functional-tests
