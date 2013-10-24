@@ -220,7 +220,7 @@ class Log
         );
         $this->app['db']->executeQuery($query);
 
-        $query = sprintf("DELETE FROM %s WHERE level='2' AND date < '?';",
+        $query = sprintf("DELETE FROM %s WHERE level='2' AND date < ?;",
             $this->tablename
         );
 
@@ -230,7 +230,7 @@ class Log
             array(\PDO::PARAM_STR)
         );
 
-        $query = sprintf("DELETE FROM %s WHERE date < '?';",
+        $query = sprintf("DELETE FROM %s WHERE date < ?;",
             $this->tablename
         );
         $this->app['db']->executeQuery(
@@ -248,8 +248,8 @@ class Log
         if (isset($configdb['driver']) && ( $configdb['driver'] == "pdo_sqlite" ) ) {
 
             // sqlite
-            $query = sprintf("DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = ?;",
-                $this->tablename
+            $query = sprintf("DELETE FROM %s; UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '%s'",
+                $this->tablename, $this->tablename
             );
 
         } else {
@@ -262,7 +262,7 @@ class Log
         }
         // @todo: handle postgres (and other non mysql) database syntax
 
-        $this->app['db']->executeQuery($query, array($this->tablename), array(\PDO::PARAM_STR));
+        $this->app['db']->executeQuery($query);
 
     }
 

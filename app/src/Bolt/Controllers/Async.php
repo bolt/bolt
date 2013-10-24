@@ -60,6 +60,14 @@ class Async implements ControllerProviderInterface
             ->assert('filename', '.*')
             ->bind('addstack');
 
+        $ctr->get("/tags/{taxonomytype}", array($this, 'tags'))
+            ->before(array($this, 'before'))
+            ->bind('tags');
+
+        $ctr->get("/populartags/{taxonomytype}", array($this, 'populartags'))
+            ->before(array($this, 'before'))
+            ->bind('populartags');
+
         $ctr->get("/showstack", array($this, 'showstack'))
             ->before(array($this, 'before'))
             ->bind('showstack');
@@ -210,7 +218,46 @@ class Async implements ControllerProviderInterface
         $uri = $app['storage']->getUri($request->query->get('title'), $request->query->get('id'), $request->query->get('contenttypeslug'), $request->query->get('fulluri'));
 
         return $uri;
+    }
 
+
+    public function tags(Silex\Application $app, $taxonomytype)
+    {
+        $prefix = $app['config']->get('general/database/prefix', "bolt_");
+
+        // \util::var_dump($taxonomytype);
+        $query = "select distinct `%staxonomy`.`slug` from `%staxonomy` where `taxonomytype` = ? order by `slug` asc;";
+        $query = sprintf($query, $prefix, $prefix);
+        $query = $app['db']->executeQuery($query, array($taxonomytype));
+
+        $results = $query->fetchAll();
+        return $app->json($results);
+    }
+
+    public function populartags(Silex\Application $app, $taxonomytype)
+    {
+        $prefix = $app['config']->get('general/database/prefix', "bolt_");
+
+        $limit = $app['request']->get('limit', 20);
+
+        $query = "select `slug` , count(`slug`) as `count` from  `%staxonomy` where `taxonomytype` = ? group by  `slug` order by `count` desc limit %s";
+        $query = sprintf($query, $prefix, intval($limit));
+        $query = $app['db']->executeQuery($query, array($taxonomytype));
+
+
+        $results = $query->fetchAll();
+
+        usort($results, function($a, $b){
+
+            if ($a['slug'] == $b['slug']) {
+                return 0;
+            }
+            return ($a['slug'] < $b['slug']) ? -1 : 1;    
+
+        });
+
+
+        return $app->json($results);
     }
 
 

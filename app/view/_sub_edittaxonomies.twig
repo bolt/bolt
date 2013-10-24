@@ -28,13 +28,60 @@
             {% endif %}
 
             <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" style="width: 70%;" />
+            
 
+
+            <div class="tagcloud" id="tagcloud-{{taxonomy.slug}}"></div>
             <script>
-            $('#taxonomy-{{taxonomy.slug}}').select2({
-                tags:[], // Todo: automatically supply most often-used tags.
-                tokenSeparators: [",", " "]
+            $(function() {
+
+                // load all tags
+                $.ajax({
+                    url: "/async/tags/{{taxonomy.slug}}",
+                    dataType: "json",
+                    success: function(data) {
+                        var results = [];
+                        $.each(data, function(index, item){
+                            results.push( item.slug );
+                        });
+                        $('#taxonomy-{{taxonomy.slug}}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
+                    }, 
+                    error: function() {
+                        $('#taxonomy-{{taxonomy.slug}}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
+                    }
+                });
+
+                {% if taxonomy.tagcloud %}
+                // popular tags
+                $.ajax({
+                    url: "/async/populartags/{{taxonomy.slug}}",
+                    dataType: "json",
+                    data : { limit: 40 },
+                    success: function(data) {
+                        if (data.length > 0) {
+                            $.each(data, function(index, item){
+                                $("#tagcloud-{{taxonomy.slug}}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a> ');
+                            });
+                            $("#tagcloud-{{taxonomy.slug}} a").on('click', function (e) {
+                                e.preventDefault();
+                                var data = $("#taxonomy-{{taxonomy.slug}}").select2("data")
+                                data.push({id:$(this).text(), text:$(this).text()});
+                                $("#taxonomy-{{taxonomy.slug}}").select2("data", data);
+                            });
+
+                            $.fn.tagcloud.defaults = {
+                                size: {start: 12, end: 22, unit: 'px'},
+                                color: {start: '#888', end: '#194770'}
+                            };
+                            $('#tagcloud-{{taxonomy.slug}} a').tagcloud();
+                        }
+                    }
+                });
+                {% endif %}
+
             });
             </script>
+            
 
         {% endif %}
 

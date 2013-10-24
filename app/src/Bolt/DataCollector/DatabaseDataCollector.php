@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Database;
+namespace Bolt\DataCollector;
 
 use Doctrine\DBAL\Logging\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class DatabaseDataCollector extends DataCollector
     private $logger;
 
     protected $data;
-    
+
     public function __construct(DebugStack $logger)
     {
         $this->logger = $logger;
@@ -55,9 +55,9 @@ class DatabaseDataCollector extends DataCollector
 
         return $time;
     }
-    
+
     private function trim(array $queries)
-    {   
+    {
         $return = array();
         foreach ($queries as $query)
         {
@@ -71,8 +71,8 @@ class DatabaseDataCollector extends DataCollector
             }
             $return[] = $query;
         }
-        
+
         return $return;
     }
-    
+
 }
