@@ -7,8 +7,10 @@ php:
 
 script:
   - phpunit -c app/
+  - ./codecept run
 
 before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar self-update
   - php composer.phar install
+  - ./codecept build
