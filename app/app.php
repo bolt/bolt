@@ -34,28 +34,36 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     // Set the error_reporting to the level specified in config.yml
     error_reporting($app['config']->get('general/debug_error_level'));
 
-	// Set the error_reporting to the level specified in config.yml
-    error_reporting($app['config']->get('general/debug_error_level'));
-
     // Register Whoops, to handle errors for logged in users only.
     $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
-	$app->register(new Silex\Provider\ServiceControllerServiceProvider);
-	$app->register(new Silex\Provider\WebProfilerServiceProvider(), array(
-	    'profiler.cache_dir' => __DIR__.'/cache/profiler',
-	    'profiler.mount_prefix' => '/_profiler', // this is the default
-	    'profiler.templates_path' => __DIR__ . '/view/profiler'
-	));
-	$app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
-	$app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
-	$app->register(new Bolt\Provider\TwigProfilerServiceProvider());
 
-	$app->after(function () use ($app) {
-	    
-	    foreach(hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
-    	    $app['twig.logger']->collectTemplateData($template);
+    $app->register(new Silex\Provider\ServiceControllerServiceProvider);
+
+    // Register the Silex/Symfony web debug toolbar.
+    $app->register(new Silex\Provider\WebProfilerServiceProvider(), array(
+        'profiler.cache_dir' => __DIR__.'/cache/profiler',
+        'profiler.mount_prefix' => '/_profiler', // this is the default
+    ));
+
+    // Register the toolbar item for our Database query log.
+    $app->register(new Bolt\Provider\DatabaseProfilerServiceProvider());
+
+    // Register the toolbar item for our bolt nipple.
+    $app->register(new Bolt\Provider\BoltProfilerServiceProvider());
+
+    // Register the toolbar item for the Twig toolbar item.
+    $app->register(new Bolt\Provider\TwigProfilerServiceProvider());
+
+    $app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
+    $app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
+
+    $app->after(function () use ($app) {
+
+        foreach(hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+            $app['twig.logger']->collectTemplateData($template);
         }
-        
-	});
+
+    });
 
 } else {
     error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
@@ -162,4 +170,3 @@ $app->error(function (\Exception $e) use ($app) {
 
 
 });
-
