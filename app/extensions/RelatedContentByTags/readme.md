@@ -1,9 +1,11 @@
 RelatedContentByTags
 ====================
 
-Retrieves a sorted array of similar content based on taxonomies that have tag-like-behavior.
+Retrieves a sorted array of similar content based on taxonomies that _behave-like_ tags, see `app/config/taxonomy.yml`.
 
-#### Usage
+
+Usage
+-----
 
 Default usage:
 
@@ -13,17 +15,35 @@ Add options for more flexibility:
 
     {{ relatedcontentbytags(record, { 'limit' : 5, 'pointsTag' : 5, 'pointsType': 100 }) }}
 
-#### Example 
+Default values are defined in `config.yml`. Use these options to override these settings.
+
+
+Example
+-------
+
+The results from this extension are similar to how listings are handled in Bolt.
+Add the following in your template for a simple example.
 
     {% for item in relatedcontentbytags(record) %}
         <p><a href="{{ item.link }}">{{ item.title|e }}</a></p>
     {% endfor %}
 
-#### Options
 
-See <code>config.yml</code> for more information. Options include:
+Options
+-------
 
-* `limit`: the number of results returned
-* `pointsTag`: points per equal tag
-* `pointsType`: points if contenttype are equal
-* more ...
+See `config.yml` for more information. Options include:
+
+* `limit`      : the maximum number of results returned
+* `pointsTag`  : points per equal tag
+* `pointsType` : points if contenttypes are equal
+
+
+Notes
+-----
+
+Currently, this extension checks all tags-taxonomies and treats them as equal.
+A possible feature could be to add weight per contenttype and per taxonomy-type;
+or perhaps per tag (value). Or to ignore certain taxonomies. The desired
+behaviour would be dependant on the application, so no assumptions have been
+made (yet).

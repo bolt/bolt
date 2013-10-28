@@ -77,8 +77,11 @@ class Extension extends \Bolt\BaseExtension
         $tagsTaxonomies = array();
         foreach ( $record->contenttype['taxonomy'] as $key ) {
             if ($app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
-                $tagsValues[$key] = array_values( $record->taxonomy[$key] );
-                $tagsTaxonomies[] = $key;
+                // only useful if values exist, otherwise just skip this taxonomy
+                if ($record->taxonomy[$key]) {
+                    $tagsValues[$key] = array_values( $record->taxonomy[$key] );
+                    $tagsTaxonomies[] = $key;
+                }
             }
         }
 
@@ -103,7 +106,7 @@ class Extension extends \Bolt\BaseExtension
             foreach( $contenttype['taxonomy'] as $taxonomyKey ) {
                 if (in_array( $taxonomyKey, $tagsTaxonomies )) {
                     $tables[] = $contenttype['slug'];
-                    continue;
+                    break;
                 }
             }
         }
