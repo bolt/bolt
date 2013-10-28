@@ -15,8 +15,6 @@ modules:
         - WebHelper
         - Db
     config:
-        PhpBrowser:
-            url: 'http://bolt.localhost/'
         Db:
             populate: true
             cleanup: true

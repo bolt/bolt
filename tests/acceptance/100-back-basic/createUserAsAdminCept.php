@@ -6,7 +6,7 @@ $foobar = array(
 
 $I = new WebGuy($scenario);
 $I->wantTo('Create a user');
-$I->loginAs($adminUser);
+$I->loginAs($users['admin']);
 $I->click('Users');
 $I->click('New user');
 $I->see("Create a new user");

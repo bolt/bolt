@@ -212,8 +212,8 @@ class LowlevelChecks
     out. Be sure to include the exact error message you're getting!</p>
 
     <ul>
-        <li><a href="http://docs.bolt.cm/setup">Bolt documentation - Setup</a></li>
-        <li><a href="http://forum.pivotx.net/viewforum.php?f=17">Bolt discussion forum</a></li>
+        <li><a href="http://docs.bolt.cm/installation">Bolt documentation - Setup</a></li>
+        <li><a href="http://forum.pivotx.net/viewforum.php?f=16">Bolt discussion forum</a></li>
     </ul>
 
     </div>
