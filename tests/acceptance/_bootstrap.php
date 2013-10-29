@@ -4,14 +4,16 @@ if (!class_exists('TestUser')) {
     class TestUser implements ArrayAccess {
         public $username;
         public $password;
-        public $userlevel;
-        public $contenttypes;
+        public $roles;
 
-        public function __construct($username, $password, $userlevel, $contenttypes) {
+        public function __construct($username, $password, $roles) {
             $this->username = $username;
             $this->password = $password;
-            $this->userlevel = $userlevel;
-            $this->contenttypes = $contenttypes;
+            $this->roles = $roles;
+        }
+
+        public function __toString() {
+            return "User '" . $this->username . "'";
         }
 
         public function __toString() {
@@ -52,25 +54,26 @@ if (!class_exists('TestUser')) {
                         'lastseen' => '1900-01-01',
                         'lastip' => '',
                         'displayname' => ucwords($this->username),
-                        'userlevel' => $this->userlevel,
-                        'contenttypes' => serialize($this->contenttypes),
+                        'contenttypes' => serialize(array()),
                         'stack' => serialize(array()),
                         'enabled' => '1',
+                        'userlevel' => '1',
                         'shadowpassword' => '',
                         'shadowtoken' => '',
                         'shadowvalidity' => '1900-01-01',
                         'failedlogins' => '0',
                         'throttleduntil' => '1900-01-01',
+                        'roles' => json_encode($this->roles),
                         ));
         }
     }
 }
 
 $users = array(
-    'admin' => new TestUser('admin', 'admin1', 6, array('pages', 'entries', 'kitchensinks', 'dummies')),
-    'bossdude' => new TestUser('bossdude', 'bossdude1', 4, array('pages', 'entries', 'kitchensinks', 'dummies')),
-    'editor' => new TestUser('editor', 'editor1', 2, array('pages', 'entries', 'kitchensinks', 'dummies')),
-    'pagewriter' => new TestUser('pagewriter', 'pagewriter1', 2, array('pages')),
+    'admin' => new TestUser('admin', 'admin1', array('developer')),
+    'bossdude' => new TestUser('bossdude', 'bossdude1', array('chief-editor')),
+    'editor' => new TestUser('editor', 'editor1', array('editor')),
+    'pagewriter' => new TestUser('pagewriter', 'pagewriter1', array('page-editor')),
     );
 
 $I = new WebGuy($scenario);
