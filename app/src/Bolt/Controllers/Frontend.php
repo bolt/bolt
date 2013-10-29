@@ -46,6 +46,9 @@ class Frontend
             $template = $app['config']->get('general/homepage_template');
             $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
+            $app['editlink'] = path('editcontent', array('contenttypeslug' => $content->contenttype['slug'], 'id' => $content->id));
+            $app['edittitle'] = $content->title();
+
             if (is_array($content)) {
                 $first = current($content);
                 $app['twig']->addGlobal('records', $content);
@@ -109,6 +112,7 @@ class Frontend
         $app['canonicalpath'] = $content->link();
         $app['paths'] = getPaths($app);
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
+        $app['edittitle'] = $content->title();
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
@@ -199,8 +203,6 @@ class Frontend
             $app->abort(404, $error);
         }
 
-        // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
-
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $app['twig']->addGlobal('records', $content);
@@ -253,8 +255,6 @@ class Frontend
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
         }
-
-        // $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttypeslug, 'id' => $content->id));
 
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('slug', $slug);

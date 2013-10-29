@@ -135,12 +135,13 @@ $app->register(new Bolt\Provider\StackServiceProvider());
 $app['paths'] = getPaths($app['config']);
 $app['twig']->addGlobal('paths', $app['paths']);
 
+// Initialize the 'editlink' and 'edittitle'..
 $app['editlink'] = "";
+$app['edittitle'] = "";
 
 // Add the Bolt Twig functions, filters and tags.
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());
-
 
 require __DIR__.'/app.php';
 
