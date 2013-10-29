@@ -20,8 +20,9 @@
                     {% else %}
                         {% set title = __('%name% #%id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
                     {% endif %}
+                    № {{ entry.contentid }}.
                 {% endif %}
-               № {{index + 1}}.
+
                {{ title }}
                {{ pretty.changelogmutation(entry.mutation_type) }}
                by {{ entry.username }}
