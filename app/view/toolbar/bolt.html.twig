@@ -23,7 +23,7 @@
 
     {% set text %}
 
-        <span>
+        <div class="sf-toolbar-info-piece">
 
             <strong>Bolt - </strong> {{ collector.payoff }}<br>
 
@@ -33,9 +33,14 @@
                 {{ collector.branding|raw }}
             {% endif %}
 
-        </span>
+        </div>
 
-
+        {% if collector.editlink %}
+        <div class="sf-toolbar-info-piece">
+            <hr style="margin: 0;">
+            Edit: <a href="{{ collector.editlink }}">{{ collector.edittitle|excerpt(40) }}</a>
+        </div>
+        {% endif %}
 
 
     {% endset %}

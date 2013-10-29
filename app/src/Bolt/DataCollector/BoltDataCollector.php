@@ -52,6 +52,10 @@ class BoltDataCollector extends DataCollector
             );
         }
 
+        if (!empty($this->app['editlink'])) {
+            $this->data['editlink'] = $this->app['editlink'];
+            $this->data['edittitle'] = $this->app['edittitle'];
+        }
 
     }
 
@@ -115,6 +119,28 @@ class BoltDataCollector extends DataCollector
     public function getAboutlink()
     {
         return $this->data['aboutlink'];
+    }
+
+
+    /**
+     * Getter for editlink
+     *
+     * @return string
+     */
+    public function getEditlink()
+    {
+        return $this->data['editlink'];
+    }
+
+
+    /**
+     * Getter for aboutlink
+     *
+     * @return string
+     */
+    public function getEdittitle()
+    {
+        return $this->data['edittitle'];
     }
 
 
