@@ -1,19 +1,27 @@
 {% extends 'base.twig' %}
 {% block content %}
     {% if modifications %}
-        <p>{{ __('Modifications made to the database:') }}</p>
+        <h4>{{ __('Modifications made to the database:') }}</h4>
+        <ul>
         {% for item in modifications %}
-            {{ item|raw }}<br/>
+            <li>{{ item|tt }}</li>
         {% endfor %}
+        </ul>
         <p>
             {{ __('Your database is now up to date.') }}
         </p>
+        <form action="{{ path('dbcheck') }}" method="GET">
+            <p>
+                <button type="submit" class="btn btn-primary">{{ __('Check again') }}</button>
+            </p>
+        </form>
     {% elseif required_modifications %}
-        <p>{{ __('Modifications needed:') }}</p>
+        <h4>{{ __('Modifications needed:') }}</h4>
+        <ul>
         {% for item in required_modifications %}
-            {{ item|raw }}<br/>
+            <li>{{ item|tt }}</li>
         {% endfor %}
-        <br/><br/>
+        </ul>
         <form action="{{ path('dbupdate') }}" method="POST">
             <p>
                 <button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button>

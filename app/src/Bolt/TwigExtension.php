@@ -68,6 +68,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
             new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
             new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('current', array($this, 'current')),
@@ -240,6 +241,11 @@ class TwigExtension extends \Twig_Extension
         $output = $markdownParser->transformMarkdown($content);
 
         return $output;
+    }
+
+    public function decorateTT($str)
+    {
+        return decorateTT($str);
     }
 
     /**

@@ -115,7 +115,7 @@ class IntegrityChecker
             // Create the users table..
             if (!isset($currentTables[$table->getName()])) {
 
-                $messages[] = "Table <tt>" . $table->getName() . "</tt> is not present.";
+                $messages[] = "Table `" . $table->getName() . "` is not present.";
 
             } else {
 
@@ -126,41 +126,41 @@ class IntegrityChecker
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
-                        $msg = "Table <tt>" . $table->getName() . "</tt> is not the correct schema: ";
+                        $msg = "Table `" . $table->getName() . "` is not the correct schema: ";
                         $msgParts = array();
                         // No check on foreign keys yet because we don't use them
                         /** @var $col Column */
                         foreach ($diff->addedColumns as $col) {
-                            $msgParts[] = "missing column <tt>" . $col->getName() . "</tt>";
+                            $msgParts[] = "missing column `" . $col->getName() . "`";
                         }
                         /** @var $index Index */
                         foreach ($diff->addedIndexes as $index) {
-                            $msgParts[] = "missing index on <tt>" . implode( ', ', $index->getUnquotedColumns() ) . "</tt>";
+                            $msgParts[] = "missing index on `" . implode( ', ', $index->getUnquotedColumns() ) . "`";
                         }
                         ///** @var $fk ForeignKeyConstraint */
                         //foreach ($diff->addedForeignKeys as $fk) {
-                        //    $msgParts[] = "missing foreign key <tt>" . $fk->getName() . "</tt>";
+                        //    $msgParts[] = "missing foreign key `" . $fk->getName() . "`";
                         //}
                         /** @var $col ColumnDiff */
                         foreach ($diff->changedColumns as $col) {
-                            $msgParts[] = "invalid column <tt>" . $col->oldColumnName . "</tt>";
+                            $msgParts[] = "invalid column `" . $col->oldColumnName . "`";
                         }
                         /** @var $index Index */
                         foreach ($diff->changedIndexes as $index) {
-                            $msgParts[] = "invalid index on <tt>" . implode( ', ', $index->getUnquotedColumns() ) . "</tt>";
+                            $msgParts[] = "invalid index on `" . implode( ', ', $index->getUnquotedColumns() ) . "`";
                         }
                         ///** @var $fk ForeignKeyConstraint */
                         //foreach ($diff->changedForeignKeys as $fk) {
-                        //    $msgParts[] = "invalid foreign key " . $fk->getName() . "</tt>";
+                        //    $msgParts[] = "invalid foreign key " . $fk->getName() . "`";
                         //}
                         foreach ($diff->removedColumns as $colName => $val) {
-                            $msgParts[] = "removed column <tt>" . $colName . "</tt>";
+                            $msgParts[] = "removed column `" . $colName . "`";
                         }
                         foreach ($diff->removedIndexes as $indexName => $val) {
-                            $msgParts[] = "removed index <tt>" . $indexName . "</tt>";
+                            $msgParts[] = "removed index `" . $indexName . "`";
                         }
                         //foreach ($diff->removedForeignKeys as $fkName => $val) {
-                        //    $msgParts[] = "removed foreign key <tt>" . $fkName . "</tt>";
+                        //    $msgParts[] = "removed foreign key `" . $fkName . "`";
                         //}
                         $msg .= implode( ', ', $msgParts );
                         $messages[] = $msg;
@@ -234,7 +234,7 @@ class IntegrityChecker
                     $this->app['db']->query($query);
                 }
 
-                $output[] = "Created table <tt>" . $table->getName() . "</tt>.";
+                $output[] = "Created table `" . $table->getName() . "`.";
 
             } else {
 
@@ -245,7 +245,7 @@ class IntegrityChecker
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $schemaManager->alterTable( $diff );
-                        $output[] = "Updated <tt>" . $table->getName() . "</tt> table to match current schema.";
+                        $output[] = "Updated `" . $table->getName() . "` table to match current schema.";
                     }
                 }
             }
