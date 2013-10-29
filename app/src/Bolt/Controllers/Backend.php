@@ -49,6 +49,11 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('dbupdate');
 
+        $ctl->get("/dbupdate_result", array($this, 'dbupdate_result'))
+            ->method('GET')
+            ->before(array($this, 'before'))
+            ->bind('dbupdate_result');
+
         $ctl->get("/clearcache", array($this, 'clearcache'))
             ->before(array($this, 'before'))
             ->bind('clearcache');
@@ -261,19 +266,6 @@ class Backend implements ControllerProviderInterface
 
         $output = $app['storage']->getIntegrityChecker()->repairTables();
 
-        if (empty($output)) {
-            $content = '<p>' . __('Your database is already up to date.') . '</p>';
-        } else {
-            $content = '<p>' . __('') . '</p>';
-            $content .= implode("<br>", $output);
-            $content .= '<p>' . __('Your database is now up to date.') . '</p>';
-        }
-
-        $content .= sprintf('<br><br><p><b>%s </b>%s</p>',
-            __('Tip:'),
-            __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', array('%url%' => path('prefill')))
-        );
-
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
         $return = $app['request']->query->get('return');
@@ -287,6 +279,13 @@ class Backend implements ControllerProviderInterface
 
             return redirect('fileedit', array('file' => "app/config/contenttypes.yml"));
         }
+        else {
+            return redirect('dbupdate_result', array('messages' => json_encode($output)));
+        }
+    }
+
+    public function dbupdate_result(Silex\Application $app, Request $request) {
+        $output = json_decode($request->get('messages'));
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 

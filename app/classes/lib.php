@@ -592,6 +592,18 @@ function lawText($str) {
 }
 
 /**
+ * Transforms plain text to HTML. Plot twist: text between backticks (`) is
+ * wrapped in a <tt> element.
+ * @param string $str Input string. Treated as plain text.
+ * @return string The resulting HTML
+ */
+function decorateTT($str) {
+    $str = htmlspecialchars($str, ENT_QUOTES);
+    $str = preg_replace('/`([^`]*)`/', '<tt>\\1</tt>', $str);
+    return $str;
+}
+
+/**
  * Trim a text to a given length, taking html entities into account.
  * Uses the htmLawed library to fix html issues and recursively runs over the
  * input text.
