@@ -26,7 +26,8 @@
         "symfony/validator": "~2.3",
         "symfony/yaml": "~2.3",
         "twig/twig": ">=1.8,<2.0-dev",
-        "silex/web-profiler": "~1.0"
+        "silex/web-profiler": "~1.0",
+        "oodle/krumo": "*"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",

@@ -85,10 +85,10 @@ class TwigExtension extends \Twig_Extension
 
 
     /**
-     * Output pretty-printed arrays.
+     * Output pretty-printed arrays / objects.
      *
-     * @see util::php
-     * @see http://brandonwamboldt.github.com/utilphp/
+     * @see \krumo::dump
+     * @see https://github.com/oodle/krumo
      *
      * @param  mixed $var
      * @return string
@@ -96,7 +96,22 @@ class TwigExtension extends \Twig_Extension
     public function printDump($var)
     {
 
-        $output = util::var_dump($var, true);
+        $config = array(
+            'skin' => array(
+                'selected' => "stylish"
+            ),
+            'display' => array(
+                'show_version' => false,
+                'show_call_info' => false,
+                'cascade' => array(10,5,1),
+                'truncate_length' => 100,
+                'sort_arrays' => false
+            )
+        );
+
+        \Krumo::setConfig($config);
+
+        $output = \Krumo::dump($var, KRUMO_CAPTURE);
 
         return $output;
 
