@@ -882,25 +882,32 @@ class Users
 
     public function isAllowed($what)
     {
+        error_log("isAllowed('$what')?");
         $userRoles = $this->users[$this->currentuser['username']]['roles'];
         if (!is_array($userRoles)) {
             $userRoles = array();
         }
         $userRoles[] = Permissions::ROLE_EVERYONE;
 
-        if (substr($what, 0, 12) == 'contenttype:') {
-            list($_, $contenttype, $permission) = explode(':', $what);
-            // for backwards compatibility: checks of the form
-            // 'contenttype:foobar' fall back on the most general permission,
-            // 'view', leaving the actual check to the update pages.
-            if (empty($permission)) {
-                $permission = 'view';
-            }
-
-            return $this->app['permissions']->checkPermission($userRoles, $permission, $contenttype);
+        $parts = explode(':', $what);
+        switch ($parts[0]) {
+            case 'contenttype':
+                list($_, $contenttype, $permission) = $parts;
+                if (empty($permission)) {
+                    $permission = 'view';
+                }
+                break;
+            case 'editcontent':
+                // editcontent is handled separately
+                return true;
+            default:
+                $permission = $what;
+                $contenttype = null;
+                break;
         }
-        
-        return $this->app['permissions']->checkPermission($userRoles, $what);
+        error_log("Check $permission ($contenttype)");
+
+        return $this->app['permissions']->checkPermission($userRoles, $permission, $contenttype);
     }
 
     /**
