@@ -1428,7 +1428,6 @@ class Backend implements ControllerProviderInterface
         }
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        error_log($route);
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
             $app['session']->getFlashBag()->set('info', __("Please log on."));
 
