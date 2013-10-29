@@ -229,7 +229,7 @@ class Users
         }
 
         // Check if user is _still_ allowed to log on..
-        if (($this->currentuser['userlevel'] < self::EDITOR) || !$this->currentuser['enabled']) {
+        if (!$this->isAllowed('login') || !$this->currentuser['enabled']) {
             $this->logout();
 
             return false;
