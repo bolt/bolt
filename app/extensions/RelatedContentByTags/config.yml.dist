@@ -1,0 +1,13 @@
+#
+# These are the default values for our taxonomies, they can be overridden via
+# $options in the function call.
+#
+# If multiple contenttypes use the same taxonomy and you want only similar
+# items from the same contenttype, just set the value for contenttype high.
+#
+# If the contenttype is not important at all, set it to 0 instead.
+#
+points :
+    tag  : 10   # default points per equal tag
+    type : 10   # default points if contenttype are equal
+limit : 10      # default limit the number of items returned

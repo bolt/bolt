@@ -587,7 +587,7 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
  */
 function lawText($str) {
     require_once(BOLT_PROJECT_ROOT_DIR.'/vendor/htmlawed/htmlawed/htmLawed.php');
-    $config = array('tidy'=>1, 'schemes'=>'*:*', 'balance' => '1', 'safe' => 1);
+    $config = array('tidy'=>0, 'schemes'=>'*:*', 'balance' => '1', 'safe' => 1);
     return htmLawed($str, $config);
 }
 
