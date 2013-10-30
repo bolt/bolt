@@ -24,7 +24,20 @@
             {% endif %}
         </p>
         <h3>{{ pretty.changelogmutation(entry.mutation_type) }} {{ pretty.datetime(entry.date) }} by {{ entry.username }}</h3>
-        <pre>{{ entry.diff }}</pre>
+        <table class="table table-bordered table-condensed table-full-width">
+            <thead>
+            <tr><th>field</th><th>old value</th><th>new value</th></tr>
+            </thead>
+            <tbody>
+            {% for key, fieldDiff in entry.parsedDiff %}
+            <tr>
+                <td>{{ key }}</td>
+                <td class="source-code">{{ fieldDiff[0] }}</td>
+                <td class="source-code">{{ fieldDiff[1] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 

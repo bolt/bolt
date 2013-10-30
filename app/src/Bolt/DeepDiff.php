@@ -18,14 +18,14 @@ class DeepDiff
 
         foreach ($keys as $k) {
             if (empty($a[$k])) {
-                $l = "";
+                $l = null;
             } else {
-                $l = json_encode($a[$k]);
+                $l = $a[$k];
             }
             if (empty($b[$k])) {
-                $r = "";
+                $r = null;
             } else {
-                $r = json_encode($b[$k]);
+                $r = $b[$k];
             }
             if ($l != $r) {
                 $result[] = array($k, $l, $r);

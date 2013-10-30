@@ -360,26 +360,26 @@ class Storage
                 throw new \Exception("Cannot log action $action when new content is empty");
             }
             $log_filename = $this->app['config']->get('general/changelog/logfile');
-            $str = '';
             switch ($action) {
                 case 'UPDATE':
                     $diff = DeepDiff::deep_diff($oldContent, $newContent);
                     foreach ($diff as $item) {
                         list($k, $old, $new) = $item;
-                        $str .= "$k: $old -> $new\n";
+                        $data[$k] = array($old, $new);
                     }
                     break;
                 case 'INSERT':
                     foreach ($newContent as $k => $val) {
-                        $str .= "$k: $val\n";
+                        $data[$k] = array(null, $val);
                     }
                     break;
                 case 'DELETE':
                     foreach ($oldContent as $k => $val) {
-                        $str .= "$k: $val\n";
+                        $data[$k] = array($val, null);
                     }
                     break;
             }
+            $str = json_encode($data);
             $user = $this->app['users']->getCurrentUser();
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['username'] = $user['username'];
@@ -430,7 +430,12 @@ class Storage
             $sql .= " LIMIT " . intval($options['limit']);
         }
 
-        return $this->app['db']->fetchAll($sql, $params);
+        $rows = $this->app['db']->fetchAll($sql, $params);
+        $objs = array();
+        foreach ($rows as $row) {
+            $objs[] = new ChangelogItem($this->app, $row);
+        }
+        return $objs;
     }
 
     /**
@@ -507,7 +512,13 @@ class Storage
                "    LIMIT 1";
         $params = array($id, $contentid, $contenttype);
 
-        return $this->app['db']->fetchAssoc($sql, $params);
+        $row = $this->app['db']->fetchAssoc($sql, $params);
+        if (is_array($row)) {
+            return new ChangelogItem($this->app, $row);
+        }
+        else {
+            return null;
+        }
     }
 
     public function saveContent($content, $contenttype = "")

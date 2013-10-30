@@ -56,13 +56,16 @@ strong, b {
     font-weight: 600;
 }
 
-tt, code {
-    background-color: #E8E8E8;
-    color: #555;
-    padding: 1px 2px;
+tt, code, .source-code {
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+}
+
+tt, code {
+    padding: 1px 2px;
     border: 0px;
     white-space: pre;
+    color: #555;
+    background-color: #E8E8E8;
 }
 
 pre {
@@ -1305,7 +1308,6 @@ blockquote.quote cite {
     #editcontent div.video-container {
         padding-right: 0;
     }
-
 }
 
 @media (max-width: 979px) {
