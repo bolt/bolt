@@ -105,7 +105,7 @@ class TwigExtension extends \Twig_Extension
                 'show_version' => false,
                 'show_call_info' => false,
                 'cascade' => array(10,5,1),
-                'truncate_length' => 100,
+                'truncate_length' => 70,
                 'sort_arrays' => false
             )
         );
