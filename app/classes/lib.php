@@ -585,9 +585,9 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
  * Uses a very conservative set of options that should cover most common
  * XSS attempts.
  */
-function lawText($str, $tidy = 0) {
+function lawText($str) {
     require_once(BOLT_PROJECT_ROOT_DIR.'/vendor/htmlawed/htmlawed/htmLawed.php');
-    $config = array('tidy'=>$tidy, 'schemes'=>'*:*', 'balance' => '1', 'safe' => 1);
+    $config = array('tidy'=>0, 'schemes'=>'*:*', 'balance' => '1', 'safe' => 1);
     return htmLawed($str, $config);
 }
 
@@ -622,7 +622,7 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
     // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
     // from doing it on the beginning of the string :(
     $lSpaceCount = getLeftWhiteSpaceCount($str);
-    $str = str_repeat(" ", $lSpaceCount) . lawText($str, 1);
+    $str = str_repeat(" ", $lSpaceCount) . lawText($str);
 
     // Base case: no html or strip_tags so we treat the content of this clause
     // as a regular string of which we return the result string and length.
