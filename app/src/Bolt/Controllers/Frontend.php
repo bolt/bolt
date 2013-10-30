@@ -46,8 +46,11 @@ class Frontend
             $template = $app['config']->get('general/homepage_template');
             $content = $app['storage']->getContent($app['config']->get('general/homepage'));
 
-            $app['editlink'] = path('editcontent', array('contenttypeslug' => $content->contenttype['slug'], 'id' => $content->id));
-            $app['edittitle'] = $content->title();
+            // Set the 'editlink', if $content contains a valid record.
+            if (!empty($content->contenttype['slug'])) {
+                $app['editlink'] = path('editcontent', array('contenttypeslug' => $content->contenttype['slug'], 'id' => $content->id));
+                $app['edittitle'] = $content->title();
+            }
 
             if (is_array($content)) {
                 $first = current($content);
