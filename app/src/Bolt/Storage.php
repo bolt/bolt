@@ -384,9 +384,14 @@ class Storage
             else {
                 $content = new Content($this->app, $contenttype, $oldContent);
             }
+            $title = $content->getTitle();
+            if (empty($title)) {
+                $content = $this->getContent("$contenttype/$contentid");
+                $title = $content->getTitle();
+            }
             $str = json_encode($data);
             $user = $this->app['users']->getCurrentUser();
-            $entry['title'] = $content->getTitle();
+            $entry['title'] = $title;
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['username'] = $user['username'];
             $entry['contenttype'] = $contenttype;
