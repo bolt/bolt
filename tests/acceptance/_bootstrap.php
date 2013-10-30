@@ -14,6 +14,10 @@ if (!class_exists('TestUser')) {
             $this->contenttypes = $contenttypes;
         }
 
+        public function __toString() {
+            return $this->username;
+        }
+
         public function offsetExists($offset) {
             return isset($this->$offset);
         }
