@@ -38,10 +38,34 @@ class ChangelogItem implements \ArrayAccess
         return $pdiff;
     }
 
+    public function getEffectiveMutationType()
+    {
+        switch ($this->mutation_type) {
+            case 'INSERT':
+            case 'DELETE':
+            default:
+                return $this->mutation_type;
+            case 'UPDATE':
+                $diff = $this->getParsedDiff();
+                if (isset($diff['status'])) {
+                    switch ($diff['status'][1]) {
+                        case 'published': return 'PUBLISH';
+                        case 'draft': return 'DRAFT';
+                        case 'held': return 'HOLD';
+                        default: return 'UPDATE';
+                    }
+                }
+                else {
+                    return 'UPDATE';
+                }
+        }
+    }
+
     public function __get($key)
     {
         switch ($key) {
             case 'parsedDiff': return $this->getParsedDiff();
+            case 'effectiveMutationType': return $this->getEffectiveMutationType();
         }
     }
 

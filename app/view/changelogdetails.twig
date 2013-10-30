@@ -23,7 +23,7 @@
             <span class="pager-forward">at last change</span>
             {% endif %}
         </p>
-        <h3>{{ pretty.changelogmutation(entry.mutation_type) }} {{ pretty.datetime(entry.date) }} by {{ entry.username }}</h3>
+        <h3>{{ pretty.changelogmutation(entry.effectiveMutationType) }} {{ pretty.datetime(entry.date) }} by {{ entry.username }}</h3>
         <table class="table table-bordered table-condensed table-full-width">
             <thead>
             <tr><th>field</th><th>old value</th><th>new value</th></tr>

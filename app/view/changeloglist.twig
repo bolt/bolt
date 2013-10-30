@@ -9,7 +9,7 @@
         {% for entry in entries %}
             <li>
                 <a href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': entry.id }) }}">
-                {{ pretty.changelogmutation(entry.mutation_type) }} by
+                {{ pretty.changelogmutation(entry.effectiveMutationType) }} by
                 {{ entry.username }}
                 {{ pretty.datetime(entry.date) }}
                 </a>

@@ -11,7 +11,6 @@
     {% if changelog is defined %}
         {% for index, entry in changelog %}
             <li>
-                {% set action_name = action_map[entry.mutation_type] %}
                 {% if filtered %}
                     {% set title = contenttype.singular_name %}
                 {% else %}
@@ -24,7 +23,7 @@
                 {% endif %}
 
                {{ title }}
-               {{ pretty.changelogmutation(entry.mutation_type) }}
+               {{ pretty.changelogmutation(entry.effectiveMutationType) }}
                by {{ entry.username }}
                <small>({{ pretty.datetime(entry.date) }})</small>
                <small><a href="{{ path('changelogdetails', { 'contenttype':contenttype.slug, 'contentid': entry.contentid, 'id': entry.id }) }}">view</a></small>
