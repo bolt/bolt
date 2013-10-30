@@ -411,7 +411,7 @@ class Storage
         $content_tablename = $this->getTablename($contenttype);
         $sql = "SELECT log.*, content.title " .
                "    FROM $tablename as log " .
-               "    INNER JOIN $content_tablename as content " .
+               "    LEFT JOIN $content_tablename as content " .
                "    ON content.id = log.contentid " .
                "    WHERE contenttype = ? ";
         $params = array($contenttype);
@@ -503,10 +503,10 @@ class Storage
         $content_tablename = $this->getTablename($contenttype);
         $sql = "SELECT log.* " .
                "    FROM $tablename as log " .
-               "    INNER JOIN $content_tablename as content " .
+               "    LEFT JOIN $content_tablename as content " .
                "    ON content.id = log.contentid " .
                "    WHERE log.id $cmp_op ? " .
-               "    AND content.id = ? " .
+               "    AND log.contentid = ? " .
                "    AND contenttype = ? " .
                $ordering . 
                "    LIMIT 1";
