@@ -364,7 +364,8 @@ class Storage
                     $diff = DeepDiff::deep_diff($oldContent, $newContent);
                     foreach ($diff as $item) {
                         list($k, $old, $new) = $item;
-                        $data[$k] = array($old, $new);
+                        if (isset($newContent[$k]))
+                            $data[$k] = array($old, $new);
                     }
                     break;
                 case 'INSERT':
