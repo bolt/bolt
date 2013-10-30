@@ -1003,7 +1003,7 @@ fieldset.checkbox div {
 /** Overrides for CKeditor */
 
 .cke_reset_all, .cke_reset_all * {
-    max-width: 1000px;
+    max-width: 1500px;
 }
 
 .cke_chrome {
