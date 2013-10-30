@@ -406,6 +406,10 @@ class IntegrityChecker
         $contentChangelogTable->addColumn("username", "string", array("length" => 64, "default" => ""));
         $contentChangelogTable->addIndex( array( 'username' ) );
 
+        // the title as it was right before changing/deleting the item, or
+        // right after creating it (according to getTitle())
+        $contentChangelogTable->addColumn("title", "string", array("length" => 256, "default" => ""));
+
         // contenttype and contentid refer to the entity type we're changing
         $contentChangelogTable->addColumn("contenttype", "string", array('length' => 128));
         $contentChangelogTable->addIndex( array( 'contenttype' ) );

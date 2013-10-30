@@ -359,7 +359,6 @@ class Storage
             if (empty($newContent) && in_array($action, array('INSERT', 'UPDATE'))) {
                 throw new \Exception("Cannot log action $action when new content is empty");
             }
-            $log_filename = $this->app['config']->get('general/changelog/logfile');
             switch ($action) {
                 case 'UPDATE':
                     $diff = DeepDiff::deep_diff($oldContent, $newContent);
@@ -379,8 +378,15 @@ class Storage
                     }
                     break;
             }
+            if ($newContent) {
+                $content = new Content($this->app, $contenttype, $newContent);
+            }
+            else {
+                $content = new Content($this->app, $contenttype, $oldContent);
+            }
             $str = json_encode($data);
             $user = $this->app['users']->getCurrentUser();
+            $entry['title'] = $content->getTitle();
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['username'] = $user['username'];
             $entry['contenttype'] = $contenttype;
@@ -409,7 +415,7 @@ class Storage
         }
         $tablename = $this->getTablename('content_changelog');
         $content_tablename = $this->getTablename($contenttype);
-        $sql = "SELECT log.*, content.title " .
+        $sql = "SELECT log.*, log.title " .
                "    FROM $tablename as log " .
                "    LEFT JOIN $content_tablename as content " .
                "    ON content.id = log.contentid " .

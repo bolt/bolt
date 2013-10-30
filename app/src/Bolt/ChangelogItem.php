@@ -9,6 +9,7 @@ class ChangelogItem implements \ArrayAccess
     private $app;
     public $id;
     public $date;
+    public $title;
     public $username;
     public $contenttype;
     public $contentid;
@@ -20,6 +21,7 @@ class ChangelogItem implements \ArrayAccess
         $this->app = $app;
         if (isset($values['id'])) { $this->id = $values['id']; }
         if (isset($values['date'])) { $this->date = $values['date']; }
+        if (isset($values['title'])) { $this->title = $values['title']; }
         if (isset($values['username'])) { $this->username = $values['username']; }
         if (isset($values['contenttype'])) { $this->contenttype = $values['contenttype']; }
         if (isset($values['contentid'])) { $this->contentid = $values['contentid']; }
