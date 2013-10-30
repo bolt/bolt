@@ -417,7 +417,7 @@ class IntegrityChecker
         $contentChangelogTable->addIndex( array( 'mutation_type' ) );
 
         // a plain-text summary of the differences between the old and the new version
-        $contentChangelogTable->addColumn("diff", "string", array());
+        $contentChangelogTable->addColumn("diff", "text", array());
         $tables[] = $contentChangelogTable;
 
         return $tables;
