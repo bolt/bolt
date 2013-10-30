@@ -521,6 +521,9 @@ class Backend implements ControllerProviderInterface
 
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+            if (empty($content)) {
+                $app->abort(404, __('The %contenttype% your were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
+            }
 
             // Check if we're allowed to edit this content..
             if (($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all')) {
