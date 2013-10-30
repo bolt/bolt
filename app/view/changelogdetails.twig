@@ -6,17 +6,17 @@
         <h1><strong>Change Log</strong> » {{ entry.title }}</h1>
         <p class="pager-inline">
             {% if prevEntry %}
-            <a class="pager-back" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': prevEntry.id }) }}">
+            <a class="pager-back" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': prevEntry.id }) }}">
                 « previous change
             </a>
             {% else %}
             <span class="pager-back">at first change</span>
             {% endif %}
-            <a class="pager-middle" href="{{ path('changeloglist', { 'contenttype': contenttype, 'contentid': content.id }) }}">
+            <a class="pager-middle" href="{{ path('changeloglist', { 'contenttype': contenttype, 'contentid': entry.contentid }) }}">
                 show all changes
             </a>
             {% if nextEntry %}
-            <a class="pager-forward" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': content.id, 'id': nextEntry.id }) }}">
+            <a class="pager-forward" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': nextEntry.id }) }}">
                 next change »
             </a>
             {% else %}
