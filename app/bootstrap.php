@@ -139,6 +139,20 @@ $app['twig']->addGlobal('paths', $app['paths']);
 $app['editlink'] = "";
 $app['edittitle'] = "";
 
+// Set the Krumo default configuration.
+\Krumo::setConfig(array(
+    'skin' => array(
+        'selected' => "stylish"
+    ),
+    'display' => array(
+        'show_version' => false,
+        'show_call_info' => false,
+        'cascade' => array(10,5,1),
+        'truncate_length' => 70,
+        'sort_arrays' => false
+    )
+));
+
 // Add the Bolt Twig functions, filters and tags.
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());

@@ -81,6 +81,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('first', array($this, 'first')),
             new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('floor', array($this, 'floor')),
+            new \Twig_SimpleFilter('ceil', array($this, 'ceil'))
         );
     }
 
@@ -96,21 +98,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-
-        $config = array(
-            'skin' => array(
-                'selected' => "stylish"
-            ),
-            'display' => array(
-                'show_version' => false,
-                'show_call_info' => false,
-                'cascade' => array(10,5,1),
-                'truncate_length' => 70,
-                'sort_arrays' => false
-            )
-        );
-
-        \Krumo::setConfig($config);
 
         $output = \Krumo::dump($var, KRUMO_CAPTURE);
 
@@ -549,6 +536,33 @@ class TwigExtension extends \Twig_Extension
     {
         return min($a, $b);
     }
+
+
+
+    /**
+     * return the 'floor' of a value..
+     *
+     * @param  float|int $a
+     * @return int
+     */
+    public function floor($a)
+    {
+        return floor($a);
+    }
+
+
+
+    /**
+     * return the 'ceil' of a value..
+     *
+     * @param  float|int $a
+     * @return int
+     */
+    public function ceil($a)
+    {
+        return ceil($a);
+    }
+
 
 
     /**
