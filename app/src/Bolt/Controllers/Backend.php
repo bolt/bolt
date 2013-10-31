@@ -79,6 +79,8 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get("/changelog/{contenttype}/{contentid}", array($this, 'changelogList'))
             ->before(array($this, 'before'))
+            ->value('contentid', '0')
+            ->value('contenttype', '')
             ->bind('changeloglist');
 
         $ctl->get("/changelog/{contenttype}/{contentid}/{id}", array($this, 'changelogDetails'))
@@ -439,16 +441,52 @@ class Backend implements ControllerProviderInterface
 
     public function changelogList($contenttype, $contentid, Silex\Application $app, Request $request)
     {
-        $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
-        $options = array(
-                'order' => 'date DESC',
-                'contentid' => $contentid,
-            );
-        $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
+        // We have to handle three cases here:
+        // - $contenttype and $contentid given: get changelog entries for *one* content item
+        // - only $contenttype given: get changelog entries for all items of that type
+        // - neither given: get all changelog entries
+
+        if (empty($contenttype)) {
+            $content = null;
+            $title = __('All content types');
+            $options = array(
+                    'order' => 'date DESC',
+                    'limit' => 50,
+                    );
+            $logEntries = $app['storage']->getChangelog($options);
+        }
+        else {
+            $contenttypeObj = $app['storage']->getContentType($contenttype);
+            if ($contentid) {
+                $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
+                $options = array(
+                        'order' => 'date DESC',
+                        'contentid' => $contentid,
+                    );
+            }
+            else {
+                $options = array(
+                        'order' => 'date DESC',
+                    );
+            }
+            $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
+            if ($contentid) {
+                if ($content) {
+                    $title = $content->getTitle();
+                }
+                else {
+                    $title = $logEntries[0]['title'];
+                }
+            }
+            else {
+                $title = $contenttypeObj['name'];
+            }
+        }
         $renderVars = array(
             'contenttype' => $contenttype,
             'entries' => $logEntries,
             'content' => $content,
+            'title' => $title,
             );
         return $app['twig']->render('changeloglist.twig', $renderVars);
     }

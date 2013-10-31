@@ -308,6 +308,18 @@ footer  {
     overflow:hidden;
 }
 
+.table-changelog-details th {
+    width: 40%;
+}
+
+.table-changelog-details th:first-child {
+    width: 20%;
+}
+
+.table-changelog-details td {
+    vertical-align: top;
+}
+
 /**
  * Dashboard specific stuff
  */

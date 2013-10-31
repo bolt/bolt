@@ -1,0 +1,19 @@
+{% macro changelogdetails(entry) %}
+        {% import '_sub_pretty.twig' as pretty %}
+
+        <h3>"{{ entry.title }}" {{ pretty.changelogmutation(entry.effectiveMutationType) }} {{ pretty.datetime(entry.date) }} by {{ entry.username }}</h3>
+        <table class="table table-bordered table-condensed table-changelog-details">
+            <thead>
+            <tr><th>field</th><th>old value</th><th>new value</th></tr>
+            </thead>
+            <tbody>
+            {% for key, fieldDiff in entry.parsedDiff %}
+            <tr>
+                <td>{{ key }}</td>
+                <td class="source-code">{{ fieldDiff[0] }}</td>
+                <td class="source-code">{{ fieldDiff[1] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endmacro %}

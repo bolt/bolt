@@ -402,6 +402,40 @@ class Storage
             $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
         }
     }
+    /**
+     * Get content changelog entries for all content types
+     * @param array $options An array with additional options. Currently, the
+     *                       following options are supported:
+     *                       - 'limit' (int)
+     *                       - 'offset' (int)
+     *                       - 'order' (string)
+     *                       - 'id' (int), to filter by a specific changelog entry ID
+     */
+    public function getChangelog($options) {
+        $tablename = $this->getTablename('content_changelog');
+        $sql = "SELECT log.*, log.title " .
+               "    FROM $tablename as log ";
+        if (isset($options['order'])) {
+            $sql .= " ORDER BY " . $options['order'];
+        }
+        if (isset($options['limit'])) {
+            if (isset($options['offset'])) {
+                $sql .= sprintf(" LIMIT %s, %s ",
+                            intval($options['offset']),
+                            intval($options['limit']));
+            }
+            else {
+                $sql .= " LIMIT " . intval($options['limit']);
+            }
+        }
+
+        $rows = $this->app['db']->fetchAll($sql, array());
+        $objs = array();
+        foreach ($rows as $row) {
+            $objs[] = new ChangelogItem($this->app, $row);
+        }
+        return $objs;
+    }
 
     /**
      * Get content changelog entries by content type.
