@@ -402,19 +402,9 @@ class Storage
             $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
         }
     }
-    /**
-     * Get content changelog entries for all content types
-     * @param array $options An array with additional options. Currently, the
-     *                       following options are supported:
-     *                       - 'limit' (int)
-     *                       - 'offset' (int)
-     *                       - 'order' (string)
-     *                       - 'id' (int), to filter by a specific changelog entry ID
-     */
-    public function getChangelog($options) {
-        $tablename = $this->getTablename('content_changelog');
-        $sql = "SELECT log.*, log.title " .
-               "    FROM $tablename as log ";
+
+    private function makeOrderLimitSql($options) {
+        $sql = '';
         if (isset($options['order'])) {
             $sql .= " ORDER BY " . $options['order'];
         }
@@ -428,6 +418,22 @@ class Storage
                 $sql .= " LIMIT " . intval($options['limit']);
             }
         }
+        return $sql;
+    }
+
+    /**
+     * Get content changelog entries for all content types
+     * @param array $options An array with additional options. Currently, the
+     *                       following options are supported:
+     *                       - 'limit' (int)
+     *                       - 'offset' (int)
+     *                       - 'order' (string)
+     */
+    public function getChangelog($options) {
+        $tablename = $this->getTablename('content_changelog');
+        $sql = "SELECT log.*, log.title " .
+               "    FROM $tablename as log ";
+        $sql .= $this->makeOrderLimitSql($options);
 
         $rows = $this->app['db']->fetchAll($sql, array());
         $objs = array();
@@ -435,6 +441,13 @@ class Storage
             $objs[] = new ChangelogItem($this->app, $row);
         }
         return $objs;
+    }
+
+    public function countChangelog($options) {
+        $tablename = $this->getTablename('content_changelog');
+        $sql = "SELECT COUNT(1) " .
+               "    FROM $tablename as log ";
+        return $this->app['db']->fetchColumn($sql, array());
     }
 
     /**
@@ -469,12 +482,7 @@ class Storage
             $sql .= "    AND log.id = ? ";
             $params[] = intval($options['contentid']);
         }
-        if (isset($options['order'])) {
-            $sql .= " ORDER BY " . $options['order'];
-        }
-        if (isset($options['limit'])) {
-            $sql .= " LIMIT " . intval($options['limit']);
-        }
+        $sql .= $this->makeOrderLimitSql($options);
 
         $rows = $this->app['db']->fetchAll($sql, $params);
         $objs = array();
@@ -482,6 +490,27 @@ class Storage
             $objs[] = new ChangelogItem($this->app, $row);
         }
         return $objs;
+    }
+
+    public function countChangelogByContentType($contenttype, $options) {
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+        $tablename = $this->getTablename('content_changelog');
+        $sql = "SELECT COUNT(1) " .
+               "    FROM $tablename as log " .
+               "    WHERE contenttype = ? ";
+        $params = array($contenttype);
+        if (isset($options['contentid'])) {
+            $sql .= "    AND contentid = ? ";
+            $params[] = intval($options['contentid']);
+        }
+        if (isset($options['id'])) {
+            $sql .= "    AND log.id = ? ";
+            $params[] = intval($options['contentid']);
+        }
+
+        return $this->app['db']->fetchColumn($sql, $params);
     }
 
     /**

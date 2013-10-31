@@ -2,19 +2,46 @@
 {% import '_sub_changelogdetails.twig' as changelogdetails %}
 {% include '_header.twig' %}
 
-{% from _self import details_link %}
+{% macro pager(currentpage, pagecount) %}
+        <div class="pagination pagination-centered">
+            <ul>
+                {% if currentpage > 1 %}
+                <li><a href="?page=1"><i style="font-weight: bold" class="icon-double-angle-left"></i></a></li>
+                <li><a href="?page={{ currentpage - 1 }}"><i style="font-weight: bold" class="icon-angle-left"></i></a></li>
+                {% else %}
+                <li><span><i style="font-weight: bold" class="icon-double-angle-left"></i></span></li>
+                <li><span><i style="font-weight: bold" class="icon-angle-left"></i></span></li>
+                {% endif %}
+
+                <li><span>{{ __('Page') }} {{ currentpage }} / {{ pagecount }}</span></li>
+
+                {% if currentpage < pagecount %}
+                <li><a href="?page={{ currentpage + 1 }}"><i style="font-weight: bold" class="icon-angle-right"></i></a></li>
+                <li><a href="?page={{ pagecount }}"><i style="font-weight: bold" class="icon-double-angle-right"></i></a></li>
+                {% else %}
+                <li><span><i style="font-weight: bold" class="icon-angle-right"></i></span></li>
+                <li><span><i style="font-weight: bold" class="icon-double-angle-right"></i></span></li>
+                {% endif %}
+            </ul>
+        </div>
+{% endmacro %}
+
+{% from _self import pager %}
+
 <div class="row-fluid">
     <div class="span9">
         <h1><strong>Change Log</strong> » {{ title }}</h1>
-        <ul>
+        {{ pager(currentpage, pagecount) }}
         {% for entry in entries %}
             {{ changelogdetails.changelogdetails(entry) }}
         {% endfor %}
-        </ul>
+        {{ pager(currentpage, pagecount) }}
         {% if contenttype %}
             <a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">
                 back to editing
             </a>
+        {% endif %}
+        {% if pagecount > 1 or pagecount is null %}
         {% endif %}
     </div>
 </div>

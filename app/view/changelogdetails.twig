@@ -2,28 +2,43 @@
 {% import '_sub_changelogdetails.twig' as changelogdetails %}
 {% include '_header.twig' %}
 
+{% macro pager(leftLink, centerLink, rightLink) %}
+        <div class="pagination pagination-centered">
+            <ul>
+                {% if leftLink %}
+                <li><a href="{{ leftLink }}"><i style="font-weight: bold" class="icon-angle-left"></i></a></li>
+                {% else %}
+                <li><span><i style="font-weight: bold" class="icon-angle-left"></i></span></li>
+                {% endif %}
+
+                {% if centerLink %}
+                <li><a href="{{ centerLink }}">{{ __('show all') }}</a></li>
+                {% else %}
+                <li><span>{{ __('show all') }}</span></li>
+                {% endif %}
+
+                {% if rightLink %}
+                <li><a href="{{ rightLink }}"><i style="font-weight: bold" class="icon-angle-right"></i></a></li>
+                {% else %}
+                <li><span><i style="font-weight: bold" class="icon-angle-right"></i></span></li>
+                {% endif %}
+            </ul>
+        </div>
+{% endmacro %}
+
+{% from _self import pager %}
+
 <div class="row-fluid">
     <div class="span9">
         <h1><strong>Change Log</strong> » {{ entry.title }}</h1>
-        <p class="pager-inline">
-            {% if prevEntry %}
-            <a class="pager-back" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': prevEntry.id }) }}">
-                « previous change
-            </a>
-            {% else %}
-            <span class="pager-back">at first change</span>
-            {% endif %}
-            <a class="pager-middle" href="{{ path('changeloglist', { 'contenttype': contenttype, 'contentid': entry.contentid }) }}">
-                show all changes
-            </a>
-            {% if nextEntry %}
-            <a class="pager-forward" href="{{ path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': nextEntry.id }) }}">
-                next change »
-            </a>
-            {% else %}
-            <span class="pager-forward">at last change</span>
-            {% endif %}
-        </p>
+        {% if prevEntry %}
+        {% set leftLink = path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': prevEntry.id }) %}
+        {% endif %}
+        {% set centerLink = path('changeloglist', { 'contenttype': contenttype, 'contentid': entry.contentid }) %}
+        {% if nextEntry %}
+        {% set rightLink = path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': nextEntry.id }) %}
+        {% endif %}
+        {{ pager(leftLink, centerLink, rightLink) }}
         {{ changelogdetails.changelogdetails(entry) }}
     </div>
 </div>

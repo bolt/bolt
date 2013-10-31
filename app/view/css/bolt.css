@@ -988,30 +988,6 @@ fieldset.checkbox div {
     opacity: 0.5;
 }
 
-.pager-inline {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-}
-
-.pager-inline .pager-forward {
-    display: inline-block;
-    width: 25%;
-    text-align: right;
-}
-
-.pager-inline .pager-back {
-    display: inline-block;
-    width: 25%;
-    text-align: left;
-}
-
-.pager-inline .pager-middle {
-    width: 49%;
-    text-align: center;
-    display: inline-block;
-}
-
 /** Overrides for CKeditor */
 
 .cke_reset_all, .cke_reset_all * {
