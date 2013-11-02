@@ -1,14 +1,16 @@
 {# A little collection of links for various backend entities #}
 
-{% macro userlink(user) %}
-<a href="{{ path('useredit', { 'id': user.id }) }}">{{user.displayname}}</a>
-{% endmacro %}
-
-{% macro contentlink_by_id(contenttype, title, content_id) %}
-<a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content_id }) }}">
-{{ title|trimtext(70)}}
+{% macro userlink(user) %}{% spaceless %}
+<a href="{{ path('useredit', { 'id': user.id }) }}">
+    {{- user.displayname -}}
 </a>
-{% endmacro %}
+{% endspaceless %}{% endmacro %}
+
+{% macro contentlink_by_id(contenttype, title, content_id) %}{% spaceless %}
+<a href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content_id }) }}">
+    {{- title|trimtext(70) -}}
+</a>
+{% endspaceless %}{% endmacro %}
 
 {% macro contentlink(contenttype, content) %}
     {% import _self as crosslinks %}
