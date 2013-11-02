@@ -60,19 +60,19 @@ class TranslationServiceProvider implements ServiceProviderInterface
             }
 
             // Load fallback for infos domain
-            $translationDir = dirname(dirname(__DIR__)) . '/resources/translations/en';
+            $translationDir = dirname(dirname(dirname(__DIR__))) . '/resources/translations/en';
 
             if (is_dir($translationDir)) {
                 $extension = 'yml';
                 $domain = 'infos';
-                $infosfilename = "$translationDir/$domain.$locale_fb.$extension";
+                $infosfilename = "$translationDir/$domain.en.$extension";
                 if (is_readable($infosfilename)) {
                     if (array_key_exists($extension, $loaders)) {
                         if (!array_key_exists($extension, $registeredLoaders)) {
                             // TranslationFileLoader not yet registered
                             $app['translator']->addLoader($extension, $loaders[$extension]);
                         }
-                        $app['translator']->addResource($extension, $infosfilename, $locale_fb, $domain);
+                        $app['translator']->addResource($extension, $infosfilename, 'en', $domain);
                     }
                 }
             }
