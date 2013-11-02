@@ -150,6 +150,9 @@ $app['edittitle'] = "";
         'cascade' => array(10,5,1),
         'truncate_length' => 70,
         'sort_arrays' => false
+    ),
+    'dont_traverse' => array(
+        'objects' => array('Bolt\Application')
     )
 ));
 
