@@ -699,7 +699,7 @@ label span.left {
     display: block;
     float: left;
     min-width: 180px;
-    margin-top: 5px;
+    margin: 5px 8px 0 0;
 }
 
 input[type="checkbox"] {
