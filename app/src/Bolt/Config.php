@@ -236,10 +236,26 @@ class Config
             $tempfields = $temp['fields'];
             $temp['fields'] = array();
             foreach ($tempfields as $key => $value) {
+                // Fix name 'keys' for fields
                 $key = str_replace("-", "_", strtolower(safeString($key, true)));
                 $temp['fields'][$key] = $value;
+
+                // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
+                if ($temp['fields'][$key]['type'] == "file") {
+
+                    if (empty($temp['fields'][$key]['extensions'])) {
+                        $temp['fields'][$key]['extensions'] = array('pdf', 'txt', 'md', 'doc', 'docx', 'zip', 'tgz');
+                    }
+
+                    if (!is_array($temp['fields'][$key]['extensions'])) {
+                        $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
+                    }
+
+                }
+
             }
 
+            // Make sure the 'uses' of the slug is an array.
             if (isset($temp['fields']['slug']) && isset($temp['fields']['slug']['uses']) &&
                 !is_array($temp['fields']['slug']['uses'])
             ) {
