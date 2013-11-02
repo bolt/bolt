@@ -244,7 +244,7 @@
         bindFileUpload('{{key}}');
 
         $("#field-{{key}}").autocomplete({
-            source: "{{ paths.async }}filesautocomplete",
+            source: "{{ paths.async }}filesautocomplete?ext=gif,jpg,jpeg,png",
             minLength: 2,
             close: function(){
                 if ($('#field-{{key}}').val() != "" ) {
@@ -488,9 +488,7 @@
 
             <div class="map-right hide-phone">
                 <div class='mapholder' id="map-{{key}}" style="width: 200px;">
-                    {% if geo.map!="" %}
-                        <img src="{{ geo.map }}" width="200" height="200">
-                    {% endif %}
+                        <img src="{{ geo.map|default('') }}" width="200" height="200">
                 </div>
             </div>
 
@@ -501,20 +499,20 @@
                           data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
                 </label>
                 <label>{{ __('Address lookup:') }} <input type="text" name="{{key}}[address]" id="{{key}}-address"
-                    value='{{ geolocation.address }}' style='width: 60%;'>
+                    value='{{ geolocation.address|default('') }}' style='width: 60%;'>
                 </label>
                 <label>{{ __('Latitude:') }} <input type="text" name="{{key}}[latitude]" id="{{key}}-latitude"
-                    value='{{ geolocation.latitude }}' style='width: 30%;'>
+                    value='{{ geolocation.latitude|default('') }}' style='width: 30%;'>
                  - {{ __('Longitude:') }} <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude"
-                    value='{{ geolocation.longitude }}' style='width: 30%;'>
+                    value='{{ geolocation.longitude|default('') }}' style='width: 30%;'>
                 </label>
                 <p>{{ __('Matched address:') }}
-                <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address }}</span></p>
+                <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</span></p>
                 <input type="hidden" name="{{key}}[formatted_address]" id="{{key}}-formatted_address"
-                       value='{{ geolocation.formatted_address }}' style='width: 30%;'>
+                       value='{{ geolocation.formatted_address|default('') }}' style='width: 30%;'>
                 <script type="text/javascript">
                     $(function() {
-                        bindGeolocation('{{key}}', '{{ geolocation.latitude }}', '{{ geolocation.longitude }}');
+                        bindGeolocation('{{key}}', '{{ geolocation.latitude|default('') }}', '{{ geolocation.longitude|default('') }}');
                     });
                 </script>
             </div>
