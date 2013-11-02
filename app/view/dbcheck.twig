@@ -1,6 +1,6 @@
 {% extends 'base.twig' %}
 {% block content %}
-    {% if modifications %}
+    {% if modifications is defined %}
         <h4>{{ __('Modifications made to the database:') }}</h4>
         <ul>
         {% for item in modifications %}
