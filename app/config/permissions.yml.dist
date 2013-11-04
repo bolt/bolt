@@ -51,7 +51,6 @@ global:
     login: [ everyone ]
     postLogin: [ everyone ]
     logout: [ editor, admin, developer ]
-    overview: [ editor, admin, developer ]
     prefill: [ developer ]
     settings: [ admin, developer, everyone ]
     translation: [ developer ]
