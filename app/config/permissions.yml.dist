@@ -13,12 +13,12 @@ roles:
     editor:
         description: This user can edit stuff
         label: Editor
-    page-editor:
-        description: Can edit pages, but not any other content type
-        label: Page Editor
     chief-editor:
         description: This user can edit anything
         label: Chief Editor
+    page-editor:
+        description: A specialized editor who can only edit Pages
+        label: Page Editor
     admin:
         description: User-level administrator.
         label: Administrator
@@ -42,7 +42,6 @@ global:
     dashboard: [ everyone ]
     dbcheck: [ admin, developer ]
     dbupdate: [ admin, developer ]
-    editcontent: [ everyone ]
     extensions: [ developer ]
     fileedit: [ admin, developer ]
     files:config: [ developer ]
@@ -52,7 +51,7 @@ global:
     login: [ everyone ]
     postLogin: [ everyone ]
     logout: [ editor, admin, developer ]
-    overview: [ everyone ]
+    overview: [ editor, admin, developer ]
     prefill: [ developer ]
     settings: [ admin, developer, everyone ]
     translation: [ developer ]
@@ -96,12 +95,11 @@ global:
 # contenttype-default; but if the permission is not mentioned, the
 # corresponding entry in contenttype-default applies.
 contenttype-all:
-    edit: [ developer, admin, chief-editor ]
-    create: [ developer, admin, chief-editor ]
-    publish: [ developer, admin, chief-editor ]
-    depublish: [ developer, admin, chief-editor ]
-    delete: [ developer, admin ]
-    view: [ developer, admin, chief-editor ]
+    edit: [ admin, chief-editor ]
+    create: [ admin, chief-editor ]
+    publish: [ admin, chief-editor ]
+    depublish: [ admin, chief-editor ]
+    delete: [ admin ]
 
 contenttype-default:
     edit: [ editor ]
@@ -110,8 +108,8 @@ contenttype-default:
 
 contenttypes:
   pages:
-    edit: [ editor, page-editor ]
+    edit: [ editor, page-editor, guest ]
     create: [ editor, page-editor ]
   entries:
   kitchensinks:
-    view: [ developer, admin, editor, chief-editor ]
+    publish: [ admin ]
