@@ -581,11 +581,13 @@ class Backend implements ControllerProviderInterface
 
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
-        $perm = 'edit';
         if (empty($id)) {
-            $perm = 'create';
+            $perm = "contenttype:$contenttypeslug:create";
         }
-        if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug . ':' . $perm)) {
+        else {
+            $perm = "contenttype:$contenttypeslug:edit:$id";
+        }
+        if (!$app['users']->isAllowed($perm)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
 
             return redirect('dashboard');

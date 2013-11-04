@@ -883,7 +883,8 @@ class Users
     public function isAllowed($what)
     {
         error_log("isAllowed('$what')?");
-        $userRoles = $this->users[$this->currentuser['username']]['roles'];
+        $user = $this->users[$this->currentuser['username']];
+        $userRoles = $user['roles'];
         if (!is_array($userRoles)) {
             $userRoles = array();
         }
@@ -891,14 +892,24 @@ class Users
 
         $parts = explode(':', $what);
         switch ($parts[0]) {
+            case 'overview':
+                list ($_, $contenttype) = $parts;
+                if (empty($contenttype)) {
+                    return true;
+                }
+                else {
+                    $permission = 'view';
+                }
             case 'contenttype':
-                list($_, $contenttype, $permission) = $parts;
+                list($_, $contenttype, $permission, $contentid) = $parts;
                 if (empty($permission)) {
                     $permission = 'view';
                 }
                 break;
             case 'editcontent':
-                // editcontent is handled separately
+                // editcontent is handled separately in Backend/editcontent()
+                // This is because editing content is governed by two separate
+                // permissions per content type, "create" and "edit".
                 return true;
             default:
                 $permission = $what;
