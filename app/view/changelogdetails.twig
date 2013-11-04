@@ -32,13 +32,13 @@
     <div class="span9">
         <h1><strong>Change Log</strong> » {{ entry.title }}</h1>
         {% if prevEntry %}
-        {% set leftLink = path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': prevEntry.id }) %}
+            {% set leftLink = path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': prevEntry.id }) %}
         {% endif %}
         {% set centerLink = path('changeloglist', { 'contenttype': contenttype, 'contentid': entry.contentid }) %}
         {% if nextEntry %}
-        {% set rightLink = path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': nextEntry.id }) %}
+            {% set rightLink = path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': nextEntry.id }) %}
         {% endif %}
-        {{ pager(leftLink, centerLink, rightLink) }}
+        {{ pager(leftLink|default(false), centerLink, rightLink|default(false)) }}
         {{ changelogdetails.changelogdetails(entry) }}
     </div>
 </div>
