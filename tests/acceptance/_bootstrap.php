@@ -16,10 +16,6 @@ if (!class_exists('TestUser')) {
             return "User '" . $this->username . "'";
         }
 
-        public function __toString() {
-            return $this->username;
-        }
-
         public function offsetExists($offset) {
             return isset($this->$offset);
         }
