@@ -13,6 +13,12 @@
     content: "";
 }
 
+@media print {
+    .sf-toolbar {
+        display: none;
+        visibility: hidden;
+    }
+}
 </style>
     {% set icon %}
         <img width="32" height="32" alt="Bolt" style="width: 32px; height: 32px; margin-top: -2px;"
