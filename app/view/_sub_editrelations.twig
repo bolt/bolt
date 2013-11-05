@@ -25,7 +25,7 @@
             <option value="0">(none)</option>
         {% endif %}
             {% for item in listcontent(relcontenttype, relation, content) %}
-                <option value="{{ item.id }}" {% if item.selected %}selected{% endif %}>{{ item.title }} <span>(№ {{ item.id }})</span></option>
+                <option value="{{ item.id }}" {% if item.selected %}selected{% endif %}>{{ item.title|escape }} <span>(№ {{ item.id }})</span></option>
             {% endfor %}
 
         </select>
