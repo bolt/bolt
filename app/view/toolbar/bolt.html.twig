@@ -2,12 +2,17 @@
 
 {% block toolbar %}
 
-{# temporary fix, until https://github.com/symfony/symfony/pull/9347 is merged in #}
+{# temporary fixes, until https://github.com/symfony/symfony/pull/9347 is merged in #}
 <style>
 .sf-toolbar-block .sf-toolbar-icon > a,
 .sf-toolbar-block .sf-toolbar-icon > span {
     font-weight: normal;
 }
+
+.sf-toolbar-block .sf-toolbar-icon > a[href]:after {
+    content: "";
+}
+
 </style>
     {% set icon %}
         <img width="32" height="32" alt="Bolt" style="width: 32px; height: 32px; margin-top: -2px;"
