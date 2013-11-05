@@ -99,6 +99,7 @@ contenttype-all:
     publish: [ admin, chief-editor ]
     depublish: [ admin, chief-editor ]
     delete: [ admin ]
+    change-ownership: [ admin ]
 
 contenttype-default:
     edit: [ editor ]
@@ -109,6 +110,7 @@ contenttypes:
   pages:
     edit: [ editor, page-editor, guest ]
     create: [ editor, page-editor ]
+    change-ownership: [ owner ]
   entries:
   kitchensinks:
     publish: [ admin ]

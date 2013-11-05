@@ -627,12 +627,13 @@ class Backend implements ControllerProviderInterface
 
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+
             if (empty($content)) {
                 $app->abort(404, __('The %contenttype% your were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
             }
 
             // Check if we're allowed to edit this content..
-            if (($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('contenttype:')) {
+            if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
                 $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
 
                 return redirect('dashboard');
@@ -658,22 +659,25 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datedepublish', "");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
+            $content->setValue('ownerid', "");
             $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.", array('%contenttype%' => $contenttype['singular_name'])));
         }
 
         // Set the users and the current owner of this content.
-
-        if ($content->get('username') != "") {
-            $contentowner = $content->get('username');
-        } else {
-            $user = $app['session']->get('user');
-            $contentowner = $user['username'];
+        // For brand-new items, the creator becomes the owner.
+        // For existing items, we'll just keep the current owner.
+        if (empty($id)) {
+            // A new one!
+            $contentowner = $app['users']->getCurrentUser();
+        }
+        else {
+            $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
         return $app['twig']->render('editcontent.twig', array(
             'contenttype' => $contenttype,
             'content' => $content,
-            'contentowner' => $contentowner
+            'contentowner' => $contentowner,
         ));
 
     }
