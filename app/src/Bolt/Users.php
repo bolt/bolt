@@ -880,15 +880,24 @@ class Users
 
     }
 
-    public function isAllowed($what)
-    {
-        error_log("isAllowed('$what')?");
-        $user = $this->users[$this->currentuser['username']];
-        $userRoles = $user['roles'];
-        if (!is_array($userRoles)) {
+    public function getEffectiveRolesForUser($user) {
+        if (isset($user['roles']) && is_array($user['roles'])) {
+            $userRoles = $user['roles'];
+            $userRoles[] = Permissions::ROLE_EVERYONE;
+        }
+        else {
             $userRoles = array();
         }
-        $userRoles[] = Permissions::ROLE_EVERYONE;
+        $userRoles[] = Permissions::ROLE_ANONYMOUS;
+        return $userRoles;
+    }
+
+    public function isAllowed($what, $user = false)
+    {
+        if ($user === false) {
+            $user = $this->users[$this->currentuser['username']];
+        }
+        $userRoles = $this->getEffectiveRolesForUser($user);
 
         $parts = explode(':', $what);
         switch ($parts[0]) {

@@ -765,7 +765,7 @@ class Backend implements ControllerProviderInterface
     public function roles(\Bolt\Application $app)
     {
         $contenttypes = $app['config']->get('contenttypes');
-        $permissions = array('view', 'edit', 'create', 'publish', 'depublish');
+        $permissions = array('view', 'edit', 'create', 'publish', 'depublish', 'change-owner');
         $effectivePermissions = array();
         foreach ($contenttypes as $contenttype) {
             foreach ($permissions as $permission) {
