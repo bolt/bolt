@@ -151,7 +151,7 @@ class Permissions {
      * Checks whether the specified $roleName grants permission $permissionName
      * for the $contenttype in question (NULL for global permissions).
      */
-    public function checkRolePermission($roleName, $permissionName, $contenttype = null) {
+    private function checkRolePermission($roleName, $permissionName, $contenttype = null) {
         if ($contenttype === null) {
             return $this->checkRoleGlobalPermission($roleName, $permissionName);
         }
@@ -160,7 +160,7 @@ class Permissions {
         }
     }
 
-    public function checkRoleGlobalPermission($roleName, $permissionName) {
+    private function checkRoleGlobalPermission($roleName, $permissionName) {
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
             throw new \Exception("Configuration error: $permissionName is not granted to any roles.");
@@ -168,7 +168,7 @@ class Permissions {
         return in_array($roleName, $roles);
     }
 
-    public function checkRoleContentTypePermission($roleName, $permissionName, $contenttype) {
+    private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype) {
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
         return in_array($roleName, $roles);
     }
