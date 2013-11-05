@@ -73,6 +73,10 @@ class Content implements \ArrayAccess
 
     }
 
+    /**
+     * Gets a list of the base columns that are hard-coded into all content
+     * types (rather than configured through contenttypes.yml).
+     */
     public static function getBaseColumns() {
         return array(
                 'id',

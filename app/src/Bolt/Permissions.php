@@ -8,8 +8,30 @@ use Silex;
  * This class implements role-based permissions.
  */
 class Permissions {
+    /**
+     * Anonymous user: this role is automatically assigned to everyone,
+     * including "non-users" (not logged in)
+     */
+    const ROLE_ANONYMOUS = 'anonymous';
+
+    /**
+     * Everyone means 'everyone with an account'; this role is automatically
+     * assigned to every actual user, but not to anonymous access.
+     */
     const ROLE_EVERYONE = 'everyone';
+
+    /**
+     * Superuser role; if assigned to a user, this role overrides all
+     * permission checks, granting everything - pretty much like the 'root'
+     * user on *nix systems.
+     */
     const ROLE_ROOT = 'root';
+
+    /**
+     * A special role that is used to tag the owner of a resource; it is only
+     * valid for permission checks that are specific to one particular content
+     * item.
+     */
     const ROLE_OWNER = 'owner';
 
     private $app;
@@ -18,12 +40,28 @@ class Permissions {
         $this->app = $app;
     }
 
+    /**
+     * Gets a list of all the roles that can be assigned to users explicitly.
+     * This includes all the custom roles from permissions.yml, plus the
+     * special 'root' role, but not the special roles 'anonymous', 'everyone',
+     * and 'owner' (these are assigned automatically).
+     */
     public function getDefinedRoles() {
         $roles = $this->app['config']->get('permissions/roles');
         $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => 'Built-in superuser role, automatically grants all permissions', 'builtin' => true);
         return $roles;
     }
 
+    /**
+     * Gets meta-information on the specified role.
+     * @param string $roleName
+     * @return array An associative array describing the role. Keys are:
+     * - 'label': A human-readable role name, suitable as a label in the
+     *            backend
+     * - 'description': A description of what this role is supposed to do.
+     * - 'builtin': Optional; if present and true-ish, this is a built-in
+     *              role and cannot be overridden in permissions.yml.
+     */
     public function getRole($roleName) {
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
@@ -67,6 +105,17 @@ class Permissions {
                 $userRoleNames));
     }
 
+    /**
+     * Low-level permission check. Given a set of available roles, a
+     * permission, and an optional content type, this method checks whether
+     * the permission may be granted.
+     * @param array $roleNames - an array of effective role names. This must
+     *                           include any of the appropriate automatic
+     *                           roles, as these are not added at this point.
+     * @param string $permissionName - which permission to check
+     * @param string $contenttype
+     * @return bool TRUE if granted, FALSE if not.
+     */
     public function checkPermission($roleNames, $permissionName, $contenttype = null) {
         $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
@@ -115,14 +164,25 @@ class Permissions {
         return in_array($roleName, $roles);
     }
 
+    /**
+     * Lists the roles that would grant the specified global permission.
+     */
     public function getRolesByGlobalPermission($permissionName) {
         return $this->app['config']->get("permissions/global/$permissionName");
     }
 
+    /**
+     * Gets the configured global roles.
+     */
     public function getGlobalRoles() {
         return $this->app['config']->get("permissions/global");
     }
 
+    /**
+     * Lists the roles that would grant the specified permission for the
+     * specified content type. Sort of a reverse lookup on the permission
+     * check.
+     */
     public function getRolesByContentTypePermission($permissionName, $contenttype) {
         // Here's how it works:
         // - if a permission is granted through 'contenttype-all', it is effectively granted
