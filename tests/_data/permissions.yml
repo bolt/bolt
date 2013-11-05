@@ -18,6 +18,9 @@ roles:
     chief-editor:
         description: This user can edit anything
         label: Chief Editor
+    page-editor:
+        description: A specialized editor who can only edit Pages
+        label: Page Editor
     admin:
         description: User-level administrator.
         label: Administrator
@@ -118,3 +121,11 @@ contenttype-default:
     view: [ anonymous ]
 
 contenttypes:
+  pages:
+    edit: [ editor, page-editor ]
+    create: [ editor, page-editor ]
+    change-ownership: [ owner ]
+  entries:
+  kitchensinks:
+    publish: [ admin ]
+    change-ownership: [ ]
