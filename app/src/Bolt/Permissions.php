@@ -26,6 +26,8 @@ class Permissions {
 
     public function getRole($roleName) {
         switch ($roleName) {
+            case self::ROLE_ANONYMOUS:
+                return array('label' => 'Anonymous', 'description' => 'Built-in role, automatically granted at all times, even if no user is logged in', 'builtin' => true);
             case self::ROLE_EVERYONE:
                 return array('label' => 'Everybody', 'description' => 'Built-in role, automatically granted to every registered user', 'builtin' => true);
             case self::ROLE_OWNER:
