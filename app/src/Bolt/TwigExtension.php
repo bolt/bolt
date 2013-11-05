@@ -71,6 +71,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
             new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('slug', array($this, 'slug')),
             new \Twig_SimpleFilter('current', array($this, 'current')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('image', array($this, 'image')),
@@ -197,6 +198,22 @@ class TwigExtension extends \Twig_Extension
         $output = trimText(strip_tags($output), $length);
 
         return $output;
+
+    }
+
+
+    /**
+     * Return the 'sluggified' version of a string.
+     *
+     * @param $str input value
+     * @return string slug
+     */
+    public function slug($str)
+    {
+
+        $slug = makeSlug($str);
+
+        return $slug;
 
     }
 
