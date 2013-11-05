@@ -969,7 +969,6 @@ class Users
                 $contenttype = null;
                 break;
         }
-        error_log("Check $permission ($contenttype)");
 
         return $this->app['permissions']->checkPermission($userRoles, $permission, $contenttype);
     }

@@ -41,6 +41,15 @@ class Permissions {
     }
 
     /**
+     * Write an entry to the permission audit log
+     */
+    private function audit($msg) {
+        // For now, just log the message.
+        // TODO: implement configurable audit logging.
+        error_log($msg);
+    }
+
+    /**
      * Gets a list of all the roles that can be assigned to users explicitly.
      * This includes all the custom roles from permissions.yml, plus the
      * special 'root' role, but not the special roles 'anonymous', 'everyone',
@@ -119,20 +128,20 @@ class Permissions {
     public function checkPermission($roleNames, $permissionName, $contenttype = null) {
         $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
-                error_log("Granting '$permissionName' " .
+                $this->audit("Granting '$permissionName' " .
                     ($contenttype ? "for $contenttype " : "") .
                     "to root user");
                 return true;
         }
         foreach ($roleNames as $roleName) {
             if ($this->checkRolePermission($roleName, $permissionName, $contenttype)) {
-                error_log("Granting '$permissionName' " .
+                $this->audit("Granting '$permissionName' " .
                     ($contenttype ? "for $contenttype " : "") .
                     "based on role $roleName");
                 return true;
             }
         }
-        error_log("Not granting '$permissionName' " .
+        $this->audit("Denying '$permissionName' " .
             ($contenttype ? "for $contenttype " : "") .
             "; available roles: " . implode(', ', $roleNames));
         return false;
