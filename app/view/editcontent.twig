@@ -72,7 +72,7 @@
         </label>
 
         <label><b><span class='left'>{{ __('Owner:') }}</span></b>
-        {% if isallowed("contenttype:" + contenttype.slug + ":change-owner:" + content.id) %}
+        {% if isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}
         <select name="ownerid">
             {% for user in users %}
                 <option value="{{ user.id }}" {% if user.id == contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>

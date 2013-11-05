@@ -18,4 +18,4 @@ modules:
             dsn: 'sqlite:app/database/bolt.db'
             user: ''
             password: ''
-            dump: 'tests/bolt.db.dump'
+            dump: 'tests/_data/bolt.db.dump'
