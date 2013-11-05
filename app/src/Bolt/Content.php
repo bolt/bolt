@@ -73,6 +73,20 @@ class Content implements \ArrayAccess
 
     }
 
+    public static function getBaseColumns() {
+        return array(
+                'id',
+                'slug',
+                'datecreated',
+                'datechanged',
+                'datepublish',
+                'datedepublish',
+                'ownerid',
+                'username',
+                'status');
+
+    }
+
     public function setValues(Array $values)
     {
 
@@ -168,12 +182,18 @@ class Content implements \ArrayAccess
             $this->id = $value;
         }
 
-        if ($key == 'username') {
+        if ($key === 'username' && !$this->user) {
+            $this->user = $this->app['users']->getUser($value);
+        }
+
+        if ($key === 'ownerid' && !$this->user) {
             $this->user = $this->app['users']->getUser($value);
         }
 
         // Only set values if they have are actually a field.
-        $allowedcolumns = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'taxonomy');
+        $allowedcolumns = self::getBaseColumns();
+        $allowedcolumns[] = 'taxonomy';
+        // array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'taxonomy');
         if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
             return;
         }
@@ -199,9 +219,29 @@ class Content implements \ArrayAccess
 
         $values = cleanPostedData($values);
 
-        // Make sure we set the correct username, if the current user isn't allowed to change it.
-        if (!$this->app['users']->isAllowed('editcontent:all')) {
-            $values['username'] = $this->app['users']->getCurrentUsername();
+        if (!$this->id) {
+            // this is a new record: current user becomes the owner.
+            $user = $this->app['users']->getCurrentUser();
+            $this->ownerid = $user->id;
+        }
+
+        // If the owner is set explicitly, check if the current user is allowed
+        // to do this.
+        if (isset($values['ownerid'])) {
+            if ($this['ownerid'] != $values['ownerid']) {
+                if (!$this->app['users']->isAllowed("contenttype:$contenttype:change-ownership:{$this->id}")) {
+                    throw new \Exception("Changing ownership is not allowed.");
+                }
+                $this['ownerid'] = intval($values['ownerid']);
+            }
+        }
+        // ...and let's also set the username while we're at it.
+        $owner = $this->app['users']->getUser($this['ownerid']);
+        if ($owner) {
+            $this['username'] = $owner['username'];
+        }
+        else {
+            $this['username'] = '?';
         }
 
         // Make sure we have a proper status..

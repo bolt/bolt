@@ -905,6 +905,14 @@ class Users
                 if (empty($permission)) {
                     $permission = 'view';
                 }
+                // Handle special case for owner.
+                if (!empty($id)) {
+                    $content = $this->app['storage']->getContent("$contenttype/$contentid");
+                    if (intval($content['ownerid']) &&
+                        (intval($content['ownerid']) === intval($user['id']))) {
+                        $userRoles[] = Permissions::ROLE_OWNER;
+                    }
+                }
                 break;
             case 'editcontent':
                 // editcontent is handled separately in Backend/editcontent()

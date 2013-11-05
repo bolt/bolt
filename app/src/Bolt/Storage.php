@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
+use Bolt\Content;
 use util;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\EventDispatcher\Event;
@@ -395,6 +396,7 @@ class Storage
             $entry['title'] = $title;
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['username'] = $user['username'];
+            $entry['ownerid'] = $user['id'];
             $entry['contenttype'] = $contenttype;
             $entry['contentid'] = $contentid;
             $entry['mutation_type'] = $action;
@@ -670,11 +672,11 @@ class Storage
 
         }
 
-        // Make sure a username is set.
-        if (empty($fieldvalues['username'])) {
-            $user = $this->app['session']->get('user');
-            $fieldvalues['username'] = $user['username'];
-        }
+        // // Make sure a username is set.
+        // if (empty($fieldvalues['username'])) {
+        //     $user = $this->app['session']->get('user');
+        //     $fieldvalues['username'] = $user['username'];
+        // }
 
         // Clean up fields, check unneeded columns.
         foreach ($fieldvalues as $key => $value) {
@@ -1208,7 +1210,7 @@ class Storage
                     continue; // Skip this one..
                 }
                 if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
-                    !in_array($key, array("id", "slug", "datecreated", "datechanged", "datepublish", "datedepublish", "username", "status"))
+                    !in_array($key, Content::getBaseColumns())
                 ) {
                     continue; // Also skip if 'key' isn't a field in the contenttype.
                 }
@@ -1741,7 +1743,6 @@ class Storage
             'queries' => array(),
             'parameters' => array(),
         );
-
         /*
         echo '<pre>decodeContentQuery before:';
         echo '<strong>'.$textquery.'</strong><br/>';
@@ -1823,7 +1824,7 @@ class Storage
                         $orPart = '( ';
                         for ($i = 0; $i < count($keyParts); $i++) {
                             if (in_array($keyParts[$i], $this->getContentTypeFields($contenttype['slug'])) ||
-                                in_array($keyParts[$i], array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status')) ) {
+                                in_array($keyParts[$i], Content::getBaseColumns()) ) {
                                 $rkey = $tablename . '.' . $keyParts[$i];
                                 $fieldtype = $this->getContentTypeFieldType($contenttype['slug'], $keyParts[$i]);
                                 $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
@@ -1835,7 +1836,7 @@ class Storage
 
                     // for all the parameters that are fields
                     if (in_array($key, $this->getContentTypeFields($contenttype['slug'])) ||
-                        in_array($key, array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status'))
+                        in_array($key, Content::getBaseColumns())
                     ) {
                         $rkey = $tablename . '.' . $key;
                         $fieldtype = $this->getContentTypeFieldType($contenttype['slug'], $key);
@@ -2123,7 +2124,7 @@ class Storage
             return true;
         }
 
-        if (in_array($name, array("id", "slug", "datecreated", "datechanged", "datepublish", "datedepublish", "username", "status"))) {
+        if (in_array($name, Content::getBaseColumns())) {
             return true;
         }
 

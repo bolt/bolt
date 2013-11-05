@@ -72,11 +72,15 @@
         </label>
 
         <label><b><span class='left'>{{ __('Owner:') }}</span></b>
-        <select name="username">
+        {% if isallowed("contenttype:" + contenttype.slug + ":change-owner:" + content.id) %}
+        <select name="ownerid">
             {% for user in users %}
-                <option value="{{ user.username }}" {% if user.username == contentowner %}selected{% endif %}>{{user.displayname}}</option>
+                <option value="{{ user.id }}" {% if user.id == contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
             {% endfor %}
         </select>
+        {% else %}
+        <span>{{ contentowner.displayname }}</span>
+        {% endif %}
         </label>
 
         <button type="submit" class="btn btn-primary" id="savebutton" style="margin-right: 8px;">
