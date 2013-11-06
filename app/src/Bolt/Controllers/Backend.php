@@ -682,7 +682,6 @@ class Backend implements ControllerProviderInterface
 
     }
 
-
     /**
      * Perform actions on content.
      */
@@ -695,16 +694,22 @@ class Backend implements ControllerProviderInterface
         $title = $content->getTitle();
 
         // Check if we're allowed to edit this content..
-        if (($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all')) {
+        // if (($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all')) {
+        //     $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+        //     return redirect('dashboard');
+        // }
+        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
-
             return redirect('dashboard');
         }
 
         switch ($action) {
-
             case "held":
-                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'held')) {
+                $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], 'held');
+                if ($perm && !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
+                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
+                }
+                elseif ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'held')) {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'held'", array('%title%' => $title)));
                 } else {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
@@ -712,15 +717,23 @@ class Backend implements ControllerProviderInterface
                 break;
 
             case "publish":
-                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'published')) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' is published.", array('%title%' => $title)));
+                $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], 'published');
+                if ($perm && !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
+                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
+                }
+                elseif ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'published')) {
+                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been published.", array('%title%' => $title)));
                 } else {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
                 }
                 break;
 
             case "draft":
-                if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'draft')) {
+                $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], 'draft');
+                if ($perm && !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
+                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
+                }
+                elseif ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'draft')) {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'draft'.", array('%title%' => $title)));
                 } else {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
@@ -728,8 +741,10 @@ class Backend implements ControllerProviderInterface
                 break;
 
             case "delete":
-
-                if (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
+                if ($app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
+                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
+                }
+                elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%' => $title)));
                 } else {
                     $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%' => $title)));

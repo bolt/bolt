@@ -272,6 +272,7 @@ class Permissions {
             case 'overview':
                 list ($_, $contenttype) = $parts;
                 if (empty($contenttype)) {
+                    $this->audit("Granting 'overview' globally (hard-coded override)");
                     return true;
                 }
                 else {
@@ -296,9 +297,14 @@ class Permissions {
                 }
                 break;
             case 'editcontent':
+            case 'contentaction':
                 // editcontent is handled separately in Backend/editcontent()
                 // This is because editing content is governed by two separate
                 // permissions per content type, "create" and "edit".
+                // Similarly, contentaction is handled separately in
+                // Backend/contentaction(), because transitions are governed by
+                // a set of separate permissions.
+                $this->audit("Granting '{$parts[0]}' (hard-coded override)");
                 return true;
             default:
                 $permission = $what;
@@ -307,5 +313,35 @@ class Permissions {
         }
 
         return $this->checkPermission($userRoles, $permission, $contenttype);
+    }
+
+    /**
+     * Gets the required permission for transitioning any content item from
+     * one status to another. An empty status value indicates a non-existant
+     * item (create/delete).
+     * @return mixed The name of the required permission suffix (e.g.
+     *               'publish'), or NULL if no permission is required.
+     */
+    public function getContentStatusTransitionPermission($fromStatus, $toStatus) {
+        // No change: no special permission required.
+        if ($fromStatus === $toStatus)
+            return null;
+        switch ($toStatus) {
+            case 'draft':
+            case 'held':
+                if (empty($fromStatus)) {
+                    return null;
+                }
+                elseif (in_array($fromStatus, array('draft', 'held'))) {
+                    return 'edit';
+                }
+                else {
+                    return 'depublish';
+                }
+            case 'published':
+                return 'publish';
+            default:
+                throw new \Exception("Invalid content status transition: $fromStatus -> $toStatus");
+        }
     }
 }
