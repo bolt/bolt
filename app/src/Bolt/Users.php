@@ -881,26 +881,6 @@ class Users
     }
 
     /**
-     * Gets the effective roles for a given user.
-     * The effective roles include the roles that were explicitly assigned,
-     * as well as the built-in automatic roles.
-     * @param mixed $user An array or array-access object that contains a
-     *                    'roles' key; if no user is given, "guest" access is
-     *                    assumed.
-     */
-    public function getEffectiveRolesForUser($user) {
-        if (isset($user['roles']) && is_array($user['roles'])) {
-            $userRoles = $user['roles'];
-            $userRoles[] = Permissions::ROLE_EVERYONE;
-        }
-        else {
-            $userRoles = array();
-        }
-        $userRoles[] = Permissions::ROLE_ANONYMOUS;
-        return $userRoles;
-    }
-
-    /**
      * Runs a permission check. Permissions are encoded as strings, where
      * the ':' character acts as a separator for dynamic parts and
      * sub-permissions.
@@ -933,44 +913,8 @@ class Users
         if ($user === false) {
             $user = $this->users[$this->currentuser['username']];
         }
-        $userRoles = $this->getEffectiveRolesForUser($user);
 
-        $parts = explode(':', $what);
-        switch ($parts[0]) {
-            case 'overview':
-                list ($_, $contenttype) = $parts;
-                if (empty($contenttype)) {
-                    return true;
-                }
-                else {
-                    $permission = 'view';
-                }
-            case 'contenttype':
-                list($_, $contenttype, $permission, $contentid) = $parts;
-                if (empty($permission)) {
-                    $permission = 'view';
-                }
-                // Handle special case for owner.
-                if (!empty($id)) {
-                    $content = $this->app['storage']->getContent("$contenttype/$contentid");
-                    if (intval($content['ownerid']) &&
-                        (intval($content['ownerid']) === intval($user['id']))) {
-                        $userRoles[] = Permissions::ROLE_OWNER;
-                    }
-                }
-                break;
-            case 'editcontent':
-                // editcontent is handled separately in Backend/editcontent()
-                // This is because editing content is governed by two separate
-                // permissions per content type, "create" and "edit".
-                return true;
-            default:
-                $permission = $what;
-                $contenttype = null;
-                break;
-        }
-
-        return $this->app['permissions']->checkPermission($userRoles, $permission, $contenttype);
+        return $this->app['permissions']->isAllowed($what, $user);
     }
 
     /**

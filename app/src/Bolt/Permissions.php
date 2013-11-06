@@ -213,4 +213,99 @@ class Permissions {
         return $effectiveRoles;
     }
 
+    /**
+     * Gets the effective roles for a given user.
+     * The effective roles include the roles that were explicitly assigned,
+     * as well as the built-in automatic roles.
+     * @param mixed $user An array or array-access object that contains a
+     *                    'roles' key; if no user is given, "guest" access is
+     *                    assumed.
+     * @return array A list of effective role names for this user.
+     */
+    public function getEffectiveRolesForUser($user) {
+        if (isset($user['roles']) && is_array($user['roles'])) {
+            $userRoles = $user['roles'];
+            $userRoles[] = Permissions::ROLE_EVERYONE;
+        }
+        else {
+            $userRoles = array();
+        }
+        $userRoles[] = Permissions::ROLE_ANONYMOUS;
+        return $userRoles;
+    }
+
+    /**
+     * Runs a permission check. Permissions are encoded as strings, where
+     * the ':' character acts as a separator for dynamic parts and
+     * sub-permissions.
+     * Apart from the route-based rules defined in permissions.yml, the
+     * following special cases are available:
+     *
+     * "overview:$contenttype" - view the overview for the content type. Alias
+     *                           for "contenttype:$contenttype:view".
+     * "contenttype:$contenttype",
+     * "contenttype:$contenttype:view",
+     * "contenttype:$contenttype:view:$id" - View any item or a particular item
+     *                                       of the specified content type.
+     * "contenttype:$contenttype:edit",
+     * "contenttype:$contenttype:edit:$id" - Edit any item or a particular item
+     *                                       of the specified content type.
+     * "contenttype:$contenttype:create" - Create a new item of the specified
+     *                                     content type. (It doesn't make sense
+     *                                     to provide this permission on a
+     *                                     per-item basis, for obvious reasons)
+     * "contenttype:$contenttype:change-ownership",
+     * "contenttype:$contenttype:change-ownership:$id" - Change the ownership
+     *                                of the specified content type or item.
+     *
+     * @param string $what The desired permission, as elaborated upon above.
+     * @param mixed $user Optional: the user to check permissions against.
+     * @return bool TRUE if the permission is granted, FALSE if denied.
+     */
+    public function isAllowed($what, $user)
+    {
+        $this->audit("Checking permission '$what' for user '{$user['username']}'");
+        $userRoles = $this->getEffectiveRolesForUser($user);
+
+        $parts = explode(':', $what);
+        switch ($parts[0]) {
+            case 'overview':
+                list ($_, $contenttype) = $parts;
+                if (empty($contenttype)) {
+                    return true;
+                }
+                else {
+                    $permission = 'view';
+                }
+            case 'contenttype':
+                list($_, $contenttype, $permission, $contentid) = $parts;
+                if (empty($permission)) {
+                    $permission = 'view';
+                }
+                // Handle special case for owner.
+                // It's a bit unfortunate that we have to fetch the content
+                // item for this, but since we're in the back-end, we probably
+                // won't see a lot of traffic here, so it's probably
+                // forgivable.
+                if (!empty($id)) {
+                    $content = $this->app['storage']->getContent("$contenttype/$contentid");
+                    if (intval($content['ownerid']) &&
+                        (intval($content['ownerid']) === intval($user['id']))) {
+                        $userRoles[] = Permissions::ROLE_OWNER;
+                    }
+                }
+                break;
+            case 'editcontent':
+                // editcontent is handled separately in Backend/editcontent()
+                // This is because editing content is governed by two separate
+                // permissions per content type, "create" and "edit".
+                return true;
+            default:
+                $permission = $what;
+                $contenttype = null;
+                break;
+        }
+
+        return $this->checkPermission($userRoles, $permission, $contenttype);
+    }
 }
