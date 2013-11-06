@@ -5,6 +5,7 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     "require": {
+        "bolt/krumo": "dev-master",
         "dflydev/markdown": "1.0.*",
         "doctrine/dbal": "~2.4",
         "filp/whoops": "1.*",
@@ -26,8 +27,7 @@
         "symfony/validator": "~2.3",
         "symfony/yaml": "~2.3",
         "twig/twig": ">=1.8,<2.0-dev",
-        "silex/web-profiler": "~1.0",
-        "oodle/krumo": "*"
+        "silex/web-profiler": "~1.0"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",
@@ -38,6 +38,12 @@
         "squizlabs/php_codesniffer": "1.4.6",
         "codeception/codeception": "*"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bolt/krumo"
+        }
+    ],
     "minimum-stability": "beta",
     "config": {
         "preferred-install": "dist"
