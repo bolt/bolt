@@ -450,6 +450,7 @@ class Config
             'listing_template' => 'listing.twig',
             'listing_records' => '5',
             'listing_sort' => 'datepublish DESC',
+            'crypto_rng' => 'mt_rand',
             'wysiwyg' => array(
                 'images' => true,
                 'tables' => false,
