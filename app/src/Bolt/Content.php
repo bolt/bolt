@@ -1005,13 +1005,14 @@ class Content implements \ArrayAccess
     private function getTaxonomyWeights()
     {
         $taxonomies = array();
-
-        foreach ($this->contenttype['taxonomy'] as $key) {
-            if ($this->app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
-                $taxonomies[$key] = $this->app['config']->get('taxonomy/'.$key.'/searchweight', 75);
+        
+        if (isset($this->contenttype['taxonomy'])) {
+            foreach ($this->contenttype['taxonomy'] as $key) {
+                if ($this->app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
+                    $taxonomies[$key] = $this->app['config']->get('taxonomy/'.$key.'/searchweight', 75);
+                }
             }
         }
-
         return $taxonomies;
     }
 
