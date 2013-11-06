@@ -24,7 +24,7 @@
           </a>
         <ul class="dropdown-menu">
             {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
-            {% if isallowed('contenttype:' ~ contenttypeslug) %}
+            {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') %}
             <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
                 <i class="icon-plus"></i> {{ __('New %contenttype%', {'%contenttype%': contenttype.singular_name}) }}
             </a></li>
@@ -35,7 +35,7 @@
     {% else %}
         <div class="btn-group">
         {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
-            {% if isallowed('contenttype:' ~ contenttypeslug) %}
+            {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') %}
             <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
                 <i class="icon-plus"></i> {{ __('New %contenttype%', {'%contenttype%': contenttype.singular_name}) }}
             </a>
