@@ -987,8 +987,8 @@ class Content implements \ArrayAccess
 
             if ($config['type'] == 'slug') {
                 foreach ($config['uses'] as $ptr_field) {
-                    if (isset($fields[$key])) {
-                        $fields[$key] = 100;
+                    if (isset($fields[$ptr_field])) {
+                        $fields[$ptr_field] = 100;
                     }
                 }
             }
