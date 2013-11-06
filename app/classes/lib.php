@@ -1112,7 +1112,7 @@ function updateBrowscap() {
 
     $browser = $bc->getBrowser();
 
-    echo __("Browscap file updated.");
+    echo __("Browscap file updated.") ."\n\n";
 
 }
 
