@@ -82,6 +82,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('first', array($this, 'first')),
             new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('round', array($this, 'round')),
             new \Twig_SimpleFilter('floor', array($this, 'floor')),
             new \Twig_SimpleFilter('ceil', array($this, 'ceil'))
         );
@@ -552,6 +553,18 @@ class TwigExtension extends \Twig_Extension
     public function min($a, $b)
     {
         return min($a, $b);
+    }
+
+
+    /**
+     * return the 'round' of a value..
+     *
+     * @param  float|int $a
+     * @return int
+     */
+    public function round($a)
+    {
+        return round($a);
     }
 
 
