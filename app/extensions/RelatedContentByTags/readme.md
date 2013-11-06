@@ -19,7 +19,7 @@ Default values are defined in `config.yml`. Use these options to override these 
 
 By default, this extensions searches through all available contenttypes. Use `contenttypes` in `options` to filter specific contenttypes:
 
-    {{ relatedcontentbytags(record, { 'contenttypes' : ['kitchensinks', 'snippets', '', ] }) }}
+    {{ relatedcontentbytags(record, { 'contenttypes' : ['kitchensinks', 'snippets', '' ] }) }}
 
 Non-existing contenttypes will be ignored.
 
