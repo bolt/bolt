@@ -75,8 +75,9 @@
 
             {% endfor %}
 
-            {# dump the entire record.. #}
+            {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
             {{ print(record) }}
+            #}
 
             {% include '_recordfooter.twig' with {record: record} %}
 
