@@ -90,6 +90,11 @@ class Extension extends \Bolt\BaseExtension
         // Get all taxonomies that behave like tags and their values from $record.
         $tagsValues     = array();
         $tagsTaxonomies = array();
+
+        // If no taxonomies exist, then no matching items exist
+        if (!isset( $record->contenttype['taxonomy'])) {
+            return array();
+        }
         foreach ( $record->contenttype['taxonomy'] as $key ) {
             if ($app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
                 // only useful if values exist, otherwise just skip this taxonomy
