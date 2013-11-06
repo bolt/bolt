@@ -71,6 +71,21 @@ class Extension extends \Bolt\BaseExtension
         $tablePrefix   = $app['config']->get('general/database/prefix', 'bolt_');
         $taxonomyTable = sprintf('%staxonomy', $tablePrefix);
         $contenttypes  = $app['config']->get('contenttypes');
+        $filter        = isset($options['contenttypes']) ? $options['contenttypes'] : false;
+
+        // if set, filter contenttypes
+        if ($filter) {
+            //\util::var_dump($filter);
+            $filterContenttypes = array();
+            foreach ($filter as $contenttypeName) {
+                if (isset($contenttypes[$contenttypeName])) {
+                    $filterContenttypes[$contenttypeName] = $contenttypes[$contenttypeName];
+                }
+            }
+            if ($filterContenttypes) {
+                $contenttypes = $filterContenttypes;
+            }
+        }
 
         // Get all taxonomies that behave like tags and their values from $record.
         $tagsValues     = array();
