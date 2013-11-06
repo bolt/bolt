@@ -142,7 +142,11 @@ class Permissions {
             }
         }
         $this->audit("Denying '$permissionName' " .
+<<<<<<< HEAD
             ($contenttype ? "for $contenttype" : "") .
+=======
+            ($contenttype ? "for $contenttype " : "") .
+>>>>>>> ac14badd02ccd297e1ad3547e3ae60c2ea77a665
             "; available roles: " . implode(', ', $roleNames));
         return false;
     }

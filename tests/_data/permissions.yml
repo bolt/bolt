@@ -107,12 +107,21 @@ global:
 # contenttype-default; but if the permission is not mentioned, the
 # corresponding entry in contenttype-default applies.
 contenttype-all:
+<<<<<<< HEAD
     edit: [ developer, admin, chief-editor ]
     create: [ developer, admin, chief-editor ]
     publish: [ developer, admin, chief-editor ]
     depublish: [ developer, admin, chief-editor ]
     delete: [ developer, admin ]
     change-ownership: [ developer, admin ]
+=======
+    edit: [ admin, chief-editor ]
+    create: [ admin, chief-editor ]
+    publish: [ admin, chief-editor ]
+    depublish: [ admin, chief-editor ]
+    delete: [ admin ]
+    change-ownership: [ admin ]
+>>>>>>> ac14badd02ccd297e1ad3547e3ae60c2ea77a665
 
 contenttype-default:
     edit: [ editor ]
