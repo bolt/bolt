@@ -17,6 +17,12 @@ Add options for more flexibility:
 
 Default values are defined in `config.yml`. Use these options to override these settings.
 
+By default, this extensions searches through all available contenttypes. Use `contenttypes` in `options` to filter specific contenttypes:
+
+    {{ relatedcontentbytags(record, { 'contenttypes' : ['kitchensinks', 'snippets', '' ] }) }}
+
+Non-existing contenttypes will be ignored.
+
 
 Example
 -------
@@ -34,9 +40,10 @@ Options
 
 See `config.yml` for more information. Options include:
 
-* `limit`      : the maximum number of results returned
-* `pointsTag`  : points per equal tag
-* `pointsType` : points if contenttypes are equal
+* `limit`        : the maximum number of results returned
+* `pointsTag`    : points per equal tag
+* `pointsType`   : points if contenttypes are equal
+* `contenttypes` : an array of contenttypes to search for.
 
 
 Notes

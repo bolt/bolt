@@ -71,10 +71,30 @@ class Extension extends \Bolt\BaseExtension
         $tablePrefix   = $app['config']->get('general/database/prefix', 'bolt_');
         $taxonomyTable = sprintf('%staxonomy', $tablePrefix);
         $contenttypes  = $app['config']->get('contenttypes');
+        $filter        = isset($options['contenttypes']) ? $options['contenttypes'] : false;
+
+        // if set, filter contenttypes
+        if ($filter) {
+            //\util::var_dump($filter);
+            $filterContenttypes = array();
+            foreach ($filter as $contenttypeName) {
+                if (isset($contenttypes[$contenttypeName])) {
+                    $filterContenttypes[$contenttypeName] = $contenttypes[$contenttypeName];
+                }
+            }
+            if ($filterContenttypes) {
+                $contenttypes = $filterContenttypes;
+            }
+        }
 
         // Get all taxonomies that behave like tags and their values from $record.
         $tagsValues     = array();
         $tagsTaxonomies = array();
+
+        // If no taxonomies exist, then no matching items exist
+        if (!isset( $record->contenttype['taxonomy'])) {
+            return array();
+        }
         foreach ( $record->contenttype['taxonomy'] as $key ) {
             if ($app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
                 // only useful if values exist, otherwise just skip this taxonomy
