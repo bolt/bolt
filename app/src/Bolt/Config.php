@@ -396,7 +396,8 @@ class Config
         }
 
         // Check the setting for crypto_rng..
-        $this->checkRNGSetting();
+        // Commented out for now, until we've got the new random number generator. 
+        // $this->checkRNGSetting();
 
     }
 
