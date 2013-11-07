@@ -944,9 +944,11 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Check if a certain action is allowed for the current user.
+     * Check if a certain action is allowed for the current user (and possibly
+     * content item).
      *
-     * @param  string $what Operation
+     * @param string $what Operation
+     * @param mixed $content If specified, a Content item.
      * @return bool   True if allowed
      */
     public function isAllowed($what, $content = null)
