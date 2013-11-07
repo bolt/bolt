@@ -28,16 +28,16 @@ class Frontend
         $app['htmlsnippets'] = true;
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
+        // @see /app/app.php, $app->error()
         if ($app['config']->get('general/maintenance_mode')) {
-
             $user = $app['users']->getCurrentUser();
-            $template = $app['config']->get('general/maintenance_template');
-            $body = $app['twig']->render($template);
-
             if ($user['userlevel'] < 2) {
+                $template = $app['config']->get('general/maintenance_template');
+                $body = $app['twig']->render($template);
                 return new Response($body, 503);
             }
         }
+
     }
 
     public static function homepage(Silex\Application $app)
