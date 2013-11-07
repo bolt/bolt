@@ -646,6 +646,13 @@ class Backend implements ControllerProviderInterface
             $title = sprintf("<strong>%s</strong> » %s", __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])), $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
+            // Check if we're allowed to create content..
+            if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
+                $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to create a new record.'));
+
+                return redirect('dashboard');
+            }
+
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
             $title = sprintf("<strong>%s</strong>", __('New %contenttype%', array('%contenttype%' => $contenttype['singular_name'])));
             $app['log']->add("New content", 1, $content, 'edit');
