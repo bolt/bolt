@@ -340,6 +340,7 @@ class Permissions {
                 else {
                     return 'depublish';
                 }
+            case 'timed':
             case 'published':
                 return 'publish';
             default:

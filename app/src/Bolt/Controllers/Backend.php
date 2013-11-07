@@ -618,7 +618,21 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getContentObject($contenttypeslug);
+
+            // To check whether the status is allowed, we act as if a status
+            // *transition* were requested; newly-created pages, in this
+            // situation, are conceptually in the 'draft' status.
+            if ($id) {
+                $oldStatus = $content['status'];
+            }
+            else {
+                $oldStatus = 'draft';
+            }
             $content->setFromPost($request->request->all(), $contenttype);
+            $newStatus = $content['status'];
+
+            $statusPerm = $app['permissions']->getContentStatusTransitionPermission($oldStatus, $newStatus);
+            $statusOK = $app['users']->isAllowed("contenttype:{$contenttype['slug']}:$statusPerm:$id");
 
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
@@ -627,7 +641,7 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            if ($app['storage']->saveContent($content, $contenttype['slug'])) {
+            if ($statusOK && $app['storage']->saveContent($content, $contenttype['slug'])) {
 
                 if (!empty($id)) {
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
