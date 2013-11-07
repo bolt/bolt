@@ -600,6 +600,22 @@ class Backend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
+            if (!empty($id)) {
+                // Check if we're allowed to edit this content..
+                if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
+                    $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+
+                    return redirect('dashboard');
+                }
+            }
+            else {
+                // Check if we're allowed to create content..
+                if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
+                    $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to create a new record.'));
+
+                    return redirect('dashboard');
+                }
+            }
 
             $content = $app['storage']->getContentObject($contenttypeslug);
             $content->setFromPost($request->request->all(), $contenttype);
@@ -622,11 +638,11 @@ class Backend implements ControllerProviderInterface
 
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
-            } else {
+            }
+            else {
                 $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
-
         }
 
         if (!empty($id)) {
@@ -645,7 +661,8 @@ class Backend implements ControllerProviderInterface
 
             $title = sprintf("<strong>%s</strong> » %s", __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])), $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
-        } else {
+        }
+        else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
                 $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to create a new record.'));
