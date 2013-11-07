@@ -1,6 +1,4 @@
-
-{# content is 'editable' if either the user is the owner, or user is admin or higher #}
-{% set editable = (user.username == content.username) or isallowed('editcontent:all') %}
+{% set editable = isallowed('edit', content) %}
 
 <tr {% if content.status!='published' %}class="dim"{% endif %}>
     <td class='id hide-phone'>№ {{content.id}}</td>
@@ -61,19 +59,27 @@
             {% endif %}
             {% if editable %}
                 {% if content.status != "published" %}
+                    {% if isallowed('publish', content) %}
                     <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
                         <i class="icon-star-empty"></i> {{ __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name}) }}</a></li>
+                    {% endif %}
                 {% else %}
+                    {% if isallowed('depublish', content) %}
                     <li><a href="{{ path('contentaction', { 'action': 'held', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
                         <i class="icon-star"></i> {{ __("Change status to 'held'") }}</a></li>
                     <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
                         <i class="icon-pencil"></i> {{ __("Change status to 'draft'") }}</a></li>
+                    {% endif %}
                 {% endif %}
+                {% if isallowed('create', content) %}
                 <li><a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
                     <i class="icon-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                {% endif %}
+                {% if isallowed('delete', content) %}
                 <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token() }) }}"
                        data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
                     <i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                {% endif %}
                 <li class="divider"></li>
             {% endif %}
                 <li><a class="nolink">{{__('Author:') }} <strong><i class="icon-user"></i>

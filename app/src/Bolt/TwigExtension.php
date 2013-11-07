@@ -949,8 +949,11 @@ class TwigExtension extends \Twig_Extension
      * @param  string $what Operation
      * @return bool   True if allowed
      */
-    public function isAllowed($what)
+    public function isAllowed($what, $content = null)
     {
+        if ($content) {
+            $what = "contenttype:{$content->contenttype['slug']}:$what:{$content['id']}";
+        }
         return $this->app['users']->isAllowed($what);
     }
 
