@@ -74,6 +74,10 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('editcontent');
 
+        $ctl->get("/content/deletecontent/{contenttypeslug}/{id}", array($this, 'deletecontent'))
+            ->before(array($this, 'before'))
+            ->bind('deletecontent');
+
         $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
             ->before(array($this, 'before'))
             ->bind('contentaction');
@@ -683,81 +687,64 @@ class Backend implements ControllerProviderInterface
     }
 
     /**
-     * Perform actions on content.
+     * Deletes a content item.
      */
-    public function contentaction(Silex\Application $app, $action, $contenttypeslug, $id)
+    public function deletecontent(Silex\Application $app, $contenttypeslug, $id)
     {
-
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
         $title = $content->getTitle();
 
-        // Check if we're allowed to edit this content..
-        // if (($content['username'] != $app['users']->getCurrentUsername()) && !$app['users']->isAllowed('editcontent:all')) {
-        //     $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
-        //     return redirect('dashboard');
-        // }
-        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
-            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
-            return redirect('dashboard');
+        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
+            $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
         }
-
-        switch ($action) {
-            case "held":
-                $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], 'held');
-                if ($perm && !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
-                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
-                }
-                elseif ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'held')) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'held'", array('%title%' => $title)));
-                } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
-                }
-                break;
-
-            case "publish":
-                $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], 'published');
-                if ($perm && !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
-                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
-                }
-                elseif ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'published')) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been published.", array('%title%' => $title)));
-                } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
-                }
-                break;
-
-            case "draft":
-                $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], 'draft');
-                if ($perm && !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
-                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
-                }
-                elseif ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', 'draft')) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to 'draft'.", array('%title%' => $title)));
-                } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
-                }
-                break;
-
-            case "delete":
-                if ($app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
-                    $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
-                }
-                elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%' => $title)));
-                } else {
-                    $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%' => $title)));
-                }
-                break;
-
-            default:
-                $app['session']->getFlashBag()->set('error', __('No such action for content.'));
-
+        elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
+            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%' => $title)));
+        } else {
+            $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%' => $title)));
         }
 
         return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+    }
 
+    /**
+     * Perform actions on content.
+     */
+    public function contentaction(Silex\Application $app, $action, $contenttypeslug, $id)
+    {
+        $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
+        $title = $content->getTitle();
+
+        // map actions to new statuses
+        $actionStatuses = array(
+            'held' => 'held',
+            'publish' => 'published',
+            'draft' => 'draft',
+        );
+        if (!isset($actionStatuses[$action])) {
+            $app['session']->getFlashBag()->set('error', __('No such action for content.'));
+            return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+        }
+        $newStatus = $actionStatuses[$action];
+        $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], $newStatus);
+
+        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
+            !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+            return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+        }
+
+        if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
+            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to '$newStatus'", array('%title%' => $title)));
+        }
+        else {
+            $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
+        }
+
+        return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
 
     /**

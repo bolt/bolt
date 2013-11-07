@@ -298,12 +298,14 @@ class Permissions {
                 break;
             case 'editcontent':
             case 'contentaction':
+            case 'deletecontent':
                 // editcontent is handled separately in Backend/editcontent()
                 // This is because editing content is governed by two separate
                 // permissions per content type, "create" and "edit".
-                // Similarly, contentaction is handled separately in
-                // Backend/contentaction(), because transitions are governed by
-                // a set of separate permissions.
+                // Similarly, contentaction and deletecontent are handled
+                // separately in Backend/contentaction() and
+                // Backend/deletecontent(), respectively, because transitions
+                // are governed by a set of separate permissions.
                 $this->audit("Granting '{$parts[0]}' (hard-coded override)");
                 return true;
             default:
