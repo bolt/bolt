@@ -26,7 +26,7 @@ on our code base [here](https://scrutinizer-ci.com/g/bolt/bolt/inspections).
 Installation
 ------------
 
-Detailed instructions can be found in the [Setup section in the documentation](http://docs.bolt.cm/setup).
+Detailed instructions can be found in the [Installation section in the documentation](http://docs.bolt.cm/installation).
 
 Reporting issues
 ----------------

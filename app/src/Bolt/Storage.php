@@ -929,7 +929,9 @@ class Storage
         // Build actual where
         $where = array();
         $where[] = sprintf('%s.status = "published"', $table);
-        $where[] = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
+        if (!empty($taxonomies)) {
+            $where[] = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
+        }
         $where[] = '( ' . implode(' OR ', $fields_where) . ' )';
         $where = array_merge($where, $filter_where);
 

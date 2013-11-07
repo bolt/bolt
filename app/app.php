@@ -118,6 +118,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 $app->error(function (\Exception $e) use ($app) {
 
+    // If we are in maintenance mode and current user is not logged in, show maintenance notice.
+    // @see /app/src/Bolt/Controllers/Frontend.php, Frontend::before()
+    if ($app['config']->get('general/maintenance_mode')) {
+        $user = $app['users']->getCurrentUser();
+        if ($user['userlevel'] < 2) {
+            $template = $app['config']->get('general/maintenance_template');
+            $body = $app['twig']->render($template);
+            return new Response($body, 503);
+        }
+    }
+
     $paths = getPaths($app['config']);
 
     $twigvars = array();

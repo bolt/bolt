@@ -1036,8 +1036,8 @@ class Content implements \ArrayAccess
 
             if ($config['type'] == 'slug') {
                 foreach ($config['uses'] as $ptr_field) {
-                    if (isset($fields[$key])) {
-                        $fields[$key] = 100;
+                    if (isset($fields[$ptr_field])) {
+                        $fields[$ptr_field] = 100;
                     }
                 }
             }
@@ -1054,13 +1054,14 @@ class Content implements \ArrayAccess
     private function getTaxonomyWeights()
     {
         $taxonomies = array();
-
-        foreach ($this->contenttype['taxonomy'] as $key) {
-            if ($this->app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
-                $taxonomies[$key] = $this->app['config']->get('taxonomy/'.$key.'/searchweight', 75);
+        
+        if (isset($this->contenttype['taxonomy'])) {
+            foreach ($this->contenttype['taxonomy'] as $key) {
+                if ($this->app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
+                    $taxonomies[$key] = $this->app['config']->get('taxonomy/'.$key.'/searchweight', 75);
+                }
             }
         }
-
         return $taxonomies;
     }
 
