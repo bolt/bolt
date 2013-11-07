@@ -905,16 +905,20 @@ class Users
      *                                of the specified content type or item.
      *
      * @param string $what The desired permission, as elaborated upon above.
-     * @param mixed $user Optional: the user to check permissions against.
      * @return bool TRUE if the permission is granted, FALSE if denied.
      */
-    public function isAllowed($what, $user = false)
+    public function isAllowed($what)
     {
-        if ($user === false) {
-            $user = $this->users[$this->currentuser['username']];
-        }
+        $user = $this->users[$this->currentuser['username']];
 
         return $this->app['permissions']->isAllowed($what, $user);
+    }
+
+    public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $contenttype, $contentid = null)
+    {
+        $user = $this->users[$this->currentuser['username']];
+
+        return $this->app['permissions']->isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid);
     }
 
     /**

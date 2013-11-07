@@ -62,12 +62,11 @@
             {% endif %}</p>
 
         <label><b><span class='left'>{{ __('Status:') }}</span></b>
-        <select name="status">
-            <option value="published" {% if content.status == "published" %}selected{% endif %}>Published</option>
-            <option value="held" {% if content.status == "held" %}selected{% endif %}>Not published</option>
-            <option value="timed" {% if content.status == "timed" %}selected{% endif %}>Timed publish</option>
-            <option value="draft" {% if content.status == "draft" %}selected{% endif %}>Draft</option>
-
+        <select name="status" {% if allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} >
+            {% set status_names = { "published": "Published", "held": "Not published", "timed": "Timed publish", "draft": "Draft" } %}
+            {% for status in allowedStatuses %}
+            <option value="{{status}}" {% if content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
+            {% endfor %}
         </select>
         </label>
 

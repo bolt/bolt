@@ -259,15 +259,30 @@ class Permissions {
      *                                of the specified content type or item.
      *
      * @param string $what The desired permission, as elaborated upon above.
-     * @param mixed $user Optional: the user to check permissions against.
+     * @param mixed $user The user to check permissions against.
+     * @param string $contenttype Optional: Content type slug. If specified,
+     *               $what is taken to be a relative permission (e.g. 'edit')
+     *               rather than an absolute one (e.g. 'contenttype:pages:edit').
+     * @param int $contentid Only used if $contenttype is given, to further
+     *                       specifiy the content item.
      * @return bool TRUE if the permission is granted, FALSE if denied.
      */
-    public function isAllowed($what, $user)
+    public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
         $this->audit("Checking permission '$what' for user '{$user['username']}'");
         $userRoles = $this->getEffectiveRolesForUser($user);
 
-        $parts = explode(':', $what);
+        if ($contenttype) {
+            $parts = array(
+                        'contenttype',
+                        $contenttype,
+                        $what,
+                        $contentid,
+                        );
+        }
+        else {
+            $parts = explode(':', $what);
+        }
         switch ($parts[0]) {
             case 'overview':
                 list ($_, $contenttype) = $parts;
@@ -324,7 +339,8 @@ class Permissions {
      * @return mixed The name of the required permission suffix (e.g.
      *               'publish'), or NULL if no permission is required.
      */
-    public function getContentStatusTransitionPermission($fromStatus, $toStatus) {
+    public function getContentStatusTransitionPermission($fromStatus, $toStatus)
+    {
         // No change: no special permission required.
         if ($fromStatus === $toStatus)
             return null;
@@ -333,9 +349,6 @@ class Permissions {
             case 'held':
                 if (empty($fromStatus)) {
                     return null;
-                }
-                elseif (in_array($fromStatus, array('draft', 'held'))) {
-                    return 'edit';
                 }
                 else {
                     return 'depublish';
@@ -346,5 +359,11 @@ class Permissions {
             default:
                 throw new \Exception("Invalid content status transition: $fromStatus -> $toStatus");
         }
+    }
+
+    public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid = null)
+    {
+        $perm = $this->getContentStatusTransitionPermission($fromStatus, $toStatus);
+        return $this->isAllowed($perm, $user, $contenttype, $contentid);
     }
 }

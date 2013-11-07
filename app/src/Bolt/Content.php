@@ -250,7 +250,12 @@ class Content implements \ArrayAccess
 
         // Make sure we have a proper status..
         if (!in_array($values['status'], array('published', 'timed', 'held', 'draft'))) {
-            $values['status'] = "published";
+            if ($this['status']) {
+                $values['status'] = $this['status'];
+            }
+            else {
+                $values['status'] = "draft";
+            }
         }
 
         // If we set a 'publishdate' in the future, and the status is 'published', set it to 'timed' instead.

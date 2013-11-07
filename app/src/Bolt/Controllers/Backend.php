@@ -617,22 +617,23 @@ class Backend implements ControllerProviderInterface
                 }
             }
 
-            $content = $app['storage']->getContentObject($contenttypeslug);
-
-            // To check whether the status is allowed, we act as if a status
-            // *transition* were requested; newly-created pages, in this
-            // situation, are conceptually in the 'draft' status.
             if ($id) {
+                $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
+                $newStatus = $content['status'];
             }
             else {
-                $oldStatus = 'draft';
+                $content = $app['storage']->getContentObject($contenttypeslug);
+                $oldStatus = '';
             }
+
+
+            // To check whether the status is allowed, we act as if a status
+            // *transition* were requested.
             $content->setFromPost($request->request->all(), $contenttype);
             $newStatus = $content['status'];
 
-            $statusPerm = $app['permissions']->getContentStatusTransitionPermission($oldStatus, $newStatus);
-            $statusOK = $app['users']->isAllowed("contenttype:{$contenttype['slug']}:$statusPerm:$id");
+            $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
 
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
@@ -685,10 +686,19 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
+            $content['status'] = 'draft';
             $title = sprintf("<strong>%s</strong>", __('New %contenttype%', array('%contenttype%' => $contenttype['singular_name'])));
             $app['log']->add("New content", 1, $content, 'edit');
         }
 
+        $oldStatus = $content['status'];
+        $allStatuses = array('published', 'held', 'draft', 'timed');
+        $allowedStatuses = array();
+        foreach ($allStatuses as $status) {
+            if ($app['users']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttype['slug'], $id)) {
+                $allowedStatuses[] = $status;
+            }
+        }
 
         $app['twig']->addGlobal('title', $title);
 
@@ -719,6 +729,7 @@ class Backend implements ControllerProviderInterface
         return $app['twig']->render('editcontent.twig', array(
             'contenttype' => $contenttype,
             'content' => $content,
+            'allowedStatuses' => $allowedStatuses,
             'contentowner' => $contentowner,
         ));
 
@@ -767,10 +778,9 @@ class Backend implements ControllerProviderInterface
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
         $newStatus = $actionStatuses[$action];
-        $perm = $app['permissions']->getContentStatusTransitionPermission($content['status'], $newStatus);
 
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
-            !$app['users']->isAllowed("contenttype:{$contenttype['slug']}:$perm:$id")) {
+            !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
