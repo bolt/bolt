@@ -226,7 +226,7 @@ class Content implements \ArrayAccess
         if (!$this->id) {
             // this is a new record: current user becomes the owner.
             $user = $this->app['users']->getCurrentUser();
-            $this->ownerid = $user->id;
+            $this->ownerid = $user['id'];
         }
 
         // If the owner is set explicitly, check if the current user is allowed
@@ -240,7 +240,7 @@ class Content implements \ArrayAccess
             }
         }
         // ...and let's also set the username while we're at it.
-        $owner = $this->app['users']->getUser($this['ownerid']);
+        $owner = $this->app['users']->getUser($this->ownerid);
         if ($owner) {
             $this['username'] = $owner['username'];
         }
