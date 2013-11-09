@@ -1,7 +1,7 @@
 {% import '_sub_pretty.twig' as pretty %}
 <section>
     <h2>
-    {% if filtered %}
+    {% if filtered is defined %}
         {{ 'Recent modifications' }}
     {% else %}
         {{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}
