@@ -54,7 +54,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     // Register the toolbar item for the Twig toolbar item.
     $app->register(new Bolt\Provider\TwigProfilerServiceProvider());
 
-    $app['twig.loader.filesystem']->addPath(__DIR__ . '/../vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
+    $app['twig.loader.filesystem']->addPath(BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
     $app['twig.loader.filesystem']->addPath(__DIR__ . '/view', 'BoltProfiler');
 
     $app->after(function () use ($app) {
