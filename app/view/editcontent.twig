@@ -24,13 +24,18 @@
         <input type='text' readonly=readonly name='id' value='{{ content.id }}' class="narrow">
         </label>
 
+        {% set can_publish = isallowed('contenttype:' ~ contenttype.slug ~ ':publish:' ~ content.id) %}
+
         <label><b><span class='left'>{{ __('Publication date:') }}</span></b>
         </label>
         <input type="text" name="datepublish-dateformatted" id="datepublish-date"
+               {% if not can_publish %}disabled="disabled"{%endif%}
                value='{{ content.datepublish|date('l, d F Y') }}' class='datepicker'>
         <input type="text" name="datepublish-timeformatted" id="datepublish-time"
+               {% if not can_publish %}disabled="disabled"{%endif%}
                value='{{ content.datepublish|date('H:i') }}' class='timepicker'>
         <input type="hidden" name="datepublish" id="datepublish" value="{{ content.datepublish }}">
+        {% if isallowed('contenttype:' ~ contenttype.slug ~ ':publish:' ~ content.id) %}
         <script>
             $('#datepublish-date, #datepublish-time').on('change', function(){
                 var date = $('#datepublish-date').datepicker("getDate");
@@ -38,14 +43,20 @@
                 $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
             });
         </script>
+        {% endif %}
+
+        {% set can_depublish = isallowed('contenttype:' ~ contenttype.slug ~ ':depublish:' ~ content.id) %}
 
         <label><b><span class='left'>{{ __('Depublication date:') }}</span></b>
         </label>
         <input type="text" name="datedepublish-dateformatted" id="datedepublish-date"
+               {% if not can_depublish %}disabled="disabled"{%endif%}
                value='{% if content.datedepublish > '1970-01-01 01:01:01' %}{{ content.datedepublish|date('l, d F Y') }}{% endif %}' class='datepicker'>
         <input type="text" name="datedepublish-timeformatted" id="datedepublish-time"
+               {% if not can_depublish %}disabled="disabled"{%endif%}
                value='{% if content.datedepublish > '1970-01-01 01:01:01' %}{{ content.datedepublish|date('H:i') }}{% endif %}' class='timepicker'>
         <input type="hidden" name="datedepublish" id="datedepublish" value="{{ content.datedepublish }}">
+        {% if isallowed('contenttype:' ~ contenttype.slug ~ ':depublish:' ~ content.id) %}
         <script>
             $('#datedepublish-date, #datedepublish-time').on('change', function(){
                 var date = $('#datedepublish-date').datepicker("getDate");
@@ -53,6 +64,7 @@
                 $('#datedepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
             });
         </script>
+        {% endif %}
 
         {% if content.datecreated > '1970-01-01 01:01:01' %}
         <p>{{ __('This %contenttype% was created', {'%contenttype%': contenttype.singular_name}) }}
@@ -71,15 +83,11 @@
         </label>
 
         <label><b><span class='left'>{{ __('Owner:') }}</span></b>
-        {% if isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}
-        <select name="ownerid">
+        <select name="ownerid" {% if not isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}disabled="disabled"{% endif %}>
             {% for user in users %}
                 <option value="{{ user.id }}" {% if user.id == contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
             {% endfor %}
         </select>
-        {% else %}
-        <span>{{ contentowner.displayname }}</span>
-        {% endif %}
         </label>
 
         <button type="submit" class="btn btn-primary" id="savebutton" style="margin-right: 8px;">
