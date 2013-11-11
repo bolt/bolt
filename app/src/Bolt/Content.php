@@ -240,7 +240,7 @@ class Content implements \ArrayAccess
             }
         }
         // ...and let's also set the username while we're at it.
-        $owner = $this->app['users']->getUser($this->ownerid);
+        $owner = $this->app['users']->getUser($this['ownerid']);
         if ($owner) {
             $this['username'] = $owner['username'];
         }
