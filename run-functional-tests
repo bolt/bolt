@@ -3,6 +3,7 @@ PHP_NEW_ENOUGH=$(php -r 'echo ((PHP_VERSION_ID < 50400) ? "" : "1\n");')
 CODECEPT=./vendor/codeception/codeception/codecept
 if [ "$PHP_NEW_ENOUGH" ]
     then
+        php app/nut cache:clear
         php -S localhost:8123 -t . index.php &
         SERVER_PID=$!
         ./$CODECEPT build
