@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "bolt/krumo": "dev-master",
-        "dflydev/markdown": "1.0.*",
+        "erusev/parsedown": "dev-master",
         "doctrine/dbal": "~2.4",
         "filp/whoops": "1.*",
         "garetjax/phpbrowscap": "dev-master",

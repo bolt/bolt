@@ -95,6 +95,7 @@ thumbnails:
   cropping: crop
   notfound_image: view/img/default_notfound.png
   error_image: view/img/default_error.png
+  save_files: true
 
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link

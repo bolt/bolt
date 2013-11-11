@@ -12,7 +12,7 @@ class ConfigSet extends BaseCommand
     {
         $this
             ->setName('config:set')
-            ->setDescription('Set a value from config.yml.')
+            ->setDescription('Set a value in config.yml.')
             ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get.')
             ->addArgument('value', InputArgument::REQUIRED, 'The value you wish to set it to.');
     }

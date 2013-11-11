@@ -242,8 +242,7 @@ class TwigExtension extends \Twig_Extension
     public function markdown($content)
     {
         // Parse the field as Markdown, return HTML
-        $markdownParser = new \dflydev\markdown\MarkdownParser();
-        $output = $markdownParser->transformMarkdown($content);
+        $output = \Parsedown::instance()->parse($content);
 
         return $output;
     }

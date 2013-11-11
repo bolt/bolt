@@ -1,7 +1,7 @@
 {% import '_sub_pretty.twig' as pretty %}
 <section>
     <h2>
-    {% if filtered %}
+    {% if filtered is defined and filtered %}
         {{ 'Recent modifications' }}
     {% else %}
         {{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}
@@ -11,7 +11,7 @@
     {% if changelog is defined %}
         {% for index, entry in changelog %}
             <li>
-                {% if filtered %}
+                {% if filtered is defined and filtered %}
                     {% set title = contenttype.singular_name %}
                 {% else %}
                     {% if entry.title %}
