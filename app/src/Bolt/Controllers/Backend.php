@@ -886,10 +886,7 @@ class Backend implements ControllerProviderInterface
 
         // If we're adding the first user, add them as 'developer' by default, so don't
         // show them here..
-        if ($firstuser) {
-            $form->add('roles', 'hidden', array(
-                    'data' => Permissions::ROLE_ROOT));
-        } else {
+        if (!$firstuser) {
             $form->add('enabled', 'choice', array(
                     'choices' => $enabledoptions,
                     'expanded' => false,
@@ -962,6 +959,10 @@ class Backend implements ControllerProviderInterface
             if ($form->isValid()) {
 
                 $user = $form->getData();
+
+                if ($firstuser) {
+                    $user['roles'] = array(Permissions::ROLE_ROOT);
+                }
 
                 $res = $app['users']->saveUser($user);
                 $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
