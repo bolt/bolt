@@ -86,7 +86,6 @@ class Content implements \ArrayAccess
                 'datepublish',
                 'datedepublish',
                 'ownerid',
-                'username',
                 'status');
 
     }
@@ -186,10 +185,6 @@ class Content implements \ArrayAccess
             $this->id = $value;
         }
 
-        if ($key === 'username' && !$this->user) {
-            $this->user = $this->app['users']->getUser($value);
-        }
-
         if ($key === 'ownerid' && !$this->user) {
             $this->user = $this->app['users']->getUser($value);
         }
@@ -197,7 +192,6 @@ class Content implements \ArrayAccess
         // Only set values if they have are actually a field.
         $allowedcolumns = self::getBaseColumns();
         $allowedcolumns[] = 'taxonomy';
-        // array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'taxonomy');
         if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
             return;
         }
@@ -238,14 +232,6 @@ class Content implements \ArrayAccess
                 }
                 $this['ownerid'] = intval($values['ownerid']);
             }
-        }
-        // ...and let's also set the username while we're at it.
-        $owner = $this->app['users']->getUser($this['ownerid']);
-        if ($owner) {
-            $this['username'] = $owner['username'];
-        }
-        else {
-            $this['username'] = '?';
         }
 
         // Make sure we have a proper status..

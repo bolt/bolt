@@ -19,7 +19,7 @@ class Config
     {
         $this->app = $app;
 
-        $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status');
+        $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status');
 
         if (!$this->loadCache()) {
             $this->getConfig();

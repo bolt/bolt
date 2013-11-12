@@ -187,7 +187,10 @@ class Storage
         $content['datepublish'] = date('Y-m-d H:i:s', time() - rand(0, 365 * 24 * 60 * 60));
         $content['datedepublish'] = "1900-01-01 00:00:00";
 
-        $content['username'] = array_rand($this->app['users']->getUsers());
+        $username = array_rand($this->app['users']->getUsers());
+        $user = $this->app['users']->getUser($username);
+
+        $content['ownerid'] = $user['id'];
 
         switch (rand(1, 20)) {
             case 1:
@@ -395,7 +398,6 @@ class Storage
             $user = $this->app['users']->getCurrentUser();
             $entry['title'] = $title;
             $entry['date'] = date('Y-m-d H:i:s');
-            $entry['username'] = $user['username'];
             $entry['ownerid'] = $user['id'];
             $entry['contenttype'] = $contenttype;
             $entry['contentid'] = $contentid;
@@ -671,12 +673,6 @@ class Storage
             }
 
         }
-
-        // // Make sure a username is set.
-        // if (empty($fieldvalues['username'])) {
-        //     $user = $this->app['session']->get('user');
-        //     $fieldvalues['username'] = $user['username'];
-        // }
 
         // Clean up fields, check unneeded columns.
         foreach ($fieldvalues as $key => $value) {

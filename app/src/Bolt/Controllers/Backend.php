@@ -803,11 +803,10 @@ class Backend implements ControllerProviderInterface
 
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
-        $userlevels = $app['users']->getUserLevels();
 
         return $app['twig']->render(
             'users.twig',
-            array('users' => $users, 'userlevels' => $userlevels, 'sessions' => $sessions)
+            array('users' => $users, 'sessions' => $sessions)
         );
 
     }
@@ -843,7 +842,6 @@ class Backend implements ControllerProviderInterface
             $title = "<strong>" . __('Create a new user') . "</strong>";
         }
 
-        $userlevels = $app['users']->getUserLevels();
         $enabledoptions = array(1 => 'yes', 0 => 'no');
         $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
         $allRoles = $app['permissions']->getDefinedRoles($app);
@@ -889,16 +887,10 @@ class Backend implements ControllerProviderInterface
         // If we're adding the first user, add them as 'developer' by default, so don't
         // show them here..
         if ($firstuser) {
-            $form->add('userlevel', 'hidden', array(
-                'data' => \util::array_last_key($userlevels) // last element, highest userlevel..
-            ));
+            $form->add('roles', 'hidden', array(
+                    'data' => Permissions::ROLE_ROOT));
         } else {
-            $form->add('userlevel', 'choice', array(
-                'choices' => $userlevels,
-                'expanded' => false,
-                'constraints' => new Assert\Choice(array_keys($userlevels))
-                ))
-                ->add('enabled', 'choice', array(
+            $form->add('enabled', 'choice', array(
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
@@ -909,12 +901,6 @@ class Backend implements ControllerProviderInterface
                     'expanded' => true,
                     'multiple' => true,
                     'label' => __("Assigned roles"),
-                ))
-                ->add('contenttypes', 'choice', array(
-                    'choices' => $contenttypes,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'label' => __("Allowed contenttypes"),
                 ));
         }
 

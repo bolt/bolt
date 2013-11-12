@@ -89,9 +89,7 @@ class Users
                 'lastseen',
                 'lastip',
                 'displayname',
-                'userlevel',
                 'enabled',
-                'contenttypes',
                 'stack',
                 'roles',
             );
@@ -115,10 +113,6 @@ class Users
 
         if (empty($user['lastseen'])) {
             $user['lastseen'] = "1900-01-01";
-        }
-
-        if (empty($user['userlevel'])) {
-            $user['userlevel'] = key(array_slice($this->getUserLevels(), -1));
         }
 
         if (empty($user['enabled']) && $user['enabled']!== 0) {
@@ -152,12 +146,6 @@ class Users
             $user['roles'] = json_encode(array_values($user['roles']));
         }
 
-
-        // Serialize the contenttypes..
-        if (empty($user['contenttypes'])) {
-            $user['contenttypes'] = array();
-        }
-        $user['contenttypes'] = serialize($user['contenttypes']);
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
@@ -196,26 +184,21 @@ class Users
                 // Update the session with the user from the database.
                 $this->currentuser = array_merge($this->currentuser, $database);
             }
+            else {
+                // User doesn't exist anymore
+                $this->logout();
+                return false;
+            }
+            if (!$this->currentuser['enabled']) {
+                // user has been disabled since logging in
+                $this->logout();
+                return false;
+            }
         } else {
             // no current user, check if we can resume from authtoken cookie, or return without doing the rest.
             $result = $this->loginAuthtoken();
 
             return $result;
-        }
-
-        if (intval($this->currentuser['userlevel']) <= self::ANONYMOUS) {
-            $this->logout();
-
-            return false;
-        }
-
-        // set the rights for each of the contenttypes for this user.
-        foreach ($this->app['config']->get('contenttypes') as $key => $contenttype) {
-            if (in_array($key, $this->currentuser['contenttypes'])) {
-                $this->allowed['contenttype:' . $key] = self::EDITOR;
-            } else {
-                $this->allowed['contenttype:' . $key] = self::ADMIN;
-            }
         }
 
         $key = $this->getAuthtoken($this->currentuser['username']);
@@ -231,7 +214,6 @@ class Users
         // Check if user is _still_ allowed to log on..
         if (!$this->isAllowed('login') || !$this->currentuser['enabled']) {
             $this->logout();
-
             return false;
         }
 
@@ -711,7 +693,6 @@ class Users
             'lastseen' => '',
             'lastip' => '',
             'displayname' => '',
-            'userlevel' => key($this->getUserLevels()),
             'enabled' => '1',
             'shadowpassword' => '',
             'shadowtoken' => '',
@@ -736,10 +717,6 @@ class Users
             $this->users = array();
 
             try {
-
-                // get the available contenttypes.
-                $allcontenttypes = array_keys($this->app['config']->get('contenttypes'));
-
                 $tempusers = $this->db->fetchAll($query);
 
                 foreach ($tempusers as $user) {
@@ -747,43 +724,17 @@ class Users
                     $this->users[$key] = $user;
                     $this->users[$key]['password'] = "**dontchange**";
 
-                    // Older Bolt versions didn't store userlevel as int. Assume they're 'Developer', to prevent lockout.
-                    if (in_array($this->users[$key]['userlevel'], array('administrator', 'developer', 'editor'))) {
-                        $this->users[$key]['userlevel'] = self::DEVELOPER;
-                    }
-
-                    // Make sure contenttypes is an array.
-                    if (!array_key_exists('contenttypes', $this->users[$key])) {
-                        $this->users[$key]['contenttypes'] = "";
-                    }
-                    $this->users[$key]['contenttypes'] = unserialize($this->users[$key]['contenttypes']);
-                    if (!is_array($this->users[$key]['contenttypes'])) {
-                        $this->users[$key]['contenttypes'] = array();
-                    }
-                    // Intersect, to make sure no old/deleted contenttypes show up.
-                    $this->users[$key]['contenttypes'] = array_intersect($this->users[$key]['contenttypes'], $allcontenttypes);
-
-                    // Developers/admins can access all content
-                    if ($this->users[$key]['userlevel'] > self::EDITOR) {
-                        $this->users[$key]['contenttypes'] = $allcontenttypes;
-                    }
-
                     $roles = json_decode($this->users[$key]['roles']);
                     if (!is_array($roles)) {
                         $roles = array();
                     }
+                    // add "everyone" role to, uhm, well, everyone.
                     $roles[] = Permissions::ROLE_EVERYONE;
                     $this->users[$key]['roles'] = $roles;
                 }
             } catch (\Exception $e) {
                 // Nope. No users.
             }
-
-            // Extra special case: if there are no users, allow adding one..
-            if (empty($this->users)) {
-                $this->allowed['useredit'] = self::ANONYMOUS;
-            }
-
         }
 
         return $this->users;
@@ -861,24 +812,6 @@ class Users
 
     }
 
-
-    /**
-     * get an associative array of the current userlevels.
-     *
-     * Should we move this to a 'constants.yml' file?
-     * @return array
-     */
-    public function getUserLevels()
-    {
-        $userlevels = array(
-            self::EDITOR => "Editor",
-            self::ADMIN => "Administrator",
-            self::DEVELOPER => "Developer"
-        );
-
-        return $userlevels;
-
-    }
 
     /**
      * Runs a permission check. Permissions are encoded as strings, where

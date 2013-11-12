@@ -30,8 +30,7 @@ class Frontend
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
         // @see /app/app.php, $app->error()
         if ($app['config']->get('general/maintenance_mode')) {
-            $user = $app['users']->getCurrentUser();
-            if ($user['userlevel'] < 2) {
+            if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['config']->get('general/maintenance_template');
                 $body = $app['twig']->render($template);
                 return new Response($body, 503);

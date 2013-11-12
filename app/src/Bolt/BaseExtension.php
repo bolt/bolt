@@ -306,19 +306,19 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Add a menu-option to the 'settings' menu. Note that the item is only added if the current user
-     * has a sufficient high enough userlevel
+     * Add a menu option to the 'settings' menu. Note that the item is only added if the current user
+     * meets the required permission.
      *
      * @see \Bolt\Extensions\addMenuOption()
      *
      * @param string $label
      * @param string $path
      * @param bool   $icon
-     * @param int    $userlevel
+     * @param string $requiredPermission (NULL if no permission is required)
      */
-    public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
+    public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)
     {
-        $this->menuoptions[$path] = $this->app['extensions']->addMenuOption($label, $path, $icon, $userlevel);
+        $this->menuoptions[$path] = $this->app['extensions']->addMenuOption($label, $path, $icon, $requiredPermission);
     }
 
     /**
@@ -391,24 +391,20 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Check if a user is logged in, and has the proper required userlevel. If
+     * Check if a user is logged in, and has the proper required permission. If
      * not, we redirect the user to the dashboard.
      *
-     * The default level is '2', which is equal to \Bolt\Users::EDITOR
-     *
-     * @param int $level
+     * @param string $permission
      */
-    public function requireUserLevel($level = 2)
+    public function requireUserLevel($permission = 'login')
     {
-
-        if (($this->app['users']->currentuser['userlevel'] < $level)) {
+        if ($this->app['users']->isAllowed($permission)) {
+            return true;
+        }
+        else {
             simpleredirect($this->app['config']->get('general/branding/path'));
-
             return false;
         }
-
-        return true;
-
     }
 
 

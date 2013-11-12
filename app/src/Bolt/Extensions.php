@@ -856,30 +856,25 @@ class Extensions
 
 
     /**
-     * Add a menu-option to the 'settings' menu. Note that the item is only added if the current user
-     * has a sufficient high enough userlevel
+     * Add a menu option to the 'settings' menu. Note that the item is only added if the current user
+     * meets the required permission.
      *
      * @see \Bolt\BaseExtension\addMenuOption()
      *
      * @param string $label
      * @param string $path
      * @param bool $icon
-     * @param int $userlevel
+     * @param string $requiredPermission (NULL if no permission is required)
      */
-    public function addMenuOption($label, $path, $icon = false, $userlevel = 2)
+    public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)
     {
-
-        if ($this->app['users']->currentuser['userlevel'] >= $userlevel) {
-
+        if (empty($requiredPermission) || $this->app['users']->isAllowed($requiredPermission)) {
             $this->menuoptions[$path] = array(
                 'label' => $label,
                 'path' => $path,
-                'icon' => $icon,
-                'userlevel' => $userlevel
+                'icon' => $icon
             );
-
         }
-
     }
 
     /**

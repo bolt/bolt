@@ -337,8 +337,6 @@ class IntegrityChecker
         $usersTable->addColumn("lastseen", "datetime");
         $usersTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
         $usersTable->addColumn("displayname", "string", array("length" => 32));
-        $usersTable->addColumn("userlevel", "string", array("length" => 32));
-        $usersTable->addColumn("contenttypes", "string", array("length" => 256));
         $usersTable->addColumn("stack", "string", array("length" => 1024, "default" => ""));
         $usersTable->addColumn("enabled", "boolean");
         $usersTable->addIndex( array( 'enabled' ) );
@@ -458,7 +456,6 @@ class IntegrityChecker
             $myTable->addIndex( array( 'datepublish' ) );
             $myTable->addColumn("datedepublish", "datetime", array("default" => "1900-01-01 00:00:00"));
             $myTable->addIndex( array( 'datedepublish' ) );
-            $myTable->addColumn("username", "string", array("length" => 32));
             $myTable->addColumn("ownerid", "integer", array("notnull" => false));
             $myTable->addColumn("status", "string", array("length" => 32));
             $myTable->addIndex( array( 'status' ) );

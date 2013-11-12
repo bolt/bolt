@@ -181,9 +181,21 @@ class TwigExtension extends \Twig_Extension
 
         } elseif (is_array($content)) {
             // Assume it's an array, strip some common fields that we don't need, implode the rest..
-            unset($content['id'], $content['slug'], $content['datecreated'], $content['datechanged'],
-            $content['username'], $content['title'], $content['contenttype'], $content['status'], $content['taxonomy']
-            );
+            $stripKeys = array(
+                    'id',
+                    'slug',
+                    'datecreated',
+                    'datechanged',
+                    'username',
+                    'ownerid',
+                    'title',
+                    'contenttype',
+                    'status',
+                    'taxonomy',
+                    );
+            foreach ($stripKeys as $key) {
+                unset($content[$key]);
+            }
             $output = implode(" ", $content);
 
         } elseif (is_string($content)) {
