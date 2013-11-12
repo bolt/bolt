@@ -316,6 +316,7 @@ class IntegrityChecker
         $authtokenTable = $schema->createTable($this->prefix."authtoken");
         $authtokenTable->addColumn("id", "integer", array('autoincrement' => true));
         $authtokenTable->setPrimaryKey(array("id"));
+        // TODO: addColumn("userid"...), phase out referencing users by username
         $authtokenTable->addColumn("username", "string", array("length" => 32));
         $authtokenTable->addIndex( array( 'username' ) );
         $authtokenTable->addColumn("token", "string", array("length" => 128));

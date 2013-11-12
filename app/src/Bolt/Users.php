@@ -909,14 +909,14 @@ class Users
      */
     public function isAllowed($what)
     {
-        $user = $this->users[$this->currentuser['username']];
+        $user = $this->currentuser;
 
         return $this->app['permissions']->isAllowed($what, $user);
     }
 
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $contenttype, $contentid = null)
     {
-        $user = $this->users[$this->currentuser['username']];
+        $user = $this->currentuser;
 
         return $this->app['permissions']->isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid);
     }
