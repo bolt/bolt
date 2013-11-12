@@ -45,8 +45,14 @@ class Permissions {
      */
     private function audit($msg) {
         // For now, just log the message.
-        // TODO: implement configurable audit logging.
-        error_log($msg);
+        switch ($this->app['config']->get('general/debug_permission_audit_mode')) {
+            case 'error-log':
+                error_log($msg);
+                break;
+            default:
+                // ignore; no audit logging
+                break;
+        }
     }
 
     /**
