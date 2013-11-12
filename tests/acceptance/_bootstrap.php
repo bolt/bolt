@@ -83,3 +83,4 @@ if (file_exists('app/config/permissions.yml') && !file_exists('app/config/permis
     rename('app/config/permissions.yml', 'app/config/permissions.yml.codeception-backup');
 }
 copy('tests/_data/permissions.yml', 'app/config/permissions.yml');
+system('php app/nut cache:clear');
