@@ -1542,7 +1542,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
                 //print_r($matches[1]);
                 foreach($matches[1] as $t) {
                     $nstr++;
-                    if (!in_array($t,$strings)) {
+                    if (!in_array($t, $strings) && strlen($t)>1) {
                         $strings[]=$t;
                         sort($strings);
                     }
@@ -1553,7 +1553,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
                 //print_r($matches[1]);
                 foreach($matches[1] as $t) {
                     $nstr++;
-                    if (!in_array($t,$strings)) {
+                    if (!in_array($t,$strings) && strlen($t)>1) {
                         $strings[]=$t;
                         sort($strings);
                     }
@@ -1589,7 +1589,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
                         if ($token[0] == T_CONSTANT_ENCAPSED_STRING ) {
                             $t = substr($token[1],1,strlen($token[1])-2);
                             $nstr++;
-                            if (!in_array($t,$strings)) {
+                            if (!in_array($t,$strings) && strlen($t)>1) {
                                 $strings[]=$t;
                                 sort($strings);
                             }
@@ -1609,7 +1609,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
             } else {
                 $t = ucfirst($fkey);
             }
-            if (!in_array($t,$strings)) {
+            if (!in_array($t,$strings) && strlen($t)>1) {
                 $strings[]=$t;
             }
         }
@@ -1621,7 +1621,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
                 } else {
                     $t = ucfirst($fkey);
                 }
-                if (!in_array($t,$strings)) {
+                if (!in_array($t,$strings) && strlen($t)>1) {
                     $strings[]=$t;
                 }
             }
