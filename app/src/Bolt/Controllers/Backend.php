@@ -173,7 +173,7 @@ class Backend implements ControllerProviderInterface
     public function postLogin(Silex\Application $app, Request $request)
     {
         switch ($request->get('action')) {
-            case 'login':   
+            case 'login':
                 // Log in, if credentials are correct.
                 $result = $app['users']->login($request->get('username'), $request->get('password'));
 
@@ -616,7 +616,7 @@ class Backend implements ControllerProviderInterface
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
             if (empty($content)) {
-                $app->abort(404, __('The %contenttype% your were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
+                $app->abort(404, __('The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
             }
 
             // Check if we're allowed to edit this content..
