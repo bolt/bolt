@@ -71,6 +71,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
             new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('ymllink', array($this, 'ymllink'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('slug', array($this, 'slug')),
             new \Twig_SimpleFilter('current', array($this, 'current')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
@@ -199,6 +200,27 @@ class TwigExtension extends \Twig_Extension
         $output = trimText(strip_tags($output), $length);
 
         return $output;
+
+    }
+
+
+    /**
+     * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
+     * for use in Flashbag messages, to allow easy editing.
+     *
+     * @param string $str
+     * @return string Resulting string
+     */
+    public function ymllink($str)
+    {
+
+        if (preg_match("/([a-z0-9_-]+)\.yml/i", $str, $matches)) {
+            $path = path('fileedit', array('file' => "app/config/" . $matches[0]));
+            $link = sprintf("<a href='%s'>%s</a>", $path, $matches[0]);
+            $str = preg_replace("/([a-z0-9_-]+)\.yml/i", $link, $str);
+        }
+
+        return $str;
 
     }
 
