@@ -214,10 +214,10 @@ class TwigExtension extends \Twig_Extension
     public function ymllink($str)
     {
 
-        if (preg_match("/([a-z0-9_-]+)\.yml/i", $str, $matches)) {
-            $path = path('fileedit', array('file' => "app/config/" . $matches[0]));
-            $link = sprintf("<a href='%s'>%s</a>", $path, $matches[0]);
-            $str = preg_replace("/([a-z0-9_-]+)\.yml/i", $link, $str);
+        if (preg_match("/ ([a-z0-9_-]+\.yml)/i", $str, $matches)) {
+            $path = path('fileedit', array('file' => "app/config/" . $matches[1]));
+            $link = sprintf(" <a href='%s'>%s</a>", $path, $matches[1]);
+            $str = preg_replace("/ ([a-z0-9_-]+\.yml)/i", $link, $str);
         }
 
         return $str;
