@@ -1316,10 +1316,12 @@ class Storage
     /**
      * Retrieve content from the database, filtered on taxonomy.
      */
-    public function getContentByTaxonomy($taxonomyslug, $slug, $parameters = "")
+    public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
 
         $tablename = $this->getTablename("taxonomy");
+
+        $slug = makeSlug($name);
 
         $limit = $parameters['limit'] ? : 100;
         $page = $parameters['page'] ? : 1;
@@ -1331,7 +1333,8 @@ class Storage
             return false;
         }
 
-        $where = " WHERE (taxonomytype=" . $this->app['db']->quote($taxonomytype['slug']) . " AND slug=" . $this->app['db']->quote($slug) . ")";
+        $where = " WHERE (taxonomytype=" . $this->app['db']->quote($taxonomytype['slug']) . "
+        AND (slug=" . $this->app['db']->quote($slug) . " OR name=" . $this->app['db']->quote($name) . ") )";
 
         // Make the query for the pager..
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
@@ -2658,6 +2661,9 @@ class Storage
             // Add the ones not yet present..
             foreach ($newvalues as $value) {
 
+                // Make sure we have a 'slug'.
+                $slug = makeSlug($value);
+
                 // If it's like 'desktop#10', split it into value and sortorder..
                 list($value, $sortorder) = explode('#', $value . "#");
 
@@ -2665,13 +2671,14 @@ class Storage
                     $sortorder = 0;
                 }
 
-                if ((!in_array($value, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($value))) {
+                if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($value))) {
                     // Insert it!
                     $row = array(
                         'content_id' => $content_id,
                         'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
-                        'slug' => $value,
+                        'slug' => $slug,
+                        'name' => $value,
                         'sortorder' => $sortorder
                     );
                     $this->app['db']->insert($tablename, $row);
@@ -2682,15 +2689,19 @@ class Storage
             // Delete the ones that have been removed.
             foreach ($currentvalues as $id => $value) {
 
+                // Make sure newvalues are all 'sluggified'.
+                $newvalues = array_map('makeSlug', $newvalues);
+
                 // Make it look like 'desktop#10'
                 $valuewithorder = $value . "#" . $currentsortorder;
 
-                if (!in_array($value, $newvalues) && !in_array($valuewithorder, $newvalues)) {
+                if (!in_array($slug, $newvalues) && !in_array($valuewithorder, $newvalues)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
 
         }
+
 
     }
 

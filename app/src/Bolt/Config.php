@@ -203,7 +203,7 @@ class Config
                 $options = array();
                 foreach ($config['taxonomy'][$key]['options'] as $optionkey => $value) {
                     if (is_numeric($optionkey)) {
-                        $optionkey = strtolower(safeString($value));
+                        $optionkey = makeSlug($value); // was: strtolower(safeString($value));
                     }
                     $options[$optionkey] = $value;
                 }
