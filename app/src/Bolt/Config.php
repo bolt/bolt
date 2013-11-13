@@ -19,7 +19,7 @@ class Config
     {
         $this->app = $app;
 
-        $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status');
+        $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'link');
 
         if (!$this->loadCache()) {
             $this->getConfig();
@@ -283,18 +283,7 @@ class Config
      */
     public function checkConfig()
     {
-        // Check DB-tables integrity
-        if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
-            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity()) > 0) {
-                $msg = __(
-                    "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                    array("%link%" => path('dbcheck'))
-                );
-                $this->app['session']->getFlashBag()->set('error', $msg);
 
-                return;
-            }
-        }
 
         $slugs = array();
 
@@ -315,6 +304,15 @@ class Config
             //
             foreach ($ct['fields'] as $fieldname => $field) {
 
+                // Verify that the contenttype doesn't try to add fields that are reserved.
+                if ($fieldname != "slug" && in_array($fieldname, $this->reservedfieldnames)) {
+                    $error = __("In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.",
+                        array('%contenttype%' => $key, '%field%' => $fieldname)
+                    );
+                    $this->app['session']->getFlashBag()->set('error', $error);
+                    return;
+                }
+
                 // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
                 // for the fields that are always present, like 'id'.
                 if (is_array($field) && !empty($field['uses'])) {
@@ -324,6 +322,7 @@ class Config
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
                             $this->app['session']->getFlashBag()->set('error', $error);
+                            return;
                         }
                     }
                 }
@@ -373,7 +372,19 @@ class Config
 
         }
 
-        // Sanity checks for taxomy.yml
+        // Check DB-tables integrity
+        if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
+            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity()) > 0) {
+                $msg = __(
+                    "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
+                    array("%link%" => path('dbcheck'))
+                );
+                $this->app['session']->getFlashBag()->set('error', $msg);
+                return;
+            }
+        }
+
+        // Sanity checks for taxonomy.yml
         foreach ($this->data['taxonomy'] as $key => $taxo) {
 
             // Show some helpful warnings if slugs or keys are not set correctly.
@@ -382,6 +393,7 @@ class Config
                     array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
+                return;
             }
 
         }
@@ -394,6 +406,7 @@ class Config
                         array('%slug%' => $slug)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
+                    return;
                 }
             }
         }
