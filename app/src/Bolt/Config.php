@@ -286,7 +286,10 @@ class Config
         // Check DB-tables integrity
         if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
             if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity()) > 0) {
-                $msg = __("The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.");
+                $msg = __(
+                    "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
+                    array("%link%" => path('dbcheck'))
+                );
                 $this->app['session']->getFlashBag()->set('error', $msg);
 
                 return;
@@ -396,7 +399,7 @@ class Config
         }
 
         // Check the setting for crypto_rng..
-        // Commented out for now, until we've got the new random number generator. 
+        // Commented out for now, until we've got the new random number generator.
         // $this->checkRNGSetting();
 
     }

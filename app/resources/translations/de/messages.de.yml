@@ -192,7 +192,7 @@
 "The activitylog has been cleared.": "Die Aktivitätshistorie wurde gelöscht."
 "The activitylog has been trimmed.": "Die Aktivitätshistorie wurde aufgeräumt."
 "The changes to this %contenttype% have been saved.": "Die Änderungen an %contenttype% wurden gespeichert."
-"The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.": "Die Datenbank muss geupdated bzw. repariert werden. Gehe zu 'Einstellungen' > 'Datenbank überprüfen/updaten'"
+"The database needs to be updated / repaired. Go to '<a href=\"%link%\">Settings</a>' > 'Check Database' to do this now.": "Die Datenbank muss geupdated bzw. repariert werden. Gehe zu 'Einstellungen' > '<a href=\"%link%\">Datenbank überprüfen/updaten</a>'"
 "The file '%s' doesn't exist, or is not readable.": "Die Datei '%s' wurde nicht gefunden oder ist nicht beschreibbar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Keine Schreibrechte für '%s'. Änderungen bitte mit einem eigenen Editor der Wahl vornehmen."
 "The new %contenttype% has been saved.": "Neuer %contenttype% wurde gespeichert."

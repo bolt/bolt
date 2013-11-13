@@ -211,7 +211,7 @@
 "The activitylog has been cleared.": "Az aktivitási napló törölve."
 "The activitylog has been trimmed.": "Az aktivitási napló tömörítve."
 "The changes to this %contenttype% have been saved.": "A %contettype% módosításai mentve."
-"The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.": "Az adatbázist frissíteni / javítani kell. Menjen a 'Beállítások' > 'Adatbázis ellenőrzése' menüpontba, hogy ezt megtehesse."
+"The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Az adatbázist frissíteni / javítani kell. Menjen a 'Beállítások' > '<a href=\"%link%\">Adatbázis ellenőrzése</a>' menüpontba, hogy ezt megtehesse."
 "The file '%s' doesn't exist, or is not readable.": "A '%s' fájl nem létezik vagy nem olvasható."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "A '%s' fájl nem írható. Az ön saját szerkesztőjét kell használnia a fájl módosításához."
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "A '%taxonomytype%' azonosítója és slug-ja nem egyezik ('%slug%' vs. '%taxonomytype%'). Szerkessze úgy a taxonomy.yml fájlt, hogy egyezzenek, így megelőzhető az adatbázis és a sablonok közötti inkonzisztencia."
