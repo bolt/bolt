@@ -2695,7 +2695,7 @@ class Storage
                 // Make it look like 'desktop#10'
                 $valuewithorder = $value . "#" . $currentsortorder;
 
-                if (!in_array($slug, $newvalues) && !in_array($valuewithorder, $newvalues)) {
+                if (!in_array($value, $newvalues) && !in_array($valuewithorder, $newvalues)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
