@@ -12,7 +12,7 @@ class Extension extends \Bolt\BaseExtension
 
         $data = array(
             'name' => "MetaTags",
-            'description' => "Sets `<meta>` tags for search engine optimization (SEO) purposes.",
+            'description' => "Sets `meta` tags for search engine optimization (SEO) purposes.",
             'author' => "Xiao-Hu Tai",
             'link' => "http://bolt.cm",
             'version' => "0.1",
@@ -20,7 +20,7 @@ class Extension extends \Bolt\BaseExtension
             'highest_bolt_version' => "1.3",
             'type' => "SEO",
             'first_releasedate' => "2013-11-12",
-            'latest_releasedate' => "2013-11-12",
+            'latest_releasedate' => "2013-11-14",
             'dependancies' => "",
             'priority' => 10
         );
