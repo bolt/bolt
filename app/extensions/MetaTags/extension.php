@@ -6,13 +6,16 @@ class Extension extends \Bolt\BaseExtension
 {
 
     private $title;
+    private $metas;
+    private $record;
+    private $executed = false;
 
     function info()
     {
 
         $data = array(
             'name' => "MetaTags",
-            'description' => "Sets `meta` tags for search engine optimization (SEO) purposes.",
+            'description' => "Sets meta tags for search engine optimization (SEO) purposes.",
             'author' => "Xiao-Hu Tai",
             'link' => "http://bolt.cm",
             'version' => "0.1",
@@ -31,19 +34,54 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize()
     {
-        $this->addTwigFunction('metatitle', 'metatitle');
+        $this->config = isset($this->config) ? $this->config : array();
+        $this->metas  = isset($this->config['meta']) ? $this->config['meta'] : array();
 
-        if( !isset($this->config) ) {
-            $this->config = array();
+        // Run this after controller execution (in order to get the current $record),
+        // but before the snippets are run (so that meta tags are added).
+        $this->addTwigFunction('metatitle', 'metatitle');
+        $this->app->after(array($this, "afterCallback"), 1);
+    }
+
+
+    // Specifically for <meta> tags
+    function afterCallback() 
+    {
+
+        $record = $this->getRecord();
+        $metas  = $this->setMetasFromRecord($record);
+
+    }
+
+    private function getRecord() 
+    {
+
+        if (isset($this->record)) {
+            return $this->record;
         }
 
-        $result = $this->app['storage']->getContent( $this->app['paths']['current'] );
-        $metas  = isset($this->config['meta']) ? $this->config['meta'] : array();
+        $globalTwigVars = $this->app['twig']->getGlobals('record');
 
-        if ($result instanceof \Bolt\Content) {
-            $record = $result;
+        if (isset($globalTwigVars['record'])) {
+            $record = $globalTwigVars['record'];
+        } else {
+            $record = false;
+        }
 
-            foreach ($metas as $name => $fields) {
+        return $record;
+
+    }
+
+    private function setMetasFromRecord($record)
+    {
+        // Only execute once. This may be invoked by {{ metatitle() }} or in the
+        // after callback function.
+        if ($this->executed) {
+            return;
+        }
+
+        if ($record instanceof \Bolt\Content) {
+            foreach ($this->metas as $name => $fields) {
                 $value   = false;
                 $params  = array();
                 $filters = array();
@@ -96,10 +134,15 @@ class Extension extends \Bolt\BaseExtension
                 }
             }
         }
+
+        $this->executed = true;
     }
 
     function metatitle($separator = '', $sitename = '')
     {
+        $record = $this->getRecord();
+        $metas  = $this->setMetasFromRecord($record);
+
         if (!empty($separator) && !empty($sitename)) {
             $separator = " $separator ";
         }
