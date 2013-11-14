@@ -1,5 +1,7 @@
 <?php
 
+use Maid\Maid;
+
 /**
  * Recursively creates chmodded directories. Returns true on success,
  * and false on failure.
@@ -581,14 +583,15 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
 }
 
 /**
- * Make HTML "lawful" using htmLawed.
- * Uses a very conservative set of options that should cover most common
+ * Make HTML "lawful" using htmlmaid.
+ * Uses a conservative set of options that should cover most common
  * XSS attempts.
  */
 function lawText($str) {
-    require_once(BOLT_PROJECT_ROOT_DIR.'/vendor/htmlawed/htmlawed/htmLawed.php');
-    $config = array('tidy'=>0, 'schemes'=>'*:*', 'balance' => '1', 'safe' => 1);
-    return htmLawed($str, $config);
+    $options = array();
+    $options['strip-comments'] = true;
+    $maid = new Maid($options);
+    return $maid->clean($str);
 }
 
 /**
@@ -618,7 +621,6 @@ function decorateTT($str) {
  * @return array With two keys: 'string' (resulting string) and length (string length)
  */
 function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true, $returnString = '', $length = 0){
-    require_once(BOLT_PROJECT_ROOT_DIR.'/vendor/htmlawed/htmlawed/htmLawed.php');
     // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
     // from doing it on the beginning of the string :(
     $lSpaceCount = getLeftWhiteSpaceCount($str);
