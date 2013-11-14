@@ -905,12 +905,20 @@ class Storage
         // make taxonomies work
         $taxonomytable = $this->getTablename('taxonomy');
         $taxonomies    = $this->getContentTypeTaxonomy($contenttype);
+        $tags_where    = array();
+        $tags_query    = '';
         foreach ($taxonomies as $taxonomy) {
             if ($taxonomy['behaves_like'] == 'tags') {
                 foreach ($query['words'] as $word) {
-                    $fields_where[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
+                    $tags_where[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
                 }
             }
+        }
+        // only add taxonomies if they exist
+        if (!empty($taxonomies) && !empty($tags_where)) {
+            $tags_query_1 = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
+            $tags_query_2 = implode(' OR ', $tags_where);
+            $tags_query   = sprintf(' OR (%s AND (%s))', $tags_query_1, $tags_query_2);
         }
 
         // Build filter 'WHERE"
@@ -927,10 +935,7 @@ class Storage
         // Build actual where
         $where = array();
         $where[] = sprintf('%s.status = "published"', $table);
-        if (!empty($taxonomies)) {
-            $where[] = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
-        }
-        $where[] = '( ' . implode(' OR ', $fields_where) . ' )';
+        $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) '.$tags_query. ' )';
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
