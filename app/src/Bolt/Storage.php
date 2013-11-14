@@ -1865,12 +1865,13 @@ class Storage
                         }
 
                         // Set the extra '$where', with subselect for taxonomies..
-                        $where[] = sprintf('%s %s IN (SELECT content_id AS id FROM %s where %s AND %s AND %s)',
+                        $where[] = sprintf('%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
                             $this->app['db']->quoteIdentifier('id'),
                             $notin,
                             $this->getTablename('taxonomy'),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.taxonomytype', $key),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.slug', $value),
+                            $this->parseWhereParameter($this->getTablename('taxonomy') . '.name', $value),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.contenttype', $contenttype['slug'])
                         );
                     }
@@ -2622,6 +2623,7 @@ class Storage
     {
 
         $tablename = $this->getTablename("taxonomy");
+        $configTaxonomies = $this->app['config']->get('taxonomy');
 
         // Make sure $contenttypeslug is a 'slug'
         if (is_array($contenttype)) {
@@ -2639,9 +2641,9 @@ class Storage
 
             // Set 'newvalues to 'empty array' if not defined
             if (!empty($taxonomy[$taxonomytype])) {
-                $newvalues = $taxonomy[$taxonomytype];
+                $newslugs = $taxonomy[$taxonomytype];
             } else {
-                $newvalues = array();
+                $newslugs = array();
             }
 
             // Get the current values from the DB..
@@ -2664,26 +2666,30 @@ class Storage
             }
 
             // Add the ones not yet present..
-            foreach ($newvalues as $value) {
-
-                // Make sure we have a 'slug'.
-                $slug = makeSlug($value);
+            foreach ($newslugs as $slug) {
 
                 // If it's like 'desktop#10', split it into value and sortorder..
-                list($value, $sortorder) = explode('#', $value . "#");
+                list($slug, $sortorder) = explode('#', $slug . "#");
 
                 if (empty($sortorder)) {
                     $sortorder = 0;
                 }
 
-                if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($value))) {
+                // Make sure we have a 'name'.
+                if (isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
+                    $name = $configTaxonomies[$taxonomytype]['options'][$slug];
+                } else {
+                    $name = "";
+                }
+
+                if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
                     // Insert it!
                     $row = array(
                         'content_id' => $content_id,
                         'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
                         'slug' => $slug,
-                        'name' => $value,
+                        'name' => $name,
                         'sortorder' => $sortorder
                     );
                     $this->app['db']->insert($tablename, $row);
@@ -2692,21 +2698,17 @@ class Storage
             }
 
             // Delete the ones that have been removed.
-            foreach ($currentvalues as $id => $value) {
-
-                // Make sure newvalues are all 'sluggified'.
-                $newvalues = array_map('makeSlug', $newvalues);
+            foreach ($currentvalues as $id => $slug) {
 
                 // Make it look like 'desktop#10'
-                $valuewithorder = $value . "#" . $currentsortorder;
+                $valuewithorder = $slug . "#" . $currentsortorder;
 
-                if (!in_array($value, $newvalues) && !in_array($valuewithorder, $newvalues)) {
+                if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
 
         }
-
 
     }
 

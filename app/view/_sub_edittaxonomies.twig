@@ -99,8 +99,8 @@
                 <option value="" disabled>-----------</option>
             {% endif %}
 
-            {% for cat in taxonomy.options %}
-                <option value='{{cat}}' {% if content.taxonomy[taxonomy.slug] is defined and cat in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
+            {% for slug, cat in taxonomy.options %}
+                <option value='{{ slug }}' {% if content.taxonomy[taxonomy.slug] is defined and cat in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
             {% endfor %}
 
             </select>
@@ -116,8 +116,8 @@
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no group)</option>
                 <option value="" disabled>-----------</option>
-            {% for key, group in taxonomy.options %}
-                <option value='{{key}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
+            {% for slug, group in taxonomy.options %}
+                <option value='{{ slug }}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
             {% endfor %}
             </select>
 
