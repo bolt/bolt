@@ -1,0 +1,16 @@
+meta:
+    title:
+        - metatitle
+        - title:
+            filters: [ strip_tags, trim ]
+    description:
+        - metadescription
+        - description
+        - teaser:
+            params: [ 160 ]
+            filters: [ strip_tags, trim ]
+        - excerpt:
+            params: [ 160 ]
+            filters: [ strip_tags, trim ]
+    keywords:
+        - metakeywords
