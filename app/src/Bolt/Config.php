@@ -460,6 +460,7 @@ class Config
             'debug' => false,
             'debug_show_loggedoff' => false,
             'debug_error_level' => 6135, // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
+            'debug_enable_whoops' => true,
             'strict_variables' => false,
             'theme' => "default",
             'debug_compressjs' => true,

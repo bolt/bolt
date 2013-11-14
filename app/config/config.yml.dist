@@ -117,6 +117,7 @@ developer_notices: false
 debug_show_loggedoff: false
 debug_error_level: 6135 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
 #debug_error_level: 30719 # equivalent to E_ALL
+debug_enable_whoops: true # change this to false to use PHP's built-in error handling instead of Whoops
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
