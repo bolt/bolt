@@ -40,11 +40,11 @@ maintaining a default fallback is to wrap an `{% if %}` statement around the
 current contents of `<title>`. Like so in `_header.twig`:
 
     <title>
-        {% if metatitle() is not empty %}
-            {{ metatitle('|', app.config.get('general/sitename')) }}
-        {% else %}
+        {%- if metatitle() is not empty %}
+            {{- metatitle('|', app.config.get('general/sitename')) }}
+        {%- else %}
             {# ... your default title code goes here ... #}
-        {% endif %}
+        {%- endif -%}
     </title>
 
 Two (optional) parameters can be set with `metatitle`, a separator and some text
