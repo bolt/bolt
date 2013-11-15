@@ -1,9 +1,44 @@
 MetaTags
 ========
 
-Sets `<meta>` tags for search engine optimization (SEO) purposes. Use
-`config.yaml` to configure `<meta>` elements that are added on every page. Add
-items under the `meta` item using the following template:
+Sets `<meta>` tags for search engine optimization (SEO) purposes.
+
+ * Getting Started
+ * Configuration
+ * Title
+ * Notes
+
+Getting Started
+---------------
+
+If you're using the default `config.yml`, then you can add the following fields
+to your `contenttypes.yml` if you want to be able to set custom title and
+description:
+
+        metatitle:
+            prefix: "<hr><h3>Search Engine Optimization</h3>"
+            label: Title
+            type: text
+            class: wide
+            variant: inline
+        metadescription:
+            label: Meta Description
+            type: textarea
+            height: 50px
+
+Also, you can add a field `metakeywords` for a meta tag with keywords.
+
+        metatitle:
+            label: Meta Keywords
+            type: text
+            class: wide
+            variant: inline
+
+Configuration
+-------------
+
+Use `config.yaml` to configure `<meta>` elements that are added on every page.
+Add items under the `meta` item using the following template:
 
     meta-tag-name:
         - first-field
@@ -28,7 +63,6 @@ Filters are called as follows:
 
 When using `params` and/or `filters`, make sure you add an colon `:` after the
 field name. Just check the config file `config.yaml` for some examples.
-
 
 Title
 -----
