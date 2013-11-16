@@ -38,7 +38,6 @@ mapping:
       post_author: username
       attachment_url: url
       _wp_attached_file: image
-
       post_content: body
       post_id: id
       post_date: datecreated
@@ -76,7 +75,3 @@ mapping:
       post_name: slug
       status: status
       image: image
-
-
-
-
