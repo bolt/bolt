@@ -1,0 +1,82 @@
+# The name of the XML file to import. Place this file in ImportWXR/files/
+
+#file: files/pages.xml
+file: files/entries_and_comments.xml
+
+import_authors: false # not yet supported.
+
+# If 'author' is set, all records of that contenttype will have that author. If
+# left unset, Bolt will import it, as if it belongs to the original author,
+# regardless of whetthe the author exists.
+
+# If 'post_id' is mapped to 'id', it will preserve the ID's in bolt, so this
+# will overwrite your content, if these ID's are already taken in Bolt. Comment
+# this line out, to add the records, regardless of id.
+
+mapping:
+
+  #wordpress mappings 
+
+  post: # Wordpress entries..
+    targetcontenttype: entries
+    #author: admin
+    fields:
+      post_title: title
+      post_author: username
+      post_content: body
+      post_excerpt: teaser
+      post_id: id
+      post_date: datecreated
+      post_name: slug
+      status: status
+
+  attachment: # Wordpress entries..
+    targetcontenttype: attachments
+    #author: admin
+    fields:
+      post_title: title
+      post_author: username
+      attachment_url: url
+      _wp_attached_file: image
+
+      post_content: body
+      post_id: id
+      post_date: datecreated
+      post_name: slug
+      status: status
+      post_parent: parent
+      post_parent_contenttype: "entries"
+
+  page: # Wordpress pages / PivotX pages..
+    targetcontenttype: schrijvers
+    #author: admin
+    fields:
+      post_title: title
+      post_author: username
+      post_excerpt: body
+      post_id: id
+      post_date: datecreated
+      post_name: slug
+      status: status
+      image: image
+
+
+  # PivotX mappings 
+
+  entry: # pivotX entries..
+    targetcontenttype: weblog
+    #author: admin
+    fields:
+      post_title: title
+      post_author: username
+      post_content: body
+      post_excerpt: introduction
+      post_id: id
+      post_date: datecreated
+      post_name: slug
+      status: status
+      image: image
+
+
+
+
