@@ -35,7 +35,9 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
     error_reporting($app['config']->get('general/debug_error_level'));
 
     // Register Whoops, to handle errors for logged in users only.
-    $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
+    if ($app['config']->get('general/debug_enable_whoops')) {
+        $app->register(new Whoops\Provider\Silex\WhoopsServiceProvider);
+    }
 
     $app->register(new Silex\Provider\ServiceControllerServiceProvider);
 
