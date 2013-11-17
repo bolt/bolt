@@ -7,14 +7,17 @@ import_authors: false # not yet supported.
 
 # If 'author' is set, all records of that contenttype will have that author. If
 # left unset, Bolt will import it, as if it belongs to the original author,
-# regardless of whetthe the author exists.
+# regardless of whether the author exists.
+
+# Make sure your mappings are actually mapping to fields that exist in your
+# contenttypes. If they don't some of the data from the import will be lost.
 
 # If 'post_id' is mapped to 'id', it will preserve the ID's in bolt, so this
 # will overwrite your content, if these ID's are already taken in Bolt. Comment
-# this line out, to add the records, regardless of id.
-
-# Make sure your mappings are actually mapping to fields that exist in your contenttypes. If they don't some of the data from the import will be lost. 
-
+# this line out, to add the records, regardless of id. An added benefit of re-
+# using the id's (end therefore overwriting the records) is that you'll be able
+# to do the import multiple times. Do the import, tweak the settings, import
+# again, repeat until done.
 
 mapping:
 
