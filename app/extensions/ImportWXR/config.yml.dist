@@ -13,6 +13,9 @@ import_authors: false # not yet supported.
 # will overwrite your content, if these ID's are already taken in Bolt. Comment
 # this line out, to add the records, regardless of id.
 
+# Make sure your mappings are actually mapping to fields that exist in your contenttypes. If they don't some of the data from the import will be lost. 
+
+
 mapping:
 
   #wordpress mappings 
