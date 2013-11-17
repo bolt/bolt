@@ -55,7 +55,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('stackitems', array($this, 'stackitems'))
+            new \Twig_SimpleFunction('stackitems', array($this, 'stackitems')),
+            new \Twig_SimpleFunction('stacked', array($this, 'stacked'))
         );
     }
 
@@ -1030,11 +1031,12 @@ class TwigExtension extends \Twig_Extension
     }
 
 
-
     /**
      * Return an array with the items on the stack
      *
-     * @param string type
+     * @param int $amount
+     * @param string $type type
+     * @return
      */
     public function stackitems($amount = 20, $type = "")
     {
@@ -1042,6 +1044,21 @@ class TwigExtension extends \Twig_Extension
         $items = $this->app['stack']->listitems($amount, $type);
 
         return $items;
+
+    }
+
+
+    /**
+     * Return whether or not an item is on the stack
+     *
+     * @param string filename
+     */
+    public function stacked($filename)
+    {
+
+        $stacked = $this->app['stack']->isOnStack($filename);
+
+        return $stacked;
 
     }
 
