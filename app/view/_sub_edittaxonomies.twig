@@ -28,7 +28,7 @@
             {% endif %}
 
             <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" style="width: 70%;" />
-            
+
 
 
             <div class="tagcloud" id="tagcloud-{{taxonomy.slug}}"></div>
@@ -45,7 +45,7 @@
                             results.push( item.slug );
                         });
                         $('#taxonomy-{{taxonomy.slug}}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
-                    }, 
+                    },
                     error: function() {
                         $('#taxonomy-{{taxonomy.slug}}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
                     }
@@ -60,7 +60,7 @@
                     success: function(data) {
                         if (data.length > 0) {
                             $.each(data, function(index, item){
-                                $("#tagcloud-{{taxonomy.slug}}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a> ');
+                                $("#tagcloud-{{taxonomy.slug}}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
                             });
                             $("#tagcloud-{{taxonomy.slug}} a").on('click', function (e) {
                                 e.preventDefault();
@@ -81,7 +81,7 @@
 
             });
             </script>
-            
+
 
         {% endif %}
 
