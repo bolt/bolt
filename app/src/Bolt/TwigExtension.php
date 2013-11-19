@@ -56,7 +56,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('stackitems', array($this, 'stackitems')),
-            new \Twig_SimpleFunction('stacked', array($this, 'stacked'))
+            new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
+            new \Twig_SimpleFunction('imageinfo', array($this, 'imageinfo'))
         );
     }
 
@@ -86,7 +87,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('round', array($this, 'round')),
             new \Twig_SimpleFilter('floor', array($this, 'floor')),
-            new \Twig_SimpleFilter('ceil', array($this, 'ceil'))
+            new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
+            new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo'))
         );
     }
 
@@ -222,6 +224,70 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $str;
+
+    }
+
+
+
+    /**
+     * Get an array with the dimensions of an image, together with its
+     * aspectratio and some other info.
+     *
+     * @param string $filename
+     * @return array Specifics
+     */
+    public function imageinfo($filename)
+    {
+
+        $fullpath = sprintf("%s/%s", $this->app['paths']['filespath'], $filename);
+
+
+
+        if (!is_readable($fullpath)) {
+            return false;
+        }
+
+        $types = array(
+            0=>'unknown',
+            1=>'gif',
+            2=>'jpeg',
+            3=>'png',
+            4=>'swf',
+            5=>'psd',
+            6=>'bmp'
+        );
+
+        // Get the dimensions of the image
+        $imagesize = getimagesize($fullpath);
+
+        // Get the aspectratio
+        if ($imagesize[1] > 0) {
+            $ar = $imagesize[0] / $imagesize[1];
+        } else {
+            $ar = 0;
+        }
+
+        $info = array(
+            'width' => $imagesize[0],
+            'height' => $imagesize[1],
+            'type' => $types[ $imagesize[2] ],
+            'mime' => $imagesize['mime'],
+            'aspectratio' => $ar,
+            'filename' => $filename,
+            'fullpath' => realpath($fullpath),
+            'url' => str_replace("//", "/", $this->app['paths']['files'] . $filename)
+        );
+
+        // Landscape if aspectratio > 5:4
+        $info['landscape'] = ($ar >= 1.25) ? true : false;
+
+        // Portrait if aspectratio < 4:5
+        $info['portrait'] = ($ar <= 0.8) ? true : false;
+
+        // Square-ish, if neither portrait or landscape
+        $info['square'] = !$info['landscape'] && !$info['portrait'];
+
+        return $info;
 
     }
 
