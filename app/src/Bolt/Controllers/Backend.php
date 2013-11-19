@@ -595,6 +595,7 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
+            // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
             if ($app['storage']->saveContent($content, $contenttype['slug'])) {
 
                 if (!empty($id)) {
@@ -604,6 +605,19 @@ class Backend implements ControllerProviderInterface
                 }
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
+                // If 'returnto is set', we return to the edit page, with the correct anchor.
+                if ($app['request']->get('returnto')) {
+
+                    // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
+                    if (empty($id)) {
+                        $id = $app['storage']->getLatestId($contenttype['slug']);
+                    }
+
+                    return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
+
+                }
+
+                // No returnto, so we go back to the 'overview' for this contenttype.
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
             } else {

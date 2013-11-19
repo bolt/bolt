@@ -1,4 +1,5 @@
 {% include '_header.twig' with { 'active':'content' } %}
+{% import '_sub_pretty.twig' as pretty %}
 
 <div class="row-fluid">
     <div class="span9">
@@ -14,7 +15,6 @@
         {% include '_sub_editrelations.twig' %}
 
         {% include '_sub_edittaxonomies.twig' %}
-
 
         <h3>
             {{ __('Meta information') }}
@@ -79,14 +79,26 @@
         </select>
         </label>
 
-        <button type="submit" class="btn btn-primary" id="savebutton" style="margin-right: 8px;">
+
+        <button type="button" class="btn btn-primary" id="savecontinuebutton" style="margin-right: 8px;">
             <i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
         </button>
 
-        <button type="button" class="btn btn-info" id="previewbutton">
-            <i class="icon-external-link"></i> {{ __('Preview %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+        <button type="button" class="btn" id="previewbutton">
+            <i class="icon-external-link"></i> {{ __('Preview') }}
         </button>
 
+        <button type="submit" class="btn " id="savebutton" style="margin-right: 8px;">
+            <i class="icon-flag"></i> {{ __('Save & return to overview') }}
+        </button>
+
+        <p class="lastsaved" style="margin-top: 12px;">
+            {% if content.id != 0 %}
+            {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
+        {% else %}
+            {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
+        {% endif %}
+        </p>
 
     </form>
 
@@ -96,13 +108,25 @@
     <section>
     <h2>{{ __('Actions for this %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</h2>
 
-    <button type="submit" class="btn btn-primary" id="sidebarsavebutton" style="margin-right: 8px;">
+    <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton" style="margin-right: 8px;">
         <i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
     </button>
 
-    <button type="button" class="btn btn-info" id="sidebarpreviewbutton">
+    <button type="button" class="btn" id="sidebarpreviewbutton">
         <i class="icon-external-link"></i> {{ __('Preview') }}
     </button>
+
+    <button type="submit" class="btn " id="sidebarsavebutton" style="margin-right: 8px;">
+        <i class="icon-flag"></i> {{ __('Save & return to overview') }}
+    </button>
+
+    <p class="lastsaved">
+        {% if content.id != 0 %}
+            {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
+        {% else %}
+            {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
+        {% endif %}
+    </p>
 
     <script>
         // Save the page..
@@ -117,6 +141,42 @@
             $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
             $('#editcontent').attr('action', '').attr('target', "_self");
         });
+
+        // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular
+        // post which returns to this page. The latter happens if the record doesn't exist yet, so it doesn't
+        // have an id yet.
+        $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function(e){
+            e.preventDefault();
+
+            var newrecord = {% if content.id != 0 %}false{% else %}true{% endif %};
+
+            // Disable the buttons, to indicate stuff is being done.
+            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+
+            $('p.lastsaved').text('{{ __("Saving…") }}');
+
+            if (newrecord) {
+                // New record.. do a regular post, and expect to be redirected back to this page.
+                var newaction = "?returnto=" + $(this).attr('id');
+                $('#editcontent').attr('action', newaction).submit();
+            } else {
+                // Existing record. Do an 'ajaxy' post to update the record.
+                $.post("", $( "#editcontent" ).serialize() )
+                    .done(function( data ) {
+                        // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': contenttype.singular_name}) }}";
+                        $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>');
+                        $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
+                        $('p.lastsaved').find('time').attr('datetime', moment().format());
+                        $('p.lastsaved').find('time').attr('title', moment().format());
+                        updateMoments();
+
+                        // Disable the buttons, to indicate stuff is being done.
+                        $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                    });
+            }
+
+        });
+
     </script>
 
     </section>
