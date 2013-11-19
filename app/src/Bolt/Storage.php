@@ -583,7 +583,7 @@ class Storage
                "    WHERE log.id $cmp_op ? " .
                "    AND log.contentid = ? " .
                "    AND contenttype = ? " .
-               $ordering . 
+               $ordering .
                "    LIMIT 1";
         $params = array($id, $contentid, $contenttype);
 
@@ -2871,6 +2871,26 @@ class Storage
                 }
 
             }
+        }
+
+    }
+
+
+    public function getLatestId($contenttypeslug) {
+
+        $tablename = $this->getTablename($contenttypeslug);
+
+        // Get the current values from the DB..
+        $query = sprintf(
+            "SELECT id FROM %s ORDER BY `datecreated` DESC LIMIT 1;",
+            $tablename
+        );
+        $id = $this->app['db']->executeQuery($query)->fetch();
+
+        if (!empty($id['id'])) {
+            return $id['id'];
+        } else {
+            return false;
         }
 
     }
