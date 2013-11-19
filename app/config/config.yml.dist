@@ -18,7 +18,7 @@ theme: base-2013
 # The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en_GB'. For available options, see: http://docs.bolt.cm/locales
 locale: en_GB
-#timezone: Zulu
+#timezone: UTC
 
 # Set maintenance mode true or false
 # While in maintenance mode, only users of level editor or higher can access the site.
