@@ -241,9 +241,7 @@ class TwigExtension extends \Twig_Extension
 
         $fullpath = sprintf("%s/%s", $this->app['paths']['filespath'], $filename);
 
-
-
-        if (!is_readable($fullpath)) {
+        if (!is_readable($fullpath) || !is_file($fullpath)) {
             return false;
         }
 
