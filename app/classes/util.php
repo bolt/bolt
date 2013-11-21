@@ -1264,7 +1264,6 @@ if ( ! class_exists( 'util' ) ) {
             if ( strpos( $number, '.' ) !== false ) {
                 list( $number, $decimal ) = explode( '.', $number );
             } else {
-                $number = $number;
                 $decimal = false;
             }
 
