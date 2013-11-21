@@ -321,7 +321,6 @@ class timthumb {
 			header('Expires: ' . gmdate ('D, d M Y H:i:s', time()));
 			echo $imgData;
 			return false;
-			exit(0);
 		}
 		if(preg_match('/^https?:\/\/[^\/]+/i', $this->src)){
 			$this->debug(2, "Is a request for an external URL: " . $this->src);

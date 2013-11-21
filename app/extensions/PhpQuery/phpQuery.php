@@ -4941,7 +4941,6 @@ abstract class phpQuery {
 					continue;
 				if (isset(self::$pluginsStaticMethods[$method])) {
 					throw new Exception("Duplicate method '{$method}' from plugin '{$c}' conflicts with same method from plugin '".self::$pluginsStaticMethods[$method]."'");
-					return;
 				}
 				self::$pluginsStaticMethods[$method] = $class;
 			}

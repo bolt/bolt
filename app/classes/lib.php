@@ -1369,7 +1369,6 @@ function saveSerialize($filename, &$data) {
                 // todo: handle errors better.
                 echo("Error opening file<br/><br/>The file <b>$filename</b> could not be written! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
                 die();
-                return false;
             }
 
         } else {
@@ -1378,8 +1377,6 @@ function saveSerialize($filename, &$data) {
             // todo: handle errors better.
             echo("Error opening file<br/><br/>Could not lock <b>$filename</b> for writing! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
             die();
-            return false;
-
         }
 
     } else {
@@ -1387,7 +1384,6 @@ function saveSerialize($filename, &$data) {
         echo("Error opening file<br/><br/>The file <b>$filename</b> could not be opened for writing! <br /><br />Try logging in with your ftp-client and check to see if it is chmodded to be readable by the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />Current path: ".getcwd()."." );
         debug_printbacktrace();
         die();
-        return false;
     }
     umask($old_umask);
 
