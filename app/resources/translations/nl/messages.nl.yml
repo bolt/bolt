@@ -1,7 +1,7 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2013/11/13 16:08:14
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/11/21 09:11:05
 # no untranslated strings; good ;-)
 
-# 290 translated strings
+# 293 translated strings
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%contenttypes%": "%contenttypes%"
@@ -14,7 +14,7 @@
 "About": "Over"
 "Actions for %contenttypes%": "Handelingen voor %contenttypes%"
 "Actions for Users": "Handelingen voor Gebruikers"
-"Actions for this %contenttype%": "Handelingen voor dit %contenttype%"
+"Actions for this %contenttype%": "Handelingen voor deze %contenttype%"
 "Actions": "Acties"
 "Activity log": "Activiteitenlog"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-small'>Records met Loripsum tekst toe</a>"
@@ -172,7 +172,6 @@
 "Please log on.": "Inloggen, graag"
 "Please provide a username": "Geef een gebruikersnaam op"
 "Prefill database": "Voorvullen van de database"
-"Preview %contenttype%": "%contenttype% voorvertonen"
 "Preview video": "Video voorvertonen"
 "Preview": "Voorvertoning"
 "Provided by:": "Geleverd door:"
@@ -188,7 +187,10 @@
 "Revert changes": "Terugdraaien"
 "Routing setup": "Route instellingen"
 "Save %contenttype%": "Sla %contenttype% op"
+"Save & return to overview": "Sla op & terug naar overzicht"
 "Save": "Opslaan"
+"Saved on:": "Opgeslagen:"
+"Saving…": "Opslaan…"
 "Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>"
 "Search": "Zoeken"
 "Select a page": "Kies een pagina"
@@ -235,6 +237,7 @@
 "There are no users in the database. Please create the first user.": "Er zijn geen gebruikers in de database. Maak nu de eerste gebruiker aan."
 "There was an error saving this %contenttype%.": "Er was een probleem met het oslaan van deze %contenttype%"
 "There was an error when reading this WXR file": "Er was een fout met het inlezen van dit WXR bestand"
+"This %contenttype% has not been saved yet.": "Deze %contenttype% is nog niet opgeslagen."
 "This %contenttype% was created": "Deze %contenttype% is aangemaakt."
 "This displayname is already in use. Choose another displayname.": "Deze schermnaam is al in gebruik. Kies een andere schermnaam."
 "This does not appear to be a WXR file, missing/invalid WXR version number": "Dit lijkt geen goede WXR file te zijn, Missend of ongeldig WXR versienummer"

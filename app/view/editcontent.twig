@@ -161,6 +161,12 @@
                 $('#editcontent').attr('action', newaction).submit();
             } else {
                 // Existing record. Do an 'ajaxy' post to update the record.
+
+                // First, make sure the underlying textareas are updated with the content in the CKEditor fields.
+                for(var instanceName in CKEDITOR.instances) {
+                    CKEDITOR.instances[instanceName].updateElement();
+                }
+
                 $.post("", $( "#editcontent" ).serialize() )
                     .done(function( data ) {
                         // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': contenttype.singular_name}) }}";
