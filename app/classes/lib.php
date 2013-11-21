@@ -583,15 +583,169 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
 }
 
 /**
+ * Convert HTML to plain text, and ellipsify
+ */
+function trimToText($html, $desiredLength = null, $ellipseStr = "...") {
+    $options = array();
+    $options['allowed-tags'] = array(); // remove *all* tags
+    $options['output-format'] = 'text';
+    $maid = new Maid($options);
+    $str = $maid->clean($html);
+    $str = trim($str);
+    $str = preg_replace('/\s+/', ' ', $str);
+    if (strlen($str) <= $desiredLength) {
+        return $str;
+    }
+    else {
+        return substr($str, $desiredLendth - strlen($ellipseStr)) . $ellipseStr;
+    }
+}
+
+function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…') {
+    if ($remainingLength <= 0)
+        return;
+    if ($node === null)
+        return;
+    if (strlen($node->textContent) <= $remainingLength) {
+        $remainingLength -= strlen($node->textContent);
+        $parentNode->appendChild($parentNode->ownerDocument->importNode($node, true));
+        return;
+    }
+    // OK, so we need to descend into this node.
+    // If it's a text node, we can trim the text content directly:
+    if ($node instanceof \DOMCharacterData) {
+        $newNode = $parentNode->ownerDocument->importNode($node, false);
+        $newNode->data = substr($node->data, 0, $remainingLength);
+        if (strlen($node->data) > $remainingLength)
+            $newNode->data .= $ellipseStr;
+        $parentNode->appendChild($newNode);
+        $remainingLength = 0;
+        return;
+    }
+    // It's not a text node, so we'll shallow-clone the current node and then
+    // recurse.
+    $newNode = $parentNode->ownerDocument->importNode($node, false);
+    $parentNode->appendChild($newNode);
+    for ($childNode = $node->firstChild; $childNode; $childNode = $childNode->nextSibling) {
+    // foreach ($node->childNodes as $childNode) {
+        _collectNodesUpToLength($childNode, $newNode, $remainingLength, $ellipseStr);
+        if ($remainingLength <= 0)
+            break;
+    }
+}
+
+function domSpacesToNBSP(\DOMNode $node) {
+    $nbsp = html_entity_decode('&nbsp;');
+    if ($node instanceof \DOMCharacterData) {
+        $node->data = str_replace(' ', $nbsp, $node->data);
+    }
+    if (!empty($node->childNodes)) {
+        foreach ($node->childNodes as $child) {
+            domSpacesToNBSP($child);
+        }
+    }
+}
+
+function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false) {
+    // We'll use htmlmaid to clean up the HTML, but because we also have to
+    // step through the DOM ourselves to perform the trimming.
+
+    // Do not load external entities - this would be a security risk.
+    libxml_disable_entity_loader(true);
+    // Don't crash on invalid HTML, but recover gracefully
+    libxml_use_internal_errors(true);
+    $doc = new \DOMDocument();
+
+    // We need a bit of wrapping here to keep DOMDocument from adding rogue
+    // nodes around our HTML. By doing it explicitly, we keep things under
+    // control.
+    $doc->loadHTML("<html><body><div>$html</div></body></html>");
+    $options = array();
+    if ($stripTags) {
+        $options['allowed-tags'] = array();
+    }
+    else {
+        $options['allowed-tags'] = array('a', 'div', 'p', 'b', 'i', 'hr', 'br', 'strong', 'em');
+    }
+    $options['allowed-attribs'] = array('href', 'src', 'id', 'class', 'style');
+    $maid = new Maid($options);
+    $cleanedNodes = $maid->clean($doc->documentElement->firstChild->firstChild);
+    // To collect the cleaned nodes from a node list into a containing node,
+    // we have to create yet another document, because cloning nodes inside
+    // the same ownerDocument for some reason modifies our node list.
+    // I have no idea why, but it does.
+    $cleanedDoc = new \DOMDocument();
+    $cleanedNode = $cleanedDoc->createElement('div');
+    $length = $cleanedNodes->length;
+    for ($i = 0; $i < $length; ++$i) {
+        $node = $cleanedNodes->item($i);
+        $cnode = $cleanedDoc->importNode($node, true);
+        $cleanedNode->appendChild($cnode);
+    }
+
+    // And now we'll create yet another document (who's keeping count?) to
+    // collect our trimmed nodes.
+    $newDoc = new \DOMDocument();
+    // Again, some wrapping is necessary here...
+    $newDoc->loadHTML('<html><body><div></div></body></html>');
+    $newNode = $newDoc->documentElement->firstChild->firstChild;
+    $length = $desiredLength;
+    _collectNodesUpToLength(
+        $cleanedNode,
+        $newNode,
+        $length,
+        $ellipseStr);
+    // Convert spaces inside text nodes to &nbsp;
+    // This will actually insert the unicode non-breaking space, so we'll have
+    // to massage our output at the HTML byte-string level later.
+    if ($nbsp) {
+        domSpacesToNBSP($newNode->firstChild->firstChild);
+    }
+
+    // This is some terrible shotgun hacking; for some reason, the above code
+    // will sometimes put our desired nodes two levels deep, but in other
+    // cases, it'll descend one less level. The proper solution would be
+    // to sort out why this is, but for now, just detecting which of the
+    // two happened seems to work well enough.
+    if (isset($newNode->firstChild->firstChild->childNodes)) {
+        $nodes = $newNode->firstChild->firstChild->childNodes;
+    }
+    elseif (isset($newNode->firstChild->childNodes)) {
+        $nodes = $newNode->firstChild->childNodes;
+    }
+    else {
+        $nodes = array();
+    }
+
+    // And now we convert our target nodes to HTML.
+    // Because we don't want any of the wrapper nodes to appear in the
+    // output, we'll have to convert them one by one and concatenate the
+    // HTML.
+    $result = '';
+    foreach ($nodes as $node) {
+        $result .= $newDoc->saveHTML($node);
+    }
+    if ($nbsp) {
+        $result = str_replace(html_entity_decode('&nbsp;'), '&nbsp;', $result);
+    }
+    return $result;
+}
+
+/**
  * Make HTML "lawful" using htmlmaid.
  * Uses a conservative set of options that should cover most common
  * XSS attempts.
+ * @param string $html The HTML to clean up.
+ * @param array $allowedTags If set, override the list of allowed tags.
  */
-function lawText($str) {
+function lawHTML($html, $allowedTags = null) {
     $options = array();
     $options['strip-comments'] = true;
+    if (is_array($allowedTags)) {
+        $options['allowed-tags'] = $allowedTags;
+    }
     $maid = new Maid($options);
-    return $maid->clean($str);
+    return $maid->clean($html);
 }
 
 /**
@@ -624,7 +778,7 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
     // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
     // from doing it on the beginning of the string :(
     $lSpaceCount = getLeftWhiteSpaceCount($str);
-    $str = str_repeat(" ", $lSpaceCount) . lawText($str);
+    $str = str_repeat(" ", $lSpaceCount) . lawHTML($str);
 
     // Base case: no html or strip_tags so we treat the content of this clause
     // as a regular string of which we return the result string and length.

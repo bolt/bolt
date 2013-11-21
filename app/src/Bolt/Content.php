@@ -903,14 +903,8 @@ class Content implements \ArrayAccess
             if ($this->fieldtype($field) == 'html') {
                 $value = $this->values[$field];
                 // Completely remove style and script blocks
-                // Remove script tags
-                $value = preg_replace('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/i', '', $value);
-                // Remove style tags
-                $value = preg_replace('/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/i', '', $value);
-                // Strip other tags
-                // How about 'blockquote'?
                 $allowedTags = array('a', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'u', 'strike');
-                $result = strip_tags($value, '<' . implode('><', $allowedTags) . '>');
+                $result = lawHTML($value, $allowedText);
                 if ($excerptLength > 0) {
                     $result = trimText($result, $excerptLength, false, true, false);
                 }
