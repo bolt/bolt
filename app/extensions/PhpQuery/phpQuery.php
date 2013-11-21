@@ -2033,10 +2033,10 @@ class phpQueryObject
 					: array();
 				break;
 			case 'gt':
-				$this->elements = array_slice($this->elements, $args+1);
+				$this->elements = array_slice($this->elements, intval($args)+1);
 				break;
 			case 'lt':
-				$this->elements = array_slice($this->elements, 0, $args+1);
+				$this->elements = array_slice($this->elements, 0, intval($args)+1);
 				break;
 			case 'first':
 				if (isset($this->elements[0]))
