@@ -217,31 +217,51 @@ class Extension extends \Bolt\BaseExtension
 
         $form = $form->getForm();
 
+        // Include the ReCaptcha PHP Library
+        require_once('recaptcha-php-1.11/recaptchalib.php');
+
         if ('POST' == $this->app['request']->getMethod()) {
-            $form->bind($this->app['request']);
+            $isRecaptchaValid = true; // to prevent recpatcha check if not enabled
 
-            if ($form->isValid()) {
+            if($this->config['recaptcha_enabled']){
+                $isRecaptchaValid = false; // by Default
 
-                $res = $this->processForm($formconfig, $form, $formname);
+                $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
+                                    $_SERVER["REMOTE_ADDR"],
+                                    $_POST["recaptcha_challenge_field"],
+                                    $_POST["recaptcha_response_field"]);
 
-                if ($res) {
-                    $message = $formconfig['message_ok'];
-                    $sent = true;
+                $isRecaptchaValid = $resp->is_valid;
+            }
 
-                    // If redirect_on_ok is set, redirect to that page when succesful.
-                    if (!empty($formconfig['redirect_on_ok'])) {
-                        $content = $this->app['storage']->getContent($formconfig['redirect_on_ok']);
-                        simpleredirect($content->link(), false);
+            if($isRecaptchaValid) {
+                $form->bind($this->app['request']);
+
+                if ($form->isValid()) {
+
+                    $res = $this->processForm($formconfig, $form, $formname);
+
+                    if ($res) {
+                        $message = $formconfig['message_ok'];
+                        $sent = true;
+
+                        // If redirect_on_ok is set, redirect to that page when succesful.
+                        if (!empty($formconfig['redirect_on_ok'])) {
+                            $content = $this->app['storage']->getContent($formconfig['redirect_on_ok']);
+                            simpleredirect($content->link(), false);
+                        }
+
+                    } else {
+                        $error = $formconfig['message_technical'];
                     }
 
                 } else {
-                    $error = $formconfig['message_technical'];
+
+                    $error = $formconfig['message_error'];
+
                 }
-
             } else {
-
-                $error = $formconfig['message_error'];
-
+                $error = $this->config['recaptcha_error_message'];
             }
         }
 
@@ -253,6 +273,8 @@ class Extension extends \Bolt\BaseExtension
             "error" => $error,
             "sent" => $sent,
             "formname" => $formname,
+            "recaptcha_html" => ($this->config['recaptcha_enabled'] ? recaptcha_get_html($this->config['recaptcha_public_key']) : ''),
+            "recaptcha_theme" => ($this->config['recaptcha_enabled'] ? $this->config['recaptcha_theme'] : ''),
             "button_text" => $formconfig['button_text']
         ));
 
