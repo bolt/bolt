@@ -254,6 +254,7 @@ class Markdownify_Extra extends Markdownify {
           case 'center':
             $right = ':';
             $left = ':';
+            break;
           case 'right':
             $right = ':';
             break;
