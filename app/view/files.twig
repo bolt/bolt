@@ -70,10 +70,12 @@
 
             <div class="btn-group">
 
-                <a href="#" class="btn btn-mini" data-action="stack.addToStack('{{file.newpath}}');">
+                {% if not stacked(file.newpath) %}
+                <a href="#" class="btn btn-mini" data-action="stack.addToStack('{{file.newpath}}', this);">
                     <i class="icon-paper-clip"></i>
                     {{ __('Place on stack') }}
                 </a>
+                {% endif %}
 
                 <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
                     <i class="icon-info-sign"></i>

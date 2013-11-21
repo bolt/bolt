@@ -183,7 +183,7 @@ class Backend implements ControllerProviderInterface
     public function postLogin(Silex\Application $app, Request $request)
     {
         switch ($request->get('action')) {
-            case 'login':   
+            case 'login':
                 // Log in, if credentials are correct.
                 $result = $app['users']->login($request->get('username'), $request->get('password'));
 
@@ -642,8 +642,8 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
+            // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
             if ($statusOK && $app['storage']->saveContent($content, $contenttype['slug'])) {
-
                 if (!empty($id)) {
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 } else {
@@ -651,6 +651,19 @@ class Backend implements ControllerProviderInterface
                 }
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
+                // If 'returnto is set', we return to the edit page, with the correct anchor.
+                if ($app['request']->get('returnto')) {
+
+                    // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
+                    if (empty($id)) {
+                        $id = $app['storage']->getLatestId($contenttype['slug']);
+                    }
+
+                    return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
+
+                }
+
+                // No returnto, so we go back to the 'overview' for this contenttype.
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
             }
@@ -664,7 +677,7 @@ class Backend implements ControllerProviderInterface
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
             if (empty($content)) {
-                $app->abort(404, __('The %contenttype% your were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
+                $app->abort(404, __('The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
             }
 
             // Check if we're allowed to edit this content..

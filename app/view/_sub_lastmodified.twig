@@ -17,7 +17,7 @@
                     {% if entry.title %}
                         {% set title = pretty.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
                     {% else %}
-                        {% set title = __('%name% #%id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
+                        {% set title = __('%name% № %id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
                     {% endif %}
                     № {{ entry.contentid }}.
                 {% endif %}

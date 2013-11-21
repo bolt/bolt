@@ -590,7 +590,7 @@ var Stack = Backbone.Model.extend({
      *
      * @param string filename
      */
-    addToStack: function(filename) {
+    addToStack: function(filename, element) {
 
         var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
         if (ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif" ) {
@@ -613,6 +613,11 @@ var Stack = Backbone.Model.extend({
                 }
                 if ($("#stackholder div.stackitem.item-8").is('*')) {
                     $("#stackholder div.stackitem.item-8").remove();
+                }
+
+                // If added via a button on the page, disable the button, as visual feedback
+                if (element != null) {
+                    $(element).addClass('disabled');
                 }
 
                 // Insert new item at the front..

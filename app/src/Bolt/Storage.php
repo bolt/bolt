@@ -587,7 +587,7 @@ class Storage
                "    WHERE log.id $cmp_op ? " .
                "    AND log.contentid = ? " .
                "    AND contenttype = ? " .
-               $ordering . 
+               $ordering .
                "    LIMIT 1";
         $params = array($id, $contentid, $contenttype);
 
@@ -903,12 +903,20 @@ class Storage
         // make taxonomies work
         $taxonomytable = $this->getTablename('taxonomy');
         $taxonomies    = $this->getContentTypeTaxonomy($contenttype);
+        $tags_where    = array();
+        $tags_query    = '';
         foreach ($taxonomies as $taxonomy) {
             if ($taxonomy['behaves_like'] == 'tags') {
                 foreach ($query['words'] as $word) {
-                    $fields_where[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
+                    $tags_where[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
                 }
             }
+        }
+        // only add taxonomies if they exist
+        if (!empty($taxonomies) && !empty($tags_where)) {
+            $tags_query_1 = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
+            $tags_query_2 = implode(' OR ', $tags_where);
+            $tags_query   = sprintf(' OR (%s AND (%s))', $tags_query_1, $tags_query_2);
         }
 
         // Build filter 'WHERE"
@@ -925,10 +933,7 @@ class Storage
         // Build actual where
         $where = array();
         $where[] = sprintf('%s.status = "published"', $table);
-        if (!empty($taxonomies)) {
-            $where[] = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
-        }
-        $where[] = '( ' . implode(' OR ', $fields_where) . ' )';
+        $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) '.$tags_query. ' )';
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
@@ -1314,10 +1319,12 @@ class Storage
     /**
      * Retrieve content from the database, filtered on taxonomy.
      */
-    public function getContentByTaxonomy($taxonomyslug, $slug, $parameters = "")
+    public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
 
         $tablename = $this->getTablename("taxonomy");
+
+        $slug = makeSlug($name);
 
         $limit = $parameters['limit'] ? : 100;
         $page = $parameters['page'] ? : 1;
@@ -1329,7 +1336,8 @@ class Storage
             return false;
         }
 
-        $where = " WHERE (taxonomytype=" . $this->app['db']->quote($taxonomytype['slug']) . " AND slug=" . $this->app['db']->quote($slug) . ")";
+        $where = " WHERE (taxonomytype=" . $this->app['db']->quote($taxonomytype['slug']) . "
+        AND (slug=" . $this->app['db']->quote($slug) . " OR name=" . $this->app['db']->quote($name) . ") )";
 
         // Make the query for the pager..
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
@@ -1854,12 +1862,13 @@ class Storage
                         }
 
                         // Set the extra '$where', with subselect for taxonomies..
-                        $where[] = sprintf('%s %s IN (SELECT content_id AS id FROM %s where %s AND %s AND %s)',
+                        $where[] = sprintf('%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
                             $this->app['db']->quoteIdentifier('id'),
                             $notin,
                             $this->getTablename('taxonomy'),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.taxonomytype', $key),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.slug', $value),
+                            $this->parseWhereParameter($this->getTablename('taxonomy') . '.name', $value),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.contenttype', $contenttype['slug'])
                         );
                     }
@@ -2611,6 +2620,7 @@ class Storage
     {
 
         $tablename = $this->getTablename("taxonomy");
+        $configTaxonomies = $this->app['config']->get('taxonomy');
 
         // Make sure $contenttypeslug is a 'slug'
         if (is_array($contenttype)) {
@@ -2628,9 +2638,9 @@ class Storage
 
             // Set 'newvalues to 'empty array' if not defined
             if (!empty($taxonomy[$taxonomytype])) {
-                $newvalues = $taxonomy[$taxonomytype];
+                $newslugs = $taxonomy[$taxonomytype];
             } else {
-                $newvalues = array();
+                $newslugs = array();
             }
 
             // Get the current values from the DB..
@@ -2653,22 +2663,30 @@ class Storage
             }
 
             // Add the ones not yet present..
-            foreach ($newvalues as $value) {
+            foreach ($newslugs as $slug) {
 
                 // If it's like 'desktop#10', split it into value and sortorder..
-                list($value, $sortorder) = explode('#', $value . "#");
+                list($slug, $sortorder) = explode('#', $slug . "#");
 
                 if (empty($sortorder)) {
                     $sortorder = 0;
                 }
 
-                if ((!in_array($value, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($value))) {
+                // Make sure we have a 'name'.
+                if (isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
+                    $name = $configTaxonomies[$taxonomytype]['options'][$slug];
+                } else {
+                    $name = "";
+                }
+
+                if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
                     // Insert it!
                     $row = array(
                         'content_id' => $content_id,
                         'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
-                        'slug' => $value,
+                        'slug' => $slug,
+                        'name' => $name,
                         'sortorder' => $sortorder
                     );
                     $this->app['db']->insert($tablename, $row);
@@ -2677,12 +2695,12 @@ class Storage
             }
 
             // Delete the ones that have been removed.
-            foreach ($currentvalues as $id => $value) {
+            foreach ($currentvalues as $id => $slug) {
 
                 // Make it look like 'desktop#10'
-                $valuewithorder = $value . "#" . $currentsortorder;
+                $valuewithorder = $slug . "#" . $currentsortorder;
 
-                if (!in_array($value, $newvalues) && !in_array($valuewithorder, $newvalues)) {
+                if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
@@ -2850,6 +2868,26 @@ class Storage
                 }
 
             }
+        }
+
+    }
+
+
+    public function getLatestId($contenttypeslug) {
+
+        $tablename = $this->getTablename($contenttypeslug);
+
+        // Get the current values from the DB..
+        $query = sprintf(
+            "SELECT id FROM %s ORDER BY `datecreated` DESC LIMIT 1;",
+            $tablename
+        );
+        $id = $this->app['db']->executeQuery($query)->fetch();
+
+        if (!empty($id['id'])) {
+            return $id['id'];
+        } else {
+            return false;
         }
 
     }

@@ -977,6 +977,11 @@ fieldset.checkbox div {
     width: 70%;
 }
 
+#editcontent div.tagcloud a {
+    margin-right: 6px;
+    display: inline-block;
+}
+
 .ui-sortable-helper {
     border: 1px solid #999;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);

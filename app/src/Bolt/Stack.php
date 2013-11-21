@@ -5,7 +5,8 @@ namespace Bolt;
 use Silex;
 
 /**
- * Simple stack implementation for remebering "6 last items"
+ * Simple stack implementation for remembering "10 last items".
+ * Each user (by design) has their own stack. No sharesies!
  *
  * @author Bob den Otter, bob@twokings.nl
  *
@@ -37,6 +38,12 @@ class Stack
 
     }
 
+    /**
+     * Add a certain item to the stack.
+     *
+     * @param string $filename
+     * @return bool
+     */
     public function add($filename)
     {
 
@@ -51,6 +58,11 @@ class Stack
 
     }
 
+    /**
+     * Delete an item from the stack.
+     *
+     * @param $filename
+     */
     public function delete($filename)
     {
         foreach($this->items as $key => $item) {
@@ -61,6 +73,26 @@ class Stack
         }
     }
 
+    /**
+     * Check if a given filename is present on the stack.
+     *
+     */
+    public function isOnStack($filename)
+    {
+
+        // We don't always need the "files/" part in the filename.
+        $shortname = str_replace("files/", "", $filename);
+
+
+        foreach($this->items as $item) {
+            if ($item == $filename || $item == $shortname) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
 
     /**
      * Return a list with the current stacked items. Add some relevant info to each item,

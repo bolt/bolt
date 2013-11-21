@@ -28,7 +28,7 @@
             {% endif %}
 
             <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" style="width: 70%;" />
-            
+
 
 
             <div class="tagcloud" id="tagcloud-{{taxonomy.slug}}"></div>
@@ -45,7 +45,7 @@
                             results.push( item.slug );
                         });
                         $('#taxonomy-{{taxonomy.slug}}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
-                    }, 
+                    },
                     error: function() {
                         $('#taxonomy-{{taxonomy.slug}}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
                     }
@@ -60,7 +60,7 @@
                     success: function(data) {
                         if (data.length > 0) {
                             $.each(data, function(index, item){
-                                $("#tagcloud-{{taxonomy.slug}}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a> ');
+                                $("#tagcloud-{{taxonomy.slug}}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
                             });
                             $("#tagcloud-{{taxonomy.slug}} a").on('click', function (e) {
                                 e.preventDefault();
@@ -81,7 +81,7 @@
 
             });
             </script>
-            
+
 
         {% endif %}
 
@@ -99,8 +99,8 @@
                 <option value="" disabled>-----------</option>
             {% endif %}
 
-            {% for cat in taxonomy.options %}
-                <option value='{{cat}}' {% if content.taxonomy[taxonomy.slug] is defined and cat in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
+            {% for slug, cat in taxonomy.options %}
+                <option value='{{ slug }}' {% if content.taxonomy[taxonomy.slug] is defined and cat in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{cat}}</option>
             {% endfor %}
 
             </select>
@@ -116,8 +116,8 @@
             <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
                 <option value="">(no group)</option>
                 <option value="" disabled>-----------</option>
-            {% for key, group in taxonomy.options %}
-                <option value='{{key}}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
+            {% for slug, group in taxonomy.options %}
+                <option value='{{ slug }}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
             {% endfor %}
             </select>
 

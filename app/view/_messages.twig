@@ -3,7 +3,7 @@
     <div class="alert alert-info">
         <button class="close" data-dismiss="alert">×</button>
         {% for msg in app.session.flashBag.get('info') %}
-            {{ msg|raw }}
+            {{ msg|ymllink }}
         {% endfor %}
     </div>
 {% endif %}
@@ -12,7 +12,7 @@
     <div class="alert alert-error">
         <button class="close" data-dismiss="alert">×</button>
         {% for msg in app.session.flashBag.get('error') %}
-            {{ msg|raw }}
+            {{ msg|ymllink }}
         {% endfor %}
     </div>
 {% endif %}
@@ -21,7 +21,7 @@
     <div class="alert alert-warning">
         <button class="close" data-dismiss="alert">×</button>
         {% for msg in app.session.flashBag.get('warning') %}
-            {{ msg|raw }}
+            {{ msg|ymllink }}
         {% endfor %}
     </div>
 {% endif %}
@@ -30,7 +30,7 @@
     <div class="alert alert-success">
         <button class="close" data-dismiss="alert">×</button>
         {% for msg in app.session.flashBag.get('success') %}
-            {{ msg|raw }}
+            {{ msg|ymllink }}
         {% endfor %}
     </div>
 {% endif %}

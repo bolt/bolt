@@ -25,10 +25,10 @@
  */
 
 // @see: http://stackoverflow.com/questions/6483912/php-serverredirect-url-vs-serverrequest-uri
-if (!empty($_SERVER['REQUEST_URI'])) {
-    $requesturi = $_SERVER['REQUEST_URI'];
-} else {
+if (!empty($_SERVER['REDIRECT_URL'])) {
     $requesturi = $_SERVER['REDIRECT_URL'];
+} else {
+    $requesturi = $_SERVER['REQUEST_URI'];
 }
 
 $res = preg_match("^thumbs/([0-9]+)x([0-9]+)([a-z]*)/(.*)^i", $requesturi , $matches);

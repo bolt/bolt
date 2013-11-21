@@ -18,7 +18,7 @@ theme: base-2013
 # The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en_GB'. For available options, see: http://docs.bolt.cm/locales
 locale: en_GB
-#timezone: Zulu
+#timezone: UTC
 
 # Set maintenance mode true or false
 # While in maintenance mode, only users of level editor or higher can access the site.
@@ -95,7 +95,7 @@ thumbnails:
   cropping: crop
   notfound_image: view/img/default_notfound.png
   error_image: view/img/default_error.png
-  save_files: true
+  save_files: false
 
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link
@@ -118,6 +118,7 @@ debug_show_loggedoff: false
 debug_permission_audit_mode: false
 debug_error_level: 6135 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
 #debug_error_level: 30719 # equivalent to E_ALL
+debug_enable_whoops: true # change this to false to use PHP's built-in error handling instead of Whoops
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
