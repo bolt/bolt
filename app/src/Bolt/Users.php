@@ -227,6 +227,7 @@ class Users
      * Get a key to identify the session with.
      *
      * @param  string $name
+     * @param string $salt
      * @return string
      */
     private function getAuthtoken($name = "", $salt = "")

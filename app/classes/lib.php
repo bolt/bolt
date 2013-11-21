@@ -82,6 +82,8 @@ function checkToken($token = "")
  * stripslashes when magic quotes are turned on.
  *
  * @param mixed $var
+ * @param bool $stripslashes
+ * @param bool $strip_control_chars
  * @return string
  */
 function cleanPostedData($var, $stripslashes = true, $strip_control_chars = false)
@@ -197,7 +199,6 @@ function checkVersion($currentversion, $requiredversion)
 }
 
 
-
 /**
  * Cleans up/fixes a relative paths.
  *
@@ -205,6 +206,7 @@ function checkVersion($currentversion, $requiredversion)
  * In addition (non-leading) double slashes are removed.
  *
  * @param string $path
+ * @param bool $nodoubleleadingslashes
  * @return string
  */
 function fixPath($path, $nodoubleleadingslashes = true)
@@ -272,7 +274,8 @@ function getMicrotime()
 /**
  * Calculates time that was needed for execution.
  *
- * @param integer $precision§
+ * @param int $precision
+ * @internal param int $precision§
  * @return string
  */
 function timeTaken($precision = 2)
@@ -453,14 +456,13 @@ function getExtension($filename)
 }
 
 
-
-
 /**
  * Returns a "safe" version of the given string - basically only US-ASCII and
  * numbers. Needed because filenames and titles and such, can't use all characters.
  *
  * @param string $str
  * @param boolean $strict
+ * @param string $extrachars
  * @return string
  */
 function safeString($str, $strict = false, $extrachars = "")
@@ -491,7 +493,7 @@ function safeString($str, $strict = false, $extrachars = "")
  * safeString, but using hyphens instead of underscores.
  *
  * @param string $str
- * @param string $type
+ * @internal param string $type
  * @return string
  */
 function makeSlug($str)
@@ -535,6 +537,7 @@ function safeFilename($filename) {
  * @param array $array
  * @param string $key
  * @param string $value
+ * @return array
  */
 function makeValuepairs($array, $key, $value)
 {
@@ -737,6 +740,7 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
  * XSS attempts.
  * @param string $html The HTML to clean up.
  * @param array $allowedTags If set, override the list of allowed tags.
+ * @return mixed
  */
 function lawHTML($html, $allowedTags = null) {
     $options = array();
@@ -894,6 +898,7 @@ function getStringLength($str){
  *
  * @param object $obj
  *
+ * @return array
  */
 function hackislyParseRegexTemplates($obj)
 {

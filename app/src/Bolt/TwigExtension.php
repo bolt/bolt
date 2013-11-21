@@ -1056,7 +1056,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Translate using our __()
      *
-     * @param string $content
+     * @internal param string $content
      *
      * @return string translated content
      */

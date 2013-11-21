@@ -524,6 +524,7 @@ class parseHTML {
  *
  * @param string $html
  * @param string $indent optional
+ * @param bool $noTagsInCode
  * @return string
  */
 function indentHTML($html, $indent = "  ", $noTagsInCode = false) {

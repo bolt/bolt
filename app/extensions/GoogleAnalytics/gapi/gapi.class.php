@@ -72,13 +72,15 @@ class gapi
   {
     return $this->auth_token;
   }
-  
-  /**
-   * Request account data from Google Analytics
-   *
-   * @param Int $start_index OPTIONAL: Start index of results
-   * @param Int $max_results OPTIONAL: Max results returned
-   */
+
+    /**
+     * Request account data from Google Analytics
+     *
+     * @param Int $start_index OPTIONAL: Start index of results
+     * @param Int $max_results OPTIONAL: Max results returned
+     * @throws Exception
+     * @return Array
+     */
   public function requestAccountData($start_index=1, $max_results=20)
   {
     $response = $this->httpRequest(gapi::account_data_url, array('start-index'=>$start_index,'max-results'=>$max_results), null, $this->generateAuthHeader());
@@ -92,24 +94,26 @@ class gapi
       throw new Exception('GAPI: Failed to request account data. Error: "' . strip_tags($response['body']) . '"');
     }
   }
-  
-  /**
-   * Request report data from Google Analytics
-   *
-   * $report_id is the Google report ID for the selected account
-   * 
-   * $parameters should be in key => value format
-   * 
-   * @param String $report_id
-   * @param Array $dimensions Google Analytics dimensions e.g. array('browser')
-   * @param Array $metrics Google Analytics metrics e.g. array('pageviews')
-   * @param Array $sort_metric OPTIONAL: Dimension or dimensions to sort by e.g.('-visits')
-   * @param String $filter OPTIONAL: Filter logic for filtering results
-   * @param String $start_date OPTIONAL: Start of reporting period
-   * @param String $end_date OPTIONAL: End of reporting period
-   * @param Int $start_index OPTIONAL: Start index of results
-   * @param Int $max_results OPTIONAL: Max results returned
-   */
+
+    /**
+     * Request report data from Google Analytics
+     *
+     * $report_id is the Google report ID for the selected account
+     *
+     * $parameters should be in key => value format
+     *
+     * @param String $report_id
+     * @param Array $dimensions Google Analytics dimensions e.g. array('browser')
+     * @param Array $metrics Google Analytics metrics e.g. array('pageviews')
+     * @param Array $sort_metric OPTIONAL: Dimension or dimensions to sort by e.g.('-visits')
+     * @param String $filter OPTIONAL: Filter logic for filtering results
+     * @param String $start_date OPTIONAL: Start of reporting period
+     * @param String $end_date OPTIONAL: End of reporting period
+     * @param Int $start_index OPTIONAL: Start index of results
+     * @param Int $max_results OPTIONAL: Max results returned
+     * @throws Exception
+     * @return Array
+     */
   public function requestReportData($report_id, $dimensions, $metrics, $sort_metric=null, $filter=null, $start_date=null, $end_date=null, $start_index=1, $max_results=30)
   {
     $parameters = array('ids'=>'ga:' . $report_id);
@@ -391,13 +395,14 @@ class gapi
     
     return $results;
   }
-  
-  /**
-   * Authenticate Google Account with Google
-   *
-   * @param String $email
-   * @param String $password
-   */
+
+    /**
+     * Authenticate Google Account with Google
+     *
+     * @param String $email
+     * @param String $password
+     * @throws Exception
+     */
   protected function authenticateUser($email, $password)
   {
     $post_variables = array(
@@ -430,15 +435,18 @@ class gapi
   {
     return array('Authorization: GoogleLogin auth=' . $this->auth_token);
   }
-  
-  /**
-   * Perform http request
-   * 
-   *
-   * @param Array $get_variables
-   * @param Array $post_variables
-   * @param Array $headers
-   */
+
+    /**
+     * Perform http request
+     *
+     *
+     * @param $url
+     * @param Array $get_variables
+     * @param Array $post_variables
+     * @param Array $headers
+     * @throws Exception
+     * @return array
+     */
   protected function httpRequest($url, $get_variables=null, $post_variables=null, $headers=null)
   {
     $interface = gapi::http_interface;
@@ -468,15 +476,17 @@ class gapi
       throw new Exception('Invalid http interface defined. No such interface "' . gapi::http_interface . '"');
     }
   }
-  
-  /**
-   * HTTP request using PHP CURL functions
-   * Requires curl library installed and configured for PHP
-   * 
-   * @param Array $get_variables
-   * @param Array $post_variables
-   * @param Array $headers
-   */
+
+    /**
+     * HTTP request using PHP CURL functions
+     * Requires curl library installed and configured for PHP
+     *
+     * @param $url
+     * @param Array $get_variables
+     * @param Array $post_variables
+     * @param Array $headers
+     * @return array
+     */
   private function curlRequest($url, $get_variables=null, $post_variables=null, $headers=null)
   {
     $ch = curl_init();
@@ -512,15 +522,17 @@ class gapi
     
     return array('body'=>$response,'code'=>$code);
   }
-  
-  /**
-   * HTTP request using native PHP fopen function
-   * Requires PHP openSSL
-   *
-   * @param Array $get_variables
-   * @param Array $post_variables
-   * @param Array $headers
-   */
+
+    /**
+     * HTTP request using native PHP fopen function
+     * Requires PHP openSSL
+     *
+     * @param $url
+     * @param Array $get_variables
+     * @param Array $post_variables
+     * @param Array $headers
+     * @return array
+     */
   private function fopenRequest($url, $get_variables=null, $post_variables=null, $headers=null)
   {
     $http_options = array('method'=>'GET','timeout'=>3);
@@ -620,16 +632,16 @@ class gapi
   {
     return $this->report_aggregate_metrics;
   }
-  
-  /**
-   * Call method to find a matching root parameter or 
-   * aggregate metric to return
-   *
-   * @param $name String name of function called
-   * @return String
-   * @throws Exception if not a valid parameter or aggregate 
-   * metric, or not a 'get' function
-   */
+
+    /**
+     * Call method to find a matching root parameter or
+     * aggregate metric to return
+     *
+     * @param $name String name of function called
+     * @param $parameters
+     * @throws Exception
+     * @return String
+     */
   public function __call($name,$parameters)
   {
     if(!preg_match('/^get/',$name))
@@ -699,14 +711,15 @@ class gapiAccountEntry
   {
     return $this->properties;
   }
-  
-  /**
-   * Call method to find a matching parameter to return
-   *
-   * @param $name String name of function called
-   * @return String
-   * @throws Exception if not a valid parameter, or not a 'get' function
-   */
+
+    /**
+     * Call method to find a matching parameter to return
+     *
+     * @param $name String name of function called
+     * @param $parameters
+     * @throws Exception
+     * @return String
+     */
   public function __call($name,$parameters)
   {
     if(!preg_match('/^get/',$name))
@@ -786,14 +799,15 @@ class gapiReportEntry
   {
     return $this->metrics;
   }
-  
-  /**
-   * Call method to find a matching metric or dimension to return
-   *
-   * @param $name String name of function called
-   * @return String
-   * @throws Exception if not a valid metric or dimensions, or not a 'get' function
-   */
+
+    /**
+     * Call method to find a matching metric or dimension to return
+     *
+     * @param $name String name of function called
+     * @param $parameters
+     * @throws Exception
+     * @return String
+     */
   public function __call($name,$parameters)
   {
     if(!preg_match('/^get/',$name))

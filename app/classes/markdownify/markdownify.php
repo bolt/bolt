@@ -105,17 +105,18 @@ class Markdownify {
    * @var bool
    */
   var $linksAfterEachParagraph = false;
-  /**
-   * constructor, set options, setup parser
-   *
-   * @param bool $linksAfterEachParagraph wether or not to flush stacked links after each paragraph
-   *             defaults to false
-   * @param int $bodyWidth wether or not to wrap the output to the given width
-   *             defaults to false
-   * @param bool $keepHTML wether to keep non markdownable HTML or to discard it
-   *             defaults to true (HTML will be kept)
-   * @return void
-   */
+
+    /**
+     * constructor, set options, setup parser
+     *
+     * @param bool $linksAfterEachParagraph wether or not to flush stacked links after each paragraph
+     *             defaults to false
+     * @param bool|int $bodyWidth wether or not to wrap the output to the given width
+     *             defaults to false
+     * @param bool $keepHTML wether to keep non markdownable HTML or to discard it
+     *             defaults to true (HTML will be kept)
+     * @return void
+     */
   function Markdownify($linksAfterEachParagraph = MDFY_LINKS_EACH_PARAGRAPH, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML) {
     $this->linksAfterEachParagraph = $linksAfterEachParagraph;
     $this->keepHTML = $keepHTML;
@@ -981,14 +982,16 @@ class Markdownify {
   function unbuffer() {
     return array_pop($this->buffer);
   }
-  /**
-   * append string to the correct var, either
-   * directly to $this->output or to the current
-   * buffers
-   *
-   * @param string $put
-   * @return void
-   */
+
+    /**
+     * append string to the correct var, either
+     * directly to $this->output or to the current
+     * buffers
+     *
+     * @param string $put
+     * @param bool $nowrap
+     * @return void
+     */
   function out($put, $nowrap = false) {
     if (empty($put)) {
       return;
@@ -1101,13 +1104,15 @@ class Markdownify {
   function _decode_numeric($matches) {
     return $this->unichr($matches[1]);
   }
-  /**
-   * UTF-8 chr() which supports numeric entities
-   *
-   * @author grey - greywyvern - com <http://www.php.net/manual/en/function.chr.php#55978>
-   * @param array $matches
-   * @return string UTF-8 encoded
-   */
+
+    /**
+     * UTF-8 chr() which supports numeric entities
+     *
+     * @author grey - greywyvern - com <http://www.php.net/manual/en/function.chr.php#55978>
+     * @param $dec
+     * @internal param array $matches
+     * @return string UTF-8 encoded
+     */
   function unichr($dec) {
     if ($dec < 128) {
       $utf = chr($dec);
@@ -1137,14 +1142,18 @@ class Markdownify {
       return preg_match_all('/[\x00-\x7F\xC0-\xFD]/', $str, $var_empty);
     }
   }
-  /**
-  * wordwrap for utf8 encoded strings
-  *
-  * @param string $str
-  * @param integer $len
-  * @param string $what
-  * @return string
-  */
+
+    /**
+     * wordwrap for utf8 encoded strings
+     *
+     * @param string $str
+     * @param $width
+     * @param $break
+     * @param bool $cut
+     * @internal param int $len
+     * @internal param string $what
+     * @return string
+     */
   function wordwrap($str, $width, $break, $cut = false){
     if (!$cut) {
       $regexp = '#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){1,'.$width.'}\b#';
