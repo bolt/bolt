@@ -53,7 +53,7 @@ class ExtensionsDisable extends BaseCommand
             }
 
         } else {
-            "<info><options=bold>$name</options=bold> is already disabled.</info>";
+            $lines[] = "<info><options=bold>$name</options=bold> is already disabled.</info>";
         }
 
         $output->writeln(implode("\n", $lines));
