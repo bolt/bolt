@@ -4,7 +4,7 @@
     <p>{{ __('Path:') }}
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
-    <a href="{{ path('asyncbrowse', { 'path': path, 'key': key }) }}" class="folder">{{segment}}</a>
+    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': path, 'key': key }) }}');" class="folder">{{segment}}</a>
     {% endfor %}
     </p>
 {% endif %}
