@@ -397,6 +397,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * The default level is '2', which is equal to \Bolt\Users::EDITOR
      *
      * @param int $level
+     * @return bool
      */
     public function requireUserLevel($level = 2)
     {

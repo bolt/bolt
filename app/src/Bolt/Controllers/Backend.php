@@ -231,7 +231,8 @@ class Backend implements ControllerProviderInterface
      * clicks a "password reset" link in the email.
      *
      * @param Silex\Application $app
-     * @param Request           $request
+     * @param Request $request
+     * @return string
      */
     public function resetpassword(Silex\Application $app, Request $request)
     {

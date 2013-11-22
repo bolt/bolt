@@ -472,7 +472,6 @@ class Config
             'wysiwyg' => array(
                 'images' => true,
                 'tables' => false,
-                'embed' => false,
                 'fontcolor' => false,
                 'align' => false,
                 'subsuper' => false,
@@ -495,7 +494,6 @@ class Config
             ),
             'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",
             'developer_notices' => false,
-            'crypto_rng' => "mt_rand",
             'cookies_use_remoteaddr' => true,
             'cookies_use_browseragent' => false,
             'cookies_use_httphost' => true,

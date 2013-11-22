@@ -457,9 +457,11 @@ class Content implements \ArrayAccess
     /**
      * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
      *
-     * @param string $value
+     * @param $group
      * @param string $name
      * @param string $taxonomytype
+     * @param int $sortorder
+     * @internal param string $value
      */
     public function setGroup($group, $name = "", $taxonomytype, $sortorder = 0)
     {

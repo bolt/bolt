@@ -82,11 +82,11 @@ class Extension extends \Bolt\BaseExtension
     }
 
 
-
     /**
      * Create a simple Form.
      *
-     * @param string $name
+     * @param string $formname
+     * @internal param string $name
      * @return string
      */
     function simpleForm($formname = "")

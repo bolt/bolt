@@ -236,10 +236,12 @@ if ( ! class_exists( 'util' ) ) {
          * concisely access an index which may or may not exist without
          * raising a warning
          *
-         * @param   array   $var      Array to access
-         * @param   string  $field    Index to access in the array
-         * @param   mixed   $default  Default value to return if the key is not
+         * @param array $array
+         * @param $fields
+         * @param   mixed $default Default value to return if the key is not
          *                            present in the array
+         * @internal param array $var Array to access
+         * @internal param string $field Index to access in the array
          * @return  mixed
          *
          * @access  public
@@ -286,7 +288,8 @@ if ( ! class_exists( 'util' ) ) {
          * Display a variable's contents using nice HTML formatting and will
          * properly display the value of booleans as true or false
          *
-         * @param   mixed  $var  The variable to dump
+         * @param   mixed $var The variable to dump
+         * @param bool $return
          * @return  string
          *
          * @see     var_dump_plain()
@@ -327,7 +330,8 @@ if ( ! class_exists( 'util' ) ) {
          * like booleans and resources. Supports collapsable arrays and objects
          * as well.
          *
-         * @param   mixed  $var  The variable to dump
+         * @param   mixed $var The variable to dump
+         * @param bool $traversedeeper
          * @return  string
          *
          * @access  public
@@ -782,10 +786,10 @@ if ( ! class_exists( 'util' ) ) {
          * uses the $_SERVER value. Additional values provided are expected
          * to be encoded appropriately with urlencode() or rawurlencode().
          *
-         * @param   mixed  $newkey          Either newkey or an associative
+         * @internal param mixed $newkey Either newkey or an associative
          *                                  array
-         * @param   mixed  $newvalue        Either newvalue or oldquery or uri
-         * @param   mixed  $oldquery_or_uri Optionally the old query or uri
+         * @internal param mixed $newvalue Either newvalue or oldquery or uri
+         * @internal param mixed $oldquery_or_uri Optionally the old query or uri
          * @return  string
          *
          * @link    http://codex.wordpress.org/Function_Reference/add_query_arg
@@ -952,7 +956,8 @@ if ( ! class_exists( 'util' ) ) {
         /**
          * Convert entities, while preserving already-encoded entities
          *
-         * @param   string  $string  The text to be converted
+         * @param   string $string The text to be converted
+         * @param bool $preserve_encoded_entities
          * @return  string
          *
          * @link    http://ca2.php.net/manual/en/function.htmlentities.php#90111
@@ -976,7 +981,8 @@ if ( ! class_exists( 'util' ) ) {
          * Convert >, <, ', " and & to html entities, but preserves entities
          * that are already encoded
          *
-         * @param   string  $string  The text to be converted
+         * @param   string $string The text to be converted
+         * @param bool $preserve_encoded_entities
          * @return  string
          *
          * @link    http://ca2.php.net/manual/en/function.htmlentities.php#90111
@@ -1177,10 +1183,11 @@ if ( ! class_exists( 'util' ) ) {
          * Converts a unix timestamp to a relative time string, such as "3 days
          * ago" or "2 weeks ago"
          *
-         * @param   int     $from    The date to use as a starting point
-         * @param   int     $to      The date to compare to. Defaults to the
+         * @param   int $from The date to use as a starting point
+         * @param int|string $to The date to compare to. Defaults to the
          *                           current time
-         * @param   string  $suffix  The string to add to the end, defaults to
+         * @param bool $as_text
+         * @param   string $suffix The string to add to the end, defaults to
          *                           " ago"
          * @return  string
          *
@@ -1257,7 +1264,6 @@ if ( ! class_exists( 'util' ) ) {
             if ( strpos( $number, '.' ) !== false ) {
                 list( $number, $decimal ) = explode( '.', $number );
             } else {
-                $number = $number;
                 $decimal = false;
             }
 
@@ -1482,9 +1488,9 @@ if ( ! class_exists( 'util' ) ) {
          * dialog. Cross browser compatible. Only fires if headers have not
          * already been sent.
          *
-         * @param   string  $filename  The name of the filename to display to
+         * @param   string $filename The name of the filename to display to
          *                             browsers
-         * @param   string  $content   The content to output for the download.
+         * @param bool|string $content The content to output for the download.
          *                             If you don't specify this, just the
          *                             headers will be sent
          * @return  bool
@@ -1691,7 +1697,8 @@ if ( ! class_exists( 'util' ) ) {
         /**
          * Callback for the preg_replace in the linkify() method
          *
-         * @param   array  $matches  Matches from the preg_ function
+         * @param $text
+         * @internal param array $matches Matches from the preg_ function
          * @return  string
          *
          * @link    https://github.com/jmrware/LinkifyURL
@@ -2125,9 +2132,9 @@ if ( ! class_exists( 'util' ) ) {
          * values. You can optionally specify a field of the nested arrays and
          * objects to search in
          *
-         * @param   array   $array   The array to search
-         * @param   scalar  $search  The value to search for
-         * @param   string  $field   The field to search in, if not specified
+         * @param   array $array The array to search
+         * @param   scalar $search The value to search for
+         * @param bool|string $field The field to search in, if not specified
          *                           all fields will be searched
          * @return  bool|scalar      False on failure or the array key on
          *                           success

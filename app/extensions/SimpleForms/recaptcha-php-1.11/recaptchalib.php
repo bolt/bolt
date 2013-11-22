@@ -198,6 +198,7 @@ function recaptcha_check_answer ($privkey, $remoteip, $challenge, $response, $ex
  * using this function.
  * @param string $domain The domain where the page is hosted
  * @param string $appname The name of your application
+ * @return string
  */
 function recaptcha_get_signup_url ($domain = null, $appname = null) {
 	return "https://www.google.com/recaptcha/admin/create?" .  _recaptcha_qsencode (array ('domains' => $domain, 'app' => $appname));
@@ -272,6 +273,3 @@ function recaptcha_mailhide_html($pubkey, $privkey, $email) {
 		"' onclick=\"window.open('" . htmlentities ($url) . "', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;\" title=\"Reveal this e-mail address\">...</a>@" . htmlentities ($emailparts [1]);
 
 }
-
-
-?>

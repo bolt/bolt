@@ -254,6 +254,7 @@ class Markdownify_Extra extends Markdownify {
           case 'center':
             $right = ':';
             $left = ':';
+            break;
           case 'right':
             $right = ':';
             break;
@@ -434,12 +435,14 @@ class Markdownify_Extra extends Markdownify {
       $this->setLineBreaks(2);
     }
   }
-  /**
-   * parse a HTML string, clean up footnotes prior
-   *
-   * @param string $HTML input
-   * @return string Markdown formatted output
-   */
+
+    /**
+     * parse a HTML string, clean up footnotes prior
+     *
+     * @param string $html
+     * @internal param string $HTML input
+     * @return string Markdown formatted output
+     */
   function parseString($html) {
     /** TODO: custom markdown-extra options, e.g. titles & classes **/
     # <sup id="fnref:..."><a href"#fn..." rel="footnote">...</a></sup>
