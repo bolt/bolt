@@ -34,7 +34,7 @@ class Extension extends \Bolt\BaseExtension
         $additionalhtml = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
         $additionalhtml .= '<script>google.load("visualization", "1", {packages:["corechart"]}); </script>';
 
-        $this->addWidget('dashboard', 'right_first', 'analyticsWidget', $additionalhtml, 3600);
+        if($this->config['widget']) $this->addWidget('dashboard', 'right_first', 'analyticsWidget', $additionalhtml, 3600);
 
     }
 
