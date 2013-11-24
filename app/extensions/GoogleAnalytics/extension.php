@@ -29,7 +29,7 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize() {
 
-        $this->addSnippet(SnippetLocation::END_OF_HEAD, 'insertAnalytics');
+        $this->addSnippet(SnippetLocation::START_OF_BODY, 'insertAnalytics');
 
         $additionalhtml = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
         $additionalhtml .= '<script>google.load("visualization", "1", {packages:["corechart"]}); </script>';
