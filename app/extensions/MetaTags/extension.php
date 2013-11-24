@@ -123,7 +123,7 @@ class Extension extends \Bolt\BaseExtension
 
                 // add filters
                 foreach ($filters as $filter) {
-                    $value = $filter( $value );
+                    $value = preg_replace('/\s+/', ' ', $filter( $value ));
                 }
 
                 if (!empty($value)) {
