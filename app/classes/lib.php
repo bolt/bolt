@@ -654,9 +654,9 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     // step through the DOM ourselves to perform the trimming.
 
     // Do not load external entities - this would be a security risk.
-    libxml_disable_entity_loader(true);
+    $prevEntityLoaderDisabled = libxml_disable_entity_loader(true);
     // Don't crash on invalid HTML, but recover gracefully
-    libxml_use_internal_errors(true);
+    $prevInternalErrors = libxml_use_internal_errors(true);
     $doc = new \DOMDocument();
 
     // We need a bit of wrapping here to keep DOMDocument from adding rogue
@@ -731,6 +731,9 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     if ($nbsp) {
         $result = str_replace(html_entity_decode('&nbsp;'), '&nbsp;', $result);
     }
+    // Restore previous libxml settings
+    libxml_disable_entity_loader($prevEntityLoaderDisabled);
+    libxml_use_internal_errors($prevInternalErrors);
     return $result;
 }
 
