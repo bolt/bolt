@@ -26,7 +26,7 @@ class Config
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            $this->app['session']->set('database_checked', 0);
+            \Bolt\Database\IntegrityChecker::invalidate();
         }
 
         $this->setTwigPath();

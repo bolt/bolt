@@ -30,6 +30,9 @@ class IntegrityChecker
      */
     private $textDefault = null;
 
+    const INTEGRITY_CHECK_INTERVAL = 1800; // max. validity of a database integrity check, in seconds
+    const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
+
     public function __construct(\Bolt\Application $app)
     {
         $this->app = $app;
@@ -48,6 +51,27 @@ class IntegrityChecker
             $this->textDefault = '';
         }
 
+    }
+
+    private static function getValidityTimestampFilename() {
+        return dirname(__FILE__) . '/../../../cache/' . self::INTEGRITY_CHECK_TS_FILENAME;
+    }
+
+    public static function invalidate() {
+        // delete app/cache/dbcheck-ts
+        @unlink(self::getValidityTimestampFilename());
+    }
+
+    public static function markValid() {
+        // write current date/time > app/cache/dbcheck-ts
+        $timestamp = time();
+        file_put_contents(self::getValidityTimestampFilename(), $timestamp);
+    }
+
+    public static function isValid() {
+        // compare app/cache/dbcheck-ts vs. current timestamp
+        $validityTS = intval(@file_get_contents(self::getValidityTimestampFilename()));
+        return ($validityTS >= time() - self::INTEGRITY_CHECK_INTERVAL);
     }
 
     /**
@@ -172,7 +196,7 @@ class IntegrityChecker
         // If there were no messages, update the timer, so we don't check it again..
         // If there _are_ messages, keep checking until it's fixed.
         if (empty($messages)) {
-            $this->app['session']->set('database_checked', time());
+            self::markValid();
         }
 
         return $messages;
@@ -186,16 +210,7 @@ class IntegrityChecker
      */
     public function needsCheck()
     {
-
-        // Only check the DB once an hour, because it's pretty time-consuming.
-        $databasechecked = time() - $this->app['session']->get('database_checked');
-
-        if ($databasechecked < $this->checktimer) {
-            return false;
-        } else {
-            return true;
-        }
-
+        return !self::isValid();
     }
 
     /**
