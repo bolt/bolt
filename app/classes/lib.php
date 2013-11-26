@@ -571,7 +571,7 @@ function getLeftWhiteSpaceCount($str){
 }
 
 /**
- * Trim a text to a given length, taking html entities into account.
+ * Wrapper around trimToHTML for backwards-compatibility
  *
  * @param string $str String to trim
  * @param int $desiredLength Target string length
@@ -590,9 +590,10 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
 }
 
 /**
- * Convert HTML to plain text, and ellipsify
+ * Convert HTML to plain text, truncate, and ellipsify.
  */
-function trimToText($html, $desiredLength = null, $ellipseStr = "...") {
+function trimToText($html, $desiredLength = null, $ellipseStr = "...")
+{
     $options = array();
     $options['allowed-tags'] = array(); // remove *all* tags
     $options['output-format'] = 'text';
@@ -608,7 +609,26 @@ function trimToText($html, $desiredLength = null, $ellipseStr = "...") {
     }
 }
 
-function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…') {
+/**
+ * Recursively collect nodes from a DOM tree until the tree is exhausted or the
+ * desired text length is fulfilled.
+ *
+ * @param DOMNode $node The current node
+ * @param DOMNode $parentNode A target node that will receive copies of all
+ *                            collected nodes as child nodes.
+ * @param int $remainingLength The remaining number of characters to collect.
+ *                             When this value reaches zero, the traversal is
+ *                             stopped.
+ * @param string $ellipseStr If non-empty, this string will be appended to the
+ *                           last collected node when the document gets
+ *                           truncated.
+ *
+ * @internal
+ * This function is not intended for 'public' usage, but since we're not in a
+ * class, there is no way to enforce this.
+ */
+function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
+{
     if ($remainingLength <= 0)
         return;
     if ($node === null)
@@ -634,14 +654,19 @@ function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remaini
     $newNode = $parentNode->ownerDocument->importNode($node, false);
     $parentNode->appendChild($newNode);
     for ($childNode = $node->firstChild; $childNode; $childNode = $childNode->nextSibling) {
-    // foreach ($node->childNodes as $childNode) {
         _collectNodesUpToLength($childNode, $newNode, $remainingLength, $ellipseStr);
         if ($remainingLength <= 0)
             break;
     }
 }
 
-function domSpacesToNBSP(\DOMNode $node) {
+/**
+ * Helper function to convert 'soft' spaces to non-breaking spaces in a given
+ * DOMNode.
+ * @param DOMNode $node The node to process. Note that processing is in-place.
+ */
+function domSpacesToNBSP(\DOMNode $node)
+{
     $nbsp = html_entity_decode('&nbsp;');
     if ($node instanceof \DOMCharacterData) {
         $node->data = str_replace(' ', $nbsp, $node->data);
@@ -653,9 +678,25 @@ function domSpacesToNBSP(\DOMNode $node) {
     }
 }
 
-function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false) {
+/**
+ * Truncate a given HTML fragment to the desired length (measured as character
+ * count), additionally performing some cleanup.
+ * @param string $html The HTML fragment to clean up
+ * @param int $desiredLength The desired number of characters, or NULL to do
+ *                           just the cleanup (but no truncating).
+ * @param string $ellipseStr If non-empty, this string will be appended to the
+ *                           last collected node when the document gets
+ *                           truncated.
+ * @param bool $stripTags If TRUE, remove *all* HTML tags. Otherwise, keep a
+ *                        whitelisted 'safe' set.
+ * @param bool $nbsp If TRUE, convert all whitespace runs to non-breaking
+ *                   spaces ('&nbsp;' entities).
+ */
+function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false)
+{
     // We'll use htmlmaid to clean up the HTML, but because we also have to
-    // step through the DOM ourselves to perform the trimming.
+    // step through the DOM ourselves to perform the trimming, so we'll do
+    // the DOM loading ourselves, rather than leave it to Maid.
 
     // Do not load external entities - this would be a security risk.
     $prevEntityLoaderDisabled = libxml_disable_entity_loader(true);
@@ -749,7 +790,8 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
  * @param array $allowedTags If set, override the list of allowed tags.
  * @return mixed
  */
-function lawHTML($html, $allowedTags = null) {
+function lawHTML($html, $allowedTags = null)
+{
     $options = array();
     $options['strip-comments'] = true;
     if (is_array($allowedTags)) {
@@ -781,7 +823,8 @@ function decorateTT($str)
  * @param bool $hellip Replace the trimmed part with dots
  * @return array Array with two keys: 'string' and 'length'
  */
-function trimString($str, $trimLength, $nbsp = false, $hellip = true){
+function trimString($str, $trimLength, $nbsp = false, $hellip = true)
+{
     $strLength = getStringLength($str);
     if ($strLength > $trimLength) {
         $str = mb_substr($str, 0, $trimLength, "UTF-8");
