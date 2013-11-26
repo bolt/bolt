@@ -42,13 +42,14 @@ $starttime = getMicrotime();
 
 $app = new Bolt\Application();
 
+$app->register(new Bolt\Provider\ConfigServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'session.storage.options' => array(
         'name' => 'bolt_session',
+        'cookie_secure' => $app['config']->get('general/cookies_https_only'),
         'cookie_httponly' => true
     )
 ));
-$app->register(new Bolt\Provider\ConfigServiceProvider());
 $app->register(new Bolt\Provider\LogServiceProvider());
 
 // Finally, check if the app/database folder is writable, if it needs to be.
