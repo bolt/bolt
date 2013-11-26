@@ -580,9 +580,13 @@ function getLeftWhiteSpaceCount($str){
  * @param bool $striptags Strip html tags
  * @return string Trimmed string
  */
-function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true){
-    $result = recursiveTrimText($str, $desiredLength, $nbsp, $hellip, $striptags);
-    return $result['string'];
+function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true)
+{
+    if ($hellip)
+        $ellipseStr = '…';
+    else
+        $ellipseStr = '';
+    return trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
 }
 
 /**
@@ -761,92 +765,11 @@ function lawHTML($html, $allowedTags = null) {
  * @param string $str Input string. Treated as plain text.
  * @return string The resulting HTML
  */
-function decorateTT($str) {
+function decorateTT($str)
+{
     $str = htmlspecialchars($str, ENT_QUOTES);
     $str = preg_replace('/`([^`]*)`/', '<tt>\\1</tt>', $str);
     return $str;
-}
-
-/**
- * Trim a text to a given length, taking html entities into account.
- * Uses the htmLawed library to fix html issues and recursively runs over the
- * input text.
- *
- * @param string $str String to trim
- * @param int $desiredLength Target string length
- * @param bool $nbsp Transform spaces to their html entity
- * @param bool $hellip Add dots when the string is too long
- * @param bool $striptags Strip html tags
- * @param string $returnString String pass for recursion
- * @param int $length String length pass for recursion
- * @return array With two keys: 'string' (resulting string) and length (string length)
- */
-function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true, $returnString = '', $length = 0){
-    // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
-    // from doing it on the beginning of the string :(
-    $lSpaceCount = getLeftWhiteSpaceCount($str);
-    $str = str_repeat(" ", $lSpaceCount) . lawHTML($str);
-
-    // Base case: no html or strip_tags so we treat the content of this clause
-    // as a regular string of which we return the result string and length.
-    if ($striptags == true || !containsHTML($str)){
-        $targetLength = $desiredLength - $length;
-        $trimResult = trimString(strip_tags($str), $targetLength, $nbsp, $hellip);
-        return array(
-            'string' => $returnString . $trimResult['string'],
-            'length' => $length + $trimResult['length'],
-        );
-    }
-    else {
-        // Recursive case. Steps:
-        // 1) We check for tags
-        // 2) We split at the first tag ($matches[0][0][0])
-        // 3) We do recursiveFunction on the first part (contains no HTML)
-        // 4) If we don't exceed the length yet, we need to treat the matched
-        //      tag of $matches[0][0][0]. Split off the tags and put them
-        //      back later. Call recursiveFunction on the content.
-        // 5) If we still haven't exceeded the length, call recursiveFunction on
-        //      the remainder of the split.
-
-        // Step 1: check for tags
-        preg_match_all("/(<([\w]+)[^>]*>)(.*?)(<\/\\2>)/", $str, $matches, PREG_OFFSET_CAPTURE);
-
-        // We MUST have a match as this method is also used in the containsHTML
-        // method. Therefor we do not check if an array index exists.
-
-        // Shorthands to make stuff more readable
-        $matchedHTML = $matches[0][0][0];
-        $matchedHTMLIndex = $matches[0][0][1];
-        $matchedHTMLLength = getStringLength($matchedHTML);
-        $openingTag = $matches[1][0][0];
-        $content = $matches[3][0][0];
-        $closingTag = $matches[4][0][0];
-
-        // Step 2: Split at the first tag
-        $head = mb_substr($str, 0, $matchedHTMLIndex, "UTF-8");
-        $tail = mb_substr($str, $matchedHTMLIndex + $matchedHTMLLength, mb_strlen($str), "UTF-8");
-
-        // Step 3: Do recursiveFunction on first part
-        if ($head != ''){
-            $headRes = recursiveTrimText($head, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
-            $returnString = $headRes['string'];
-            $length = $headRes['length'];
-            if ($headRes['length'] >= $desiredLength){
-                return array('length' => $length, 'string' => $returnString);
-            }
-        }
-        // Step 4: Apparently length not exceeded, get length of $matchedHTML
-        $returnString .= $openingTag;
-        $matchRes = recursiveTrimText($content, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
-        $returnString = $matchRes['string'] . $closingTag;
-        if ($matchRes['length'] >= $desiredLength  || $tail == ''){
-            return array('length' => $matchRes['length'], 'string' => $returnString);
-        }
-        // Step 5: Apparently length still not exceeded, recurse on $tail
-        $length = $matchRes['length'];
-        // (already set $returnString)
-        return recursiveTrimText($tail, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
-    }
 }
 
 /**
