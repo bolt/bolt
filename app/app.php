@@ -3,13 +3,25 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+$request = Request::createFromGlobals();
+if ($proxies = $app['config']->get('general/trustProxies')) {
+    $request->setTrustedProxies($proxies);
+}
+
 // Mount the 'backend' on the branding:path setting. Defaults to '/bolt'.
 $app->mount($app['config']->get('general/branding/path'), new Bolt\Controllers\Backend());
 $app->mount('/async', new Bolt\Controllers\Async());
+
+if ($app['config']->get('general/enforce_ssl')) {
+    foreach ($app['routes']->getIterator() as $route) {
+        $route->requireHttps();
+    }
+}
+
+
 $app->mount('', new Bolt\Controllers\Routing());
 
-$app->before(function () use ($app) {
-
+$app->before(function (Request $request) use ($app) {
     $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
     $app['twig']->addGlobal('bolt_version', $app['bolt_version']);
 

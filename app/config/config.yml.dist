@@ -182,6 +182,23 @@ cookies_domain:
 # '12' is better.
 hash_strength: 10
 
+# Enforce SSL: if set, all but the front-end pages will enforce an SSL
+# connection.
+# enforce_ssl: true
+
+# If configured, Bolt will trust X-Forwarded-XXX headers from the listed IP
+# addresses and ranges when determining whether the current request is
+# 'secure'.
+# This is required to correctly determine the current hostname and protocol
+# (HTTP vs. HTTPS) when running behind some proxy, e.g. a load balancer, cache,
+# or SSL proxy.
+# List the IP addresses or subnets that you know are such proxies. Note that
+# allowing hosts here that may not be trusted proxies is a security risk.
+# If you do not understand what this does, it is probably best to not touch it.
+# trustProxies:
+#     - 127.0.0.1
+#     - 10.0.0.0/8
+
 # If you want Bolt installation get news through a proxy
 #httpProxy:
 #  host: my.proxy.server
