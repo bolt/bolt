@@ -2,6 +2,9 @@
 # something like UA-12345678-1. Be sure to include the "UA-"-part.
 webproperty: UA-12345678-1
 
+universal: false
+universal_domainname: mycoolwebsite.com
+
 widget: false
 widget_position: right_first
 

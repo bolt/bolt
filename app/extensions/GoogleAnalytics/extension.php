@@ -46,6 +46,23 @@ class Extension extends \Bolt\BaseExtension
             $this->config['webproperty'] = "property-not-set";
         }
 
+        if ($this->config['universal']) {
+
+        $html = <<< EOM
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '%webproperty%', '%domainname%');
+        ga('send', 'pageview');
+    </script>
+EOM;
+
+        } else {
+
         $html = <<< EOM
 
     <script type="text/javascript">
@@ -63,9 +80,10 @@ class Extension extends \Bolt\BaseExtension
 
     </script>
 EOM;
+    }
 
         $html = str_replace("%webproperty%", $this->config['webproperty'], $html);
-        $html = str_replace("%domainname%", $_SERVER['HTTP_HOST'], $html);
+        $html = str_replace("%domainname%", ( $this->config['universal'] ? $this->config['universal_domainname'] : $_SERVER['HTTP_HOST'] ), $html);
 
         return new \Twig_Markup($html, 'UTF-8');
 
