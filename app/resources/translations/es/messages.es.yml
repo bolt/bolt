@@ -1,4 +1,4 @@
-# 308 translated strings
+# 312 translated strings
 
 "%contenttypes% overview": "Listado de %contenttypes%"
 "%contenttypes%": "%contenttypes%"
@@ -20,7 +20,6 @@
 "Added user '%s'.": "Agregado el usuario '%s'"
 "Address lookup:": "Búsqueda de dirección"
 "Alas, no about!": "Lástima, ¡no hay acerca!"
-"all": "todos"
 "All content types": "Todos los tipos de contenido"
 "All users": "Todos los usuarios"
 "Allowed contenttypes": "Tipos de contenido permitidos"
@@ -77,6 +76,7 @@
 "Details are shown above. The importer will now try again with a different parser...": "Los detalles se muestran más arriba. El importador reintentará con un procesador diferente..."
 "Disable %username%": "Deshabilitar a %username%"
 "Disabled extensions": "Extensiones deshabilitadas"
+"Display name": "Nombre para mostrar"
 "Done!": "¡Hecho!"
 "Duplicate %contenttype%": "Duplicar %contenttype%"
 "Duplicate %filename%": "Duplicar %filename%"
@@ -86,6 +86,7 @@
 "Edit translations file '%s'.": "Editar el archivo de traducción '%s'."
 "Edit user": "Editar usuario"
 "Edit": "Editar"
+"Email": "Correo electrónico"
 "Enable %username%": "Habilitar %username%"
 "Enabled extensions": "Extensiones habilitadas"
 "Enabling extensions:": "Cómo habilitar extensiones:"
@@ -119,6 +120,7 @@
 "It seems there's no content in the database.": "Parace que no hay contenido en la base de datos."
 "Javascript disabled": "Javascript desactivado"
 "Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.": "Tu navegador tiene Javascript deshabilitado. La mayoría de funcionalidades de Bolt funcionarán, paro para mayor facilidad de uso es recomendable habilitar Javascript en el navegador."
+"Last IP": "Última IP"
 "Last edited on:": "Editado por última vez el:"
 "Last known IP": "Última dirección IP registrada"
 "Last modified %contenttypes%": "Última modificación %contenttypes%"
@@ -274,6 +276,7 @@
 "User '%s' is disabled.": "El usuario '%s' está desactivado."
 "User '%s' is enabled.": "El usuario '%s' está activado."
 "User is enabled": "El usuario está habilitado."
+"User level": "Nivel de usuario"
 "Username or password not correct. Please check your input.": "El usuario o contraseña no es correcto. Por favor verifica lo que escribiste."
 "Username": "Usuario"
 "Users": "Usuarios"
@@ -298,6 +301,7 @@
 "Your database is now up to date.": "Tu base de datos ahora está actualizada"
 "Your password": "Tu contraseña"
 "Your username": "Tu usuario"
+"all": "todos"
 "and edited": "y editado"
 "by": "por"
 "latest update:": "última actualización:"
