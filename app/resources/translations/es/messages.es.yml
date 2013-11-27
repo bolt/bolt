@@ -1,4 +1,4 @@
-# 307 translated strings
+# 308 translated strings
 
 "%contenttypes% overview": "Listado de %contenttypes%"
 "%contenttypes%": "%contenttypes%"
@@ -20,6 +20,7 @@
 "Added user '%s'.": "Agregado el usuario '%s'"
 "Address lookup:": "Búsqueda de dirección"
 "Alas, no about!": "Lástima, ¡no hay acerca!"
+"all": "todos"
 "All content types": "Todos los tipos de contenido"
 "All users": "Todos los usuarios"
 "Allowed contenttypes": "Tipos de contenido permitidos"
