@@ -571,7 +571,7 @@ function getLeftWhiteSpaceCount($str){
 }
 
 /**
- * Trim a text to a given length, taking html entities into account.
+ * Wrapper around trimToHTML for backwards-compatibility
  *
  * @param string $str String to trim
  * @param int $desiredLength Target string length
@@ -580,15 +580,20 @@ function getLeftWhiteSpaceCount($str){
  * @param bool $striptags Strip html tags
  * @return string Trimmed string
  */
-function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true){
-    $result = recursiveTrimText($str, $desiredLength, $nbsp, $hellip, $striptags);
-    return $result['string'];
+function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true)
+{
+    if ($hellip)
+        $ellipseStr = '…';
+    else
+        $ellipseStr = '';
+    return trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
 }
 
 /**
- * Convert HTML to plain text, and ellipsify
+ * Convert HTML to plain text, truncate, and ellipsify.
  */
-function trimToText($html, $desiredLength = null, $ellipseStr = "...") {
+function trimToText($html, $desiredLength = null, $ellipseStr = "...")
+{
     $options = array();
     $options['allowed-tags'] = array(); // remove *all* tags
     $options['output-format'] = 'text';
@@ -604,7 +609,26 @@ function trimToText($html, $desiredLength = null, $ellipseStr = "...") {
     }
 }
 
-function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…') {
+/**
+ * Recursively collect nodes from a DOM tree until the tree is exhausted or the
+ * desired text length is fulfilled.
+ *
+ * @param DOMNode $node The current node
+ * @param DOMNode $parentNode A target node that will receive copies of all
+ *                            collected nodes as child nodes.
+ * @param int $remainingLength The remaining number of characters to collect.
+ *                             When this value reaches zero, the traversal is
+ *                             stopped.
+ * @param string $ellipseStr If non-empty, this string will be appended to the
+ *                           last collected node when the document gets
+ *                           truncated.
+ *
+ * @internal
+ * This function is not intended for 'public' usage, but since we're not in a
+ * class, there is no way to enforce this.
+ */
+function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remainingLength, $ellipseStr = '…')
+{
     if ($remainingLength <= 0)
         return;
     if ($node === null)
@@ -630,14 +654,19 @@ function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remaini
     $newNode = $parentNode->ownerDocument->importNode($node, false);
     $parentNode->appendChild($newNode);
     for ($childNode = $node->firstChild; $childNode; $childNode = $childNode->nextSibling) {
-    // foreach ($node->childNodes as $childNode) {
         _collectNodesUpToLength($childNode, $newNode, $remainingLength, $ellipseStr);
         if ($remainingLength <= 0)
             break;
     }
 }
 
-function domSpacesToNBSP(\DOMNode $node) {
+/**
+ * Helper function to convert 'soft' spaces to non-breaking spaces in a given
+ * DOMNode.
+ * @param DOMNode $node The node to process. Note that processing is in-place.
+ */
+function domSpacesToNBSP(\DOMNode $node)
+{
     $nbsp = html_entity_decode('&nbsp;');
     if ($node instanceof \DOMCharacterData) {
         $node->data = str_replace(' ', $nbsp, $node->data);
@@ -649,9 +678,25 @@ function domSpacesToNBSP(\DOMNode $node) {
     }
 }
 
-function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false) {
+/**
+ * Truncate a given HTML fragment to the desired length (measured as character
+ * count), additionally performing some cleanup.
+ * @param string $html The HTML fragment to clean up
+ * @param int $desiredLength The desired number of characters, or NULL to do
+ *                           just the cleanup (but no truncating).
+ * @param string $ellipseStr If non-empty, this string will be appended to the
+ *                           last collected node when the document gets
+ *                           truncated.
+ * @param bool $stripTags If TRUE, remove *all* HTML tags. Otherwise, keep a
+ *                        whitelisted 'safe' set.
+ * @param bool $nbsp If TRUE, convert all whitespace runs to non-breaking
+ *                   spaces ('&nbsp;' entities).
+ */
+function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTags = false, $nbsp = false)
+{
     // We'll use htmlmaid to clean up the HTML, but because we also have to
-    // step through the DOM ourselves to perform the trimming.
+    // step through the DOM ourselves to perform the trimming, so we'll do
+    // the DOM loading ourselves, rather than leave it to Maid.
 
     // Do not load external entities - this would be a security risk.
     $prevEntityLoaderDisabled = libxml_disable_entity_loader(true);
@@ -745,7 +790,8 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
  * @param array $allowedTags If set, override the list of allowed tags.
  * @return mixed
  */
-function lawHTML($html, $allowedTags = null) {
+function lawHTML($html, $allowedTags = null)
+{
     $options = array();
     $options['strip-comments'] = true;
     if (is_array($allowedTags)) {
@@ -761,92 +807,11 @@ function lawHTML($html, $allowedTags = null) {
  * @param string $str Input string. Treated as plain text.
  * @return string The resulting HTML
  */
-function decorateTT($str) {
+function decorateTT($str)
+{
     $str = htmlspecialchars($str, ENT_QUOTES);
     $str = preg_replace('/`([^`]*)`/', '<tt>\\1</tt>', $str);
     return $str;
-}
-
-/**
- * Trim a text to a given length, taking html entities into account.
- * Uses the htmLawed library to fix html issues and recursively runs over the
- * input text.
- *
- * @param string $str String to trim
- * @param int $desiredLength Target string length
- * @param bool $nbsp Transform spaces to their html entity
- * @param bool $hellip Add dots when the string is too long
- * @param bool $striptags Strip html tags
- * @param string $returnString String pass for recursion
- * @param int $length String length pass for recursion
- * @return array With two keys: 'string' (resulting string) and length (string length)
- */
-function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptags = true, $returnString = '', $length = 0){
-    // htmLawed trims whitespaces and setting keep_bad to 6 doesn't keep it
-    // from doing it on the beginning of the string :(
-    $lSpaceCount = getLeftWhiteSpaceCount($str);
-    $str = str_repeat(" ", $lSpaceCount) . lawHTML($str);
-
-    // Base case: no html or strip_tags so we treat the content of this clause
-    // as a regular string of which we return the result string and length.
-    if ($striptags == true || !containsHTML($str)){
-        $targetLength = $desiredLength - $length;
-        $trimResult = trimString(strip_tags($str), $targetLength, $nbsp, $hellip);
-        return array(
-            'string' => $returnString . $trimResult['string'],
-            'length' => $length + $trimResult['length'],
-        );
-    }
-    else {
-        // Recursive case. Steps:
-        // 1) We check for tags
-        // 2) We split at the first tag ($matches[0][0][0])
-        // 3) We do recursiveFunction on the first part (contains no HTML)
-        // 4) If we don't exceed the length yet, we need to treat the matched
-        //      tag of $matches[0][0][0]. Split off the tags and put them
-        //      back later. Call recursiveFunction on the content.
-        // 5) If we still haven't exceeded the length, call recursiveFunction on
-        //      the remainder of the split.
-
-        // Step 1: check for tags
-        preg_match_all("/(<([\w]+)[^>]*>)(.*?)(<\/\\2>)/", $str, $matches, PREG_OFFSET_CAPTURE);
-
-        // We MUST have a match as this method is also used in the containsHTML
-        // method. Therefor we do not check if an array index exists.
-
-        // Shorthands to make stuff more readable
-        $matchedHTML = $matches[0][0][0];
-        $matchedHTMLIndex = $matches[0][0][1];
-        $matchedHTMLLength = getStringLength($matchedHTML);
-        $openingTag = $matches[1][0][0];
-        $content = $matches[3][0][0];
-        $closingTag = $matches[4][0][0];
-
-        // Step 2: Split at the first tag
-        $head = mb_substr($str, 0, $matchedHTMLIndex, "UTF-8");
-        $tail = mb_substr($str, $matchedHTMLIndex + $matchedHTMLLength, mb_strlen($str), "UTF-8");
-
-        // Step 3: Do recursiveFunction on first part
-        if ($head != ''){
-            $headRes = recursiveTrimText($head, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
-            $returnString = $headRes['string'];
-            $length = $headRes['length'];
-            if ($headRes['length'] >= $desiredLength){
-                return array('length' => $length, 'string' => $returnString);
-            }
-        }
-        // Step 4: Apparently length not exceeded, get length of $matchedHTML
-        $returnString .= $openingTag;
-        $matchRes = recursiveTrimText($content, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
-        $returnString = $matchRes['string'] . $closingTag;
-        if ($matchRes['length'] >= $desiredLength  || $tail == ''){
-            return array('length' => $matchRes['length'], 'string' => $returnString);
-        }
-        // Step 5: Apparently length still not exceeded, recurse on $tail
-        $length = $matchRes['length'];
-        // (already set $returnString)
-        return recursiveTrimText($tail, $desiredLength, $nbsp, $hellip, $striptags, $returnString, $length);
-    }
 }
 
 /**
@@ -858,7 +823,8 @@ function recursiveTrimText($str, $desiredLength, $nbsp = false, $hellip = true, 
  * @param bool $hellip Replace the trimmed part with dots
  * @return array Array with two keys: 'string' and 'length'
  */
-function trimString($str, $trimLength, $nbsp = false, $hellip = true){
+function trimString($str, $trimLength, $nbsp = false, $hellip = true)
+{
     $strLength = getStringLength($str);
     if ($strLength > $trimLength) {
         $str = mb_substr($str, 0, $trimLength, "UTF-8");

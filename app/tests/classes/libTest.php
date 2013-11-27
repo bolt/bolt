@@ -67,13 +67,13 @@ class libTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    // /**
-    //  * @dataProvider trimTextDataProvider
-    //  */
-    // public function testTrimText($str, $length, $nbsp, $hellip, $striptags, $expected){
-    //     $result = trimText($str, $length, $nbsp, $hellip, $striptags);
-    //     $this->assertEquals($expected, $result);
-    // }
+    /**
+     * @dataProvider trimTextDataProvider
+     */
+    public function testTrimText($str, $length, $nbsp, $hellip, $striptags, $expected){
+        $result = trimText($str, $length, $nbsp, $hellip, $striptags);
+        $this->assertEquals($expected, $result);
+    }
 
     /**
      * @dataProvider trimTextDataProvider
