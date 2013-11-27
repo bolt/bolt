@@ -802,14 +802,16 @@ class TwigExtension extends \Twig_Extension
      *
      * example: {{ content.image|fancybox(320, 240) }}
      * example: {{ fancybox(content.image, 320, 240) }}
+     * example: {{ content.image|fancybox(width=320, height=240, title="My Image") }}
      *
      * @param  string $filename Image filename
-     * @param  int $width    Image width
-     * @param  int $height   Image height
-     * @param  string $crop     Crop image string identifier
+     * @param  int $width Image width
+     * @param  int $height Image height
+     * @param  string $crop Crop image string identifier
+     * @param  string $title Display title for image
      * @return string HTML output
      */
-    public function fancybox($filename = "", $width = 100, $height = 100, $crop = "")
+    public function fancybox($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
     {
 
         if (!empty($filename)) {
@@ -822,9 +824,13 @@ class TwigExtension extends \Twig_Extension
             $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
             $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
 
-            $output = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="Image: %s">
+            if (empty($title)) {
+                $title = sprintf('%s: %s', __("Image"), $filename);
+            }
+
+            $output = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="%s">
                     <img src="%s" width="%s" height="%s"></a>',
-                $large, $filename, $thumbnail, $width, $height);
+                $large, $title, $thumbnail, $width, $height);
 
         } else {
             $output = "&nbsp;";
