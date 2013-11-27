@@ -1,7 +1,7 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2013/11/21 09:11:05
+# app/resources/translations/nl/messages.nl.yml -- generated on 2013/11/27 17:26:01
 # no untranslated strings; good ;-)
 
-# 293 translated strings
+# 295 translated strings
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%contenttypes%": "%contenttypes%"
@@ -113,6 +113,7 @@
 "I forgot my password…": "Ik ben mijn wachtwoord vergeten…"
 "IP address": "IP-adres"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Als er een pagina was die 'about' als slug had, dan zou je deze nu hier zien. Maar die is er niet, en daarom zie je deze tekst."
+"Image": "Afbeelding"
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "In het contenttype voor '%contenttype%', heeft het veld '%field%' de regel 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml, en corrigeer dit."
 "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "In het contenttype voor '%contenttype%', is het veld '%field%' gedefinieerd, maar dit is een gereserveerde naam. Bewerk contenttypes.yml, en corrigeer dit."
 "Info": "Info"
@@ -193,6 +194,7 @@
 "Saving…": "Opslaan…"
 "Search results for <b> %search% </b>.": "Zoekresultaten voor <b> %search% </b>"
 "Search": "Zoeken"
+"Search…": "Zoek…"
 "Select a page": "Kies een pagina"
 "Select all": "Selecteer alles"
 "Select from server": "Kies vanaf de server"

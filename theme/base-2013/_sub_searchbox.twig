@@ -1,5 +1,5 @@
 <li class="search">
     <form method="get" action="{{ paths.root }}search" id="searchform" enctype="text/plain">
-        <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="Search.." name="search">
+        <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __("Search…") }}" name="search">
     </form>
 </li>
