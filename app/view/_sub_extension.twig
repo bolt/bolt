@@ -3,11 +3,11 @@
             <span style="float: right; margin-top: 4px;">
                 {% if extension.readme %}
                     <a data-target="#myModal" href="{{ path('readme', { extension: extension.namespace }) }}" class="btn btn-mini"
-                       type="button" data-toggle="modal" >View Readme</a>
+                       type="button" data-toggle="modal" >{{ __('View Readme') }}</a>
                 {% endif %}
                 {% if extension.config is defined %}
                     <a href="{{ path('fileedit', { 'file': "app/extensions/" ~ extension.config } ) }}" class="btn btn-mini"
-                           type="button">{% if extension.config_writable %}Edit Config{% else %}View Config{% endif %}</a>
+                           type="button">{% if extension.config_writable %}{{ __('Edit Config') }}{% else %}{{ __('View Config') }}{% endif %}</a>
                 {% endif %}
             </span>
 
@@ -15,15 +15,15 @@
 
     <p>{{ extension.description|raw }}</p>
 
-    <p>Author: <strong>{{ extension.author }}</strong><br/>
-        Released: {{ extension.first_releasedate|date("Y-m-d") }},
-        latest update: {{ extension.latest_releasedate|date("Y-m-d") }} </p>
+    <p>{{ __('Author:') }} <strong>{{ extension.author }}</strong><br/>
+        {{ __('Released:') }} {{ extension.first_releasedate|date("Y-m-d") }},
+        {{ __('latest update:') }} {{ extension.latest_releasedate|date("Y-m-d") }} </p>
 
-    <span class="label">Name: {{ extension.namespace }}</span>
-    {% if extension.version %}<span class="label">Version {{ extension.version }}</span>{% endif %}
+    <span class="label">{{ __('Name:') }} {{ extension.namespace }}</span>
+    {% if extension.version %}<span class="label">{{ __('Version') }} {{ extension.version }}</span>{% endif %}
     {% if extension.required_bolt_version %}<span class="label {% if not extension.version_ok %}label-important{% endif %}"
-                                                  title="{% if extension.highest_bolt_version %}Tested in Bolt {{ extension.highest_bolt_version }}.{% endif %}"
-            >Req. Bolt {{ extension.required_bolt_version }}</span>{% endif %}
+                                                  title="{% if extension.highest_bolt_version %}{{ __('Tested in Bolt') }} {{ extension.highest_bolt_version }}.{% endif %}"
+            >{{ __('Req. Bolt') }} {{ extension.required_bolt_version }}</span>{% endif %}
 
     {% if extension.type %}<span class="label">{{ extension.type }}</span>{% endif %}
 

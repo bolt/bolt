@@ -792,10 +792,12 @@ class Backend implements ControllerProviderInterface
         $form = $app['form.factory']->createBuilder('form', $user)
             ->add('id', 'hidden')
             ->add('username', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32)))
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                'label' => __('Username')
             ))
             ->add('password', 'password', array(
-                'required' => false
+                'required' => false,
+                'label' => __('Password')
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
@@ -803,9 +805,11 @@ class Backend implements ControllerProviderInterface
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
+                'label' => __('Email')
             ))
             ->add('displayname', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32)))
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                'label' => __('Display name')
             ));
 
         // If we're adding the first user, add them as 'developer' by default, so don't
@@ -818,7 +822,8 @@ class Backend implements ControllerProviderInterface
             $form->add('userlevel', 'choice', array(
                 'choices' => $userlevels,
                 'expanded' => false,
-                'constraints' => new Assert\Choice(array_keys($userlevels))
+                'constraints' => new Assert\Choice(array_keys($userlevels)),
+                'label' => __('User level')
             ))
                 ->add('enabled', 'choice', array(
                     'choices' => $enabledoptions,
@@ -836,8 +841,14 @@ class Backend implements ControllerProviderInterface
 
         // If we're adding a new user, these fields will be hidden.
         if (!empty($id)) {
-            $form->add('lastseen', 'text', array('disabled' => true))
-                ->add('lastip', 'text', array('disabled' => true));
+            $form->add('lastseen', 'text', array(
+                    'disabled' => true,
+                    'label' => __('Last seen')
+                ))
+                ->add('lastip', 'text', array(
+                    'disabled' => true,
+                    'label' => __('Last IP')
+                ));
         }
 
         // Make sure the passwords are identical and some other check, with a custom validator..
