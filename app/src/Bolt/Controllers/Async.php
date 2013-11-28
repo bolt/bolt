@@ -448,11 +448,20 @@ class Async implements ControllerProviderInterface
     }
 
 
+     /**
+     * Delete a file on the server.
+     *
+     * @param  Silex\Application $app
+     * @param  Request           $request
+     * @return bool
+     */
     public function deletefile(Silex\Application $app, Request $request)
     {
         $filename = $request->request->get('filename');
 
         $filePath = BOLT_PROJECT_ROOT_DIR . '/' . $filename;
+
+        // TODO: ensure that we are deleting a file inside /files folder
 
         if( is_file($filePath) && is_readable($filePath) ) {
             @unlink($filePath);
