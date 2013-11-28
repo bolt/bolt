@@ -1,4 +1,4 @@
-# 312 translated strings
+# 313 translated strings
 
 "%contenttypes% overview": "Listado de %contenttypes%"
 "%contenttypes%": "%contenttypes%"
@@ -264,6 +264,7 @@
 "Upload file": "Subir archivo"
 "Upload image": "Subir imagen"
 "Upload": "Subir"
+"Upload a file to this folder:" "Sube un archivo a esta carpeta"
 "Uploaded files": "Archivos subidos"
 "Uploading to this folder is not allowed.": "Subir a esta carpeta no está permitido"
 "Used Libraries / Components": "Librerías / Componentes usados"
