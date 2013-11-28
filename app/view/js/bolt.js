@@ -117,6 +117,8 @@ jQuery(function($) {
     });
 
 
+    files = new Files();
+
     stack = new Stack();
 
 });
@@ -553,6 +555,51 @@ function bindMarkdown(key) {
     });
 
 }
+
+/**
+ * Backbone object for all file actions functionality.
+ */
+var Files = Backbone.Model.extend({
+
+    defaults: {
+    },
+
+    initialize: function() {
+    },
+
+    /**
+     * Delete a file from the server.
+     *
+     * @param string filename
+     */
+    deleteFile: function(filename, element) {
+
+        if(!confirm('Are you sure you want to delete ' + filename + '?')) {
+            return;
+        }
+
+        $.ajax({
+            url: asyncpath + 'deletefile',
+            type: 'POST',
+            data: { 'filename': filename },
+            success: function(result) {
+                console.log('Deleted file ' + filename  + ' from the server');
+
+                // If we are on the files table, remove image row from the table, as visual feedback
+                if (element != null) {
+                    $(element).closest('tr').slideUp();
+                }
+
+                // TODO delete from Stack if applicable
+
+            },
+            error: function() {
+                console.log('Failed to delete the file from the server');
+            }
+        });
+    }
+
+});
 
 /**
  * Backbone object for all Stack-related functionality.
