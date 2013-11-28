@@ -55,9 +55,8 @@ class Async implements ControllerProviderInterface
             ->assert('path', '.+')
             ->bind('asyncbrowse');
 
-        $ctr->get("/deletefile/{filename}", array($this, 'deletefile'))
+        $ctr->post("/deletefile", array($this, 'deletefile'))
             ->before(array($this, 'before'))
-            ->assert('filename', '.*')
             ->bind('deletefile');
 
         $ctr->get("/addstack/{filename}", array($this, 'addstack'))
@@ -449,8 +448,10 @@ class Async implements ControllerProviderInterface
     }
 
 
-    public function deletefile($filename = "", Silex\Application $app)
+    public function deletefile(Silex\Application $app, Request $request)
     {
+        $filename = $request->request->get('filename');
+
         $filePath = BOLT_PROJECT_ROOT_DIR . '/' . $filename;
 
         if( is_file($filePath) && is_readable($filePath) ) {

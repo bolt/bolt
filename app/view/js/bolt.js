@@ -579,10 +579,10 @@ var Files = Backbone.Model.extend({
         }
 
         $.ajax({
-            url: asyncpath + 'deletefile/' + filename,
-            type: 'GET',
+            url: asyncpath + 'deletefile',
+            type: 'POST',
+            data: { 'filename': filename },
             success: function(result) {
-                console.log(result);
                 console.log('Deleted file ' + filename  + ' from the server');
 
                 // If we are on the files table, remove image row from the table, as visual feedback
