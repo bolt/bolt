@@ -1016,7 +1016,7 @@ class Backend implements ControllerProviderInterface
             // Define the "Upload here" form.
             $form = $app['form.factory']
                 ->createBuilder('form')
-                ->add('FileUpload', 'file', array('label' => __("Upload a file to this folder:"))
+                ->add('FileUpload', 'file', array('label' => __("Upload a file to this folder:")))
                 ->getForm();
 
             // Handle the upload.
