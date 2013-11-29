@@ -16,6 +16,8 @@ jQuery(function($) {
 
     initActions();
 
+    initKeyboardShortcuts();
+
     // Show 'dropzone' for jQuery file uploader.
     // @todo make it prettier, and distinguish between '.in' and '.hover'.
     $(document).bind('dragover', function (e) {
@@ -142,6 +144,21 @@ function initActions() {
     });
 
 }
+
+
+
+/**
+ * Initialize keyboard shortcuts:
+ * - Click 'save' in Edit content screen.
+ * - Click 'save' in "edit file" screen.
+ *
+ */
+function initKeyboardShortcuts() {
+
+
+
+}
+
 
 
 /**
