@@ -352,7 +352,7 @@ class IntegrityChecker
         $usersTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
         $usersTable->addColumn("displayname", "string", array("length" => 32));
         $usersTable->addColumn("userlevel", "string", array("length" => 32));
-        $usersTable->addColumn("contenttypes", "string", array("length" => 256));
+        $usersTable->addColumn("contenttypes", "text", array());
         $usersTable->addColumn("stack", "string", array("length" => 1024, "default" => ""));
         $usersTable->addColumn("enabled", "boolean");
         $usersTable->addIndex( array( 'enabled' ) );
