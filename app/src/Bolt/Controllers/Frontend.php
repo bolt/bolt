@@ -49,7 +49,7 @@ class Frontend
             // Set the 'editlink', if $content contains a valid record.
             if (!empty($content->contenttype['slug'])) {
                 $app['editlink'] = path('editcontent', array('contenttypeslug' => $content->contenttype['slug'], 'id' => $content->id));
-                $app['edittitle'] = $content->title();
+                $app['edittitle'] = $content->getTitle();
             }
 
             if (is_array($content)) {
@@ -115,7 +115,7 @@ class Frontend
         $app['canonicalpath'] = $content->link();
         $app['paths'] = getPaths($app);
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
-        $app['edittitle'] = $content->title();
+        $app['edittitle'] = $content->getTitle();
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
