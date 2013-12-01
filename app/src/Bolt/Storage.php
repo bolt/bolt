@@ -1613,7 +1613,8 @@ class Storage
         } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/random/4'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
-            $meta_parameters['order'] = 'RANDOM';
+            $dboptions = $this->app['config']->getDBoptions();
+            $meta_parameters['order'] = $dboptions['randomfunction']; // 'RAND()' or 'RANDOM()'
             if (!isset($meta_parameters['limit'])) {
                 $meta_parameters['limit'] = $match[2];
             }
@@ -1798,6 +1799,11 @@ class Storage
             $where = array();
             $order = array();
 
+            // Set the 'order', if specified in the meta_parameters.
+            if (!empty($meta_parameters['order'])) {
+                $order[] = $meta_parameters['order'];
+            }
+
             $query = array(
                 'tablename' => $tablename,
                 'contenttype' => $contenttype,
@@ -1825,7 +1831,6 @@ class Storage
                     }
 
                     if ($key == 'filter') {
-                        $filter = $this->app['db']->quote($value);
 
                         $filter_where = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
