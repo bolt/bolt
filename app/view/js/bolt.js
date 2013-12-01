@@ -16,7 +16,9 @@ jQuery(function($) {
 
     initActions();
 
-    initKeyboardShortcuts();
+    window.setTimeout(function(){
+        initKeyboardShortcuts();
+    }, 1000);
 
     // Show 'dropzone' for jQuery file uploader.
     // @todo make it prettier, and distinguish between '.in' and '.hover'.
@@ -155,7 +157,30 @@ function initActions() {
  */
 function initKeyboardShortcuts() {
 
+    // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
+    if ($('#sidebarsavecontinuebutton').is('*')) {
 
+        $('body, input').bind('keydown.ctrl_s keydown.meta_s', function(event) {
+            event.preventDefault();
+            $('#sidebarsavecontinuebutton').trigger('click');
+        });
+
+        // @Todo.. Add unbeforeunload when closing the window with unsaved changes.
+        // http://stackoverflow.com/questions/1565304/jquery-prevent-window-closing
+
+        // @Todo.. Add shortcuts for CKEditor instances as well.
+
+    }
+
+    // If we're on an 'edit file' screen.
+    if ($('#saveeditfile').is('*')) {
+
+        $('body, input').bind('keydown.ctrl_s keydown.meta_s', function(event) {
+            event.preventDefault();
+            $('#saveeditfile').trigger('click');
+        });
+
+    }
 
 }
 
