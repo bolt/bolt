@@ -5,9 +5,9 @@
 </h1>
 
 <ul>
-    <li>Class: {{ class }}</li>
-    <li>Message: {{ message }}</li>
-    <li>Code: {{ code }}</li>
+    <li>{{ __('Class:') }} {{ class }}</li>
+    <li>{{ __('Message:') }} {{ message }}</li>
+    <li>{{ __('Code:') }} {{ code }}</li>
 </ul>
 
 {% if app.config.get('general/debug') %}
@@ -15,7 +15,7 @@
         {% if i.line is defined and i.class is defined %}
             <p>
                 <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
-                <em>{{ i.file }}, line {{ i.line }}</em>
+                <em>{{ i.file }}, {{ __('line') }} {{ i.line }}</em>
                 {%  if i.args is defined %}
                     {{ print(i.args) }}
                 {%  endif %}

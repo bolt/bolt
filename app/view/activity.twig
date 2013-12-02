@@ -21,7 +21,7 @@
         </td>
         <td>
             <b>{{ log.message }} / {{ log.code }}</b> <br>
-            in: {{ log.file }}::{{ log.line }} ({{ log.route }})
+            {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
         </td>
         <td>
         {{ log.username }} <br>
