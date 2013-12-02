@@ -24,7 +24,7 @@
 
                {{ title }}
                {{ pretty.changelogmutation(entry.effectiveMutationType) }}
-               by {{ entry.username }}
+               {{ __('by') }} {{ entry.username }}
                <small>({{ pretty.datetime(entry.date) }})</small>
                <small><a href="{{ path('changelogdetails', { 'contenttype':contenttype.slug, 'contentid': entry.contentid, 'id': entry.id }) }}">view</a></small>
             </li>
@@ -45,7 +45,7 @@
     </ul>
     {% if changelog is defined and contentid and filtered %}
         <a href="{{ path('changeloglist', { 'contenttype': contenttype.slug, 'contentid': contentid }) }}">
-            Full list...
+            {{ __('Full list...') }}
         </a>
     {% endif %}
 </section>

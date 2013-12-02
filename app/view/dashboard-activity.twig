@@ -20,7 +20,7 @@
                 {% set content_display_name = log.message %}
             {% endif %}
 
-            Saved {{ contenttype_display_name }}
+            {{ __('Saved') }} {{ contenttype_display_name }}
             "<strong>{{ content_display_name }}</strong>" {{ __('by') }} <em>{{ userlink }}</em>
         {%  elseif log.code == "login" %}
             <em>{{ userlink }}</em> {{ __('logged in') }}
