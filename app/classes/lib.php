@@ -707,7 +707,7 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     // We need a bit of wrapping here to keep DOMDocument from adding rogue
     // nodes around our HTML. By doing it explicitly, we keep things under
     // control.
-    $doc->loadHTML("<html><body><div>$html</div></body></html>");
+    $doc->loadHTML("<!DOCTYPE html><html><head><meta http-equiv=\"Content-type\" content=\"text/html;charset=utf-8\"/></head><body><div>$html</div></body></html>");
     $options = array();
     if ($stripTags) {
         $options['allowed-tags'] = array();
@@ -717,7 +717,7 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     }
     $options['allowed-attribs'] = array('href', 'src', 'id', 'class', 'style');
     $maid = new Maid($options);
-    $cleanedNodes = $maid->clean($doc->documentElement->firstChild->firstChild);
+    $cleanedNodes = $maid->clean($doc->documentElement->firstChild->nextSibling->firstChild);
     // To collect the cleaned nodes from a node list into a containing node,
     // we have to create yet another document, because cloning nodes inside
     // the same ownerDocument for some reason modifies our node list.
