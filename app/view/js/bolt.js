@@ -158,29 +158,32 @@ function initActions() {
 function initKeyboardShortcuts() {
 
     // We're on a regular 'edit content' page, if we have a sidebarsavecontinuebutton.
-    if ($('#sidebarsavecontinuebutton').is('*')) {
+    // If we're on an 'edit file' screen,  we have a #saveeditfile
+    if ( $('#sidebarsavecontinuebutton').is('*') || $('#saveeditfile').is('*') ) {
 
+        // Bind ctrl-s and meta-s for saving..
         $('body, input').bind('keydown.ctrl_s keydown.meta_s', function(event) {
             event.preventDefault();
-            $('#sidebarsavecontinuebutton').trigger('click');
+            $('form').watchChanges();
+            $('#sidebarsavecontinuebutton, #saveeditfile').trigger('click');
         });
 
-        // @Todo.. Add unbeforeunload when closing the window with unsaved changes.
-        // http://stackoverflow.com/questions/1565304/jquery-prevent-window-closing
+        // Initialize watching for changes on "the form".
+        var $form = $('form').watchChanges();
 
-        // @Todo.. Add shortcuts for CKEditor instances as well.
+        // Initialize handler for 'closing window'
+        window.onbeforeunload = confirmExit;
+
+        function confirmExit()
+        {
+            if ($form.hasChanged()) {
+                return "You have unfinished changes on this page. If you continue without saving, you will lose these changes.";
+            }
+        }
 
     }
 
-    // If we're on an 'edit file' screen.
-    if ($('#saveeditfile').is('*')) {
 
-        $('body, input').bind('keydown.ctrl_s keydown.meta_s', function(event) {
-            event.preventDefault();
-            $('#saveeditfile').trigger('click');
-        });
-
-    }
 
 }
 
