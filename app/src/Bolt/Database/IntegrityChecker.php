@@ -60,6 +60,7 @@ class IntegrityChecker
     public static function invalidate() {
         // delete app/cache/dbcheck-ts
         try {
+            echo " "; // This is a clear case of #LOLPHP. Remove this, and _sometimes_ Whoops throws a hissyfit. Yup.
             @unlink(self::getValidityTimestampFilename());
         }
         catch (\ErrorException $ex) {
