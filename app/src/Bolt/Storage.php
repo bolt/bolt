@@ -781,9 +781,14 @@ class Storage
         }
 
         $tablename = $this->getTablename($contenttype);
-
-        $content['datecreated'] = date('Y-m-d H:i:s');
-        $content['datechanged'] = date('Y-m-d H:i:s');
+        
+        $columns = $this->app['db']->getSchemaManager()->listTableColumns($tablename);
+        foreach ($columns as $column) {
+            if (array_key_exists($column->getName(), $content) && $column->getType() instanceof DateTimeType)
+            {
+                $content[$column->getName()] = date('Y-m-d H:i:s');
+            }
+        }
 
         // id is set to autoincrement, so let the DB handle it
         unset($content['id']);
