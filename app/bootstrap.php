@@ -1,5 +1,8 @@
 <?php
 
+mb_internal_encoding('UTF-8');
+mb_http_output('UTF-8');
+
 if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
     if (substr(dirname(__FILE__), -21) == '/vendor/bolt/bolt/app') { // installed bolt with composer
         define('BOLT_COMPOSER_INSTALLED', true);
