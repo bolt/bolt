@@ -87,11 +87,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'autoescape' => true )
 ));
 
-// Add the string loader..
-$loader = new Twig_Loader_String();
-$app['twig.loader']->addLoader($loader);
-
-
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => $dboptions
 ));
