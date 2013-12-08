@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Render;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class RenderServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['render'] = $app->share(function ($app) {
 
-            $render = new Bolt\Render($app);
+            $render = new Render($app);
 
             return $render;
 
@@ -21,7 +21,7 @@ class RenderServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }

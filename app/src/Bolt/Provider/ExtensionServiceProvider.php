@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Extensions;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class ExtensionServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['extensions'] = $app->share(function ($app) {
 
-            $extensions = new Bolt\Extensions($app);
+            $extensions = new Extensions($app);
 
             return $extensions;
 
@@ -21,7 +21,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }
