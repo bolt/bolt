@@ -53,33 +53,35 @@ class IntegrityChecker
 
     }
 
-    private static function getValidityTimestampFilename() {
+    private static function getValidityTimestampFilename()
+    {
         return dirname(__FILE__) . '/../../../cache/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
-    public static function invalidate() {
+    public static function invalidate()
+    {
         // delete app/cache/dbcheck-ts
-        try {
-            @unlink(self::getValidityTimestampFilename());
+        if (is_writable(self::getValidityTimestampFilename())) {
+            unlink(self::getValidityTimestampFilename());
+        } else if (file_exists(self::getValidityTimestampFilename())) {
+            $message = sprintf(
+                "The file 'app/cache/%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
+                self::INTEGRITY_CHECK_TS_FILENAME
+            );
+            die($message);
         }
-        catch (\ErrorException $ex) {
-            /*
-            100 REM TECHNICALLY, WE SHOULD CATCH MORE SPECIFICALLY HERE,
-            110 REM AND THE @ SHOULD SILENCE THE FILE-NOT-FOUND ERROR
-            120 REM ANYWAY, BUT FOR SOME REASON, THIS DOESN'T WORK.
-            130 REM SO INSTEAD, WE'LL DO:
-            140 ON ERROR RESUME NEXT
-            */
-        }
+
     }
 
-    public static function markValid() {
+    public static function markValid()
+    {
         // write current date/time > app/cache/dbcheck-ts
         $timestamp = time();
         file_put_contents(self::getValidityTimestampFilename(), $timestamp);
     }
 
-    public static function isValid() {
+    public static function isValid()
+    {
         // compare app/cache/dbcheck-ts vs. current timestamp
         $validityTS = intval(@file_get_contents(self::getValidityTimestampFilename()));
         return ($validityTS >= time() - self::INTEGRITY_CHECK_INTERVAL);
