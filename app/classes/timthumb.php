@@ -25,7 +25,7 @@
  */
 
 // @see: http://stackoverflow.com/questions/6483912/php-serverredirect-url-vs-serverrequest-uri
-if (!empty($_SERVER['REDIRECT_URL'])) {
+if (!empty($_SERVER['REDIRECT_URL']) && (strpos($_SERVER['REDIRECT_URL'], 'timthumb.php') === false)) {
     $requesturi = $_SERVER['REDIRECT_URL'];
 } else {
     $requesturi = $_SERVER['REQUEST_URI'];
