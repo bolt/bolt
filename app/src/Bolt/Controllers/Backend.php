@@ -1390,7 +1390,7 @@ class Backend implements ControllerProviderInterface
     public function before(Request $request, \Bolt\Application $app)
     {
         // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('Bolt/Backend/Before');
+        $app['stopwatch']->start('bolt.backend.before');
 
         $route = $request->get('_route');
 
@@ -1427,7 +1427,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('Bolt/Backend/Before');
+        $app['stopwatch']->stop('bolt.backend.before');
 
     }
 

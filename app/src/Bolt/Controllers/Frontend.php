@@ -17,7 +17,7 @@ class Frontend
     public static function before(Request $request, \Bolt\Application $app)
     {
         // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('Bolt/Frontend/Before');
+        $app['stopwatch']->start('bolt.frontend.before');
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
@@ -42,7 +42,7 @@ class Frontend
         }
 
         // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('Bolt/Frontend/Before');
+        $app['stopwatch']->stop('bolt.frontend.before');
 
 
     }

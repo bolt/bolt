@@ -509,7 +509,7 @@ class Async implements ControllerProviderInterface
     public function before(Request $request, Silex\Application $app)
     {
         // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('Bolt/Async/Before');
+        $app['stopwatch']->start('bolt.async.before');
 
         // Only set which endpoint it is, if it's not already set. Which it is, in cases like
         // when it's embedded on a page using {{ render() }}
@@ -524,7 +524,7 @@ class Async implements ControllerProviderInterface
         }
 
         // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('Bolt/Async/Before');
+        $app['stopwatch']->stop('bolt.async.before');
 
     }
 

@@ -24,7 +24,7 @@ $app->mount('', new Bolt\Controllers\Routing());
 $app->before(function (Request $request) use ($app) {
 
     // Start the 'stopwatch' for the profiler.
-    $app['stopwatch']->start('Bolt/App/Before');
+    $app['stopwatch']->start('bolt.app.before');
 
     $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
     $app['twig']->addGlobal('bolt_version', $app['bolt_version']);
@@ -43,7 +43,7 @@ $app->before(function (Request $request) use ($app) {
     $app['config']->checkConfig();
 
     // Stop the 'stopwatch' for the profiler.
-    $app['stopwatch']->stop('Bolt/App/Before');
+    $app['stopwatch']->stop('bolt.app.before');
 
 });
 
@@ -94,7 +94,7 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
 $app->after(function (Request $request, Response $response) use ($app) {
 
     // Start the 'stopwatch' for the profiler.
-    $app['stopwatch']->start('Bolt/App/After');
+    $app['stopwatch']->start('bolt.app.after');
 
     // true if we need to consider adding html snippets
     if (isset($app['htmlsnippets']) && ($app['htmlsnippets'] === true)) {
@@ -130,7 +130,7 @@ $app->after(function (Request $request, Response $response) use ($app) {
     }
 
     // Stop the 'stopwatch' for the profiler.
-    $app['stopwatch']->stop('Bolt/App/After');
+    $app['stopwatch']->stop('bolt.app.after');
 
 });
 
