@@ -108,7 +108,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
 
-        return $this->app['twig']->render('base.twig', array(
+        return $this->app['render']->render('base.twig', array(
             'title' => "Import WXR (PivotX / Wordpress XML)",
             'content' => $output
         ));

@@ -22,6 +22,10 @@ if ($app['config']->get('general/enforce_ssl')) {
 $app->mount('', new Bolt\Controllers\Routing());
 
 $app->before(function (Request $request) use ($app) {
+
+    // Start the 'stopwatch' for the profiler.
+    $app['stopwatch']->start('Bolt/App/Before');
+
     $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
     $app['twig']->addGlobal('bolt_version', $app['bolt_version']);
 
@@ -37,6 +41,9 @@ $app->before(function (Request $request) use ($app) {
     // Sanity checks for doubles in in contenttypes.
     // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
     $app['config']->checkConfig();
+
+    // Stop the 'stopwatch' for the profiler.
+    $app['stopwatch']->stop('Bolt/App/Before');
 
 });
 
@@ -86,6 +93,9 @@ if ($app['debug'] && ($app['session']->has('user') || $app['config']->get('gener
 
 $app->after(function (Request $request, Response $response) use ($app) {
 
+    // Start the 'stopwatch' for the profiler.
+    $app['stopwatch']->start('Bolt/App/After');
+
     // true if we need to consider adding html snippets
     if (isset($app['htmlsnippets']) && ($app['htmlsnippets'] === true)) {
 
@@ -119,6 +129,9 @@ $app->after(function (Request $request, Response $response) use ($app) {
         }
     }
 
+    // Stop the 'stopwatch' for the profiler.
+    $app['stopwatch']->stop('Bolt/App/After');
+
 });
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -136,7 +149,7 @@ $app->error(function (\Exception $e) use ($app) {
         $user = $app['users']->getCurrentUser();
         if ($user['userlevel'] < 2) {
             $template = $app['config']->get('general/maintenance_template');
-            $body = $app['twig']->render($template);
+            $body = $app['render']->render($template);
             return new Response($body, 503);
         }
     }
@@ -181,7 +194,7 @@ $app->error(function (\Exception $e) use ($app) {
         if ($content instanceof \Bolt\Content && !empty($content->id)) {
             $template = $content->template();
 
-            return $app['twig']->render($template, array(
+            return $app['render']->render($template, array(
                 'record' => $content,
                 $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
             ));
@@ -191,8 +204,7 @@ $app->error(function (\Exception $e) use ($app) {
 
     }
 
-    return $app['twig']->render('error.twig', $twigvars);
-
+    return $app['render']->render('error.twig', $twigvars);
 
 });
 

@@ -226,7 +226,7 @@ EOM;
         );
 
         $this->app['twig.loader.filesystem']->addPath(__DIR__, 'GoogleAnalytics');
-        $html = $this->app['twig']->render("@GoogleAnalytics/widget.twig", array(
+        $html = $this->app['render']->render("@GoogleAnalytics/widget.twig", array(
             'caption' => $caption,
             'aggr' => $aggr,
             'pageviews' => $pageviews,

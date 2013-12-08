@@ -16,6 +16,9 @@ class Frontend
 {
     public static function before(Request $request, \Bolt\Application $app)
     {
+        // Start the 'stopwatch' for the profiler.
+        $app['stopwatch']->start('Bolt/Frontend/Before');
+
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
@@ -33,10 +36,14 @@ class Frontend
             $user = $app['users']->getCurrentUser();
             if ($user['userlevel'] < 2) {
                 $template = $app['config']->get('general/maintenance_template');
-                $body = $app['twig']->render($template);
+                $body = $app['render']->render($template);
                 return new Response($body, 503);
             }
         }
+
+        // Stop the 'stopwatch' for the profiler.
+        $app['stopwatch']->stop('Bolt/Frontend/Before');
+
 
     }
 
@@ -69,7 +76,7 @@ class Frontend
 
         $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
     }
 
     public static function record(Silex\Application $app, $contenttypeslug, $slug)
@@ -123,7 +130,7 @@ class Frontend
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
         // Render the template and return.
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -156,7 +163,7 @@ class Frontend
         $app['twig']->addGlobal('record', $content);
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -211,7 +218,7 @@ class Frontend
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal($contenttype['slug'], $content);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -264,7 +271,7 @@ class Frontend
         $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -289,7 +296,7 @@ class Frontend
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('search', $search);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -356,7 +363,7 @@ class Frontend
 
         $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
     }
 
 }

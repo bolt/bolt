@@ -155,6 +155,9 @@ $app['edittitle'] = "";
     )
 ));
 
+
+$app->register(new Bolt\Provider\RenderServiceProvider());
+
 // Add the Bolt Twig functions, filters and tags.
 $app['twig']->addExtension(new Bolt\TwigExtension($app));
 $app['twig']->addTokenParser(new Bolt\SetcontentTokenParser());

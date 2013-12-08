@@ -266,7 +266,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
 
-        $formhtml = $this->app['twig']->render($formconfig['template'], array(
+        $formhtml = $this->app['render']->render($formconfig['template'], array(
             "submit" => "Send",
             "form" => $form->createView(),
             "message" => $message,
@@ -371,7 +371,7 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        $mailhtml = $this->app['twig']->render($formconfig['mail_template'], array(
+        $mailhtml = $this->app['render']->render($formconfig['mail_template'], array(
             'form' =>  $data ));
 
         if($formconfig['debugmode']==true) {

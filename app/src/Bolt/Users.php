@@ -546,7 +546,7 @@ class Users
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
             // Compile the email with the shadow password and reset link..
-            $mailhtml = $this->app['twig']->render('mail/passwordreset.twig', array(
+            $mailhtml = $this->app['render']->render('mail/passwordreset.twig', array(
                 'user' => $user,
                 'shadowpassword' => $shadowpassword,
                 'shadowtoken' => $shadowtoken,

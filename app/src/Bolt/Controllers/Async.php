@@ -132,7 +132,7 @@ class Async implements ControllerProviderInterface
             $app['log']->add("News: get from cache..", 1);
         }
 
-        $body = $app['twig']->render('dashboard-news.twig', array('news' => $news));
+        $body = $app['render']->render('dashboard-news.twig', array('news' => $news));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
@@ -145,7 +145,7 @@ class Async implements ControllerProviderInterface
     {
         $activity = $app['log']->getActivity(8, 3);
 
-        $body = $app['twig']->render('dashboard-activity.twig', array('activity' => $activity));
+        $body = $app['render']->render('dashboard-activity.twig', array('activity' => $activity));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
 
@@ -285,7 +285,7 @@ class Async implements ControllerProviderInterface
         // get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
-        $body = $app['twig']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
+        $body = $app['render']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -310,7 +310,7 @@ class Async implements ControllerProviderInterface
             'contentid' => $contentid,
             'filtered' => $isFiltered,
             );
-        $body = $app['twig']->render('_sub_lastmodified.twig', $renderVars);
+        $body = $app['render']->render('_sub_lastmodified.twig', $renderVars);
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -340,7 +340,7 @@ class Async implements ControllerProviderInterface
 
         }
 
-        return $app['twig']->render('filebrowser.twig', array(
+        return $app['render']->render('filebrowser.twig', array(
             'results' => $results
         ));
 
@@ -437,7 +437,7 @@ class Async implements ControllerProviderInterface
         ksort($files);
         ksort($folders);
 
-        return $app['twig']->render('files_async.twig', array(
+        return $app['render']->render('files_async.twig', array(
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
@@ -493,7 +493,7 @@ class Async implements ControllerProviderInterface
 
         $stack = $app['stack']->listitems($count);
 
-        return $app['twig']->render('_sub_stack.twig', array(
+        return $app['render']->render('_sub_stack.twig', array(
             'stack' => $stack,
             'options' => $options
         ));
@@ -508,6 +508,9 @@ class Async implements ControllerProviderInterface
      */
     public function before(Request $request, Silex\Application $app)
     {
+        // Start the 'stopwatch' for the profiler.
+        $app['stopwatch']->start('Bolt/Async/Before');
+
         // Only set which endpoint it is, if it's not already set. Which it is, in cases like
         // when it's embedded on a page using {{ render() }}
         // @todo Is this still needed?
@@ -519,6 +522,9 @@ class Async implements ControllerProviderInterface
         if (!$app['users']->isValidSession()) {
             $app->abort(404, "You must be logged in to use this.");
         }
+
+        // Stop the 'stopwatch' for the profiler.
+        $app['stopwatch']->stop('Bolt/Async/Before');
 
     }
 

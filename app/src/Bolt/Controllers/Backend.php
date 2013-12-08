@@ -165,7 +165,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Dashboard"));
 
-        return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
+        return $app['render']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
 
     }
 
@@ -208,7 +208,7 @@ class Backend implements ControllerProviderInterface
     public function getLogin(Silex\Application $app, Request $request)
     {
         $app['twig']->addGlobal('title', "Login");
-        return $app['twig']->render('login.twig');
+        return $app['render']->render('login.twig');
     }
 
     /**
@@ -254,7 +254,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['twig']->render('dbcheck.twig', array(
+        return $app['render']->render('dbcheck.twig', array(
             'required_modifications' => $output,
             'active' => "settings"
         ));
@@ -292,7 +292,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['twig']->render('dbcheck.twig', array(
+        return $app['render']->render('dbcheck.twig', array(
             'modifications' => $output,
             'active' => "settings"
         ));
@@ -321,7 +321,7 @@ class Backend implements ControllerProviderInterface
 
         $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
 
-        return $app['twig']->render('base.twig', array(
+        return $app['render']->render('base.twig', array(
             'content' => $content,
             'active' => "settings"
         ));
@@ -353,7 +353,7 @@ class Backend implements ControllerProviderInterface
 
         $activity = $app['log']->getActivity(16);
 
-        return $app['twig']->render('activity.twig', array('title' => $title, 'activity' => $activity));
+        return $app['render']->render('activity.twig', array('title' => $title, 'activity' => $activity));
 
     }
 
@@ -388,7 +388,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
-        return $app['twig']->render('base.twig', array(
+        return $app['render']->render('base.twig', array(
             'content' => '',
             'contenttypes' => $choices,
             'form' => $form->createView()
@@ -434,7 +434,7 @@ class Backend implements ControllerProviderInterface
         $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
         $app['twig']->addGlobal('title', $title);
 
-        return $app['twig']->render('overview.twig',
+        return $app['render']->render('overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
         );
 
@@ -545,7 +545,7 @@ class Backend implements ControllerProviderInterface
             'pagecount' => $pagecount,
             'currentpage' => $page,
             );
-        return $app['twig']->render('changeloglist.twig', $renderVars);
+        return $app['render']->render('changeloglist.twig', $renderVars);
     }
 
     public function changelogDetails($contenttype, $contentid, $id, Silex\Application $app, Request $request)
@@ -565,7 +565,7 @@ class Backend implements ControllerProviderInterface
             'prevEntry' => $prev,
             'content' => $content,
             );
-        return $app['twig']->render('changelogdetails.twig', $renderVars);
+        return $app['render']->render('changelogdetails.twig', $renderVars);
     }
 
     /**
@@ -673,7 +673,7 @@ class Backend implements ControllerProviderInterface
             $contentowner = $user['username'];
         }
 
-        return $app['twig']->render('editcontent.twig', array(
+        return $app['render']->render('editcontent.twig', array(
             'contenttype' => $contenttype,
             'content' => $content,
             'contentowner' => $contentowner
@@ -754,7 +754,7 @@ class Backend implements ControllerProviderInterface
         $sessions = $app['users']->getActiveSessions();
         $userlevels = $app['users']->getUserLevels();
 
-        return $app['twig']->render(
+        return $app['render']->render(
             'users.twig',
             array('users' => $users, 'userlevels' => $userlevels, 'sessions' => $sessions)
         );
@@ -917,7 +917,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['twig']->render('edituser.twig', array(
+        return $app['render']->render('edituser.twig', array(
             'form' => $form->createView(),
             'title' => $title
         ));
@@ -983,7 +983,7 @@ class Backend implements ControllerProviderInterface
      */
     public function about(Silex\Application $app)
     {
-        return $app['twig']->render('about.twig');
+        return $app['render']->render('about.twig');
 
     }
 
@@ -997,7 +997,7 @@ class Backend implements ControllerProviderInterface
 
         $extensions = $app['extensions']->getInfo();
 
-        return $app['twig']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
+        return $app['render']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
 
     }
 
@@ -1121,7 +1121,7 @@ class Backend implements ControllerProviderInterface
             $twig = 'files_ck.twig';
         }
 
-        return $app['twig']->render($twig, array(
+        return $app['render']->render($twig, array(
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
@@ -1224,7 +1224,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['twig']->render('editconfig.twig', array(
+        return $app['render']->render('editconfig.twig', array(
             'form' => $form->createView(),
             'title' => $title,
             'filetype' => $type,
@@ -1375,7 +1375,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['twig']->render('editlocale.twig', array(
+        return $app['render']->render('editlocale.twig', array(
             'form' => $form->createView(),
             'title' => $title,
             'filetype' => $type,
@@ -1389,6 +1389,8 @@ class Backend implements ControllerProviderInterface
      */
     public function before(Request $request, \Bolt\Application $app)
     {
+        // Start the 'stopwatch' for the profiler.
+        $app['stopwatch']->start('Bolt/Backend/Before');
 
         $route = $request->get('_route');
 
@@ -1423,6 +1425,9 @@ class Backend implements ControllerProviderInterface
 
             return redirect('useredit', array('id' => ""));
         }
+
+        // Stop the 'stopwatch' for the profiler.
+        $app['stopwatch']->stop('Bolt/Backend/Before');
 
     }
 

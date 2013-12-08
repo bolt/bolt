@@ -556,7 +556,7 @@ class Content implements \ArrayAccess
             $this->app['twig']->setLoader(new \Twig_Loader_String());
 
             // Parse the snippet.
-            $snippet = $this->app['twig']->render($snippet);
+            $snippet = $this->app['render']->render($snippet);
 
             // Re-set the loaders back to the old situation.
             $this->app['twig']->setLoader($oldloader);

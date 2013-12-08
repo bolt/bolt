@@ -87,7 +87,7 @@ class Extension extends \Bolt\BaseExtension
 
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
-        $body = $this->app['twig']->render($template, array(
+        $body = $this->app['render']->render($template, array(
             'entries' => $links
         ));
 
