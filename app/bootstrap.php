@@ -40,12 +40,13 @@ $checker->doChecks();
 require_once BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php';
 require_once __DIR__.'/classes/util.php';
 
-// Initialize the 'Bolt application'.
+// Create the 'Bolt application'.
 $app = new Bolt\Application();
 
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($app['config']);
 
+// Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
 $app->initialize();
 
 // Set the Krumo default configuration.
