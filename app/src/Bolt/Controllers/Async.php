@@ -488,8 +488,8 @@ class Async implements ControllerProviderInterface
     public function showstack(Silex\Application $app)
     {
 
-        $count = $app->request->get('items', 10);
-        $options = $app->request->get('options', false);
+        $count = $app['request']->get('items', 10);
+        $options = $app['request']->get('options', false);
 
         $stack = $app['stack']->listitems($count);
 
