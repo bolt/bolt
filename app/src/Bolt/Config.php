@@ -469,6 +469,10 @@ class Config
             'listing_records' => '5',
             'listing_sort' => 'datepublish DESC',
             'crypto_rng' => 'mt_rand',
+            'caching' => array(
+                'config' => true,
+                'rendering' => false
+            ),
             'wysiwyg' => array(
                 'images' => true,
                 'tables' => false,
@@ -598,7 +602,11 @@ class Config
     private function saveCache()
     {
 
-        saveSerialize(__DIR__ . "/../../cache/config_cache.php", $this->data);
+        if ($this->get('general/caching/config')) {
+            saveSerialize(__DIR__ . "/../../cache/config_cache.php", $this->data);
+        } else {
+            @unlink(__DIR__ . "/../../cache/config_cache.php");
+        }
 
     }
 
