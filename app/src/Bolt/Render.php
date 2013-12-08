@@ -25,12 +25,12 @@ class Render
     {
 
         // Start the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->start('bolt.rendertemplate');
+        $this->app['stopwatch']->start('bolt.render', 'template');
 
         $html = $this->app['twig']->render($template, $vars);
 
         // Stop the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->stop('bolt.rendertemplate');
+        $this->app['stopwatch']->stop('bolt.render');
 
         return $html;
 

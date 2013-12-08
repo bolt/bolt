@@ -300,6 +300,11 @@ class Application extends \Silex\Application
             });
 
         } else {
+
+            $app['stopwatch'] = $app->share(function () {
+                return new \Symfony\Component\Stopwatch\Stopwatch();
+            });
+
             error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
         }
 
