@@ -40,52 +40,6 @@ class Storage
     }
 
     /**
-     * @return Database\IntegrityChecker
-     */
-    public function getIntegrityChecker()
-    {
-        return new \Bolt\Database\IntegrityChecker($this->app);
-
-    }
-
-    /**
-     * Check if just the users table is present.
-     *
-     * @return boolean
-     * @deprecated see \Bolt\Database\IntegrityChecker::checkUserTableIntegrity()
-     */
-    public function checkUserTableIntegrity()
-    {
-        return $this->getIntegrityChecker()->checkUserTableIntegrity();
-    }
-
-    /**
-     * Check if all required tables and columns are present in the DB
-     *
-     * @return boolean
-     * @deprecated see \Bolt\Database\IntegrityChecker::checkTablesIntegrity()
-     */
-    public function checkTablesIntegrity()
-    {
-        $messages = $this->getIntegrityChecker()->checkTablesIntegrity();
-
-        if (empty($messages)) {
-            return true;
-        } else {
-            return $messages;
-        }
-    }
-
-    /**
-     * @return array
-     * @deprecated see \Bolt\Database\IntegrityChecker::repairTables()
-     */
-    public function repairTables()
-    {
-        return $this->getIntegrityChecker()->repairTables();
-    }
-
-    /**
      * Get an object for the content of a specific contenttype. This will be
      * \Bolt\Content, unless the contenttype defined another class to be used.
      *

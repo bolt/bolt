@@ -189,6 +189,8 @@ class Application extends \Silex\Application
         // Initialize enabled extensions.
         $this['extensions']->initialize();
 
+        $this['integritychecker'] = new \Bolt\Database\IntegrityChecker($this);
+
     }
 
 

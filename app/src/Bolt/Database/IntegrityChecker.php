@@ -30,6 +30,11 @@ class IntegrityChecker
      */
     private $textDefault = null;
 
+    /**
+     * Current tables.
+     */
+    private $tables;
+
     const INTEGRITY_CHECK_INTERVAL = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
 
@@ -50,6 +55,8 @@ class IntegrityChecker
         if ($this->app['db']->getDatabasePlatform() instanceof SqlitePlatform) {
             $this->textDefault = '';
         }
+
+        $this->tables = null;
 
     }
 
@@ -94,19 +101,22 @@ class IntegrityChecker
      */
     protected function getTableObjects()
     {
+        if (!empty($this->tables)) {
+            return $this->tables;
+        }
 
         $sm = $this->app['db']->getSchemaManager();
 
-        $tables = array();
+        $this->tables = array();
 
         foreach ($sm->listTables() as $table) {
             if ( strpos($table->getName(), $this->prefix) === 0 ) {
-                $tables[ $table->getName() ] = $table;
+                $this->tables[ $table->getName() ] = $table;
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
         }
 
-        return $tables;
+        return $this->tables;
 
     }
 
@@ -117,7 +127,6 @@ class IntegrityChecker
      */
     public function checkUserTableIntegrity()
     {
-
         $tables = $this->getTableObjects();
 
         // Check the users table..

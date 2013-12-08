@@ -373,8 +373,8 @@ class Config
         }
 
         // Check DB-tables integrity
-        if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
-            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity()) > 0) {
+        if ($this->app['integritychecker']->needsCheck()) {
+            if (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) {
                 $msg = __(
                     "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
                     array("%link%" => path('dbcheck'))

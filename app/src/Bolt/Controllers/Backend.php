@@ -250,7 +250,7 @@ class Backend implements ControllerProviderInterface
     public function dbcheck(\Bolt\Application $app)
     {
 
-        $output = $app['storage']->getIntegrityChecker()->checkTablesIntegrity();
+        $output = $app['integritychecker']->checkTablesIntegrity();
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
@@ -267,7 +267,7 @@ class Backend implements ControllerProviderInterface
     public function dbupdate(Silex\Application $app)
     {
 
-        $output = $app['storage']->getIntegrityChecker()->repairTables();
+        $output = $app['integritychecker']->repairTables();
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
@@ -783,7 +783,7 @@ class Backend implements ControllerProviderInterface
             $firstuser = true;
             $title = __('Create the first user');
             // If we get here, chances are we don't have the tables set up, yet.
-            $app['storage']->getIntegrityChecker()->repairTables();
+            $app['integritychecker']->repairTables();
         } else {
             $firstuser = false;
         }
@@ -1411,7 +1411,7 @@ class Backend implements ControllerProviderInterface
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
-        if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
+        if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
             $app['twig']->addGlobal('frontend', false);
 
             return;
@@ -1419,8 +1419,8 @@ class Backend implements ControllerProviderInterface
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-            $app['storage']->getIntegrityChecker()->repairTables();
+        if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+            $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
 
             return redirect('useredit', array('id' => ""));

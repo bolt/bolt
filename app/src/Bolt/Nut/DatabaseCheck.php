@@ -16,7 +16,7 @@ class DatabaseCheck extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messages = $this->app['storage']->getIntegrityChecker()->checkTablesIntegrity();
+        $messages = $this->app['integritychecker']->checkTablesIntegrity();
 
         if (!empty($messages)) {
             $output->writeln("<info>Modifications required:</info>");

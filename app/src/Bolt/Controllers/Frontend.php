@@ -21,7 +21,8 @@ class Frontend
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+        if (!$app['users']->getUsers()) {
+            //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
 
             return redirect('useredit', array('id' => ""));

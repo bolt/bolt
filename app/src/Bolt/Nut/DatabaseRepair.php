@@ -16,7 +16,7 @@ class DatabaseRepair extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['storage']->getIntegrityChecker()->repairTables();
+        $result = $this->app['integritychecker']->repairTables();
 
         if (empty($result)) {
             $content = "<info>Your database is already up to date.</info>";
