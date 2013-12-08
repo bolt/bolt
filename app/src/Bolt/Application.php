@@ -74,7 +74,6 @@ class Application extends \Silex\Application
         // Initialise the 'error' handler.
         $this->initErrorHandler();
 
-
     }
 
 
@@ -222,7 +221,7 @@ class Application extends \Silex\Application
     public function initBeforeHandler()
     {
 
-        // PHP does not allow 'use ($this)' in closures.
+        // PHP 5.3 does not allow 'use ($this)' in closures.
         $app = $this;
 
         $this->before(function (Request $request) use ($app) {
@@ -258,7 +257,7 @@ class Application extends \Silex\Application
     public function initAfterHandler()
     {
 
-        // PHP does not allow 'use ($this)' in closures.
+        // PHP 5.3 does not allow 'use ($this)' in closures.
         $app = $this;
 
         // On 'finish' attach the debug-bar, if debug is enabled..
@@ -355,7 +354,7 @@ class Application extends \Silex\Application
     public function initErrorHandler()
     {
 
-        // PHP does not allow 'use ($this)' in closures.
+        // PHP 5.3 does not allow 'use ($this)' in closures.
         $app = $this;
 
         $this->error(function (\Exception $e) use ($app) {
