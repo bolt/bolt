@@ -114,14 +114,13 @@ class Application extends \Silex\Application
         $this->register(new \Silex\Provider\TwigServiceProvider(), array(
             'twig.path' => $this['config']->get('twigpath'),
             'twig.options' => array(
-                'debug'=>true,
+                'debug' => true,
                 'cache' => __DIR__.'/../../cache/',
                 'strict_variables' => $this['config']->get('general/strict_variables'),
                 'autoescape' => true )
         ));
 
         $this->register(new Provider\RenderServiceProvider());
-
 
     }
 

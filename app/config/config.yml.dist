@@ -80,7 +80,8 @@ recordsperpage: 10
 # Settings for caching in parts of Bolt.
 caching:
   config: true
-  rendering: true
+  templates: true
+  rendering: false
 
 # Set 'enabled' to 'true' to log all content changes in the database.
 # Unless you need to rigorously monitor every change to your site's content, it

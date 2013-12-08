@@ -49,21 +49,5 @@ $checker->doDatabaseCheck($app['config']);
 // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
 $app->initialize();
 
-// Set the Krumo default configuration.
-// @todo: Refactor this out. Shouldn't be here..
-\Krumo::setConfig(array(
-    'skin' => array(
-        'selected' => "stylish"
-    ),
-    'display' => array(
-        'show_version' => false,
-        'show_call_info' => false,
-        'cascade' => array(10,5,1),
-        'truncate_length' => 70,
-        'sort_arrays' => false
-    ),
-    'dont_traverse' => array(
-        'objects' => array('Bolt\Application')
-    )
-));
-
+// Here we go! 
+$app->run();

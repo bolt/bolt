@@ -22,9 +22,3 @@ if ('cli-server' === php_sapi_name()) {
 }
 
 require_once dirname(__FILE__).'/app/bootstrap.php';
-
-if ($app['debug']) {
-    $app->run();
-} else {
-    $app['http_cache']->run();
-}
