@@ -268,7 +268,7 @@ class Application extends \Silex\Application
 
     public function initAfterHandler()
     {
-        // On 'finish' attach the debug-bar, if debug is enabled..
+        // On 'after' attach the debug-bar, if debug is enabled..
         if ($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff') ) ) {
 
             // Set the error_reporting to the level specified in config.yml
@@ -362,9 +362,8 @@ class Application extends \Silex\Application
                     $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 
-                $html = $response->getContent();
-
-                $html = $this['extensions']->processSnippetQueue($html);
+                // Do some post-processing.. Hooks, snippets..
+                $html = $this['render']->postProces($response);
 
                 $response->setContent($html);
             }

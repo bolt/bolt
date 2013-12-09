@@ -2,7 +2,9 @@
 
 namespace Bolt;
 
-Use Silex;
+use Silex;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Wrapper around Twig's render() function.
@@ -47,6 +49,20 @@ class Render
 
     }
 
+    
+    public function postProces(Response $response)
+    {
+        $html = $response->getContent();
+
+        $html = $this->app['extensions']->processSnippetQueue($html);
+
+        $this->cacheRequest($html);
+
+        return $html;
+
+    }
+
+
     public function fetchCachedPage($template)
     {
         $key = md5($template . $this->app['request']->getRequestUri());
@@ -67,11 +83,19 @@ class Render
     public function cacheRenderedPage($template, $html)
     {
 
-        if ($this->app['end'] == "frontend" && $this->app['config']->get('general/caching/request')) {
+        if ($this->app['end'] == "frontend" && $this->app['config']->get('general/caching/templates')) {
 
             // Store it part-wise, with the correct template name..
             $key = md5($template . $this->app['request']->getRequestUri());
             $this->app['cache']->save($key, $html, 300);
+
+        }
+
+    }
+
+    public function cacheRequest($html) {
+
+        if ($this->app['end'] == "frontend" && $this->app['config']->get('general/caching/request')) {
 
             // This is where the magic happens.. We also store it with an empty 'template' name,
             // So we can later fetch it by its request..
