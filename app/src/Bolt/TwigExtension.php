@@ -85,6 +85,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('first', array($this, 'first')),
             new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('safestring', array($this, 'safestring'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('round', array($this, 'round')),
             new \Twig_SimpleFilter('floor', array($this, 'floor')),
             new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
@@ -1102,6 +1103,24 @@ class TwigExtension extends \Twig_Extension
 
         return null;
     }
+
+    /**
+     * Return a 'safe string' version of a given string.
+     *
+     * @see function safeString() in app/classes/lib.php.
+     *
+     * @param $str
+     * @param bool $strict
+     * @param string $extrachars
+     * @return string
+     */
+    public function safestring($str, $strict = false, $extrachars = "")
+    {
+
+        return safeString($str, $strict, $extrachars);
+
+    }
+
 
     /**
      * Redirect the browser to another page.
