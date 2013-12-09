@@ -66,13 +66,13 @@ class Application extends \Silex\Application
         $this->initMountpoints();
 
         // Initialise the global 'before' handler.
-        $this->initBeforeHandler();
+        $this->before(array($this, "BeforeHandler"));
 
         // Initialise the global 'after' handlers.
         $this->initAfterHandler();
 
         // Initialise the 'error' handler.
-        $this->initErrorHandler();
+        $this->error(array($this, "ErrorHandler"));
 
     }
 
@@ -219,48 +219,35 @@ class Application extends \Silex\Application
 
     }
 
-    public function initBeforeHandler()
+    public function BeforeHandler(Request $request)
     {
+        // Start the 'stopwatch' for the profiler.
+        $this['stopwatch']->start('bolt.app.before');
 
-        // PHP 5.3 does not allow 'use ($this)' in closures.
-        $app = $this;
+        $this['twig']->addGlobal('bolt_name', $this['bolt_name']);
+        $this['twig']->addGlobal('bolt_version', $this['bolt_version']);
 
-        $this->before(function (Request $request) use ($app) {
+        $this['twig']->addGlobal('frontend', false);
+        $this['twig']->addGlobal('backend', false);
+        $this['twig']->addGlobal('async', false);
+        $this['twig']->addGlobal($this['config']->getWhichEnd(), true);
 
-            // Start the 'stopwatch' for the profiler.
-            $app['stopwatch']->start('bolt.app.before');
+        $this['twig']->addGlobal('user', $this['users']->getCurrentUser());
+        $this['twig']->addGlobal('users', $this['users']->getUsers());
+        $this['twig']->addGlobal('config', $this['config']);
 
-            $app['twig']->addGlobal('bolt_name', $app['bolt_name']);
-            $app['twig']->addGlobal('bolt_version', $app['bolt_version']);
+        // Sanity checks for doubles in in contenttypes.
+        // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
+        $this['config']->checkConfig();
 
-            $app['twig']->addGlobal('frontend', false);
-            $app['twig']->addGlobal('backend', false);
-            $app['twig']->addGlobal('async', false);
-            $app['twig']->addGlobal($app['config']->getWhichEnd(), true);
-
-            $app['twig']->addGlobal('user', $app['users']->getCurrentUser());
-            $app['twig']->addGlobal('users', $app['users']->getUsers());
-            $app['twig']->addGlobal('config', $app['config']);
-
-            // Sanity checks for doubles in in contenttypes.
-            // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
-            $app['config']->checkConfig();
-
-            // Stop the 'stopwatch' for the profiler.
-            $app['stopwatch']->stop('bolt.app.before');
-
-        });
-
+        // Stop the 'stopwatch' for the profiler.
+        $this['stopwatch']->stop('bolt.app.before');
 
     }
 
 
     public function initAfterHandler()
     {
-
-        // PHP 5.3 does not allow 'use ($this)' in closures.
-        $app = $this;
-
         // On 'finish' attach the debug-bar, if debug is enabled..
         if ($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff') ) ) {
 
@@ -292,7 +279,10 @@ class Application extends \Silex\Application
             $this['twig.loader.filesystem']->addPath(BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
             $this['twig.loader.filesystem']->addPath(__DIR__ . '/../../view', 'BoltProfiler');
 
-            $this->after(function () use ($app) {
+            // PHP 5.3 does not allow 'use ($this)' in closures.
+            $app = $this;
+
+            $this->after(function() use ($app) {
 
                 foreach(hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
                     $app['twig.logger']->collectTemplateData($template);
@@ -302,6 +292,7 @@ class Application extends \Silex\Application
 
         } else {
 
+            // Even if debug is not enabled,
             $app['stopwatch'] = $app->share(function () {
                 return new \Symfony\Component\Stopwatch\Stopwatch();
             });
@@ -309,126 +300,132 @@ class Application extends \Silex\Application
             error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
         }
 
-
-        $this->after(function (Request $request, Response $response) use ($app) {
-
-            // Start the 'stopwatch' for the profiler.
-            $app['stopwatch']->start('bolt.app.after');
-
-            // true if we need to consider adding html snippets
-            if (isset($app['htmlsnippets']) && ($app['htmlsnippets'] === true)) {
-
-                // only add when content-type is text/html
-                if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
-
-                    // Add our meta generator tag..
-                    $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
-
-                    // Perhaps add a canonical link..
-
-                    if ($app['config']->get('general/canonical')) {
-                        $snippet = sprintf('<link rel="canonical" href="%s">', $app['paths']['canonicalurl']);
-                        $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
-                    }
-
-                    // Perhaps add a favicon..
-                    if ($app['config']->get('general/favicon')) {
-                        $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
-                            $app['paths']['canonical'],
-                            $app['paths']['theme'],
-                            $app['config']->get('general/favicon'));
-                        $app['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
-                    }
-
-                    $html = $response->getContent();
-
-                    $html = $app['extensions']->processSnippetQueue($html);
-
-                    $response->setContent($html);
-                }
-            }
-
-            // Stop the 'stopwatch' for the profiler.
-            $app['stopwatch']->stop('bolt.app.after');
-
-        });
-
+        $this->after(array($this, "afterHandler"));
 
     }
 
 
-    public function initErrorHandler()
+    /**
+     * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
+     *
+     * @param Request $request
+     * @param Response $response
+     */
+    public function afterHandler(Request $request, Response $response)
     {
 
-        // PHP 5.3 does not allow 'use ($this)' in closures.
-        $app = $this;
+        // Start the 'stopwatch' for the profiler.
+        $this['stopwatch']->start('bolt.app.after');
 
-        $this->error(function (\Exception $e) use ($app) {
+        // true if we need to consider adding html snippets
+        if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
 
-            // If we are in maintenance mode and current user is not logged in, show maintenance notice.
-            // @see /app/src/Bolt/Controllers/Frontend.php, Frontend::before()
-            if ($app['config']->get('general/maintenance_mode')) {
-                $user = $app['users']->getCurrentUser();
-                if ($user['userlevel'] < 2) {
-                    $template = $app['config']->get('general/maintenance_template');
-                    $body = $app['render']->render($template);
-                    return new Response($body, 503);
+            // only add when content-type is text/html
+            if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
+
+                // Add our meta generator tag..
+                $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+
+                // Perhaps add a canonical link..
+
+                if ($this['config']->get('general/canonical')) {
+                    $snippet = sprintf('<link rel="canonical" href="%s">', $this['paths']['canonicalurl']);
+                    $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
+
+                // Perhaps add a favicon..
+                if ($this['config']->get('general/favicon')) {
+                    $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
+                        $this['paths']['canonical'],
+                        $this['paths']['theme'],
+                        $this['config']->get('general/favicon'));
+                    $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+                }
+
+                $html = $response->getContent();
+
+                $html = $this['extensions']->processSnippetQueue($html);
+
+                $response->setContent($html);
+            }
+        }
+
+        // Stop the 'stopwatch' for the profiler.
+        $this['stopwatch']->stop('bolt.app.after');
+
+    }
+
+    /**
+     * Handle errors thrown in the application. Set up whoops, if set in conf
+     *
+     * @param \Exception $e
+     * @return Response
+     */
+    public function ErrorHandler(\Exception $e)
+    {
+
+        // If we are in maintenance mode and current user is not logged in, show maintenance notice.
+        // @see /app/src/Bolt/Controllers/Frontend.php, Frontend::before()
+        if ($this['config']->get('general/maintenance_mode')) {
+            $user = $this['users']->getCurrentUser();
+            if ($user['userlevel'] < 2) {
+                $template = $this['config']->get('general/maintenance_template');
+                $body = $this['render']->render($template);
+                return new Response($body, 503);
+            }
+        }
+
+        $paths = getPaths($this['config']);
+
+        $twigvars = array();
+
+        $twigvars['class'] = get_class($e);
+        $twigvars['message'] = $e->getMessage();
+        $twigvars['code'] = $e->getCode();
+        $twigvars['paths'] = $paths;
+
+        $this['log']->add($twigvars['message'], 2, '', 'abort');
+
+        $end = $this['config']->getWhichEnd();
+
+        $trace = $e->getTrace();
+
+        foreach ($trace as $key=>$value) {
+
+            if (!empty($value['file']) && strpos($value['file'], "/vendor/") > 0 ) {
+                unset($trace[$key]['args']);
             }
 
-            $paths = getPaths($app['config']);
-
-            $twigvars = array();
-
-            $twigvars['class'] = get_class($e);
-            $twigvars['message'] = $e->getMessage();
-            $twigvars['code'] = $e->getCode();
-            $twigvars['paths'] = $paths;
-
-            $app['log']->add($twigvars['message'], 2, '', 'abort');
-
-            $end = $app['config']->getWhichEnd();
-
-            $trace = $e->getTrace();
-
-            foreach ($trace as $key=>$value) {
-
-                if (!empty($value['file']) && strpos($value['file'], "/vendor/") > 0 ) {
-                    unset($trace[$key]['args']);
-                }
-
-                // Don't display the full path..
-                if ( isset( $trace[$key]['file'] ) )
-                {
-                    $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, "[root]", $trace[$key]['file']);
-                }
-
+            // Don't display the full path..
+            if ( isset( $trace[$key]['file'] ) )
+            {
+                $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, "[root]", $trace[$key]['file']);
             }
 
-            $twigvars['trace'] = $trace;
-            $twigvars['title'] = "An error has occured!";
+        }
 
-            if ( ($e instanceof HttpException) && ($end == "frontend") ) {
+        $twigvars['trace'] = $trace;
+        $twigvars['title'] = "An error has occured!";
 
-                $content = $app['storage']->getContent($app['config']->get('general/notfound'), array('returnsingle' => true));
+        if ( ($e instanceof HttpException) && ($end == "frontend") ) {
 
-                // Then, select which template to use, based on our 'cascading templates rules'
-                if ($content instanceof \Bolt\Content && !empty($content->id)) {
-                    $template = $content->template();
+            $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
 
-                    return $app['render']->render($template, array(
-                        'record' => $content,
-                        $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-                    ));
-                } else {
-                    $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
-                }
+            // Then, select which template to use, based on our 'cascading templates rules'
+            if ($content instanceof \Bolt\Content && !empty($content->id)) {
+                $template = $content->template();
 
+                return $this['render']->render($template, array(
+                    'record' => $content,
+                    $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
+                ));
+            } else {
+                $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
             }
 
-            return $app['render']->render('error.twig', $twigvars);
+        }
 
-        });
+        return $this['render']->render('error.twig', $twigvars);
 
     }
 
