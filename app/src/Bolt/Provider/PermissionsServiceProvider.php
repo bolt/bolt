@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Permissions;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class PermissionsServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['permissions'] = $app->share(function ($app) {
 
-            $permissions = new Bolt\Permissions($app);
+            $permissions = new Permissions($app);
 
             return $permissions;
 
@@ -21,7 +21,7 @@ class PermissionsServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }
