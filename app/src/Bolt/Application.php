@@ -245,6 +245,17 @@ class Application extends \Silex\Application
         $this['twig']->addGlobal('users', $this['users']->getUsers());
         $this['twig']->addGlobal('config', $this['config']);
 
+
+        if ($html = $this['render']->fetchCachedRequest()) {
+
+            // Stop the 'stopwatch' for the profiler.
+            $this['stopwatch']->stop('bolt.app.before');
+
+            // Short-circuit the request, return the HTML. YOLO.
+            return new Response($html, 201);
+
+        }
+
         // Sanity checks for doubles in in contenttypes.
         // unfortunately this has to be done here, because the 'translator' classes need to be initialised.
         $this['config']->checkConfig();

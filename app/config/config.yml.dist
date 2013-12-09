@@ -82,6 +82,7 @@ caching:
   config: true
   templates: true
   rendering: false
+  request: true
 
 # Set 'enabled' to 'true' to log all content changes in the database.
 # Unless you need to rigorously monitor every change to your site's content, it
