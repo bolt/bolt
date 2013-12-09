@@ -22,3 +22,6 @@ if ('cli-server' === php_sapi_name()) {
 }
 
 require_once dirname(__FILE__).'/app/bootstrap.php';
+
+// Here we go!
+$app->run();
