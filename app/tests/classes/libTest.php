@@ -74,4 +74,16 @@ class libTest extends \PHPUnit_Framework_TestCase {
         $result = trimText($str, $length, $nbsp, $hellip, $striptags);
         $this->assertEquals($expected, $result);
     }
+
+    /**
+     * @dataProvider trimTextDataProvider
+     */
+    public function testTrimToHTML($html, $length, $nbsp, $hellip, $striptags, $expected) {
+        if ($hellip)
+            $ellipseStr = '…';
+        else
+            $ellipseStr = '';
+        $actual = trimToHTML($html, $length, $ellipseStr, $striptags, $nbsp);
+        $this->assertEquals($expected, $actual);
+    }
 }

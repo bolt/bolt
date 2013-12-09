@@ -123,6 +123,9 @@ namespace Redirector {
         /**
          * Throw an exception
          *
+         * @param null $message
+         * @param null $code
+         * @throws \Exception
          * @return void
          * @throw \Exception
          */
@@ -137,6 +140,8 @@ namespace Redirector {
         /**
          * Perform a value-assertion and throw an exception upon failure
          *
+         * @param bool $condition
+         * @param string $error
          * @return void
          */
         public function assert($condition = false, $error = 'assertion_invalid')

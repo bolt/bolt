@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Storage;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class StorageServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['storage'] = $app->share(function ($app) {
 
-            $storage = new Bolt\Storage($app);
+            $storage = new Storage($app);
 
             return $storage;
 
@@ -21,7 +21,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }

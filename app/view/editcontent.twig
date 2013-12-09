@@ -144,6 +144,10 @@
         $('#sidebarsavebutton').bind('click', function(e){
             $('#savebutton').trigger('click');
         });
+        $('#savebutton').bind('click', function(e){
+            // Re-set the changes to the form..
+            $('form').watchChanges();
+        });
 
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
         $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
@@ -167,16 +171,18 @@
             $('p.lastsaved').text('{{ __("Saving…") }}');
 
             if (newrecord) {
+
+                // Re-set the changes to the form..
+                $('form').watchChanges();
+
                 // New record.. do a regular post, and expect to be redirected back to this page.
                 var newaction = "?returnto=" + $(this).attr('id');
                 $('#editcontent').attr('action', newaction).submit();
             } else {
                 // Existing record. Do an 'ajaxy' post to update the record.
 
-                // First, make sure the underlying textareas are updated with the content in the CKEditor fields.
-                for(var instanceName in CKEDITOR.instances) {
-                    CKEDITOR.instances[instanceName].updateElement();
-                }
+                // Re-set the changes to the form..
+                $('form').watchChanges();
 
                 $.post("", $( "#editcontent" ).serialize() )
                     .done(function( data ) {
@@ -189,6 +195,7 @@
 
                         // Disable the buttons, to indicate stuff is being done.
                         $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+
                     });
             }
 

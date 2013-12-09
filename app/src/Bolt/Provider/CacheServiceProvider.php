@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Cache;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class CacheServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['cache'] = $app->share(function () {
 
-            $cache = new Bolt\Cache();
+            $cache = new Cache();
 
             return $cache;
 
@@ -21,7 +21,7 @@ class CacheServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }

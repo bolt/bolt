@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Config;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class ConfigServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['config'] = $app->share(function ($app) {
 
-            $config = new Bolt\Config($app);
+            $config = new Config($app);
 
             return $config;
 
@@ -21,7 +21,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }

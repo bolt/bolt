@@ -65,7 +65,7 @@ class Extension extends \Bolt\BaseExtension
 
             case "start":
                 if (empty($file) || !is_readable($file)) {
-                    $output . "<p>File $filename doesn't exist. Correct this in <code>app/extensions/ImportWXR/config.yml</code>, and refresh this page.</p>";
+                    $output .= "<p>File $filename doesn't exist. Correct this in <code>app/extensions/ImportWXR/config.yml</code>, and refresh this page.</p>";
                 } else {
 
                     $output .= sprintf("<p>File <code>%s</code> selected for import.</p>", $this->config['file']);
@@ -108,7 +108,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
 
-        return $this->app['twig']->render('base.twig', array(
+        return $this->app['render']->render('base.twig', array(
             'title' => "Import WXR (PivotX / Wordpress XML)",
             'content' => $output
         ));

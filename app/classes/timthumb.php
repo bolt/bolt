@@ -25,7 +25,7 @@
  */
 
 // @see: http://stackoverflow.com/questions/6483912/php-serverredirect-url-vs-serverrequest-uri
-if (!empty($_SERVER['REDIRECT_URL'])) {
+if (!empty($_SERVER['REDIRECT_URL']) && (strpos($_SERVER['REDIRECT_URL'], 'timthumb.php') === false)) {
     $requesturi = $_SERVER['REDIRECT_URL'];
 } else {
     $requesturi = $_SERVER['REQUEST_URI'];
@@ -321,7 +321,6 @@ class timthumb {
 			header('Expires: ' . gmdate ('D, d M Y H:i:s', time()));
 			echo $imgData;
 			return false;
-			exit(0);
 		}
 		if(preg_match('/^https?:\/\/[^\/]+/i', $this->src)){
 			$this->debug(2, "Is a request for an external URL: " . $this->src);

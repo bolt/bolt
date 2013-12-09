@@ -175,7 +175,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Dashboard"));
 
-        return $app['twig']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
+        return $app['render']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
 
     }
 
@@ -218,7 +218,7 @@ class Backend implements ControllerProviderInterface
     public function getLogin(Silex\Application $app, Request $request)
     {
         $app['twig']->addGlobal('title', "Login");
-        return $app['twig']->render('login.twig');
+        return $app['render']->render('login.twig');
     }
 
     /**
@@ -241,7 +241,8 @@ class Backend implements ControllerProviderInterface
      * clicks a "password reset" link in the email.
      *
      * @param Silex\Application $app
-     * @param Request           $request
+     * @param Request $request
+     * @return string
      */
     public function resetpassword(Silex\Application $app, Request $request)
     {
@@ -259,11 +260,11 @@ class Backend implements ControllerProviderInterface
     public function dbcheck(\Bolt\Application $app)
     {
 
-        $output = $app['storage']->getIntegrityChecker()->checkTablesIntegrity();
+        $output = $app['integritychecker']->checkTablesIntegrity();
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['twig']->render('dbcheck.twig', array(
+        return $app['render']->render('dbcheck.twig', array(
             'required_modifications' => $output,
             'active' => "settings"
         ));
@@ -276,7 +277,7 @@ class Backend implements ControllerProviderInterface
     public function dbupdate(Silex\Application $app)
     {
 
-        $output = $app['storage']->getIntegrityChecker()->repairTables();
+        $output = $app['integritychecker']->repairTables();
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
@@ -301,7 +302,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['twig']->render('dbcheck.twig', array(
+        return $app['render']->render('dbcheck.twig', array(
             'modifications' => $output,
             'active' => "settings"
         ));
@@ -330,7 +331,7 @@ class Backend implements ControllerProviderInterface
 
         $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
 
-        return $app['twig']->render('base.twig', array(
+        return $app['render']->render('base.twig', array(
             'content' => $content,
             'active' => "settings"
         ));
@@ -362,7 +363,7 @@ class Backend implements ControllerProviderInterface
 
         $activity = $app['log']->getActivity(16);
 
-        return $app['twig']->render('activity.twig', array('title' => $title, 'activity' => $activity));
+        return $app['render']->render('activity.twig', array('title' => $title, 'activity' => $activity));
 
     }
 
@@ -397,7 +398,7 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
-        return $app['twig']->render('base.twig', array(
+        return $app['render']->render('base.twig', array(
             'content' => '',
             'contenttypes' => $choices,
             'form' => $form->createView()
@@ -443,7 +444,7 @@ class Backend implements ControllerProviderInterface
         $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
         $app['twig']->addGlobal('title', $title);
 
-        return $app['twig']->render('overview.twig',
+        return $app['render']->render('overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
         );
 
@@ -554,7 +555,7 @@ class Backend implements ControllerProviderInterface
             'pagecount' => $pagecount,
             'currentpage' => $page,
             );
-        return $app['twig']->render('changeloglist.twig', $renderVars);
+        return $app['render']->render('changeloglist.twig', $renderVars);
     }
 
     public function changelogDetails($contenttype, $contentid, $id, Silex\Application $app, Request $request)
@@ -574,7 +575,7 @@ class Backend implements ControllerProviderInterface
             'prevEntry' => $prev,
             'content' => $content,
             );
-        return $app['twig']->render('changelogdetails.twig', $renderVars);
+        return $app['render']->render('changelogdetails.twig', $renderVars);
     }
 
     /**
@@ -739,7 +740,7 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
-        return $app['twig']->render('editcontent.twig', array(
+        return $app['render']->render('editcontent.twig', array(
             'contenttype' => $contenttype,
             'content' => $content,
             'allowedStatuses' => $allowedStatuses,
@@ -817,7 +818,7 @@ class Backend implements ControllerProviderInterface
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
-        return $app['twig']->render(
+        return $app['render']->render(
             'users.twig',
             array('users' => $users, 'sessions' => $sessions)
         );
@@ -870,7 +871,7 @@ class Backend implements ControllerProviderInterface
             $firstuser = true;
             $title = __('Create the first user');
             // If we get here, chances are we don't have the tables set up, yet.
-            $app['storage']->getIntegrityChecker()->repairTables();
+            $app['integritychecker']->repairTables();
             // Grant 'root' to first user by default
             $user['roles'] = array(Permissions::ROLE_ROOT);
         } else {
@@ -881,10 +882,12 @@ class Backend implements ControllerProviderInterface
         $form = $app['form.factory']->createBuilder('form', $user)
             ->add('id', 'hidden')
             ->add('username', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32)))
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                'label' => __('Username')
             ))
             ->add('password', 'password', array(
-                'required' => false
+                'required' => false,
+                'label' => __('Password')
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
@@ -892,9 +895,11 @@ class Backend implements ControllerProviderInterface
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
+                'label' => __('Email')
             ))
             ->add('displayname', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32)))
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                'label' => __('Display name')
             ));
 
         // If we're adding the first user, add them as 'developer' by default, so don't
@@ -916,8 +921,14 @@ class Backend implements ControllerProviderInterface
 
         // If we're adding a new user, these fields will be hidden.
         if (!empty($id)) {
-            $form->add('lastseen', 'text', array('disabled' => true))
-                ->add('lastip', 'text', array('disabled' => true));
+            $form->add('lastseen', 'text', array(
+                    'disabled' => true,
+                    'label' => __('Last seen')
+                ))
+                ->add('lastip', 'text', array(
+                    'disabled' => true,
+                    'label' => __('Last IP')
+                ));
         }
 
         // Make sure the passwords are identical and some other check, with a custom validator..
@@ -990,7 +1001,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['twig']->render('edituser.twig', array(
+        return $app['render']->render('edituser.twig', array(
             'form' => $form->createView(),
             'title' => $title
         ));
@@ -1056,7 +1067,7 @@ class Backend implements ControllerProviderInterface
      */
     public function about(Silex\Application $app)
     {
-        return $app['twig']->render('about.twig');
+        return $app['render']->render('about.twig');
 
     }
 
@@ -1070,7 +1081,7 @@ class Backend implements ControllerProviderInterface
 
         $extensions = $app['extensions']->getInfo();
 
-        return $app['twig']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
+        return $app['render']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
 
     }
 
@@ -1089,7 +1100,7 @@ class Backend implements ControllerProviderInterface
             // Define the "Upload here" form.
             $form = $app['form.factory']
                 ->createBuilder('form')
-                ->add('FileUpload', 'file', array('label' => "Upload a file to this folder:"))
+                ->add('FileUpload', 'file', array('label' => __("Upload a file to this folder:")))
                 ->getForm();
 
             // Handle the upload.
@@ -1194,7 +1205,7 @@ class Backend implements ControllerProviderInterface
             $twig = 'files_ck.twig';
         }
 
-        return $app['twig']->render($twig, array(
+        return $app['render']->render($twig, array(
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
@@ -1297,7 +1308,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['twig']->render('editconfig.twig', array(
+        return $app['render']->render('editconfig.twig', array(
             'form' => $form->createView(),
             'title' => $title,
             'filetype' => $type,
@@ -1325,8 +1336,7 @@ class Backend implements ControllerProviderInterface
             // no gathering here : if the file doesn't exist yet, we load a
             // copy from the locale_fallback version (en)
             if (!file_exists($filename) || filesize($filename) < 10) {
-                $locale_fb = $app['locale_fallback'];
-                $srcfile = "app/resources/translations/$locale_fb/$domain.$locale_fb.$type";
+                $srcfile = "app/resources/translations/$locale_fb/$domain.en.$type";
                 $srcfilename = realpath(__DIR__ . "/../../../..") . "/$srcfile";
                 $content = file_get_contents($srcfilename);
             } else {
@@ -1449,7 +1459,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['twig']->render('editlocale.twig', array(
+        return $app['render']->render('editlocale.twig', array(
             'form' => $form->createView(),
             'title' => $title,
             'filetype' => $type,
@@ -1463,6 +1473,8 @@ class Backend implements ControllerProviderInterface
      */
     public function before(Request $request, \Bolt\Application $app)
     {
+        // Start the 'stopwatch' for the profiler.
+        $app['stopwatch']->start('bolt.backend.before');
 
         $route = $request->get('_route');
 
@@ -1472,7 +1484,7 @@ class Backend implements ControllerProviderInterface
 
         // If the users table is present, but there are no users, and we're on /bolt/useredit,
         // we let the user stay, because they need to set up the first user.
-        if ($app['storage']->getIntegrityChecker()->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
+        if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
             $app['twig']->addGlobal('frontend', false);
 
             return;
@@ -1480,8 +1492,8 @@ class Backend implements ControllerProviderInterface
 
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
-            $app['storage']->getIntegrityChecker()->repairTables();
+        if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+            $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
 
             return redirect('useredit', array('id' => ""));
@@ -1497,7 +1509,8 @@ class Backend implements ControllerProviderInterface
 
             return redirect('dashboard');
         }
-
+        // Stop the 'stopwatch' for the profiler.
+        $app['stopwatch']->stop('bolt.backend.before');
     }
 
 }

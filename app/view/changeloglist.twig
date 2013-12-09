@@ -30,7 +30,7 @@
 
 <div class="row-fluid">
     <div class="span9">
-        <h1><strong>Change Log</strong> » {{ title }}</h1>
+        <h1><strong>{{ __('Change Log') }}</strong> » {{ title }}</h1>
         {{ pager(currentpage, pagecount) }}
         {% for entry in entries %}
             {{ changelogdetails.changelogdetails(entry) }}
@@ -38,7 +38,7 @@
         {{ pager(currentpage, pagecount) }}
         {% if contenttype %}
             <a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">
-                back to editing
+                {{ __('back to editing') }}
             </a>
         {% endif %}
         {% if pagecount > 1 or pagecount is null %}

@@ -145,6 +145,14 @@ Remember you can also use the basic options as well.
 The `format` option is used for formatting the date in the emails. You can use the options that are available in
 PHP's `date()` function. See the [documentation for details](http://php.net/date).
 
+**Using ReCaptcha field:**
+
+To protect your forms from spam-bots, you can enable the ReCaptcha service. This lets the visitors type out two words or
+numbers from a picture, to prove that they're human. To enable ReCaptcha, simply enable/fill all the <code>recaptcha_</code>
+fields in <code>config.yml</code>. If you don't have a private/public keypair yet, go to
+[this URL](https://www.google.com/recaptcha/admin/create) to create them.
+
+
 **Email input with extra recipient:**
 
 If you want to send a copy of the an email address the visitor entered, you can use the `use_as` and

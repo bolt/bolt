@@ -2,13 +2,14 @@
 
 namespace Bolt\Provider;
 
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
 
 class TranslationServiceProvider implements ServiceProviderInterface
 {
 
-    public function register(\Silex\Application $app)
+    public function register(Application $app)
     {
         return null;
     }
@@ -20,7 +21,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
      * and should be used for "dynamic" configuration (whenever
      * a service must be requested).
      */
-    public function boot(\Silex\Application $app)
+    public function boot(Application $app)
     {
         if (isset($app['translator'])) {
             $paths = getPaths($app);

@@ -475,7 +475,6 @@ class DOMDocumentWrapper {
 		return $contentType[1];
 	}
 	protected function charsetFromXML($markup) {
-		$matches;
 		// find declaration
 		preg_match('@<'.'?xml[^>]+encoding\\s*=\\s*(["|\'])(.*?)\\1@i',
 			$markup, $matches
@@ -484,12 +483,15 @@ class DOMDocumentWrapper {
 			? strtolower($matches[2])
 			: null;
 	}
-	/**
-	 * Repositions meta[type=charset] at the start of head. Bypasses DOMDocument bug.
-	 *
-	 * @link http://code.google.com/p/phpquery/issues/detail?id=80
-	 * @param $html
-	 */
+
+    /**
+     * Repositions meta[type=charset] at the start of head. Bypasses DOMDocument bug.
+     *
+     * @link http://code.google.com/p/phpquery/issues/detail?id=80
+     * @param $markup
+     * @internal param $html
+     * @return string
+     */
 	protected function charsetFixHTML($markup) {
 		$matches = array();
 		// find meta tag
@@ -547,13 +549,15 @@ class DOMDocumentWrapper {
 	public function importAttr($value) {
 		// TODO
 	}
-	/**
-	 *
-	 * @param $source
-	 * @param $target
-	 * @param $sourceCharset
-	 * @return array Array of imported nodes.
-	 */
+
+    /**
+     *
+     * @param $source
+     * @param $sourceCharset
+     * @throws Exception
+     * @internal param $target
+     * @return array Array of imported nodes.
+     */
 	public function import($source, $sourceCharset = null) {
 		// TODO charset conversions
 		$return = array();
@@ -598,12 +602,14 @@ class DOMDocumentWrapper {
 		}
 		return $return;
 	}
-	/**
-	 * Creates new document fragment.
-	 *
-	 * @param $source
-	 * @return DOMDocumentWrapper
-	 */
+
+    /**
+     * Creates new document fragment.
+     *
+     * @param $source
+     * @param null $charset
+     * @return DOMDocumentWrapper
+     */
 	protected function documentFragmentCreate($source, $charset = null) {
 		$fake = new DOMDocumentWrapper();
 		$fake->contentType = $this->contentType;
@@ -630,12 +636,15 @@ class DOMDocumentWrapper {
 		}
 		return $fake;
 	}
-	/**
-	 *
-	 * @param $document DOMDocumentWrapper
-	 * @param $markup
-	 * @return $document
-	 */
+
+    /**
+     *
+     * @param $fragment
+     * @param $charset
+     * @param $markup
+     * @internal param \DOMDocumentWrapper $document
+     * @return bool $document
+     */
 	private function documentFragmentLoadMarkup($fragment, $charset, $markup = null) {
 		// TODO error handling
 		// TODO copy doctype
@@ -695,12 +704,14 @@ class DOMDocumentWrapper {
 			phpQuery::debug('documentFragmentToMarkup: '.substr($markup, 0, 150));
 		return $markup;
 	}
-	/**
-	 * Return document markup, starting with optional $nodes as root.
-	 *
-	 * @param $nodes	DOMNode|DOMNodeList
-	 * @return string
-	 */
+
+    /**
+     * Return document markup, starting with optional $nodes as root.
+     *
+     * @param $nodes    DOMNode|DOMNodeList
+     * @param bool $innerMarkup
+     * @return string
+     */
 	public function markup($nodes = null, $innerMarkup = false) {
 		if (isset($nodes) && count($nodes) == 1 && $nodes[0] instanceof DOMDOCUMENT)
 			$nodes = null;
@@ -812,17 +823,18 @@ class DOMDocumentWrapper {
  * @static
  */
 abstract class phpQueryEvents {
-	/**
-	 * Trigger a type of event on every matched element.
-	 *
-	 * @param DOMNode|phpQueryObject|string $document
-	 * @param unknown_type $type
-	 * @param unknown_type $data
-	 *
-	 * @TODO exclusive events (with !)
-	 * @TODO global events (test)
-	 * @TODO support more than event in $type (space-separated)
-	 */
+    /**
+     * Trigger a type of event on every matched element.
+     *
+     * @param DOMNode|phpQueryObject|string $document
+     * @param unknown_type $type
+     * @param array|\unknown_type $data
+     *
+     * @param null $node
+     * @TODO exclusive events (with !)
+     * @TODO global events (test)
+     * @TODO support more than event in $type (space-separated)
+     */
 	public static function trigger($document, $type, $data = array(), $node = null) {
 		// trigger: function(type, data, elem, donative, extra) {
 		$documentID = phpQuery::getDocumentID($document);
@@ -890,19 +902,21 @@ abstract class phpQueryEvents {
 			}
 		}
 	}
-	/**
-	 * Binds a handler to one or more events (like click) for each matched element.
-	 * Can also bind custom events.
-	 *
-	 * @param DOMNode|phpQueryObject|string $document
-	 * @param unknown_type $type
-	 * @param unknown_type $data Optional
-	 * @param unknown_type $callback
-	 *
-	 * @TODO support '!' (exclusive) events
-	 * @TODO support more than event in $type (space-separated)
-	 * @TODO support binding to global events
-	 */
+
+    /**
+     * Binds a handler to one or more events (like click) for each matched element.
+     * Can also bind custom events.
+     *
+     * @param DOMNode|phpQueryObject|string $document
+     * @param $node
+     * @param unknown_type $type
+     * @param unknown_type $data Optional
+     * @param unknown_type $callback
+     *
+     * @TODO support '!' (exclusive) events
+     * @TODO support more than event in $type (space-separated)
+     * @TODO support binding to global events
+     */
 	public static function add($document, $node, $type, $data, $callback = null) {
 		phpQuery::debug("Binding '$type' event");
 		$documentID = phpQuery::getDocumentID($document);
@@ -920,16 +934,18 @@ abstract class phpQueryEvents {
 			'data' => $data,
 		);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @param DOMNode|phpQueryObject|string $document
-	 * @param unknown_type $type
-	 * @param unknown_type $callback
-	 *
-	 * @TODO namespace events
-	 * @TODO support more than event in $type (space-separated)
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param DOMNode|phpQueryObject|string $document
+     * @param $node
+     * @param unknown_type $type
+     * @param unknown_type $callback
+     *
+     * @TODO namespace events
+     * @TODO support more than event in $type (space-separated)
+     */
 	public static function remove($document, $node, $type = null, $callback = null) {
 		$documentID = phpQuery::getDocumentID($document);
 		$eventNode = self::getNode($documentID, $node);
@@ -1191,11 +1207,14 @@ class phpQueryObject
 	 * @access private
 	 */
 	protected $current = null;
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $documentID
+     * @throws Exception
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function __construct($documentID) {
 //		if ($documentID instanceof self)
 //			var_dump($documentID->getDocumentID());
@@ -1280,20 +1299,22 @@ class phpQueryObject
 		return $this;
 //		return $this->newInstance(array($this->root));
 	}
-	/**
-	 * Saves object's DocumentID to $var by reference.
-	 * <code>
-	 * $myDocumentId;
-	 * phpQuery::newDocument('<div/>')
-	 *     ->getDocumentIDRef($myDocumentId)
-	 *     ->find('div')->...
-	 * </code>
-	 *
-	 * @param unknown_type $domId
-	 * @see phpQuery::newDocument
-	 * @see phpQuery::newDocumentFile
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Saves object's DocumentID to $var by reference.
+     * <code>
+     * $myDocumentId;
+     * phpQuery::newDocument('<div/>')
+     *     ->getDocumentIDRef($myDocumentId)
+     *     ->find('div')->...
+     * </code>
+     *
+     * @param $documentID
+     * @internal param \unknown_type $domId
+     * @see phpQuery::newDocument
+     * @see phpQuery::newDocumentFile
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function getDocumentIDRef(&$documentID) {
 		$documentID = $this->getDocumentID();
 		return $this;
@@ -1349,12 +1370,14 @@ class phpQueryObject
 	public function serialize() {
 		return phpQuery::param($this->serializeArray());
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @link http://docs.jquery.com/Ajax/serializeArray
-	 * @return array
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @link http://docs.jquery.com/Ajax/serializeArray
+     * @param null $submit
+     * @return array
+     */
 	public function serializeArray($submit = null) {
 		$source = $this->filter('form, input, select, textarea')
 			->find('input, select, textarea')
@@ -1586,12 +1609,16 @@ class phpQueryObject
 		}
 		return $queries;
 	}
-	/**
-	 * Return matched DOM nodes.
-	 *
-	 * @param int $index
-	 * @return array|DOMElement Single DOMElement or array of DOMElement.
-	 */
+
+    /**
+     * Return matched DOM nodes.
+     *
+     * @param int $index
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @return array|DOMElement Single DOMElement or array of DOMElement.
+     */
 	public function get($index = null, $callback1 = null, $callback2 = null, $callback3 = null) {
 		$return = isset($index)
 			? (isset($this->elements[$index]) ? $this->elements[$index] : null)
@@ -1608,16 +1635,20 @@ class phpQueryObject
 		}
 		return $return;
 	}
-	/**
-	 * Return matched DOM nodes.
-	 * jQuery difference.
-	 *
-	 * @param int $index
-	 * @return array|string Returns string if $index != null
-	 * @todo implement callbacks
-	 * @todo return only arrays ?
-	 * @todo maybe other name...
-	 */
+
+    /**
+     * Return matched DOM nodes.
+     * jQuery difference.
+     *
+     * @param int $index
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @return array|string Returns string if $index != null
+     * @todo implement callbacks
+     * @todo return only arrays ?
+     * @todo maybe other name...
+     */
 	public function getString($index = null, $callback1 = null, $callback2 = null, $callback3 = null) {
 		if ($index)
 			$return = $this->eq($index)->text();
@@ -1635,16 +1666,20 @@ class phpQueryObject
 		}
 		return $return;
 	}
-	/**
-	 * Return matched DOM nodes.
-	 * jQuery difference.
-	 *
-	 * @param int $index
-	 * @return array|string Returns string if $index != null
-	 * @todo implement callbacks
-	 * @todo return only arrays ?
-	 * @todo maybe other name...
-	 */
+
+    /**
+     * Return matched DOM nodes.
+     * jQuery difference.
+     *
+     * @param int $index
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @return array|string Returns string if $index != null
+     * @todo implement callbacks
+     * @todo return only arrays ?
+     * @todo maybe other name...
+     */
 	public function getStrings($index = null, $callback1 = null, $callback2 = null, $callback3 = null) {
 		if ($index)
 			$return = $this->eq($index)->text();
@@ -1666,11 +1701,13 @@ class phpQueryObject
 		}
 		return $return;
 	}
-	/**
-	 * Returns new instance of actual class.
-	 *
-	 * @param array $newStack Optional. Will replace old stack with new and move old one to history.c
-	 */
+
+    /**
+     * Returns new instance of actual class.
+     *
+     * @param array $newStack Optional. Will replace old stack with new and move old one to history.c
+     * @return \phpQueryObject
+     */
 	public function newInstance($newStack = null) {
 		$class = get_class($this);
 		// support inheritance by passing old object to overloaded constructor
@@ -1796,11 +1833,15 @@ class phpQueryObject
 		}
 		$this->elements = $stack;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $selectors
+     * @param null $context
+     * @param bool $noHistory
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function find($selectors, $context = null, $noHistory = false) {
 		if (!$noHistory)
 			// backup last stack /for end()/
@@ -1992,10 +2033,10 @@ class phpQueryObject
 					: array();
 				break;
 			case 'gt':
-				$this->elements = array_slice($this->elements, $args+1);
+				$this->elements = array_slice($this->elements, intval($args)+1);
 				break;
 			case 'lt':
-				$this->elements = array_slice($this->elements, 0, $args+1);
+				$this->elements = array_slice($this->elements, 0, intval($args)+1);
 				break;
 			case 'first':
 				if (isset($this->elements[0]))
@@ -2234,11 +2275,14 @@ class phpQueryObject
 	protected function __pseudoClassParam($paramsString) {
 		// TODO;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $selector
+     * @param null $nodes
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function is($selector, $nodes = null) {
 		phpQuery::debug(array("Is:", $selector));
 		if (! $selector)
@@ -2256,17 +2300,20 @@ class phpQueryObject
 			return $stack ? $stack : null;
 		return (bool)count($stack);
 	}
-	/**
-	 * Enter description here...
-	 * jQuery difference.
-	 *
-	 * Callback:
-	 * - $index int
-	 * - $node DOMNode
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @link http://docs.jquery.com/Traversing/filter
-	 */
+
+    /**
+     * Enter description here...
+     * jQuery difference.
+     *
+     * Callback:
+     * - $index int
+     * - $node DOMNode
+     *
+     * @param $callback
+     * @param bool $_skipHistory
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @link http://docs.jquery.com/Traversing/filter
+     */
 	public function filterCallback($callback, $_skipHistory = false) {
 		if (! $_skipHistory) {
 			$this->elementsBackup = $this->elements;
@@ -2283,12 +2330,15 @@ class phpQueryObject
 			? $this
 			: $this->newInstance();
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @link http://docs.jquery.com/Traversing/filter
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $selectors
+     * @param bool $_skipHistory
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @link http://docs.jquery.com/Traversing/filter
+     */
 	public function filter($selectors, $_skipHistory = false) {
 		if ($selectors instanceof Callback OR $selectors instanceof Closure)
 			return $this->filterCallback($selectors, $_skipHistory);
@@ -2429,13 +2479,17 @@ class phpQueryObject
 			? substr($value, 1, -1)
 			: $value;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @link http://docs.jquery.com/Ajax/load
-	 * @return phpQuery|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo Support $selector
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @link http://docs.jquery.com/Ajax/load
+     * @param $url
+     * @param null $data
+     * @param null $callback
+     * @return phpQuery|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @todo Support $selector
+     */
 	public function load($url, $data = null, $callback = null) {
 		if ($data && ! is_array($data)) {
 			$callback = $data;
@@ -2503,27 +2557,29 @@ class phpQueryObject
 		// TODO
 		return $this;
 	}
-	/**
-	 * Trigger a type of event on every matched element.
-	 *
-	 * @param unknown_type $type
-	 * @param unknown_type $data
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @TODO support more than event in $type (space-separated)
-	 */
+
+    /**
+     * Trigger a type of event on every matched element.
+     *
+     * @param unknown_type $type
+     * @param array|\unknown_type $data
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @TODO support more than event in $type (space-separated)
+     */
 	public function trigger($type, $data = array()) {
 		foreach($this->elements as $node)
 			phpQueryEvents::trigger($this->getDocumentID(), $type, $data, $node);
 		return $this;
 	}
-	/**
-	 * This particular method triggers all bound event handlers on an element (for a specific event type) WITHOUT executing the browsers default actions.
-	 *
-	 * @param unknown_type $type
-	 * @param unknown_type $data
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @TODO
-	 */
+
+    /**
+     * This particular method triggers all bound event handlers on an element (for a specific event type) WITHOUT executing the browsers default actions.
+     *
+     * @param unknown_type $type
+     * @param array|\unknown_type $data
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @TODO
+     */
 	public function triggerHandler($type, $data = array()) {
 		// TODO;
 	}
@@ -2562,31 +2618,37 @@ class phpQueryObject
 			phpQueryEvents::remove($this->getDocumentID(), $node, $type, $callback);
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $callback
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function change($callback = null) {
 		if ($callback)
 			return $this->bind('change', $callback);
 		return $this->trigger('change');
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $callback
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function submit($callback = null) {
 		if ($callback)
 			return $this->bind('submit', $callback);
 		return $this->trigger('submit');
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $callback
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function click($callback = null) {
 		if ($callback)
 			return $this->bind('click', $callback);
@@ -2637,13 +2699,16 @@ class phpQueryObject
 			$deepest = $deepest->firstChild;
 		return $deepest;
 	}
-	/**
-	 * Enter description here...
-	 * NON JQUERY METHOD
-	 *
-	 * @param String|phpQuery
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     * NON JQUERY METHOD
+     *
+     * @param $codeBefore
+     * @param $codeAfter
+     * @internal param $ String|phpQuery
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function wrapAllPHP($codeBefore, $codeAfter) {
 		return $this
 			->slice(0, 1)
@@ -2664,12 +2729,15 @@ class phpQueryObject
 			phpQuery::pq($node, $this->getDocumentID())->wrapAll($wrapper);
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @param String|phpQuery
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $codeBefore
+     * @param $codeAfter
+     * @internal param $ String|phpQuery
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function wrapPHP($codeBefore, $codeAfter) {
 		foreach($this->stack() as $node)
 			phpQuery::pq($node, $this->getDocumentID())->wrapAllPHP($codeBefore, $codeAfter);
@@ -2686,12 +2754,15 @@ class phpQueryObject
 			phpQuery::pq($node, $this->getDocumentID())->contents()->wrapAll($wrapper);
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @param String|phpQuery
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $codeBefore
+     * @param $codeAfter
+     * @internal param $ String|phpQuery
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function wrapInnerPHP($codeBefore, $codeAfter) {
 		foreach($this->stack(1) as $node)
 			phpQuery::pq($node, $this->getDocumentID())->contents()
@@ -2753,11 +2824,13 @@ class phpQueryObject
 		}
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $num
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function eq($num) {
 		$oldStack = $this->elements;
 		$this->elementsBackup = $this->elements;
@@ -2786,12 +2859,14 @@ class phpQueryObject
 	public function count() {
 		return $this->size();
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo $level
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param int $level
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @todo $level
+     */
 	public function end($level = 1) {
 //		$this->elements = array_pop( $this->history );
 //		return $this;
@@ -2819,11 +2894,13 @@ class phpQueryObject
 		$this->elements = $newStack;
 		return $this->newInstance();
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $code
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function replaceWithPHP($code) {
 		return $this->replaceWith(phpQuery::php($code));
 	}
@@ -2851,11 +2928,13 @@ class phpQueryObject
 				->remove();
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function remove($selector = null) {
 		$loop = $selector
 			? $this->filter($selector)->elements
@@ -2888,13 +2967,17 @@ class phpQueryObject
 			);
 		}
 	}
-	/**
-	 * jQuey difference
-	 *
-	 * @param $markup
-	 * @return unknown_type
-	 * @TODO trigger change event for textarea
-	 */
+
+    /**
+     * jQuey difference
+     *
+     * @param $markup
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @return unknown_type
+     * @TODO trigger change event for textarea
+     */
 	public function markup($markup = null, $callback1 = null, $callback2 = null, $callback3 = null) {
 		$args = func_get_args();
 		if ($this->documentWrapper->isXML)
@@ -2902,12 +2985,16 @@ class phpQueryObject
 		else
 			return call_user_func_array(array($this, 'html'), $args);
 	}
-	/**
-	 * jQuey difference
-	 *
-	 * @param $markup
-	 * @return unknown_type
-	 */
+
+    /**
+     * jQuey difference
+     *
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @internal param $markup
+     * @return unknown_type
+     */
 	public function markupOuter($callback1 = null, $callback2 = null, $callback3 = null) {
 		$args = func_get_args();
 		if ($this->documentWrapper->isXML)
@@ -2915,13 +3002,17 @@ class phpQueryObject
 		else
 			return call_user_func_array(array($this, 'htmlOuter'), $args);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @param unknown_type $html
-	 * @return string|phpQuery|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @TODO force html result
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $html
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @return string|phpQuery|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @TODO force html result
+     */
 	public function html($html = null, $callback1 = null, $callback2 = null, $callback3 = null) {
 		if (isset($html)) {
 			// INSERT
@@ -2959,12 +3050,16 @@ class phpQueryObject
 		$args = func_get_args();
 		return call_user_func_array(array($this, 'html'), $args);
 	}
-	/**
-	 * Enter description here...
-	 * @TODO force html result
-	 *
-	 * @return String
-	 */
+
+    /**
+     * Enter description here...
+     * @TODO force html result
+     *
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @return String
+     */
 	public function htmlOuter($callback1 = null, $callback2 = null, $callback3 = null) {
 		$markup = $this->documentWrapper->markup($this->elements);
 		// pass thou callbacks
@@ -2984,12 +3079,14 @@ class phpQueryObject
 	public function __toString() {
 		return $this->markupOuter();
 	}
-	/**
-	 * Just like html(), but returns markup with VALID (dangerous) PHP tags.
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo support returning markup with PHP tags when called without param
-	 */
+
+    /**
+     * Just like html(), but returns markup with VALID (dangerous) PHP tags.
+     *
+     * @param null $code
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @todo support returning markup with PHP tags when called without param
+     */
 	public function php($code = null) {
 		return $this->markupPHP($code);
 	}
@@ -3004,20 +3101,23 @@ class phpQueryObject
 			? $this->markup(phpQuery::php($code))
 			: phpQuery::markupToPHP($this->markup());
 	}
-	/**
-	 * Enter description here...
-	 * 
-	 * @param $code
-	 * @return unknown_type
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @internal param $code
+     * @return unknown_type
+     */
 	public function markupOuterPHP() {
 		return phpQuery::markupToPHP($this->markupOuter());
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function children($selector = null) {
 		$stack = array();
 		foreach($this->stack(1) as $node) {
@@ -3036,76 +3136,94 @@ class phpQueryObject
 		$this->elements = $stack;
 		return $this->newInstance();
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function ancestors($selector = null) {
 		return $this->children( $selector );
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function append( $content) {
 		return $this->insert($content, __FUNCTION__);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function appendPHP( $content) {
 		return $this->insert("<php><!-- {$content} --></php>", 'append');
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $seletor
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function appendTo( $seletor) {
 		return $this->insert($seletor, __FUNCTION__);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function prepend( $content) {
 		return $this->insert($content, __FUNCTION__);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @todo accept many arguments, which are joined, arrays maybe also
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @todo accept many arguments, which are joined, arrays maybe also
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function prependPHP( $content) {
 		return $this->insert("<php><!-- {$content} --></php>", 'prepend');
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $seletor
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function prependTo( $seletor) {
 		return $this->insert($seletor, __FUNCTION__);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function before($content) {
 		return $this->insert($content, __FUNCTION__);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function beforePHP( $content) {
 		return $this->insert("<php><!-- {$content} --></php>", 'before');
 	}
@@ -3118,38 +3236,46 @@ class phpQueryObject
 	public function insertBefore( $seletor) {
 		return $this->insert($seletor, __FUNCTION__);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function after( $content) {
 		return $this->insert($content, __FUNCTION__);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $content
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function afterPHP( $content) {
 		return $this->insert("<php><!-- {$content} --></php>", 'after');
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $seletor
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function insertAfter( $seletor) {
 		return $this->insert($seletor, __FUNCTION__);
 	}
-	/**
-	 * Internal insert method. Don't use it.
-	 *
-	 * @param unknown_type $target
-	 * @param unknown_type $type
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @access private
-	 */
+
+    /**
+     * Internal insert method. Don't use it.
+     *
+     * @param unknown_type $target
+     * @param unknown_type $type
+     * @throws Exception
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @access private
+     */
 	public function insert($target, $type) {
 		$this->debug("Inserting data with '{$type}'");
 		$to = false;
@@ -3310,11 +3436,13 @@ class phpQueryObject
 		}
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return Int
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $subject
+     * @return Int
+     */
 	public function index($subject) {
 		$index = -1;
 		$subject = $subject instanceof phpQueryObject
@@ -3360,10 +3488,15 @@ class phpQueryObject
 		$this->elements = array_reverse($this->elements);
 		return $this->newInstance();
 	}
-	/**
-	 * Return joined text content.
-	 * @return String
-	 */
+
+    /**
+     * Return joined text content.
+     * @param null $text
+     * @param null $callback1
+     * @param null $callback2
+     * @param null $callback3
+     * @return String
+     */
 	public function text($text = null, $callback1 = null, $callback2 = null, $callback3 = null) {
 		if (isset($text))
 			return $this->html(htmlspecialchars($text));
@@ -3381,11 +3514,14 @@ class phpQueryObject
 		}
 		return $return;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $class
+     * @param null $file
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function plugin($class, $file = null) {
 		phpQuery::plugin($class, $file);
 		return $this;
@@ -3401,13 +3537,15 @@ class phpQueryObject
 	public static function extend($class, $file = null) {
 		return $this->plugin($class, $file);
 	}
-	/**
-	 *
-	 * @access private
-	 * @param $method
-	 * @param $args
-	 * @return unknown_type
-	 */
+
+    /**
+     *
+     * @access private
+     * @param $method
+     * @param $args
+     * @throws Exception
+     * @return unknown_type
+     */
 	public function __call($method, $args) {
 		$aliasMethods = array('clone', 'empty');
 		if (isset(phpQuery::$extendMethods[$method])) {
@@ -3432,53 +3570,63 @@ class phpQueryObject
 		} else
 			throw new Exception("Method '{$method}' doesnt exist");
 	}
-	/**
-	 * Safe rename of next().
-	 *
-	 * Use it ONLY when need to call next() on an iterated object (in same time).
-	 * Normaly there is no need to do such thing ;)
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @access private
-	 */
+
+    /**
+     * Safe rename of next().
+     *
+     * Use it ONLY when need to call next() on an iterated object (in same time).
+     * Normaly there is no need to do such thing ;)
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @access private
+     */
 	public function _next($selector = null) {
 		return $this->newInstance(
 			$this->getElementSiblings('nextSibling', $selector, true)
 		);
 	}
-	/**
-	 * Use prev() and next().
-	 *
-	 * @deprecated
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @access private
-	 */
+
+    /**
+     * Use prev() and next().
+     *
+     * @deprecated
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @access private
+     */
 	public function _prev($selector = null) {
 		return $this->prev($selector);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function prev($selector = null) {
 		return $this->newInstance(
 			$this->getElementSiblings('previousSibling', $selector, true)
 		);
 	}
-	/**
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo
-	 */
+
+    /**
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @todo
+     */
 	public function prevAll($selector = null) {
 		return $this->newInstance(
 			$this->getElementSiblings('previousSibling', $selector)
 		);
 	}
-	/**
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo FIXME: returns source elements insted of next siblings
-	 */
+
+    /**
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @todo FIXME: returns source elements insted of next siblings
+     */
 	public function nextAll($selector = null) {
 		return $this->newInstance(
 			$this->getElementSiblings('nextSibling', $selector)
@@ -3509,11 +3657,13 @@ class phpQueryObject
 		}
 		return $stack;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function siblings($selector = null) {
 		$stack = array();
 		$siblings = array_merge(
@@ -3526,11 +3676,13 @@ class phpQueryObject
 		}
 		return $this->newInstance($stack);
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function not($selector = null) {
 		if (is_string($selector))
 			phpQuery::debug(array('not', $selector));
@@ -3609,11 +3761,13 @@ class phpQueryObject
 		}
 		return false;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function parent($selector = null) {
 		$stack = array();
 		foreach($this->elements as $node )
@@ -3625,11 +3779,13 @@ class phpQueryObject
 			$this->filter($selector, true);
 		return $this->newInstance();
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param null $selector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function parents($selector = null) {
 		$stack = array();
 		if (! $this->elements )
@@ -3756,12 +3912,15 @@ class phpQueryObject
 			$return[] = $n;
 		return $return;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo check CDATA ???
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $attr
+     * @param $code
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @todo check CDATA ???
+     */
 	public function attrPHP($attr, $code) {
 		if (! is_null($code)) {
 			$value = '<'.'?php '.$code.' ?'.'>';
@@ -3787,11 +3946,13 @@ class phpQueryObject
 		}
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $attr
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function removeAttr($attr) {
 		foreach($this->stack(1) as $node) {
 			$loop = $attr == '*'
@@ -3805,11 +3966,13 @@ class phpQueryObject
 		}
 		return $this;
 	}
-	/**
-	 * Return form element value.
-	 *
-	 * @return String Fields value.
-	 */
+
+    /**
+     * Return form element value.
+     *
+     * @param null $val
+     * @return String Fields value.
+     */
 	public function val($val = null) {
 		if (! isset($val)) {
 			if ($this->eq(0)->is('select')) {
@@ -3881,11 +4044,13 @@ class phpQueryObject
 			$this->elements = array_merge($this->elements, $this->previous->elements);
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $className
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function addClass( $className) {
 		if (! $className)
 			return $this;
@@ -3898,11 +4063,13 @@ class phpQueryObject
 		}
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $className
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function addClassPHP( $className) {
 		foreach($this->stack(1) as $node) {
 				$classes = $node->getAttribute('class');
@@ -3926,11 +4093,13 @@ class phpQueryObject
 		}
 		return false;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $className
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function removeClass($className) {
 		foreach($this->stack(1) as $node) {
 			$classes = explode( ' ', $node->getAttribute('class'));
@@ -3944,11 +4113,13 @@ class phpQueryObject
 		}
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $className
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function toggleClass($className) {
 		foreach($this->stack(1) as $node) {
 			if ( $this->is( $node, '.'.$className ))
@@ -3982,15 +4153,19 @@ class phpQueryObject
 		}
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @param array|string $callback Expects $node as first param, $index as second
-	 * @param array $scope External variables passed to callback. Use compact('varName1', 'varName2'...) and extract($scope)
-	 * @param array $arg1 Will ba passed as third and futher args to callback.
-	 * @param array $arg2 Will ba passed as fourth and futher args to callback, and so on...
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param array|string $callback Expects $node as first param, $index as second
+     * @param null $param1
+     * @param null $param2
+     * @param null $param3
+     * @internal param array $scope External variables passed to callback. Use compact('varName1', 'varName2'...) and extract($scope)
+     * @internal param array $arg1 Will ba passed as third and futher args to callback.
+     * @internal param array $arg2 Will ba passed as fourth and futher args to callback, and so on...
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function each($callback, $param1 = null, $param2 = null, $param3 = null) {
 		$paramStructure = null;
 		if (func_num_args() > 1) {
@@ -4001,23 +4176,33 @@ class phpQueryObject
 			phpQuery::callbackRun($callback, array($v), $paramStructure);
 		return $this;
 	}
-	/**
-	 * Run callback on actual object.
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Run callback on actual object.
+     *
+     * @param $callback
+     * @param null $param1
+     * @param null $param2
+     * @param null $param3
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function callback($callback, $param1 = null, $param2 = null, $param3 = null) {
 		$params = func_get_args();
 		$params[0] = $this;
 		phpQuery::callbackRun($callback, $params);
 		return $this;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 * @todo add $scope and $args as in each() ???
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param $callback
+     * @param null $param1
+     * @param null $param2
+     * @param null $param3
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     * @todo add $scope and $args as in each() ???
+     */
 	public function map($callback, $param1 = null, $param2 = null, $param3 = null) {
 //		$stack = array();
 ////		foreach($this->newInstance() as $node) {
@@ -4033,12 +4218,14 @@ class phpQueryObject
 //			phpQuery::map($this->elements, $callback)
 		);
 	}
-	/**
-	 * Enter description here...
-	 * 
-	 * @param <type> $key
-	 * @param <type> $value
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param <type> $key
+     * @param <type> $value
+     * @return $this
+     */
 	public function data($key, $value = null) {
 		if (! isset($value)) {
 			// TODO? implement specific jQuery behavior od returning parent values
@@ -4050,11 +4237,13 @@ class phpQueryObject
 			return $this;
 		}
 	}
-	/**
-	 * Enter description here...
-	 * 
-	 * @param <type> $key
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param <type> $key
+     * @return $this
+     */
 	public function removeData($key) {
 		foreach($this as $node)
 			phpQuery::removeData($node, $key, $this->getDocumentID());
@@ -4090,17 +4279,19 @@ class phpQueryObject
 	public function key(){
 		return $this->current;
 	}
-	/**
-	 * Double-function method.
-	 *
-	 * First: main iterator interface method.
-	 * Second: Returning next sibling, alias for _next().
-	 *
-	 * Proper functionality is choosed automagicaly.
-	 *
-	 * @see phpQueryObject::_next()
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Double-function method.
+     *
+     * First: main iterator interface method.
+     * Second: Returning next sibling, alias for _next().
+     *
+     * Proper functionality is choosed automagicaly.
+     *
+     * @see phpQueryObject::_next()
+     * @param null $cssSelector
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public function next($cssSelector = null){
 //		if ($cssSelector || $this->valid)
 //			return $this->_next($cssSelector);
@@ -4150,14 +4341,15 @@ class phpQueryObject
 		throw new Exception("Can't do unset, use array interface only for calling queries and replacing HTML.");
 	}
 	// ARRAYACCESS INTERFACE END
-	/**
-	 * Returns node's XPath.
-	 *
-	 * @param unknown_type $oneNode
-	 * @return string
-	 * @TODO use native getNodePath is avaible
-	 * @access private
-	 */
+    /**
+     * Returns node's XPath.
+     *
+     * @param unknown_type $oneNode
+     * @param null $namespace
+     * @return string
+     * @TODO use native getNodePath is avaible
+     * @access private
+     */
 	protected function getNodeXpath($oneNode = null, $namespace = null) {
 		$return = array();
 		$loop = $oneNode
@@ -4471,39 +4663,41 @@ abstract class phpQuery {
 	public static $lastModified = null;
 	public static $active = 0;
 	public static $dumpCount = 0;
-	/**
-	 * Multi-purpose function.
-	 * Use pq() as shortcut.
-	 *
-	 * In below examples, $pq is any result of pq(); function.
-	 *
-	 * 1. Import markup into existing document (without any attaching):
-	 * - Import into selected document:
-	 *   pq('<div/>')				// DOESNT accept text nodes at beginning of input string !
-	 * - Import into document with ID from $pq->getDocumentID():
-	 *   pq('<div/>', $pq->getDocumentID())
-	 * - Import into same document as DOMNode belongs to:
-	 *   pq('<div/>', DOMNode)
-	 * - Import into document from phpQuery object:
-	 *   pq('<div/>', $pq)
-	 *
-	 * 2. Run query:
-	 * - Run query on last selected document:
-	 *   pq('div.myClass')
-	 * - Run query on document with ID from $pq->getDocumentID():
-	 *   pq('div.myClass', $pq->getDocumentID())
-	 * - Run query on same document as DOMNode belongs to and use node(s)as root for query:
-	 *   pq('div.myClass', DOMNode)
-	 * - Run query on document from phpQuery object
-	 *   and use object's stack as root node(s) for query:
-	 *   pq('div.myClass', $pq)
-	 *
-	 * @param string|DOMNode|DOMNodeList|array	$arg1	HTML markup, CSS Selector, DOMNode or array of DOMNodes
-	 * @param string|phpQueryObject|DOMNode	$context	DOM ID from $pq->getDocumentID(), phpQuery object (determines also query root) or DOMNode (determines also query root)
-	 *
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery|QueryTemplatesPhpQuery|false
-   * phpQuery object or false in case of error.
-	 */
+
+    /**
+     * Multi-purpose function.
+     * Use pq() as shortcut.
+     *
+     * In below examples, $pq is any result of pq(); function.
+     *
+     * 1. Import markup into existing document (without any attaching):
+     * - Import into selected document:
+     *   pq('<div/>')                // DOESNT accept text nodes at beginning of input string !
+     * - Import into document with ID from $pq->getDocumentID():
+     *   pq('<div/>', $pq->getDocumentID())
+     * - Import into same document as DOMNode belongs to:
+     *   pq('<div/>', DOMNode)
+     * - Import into document from phpQuery object:
+     *   pq('<div/>', $pq)
+     *
+     * 2. Run query:
+     * - Run query on last selected document:
+     *   pq('div.myClass')
+     * - Run query on document with ID from $pq->getDocumentID():
+     *   pq('div.myClass', $pq->getDocumentID())
+     * - Run query on same document as DOMNode belongs to and use node(s)as root for query:
+     *   pq('div.myClass', DOMNode)
+     * - Run query on document from phpQuery object
+     *   and use object's stack as root node(s) for query:
+     *   pq('div.myClass', $pq)
+     *
+     * @param string|DOMNode|DOMNodeList|array $arg1 HTML markup, CSS Selector, DOMNode or array of DOMNodes
+     * @param string|phpQueryObject|DOMNode $context DOM ID from $pq->getDocumentID(), phpQuery object (determines also query root) or DOMNode (determines also query root)
+     *
+     * @throws Exception
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery|QueryTemplatesPhpQuery|false
+     * phpQuery object or false in case of error.
+     */
 	public static function pq($arg1, $context = null) {
 		if ($arg1 instanceof DOMNODE && ! isset($context)) {
 			foreach(phpQuery::$documents as $documentWrapper) {
@@ -4623,65 +4817,75 @@ abstract class phpQuery {
 			$id = phpQuery::$defaultDocumentID;
 		return new phpQueryObject($id);
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param unknown_type $markup
+     * @param null $contentType
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocument($markup = null, $contentType = null) {
 		if (! $markup)
 			$markup = '';
 		$documentID = phpQuery::createDocumentWrapper($markup, $contentType);
 		return new phpQueryObject($documentID);
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param unknown_type $markup
+     * @param null $charset
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentHTML($markup = null, $charset = null) {
 		$contentType = $charset
 			? ";charset=$charset"
 			: '';
 		return self::newDocument($markup, "text/html{$contentType}");
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param unknown_type $markup
+     * @param null $charset
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentXML($markup = null, $charset = null) {
 		$contentType = $charset
 			? ";charset=$charset"
 			: '';
 		return self::newDocument($markup, "text/xml{$contentType}");
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param unknown_type $markup
+     * @param null $charset
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentXHTML($markup = null, $charset = null) {
 		$contentType = $charset
 			? ";charset=$charset"
 			: '';
 		return self::newDocument($markup, "application/xhtml+xml{$contentType}");
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param unknown_type $markup
+     * @param string $contentType
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentPHP($markup = null, $contentType = "text/html") {
 		// TODO pass charset to phpToMarkup if possible (use DOMDocumentWrapper function)
 		$markup = phpQuery::phpToMarkup($markup, self::$defaultCharset);
@@ -4760,65 +4964,79 @@ abstract class phpQuery {
 				);
 		return $content;
 	}
-	/**
-	 * Creates new document from file $file.
-	 * Chainable.
-	 *
-	 * @param string $file URLs allowed. See File wrapper page at php.net for more supported sources.
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from file $file.
+     * Chainable.
+     *
+     * @param string $file URLs allowed. See File wrapper page at php.net for more supported sources.
+     * @param null $contentType
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentFile($file, $contentType = null) {
 		$documentID = self::createDocumentWrapper(
 			file_get_contents($file), $contentType
 		);
 		return new phpQueryObject($documentID);
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param $file
+     * @param null $charset
+     * @internal param \unknown_type $markup
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentFileHTML($file, $charset = null) {
 		$contentType = $charset
 			? ";charset=$charset"
 			: '';
 		return self::newDocumentFile($file, "text/html{$contentType}");
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param $file
+     * @param null $charset
+     * @internal param \unknown_type $markup
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentFileXML($file, $charset = null) {
 		$contentType = $charset
 			? ";charset=$charset"
 			: '';
 		return self::newDocumentFile($file, "text/xml{$contentType}");
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param $file
+     * @param null $charset
+     * @internal param \unknown_type $markup
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentFileXHTML($file, $charset = null) {
 		$contentType = $charset
 			? ";charset=$charset"
 			: '';
 		return self::newDocumentFile($file, "application/xhtml+xml{$contentType}");
 	}
-	/**
-	 * Creates new document from markup.
-	 * Chainable.
-	 *
-	 * @param unknown_type $markup
-	 * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
-	 */
+
+    /**
+     * Creates new document from markup.
+     * Chainable.
+     *
+     * @param $file
+     * @param null $contentType
+     * @internal param \unknown_type $markup
+     * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
+     */
 	public static function newDocumentFilePHP($file, $contentType = null) {
 		return self::newDocumentPHP(file_get_contents($file), $contentType);
 	}
@@ -4834,15 +5052,19 @@ abstract class phpQuery {
 		// TODO
 		die('TODO loadDocument');
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @param unknown_type $html
-	 * @param unknown_type $domId
-	 * @return unknown New DOM ID
-	 * @todo support PHP tags in input
-	 * @todo support passing DOMDocument object from self::loadDocument
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $html
+     * @param null $contentType
+     * @param null $documentID
+     * @throws Exception
+     * @internal param \unknown_type $domId
+     * @return unknown New DOM ID
+     * @todo support PHP tags in input
+     * @todo support passing DOMDocument object from self::loadDocument
+     */
 	protected static function createDocumentWrapper($html, $contentType = null, $documentID = null) {
 		if (function_exists('domxml_open_mem'))
 			throw new Exception("Old PHP4 DOM XML extension detected. phpQuery won't work until this extension is enabled.");
@@ -4868,14 +5090,16 @@ abstract class phpQuery {
 		phpQuery::selectDocument($wrapper->id);
 		return $wrapper->id;
 	}
-	/**
-	 * Extend class namespace.
-	 *
-	 * @param string|array $target
-	 * @param array $source
-	 * @TODO support string $source
-	 * @return unknown_type
-	 */
+
+    /**
+     * Extend class namespace.
+     *
+     * @param string|array $target
+     * @param array $source
+     * @throws Exception
+     * @TODO support string $source
+     * @return unknown_type
+     */
 	public static function extend($target, $source) {
 		switch($target) {
 			case 'phpQueryObject':
@@ -4907,12 +5131,15 @@ abstract class phpQuery {
 		}
 		return true;
 	}
-	/**
-	 * Extend phpQuery with $class from $file.
-	 *
-	 * @param string $class Extending class name. Real class name can be prepended phpQuery_.
-	 * @param string $file Filename to include. Defaults to "{$class}.php".
-	 */
+
+    /**
+     * Extend phpQuery with $class from $file.
+     *
+     * @param string $class Extending class name. Real class name can be prepended phpQuery_.
+     * @param string $file Filename to include. Defaults to "{$class}.php".
+     * @throws Exception
+     * @return bool
+     */
 	public static function plugin($class, $file = null) {
 		// TODO $class checked agains phpQuery_$class
 //		if (strpos($class, 'phpQuery') === 0)
@@ -4941,7 +5168,6 @@ abstract class phpQuery {
 					continue;
 				if (isset(self::$pluginsStaticMethods[$method])) {
 					throw new Exception("Duplicate method '{$method}' from plugin '{$c}' conflicts with same method from plugin '".self::$pluginsStaticMethods[$method]."'");
-					return;
 				}
 				self::$pluginsStaticMethods[$method] = $class;
 			}
@@ -4968,11 +5194,13 @@ abstract class phpQuery {
 		}
 		return true;
 	}
-	/**
-	 * Unloades all or specified document from memory.
-	 *
-	 * @param mixed $documentID @see phpQuery::getDocumentID() for supported types.
-	 */
+
+    /**
+     * Unloades all or specified document from memory.
+     *
+     * @param null $id
+     * @internal param mixed $documentID @see phpQuery::getDocumentID() for supported types.
+     */
 	public static function unloadDocuments($id = null) {
 		if (isset($id)) {
 			if ($id = self::getDocumentID($id))
@@ -5019,23 +5247,27 @@ abstract class phpQuery {
         }
 
 	}
-	/**
-	 * Make an AJAX request.
-	 *
-	 * @param array See $options http://docs.jquery.com/Ajax/jQuery.ajax#toptions
-	 * Additional options are:
-	 * 'document' - document for global events, @see phpQuery::getDocumentID()
-	 * 'referer' - implemented
-	 * 'requested_with' - TODO; not implemented (X-Requested-With)
-	 * @return Zend_Http_Client
-	 * @link http://docs.jquery.com/Ajax/jQuery.ajax
-	 *
-	 * @TODO $options['cache']
-	 * @TODO $options['processData']
-	 * @TODO $options['xhr']
-	 * @TODO $options['data'] as string
-	 * @TODO XHR interface
-	 */
+
+    /**
+     * Make an AJAX request.
+     *
+     * @param array $options
+     * @param null $xhr
+     * @throws Exception
+     * @internal param \See $array $options http://docs.jquery.com/Ajax/jQuery.ajax#toptions
+     * Additional options are:
+     * 'document' - document for global events, @see phpQuery::getDocumentID()
+     * 'referer' - implemented
+     * 'requested_with' - TODO; not implemented (X-Requested-With)
+     * @return Zend_Http_Client
+     * @link http://docs.jquery.com/Ajax/jQuery.ajax
+     *
+     * @TODO $options['cache']
+     * @TODO $options['processData']
+     * @TODO $options['xhr']
+     * @TODO $options['data'] as string
+     * @TODO XHR interface
+     */
 	public static function ajax($options = array(), $xhr = null) {
 		$options = array_merge(
 			self::$ajaxSettings, $options
@@ -5215,12 +5447,14 @@ abstract class phpQuery {
 		}
 		return $data;
 	}
-	/**
-	 * Enter description here...
-	 *
-	 * @param array|phpQuery $data
-	 *
-	 */
+
+    /**
+     * Enter description here...
+     *
+     * @param array|phpQuery $data
+     *
+     * @return string
+     */
 	public static function param($data) {
 		return http_build_query($data, null, '&');
 	}
@@ -5359,11 +5593,12 @@ abstract class phpQuery {
 	// UTILITIES
 	// http://docs.jquery.com/Utilities
 
-	/**
-	 *
-	 * @return unknown_type
-	 * @link http://docs.jquery.com/Utilities/jQuery.makeArray
-	 */
+    /**
+     *
+     * @param $obj
+     * @return unknown_type
+     * @link http://docs.jquery.com/Utilities/jQuery.makeArray
+     */
 	public static function makeArray($obj) {
 		$array = array();
 		if (is_object($object) && $object instanceof DOMNODELIST) {
@@ -5381,13 +5616,17 @@ abstract class phpQuery {
 	public static function inArray($value, $array) {
 		return in_array($value, $array);
 	}
-	/**
-	 *
-	 * @param $object
-	 * @param $callback
-	 * @return unknown_type
-	 * @link http://docs.jquery.com/Utilities/jQuery.each
-	 */
+
+    /**
+     *
+     * @param $object
+     * @param $callback
+     * @param null $param1
+     * @param null $param2
+     * @param null $param3
+     * @return unknown_type
+     * @link http://docs.jquery.com/Utilities/jQuery.each
+     */
 	public static function each($object, $callback, $param1 = null, $param2 = null, $param3 = null) {
 		$paramStructure = null;
 		if (func_num_args() > 2) {
@@ -5461,13 +5700,15 @@ abstract class phpQuery {
 		}
 		return call_user_func_array($callback, $paramStructure);
 	}
-	/**
-	 * Merge 2 phpQuery objects.
-	 * @param array $one
-	 * @param array $two
-	 * @protected
-	 * @todo node lists, phpQueryObject
-	 */
+
+    /**
+     * Merge 2 phpQuery objects.
+     * @param array $one
+     * @param array $two
+     * @return array
+     * @protected
+     * @todo node lists, phpQueryObject
+     */
 	public static function merge($one, $two) {
 		$elements = $one->elements;
 		foreach($two->elements as $node) {
@@ -5680,11 +5921,14 @@ class phpQueryPlugins {
 			throw new Exception("Method '{$method}' doesnt exist");
 	}
 }
+
 /**
  * Shortcut to phpQuery::pq($arg1, $context)
  * Chainable.
  *
  * @see phpQuery::pq()
+ * @param $arg1
+ * @param null $context
  * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
  * @author Tobiasz Cudnik <tobiasz.cudnik/gmail.com>
  * @package phpQuery

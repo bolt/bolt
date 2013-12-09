@@ -123,7 +123,7 @@ class Extension extends \Bolt\BaseExtension
 
                 // add filters
                 foreach ($filters as $filter) {
-                    $value = $filter( $value );
+                    $value = preg_replace('/\s+/', ' ', $filter( $value ));
                 }
 
                 if (!empty($value)) {
@@ -167,7 +167,14 @@ class Extension extends \Bolt\BaseExtension
                 return false;
 
             default:
-                return sprintf('<meta name="%s" content="%s">', $name, $content);
+                $keyname = 'name';
+
+                // For Open Graph Meta Tags, see http://ogp.me/
+                if (strpos($name, 'og:') === 0) {
+                    $keyname = 'property';
+                }
+
+                return sprintf('<meta %s="%s" content="%s">', $keyname, $name, $content);
         }
         
     }

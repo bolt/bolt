@@ -26,7 +26,7 @@ class Config
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            $this->app['session']->set('database_checked', 0);
+            \Bolt\Database\IntegrityChecker::invalidate();
         }
 
         $this->setTwigPath();
@@ -374,8 +374,8 @@ class Config
         }
 
         // Check DB-tables integrity
-        if ($this->app['storage']->getIntegrityChecker()->needsCheck()) {
-            if (count($this->app['storage']->getIntegrityChecker()->checkTablesIntegrity()) > 0) {
+        if ($this->app['integritychecker']->needsCheck()) {
+            if (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) {
                 $msg = __(
                     "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
                     array("%link%" => path('dbcheck'))
@@ -471,10 +471,13 @@ class Config
             'listing_records' => '5',
             'listing_sort' => 'datepublish DESC',
             'crypto_rng' => 'mt_rand',
+            'caching' => array(
+                'config' => true,
+                'rendering' => false
+            ),
             'wysiwyg' => array(
                 'images' => true,
                 'tables' => false,
-                'embed' => false,
                 'fontcolor' => false,
                 'align' => false,
                 'subsuper' => false,
@@ -497,7 +500,6 @@ class Config
             ),
             'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",
             'developer_notices' => false,
-            'crypto_rng' => "mt_rand",
             'cookies_use_remoteaddr' => true,
             'cookies_use_browseragent' => false,
             'cookies_use_httphost' => true,
@@ -602,7 +604,11 @@ class Config
     private function saveCache()
     {
 
-        saveSerialize(__DIR__ . "/../../cache/config_cache.php", $this->data);
+        if ($this->get('general/caching/config')) {
+            saveSerialize(__DIR__ . "/../../cache/config_cache.php", $this->data);
+        } else {
+            @unlink(__DIR__ . "/../../cache/config_cache.php");
+        }
 
     }
 

@@ -492,9 +492,11 @@ class Content implements \ArrayAccess
     /**
      * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
      *
-     * @param string $value
+     * @param $group
      * @param string $name
      * @param string $taxonomytype
+     * @param int $sortorder
+     * @internal param string $value
      */
     public function setGroup($group, $name = "", $taxonomytype, $sortorder = 0)
     {
@@ -582,20 +584,17 @@ class Content implements \ArrayAccess
 
             $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
 
-            // There's a problem with Twig: parsing snippets that are longer than the filesystem limit for filenames.
-            // This is because Twig will _first_ attempt to locate the snippet as a file, and only _then_ parse it as a
-            // snippet. Therefore, if the snippet is too long, we split it, and parse it in several parts.
-            if (strlen($snippet) > 1800) {
-                // (First part), (opening twig brackets, rest of tag, closing twig brackets), (rest of string)
-                $result = preg_match('/(.*)({[{%#].*[}%#]})(.*)/ms', $snippet, $parts);
-                if ($result && count($parts)==4) {
-                    // Note: $parts[0] is always the entire snippet. We only need to parse parts 1, 2, 3..
-                    $snippet = $this->preParse($parts[1]) . $this->preParse($parts[2]) . $this->preParse($parts[3]);
-                }
-            } else {
-                // Render the snippet.
-                $snippet = $this->app['twig']->render($snippet);
-            }
+            // Remember the current Twig loaders.
+            $oldloader = $this->app['twig']->getLoader();
+
+            // Switch to the string loader..
+            $this->app['twig']->setLoader(new \Twig_Loader_String());
+
+            // Parse the snippet.
+            $snippet = $this->app['render']->render($snippet);
+
+            // Re-set the loaders back to the old situation.
+            $this->app['twig']->setLoader($oldloader);
 
         }
 
@@ -938,14 +937,8 @@ class Content implements \ArrayAccess
             if ($this->fieldtype($field) == 'html') {
                 $value = $this->values[$field];
                 // Completely remove style and script blocks
-                // Remove script tags
-                $value = preg_replace('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/i', '', $value);
-                // Remove style tags
-                $value = preg_replace('/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/i', '', $value);
-                // Strip other tags
-                // How about 'blockquote'?
                 $allowedTags = array('a', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'u', 'strike');
-                $result = strip_tags($value, '<' . implode('><', $allowedTags) . '>');
+                $result = lawHTML($value, $allowedText);
                 if ($excerptLength > 0) {
                     $result = trimText($result, $excerptLength, false, true, false);
                 }
@@ -1033,13 +1026,13 @@ class Content implements \ArrayAccess
 
     /**
      * Calculate the default taxonomy weights
-     * 
+     *
      * Adds weights to taxonomies that behave like tags
      */
     private function getTaxonomyWeights()
     {
         $taxonomies = array();
-        
+
         if (isset($this->contenttype['taxonomy'])) {
             foreach ($this->contenttype['taxonomy'] as $key) {
                 if ($this->app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
@@ -1078,11 +1071,11 @@ class Content implements \ArrayAccess
 
         // Go over all taxonomies, and calculate the overall weight.
         foreach ($contenttype_taxonomies[$ct] as $key => $taxonomy) {
-            
+
             // skip empty taxonomies.
             if (empty($this->taxonomy[$key])) {
                 continue;
-            }            
+            }
             $weight += $this->weighQueryText(implode(' ', $this->taxonomy[$key]), $query['use_q'], $query['words'], $taxonomy);
         }
 

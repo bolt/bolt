@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Stack;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class StackServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['stack'] = $app->share(function ($app) {
 
-            $stack = new Bolt\Stack($app);
+            $stack = new Stack($app);
 
             return $stack;
 
@@ -21,7 +21,7 @@ class StackServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }

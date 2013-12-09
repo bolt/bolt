@@ -2,18 +2,18 @@
 
 namespace Bolt\Provider;
 
-use Bolt;
-use Silex\Application as SilexApplication;
+use Bolt\Log;
+use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class LogServiceProvider implements ServiceProviderInterface
 {
-    public function register(SilexApplication $app)
+    public function register(Application $app)
     {
 
         $app['log'] = $app->share(function ($app) {
 
-            $log = new Bolt\Log($app);
+            $log = new Log($app);
 
             return $log;
 
@@ -21,7 +21,7 @@ class LogServiceProvider implements ServiceProviderInterface
 
     }
 
-    public function boot(SilexApplication $app)
+    public function boot(Application $app)
     {
     }
 }

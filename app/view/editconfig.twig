@@ -18,7 +18,7 @@
 </div>
     {{ form_widget(form._token) }}
     <br />
-    <button type="submit" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %}><i class="icon-flag"></i> {{ __('Save') }}</button>
+    <button type="submit" id="saveeditfile" class="btn btn-primary" {% if not writeallowed %}disabled{% endif %}><i class="icon-flag"></i> {{ __('Save') }}</button>
     <a class="btn confirm" style="margin-left: 24px;"
        data-confirm="{{ __("Are you sure you wish to revert? Your changes will be lost, if you don't save them.") }}" href="{{ path('fileedit', { 'file': file }) }}">
         <i class="icon-undo"></i> {{ __('Revert changes') }}

@@ -8,6 +8,14 @@ message_error: There was an error in the form. Please check the form, and try ag
 message_technical: There were some technical difficulties, so your message was not sent. We apologize for the inconvenience.
 button_text: Send
 
+# ReCaptcha Config - Set these options to enable ReCaptcha spam protection.
+# Generate your keys at https://www.google.com/recaptcha/admin/create
+recaptcha_enabled: false
+recaptcha_public_key: ''
+recaptcha_private_key: ''
+recaptcha_error_message: "The CAPTCHA wasn't entered correctly. Please try again."
+recaptcha_theme: clean
+
 # global cc email address
 # set this value to an email address that will receive a copy of every email from simpleforms
 # recipient_cc_email: info@example.com

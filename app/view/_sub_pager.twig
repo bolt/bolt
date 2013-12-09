@@ -1,6 +1,9 @@
-
 {% if "filter" in app.request.query.all|keys %}
     {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
+{% elseif "search" in app.request.query.all|keys %}
+    {% set filter = "search=" ~ app.request.query.all.search ~ "&" %}
+{% elseif "q" in app.request.query.all|keys %}
+    {% set filter = "q=" ~ app.request.query.all.q ~ "&" %}
 {% else %}
     {% set filter = "" %}
 {% endif %}

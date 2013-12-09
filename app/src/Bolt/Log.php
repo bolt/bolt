@@ -203,7 +203,7 @@ class Log
     /**
      * Getting all previously set values
      *
-     * @param  string $key
+     * @internal param string $key
      * @return array
      */
     public function getValues()

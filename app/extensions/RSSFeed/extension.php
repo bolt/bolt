@@ -89,7 +89,7 @@ class Extension extends \Bolt\BaseExtension
 
         $this->app['twig.loader.filesystem']->addPath(__DIR__.'/assets/');
 
-        $body = $this->app['twig']->render($template, array(
+        $body = $this->app['render']->render($template, array(
             'records' => $content,
             'content_length' => $contentLength,
             $contenttype['slug'] => $content,

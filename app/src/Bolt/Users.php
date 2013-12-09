@@ -230,6 +230,7 @@ class Users
      * Get a key to identify the session with.
      *
      * @param  string $name
+     * @param string $salt
      * @return string
      */
     private function getAuthtoken($name = "", $salt = "")
@@ -281,7 +282,7 @@ class Users
             time() + $this->app['config']->get('general/cookies_lifetime'),
             '/',
             $this->app['config']->get('general/cookies_domain'),
-            false,
+            $this->app['config']->get('general/cookies_https_only'),
             true
         );
 
@@ -505,7 +506,7 @@ class Users
                 time() -1 ,
                 '/',
                 $this->app['config']->get('general/cookies_domain'),
-                false,
+                $this->app['config']->get('general/cookies_https_only'),
                 true
             );
 
@@ -548,7 +549,7 @@ class Users
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
             // Compile the email with the shadow password and reset link..
-            $mailhtml = $this->app['twig']->render('mail/passwordreset.twig', array(
+            $mailhtml = $this->app['render']->render('mail/passwordreset.twig', array(
                 'user' => $user,
                 'shadowpassword' => $shadowpassword,
                 'shadowtoken' => $shadowtoken,
@@ -669,7 +670,7 @@ class Users
             time() -1 ,
             '/',
             $this->app['config']->get('general/cookies_domain'),
-            false,
+            $this->app['config']->get('general/cookies_https_only'),
             true
         );
 

@@ -16,9 +16,13 @@ class Frontend
 {
     public static function before(Request $request, \Bolt\Application $app)
     {
+        // Start the 'stopwatch' for the profiler.
+        $app['stopwatch']->start('bolt.frontend.before');
+
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
-        if (!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() || !$app['users']->getUsers()) {
+        if (!$app['users']->getUsers()) {
+            //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
 
             return redirect('useredit', array('id' => ""));
@@ -32,10 +36,14 @@ class Frontend
         if ($app['config']->get('general/maintenance_mode')) {
             if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['config']->get('general/maintenance_template');
-                $body = $app['twig']->render($template);
+                $body = $app['render']->render($template);
                 return new Response($body, 503);
             }
         }
+
+        // Stop the 'stopwatch' for the profiler.
+        $app['stopwatch']->stop('bolt.frontend.before');
+
 
     }
 
@@ -48,7 +56,7 @@ class Frontend
             // Set the 'editlink', if $content contains a valid record.
             if (!empty($content->contenttype['slug'])) {
                 $app['editlink'] = path('editcontent', array('contenttypeslug' => $content->contenttype['slug'], 'id' => $content->id));
-                $app['edittitle'] = $content->title();
+                $app['edittitle'] = $content->getTitle();
             }
 
             if (is_array($content)) {
@@ -68,7 +76,7 @@ class Frontend
 
         $app['log']->setValue('templatechosen', $app['config']->get('general/theme') . "/$template ($chosen)");
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
     }
 
     public static function record(Silex\Application $app, $contenttypeslug, $slug)
@@ -114,7 +122,7 @@ class Frontend
         $app['canonicalpath'] = $content->link();
         $app['paths'] = getPaths($app);
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
-        $app['edittitle'] = $content->title();
+        $app['edittitle'] = $content->getTitle();
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
@@ -122,7 +130,7 @@ class Frontend
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
         // Render the template and return.
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -155,7 +163,7 @@ class Frontend
         $app['twig']->addGlobal('record', $content);
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -210,7 +218,7 @@ class Frontend
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal($contenttype['slug'], $content);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -263,7 +271,7 @@ class Frontend
         $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -288,7 +296,7 @@ class Frontend
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('search', $search);
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
 
     }
 
@@ -355,7 +363,7 @@ class Frontend
 
         $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
 
-        return $app['twig']->render($template);
+        return $app['render']->render($template);
     }
 
 }

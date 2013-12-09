@@ -49,7 +49,7 @@
         {% if collector.editlink %}
         <div class="sf-toolbar-info-piece">
             <hr style="margin: 0;">
-            Edit: <a href="{{ collector.editlink }}">{{ collector.edittitle|excerpt(40) }}</a>
+            Edit: <a href="{{ collector.editlink }}">{{ collector.edittitle|excerpt(40)|default("(no title)") }}</a>
         </div>
         {% endif %}
 

@@ -200,13 +200,11 @@ class parseHTML {
     'button' => false,
     'cite' => false,
     'code' => false,
-    'del' => false,
     'dfn' => false,
     'em' => false,
     'font' => false,
     'i' => false,
     'img' => false,
-    'ins' => false,
     'input' => false,
     'iframe' => false,
     'kbd' => false,
@@ -524,6 +522,7 @@ class parseHTML {
  *
  * @param string $html
  * @param string $indent optional
+ * @param bool $noTagsInCode
  * @return string
  */
 function indentHTML($html, $indent = "  ", $noTagsInCode = false) {

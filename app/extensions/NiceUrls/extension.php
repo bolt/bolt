@@ -144,7 +144,8 @@ class Extension extends BoltExtension
     /**
      * Create the Twig filter
      *
-     * @param string $string
+     * @param $link
+     * @internal param string $string
      * @return \Twig_Markup
      */
     public function niceUrlFilter($link)

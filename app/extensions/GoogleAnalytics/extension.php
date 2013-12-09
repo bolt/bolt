@@ -34,7 +34,7 @@ class Extension extends \Bolt\BaseExtension
         $additionalhtml = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
         $additionalhtml .= '<script>google.load("visualization", "1", {packages:["corechart"]}); </script>';
 
-        $this->addWidget('dashboard', 'right_first', 'analyticsWidget', $additionalhtml, 3600);
+        if($this->config['widget']) $this->addWidget('dashboard', 'right_first', 'analyticsWidget', $additionalhtml, 3600);
 
     }
 
@@ -45,6 +45,23 @@ class Extension extends \Bolt\BaseExtension
         if (empty($this->config['webproperty'])) {
             $this->config['webproperty'] = "property-not-set";
         }
+
+        if ($this->config['universal']) {
+
+        $html = <<< EOM
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '%webproperty%', '%domainname%');
+        ga('send', 'pageview');
+    </script>
+EOM;
+
+        } else {
 
         $html = <<< EOM
 
@@ -63,9 +80,10 @@ class Extension extends \Bolt\BaseExtension
 
     </script>
 EOM;
+    }
 
         $html = str_replace("%webproperty%", $this->config['webproperty'], $html);
-        $html = str_replace("%domainname%", $_SERVER['HTTP_HOST'], $html);
+        $html = str_replace("%domainname%", ( $this->config['universal'] ? $this->config['universal_domainname'] : $_SERVER['HTTP_HOST'] ), $html);
 
         return new \Twig_Markup($html, 'UTF-8');
 
@@ -208,7 +226,7 @@ EOM;
         );
 
         $this->app['twig.loader.filesystem']->addPath(__DIR__, 'GoogleAnalytics');
-        $html = $this->app['twig']->render("@GoogleAnalytics/widget.twig", array(
+        $html = $this->app['render']->render("@GoogleAnalytics/widget.twig", array(
             'caption' => $caption,
             'aggr' => $aggr,
             'pageviews' => $pageviews,

@@ -30,6 +30,14 @@ class IntegrityChecker
      */
     private $textDefault = null;
 
+    /**
+     * Current tables.
+     */
+    private $tables;
+
+    const INTEGRITY_CHECK_INTERVAL = 1800; // max. validity of a database integrity check, in seconds
+    const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
+
     public function __construct(\Bolt\Application $app)
     {
         $this->app = $app;
@@ -48,6 +56,42 @@ class IntegrityChecker
             $this->textDefault = '';
         }
 
+        $this->tables = null;
+
+    }
+
+    private static function getValidityTimestampFilename()
+    {
+        return dirname(__FILE__) . '/../../../cache/' . self::INTEGRITY_CHECK_TS_FILENAME;
+    }
+
+    public static function invalidate()
+    {
+        // delete app/cache/dbcheck-ts
+        if (is_writable(self::getValidityTimestampFilename())) {
+            unlink(self::getValidityTimestampFilename());
+        } else if (file_exists(self::getValidityTimestampFilename())) {
+            $message = sprintf(
+                "The file 'app/cache/%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
+                self::INTEGRITY_CHECK_TS_FILENAME
+            );
+            die($message);
+        }
+
+    }
+
+    public static function markValid()
+    {
+        // write current date/time > app/cache/dbcheck-ts
+        $timestamp = time();
+        file_put_contents(self::getValidityTimestampFilename(), $timestamp);
+    }
+
+    public static function isValid()
+    {
+        // compare app/cache/dbcheck-ts vs. current timestamp
+        $validityTS = intval(@file_get_contents(self::getValidityTimestampFilename()));
+        return ($validityTS >= time() - self::INTEGRITY_CHECK_INTERVAL);
     }
 
     /**
@@ -57,19 +101,22 @@ class IntegrityChecker
      */
     protected function getTableObjects()
     {
+        if (!empty($this->tables)) {
+            return $this->tables;
+        }
 
         $sm = $this->app['db']->getSchemaManager();
 
-        $tables = array();
+        $this->tables = array();
 
         foreach ($sm->listTables() as $table) {
             if ( strpos($table->getName(), $this->prefix) === 0 ) {
-                $tables[ $table->getName() ] = $table;
+                $this->tables[ $table->getName() ] = $table;
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
         }
 
-        return $tables;
+        return $this->tables;
 
     }
 
@@ -80,7 +127,6 @@ class IntegrityChecker
      */
     public function checkUserTableIntegrity()
     {
-
         $tables = $this->getTableObjects();
 
         // Check the users table..
@@ -172,7 +218,7 @@ class IntegrityChecker
         // If there were no messages, update the timer, so we don't check it again..
         // If there _are_ messages, keep checking until it's fixed.
         if (empty($messages)) {
-            $this->app['session']->set('database_checked', time());
+            self::markValid();
         }
 
         return $messages;
@@ -186,16 +232,7 @@ class IntegrityChecker
      */
     public function needsCheck()
     {
-
-        // Only check the DB once an hour, because it's pretty time-consuming.
-        $databasechecked = time() - $this->app['session']->get('database_checked');
-
-        if ($databasechecked < $this->checktimer) {
-            return false;
-        } else {
-            return true;
-        }
-
+        return !self::isValid();
     }
 
     /**

@@ -30,7 +30,7 @@
                     </td>
                     <td class='contenttypes'>
                         {% if user.contenttypes|length == app.config.get('contenttypes')|length %}
-                            <em>all</em>
+                            <em>{{ __('all') }}</em>
                         {% else %}
                             {{ user.contenttypes|join(", ") }}
                         {% endif %}

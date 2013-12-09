@@ -795,6 +795,7 @@ class Extensions
      *
      * @param  string $tag
      * @param  string $html
+     * @param bool $insidehead
      * @return string
      */
     public function insertAfterJs($tag, $html, $insidehead = true)

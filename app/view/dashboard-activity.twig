@@ -7,7 +7,7 @@
     {% if attribute(users, log.username) is defined %}
         {% set userlink = pretty.userlink(attribute(users, log.username)) %}
     {% else %}
-        {% set userlink = 'unknown' %}
+        {% set userlink = __('unknown') %}
     {% endif %}
     <li>
         {%  if log.code == "save content" %}
@@ -20,16 +20,16 @@
                 {% set content_display_name = log.message %}
             {% endif %}
 
-            Saved {{ contenttype_display_name }}
-            "<strong>{{ content_display_name }}</strong>" by <em>{{ userlink }}</em>
+            {{ __('Saved') }} {{ contenttype_display_name }}
+            "<strong>{{ content_display_name }}</strong>" {{ __('by') }} <em>{{ userlink }}</em>
         {%  elseif log.code == "login" %}
-            <em>{{ userlink }}</em> logged in
+            <em>{{ userlink }}</em> {{ __('logged in') }}
         {%  elseif log.code == "logout" %}
-            <em>{{ userlink }}</em> logged out
+            <em>{{ userlink }}</em> {{ __('logged out') }}
         {%  elseif log.code == "fixme" %}
-            <b>Fixme:</b> {{ log.message }}
+            <b>{{ __('Fixme:') }}</b> {{ log.message }}
         {%  elseif log.code == "user" %}
-            <b>{{ log.message }}</b> by {{ userlink }}
+            <b>{{ log.message }}</b> {{ __('by') }} {{ userlink }}
         {%  else %}
             {{ log.message }}
         {%  endif %}
