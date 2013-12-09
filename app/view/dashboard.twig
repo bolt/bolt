@@ -61,7 +61,9 @@
             <table class='dashboardlisting'>
                 {% for content in multiplecontent %}
 
-                    {% include '_sub_contentrow.twig' with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true } %}
+                    {# content is 'editable' if either the user is the owner, or user is admin or higher #}
+                    {% set editable = (user.username == content.username) or isallowed('editcontent:all') %}
+		            {% include ['listing/'~contenttype|lower~'.twig', '_sub_listing.twig'] with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true } %}
 
                 {% endfor %}
             </table>
