@@ -252,7 +252,7 @@ class Application extends \Silex\Application
             $this['stopwatch']->stop('bolt.app.before');
 
             // Short-circuit the request, return the HTML. YOLO.
-            return new Response($html, 201);
+            return new Response($html, 200);
 
         }
 
