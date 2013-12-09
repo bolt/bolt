@@ -172,6 +172,7 @@ class Application extends \Silex\Application
         $this->register(new \Silex\Provider\FormServiceProvider());
         $this->register(new \Silex\Provider\ValidatorServiceProvider());
 
+        $this->register(new Provider\PermissionsServiceProvider());
         $this->register(new Provider\StorageServiceProvider());
         $this->register(new Provider\UsersServiceProvider());
         $this->register(new Provider\CacheServiceProvider());
