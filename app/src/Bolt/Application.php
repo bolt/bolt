@@ -293,7 +293,7 @@ class Application extends \Silex\Application
         } else {
 
             // Even if debug is not enabled,
-            $app['stopwatch'] = $app->share(function () {
+            $this['stopwatch'] = $this->share(function () {
                 return new \Symfony\Component\Stopwatch\Stopwatch();
             });
 
