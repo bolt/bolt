@@ -1431,9 +1431,6 @@ class Storage
      */
     private function organizeQueryParameters($in_parameters = null)
     {
-        $meta_parameters = array(
-            'order' => false
-        );
         $ctype_parameters = array();
         if (is_array($in_parameters)) {
             foreach ($in_parameters as $key => $value) {
@@ -1441,11 +1438,6 @@ class Storage
                     $meta_parameters[$key] = $value;
                 } else {
                     $ctype_parameters[$key] = $value;
-
-                    if (($key == 'order') && ($value != '')) {
-                        // something is sorted
-                        $meta_parameters['order'] = true;
-                    }
                 }
             }
         }
