@@ -579,6 +579,7 @@ class Config
             file_exists(BOLT_CONFIG_DIR . '/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR . '/contenttypes.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/menu.yml') ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/routing.yml') ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/permissions.yml') ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
         );
         $cachetimestamp = file_exists(__DIR__ . "/../../cache/config_cache.php") ? filemtime(__DIR__ . "/../../cache/config_cache.php") : 0;

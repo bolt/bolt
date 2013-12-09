@@ -73,6 +73,7 @@ class LowlevelChecks
         $this->lowlevelConfigFix('contenttypes');
         $this->lowlevelConfigFix('taxonomy');
         $this->lowlevelConfigFix('routing');
+        $this->lowlevelConfigFix('permissions');
 
         // $this->lowlevelError("Done");
 
