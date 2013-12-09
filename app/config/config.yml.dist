@@ -157,13 +157,6 @@ wysiwyg:
 #  encryption: null
 #  auth_mode: null
 
-# Set the method to get random numbers. Options: dev-random, dev-urandom, rand, mt_rand
-# - "mt_rand" - Use PHP's Mersenne Twister implementation. Not recommended, unless other options won't work.
-# - "dev-random" - UNIX/Linux only; read bytes from /dev/random
-# - "dev-urandom" - UNIX/Linux only, recommended; read bytes from /dev/urandom
-# - "rand" - Use libc's rand(). Not recommended.
-crypto_rng: mt_rand
-
 # Bolt allows some modifications to how 'strict' login sessions are. For every option
 # that is set to true, it becomes harder for a bad-willing person to spoof your login
 # session. However, it also requires you to re-authenticate more often if you change

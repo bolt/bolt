@@ -412,37 +412,7 @@ class Config
             }
         }
 
-        // Check the setting for crypto_rng..
-        // Commented out for now, until we've got the new random number generator.
-        // $this->checkRNGSetting();
-
     }
-
-    /**
-     * Check if a key generation function has been configured
-     */
-    public function checkRNGSetting() {
-        global $app;
-
-        /* Check if a key generation function has been configured. */
-        $method = $this->get('general/crypto_rng');
-
-        if (empty($method)) {
-            $error = "No cryptographic random number generator configured.
-                Set 'general/crypto_rng' to a suitable value and try again.";
-            $this->app['session']->getFlashBag()->set('error', $error);
-        }
-        /* Let's see if we can generate random keys. */
-        $key = makeKey(10);
-        if (strlen($key) !== 10) {
-            $error = "The cryptographic random number generator you configured,
-                '" . htmlspecialchars($method, ENT_QUOTES)  . "', appears to
-                be unsupported or malfunctioning on this environment.
-                Consider switching to a different cryptographic RNG.";
-            $this->app['session']->getFlashBag()->set('error', $error);
-        }
-    }
-
 
     /**
      * Assume sensible defaults for a number of options.
@@ -470,7 +440,6 @@ class Config
             'listing_template' => 'listing.twig',
             'listing_records' => '5',
             'listing_sort' => 'datepublish DESC',
-            'crypto_rng' => 'mt_rand',
             'caching' => array(
                 'config' => true,
                 'rendering' => false

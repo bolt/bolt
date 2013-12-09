@@ -328,7 +328,13 @@ class Extension extends \Bolt\BaseExtension
 
                 $files = $this->app['request']->files->get($form->getName());
                 $originalname = strtolower($files[$fieldname]->getClientOriginalName());
-                $filename = sprintf("%s-%s-%s.%s", $fieldname, date('Y-m-d'), makeKey(8), getExtension($originalname));
+                $filename = sprintf(
+                    "%s-%s-%s.%s",
+                    $fieldname,
+                    date('Y-m-d'),
+                    $this->app['randomgenerator']->generateString(8, 'abcdefghijklmnopqrstuvwxyz01234567890'),
+                    getExtension($originalname)
+                );
                 $link = sprintf("%s%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
 
                 // Make sure the file is in the allowed extensions.

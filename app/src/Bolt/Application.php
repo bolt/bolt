@@ -189,7 +189,15 @@ class Application extends \Silex\Application
         // Initialize enabled extensions.
         $this['extensions']->initialize();
 
+        // @todo: make a provider for the Integrity checker and Random generator..
+
+        // Set up the integrity checker for the Database, to periodically check if the Database
+        // is up to date, and if needed: repair it.
         $this['integritychecker'] = new \Bolt\Database\IntegrityChecker($this);
+
+        // Set up our secure random generator.
+        $factory = new \RandomLib\Factory;
+        $this['randomgenerator'] = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::MEDIUM));
 
     }
 

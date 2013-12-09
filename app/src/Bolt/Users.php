@@ -264,7 +264,7 @@ class Users
     private function setAuthtoken()
     {
 
-        $salt = makekey(12);
+        $salt = $this->app['randomgenerator']->generateString(12);
         $token = array(
             'username' => $this->currentuser['username'],
             'token' => $this->getAuthtoken($this->currentuser['username'], $salt),
@@ -527,8 +527,8 @@ class Users
 
         if (!empty($user)) {
 
-            $shadowpassword = makeKey(10, true);
-            $shadowtoken = makeKey(32, false);
+            $shadowpassword = $this->app['randomgenerator']->generateString(12);
+            $shadowtoken = $this->app['randomgenerator']->generateString(32);
 
             $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
             $shadowhashed = $hasher->HashPassword($shadowpassword);

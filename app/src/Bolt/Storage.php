@@ -2915,14 +2915,14 @@ class Storage
 
             // otherwise, just get a random slug.
             if (empty($uri)) {
-                $slug = trimText($slug, 32, false, false) . "-" . makeKey(6);
+                $slug = trimText($slug, 32, false, false) . "-" . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
                 $uri = $prefix . $slug;
             }
         }
 
         // When storing, we should never have an empty slug/URI. If we can't make a nice one, set it to 'slug-XXXX'.
         if (!$allowempty && empty($uri)) {
-            $uri = 'slug-' . makeKey(6);
+            $uri = 'slug-' . $this->app['randomgenerator']->generateString(6, 'abcdefghijklmnopqrstuvwxyz01234567890');
         }
 
         return $uri;
