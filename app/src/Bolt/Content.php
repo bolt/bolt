@@ -757,7 +757,7 @@ class Content implements \ArrayAccess
     /**
      * Get the previous record. ('previous' is defined as 'latest one published before this one')
      */
-    public function previous($field = "datepublish")
+    public function previous($field = "datepublish", $where = array())
     {
         $field = safeString($field);
 
@@ -768,7 +768,7 @@ class Content implements \ArrayAccess
             'returnsingle' => true
         );
 
-        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
+        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
 
         return $previous;
 
@@ -777,7 +777,7 @@ class Content implements \ArrayAccess
     /**
      * Get the next record. ('next' is defined as 'first one published after this one')
      */
-    public function next($field = "datepublish")
+    public function next($field = "datepublish", $where = array())
     {
         $field = safeString($field);
 
@@ -788,7 +788,7 @@ class Content implements \ArrayAccess
             'returnsingle' => true
         );
 
-        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params);
+        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
 
         return $next;
 
