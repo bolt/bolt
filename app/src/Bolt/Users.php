@@ -795,9 +795,10 @@ class Users
 
     /**
      * Enable or disable a user, specified by id.
-     * @param  int        $id
-     * @param  int        $enabled
-     * @return bool|mixed
+     *
+     * @param  int $id
+     * @param  int $enabled
+     * @return bool
      */
     public function setEnabled($id, $enabled = 1)
     {
@@ -813,6 +814,71 @@ class Users
 
     }
 
+    /**
+     * Check if a certain user has a specific role
+     *
+     * @param mixed $id
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($id, $role)
+    {
+
+        $user = $this->getUser($id);
+
+        if (empty($user)) {
+            return false;
+        }
+
+        return (is_array($user['roles']) && in_array($role, $user['roles']));
+
+    }
+
+    /**
+     * Add a certain role from a specific user.
+     *
+     * @param mixed $id
+     * @param string $role
+     * @return bool
+     */
+    public function addRole($id, $role)
+    {
+
+        $user = $this->getUser($id);
+
+        if (empty($user) || empty($role)) {
+            return false;
+        }
+
+        // Add the role to the $user['roles'] array
+        $user['roles'][] = (string) $role;
+
+        return $this->saveUser($user);
+
+    }
+
+    /**
+     * Remove a certain role from a specific user.
+     *
+     * @param mixed $id
+     * @param string $role
+     * @return bool
+     */
+    public function removeRole($id, $role)
+    {
+
+        $user = $this->getUser($id);
+
+        if (empty($user) || empty($role)) {
+            return false;
+        }
+
+        // Remove the role from the $user['roles'] array.
+        $user['roles'] = array_diff($user['roles'], array((string) $role));
+
+        return $this->saveUser($user);
+
+    }
 
     /**
      * Runs a permission check. Permissions are encoded as strings, where
