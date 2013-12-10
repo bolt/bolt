@@ -16,7 +16,7 @@
 
         {% for content in multiplecontent %}
 
-		    {% include ['listing/'~contenttype.name|lower~'.twig', '_sub_listing.twig'] with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
+            {% include ['custom/listing/'~contenttype.name|lower~'.twig', '_sub_listing.twig'] with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
             {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
                 {% set lastgroup = content.group.name %}
             {% endif %}

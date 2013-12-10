@@ -535,12 +535,6 @@ class Config
             $twigpath = array($themepath);
         } else {
             $twigpath = array(realpath(__DIR__ . '/../../view'));
-
-            // Add  path to individual content listing templates
-            $user_twig_path = BOLT_CONFIG_DIR.'/view';
-            if (is_dir($user_twig_path)) {
-                $twigpath[] = $user_twig_path;
-            }
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
