@@ -628,24 +628,7 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     return $result;
 }
 
-/**
- * Make HTML "lawful" using htmlmaid.
- * Uses a conservative set of options that should cover most common
- * XSS attempts.
- * @param string $html The HTML to clean up.
- * @param array $allowedTags If set, override the list of allowed tags.
- * @return mixed
- */
-function lawHTML($html, $allowedTags = null)
-{
-    $options = array();
-    $options['strip-comments'] = true;
-    if (is_array($allowedTags)) {
-        $options['allowed-tags'] = $allowedTags;
-    }
-    $maid = new Maid($options);
-    return $maid->clean($html);
-}
+
 
 /**
  * Transforms plain text to HTML. Plot twist: text between backticks (`) is
