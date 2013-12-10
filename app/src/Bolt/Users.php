@@ -143,7 +143,7 @@ class Users
             $user['roles'] = '[]';
         }
         else {
-            $user['roles'] = json_encode(array_values($user['roles']));
+            $user['roles'] = json_encode(array_values(array_unique($user['roles'])));
         }
 
 
@@ -877,6 +877,41 @@ class Users
         $user['roles'] = array_diff($user['roles'], array((string) $role));
 
         return $this->saveUser($user);
+
+    }
+
+    /**
+     * Check for a user with the 'root' role. There should always be at least one
+     * If there isn't we promote the current user.
+     *
+     * @return bool
+     */
+    public function checkForRoot()
+    {
+
+        // Don't check for root, if we're not logged in.
+        if ($this->getCurrentUsername() == false) {
+            return false;
+        }
+
+        // Loop over the users, check if anybody's root.
+        foreach ($this->getUsers() as $user) {
+            if (is_array($user['roles']) && in_array('root', $user['roles'])) {
+                // We have a 'root' user.
+                return true;
+            }
+        }
+
+        // Make sure the DB is updated. Note, that at this point we currently don't have
+        // the permissions to do so, but if we don't, update the DB, we can never add the
+        // role 'root' to the current user.
+        $this->app['integritychecker']->repairTables();
+
+        // If we reach this point, there is no user 'root'. We promote the current user.
+        $this->addRole($this->getCurrentUsername(), 'root');
+
+        // Show a helpful message to the user.
+        $this->app['session']->getFlashBag()->set('info', __("There should always be at least one 'root' user. You have just been promoted to root. Congratulations!."));
 
     }
 

@@ -1486,7 +1486,6 @@ class Backend implements ControllerProviderInterface
         // we let the user stay, because they need to set up the first user.
         if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
             $app['twig']->addGlobal('frontend', false);
-
             return;
         }
 
@@ -1495,9 +1494,11 @@ class Backend implements ControllerProviderInterface
         if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
-
             return redirect('useredit', array('id' => ""));
         }
+
+        // Check if there's at least one 'root' user, and otherwise promote the current user.
+        $app['users']->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
