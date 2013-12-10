@@ -442,7 +442,9 @@ class Config
             'listing_sort' => 'datepublish DESC',
             'caching' => array(
                 'config' => true,
-                'rendering' => false
+                'rendering' => false,
+                'templates' => false,
+                'request' => false
             ),
             'wysiwyg' => array(
                 'images' => true,
