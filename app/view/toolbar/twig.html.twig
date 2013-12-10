@@ -25,6 +25,8 @@
                     <span>
                         {% for template in collector.templates %}
                             {{loop.index }}. {{template}}<br>
+                        {% else %}
+                            None. (probably cached page)
                         {% endfor %}
                     </span>
             </div>
