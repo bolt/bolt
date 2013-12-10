@@ -543,7 +543,8 @@ class Content implements \ArrayAccess
 
                     // Parse the field as Markdown, return HTML
                     $value = \Parsedown::instance()->parse($value);
-                    $value = lawText($value);
+                    $maid = new \Maid\Maid(array('output-format' => 'html'));
+                    $value = $maid->clean($value);
                     $value = new \Twig_Markup($value, 'UTF-8');
                     break;
 
@@ -937,8 +938,11 @@ class Content implements \ArrayAccess
             if ($this->fieldtype($field) == 'html') {
                 $value = $this->values[$field];
                 // Completely remove style and script blocks
-                $allowedTags = array('a', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'u', 'strike');
-                $result = lawHTML($value, $allowedText);
+                $maid = new \Maid\Maid(array(
+                    'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
+                    'output-format' => 'html'
+                ));
+                $result = $maid->clean($value);
                 if ($excerptLength > 0) {
                     $result = trimText($result, $excerptLength, false, true, false);
                 }
