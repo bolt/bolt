@@ -440,7 +440,9 @@ class IntegrityChecker
         $contentChangelogTable->setPrimaryKey(array("id"));
         $contentChangelogTable->addColumn("date", "datetime");
         $contentChangelogTable->addIndex( array( 'date' ) );
-        $contentChangelogTable->addColumn("username", "string", array("length" => 64, "default" => ""));
+        $contentChangelogTable->addColumn("username", "string", array("length" => 64, "default" => "")); // To be deprecated, at sometime in the future.
+        $contentChangelogTable->addIndex( array( 'username' ) );
+        $contentChangelogTable->addColumn("ownerid", "integer", array("notnull" => false));
         $contentChangelogTable->addIndex( array( 'username' ) );
 
         // the title as it was right before changing/deleting the item, or
@@ -551,6 +553,7 @@ class IntegrityChecker
                     case 'datedepublish':
                     case 'username':
                     case 'status':
+                    case 'ownerid':
                         // These are the default columns. Don't try to add these.
                         break;
                     default:

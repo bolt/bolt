@@ -23,6 +23,15 @@ class ChangelogItem implements \ArrayAccess
         if (isset($values['date'])) { $this->date = $values['date']; }
         if (isset($values['title'])) { $this->title = $values['title']; }
         if (isset($values['username'])) { $this->username = $values['username']; }
+        if (isset($values['ownerid'])) {
+            $this->ownerid = $values['ownerid'];
+            $user = $this->app['users']->getUser($values['ownerid']);
+            if (isset($user['username'])) {
+                $this->username = $user['username'];
+            } else {
+                $this->username = "(deleted user #" . $values['ownerid'] . ")";
+            }
+        }
         if (isset($values['contenttype'])) { $this->contenttype = $values['contenttype']; }
         if (isset($values['contentid'])) { $this->contentid = $values['contentid']; }
         if (isset($values['mutation_type'])) { $this->mutation_type = $values['mutation_type']; }
