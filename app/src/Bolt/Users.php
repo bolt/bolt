@@ -911,7 +911,7 @@ class Users
         $this->addRole($this->getCurrentUsername(), 'root');
 
         // Show a helpful message to the user.
-        $this->app['session']->getFlashBag()->set('info', __("There should always be at least one 'root' user. You have just been promoted to root. Congratulations!."));
+        $this->app['session']->getFlashBag()->set('info', __("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
 
     }
 
