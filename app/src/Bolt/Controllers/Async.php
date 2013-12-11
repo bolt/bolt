@@ -253,7 +253,7 @@ class Async implements ControllerProviderInterface
             if ($a['slug'] == $b['slug']) {
                 return 0;
             }
-            return ($a['slug'] < $b['slug']) ? -1 : 1;    
+            return ($a['slug'] < $b['slug']) ? -1 : 1;
 
         });
 
@@ -324,8 +324,6 @@ class Async implements ControllerProviderInterface
      */
     public function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request)
     {
-        $contenttypes = $app['storage']->getContentTypes();
-
         foreach ($app['storage']->getContentTypes() as $contenttype) {
 
             $records = $app['storage']->getContent($contenttype, array('published' => true));
@@ -337,7 +335,6 @@ class Async implements ControllerProviderInterface
                     'link' => $record->link(),
                 );
             }
-
         }
 
         return $app['render']->render('filebrowser.twig', array(
