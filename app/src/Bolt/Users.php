@@ -731,7 +731,7 @@ class Users
                     }
                     // add "everyone" role to, uhm, well, everyone.
                     $roles[] = Permissions::ROLE_EVERYONE;
-                    $this->users[$key]['roles'] = $roles;
+                    $this->users[$key]['roles'] = array_unique($roles);
                 }
             } catch (\Exception $e) {
                 // Nope. No users.

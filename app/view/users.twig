@@ -11,7 +11,7 @@
                 <th>{{ __('Username') }}</th>
                 <th>{{ __('Level') }}</th>
                 <th>{{ __('Last seen') }}</th>
-                <th>{{ __('Contenttypes') }}</th>
+                <th>{{ __('Roles') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             {% for user in users %}
@@ -32,7 +32,7 @@
                         {% if user.contenttypes|length == app.config.get('contenttypes')|length %}
                             <em>{{ __('all') }}</em>
                         {% else %}
-                            {{ user.contenttypes|join(", ") }}
+                            {{ user.roles|join(", ") }}
                         {% endif %}
                     </td>
                     <td class='actions'>
@@ -65,6 +65,10 @@
 
         </table>
 
+        <h2><strong>{{ __("Roles and Permissions") }}</strong></h2>
+
+        <p>The settings for roles and permissions are stored in <code>permissions.yml</code>.</p>
+        <a class="btn btn-small" href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">{{ __("Roles and Permissions") }}</a>
 
         <h2><strong>{{ __("Current sessions") }}</strong></h2>
 
