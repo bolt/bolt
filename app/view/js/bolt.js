@@ -691,6 +691,10 @@ var Stack = Backbone.Model.extend({
             type = "other";
         }
 
+        // We don't need 'files/' in the path. Accept intput with or without it, but strip
+        // it out here..
+        filename = filename.replace(/files\//ig, '');
+
         $.ajax({
             url: asyncpath + 'addstack/' + filename,
             type: 'GET',

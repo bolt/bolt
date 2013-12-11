@@ -104,7 +104,7 @@ class Stack
      */
     public function listitems($count = 100, $typefilter = "")
     {
-        // Make sure typefiltet is an array, if passed something like "image, document"
+        // Make sure typefilter is an array, if passed something like "image, document"
         if (!empty($typefilter)) {
             $typefilter = array_map("trim", explode(",", $typefilter));
         }
@@ -139,7 +139,7 @@ class Stack
             $thisitem = array(
                 'basename' => basename($item),
                 'extension' => $extension,
-                'filepath' => $item,
+                'filepath' => str_replace("files/", "", $item),
                 'type' => $type,
                 'writable' => is_writable($fullpath),
                 'readable' => is_readable($fullpath),
