@@ -588,8 +588,12 @@ class Content implements \ArrayAccess
             // Remember the current Twig loaders.
             $oldloader = $this->app['twig']->getLoader();
 
-            // Switch to the string loader..
-            $this->app['twig']->setLoader(new \Twig_Loader_String());
+            // Switch to the string loader.. this is the preferred option, but breaks {{ simpleform() }} in content.
+            // $this->app['twig']->setLoader(new \Twig_Loader_String());
+
+            // Add the the string loader..
+            // @TODO: Unfortunately, split the input again. :-(
+            $this->app['twig.loader']->addLoader(new \Twig_Loader_String());
 
             // Parse the snippet.
             $snippet = $this->app['render']->render($snippet);
