@@ -49,8 +49,8 @@ class Render
 
     }
 
-    
-    public function postProces(Response $response)
+
+    public function postProcess(Response $response)
     {
         $html = $response->getContent();
 
@@ -67,7 +67,7 @@ class Render
     {
         $key = md5($template . $this->app['request']->getRequestUri());
 
-        return $this->app['cache']->fetch($key, $html);
+        return $this->app['cache']->fetch($key);
 
     }
 
@@ -76,7 +76,7 @@ class Render
     {
         $key = md5($this->app['request']->getRequestUri());
 
-        return $this->app['cache']->fetch($key, $html);
+        return $this->app['cache']->fetch($key);
 
     }
 

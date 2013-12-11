@@ -363,7 +363,7 @@ class Application extends \Silex\Application
                 }
 
                 // Do some post-processing.. Hooks, snippets..
-                $html = $this['render']->postProces($response);
+                $html = $this['render']->postProcess($response);
 
                 $response->setContent($html);
             }
