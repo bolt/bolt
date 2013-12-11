@@ -1,0 +1,12 @@
+# Change the password to something else.
+password: hunter42
+
+# The page to redirect people to, when they're not logged in.
+# note: this is NOT an URL, but must be a contenttype/slug combination.
+redirect: 'page/login'
+
+message_correct: "Thank you for providing the correct password. You now have access to the protected pages."
+message_wrong: "The password was not correct. Try again."
+
+# Don't change this, unless you like living on the edge.
+form: assets/form.twig
