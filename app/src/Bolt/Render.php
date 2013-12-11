@@ -164,7 +164,7 @@ class Render
 
     /**
      * Check if the current conditions are suitable for caching.
-     * 
+     *
      * @param string $type
      * @param bool $checkoverride
      * @return bool
