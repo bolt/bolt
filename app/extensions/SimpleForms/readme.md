@@ -238,3 +238,15 @@ myformname:
       ..
   button_text: Send the Demo form!
 </pre>
+
+**Tip:** If you want to include the current date and time into the database, set the 'DEFAULT' of the field to 'CURRENT_TIMESTAMP': 
+
+<pre>
+CREATE TABLE `meldingen` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  ..
+  ..
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+</pre>
