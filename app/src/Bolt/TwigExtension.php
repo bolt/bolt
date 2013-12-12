@@ -971,6 +971,9 @@ class TwigExtension extends \Twig_Extension
      */
     private function menuHelper($item)
     {
+        if (isset($item['submenu']) && is_array($item['submenu'])) {
+            $item['submenu'] = $this->menuHelper($item['submenu']);
+        }
 
         if (isset($item['path']) && $item['path'] == "homepage") {
             $item['link'] = $this->app['paths']['root'];
