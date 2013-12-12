@@ -10,7 +10,7 @@ following in your template:
 You can put this either in your template, to protect an entire contenttype, or just
 place it in the body text of a record.
 
-People who have not provided the password will automaticalle be redirected to a
+People who do not yet have access will automatically be redirected to a
 page, where they will be asked to provide the password.
 
 See `config.yml` for the options.
