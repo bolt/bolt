@@ -326,7 +326,7 @@ class Permissions
                     $permission = 'view';
                 }
                 break;
-            
+
             case 'contenttype':
                 list($_, $contenttype, $permission, $contentid) = $parts;
                 if (empty($permission)) {
