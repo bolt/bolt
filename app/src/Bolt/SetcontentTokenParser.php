@@ -53,7 +53,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
 
             // order / orderby parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'order') ||
-                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'orderby') ) {
+                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'orderby')) {
                 $this->parser->getStream()->next();
                 $order = $this->parser->getExpressionParser()->parsePrimaryExpression()->getAttribute('value');
                 $arguments['order'] = $order;
@@ -61,19 +61,19 @@ class SetcontentTokenParser extends \Twig_TokenParser
 
             // paging / allowpaging  parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'paging') ||
-                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'allowpaging') ) {
+                $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'allowpaging')) {
                 $this->parser->getStream()->next();
                 $arguments['paging'] = true;
             }
 
             // printquery  parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'printquery') ) {
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'printquery')) {
                 $this->parser->getStream()->next();
                 $arguments['printquery'] = true;
             }
 
             // returnsingle  parameter
-            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'returnsingle') ) {
+            if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'returnsingle')) {
                 $this->parser->getStream()->next();
                 $arguments['returnsingle'] = true;
             }

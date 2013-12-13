@@ -110,10 +110,12 @@ class Frontend
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
+            $error = sprintf(
+                "No template for '%s' defined. Tried to use '%s/%s'.",
                 $content->getTitle(),
                 basename($app['config']->get('general/theme')),
-                $template);
+                $template
+            );
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
         }
@@ -150,10 +152,12 @@ class Frontend
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf("No template for '%s' defined. Tried to use '%s/%s'.",
+            $error = sprintf(
+                "No template for '%s' defined. Tried to use '%s/%s'.",
                 $content->getTitle(),
                 basename($app['config']->get('general/theme')),
-                $template);
+                $template
+            );
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
         }
@@ -205,10 +209,12 @@ class Frontend
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
+            $error = sprintf(
+                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
                 $contenttypeslug,
                 basename($app['config']->get('general/theme')),
-                $template);
+                $template
+            );
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
         }
@@ -258,10 +264,12 @@ class Frontend
         // Fallback: If file is not OK, show an error page
         $filename = $app['paths']['themepath'] . "/" . $template;
         if (!file_exists($filename) || !is_readable($filename)) {
-            $error = sprintf("No template for '%s'-listing defined. Tried to use '%s/%s'.",
+            $error = sprintf(
+                "No template for '%s'-listing defined. Tried to use '%s/%s'.",
                 $taxonomyslug,
                 basename($app['config']->get('general/theme')),
-                $template);
+                $template
+            );
             $app['log']->setValue('templateerror', $error);
             $app->abort(404, $error);
         }
@@ -365,5 +373,4 @@ class Frontend
 
         return $app['render']->render($template);
     }
-
 }

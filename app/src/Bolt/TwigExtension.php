@@ -769,7 +769,8 @@ class TwigExtension extends \Twig_Extension
             $crop = substr($crop, 0, 1);
         }
 
-        $thumbnail = sprintf("%sthumbs/%sx%s%s/%s",
+        $thumbnail = sprintf(
+            "%sthumbs/%sx%s%s/%s",
             $this->app['paths']['root'],
             $width,
             $height,
@@ -799,8 +800,7 @@ class TwigExtension extends \Twig_Extension
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
-            $output = sprintf('<img src="%s" width="%s" height="%s">',
-                $image, $width, $height);
+            $output = sprintf('<img src="%s" width="%s" height="%s">', $image, $width, $height);
 
         } else {
             $output = "&nbsp;";
@@ -841,9 +841,11 @@ class TwigExtension extends \Twig_Extension
                 $title = sprintf('%s: %s', __("Image"), $filename);
             }
 
-            $output = sprintf('<a href="%s" class="fancybox" rel="fancybox" title="%s">
+            $output = sprintf(
+                '<a href="%s" class="fancybox" rel="fancybox" title="%s">
                     <img src="%s" width="%s" height="%s"></a>',
-                $large, $title, $thumbnail, $width, $height);
+                $large, $title, $thumbnail, $width, $height
+            );
 
         } else {
             $output = "&nbsp;";
@@ -870,7 +872,8 @@ class TwigExtension extends \Twig_Extension
             return $this->thumbnail($filename, $width, $height, $crop);
         }
 
-        $image = sprintf("%sfiles/%s",
+        $image = sprintf(
+            "%sfiles/%s",
             $this->app['paths']['root'],
             safeFilename($filename)
         );
@@ -891,7 +894,8 @@ class TwigExtension extends \Twig_Extension
     {
         $contenttype = $content->contenttype['slug'];
 
-        $output = sprintf("<div class='Bolt-editable' data-id='%s' data-contenttype='%s' data-field='%s'>%s</div>",
+        $output = sprintf(
+            "<div class='Bolt-editable' data-id='%s' data-contenttype='%s' data-field='%s'>%s</div>",
             $content->id,
             $contenttype,
             $field,
@@ -908,9 +912,10 @@ class TwigExtension extends \Twig_Extension
      */
     public function isMobileClient()
     {
-        if (preg_match('/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
-            $_SERVER['HTTP_USER_AGENT'])
-        ) {
+        if (preg_match(
+            '/(android|blackberry|htc|iemobile|iphone|ipad|ipaq|ipod|nokia|playbook|smartphone)/i',
+            $_SERVER['HTTP_USER_AGENT']
+        )) {
             return true;
         } else {
             return false;
@@ -1167,6 +1172,4 @@ class TwigExtension extends \Twig_Extension
         return $stacked;
 
     }
-
-
 }

@@ -29,9 +29,8 @@ class DatabaseProfilerServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-    	if ($app['debug'] === true)
-    	{
-    		$app['db.config']->setSQLLogger($app['db.logger']);
-		}
+        if ($app['debug'] === true) {
+            $app['db.config']->setSQLLogger($app['db.logger']);
+        }
     }
 }
