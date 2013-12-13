@@ -94,6 +94,14 @@ class Content implements \ArrayAccess
     public function setValues(Array $values)
     {
 
+        // Since Bolt 1.4, we use 'ownerid' instead of 'username' in the DB tables. If we get an array that has an
+        // empty 'ownerid', attempt to set it from the 'username'. In $this->setValue the user will be set, regardless
+        // of ownerid is an 'id' or a 'username'.
+        if (empty($values['ownerid']) && !empty($values['username'])) {
+            $values['ownerid'] = $values['username'];
+            unset($values['username']);
+        }
+
         foreach ($values as $key => $value) {
             $this->setValue($key, $value);
         }
@@ -186,7 +194,8 @@ class Content implements \ArrayAccess
             $this->id = $value;
         }
 
-        if ($key === 'ownerid' && !$this->user) {
+        // Set the user in the object.
+        if ($key === 'ownerid' && !empty($value)) {
             $this->user = $this->app['users']->getUser($value);
         }
 
