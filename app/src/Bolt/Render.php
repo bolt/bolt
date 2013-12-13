@@ -5,7 +5,6 @@ namespace Bolt;
 use Silex;
 use Symfony\Component\HttpFoundation\Response;
 
-
 /**
  * Wrapper around Twig's render() function. Handles the following responsibilities:
  *
@@ -134,7 +133,8 @@ class Render
      *
      * @param $html
      */
-    public function cacheRequest($html) {
+    public function cacheRequest($html)
+    {
 
         if ($this->checkCacheConditions('request')) {
 
@@ -203,5 +203,4 @@ class Render
         return true;
 
     }
-
 }

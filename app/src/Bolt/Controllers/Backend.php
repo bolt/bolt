@@ -199,8 +199,7 @@ class Backend implements ControllerProviderInterface
                 $username = trim($request->get('username'));
                 if (empty($username)) {
                     $app['users']->session->getFlashBag()->set('error', __("Please provide a username", array()));
-                }
-                else {
+                } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
                     return redirect('login');
                 }
@@ -291,13 +290,13 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('success', $content);
 
             return redirect('fileedit', array('file' => "app/config/contenttypes.yml"));
-        }
-        else {
+        } else {
             return redirect('dbupdate_result', array('messages' => json_encode($output)));
         }
     }
 
-    public function dbupdate_result(Silex\Application $app, Request $request) {
+    public function dbupdate_result(Silex\Application $app, Request $request)
+    {
         $output = json_decode($request->get('messages'));
 
         $app['twig']->addGlobal('title', __("Database check / update"));
@@ -435,8 +434,10 @@ class Backend implements ControllerProviderInterface
         }
 
 
-        $multiplecontent = $app['storage']->getContent($contenttype['slug'],
-            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter));
+        $multiplecontent = $app['storage']->getContent(
+            $contenttype['slug'],
+            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter)
+        );
 
         // @todo Do we need pager here?
         $app['pager'] = $pager;
@@ -444,7 +445,8 @@ class Backend implements ControllerProviderInterface
         $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
         $app['twig']->addGlobal('title', $title);
 
-        return $app['render']->render('overview.twig',
+        return $app['render']->render(
+            'overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
         );
 
@@ -463,12 +465,10 @@ class Backend implements ControllerProviderInterface
             if ($page === 'all') {
                 $limit = null;
                 $page = null;
-            }
-            else {
+            } else {
                 $page = intval($page);
             }
-        }
-        else {
+        } else {
             $page = 1;
         }
 
@@ -493,8 +493,7 @@ class Backend implements ControllerProviderInterface
             $title = __('All content types');
             $logEntries = $app['storage']->getChangelog($options);
             $itemcount = $app['storage']->countChangelog($options);
-        }
-        else {
+        } else {
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $app['storage']->getContentType($contenttype);
             if ($contentid) {
@@ -513,21 +512,18 @@ class Backend implements ControllerProviderInterface
                 if ($content) {
                     // content item is available: get the current title
                     $title = $content->getTitle();
-                }
-                else {
+                } else {
                     // content item does not exist (anymore).
                     if (empty($logEntries)) {
                         // No item, no entries - phew. Content type name and ID
                         // will have to do.
                         $title = $contenttypeObj['singular_name'] . ' #' . $contentid;
-                    }
-                    else {
+                    } else {
                         // No item, but we can use the most recent title.
                         $title = $logEntries[0]['title'];
                     }
                 }
-            }
-            else {
+            } else {
                 // We're displaying all changes for the entire content type,
                 // so the plural name is most appropriate.
                 $title = $contenttypeObj['name'];
@@ -541,8 +537,7 @@ class Backend implements ControllerProviderInterface
         // skip rendering the pager.
         if ($limit) {
             $pagecount = ceil($itemcount / $limit);
-        }
-        else {
+        } else {
             $pagecount = null;
         }
 
@@ -588,8 +583,7 @@ class Backend implements ControllerProviderInterface
         // for Editors.
         if (empty($id)) {
             $perm = "contenttype:$contenttypeslug:create";
-        }
-        else {
+        } else {
             $perm = "contenttype:$contenttypeslug:edit:$id";
         }
         if (!$app['users']->isAllowed($perm)) {
@@ -608,8 +602,7 @@ class Backend implements ControllerProviderInterface
 
                     return redirect('dashboard');
                 }
-            }
-            else {
+            } else {
                 // Check if we're allowed to create content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
                     $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to create a new record.'));
@@ -622,8 +615,7 @@ class Backend implements ControllerProviderInterface
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
                 $newStatus = $content['status'];
-            }
-            else {
+            } else {
                 $content = $app['storage']->getContentObject($contenttypeslug);
                 $oldStatus = '';
             }
@@ -667,8 +659,7 @@ class Backend implements ControllerProviderInterface
                 // No returnto, so we go back to the 'overview' for this contenttype.
                 return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
 
-            }
-            else {
+            } else {
                 $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
@@ -690,8 +681,7 @@ class Backend implements ControllerProviderInterface
 
             $title = sprintf("<strong>%s</strong> » %s", __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])), $content->getTitle());
             $app['log']->add("Edit content", 1, $content, 'edit');
-        }
-        else {
+        } else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
                 $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to create a new record.'));
@@ -735,8 +725,7 @@ class Backend implements ControllerProviderInterface
         if (empty($id)) {
             // A new one!
             $contentowner = $app['users']->getCurrentUser();
-        }
-        else {
+        } else {
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
@@ -761,8 +750,7 @@ class Backend implements ControllerProviderInterface
 
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
             $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
-        }
-        elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
+        } elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%' => $title)));
         } else {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%' => $title)));
@@ -801,8 +789,7 @@ class Backend implements ControllerProviderInterface
 
         if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to '$newStatus'", array('%title%' => $title)));
-        }
-        else {
+        } else {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
         }
 
@@ -837,11 +824,13 @@ class Backend implements ControllerProviderInterface
             }
         }
         $globalPermissions = $app['permissions']->getGlobalRoles();
-        return $app['twig']->render('roles.twig',
+        return $app['twig']->render(
+            'roles.twig',
             array(
                 'effectivePermissions' => $effectivePermissions,
                 'globalPermissions' => $globalPermissions,
-            ));
+            )
+        );
     }
 
     public function useredit($id, \Bolt\Application $app, Request $request)
@@ -1513,5 +1502,4 @@ class Backend implements ControllerProviderInterface
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
     }
-
 }

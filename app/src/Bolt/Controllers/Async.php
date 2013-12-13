@@ -96,7 +96,8 @@ class Async implements ControllerProviderInterface
 
             $driver = $app['config']->get('general/database/driver', 'sqlite');
 
-            $url = sprintf('http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
+            $url = sprintf(
+                'http://news.bolt.cm/?v=%s&p=%s&db=%s&name=%s',
                 rawurlencode($app->getVersion()),
                 phpversion(),
                 $driver,
@@ -202,9 +203,9 @@ class Async implements ControllerProviderInterface
         if (isHtml($html)) {
 
             require_once(__DIR__ . '/../../../classes/markdownify/markdownify_extra.php');
-            $md = new \Markdownify(false, 80, false);
+            $markdown = new \Markdownify(false, 80, false);
 
-            $output = $md->parseString($html);
+            $output = $markdown->parseString($html);
 
         } else {
             $output = $html;
@@ -248,7 +249,7 @@ class Async implements ControllerProviderInterface
 
         $results = $query->fetchAll();
 
-        usort($results, function($a, $b){
+        usort($results, function ($a, $b) {
 
             if ($a['slug'] == $b['slug']) {
                 return 0;
@@ -272,13 +273,13 @@ class Async implements ControllerProviderInterface
 
         if ($contentLogEnabled) {
             return $this->lastmodifiedByContentLog($app, $contenttypeslug, $contentid);
-        }
-        else {
+        } else {
             return $this->lastmodifiedSimple($app, $contenttypeslug);
         }
     }
 
-    private function lastmodifiedSimple(Silex\Application $app, $contenttypeslug) {
+    private function lastmodifiedSimple(Silex\Application $app, $contenttypeslug)
+    {
         // Get the proper contenttype..
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -289,7 +290,8 @@ class Async implements ControllerProviderInterface
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
-    private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid) {
+    private function lastmodifiedByContentLog(Silex\Application $app, $contenttypeslug, $contentid)
+    {
         // Get the proper contenttype..
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -297,8 +299,7 @@ class Async implements ControllerProviderInterface
         $options = array('limit' => 5, 'order' => 'date DESC');
         if (intval($contentid) == 0) {
             $isFiltered = false;
-        }
-        else {
+        } else {
             $isFiltered = true;
             $options['contentid'] = intval($contentid);
         }
@@ -460,7 +461,7 @@ class Async implements ControllerProviderInterface
 
         // TODO: ensure that we are deleting a file inside /files folder
 
-        if( is_file($filePath) && is_readable($filePath) ) {
+        if (is_file($filePath) && is_readable($filePath)) {
             @unlink($filePath);
             return true;
         } else {
@@ -524,6 +525,4 @@ class Async implements ControllerProviderInterface
         $app['stopwatch']->stop('bolt.async.before');
 
     }
-
-
 }

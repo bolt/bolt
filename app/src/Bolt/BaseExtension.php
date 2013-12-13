@@ -86,8 +86,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             // If config.yml.dist exists, attempt to copy it to config.yml.
             if (copy($configdistfile, $configfile)) {
                 // Success!
-                $this->app['log']->add("Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
-                    $this->namespace . "/config.yml'.", 2);
+                $this->app['log']->add(
+                    "Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .$this->namespace . "/config.yml'.",
+                    2
+                );
             } else {
                 // Failure!!
                 $message = "Couldn't copy 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
@@ -400,8 +402,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         if ($this->app['users']->isAllowed($permission)) {
             return true;
-        }
-        else {
+        } else {
             simpleredirect($this->app['config']->get('general/branding/path'));
             return false;
         }
@@ -427,5 +428,4 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         }
 
     }
-
 }

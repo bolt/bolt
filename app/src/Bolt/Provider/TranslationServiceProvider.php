@@ -79,5 +79,4 @@ class TranslationServiceProvider implements ServiceProviderInterface
             }
         }
     }
-
 }
