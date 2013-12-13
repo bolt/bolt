@@ -842,8 +842,7 @@ class TwigExtension extends \Twig_Extension
             }
 
             $output = sprintf(
-                '<a href="%s" class="fancybox" rel="fancybox" title="%s">
-                    <img src="%s" width="%s" height="%s"></a>',
+                '<a href="%s" class="fancybox" rel="fancybox" title="%s"><img src="%s" width="%s" height="%s"></a>',
                 $large, $title, $thumbnail, $width, $height
             );
 
