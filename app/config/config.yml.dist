@@ -78,11 +78,21 @@ add_jquery: false
 recordsperpage: 10
 
 # Settings for caching in parts of Bolt.
+# - config: Caches the parsed .yml files from /app/config. It's updated immediately when of the
+#   files changes on disk. There should be no good reason to turn this off.
+# - templates: Caches rendered templates.
+# - request: Caches entire rendered pages like '/page/about', but only on GET requests.
+# - duration: the duration (in minutes) for the 'templates' and 'request' options. default is 10 minutes.
+#   note that the duration is set on storing the cache. By lowering this value you will not invalidate
+#   currently cached items.
+# - authenticated: cache 'templates' and 'request' for logged-on users. In most cases you should *NOT* enable
+#   this, because it will cause side-effects if the website shows different content to authenticated users.
 caching:
   config: true
   templates: true
-  rendering: false
   request: true
+  duration: 10
+  authenticated: false
 
 # Set 'enabled' to 'true' to log all content changes in the database.
 # Unless you need to rigorously monitor every change to your site's content, it
