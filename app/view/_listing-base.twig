@@ -135,8 +135,11 @@
                                 <li class="divider"></li>
                             {% endif %}
                                 <li><a class="nolink">{{__('Author:') }} <strong><i class="icon-user"></i>
-                                    {% if users[content.username] is defined %}{{ users[content.username].displayname|trimtext(20) }}{% else %}
-                                        <s>{{ content.username|trimtext(20) }}</s>{% endif %}</strong></a></li>
+                                    {% if content.user.displayname is defined %}
+                                        {{ content.user.displayname|trimtext(15) }}
+                                    {% else %}
+                                        <s>user {{ content.values.ownerid }} </s>
+                                    {% endif %}</strong></a></li>
                                 <li><a class="nolink">{{ __('Current status:') }}
                                     <strong>{{ content.status }}</strong></a></li>
                                 <li><a class="nolink">{{ __('Slug:') }}
