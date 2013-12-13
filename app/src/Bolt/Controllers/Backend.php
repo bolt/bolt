@@ -856,7 +856,10 @@ class Backend implements ControllerProviderInterface
             $title = "<strong>" . __('Create a new user') . "</strong>";
         }
 
-        $enabledoptions = array(1 => 'yes', 0 => 'no');
+        $enabledoptions = array(
+            1 => __('yes'),
+            0 => __('no')
+        );
         $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
         $allRoles = $app['permissions']->getDefinedRoles($app);
         $roles = array();
