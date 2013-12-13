@@ -63,7 +63,7 @@ class Permissions {
      */
     public function getDefinedRoles() {
         $roles = $this->app['config']->get('permissions/roles');
-        $roles[self::ROLE_ROOT] = array('label' => __('Root'), 'description' => __('Built-in superuser role, automatically grants all permissions'), 'builtin' => true);
+        $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => __('Built-in superuser role, automatically grants all permissions'), 'builtin' => true);
         return $roles;
     }
 
