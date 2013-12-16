@@ -766,16 +766,18 @@ class Storage
 
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        $this->logUpdate($contenttype, $content['id'], $content);
-
+        // Keep datecreated around, for when we might need to 'insert' instead of 'update' after all
+        $datecreated = $content['datecreated'];
         unset($content['datecreated']);
 
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
         if ($res == true) {
+            $this->logUpdate($contenttype, $content['id'], $content);
             return true;
         } else {
             // Attempt to _insert_ it, instead of updating..
+            $content['datecreated'] = $datecreated;
             return $this->app['db']->insert($tablename, $content);
         }
 
