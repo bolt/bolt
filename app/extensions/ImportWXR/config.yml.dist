@@ -81,3 +81,4 @@ mapping:
       post_name: slug
       status: status
       image: image
+    category: categories

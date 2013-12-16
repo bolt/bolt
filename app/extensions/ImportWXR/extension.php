@@ -92,6 +92,7 @@ class Extension extends \Bolt\BaseExtension
 
                 $res = $parser->parse($file);
 
+
                 foreach ($res['posts'] as $post) {
                     $output .= $this->importPost($post, true);
                     if ($counter++ >= 4) {
@@ -181,6 +182,16 @@ class Extension extends \Bolt\BaseExtension
                 $record->setValue($to, $value);
             }
 
+        }
+
+
+        // Perhaps import the categories as well..
+        if (!empty($mapping['category']) && !empty($post['terms'])) {
+            foreach($post['terms'] as $term) {
+                if ($term['domain'] == 'category') {
+                    $record->setTaxonomy($mapping['category'], $term['slug']);
+                }
+            }
         }
 
         if ($dryrun) {
