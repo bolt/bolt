@@ -297,9 +297,7 @@ class Frontend
         $search = cleanPostedData($request->get('search'), false, true);
         $parameters = array('filter' => $search, 'status' => 'published');
 
-        //$content = $searchterms . " and " . $resultsPP;
         $content = $app['storage']->searchAllContentTypes($parameters);
-        //$content = $app['storage']->searchContentType('entries', $searchterms, $parameters);
 
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal('search', $search);
