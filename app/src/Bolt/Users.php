@@ -601,7 +601,7 @@ class Users
         if (!empty($user)) {
 
             // allright, we can reset this user..
-            $this->app['session']->getFlashBag()->set('success', "Password reset successful! You can now log on with the password that was sent to you via email.");
+            $this->app['session']->getFlashBag()->set('success', __("Password reset successful! You can now log on with the password that was sent to you via email."));
 
             $update = array(
                 'password' => $user['shadowpassword'],
@@ -615,7 +615,7 @@ class Users
 
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['log']->add("Somebody tried to reset a password with an invalid token.", 3, '', 'issue');
-            $this->app['session']->getFlashBag()->set('error', "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.");
+            $this->app['session']->getFlashBag()->set('error', __("Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."));
 
 
         }
