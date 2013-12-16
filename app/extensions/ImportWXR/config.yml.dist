@@ -74,8 +74,8 @@ mapping:
     fields:
       post_title: title
       post_author: username
-      post_content: body
-      post_excerpt: introduction
+      post_content: teaser
+      post_excerpt: body
       post_id: id
       post_date: datecreated
       post_name: slug

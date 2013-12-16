@@ -107,6 +107,7 @@ class Extension extends \Bolt\BaseExtension
 
         }
 
+        unset($res);
 
         return $this->app['render']->render('base.twig', array(
             'title' => "Import WXR (PivotX / Wordpress XML)",
@@ -189,10 +190,18 @@ class Extension extends \Bolt\BaseExtension
             $output .= "\n<hr>\n";
         } else {
             $this->app['storage']->saveContent($record);
-            $output = "Import: " . $record->get('id') . " - " . $record->get('title') . "<br>";
+            $output = "Import: " . $record->get('id') . " - " . $record->get('title') . " <small><em>";
+            $output .= $this->memUsage() ."mb.</em></small><br>";
         }
 
         return $output;
+
+    }
+
+    function memusage()
+    {
+        $mem = number_format(memory_get_usage() / 1048576, 1);
+        return $mem;
 
     }
 
