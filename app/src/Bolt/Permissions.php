@@ -68,7 +68,7 @@ class Permissions
     public function getDefinedRoles()
     {
         $roles = $this->app['config']->get('permissions/roles');
-        $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => 'Built-in superuser role, automatically grants all permissions', 'builtin' => true);
+        $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => __('Built-in superuser role, automatically grants all permissions'), 'builtin' => true);
         return $roles;
     }
 
@@ -86,13 +86,13 @@ class Permissions
     {
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
-                return array('label' => 'Anonymous', 'description' => 'Built-in role, automatically granted at all times, even if no user is logged in', 'builtin' => true);
+                return array('label' => __('Anonymous'), 'description' => __('Built-in role, automatically granted at all times, even if no user is logged in'), 'builtin' => true);
 
             case self::ROLE_EVERYONE:
-                return array('label' => 'Everybody', 'description' => 'Built-in role, automatically granted to every registered user', 'builtin' => true);
+                return array('label' => __('Everybody'), 'description' => __('Built-in role, automatically granted to every registered user'), 'builtin' => true);
 
             case self::ROLE_OWNER:
-                return array('label' => 'Owner', 'description' => 'Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.', 'builtin' => true);
+                return array('label' => __('Owner'), 'description' => __('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'), 'builtin' => true);
 
             default:
                 $roles = $this->getDefinedRoles();
