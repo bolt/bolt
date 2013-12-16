@@ -570,6 +570,7 @@ class TwigExtension extends \Twig_Extension
         if (!empty($relationoptions['order'])) {
             $options['order'] = $relationoptions['order'];
             $options['limit'] = 10000;
+            $options['hydrate'] = false;
         }
 
         // @todo Perhaps make something more lightweight for this?

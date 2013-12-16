@@ -1143,6 +1143,8 @@ class Storage
             $content[$row['id']] = $this->getContentObject($contenttype, $row);
         }
 
+        // TODO: Check if we need to hydrate here!
+
         // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
         $this->getRelation($content);
@@ -1714,6 +1716,7 @@ class Storage
             'order_callback' => false,
             'queries' => array(),
             'parameters' => array(),
+            'hydrate' => true,
         );
         /*
         echo '<pre>decodeContentQuery before:';
@@ -1859,6 +1862,11 @@ class Storage
             }
 
             $decoded['queries'][] = $query;
+
+            if (isset($in_parameters['hydrate'])) {
+                $decoded['hydrate'] = $in_parameters['hydrate'];
+            }
+
         }
 
         return $decoded;
@@ -1974,7 +1982,12 @@ class Storage
 
             $rows = $this->app['db']->fetchAll($statement, $query['params']);
 
-            $subresults = $this->hydrateRows($query['contenttype'], $rows);
+            // Only get the Taxonomies and Relations if we have to.
+            if ($decoded['hydrate']) {
+                $subresults = $this->hydrateRows($query['contenttype'], $rows);
+            } else {
+                $subresults = $rows;
+            }
 
             if ($results === false) {
                 $results = $subresults;
