@@ -393,12 +393,25 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
+     * Deprecated
+     *
+     * @see: requireUserRole()
+     *
+     * @param string $permission
+     */
+    public function requireUserLevel($permission = 'dashboard')
+    {
+        return $this->requireUserPermission($permission);
+    }
+
+
+    /**
      * Check if a user is logged in, and has the proper required permission. If
      * not, we redirect the user to the dashboard.
      *
      * @param string $permission
      */
-    public function requireUserLevel($permission = 'login')
+    public function requireUserPermission($permission = 'dashboard')
     {
         if ($this->app['users']->isAllowed($permission)) {
             return true;
