@@ -101,9 +101,9 @@ class Cache extends FilesystemCache
             return;
         }
 
-        $d = dir($currentfolder);
+        $dir = dir($currentfolder);
 
-        while (false !== ($entry = $d->read())) {
+        while (false !== ($entry = $dir->read())) {
 
             $exclude = array('.', '..', 'index.html', '.gitignore');
 
@@ -134,8 +134,7 @@ class Cache extends FilesystemCache
 
         }
 
-        $d->close();
+        $dir->close();
 
     }
-
 }

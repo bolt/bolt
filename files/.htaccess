@@ -1,5 +1,6 @@
 # Force plain text showing
 ForceType text/plain
-<FilesMatch "(?i)\.(gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|html?)$" >
+<FilesMatch "(?i)\.(gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|html?|mp4|webm|ogv|m4v|mp3|wav)$" >
   ForceType none
 </FilesMatch>
+

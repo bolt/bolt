@@ -50,14 +50,12 @@ class Routing implements ControllerProviderInterface
             $to = false;
             $route = false;
             $host = false;
-            $_controller = false;
             $_before = false;
             $_after = false;
             $defaults = array();
             $requirements = array();
 
             // set some defaults in the YAML
-
             if ((!isset($routeconfig['defaults'])) || (!isset($routeconfig['defaults']['_before']))) {
                 $routeconfig['defaults']['_before'] = '::before';
             }

@@ -212,7 +212,7 @@ class Config
             }
 
             // If taxonomy is like tags, set 'tagcloud' to true by default.
-            if ( ($config['taxonomy'][$key]['behaves_like'] == "tags") && (!isset($config['taxonomy'][$key]['tagcloud'])) ) {
+            if (($config['taxonomy'][$key]['behaves_like'] == "tags") && (!isset($config['taxonomy'][$key]['tagcloud']))) {
                 $config['taxonomy'][$key]['tagcloud'] = true;
             }
 
@@ -307,7 +307,8 @@ class Config
 
                 // Verify that the contenttype doesn't try to add fields that are reserved.
                 if ($fieldname != "slug" && in_array($fieldname, $this->reservedfieldnames)) {
-                    $error = __("In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.",
+                    $error = __(
+                        "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.",
                         array('%contenttype%' => $key, '%field%' => $fieldname)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
@@ -319,7 +320,8 @@ class Config
                 if (is_array($field) && !empty($field['uses'])) {
                     foreach ($field['uses'] as $useField) {
                         if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedfieldnames)) {
-                            $error = __("In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
+                            $error = __(
+                                "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
                             $this->app['session']->getFlashBag()->set('error', $error);
@@ -348,14 +350,16 @@ class Config
 
             // Show some helpful warnings if slugs or names are not set correctly.
             if ($ct['slug'] == $ct['singular_slug']) {
-                $error = __("The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
+                $error = __(
+                    "The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
                     array('%contenttype%' => $key, '%slug%' => $ct['slug'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
             }
 
             if ($ct['name'] == $ct['singular_name']) {
-                $error = __("The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
+                $error = __(
+                    "The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
                     array('%contenttype%' => $key, '%name%' => $ct['name'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
@@ -390,7 +394,8 @@ class Config
 
             // Show some helpful warnings if slugs or keys are not set correctly.
             if ($taxo['slug'] != $key) {
-                $error = __("The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
+                $error = __(
+                    "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
                     array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
@@ -403,7 +408,8 @@ class Config
         if (!$this->app['session']->getFlashBag()->has('error')) {
             foreach ($slugs as $slug => $count) {
                 if ($count > 1) {
-                    $error = __("The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
+                    $error = __(
+                        "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
                         array('%slug%' => $slug)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
@@ -524,7 +530,8 @@ class Config
 
     }
 
-    private function setCKPath() {
+    private function setCKPath()
+    {
 
         $this->paths = getPaths($this);
 
@@ -643,7 +650,9 @@ class Config
         switch ($dboptions['driver']) {
             case 'pdo_mysql':
                 $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '3306';
-                $dboptions['reservedwords'] = explode(',', "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
+                $dboptions['reservedwords'] = explode(
+                    ',',
+                    "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
                     "bigint,binary,blob,both,by,call,cascade,case,change,char,character,check,collate,column,condition,constraint," .
                     "continue,convert,create,cross,current_date,current_time,current_timestamp,current_user,cursor,database,databases," .
                     "day_hour,day_microsecond,day_minute,day_second,dec,decimal,declare,default,delayed,delete,desc,describe," .
@@ -660,27 +669,34 @@ class Config
                     "sqlwarning,sql_big_result,sql_calc_found_rows,sql_small_result,ssl,starting,straight_join,table,terminated,then," .
                     "tinyblob,tinyint,tinytext,to,trailing,trigger,true,undo,union,unique,unlock,unsigned,update,usage,use,using,utc_date," .
                     "utc_time,utc_timestamp,values,varbinary,varchar,varcharacter,varying,when,where,while,with,write,xor,year_month," .
-                    "zerofill,nonblocking");
+                    "zerofill,nonblocking"
+                );
                 break;
             case 'pdo_sqlite':
-                $dboptions['reservedwords'] = explode(',', "abort,action,add,after,all,alter,analyze,and,as,asc,attach,autoincrement," .
+                $dboptions['reservedwords'] = explode(
+                    ',',
+                    "abort,action,add,after,all,alter,analyze,and,as,asc,attach,autoincrement," .
                     "before,begin,between,by,cascade,case,cast,check,collate,column,commit,conflict,constraint,create,cross,current_date," .
                     "current_time,current_timestamp,database,default,deferrable,deferred,delete,desc,detach,distinct,drop,each,else,end," .
                     "escape,except,exclusive,exists,explain,fail,for,foreign,from,full,glob,group,having,if,ignore,immediate,in,index," .
                     "indexed,initially,inner,insert,instead,intersect,into,is,isnull,join,key,left,like,limit,match,natural,no,not," .
                     "notnull,null,of,offset,on,or,order,outer,plan,pragma,primary,query,raise,references,regexp,reindex,release,rename," .
-                    "replace,restrict,right,rollback");
+                    "replace,restrict,right,rollback"
+                );
                 break;
             case 'pdo_pgsql':
                 $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '5432';
-                $dboptions['reservedwords'] = explode(',', "all,analyse,analyze,and,any,as,asc,authorization,between,bigint,binary,bit," .
+                $dboptions['reservedwords'] = explode(
+                    ',',
+                    "all,analyse,analyze,and,any,as,asc,authorization,between,bigint,binary,bit," .
                     "boolean,both,case,cast,char,character,check,coalesce,collate,column,constraint,convert,create,cross,current_date," .
                     "current_time,current_timestamp,current_user,dec,decimal,default,deferrable,desc,distinct,do,else,end,except,exists," .
                     "extract,float,for,foreign,freeze,from,full,grant,group,having,ilike,in,initially,inner,int,integer,intersect,interval," .
                     "into,is,isnull,join,leading,left,like,limit,localtime,localtimestamp,natural,nchar,new,none,not,notnull,null,nullif," .
                     "numeric,off,offset,old,on,only,or,order,outer,overlaps,overlay,placing,position,primary,real,references,right,row," .
                     "select,session_user,setof,similar,smallint,some,substring,table,then,time,timestamp,to,trailing,treat,trim,union," .
-                    "unique,user,using,varchar,verbose,when,where,false,true");
+                    "unique,user,using,varchar,verbose,when,where,false,true"
+                );
         }
 
         return $dboptions;
@@ -734,5 +750,4 @@ class Config
         return $end;
 
     }
-
 }

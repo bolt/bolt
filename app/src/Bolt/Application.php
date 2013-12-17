@@ -6,13 +6,12 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class Application extends \Silex\Application
 {
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '1.4';
-        $values['bolt_name'] = 'dev';
+        $values['bolt_name'] = 'beta';
 
         parent::__construct($values);
 
@@ -91,7 +90,7 @@ class Application extends \Silex\Application
 
         if ($dboptions['driver']=="pdo_sqlite") {
             $this['db']->query("PRAGMA synchronous = OFF");
-        } else if ($dboptions['driver']=="pdo_mysql") {
+        } elseif ($dboptions['driver']=="pdo_mysql") {
             // https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
             $this['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
             // set utf8 on names and connection as all tables has this charset
@@ -269,7 +268,7 @@ class Application extends \Silex\Application
     public function initAfterHandler()
     {
         // On 'after' attach the debug-bar, if debug is enabled..
-        if ($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff') ) ) {
+        if ($this['debug'] && ($this['session']->has('user') || $this['config']->get('general/debug_show_loggedoff'))) {
 
             // Set the error_reporting to the level specified in config.yml
             error_reporting($this['config']->get('general/debug_error_level'));
@@ -302,9 +301,9 @@ class Application extends \Silex\Application
             // PHP 5.3 does not allow 'use ($this)' in closures.
             $app = $this;
 
-            $this->after(function() use ($app) {
+            $this->after(function () use ($app) {
 
-                foreach(hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+                foreach (hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
                     $app['twig.logger']->collectTemplateData($template);
                 }
 
@@ -355,10 +354,12 @@ class Application extends \Silex\Application
 
                 // Perhaps add a favicon..
                 if ($this['config']->get('general/favicon')) {
-                    $snippet = sprintf('<link rel="shortcut icon" href="//%s%s%s">',
+                    $snippet = sprintf(
+                        '<link rel="shortcut icon" href="//%s%s%s">',
                         $this['paths']['canonical'],
                         $this['paths']['theme'],
-                        $this['config']->get('general/favicon'));
+                        $this['config']->get('general/favicon')
+                    );
                     $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 
@@ -377,10 +378,10 @@ class Application extends \Silex\Application
     /**
      * Handle errors thrown in the application. Set up whoops, if set in conf
      *
-     * @param \Exception $e
+     * @param \Exception $exception
      * @return Response
      */
-    public function ErrorHandler(\Exception $e)
+    public function ErrorHandler(\Exception $exception)
     {
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
@@ -398,26 +399,25 @@ class Application extends \Silex\Application
 
         $twigvars = array();
 
-        $twigvars['class'] = get_class($e);
-        $twigvars['message'] = $e->getMessage();
-        $twigvars['code'] = $e->getCode();
+        $twigvars['class'] = get_class($exception);
+        $twigvars['message'] = $exception->getMessage();
+        $twigvars['code'] = $exception->getCode();
         $twigvars['paths'] = $paths;
 
         $this['log']->add($twigvars['message'], 2, '', 'abort');
 
         $end = $this['config']->getWhichEnd();
 
-        $trace = $e->getTrace();
+        $trace = $exception->getTrace();
 
-        foreach ($trace as $key=>$value) {
+        foreach ($trace as $key => $value) {
 
-            if (!empty($value['file']) && strpos($value['file'], "/vendor/") > 0 ) {
+            if (!empty($value['file']) && strpos($value['file'], "/vendor/") > 0) {
                 unset($trace[$key]['args']);
             }
 
             // Don't display the full path..
-            if ( isset( $trace[$key]['file'] ) )
-            {
+            if (isset( $trace[$key]['file'])) {
                 $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, "[root]", $trace[$key]['file']);
             }
 
@@ -426,7 +426,7 @@ class Application extends \Silex\Application
         $twigvars['trace'] = $trace;
         $twigvars['title'] = "An error has occured!";
 
-        if ( ($e instanceof HttpException) && ($end == "frontend") ) {
+        if (($exception instanceof HttpException) && ($end == "frontend")) {
 
             $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
 
@@ -445,7 +445,6 @@ class Application extends \Silex\Application
         }
 
         return $this['render']->render('error.twig', $twigvars);
-
     }
 
     /**
@@ -466,5 +465,4 @@ class Application extends \Silex\Application
         }
 
     }
-
 }

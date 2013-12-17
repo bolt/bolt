@@ -1,0 +1,69 @@
+{# Example template for individual listings in dashboard and overview
+
+   Add a template "/app/view/custom/listing/<contenttypename>.twig" and add the blocks you want to display different.
+   Unchanged Blocks use the defaults
+#}
+{% extends '_listing-base.twig' %}
+
+
+{# The number of columns used in listing table #}
+{% block listing_columns %}5{% endblock %}
+
+
+{# The header line #}
+{% block listing_header %}
+    <th style="width:50%">
+        <a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Title') }}</a>
+    </th>
+
+    <th>
+        <a href='{{link}}slug {% if request('order')=="slug ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Slug') }}</a>
+    </th>
+
+    <th>
+        <a href='{{link}}image {% if request('order')=="image ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Image') }}</a>
+    </th>
+
+    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
+
+    <th><a href='?'>{{ __('Actions') }}</a></th>
+{% endblock %}
+
+
+{# The id column on the left #}
+{% block listing_id %}
+{% endblock %}
+
+
+{# The column displaying actions #}
+{#{% block listing_actions %}{{ parent() }}{% endblock %}#}
+
+
+{# The column displaying meta data left to the actions column #}
+{#{% block listing_meta %}{{ parent() }}{% endblock %}#}
+
+
+{# The column(s) between id und meta/action columns #}
+{% block listing_content %}
+    <td class='excerpt {% if not compact %}large{% endif %}'>
+        <div>
+            <strong>
+                {% if editable %}
+                <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                    {{content.getTitle}}
+                </a>
+                {% else %}
+                <strong>
+                    {{content.getTitle}}
+                </strong>
+                {% endif %}
+            </strong>
+        </div>
+    </td>
+    <td>
+        {{content.slug}}
+    </td>
+    <td>
+        {{content.image}}
+    </td>
+{% endblock %}

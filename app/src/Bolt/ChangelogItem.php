@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-Use Silex;
+use Silex;
 
 class ChangelogItem implements \ArrayAccess
 {
@@ -19,14 +19,39 @@ class ChangelogItem implements \ArrayAccess
     public function __construct(Silex\Application $app, $values = array())
     {
         $this->app = $app;
-        if (isset($values['id'])) { $this->id = $values['id']; }
-        if (isset($values['date'])) { $this->date = $values['date']; }
-        if (isset($values['title'])) { $this->title = $values['title']; }
-        if (isset($values['username'])) { $this->username = $values['username']; }
-        if (isset($values['contenttype'])) { $this->contenttype = $values['contenttype']; }
-        if (isset($values['contentid'])) { $this->contentid = $values['contentid']; }
-        if (isset($values['mutation_type'])) { $this->mutation_type = $values['mutation_type']; }
-        if (isset($values['diff'])) { $this->diff = $values['diff']; }
+        if (isset($values['id'])) {
+            $this->id = $values['id'];
+        }
+        if (isset($values['date'])) {
+            $this->date = $values['date'];
+        }
+        if (isset($values['title'])) {
+            $this->title = $values['title'];
+        }
+        if (isset($values['username'])) {
+            $this->username = $values['username'];
+        }
+        if (isset($values['ownerid'])) {
+            $this->ownerid = $values['ownerid'];
+            $user = $this->app['users']->getUser($values['ownerid']);
+            if (isset($user['username'])) {
+                $this->username = $user['username'];
+            } else {
+                $this->username = "(deleted user #" . $values['ownerid'] . ")";
+            }
+        }
+        if (isset($values['contenttype'])) {
+            $this->contenttype = $values['contenttype'];
+        }
+        if (isset($values['contentid'])) {
+            $this->contentid = $values['contentid'];
+        }
+        if (isset($values['mutation_type'])) {
+            $this->mutation_type = $values['mutation_type'];
+        }
+        if (isset($values['diff'])) {
+            $this->diff = $values['diff'];
+        }
     }
 
     public function getParsedDiff()
@@ -45,17 +70,24 @@ class ChangelogItem implements \ArrayAccess
             case 'DELETE':
             default:
                 return $this->mutation_type;
+
             case 'UPDATE':
                 $diff = $this->getParsedDiff();
                 if (isset($diff['status'])) {
                     switch ($diff['status'][1]) {
-                        case 'published': return 'PUBLISH';
-                        case 'draft': return 'DRAFT';
-                        case 'held': return 'HOLD';
-                        default: return 'UPDATE';
+                        case 'published':
+                            return 'PUBLISH';
+
+                        case 'draft':
+                            return 'DRAFT';
+
+                        case 'held':
+                            return 'HOLD';
+
+                        default:
+                            return 'UPDATE';
                     }
-                }
-                else {
+                } else {
                     return 'UPDATE';
                 }
         }
@@ -64,8 +96,11 @@ class ChangelogItem implements \ArrayAccess
     public function __get($key)
     {
         switch ($key) {
-            case 'parsedDiff': return $this->getParsedDiff();
-            case 'effectiveMutationType': return $this->getEffectiveMutationType();
+            case 'parsedDiff':
+                return $this->getParsedDiff();
+
+            case 'effectiveMutationType':
+                return $this->getEffectiveMutationType();
         }
     }
 
@@ -103,4 +138,3 @@ class ChangelogItem implements \ArrayAccess
         unset($this->$offset);
     }
 }
-

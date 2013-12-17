@@ -2,7 +2,7 @@
 
 namespace Bolt;
 
-Use Silex;
+use Silex;
 
 class Content implements \ArrayAccess
 {
@@ -77,7 +77,8 @@ class Content implements \ArrayAccess
      * Gets a list of the base columns that are hard-coded into all content
      * types (rather than configured through contenttypes.yml).
      */
-    public static function getBaseColumns() {
+    public static function getBaseColumns()
+    {
         return array(
                 'id',
                 'slug',
@@ -92,6 +93,14 @@ class Content implements \ArrayAccess
 
     public function setValues(Array $values)
     {
+
+        // Since Bolt 1.4, we use 'ownerid' instead of 'username' in the DB tables. If we get an array that has an
+        // empty 'ownerid', attempt to set it from the 'username'. In $this->setValue the user will be set, regardless
+        // of ownerid is an 'id' or a 'username'.
+        if (empty($values['ownerid']) && !empty($values['username'])) {
+            $values['ownerid'] = $values['username'];
+            unset($values['username']);
+        }
 
         foreach ($values as $key => $value) {
             $this->setValue($key, $value);
@@ -128,7 +137,7 @@ class Content implements \ArrayAccess
                 }
             }
 
-            if ($this->fieldtype($key)=="video" && is_array($this->values[$key]) && !empty($this->values[$key]['url']) ) {
+            if ($this->fieldtype($key)=="video" && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
 
                 $video = $this->values[$key];
 
@@ -141,7 +150,7 @@ class Content implements \ArrayAccess
                 $responsiveclass = "responsive-video";
 
                 // See if it's widescreen or not..
-                if (!empty($video['height']) && ( ($video['width'] / $video['height']) > 1.76) ) {
+                if (!empty($video['height']) && ( ($video['width'] / $video['height']) > 1.76)) {
                     $responsiveclass .= " widescreen";
                 }
 
@@ -185,7 +194,8 @@ class Content implements \ArrayAccess
             $this->id = $value;
         }
 
-        if ($key === 'ownerid' && !$this->user) {
+        // Set the user in the object.
+        if ($key === 'ownerid' && !empty($value)) {
             $this->user = $this->app['users']->getUser($value);
         }
 
@@ -197,7 +207,7 @@ class Content implements \ArrayAccess
         }
 
         if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish') {
-            if ( !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value) ) {
+            if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value)) {
                 // @todo Try better date-parsing, instead of just setting it to 'now'..
                 $value = date("Y-m-d H:i:s");
             }
@@ -238,8 +248,7 @@ class Content implements \ArrayAccess
         if (!in_array($values['status'], array('published', 'timed', 'held', 'draft'))) {
             if ($this['status']) {
                 $values['status'] = $this['status'];
-            }
-            else {
+            } else {
                 $values['status'] = "draft";
             }
         }
@@ -289,10 +298,12 @@ class Content implements \ArrayAccess
                     continue; // Skip 'empty' uploads..
                 }
 
-                $filename = sprintf("%s/files/%s/%s",
+                $filename = sprintf(
+                    "%s/files/%s/%s",
                     $this->app['paths']['rootpath'],
                     date("Y-m"),
-                    safeString($file['name'][0], false, "[]{}()"));
+                    safeString($file['name'][0], false, "[]{}()")
+                );
                 $basename = sprintf("/%s/%s", date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
@@ -389,7 +400,7 @@ class Content implements \ArrayAccess
      * @param $value
      * @param int $sortorder
      */
-    public function setTaxonomy($taxonomytype, $value, $sortorder=0)
+    public function setTaxonomy($taxonomytype, $value, $sortorder = 0)
     {
 
         // If $value is an array, recurse over it, adding each one by itself.
@@ -498,7 +509,7 @@ class Content implements \ArrayAccess
      * @param int $sortorder
      * @internal param string $value
      */
-    public function setGroup($group, $name = "", $taxonomytype, $sortorder = 0)
+    public function setGroup($group, $name, $taxonomytype, $sortorder = 0)
     {
         $this->group = array(
             'slug' => $group,
@@ -581,15 +592,19 @@ class Content implements \ArrayAccess
     {
 
         // Quickly verify that we actually need to parse the snippet!
-        if ( strpos($snippet, "{{")!==false || strpos($snippet, "{%")!==false || strpos($snippet, "{#")!==false ) {
+        if (strpos($snippet, "{{")!==false || strpos($snippet, "{%")!==false || strpos($snippet, "{#")!==false) {
 
             $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
 
             // Remember the current Twig loaders.
             $oldloader = $this->app['twig']->getLoader();
 
-            // Switch to the string loader..
-            $this->app['twig']->setLoader(new \Twig_Loader_String());
+            // Switch to the string loader.. this is the preferred option, but breaks {{ simpleform() }} in content.
+            // $this->app['twig']->setLoader(new \Twig_Loader_String());
+
+            // Add the the string loader..
+            // @TODO: Unfortunately, split the input again. :-(
+            $this->app['twig.loader']->addLoader(new \Twig_Loader_String());
 
             // Parse the snippet.
             $snippet = $this->app['render']->render($snippet);
@@ -800,7 +815,7 @@ class Content implements \ArrayAccess
      * Gets one or more related records.
      *
      */
-    public function related($filtercontenttype="", $filterid="")
+    public function related($filtercontenttype = "", $filterid = "")
     {
 
         if (empty($this->relation)) {
@@ -812,13 +827,13 @@ class Content implements \ArrayAccess
 
         foreach ($this->relation as $contenttype => $ids) {
 
-            if (!empty($filtercontenttype) && ($contenttype!=$filtercontenttype) ) {
+            if (!empty($filtercontenttype) && ($contenttype!=$filtercontenttype)) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
 
             foreach ($ids as $id) {
 
-                if (!empty($filterid) && ($id!=$filterid) ) {
+                if (!empty($filterid) && ($id!=$filterid)) {
                     continue; // Skip other ids, if we requested a specific id.
                 }
 
@@ -862,7 +877,7 @@ class Content implements \ArrayAccess
         }
 
         foreach ($this->contenttype['fields'] as $name => $field) {
-            if ($field['type']=="templateselect" && !empty($this->values[$name]) ) {
+            if ($field['type']=="templateselect" && !empty($this->values[$name])) {
                 $template = $this->values[$name];
                 $chosen = 'record';
             }
@@ -973,7 +988,7 @@ class Content implements \ArrayAccess
             // a complete match is 100% of the maximum
             return round((100/100) * $max);
         }
-        if (strstr($low_subject,$complete)) {
+        if (strstr($low_subject, $complete)) {
             // when the whole query is found somewhere is 70% of the maximum
             return round((70/100) * $max);
         }

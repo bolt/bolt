@@ -1,24 +1,22 @@
+{% macro display_menu_item(item, loop) %}
+<li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
+    <a href="{{ item.link }}" {% if item.title is defined %}title='{{ item.title|escape }}'{% endif %}
+       class='{% if item|current %}current {% endif %}{% if item.class is defined %}{{item.class}}{% endif %}'>{{item.label}}</a>
+
+    {% if item.submenu is defined %}
+        <ul>
+            {% for submenu in item.submenu %}
+                {{ _self.display_menu_item(submenu, loop) }}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>
+{% endmacro %}
 
 <nav class="{{name}}">
     <ul class="bolt-menu">
     {% for item in menu %}
-
-        <li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
-            <a href="{{ item.link }}" {% if item.title is defined %}title='{{ item.title|escape }}'{% endif %}
-            class='{% if item|current %}current {% endif %}{% if item.class is defined %}{{item.class}}{% endif %}'>{{item.label}}</a>
-
-        {% if item.submenu is defined %}
-        <ul>
-            {% for item in item.submenu %}
-            <li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}">
-                <a href="{{ item.link }}" {% if item.title is defined %}title='{{ item.title|escape }}'{% endif %}
-                class='{% if item|current %}current {% endif %}{% if item.class is defined %}{{item.class}}{% endif %}'>{% if item.label is defined %}{{item.label}}{% endif %}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        </li>
-
+        {{ _self.display_menu_item(item, loop) }}
     {% endfor %}
     </ul>
 </nav>

@@ -16,43 +16,12 @@
 
         {% for content in multiplecontent %}
 
-            {# If we have 'grouping', print the row with the groupname.. #}
-            {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
-                <tr class="grouping">
-                    <th colspan="5">
-                        <h3 {% if loop.first %}class="first"{% endif %}>
-                            {% if content.group.name  %}
-                                {{ content.group.name }}
-                            {% else %}
-                                {{ __('(no group)') }}
-                            {% endif %}
-                        </h3>
-                    </th>
-                </tr>
-            {% endif %}
 
-            {# print the header for the first row.. #}
+            {% set editable = isallowed('edit', content) %}
+            {% include ['custom/listing/'~contenttype.name|lower~'.twig', '_sub_listing.twig'] with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
             {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
                 {% set lastgroup = content.group.name %}
-                {% if "filter" in app.request.query.all|keys %}
-                    {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
-                {% else %}
-                    {% set filter = "" %}
-                {% endif %}
-
-                {% set link = "?" ~ filter ~ "order=" %}
-                <tr>
-                    <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
-
-                    <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>
-                            {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
-                    <th>&nbsp;</th>
-                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
-                    <th><a href='?'>{{ __('Actions') }}</a></th>
-                </tr>
             {% endif %}
-
-            {% include '_sub_contentrow.twig' with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
 
         {% else %}
             {{ __('No %contenttypes% available.', {'%contenttypes%':contenttype.name}) }}

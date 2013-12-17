@@ -168,6 +168,7 @@ class WXR_Parser_SimpleXML {
 			$post['post_type'] = (string) $wp->post_type;
 			// Added by Bob, for Bolt.
 			$post['image'] = (string) $item->image;
+            $post['categories'] = $categories;
 			$post['post_password'] = (string) $wp->post_password;
 			$post['is_sticky'] = (int) $wp->is_sticky;
 

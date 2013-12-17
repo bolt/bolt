@@ -7,7 +7,9 @@ use Silex;
 /**
  * This class implements role-based permissions.
  */
-class Permissions {
+class Permissions
+{
+
     /**
      * Anonymous user: this role is automatically assigned to everyone,
      * including "non-users" (not logged in)
@@ -36,14 +38,16 @@ class Permissions {
 
     private $app;
 
-    public function __construct(Application $app) {
+    public function __construct(Application $app)
+    {
         $this->app = $app;
     }
 
     /**
      * Write an entry to the permission audit log
      */
-    private function audit($msg) {
+    private function audit($msg)
+    {
         // For now, just log the message.
         switch ($this->app['config']->get('general/debug_permission_audit_mode')) {
             case 'error-log':
@@ -61,9 +65,10 @@ class Permissions {
      * special 'root' role, but not the special roles 'anonymous', 'everyone',
      * and 'owner' (these are assigned automatically).
      */
-    public function getDefinedRoles() {
+    public function getDefinedRoles()
+    {
         $roles = $this->app['config']->get('permissions/roles');
-        $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => 'Built-in superuser role, automatically grants all permissions', 'builtin' => true);
+        $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => __('Built-in superuser role, automatically grants all permissions'), 'builtin' => true);
         return $roles;
     }
 
@@ -77,20 +82,23 @@ class Permissions {
      * - 'builtin': Optional; if present and true-ish, this is a built-in
      *              role and cannot be overridden in permissions.yml.
      */
-    public function getRole($roleName) {
+    public function getRole($roleName)
+    {
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
-                return array('label' => 'Anonymous', 'description' => 'Built-in role, automatically granted at all times, even if no user is logged in', 'builtin' => true);
+                return array('label' => __('Anonymous'), 'description' => __('Built-in role, automatically granted at all times, even if no user is logged in'), 'builtin' => true);
+
             case self::ROLE_EVERYONE:
-                return array('label' => 'Everybody', 'description' => 'Built-in role, automatically granted to every registered user', 'builtin' => true);
+                return array('label' => __('Everybody'), 'description' => __('Built-in role, automatically granted to every registered user'), 'builtin' => true);
+
             case self::ROLE_OWNER:
-                return array('label' => 'Owner', 'description' => 'Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.', 'builtin' => true);
+                return array('label' => __('Owner'), 'description' => __('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'), 'builtin' => true);
+
             default:
                 $roles = $this->getDefinedRoles();
                 if (isset($roles[$roleName])) {
                     return $role[$roleName];
-                }
-                else {
+                } else {
                     return null;
                 }
         }
@@ -103,7 +111,8 @@ class Permissions {
      * @param Content $content An optional Content object to check ownership
      * @return array An associative array of roles for the given user
      */
-    public function getUserRoles($user, Content $content = null) {
+    public function getUserRoles($user, Content $content = null)
+    {
         $allRoles = $this->getDefinedRoles();
         $userRoleNames = $user['roles'];
         if (!is_array($userRoleNames)) {
@@ -115,9 +124,15 @@ class Permissions {
         }
         $userRoleNames[] = self::ROLE_OWNER;
         return
-            array_combine($userRoleNames,
-                array_map(function($roleName) use ($app) { return $this->getRole($roleName); },
-                $userRoleNames));
+            array_combine(
+                $userRoleNames,
+                array_map(
+                    function ($roleName) use ($app) {
+                        return $this->getRole($roleName);
+                    },
+                    $userRoleNames
+                )
+            );
     }
 
     /**
@@ -131,25 +146,32 @@ class Permissions {
      * @param string $contenttype
      * @return bool TRUE if granted, FALSE if not.
      */
-    public function checkPermission($roleNames, $permissionName, $contenttype = null) {
+    public function checkPermission($roleNames, $permissionName, $contenttype = null)
+    {
         $roleNames = array_unique($roleNames);
         if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
-                $this->audit("Granting '$permissionName' " .
+                $this->audit(
+                    "Granting '$permissionName' " .
                     ($contenttype ? "for $contenttype " : "") .
-                    "to root user");
+                    "to root user"
+                );
                 return true;
         }
         foreach ($roleNames as $roleName) {
             if ($this->checkRolePermission($roleName, $permissionName, $contenttype)) {
-                $this->audit("Granting '$permissionName' " .
+                $this->audit(
+                    "Granting '$permissionName' " .
                     ($contenttype ? "for $contenttype " : "") .
-                    "based on role $roleName");
+                    "based on role $roleName"
+                );
                 return true;
             }
         }
-        $this->audit("Denying '$permissionName' " .
+        $this->audit(
+            "Denying '$permissionName' " .
             ($contenttype ? "for $contenttype" : "") .
-            "; available roles: " . implode(', ', $roleNames));
+            "; available roles: " . implode(', ', $roleNames)
+        );
         return false;
     }
 
@@ -157,16 +179,17 @@ class Permissions {
      * Checks whether the specified $roleName grants permission $permissionName
      * for the $contenttype in question (NULL for global permissions).
      */
-    private function checkRolePermission($roleName, $permissionName, $contenttype = null) {
+    private function checkRolePermission($roleName, $permissionName, $contenttype = null)
+    {
         if ($contenttype === null) {
             return $this->checkRoleGlobalPermission($roleName, $permissionName);
-        }
-        else {
+        } else {
             return $this->checkRoleContentTypePermission($roleName, $permissionName, $contenttype);
         }
     }
 
-    private function checkRoleGlobalPermission($roleName, $permissionName) {
+    private function checkRoleGlobalPermission($roleName, $permissionName)
+    {
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
             throw new \Exception("Configuration error: $permissionName is not granted to any roles.");
@@ -174,7 +197,8 @@ class Permissions {
         return in_array($roleName, $roles);
     }
 
-    private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype) {
+    private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
+    {
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
         return in_array($roleName, $roles);
     }
@@ -182,14 +206,16 @@ class Permissions {
     /**
      * Lists the roles that would grant the specified global permission.
      */
-    public function getRolesByGlobalPermission($permissionName) {
+    public function getRolesByGlobalPermission($permissionName)
+    {
         return $this->app['config']->get("permissions/global/$permissionName");
     }
 
     /**
      * Gets the configured global roles.
      */
-    public function getGlobalRoles() {
+    public function getGlobalRoles()
+    {
         return $this->app['config']->get("permissions/global");
     }
 
@@ -198,7 +224,8 @@ class Permissions {
      * specified content type. Sort of a reverse lookup on the permission
      * check.
      */
-    public function getRolesByContentTypePermission($permissionName, $contenttype) {
+    public function getRolesByContentTypePermission($permissionName, $contenttype)
+    {
         // Here's how it works:
         // - if a permission is granted through 'contenttype-all', it is effectively granted
         // - if a permission is granted through 'contenttypes/$contenttype', it is effectively granted
@@ -228,12 +255,12 @@ class Permissions {
      *                    assumed.
      * @return array A list of effective role names for this user.
      */
-    public function getEffectiveRolesForUser($user) {
+    public function getEffectiveRolesForUser($user)
+    {
         if (isset($user['roles']) && is_array($user['roles'])) {
             $userRoles = $user['roles'];
             $userRoles[] = Permissions::ROLE_EVERYONE;
-        }
-        else {
+        } else {
             $userRoles = array();
         }
         $userRoles[] = Permissions::ROLE_ANONYMOUS;
@@ -285,20 +312,21 @@ class Permissions {
                         $what,
                         $contentid,
                         );
-        }
-        else {
+        } else {
             $parts = explode(':', $what);
         }
+
         switch ($parts[0]) {
             case 'overview':
                 list ($_, $contenttype) = $parts;
                 if (empty($contenttype)) {
                     $this->audit("Granting 'overview' globally (hard-coded override)");
                     return true;
-                }
-                else {
+                } else {
                     $permission = 'view';
                 }
+                break;
+
             case 'contenttype':
                 list($_, $contenttype, $permission, $contentid) = $parts;
                 if (empty($permission)) {
@@ -317,6 +345,7 @@ class Permissions {
                     }
                 }
                 break;
+
             case 'editcontent':
             case 'contentaction':
             case 'deletecontent':
@@ -329,6 +358,7 @@ class Permissions {
                 // are governed by a set of separate permissions.
                 $this->audit("Granting '{$parts[0]}' (hard-coded override)");
                 return true;
+
             default:
                 $permission = $what;
                 $contenttype = null;
@@ -348,17 +378,18 @@ class Permissions {
     public function getContentStatusTransitionPermission($fromStatus, $toStatus)
     {
         // No change: no special permission required.
-        if ($fromStatus === $toStatus)
+        if ($fromStatus === $toStatus) {
             return null;
+        }
         switch ($toStatus) {
             case 'draft':
             case 'held':
                 if (empty($fromStatus)) {
                     return null;
-                }
-                else {
+                } else {
                     return 'depublish';
                 }
+                break;
             case 'timed':
             case 'published':
                 return 'publish';

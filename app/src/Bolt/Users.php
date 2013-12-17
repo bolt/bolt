@@ -141,8 +141,7 @@ class Users
         // Serialize roles array
         if (empty($user['roles']) || !is_array($user['roles'])) {
             $user['roles'] = '[]';
-        }
-        else {
+        } else {
             $user['roles'] = json_encode(array_values(array_unique($user['roles'])));
         }
 
@@ -183,8 +182,7 @@ class Users
             if ($database = $this->getUser($this->currentuser['id'])) {
                 // Update the session with the user from the database.
                 $this->currentuser = array_merge($this->currentuser, $database);
-            }
-            else {
+            } else {
                 // User doesn't exist anymore
                 $this->logout();
                 return false;
@@ -503,7 +501,7 @@ class Users
             setcookie(
                 'bolt_authtoken',
                 '',
-                time() -1 ,
+                time() -1,
                 '/',
                 $this->app['config']->get('general/cookies_domain'),
                 $this->app['config']->get('general/cookies_https_only'),
@@ -603,7 +601,7 @@ class Users
         if (!empty($user)) {
 
             // allright, we can reset this user..
-            $this->app['session']->getFlashBag()->set('success', "Password reset successful! You can now log on with the password that was sent to you via email.");
+            $this->app['session']->getFlashBag()->set('success', __("Password reset successful! You can now log on with the password that was sent to you via email."));
 
             $update = array(
                 'password' => $user['shadowpassword'],
@@ -617,7 +615,7 @@ class Users
 
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['log']->add("Somebody tried to reset a password with an invalid token.", 3, '', 'issue');
-            $this->app['session']->getFlashBag()->set('error', "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.");
+            $this->app['session']->getFlashBag()->set('error', __("Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."));
 
 
         }
@@ -667,7 +665,7 @@ class Users
         setcookie(
             'bolt_authtoken',
             '',
-            time() -1 ,
+            time() -1,
             '/',
             $this->app['config']->get('general/cookies_domain'),
             $this->app['config']->get('general/cookies_https_only'),
@@ -731,7 +729,7 @@ class Users
                     }
                     // add "everyone" role to, uhm, well, everyone.
                     $roles[] = Permissions::ROLE_EVERYONE;
-                    $this->users[$key]['roles'] = $roles;
+                    $this->users[$key]['roles'] = array_unique($roles);
                 }
             } catch (\Exception $e) {
                 // Nope. No users.
@@ -956,11 +954,17 @@ class Users
         return $this->app['permissions']->isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid);
     }
 
-    private function canonicalizeFieldValue($fieldname, $fieldvalue) {
+    private function canonicalizeFieldValue($fieldname, $fieldvalue)
+    {
         switch ($fieldname) {
-            case 'email': return strtolower(trim($fieldvalue));
-            case 'username': return strtolower(preg_replace('/[^a-zA-Z0-9_\\-]/', '', $fieldvalue));
-            default: return trim($fieldvalue);
+            case 'email':
+                return strtolower(trim($fieldvalue));
+
+            case 'username':
+                return strtolower(preg_replace('/[^a-zA-Z0-9_\\-]/', '', $fieldvalue));
+
+            default:
+                return trim($fieldvalue);
         }
     }
 
@@ -975,7 +979,7 @@ class Users
      * @param  int    $currentid
      * @return bool
      */
-    public function checkAvailability($fieldname, $value, $currentid=0)
+    public function checkAvailability($fieldname, $value, $currentid = 0)
     {
         foreach ($this->users as $user) {
             if (($this->canonicalizeFieldValue($fieldname, $user[$fieldname]) ===

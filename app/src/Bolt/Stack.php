@@ -35,7 +35,6 @@ class Stack
         } else {
             $this->items = array();
         }
-
     }
 
     /**
@@ -46,7 +45,6 @@ class Stack
      */
     public function add($filename)
     {
-
         // If the item is already on the stack, delete it, so it can be added to the front.
         if (in_array($filename, $this->items)) {
             $this->delete($filename);
@@ -55,17 +53,16 @@ class Stack
         array_unshift($this->items, $filename);
         $this->persist();
         return true;
-
     }
 
     /**
      * Delete an item from the stack.
      *
-     * @param $filename
+     * @param string $filename
      */
     public function delete($filename)
     {
-        foreach($this->items as $key => $item) {
+        foreach ($this->items as $key => $item) {
             if ($item == $filename) {
                 unset($this->items[$key]);
                 $this->persist();
@@ -76,22 +73,20 @@ class Stack
     /**
      * Check if a given filename is present on the stack.
      *
+     * @param string $filename
      */
     public function isOnStack($filename)
     {
-
         // We don't always need the "files/" part in the filename.
         $shortname = str_replace("files/", "", $filename);
 
-
-        foreach($this->items as $item) {
+        foreach ($this->items as $item) {
             if ($item == $filename || $item == $shortname) {
                 return true;
             }
         }
 
         return false;
-
     }
 
     /**
@@ -104,7 +99,7 @@ class Stack
      */
     public function listitems($count = 100, $typefilter = "")
     {
-        // Make sure typefiltet is an array, if passed something like "image, document"
+        // Make sure typefilter is an array, if passed something like "image, document"
         if (!empty($typefilter)) {
             $typefilter = array_map("trim", explode(",", $typefilter));
         }
@@ -119,14 +114,14 @@ class Stack
             $extension = strtolower(getExtension($item));
             if (in_array($extension, $this->imagetypes)) {
                 $type = "image";
-            } else if (in_array($extension, $this->documenttypes)) {
+            } elseif (in_array($extension, $this->documenttypes)) {
                 $type = "document";
             } else {
                 $type = "other";
             }
 
             // Skip this one, if it doesn't match the type.
-            if ( !empty($typefilter) && (!in_array($type, $typefilter)) ) {
+            if (!empty($typefilter) && (!in_array($type, $typefilter))) {
                 continue;
             }
 
@@ -139,7 +134,7 @@ class Stack
             $thisitem = array(
                 'basename' => basename($item),
                 'extension' => $extension,
-                'filepath' => $item,
+                'filepath' => str_replace("files/", "", $item),
                 'type' => $type,
                 'writable' => is_writable($fullpath),
                 'readable' => is_readable($fullpath),
@@ -148,7 +143,8 @@ class Stack
                 'permissions' => \util::full_permissions($fullpath)
             );
 
-            $thisitem['info'] = sprintf("%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>",
+            $thisitem['info'] = sprintf(
+                "%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>",
                 __('Path'),
                 $thisitem['filepath'],
                 __('Filesize'),
@@ -194,5 +190,4 @@ class Stack
         $this->app['users']->saveUser($currentuser);
 
     }
-
 }

@@ -51,23 +51,31 @@
     <script src="{{ paths.app }}view/lib/codemirror/javascript.js"></script>
     {% endif %}
 
-    <script>
-        var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
-            lineNumbers: true,
-            autofocus: true,
-            tabSize: 4,
-            indentUnit: 4,
-            indentWithTabs: false,
-            readOnly: {% if writeallowed %}false{% else %}true{% endif %}
+    <script type="text/javascript">
+        $(function() {
+
+            $('#saveeditfile').bind('click', function(e){
+                // Re-set the handler for checking changes to the form..
+                window.onbeforeunload = null;
+            });
+
+            var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
+                lineNumbers: true,
+                autofocus: true,
+                tabSize: 4,
+                indentUnit: 4,
+                indentWithTabs: false,
+                readOnly: {% if writeallowed %}false{% else %}true{% endif %}
+            });
+
+            var newheight = $(window).height() - 312;
+            if (newheight < 200) {
+                newheight = 200;
+            }
+
+            editor.setSize(null, newheight);
+
         });
-
-        var newheight = $(window).height() - 312;
-        if (newheight < 200) {
-            newheight = 200;
-        }
-
-        editor.setSize(null, newheight);
-
     </script>
 {% endif %}
 

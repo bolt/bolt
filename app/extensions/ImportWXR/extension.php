@@ -49,8 +49,8 @@ class Extension extends \Bolt\BaseExtension
         $filename = __DIR__ . "/" . $this->config['file'];
         $file = realpath(__DIR__ . "/" . $this->config['file']);
 
-
         $output = "";
+        $this->foundcategories = array();
 
         if (!empty($_GET['action'])) {
             $action = $_GET['action'];
@@ -84,6 +84,14 @@ class Extension extends \Bolt\BaseExtension
                 foreach ($res['posts'] as $post) {
                     $output .= $this->importPost($post, false);
                 }
+
+                $output .= "<p><strong>Done!</strong></p>";
+
+                if (!empty($this->foundcategories)) {
+                    $output .= "<p>These categories were found, make sure you add them to your <code>taxonomy.yml</code></p>";
+                    $output .= "<textarea style='width: 400px;'>" . json_encode($this->foundcategories) . "</textarea>";
+                }
+
                 break;
 
             case "dryrun":
@@ -91,6 +99,7 @@ class Extension extends \Bolt\BaseExtension
                 $counter = 1;
 
                 $res = $parser->parse($file);
+
 
                 foreach ($res['posts'] as $post) {
                     $output .= $this->importPost($post, true);
@@ -107,6 +116,7 @@ class Extension extends \Bolt\BaseExtension
 
         }
 
+        unset($res);
 
         return $this->app['render']->render('base.twig', array(
             'title' => "Import WXR (PivotX / Wordpress XML)",
@@ -182,6 +192,19 @@ class Extension extends \Bolt\BaseExtension
 
         }
 
+
+        // Perhaps import the categories as well..
+        if (!empty($mapping['category']) && !empty($post['terms'])) {
+            foreach($post['terms'] as $term) {
+                if ($term['domain'] == 'category') {
+                    $record->setTaxonomy($mapping['category'], $term['slug']);
+                    if (!in_array($term['slug'], $this->foundcategories)) {
+                        $this->foundcategories[] = $term['slug'];
+                    }
+                }
+            }
+        }
+
         if ($dryrun) {
             $output = "<p>Original WXR Post <b>\"" . $post['post_title'] . "\"</b> -&gt; Converted Bolt Record :</p>";
             $output .= \util::var_dump($post, true);
@@ -189,10 +212,19 @@ class Extension extends \Bolt\BaseExtension
             $output .= "\n<hr>\n";
         } else {
             $this->app['storage']->saveContent($record);
-            $output = "Import: " . $record->get('id') . " - " . $record->get('title') . "<br>";
+            $output = "Import: " . $record->get('id') . " - " . $record->get('title') . " <small><em>";
+            $output .= $this->memUsage() ."mb.</em></small><br>";
         }
 
+
         return $output;
+
+    }
+
+    function memusage()
+    {
+        $mem = number_format(memory_get_usage() / 1048576, 1);
+        return $mem;
 
     }
 

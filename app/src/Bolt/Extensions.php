@@ -111,10 +111,10 @@ class Extensions
 
         $folders = array();
 
-        $d = dir($this->basefolder);
+        $dir = dir($this->basefolder);
 
         // Make a list of extensions, actually present..
-        while (false !== ($foldername = $d->read())) {
+        while (false !== ($foldername = $dir->read())) {
 
             if (in_array($foldername, $this->ignored) || substr($foldername, 0, 2) == "._") {
                 continue;
@@ -126,7 +126,7 @@ class Extensions
 
         }
 
-        $d->close();
+        $dir->close();
 
         $this->enabled = array_intersect($list, $folders);
 
@@ -141,11 +141,11 @@ class Extensions
     public function getInfo()
     {
 
-        $d = dir($this->basefolder);
+        $dir = dir($this->basefolder);
 
         $info = array();
 
-        while (false !== ($entry = $d->read())) {
+        while (false !== ($entry = $dir->read())) {
 
             if (in_array($entry, $this->ignored) || substr($entry, 0, 2) == "._") {
                 continue;
@@ -156,7 +156,7 @@ class Extensions
             }
 
         }
-        $d->close();
+        $dir->close();
 
         ksort($info);
 
@@ -340,11 +340,11 @@ class Extensions
                 if ($type == $widget['type'] && $location == $widget['location']) {
 
                     $html = sprintf(
-                        "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>"
-                        , $widget['key']
-                        , $widget['key']
-                        , $this->renderWidget($widget['key'])
-                        , empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
+                        "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>",
+                        $widget['key'],
+                        $widget['key'],
+                        $this->renderWidget($widget['key']),
+                        empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
                     );
 
                     echo $html;
@@ -915,5 +915,4 @@ class Extensions
         return $key;
 
     }
-
 }

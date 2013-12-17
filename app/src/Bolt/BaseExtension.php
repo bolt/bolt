@@ -86,8 +86,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             // If config.yml.dist exists, attempt to copy it to config.yml.
             if (copy($configdistfile, $configfile)) {
                 // Success!
-                $this->app['log']->add("Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
-                    $this->namespace . "/config.yml'.", 2);
+                $this->app['log']->add(
+                    "Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .$this->namespace . "/config.yml'.",
+                    2
+                );
             } else {
                 // Failure!!
                 $message = "Couldn't copy 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
@@ -391,17 +393,29 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
+     * Deprecated
+     *
+     * @see: requireUserRole()
+     *
+     * @param string $permission
+     */
+    public function requireUserLevel($permission = 'dashboard')
+    {
+        return $this->requireUserPermission($permission);
+    }
+
+
+    /**
      * Check if a user is logged in, and has the proper required permission. If
      * not, we redirect the user to the dashboard.
      *
      * @param string $permission
      */
-    public function requireUserLevel($permission = 'login')
+    public function requireUserPermission($permission = 'dashboard')
     {
         if ($this->app['users']->isAllowed($permission)) {
             return true;
-        }
-        else {
+        } else {
             simpleredirect($this->app['config']->get('general/branding/path'));
             return false;
         }
@@ -427,5 +441,4 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         }
 
     }
-
 }
