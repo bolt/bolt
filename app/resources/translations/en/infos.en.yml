@@ -13,6 +13,8 @@ info:
             browser window. <br />
             Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
             type (part) of the filename in the input area, and it will be autocompleted.
+        filelist: |
+            Use this field to upload multiple files.
         filesmall: |
             Use the button to upload a file. To select a previously uploaded file, you can
             type (part) of the filename in the input area, and it will be autocompleted.
