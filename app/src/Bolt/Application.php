@@ -11,7 +11,7 @@ class Application extends \Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '1.4';
-        $values['bolt_name'] = 'alpha';
+        $values['bolt_name'] = 'beta';
 
         parent::__construct($values);
 
