@@ -908,20 +908,6 @@ var FilelistHolder = Backbone.View.extend({
         $holder.find("div.list").on('blur', 'input', function() {
             $this.doneSort();
         });
-
-        // In the modal dialog, to navigate folders..
-        $('#selectFileModal-' + contentkey).on('click','.folder', function(e) {
-            e.preventDefault();
-            $('#selectFileModal-' + contentkey + ' .modal-body').load($(this).attr('href'));
-        });
-
-        // In the modal dialog, to select a file..
-        $('#selectFileModal-' + contentkey).on('click','.file', function(e) {
-            e.preventDefault();
-            var filename = $(this).attr('href');
-            $this.add(filename, filename);
-        });
-
     }
 });
 
