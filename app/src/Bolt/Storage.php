@@ -623,7 +623,7 @@ class Storage
                 }
             }
 
-            if ($values['type'] == "imagelist") {
+            if (in_array($values['type'], array("imagelist", "filelist")))  {
 
                 if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
                     // Don't store '[]'

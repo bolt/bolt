@@ -569,6 +569,7 @@ class Content implements \ArrayAccess
                     break;
 
                 case 'imagelist':
+                case 'filelist':
                     // Parse the field as JSON, return the array
                     $value = json_decode($this->values[$name]);
                     break;
