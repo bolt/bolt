@@ -167,6 +167,10 @@ class Application extends \Silex\Application
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
         }
 
+        // Set up our secure random generator.
+        $factory = new \RandomLib\Factory;
+        $this['randomgenerator'] = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::MEDIUM));
+
         $this->register(new \Silex\Provider\UrlGeneratorServiceProvider());
         $this->register(new \Silex\Provider\FormServiceProvider());
         $this->register(new \Silex\Provider\ValidatorServiceProvider());
@@ -193,10 +197,6 @@ class Application extends \Silex\Application
         // Set up the integrity checker for the Database, to periodically check if the Database
         // is up to date, and if needed: repair it.
         $this['integritychecker'] = new \Bolt\Database\IntegrityChecker($this);
-
-        // Set up our secure random generator.
-        $factory = new \RandomLib\Factory;
-        $this['randomgenerator'] = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::MEDIUM));
 
     }
 
