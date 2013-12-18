@@ -737,7 +737,9 @@ class Content implements \ArrayAccess
 
         $slugreference = $this->getReference();
 
+        // Default link binding (a.k.a. "name of route in routing.yml"), unless overridden below.
         $linkbinding = 'contentlink';
+
         foreach ($this->app['config']->get('routing') as $binding => $route) {
             if (isset($route['recordslug']) && ($route['recordslug'] == $slugreference)) {
                 $linkbinding = $binding;
@@ -750,13 +752,33 @@ class Content implements \ArrayAccess
             }
         }
 
+        // Set up the 'parameters' to pass to url_generator->generate..
         $params = array(
             'contenttypeslug' => $this->contenttype['singular_slug'],
             'id' => $this->id,
             'slug' => $this->values['slug']
         );
-        foreach (array('datecreated', 'datepublish') as $key) {
-            $params[$key] = substr($this->values[$key], 0, 10);
+
+        // If we have any extra requirements, we should add the matching fields
+        // too. For example, if we need a routing with our own date field:
+        //   requirements:
+        //     eventdate: '\d{4}-\d{2}-\d{2}'
+        if (is_array($route['requirements']) && !empty($route['requirements'])) {
+            foreach($route['requirements'] as $req => $reqvalue) {
+
+                // Don't override params that are already set!
+                if (isset($params[$req])) {
+                    continue;
+                }
+
+                // special case, if we need to have a date.
+                if ($reqvalue == '\d{4}-\d{2}-\d{2}') {
+                    $params[$req] = substr($this->values[$req], 0, 10);
+                } else {
+                    // or, just add the value.
+                    $params[$req] = $this->values[$req];
+                }
+            }
         }
 
         $link = $this->app['url_generator']->generate($linkbinding, $params);
