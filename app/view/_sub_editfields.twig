@@ -410,6 +410,106 @@
 
 {% endif %}
 
+
+{# --------------- filelist --------------- #}
+
+{% if field.type == "filelist" %}
+<label>
+    <b>
+        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+    </b>
+    <span class="label info-pop"
+          data-html="true"
+          data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+          data-content="{{ app.translator.trans('info.upload.filelist',{},'infos') }}">
+          {{ __('Info') }}
+    </span>
+</label>
+<div class="FilelistHolder dropzone" id="filelist-{{key}}">
+    <div class="list"></div>
+
+    <div class="buttons">
+        <span class="btn btn-info fileinput-button"
+              style="margin-bottom: 8px;">
+
+            <i class="icon-upload"></i>
+            <span>{{ __('Upload files') }}</span>
+            <input id="fileupload-{{key}}"
+                   type="file"
+                   name="fileupload-{{key}}[]"
+                   data-url="{{ paths.app }}classes/upload/">
+        </span>
+
+        <br clear="all">
+
+        <div class="btn-group" style="margin-left: 0px;">
+            <a data-target="#selectModal-{{key}}"
+               href="{{ paths.async }}browse/files?key={{ key }}"
+               class="btn fileinput-select"
+               data-toggle="modal">
+
+                <i class="icon-upload-alt"></i>
+                {{ __('Select from server') }}
+            </a>
+        </div>
+
+        {% set items = stackitems(7, 'file') %}
+        {% if items %}
+        <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-paper-clip"></i>
+                {{ __('Select from stack') }}
+                <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu" id="stack-{{key}}">
+                {% for item in items %}
+                    <li>
+                        <a href="#"
+                           data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
+                            {{ item.basename }} <small>({{ item.filesize }})</small>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+    </div>
+    <textarea name="{{key}}"
+              id="{{key}}"
+              class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <div class='clearfix'></div>
+
+    <!-- Modal "select from server"  -->
+    <div class="modal hide modal-wide"
+         id="selectModal-{{key}}"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function() {
+
+        if(typeof filelist == "undefined") {
+            filelist = [];
+        }
+
+        filelist['{{ key }}'] = new FilelistHolder({id: '{{key}}'});
+    });
+</script>
+
+{% endif %}
+
 {# --------------- video --------------- #}
 
 {% if field.type == "video" %}
