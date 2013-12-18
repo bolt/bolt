@@ -829,10 +829,12 @@ var FilelistHolder = Backbone.View.extend({
         var $list = $('#filelist-'+this.id+' .list');
         $list.html('');
         _.each(this.list.models, function(file){
-            var fileName = file.get('filename').replace(/\s/gi, '+');
+            var fileName = file.get('filename');
             var html = "<div data-id='" + file.get('id') + "' class='ui-state-default'>" +
-                "<img src='http://placehold.it/60x40&text=" + fileName + "' width=60 height=40><input type='text' value='" +
-                _.escape(file.get('title'))  + "'><a href='#'><i class='icon-remove'></i></a></div>";
+                            "<span class='fileDescription'>" + fileName + "</span>" +
+                            "<input type='text' value='" +
+                            _.escape(file.get('title')) +
+                             "'><a href='#'><i class='icon-remove'></i></a></div>";
             $list.append(html);
         });
         if (this.list.models.length == 0) {
