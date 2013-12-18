@@ -617,7 +617,7 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     // HTML.
     $result = '';
     foreach ($nodes as $node) {
-        $result .= $newDoc->saveHTML($node);
+        $result .= Maid::renderFragment($node);
     }
     if ($nbsp) {
         $result = str_replace(html_entity_decode('&nbsp;'), '&nbsp;', $result);
