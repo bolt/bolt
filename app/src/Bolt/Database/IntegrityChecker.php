@@ -537,6 +537,7 @@ class IntegrityChecker
                     case 'video':
                     case 'markdown':
                     case 'geolocation':
+                    case 'filelist':
                     case 'imagelist':
                     case 'select':
                         $myTable->addColumn($field, "text", array("default" => $this->textDefault));

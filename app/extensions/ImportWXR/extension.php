@@ -22,12 +22,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "An Import filter for WXR files, as created by Wordpress or PivotX",
             'author' => "Bob den Otter",
             'link' => "http://www.twokings.nl",
-            'version' => "0.9.1",
-            'required_bolt_version' => "1.1",
+            'version' => "1.0",
+            'required_bolt_version' => "1.4",
             'highest_bolt_version' => "1.4",
             'type' => "Import",
             'first_releasedate' => "2013-11-17",
-            'latest_releasedate' => "2013-05-21"
+            'latest_releasedate' => "2013-12-18"
         );
 
         return $data;
@@ -51,6 +51,9 @@ class Extension extends \Bolt\BaseExtension
 
         $output = "";
         $this->foundcategories = array();
+
+        // No logging. saves memory..
+        $this->app['db.config']->setSQLLogger(null);
 
         if (!empty($_GET['action'])) {
             $action = $_GET['action'];

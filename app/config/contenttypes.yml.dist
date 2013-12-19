@@ -111,6 +111,8 @@ kitchensink:
             type: imagelist
         file:
             type: file
+        filelist:
+            type: filelist
         checkbox:
             type: checkbox
             label: "This is a checkbox"
@@ -165,6 +167,7 @@ kitchensink:
 # imagelist - text (65kb) - Input type for imagelists. Add multiple images with a description. Useful for image sliders, galleries, etcetera.
 # image - varchar(256) - image select/upload widget, stored as filename.
 # file - varchar(256) - file select/upload widget, stored as filename.
+# filelist - text (65kb) - Input type for a list of files. Including a description.
 # video - varchar(256) - Video embed widget, stored as filename.
 # html - text (65kb) - wysiwyg element.
 # textarea - varchar(32768) - Simple, plain < textarea > field.
