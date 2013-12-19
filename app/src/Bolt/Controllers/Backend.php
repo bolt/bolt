@@ -1328,7 +1328,7 @@ class Backend implements ControllerProviderInterface
             // no gathering here : if the file doesn't exist yet, we load a
             // copy from the locale_fallback version (en)
             if (!file_exists($filename) || filesize($filename) < 10) {
-                $srcfile = "app/resources/translations/$locale_fb/$domain.en.$type";
+                $srcfile = "app/resources/translations/en/$domain.en.$type";
                 $srcfilename = realpath(__DIR__ . "/../../../..") . "/$srcfile";
                 $content = file_get_contents($srcfilename);
             } else {
