@@ -1195,6 +1195,11 @@ class Storage
 
         $taxorows = $this->app['db']->fetchAll($query);
 
+        if (!empty($parameters['printquery'])) {
+            // @todo formalize this
+            echo nl2br(htmlentities($query));
+        }
+
         $content = array();
 
         if (is_array($taxorows)) {
