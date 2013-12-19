@@ -425,9 +425,8 @@
           {{ __('Info') }}
     </span>
 </label>
-<div class="FilelistHolder dropzone" id="filelist-{{key}}">
+<div class="filelistholder dropzone" id="filelist-{{key}}">
     <div class="list"></div>
-    <div class='clearfix'></div>
     <div class="buttons">
         <span class="btn btn-info fileinput-button"
               style="margin-bottom: 8px;">
@@ -439,14 +438,12 @@
                    name="fileupload-{{key}}[]"
                    data-url="{{ paths.app }}classes/upload/">
         </span>
-
-        <br clear="all">
     </div>
     <textarea name="{{key}}"
               id="{{key}}"
               class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 </div>
-
+<div class='clearfix'></div>
 
 <script type="text/javascript">
     $(function() {

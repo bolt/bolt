@@ -917,13 +917,13 @@ fieldset.checkbox div {
 }
 
 #editcontent div.imagelistholder.dropzone,
-#editcontent div.FilelistHolder.dropzone {
+#editcontent div.filelistholder.dropzone {
     height: auto;
 }
 
 
 #editcontent div.imagelistholder p,
-#editcontent div.FilelistHolder p, {
+#editcontent div.filelistholder p, {
     padding: 8px;
     color: #999;
     margin: 0;
@@ -931,7 +931,7 @@ fieldset.checkbox div {
 }
 
 #editcontent div.imagelistholder div.list,
-#editcontent div.FilelistHolder div.list {
+#editcontent div.filelistholder div.list {
     border: 1px solid #BBB;
     padding: 0 2px;
     float: left;
@@ -950,7 +950,7 @@ fieldset.checkbox div {
     overflow: hidden;
 }
 
-#editcontent div.FilelistHolder div.list div {
+#editcontent div.filelistholder div.list div {
     height: 70px;
     margin: 6px;
     border-radius: 3px;
@@ -959,26 +959,26 @@ fieldset.checkbox div {
     overflow: hidden;
     background: url("/app/view/css/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% rgb(230, 230, 230);
 }
-#editcontent div.FilelistHolder div.list .fileDescription {
+#editcontent div.filelistholder div.list .fileDescription {
     font-size: 80%;
     font-weight: bold;
 }
 
 #editcontent div.imagelistholder div.list div *,
-#editcontent div.FilelistHolder div.list div * {
+#editcontent div.filelistholder div.list div * {
     float: left;
     margin: 4px 3px 0;
     padding-left: 4px;
 }
 
 #editcontent div.imagelistholder div.list div input,
-#editcontent div.FilelistHolder div.list div input {
+#editcontent div.filelistholder div.list div input {
     width: 264px;
     margin: 9px 0 0 4px;
 }
 
 #editcontent div.imagelistholder div.list div i,
-#editcontent div.FilelistHolder div.list div i {
+#editcontent div.filelistholder div.list div i {
     margin: 11px 0 0;
     padding: 0;
     cursor: pointer;
@@ -986,7 +986,7 @@ fieldset.checkbox div {
 }
 
 #editcontent div.imagelistholder div.buttons,
-#editcontent div.FilelistHolder div.buttons {
+#editcontent div.filelistholder div.buttons {
     float: left;
     padding: 7px 8px;
 }
