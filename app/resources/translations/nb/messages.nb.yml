@@ -1,7 +1,7 @@
-# app/resources/translations/nb/messages.nb.yml -- generated on 2013/12/18 14:21:27
+# app/resources/translations/nb/messages.nb.yml -- generated on 2013/12/19 02:14:45
 # no untranslated strings; good ;-)
 
-# 343 translated strings
+# 344 translated strings
 
 "%contenttypes% overview": "oversikt over %contenttypes%"
 "%contenttypes%": "%contenttypes%"
@@ -288,6 +288,7 @@
 "Upload File": "Last opp fil"
 "Upload a file to this folder:": "Last opp en fil til denne mappa:"
 "Upload file": "Last opp fil"
+"Upload files": "Last opp filer"
 "Upload image": "Last opp bilde"
 "Upload": "Last opp"
 "Uploaded files": "Opplastede filer"
