@@ -132,6 +132,11 @@ class Extension extends \Bolt\BaseExtension
 
             $options = array();
 
+            if ($field['type'] == "ip" || $field['type'] == "timestamp") {
+                // we're storing IP and timestamp later.
+                continue;
+            }
+
             if (!empty($field['label'])) {
                 $options['label'] = $field['label'];
             }
@@ -227,7 +232,7 @@ class Extension extends \Bolt\BaseExtension
                 $isRecaptchaValid = false; // by Default
 
                 $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
-                                    $_SERVER["REMOTE_ADDR"],
+                                    $this->getRemoteAddress(),
                                     $_POST["recaptcha_challenge_field"],
                                     $_POST["recaptcha_response_field"]);
 
@@ -363,6 +368,15 @@ class Extension extends \Bolt\BaseExtension
                 $data[$fieldname] = $data[$fieldname]->format($format);
             }
 
+            if ($fieldvalues['type'] == "ip") {
+                $data[$fieldname] = $this->getRemoteAddress();
+            }
+
+            if ($fieldvalues['type'] == "timestamp") {
+                $format = "%F %T";
+                $data[$fieldname] = strftime($format);
+            }
+
         }
 
         // Attempt to insert the data into a table, if specified..
@@ -474,6 +488,18 @@ class Extension extends \Bolt\BaseExtension
         }
 
         return $res;
+
+    }
+
+    private function getRemoteAddress() {
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $addr = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $addr = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return $addr;
 
     }
 
