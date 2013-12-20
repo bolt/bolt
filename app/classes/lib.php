@@ -339,17 +339,18 @@ function safeString($str, $strict = false, $extrachars = "")
  * safeString, but using hyphens instead of underscores.
  *
  * @param string $str
+ * @param int $length
  * @internal param string $type
  * @return string
  */
-function makeSlug($str)
+function makeSlug($str, $length = 64)
 {
     $str = safeString(strip_tags($str));
 
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
     $str = preg_replace("/[-]+/i", "-", $str);
-    $str = substr($str, 0, 64); // 64 chars ought to be long enough.
+    $str = substr($str, 0, $length);
     $str = trim($str, " -"); // Make sure it doesn't start or end with '-'..
 
     return $str;
