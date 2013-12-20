@@ -16,6 +16,10 @@ info:
             Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero 
             en el área de entrada y será autocompletado.  
             
+        filelist: |
+            Utiliza este campo para subir múltiples archivos y algunas descripciones. Cómo en el campo de archivo individual, en los
+            navegadores modernos puedes arrastrar y soltar archivos en el campo para subirlos. ¿Por qué no lo intentas?
+
         filesmall: |
             Utiliza el botón para subir un fichero. 
             Para seleccionar un fichero subido previamente, escribe un fragmento del nombre del fichero 
