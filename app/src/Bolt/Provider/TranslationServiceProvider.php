@@ -26,15 +26,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
         if (isset($app['translator'])) {
             $paths = getPaths($app);
 
-            $loaders = array(
-                'csv' => new TranslationLoader\CsvFileLoader(),
-                'ini' => new TranslationLoader\IniFileLoader(),
-                'mo' => new TranslationLoader\MoFileLoader(),
-                'php' => new TranslationLoader\PhpFileLoader(),
-                'xlf' => new TranslationLoader\XliffFileLoader(),
-                'yml' => new TranslationLoader\YamlFileLoader(),
-            );
-            $registeredLoaders = array();
+            $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
+
             // Directory to look for translation file(s)
             $translationDir = $paths['apppath'] . '/resources/translations/' . $app['locale'];
 
@@ -44,38 +37,18 @@ class TranslationServiceProvider implements ServiceProviderInterface
                  * @var \SplFileInfo $fileInfo
                  */
                 foreach ($iterator as $fileInfo) {
-                    if ($fileInfo->isFile()) {
-                        $extension = getExtension($fileInfo->getFilename());
-                        if (array_key_exists($extension, $loaders)) {
-                            if (!array_key_exists($extension, $registeredLoaders)) {
-                                // TranslationFileLoader not yet registered
-                                $app['translator']->addLoader($extension, $loaders[$extension]);
-                            }
-                            // There's a file, there's a loader, let's try
-                            $fnameParts = explode(".", $fileInfo->getFilename());
-                            $domain = $fnameParts[0];
-                            $app['translator']->addResource($extension, $fileInfo->getRealPath(), $app['locale'], $domain);
-                        }
+                    if ($fileInfo->isFile() && (getExtension($fileInfo->getFilename()) == "yml")) {
+                        $fnameParts = explode(".", $fileInfo->getFilename());
+                        $domain = $fnameParts[0];
+                        $app['translator']->addResource('yml', $fileInfo->getRealPath(), $app['locale'], $domain);
                     }
                 }
             }
 
             // Load fallback for infos domain
-            $translationDir = dirname(dirname(dirname(__DIR__))) . '/resources/translations/en';
-
-            if (is_dir($translationDir)) {
-                $extension = 'yml';
-                $domain = 'infos';
-                $infosfilename = "$translationDir/$domain.en.$extension";
-                if (is_readable($infosfilename)) {
-                    if (array_key_exists($extension, $loaders)) {
-                        if (!array_key_exists($extension, $registeredLoaders)) {
-                            // TranslationFileLoader not yet registered
-                            $app['translator']->addLoader($extension, $loaders[$extension]);
-                        }
-                        $app['translator']->addResource($extension, $infosfilename, 'en', $domain);
-                    }
-                }
+            $infosfilename = dirname(dirname(dirname(__DIR__))) . '/resources/translations/en/infos.en.yml';
+            if (is_readable($infosfilename)) {
+                $app['translator']->addResource('yml', $infosfilename, 'en', 'infos');
             }
         }
     }
