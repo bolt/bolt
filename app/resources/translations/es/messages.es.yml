@@ -1,4 +1,7 @@
-# 346 translated strings
+# app/resources/translations/es/messages.es.yml -- generated on 2013/12/20 16:30:03
+# no untranslated strings; good ;-)
+
+# 344 translated strings
 
 "%contenttypes% overview": "Listado de %contenttypes%"
 "%contenttypes%": "%contenttypes%"
@@ -140,7 +143,6 @@
 "Latest activity": "Actividad reciente"
 "Latest entries": "Entradas más recientes"
 "Latitude:": "Latitud:"
-"Level": "Nivel"
 "Log on": "Acceder"
 "Login": "Iniciar sesión"
 "Logout %name%": "Cerrar sesión %name%"
@@ -209,7 +211,6 @@
 "Revert changes": "Revertir los cambios"
 "Roles and Permissions": "Roles y permisos"
 "Roles": "Roles"
-"Root": "Superadministrador"
 "Routing setup": "Configuración de rutas"
 "Save %contenttype%": "Guardar %contenttype%"
 "Save & return to overview": "Guardar y regresar al listado"
@@ -287,6 +288,7 @@
 "Upload File": "Subir archivo"
 "Upload a file to this folder:": "Sube un archivo a esta carpeta:"
 "Upload file": "Subir archivo"
+"Upload files": "Subir archivos:"
 "Upload image": "Subir imagen"
 "Upload": "Subir"
 "Uploaded files": "Archivos subidos"
@@ -326,7 +328,6 @@
 "Your database is now up to date.": "Tu base de datos ahora está actualizada"
 "Your password": "Tu contraseña"
 "Your username": "Tu usuario"
-"all": "todos"
 "and edited": "y editado"
 "back to editing": "regresar a editar"
 "by": "por"
