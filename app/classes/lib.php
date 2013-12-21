@@ -350,7 +350,9 @@ function makeSlug($str, $length = 64)
     $str = str_replace(" ", "-", $str);
     $str = strtolower(preg_replace("/[^a-zA-Z0-9_-]/i", "", $str));
     $str = preg_replace("/[-]+/i", "-", $str);
-    $str = substr($str, 0, $length);
+    if ($length > 0) {
+        $str = substr($str, 0, $length);
+    }
     $str = trim($str, " -"); // Make sure it doesn't start or end with '-'..
 
     return $str;
