@@ -296,10 +296,14 @@ class Extension extends \Bolt\BaseExtension
     private function injectAssets($html)
     {
 
-        $assets = '<script src="/app/extensions/AwesomeMenuEditor/assets/jquery.nestable.min.js"></script>
-<script src="/app/extensions/AwesomeMenuEditor/assets/bootbox.min.js"></script>
-<script src="/app/extensions/AwesomeMenuEditor/assets/menueditor.min.js"></script>
-<link rel="stylesheet" href="/app/extensions/AwesomeMenuEditor/assets/menueditor.min.css">';
+        $urlbase = $this->app['paths']['app'];
+
+        $assets = '<script src="{urlbase}/extensions/AwesomeMenuEditor/assets/jquery.nestable.min.js"></script>
+<script src="{urlbase}/extensions/AwesomeMenuEditor/assets/bootbox.min.js"></script>
+<script src="{urlbase}/extensions/AwesomeMenuEditor/assets/menueditor.min.js"></script>
+<link rel="stylesheet" href="{urlbase}/extensions/AwesomeMenuEditor/assets/menueditor.min.css">';
+
+        $assets = preg_replace('~\{urlbase\}~', $urlbase, $assets);
 
         // Insert just before </head>
         preg_match("~^([ \t]*)</head~mi", $html, $matches);
