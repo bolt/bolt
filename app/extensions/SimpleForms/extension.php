@@ -232,7 +232,7 @@ class Extension extends \Bolt\BaseExtension
                 $isRecaptchaValid = false; // by Default
 
                 $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
-                                    $this->getRemoteAddress(),
+                                    $this->app['request']->getClientIp(),
                                     $_POST["recaptcha_challenge_field"],
                                     $_POST["recaptcha_response_field"]);
 
@@ -490,17 +490,4 @@ class Extension extends \Bolt\BaseExtension
         return $res;
 
     }
-
-    private function getRemoteAddress() {
-
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $addr = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $addr = $_SERVER['REMOTE_ADDR'];
-        }
-
-        return $addr;
-
-    }
-
 }
