@@ -198,6 +198,9 @@ class Storage
                 case 'date':
                     $content[$field] = date('Y-m-d', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60));
                     break;
+                case 'checkbox':
+                    $content[$field] = rand(0,1);
+                    break;                
                 case 'float':
                 case 'number': // number is deprecated..
                 case 'integer':
