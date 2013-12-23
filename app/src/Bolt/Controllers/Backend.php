@@ -712,7 +712,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('slug', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
-            $content->setValue('datedepublish', "");
+            //$content->setValue('datedepublish', "");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $content->setValue('ownerid', "");
