@@ -106,13 +106,13 @@ namespace Redirector {
             );
             // Merge these with the actual configuration definitions
             // in config.yml, which take precedence over the defaults
-            $this['config'] = array_merge($config, $this['config']);
+            $this->config = array_merge($config, $this->config);
 
             // Assign configuration groups to arrays in object
             $configGroups = array('options', 'redirects', 'jits', 'variables');
             foreach($configGroups as $group) {
-                if (!empty($this['config'][$group])) {
-                    $this->$group = $this['config'][$group];
+                if (!empty($this->config[$group])) {
+                    $this->$group = $this->config[$group];
                 } else {
                     // Take 'empty groups' from the .yml file into account.
                     $this->$group = array();
