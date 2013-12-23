@@ -369,7 +369,7 @@ class Extension extends \Bolt\BaseExtension
             }
 
             if ($fieldvalues['type'] == "ip") {
-                $data[$fieldname] = $this->getRemoteAddress();
+                $data[$fieldname] = $this->app['request']->getClientIp();
             }
 
             if ($fieldvalues['type'] == "timestamp") {
