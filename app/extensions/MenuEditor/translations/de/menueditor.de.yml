@@ -56,10 +56,10 @@
 "Unable to save your menu.": "Menu konnte nicht gespeichert werden."
 
 
-"Please make sure that the AwesomeMenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml": "Bitte stelle sicher, dass der Ordner AwesomeMenuEditor/backups von deinem Webserver beschreibbar ist, oder deaktiviere das backup-feature in config.yml"
+"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml": "Bitte stelle sicher, dass der Ordner MenuEditor/backups von deinem Webserver beschreibbar ist, oder deaktiviere das backup-feature in config.yml"
 
-"Please make sure that there is a AwesomeMenuEditor/backups folder or disable the backup-feature in config.yml": "Bitte stelle sicher, dass der Ordner AwesomeMenuEditor/backups existiert oder deaktiviere das backup-feature in config.yml"
+"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml": "Bitte stelle sicher, dass der Ordner MenuEditor/backups existiert oder deaktiviere das backup-feature in config.yml"
 
 "There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.": "Die Extension scheint nicht korrekt zu funktionieren. Bitte melde dich beim Author und editiere deine Menüs von Hand, bis der Fehler behoben ist."
 
-"Unable to save backup! Please make sure AwesomeMenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.": "Backup konnte nicht gespeichert werden! Bitte stelle sicher, dass der Ordner AwesomeMenuEditor/backups von deinem Webserver beschreibbar ist, oder deaktiviere das backup-feature in config.yml"
+"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.": "Backup konnte nicht gespeichert werden! Bitte stelle sicher, dass der Ordner MenuEditor/backups von deinem Webserver beschreibbar ist, oder deaktiviere das backup-feature in config.yml"

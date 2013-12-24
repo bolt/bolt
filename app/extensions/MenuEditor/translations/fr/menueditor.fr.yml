@@ -56,10 +56,10 @@
 "Unable to save your menu.": "Impossible d'enregistrer le menu."
 
 
-"Please make sure that the AwesomeMenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml": "S'il te plaît assure que le dossier AwesomeMenuEditor/backups est accessible en écriture par ton serveur web ou désactiver la fonction de sauvegarde en config.yml"
+"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml": "S'il te plaît assure que le dossier MenuEditor/backups est accessible en écriture par ton serveur web ou désactiver la fonction de sauvegarde en config.yml"
 
-"Please make sure that there is a AwesomeMenuEditor/backups folder or disable the backup-feature in config.yml": "S'il te plaît assure-toi qu'il existe un dossier AwesomeMenuEditor/backups ou désactiver la fonction de sauvegarde en config.yml"
+"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml": "S'il te plaît assure-toi qu'il existe un dossier MenuEditor/backups ou désactiver la fonction de sauvegarde en config.yml"
 
 "There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.": "Il ya quelque chose de mal avec cette extension, s'il te plaît signaler à l'auteur et modifie ton menu manuellement jusqu'à ce que les erreurs soient fixes"
 
-"Unable to save backup! Please make sure AwesomeMenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.": "Sauvegarde ne pouvait pas être sauvé! S'il te plaît assure que le dossier AwesomeMenuEditor/backups est accessible en écriture par ton serveur web ou désactiver la fonction de sauvegarde en config.yml"
+"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.": "Sauvegarde ne pouvait pas être sauvé! S'il te plaît assure que le dossier MenuEditor/backups est accessible en écriture par ton serveur web ou désactiver la fonction de sauvegarde en config.yml"

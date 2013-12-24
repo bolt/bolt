@@ -80,7 +80,7 @@
     trans_writeLockError            = "{{ __("The menu.yml config-file was edited by someone else in the meantime, please reload the page.") }}"
     trans_writeError                = "{{ __("Unable to save your menu.") }}"
     trans_parseError                = "{{ __("There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.") }}"
-    trans_backupFailError           = "{{ __("Unable to save backup! Please make sure AwesomeMenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.") }}"
+    trans_backupFailError           = "{{ __("Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.") }}"
     trans_backupRestoreFailError    = "{{ __("The backup could not be restored: ") }}"
 </script>
 
@@ -135,7 +135,7 @@
                 </button>
                 <ul class="dropdown-menu" id="me-actionmenu" role="actionmenu">
                     <li><a href="" class="btn btn-warning btn-mini revert-changes" type="button">{{ __("Revert changes") }}</a></li>
-                    <li><a data-target="#myModal" href="/async/readme/AwesomeMenuEditor" class="btn btn-mini" type="button" data-toggle="modal" >{{ __("View Readme") }}</a></li>
+                    <li><a data-target="#myModal" href="/async/readme/MenuEditor" class="btn btn-mini" type="button" data-toggle="modal" >{{ __("View Readme") }}</a></li>
                     <li><hr></li>
                     {% if backups|length > 0 %}
                     {% for backuptime,backup in backups %}
