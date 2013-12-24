@@ -35,7 +35,6 @@ class ScriptHandler
             $filesystem->mirror(__DIR__ . '/../../../view/' . $dir, $targetDir . '/view/' . $dir);
         }
         $filesystem->mirror(__DIR__ . '/../../../classes/upload', $targetDir . '/classes/upload');
-        $filesystem->copy(__DIR__ . '/../../../app.php', $targetDir . '/app.php');
         $filesystem->copy(__DIR__ . '/../../../classes/timthumb.php', $targetDir . '/classes/timthumb.php');
 
         if (!$filesystem->exists($webDir . '/files/')) {
