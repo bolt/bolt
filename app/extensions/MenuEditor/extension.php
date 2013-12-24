@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeMenuEditor;
+namespace MenuEditor;
 
 use Symfony\Component\BrowserKit\Response,
     Symfony\Component\Translation\Loader as TranslationLoader;
@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Dumper as YamlDumper,
     Symfony\Component\Yaml\Parser as YamlParser,
     Symfony\Component\Yaml\Exception\ParseException;
 
-class AwesomeMenuEditorException extends \Exception {};
+class MenuEditorException extends \Exception {};
 class Extension extends \Bolt\BaseExtension
 {
     private $authorized = false;
@@ -23,19 +23,19 @@ class Extension extends \Bolt\BaseExtension
     {
 
         return array(
-            'name'          => "Awesome menu editor",
+            'name'          => "MenuEditor",
             'description'   => "a visual menu editor",
             'tags'          => array('menu', 'editor', 'admin', 'tool'),
             'type'          => "Administrative Tool",
             'author'        => "Steven Wüthrich / bacbos lab",
             'link'          => "http://www.bacbos.ch",
             'email'         => 'steven.wuethrich@me.com',
-            'version'       => "1.4.0",
+            'version'       => "1.4.2",
 
             'required_bolt_version' => "1.4",
             'highest_bolt_version'  => "1.4",
             'first_releasedate'     => "2013-12-22",
-            'latest_releasedate'    => "2013-12-22"
+            'latest_releasedate'    => "2013-12-24"
         );
 
     }
@@ -52,7 +52,7 @@ class Extension extends \Bolt\BaseExtension
          * ensure proper config
          */
         if (!isset($this->config['permissions']) || !is_array($this->config['permissions'])) {
-            $this->config['permission'] = array('root', 'admin', 'developer');
+            $this->config['permissions'] = array('root', 'admin', 'developer');
         } else {
             $this->config['permissions'][] = 'root';
         }
@@ -124,7 +124,7 @@ class Extension extends \Bolt\BaseExtension
         /**
          * try to set symlink to localized readme
          */
-        $lastLocale = $this->app['cache']->contains('extension_AwesomeMenuEditor') ? $this->app['cache']->fetch('extension_AwesomeMenuEditor') : 'unknown';
+        $lastLocale = $this->app['cache']->contains('extension_MenuEditor') ? $this->app['cache']->fetch('extension_MenuEditor') : 'unknown';
         $lastLocale != $this->app['locale'] && @is_writable(__DIR__) ? $this->localizeReadme() : null;
 
         /**
@@ -145,11 +145,11 @@ class Extension extends \Bolt\BaseExtension
                         return $this->app->json(array('status' => 0));
                     }
 
-                    throw new AwesomeMenuEditorException(__("Backup file could not be found"));
+                    throw new MenuEditorException(__("Backup file could not be found"));
 
                 }
 
-            } catch (AwesomeMenuEditorException $e) {
+            } catch (MenuEditorException $e) {
                 return $this->app->json(array('status' => 1, 'error' => $e->getMessage()));
             }
 
@@ -163,7 +163,7 @@ class Extension extends \Bolt\BaseExtension
 
                     // don't proceed if the file was edited in the meantime
                     if ($writeLock != $writeLockToken) {
-                        throw new AwesomeMenuEditorException($writeLock, 1);
+                        throw new MenuEditorException($writeLock, 1);
                     } else {
                         $dumper = new YamlDumper();
                         $dumper->setIndentation(2);
@@ -176,7 +176,7 @@ class Extension extends \Bolt\BaseExtension
                             $parser = new YamlParser();
                             $parser->parse($yaml);
                         } catch (ParseException $e) {
-                            throw new AwesomeMenuEditorException($writeLock, 2);
+                            throw new MenuEditorException($writeLock, 2);
                         }
 
                         // create backup
@@ -186,7 +186,7 @@ class Extension extends \Bolt\BaseExtension
 
                         // save
                         if (!@file_put_contents($file, $yaml)) {
-                            throw new AwesomeMenuEditorException($writeLock, 3);
+                            throw new MenuEditorException($writeLock, 3);
                         }
 
                         clearstatcache(true, $file);
@@ -204,17 +204,17 @@ class Extension extends \Bolt\BaseExtension
                     }
 
                     // broken request
-                    throw new AwesomeMenuEditorException($writeLock, 4);
+                    throw new MenuEditorException($writeLock, 4);
 
                 }
 
-            } catch (AwesomeMenuEditorException $e) {
+            } catch (MenuEditorException $e) {
                 return $this->app->json(array('writeLock' => $e->getMessage(), 'status' => $e->getCode()));
             }
         }
 
-        // add AwesomeMenuEditor template namespace to twig
-        $this->app['twig.loader.filesystem']->addPath(__DIR__.'/views/', 'AwesomeMenuEditor');
+        // add eMenuEditor template namespace to twig
+        $this->app['twig.loader.filesystem']->addPath(__DIR__.'/views/', 'MenuEditor');
 
         /**
          * load stuff
@@ -272,12 +272,12 @@ class Extension extends \Bolt\BaseExtension
             try {
                 $backups = $this->backup(0, true);
 
-            } catch (AwesomeMenuEditorException $e) {
+            } catch (MenuEditorException $e) {
                 $this->app['session']->getFlashBag()->set('warning', $e->getMessage());
             }
         }
 
-        $body = $this->app['render']->render('@AwesomeMenuEditor/base.twig', array(
+        $body = $this->app['render']->render('@MenuEditor/base.twig', array(
             'contenttypes'  => $contenttypes,
             'taxonomys'     => $taxonomys,
             'menus'         => $menus,
@@ -298,10 +298,10 @@ class Extension extends \Bolt\BaseExtension
 
         $urlbase = $this->app['paths']['app'];
 
-        $assets = '<script src="{urlbase}/extensions/AwesomeMenuEditor/assets/jquery.nestable.min.js"></script>
-<script src="{urlbase}/extensions/AwesomeMenuEditor/assets/bootbox.min.js"></script>
-<script src="{urlbase}/extensions/AwesomeMenuEditor/assets/menueditor.min.js"></script>
-<link rel="stylesheet" href="{urlbase}/extensions/AwesomeMenuEditor/assets/menueditor.min.css">';
+        $assets = '<script src="{urlbase}/extensions/MenuEditor/assets/jquery.nestable.min.js"></script>
+<script src="{urlbase}/extensions/MenuEditor/assets/bootbox.min.js"></script>
+<script src="{urlbase}/extensions/MenuEditor/assets/menueditor.min.js"></script>
+<link rel="stylesheet" href="{urlbase}/extensions/MenuEditor/assets/menueditor.min.css">';
 
         $assets = preg_replace('~\{urlbase\}~', $urlbase, $assets);
 
@@ -318,21 +318,21 @@ class Extension extends \Bolt\BaseExtension
      * @param $writeLock
      * @param bool $justFetchList
      * @return array
-     * @throws AwesomeMenuEditorException
+     * @throws MenuEditorException
      */
     private function backup($writeLock, $justFetchList = false)
     {
 
         if (!@is_dir($this->backupDir) && !@mkdir($this->backupDir)) {
             // dir doesn't exist and I can't create it
-            throw new AwesomeMenuEditorException($justFetchList ? __("Please make sure that there is a AwesomeMenuEditor/backups folder or disable the backup-feature in config.yml") : $writeLock, 5);
+            throw new MenuEditorException($justFetchList ? __("Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml") : $writeLock, 5);
         }
 
         // try to save a backup
         if (false === $justFetchList &&
             !@copy(BOLT_CONFIG_DIR . '/menu.yml', $this->backupDir . '/menu.'. time() . '.yml'))
         {
-            throw new AwesomeMenuEditorException($writeLock, 5);
+            throw new MenuEditorException($writeLock, 5);
         }
 
         // clean up
@@ -349,7 +349,7 @@ class Extension extends \Bolt\BaseExtension
             if (count($backupFiles) == 0)
             {
                 if (!@copy(BOLT_CONFIG_DIR . '/menu.yml', $this->backupDir . '/menu.'. time() . '.yml')) {
-                    throw new AwesomeMenuEditorException(__("Please make sure that the AwesomeMenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml"));
+                    throw new MenuEditorException(__("Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml"));
                 }
                 return $this->backup(0, true);
             }
@@ -376,7 +376,7 @@ class Extension extends \Bolt\BaseExtension
      *
      * @param $filetime
      * @return bool
-     * @throws AwesomeMenuEditorException
+     * @throws MenuEditorException
      */
     private function restoreBackup($filetime)
     {
@@ -392,7 +392,7 @@ class Extension extends \Bolt\BaseExtension
                     return true;
                 }
 
-                throw new AwesomeMenuEditorException(__("Unable to overwrite menu.yml"));
+                throw new MenuEditorException(__("Unable to overwrite menu.yml"));
             }
         }
 
@@ -406,7 +406,7 @@ class Extension extends \Bolt\BaseExtension
     private function localizeReadme()
     {
 
-        $this->app['cache']->save('extension_AwesomeMenuEditor', $this->app['locale'], 604800);
+        $this->app['cache']->save('extension_MenuEditor', $this->app['locale'], 604800);
 
         if (@file_exists(__DIR__ . '/readme.md')) {
             if (@is_link(__DIR__ . '/readme.md')) {
