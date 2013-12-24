@@ -169,14 +169,17 @@ function initKeyboardShortcuts() {
         });
 
         // Initialize watching for changes on "the form".
-        var $form = $('form').watchChanges();
+        window.setTimeout(function(){
+            var $form = $('form').watchChanges();
+            console.log('watch');
+        }, 1000);
 
         // Initialize handler for 'closing window'
         window.onbeforeunload = confirmExit;
 
         function confirmExit()
         {
-            if ($form.hasChanged()) {
+            if ($('form').hasChanged()) {
                 return "You have unfinished changes on this page. If you continue without saving, you will lose these changes.";
             }
         }
