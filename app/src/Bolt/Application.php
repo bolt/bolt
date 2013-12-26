@@ -2,12 +2,18 @@
 
 namespace Bolt;
 
+use RandomLib;
+use SecurityLib;
+use Silex;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Stopwatch;
+use Whoops\Provider\Silex\WhoopsServiceProvider;
 
-class Application extends \Silex\Application
+class Application extends Silex\Application
 {
+
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '1.4.0';
@@ -23,10 +29,8 @@ class Application extends \Silex\Application
         $this['debugbar'] = false;
 
         // Initialize the 'editlink' and 'edittitle'..
-        $this['editlink'] = "";
-        $this['edittitle'] = "";
-
-
+        $this['editlink'] = '';
+        $this['edittitle'] = '';
     }
 
     /**
@@ -35,20 +39,19 @@ class Application extends \Silex\Application
     private function initConfig()
     {
         $this->register(new Provider\ConfigServiceProvider());
-        $this->register(new \Silex\Provider\SessionServiceProvider(), array(
+        $this->register(new Silex\Provider\SessionServiceProvider(), array(
             'session.storage.options' => array(
-                'name' => 'bolt_session',
-                'cookie_secure' => $this['config']->get('general/cookies_https_only'),
+                'name'            => 'bolt_session',
+                'cookie_secure'   => $this['config']->get('general/cookies_https_only'),
                 'cookie_httponly' => true
             )
         ));
-        $this->register(new Provider\LogServiceProvider());
 
+        $this->register(new Provider\LogServiceProvider());
     }
 
     public function initialize()
     {
-
         // Set up locale and translations.
         $this->initLocale();
 
@@ -65,33 +68,32 @@ class Application extends \Silex\Application
         $this->initMountpoints();
 
         // Initialise the global 'before' handler.
-        $this->before(array($this, "BeforeHandler"));
+        $this->before(array($this, 'BeforeHandler'));
 
         // Initialise the global 'after' handlers.
         $this->initAfterHandler();
 
         // Initialise the 'error' handler.
-        $this->error(array($this, "ErrorHandler"));
-
+        $this->error(array($this, 'ErrorHandler'));
     }
-
 
     /**
      * Initialize the database providers.
      */
     public function initDatabase()
     {
-
         $dboptions = $this['config']->getDBOptions();
 
-        $this->register(new \Silex\Provider\DoctrineServiceProvider(), array(
+        $this->register(new Silex\Provider\DoctrineServiceProvider(), array(
             'db.options' => $dboptions
         ));
 
-        if ($dboptions['driver']=="pdo_sqlite") {
-            $this['db']->query("PRAGMA synchronous = OFF");
-        } elseif ($dboptions['driver']=="pdo_mysql") {
-            // https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
+        if ($dboptions['driver'] == 'pdo_sqlite') {
+            $this['db']->query('PRAGMA synchronous = OFF');
+        } elseif ($dboptions['driver'] == 'pdo_mysql') {
+            /**
+             * @link https://groups.google.com/forum/?fromgroups=#!topic/silex-php/AR3lpouqsgs
+             */
             $this['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
             // set utf8 on names and connection as all tables has this charset
             $this['db']->query("SET NAMES 'utf8';");
@@ -99,40 +101,33 @@ class Application extends \Silex\Application
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
         }
 
-        $this->register(new \Silex\Provider\HttpCacheServiceProvider(), array(
-            'http_cache.cache_dir' => __DIR__.'/cache/',
+        $this->register(new Silex\Provider\HttpCacheServiceProvider(), array(
+            'http_cache.cache_dir' => __DIR__ . '/cache/',
         ));
-
     }
 
-    /**
-     *
-     */
     public function initRendering()
     {
-        $this->register(new \Silex\Provider\TwigServiceProvider(), array(
-            'twig.path' => $this['config']->get('twigpath'),
+        $this->register(new Silex\Provider\TwigServiceProvider(), array(
+            'twig.path'    => $this['config']->get('twigpath'),
             'twig.options' => array(
-                'debug' => true,
-                'cache' => __DIR__.'/../../cache/',
+                'debug'            => true,
+                'cache'            => __DIR__ . '/../../cache/',
                 'strict_variables' => $this['config']->get('general/strict_variables'),
-                'autoescape' => true )
+                'autoescape'       => true,
+            )
         ));
 
         $this->register(new Provider\RenderServiceProvider());
-
     }
 
-    /**
-     *
-     */
     public function initLocale()
     {
         list ($this['locale'], $this['territory']) = explode('_', $this['config']->get('general/locale'));
 
         // Set The Timezone Based on the Config, fallback to UTC
         date_default_timezone_set(
-            $this['config']->get('general/timezone')?:'UTC'
+            $this['config']->get('general/timezone') ?: 'UTC'
         );
 
         // Set default locale
@@ -143,44 +138,38 @@ class Application extends \Silex\Application
         );
         setlocale(LC_ALL, $locale);
 
-        $this->register(new \Silex\Provider\TranslationServiceProvider(), array());
+        $this->register(new Silex\Provider\TranslationServiceProvider(), array());
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {
-            require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-            require_once BOLT_PROJECT_ROOT_DIR.'/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
+            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
         }
 
         $this->register(new Provider\TranslationServiceProvider());
-
     }
 
-    /**
-     *
-     */
     public function initProviders()
     {
-
         // Setup Swiftmailer, with optional SMTP settings. If no settings are provided in config.yml, mail() is used.
-        $this->register(new \Silex\Provider\SwiftmailerServiceProvider());
+        $this->register(new Silex\Provider\SwiftmailerServiceProvider());
         if ($this['config']->get('general/mailoptions')) {
             $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
         }
 
         // Set up our secure random generator.
-        $factory = new \RandomLib\Factory;
-        $this['randomgenerator'] = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::MEDIUM));
+        $factory = new RandomLib\Factory;
+        $this['randomgenerator'] = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
 
-        $this->register(new \Silex\Provider\UrlGeneratorServiceProvider());
-        $this->register(new \Silex\Provider\FormServiceProvider());
-        $this->register(new \Silex\Provider\ValidatorServiceProvider());
-
-        $this->register(new Provider\PermissionsServiceProvider());
-        $this->register(new Provider\StorageServiceProvider());
-        $this->register(new Provider\UsersServiceProvider());
-        $this->register(new Provider\CacheServiceProvider());
-        $this->register(new Provider\ExtensionServiceProvider());
-        $this->register(new Provider\StackServiceProvider());
+        $this->register(new Silex\Provider\UrlGeneratorServiceProvider())
+            ->register(new Silex\Provider\FormServiceProvider())
+            ->register(new Silex\Provider\ValidatorServiceProvider())
+            ->register(new Provider\PermissionsServiceProvider())
+            ->register(new Provider\StorageServiceProvider())
+            ->register(new Provider\UsersServiceProvider())
+            ->register(new Provider\CacheServiceProvider())
+            ->register(new Provider\ExtensionServiceProvider())
+            ->register(new Provider\StackServiceProvider());
 
         $this['paths'] = getPaths($this['config']);
         $this['twig']->addGlobal('paths', $this['paths']);
@@ -196,15 +185,11 @@ class Application extends \Silex\Application
 
         // Set up the integrity checker for the Database, to periodically check if the Database
         // is up to date, and if needed: repair it.
-        $this['integritychecker'] = new \Bolt\Database\IntegrityChecker($this);
-
+        $this['integritychecker'] = new Database\IntegrityChecker($this);
     }
-
-
 
     public function initMountpoints()
     {
-
         $request = Request::createFromGlobals();
         if ($proxies = $this['config']->get('general/trustProxies')) {
             $request->setTrustedProxies($proxies);
@@ -224,7 +209,6 @@ class Application extends \Silex\Application
 
         // Mount the 'frontend' controllers, ar defined in our Routing.yml
         $this->mount('', new Controllers\Routing());
-
     }
 
     public function BeforeHandler(Request $request)
@@ -244,15 +228,12 @@ class Application extends \Silex\Application
         $this['twig']->addGlobal('users', $this['users']->getUsers());
         $this['twig']->addGlobal('config', $this['config']);
 
-
         if ($html = $this['render']->fetchCachedRequest()) {
-
             // Stop the 'stopwatch' for the profiler.
             $this['stopwatch']->stop('bolt.app.before');
 
             // Short-circuit the request, return the HTML. YOLO.
             return new Response($html, 200);
-
         }
 
         // Sanity checks for doubles in in contenttypes.
@@ -261,9 +242,7 @@ class Application extends \Silex\Application
 
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.before');
-
     }
-
 
     public function initAfterHandler()
     {
@@ -275,14 +254,14 @@ class Application extends \Silex\Application
 
             // Register Whoops, to handle errors for logged in users only.
             if ($this['config']->get('general/debug_enable_whoops')) {
-                $this->register(new \Whoops\Provider\Silex\WhoopsServiceProvider);
+                $this->register(new WhoopsServiceProvider);
             }
 
-            $this->register(new \Silex\Provider\ServiceControllerServiceProvider);
+            $this->register(new Silex\Provider\ServiceControllerServiceProvider);
 
             // Register the Silex/Symfony web debug toolbar.
-            $this->register(new \Silex\Provider\WebProfilerServiceProvider(), array(
-                'profiler.cache_dir' => __DIR__.'/../../cache/profiler',
+            $this->register(new Silex\Provider\WebProfilerServiceProvider(), array(
+                'profiler.cache_dir'    => __DIR__ . '/../../cache/profiler',
                 'profiler.mount_prefix' => '/_profiler', // this is the default
             ));
 
@@ -295,34 +274,31 @@ class Application extends \Silex\Application
             // Register the toolbar item for the Twig toolbar item.
             $this->register(new Provider\TwigProfilerServiceProvider());
 
-            $this['twig.loader.filesystem']->addPath(BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
+            $this['twig.loader.filesystem']->addPath(
+                BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                'WebProfiler'
+            );
             $this['twig.loader.filesystem']->addPath(__DIR__ . '/../../view', 'BoltProfiler');
 
             // PHP 5.3 does not allow 'use ($this)' in closures.
             $app = $this;
 
             $this->after(function () use ($app) {
-
                 foreach (hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
                     $app['twig.logger']->collectTemplateData($template);
                 }
-
             });
-
         } else {
-
             // Even if debug is not enabled,
             $this['stopwatch'] = $this->share(function () {
-                return new \Symfony\Component\Stopwatch\Stopwatch();
+                return new Stopwatch\Stopwatch();
             });
 
             error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
         }
 
-        $this->after(array($this, "afterHandler"));
-
+        $this->after(array($this, 'afterHandler'));
     }
-
 
     /**
      * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
@@ -332,24 +308,21 @@ class Application extends \Silex\Application
      */
     public function afterHandler(Request $request, Response $response)
     {
-
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.after');
 
         // true if we need to consider adding html snippets
         if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
-
             // only add when content-type is text/html
             if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
-
                 // Add our meta generator tag..
-                $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+                $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
 
                 // Perhaps add a canonical link..
 
                 if ($this['config']->get('general/canonical')) {
                     $snippet = sprintf('<link rel="canonical" href="%s">', $this['paths']['canonicalurl']);
-                    $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 
                 // Perhaps add a favicon..
@@ -360,7 +333,7 @@ class Application extends \Silex\Application
                         $this['paths']['theme'],
                         $this['config']->get('general/favicon')
                     );
-                    $this['extensions']->insertSnippet(\Bolt\Extensions\Snippets\Location::AFTER_META, $snippet);
+                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 
                 // Do some post-processing.. Hooks, snippets..
@@ -372,7 +345,6 @@ class Application extends \Silex\Application
 
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.after');
-
     }
 
     /**
@@ -383,7 +355,6 @@ class Application extends \Silex\Application
      */
     public function ErrorHandler(\Exception $exception)
     {
-
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
         // @see /app/src/Bolt/Controllers/Frontend.php, Frontend::before()
         if ($this['config']->get('general/maintenance_mode')) {
@@ -412,22 +383,20 @@ class Application extends \Silex\Application
 
         foreach ($trace as $key => $value) {
 
-            if (!empty($value['file']) && strpos($value['file'], "/vendor/") > 0) {
+            if (!empty($value['file']) && strpos($value['file'], '/vendor/') > 0) {
                 unset($trace[$key]['args']);
             }
 
             // Don't display the full path..
             if (isset( $trace[$key]['file'])) {
-                $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, "[root]", $trace[$key]['file']);
+                $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, '[root]', $trace[$key]['file']);
             }
-
         }
 
         $twigvars['trace'] = $trace;
-        $twigvars['title'] = "An error has occured!";
+        $twigvars['title'] = 'An error has occurred!';
 
-        if (($exception instanceof HttpException) && ($end == "frontend")) {
-
+        if (($exception instanceof HttpException) && ($end == 'frontend')) {
             $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
 
             // Then, select which template to use, based on our 'cascading templates rules'
@@ -438,10 +407,9 @@ class Application extends \Silex\Application
                     'record' => $content,
                     $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
                 ));
-            } else {
-                $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
             }
 
+            $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
         }
 
         return $this['render']->render('error.twig', $twigvars);
@@ -459,10 +427,9 @@ class Application extends \Silex\Application
     public function getVersion($long = true)
     {
         if ($long) {
-            return $this['bolt_version'] . " " . $this['bolt_name'];
-        } else {
-            return $this['bolt_version'];
+            return $this['bolt_version'] . ' ' . $this['bolt_name'];
         }
 
+        return $this['bolt_version'];
     }
 }
