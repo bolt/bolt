@@ -752,7 +752,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $filename Target filename
      * @param  string|int $width    Target width
      * @param  string|int $height   Target height
-     * @param  string $crop     String identifier for cropped images
+     * @param  string $crop     String identifier for cropped images. You can use next option fit, borders, resize or crop(dy default)
      * @return string     Thumbnail path
      */
     public function thumbnail($filename, $width = '', $height = '', $crop = "")
