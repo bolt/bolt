@@ -2,49 +2,60 @@
 
 namespace Bolt;
 
+use Symfony\Component\Yaml;
+
 /**
  * Class for our config object. Implemented as an extension of RecursiveArrayAccess
  *
  * @author Bob den Otter, bob@twokings.nl
- *
  */
 class Config
 {
+    protected $paths;
 
     private $app;
-    private $reservedfieldnames;
     private $data;
+    private $defaultConfig = array();
+    private $reservedFieldNames = array(
+        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish',
+        'ownerid', 'username', 'status', 'link'
+    );
+    static private $yamlParser;
 
-    public function __construct(\Bolt\Application $app)
+    /**
+     * @param Application $app
+     */
+    public function __construct(Application $app)
     {
         $this->app = $app;
-
-        $this->reservedfieldnames = array('id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link');
 
         if (!$this->loadCache()) {
             $this->getConfig();
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            \Bolt\Database\IntegrityChecker::invalidate();
+            Database\IntegrityChecker::invalidate();
         }
 
         $this->setTwigPath();
         $this->setCKPath();
-
     }
 
+    /**
+     * @param  string $basename
+     * @param  array  $default
+     * @return array
+     */
     private function parseConfigYaml($basename, $default = array())
     {
-        static $yamlparser = false;
-
-        if ($yamlparser === false) {
-            $yamlparser = new \Symfony\Component\Yaml\Parser();
+        if (!self::$yamlParser) {
+            self::$yamlParser = new Yaml\Parser();
         }
 
         $filename = BOLT_CONFIG_DIR . '/' . $basename;
+
         if (is_readable($filename)) {
-            return $yamlparser->parse(file_get_contents($filename) . "\n");
+            return self::$yamlParser->parse(file_get_contents($filename) . "\n");
         }
 
         return $default;
@@ -61,7 +72,7 @@ class Config
      */
     public function set($path, $value)
     {
-        $path = explode("/", $path);
+        $path = explode('/', $path);
 
         // Only do something if we get at least one key.
         if (empty($path[0])) {
@@ -84,7 +95,6 @@ class Config
         $part = $value;
 
         return true;
-
     }
 
     /**
@@ -98,8 +108,7 @@ class Config
      */
     public function get($path, $default = null)
     {
-
-        $path = explode("/", $path);
+        $path = explode('/', $path);
 
         // Only do something if we get at least one key.
         if (empty($path[0]) || !isset($this->data[$path[0]])) {
@@ -121,10 +130,9 @@ class Config
 
         if ($value != null) {
             return $value;
-        } else {
-            return $default;
         }
 
+        return $default;
     }
 
     /**
@@ -135,13 +143,16 @@ class Config
         $config = array();
 
         // Read the config
-        $config['general'] = array_merge($this->parseConfigYaml('config.yml'), $this->parseConfigYaml('config_local.yml'));
-        $config['taxonomy'] = $this->parseConfigYaml('taxonomy.yml');
-        $tempcontenttypes = $this->parseConfigYaml('contenttypes.yml');
-        $config['menu'] = $this->parseConfigYaml('menu.yml');
-        $config['routing'] = $this->parseConfigYaml('routing.yml');
+        $config['general']     = array_merge(
+            $this->parseConfigYaml('config.yml'),
+            $this->parseConfigYaml('config_local.yml')
+        );
+        $config['taxonomy']    = $this->parseConfigYaml('taxonomy.yml');
+        $tempContentTypes      = $this->parseConfigYaml('contenttypes.yml');
+        $config['menu']        = $this->parseConfigYaml('menu.yml');
+        $config['routing']     = $this->parseConfigYaml('routing.yml');
         $config['permissions'] = $this->parseConfigYaml('permissions.yml');
-        $config['extensions'] = array();
+        $config['extensions']  = array();
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
@@ -149,37 +160,38 @@ class Config
         $this->setDefaults();
 
         if (isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
-            $config['general']['wysiwyg']['ck']['contentsCss'] = array(1 => $config['general']['wysiwyg']['ck']['contentsCss']);
+            $config['general']['wysiwyg']['ck']['contentsCss'] = array(
+                1 => $config['general']['wysiwyg']['ck']['contentsCss']
+            );
         }
-        $config['general'] = array_merge_recursive_distinct($this->defaultconfig, $config['general']);
+        $config['general'] = array_merge_recursive_distinct($this->defaultConfig, $config['general']);
 
         // Make sure the cookie_domain for the sessions is set properly.
         if (empty($config['general']['cookies_domain'])) {
-
             if (isset($_SERVER['HTTP_HOST'])) {
                 $hostname = $_SERVER['HTTP_HOST'];
             } elseif (isset($_SERVER['SERVER_NAME'])) {
                 $hostname = $_SERVER['SERVER_NAME'];
             } else {
-                $hostname = "";
+                $hostname = '';
             }
 
             // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-            if ((strpos($hostname, ".") > 0) && preg_match("/[a-z0-9]/i", $hostname)) {
+            if ((strpos($hostname, '.') > 0) && preg_match("/[a-z0-9]/i", $hostname)) {
                 if (preg_match("/^www[0-9]*./", $hostname)) {
-                    $config['general']['cookies_domain'] = "." . preg_replace("/^www[0-9]*./", "", $hostname);
+                    $config['general']['cookies_domain'] = '.' . preg_replace("/^www[0-9]*./", '', $hostname);
                 } else {
-                    $config['general']['cookies_domain'] = "." . $hostname;
+                    $config['general']['cookies_domain'] = '.' . $hostname;
                 }
                 // Make sure we don't have consecutive '.'-s in the cookies_domain..
-                $config['general']['cookies_domain'] = str_replace("..", ".", $config['general']['cookies_domain']);
+                $config['general']['cookies_domain'] = str_replace('..', '.', $config['general']['cookies_domain']);
             } else {
-                $config['general']['cookies_domain'] = "";
+                $config['general']['cookies_domain'] = '';
             }
         }
 
         // Make sure Bolt's mount point is OK:
-        $config['general']['branding']['path'] = "/" . safeString($config['general']['branding']['path']);
+        $config['general']['branding']['path'] = '/' . safeString($config['general']['branding']['path']);
 
         // Clean up taxonomies
         foreach ($config['taxonomy'] as $key => $value) {
@@ -212,15 +224,14 @@ class Config
             }
 
             // If taxonomy is like tags, set 'tagcloud' to true by default.
-            if (($config['taxonomy'][$key]['behaves_like'] == "tags") && (!isset($config['taxonomy'][$key]['tagcloud']))) {
+            if (($config['taxonomy'][$key]['behaves_like'] == 'tags') && (!isset($config['taxonomy'][$key]['tagcloud']))) {
                 $config['taxonomy'][$key]['tagcloud'] = true;
             }
-
         }
 
         // Clean up contenttypes
         $config['contenttypes'] = array();
-        foreach ($tempcontenttypes as $temp) {
+        foreach ($tempContentTypes as $temp) {
             if (!isset($temp['slug'])) {
                 $temp['slug'] = makeSlug($temp['name']);
             }
@@ -231,19 +242,18 @@ class Config
                 $temp['show_on_dashboard'] = true;
             }
             if (!isset($temp['sort'])) {
-                $temp['sort'] = "id";
+                $temp['sort'] = 'id';
             }
             // Make sure all fields are lowercase and 'safe'.
             $tempfields = $temp['fields'];
             $temp['fields'] = array();
             foreach ($tempfields as $key => $value) {
                 // Fix name 'keys' for fields
-                $key = str_replace("-", "_", strtolower(safeString($key, true)));
+                $key = str_replace('-', '_', strtolower(safeString($key, true)));
                 $temp['fields'][$key] = $value;
 
                 // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
-                if ($temp['fields'][$key]['type'] == "file") {
-
+                if ($temp['fields'][$key]['type'] == 'file') {
                     if (empty($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array('pdf', 'txt', 'md', 'doc', 'docx', 'zip', 'tgz');
                     }
@@ -251,9 +261,7 @@ class Config
                     if (!is_array($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
                     }
-
                 }
-
             }
 
             // Make sure the 'uses' of the slug is an array.
@@ -269,27 +277,20 @@ class Config
             }
 
             $config['contenttypes'][$temp['slug']] = $temp;
-
         }
 
         // Set all the distinctive arrays as part of our Config object.
         $this->data = $config;
-
     }
-
 
     /**
      * Sanity checks for doubles in in contenttypes.
-     *
      */
     public function checkConfig()
     {
-
-
         $slugs = array();
 
         foreach ($this->data['contenttypes'] as $key => $ct) {
-
             // Make sure any field that has a 'uses' parameter actually points to a field that exists.
             // For example, this will show a notice:
             // entries:
@@ -304,9 +305,8 @@ class Config
             //         uses: name
             //
             foreach ($ct['fields'] as $fieldname => $field) {
-
                 // Verify that the contenttype doesn't try to add fields that are reserved.
-                if ($fieldname != "slug" && in_array($fieldname, $this->reservedfieldnames)) {
+                if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
                     $error = __(
                         "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.",
                         array('%contenttype%' => $key, '%field%' => $fieldname)
@@ -319,7 +319,7 @@ class Config
                 // for the fields that are always present, like 'id'.
                 if (is_array($field) && !empty($field['uses'])) {
                     foreach ($field['uses'] as $useField) {
-                        if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedfieldnames)) {
+                        if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedFieldNames)) {
                             $error = __(
                                 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.",
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
@@ -332,19 +332,19 @@ class Config
 
                 // Make sure we have a 'label', 'class', 'variant' and 'default'.
                 if (!isset($field['label'])) {
-                    $this->set("contenttypes/$key/fields/$fieldname/label", "");
+                    $this->set("contenttypes/{$key}/fields/{$fieldname}/label", '');
                 }
                 if (!isset($field['class'])) {
-                    $this->set("contenttypes/$key/fields/$fieldname/class", "");
+                    $this->set("contenttypes/{$key}/fields/{$fieldname}/class", '');
                 }
                 if (!isset($field['variant'])) {
-                    $this->set("contenttypes/$key/fields/$fieldname/variant", "");
+                    $this->set("contenttypes/{$key}/fields/{$fieldname}/variant", '');
                 }
                 if (!isset($field['default'])) {
-                    $this->set("contenttypes/$key/fields/$fieldname/default", "");
+                    $this->set("contenttypes/{$key}/fields/{$fieldname}/default", '');
                 }
                 if (!isset($field['pattern'])) {
-                    $this->set("contenttypes/$key/fields/$fieldname/pattern", "");
+                    $this->set("contenttypes/{$key}/fields/{$fieldname}/pattern", '');
                 }
             }
 
@@ -374,7 +374,6 @@ class Config
                 $slugs[$ct['singular_slug']] = 0;
             }
             $slugs[$ct['singular_slug']]++;
-
         }
 
         // Check DB-tables integrity
@@ -382,7 +381,7 @@ class Config
             if (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) {
                 $msg = __(
                     "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                    array("%link%" => path('dbcheck'))
+                    array('%link%' => path('dbcheck'))
                 );
                 $this->app['session']->getFlashBag()->set('error', $msg);
                 return;
@@ -391,7 +390,6 @@ class Config
 
         // Sanity checks for taxonomy.yml
         foreach ($this->data['taxonomy'] as $key => $taxo) {
-
             // Show some helpful warnings if slugs or keys are not set correctly.
             if ($taxo['slug'] != $key) {
                 $error = __(
@@ -401,7 +399,6 @@ class Config
                 $this->app['session']->getFlashBag()->set('error', $error);
                 return;
             }
-
         }
 
         // if there aren't any other errors, check for duplicates across contenttypes..
@@ -417,7 +414,6 @@ class Config
                 }
             }
         }
-
     }
 
     /**
@@ -425,81 +421,79 @@ class Config
      */
     private function setDefaults()
     {
-
-        $this->defaultconfig = array(
-            'database' => array('prefix' => 'bolt_'),
-            'sitename' => 'Default Bolt site',
-            'homepage' => 'page/*',
-            'homepage_template' => 'index.twig',
-            'locale' => 'en_GB',
-            'recordsperpage' => 10,
-            'recordsperdashboardwidget' => 5,
-            'debug' => false,
-            'debug_show_loggedoff' => false,
-            'debug_error_level' => 6135, // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
-            'debug_enable_whoops' => true,
+        $this->defaultConfig = array(
+            'database'                    => array('prefix' => 'bolt_'),
+            'sitename'                    => 'Default Bolt site',
+            'homepage'                    => 'page/*',
+            'homepage_template'           => 'index.twig',
+            'locale'                      => 'en_GB',
+            'recordsperpage'              => 10,
+            'recordsperdashboardwidget'   => 5,
+            'debug'                       => false,
+            'debug_show_loggedoff'        => false,
+            'debug_error_level'           => 6135,
+            // equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
+            'debug_enable_whoops'         => true,
             'debug_permission_audit_mode' => false,
-            'strict_variables' => false,
-            'theme' => "default",
-            'debug_compressjs' => true,
-            'debug_compresscss' => true,
-            'listing_template' => 'listing.twig',
-            'listing_records' => '5',
-            'listing_sort' => 'datepublish DESC',
-            'caching' => array(
-                'config' => true,
+            'strict_variables'            => false,
+            'theme'                       => 'default',
+            'debug_compressjs'            => true,
+            'debug_compresscss'           => true,
+            'listing_template'            => 'listing.twig',
+            'listing_records'             => '5',
+            'listing_sort'                => 'datepublish DESC',
+            'caching'                     => array(
+                'config'    => true,
                 'rendering' => false,
                 'templates' => false,
-                'request' => false
+                'request'   => false
             ),
-            'wysiwyg' => array(
-                'images' => true,
-                'tables' => false,
-                'fontcolor' => false,
-                'align' => false,
-                'subsuper' => false,
-                'embed' => true,
-                'anchor' => false,
-                'ck' => array(
-                    'allowedContent' => true,
-                    'autoParagraph' => true,
-                    'contentsCss' => array(
+            'wysiwyg'                     => array(
+                'images'      => true,
+                'tables'      => false,
+                'fontcolor'   => false,
+                'align'       => false,
+                'subsuper'    => false,
+                'embed'       => true,
+                'anchor'      => false,
+                'ck'          => array(
+                    'allowedContent'          => true,
+                    'autoParagraph'           => true,
+                    'contentsCss'             => array(
                         $this->paths['app'] . 'view/lib/ckeditor/contents.css',
                         $this->paths['app'] . 'view/css/ckeditor.css',
                     ),
-                    'filebrowserWindowWidth' => 640,
+                    'filebrowserWindowWidth'  => 640,
                     'filebrowserWindowHeight' => 480
                 ),
                 'filebrowser' => array(
-                    'browseUrl' => $this->paths['async'] . "filebrowser/",
-                    'imageBrowseUrl' => $this->paths['bolt'] . "files/files"
+                    'browseUrl'      => $this->paths['async'] . 'filebrowser/',
+                    'imageBrowseUrl' => $this->paths['bolt'] . 'files/files'
                 ),
             ),
-            'canonical' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "",
-            'developer_notices' => false,
-            'cookies_use_remoteaddr' => true,
-            'cookies_use_browseragent' => false,
-            'cookies_use_httphost' => true,
-            'cookies_https_only' => false,
-            'cookies_lifetime' => 14 * 24 * 3600,
-            'thumbnails' => array(
+            'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
+            'developer_notices'           => false,
+            'cookies_use_remoteaddr'      => true,
+            'cookies_use_browseragent'    => false,
+            'cookies_use_httphost'        => true,
+            'cookies_https_only'          => false,
+            'cookies_lifetime'            => 14 * 24 * 3600,
+            'thumbnails'                  => array(
                 'default_thumbnail' => array(160, 120),
-                'default_image' => array(1000, 750),
-                'quality' => 75,
-                'cropping' => 'crop',
-                'notfound_image' => 'view/img/default_notfound.png',
-                'error_image' => 'view/img/default_error.png'
+                'default_image'     => array(1000, 750),
+                'quality'           => 75,
+                'cropping'          => 'crop',
+                'notfound_image'    => 'view/img/default_notfound.png',
+                'error_image'       => 'view/img/default_error.png'
             ),
-            'hash_strength' => 10,
-            'branding' => array(
-                'name' => "Bolt",
-                'path' => "/bolt",
+            'hash_strength'               => 10,
+            'branding'                    => array(
+                'name'        => 'Bolt',
+                'path'        => '/bolt',
                 'provided_by' => array()
             ),
-            'maintenance_mode' => false
+            'maintenance_mode'            => false
         );
-
-
     }
 
     private function setTwigPath()
@@ -510,14 +504,14 @@ class Config
 
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
-        if ($end == "frontend" && file_exists($themepath)) {
+        if ($end == 'frontend' && file_exists($themepath)) {
             $twigpath = array($themepath);
         } else {
             $twigpath = array(realpath(__DIR__ . '/../../view'));
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == "object")) {
+        if (!file_exists($themepath) && (gettype($this->app['session']) == 'object')) {
             $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
         }
@@ -527,12 +521,10 @@ class Config
         $twigpath[] = realpath(__DIR__ . '/../../theme_defaults');
 
         $this->data['twigpath'] = $twigpath;
-
     }
 
     private function setCKPath()
     {
-
         $this->paths = getPaths($this);
 
         // Make sure the paths for CKeditor config are always set correctly..
@@ -540,11 +532,9 @@ class Config
             $this->paths['app'] . 'view/lib/ckeditor/contents.css',
             $this->paths['app'] . 'view/css/ckeditor.css'
         ));
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->paths['async'] . "filebrowser/");
-        $this->set('general/wysiwyg/filebrowser/imageBrowseUrl', $this->paths['bolt'] . "files/files");
-
+        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->paths['async'] . 'filebrowser/');
+        $this->set('general/wysiwyg/filebrowser/imageBrowseUrl', $this->paths['bolt'] . 'files/files');
     }
-
 
     private function loadCache()
     {
@@ -552,43 +542,42 @@ class Config
            it shouldn't trigger an update for the cache, while the others should.
         */
         $timestamps = array(
-            file_exists(BOLT_CONFIG_DIR . '/config.yml') ? filemtime(BOLT_CONFIG_DIR . '/config.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/taxonomy.yml') ? filemtime(BOLT_CONFIG_DIR . '/taxonomy.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/config.yml')       ? filemtime(BOLT_CONFIG_DIR . '/config.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/taxonomy.yml')     ? filemtime(BOLT_CONFIG_DIR . '/taxonomy.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR . '/contenttypes.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/menu.yml') ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/routing.yml') ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/permissions.yml') ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/menu.yml')         ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/routing.yml')      ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/permissions.yml')  ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
         );
-        $cachetimestamp = file_exists(__DIR__ . "/../../cache/config_cache.php") ? filemtime(__DIR__ . "/../../cache/config_cache.php") : 0;
+        $cachetimestamp = file_exists(__DIR__ . '/../../cache/config_cache.php')
+            ? filemtime(__DIR__ . '/../../cache/config_cache.php')
+            : 0;
 
         //\util::var_dump($timestamps);
         //\util::var_dump($cachetimestamp);
 
         if ($cachetimestamp > max($timestamps)) {
-
-            $this->data = loadSerialize(__DIR__ . "/../../cache/config_cache.php");
+            $this->data = loadSerialize(__DIR__ . '/../../cache/config_cache.php');
 
             // Check if we loaded actual data.
             if (count($this->data) > 3 && !empty($this->data['general'])) {
                 return true;
             }
-
         }
 
         return false;
-
     }
 
     private function saveCache()
     {
-
         if ($this->get('general/caching/config')) {
-            saveSerialize(__DIR__ . "/../../cache/config_cache.php", $this->data);
-        } else {
-            @unlink(__DIR__ . "/../../cache/config_cache.php");
+            saveSerialize(__DIR__ . '/../../cache/config_cache.php', $this->data);
+
+            return;
         }
 
+        @unlink(__DIR__ . '/../../cache/config_cache.php');
     }
 
     /**
@@ -601,50 +590,47 @@ class Config
     {
         $configdb = $this->data['general']['database'];
 
-        if (isset($configdb['driver']) && ($configdb['driver'] == "pdo_sqlite" || $configdb['driver'] == "sqlite")) {
-
-            $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : "bolt";
-            if (getExtension($basename) != "db") {
-                $basename .= ".db";
+        if (isset($configdb['driver']) && in_array($configdb['driver'], array('pdo_sqlite', 'sqlite'))) {
+            $basename = isset($configdb['databasename']) ? basename($configdb['databasename']) : 'bolt';
+            if (getExtension($basename) != 'db') {
+                $basename .= '.db';
             }
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => __DIR__ . "/../../database/" . $basename,
-                'randomfunction' => "RANDOM()"
+                'path' => __DIR__ . '/../../database/' . $basename,
+                'randomfunction' => 'RANDOM()'
             );
-
         } else {
             // Assume we configured it correctly. Yeehaa!
 
             if (empty($configdb['password'])) {
-                $configdb['password'] = "";
+                $configdb['password'] = '';
             }
 
             $driver = (isset($configdb['driver']) ? $configdb['driver'] : 'pdo_mysql');
-            if ($driver == "mysql" || $driver == "mysqli") {
+            $randomfunction = '';
+            if (in_array($driver, array('mysql', 'mysqli'))) {
                 $driver = 'pdo_mysql';
-                $randomfunction = "RAND()";
+                $randomfunction = 'RAND()';
             }
-            if ($driver == "postgres" || $driver == "postgresql") {
+            if (in_array($driver, array('postgres', 'postgresql'))) {
                 $driver = 'pdo_pgsql';
-                $randomfunction = "RANDOM()";
+                $randomfunction = 'RANDOM()';
             }
 
             $dboptions = array(
-                'driver' => $driver,
-                'host' => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
-                'dbname' => $configdb['databasename'],
-                'user' => $configdb['username'],
-                'password' => $configdb['password'],
+                'driver'         => $driver,
+                'host'           => (isset($configdb['host']) ? $configdb['host'] : 'localhost'),
+                'dbname'         => $configdb['databasename'],
+                'user'           => $configdb['username'],
+                'password'       => $configdb['password'],
                 'randomfunction' => $randomfunction
             );
-            if (!isset($configdb['charset'])) {
-                $dboptions['charset'] = 'utf8';
-            } else {
-                $dboptions['charset'] = $configdb['charset'];
-            }
 
+            $dboptions['charset'] = isset($configdb['charset'])
+                ? $configdb['charset']
+                : 'utf8';
         }
 
         switch ($dboptions['driver']) {
@@ -652,55 +638,54 @@ class Config
                 $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '3306';
                 $dboptions['reservedwords'] = explode(
                     ',',
-                    "accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between," .
-                    "bigint,binary,blob,both,by,call,cascade,case,change,char,character,check,collate,column,condition,constraint," .
-                    "continue,convert,create,cross,current_date,current_time,current_timestamp,current_user,cursor,database,databases," .
-                    "day_hour,day_microsecond,day_minute,day_second,dec,decimal,declare,default,delayed,delete,desc,describe," .
-                    "deterministic,distinct,distinctrow,div,double,drop,dual,each,else,elseif,enclosed,escaped,exists,exit,explain," .
-                    "false,fetch,float,float4,float8,for,force,foreign,from,fulltext,get,grant,group,having,high_priority,hour_microsecond," .
-                    "hour_minute,hour_second,if,ignore,in,index,infile,inner,inout,insensitive,insert,int,int1,int2,int3,int4,int8," .
-                    "integer,interval,into,io_after_gtids,io_before_gtids,is,iterate,join,key,keys,kill,leading,leave,left,like,limit," .
-                    "linear,lines,load,localtime,localtimestamp,lock,long,longblob,longtext,loop,low_priority,master_bind," .
-                    "master_ssl_verify_server_cert,match,maxvalue,mediumblob,mediumint,mediumtext,middleint,minute_microsecond," .
-                    "minute_second,mod,modifies,natural,nonblocking,not,no_write_to_binlog,null,numeric,on,optimize,option,optionally," .
-                    "or,order,out,outer,outfile,partition,precision,primary,procedure,purge,range,read,reads,read_write,real,references," .
-                    "regexp,release,rename,repeat,replace,require,resignal,restrict,return,revoke,right,rlike,schema,schemas," .
-                    "second_microsecond,select,sensitive,separator,set,show,signal,smallint,spatial,specific,sql,sqlexception,sqlstate," .
-                    "sqlwarning,sql_big_result,sql_calc_found_rows,sql_small_result,ssl,starting,straight_join,table,terminated,then," .
-                    "tinyblob,tinyint,tinytext,to,trailing,trigger,true,undo,union,unique,unlock,unsigned,update,usage,use,using,utc_date," .
-                    "utc_time,utc_timestamp,values,varbinary,varchar,varcharacter,varying,when,where,while,with,write,xor,year_month," .
-                    "zerofill,nonblocking"
+                    'accessible,add,all,alter,analyze,and,as,asc,asensitive,before,between,' .
+                    'bigint,binary,blob,both,by,call,cascade,case,change,char,character,check,collate,column,condition,constraint,' .
+                    'continue,convert,create,cross,current_date,current_time,current_timestamp,current_user,cursor,database,databases,' .
+                    'day_hour,day_microsecond,day_minute,day_second,dec,decimal,declare,default,delayed,delete,desc,describe,' .
+                    'deterministic,distinct,distinctrow,div,double,drop,dual,each,else,elseif,enclosed,escaped,exists,exit,explain,' .
+                    'false,fetch,float,float4,float8,for,force,foreign,from,fulltext,get,grant,group,having,high_priority,hour_microsecond,' .
+                    'hour_minute,hour_second,if,ignore,in,index,infile,inner,inout,insensitive,insert,int,int1,int2,int3,int4,int8,' .
+                    'integer,interval,into,io_after_gtids,io_before_gtids,is,iterate,join,key,keys,kill,leading,leave,left,like,limit,' .
+                    'linear,lines,load,localtime,localtimestamp,lock,long,longblob,longtext,loop,low_priority,master_bind,' .
+                    'master_ssl_verify_server_cert,match,maxvalue,mediumblob,mediumint,mediumtext,middleint,minute_microsecond,' .
+                    'minute_second,mod,modifies,natural,nonblocking,not,no_write_to_binlog,null,numeric,on,optimize,option,optionally,' .
+                    'or,order,out,outer,outfile,partition,precision,primary,procedure,purge,range,read,reads,read_write,real,references,' .
+                    'regexp,release,rename,repeat,replace,require,resignal,restrict,return,revoke,right,rlike,schema,schemas,' .
+                    'second_microsecond,select,sensitive,separator,set,show,signal,smallint,spatial,specific,sql,sqlexception,sqlstate,' .
+                    'sqlwarning,sql_big_result,sql_calc_found_rows,sql_small_result,ssl,starting,straight_join,table,terminated,then,' .
+                    'tinyblob,tinyint,tinytext,to,trailing,trigger,true,undo,union,unique,unlock,unsigned,update,usage,use,using,utc_date,' .
+                    'utc_time,utc_timestamp,values,varbinary,varchar,varcharacter,varying,when,where,while,with,write,xor,year_month,' .
+                    'zerofill,nonblocking'
                 );
                 break;
             case 'pdo_sqlite':
                 $dboptions['reservedwords'] = explode(
                     ',',
-                    "abort,action,add,after,all,alter,analyze,and,as,asc,attach,autoincrement," .
-                    "before,begin,between,by,cascade,case,cast,check,collate,column,commit,conflict,constraint,create,cross,current_date," .
-                    "current_time,current_timestamp,database,default,deferrable,deferred,delete,desc,detach,distinct,drop,each,else,end," .
-                    "escape,except,exclusive,exists,explain,fail,for,foreign,from,full,glob,group,having,if,ignore,immediate,in,index," .
-                    "indexed,initially,inner,insert,instead,intersect,into,is,isnull,join,key,left,like,limit,match,natural,no,not," .
-                    "notnull,null,of,offset,on,or,order,outer,plan,pragma,primary,query,raise,references,regexp,reindex,release,rename," .
-                    "replace,restrict,right,rollback"
+                    'abort,action,add,after,all,alter,analyze,and,as,asc,attach,autoincrement,' .
+                    'before,begin,between,by,cascade,case,cast,check,collate,column,commit,conflict,constraint,create,cross,current_date,' .
+                    'current_time,current_timestamp,database,default,deferrable,deferred,delete,desc,detach,distinct,drop,each,else,end,' .
+                    'escape,except,exclusive,exists,explain,fail,for,foreign,from,full,glob,group,having,if,ignore,immediate,in,index,' .
+                    'indexed,initially,inner,insert,instead,intersect,into,is,isnull,join,key,left,like,limit,match,natural,no,not,' .
+                    'notnull,null,of,offset,on,or,order,outer,plan,pragma,primary,query,raise,references,regexp,reindex,release,rename,' .
+                    'replace,restrict,right,rollback'
                 );
                 break;
             case 'pdo_pgsql':
                 $dboptions['port'] = isset($configdb['port']) ? $configdb['port'] : '5432';
                 $dboptions['reservedwords'] = explode(
                     ',',
-                    "all,analyse,analyze,and,any,as,asc,authorization,between,bigint,binary,bit," .
-                    "boolean,both,case,cast,char,character,check,coalesce,collate,column,constraint,convert,create,cross,current_date," .
-                    "current_time,current_timestamp,current_user,dec,decimal,default,deferrable,desc,distinct,do,else,end,except,exists," .
-                    "extract,float,for,foreign,freeze,from,full,grant,group,having,ilike,in,initially,inner,int,integer,intersect,interval," .
-                    "into,is,isnull,join,leading,left,like,limit,localtime,localtimestamp,natural,nchar,new,none,not,notnull,null,nullif," .
-                    "numeric,off,offset,old,on,only,or,order,outer,overlaps,overlay,placing,position,primary,real,references,right,row," .
-                    "select,session_user,setof,similar,smallint,some,substring,table,then,time,timestamp,to,trailing,treat,trim,union," .
-                    "unique,user,using,varchar,verbose,when,where,false,true"
+                    'all,analyse,analyze,and,any,as,asc,authorization,between,bigint,binary,bit,' .
+                    'boolean,both,case,cast,char,character,check,coalesce,collate,column,constraint,convert,create,cross,current_date,' .
+                    'current_time,current_timestamp,current_user,dec,decimal,default,deferrable,desc,distinct,do,else,end,except,exists,' .
+                    'extract,float,for,foreign,freeze,from,full,grant,group,having,ilike,in,initially,inner,int,integer,intersect,interval,' .
+                    'into,is,isnull,join,leading,left,like,limit,localtime,localtimestamp,natural,nchar,new,none,not,notnull,null,nullif,' .
+                    'numeric,off,offset,old,on,only,or,order,outer,overlaps,overlay,placing,position,primary,real,references,right,row,' .
+                    'select,session_user,setof,similar,smallint,some,substring,table,then,time,timestamp,to,trailing,treat,trim,union,' .
+                    'unique,user,using,varchar,verbose,when,where,false,true'
                 );
         }
 
         return $dboptions;
-
     }
 
     /**
@@ -709,37 +694,35 @@ class Config
      * @param  string $mountpoint
      * @return string
      */
-    public function getWhichEnd($mountpoint = "")
+    public function getWhichEnd($mountpoint = '')
     {
-
         if (empty($mountpoint)) {
             $mountpoint = $this->get('general/branding/path');
         }
 
-        if (!empty($_SERVER['REQUEST_URI'])) {
-
-            // Set scriptname, take care of odd '/./' in the SCRIPT_NAME, which lightspeed does.
-            $scriptname = str_replace('/./', '/', $_SERVER['SCRIPT_NAME']);
-
-            // Get the script's filename, but _without_ REQUEST_URI. We need to str_replace the slashes, because of a
-            // weird quirk in dirname on windows: http://nl1.php.net/dirname#refsect1-function.dirname-notes
-            $scriptdirname = "#" . str_replace("\\", "/", dirname($scriptname));
-            $scripturi = str_replace($scriptdirname, '', "#" . $_SERVER['REQUEST_URI']);
-            // make sure it starts with '/', like our mountpoint.
-            if (empty($scripturi) || ($scripturi[0] != "/")) {
-                $scripturi = "/" . $scripturi;
-            }
-        } else {
+        if (empty($_SERVER['REQUEST_URI'])) {
             // We're probably in CLI mode.
-            $this->app['end'] = "cli";
+            $this->app['end'] = 'cli';
 
-            return "cli";
+            return 'cli';
+        }
+
+        // Set scriptname, take care of odd '/./' in the SCRIPT_NAME, which lightspeed does.
+        $scriptname = str_replace('/./', '/', $_SERVER['SCRIPT_NAME']);
+
+        // Get the script's filename, but _without_ REQUEST_URI. We need to str_replace the slashes, because of a
+        // weird quirk in dirname on windows: http://nl1.php.net/dirname#refsect1-function.dirname-notes
+        $scriptdirname = '#' . str_replace("\\", "/", dirname($scriptname));
+        $scripturi = str_replace($scriptdirname, '', '#' . $_SERVER['REQUEST_URI']);
+        // make sure it starts with '/', like our mountpoint.
+        if (empty($scripturi) || ($scripturi[0] != '/')) {
+            $scripturi = '/' . $scripturi;
         }
 
         // If the request URI starts with '/bolt' or '/async' in the URL, we assume we're in the backend or in async.
         if ((substr($scripturi, 0, strlen($mountpoint)) == $mountpoint)) {
             $end = 'backend';
-        } elseif ((substr($scripturi, 0, 6) == "async/") || (strpos($scripturi, "/async/") !== false)) {
+        } elseif ((substr($scripturi, 0, 6) == 'async/') || (strpos($scripturi, '/async/') !== false)) {
             $end = 'async';
         } else {
             $end = 'frontend';
@@ -748,6 +731,5 @@ class Config
         $this->app['end'] = $end;
 
         return $end;
-
     }
 }
