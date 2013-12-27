@@ -23,7 +23,7 @@ locale: en_GB
 # Set maintenance mode true or false
 # While in maintenance mode, only users of level editor or higher can access the site.
 # All other visitors are presented with a notice that the site is currently offline.
-# The default template file can be found in /app/theme_defaults/ and overriden with
+# The default template file can be found in /app/theme_defaults/ and overridden with
 # this option using your own theme.
 maintenance_mode: false
 maintenance_template: maintenance_default.twig
@@ -145,7 +145,7 @@ strict_variables: false
 # etc in the Wysiwyg areas. But, as you give them more options, that means they also have
 # more ways of breaking the preciously designed layout. By default the most 'dangerous'
 # options are set to 'false'. If you choose to enable them for your editors, please
-# instruct them thoroughly on their responsibilty not to break the layout.
+# instruct them thoroughly on their responsibility not to break the layout.
 wysiwyg:
   images: true
   anchor: false
