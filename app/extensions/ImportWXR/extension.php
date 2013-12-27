@@ -40,7 +40,7 @@ class Extension extends \Bolt\BaseExtension
         $this->path = $this->app['paths']['bolt'] . 'importwxr';
 
         // Add the controller, so it can be matched.
-        $this->app->match($this->path, array($this, 'importwxr'));
+        $this->app->match($this->app['config']->get('general/branding/path') . '/importwxr', array($this, 'importwxr'));
 
         // Add the menu-option. Only show it to users who have 'dashboard' permission
         $this->addMenuOption('Import WXR', $this->path, 'icon-list', 'extensions');
