@@ -13,7 +13,6 @@ use Whoops\Provider\Silex\WhoopsServiceProvider;
 
 class Application extends Silex\Application
 {
-
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '1.4.0';
