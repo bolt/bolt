@@ -55,7 +55,7 @@
                     {% for slug, contenttype in app.config.get('contenttypes') %}
                         {% if isallowed('contenttype:' ~ slug) and not contenttype.showinmenu %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                <i class="icon-tasks"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
+                                <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-tasks{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             {% if loop.length < 5 %}
                                 {% if isallowed('contenttype:' ~ slug ~ ':create') %}
                                 <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
