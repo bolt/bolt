@@ -13,7 +13,6 @@
                 </tr>
             {% endif %}
 
-
             {# print the header for the first row.. #}
             {% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup)) %}
                 {% set lastgroup = content.group.name|default %}
@@ -26,6 +25,10 @@
                 {% set link = "?" ~ filter ~ "order=" %}
                 <tr>
                     {% block listing_header %}
+                    {% if not compact and editable %}<th class="check hide-phone">
+                        <input type="checkbox" name="checkRow" title="{{ __('Choose all') }}" />
+                        <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
+
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
                     <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>
@@ -40,10 +43,10 @@
                 </tr>
             {% endif %}
 
-
-            <tr {% if content.status!='published' %}class="dim"{% endif %}>
-
+            {% set token = token() %}
+            <tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}" data-token="{{ token }}" data-contenttype="{{ content.contenttype.slug }}">
                 {% block listing_id %}
+                    {% if not compact and editable %}<td class='check hide-phone'>{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
                     <td class='id hide-phone'>№ {{content.id}}</td>
                 {% endblock %}
 
@@ -128,7 +131,7 @@
                                     <i class="icon-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 {% if isallowed('delete', content) %}
-                                <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token() }) }}"
+                                <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token }) }}"
                                        data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
                                     <i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}

@@ -51,6 +51,12 @@
         {% endfor %}
     </table>
 
+    {% if isallowed('delete', subcontenttype) %}
+    <div class="btn-group">
+        <a href="#" class="btn deletechoosen showifchoosen" style="display:none;"><i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': subcontenttype.name}) }}</a>
+    </div>
+    {% endif %}
+
     {{ pager() }}
 
     </div><!-- /span9 -->
