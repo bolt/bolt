@@ -141,7 +141,7 @@
 
             {# View site #}
             <li>
-                <a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>
+                {% if content.link %}<a href="{{ content.link }}" target="_blank"><i class="icon-external-link"></i> {{ __('View %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a>{% else %}<a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>{{ paths.root }}{% endif %}
             </li>
 
             <li class="divider-vertical"></li>
