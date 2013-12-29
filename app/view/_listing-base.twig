@@ -51,15 +51,15 @@
                     <td class='excerpt {% if not compact %}large{% endif %}'><span>
                         <strong class="show-phone">№ {{content.id}}. </strong>
                         <strong>
-                            {% if editable %}
-                            <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                                {{content.getTitle}}
-                            </a>
+                            {% if content.relation  %}
+                                <a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                                    {{content.getTitle}}
+                                </a>
                             {% else %}
-                            <strong>
-                                {{content.getTitle}}
-                            </strong>
-                            {% endif %}
+                                 <strong>
+                                    {{content.getTitle}}
+                                </strong>
+                             {% endif %}
                         </strong>
                         {{ content.excerpt(excerptlength) }}
                                     </span></td>

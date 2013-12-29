@@ -1,0 +1,90 @@
+{% include '_header.twig' with { 'active':'content' } %}
+
+<div class="row-fluid">
+    <div class="span9">
+
+        <h1>
+            {{ title|raw }}
+            <span>{% if pager is defined and pager.totalpages > 1 %}
+                {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
+            {%endif %}</span>
+        </h1>
+
+        {# Toolbar for related contenttypes #}
+        {% if id %}
+
+            <div class="btn-toolbar semi-block align-left" style="margin-bottom:25px;">
+                <div class="btn-group">
+                    {% for slug, gcontenttype in app.config.get('contenttypes') %}
+
+                        {% if gcontenttype.relations.pages  %}
+                            # set default subcontenttype
+                            {% if subcontenttype.slug is null and defaultsubcontenttype is null %}
+                                {% set defaultsubcontenttype = slug %}
+                                {% set subcontenttype = app.config.get('contenttypes')[defaultsubcontenttype] %}
+                            {% endif %}
+                            <a class="btn{% if gcontenttype.slug==subcontenttype.slug %} active{% endif %}" href="{{ path('relatedto', { 'contenttypeslug': contenttype.slug, 'id': id }) }}?show={{ gcontenttype.slug }}">{{ gcontenttype.name }}</a>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% set multiplecontent = content.related(subcontenttype.slug) %}
+        {% endif %}
+
+        {% set lastgroup = "----" %}
+
+    <table class='dashboardlisting'>
+
+        {% for content in multiplecontent %}
+
+
+            {% set editable = isallowed('edit', content) %}
+            {% include ['custom/listing/'~contenttype.name|lower~'.twig', '_sub_listing.twig'] with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
+            {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+                {% set lastgroup = content.group.name %}
+            {% endif %}
+
+        {% else %}
+            {{ __('No %contenttypes% available.', {'%contenttypes%':contenttype.name}) }}
+        {% endfor %}
+    </table>
+
+    {{ pager() }}
+
+    </div><!-- /span9 -->
+
+    <aside class="span3">
+
+    <section>
+        <h2>{{__('Actions for %contenttypes%',{'%contenttypes%':subcontenttype.name})}}:</h2>
+
+        <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': subcontenttype.slug, 'id': '', 'relation': contenttype.slug, 'relationid': content.id }) }}">
+            <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': subcontenttype.singular_name}) }}
+        </a>
+        {% if request('filter') or request('order') %}
+        <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
+        {% endif %}
+
+        <h2>{{ __('Filtering:') }}</h2>
+
+        <form class="form-inline">
+          <input type="hidden" value="{{ request('show', '', true) }}" name="show">
+          <input type="text" class="input-small" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;">
+          <button type="submit" class="btn">{{ __('Filter') }}</button>
+              {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
+        </form>
+
+
+    </section>
+
+    {{ render(path("lastmodified", {"contenttypeslug": subcontenttype.slug} )) }}
+
+    {{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}
+
+    </aside>
+</div>
+
+
+{% include '_footer.twig' %}

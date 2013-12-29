@@ -68,6 +68,11 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('overview');
 
+        $ctl->get("/relatedto/{contenttypeslug}/{id}", array($this, 'relatedto'))
+            ->before(array($this, 'before'))
+            ->assert('id', '\d*')
+            ->bind('relatedto');
+
         $ctl->match("/editcontent/{contenttypeslug}/{id}", array($this, 'editcontent'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
@@ -448,6 +453,57 @@ class Backend implements ControllerProviderInterface
         return $app['render']->render(
             'overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
+        );
+
+    }
+
+    /**
+     * Get related Entries @todo
+     */
+    public function relatedto($contenttypeslug, $id, Silex\Application $app, Request $request)
+    {
+        // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
+        // for Editors.
+        if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+
+            return redirect('dashboard');
+        }
+
+        // Get Contenttype config from $contenttypeslug
+        $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        // Get Contenttype config from GET param ?show=pages
+        $subcontenttype = $app['storage']->getContentType($request->get('show')?$request->get('show'):'');
+
+        $order = $app['request']->query->get('order', '');
+        $filter = $app['request']->query->get('filter');
+
+        // Set the amount of items to show per page.
+        if (!empty($contenttype['recordsperpage'])) {
+            $limit = $contenttype['recordsperpage'];
+        } else {
+            $limit = $app['config']->get('general/recordsperpage');
+        }
+
+        // @todo: Get related Content from current Entry an return it as $multiplecontent
+        /*
+        $multiplecontent = $app['storage']->getRelation($subcontenttype['slug']);
+
+        $multiplecontent = $app['storage']->getContent($subcontenttype['slug'],
+            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter));
+        */
+
+        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+
+        // @todo Do we need pager here?
+        $app['pager'] = $pager;
+
+        $title = sprintf("%s » %s » %s", __('Related content'), __($contenttype['singular_name']) , $content['title']);
+        $app['twig']->addGlobal('title', $title);
+
+        return $app['twig']->render('relatedto.twig',
+            array('contenttype' => $contenttype, 'content' => $content, 'id' => $id, 'subcontenttype' => $subcontenttype)
         );
 
     }
