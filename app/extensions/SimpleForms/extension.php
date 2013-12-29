@@ -72,6 +72,11 @@ class Extension extends \Bolt\BaseExtension
             $this->config['stylesheet'] = "";
         }
 
+        // Make sure CSRF is set, unless disabled on purpose
+        if (!isset($this->config['csrf'])) {
+            $this->config['csrf'] = true;
+        }
+
         // Set the button text.
         if (empty($this->config['button_text'])) {
             $this->config['button_text'] = "Send";
@@ -126,11 +131,16 @@ class Extension extends \Bolt\BaseExtension
         $error = "";
         $sent = false;
 
-        $form = $this->app['form.factory']->createBuilder('form');
+        $form = $this->app['form.factory']->createBuilder('form', null, array('csrf_protection' => $this->config['csrf']));
 
         foreach ($formconfig['fields'] as $name => $field) {
 
             $options = array();
+
+            if ($field['type'] == "ip" || $field['type'] == "timestamp") {
+                // we're storing IP and timestamp later.
+                continue;
+            }
 
             if (!empty($field['label'])) {
                 $options['label'] = $field['label'];
@@ -227,9 +237,9 @@ class Extension extends \Bolt\BaseExtension
                 $isRecaptchaValid = false; // by Default
 
                 $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
-                                    $_SERVER["REMOTE_ADDR"],
-                                    $_POST["recaptcha_challenge_field"],
-                                    $_POST["recaptcha_response_field"]);
+                    $this->getRemoteAddress(),
+                    $_POST["recaptcha_challenge_field"],
+                    $_POST["recaptcha_response_field"]);
 
                 $isRecaptchaValid = $resp->is_valid;
             }
@@ -363,6 +373,15 @@ class Extension extends \Bolt\BaseExtension
                 $data[$fieldname] = $data[$fieldname]->format($format);
             }
 
+            if ($fieldvalues['type'] == "ip") {
+                $data[$fieldname] = $this->getRemoteAddress();
+            }
+
+            if ($fieldvalues['type'] == "timestamp") {
+                $format = "%F %T";
+                $data[$fieldname] = strftime($format);
+            }
+
         }
 
         // Attempt to insert the data into a table, if specified..
@@ -474,6 +493,29 @@ class Extension extends \Bolt\BaseExtension
         }
 
         return $res;
+
+    }
+
+    /**
+     * Get the user's IP-address for logging, even if they're behind a non-trusted proxy.
+     * Note: these addresses can't be 'trusted', Use them for logging only.
+     *
+     * @return string
+     */
+    private function getRemoteAddress()
+    {
+
+        $server = $this->app['request']->server;
+
+        if ($server->has('HTTP_CLIENT_IP')) {
+            $addr = $server->get('HTTP_CLIENT_IP');
+        } else if ($server->has('HTTP_X_FORWARDED_FOR')) {
+            $addr = $server->get('HTTP_X_FORWARDED_FOR');
+        } else {
+            $addr = $server->get('REMOTE_ADDR');
+        }
+
+        return $addr;
 
     }
 

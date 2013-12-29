@@ -198,6 +198,9 @@ class Storage
                 case 'date':
                     $content[$field] = date('Y-m-d', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60));
                     break;
+                case 'checkbox':
+                    $content[$field] = rand(0,1);
+                    break;                
                 case 'float':
                 case 'number': // number is deprecated..
                 case 'integer':
@@ -623,7 +626,7 @@ class Storage
                 }
             }
 
-            if ($values['type'] == "imagelist") {
+            if (in_array($values['type'], array("imagelist", "filelist")))  {
 
                 if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
                     // Don't store '[]'
@@ -766,16 +769,18 @@ class Storage
 
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        $this->logUpdate($contenttype, $content['id'], $content);
-
+        // Keep datecreated around, for when we might need to 'insert' instead of 'update' after all
+        $datecreated = $content['datecreated'];
         unset($content['datecreated']);
 
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
         if ($res == true) {
+            $this->logUpdate($contenttype, $content['id'], $content);
             return true;
         } else {
             // Attempt to _insert_ it, instead of updating..
+            $content['datecreated'] = $datecreated;
             return $this->app['db']->insert($tablename, $content);
         }
 
@@ -1031,7 +1036,6 @@ class Storage
 
     public function searchAllContentTypes(array $parameters = array(), &$pager = array())
     {
-        //return $this->searchContentTypes($this->getContentTypes(), $parameters, $pager);
         // Note: we can only apply this kind of results aggregating when we don't
         // use LIMIT and OFFSET! If we'd want to use it, this should be rewritten.
         // Results aggregator
@@ -1141,6 +1145,8 @@ class Storage
             $content[$row['id']] = $this->getContentObject($contenttype, $row);
         }
 
+        // TODO: Check if we need to hydrate here!
+
         // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
         $this->getRelation($content);
@@ -1158,129 +1164,6 @@ class Storage
 
         // @todo Need to rewrite pager-code to make the pager work properly
         return $content;
-    }
-
-    public function searchContentTypes(array $contenttypenames, array $parameters = array(), &$pager = array())
-    {
-        // Set $parameters['filter'] with $terms.
-        // Perhaps do something smart with $terms as well
-
-        // @todo Parse $terms to an acceptable search string for the database.
-
-        $tables = array();
-        foreach ($contenttypenames as $contenttypename) {
-            $contenttypetable = $this->getTablename($contenttypename);
-            $tables [] = $contenttypetable;
-
-            $contenttype = $this->app['config']->get('contenttypes/' . $contenttypename);
-
-            // for all the non-reserved parameters that are fields, we assume people want to do a 'where'
-            foreach ($parameters as $key => $value) {
-                if (in_array($key, array('order', 'where', 'limit', 'offset'))) {
-                    continue; // Skip this one..
-                }
-                if (!in_array($key, $this->getContentTypeFields($contenttype['slug'])) &&
-                    !in_array($key, Content::getBaseColumns())
-                ) {
-                    continue; // Also skip if 'key' isn't a field in the contenttype.
-                }
-
-                $where[] = $this->parseWhereParameter($key, $value);
-
-            }
-
-            // @todo update with nice search string
-            // If we need to filter, add the WHERE for that.
-            // Meh, InnoDB doesn't support full text search.
-            if (!empty($parameters['filter'])) {
-
-                $filter = $this->app['db']->quote($parameters['filter']);
-
-                $filter_where = array();
-
-                foreach ($contenttype['fields'] as $key => $value) {
-                    if (in_array($value['type'], array('text', 'textarea', 'html', 'markdown'))) {
-                        $filter_where[] = sprintf("%s.%s LIKE '%%%s%%'", $contenttypetable, $key, $filter);
-                    }
-                }
-
-                if (!empty($filter_where)) {
-                    $where[] = "(" . implode(" OR ", $filter_where) . ")";
-                }
-
-            }
-        }
-
-        // @todo This is preparation for stage 2..
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 100;
-        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
-
-        // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
-            $page = $this->app['request']->get('page', $page);
-        }
-
-        $tablename = implode(", ", $tables);
-
-        $queryparams = "";
-
-        // implode 'where'
-        if (!empty($where)) {
-            $queryparams .= " WHERE (" . implode(" AND ", $where) . ")";
-        }
-
-        // Order, with a special case for 'RANDOM'.
-        if (!empty($parameters['order'])) {
-            if ($parameters['order'] == "RANDOM") {
-                $dboptions = $this->app['config']->getDBOptions();
-                $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
-            } else {
-                $order = safeString($parameters['order']);
-                if ($order[0] == "-") {
-                    $order = substr($order, 1) . " DESC";
-                }
-                $queryparams .= " ORDER BY " . $order;
-            }
-        }
-
-        // Make the query for the pager..
-        $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $queryparams;
-
-        // Add the limit
-        $queryparams = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($queryparams, $limit, ($page - 1) * $limit);
-
-        // Make the query to get the results..
-        $query = "SELECT * FROM $tablename" . $queryparams;
-
-        $rows = $this->app['db']->fetchAll($query);
-
-        // Make sure content is set, and all content has information about its contenttype
-        $content = array();
-        foreach ($rows as $row) {
-            // @todo Make sure contenttype is set properly..
-            $content[$row['id']] = $this->getContentObject('', $row);
-        }
-
-        // Make sure all content has their taxonomies and relations
-        $this->getTaxonomy($content);
-        $this->getRelation($content);
-
-        // Set up the $pager array with relevant values..
-        $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
-        $pager = array(
-            'for' => 'search',
-            'count' => $rowcount['count'],
-            'totalpages' => ceil($rowcount['count'] / $limit),
-            'current' => $page,
-            'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to' => ($page - 1) * $limit + count($content)
-        );
-
-        //$GLOBALS['pager'][$contenttypeslug] = $pager;
-        $GLOBALS['pager']['search'] = $pager;
-
-        return $content;
-
     }
 
     /**
@@ -1314,6 +1197,11 @@ class Storage
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);
+
+        if (!empty($parameters['printquery'])) {
+            // @todo formalize this
+            echo nl2br(htmlentities($query));
+        }
 
         $content = array();
 
@@ -1712,6 +1600,7 @@ class Storage
             'order_callback' => false,
             'queries' => array(),
             'parameters' => array(),
+            'hydrate' => true,
         );
         /*
         echo '<pre>decodeContentQuery before:';
@@ -1857,6 +1746,11 @@ class Storage
             }
 
             $decoded['queries'][] = $query;
+
+            if (isset($in_parameters['hydrate'])) {
+                $decoded['hydrate'] = $in_parameters['hydrate'];
+            }
+
         }
 
         return $decoded;
@@ -1972,13 +1866,16 @@ class Storage
 
             $rows = $this->app['db']->fetchAll($statement, $query['params']);
 
-            $subresults = $this->hydrateRows($query['contenttype'], $rows);
+            // Only get the Taxonomies and Relations if we have to.
+            if ($decoded['hydrate']) {
+                $rows = $this->hydrateRows($query['contenttype'], $rows);
+            }
 
             if ($results === false) {
-                $results = $subresults;
+                $results = $rows;
             } else {
                 // We can no longer maintain keys when merging subresults
-                $results = array_merge($results, array_values($subresults));
+                $results = array_merge($results, array_values($rows));
             }
         }
 
@@ -2170,38 +2067,6 @@ class Storage
     }
 
 
-    /**
-     * Get the parameter for the 'order by' part of a query.
-     *
-     * @param  array $parameters
-     * @param  array $contenttype
-     * @return string
-     */
-    private function queryParamOrder($parameters, $contenttype)
-    {
-        if (empty($parameters['order'])) {
-            if ($this->isValidColumn($contenttype['sort'], $contenttype, true)) {
-                $order = $this->getEscapedSortorder($contenttype['sort']);
-            }
-        } else {
-            $parameters['order'] = safeString($parameters['order']);
-            if ($parameters['order'] == "RANDOM") {
-                $dboptions = $this->app['config']->getDBOptions();
-                $order = $dboptions['randomfunction'];
-            } elseif ($this->isValidColumn($parameters['order'], $contenttype, true)) {
-                $order = $this->getEscapedSortorder($parameters['order']);
-            }
-        }
-
-        if (!empty($order)) {
-            $param = " ORDER BY " . $order;
-        } else {
-            $param = sprintf(" ORDER BY %s.datepublish DESC", $this->app['db']->quoteIdentifier('r'));
-        }
-
-        return $param;
-
-    }
 
     /**
      * Helper function for sorting Records of content that have a Grouping.

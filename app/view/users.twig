@@ -9,7 +9,6 @@
             <tr>
                 <th>#</th>
                 <th>{{ __('Username') }}</th>
-                <th>{{ __('Level') }}</th>
                 <th>{{ __('Last seen') }}</th>
                 <th>{{ __('Roles') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -20,7 +19,6 @@
                     <td class='id'>№ {{user.id}}</td>
 
                     <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
-                    <td>{{ userlevels[user.userlevel] }} </td>
                     <td>
                         {% if user.lastseen|date('Y') > "1901" %}
                             <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
@@ -29,8 +27,8 @@
                         {% endif %}
                     </td>
                     <td class='contenttypes'>
-                        {% if user.contenttypes|length == app.config.get('contenttypes')|length %}
-                            <em>{{ __('all') }}</em>
+                        {% if 'root' in user.roles %}
+                            <strong><em>root</em></strong>
                         {% else %}
                             {{ user.roles|join(", ") }}
                         {% endif %}
@@ -67,7 +65,7 @@
 
         <h2><strong>{{ __("Roles and Permissions") }}</strong></h2>
 
-        <p>The settings for roles and permissions are stored in <code>permissions.yml</code>.</p>
+        <p>{{ __('The settings for roles and permissions are stored in %permissions%.', {'%permissions%': '<code>permissions.yml</code>'}) }}</p>
         <a class="btn btn-small" href="{{ path('fileedit', { 'file': 'app/config/permissions.yml'}) }}">{{ __("Roles and Permissions") }}</a>
 
         <h2><strong>{{ __("Current sessions") }}</strong></h2>

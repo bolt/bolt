@@ -712,7 +712,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('slug', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
-            $content->setValue('datedepublish', "");
+            $content->setValue('datedepublish', "1900-01-01 00:00:00");
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $content->setValue('ownerid', "");
@@ -845,7 +845,10 @@ class Backend implements ControllerProviderInterface
             $title = "<strong>" . __('Create a new user') . "</strong>";
         }
 
-        $enabledoptions = array(1 => 'yes', 0 => 'no');
+        $enabledoptions = array(
+            1 => __('yes'),
+            0 => __('no')
+        );
         $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
         $allRoles = $app['permissions']->getDefinedRoles($app);
         $roles = array();
@@ -1325,7 +1328,7 @@ class Backend implements ControllerProviderInterface
             // no gathering here : if the file doesn't exist yet, we load a
             // copy from the locale_fallback version (en)
             if (!file_exists($filename) || filesize($filename) < 10) {
-                $srcfile = "app/resources/translations/$locale_fb/$domain.en.$type";
+                $srcfile = "app/resources/translations/en/$domain.en.$type";
                 $srcfilename = realpath(__DIR__ . "/../../../..") . "/$srcfile";
                 $content = file_get_contents($srcfilename);
             } else {

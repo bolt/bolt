@@ -354,7 +354,7 @@ class IntegrityChecker
         $authtokenTable->addColumn("id", "integer", array('autoincrement' => true));
         $authtokenTable->setPrimaryKey(array("id"));
         // TODO: addColumn("userid"...), phase out referencing users by username
-        $authtokenTable->addColumn("username", "string", array("length" => 32));
+        $authtokenTable->addColumn("username", "string", array("length" => 32, "default" => ""));
         $authtokenTable->addIndex(array('username'));
         $authtokenTable->addColumn("token", "string", array("length" => 128));
         $authtokenTable->addColumn("salt", "string", array("length" => 128));
@@ -382,7 +382,7 @@ class IntegrityChecker
         $usersTable->addColumn("shadowvalidity", "datetime", array("default" => "1900-01-01 00:00:00"));
         $usersTable->addColumn("failedlogins", "integer", array("default" => 0));
         $usersTable->addColumn("throttleduntil", "datetime", array("default" => "1900-01-01 00:00:00"));
-        $usersTable->addColumn("roles", "text", array());
+        $usersTable->addColumn("roles", "text", array("default" => ""));
         $tables[] = $usersTable;
 
         $taxonomyTable = $schema->createTable($this->prefix."taxonomy");
@@ -495,6 +495,7 @@ class IntegrityChecker
             $myTable->addIndex(array('datepublish'));
             $myTable->addColumn("datedepublish", "datetime", array("default" => "1900-01-01 00:00:00"));
             $myTable->addIndex(array('datedepublish'));
+            $myTable->addColumn("username", "string", array("length" => 32, "default" => "", "notnull" => false)); // We need to keep this around for backward compatibility. For now.
             $myTable->addColumn("ownerid", "integer", array("notnull" => false));
             $myTable->addColumn("status", "string", array("length" => 32));
             $myTable->addIndex(array('status'));
@@ -536,6 +537,7 @@ class IntegrityChecker
                     case 'video':
                     case 'markdown':
                     case 'geolocation':
+                    case 'filelist':
                     case 'imagelist':
                     case 'select':
                         $myTable->addColumn($field, "text", array("default" => $this->textDefault));

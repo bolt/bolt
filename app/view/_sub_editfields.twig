@@ -410,6 +410,54 @@
 
 {% endif %}
 
+
+{# --------------- filelist --------------- #}
+
+{% if field.type == "filelist" %}
+<label>
+    <b>
+        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
+    </b>
+    <span class="label info-pop"
+          data-html="true"
+          data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+          data-content="{{ app.translator.trans('info.upload.filelist',{},'infos') }}">
+          {{ __('Info') }}
+    </span>
+</label>
+<div class="filelistholder dropzone" id="filelist-{{key}}">
+    <div class="list"></div>
+    <div class="buttons">
+        <span class="btn btn-info fileinput-button"
+              style="margin-bottom: 8px;">
+
+            <i class="icon-upload"></i>
+            <span>{{ __('Upload files') }}</span>
+            <input id="fileupload-{{key}}"
+                   type="file"
+                   name="fileupload-{{key}}[]"
+                   data-url="{{ paths.app }}classes/upload/">
+        </span>
+    </div>
+    <textarea name="{{key}}"
+              id="{{key}}"
+              class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+</div>
+<div class='clearfix'></div>
+
+<script type="text/javascript">
+    $(function() {
+
+        if(typeof filelist == "undefined") {
+            filelist = [];
+        }
+
+        filelist['{{ key }}'] = new FilelistHolder({id: '{{key}}'});
+    });
+</script>
+
+{% endif %}
+
 {# --------------- video --------------- #}
 
 {% if field.type == "video" %}

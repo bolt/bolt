@@ -143,6 +143,13 @@ class TwigExtension extends \Twig_Extension
             $dateTime = new \DateTime($dateTime);
         }
 
+
+        // Check for Windows to find and replace the %e modifier correctly
+        // @see: http://php.net/strftime
+        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+            $format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
+        }
+
         // According to http://php.net/manual/en/function.setlocale.php manual
         // if the second parameter is "0", the locale setting is not affected,
         // only the current setting is returned.
@@ -570,6 +577,7 @@ class TwigExtension extends \Twig_Extension
         if (!empty($relationoptions['order'])) {
             $options['order'] = $relationoptions['order'];
             $options['limit'] = 10000;
+            $options['hydrate'] = false;
         }
 
         // @todo Perhaps make something more lightweight for this?
@@ -744,7 +752,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $filename Target filename
      * @param  string|int $width    Target width
      * @param  string|int $height   Target height
-     * @param  string $crop     String identifier for cropped images
+     * @param  string $crop     String identifier for cropped images. You can use next option fit, borders, resize or crop(dy default)
      * @return string     Thumbnail path
      */
     public function thumbnail($filename, $width = '', $height = '', $crop = "")

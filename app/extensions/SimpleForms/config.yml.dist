@@ -16,6 +16,10 @@ recaptcha_private_key: ''
 recaptcha_error_message: "The CAPTCHA wasn't entered correctly. Please try again."
 recaptcha_theme: clean
 
+# Enable CSRF protection for forms. You should leave this set to 'true', unless
+# you know what you're doing.
+csrf: true
+
 # global cc email address
 # set this value to an email address that will receive a copy of every email from simpleforms
 # recipient_cc_email: info@example.com

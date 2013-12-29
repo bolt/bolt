@@ -4,7 +4,7 @@ mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 
 if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
-    if (substr(dirname(__FILE__), -21) == '/vendor/bolt/bolt/app') { // installed bolt with composer
+    if (substr(dirname(__FILE__), -21) == implode(DIRECTORY_SEPARATOR, array('', 'vendor', 'bolt', 'bolt', 'app'))) { // installed bolt with composer
         define('BOLT_COMPOSER_INSTALLED', true);
         define('BOLT_PROJECT_ROOT_DIR', substr(dirname(__FILE__), 0, -21));
         define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR.'/web');
@@ -16,7 +16,7 @@ if (!defined( 'BOLT_PROJECT_ROOT_DIR')) {
 
         // Set the config folder location. If we haven't set the constant in index.php, use one of the
         // default values.
-        if (!defined("BOLT_CONFIG_DIR")) {
+        if (!defined('BOLT_CONFIG_DIR')) {
             if (file_exists(dirname(__FILE__).'/config')) {
                 // Default value, /app/config/..
                 define('BOLT_CONFIG_DIR', dirname(__FILE__).'/config');

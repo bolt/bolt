@@ -22,12 +22,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "An Import filter for WXR files, as created by Wordpress or PivotX",
             'author' => "Bob den Otter",
             'link' => "http://www.twokings.nl",
-            'version' => "0.9.1",
-            'required_bolt_version' => "1.1",
+            'version' => "1.0",
+            'required_bolt_version' => "1.4",
             'highest_bolt_version' => "1.4",
             'type' => "Import",
             'first_releasedate' => "2013-11-17",
-            'latest_releasedate' => "2013-05-21"
+            'latest_releasedate' => "2013-12-18"
         );
 
         return $data;
@@ -36,21 +36,31 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize()
     {
-        // Set up routing for the extension.
-        $path = $this->app['config']->get('general/branding/path') . '/importwxr';
-        $this->app->match($path, array($this, 'importwxr'));
+        // Set the path to match in the controller.
+        $this->path = $this->app['paths']['bolt'] . 'importwxr';
+
+        // Add the controller, so it can be matched.
+        $this->app->match($this->app['config']->get('general/branding/path') . '/importwxr', array($this, 'importwxr'));
+
+        // Add the menu-option. Only show it to users who have 'dashboard' permission
+        $this->addMenuOption('Import WXR', $this->path, 'icon-list', 'extensions');
+
     }
 
     public function importwxr()
     {
+        $this->requireUserPermission('extensions');
 
         // \util::var_dump($this->config);
 
         $filename = __DIR__ . "/" . $this->config['file'];
         $file = realpath(__DIR__ . "/" . $this->config['file']);
 
-
         $output = "";
+        $this->foundcategories = array();
+
+        // No logging. saves memory..
+        $this->app['db.config']->setSQLLogger(null);
 
         if (!empty($_GET['action'])) {
             $action = $_GET['action'];
@@ -84,6 +94,14 @@ class Extension extends \Bolt\BaseExtension
                 foreach ($res['posts'] as $post) {
                     $output .= $this->importPost($post, false);
                 }
+
+                $output .= "<p><strong>Done!</strong></p>";
+
+                if (!empty($this->foundcategories)) {
+                    $output .= "<p>These categories were found, make sure you add them to your <code>taxonomy.yml</code></p>";
+                    $output .= "<textarea style='width: 400px;'>" . json_encode($this->foundcategories) . "</textarea>";
+                }
+
                 break;
 
             case "dryrun":
@@ -91,6 +109,7 @@ class Extension extends \Bolt\BaseExtension
                 $counter = 1;
 
                 $res = $parser->parse($file);
+
 
                 foreach ($res['posts'] as $post) {
                     $output .= $this->importPost($post, true);
@@ -107,6 +126,7 @@ class Extension extends \Bolt\BaseExtension
 
         }
 
+        unset($res);
 
         return $this->app['render']->render('base.twig', array(
             'title' => "Import WXR (PivotX / Wordpress XML)",
@@ -182,6 +202,19 @@ class Extension extends \Bolt\BaseExtension
 
         }
 
+
+        // Perhaps import the categories as well..
+        if (!empty($mapping['category']) && !empty($post['terms'])) {
+            foreach($post['terms'] as $term) {
+                if ($term['domain'] == 'category') {
+                    $record->setTaxonomy($mapping['category'], $term['slug']);
+                    if (!in_array($term['slug'], $this->foundcategories)) {
+                        $this->foundcategories[] = $term['slug'];
+                    }
+                }
+            }
+        }
+
         if ($dryrun) {
             $output = "<p>Original WXR Post <b>\"" . $post['post_title'] . "\"</b> -&gt; Converted Bolt Record :</p>";
             $output .= \util::var_dump($post, true);
@@ -189,10 +222,19 @@ class Extension extends \Bolt\BaseExtension
             $output .= "\n<hr>\n";
         } else {
             $this->app['storage']->saveContent($record);
-            $output = "Import: " . $record->get('id') . " - " . $record->get('title') . "<br>";
+            $output = "Import: " . $record->get('id') . " - " . $record->get('title') . " <small><em>";
+            $output .= $this->memUsage() ."mb.</em></small><br>";
         }
 
+
         return $output;
+
+    }
+
+    function memusage()
+    {
+        $mem = number_format(memory_get_usage() / 1048576, 1);
+        return $mem;
 
     }
 
