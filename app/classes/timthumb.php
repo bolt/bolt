@@ -653,7 +653,7 @@ class timthumb {
 		}
 
 		// Bolt specific - don't upscale images unless explicitly told to
-		if( $config['general']['thumbnails']['allow_upscale'] != true ) {
+		if( $config['general']['thumbnails']['prevent_upscale'] == true ) {
 			if( $new_width > $width ) {
 				$new_width = $width;
 			}
