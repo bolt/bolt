@@ -40,7 +40,7 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
 /**
  * Bolt specific: Set BOLT_PROJECT_ROOT_DIR, and Bolt-specific settings..
  */
-if (substr(__DIR__, -20) == '/bolt-public/classes') { // installed bolt with composer
+if (substr(__DIR__, -20) == DIRECTORY_SEPARATOR.'bolt-public'.DIRECTORY_SEPARATOR.'classes') { // installed bolt with composer
     require_once __DIR__ . '/../../../vendor/bolt/bolt/app/bootstrap.php';
 } else {
     require_once __DIR__ . '/../bootstrap.php';
