@@ -227,12 +227,12 @@ class Application extends Silex\Application
         $this['twig']->addGlobal('users', $this['users']->getUsers());
         $this['twig']->addGlobal('config', $this['config']);
 
-        if ($html = $this['render']->fetchCachedRequest()) {
+        if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
             $this['stopwatch']->stop('bolt.app.before');
 
-            // Short-circuit the request, return the HTML. YOLO.
-            return new Response($html, 200);
+            // Short-circuit the request, return the HTML/response. YOLO.
+            return $response;
         }
 
         // Sanity checks for doubles in in contenttypes.
