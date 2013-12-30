@@ -200,7 +200,7 @@ class Storage
                     break;
                 case 'checkbox':
                     $content[$field] = rand(0,1);
-                    break;                
+                    break;
                 case 'float':
                 case 'number': // number is deprecated..
                 case 'integer':
@@ -1786,7 +1786,7 @@ class Storage
     /**
      * Hydrate database rows into objects
      */
-    private function hydrateRows($contenttype, $rows)
+    private function hydrateRows($contenttype, $rows, $getTaxoAndRel = true)
     {
         // Make sure content is set, and all content has information about its contenttype
         $objects = array();
@@ -1794,9 +1794,11 @@ class Storage
             $objects[$row['id']] = $this->getContentObject($contenttype, $row);
         }
 
-        // Make sure all content has their taxonomies and relations
-        $this->getTaxonomy($objects);
-        $this->getRelation($objects);
+        if ($getTaxoAndRel) {
+            // Make sure all content has their taxonomies and relations
+            $this->getTaxonomy($objects);
+            $this->getRelation($objects);
+        }
 
         return $objects;
     }
@@ -1866,10 +1868,9 @@ class Storage
 
             $rows = $this->app['db']->fetchAll($statement, $query['params']);
 
+            // Convert the row 'arrays' into \Bolt\Content objects.
             // Only get the Taxonomies and Relations if we have to.
-            if ($decoded['hydrate']) {
-                $rows = $this->hydrateRows($query['contenttype'], $rows);
-            }
+            $rows = $this->hydrateRows($query['contenttype'], $rows, $decoded['hydrate']);
 
             if ($results === false) {
                 $results = $rows;
