@@ -652,6 +652,16 @@ class timthumb {
 			$new_width = floor ($width * ($new_height / $height));
 		}
 
+		// Bolt specific - don't upscale images unless explicitly told to
+		if( $config['general']['thumbnails']['allow_upscale'] != true ) {
+			if( $new_width > $width ) {
+				$new_width = $width;
+			}
+			if( $new_height > $height ) {
+				$new_height = $height;
+			}
+		}
+
 		// scale down and add borders
 		if ($zoom_crop == 3) {
 
