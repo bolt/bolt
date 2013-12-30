@@ -580,6 +580,7 @@ class timthumb {
 		return false;
 	}
 	protected function processImageAndWriteToCache($localImage){
+		global $config;
 		$sData = getimagesize($localImage);
 		$origType = $sData[2];
 		$mimeType = $sData['mime'];
