@@ -580,6 +580,7 @@ class timthumb {
 		return false;
 	}
 	protected function processImageAndWriteToCache($localImage){
+		global $config;
 		$sData = getimagesize($localImage);
 		$origType = $sData[2];
 		$mimeType = $sData['mime'];
@@ -650,6 +651,16 @@ class timthumb {
 			$new_height = floor ($height * ($new_width / $width));
 		} else if ($new_height && !$new_width) {
 			$new_width = floor ($width * ($new_height / $height));
+		}
+
+		// Bolt specific - don't upscale images unless explicitly told to
+		if( $config['general']['thumbnails']['prevent_upscale'] == true ) {
+			if( $new_width > $width ) {
+				$new_width = $width;
+			}
+			if( $new_height > $height ) {
+				$new_height = $height;
+			}
 		}
 
 		// scale down and add borders
