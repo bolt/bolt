@@ -1,0 +1,20 @@
+{% include '_header.twig' with { 'active':'settings' } %}
+
+        <table>
+            <tr>
+                <th width="25%" style='text-align: center;'>Requirement</th>
+                <th width="25%">Required Value</th>
+                <th width="25%">Your Setting</th>
+                <th width="25%">Result</th>
+            </tr>
+            {% for requirement in requirements %}
+            <tr>
+                <td style='text-align: center;'>{{ requirement.name }}</td>
+                <td style='text-align: center;'>{{ requirement.targetValue }}</td>
+                <td style='text-align: center;'>{{ requirement.currentValue }}</td>
+                <td style='text-align: center;'>{% if requirement.fulfilled %}<span style="color: green;">OK</span>{% else %}<span style="color: red;">FAIL</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+{% include '_footer.twig' %}
