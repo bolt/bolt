@@ -90,7 +90,7 @@ recordsperpage: 10
 caching:
   config: true
   templates: true
-  request: true
+  request: false
   duration: 10
   authenticated: false
 
