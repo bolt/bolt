@@ -40,7 +40,7 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
 /**
  * Bolt specific: Set BOLT_PROJECT_ROOT_DIR, and Bolt-specific settings..
  */
-if (substr(__DIR__, -20) == '/bolt-public/classes') { // installed bolt with composer
+if (substr(__DIR__, -20) == DIRECTORY_SEPARATOR.'bolt-public'.DIRECTORY_SEPARATOR.'classes') { // installed bolt with composer
     require_once __DIR__ . '/../../../vendor/bolt/bolt/app/bootstrap.php';
 } else {
     require_once __DIR__ . '/../bootstrap.php';
@@ -580,6 +580,7 @@ class timthumb {
 		return false;
 	}
 	protected function processImageAndWriteToCache($localImage){
+		global $config;
 		$sData = getimagesize($localImage);
 		$origType = $sData[2];
 		$mimeType = $sData['mime'];
@@ -650,6 +651,17 @@ class timthumb {
 			$new_height = floor ($height * ($new_width / $width));
 		} else if ($new_height && !$new_width) {
 			$new_width = floor ($width * ($new_height / $height));
+		}
+
+		// Bolt specific - don't upscale images unless explicitly told to
+		if( !isset($config['general']['thumbnails']['allow_upscale']) ||
+            $config['general']['thumbnails']['allow_upscale'] == false ) {
+			if( $new_width > $width ) {
+				$new_width = $width;
+			}
+			if( $new_height > $height ) {
+				$new_height = $height;
+			}
 		}
 
 		// scale down and add borders

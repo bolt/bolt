@@ -37,14 +37,13 @@ class Extension extends \Bolt\BaseExtension
     function initialize()
     {
         // Set the path to match in the controller.
-        $this->path = $this->app['paths']['bolt'] . 'importwxr';
+        $path = $this->app['config']->get('general/branding/path') . '/importwxr';
 
         // Add the controller, so it can be matched.
-        $this->app->match($this->app['config']->get('general/branding/path') . '/importwxr', array($this, 'importwxr'));
+        $this->app->match($path, array($this, 'importwxr'));
 
-        // Add the menu-option. Only show it to users who have 'dashboard' permission
-        $this->addMenuOption('Import WXR', $this->path, 'icon-list', 'extensions');
-
+        // Add the menu-option. Only show it to users who have 'extensions' permission
+        $this->addMenuOption('Import WXR', 'importwxr', 'icon-list', 'extensions');
     }
 
     public function importwxr()
@@ -132,7 +131,6 @@ class Extension extends \Bolt\BaseExtension
             'title' => "Import WXR (PivotX / Wordpress XML)",
             'content' => $output
         ));
-
 
     }
 
