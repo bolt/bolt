@@ -114,7 +114,7 @@ class Render
                 $headers = array(
                     'Cache-Control' => 's-maxage=' . ($this->cacheDuration()/2),
                 );
-                $result = new Response($html, 200, $headers);
+                $result = new Response($result, 200, $headers);
             }
         }
 
