@@ -2,7 +2,7 @@
 
 namespace MenuEditor;
 
-use Symfony\Component\BrowserKit\Response,
+use Symfony\Component\HttpFoundation\Response,
     Symfony\Component\Translation\Loader as TranslationLoader;
 use Symfony\Component\Yaml\Dumper as YamlDumper,
     Symfony\Component\Yaml\Parser as YamlParser,
@@ -30,12 +30,12 @@ class Extension extends \Bolt\BaseExtension
             'author'        => "Steven Wüthrich / bacbos lab",
             'link'          => "http://www.bacbos.ch",
             'email'         => 'steven.wuethrich@me.com',
-            'version'       => "1.4.2",
+            'version'       => "1.4.3",
 
             'required_bolt_version' => "1.4",
-            'highest_bolt_version'  => "1.4",
+            'highest_bolt_version'  => "1.4.2",
             'first_releasedate'     => "2013-12-22",
-            'latest_releasedate'    => "2013-12-24"
+            'latest_releasedate'    => "2013-12-31"
         );
 
     }
