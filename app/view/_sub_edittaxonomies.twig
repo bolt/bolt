@@ -117,7 +117,7 @@
                 <option value="">{{ __('(no group)') }}</option>
                 <option value="" disabled>-----------</option>
             {% for slug, group in taxonomy.options %}
-                <option value='{{ slug }}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] %}selected{% endif %}>{{group}}</option>
+                <option value='{{ slug }}' {% if content.taxonomy[taxonomy.slug] is defined and group in content.taxonomy[taxonomy.slug] or content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default==slug %}selected{% endif %}>{{group}}</option>
             {% endfor %}
             </select>
 
