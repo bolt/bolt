@@ -1013,6 +1013,10 @@ fieldset.checkbox div {
     opacity: 0.5;
 }
 
+.sorthandle {
+    cursor: move;
+}
+
 /** Overrides for CKeditor */
 
 .cke_reset_all, .cke_reset_all * {

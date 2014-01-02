@@ -1,5 +1,7 @@
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+                {% if not loop.first %}</tbody>{% endif %}
+                <tbody class="sortable">
                 <tr class="grouping">
                     <th colspan="{% block listing_columns %}5{% endblock %}">
                         <h3 {% if loop.first %}class="first"{% endif %}>
@@ -89,7 +91,7 @@
                             {% endif %}
 
                             {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
-                                <i class="icon-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }} <br>
+                                <span class="sorthandle"><i class="icon-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
                             {% endif %}
                         </td>
                     {% endblock %}

@@ -178,6 +178,26 @@ jQuery(function($) {
         }
     });
 
+    $('tbody.sortable').sortable({
+        items: 'tr',
+        opacity: '0.5',
+        axis:'y',
+        handle:'.sorthandle',
+        update: function(e, ui){
+            serial = $(this).sortable('serialize');
+            // sorting request
+            $.ajax({
+                url: $('#baseurl').attr('value')+'content/sortcontent/'+$(this).parent('table').data('contenttype'),
+                type: 'POST',
+                data: serial,
+                success: function(feedback){
+                    // do nothing
+                }
+            });
+        }
+    });
+
+
     files = new Files();
 
     stack = new Stack();

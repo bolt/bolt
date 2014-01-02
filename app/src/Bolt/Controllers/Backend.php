@@ -83,6 +83,10 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
+        $ctl->get("/content/sortcontent/{contenttypeslug}", array($this, 'sortcontent'))
+            ->before(array($this, 'before'))
+            ->bind('sortcontent');
+
         $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
             ->before(array($this, 'before'))
             ->bind('contentaction');
@@ -851,6 +855,36 @@ class Backend implements ControllerProviderInterface
 
         return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
+
+    /**
+     * Change sorting (called by ajax request).
+     */
+    public function sortcontent(Silex\Application $app, $contenttypeslug, Request $request)
+    {
+        $contenttype = $app['storage']->getContentType($contenttypeslug); // maybe needed in UpdateQuery?
+        $groupingtaxonomy = $app['storage']->getContentTypeGrouping($contenttypeslug); // maybe needed in UpdateQuery?
+
+        $sortingarray = $request->get('item');
+        foreach($sortingarray as $sortorder => $id){
+            $content = $app['storage']->getContent($contenttypeslug . "/" . $id);
+            $group = $content->group[slug]; // maybe needed in UpdateQuery?
+
+            // @todo UpdateQuery for new sortorders
+            //if(saved){
+                //$changedContent[] = $id;
+            //}
+        }
+
+        if ($changedContent) {
+            $app['session']->getFlashBag()->set('info', __("Sortorder has been changed"));
+            return true;
+        } else {
+            $app['session']->getFlashBag()->set('error', __("Sortorder could not be changed."));
+            return false;
+        }
+    }
+
+
 
     /**
      * Show a list of all available users.
