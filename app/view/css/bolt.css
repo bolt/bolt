@@ -1013,7 +1013,7 @@ fieldset.checkbox div {
     opacity: 0.5;
 }
 
-.sorthandle {
+.sortable .sorthandle {
     cursor: move;
 }
 

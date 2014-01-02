@@ -1,7 +1,7 @@
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
                 {% if not loop.first %}</tbody>{% endif %}
-                <tbody class="sortable">
+                <tbody {% if isallowed('edit', contenttype) %}class="sortable"{% endif %}>
                 <tr class="grouping">
                     <th colspan="{% block listing_columns %}5{% endblock %}">
                         <h3 {% if loop.first %}class="first"{% endif %}>
