@@ -30,12 +30,12 @@ class Extension extends \Bolt\BaseExtension
             'author'        => "Steven Wüthrich / bacbos lab",
             'link'          => "http://www.bacbos.ch",
             'email'         => 'steven.wuethrich@me.com',
-            'version'       => "1.4.3",
+            'version'       => "1.4.4",
 
             'required_bolt_version' => "1.4",
-            'highest_bolt_version'  => "1.4.2",
+            'highest_bolt_version'  => "1.4.3",
             'first_releasedate'     => "2013-12-22",
-            'latest_releasedate'    => "2013-12-31"
+            'latest_releasedate'    => "2014-01-01"
         );
 
     }
