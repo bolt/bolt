@@ -104,9 +104,21 @@ class Render
         if ($this->checkCacheConditions('request', true)) {
             $key = md5($this->app['request']->getPathInfo());
 
-            return $this->app['cache']->fetch($key);
+            $result = $this->app['cache']->fetch($key);
 
+            // If we have a result, prepare a Response.
+            if (!empty($result)) {
+                // Note that we set the cache-control header to _half_ the maximum duration,
+                // otherwise a proxy/cache might keep the cache twice as long in the worst case
+                // scenario, and now it's only 50% max, but likely less
+                $headers = array(
+                    'Cache-Control' => 's-maxage=' . ($this->cacheDuration()/2),
+                );
+                $result = new Response($result, 200, $headers);
+            }
         }
+
+        return $result;
     }
 
     /**
@@ -158,7 +170,7 @@ class Render
         $duration = $this->app['config']->get('general/caching/duration', 10);
 
         // in seconds.
-        return $duration * 60;
+        return intval($duration) * 60;
 
     }
 

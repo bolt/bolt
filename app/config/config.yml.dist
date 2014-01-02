@@ -90,7 +90,7 @@ recordsperpage: 10
 caching:
   config: true
   templates: true
-  request: true
+  request: false
   duration: 10
   authenticated: false
 
@@ -104,6 +104,7 @@ changelog:
 # 100 (best, huge image). Cropping is one of either crop, fit, borders, resize.
 # default_thumbnail is the default size of images, when using {{ record.image|thumbnail() }}
 # default_image is the default size of images, when using {{ record.image|image() }}
+# allow_upscale determines whether small images will be enlarged to fit the requested dimensions.
 # Note: if you change these values, you might need to clear the cache before they show up.
 thumbnails:
   default_thumbnail: [ 160, 120 ]
@@ -113,6 +114,7 @@ thumbnails:
   notfound_image: view/img/default_notfound.png
   error_image: view/img/default_error.png
   save_files: false
+  allow_upscale: false
 
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link

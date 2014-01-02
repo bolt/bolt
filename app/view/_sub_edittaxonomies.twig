@@ -37,7 +37,7 @@
 
                 // load all tags
                 $.ajax({
-                    url: "/async/tags/{{taxonomy.slug}}",
+                    url: "{{ paths.root }}async/tags/{{taxonomy.slug}}",
                     dataType: "json",
                     success: function(data) {
                         var results = [];
@@ -54,7 +54,7 @@
                 {% if taxonomy.tagcloud %}
                 // popular tags
                 $.ajax({
-                    url: "/async/populartags/{{taxonomy.slug}}",
+                    url: "{{ paths.root }}async/populartags/{{taxonomy.slug}}",
                     dataType: "json",
                     data : { limit: 40 },
                     success: function(data) {
