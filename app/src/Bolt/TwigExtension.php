@@ -29,6 +29,7 @@ class TwigExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('print', array($this, 'printDump'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('backtrace', array($this, 'printBacktrace'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
@@ -98,7 +99,6 @@ class TwigExtension extends \Twig_Extension
      * Output pretty-printed arrays / objects.
      *
      * @see \krumo::dump
-     * @see https://github.com/oodle/krumo
      *
      * @param  mixed $var
      * @return string
@@ -106,9 +106,22 @@ class TwigExtension extends \Twig_Extension
     public function printDump($var)
     {
 
-        $output = \Krumo::dump($var, KRUMO_CAPTURE);
+        return \Krumo::dump($var, KRUMO_CAPTURE);;
 
-        return $output;
+    }
+
+    /**
+     * Output pretty-printed backtrace.
+     *
+     * @see \krumo::backtrace
+     *
+     * @param  mixed $var
+     * @return string
+     */
+    public function printBacktrace($depth = 10)
+    {
+
+        return \Krumo::backtrace($depth, true);
 
     }
 
