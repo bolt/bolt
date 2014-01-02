@@ -6,9 +6,9 @@
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                 <i class="icon-home"></i> {{ __('Dashboard') }}</a></li>
 
-            {# Menu with Contenttypes where showinmenu = true #}
+            {# Menu with Contenttypes where showinmenu is set true #}
             {% for slug, contenttype in app.config.get('contenttypes') %}
-                {% if isallowed('contenttype:' ~ slug) and contenttype.showinmenu==1 %}
+                {% if isallowed('contenttype:' ~ slug) and contenttype.showinmenu %}
                     <li class="{% if content.contenttype.slug==slug %}active {% endif %}dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-sitemap{% endif %}"></i> {{ __(contenttype.name) }} <b class="caret"></b>
@@ -26,7 +26,7 @@
                                 {% endif %}
                                 {% if entry.taxonomy %}
                                     <li>
-                                        <a href="{{ path('relatedto', { 'contenttypeslug': slug, 'id': entry.id }) }}"><i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-tasks{% endif %}"></i> {% if entry.title|length > 15 %}{{ entry.title|slice(0, 15) }}…{% else %}{{ entry.title }}{% endif %}</a>
+                                        <a href="{% if contenttype.relationview %}{{ path('relatedto', { 'contenttypeslug': slug, 'id': entry.id }) }}{% else %}{{ path('editcontent', { 'contenttypeslug': slug, 'id': entry.id }) }}{% endif %}"><i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-tasks{% endif %}"></i> {% if entry.title|length > 15 %}{{ entry.title|slice(0, 15) }}…{% else %}{{ entry.title }}{% endif %}</a>
                                     </li>
                                 {% endif %}
                                 {% if entry.group.name is defined and (loop.first or entry.group.name != lastgroup) %}
