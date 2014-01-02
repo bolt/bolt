@@ -165,15 +165,12 @@ jQuery(function($) {
                             url: $('#baseurl').attr('value')+'content/deletecontent/'+$('#item_'+id).data('contenttype')+'/'+id+'?token='+$('#item_'+id).data('token'),
                             type: 'get',
                             success: function(feedback){
-                                //$.jGrowl('EintrÃƒÂ¤ge gelÃƒÂ¶scht!');
-                                //console.log('deletechoosen: success');
                                 $('#item_'+id).hide();
                                 $('a.deletechoosen').hide();
                             }
                         });
                     });
                 }
-                //console.log("Confirmed: "+confirmed);
             });
         }
     });
