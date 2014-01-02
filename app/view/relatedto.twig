@@ -35,7 +35,7 @@
 
         {% set lastgroup = "----" %}
 
-    <table class='dashboardlisting' data-contenttype="{{ contenttype.slug }}">
+    <table class='dashboardlisting' data-contenttype="{{ subcontenttype.slug }}" data-token="{{ token() }}">
 
         {% for content in multiplecontent %}
 

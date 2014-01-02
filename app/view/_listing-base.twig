@@ -45,8 +45,7 @@
                 </tr>
             {% endif %}
 
-            {% set token = token() %}
-            <tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}" data-token="{{ token }}" data-contenttype="{{ content.contenttype.slug }}">
+            <tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}">
                 {% block listing_id %}
                     {% if not compact and editable %}<td class='check hide-phone'>{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
                     <td class='id hide-phone'>№ {{content.id}}</td>
@@ -133,7 +132,7 @@
                                     <i class="icon-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 {% if isallowed('delete', content) %}
-                                <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token }) }}"
+                                <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token() }) }}"
                                        data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
                                     <i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}

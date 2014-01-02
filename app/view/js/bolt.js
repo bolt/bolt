@@ -162,7 +162,7 @@ jQuery(function($) {
                     $.each(aItems, function( index, id ) {
                         // delete request
                         $.ajax({
-                            url: $('#baseurl').attr('value')+'content/deletecontent/'+$('#item_'+id).data('contenttype')+'/'+id+'?token='+$('#item_'+id).data('token'),
+                            url: $('#baseurl').attr('value')+'content/deletecontent/'+$('#item_'+id).closest('table').data('contenttype')+'/'+id+'?token='+$('#item_'+id).closest('table').data('token'),
                             type: 'get',
                             success: function(feedback){
                                 $('#item_'+id).hide();
