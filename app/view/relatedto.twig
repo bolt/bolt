@@ -70,9 +70,11 @@
             <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': subcontenttype.singular_name}) }}
         </a>
 
+        {% if isallowed('edit', contenttype) %}
         <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
             <i class="icon-edit"></i> {{ __('Edit %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
         </a>
+        {% endif %}
 
         {% if request('filter') or request('order') %}
         <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>

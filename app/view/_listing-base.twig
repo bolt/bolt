@@ -28,7 +28,7 @@
                 <tr>
                     {% block listing_header %}
                     {% if not compact and editable %}<th class="check hide-phone">
-                        <input type="checkbox" name="checkRow" title="{{ __('Choose all') }}" />
+                        <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
                         <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
 
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
