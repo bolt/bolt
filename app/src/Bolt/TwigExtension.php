@@ -106,7 +106,7 @@ class TwigExtension extends \Twig_Extension
     public function printDump($var)
     {
 
-        return \Krumo::dump($var, KRUMO_CAPTURE);;
+        return \Krumo::dump($var, DUMPER_CAPTURE);;
 
     }
 
@@ -118,7 +118,7 @@ class TwigExtension extends \Twig_Extension
      * @param  mixed $var
      * @return string
      */
-    public function printBacktrace($depth = 10)
+    public function printBacktrace($depth = 15)
     {
 
         return \Krumo::backtrace($depth, true);
