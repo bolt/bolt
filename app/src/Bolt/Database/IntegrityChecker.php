@@ -382,7 +382,7 @@ class IntegrityChecker
         $usersTable->addColumn("shadowvalidity", "datetime", array("default" => "1900-01-01 00:00:00"));
         $usersTable->addColumn("failedlogins", "integer", array("default" => 0));
         $usersTable->addColumn("throttleduntil", "datetime", array("default" => "1900-01-01 00:00:00"));
-        $usersTable->addColumn("roles", "text", array("default" => ""));
+        $usersTable->addColumn("roles", "string", array("length" => 1024, "default" => ""));
         $tables[] = $usersTable;
 
         $taxonomyTable = $schema->createTable($this->prefix."taxonomy");
