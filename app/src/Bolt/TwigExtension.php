@@ -106,7 +106,7 @@ class TwigExtension extends \Twig_Extension
     public function printDump($var)
     {
 
-        return \Krumo::dump($var, KRUMO_CAPTURE);;
+        return \Krumo::dump($var, KRUMO_CAPTURE);
 
     }
 
