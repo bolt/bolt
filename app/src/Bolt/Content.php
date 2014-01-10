@@ -884,6 +884,11 @@ class Content implements \ArrayAccess
         $template = $this->app['config']->get('general/record_template');
         $chosen = 'config';
 
+        $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";
+        if (is_readable($templatefile)) {
+            $template = $this->contenttype['singular_slug'] . ".twig";
+            $chosen = 'singular_slug';
+        }
 
         if (isset($this->contenttype['record_template'])) {
             $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['record_template'];
@@ -891,12 +896,6 @@ class Content implements \ArrayAccess
                 $template = $this->contenttype['record_template'];
                 $chosen = 'contenttype';
             }
-        }
-
-        $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";
-        if (is_readable($templatefile)) {
-            $template = $this->contenttype['singular_slug'] . ".twig";
-            $chosen = 'singular_slug';
         }
 
         foreach ($this->contenttype['fields'] as $name => $field) {
