@@ -752,7 +752,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        // Set up the 'parameters' to pass to url_generator->generate..
+        // Set up the 'parameters' to pass to url_generator->generate.
         $params = array(
             'contenttypeslug' => $this->contenttype['singular_slug'],
             'id' => $this->id,
@@ -774,12 +774,21 @@ class Content implements \ArrayAccess
                 // special case, if we need to have a date.
                 if ($reqvalue == '\d{4}-\d{2}-\d{2}') {
                     $params[$req] = substr($this->values[$req], 0, 10);
+                } elseif (isset($this->taxonomy[$req])) {
+                    // turn something like '/chapters/meta' to 'meta'
+                    $taxonomyslug = explode( '/', array_shift(array_keys($this->taxonomy[$req])) );
+                    $taxonomyslug = array_pop($taxonomyslug);
+                    $params[$req] = $taxonomyslug;
                 } else {
                     // or, just add the value.
                     $params[$req] = $this->values[$req];
                 }
             }
         }
+
+        // Filter empty values and then use the route's defaults values.
+        $params = array_filter($params);
+        $params = array_merge($route['defaults'], $params);
 
         $link = $this->app['url_generator']->generate($linkbinding, $params);
 
