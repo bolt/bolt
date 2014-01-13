@@ -9,9 +9,9 @@
 
         <article>
 
-            {# use 'setcontent' to set the variable 'home' to "page/1", which is
-               shorthand for "the record in Pages, with id 1". #}
-            {% setcontent home = "page/1" %}
+            {# make the 'home' variable refer to the current record, which is set by the
+               user in config.yml #}
+            {% set home = record %}
             {% if home.title is defined and home.title is not empty %}
                 <h1>{{ home.title }}</h1>
             {% endif %}
