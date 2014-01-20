@@ -597,7 +597,7 @@ class Backend implements ControllerProviderInterface
         if ($request->getMethod() == "POST") {
             if (!empty($id)) {
                 // Check if we're allowed to edit this content..
-                if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
+                if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
                     $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
 
                     return redirect('dashboard');
