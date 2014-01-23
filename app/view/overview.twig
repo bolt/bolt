@@ -12,7 +12,7 @@
 
         {% set lastgroup = "----" %}
 
-    <table class='dashboardlisting'>
+    <table class='dashboardlisting' data-contenttype="{{ contenttype.slug }}" data-token="{{ token() }}">
 
         {% for content in multiplecontent %}
 
@@ -27,6 +27,12 @@
             {{ __('No %contenttypes% available.', {'%contenttypes%':contenttype.name}) }}
         {% endfor %}
     </table>
+
+    {% if isallowed('edit', contenttype) and isallowed('delete', contenttype) %}
+    <div class="btn-group">
+        <a href="#" class="btn deletechoosen showifchoosen" style="display:none;"><i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': contenttype.name}) }}</a>
+    </div>
+    {% endif %}
 
     {{ pager() }}
 
