@@ -1340,7 +1340,7 @@ class Storage
         }
 
         // oof, part deux!
-        if (($meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
+        if ((isset($meta_parameters['order']) && $meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
             $meta_parameters['order'] = $this->app['request']->get('order', false);
         }
 
@@ -1526,7 +1526,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if ($meta_parameters['order'] === false) {
+        if (isset($meta_parameters['order']) && $meta_parameters['order'] === false) {
             if (count($decoded['contenttypes']) == 1) {
                 if ($this->getContentTypeGrouping($decoded['contenttypes'][0])) {
                     $decoded['order_callback'] = array($this, 'groupingSort');
