@@ -236,6 +236,7 @@
 "Tip:": "Подсказка:"
 "Title": "Название"
 "To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Чтобы быстро приступить к работе, добавьте <a href='%url%'> фиктивный контент</a>."
+"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "Чтобы быстро приступить к работе, <a href='%url%'>добавьте фиктивный контент</a>."
 "Translations": "Переводы"
 "Trim Activitylog": "Обрезать журнал активности"
 "URL:": "URL-адрес:"

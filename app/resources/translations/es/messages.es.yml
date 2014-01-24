@@ -281,6 +281,7 @@
 "Tip:": "Tip:"
 "Title": "Título"
 "To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Para comenzar rápidamente, agrega algo de <a href='%url%'>contenido Lorem Ipsum</a>."
+"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "Para comenzar rápidamente, <a href='%url%'>agrega algo de contenido Lorem Ipsum</a>."
 "Translations": "Traducciones"
 "Trim Activitylog": "Cortar registro de actividad"
 "URL:": "URL :"
