@@ -223,6 +223,7 @@ class Frontend
         // So that they're also available in menu's and templates rendered by extensions.
         $app['twig']->addGlobal('records', $content);
         $app['twig']->addGlobal($contenttype['slug'], $content);
+        $app['twig']->addGlobal('contenttype', $contenttype['name']);
 
         return $app['render']->render($template);
 
