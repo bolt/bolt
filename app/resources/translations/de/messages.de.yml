@@ -207,7 +207,7 @@
 "This record is related to %contenttype%": "Dieser Datensatz steht in Releation zu %contenttype%"
 "This username is already in use. Choose another username.": "Benutzername bereits in Verwendung. Bitte andere Wahl treffen."
 "This value is too short. It should have 6 characters or more.": "Der Wert ist zu kurz. Bitte mindestens 6 Zeichen Länge."
-"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Gebaut mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & e CMS'>Bolt</a>."
+"This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Gebaut mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & simples CMS'>Bolt</a>."
 "Tip:": "Tipp:"
 "Title": "Titel"
 "To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Um schnell zu starten, die Datenbank mit <a href='%url%'>Lorem Ipsum Inhalten</a>füllen."
