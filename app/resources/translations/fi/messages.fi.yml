@@ -214,6 +214,7 @@
 "Tip:": "Vinkki:"
 "Title": "Otsikko"
 "To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Päästäksesi alkuun nopeasti, <a href='%url%'>luo tietokantaan diibadaaba-sisältöä</a>"
+"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "Päästäksesi alkuun nopeasti, <a href='%url%'>luo tietokantaan diibadaaba-sisältöä</a>"
 "Translations": "Käännökset"
 "Trim Activitylog": "Karsi tapahtumalokin sisältö"
 "URL:": "URL:"
