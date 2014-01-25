@@ -1,7 +1,7 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
-<div class="row-fluid">
-    <div class="span9">
+<div class="row">
+    <div class="col-md-9">
 
         <h1><strong>{{ __("All users") }}</strong></h1>
 
@@ -36,11 +36,11 @@
                     <td class='actions'>
 
                         <div class="btn-group">
-                            <a href="{{ path('useredit', { 'id' : user.id }) }}" class="btn btn-mini">
-                                    <i class="icon-edit"></i> {{ __('Edit') }}
+                            <a href="{{ path('useredit', { 'id' : user.id }) }}" class="btn btn-default btn-xs">
+                                    <i class="fa fa-edit"></i> {{ __('Edit') }}
                             </a>
-                            <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-                                <i class="icon-info-sign"></i>
+                            <button class="btn dropdown-toggle btn-default btn-xs" data-toggle="dropdown">
+                                <i class="fa fa-info-sign"></i>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right">
@@ -66,7 +66,7 @@
         <h2><strong>{{ __("Roles and Permissions") }}</strong></h2>
 
         <p>{{ __('The settings for roles and permissions are stored in %permissions%.', {'%permissions%': '<code>permissions.yml</code>'}) }}</p>
-        <a class="btn btn-small" href="{{ path('fileedit', { 'file': 'app/config/permissions.yml'}) }}">{{ __("Roles and Permissions") }}</a>
+        <a class="btn btn-default btn-small" href="{{ path('fileedit', { 'file': 'app/config/permissions.yml'}) }}">{{ __("Roles and Permissions") }}</a>
 
         <h2><strong>{{ __("Current sessions") }}</strong></h2>
 
@@ -95,7 +95,7 @@
 
 
     </div><!-- /span9 -->
-    <aside class="span3">
+    <aside class="col-md-3">
 
         <section>
             <h3>{{ __('Actions for Users') }}</h3>

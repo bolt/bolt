@@ -1,8 +1,8 @@
 {% include '_header.twig' with { 'active':'content' } %}
 {% import '_sub_pretty.twig' as pretty %}
 
-<div class="row-fluid">
-    <div class="span9">
+<div class="row">
+    <div class="col-md-9">
 
     <h1>{{ title|raw }}</h1>
 
@@ -91,16 +91,16 @@
         </label>
 
 
-        <button type="button" class="btn btn-primary" id="savecontinuebutton" style="margin-right: 8px;">
-            <i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+        <button type="button" class="btn btn-default btn-primary" id="savecontinuebutton" style="margin-right: 8px;">
+            <i class="fa fa-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
         </button>
 
-        <button type="button" class="btn" id="previewbutton">
-            <i class="icon-external-link"></i> {{ __('Preview') }}
+        <button type="button" class="btn btn-default" id="previewbutton">
+            <i class="fa fa-external-link"></i> {{ __('Preview') }}
         </button>
 
-        <button type="submit" class="btn " id="savebutton" style="margin-right: 8px;">
-            <i class="icon-flag"></i> {{ __('Save & return to overview') }}
+        <button type="submit" class="btn btn-default" id="savebutton" style="margin-right: 8px;">
+            <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
         </button>
 
         <p class="lastsaved" style="margin-top: 12px;">
@@ -114,30 +114,30 @@
     </form>
 
     </div><!-- /span9 -->
-    <aside class="span3">
+    <aside class="col-md-3">
 
     <section>
-    <h2>{{ __('Actions for this %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</h2>
+        <h2>{{ __('Actions for this %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</h2>
 
-    <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton" style="margin-right: 8px;">
-        <i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
-    </button>
+        <button type="button" class="btn btn-default btn-primary" id="sidebarsavecontinuebutton" style="margin-right: 8px;">
+            <i class="fa fa-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+        </button>
 
-    <button type="button" class="btn" id="sidebarpreviewbutton">
-        <i class="icon-external-link"></i> {{ __('Preview') }}
-    </button>
+        <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
+            <i class="fa fa-external-link"></i> {{ __('Preview') }}
+        </button>
 
-    <button type="submit" class="btn " id="sidebarsavebutton" style="margin-right: 8px;">
-        <i class="icon-flag"></i> {{ __('Save & return to overview') }}
-    </button>
+        <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
+            <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+        </button>
 
-    <p class="lastsaved">
-        {% if content.id != 0 %}
-            {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
-        {% else %}
-            {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
-        {% endif %}
-    </p>
+        <p class="lastsaved">
+            {% if content.id != 0 %}
+                {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
+            {% else %}
+                {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
+            {% endif %}
+        </p>
 
 <script type="text/javascript">
     $(function() {
