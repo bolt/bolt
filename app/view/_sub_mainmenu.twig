@@ -80,10 +80,10 @@
                     <li class="divider"></li>
                     <li class="navbar-header">{{ __('File Management') }}</li>
                     {% if isallowed('files:theme') %}
-                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-hdd"></i> {{ __('View / edit Templates') }}</a></li>
+                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-hdd-o"></i> {{ __('View / edit Templates') }}</a></li>
                     {% endif %}
                     {% if isallowed('files:uploads') %}
-                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-hdd"></i> {{ __('Uploaded files') }}</a></li>
+                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-hdd-o"></i> {{ __('Uploaded files') }}</a></li>
                     {% endif %}
                     {% if isallowed('translation') %}
                     <li class="divider"></li>

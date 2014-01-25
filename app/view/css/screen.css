@@ -11307,7 +11307,7 @@ blockquote.quote cite {
   .navbar-collapse .navbar .navbar-header {
     clear: both;
     float: none;
-    padding: 5px 12px;
+    padding: 5px 12px 5px 24px;
   }
 
   /* line 1351, ../sass/_bolt.scss */
