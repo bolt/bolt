@@ -168,7 +168,8 @@ class Application extends Silex\Application
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
             ->register(new Provider\ExtensionServiceProvider())
-            ->register(new Provider\StackServiceProvider());
+            ->register(new Provider\StackServiceProvider())
+            ->register(new Provider\OmnisearchServiceProvider());
 
         $this['paths'] = getPaths($this['config']);
         $this['twig']->addGlobal('paths', $this['paths']);
