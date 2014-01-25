@@ -28,7 +28,7 @@ class Extension extends \Bolt\BaseExtension
             'type' => "General",
             'first_releasedate' => "2013-07-19",
             'latest_releasedate' => "2013-07-19",
-            'dependancies' => "",
+            'dependencies' => "",
             'priority' => 10
         );
 
