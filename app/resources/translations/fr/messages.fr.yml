@@ -79,7 +79,7 @@
 "Disable %username%": "Interdire %username%"
 "Disabled extensions": "Extensions désactivées"
 "Done!": "Fait !"
-"Duplicate %contenttype%": "Dupliquer le contenttype%"
+"Duplicate %contenttype%": "Dupliquer le %contenttype%"
 "Duplicate %filename%": "Dupliquer %filename%"
 "Edit %contenttype%": "Modifier %contenttype%"
 "Edit file": "Modifier le fichier"
