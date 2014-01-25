@@ -11238,7 +11238,7 @@ blockquote.quote cite {
   }
 
   /* line 1291, ../sass/_bolt.scss */
-  .nav-collapse ul.pull-right li {
+  .navbar-collapse ul.pull-right li {
     float: left;
     /* required for 'mobile' view.. */
   }
@@ -11294,30 +11294,30 @@ blockquote.quote cite {
   }
 
   /* line 1337, ../sass/_bolt.scss */
-  .nav-collapse .nav > li {
+  .navbar-collapse .navbar > li {
     clear: both;
   }
 
   /* line 1341, ../sass/_bolt.scss */
-  .nav-collapse.collapse {
+  .navbar-collapse.collapse {
     margin-left: 8px;
   }
 
   /* line 1345, ../sass/_bolt.scss */
-  .nav-collapse .nav .nav-header {
+  .navbar-collapse .navbar .navbar-header {
     clear: both;
     float: none;
     padding: 5px 12px;
   }
 
   /* line 1351, ../sass/_bolt.scss */
-  .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
+  .navbar-collapse .navbar > li > a, .navbar-collapse .dropdown-menu a {
     padding: 5px 12px;
     color: #E7E7E7 !important;
   }
 
   /* line 1356, ../sass/_bolt.scss */
-  .navbar .btn-navbar {
+  .navbar .navbar-btn {
     margin-top: 14px !important;
   }
 }
