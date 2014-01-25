@@ -226,6 +226,7 @@ class Application extends Silex\Application
         $this['twig']->addGlobal('user', $this['users']->getCurrentUser());
         $this['twig']->addGlobal('users', $this['users']->getUsers());
         $this['twig']->addGlobal('config', $this['config']);
+        $this['twig']->addGlobal('theme', $this['config']->get('theme'));
 
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
