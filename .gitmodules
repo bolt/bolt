@@ -7,3 +7,9 @@
 [submodule "app/view/fontawesome"]
 	path = app/view/fontawesome
 	url = git@github.com:FortAwesome/Font-Awesome.git
+[submodule "app/view/sass/bootstrap-sass"]
+	path = app/view/sass/bootstrap-sass
+	url = git@github.com:twbs/bootstrap-sass.git
+[submodule "app/view/sass/fontawesome"]
+	path = app/view/sass/fontawesome
+	url = git@github.com:FortAwesome/Font-Awesome.git
