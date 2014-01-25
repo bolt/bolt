@@ -68,6 +68,11 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('overview');
 
+        $ctl->get("/relatedto/{contenttypeslug}/{id}", array($this, 'relatedto'))
+            ->before(array($this, 'before'))
+            ->assert('id', '\d*')
+            ->bind('relatedto');
+
         $ctl->match("/editcontent/{contenttypeslug}/{id}", array($this, 'editcontent'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
@@ -77,6 +82,10 @@ class Backend implements ControllerProviderInterface
         $ctl->get("/content/deletecontent/{contenttypeslug}/{id}", array($this, 'deletecontent'))
             ->before(array($this, 'before'))
             ->bind('deletecontent');
+
+        $ctl->get("/content/sortcontent/{contenttypeslug}", array($this, 'sortcontent'))
+            ->before(array($this, 'before'))
+            ->bind('sortcontent');
 
         $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
             ->before(array($this, 'before'))
@@ -452,6 +461,57 @@ class Backend implements ControllerProviderInterface
 
     }
 
+    /**
+     * Get related Entries @todo
+     */
+    public function relatedto($contenttypeslug, $id, Silex\Application $app, Request $request)
+    {
+        // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
+        // for Editors.
+        if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+
+            return redirect('dashboard');
+        }
+
+        // Get Contenttype config from $contenttypeslug
+        $contenttype = $app['storage']->getContentType($contenttypeslug);
+
+        // Get Contenttype config from GET param ?show=pages
+        $subcontenttype = $app['storage']->getContentType($request->get('show')?$request->get('show'):'');
+
+        $order = $app['request']->query->get('order', '');
+        $filter = $app['request']->query->get('filter');
+
+        // Set the amount of items to show per page.
+        if (!empty($contenttype['recordsperpage'])) {
+            $limit = $contenttype['recordsperpage'];
+        } else {
+            $limit = $app['config']->get('general/recordsperpage');
+        }
+
+        // @todo: Get related Content from current Entry an return it as $multiplecontent
+        /*
+        $multiplecontent = $app['storage']->getRelation($subcontenttype['slug']);
+
+        $multiplecontent = $app['storage']->getContent($subcontenttype['slug'],
+            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter));
+        */
+
+        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
+
+        // @todo Do we need pager here?
+        $app['pager'] = $pager;
+
+        $title = sprintf("%s » %s » %s", __('Related content'), __($contenttype['singular_name']) , $content['title']);
+        $app['twig']->addGlobal('title', $title);
+
+        return $app['twig']->render('relatedto.twig',
+            array('contenttype' => $contenttype, 'content' => $content, 'id' => $id, 'subcontenttype' => $subcontenttype)
+        );
+
+    }
+
     public function changelogList($contenttype, $contentid, Silex\Application $app, Request $request)
     {
         // We have to handle three cases here:
@@ -795,6 +855,36 @@ class Backend implements ControllerProviderInterface
 
         return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
+
+    /**
+     * Change sorting (called by ajax request).
+     */
+    public function sortcontent(Silex\Application $app, $contenttypeslug, Request $request)
+    {
+        $contenttype = $app['storage']->getContentType($contenttypeslug); // maybe needed in UpdateQuery?
+        $groupingtaxonomy = $app['storage']->getContentTypeGrouping($contenttypeslug); // maybe needed in UpdateQuery?
+
+        $sortingarray = $request->get('item');
+        foreach($sortingarray as $sortorder => $id){
+            $content = $app['storage']->getContent($contenttypeslug . "/" . $id);
+            $group = $content->group[slug]; // maybe needed in UpdateQuery?
+
+            // @todo UpdateQuery for new sortorders
+            //if(saved){
+                //$changedContent[] = $id;
+            //}
+        }
+
+        if ($changedContent) {
+            $app['session']->getFlashBag()->set('info', __("Sortorder has been changed"));
+            return true;
+        } else {
+            $app['session']->getFlashBag()->set('error', __("Sortorder could not be changed."));
+            return false;
+        }
+    }
+
+
 
     /**
      * Show a list of all available users.

@@ -1,5 +1,7 @@
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+                {% if not loop.first %}</tbody>{% endif %}
+                <tbody {% if isallowed('edit', contenttype) %}class="sortable"{% endif %}>
                 <tr class="grouping">
                     <th colspan="{% block listing_columns %}5{% endblock %}">
                         <h3 {% if loop.first %}class="first"{% endif %}>
@@ -13,7 +15,6 @@
                 </tr>
             {% endif %}
 
-
             {# print the header for the first row.. #}
             {% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup)) %}
                 {% set lastgroup = content.group.name|default %}
@@ -26,6 +27,10 @@
                 {% set link = "?" ~ filter ~ "order=" %}
                 <tr>
                     {% block listing_header %}
+                    {% if not compact and editable %}<th class="check hide-phone">
+                        <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
+                        <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
+
                     <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
                     <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>
@@ -40,10 +45,9 @@
                 </tr>
             {% endif %}
 
-
-            <tr {% if content.status!='published' %}class="dim"{% endif %}>
-
+            <tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}">
                 {% block listing_id %}
+                    {% if not compact and editable %}<td class='check hide-phone'>{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
                     <td class='id hide-phone'>№ {{content.id}}</td>
                 {% endblock %}
 
@@ -51,15 +55,15 @@
                     <td class='excerpt {% if not compact %}large{% endif %}'><span>
                         <strong class="show-phone">№ {{content.id}}. </strong>
                         <strong>
-                            {% if editable %}
-                            <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
-                                {{content.getTitle}}
-                            </a>
+                            {% if content.relation  %}
+                                <a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                                    {{content.getTitle}}
+                                </a>
                             {% else %}
-                            <strong>
-                                {{content.getTitle}}
-                            </strong>
-                            {% endif %}
+                                 <strong>
+                                    {{content.getTitle}}
+                                </strong>
+                             {% endif %}
                         </strong>
                         {{ content.excerpt(excerptlength) }}
                                     </span></td>
@@ -86,7 +90,7 @@
                             {% endif %}
 
                             {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
-                                <i class="icon-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }} <br>
+                                <span class="sorthandle"><i class="icon-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
                             {% endif %}
                         </td>
                     {% endblock %}

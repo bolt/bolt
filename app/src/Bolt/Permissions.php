@@ -327,6 +327,16 @@ class Permissions
                 }
                 break;
 
+            case 'relatedto':
+                list ($_, $contenttype) = $parts;
+                if (empty($contenttype)) {
+                    $this->audit("Granting 'relatedto' globally (hard-coded override)");
+                    return true;
+                } else {
+                    $permission = 'view';
+                }
+                break;
+
             case 'contenttype':
                 list($_, $contenttype, $permission, $contentid) = $parts;
                 if (empty($permission)) {
