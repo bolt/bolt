@@ -178,7 +178,7 @@ hr {
 
 }
 
-.navbar .brand {
+.navbar .navbar-brand {
     position: absolute;
     top: 0px;
     left: 20px;
@@ -190,28 +190,28 @@ hr {
     padding: 8px 0 0 0;
 }
 
-.navbar .brand strong {
+.navbar .navbar-brand strong {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
 }
 
-.navbar .brand span {
+.navbar .navbar-brand span {
     font-size: 70%;
 }
 
-.navbar .nav > li {
+.navbar .navbar > li {
     line-height: 19px;
 }
 
-.navbar .nav > li > form > button.btn,
-.navbar .nav > li > a {
+.navbar .navbar > li > form > button.btn,
+.navbar .navbar > li > a {
     color: #E7E7E7;
     font-weight: bold;
     padding: 9px 10px 11px;
     margin: 0 0 0 0;
 }
 
-.navbar .nav > li > form > button.btn {
+.navbar .navbar > li > form > button.btn {
     line-height: inherit;
     border-width: 0;
     vertical-align: inherit;
@@ -228,19 +228,19 @@ hr {
     display: inline;
 }
 
-.navbar .nav > li > form > button.btn:hover {
+.navbar .navbar > li > form > button.btn:hover {
     color: white;
     text-decoration: none;
 }
 
-.navbar .nav .active > a,
-.navbar .nav .active > a:hover {
+.navbar .navbar .active > a,
+.navbar .navbar .active > a:hover {
     color: white;
     text-decoration: none;
     background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.navbar .nav-collapse .nav.pull-right {
+.navbar .navbar-collapse .navbar.pull-right {
     margin-top: 10px;
 }
 
