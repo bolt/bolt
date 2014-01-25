@@ -9,6 +9,7 @@
     </h3>
 
 {% for taxonomyslug in contenttype.taxonomy %}
+<fieldset>
 
     {% if config.get('taxonomy')[taxonomyslug] is defined %}
 
@@ -136,6 +137,7 @@
 
     {% endif %}
 
+</fieldset>
 {% endfor %}
 <hr>
 {% endif %}
