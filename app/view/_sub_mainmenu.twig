@@ -6,16 +6,56 @@
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                 <i class="icon-home"></i> {{ __('Dashboard') }}</a></li>
 
+            {# Menu with Contenttypes where showinmenu is set true #}
+            {% for slug, contenttype in app.config.get('contenttypes') %}
+                {% if isallowed('contenttype:' ~ slug) and contenttype.showinmenu %}
+                    <li class="{% if content.contenttype.slug==slug %}active {% endif %}dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-sitemap{% endif %}"></i> {{ __(contenttype.name) }} <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% setcontent entries = slug where { status: 'published' } %}
+                            {% set lastgroup = "----" %}
+                            {% for entry in entries %}
+                                {# If we have 'grouping', print the row with the groupname.. #}
+                                {% if loop.first or entry.group.name != lastgroup %}
+                                    {% if entry.group.name  %}
+                                        {% if not loop.first %}<li class="divider"></li>{% endif %}
+                                        <li class="nav-header">{{ entry.group.name }}</li>
+                                    {% endif %}
+                                {% endif %}
+                                {% if entry.taxonomy %}
+                                    <li>
+                                        <a href="{% if contenttype.relationview %}{{ path('relatedto', { 'contenttypeslug': slug, 'id': entry.id }) }}{% else %}{{ path('editcontent', { 'contenttypeslug': slug, 'id': entry.id }) }}{% endif %}"><i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-tasks{% endif %}"></i> {% if entry.title|length > 15 %}{{ entry.title|slice(0, 15) }}…{% else %}{{ entry.title }}{% endif %}</a>
+                                    </li>
+                                {% endif %}
+                                {% if entry.group.name is defined and (loop.first or entry.group.name != lastgroup) %}
+                                    {% set lastgroup = entry.group.name %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <li class="divider"></li>
+                            <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
+                                    <i class="icon-tasks"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
+                            {% if isallowed('contenttype:' ~ slug ~ ':create') %}
+                                <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
+                                        <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
             {# Menu with all Contenttypes #}
-            <li class="{% if active=='content' %}active {% endif %}dropdown">
+            <li class="{% if active=='content' and not content.contenttype.showinmenu %}active {% endif %}dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-sitemap"></i> {{ __('Content') }} <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     {% for slug, contenttype in app.config.get('contenttypes') %}
-                        {% if isallowed('contenttype:' ~ slug) %}
+                        {% if isallowed('contenttype:' ~ slug) and not contenttype.showinmenu %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                <i class="icon-tasks"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
+                                <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-tasks{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             {% if loop.length < 5 %}
                                 {% if isallowed('contenttype:' ~ slug ~ ':create') %}
                                 <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
@@ -101,7 +141,7 @@
 
             {# View site #}
             <li>
-                <a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>
+                {% if content.link %}<a href="{{ content.link }}" target="_blank"><i class="icon-external-link"></i> {{ __('View %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a>{% else %}<a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>{{ paths.root }}{% endif %}
             </li>
 
             <li class="divider-vertical"></li>

@@ -120,6 +120,80 @@ jQuery(function($) {
         }
     });
 
+    // Check all checkboxes
+    $(".dashboardlisting tr th:first-child input:checkbox").click(function() {
+        var checkedStatus = this.checked;
+        $(".dashboardlisting tr td:first-child input:checkbox").each(function() {
+            this.checked = checkedStatus;
+            if (checkedStatus == this.checked) {
+                $(this).closest('table tbody tr').removeClass('row-checked');
+            }
+            if (this.checked) {
+                $(this).closest('table tbody tr').addClass('row-checked');
+            }
+        });
+    });
+
+    // Check if choosed Items then show action buttons
+    $('.dashboardlisting input:checkbox').click(function() {
+        var aItems = getSelectedItems();
+        if(aItems.length>=1){
+            // if checked
+            $('a.checkchoosen').removeClass('disabled');
+            $('a.showifchoosen').show();
+        }else{
+            // if none checked
+            $('a.checkchoosen').addClass('disabled');
+            $('a.showifchoosen').hide();
+        }
+    });
+
+    // Delete choosed Items
+    $("a.deletechoosen").click(function(e) {
+        e.preventDefault();
+        aItems = getSelectedItems();
+
+        if(aItems.length <1){
+            bootbox.alert("Nothing choosed to delete");
+        }else{
+            bootbox.confirm("Delete this "+(aItems.length===1? "Entry":"Entries")+"?", function(confirmed) {
+                $(".alert").alert();
+                if(confirmed===true){
+                    $.each(aItems, function( index, id ) {
+                        // delete request
+                        $.ajax({
+                            url: $('#baseurl').attr('value')+'content/deletecontent/'+$('#item_'+id).closest('table').data('contenttype')+'/'+id+'?token='+$('#item_'+id).closest('table').data('token'),
+                            type: 'get',
+                            success: function(feedback){
+                                $('#item_'+id).hide();
+                                $('a.deletechoosen').hide();
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    });
+
+    $('tbody.sortable').sortable({
+        items: 'tr',
+        opacity: '0.5',
+        axis:'y',
+        handle:'.sorthandle',
+        update: function(e, ui){
+            serial = $(this).sortable('serialize');
+            // sorting request
+            $.ajax({
+                url: $('#baseurl').attr('value')+'content/sortcontent/'+$(this).parent('table').data('contenttype'),
+                type: 'POST',
+                data: serial,
+                success: function(feedback){
+                    // do nothing
+                }
+            });
+        }
+    });
+
 
     files = new Files();
 
@@ -127,6 +201,18 @@ jQuery(function($) {
 
 });
 
+/**
+ * Helper to get all selected Items and return Array
+ */
+function getSelectedItems(){
+    var aItems = [];
+    $('.dashboardlisting input:checked').each(function(index) {
+        if($(this).parents('tr').attr('id'))
+            aItems.push($(this).parents('tr').attr('id').substr(5));
+    });
+    console.log('getSelectedItems: '+aItems);
+    return aItems;
+}
 
 /**
  * Helper to make things like '<button data-action="eventView.load()">' work
