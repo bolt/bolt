@@ -592,6 +592,12 @@ class Backend implements ControllerProviderInterface
             return redirect('dashboard');
         }
 
+        $tmpreferrer = $app['request']->server->get('HTTP_REFERER');
+        $editreferrer = $app['request']->get('editreferrer');
+        if(!$editreferrer) {
+            $app['twig']->addGlobal('editreferrer', $tmpreferrer);
+        }
+
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
@@ -610,6 +616,8 @@ class Backend implements ControllerProviderInterface
                     return redirect('dashboard');
                 }
             }
+
+
 
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
@@ -657,7 +665,14 @@ class Backend implements ControllerProviderInterface
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
-                return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+                // check if a pager was set in the referrer - if yes go back there
+                $editreferrer = false;
+                $editreferrer = $app['request']->get('editreferrer');
+                if($editreferrer) {
+                    return simpleredirect($editreferrer);
+                } else {
+                    return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+                }
 
             } else {
                 $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
