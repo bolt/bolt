@@ -592,6 +592,7 @@ class Backend implements ControllerProviderInterface
             return redirect('dashboard');
         }
 
+        // set the editreferrer global if it was not set yet
         $tmpreferrer = $app['request']->server->get('HTTP_REFERER');
         $editreferrer = $app['request']->get('editreferrer');
         if(!$editreferrer) {
@@ -666,7 +667,6 @@ class Backend implements ControllerProviderInterface
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
                 // check if a pager was set in the referrer - if yes go back there
-                $editreferrer = false;
                 $editreferrer = $app['request']->get('editreferrer');
                 if($editreferrer) {
                     return simpleredirect($editreferrer);
