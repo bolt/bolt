@@ -84,7 +84,6 @@
 }
 
 .navbar .navbar-brand strong {
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
 }
 
@@ -98,7 +97,7 @@
 
 .navbar .navbar > li > form > button.btn,
 .navbar .navbar > li > a {
-    color: #E7E7E7;
+    color: $darkbgcolour;
     font-weight: bold;
     padding: 9px 10px 11px;
     margin: 0 0 0 0;
@@ -165,9 +164,9 @@ ul.dropdown-menu li.divider {
 }
 
 ul.dropdown-menu li a.nolink {
-    background-color: #FFF !important;
+    background-color: $lightbgcolour !important;
     background-image: none !important;
-    color: #888 !important;
+    color: $lightfgcolour !important;
 }
 
 

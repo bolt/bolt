@@ -315,7 +315,7 @@
         </div>
 
     {% if not ismobileclient() %}
-        <div style="clear: left;" class="hide-tablet"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
+        <div style="clear: left;" class="hidden-sm"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
         <script type="text/javascript">
             $(function() {
                 bindFileUpload('{{key}}');
@@ -465,7 +465,7 @@
 {% set video = content.get(key) %}
 <div class="dropzone">
 
-    <div class="video-right hide-phone">
+    <div class="video-right hidden-xs">
         <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px; text-align: center; background-color: #F8F8F8;">
             {% if video.thumbnail|default('') %}
                 <img src="{{ video.thumbnail }}" width="160" height="120">
@@ -489,7 +489,7 @@
         <label>{{ __('Size:') }} <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width|default('') }}" style='width: 60px; min-width: 60px;'>
         x <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height|default('') }}" style='width: 60px; min-width: 60px;'>
             pixels.
-            <span class="hide-tablet"><a href="#myModal" role="button" class="btn btn-default " data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a></span>
+            <span class="hidden-sm"><a href="#myModal" role="button" class="btn btn-default " data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a></span>
         </label>
 
         <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio|default('') }}">
@@ -534,7 +534,7 @@
         {% set geolocation = content.get(key) %}
         <div class="dropzone geolocation">
 
-            <div class="map-right hide-phone">
+            <div class="map-right hidden-xs">
                 <div class='mapholder' id="map-{{key}}" style="width: 200px;">
                         <img src="{{ geo.map|default('') }}" width="200" height="200">
                 </div>

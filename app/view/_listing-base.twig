@@ -26,14 +26,14 @@
                 {% set link = "?" ~ filter ~ "order=" %}
                 <tr>
                     {% block listing_header %}
-                    <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+                    <th class="hidden-xs"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
 
                     <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>
                         {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
 
                     <th>&nbsp;</th>
 
-                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
+                    <th class='username hidden-xs'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
 
                     <th><a href='?'>{{ __('Actions') }}</a></th>
                     {% endblock %}
@@ -44,12 +44,12 @@
             <tr {% if content.status!='published' %}class="dim"{% endif %}>
 
                 {% block listing_id %}
-                    <td class='id hide-phone'>№ {{content.id}}</td>
+                    <td class='id hidden-xs'>№ {{content.id}}</td>
                 {% endblock %}
 
                 {% block listing_content %}
                     <td class='excerpt {% if not compact %}large{% endif %}'><span>
-                        <strong class="show-phone">№ {{content.id}}. </strong>
+                        <strong class="visible-xs">№ {{content.id}}. </strong>
                         <strong>
                             {% if editable %}
                             <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
@@ -72,7 +72,7 @@
 
                 {% if not compact %}
                     {% block listing_meta %}
-                        <td class='username hide-phone'>
+                        <td class='username hidden-xs'>
                             <i class="fa fa-user"></i>
                                 {% if content.user.displayname is defined %}
                                     {{ content.user.displayname|trimtext(15) }}

@@ -116,24 +116,8 @@ blockquote.quote cite {
 /**
  * Hide / show on phones or tablets..
  */
-.show-phone {
-    display: none;
-}
-
-
-.show-tablet {
-    display: none;
-}
 
 @media (max-width: 480px) {
-    .show-phone {
-        display: inline;
-    }
-
-    .hide-phone {
-        display: none;
-        visibility: hidden;
-    }
 
     #editcontent div.tagcloud {
         margin-left: 0;
@@ -182,15 +166,6 @@ blockquote.quote cite {
 
     .navbar-collapse ul.pull-right li {
         float: left; /* required for 'mobile' view.. */
-    }
-
-    .show-tablet {
-        display: inline;
-    }
-
-    .hide-tablet {
-        display: none;
-        visibility: hidden;
     }
 
     .well {

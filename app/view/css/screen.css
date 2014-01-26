@@ -8,6 +8,7 @@
 /**
  * Colour scheme
  */
+/*$linkvisited: #4c808b;*/
 /** 
  * External resources
  */
@@ -9870,30 +9871,29 @@ td.visible-print {
 
 /* line 86, ../sass/_bootstrapcustom.scss */
 .navbar .navbar-brand strong {
-  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 600;
 }
 
-/* line 91, ../sass/_bootstrapcustom.scss */
+/* line 90, ../sass/_bootstrapcustom.scss */
 .navbar .navbar-brand span {
   font-size: 70%;
 }
 
-/* line 95, ../sass/_bootstrapcustom.scss */
+/* line 94, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li {
   line-height: 19px;
 }
 
-/* line 100, ../sass/_bootstrapcustom.scss */
+/* line 99, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li > form > button.btn,
 .navbar .navbar > li > a {
-  color: #E7E7E7;
+  color: #e7e7e7;
   font-weight: bold;
   padding: 9px 10px 11px;
   margin: 0 0 0 0;
 }
 
-/* line 107, ../sass/_bootstrapcustom.scss */
+/* line 106, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li > form > button.btn {
   line-height: inherit;
   border-width: 0;
@@ -9905,20 +9905,20 @@ td.visible-print {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* line 118, ../sass/_bootstrapcustom.scss */
+/* line 117, ../sass/_bootstrapcustom.scss */
 .navbar form {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
   display: inline;
 }
 
-/* line 124, ../sass/_bootstrapcustom.scss */
+/* line 123, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li > form > button.btn:hover {
   color: white;
   text-decoration: none;
 }
 
-/* line 130, ../sass/_bootstrapcustom.scss */
+/* line 129, ../sass/_bootstrapcustom.scss */
 .navbar .navbar .active > a,
 .navbar .navbar .active > a:hover {
   color: white;
@@ -9926,12 +9926,12 @@ td.visible-print {
   background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* line 136, ../sass/_bootstrapcustom.scss */
+/* line 135, ../sass/_bootstrapcustom.scss */
 .navbar .navbar-collapse .navbar.pull-right {
   margin-top: 10px;
 }
 
-/* line 140, ../sass/_bootstrapcustom.scss */
+/* line 139, ../sass/_bootstrapcustom.scss */
 .navbar .divider-vertical {
   background-color: #666;
   border-right: 1px solid #888;
@@ -9942,60 +9942,60 @@ td.visible-print {
 /**
  * Dropdown menu lists
  */
-/* line 150, ../sass/_bootstrapcustom.scss */
+/* line 149, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu {
   margin: 0;
 }
 
-/* line 154, ../sass/_bootstrapcustom.scss */
+/* line 153, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li {
   text-align: left;
 }
 
-/* line 158, ../sass/_bootstrapcustom.scss */
+/* line 157, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li a {
   font-size: 13px;
   padding: 1px 14px;
 }
 
-/* line 163, ../sass/_bootstrapcustom.scss */
+/* line 162, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li.divider {
   margin: 4px 1px;
 }
 
-/* line 167, ../sass/_bootstrapcustom.scss */
+/* line 166, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li a.nolink {
-  background-color: #FFF !important;
+  background-color: #f2f1e4 !important;
   background-image: none !important;
-  color: #888 !important;
+  color: #434341 !important;
 }
 
 /**
  * Styles for pagination
  */
-/* line 178, ../sass/_bootstrapcustom.scss */
+/* line 177, ../sass/_bootstrapcustom.scss */
 .pagination li a,
 .pagination li.disabled a {
   background-color: rgba(220, 220, 220, 0.35);
 }
 
-/* line 182, ../sass/_bootstrapcustom.scss */
+/* line 181, ../sass/_bootstrapcustom.scss */
 .pagination li:first-child a {
   border-radius: 6px 0 0 6px;
 }
 
-/* line 186, ../sass/_bootstrapcustom.scss */
+/* line 185, ../sass/_bootstrapcustom.scss */
 .pagination li:last-child a {
   border-radius: 0 6px 6px 0;
 }
 
-/* line 191, ../sass/_bootstrapcustom.scss */
+/* line 190, ../sass/_bootstrapcustom.scss */
 .pagination.narrow li a,
 .pagination.narrow li.disabled a {
   padding: 0 4px;
 }
 
-/* line 195, ../sass/_bootstrapcustom.scss */
+/* line 194, ../sass/_bootstrapcustom.scss */
 .pagination .active a {
   color: #999999;
   cursor: default;
@@ -10006,12 +10006,12 @@ ul.dropdown-menu li a.nolink {
 /**
  * End of styles for pagination
  */
-/* line 207, ../sass/_bootstrapcustom.scss */
+/* line 206, ../sass/_bootstrapcustom.scss */
 .modal-backdrop, .modal-backdrop.fade.in {
   opacity: 0.5;
 }
 
-/* line 211, ../sass/_bootstrapcustom.scss */
+/* line 210, ../sass/_bootstrapcustom.scss */
 .modal-wide {
   width: 660px;
   margin-left: -330px;
@@ -10226,7 +10226,7 @@ a:link {
 
 /* line 30, ../sass/_textstyles.scss */
 a:visited {
-  color: #4c808b;
+  color: #295780;
 }
 
 /* line 36, ../sass/_textstyles.scss */
@@ -11090,7 +11090,7 @@ fieldset.checkbox div {
  */
 /* line 2, ../sass/_bolt.scss */
 body {
-  background-color: #f2f1e4;
+  background-color: #fefefe;
   font-size: 13px;
 }
 
@@ -11216,57 +11216,36 @@ blockquote.quote cite {
 /**
  * Hide / show on phones or tablets..
  */
-/* line 119, ../sass/_bolt.scss */
-.show-phone {
-  display: none;
-}
-
-/* line 124, ../sass/_bolt.scss */
-.show-tablet {
-  display: none;
-}
-
 @media (max-width: 480px) {
-  /* line 129, ../sass/_bolt.scss */
-  .show-phone {
-    display: inline;
-  }
-
-  /* line 133, ../sass/_bolt.scss */
-  .hide-phone {
-    display: none;
-    visibility: hidden;
-  }
-
-  /* line 138, ../sass/_bolt.scss */
+  /* line 122, ../sass/_bolt.scss */
   #editcontent div.tagcloud {
     margin-left: 0;
     width: 100%;
   }
 }
 @media (max-width: 768px) {
-  /* line 147, ../sass/_bolt.scss */
+  /* line 131, ../sass/_bolt.scss */
   h1 {
     font-size: 26px;
     line-height: 31px;
     margin-top: 0;
   }
 
-  /* line 153, ../sass/_bolt.scss */
+  /* line 137, ../sass/_bolt.scss */
   h2 {
     font-size: 22px;
     line-height: 27px;
     margin-top: 0;
   }
 
-  /* line 159, ../sass/_bolt.scss */
+  /* line 143, ../sass/_bolt.scss */
   h3 {
     font-size: 20px;
     line-height: 28px;
     margin-top: 0;
   }
 
-  /* line 165, ../sass/_bolt.scss */
+  /* line 149, ../sass/_bolt.scss */
   .morelink {
     float: right;
     font-size: 12px;
@@ -11276,97 +11255,86 @@ blockquote.quote cite {
     top: 12px;
   }
 
-  /* line 174, ../sass/_bolt.scss */
+  /* line 158, ../sass/_bolt.scss */
   .container-fluid {
     margin-right: -12px;
     margin-left: -12px;
   }
 
-  /* line 179, ../sass/_bolt.scss */
+  /* line 163, ../sass/_bolt.scss */
   .navbar .brand {
     left: 8px;
   }
 
-  /* line 183, ../sass/_bolt.scss */
+  /* line 167, ../sass/_bolt.scss */
   .navbar-collapse ul.pull-right li {
     float: left;
     /* required for 'mobile' view.. */
   }
 
-  /* line 187, ../sass/_bolt.scss */
-  .show-tablet {
-    display: inline;
-  }
-
-  /* line 191, ../sass/_bolt.scss */
-  .hide-tablet {
-    display: none;
-    visibility: hidden;
-  }
-
-  /* line 196, ../sass/_bolt.scss */
+  /* line 171, ../sass/_bolt.scss */
   .well {
     padding: 0px 0px 12px 8px;
   }
 
-  /* line 199, ../sass/_bolt.scss */
+  /* line 174, ../sass/_bolt.scss */
   label {
     margin: 0.5em 0 0.25em;
   }
 
-  /* line 203, ../sass/_bolt.scss */
+  /* line 178, ../sass/_bolt.scss */
   blockquote.quote {
     font-size: 18px;
     line-height: 24px;
     margin: 10px 15px;
   }
 
-  /* line 209, ../sass/_bolt.scss */
+  /* line 184, ../sass/_bolt.scss */
   #editcontent .imageinput {
     width: 90%;
   }
 
-  /* line 213, ../sass/_bolt.scss */
+  /* line 188, ../sass/_bolt.scss */
   #editcontent div.video-container {
     padding-right: 0;
   }
 }
 @media (max-width: 979px) {
-  /* line 220, ../sass/_bolt.scss */
+  /* line 195, ../sass/_bolt.scss */
   .navbar-inner {
     min-height: 50px;
   }
 
-  /* line 224, ../sass/_bolt.scss */
+  /* line 199, ../sass/_bolt.scss */
   .navbar-inner ul.dropdown-menu li {
     float: left;
     padding: 0;
   }
 
-  /* line 229, ../sass/_bolt.scss */
+  /* line 204, ../sass/_bolt.scss */
   .navbar-collapse .navbar > li {
     clear: both;
   }
 
-  /* line 233, ../sass/_bolt.scss */
+  /* line 208, ../sass/_bolt.scss */
   .navbar-collapse.collapse {
     margin-left: 8px;
   }
 
-  /* line 237, ../sass/_bolt.scss */
+  /* line 212, ../sass/_bolt.scss */
   .navbar-collapse .navbar .navbar-header {
     clear: both;
     float: none;
     padding: 5px 12px 5px 24px;
   }
 
-  /* line 243, ../sass/_bolt.scss */
+  /* line 218, ../sass/_bolt.scss */
   .navbar-collapse .navbar > li > a, .navbar-collapse .dropdown-menu a {
     padding: 5px 12px;
     color: #E7E7E7 !important;
   }
 
-  /* line 248, ../sass/_bolt.scss */
+  /* line 223, ../sass/_bolt.scss */
   .navbar .navbar-btn {
     margin-top: 14px !important;
   }
