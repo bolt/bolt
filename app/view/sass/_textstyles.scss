@@ -1,0 +1,157 @@
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0.5em 0;
+    font-weight: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+h1 {
+    font-size: 30px;
+    line-height: 36px;
+}
+
+h2 {
+    font-size: 26px;
+    line-height: 31px;
+}
+
+a {
+    color: $linkmain;
+    font-weight: bold;
+}
+
+a:link {
+    color: $linkmain;
+}
+
+a:visited {
+    color: $linkvisited;
+}
+
+a:focus,
+a:hover,
+a:active {
+    color: $linkactive;
+}
+
+
+strong, b {
+    font-weight: 600;
+}
+
+tt, code, .source-code {
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+}
+
+tt, code {
+    padding: 1px 2px;
+    border: 0px;
+    white-space: pre;
+    color: #555;
+    background-color: #E8E8E8;
+}
+
+pre {
+    background-color: #F2F2F2;
+    color: #555;
+    padding: 2px 4px;
+    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+}
+
+small {
+    font-size: 85%;
+    line-height: 85%;
+}
+
+time {
+    border-bottom: 1px dashed #BBB;
+    cursor: default;
+}
+
+
+h1 span {
+    float: right;
+    font-size: 50%;
+    margin-top: 0.4em;
+    color: #666;
+}
+
+h3 span {
+    float: right;
+}
+
+hr {
+    clear: both;
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #fff;
+    width: 97%;
+}
+
+
+aside {
+    margin-top: 15px;
+}
+
+aside section {
+    background-color: #F2F1ED;
+    border: 1px solid #DDC;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    padding: 0 10px 10px;
+    margin-bottom: 10px;
+}
+
+aside section h2 {
+    font-size: 17px;
+    line-height: 21px;
+    margin: 10px 0 6px 0;
+    color: #333;
+}
+
+aside .morelink {
+    font-weight: normal;
+    line-height: 1em;
+    position: static;
+}
+
+aside section p {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 4px 0;
+}
+
+aside section p {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 4px 0;
+}
+
+
+aside ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0.7em;
+    text-indent: -0.7em;
+}
+
+aside ul li:before {
+    content: "- ";
+}
+
+aside ul li {
+    line-height: 16px;
+    margin-bottom: 4px;
+}
+
+aside ul li small {
+    color: #777;
+}
+
+aside .btn {
+    margin-bottom: 8px;
+}
