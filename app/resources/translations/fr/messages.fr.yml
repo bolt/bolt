@@ -230,7 +230,7 @@
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Le fichier de traductions '%s' ne peut être créé. Vous devrez utiliser votre propre éditeur pour le modifier."
 "The translations file '%s' is not readable.": "Le fichier de traductions '%s' ne peut être lu."
 "There are no users in the database. Please create the first user.": "Aucun utilisateurs dans la base de donnée. Merci de créer le premier utilisateur."
-"There was an error saving this %contenttype%.": "Erreur en enregistrant ce %xontenttype%."
+"There was an error saving this %contenttype%.": "Erreur en enregistrant ce %contenttype%."
 "There was an error when reading this WXR file": "Une erreur est survenue lors de la lecture de ce fichier WXR"
 "This %contenttype% was created": "Ce %contenttype% a été créé"
 "This displayname is already in use. Choose another displayname.": "Ce «displayname» est déja utilisé. Merci d'un choisir un autre"
