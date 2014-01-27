@@ -1,0 +1,90 @@
+info:
+    upload:
+        image: |
+            Használja ezt a mezőt képfeltöltéshez. Kattintson a gombra a feltöltéshez vagy ha friss verziójú
+            Chrome vagy Firefox böngészőt használ, akkor egyszerűen 'fogd és vidd' módszerrel is idehúzhatja
+            a fájlt az asztaláról vagy egy fájlkezelőből.<br />
+            Használhatja az előző feltöltéseit is. Ehhez nem kell mást tennie, csak írja be legalább egy részét
+            a fájlnévnek a beviteli mezőbe és automatikusan ki lesz egészítve.
+        file: |
+            Használja ezt a mezőt fájlfeltöltéshez, amiket azután letöltésre csatolhat weboldalán.
+            Kattintson a gombra a feltöltéshez vagy ha friss verziójú
+            Chrome vagy Firefox böngészőt használ, akkor egyszerűen 'fogd és vidd' módszerrel is idehúzhatja
+            a fájlt az asztaláról vagy egy fájlkezelőből.<br />
+            Használhatja az előző feltöltéseit is. Ehhez nem kell mást tennie, csak írja be legalább egy részét
+            a fájlnévnek a beviteli mezőbe és automatikusan ki lesz egészítve.
+        filelist: |
+            Használja ezt a mezőt több fájl és leírás egyidejű feltöltéséhez. Ahogyan az egyedi fájl mezőnél, itt is
+            behúzhat fogd és vidd módszerrel fájlokat. Esetleg tegyen egy próbát!
+        filesmall: |
+            Használja a gombot fájlfeltöltéshez. Korábban feltöltött fájl kiválasztásához írja be a fájlnév legalább
+            egy kis részét a mezőbe, ami aztán ki lesz egészítve.
+        imagelist: |
+            Használja ezt a mezőt több kép egyidejű feltöltéséhez. Kattintson a gombra a feltöltéshez vagy ha friss verziójú
+            Chrome vagy Firefox böngészőt használ, akkor egyszerűen 'fogd és vidd' módszerrel is idehúzhatja
+            a fájlokat az asztaláról vagy egy fájlkezelőből.<br />
+            Használhatja a korábban feltöltött képeit is.<br />
+            Átrendezheti a képeket fogd és vidd módszerrel, valamint szerkesztheti a leírásokat is.
+        video: |
+            Használja ezt a mezőt video beágyazásához az oldalon. Csak másolja ki és illessze be ide a video URL-jét
+            a Youtube-ról, Vimeo-ról vagy a legismertebb videómegosztó oldalak egyikéről.<br />
+            Automatikusan le lesznek töltve a megfelelő &amp;lt;embed&amp;gt; kód a helyes szélességgel és magassággal, valamint
+            az eredeti címmel. Ha a szélességet vagy a magasságot módosítja, akkor a másik automatikusan hozzá lesz igazítva, hogy
+            tartsa a megfelelő képarányt.
+    geolocation: |
+        Használja ezt a mezőt ahhoz, hogy egy cím geolokációját meghatározza, vagy manuálisan helyezze el a jelölőt
+        annak húzásával. Elsőként írja be a (hozzávetőleges) címet a 'cím' mezőbe, majd a megfelelő földrajzi szélesség
+        és hosszúság le lesz kérve a Google Térkép API használatával, továbbá a lehető legközelebbi egyező cím is a
+        Google szerint.<br />
+        Ha a jelölőt más pozícióba szeretné mozgatni, csak fogd és vidd módszerrel helyezze át a min-térképen. A földrajzi
+        szélesség és hosszúság automatikusan frissítve lesz.
+    markdown: |
+        Markdown is a text-to-HTML conversion tool for web writers.
+            <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
+            which is then converted to structurally valid HTML.</p>
+            <p><strong>Quick reference:</strong><br>
+            # This is an &amp;lt;h1&amp;gt; tag<br>
+            ## This is an &amp;lt;h2&amp;gt; tag<br>
+            ###### This is an &amp;lt;h6&amp;gt; tag</p>
+            <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
+            ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
+            this **<strong>is bold</strong>**.
+            <p>Create <a href='#'>links</a> like this:<br>
+            An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
+            <p>&nbsp; * This is an unordered list<br>
+            &nbsp; * Item 2</p>
+            <p>&nbsp; 1 This is an ordered list<br>
+            &nbsp; 2 Item 2</p>
+    relationships: |
+        By selecting other records as a 'relation', you are actually
+            creating a link between this record, and the one you selected. On the
+            website, this can by used for 'related articles', 'see also' or to display
+            how this record fits into a certain structure.
+    taxonomy: |
+        By selecting one or more taxonomies for this record,
+                  you are classifying this record to have those properties. On the
+                  website this can be used to group certain records together, or
+                  to automatically create links to records that share a
+                  classification.
+about:
+    bolt: |
+        <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
+            developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
+            components. If you are a developer you're very welcome to help in the further development of Bolt.
+        </p>
+    licence: |
+        <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
+            found here, in the included <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+        </p>
+prefill:
+    short_help: |
+        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dommy content.<p>
+        <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
+extension:
+    enable: |
+        <p>To enable extensions, add them to the <code>enabled_extensions</code> array in
+                <code>config.yml</code>. You must use the exact name of the extension, as
+                shown in the first label on the bottom row of its tile. Note that the names
+                are <em>case sensitive</em>, to eliminate issues with the filesystem. </p>
+            <p>example:</p>
+            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
