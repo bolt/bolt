@@ -5,6 +5,7 @@ namespace Bolt;
 use RandomLib;
 use SecurityLib;
 use Silex;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,6 +60,9 @@ class Application extends Silex\Application
 
         // Initialize the Database Providers.
         $this->initDatabase();
+
+        // Initialize the Console Application for Nut
+        $this->initConsoleApplication();
 
         // Initialize the rest of the Providers.
         $this->initProviders();
@@ -208,6 +212,20 @@ class Application extends Silex\Application
 
         // Mount the 'frontend' controllers, ar defined in our Routing.yml
         $this->mount('', new Controllers\Routing());
+    }
+
+    /**
+     * Initializes the Console Application that is responsible for CLI interactions.
+     */
+    public function initConsoleApplication()
+    {
+        $this['console'] = $this->share(function (Application $app) {
+            $console = new ConsoleApplication();
+            $console->setName('Bolt console tool - Nut');
+            $console->setVersion($app->getVersion());
+
+            return $console;
+        });
     }
 
     public function BeforeHandler(Request $request)
