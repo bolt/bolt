@@ -1,7 +1,7 @@
 Bolt
 ====
 
-Sophisticated, lightweight & simple CMS, homepage: [Bolt.cm](http://bolt.cm)
+Sophisticated, lightweight & simple CMS. Homepage: [Bolt.cm](http://bolt.cm)
 
 Bolt is a tool for Content Management, which strives to be as simple and straightforward 
 as possible. It is quick to set up, easy to configure, uses elegant templates, and above 
