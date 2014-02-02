@@ -454,7 +454,7 @@ function trimToText($html, $desiredLength = null, $ellipseStr = "...")
         return $str;
     }
     else {
-        return substr($str, $desiredLendth - strlen($ellipseStr)) . $ellipseStr;
+        return substr($str, $desiredLength - strlen($ellipseStr)) . $ellipseStr;
     }
 }
 
