@@ -17,9 +17,13 @@ class Config
     private $data;
     private $defaultConfig = array();
     private $reservedFieldNames = array(
-        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish',
-        'ownerid', 'username', 'status', 'link'
+        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link'
     );
+    private $defaultFieldTypes = array(
+        'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'html',
+        'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
+    );
+
     static private $yamlParser;
 
     /**
@@ -351,6 +355,15 @@ class Config
                 }
                 if (!isset($field['pattern'])) {
                     $this->set("contenttypes/{$key}/fields/{$fieldname}/pattern", '');
+                }
+
+                // Make sure the 'type' is in the list of allowed types
+                if (!isset($field['type']) || !in_array($field['type'], $this->defaultFieldTypes)) {
+                    $error = __(
+                        "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.",
+                        array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' => $field['type'])
+                    );
+                    $this->app['session']->getFlashBag()->set('error', $error);
                 }
             }
 
