@@ -1482,7 +1482,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
         ->name('*.php')
         ->notName('*~')
         ->exclude(array('cache','config','database','resources','tests'))
-        ->in(BOLT_PROJECT_ROOT_DIR.'/theme') //
+        ->in(BOLT_WEB_DIR.'/theme') //
         ->in(BOLT_PROJECT_ROOT_DIR.'/app')
     ;
     // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
