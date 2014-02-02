@@ -721,7 +721,7 @@ class Backend implements ControllerProviderInterface
                         $id = $app['storage']->getLatestId($contenttype['slug']);
                     }
 
-                    return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
+                    return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id), "#".$app['request']->get('returnto'));
 
                 }
 

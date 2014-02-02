@@ -55,8 +55,8 @@
                     <td class='excerpt {% if not compact %}large{% endif %}'><span>
                         <strong class="show-phone">№ {{content.id}}. </strong>
                         <strong>
-                            {% if content.relation  %}
-                                <a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                            {% if editable %}
+                                <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
                                     {{content.getTitle}}
                                 </a>
                             {% else %}
@@ -112,6 +112,10 @@
                             {% if content.status == "published" %}
                                 <li><a href="{{ content.link }}" target="_blank">
                                     <i class="icon-external-link"></i> {{ __('View on site') }}</a></li>
+                            {% endif %}
+                            {% if content.relation  %}
+                                <li><a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" target="_blank">
+                                        <i class="icon-link"></i> {{  __('View related content') }}</a></li>
                             {% endif %}
                             {% if editable %}
                                 {% if content.status != "published" %}

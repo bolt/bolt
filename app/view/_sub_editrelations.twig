@@ -51,15 +51,16 @@
 
     {% for reltype, ids in content.relation %}
         {% if contenttype.relations[reltype] is not defined %}
-            <p>
+            <p>{{ __('This record is related to:') }}</p>
+            <table class="dashboardlisting">
             {% for id in ids %}
                 {% setcontent record = reltype~"/"~id %}
                 {% if record %}
-                    {{ __('This record is related to %contenttype%',{'%contenttype%': record.contenttype.singular_name}) }} № {{ record.id }} -
-                    <strong>{{ record.title }}</strong> (<a href="{{ path('editcontent', { 'contenttypeslug': record.contenttype.slug, 'id': record.id }) }}">edit</a>)<br>
+                    {% set editable = isallowed('edit', record) %}
+                    {% include ['_sub_listing.twig'] with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'content': record } %}
                 {% endif %}
             {% endfor %}
-            </p>
+            </table>
         {% endif %}
     {% endfor %}
 
