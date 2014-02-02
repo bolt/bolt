@@ -174,7 +174,7 @@ class LowlevelChecks
      *
      * @param string $message
      */
-    private function lowlevelError($message)
+    public function lowlevelError($message)
     {
         // Set the root
         $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
