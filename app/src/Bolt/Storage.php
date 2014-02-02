@@ -1320,9 +1320,10 @@ class Storage
     private function organizeQueryParameters($in_parameters = null)
     {
         $ctype_parameters = array();
+        $meta_parameters = array('order' => false); // order in meta_parameters check again in line: 1530!
         if (is_array($in_parameters)) {
             foreach ($in_parameters as $key => $value) {
-                if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging'))) {
+                if (in_array($key, array('page', 'limit', 'offset', 'returnsingle', 'printquery', 'paging', 'order'))) {
                     $meta_parameters[$key] = $value;
                 } else {
                     $ctype_parameters[$key] = $value;
@@ -1340,7 +1341,7 @@ class Storage
         }
 
         // oof, part deux!
-        if (($meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
+        if ((isset($meta_parameters['order']) && $meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
             $meta_parameters['order'] = $this->app['request']->get('order', false);
         }
 
@@ -1526,7 +1527,7 @@ class Storage
             $decoded['self_paginated'] = false;
         }
 
-        if ($meta_parameters['order'] === false) {
+        if (isset($meta_parameters['order']) && $meta_parameters['order'] === false) {
             if (count($decoded['contenttypes']) == 1) {
                 if ($this->getContentTypeGrouping($decoded['contenttypes'][0])) {
                     $decoded['order_callback'] = array($this, 'groupingSort');

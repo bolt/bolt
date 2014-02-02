@@ -347,7 +347,7 @@ class Permissions
                 // item for this, but since we're in the back-end, we probably
                 // won't see a lot of traffic here, so it's probably
                 // forgivable.
-                if (!empty($id)) {
+                if (!empty($contentid)) {
                     $content = $this->app['storage']->getContent("$contenttype/$contentid");
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {

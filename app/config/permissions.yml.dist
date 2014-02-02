@@ -119,3 +119,12 @@ contenttype-default:
     view: [ anonymous ]
 
 contenttypes:
+
+# This is an example of how to define Contenttype specific 
+#    kitchensink:                                 # The name of the content type in contenttypes.yml
+#        edit: [ admin, chief-editor ]            # Only the Admin and Chief Editor can work with this Contenttype
+#        create: [ admin, chief-editor ]          
+#        publish: [ admin, chief-editor ]         
+#        depublish: [ admin, chief-editor ]       
+#        delete: [ admin, chief-editor ]          
+#        view: [ developer, admin, chief-editor ] # Roles that can see the area in the admin section

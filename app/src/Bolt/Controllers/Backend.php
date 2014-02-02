@@ -652,12 +652,19 @@ class Backend implements ControllerProviderInterface
             return redirect('dashboard');
         }
 
+        // set the editreferrer global if it was not set yet
+        $tmpreferrer = $app['request']->server->get('HTTP_REFERER');
+        $editreferrer = $app['request']->get('editreferrer');
+        if(!$editreferrer) {
+            $app['twig']->addGlobal('editreferrer', $tmpreferrer);
+        }
+
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
             if (!empty($id)) {
                 // Check if we're allowed to edit this content..
-                if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
+                if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
                     $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
 
                     return redirect('dashboard');
@@ -670,6 +677,8 @@ class Backend implements ControllerProviderInterface
                     return redirect('dashboard');
                 }
             }
+
+
 
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
@@ -717,7 +726,13 @@ class Backend implements ControllerProviderInterface
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
-                return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+                // check if a pager was set in the referrer - if yes go back there
+                $editreferrer = $app['request']->get('editreferrer');
+                if($editreferrer) {
+                    return simpleredirect($editreferrer);
+                } else {
+                    return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+                }
 
             } else {
                 $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
@@ -1173,7 +1188,7 @@ class Backend implements ControllerProviderInterface
         $files = array();
         $folders = array();
 
-        $basefolder = __DIR__ . "/../../../../";
+        $basefolder = BOLT_WEB_DIR . "/";
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder . $path);
 
@@ -1306,7 +1321,7 @@ class Backend implements ControllerProviderInterface
             $filename = realpath(BOLT_CONFIG_DIR . "/" . basename($file));
         } else {
             // otherwise just realpath it, relative to the 'webroot'.
-            $filename = realpath(__DIR__ . "/../../../../" . $file);
+            $filename = realpath(BOLT_WEB_DIR . "/" . $file);
         }
 
         $type = getExtension($filename);

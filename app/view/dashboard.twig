@@ -11,7 +11,7 @@
         <button class="close" data-dismiss="alert">×</button>
         {{ __("It seems there's no content in the database.") }}
         {% if isallowed('prefill') %}
-        {{ __("To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.", {'%url%': path('prefill', {'force': 1}) }) }}
+        {{ __("To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.", {'%url%': path('prefill', {'force': 1}) }) }}
         {% endif %}
     </div>
 

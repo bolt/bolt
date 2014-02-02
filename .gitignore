@@ -26,3 +26,7 @@ php-cs-fixer.phar
 composer.lock
 tests/_log
 tests/*/*Guy.php
+
+app/resources/translations/de/messages.de.yml
+
+app/resources/translations/de/messages.de.yml

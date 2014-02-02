@@ -5,7 +5,7 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     "require": {
-        "bolt/krumo": "dev-master",
+        "bobdenotter/dumper": "dev-master",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "dev-master",
         "filp/whoops": "1.*",
@@ -29,7 +29,7 @@
         "symfony/validator": "~2.4",
         "symfony/web-profiler-bundle": "~2.4",
         "symfony/yaml": "~2.4",
-        "tdammers/htmlmaid": ">=0.5.0",
+        "tdammers/htmlmaid": ">=0.5.2",
         "twig/twig": ">=1.8,<2.0-dev"
     },
     "require-dev": {
@@ -44,7 +44,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/bolt/krumo"
+            "url": "https://github.com/bobdenotter/dumper"
         }
     ],
     "minimum-stability": "beta",

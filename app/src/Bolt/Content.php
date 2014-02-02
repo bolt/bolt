@@ -752,7 +752,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        // Set up the 'parameters' to pass to url_generator->generate..
+        // Set up the 'parameters' to pass to url_generator->generate.
         $params = array(
             'contenttypeslug' => $this->contenttype['singular_slug'],
             'id' => $this->id,
@@ -774,12 +774,21 @@ class Content implements \ArrayAccess
                 // special case, if we need to have a date.
                 if ($reqvalue == '\d{4}-\d{2}-\d{2}') {
                     $params[$req] = substr($this->values[$req], 0, 10);
+                } elseif (isset($this->taxonomy[$req])) {
+                    // turn something like '/chapters/meta' to 'meta'
+                    $taxonomyslug = explode( '/', array_shift(array_keys($this->taxonomy[$req])) );
+                    $taxonomyslug = array_pop($taxonomyslug);
+                    $params[$req] = $taxonomyslug;
                 } else {
                     // or, just add the value.
                     $params[$req] = $this->values[$req];
                 }
             }
         }
+
+        // Filter empty values and then use the route's defaults values.
+        $params = array_filter($params);
+        $params = array_merge($route['defaults'], $params);
 
         $link = $this->app['url_generator']->generate($linkbinding, $params);
 
@@ -884,6 +893,11 @@ class Content implements \ArrayAccess
         $template = $this->app['config']->get('general/record_template');
         $chosen = 'config';
 
+        $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";
+        if (is_readable($templatefile)) {
+            $template = $this->contenttype['singular_slug'] . ".twig";
+            $chosen = 'singular_slug';
+        }
 
         if (isset($this->contenttype['record_template'])) {
             $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['record_template'];
@@ -891,12 +905,6 @@ class Content implements \ArrayAccess
                 $template = $this->contenttype['record_template'];
                 $chosen = 'contenttype';
             }
-        }
-
-        $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";
-        if (is_readable($templatefile)) {
-            $template = $this->contenttype['singular_slug'] . ".twig";
-            $chosen = 'singular_slug';
         }
 
         foreach ($this->contenttype['fields'] as $name => $field) {

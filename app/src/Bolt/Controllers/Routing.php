@@ -139,6 +139,10 @@ class Routing implements ControllerProviderInterface
      */
     private function getProperRegexp($regexp)
     {
+        if (is_array($regexp)) {
+            return call_user_func_array($regexp[0], $regexp[1]);
+        }
+
         if (strpos($regexp, '::') > 0) {
             return call_user_func($regexp);
         }
@@ -176,5 +180,25 @@ class Routing implements ControllerProviderInterface
     public static function getPluralTaxonomyTypeRequirement()
     {
         return self::$app['storage']->getTaxonomyTypeAssert(false);
+    }
+
+    /**
+     * Return slugs of existing taxonomy values.
+     */
+    public static function getTaxonomyRequirement($taxonomyName, $emptyValue = null)
+    {
+        $taxonomyValues = self::$app['config']->get('taxonomy/'.$taxonomyName.'/options');
+        
+        // If by accident, someone uses a "tags" taxonomy.
+        if ($taxonomyValues==null) {
+            return "[a-z0-9-_]+";
+        }
+        $taxonomyValues = array_keys($taxonomyValues);
+        $requirements = implode('|', $taxonomyValues);
+
+        if ($emptyValue!=null) {
+            $requirements .= '|'.$emptyValue;
+        }
+        return $requirements;
     }
 }

@@ -31,7 +31,11 @@ if (!empty($_SERVER['REDIRECT_URL']) && (strpos($_SERVER['REDIRECT_URL'], 'timth
     $requesturi = $_SERVER['REQUEST_URI'];
 }
 
-$res = preg_match("^thumbs/([0-9]+)x([0-9]+)([a-z]*)/(.*)^i", $requesturi , $matches);
+// Make sure we don't get cruft after the '?'.
+$parsed_url = parse_url($requesturi);
+
+// Match the width, height, cropping type and filename..
+$res = preg_match("^thumbs/([0-9]+)x([0-9]+)([a-z]*)/(.*)^i", $parsed_url['path'] , $matches);
 
 if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
     die("Malformed thumbnail URL. Should look like '/thumbs/320x240c/filename.jpg'.");

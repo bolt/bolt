@@ -17,9 +17,13 @@ class Config
     private $data;
     private $defaultConfig = array();
     private $reservedFieldNames = array(
-        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish',
-        'ownerid', 'username', 'status', 'link'
+        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link'
     );
+    private $defaultFieldTypes = array(
+        'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'html',
+        'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
+    );
+
     static private $yamlParser;
 
     /**
@@ -44,16 +48,17 @@ class Config
     /**
      * @param  string $basename
      * @param  array  $default
+     * @param  bool  $useDefaultConfigPath
      * @return array
      */
-    private function parseConfigYaml($basename, $default = array())
+    private function parseConfigYaml($basename, $default = array(), $useDefaultConfigPath = true)
     {
         if (!self::$yamlParser) {
             self::$yamlParser = new Yaml\Parser();
         }
-
-        $filename = BOLT_CONFIG_DIR . '/' . $basename;
-
+        
+        $filename = $useDefaultConfigPath ? (BOLT_CONFIG_DIR . '/' . $basename) : $basename;
+        
         if (is_readable($filename)) {
             return self::$yamlParser->parse(file_get_contents($filename) . "\n");
         }
@@ -153,6 +158,11 @@ class Config
         $config['routing']     = $this->parseConfigYaml('routing.yml');
         $config['permissions'] = $this->parseConfigYaml('permissions.yml');
         $config['extensions']  = array();
+        
+        // fetch the theme config. requires special treatment due to the path 
+        $paths = getPaths($config);
+        $themeConfigFile = $paths['themepath'] . '/config.yml';
+        $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
 
@@ -345,6 +355,15 @@ class Config
                 }
                 if (!isset($field['pattern'])) {
                     $this->set("contenttypes/{$key}/fields/{$fieldname}/pattern", '');
+                }
+
+                // Make sure the 'type' is in the list of allowed types
+                if (!isset($field['type']) || !in_array($field['type'], $this->defaultFieldTypes)) {
+                    $error = __(
+                        "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.",
+                        array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' => $field['type'])
+                    );
+                    $this->app['session']->getFlashBag()->set('error', $error);
                 }
             }
 
