@@ -1,65 +1,136 @@
-# app/resources/translations/id/messages.id.yml -- generated on 2013/10/24 21:44:39
-# 78 untranslated strings
+# app/resources/translations/id/messages.id.yml -- generated on 2014/02/03 05:01:06
+# 180 untranslated strings
 
-"":  #
+"%name% № %id%":  #
 "%s files could not be deleted. You should delete them manually.":  #
+"(default template)":  #
+"(no category)":  #
+"A menu with this name already exists...":  #
+"Add new menu":  #
+"Add to menu":  #
 "Added to <tt>%key%</tt> '%title%'":  #
 "Added user '%s'.":  #
-"Allowed contenttypes":  #
+"All content types":  #
+"Anonymous":  #
+"Are you sure you want to revert changes you have made since you last saved your menus?":  #
+"Are you sure you wish to remove this item from the menu, along with all its sub-items?":  #
 "Are you sure you wish to revert? Your changes will be lost, if you don't save them.":  #
+"Assigned roles":  #
+"Backup file could not be found":  #
+"Backup successfully restored":  #
 "Below are the third party libraries that are used by Bolt.":  #
+"Browscap file updated.":  #
+"Built-in role, automatically granted at all times, even if no user is logged in":  #
+"Built-in role, automatically granted to every registered user":  #
+"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.":  #
+"Built-in superuser role, automatically grants all permissions":  #
 "Can't set %field% in %contenttype%: Not a valid field.":  #
+"Change Log":  #
+"Check again":  #
+"Class:":  #
 "Clear sort/filter":  #
+"Code:":  #
+"Content Type Permissions":  #
 "Details are shown above. The importer will now try again with a different parser...":  #
 "Disable %username%":  #
 "Disabled extensions":  #
+"Display name":  #
+"Edit Config":  #
+"Email":  #
 "Enabling extensions:":  #
+"Everybody":  #
 "Files on the stack":  #
 "Filtering:":  #
+"Fixme:":  #
+"Full list...":  #
+"Generic":  #
+"Global Permissions":  #
+"Homepage":  #
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.":  #
+"Image":  #
+"In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.":  #
 "In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
+"In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.":  #
 "Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.":  #
+"Last IP":  #
 "Last modified %contenttypes%":  #
-"Latest %contenttypes%":  #
+"Links":  #
 "Matched address:":  #
+"Menu editor":  #
+"Menu successfully saved":  #
+"Menus successfully saved":  #
+"Message:":  #
 "Modifications made to the database:":  #
 "Modifications needed:":  #
+"Name of new menu":  #
+"Name:":  #
 "No results found for '%search%'. Please try another search.":  #
 "No such action for content.":  #
 "No such action for user '%s'.":  #
 "No video url is set, no video to show.":  #
+"Overview of all":  #
+"Owner":  #
+"Page":  #
+"Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.":  #
+"Password reset successful! You can now log on with the password that was sent to you via email.":  #
 "Permalink":  #
+"Permission denied":  #
 "Place on stack":  #
 "Please choose the record you want to link to:":  #
+"Please confirm that you wish to restore the menu":  #
 "Please log on.":  #
+"Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml":  #
+"Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml":  #
+"Please provide a username":  #
 "Prefill database":  #
-"Preview %contenttype%":  #
 "Provided by:":  #
+"Recently edited %contenttypes%":  #
 "Related content:":  #
 "Relationships":  #
+"Released:":  #
+"Remove from menu":  #
+"Req. Bolt":  #
 "Reset my password":  #
+"Restore %filename%":  #
+"Roles and Permissions":  #
+"Roles":  #
+"Save & return to overview":  #
+"Saved on:":  #
+"Saved":  #
+"Saving…":  #
 "Search results for <b> %search% </b>.":  #
+"Search…":  #
+"Select an item to add":  #
 "Select from stack":  #
 "Select zero or more pages":  #
 "Showing %pager_for% %from% - %to% of %count%":  #
 "Skipped <tt>%key%</tt> (already has records)":  #
 "Skipped <tt>%key%</tt> (not checked)":  #
+"Something went wrong, please reload the page and try again":  #
+"Special elements":  #
+"Tested in Bolt":  #
 "That user does not exist.":  #
-"The activitylog has been cleared.":  "Log Aktifitas telah dibersikan."
-"The activitylog has been trimmed.":  "Log Aktifitas telah dirampingkan."
-"The database needs to be updated / repaired. Go to 'Settings' > 'Check Database' to do this now.":  #
+"The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.":  #
+"The backup could not be restored: ":  #
+"The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.":  #
 "The file '%s' doesn't exist, or is not readable.":  #
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.":  #
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.":  #
+"The menu.yml config-file was edited by someone else in the meantime, please reload the page.":  #
 "The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.":  #
 "The new %contenttype% has been saved.":  #
+"The requested changelog entry doesn't exist.":  #
+"The settings for roles and permissions are stored in %permissions%.":  #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.":  #
 "The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.":  #
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.":  #
 "The translations file '%s' is not readable.":  #
 "There are no users in the database. Please create the first user.":  #
+"There should always be at least one 'root' user. You have just been promoted. Congratulations!":  #
 "There was an error saving this %contenttype%.":  #
 "There was an error when reading this WXR file":  #
+"There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.":  #
+"This %contenttype% has not been saved yet.":  #
 "This %contenttype% was created":  #
 "This displayname is already in use. Choose another displayname.":  #
 "This does not appear to be a WXR file, missing/invalid WXR version number":  #
@@ -68,20 +139,51 @@
 "This username is already in use. Choose another username.":  #
 "This value is too short. It should have 6 characters or more.":  #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.":  #
+"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.":  #
+"Unable to overwrite menu.yml":  #
+"Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.":  #
+"Unable to save your menu.":  #
+"Upload a file to this folder:":  #
+"Upload files":  #
 "Used Libraries / Components":  #
 "User %s could not be saved, or nothing was changed.":  #
 "Username or password not correct. Please check your input.":  #
+"Version":  #
+"Version: ":  #
 "View %contenttypes%":  #
 "View / edit Templates":  #
+"View Config":  #
+"View Readme":  #
 "View translations file '%s'.":  #
+"You do not have the right privileges to create a new record.":  #
 "You do not have the right privileges to edit that record.":  #
 "You do not have the right privileges to view that page.":  #
 "You have been logged out.":  #
 "You've been logged on successfully.":  #
 "Your username":  #
+"back to editing":  #
+"by":  #
+"css classes":  #
+"field":  #
+"http://":  #
+"in:":  #
+"label":  #
+"latest update:":  #
+"line":  #
+"logged in":  #
+"logged out":  #
+"new value":  #
+"no label set":  #
+"no":  #
+"old value":  #
+"px.":  #
+"show all":  #
+"title":  #
+"unknown":  #
+"yes":  #
 
 #-----------------------------------------
-# 202 translated strings
+# 199 translated strings
 
 "%contenttypes% overview": "ikhtisar %contenttypes%"
 "%contenttypes%": "%contenttypes%"
@@ -124,10 +226,7 @@
 "Configuration": "Konfigurasi"
 "Content '%title%' could not be deleted.": "Konten '%title%' tidak dapat dihapus."
 "Content '%title%' could not be modified.": "Konten '%title%' tidak dapat dimodifikasi."
-"Content '%title%' has been changed to 'draft'.": "Konten '%title%' telah diubah ke 'konsep'."
-"Content '%title%' has been changed to 'held'": "Konten '%title%' telah diubah ke 'ditahan'."
 "Content '%title%' has been deleted.": "Konten '%title%' telah dihapus."
-"Content '%title%' is published.": "Konten '%title%' telah terbit."
 "Content was duplicated. Click 'Save %contenttype%' to finalize.": "Konten telah digandakan. Klik 'Simpan %contenttype%' untuk memastikannya."
 "Content": "Konten"
 "Contenttypes": "Tipe Konten"
@@ -183,7 +282,6 @@
 "Latest activity": "Aktifitas terakhir"
 "Latest entries": "Entri terbaru"
 "Latitude:": "Lintang"
-"Level": "Tingkat"
 "Log on": "Masuk"
 "Login": "Masuk"
 "Logout %name%": "Keluar %name%"
@@ -247,11 +345,12 @@
 "Tags": "Tag-tag"
 "Taxonomy": "Taksonomi"
 "Thanks": "Terima Kasih"
+"The activitylog has been cleared.": "Log Aktifitas telah dibersikan."
+"The activitylog has been trimmed.": "Log Aktifitas telah dirampingkan."
 "The changes to this %contenttype% have been saved.": "Perubahan untuk %contenttype% ini telah disimpan."
 "This is a checkbox": "Ini kotak centang"
 "Tip:": "Saran"
 "Title": "Judul"
-"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "Untuk memulai dengan cepat, tambahkan <a href='%url%'>Konten Loren Ipsum</a>."
 "Translations": "Terjemahan"
 "Trim Activitylog": "Rampingkan Log Aktifitas"
 "URL:": "URL"
