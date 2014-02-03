@@ -171,10 +171,12 @@ kitchensink:
 # video - varchar(256) - Video embed widget, stored as filename.
 # html - text (65kb) - wysiwyg element.
 # textarea - varchar(32768) - Simple, plain < textarea > field.
+# markdown - varchar(32768) - Simple, plain < textarea > field, which is parsed as Markdown text.
 # datetime - datetime - date and time selector widget.
 # date - datetime - date selector widget.
 # select - varchar(256) - select with predefined values
 # templateselect - varchar(256) - select with template filenames
+# checkbox - integer - checkbox-field which is 1 (checked) or 0 (unchecked)
 
 
 # number (deprecated) - input type decimal(18,9), useful for storing number that need to be sortable

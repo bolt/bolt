@@ -1098,7 +1098,7 @@ class Backend implements ControllerProviderInterface
         $files = array();
         $folders = array();
 
-        $basefolder = __DIR__ . "/../../../../";
+        $basefolder = BOLT_WEB_DIR . "/";
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder . $path);
 
@@ -1231,7 +1231,7 @@ class Backend implements ControllerProviderInterface
             $filename = realpath(BOLT_CONFIG_DIR . "/" . basename($file));
         } else {
             // otherwise just realpath it, relative to the 'webroot'.
-            $filename = realpath(__DIR__ . "/../../../../" . $file);
+            $filename = realpath(BOLT_WEB_DIR . "/" . $file);
         }
 
         $type = getExtension($filename);
