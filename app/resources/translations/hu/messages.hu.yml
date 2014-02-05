@@ -1,20 +1,7 @@
-# app/resources/translations/hu/messages.hu.yml -- generated on 2014/01/17 10:02:40
-# 19 untranslated strings
+# app/resources/translations/hu/messages.hu.yml -- generated on 2014/02/05 12:03:31
+# 6 untranslated strings
 
 "%name% № %id%":  #
-"Browscap file updated.":  #
-"Change Log":  #
-"Check again":  #
-"Files on the stack":  #
-"In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.":  #
-"In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.":  #
-"Place on stack":  #
-"Select from stack":  #
-"Select":  #
-"Stack":  #
-"The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.":  #
-"The requested changelog entry doesn't exist.":  #
-"The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.":  #
 "Tip:":  #
 "by":  #
 "in:":  #
@@ -22,7 +9,7 @@
 "of":  #
 
 #-----------------------------------------
-# 359 translated strings
+# 372 translated strings
 
 "%contenttypes% overview": "%contenttypes% áttekintése"
 "%contenttypes%": "%contenttypes%"
@@ -64,6 +51,7 @@
 "Bolt - Fatal error.": "Bolt - Végzetes hiba."
 "Bolt documentation on Github": "Bolt dokumentáció a Githubon"
 "Bolt on Github": "Bolt a Githubon"
+"Browscap file updated.": "Browscap fájl frissítve."
 "Browser / platform": "Böngésző / platform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Beépített szerepkör, automatikusan biztosítva minden alkalommal még ha nincs is bejelentkezett felhasználó"
 "Built-in role, automatically granted to every registered user": "Beépített szerepkör, automatikusan biztosítva minden regisztrált felhasználónak"
@@ -73,10 +61,12 @@
 "Cancel": "Mégse"
 "Categories": "Kategóriák"
 "Category": "Kategória"
+"Change Log": "Változásnapló"
 "Change status to 'draft'": "Állapot váltása 'piszkozatba'"
 "Change status to 'held'": "Állapot váltása 'visszatartottba'"
 "Chapter": "Fejezet"
 "Chapters": "Fejezetek"
+"Check again": "Ismételt vizsgálat"
 "Check database": "Adatbázis ellenőrzése"
 "Choose an entry": "Válasszon egy bejegyzést"
 "Class:": "Osztály"
@@ -113,8 +103,8 @@
 "Disabled extensions": "Nem engedélyezett kiterjesztések"
 "Display name": "Megjelenített név"
 "Done!": "Kész!"
-"Duplicate %contenttype%": "Duplikált %contenttype%"
-"Duplicate %filename%": "Duplikált %filename%"
+"Duplicate %contenttype%": "%contenttype% duplikálása"
+"Duplicate %filename%": "%filename% duplikálása"
 "Edit %contenttype%": "%contenttype% szerkesztése"
 "Edit Config": "Konfiguráció szerkesztése"
 "Edit file": "Fájl szerkesztése"
@@ -136,6 +126,7 @@
 "File Management": "Fájlkezelő"
 "File is not readable!": "A fájl nem olvasható!"
 "Files in %s": "Fájlok %s-ben"
+"Files on the stack": "Fájlok a kötegben"
 "Files": "Fájlok"
 "Files: %path%": "Fájlok: %path%"
 "Filesize": "Fájlméret"
@@ -154,6 +145,8 @@
 "IP address": "IP cím"
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Ha volna egy tartalom 'about' sluggal, akkor az lenne itt. De nincs, ezért látod ezt itt."
 "Image": "Kép"
+"In the contenttype for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this.": "A(z) '%contenttype%' tartalomtípusának '%field%' mezője használja a %uses% mezőt, de az nincs definiálva. A contenttypes.yml fájl szerkesztésével javítsa ezt."
+"In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this.": "A(z) '%contenttype%' tartalomtípusának '%field%' mezője védett nevet használ. A contenttypes.yml fájl szerkesztésével javítsa ezt."
 "Info": "Info"
 "It seems there's no content in the database.": "Úgy tűnik nincs tartalom az adatbázisban."
 "Javascript disabled": "A Javascript nincs engedélyezve"
@@ -202,9 +195,9 @@
 "Oops! An error has occurred!": "Hoppá! Egy hiba történt!"
 "Options": "Opciók"
 "Order: %sort%": "Rendezés: %sort%"
-"Overview for": "Előnézet:"
+"Overview for": "Áttekintés:"
 "Overview of all": "Összes áttekintése"
-"Overview": "Előnézet"
+"Overview": "Áttekintés"
 "Owner": "Tulajdonos"
 "Owner:": "Tulajdonos:"
 "Page": "Oldal"
@@ -218,6 +211,7 @@
 "Permalink": "Permalink"
 "Permission denied": "Engedély megtagadva"
 "Permissions": "Engedélyek"
+"Place on stack": "Elhelyezés kötegben"
 "Please choose the record you want to link to:": "Kérem válassza ki a bejegyzést, amelyre a link mutasson:"
 "Please confirm that you wish to restore the menu": "Erősítse meg, hogy visszaállítaná a menüt"
 "Please log on.": "Kérem jelentkezzen be."
@@ -235,7 +229,7 @@
 "Recent %contenttypes%": "Legutóbbi %contenttypes%"
 "Recently edited %contenttypes%": "Mostanában szerkesztett %contenttypes% tartalomtípusok"
 "Related content:": "Kapcsolódó tartalom:"
-"Relationships": "Viszonyok"
+"Relationships": "Kapcsolatok"
 "Released:": "Kiadva:"
 "Remove from menu": "Eltávolítás a menüből"
 "Req. Bolt": "Min. Bolt verzió"
@@ -258,7 +252,9 @@
 "Select all": "Minden kiválasztása"
 "Select an item to add": "Válasszon egy elemet a hozzáadáshoz"
 "Select from server": "Kiválasztás a szerverről"
+"Select from stack": "Választás kötegből"
 "Select zero or more pages": "Válasszon ki egy vagy több oldalt"
+"Select": "Kiválasztás"
 "Session expires": "A munkamenet lejár"
 "Session resumed.": "A munkamenet visszaállítva."
 "Settings": "Beállítások"
@@ -274,6 +270,7 @@
 "Something went wrong, please reload the page and try again": "Valami rosszul sikerült, kérem töltse újra az oldalt és próbálja mégegyszer"
 "Sophisticated, lightweight & simple CMS": "Kifinomult, könnyű és egyszerű tartalomkezelő"
 "Special elements": "Speciális elemek"
+"Stack": "Köteg"
 "Status:": "Állapot"
 "Tag": "Címke"
 "Tags": "Címkék"
@@ -291,9 +288,12 @@
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "A '%s' fájl nem írható. Az ön saját szerkesztőjét kell használnia a fájl módosításához."
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "A '%taxonomytype%' azonosítója és slug-ja nem egyezik ('%slug%' vs. '%taxonomytype%'). Szerkessze úgy a taxonomy.yml fájlt, hogy egyezzenek, így megelőzhető az adatbázis és a sablonok közötti inkonzisztencia."
 "The menu.yml config-file was edited by someone else in the meantime, please reload the page.": "A menu.yml fájlt idő közben valaki szerkesztette, töltse újra az oldalt."
+"The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.": "A(z) '%contenttype%' (%name%) egyedi és teljes neve megegyezik. A contenttypes.yml fájl szerkesztésével tegye őket különbözővé."
 "The new %contenttype% has been saved.": "Az új %contenttype% mentve."
+"The requested changelog entry doesn't exist.": "A kért változásnapló bejegyzés nem létezik."
 "The settings for roles and permissions are stored in %permissions%.": "A szerepek és az engedélyek beállításai tárolva a %permissions% fájlban."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "A '%slug%' slug több, mint egy tartalomtípusban használt. Szerkessze úgy a contenttypes.yml fájlt, hogy különbözzenek."
+"The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.": "A '%contenttype%' (%slug%) slug és egyedi slug értéke megegyezik. A contenttypes.yml fájl szerkesztésével tegye őket különbözővé."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "A '%s' nyelvi fájl nem hozható létre. A saját szerkesztőjét kell használnia ahhoz, hogy módosítani tudja."
 "The translations file '%s' is not readable.": "A '%s' nyelvi fájl nem olvasható."
 "There are no users in the database. Please create the first user.": "Nincsenek felhasználók az adatbázisban. Hozza létre az első felhasználót."
