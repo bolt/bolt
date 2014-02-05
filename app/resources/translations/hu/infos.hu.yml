@@ -39,27 +39,26 @@ info:
         Ha a jelölőt más pozícióba szeretné mozgatni, csak fogd és vidd módszerrel helyezze át a min-térképen. A földrajzi
         szélesség és hosszúság automatikusan frissítve lesz.
     markdown: |
-        Markdown is a text-to-HTML conversion tool for web writers.
-            <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
-            which is then converted to structurally valid HTML.</p>
-            <p><strong>Quick reference:</strong><br>
-            # This is an &amp;lt;h1&amp;gt; tag<br>
-            ## This is an &amp;lt;h2&amp;gt; tag<br>
-            ###### This is an &amp;lt;h6&amp;gt; tag</p>
-            <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-            ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
-            this **<strong>is bold</strong>**.
-            <p>Create <a href='#'>links</a> like this:<br>
-            An [exciting website](http://example.org/ &amp;quot;Title of link&amp;quot;)</p>
-            <p>&nbsp; * This is an unordered list<br>
-            &nbsp; * Item 2</p>
-            <p>&nbsp; 1 This is an ordered list<br>
-            &nbsp; 2 Item 2</p>
+        A markdown egy szöveget HTML kóddá alakító eszköz webes publikálók számára.
+            <p>A markdown segítségével könnyen olvasható és írható egyszerű szöveg segítségével írhat bejegyzéseket, amelyek
+                aztán érvényes HTML kóddá lesznek alakítva.</p>
+            <p><strong>Gyors refernciák:</strong><br>
+            # Ez egy &amp;lt;h1&amp;gt; tag<br>
+            ## Ez egy &amp;lt;h2&amp;gt; tag<br>
+            ###### Ez egy &amp;lt;h6&amp;gt; tag</p>
+            <p>Ez _<em>dőlt</em>_, ez __<strong>félkövér</strong>__, ez pedig
+            ___<em><strong>mindkettő</strong></em>___. Csillagokat is használhat: Ez *<em>dőlt</em>*,
+            ez **<strong>félkövér</strong>**.
+            <p>Így hozhat létre <a href='#'>linkeket</a>:<br>
+            Egy [érdekes weboldal](http://example.org/ &amp;quot;A link címe&amp;quot;)</p>
+            <p>&nbsp; * Ez egy lista<br>
+            &nbsp; * 2-ik elem</p>
+            <p>&nbsp; 1 Ez egy számozott lista<br>
+            &nbsp; 2 2-ik elem</p>
     relationships: |
-        By selecting other records as a 'relation', you are actually
-            creating a link between this record, and the one you selected. On the
-            website, this can by used for 'related articles', 'see also' or to display
-            how this record fits into a certain structure.
+        Kapcsolat létrehozásával összekötheti ezt a bejegyzést egy másikkal. A weboldalon
+        ezek használhatók 'kapcsolódó bejegyzések', 'tekintse meg ezeket is' linkek vagy
+        annak megjelenítéséhez, hogy hogyan kapcsolódnak egy struktúrába a bejegyzések.
     taxonomy: |
         By selecting one or more taxonomies for this record,
                   you are classifying this record to have those properties. On the
@@ -68,23 +67,23 @@ info:
                   classification.
 about:
     bolt: |
-        <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
-            developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
-            components. If you are a developer you're very welcome to help in the further development of Bolt.
+        <p>A Bolt egy olyan tartalomkezelő rendszel, mely törekszik a gyorsaságra, az egyszerűségre, a
+        következeteségre és élvezetes használhatóságra felhasználóknak és fejlesztőknek egyaránt.
+        A Bolt nyílt forrású, ennek megfelelően nyílt forrású komponensek felhasználásával készült.
+        Ha ön pedig fejlesztő, örömmel fogadjuk a segítségét a további fejlesztésekben.
         </p>
     licence: |
-        <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
-            found here, in the included <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+        <p>A Bolt minden része szabadon felhasználható a nyílt MIT licenc keretében. A licenc teljes szövege megtalálható
+        itt a mellékelt <a href="%paths_app%LICENSE.txt">LICENSE.txt</a> fájlban.
         </p>
 prefill:
     short_help: |
-        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dommy content.<p>
-        <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
+        <p>Jelölje be a tartalomtípusokat, amiket automatikusan fel kíván tölteni Lorem Ipsum álszöveggel.</p>
+        <p>Ha mindet jelöletlenül hagyja, a Bolt csak azokat fogja feltölteni, amikhez még egyáltalán nem tartozik tartalom.</p>
 extension:
     enable: |
-        <p>To enable extensions, add them to the <code>enabled_extensions</code> array in
-                <code>config.yml</code>. You must use the exact name of the extension, as
-                shown in the first label on the bottom row of its tile. Note that the names
-                are <em>case sensitive</em>, to eliminate issues with the filesystem. </p>
-            <p>example:</p>
+        <p>Kiterjesztések engedélyezéséhez adja őket a <code>enabled_extensions</code> tömbhöz a <code>config.yml</code> fájlban.
+            Ehhez a kiterjesztés pontos nevét kell használnia, ahogyan az megjelenik az első címkén annak alsó sorában.
+            A fájlrendszerrel kapcsolatos problémák elkerülése miatt figyeljen arra, hogy a nevek <em>kis- és nagybetű érzékenyek</em>.</p>
+            <p>Példa:</p>
             <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
