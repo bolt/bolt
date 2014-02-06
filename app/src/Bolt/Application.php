@@ -186,6 +186,7 @@ class Application extends Silex\Application
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
+            ->register(new Provider\IntegrityCheckerProvider())
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider());
 
@@ -200,10 +201,6 @@ class Application extends Silex\Application
         $this['extensions']->initialize();
 
         // @todo: make a provider for the Integrity checker and Random generator..
-
-        // Set up the integrity checker for the Database, to periodically check if the Database
-        // is up to date, and if needed: repair it.
-        $this['integritychecker'] = new Database\IntegrityChecker($this);
     }
 
     public function initMountpoints()
