@@ -1,6 +1,12 @@
 {% include '_header_basic.twig' with { 'class': 'popup' } %}
 
-<h1>{{ __('Please choose the record you want to link to:', {'%contenttype%': contenttype.singular_name}) }}</h1>
+<div class="row">
+
+    <div class="col-lg-12">
+        <h1 class="page-header">{{ __('Please choose the record you want to link to:', {'%contenttype%': contenttype.singular_name}) }}</h1>
+    </div>
+
+</div>
 
 <ul class="nav nav-tabs" id="myTab">
     <li class="active">

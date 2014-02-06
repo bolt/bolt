@@ -100,11 +100,11 @@
                     <td class='actions'>
                         <div class="btn-group">
                             {% if editable %}
-                            <a class="btn btn-mini" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
+                            <a class="btn btn-xs btn-default" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
                                 <i class="fa fa-edit"></i> {{ __('Edit') }}
                             </a>
                             {% endif %}
-                            <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                            <button class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown">
                                 <i class="fa fa-info-sign"></i>
                                 <span class="caret"></span>
                             </button>

@@ -1,6 +1,8 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
-<h1>{{ title|raw }}</h1>
+<div class="col-lg-12">
+    <h1 class="page-header">{{ title|raw }}</h1>
+</div>
 
 {% if pathsegments|length > 1 %}
     <p>{{ __('Path:') }}
