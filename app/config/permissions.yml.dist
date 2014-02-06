@@ -46,6 +46,7 @@ global:
     dashboard: [ everyone ]
     dbcheck: [ admin, developer ]
     dbupdate: [ admin, developer ]
+    dbupdate_result: [ admin, developer ]
     extensions: [ developer ]
     fileedit: [ admin, developer ]
     files:config: [ developer ]
