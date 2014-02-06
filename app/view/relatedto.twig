@@ -1,14 +1,15 @@
 {% include '_header.twig' with { 'active':'content' } %}
 
-<div class="row-fluid">
-    <div class="span9">
+<div class="row">
 
-        <h1>
-            {{ title|raw }}
+    <div class="col-lg-12">
+        <h1 class="page-header">{{ title|raw }}
             <span>{% if pager is defined and pager.totalpages > 1 %}
                 {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
-            {%endif %}</span>
-        </h1>
+            {%endif %}</span></h1>
+    </div>
+
+    <div class="col-md-9">
 
         {# Toolbar for related contenttypes #}
         {% if id %}
@@ -18,7 +19,7 @@
                     {% for slug, gcontenttype in app.config.get('contenttypes') %}
 
                         {% if gcontenttype.relations.pages  %}
-                            # set default subcontenttype
+                            {# set default subcontenttype #}
                             {% if subcontenttype.slug is null and defaultsubcontenttype is null %}
                                 {% set defaultsubcontenttype = slug %}
                                 {% set subcontenttype = app.config.get('contenttypes')[defaultsubcontenttype] %}
@@ -53,7 +54,7 @@
 
     {% if isallowed('delete', subcontenttype) %}
     <div class="btn-group">
-        <a href="#" class="btn deletechoosen showifchoosen" style="display:none;"><i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': subcontenttype.name}) }}</a>
+        <a href="#" class="btn deletechoosen showifchoosen" style="display:none;"><i class="fa fa-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': subcontenttype.name}) }}</a>
     </div>
     {% endif %}
 
@@ -61,40 +62,39 @@
 
     </div><!-- /span9 -->
 
-    <aside class="span3">
+    <aside class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-cog fa-fw"></i> {{__('Actions for %contenttypes%',{'%contenttypes%':subcontenttype.name})}}
+            </div>
 
-    <section>
-        <h2>{{__('Actions for %contenttypes%',{'%contenttypes%':subcontenttype.name})}}:</h2>
+            <div class="panel-body">
+                <a class="btn btn-default" href="{{ path('editcontent', { 'contenttypeslug': subcontenttype.slug, 'id': '', 'relation': contenttype.slug, 'relationid': content.id }) }}">
+                    <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': subcontenttype.singular_name}) }}
+                </a>
 
-        <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': subcontenttype.slug, 'id': '', 'relation': contenttype.slug, 'relationid': content.id }) }}">
-            <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': subcontenttype.singular_name}) }}
-        </a>
+                {% if isallowed('edit', contenttype) %}
+                    <a class="btn btn-default" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
+                        <i class="fa fa-edit"></i> {{ __('Edit %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+                    </a>
+                {% endif %}
 
-        {% if isallowed('edit', contenttype) %}
-        <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttype.slug, 'id': content.id }) }}">
-            <i class="icon-edit"></i> {{ __('Edit %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
-        </a>
-        {% endif %}
+                {% if request('filter') or request('order') %}
+                    <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
+                {% endif %}
 
-        {% if request('filter') or request('order') %}
-        <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
-        {% endif %}
+                <form class="form-inline" style="margin-top:15px;">
+                    <input type="hidden" value="{{ request('show', '', true) }}" name="show">
+                    <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Filtering') }}">
+                    <button type="submit" class="btn">{{ __('Filter') }}</button>
+                    {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
+                </form>
+            </div>
+        </div>
 
-        <h2>{{ __('Filtering:') }}</h2>
+        {{ render(path("lastmodified", {"contenttypeslug": subcontenttype.slug} )) }}
 
-        <form class="form-inline">
-          <input type="hidden" value="{{ request('show', '', true) }}" name="show">
-          <input type="text" class="input-small" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;">
-          <button type="submit" class="btn">{{ __('Filter') }}</button>
-              {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
-        </form>
-
-
-    </section>
-
-    {{ render(path("lastmodified", {"contenttypeslug": subcontenttype.slug} )) }}
-
-    {{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}
+        {{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}
 
     </aside>
 </div>

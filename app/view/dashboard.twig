@@ -1,10 +1,11 @@
 {% include '_header.twig' %}
 
-<div class="row-fluid">
-    <div class="span8">
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{{ __('Dashboard') }}</h1>
+    </div>
 
-        <h1><strong>{{ __('Dashboard') }}</strong></h1>
-
+    <div class="col-lg-8">
 {%  if suggestloripsum %}
 
     <div class="alert alert-info">
@@ -28,7 +29,7 @@
             {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
             {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') %}
             <li><a href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
-                <i class="icon-plus"></i> {{ __('New %contenttype%', {'%contenttype%': contenttype.singular_name}) }}
+                <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': contenttype.singular_name}) }}
             </a></li>
             {% endif %}
             {% endfor %}
@@ -38,8 +39,8 @@
         <div class="btn-group">
         {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
             {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') %}
-            <a class="btn" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
-                <i class="icon-plus"></i> {{ __('New %contenttype%', {'%contenttype%': contenttype.singular_name}) }}
+            <a class="btn btn-default" href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
+                <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': contenttype.singular_name}) }}
             </a>
             {% endif %}
         {% endfor %}
@@ -60,7 +61,7 @@
                 {{ __('Recently edited %contenttypes%', {'%contenttypes%': app.config.get('contenttypes')[contenttype].name}) }}
             </h3>
 
-            <table class='dashboardlisting'>
+            <table class='table table-striped dashboardlisting'>
                 {% for content in multiplecontent %}
 
                     {% set editable = isallowed('edit', content) %}
@@ -76,7 +77,7 @@
 
     </div><!-- /span8 -->
 
-    <aside class="span4">
+    <aside class="col-lg-4">
 
 
     <noscript>

@@ -22,7 +22,7 @@
         <tr><th>{{ __('Folders') }}</th><th>{{ __('Modified') }}</th></tr>
 {% for folder in folders %}
             <tr>
-                <td><a href="{{ path('files', { 'path': folder.newpath, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}"><i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
+                <td><a href="{{ path('files', { 'path': folder.newpath, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}"><i class="fa fa-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
                 <td>
                     <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">{{ folder.modified }}</time>
                 </td>
@@ -44,7 +44,7 @@
                                 <b>{{ file.filename|trimtext(40) }}</b>
                             </a>
                         {% else %}
-                            <b>{{ file.filename|trimtext(40) }} </b><i class="icon-lock"></i>
+                            <b>{{ file.filename|trimtext(40) }} </b><i class="fa fa-lock"></i>
                         {% endif %}
                     </td>
                     <td>{{ file.filesize }}.</td>

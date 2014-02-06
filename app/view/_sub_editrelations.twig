@@ -52,7 +52,7 @@
     {% for reltype, ids in content.relation %}
         {% if contenttype.relations[reltype] is not defined %}
             <p>{{ __('This record is related to:') }}</p>
-            <table class="dashboardlisting">
+            <table class="table table-striped dashboardlisting">
             {% for id in ids %}
                 {% setcontent record = reltype~"/"~id %}
                 {% if record %}

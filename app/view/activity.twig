@@ -5,14 +5,14 @@
 
 <div class="btn-group" style='padding-bottom: 12px'>
     <a class="btn" href="{{ path('activitylog', { 'action': 'trim' }) }}">
-        <i class="icon-trash"></i> {{ __('Trim Activitylog') }}
+        <i class="fa fa-trash"></i> {{ __('Trim Activitylog') }}
     </a>
     <a class="btn confirm" href="{{ path('activitylog', { 'action': 'clear' }) }}" data-confirm="Are you sure you want to clear the activity logs?">
-        <i class="icon-trash"></i> {{ __('Clear Activitylog') }}
+        <i class="fa fa-trash"></i> {{ __('Clear Activitylog') }}
     </a>
 </div>
 
-<table class="dashboardlisting">
+<table class="table table-striped dashboardlisting">
     <tbody>
     {% for log in activity %}
     <tr>

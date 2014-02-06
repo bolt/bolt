@@ -2,7 +2,54 @@
 
 {% if active is not defined %}{% set active="dashboard" %}{% endif %}
 
-<div class="navbar navbar-fixed-top ">
+<div id="wrapper">
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('dashboard') }}"><img src="{{ paths.app }}view/img/apple-touch-icon.png">Bolt</a> {% if content.link %}<a href="{{ content.link }}" target="_blank" class="navbar-site btn">{{ __('View on site') }} <i class="fa fa-external-link"></i></a>{% else %}<a href="{{ paths.root }}" target="_blank" class="navbar-site btn">{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %} <i class="fa fa-external-link fa-fw"></i></a>{% endif %}
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> Admin <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    {# Logout #}
+                    <li>
+                        <form action="{{ path('logout') }}" method="POST">
+                            <button class="btn btn-link" type="submit">
+                                <i class="fa fa-signout"></i> {{ __('Logout %name%', {'%name%': user.displayname|trimtext(16)}) }}
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+    </nav>
+    <!-- /.navbar-static-top -->
+
+    {#
+    <div class="navbar navbar-fixed-top ">
     <div class="navbar-bolt navbar-inverse">
         <div class="container">
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -17,8 +64,13 @@
         </div>
     </div>
 </div>
+    #}
 
-<div class="container-fluid">
+    <nav class="navbar-default navbar-static-side" role="navigation" id="nav">
+        {% include '_sub_mainmenu.twig' %}
+    </nav>
 
-{% include '_messages.twig' %}
+    <div id="page-wrapper">
+
+    {% include '_messages.twig' %}
 

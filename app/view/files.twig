@@ -16,7 +16,7 @@
     <tr><th>{{ __('Folders') }}</th><th>{{ __('Modified') }}</th></tr>
 {% for folder in folders %}
     <tr>
-        <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
+        <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><i class="fa fa-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
         <td>
             <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">{{ folder.modified }}</time>
         </td>
@@ -37,7 +37,7 @@
                         <b>{{ file.filename }}</b>
                     </a>
                 {% else %}
-                    <b>{{ file.filename }} </b><i class="icon-lock"></i>
+                    <b>{{ file.filename }} </b><i class="fa fa-lock"></i>
                 {% endif %}
             {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
                 {% if file.readable %}
@@ -46,13 +46,13 @@
                     <b>{{ file.filename }}</b>
                 {% endif %}
                 {% if not file.readable or not file.writable %}
-                    <i class="icon-lock"></i>
+                    <i class="fa fa-lock"></i>
                 {% endif %}
             {% else %}
                 {% if file.readable %}
                     <a href="/{{file.newpath}}" target="_blank"><b>{{ file.filename }}</b></a>
                 {% else %}
-                    <b>{{ file.filename }} </b><i class="icon-lock"></i>
+                    <b>{{ file.filename }} </b><i class="fa fa-lock"></i>
                 {% endif %}
             {% endif %}
         </td>
@@ -72,22 +72,22 @@
 
                 {% if not stacked(file.newpath) %}
                 <a href="#" class="btn btn-mini" data-action="stack.addToStack('{{file.newpath}}', this);">
-                    <i class="icon-paper-clip"></i>
+                    <i class="fa fa-paper-clip"></i>
                     {{ __('Place on stack') }}
                 </a>
                 {% endif %}
 
                 <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-                    <i class="icon-info-sign"></i>
+                    <i class="fa fa-info-sign"></i>
                     {{ __('Options') }}
                     <span class="caret"></span>
                 </a>
 
                 <ul class="dropdown-menu pull-right">
                     <li><a href="#" data-action="files.deleteFile('{{file.newpath}}', this);">
-                        <i class="icon-ban-circle"></i> {{ __('Delete %filename%',{'%filename%':file.filename}) }}</a></li>
+                        <i class="fa fa-ban-circle"></i> {{ __('Delete %filename%',{'%filename%':file.filename}) }}</a></li>
                     <li><a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
-                        <i class="icon-copy"></i> {{ __('Duplicate %filename%',{'%filename%':file.filename}) }}</a></li>
+                        <i class="fa fa-copy"></i> {{ __('Duplicate %filename%',{'%filename%':file.filename}) }}</a></li>
                     <li class="divider"></li>
                     <li><a class="nolink">{{ __('Permissions') }}:
                             <strong><code>{{ file.permissions }}</code></strong></a></li>
@@ -108,7 +108,7 @@
         <fieldset>
             {{ form_widget(form) }}
             <button type="submit" class="btn btn-info" style="margin-top: 4px;">
-                <i class="icon-upload"></i>
+                <i class="fa fa-upload"></i>
                 <span>{{ __('Upload file') }}</span>
             </button>
         </fieldset>
@@ -120,7 +120,7 @@
         });
     </script>
 {% else %}
-    <p><i class="icon-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
+    <p><i class="fa fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
 {% endif %}
 
 
