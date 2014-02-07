@@ -1341,6 +1341,19 @@ function isUrl($url) {
 }
 
 
+function getReferrer(Symfony\Component\HttpFoundation\Request $request) {
+
+    $tmp = parse_url($request->server->get('HTTP_REFERER'));
+
+    // \Dumper::dump($tmp);
+    $referrer = $tmp['path'];
+    if (!empty($tmp['query'])) {
+        $referrer .= "?" . $tmp['query'];
+    }
+
+    return $referrer;
+}
+
 
 /**
  * i18n made right, second attempt...
