@@ -56,9 +56,9 @@ class Config
         if (!self::$yamlParser) {
             self::$yamlParser = new Yaml\Parser();
         }
-        
+
         $filename = $useDefaultConfigPath ? (BOLT_CONFIG_DIR . '/' . $basename) : $basename;
-        
+
         if (is_readable($filename)) {
             return self::$yamlParser->parse(file_get_contents($filename) . "\n");
         }
@@ -158,8 +158,8 @@ class Config
         $config['routing']     = $this->parseConfigYaml('routing.yml');
         $config['permissions'] = $this->parseConfigYaml('permissions.yml');
         $config['extensions']  = array();
-        
-        // fetch the theme config. requires special treatment due to the path 
+
+        // fetch the theme config. requires special treatment due to the path
         $paths = getPaths($config);
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
@@ -367,23 +367,6 @@ class Config
                 }
             }
 
-            // Show some helpful warnings if slugs or names are not set correctly.
-            if ($ct['slug'] == $ct['singular_slug']) {
-                $error = __(
-                    "The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.",
-                    array('%contenttype%' => $key, '%slug%' => $ct['slug'])
-                );
-                $this->app['session']->getFlashBag()->set('error', $error);
-            }
-
-            if ($ct['name'] == $ct['singular_name']) {
-                $error = __(
-                    "The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.",
-                    array('%contenttype%' => $key, '%name%' => $ct['name'])
-                );
-                $this->app['session']->getFlashBag()->set('error', $error);
-            }
-
             // Keep a running score of used slugs..
             if (!isset($slugs[$ct['slug']])) {
                 $slugs[$ct['slug']] = 0;
@@ -392,7 +375,9 @@ class Config
             if (!isset($slugs[$ct['singular_slug']])) {
                 $slugs[$ct['singular_slug']] = 0;
             }
-            $slugs[$ct['singular_slug']]++;
+            if ($ct['singular_slug'] != $ct['slug']) {
+                $slugs[$ct['singular_slug']]++;
+            }
         }
 
         // Check DB-tables integrity
