@@ -886,7 +886,7 @@ class Storage
         }
         // only add taxonomies if they exist
         if (!empty($taxonomies) && !empty($tags_where)) {
-            $tags_query_1 = sprintf('%s.contenttype = "%s"', $taxonomytable, $contenttype);
+            $tags_query_1 = sprintf("%s.contenttype = '%s'", $taxonomytable, $contenttype);
             $tags_query_2 = implode(' OR ', $tags_where);
             $tags_query   = sprintf(' OR (%s AND (%s))', $tags_query_1, $tags_query_2);
         }
@@ -904,7 +904,7 @@ class Storage
 
         // Build actual where
         $where = array();
-        $where[] = sprintf('%s.status = "published"', $table);
+        $where[] = sprintf("%s.status = 'published'", $table);
         $where[] = '(( ' . implode(' OR ', $fields_where) . ' ) '.$tags_query. ' )';
         $where = array_merge($where, $filter_where);
 
