@@ -64,6 +64,8 @@
         {{content.slug}}
     </td>
     <td>
-        {{content.image}}
+        {% if content.getImage is not empty %}
+            {{content.getImage|fancybox(thumbsize, thumbsize*0.75, 'c')}}
+        {% endif %}
     </td>
 {% endblock %}
