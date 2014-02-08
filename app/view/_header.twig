@@ -5,10 +5,10 @@
 <div class="navbar navbar-fixed-top ">
     <div class="navbar-bolt navbar-inverse">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            <a class="btn navbar-btn" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"><i class="fa fa-bars fa-2x"></i></span>
             </a>
-            <a class="brand" href="{{ path('dashboard') }}">
+            <a class="navbar-brand" href="{{ path('dashboard') }}">
                 <strong>{{ app.config.get('general/branding/name') }}</strong> <span class="hidden-phone"> {% if app.config.get('general/sitename') %}- {{ app.config.get('general/sitename') }}{% endif %}</span>
             </a>
 
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container">
 
 {% include '_messages.twig' %}
 

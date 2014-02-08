@@ -1,0 +1,37 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+/** 
+ * Variables for colours
+ */
+@import "colours";
+
+/** 
+ * External resources
+ */
+@import "../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap.scss";
+@import "../_resources/fontawesome/scss/font-awesome.scss";
+
+/**
+ * Override bootstrap defaults
+ */
+@import "bootstrapcustom";
+@import "ckeditorcustom";
+@import "codemirrorcustom";
+@import "select2custom";
+
+/**
+ * Some modules
+ */
+@import "textstyles";
+@import "popover";
+@import "dashboard";
+@import "stack";
+@import "forms";
+
+/**
+ * The leftover styles
+ */
+@import "bolt";

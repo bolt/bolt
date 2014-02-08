@@ -1,10 +1,10 @@
-<div class="nav-collapse">
-    <ul class="nav pull-right">
+<div class="navbar-collapse">
+    <ul class="navbar pull-right">
         {% if app.session.get('user') is not null %}
 
             {# Link to Dashboard  #}
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
-                <i class="icon-home"></i> {{ __('Dashboard') }}</a></li>
+                <i class="fa fa-home"></i> {{ __('Dashboard') }}</a></li>
 
             {# Menu with Contenttypes where showinmenu is set true #}
             {% for slug, contenttype in app.config.get('contenttypes') %}
@@ -49,17 +49,17 @@
             {# Menu with all Contenttypes #}
             <li class="{% if active=='content' and not content.contenttype.showinmenu %}active {% endif %}dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-sitemap"></i> {{ __('Content') }} <b class="caret"></b>
+                    <i class="fa fa-sitemap"></i> {{ __('Content') }} <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     {% for slug, contenttype in app.config.get('contenttypes') %}
                         {% if isallowed('contenttype:' ~ slug) and not contenttype.showinmenu %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-tasks{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
+                                <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}fa fa-tasks{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             {% if loop.length < 5 %}
                                 {% if isallowed('contenttype:' ~ slug ~ ':create') %}
                                 <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
-                                    <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
+                                    <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 {% if not loop.last %}<li class="divider"></li>{% endif %}
                             {% endif %}
@@ -72,28 +72,28 @@
             {# Menu with all settings #}
             {% if isallowed('settings') %}
             <li class="{% if active=='settings' %}active {% endif %}dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cogs"></i> {{ __('Settings') }}
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {{ __('Settings') }}
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     {% if isallowed('files:config') %}
-                        <li class="nav-header">{{ __('Configuration') }}</li>
-                        <li><a href="{{ path('users') }}"><i class="icon-group"></i> {{ __('Users') }}</a></li>
+                        <li class="navbar-header">{{ __('Configuration') }}</li>
+                        <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ __('Users') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
-                            <i class="icon-cog"></i> {{ __('Configuration') }}</a></li>
+                            <i class="fa fa-cog"></i> {{ __('Configuration') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
-                            <i class="icon-hdd"></i> {{ __('Contenttypes') }}</a></li>
+                            <i class="fa fa-hdd-o"></i> {{ __('Contenttypes') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/taxonomy.yml'}) }}">
-                            <i class="icon-tags"></i> {{ __('Taxonomy') }}</a></li>
+                            <i class="fa fa-tags"></i> {{ __('Taxonomy') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/menu.yml'}) }}">
-                            <i class="icon-list"></i> {{ __('Menu setup') }}</a></li>
+                            <i class="fa fa-list"></i> {{ __('Menu setup') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/routing.yml'}) }}">
-                            <i class="icon-random"></i> {{ __('Routing setup') }}</a></li>
+                            <i class="fa fa-random"></i> {{ __('Routing setup') }}</a></li>
                         <li class="divider"></li>
                     {% endif %}
 
                     {% if app.extensions.hasMenuoptions %}
-                        <li class="nav-header">{{ __('Extensions') }}</li>
+                        <li class="navbar-header">{{ __('Extensions') }}</li>
                         {% for extension in app.extensions.getMenuoptions %}
                             <li>
                                 <a href="{{ extension.path }}">
@@ -104,33 +104,33 @@
                         {% endfor %}
                         <li class="divider"></li>
                     {% endif %}
-                    <li class="nav-header">{{ __('Maintenance') }}</li>
+                    <li class="navbar-header">{{ __('Maintenance') }}</li>
                     {% if isallowed('extensions') %}
-                        <li><a href="{{ path('extensions') }}"><i class="icon-briefcase"></i> {{ __('Extensions') }}</a></li>
+                        <li><a href="{{ path('extensions') }}"><i class="fa fa-briefcase"></i> {{ __('Extensions') }}</a></li>
                     {% endif %}
                     {% if isallowed('dbupdate') %}
-                        <li><a href="{{ path('dbcheck') }}"><i class="icon-wrench"></i> {{ __('Check database') }}</a></li>
+                        <li><a href="{{ path('dbcheck') }}"><i class="fa fa-wrench"></i> {{ __('Check database') }}</a></li>
                     {% endif %}
                     {% if isallowed('clearcache') %}
-                        <li><a href="{{ path('clearcache') }}"><i class="icon-magic"></i> {{ __('Clear the cache') }}</a></li>
+                        <li><a href="{{ path('clearcache') }}"><i class="fa fa-magic"></i> {{ __('Clear the cache') }}</a></li>
                     {% endif %}
                     {% if isallowed('activitylog') %}
-                        <li><a href="{{ path('activitylog') }}"><i class="icon-file"></i> {{ __('Activity log') }}</a></li>
+                        <li><a href="{{ path('activitylog') }}"><i class="fa fa-file"></i> {{ __('Activity log') }}</a></li>
                     {% endif %}
                     <li class="divider"></li>
-                    <li class="nav-header">{{ __('File Management') }}</li>
+                    <li class="navbar-header">{{ __('File Management') }}</li>
                     {% if isallowed('files:theme') %}
-                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="icon-hdd"></i> {{ __('View / edit Templates') }}</a></li>
+                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-hdd-o"></i> {{ __('View / edit Templates') }}</a></li>
                     {% endif %}
                     {% if isallowed('files:uploads') %}
-                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="icon-hdd"></i> {{ __('Uploaded files') }}</a></li>
+                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-hdd-o"></i> {{ __('Uploaded files') }}</a></li>
                     {% endif %}
                     {% if isallowed('translation') %}
                     <li class="divider"></li>
-                    <li class="nav-header">{{ __('Translations') }}</li>
-                        <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="icon-flag"></i> {{ __('Messages') }}</a></li>
-                        <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="icon-flag"></i> {{ __('Long messages') }}</a></li>
-                        <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="icon-flag"></i> {{ __('Contenttypes') }}</a></li>
+                    <li class="navbar-header">{{ __('Translations') }}</li>
+                        <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="fa fa-flag"></i> {{ __('Messages') }}</a></li>
+                        <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="fa fa-flag"></i> {{ __('Long messages') }}</a></li>
+                        <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="fa fa-flag"></i> {{ __('Contenttypes') }}</a></li>
                     {% endif %}
 
                 </ul>
@@ -141,7 +141,13 @@
 
             {# View site #}
             <li>
-                {% if content.link %}<a href="{{ content.link }}" target="_blank"><i class="icon-external-link"></i> {{ __('View %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a>{% else %}<a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>{{ paths.root }}{% endif %}
+
+                {% if content.link %}
+                    <a href="{{ content.link }}" target="_blank"><i class="fa fa-external-link"></i> {{ __('View %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a>
+                {% else %}
+                    <a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>
+                {% endif %}
+
             </li>
 
             <li class="divider-vertical"></li>
@@ -150,7 +156,7 @@
             <li>
                 <form action="{{ path('logout') }}" method="POST">
                     <button class="btn btn-link" type="submit">
-                        <i class="icon-signout"></i> {{ __('Logout %name%', {'%name%': user.displayname|trimtext(16)}) }}
+                        <i class="fa fa-signout"></i> {{ __('Logout %name%', {'%name%': user.displayname|trimtext(16)}) }}
                     </button>
                 </form>
             </li>
@@ -160,15 +166,15 @@
 
             {# View site #}
             <li>
-                <a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>
+                <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link"></i> {{ __('View site') }}</a>
             </li>
 
             <li class="divider-vertical"></li>
 
             {# Login #}
             <li>
-                <a href="{{ path('login') }}"><i class="icon-signin"></i> {{ __('Login') }}</a>
+                <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('Login') }}</a>
             </li>
         {% endif %}
     </ul>
-</div><!--/.nav-collapse -->
+</div><!--/.navbar-collapse -->

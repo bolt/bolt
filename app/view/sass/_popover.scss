@@ -1,0 +1,36 @@
+
+.info-pop {
+    cursor: help;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    float: none;
+    vertical-align: 2px;
+}
+
+.popover {
+    width: 400px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.popover-content {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+}
+.popover-content p {
+    margin: 4px 0;
+}
+
+/* Note: We only use popover-bottom for items on the stack. If we start using it
+   for anything else, we need to specify the selector further */
+.popover.bottom {
+    width: 220px;
+    margin-left: 110px;
+    margin-top: 4px;
+}
+
+.popover.bottom .popover-content, .popover.bottom .popover-content code {
+    font-size: 12px;
+    overflow:hidden;
+}

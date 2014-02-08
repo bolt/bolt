@@ -1,0 +1,213 @@
+/**
+ * Override button styles
+ */
+.btn {
+    font-size: 14px;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal !important;
+}
+
+.btn-group > .btn-xs {
+    font-size: 11px;
+    line-height: 16px;
+    padding: 2px 6px;
+}
+
+.btn-group > a.btn-xs {
+    font-weight: normal;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #194770;
+}
+
+.btn-group > .btn + .dropdown-toggle {
+  padding-left: 4px;
+  padding-right: 8px;
+}
+
+/**
+ * Override navbar styles
+ */
+.navbar {
+  min-height: 1em;
+  margin-bottom: 0;
+}
+
+.navbar li a,
+.navbar li a:hover {
+    text-decoration: none;
+}
+
+.navbar-fixed-top, .navbar-fixed-bottom  {
+    position: static;
+    background-color: $boltblue;
+}
+
+.navbar-fixed-top .container {
+    width: auto;
+    margin-right: 20px;
+}
+
+.navbar-bolt {
+    background: transparent;
+    background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
+    background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
+    background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
+    background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0.0) 60%, rgba(51, 114, 161, 0.3) 100%);
+    background-repeat: repeat-x;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+}
+
+.navbar-bolt div.navbar-collapse {
+    float: right;
+    clear: none;
+    display: inline-block;
+}
+
+.navbar-bolt ul.navbar,
+.navbar-bolt ul.navbar li {
+    list-style: none;
+    display: inline;
+}
+
+
+.navbar .navbar-brand {
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    color: #FFF;
+    font-size: 38px;
+    line-height: 38px;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 8px 0 0 0;
+}
+
+.navbar .navbar-brand strong {
+    font-weight: 600;
+}
+
+.navbar .navbar-brand span {
+    font-size: 70%;
+}
+
+.navbar .navbar > li {
+    line-height: 19px;
+}
+
+.navbar .navbar > li > form > button.btn,
+.navbar .navbar > li > a {
+    color: $darkbgcolour;
+    font-weight: bold;
+    padding: 9px 10px 11px;
+    margin: 0 0 0 0;
+}
+
+.navbar .navbar > li > form > button.btn {
+    line-height: inherit;
+    border-width: 0;
+    vertical-align: inherit;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    display: inline;
+    font-weight: bold !important;
+    font-size: 13px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.navbar form {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    display: inline;
+}
+
+.navbar .navbar > li > form > button.btn:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .navbar .active > a,
+.navbar .navbar .active > a:hover {
+    color: white;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.navbar .navbar-collapse .navbar.pull-right {
+    margin-top: 10px;
+}
+
+.navbar .divider-vertical {
+    background-color: #666;
+    border-right: 1px solid #888;
+    height: 40px;
+    margin: 0 4px;
+}
+
+/**
+ * Dropdown menu lists
+ */
+ul.dropdown-menu {
+    margin: 0;
+}
+
+ul.dropdown-menu li {
+    text-align: left;
+}
+
+ul.dropdown-menu li a {
+    font-size: 13px;
+    padding: 1px 14px;
+}
+
+ul.dropdown-menu li.divider {
+    margin: 4px 1px;
+}
+
+ul.dropdown-menu li a.nolink {
+    background-color: $lightbgcolour !important;
+    background-image: none !important;
+    color: $lightfgcolour !important;
+}
+
+
+/**
+ * Styles for pagination
+ */
+.pagination li a,
+.pagination li.disabled a {
+    background-color: rgba(220, 220, 220, 0.35);
+}
+
+.pagination li:first-child a {
+    border-radius: 6px 0 0 6px;
+}
+
+.pagination li:last-child a {
+    border-radius: 0 6px 6px 0;
+}
+
+.pagination.narrow li a,
+.pagination.narrow li.disabled a {
+    padding: 0 4px;
+}
+
+.pagination .active a {
+    color: #999999;
+    cursor: default;
+    font-weight: bold;
+    background-color: rgba(245, 245, 245, 0.5);
+}
+
+/**
+ * End of styles for pagination
+ */
+
+
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.5;
+}
+
+.modal-wide {
+    width: 660px;
+    margin-left: -330px;
+}

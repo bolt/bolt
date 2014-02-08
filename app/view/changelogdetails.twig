@@ -28,8 +28,8 @@
 
 {% from _self import pager %}
 
-<div class="row-fluid">
-    <div class="span9">
+<div class="row">
+    <div class="col-md-9">
         <h1><strong>{{ __('Change Log') }}</strong> » {{ entry.title }}</h1>
         {% if prevEntry %}
             {% set leftLink = path('changelogdetails', { 'contenttype': contenttype, 'contentid': entry.contentid, 'id': prevEntry.id }) %}

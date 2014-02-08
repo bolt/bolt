@@ -31,14 +31,15 @@
                         <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
                         <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
 
-                    <th class="hide-phone"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+                    <th class="hidden-xs"><a href='{{link}}id {% if request('order')=="id ASC" %}DESC{%else%}ASC{%endif%}'>#</a></th>
+
 
                     <th style="width:80%"><a href='{{link}}title {% if request('order')=="title ASC" %}DESC{%else%}ASC{%endif%}'>
                         {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
 
                     <th>&nbsp;</th>
 
-                    <th class='username hide-phone'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
+                    <th class='username hidden-xs'><a href='{{link}}datecreated {% if request('order')=="datecreated ASC" %}DESC{%else%}ASC{%endif%}'>{{ __('Meta') }}</a></th>
 
                     <th><a href='?'>{{ __('Actions') }}</a></th>
                     {% endblock %}
@@ -47,13 +48,15 @@
 
             <tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}">
                 {% block listing_id %}
+
                     {% if not compact and editable %}<td class='check hide-phone'>{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
-                    <td class='id hide-phone'>№ {{content.id}}</td>
+                    <td class='id hidden-xs'>№ {{content.id}}</td>
+
                 {% endblock %}
 
                 {% block listing_content %}
                     <td class='excerpt {% if not compact %}large{% endif %}'><span>
-                        <strong class="show-phone">№ {{content.id}}. </strong>
+                        <strong class="visible-xs">№ {{content.id}}. </strong>
                         <strong>
                             {% if editable %}
                                 <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
@@ -76,21 +79,23 @@
 
                 {% if not compact %}
                     {% block listing_meta %}
-                        <td class='username hide-phone'>
-                            <i class="icon-user"></i>
+                        <td class='username hidden-xs'>
+                            <i class="fa fa-user"></i>
                                 {% if content.user.displayname is defined %}
                                     {{ content.user.displayname|trimtext(15) }}
                                 {% else %}
                                     <s>user {{ content.values.ownerid }} </s>
                                 {% endif %}<br>
                             {% if content.status=="timed" %}
-                                <i class="icon-time"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
+                                <i class="fa fa-time"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
                             {% else %}
-                                <i class="icon-calendar"></i> {{ content.datepublish|date('d/m/Y') }}<br>
+                                <i class="fa fa-calendar"></i> {{ content.datepublish|date('d/m/Y') }}<br>
                             {% endif %}
 
                             {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
-                                <span class="sorthandle"><i class="icon-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
+
+                                <span class="sorthandle"><i class="fa fa-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
+
                             {% endif %}
                         </td>
                     {% endblock %}
@@ -100,18 +105,18 @@
                     <td class='actions'>
                         <div class="btn-group">
                             {% if editable %}
-                            <a class="btn btn-mini" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
-                                <i class="icon-edit"></i> {{ __('Edit') }}
+                            <a class="btn btn-default btn-xs" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
+                                <i class="fa fa-edit"></i> {{ __('Edit') }}
                             </a>
                             {% endif %}
-                            <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-                                <i class="icon-info-sign"></i>
+                            <button class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                                <i class="fa fa-info-sign"></i>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right">
                             {% if content.status == "published" %}
                                 <li><a href="{{ content.link }}" target="_blank">
-                                    <i class="icon-external-link"></i> {{ __('View on site') }}</a></li>
+                                    <i class="fa fa-external-link"></i> {{ __('View on site') }}</a></li>
                             {% endif %}
                             {% if content.relation  %}
                                 <li><a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" target="_blank">
@@ -121,28 +126,28 @@
                                 {% if content.status != "published" %}
                                     {% if isallowed('publish', content) %}
                                     <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
-                                        <i class="icon-star-empty"></i> {{ __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name}) }}</a></li>
+                                        <i class="fa fa-star-empty"></i> {{ __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name}) }}</a></li>
                                     {% endif %}
                                 {% else %}
                                     {% if isallowed('depublish', content) %}
                                     <li><a href="{{ path('contentaction', { 'action': 'held', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
-                                        <i class="icon-star"></i> {{ __("Change status to 'held'") }}</a></li>
+                                        <i class="fa fa-star"></i> {{ __("Change status to 'held'") }}</a></li>
                                     <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
-                                        <i class="icon-pencil"></i> {{ __("Change status to 'draft'") }}</a></li>
+                                        <i class="fa fa-pencil"></i> {{ __("Change status to 'draft'") }}</a></li>
                                     {% endif %}
                                 {% endif %}
                                 {% if isallowed('create', content) %}
                                 <li><a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
-                                    <i class="icon-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                                    <i class="fa fa-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 {% if isallowed('delete', content) %}
                                 <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token() }) }}"
                                        data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
-                                    <i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                                    <i class="fa fa-trash-o"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                             {% endif %}
-                                <li><a class="nolink">{{__('Author:') }} <strong><i class="icon-user"></i>
+                                <li><a class="nolink">{{__('Author:') }} <strong><i class="fa fa-user"></i>
                                     {% if content.user.displayname is defined %}
                                         {{ content.user.displayname|trimtext(15) }}
                                     {% else %}
@@ -153,18 +158,18 @@
                                 <li><a class="nolink">{{ __('Slug:') }}
                                     <code title="{{ content.slug }}">{{ content.slug|trimtext(24) }}</code></a></li>
                                 <li><a class="nolink">{{ __('Created on:') }}
-                                    <i class="icon-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</a></li>
+                                    <i class="fa fa-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</a></li>
                                 <li><a class="nolink">{{ __('Published on:') }}
-                                    <i class="icon-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</a></li>
+                                    <i class="fa fa-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</a></li>
                                 <li><a class="nolink">{{ __('Last edited on:') }}
-                                    <i class="icon-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</a></li>
+                                    <i class="fa fa-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</a></li>
                                 {% for taxonomyslug, values in content.taxonomy %}
                                     {% if values|length > 1 %}
                                         <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
-                                            <i class="icon-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
+                                            <i class="fa fa-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
                                     {% else %}
                                         <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
-                                            <i class="icon-tag"></i> {{ values|first|trimtext(24) }}</a></li>
+                                            <i class="fa fa-tag"></i> {{ values|first|trimtext(24) }}</a></li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>

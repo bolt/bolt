@@ -1,0 +1,229 @@
+
+body {
+    background-color: $basebgcolour;
+    font-size: 13px;
+}
+
+body.popup {
+    padding: 6px 12px 0;
+}
+
+footer  {
+    margin-top: 30px;
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid #CCC;
+    background-color: #E7E7E7;
+    color: #999;
+    width:100%;
+    padding: 4px 10px;
+    z-index: 10000;
+}
+
+.logo {
+    margin: 80px 0 20px 20px;
+}
+
+.logincontainer {
+    max-width: 600px;
+}
+
+.loginform {
+    background-color: #FFF;
+    box-shadow: 0px 0px 150px 10px rgba(0, 0, 0, 0.15);
+}
+
+.loginform label {
+    width: 246px;
+    margin-top: 12px;
+}
+
+.togglepass {
+    color: #999;
+    float: right;
+}
+
+.view-site {
+    position: absolute;
+    right: 44px;
+    top: 18px;
+}
+
+
+
+.table-changelog-details th {
+    width: 40%;
+}
+
+.table-changelog-details th:first-child {
+    width: 20%;
+}
+
+.table-changelog-details td {
+    vertical-align: top;
+}
+
+
+
+/**
+ * Extensions screen
+ */
+
+div.extension {
+    border: 1px solid #CCC;
+    background: #FFF;
+    border-radius: 2px;
+    padding: 0 10px 8px;
+    margin: 0 10px 8px 0;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
+}
+
+div.extension h3 {
+    font-size: 17px;
+    line-height: 28px;
+    margin: 4px 0 0;
+}
+
+div.extension p {
+    margin: 0 0 4px;
+    line-height: 16px;
+}
+
+/**
+ * Fancy, simple blockquotes
+ */
+blockquote.quote {
+    border: 0;
+    margin: 15px 0px;
+    font-size: 21px;
+    line-height: 26px;
+    font-style: italic;
+    font-family: "Times New Roman", Georgia;
+    color: #AAA;
+}
+
+blockquote.quote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 18px;
+    font-style: normal;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #999;
+}
+
+
+/**
+ * Hide / show on phones or tablets..
+ */
+
+@media (max-width: 480px) {
+
+    #editcontent div.tagcloud {
+        margin-left: 0;
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    h1 {
+        font-size: 26px;
+        line-height: 31px;
+        margin-top: 0;
+    }
+
+    h2 {
+        font-size: 22px;
+        line-height: 27px;
+        margin-top: 0;
+    }
+
+    h3 {
+        font-size: 20px;
+        line-height: 28px;
+        margin-top: 0;
+    }
+
+    .morelink {
+        float: right;
+        font-size: 12px;
+        line-height: 10px;
+        position: relative;
+        right: 0;
+        top: 12px;
+    }
+
+    .container-fluid {
+        margin-right: -12px;
+        margin-left: -12px;
+    }
+
+    .navbar .brand {
+        left: 8px;
+    }
+
+    .navbar-collapse ul.pull-right li {
+        float: left; /* required for 'mobile' view.. */
+    }
+
+    .well {
+        padding: 0px 0px 12px 8px;
+    }
+    label {
+        margin: 0.5em 0 0.25em;
+    }
+
+    blockquote.quote {
+        font-size: 18px;
+        line-height: 24px;
+        margin: 10px 15px;
+    }
+
+    #editcontent .imageinput {
+        width: 90%;
+    }
+
+    #editcontent div.video-container {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 979px) {
+
+    .navbar-inner {
+        min-height: 50px;
+    }
+
+    .navbar-inner ul.dropdown-menu li {
+        float: left;
+        padding: 0;
+    }
+
+    .navbar-collapse .navbar > li {
+        clear: both;
+    }
+
+    .navbar-collapse.collapse {
+        margin-left: 8px;
+    }
+
+    .navbar-collapse .navbar .navbar-header {
+        clear: both;
+        float: none;
+        padding: 5px 12px 5px 24px;
+    }
+
+    .navbar-collapse .navbar > li > a, .navbar-collapse .dropdown-menu a {
+        padding: 5px 12px;
+        color: #E7E7E7 !important;
+    }
+
+    .navbar .navbar-btn {
+        margin-top: 14px !important;
+    }
+
+}
+
+

@@ -187,7 +187,7 @@
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
-            <span class="btn btn-info fileinput-button">
+            <span class="btn btn-default btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload image') }}</span>
                 <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
@@ -195,7 +195,7 @@
         </div>
 
         <div class="btn-group" style="margin-left: 0px;">
-            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn fileinput-select" data-toggle="modal">
+            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-default fileinput-select" data-toggle="modal">
                 <i class="icon-upload-alt"></i>
                 {{ __('Select from server') }}
             </a>
@@ -204,7 +204,7 @@
         {% set items = stackitems(7, 'image') %}
         {% if items %}
         <div class="btn-group">
-            <a class="btn dropdown-toggle" data-toggle="dropdown">
+            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <i class="icon-paper-clip"></i>
                 {{ __('Select from stack') }}
                 <span class="caret"></span>
@@ -231,7 +231,7 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+                <button class="btn btn-default " data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
             </div>
         </div>
 
@@ -284,7 +284,7 @@
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
-            <span class="btn btn-info fileinput-button">
+            <span class="btn btn-default btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload File') }}</span>
                 <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
@@ -294,7 +294,7 @@
         {% set items = stackitems(7, 'other,document') %}
         {% if items %}
             <div class="btn-group">
-                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-paper-clip"></i>
                     {{ __('Select from stack') }}
                     <span class="caret"></span>
@@ -315,7 +315,7 @@
         </div>
 
     {% if not ismobileclient() %}
-        <div style="clear: left;" class="hide-tablet"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
+        <div style="clear: left;" class="hidden-sm"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
         <script type="text/javascript">
             $(function() {
                 bindFileUpload('{{key}}');
@@ -348,7 +348,7 @@
     <div class="list"></div>
 
     <div class="buttons">
-        <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
+        <span class="btn btn-default btn-info fileinput-button" style="margin-bottom: 8px;">
             <i class="icon-upload"></i>
             <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
@@ -357,7 +357,7 @@
         <br clear="all">
 
         <div class="btn-group" style="margin-left: 0px;">
-            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn fileinput-select" data-toggle="modal">
+            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-default fileinput-select" data-toggle="modal">
                 <i class="icon-upload-alt"></i>
                 {{ __('Select from server') }}
             </a>
@@ -366,7 +366,7 @@
         {% set items = stackitems(7, 'image') %}
         {% if items %}
         <div class="btn-group">
-            <a class="btn dropdown-toggle" data-toggle="dropdown">
+            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <i class="icon-paper-clip"></i>
                 {{ __('Select from stack') }}
                 <span class="caret"></span>
@@ -391,7 +391,7 @@
         <div class="modal-body">
         </div>
         <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+            <button class="btn btn-default " data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
         </div>
     </div>
 </div>
@@ -428,7 +428,7 @@
 <div class="filelistholder dropzone" id="filelist-{{key}}">
     <div class="list"></div>
     <div class="buttons">
-        <span class="btn btn-info fileinput-button"
+        <span class="btn btn-default btn-info fileinput-button"
               style="margin-bottom: 8px;">
 
             <i class="icon-upload"></i>
@@ -465,7 +465,7 @@
 {% set video = content.get(key) %}
 <div class="dropzone">
 
-    <div class="video-right hide-phone">
+    <div class="video-right hidden-xs">
         <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px; text-align: center; background-color: #F8F8F8;">
             {% if video.thumbnail|default('') %}
                 <img src="{{ video.thumbnail }}" width="160" height="120">
@@ -489,7 +489,7 @@
         <label>{{ __('Size:') }} <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width|default('') }}" style='width: 60px; min-width: 60px;'>
         x <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height|default('') }}" style='width: 60px; min-width: 60px;'>
             pixels.
-            <span class="hide-tablet"><a href="#myModal" role="button" class="btn" data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a></span>
+            <span class="hidden-sm"><a href="#myModal" role="button" class="btn btn-default " data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a></span>
         </label>
 
         <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio|default('') }}">
@@ -516,7 +516,7 @@
         {% endif %}
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+        <button class="btn btn-default " data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
     </div>
 </div>
 
@@ -534,7 +534,7 @@
         {% set geolocation = content.get(key) %}
         <div class="dropzone geolocation">
 
-            <div class="map-right hide-phone">
+            <div class="map-right hidden-xs">
                 <div class='mapholder' id="map-{{key}}" style="width: 200px;">
                         <img src="{{ geo.map|default('') }}" width="200" height="200">
                 </div>

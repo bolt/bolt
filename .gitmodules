@@ -1,3 +1,21 @@
 [submodule "app/extensions/PlusOne"]
 	path = app/extensions/PlusOne
 	url = git@github.com:bolt/PlusOne.git
+[submodule "app/view/bootstrap-sass"]
+	path = app/view/bootstrap-sass
+	url = git@github.com:twbs/bootstrap-sass.git
+[submodule "app/view/fontawesome"]
+	path = app/view/fontawesome
+	url = git@github.com:FortAwesome/Font-Awesome.git
+[submodule "app/view/sass/bootstrap-sass"]
+	path = app/view/sass/bootstrap-sass
+	url = git@github.com:twbs/bootstrap-sass.git
+[submodule "app/view/sass/fontawesome"]
+	path = app/view/sass/fontawesome
+	url = git@github.com:FortAwesome/Font-Awesome.git
+[submodule "app/view/_resources/bootstrap-sass"]
+	path = app/view/_resources/bootstrap-sass
+	url = git@github.com:twbs/bootstrap-sass.git
+[submodule "app/view/_resources/fontawesome"]
+	path = app/view/_resources/fontawesome
+	url = git@github.com:FortAwesome/Font-Awesome.git
