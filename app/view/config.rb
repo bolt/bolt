@@ -11,7 +11,7 @@ images_dir = "img"
 fonts_dir = "fonts"
 javascripts_dir = "js"
 
-# readable CSS. 
+# readable CSS.
 output_style = :expanded
 
 # small filesize.
