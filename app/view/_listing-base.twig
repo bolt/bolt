@@ -93,9 +93,7 @@
                             {% endif %}
 
                             {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
-
                                 <span class="sorthandle"><i class="fa fa-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
-
                             {% endif %}
                         </td>
                     {% endblock %}
@@ -110,6 +108,7 @@
                             </a>
                             {% endif %}
                             <button class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+
                                 <i class="fa fa-info-sign"></i>
                                 <span class="caret"></span>
                             </button>
@@ -120,7 +119,7 @@
                             {% endif %}
                             {% if content.relation  %}
                                 <li><a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" target="_blank">
-                                        <i class="icon-link"></i> {{  __('View related content') }}</a></li>
+                                        <i class="fa fa-link"></i> {{  __('View related content') }}</a></li>
                             {% endif %}
                             {% if editable %}
                                 {% if content.status != "published" %}
@@ -143,7 +142,7 @@
                                 {% if isallowed('delete', content) %}
                                 <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token() }) }}"
                                        data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
-                                    <i class="fa fa-trash-o"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                                    <i class="fa fa-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                             {% endif %}

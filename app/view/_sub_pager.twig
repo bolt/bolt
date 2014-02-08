@@ -25,10 +25,10 @@
         </span></li>
 {# 'first' and 'prev' #}
 {% if pager.current > 1 and class!="narrow" %}
-    <li><a href="{{link}}{{pager.current-1}}"><i class="icon-angle-left" style="font-weight: bold;"></i></a></li>
+    <li><a href="{{link}}{{pager.current-1}}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
 {% endif %}
 {% if pager.current > surr+1 %}
-    <li><a href="{{link}}{{1}}"><i class="icon-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
+    <li><a href="{{link}}{{1}}"><i class="fa fa-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
 {% endif %}
 
 {# start with '..' if there are more than surr+1 before currentpage.. #}
@@ -47,10 +47,10 @@
 
 {# 'next' and 'last' #}
 {% if pager.current < pager.totalpages-surr %}
-    <li><a href="{{link}}{{pager.totalpages}}">{{pager.totalpages}} <i class="icon-double-angle-right" style="font-weight: bold;"></i></a></li>
+    <li><a href="{{link}}{{pager.totalpages}}">{{pager.totalpages}} <i class="fa fa-double-angle-right" style="font-weight: bold;"></i></a></li>
 {% endif %}
 {% if pager.current < pager.totalpages and class!="narrow" %}
-    <li><a href="{{link}}{{pager.current+1}}"><i class="icon-angle-right" style="font-weight: bold;"></i></a></li>
+    <li><a href="{{link}}{{pager.current+1}}"><i class="fa fa-angle-right" style="font-weight: bold;"></i></a></li>
 {% endif %}
   </ul>
 </div>

@@ -1,6 +1,12 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
-<h1>{{ __('Files: %path%', { '%path%' : path } ) }}</h1>
+<div class="row">
+
+    <div class="col-lg-12">
+        <h1 class="page-header">{{ __('Files: %path%', { '%path%' : path } ) }}</h1>
+    </div>
+
+</div>
 
 {% if pathsegments|length > 1 %}
     <p>{{ __('Path:') }}
@@ -12,7 +18,7 @@
 {% endif %}
 
 {% if folders|length > 0 %}
-<table class='dashboardlisting'>
+<table class='table table-striped dashboardlisting'>
     <tr><th>{{ __('Folders') }}</th><th>{{ __('Modified') }}</th></tr>
 {% for folder in folders %}
     <tr>
@@ -26,7 +32,7 @@
 {% endif %}
 
 {% if files|length > 0 %}
-<table class='dashboardlisting'>
+<table class='table table-striped dashboardlisting'>
     <tr><th>{{ __('Files') }}</th><th>{{ __('Filesize') }}</th><th>&nbsp;</th><th>{{ __('Modified') }}</th><th>&nbsp;</th><th>&nbsp;</th></tr>
 {% for file in files %}
     <tr>
@@ -85,7 +91,7 @@
 
                 <ul class="dropdown-menu pull-right">
                     <li><a href="#" data-action="files.deleteFile('{{file.newpath}}', this);">
-                        <i class="fa fa-trash-o"></i> {{ __('Delete %filename%',{'%filename%':file.filename}) }}</a></li>
+                        <i class="fa fa-ban-circle"></i> {{ __('Delete %filename%',{'%filename%':file.filename}) }}</a></li>
                     <li><a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
                         <i class="fa fa-copy"></i> {{ __('Duplicate %filename%',{'%filename%':file.filename}) }}</a></li>
                     <li class="divider"></li>

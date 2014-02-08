@@ -1,19 +1,31 @@
-<div class="navbar-collapse">
-    <ul class="navbar pull-right">
+<div class="sidebar-collapse">
+    <ul class="nav" id="side-menu">
         {% if app.session.get('user') is not null %}
+
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                </div>
+                <!-- /input-group -->
+            </li>
 
             {# Link to Dashboard  #}
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
-                <i class="fa fa-home"></i> {{ __('Dashboard') }}</a></li>
+                <i class="fa fa-dashboard"></i> {{ __('Dashboard') }}</a></li>
 
             {# Menu with Contenttypes where showinmenu is set true #}
             {% for slug, contenttype in app.config.get('contenttypes') %}
                 {% if isallowed('contenttype:' ~ slug) and contenttype.showinmenu %}
                     <li class="{% if content.contenttype.slug==slug %}active {% endif %}dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-sitemap{% endif %}"></i> {{ __(contenttype.name) }} <b class="caret"></b>
+                            <i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-th-list{% endif %}"></i> {{ __(contenttype.name) }} <span class="fa arrow"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu pull-right">
                             {% setcontent entries = slug where { status: 'published' } %}
                             {% set lastgroup = "----" %}
                             {% for entry in entries %}
@@ -26,7 +38,7 @@
                                 {% endif %}
                                 {% if entry.taxonomy %}
                                     <li>
-                                        <a href="{% if contenttype.relationview %}{{ path('relatedto', { 'contenttypeslug': slug, 'id': entry.id }) }}{% else %}{{ path('editcontent', { 'contenttypeslug': slug, 'id': entry.id }) }}{% endif %}"><i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}icon-tasks{% endif %}"></i> {% if entry.title|length > 15 %}{{ entry.title|slice(0, 15) }}…{% else %}{{ entry.title }}{% endif %}</a>
+                                        <a href="{% if contenttype.relationview %}{{ path('relatedto', { 'contenttypeslug': slug, 'id': entry.id }) }}{% else %}{{ path('editcontent', { 'contenttypeslug': slug, 'id': entry.id }) }}{% endif %}"><i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-square{% endif %}"></i> {% if entry.title|length > 15 %}{{ entry.title|slice(0, 15) }}…{% else %}{{ entry.title }}{% endif %}</a>
                                     </li>
                                 {% endif %}
                                 {% if entry.group.name is defined and (loop.first or entry.group.name != lastgroup) %}
@@ -36,10 +48,10 @@
 
                             <li class="divider"></li>
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                    <i class="icon-tasks"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
+                                    <i class="fa fa-th-list"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             {% if isallowed('contenttype:' ~ slug ~ ':create') %}
                                 <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
-                                        <i class="icon-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
+                                        <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
                             {% endif %}
                         </ul>
                     </li>
@@ -49,13 +61,13 @@
             {# Menu with all Contenttypes #}
             <li class="{% if active=='content' and not content.contenttype.showinmenu %}active {% endif %}dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-sitemap"></i> {{ __('Content') }} <b class="caret"></b>
+                    <i class="fa fa-sitemap"></i> {{ __('Content') }} <span class="fa arrow"></span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu pull-right">
                     {% for slug, contenttype in app.config.get('contenttypes') %}
                         {% if isallowed('contenttype:' ~ slug) and not contenttype.showinmenu %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                <i class="{% if contenttype.icon %}{{ contenttype.icon }}{% else %}fa fa-tasks{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
+                                <i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-th-list{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             {% if loop.length < 5 %}
                                 {% if isallowed('contenttype:' ~ slug ~ ':create') %}
                                 <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
@@ -73,9 +85,9 @@
             {% if isallowed('settings') %}
             <li class="{% if active=='settings' %}active {% endif %}dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {{ __('Settings') }}
-                    <b class="caret"></b>
+                    <span class="fa arrow"></span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu pull-right">
                     {% if isallowed('files:config') %}
                         <li class="navbar-header">{{ __('Configuration') }}</li>
                         <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ __('Users') }}</a></li>
@@ -120,10 +132,10 @@
                     <li class="divider"></li>
                     <li class="navbar-header">{{ __('File Management') }}</li>
                     {% if isallowed('files:theme') %}
-                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-hdd-o"></i> {{ __('View / edit Templates') }}</a></li>
+                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-desktop"></i> {{ __('View / edit Templates') }}</a></li>
                     {% endif %}
                     {% if isallowed('files:uploads') %}
-                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-hdd-o"></i> {{ __('Uploaded files') }}</a></li>
+                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-folder-open"></i> {{ __('Uploaded files') }}</a></li>
                     {% endif %}
                     {% if isallowed('translation') %}
                     <li class="divider"></li>
@@ -137,29 +149,6 @@
             </li>
             {% endif %}
 
-            <li class="divider-vertical"></li>
-
-            {# View site #}
-            <li>
-
-                {% if content.link %}
-                    <a href="{{ content.link }}" target="_blank"><i class="fa fa-external-link"></i> {{ __('View %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a>
-                {% else %}
-                    <a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>
-                {% endif %}
-
-            </li>
-
-            <li class="divider-vertical"></li>
-
-            {# Logout #}
-            <li>
-                <form action="{{ path('logout') }}" method="POST">
-                    <button class="btn btn-link" type="submit">
-                        <i class="fa fa-signout"></i> {{ __('Logout %name%', {'%name%': user.displayname|trimtext(16)}) }}
-                    </button>
-                </form>
-            </li>
         {% else %}
 
             <li class="divider-vertical"></li>
@@ -177,4 +166,6 @@
             </li>
         {% endif %}
     </ul>
-</div><!--/.navbar-collapse -->
+    <!-- /#side-menu -->
+</div>
+<!-- /.sidebar-collapse -->

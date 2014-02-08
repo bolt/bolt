@@ -1,11 +1,14 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
 <div class="row">
+
+    <div class="col-lg-12">
+        <h1 class="page-header">{{ __("All users") }}</h1>
+    </div>
+
     <div class="col-md-9">
 
-        <h1><strong>{{ __("All users") }}</strong></h1>
-
-        <table class='dashboardlisting'>
+        <table class='table table-striped dashboardlisting'>
             <tr>
                 <th>#</th>
                 <th>{{ __('Username') }}</th>
@@ -70,7 +73,7 @@
 
         <h2><strong>{{ __("Current sessions") }}</strong></h2>
 
-        <table class='dashboardlisting'>
+        <table class='table table-striped dashboardlisting'>
             <tr>
                 <th>{{ __('Username') }}</th>
                 <th>{{ __('Last seen') }}</th>
@@ -97,14 +100,20 @@
     </div><!-- /span9 -->
     <aside class="col-md-3">
 
-        <section>
-            <h3>{{ __('Actions for Users') }}</h3>
-            <a class="btn" href="{{ path('useredit', { 'id' : '' }) }}">{{ __('New user') }}</a>
-        </section>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-cog fa-fw"></i> {{ __('Actions for Users') }}
+            </div>
+
+            <div class="panel-body">
+                <a class="btn btn-primary" href="{{ path('useredit', { 'id' : '' }) }}">{{ __('New user') }}</a>
+            </div>
+        </div>
 
         <div id="latestactivity">
             {{ render(path("latestactivity")) }}
         </div>
+
         <div id="latesttemp" style="display:none; visibility: hidden;"><!-- intentionally left blank --></div>
 
     </aside>

@@ -22,7 +22,6 @@ php-cs-fixer.phar
 .swp
 *.lock
 .gitignore
-
 composer.lock
 tests/_log
 tests/*/*Guy.php

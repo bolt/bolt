@@ -1,6 +1,10 @@
 {% if news.title is defined %}
-    <section class="news">
-    <h2>{{news.title}}</h2>
-    {{news.teaser|raw}}
-    </section>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bullhorn fa-fw"></i> {{news.title}}
+    </div>
+    <div class="panel-body">
+        {{news.teaser|raw}}
+    </div>
+</div>
 {% endif %}

@@ -1,50 +1,55 @@
 {% import '_sub_pretty.twig' as pretty %}
-<section>
-    <h2>
-    {% if filtered is defined and filtered %}
-        {{ 'Recent modifications' }}
-    {% else %}
-        {{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}
-    {% endif %}
-    </h2>
-    <ul>
-    {% if changelog is defined %}
-        {% for index, entry in changelog %}
-            <li>
-                {% if filtered is defined and filtered %}
-                    {% set title = contenttype.singular_name %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-clock-o fa-fw"></i> {% if filtered is defined and filtered %}
+            {{ 'Recent modifications' }}
+        {% else %}
+            {{ __('Last modified %contenttypes%',{'%contenttypes%':contenttype.name}) }}
+        {% endif %}
+    </div>
+
+    <div class="panel-body">
+        <ul>
+            {% if changelog is defined %}
+                {% for index, entry in changelog %}
+                    <li>
+                        {% if filtered is defined and filtered %}
+                            {% set title = contenttype.singular_name %}
+                        {% else %}
+                            {% if entry.title %}
+                                {% set title = pretty.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
+                            {% else %}
+                                {% set title = __('%name% № %id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
+                            {% endif %}
+                            № {{ entry.contentid }}.
+                        {% endif %}
+                        {{ title }}
+                        {{ pretty.changelogmutation(entry.effectiveMutationType) }}
+                        {{ __('by') }} {{ entry.username }}
+                        <small>({{ pretty.datetime(entry.date) }})</small>
+                        <small><a href="{{ path('changelogdetails', { 'contenttype':contenttype.slug, 'contentid': entry.contentid, 'id': entry.id }) }}">view</a></small>
+                    </li>
                 {% else %}
-                    {% if entry.title %}
-                        {% set title = pretty.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
-                    {% else %}
-                        {% set title = __('%name% № %id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
-                    {% endif %}
-                    № {{ entry.contentid }}.
-                {% endif %}
-               {{ title }}
-               {{ pretty.changelogmutation(entry.effectiveMutationType) }}
-               {{ __('by') }} {{ entry.username }}
-               <small>({{ pretty.datetime(entry.date) }})</small>
-               <small><a href="{{ path('changelogdetails', { 'contenttype':contenttype.slug, 'contentid': entry.contentid, 'id': entry.id }) }}">view</a></small>
-            </li>
-        {% else %}
-            <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
-        {% endfor %}
-    {% else %}
-        {% for content in latest %}
-            <li>
-               № {{content.id}}.
-               {{ pretty.contentlink(contenttype, content) }}
-               <small>({{ pretty.datetime(content.datechanged) }})</small>
-            </li>
-        {% else %}
-            <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
-        {% endfor %}
-    {% endif %}
-    </ul>
-    {% if changelog is defined and contentid and filtered %}
-        <a href="{{ path('changeloglist', { 'contenttype': contenttype.slug, 'contentid': contentid }) }}">
-            {{ __('Full list...') }}
-        </a>
-    {% endif %}
-</section>
+                    <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
+                {% endfor %}
+            {% else %}
+                {% for content in latest %}
+                    <li>
+                        № {{content.id}}.
+                        {{ pretty.contentlink(contenttype, content) }}
+                        <small>({{ pretty.datetime(content.datechanged) }})</small>
+                    </li>
+                {% else %}
+                    <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+        {% if changelog is defined and contentid and filtered %}
+            <a href="{{ path('changeloglist', { 'contenttype': contenttype.slug, 'contentid': contentid }) }}">
+                {{ __('Full list...') }}
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+

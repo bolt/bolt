@@ -16,7 +16,7 @@
     <tr>
         <td>
             <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': folder.newpath, 'key': key }) }}');" class="folder">
-                <i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b>
+                <i class="fa fa-folder-open"></i> <b>{{ folder.foldername }}/</b>
             </a>
         </td>
 
@@ -37,7 +37,7 @@
                         <b>{{ file.filename|trimtext(40) }}</b>
                     </a>
                 {% else %}
-                    <b>{{ file.filename|trimtext(40) }} </b><i class="icon-lock"></i>
+                    <b>{{ file.filename|trimtext(40) }} </b><i class="fa fa-lock"></i>
                 {% endif %}
             </td>
             <td>{{ file.filesize }}.</td>

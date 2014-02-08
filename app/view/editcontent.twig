@@ -2,9 +2,12 @@
 {% import '_sub_pretty.twig' as pretty %}
 
 <div class="row">
-    <div class="col-md-9">
 
-    <h1>{{ title|raw }}</h1>
+    <div class="col-lg-12">
+        <h1 class="page-header">{{ title|raw }}</h1>
+    </div>
+
+    <div class="col-md-9">
 
     <form method="post" id="editcontent" enctype="multipart/form-data">
 
@@ -93,7 +96,7 @@
         </label>
 
 
-        <button type="button" class="btn btn-default btn-primary" id="savecontinuebutton" style="margin-right: 8px;">
+        <button type="button" class="btn btn-primary" id="savecontinuebutton" style="margin-right: 8px;">
             <i class="fa fa-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
         </button>
 
@@ -118,28 +121,34 @@
     </div><!-- /span9 -->
     <aside class="col-md-3">
 
-    <section>
-        <h2>{{ __('Actions for this %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</h2>
 
-        <button type="button" class="btn btn-default btn-primary" id="sidebarsavecontinuebutton" style="margin-right: 8px;">
-            <i class="fa fa-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
-        </button>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-cog fa-fw"></i> {{ __('Actions for this %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+            </div>
 
-        <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
-            <i class="fa fa-external-link"></i> {{ __('Preview') }}
-        </button>
+            <div class="panel-body">
+                <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton" style="margin-right: 8px;">
+                    <i class="fa fa-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+                </button>
 
-        <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
-            <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
-        </button>
+                <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
+                    <i class="fa fa-external-link"></i> {{ __('Preview') }}
+                </button>
 
-        <p class="lastsaved">
-            {% if content.id != 0 %}
-                {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
-            {% else %}
-                {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
-            {% endif %}
-        </p>
+                <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
+                    <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+                </button>
+
+                <p class="lastsaved">
+                    {% if content.id != 0 %}
+                    {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
+                {% else %}
+                    {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
+                {% endif %}
+                </p>
+            </div>
+        </div>
 
 <script type="text/javascript">
     $(function() {
@@ -207,8 +216,6 @@
 
     });
 </script>
-
-    </section>
 
     {{ render(path("lastmodified", {"contenttypeslug": contenttype.slug, "contentid": content.id} )) }}
 
