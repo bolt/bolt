@@ -5,6 +5,7 @@ namespace Bolt;
 use RandomLib;
 use SecurityLib;
 use Silex;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,13 @@ class Application extends Silex\Application
 {
     public function __construct(array $values = array())
     {
+<<<<<<< HEAD
         $values['bolt_version'] = '2';
         $values['bolt_name'] = 'very pre-alpha';
+=======
+        $values['bolt_version'] = '1.4.5';
+        $values['bolt_name'] = 'dev';
+>>>>>>> master
 
         parent::__construct($values);
 
@@ -60,6 +66,9 @@ class Application extends Silex\Application
         // Initialize the Database Providers.
         $this->initDatabase();
 
+        // Initialize the Console Application for Nut
+        $this->initConsoleApplication();
+
         // Initialize the rest of the Providers.
         $this->initProviders();
 
@@ -87,6 +96,20 @@ class Application extends Silex\Application
             'db.options' => $dboptions
         ));
 
+        // Do a dummy query, to check for a proper connection to the database.
+        try {
+            $this['db']->query("SELECT 1;");
+        } catch (\PDOException $e) {
+            $error = "Bolt could not connect to the database. Make sure the database is configured correctly in
+                    <code>app/config/config.yml</code>, that the database engine is running.";
+            if ($dboptions['driver'] != 'pdo_sqlite') {
+                $error .= "<br><br>Since you're using " . $dboptions['driver'] . ", you should also make sure that the
+                database <code>" . $dboptions['dbname'] . "</code> exists, and the configured user has access to it.";
+            }
+            $checker = new \LowlevelChecks();
+            $checker->lowLevelError($error);
+        }
+
         if ($dboptions['driver'] == 'pdo_sqlite') {
             $this['db']->query('PRAGMA synchronous = OFF');
         } elseif ($dboptions['driver'] == 'pdo_mysql') {
@@ -95,6 +118,7 @@ class Application extends Silex\Application
              */
             $this['db']->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
             // set utf8 on names and connection as all tables has this charset
+
             $this['db']->query("SET NAMES 'utf8';");
             $this['db']->query("SET CHARACTER SET 'utf8';");
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
@@ -167,6 +191,7 @@ class Application extends Silex\Application
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
+            ->register(new Provider\IntegrityCheckerProvider())
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\OmnisearchServiceProvider());
@@ -182,10 +207,6 @@ class Application extends Silex\Application
         $this['extensions']->initialize();
 
         // @todo: make a provider for the Integrity checker and Random generator..
-
-        // Set up the integrity checker for the Database, to periodically check if the Database
-        // is up to date, and if needed: repair it.
-        $this['integritychecker'] = new Database\IntegrityChecker($this);
     }
 
     public function initMountpoints()
@@ -211,6 +232,20 @@ class Application extends Silex\Application
         $this->mount('', new Controllers\Routing());
     }
 
+    /**
+     * Initializes the Console Application that is responsible for CLI interactions.
+     */
+    public function initConsoleApplication()
+    {
+        $this['console'] = $this->share(function (Application $app) {
+            $console = new ConsoleApplication();
+            $console->setName('Bolt console tool - Nut');
+            $console->setVersion($app->getVersion());
+
+            return $console;
+        });
+    }
+
     public function BeforeHandler(Request $request)
     {
         // Start the 'stopwatch' for the profiler.
@@ -227,6 +262,7 @@ class Application extends Silex\Application
         $this['twig']->addGlobal('user', $this['users']->getCurrentUser());
         $this['twig']->addGlobal('users', $this['users']->getUsers());
         $this['twig']->addGlobal('config', $this['config']);
+        $this['twig']->addGlobal('theme', $this['config']->get('theme'));
 
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.

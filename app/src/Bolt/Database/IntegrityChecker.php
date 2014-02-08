@@ -58,6 +58,7 @@ class IntegrityChecker
 
         $this->tables = null;
 
+        $this->extension_table_generators = array();
     }
 
     private static function getValidityTimestampFilename()
@@ -325,7 +326,39 @@ class IntegrityChecker
     {
         $schema = new Schema();
 
-        return array_merge($this->getBoltTablesSchema($schema), $this->getContentTypeTablesSchema($schema));
+        return array_merge(
+                $this->getBoltTablesSchema($schema),
+                $this->getContentTypeTablesSchema($schema),
+                $this->getExtensionTablesSchema($schema));
+    }
+
+    /**
+     * This method allows extensions to register their own tables.
+     * @param Callable $generator A generator function that takes the Schema
+     *         instance and returns a table or an array of tables.
+     */
+    public function registerExtensionTable($generator)
+    {
+        $this->extension_table_generators[] = $generator;
+    }
+
+    protected function getExtensionTablesSchema(Schema $schema)
+    {
+        $tables = array();
+        foreach ($this->extension_table_generators as $generator) {
+            $table = call_user_func($generator, $schema);
+            // We need to be prepared for generators returning a single table,
+            // as well as generators returning an array of tables.
+            if (is_array($table)) {
+                foreach ($table as $t) {
+                    $tables[] = $t;
+                }
+            }
+            else {
+                $tables[] = $table;
+            }
+        }
+        return $tables;
     }
 
     /**

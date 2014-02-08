@@ -652,6 +652,12 @@ class Backend implements ControllerProviderInterface
             return redirect('dashboard');
         }
 
+        // set the editreferrer in twig if it was not set yet.
+        $tmpreferrer = getReferrer($app['request']);
+        if(strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt']) )  {
+            $app['twig']->addGlobal('editreferrer', $tmpreferrer);
+        }
+
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
@@ -670,6 +676,8 @@ class Backend implements ControllerProviderInterface
                     return redirect('dashboard');
                 }
             }
+
+
 
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
@@ -717,7 +725,13 @@ class Backend implements ControllerProviderInterface
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
-                return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+                // check if a pager was set in the referrer - if yes go back there
+                $editreferrer = $app['request']->get('editreferrer');
+                if($editreferrer) {
+                    return simpleredirect($editreferrer);
+                } else {
+                    return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+                }
 
             } else {
                 $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
@@ -1173,7 +1187,7 @@ class Backend implements ControllerProviderInterface
         $files = array();
         $folders = array();
 
-        $basefolder = __DIR__ . "/../../../../";
+        $basefolder = BOLT_WEB_DIR . "/";
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder . $path);
 
@@ -1306,7 +1320,7 @@ class Backend implements ControllerProviderInterface
             $filename = realpath(BOLT_CONFIG_DIR . "/" . basename($file));
         } else {
             // otherwise just realpath it, relative to the 'webroot'.
-            $filename = realpath(__DIR__ . "/../../../../" . $file);
+            $filename = realpath(BOLT_WEB_DIR . "/" . $file);
         }
 
         $type = getExtension($filename);

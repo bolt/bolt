@@ -381,7 +381,7 @@ class Async implements ControllerProviderInterface
         // Set the selected value in the proper field
         $key = $app['request']->get('key');
 
-        $basefolder = __DIR__ . "/../../../../";
+        $basefolder = BOLT_WEB_DIR . '/';
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder . $path);
 
@@ -476,7 +476,7 @@ class Async implements ControllerProviderInterface
     {
         $filename = $request->request->get('filename');
 
-        $filePath = BOLT_PROJECT_ROOT_DIR . '/' . $filename;
+        $filePath = BOLT_WEB_DIR . '/' . $filename;
 
         // TODO: ensure that we are deleting a file inside /files folder
 

@@ -454,7 +454,7 @@ function trimToText($html, $desiredLength = null, $ellipseStr = "...")
         return $str;
     }
     else {
-        return substr($str, $desiredLendth - strlen($ellipseStr)) . $ellipseStr;
+        return substr($str, $desiredLength - strlen($ellipseStr)) . $ellipseStr;
     }
 }
 
@@ -1341,6 +1341,19 @@ function isUrl($url) {
 }
 
 
+function getReferrer(Symfony\Component\HttpFoundation\Request $request) {
+
+    $tmp = parse_url($request->server->get('HTTP_REFERER'));
+
+    // \Dumper::dump($tmp);
+    $referrer = $tmp['path'];
+    if (!empty($tmp['query'])) {
+        $referrer .= "?" . $tmp['query'];
+    }
+
+    return $referrer;
+}
+
 
 /**
  * i18n made right, second attempt...
@@ -1482,7 +1495,7 @@ function gatherTranslatableStrings($locale=null,$translated=array())
         ->name('*.php')
         ->notName('*~')
         ->exclude(array('cache','config','database','resources','tests'))
-        ->in(BOLT_PROJECT_ROOT_DIR.'/theme') //
+        ->in(BOLT_WEB_DIR.'/theme') //
         ->in(BOLT_PROJECT_ROOT_DIR.'/app')
     ;
     // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes

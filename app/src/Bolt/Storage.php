@@ -1451,10 +1451,6 @@ class Storage
             if (!isset($meta_parameters['limit'])) {
                 $meta_parameters['limit'] = $match[2];
             }
-        } elseif (($searched_contenttype = $this->searchSingularContentTypeSlug($textquery)) !== false) {
-            // like 'page'
-            $decoded['contenttypes'] = array($searched_contenttype);
-            $decoded['return_single'] = true;
         } else {
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($textquery);
 

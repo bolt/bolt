@@ -74,7 +74,7 @@ about:
         <p>Bolt est un CMS qui s'efforce d'être simple, rapide et plaisant à utiliser. Aussi
         bien pour les développeurs que les rédacteurs de contenu. Bolt est Open Source, et
         en tant que tel utilise d'autres composants Open Source. Si vous êtes développeur,
-        vous être bienvenu pour aider à la poursuite du développement de Bolt.
+        vous êtes le bienvenu pour aider au développement de Bolt.
         </p>
     licence: |
         <p>Toutes les parties de Bolt sont libres d'être utilisées selon la license open-source MIT.
@@ -87,10 +87,9 @@ prefill:
         <p>Si aucun n'est coché, Bolt ne pré-remplira que les types n'ayant encore aucun contenu.</p>
 extension:
     enable: |
-        <p>Pour activer une extension, l'ajouter au tableau <code>enabled_extensions</code>
+        <p>Pour activer une extension, il suffit de l'ajouter au tableau <code>enabled_extensions</code>
             dans le fichier de configuration <code>config.yml</code>. Utilisez le nom exact
             de l'extension, comme affiché dans le premier libellé de la ligne du bas dans
-            son panneau. Notez que les noms sont <em>sensibles à la casse</em>, pour éliminer
-            les problèmes avec le système de fichiers.</p>
+            son panneau. Notez que les noms sont <em>sensibles à la casse</em>, recopiez bien le nom sinon vous risquez d'obtenir une erreur.</p>
             <p>exemple:</p>
             <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>

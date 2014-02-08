@@ -78,7 +78,7 @@ about:
         </p>
 prefill:
     short_help: |
-        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dommy content.<p>
+        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dummy content.<p>
         <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
 extension:
     enable: |
