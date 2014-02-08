@@ -24,7 +24,7 @@ class Extension extends \Bolt\BaseExtension
             'type' => "SEO",
             'first_releasedate' => "2013-11-12",
             'latest_releasedate' => "2013-11-14",
-            'dependancies' => "",
+            'dependencies' => "",
             'priority' => 10
         );
 

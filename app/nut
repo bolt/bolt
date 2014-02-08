@@ -29,3 +29,4 @@ $application->add(new Bolt\Nut\UserRoleRemove($app));
 //$application->add(new Bolt\Nut\ExtensionsUpdate($app));
 //$application->add(new Bolt\Nut\ExtensionsUninstall($app));
 $application->run();
+

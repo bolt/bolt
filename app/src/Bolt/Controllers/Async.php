@@ -7,6 +7,7 @@ use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Finder\Finder;
 
 class Async implements ControllerProviderInterface
 {
@@ -75,6 +76,10 @@ class Async implements ControllerProviderInterface
         $ctr->get("/showstack", array($this, 'showstack'))
             ->before(array($this, 'before'))
             ->bind('showstack');
+
+        $ctr->match("/omnisearch", array($this, 'omnisearch')) // change to post or get
+            ->before(array($this, 'before'))
+            ->bind('omnisearch');
 
         return $ctr;
 
@@ -260,6 +265,20 @@ class Async implements ControllerProviderInterface
 
 
         return $app->json($results);
+    }
+
+    public function omnisearch(Silex\Application $app)
+    {
+
+        $query = $app['request']->get('q', '');
+
+        if (strlen($query) < 3) {
+            return $app->json(array());
+        }
+
+        $options = $app['omnisearch']->query( $query );
+        return $app->json( $options );
+
     }
 
 
