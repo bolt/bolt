@@ -582,7 +582,7 @@
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
     {{ macro.requiredattr(field) }}
-    {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
+    >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
 </textarea>
 {% endif %}
 
