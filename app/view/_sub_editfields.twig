@@ -31,44 +31,22 @@
 {% endif %}
 
 
-{# --------------- number (deprecated, don't use!) --------- #}
 
-{% if field.type == "number" %}
-    <label><b><span class='left'>
-        {% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
-    </span></b></label>
-    <input type="number" name="{{key}}" id="{{key}}" step="0.000000001"
+{# --------------- float, integer or (deprecated) number  --------------- #}
+
+{% if field.type in ["float", "integer", "number"] %}
+    {{ macro.label(key, field, 'col-sm-2 control-label') }}
+    <div class="col-sm-10">
+    <input type="number" name="{{key}}" id="{{key}}" step="{% if field.type != "integer" %}0.0000000{% endif %}1"
         value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
         class='form-control narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
         {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
         >
+    </div>
 {% endif %}
 
-{# --------------- float --------------- #}
 
-{% if field.type == "float" %}
-    <label><b><span class='left'>
-    {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-</span></b></label>
-    <input type="number" name="{{key}}" id="{{key}}" step="0.00000001"
-        value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
-        class='form-control narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
-        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
-        >
-{% endif %}
 
-{# --------------- integer --------------- #}
-
-{% if field.type == "integer" %}
-    <label><b><span class='left'>
-    {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-</span></b></label>
-    <input type="number" name="{{key}}" id="{{key}}" step="1"
-        value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
-        class='form-control narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
-        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
-        >
-{% endif %}
 
 {# --------------- checkbox --------------- #}
 
