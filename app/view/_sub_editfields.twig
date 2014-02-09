@@ -1,7 +1,4 @@
-{% macro requiredattr(field) %}
-    {% if field.required is defined and field.required %}required="required"{% endif %}
-{% endmacro %}
-
+{% import '_macro.twig' as macro %}
 
 {% for key, field in contenttype.fields %}
 
@@ -22,9 +19,8 @@
         {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 {% if field.variant == "inline" %}</span>{% endif %}</b></label>
     <input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
-        value='{{ content.get(key) }}'
+        value='{{ content.get(key) }}' {{ macro.requiredattr(field) }}
         class='form-control {% if field.class is defined %}{{ field.class }}{% endif %} {% if field.variant == "inline" %}narrow{% endif %}'
-        {% if field.required is defined and field.required %}required="required"{% endif %}
         {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
         >
 {% endif %}
@@ -37,9 +33,8 @@
         {% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}
     </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.000000001"
-        value='{{ 0 + content.get(key) }}'
+        value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
         class='form-control narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
-        {% if field.required is defined and field.required %}required="required"{% endif %}
         {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
         >
 {% endif %}
@@ -51,9 +46,8 @@
     {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="0.00000001"
-        value='{{ 0 + content.get(key) }}'
+        value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
         class='form-control narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
-        {% if field.required is defined and field.required %}required="required"{% endif %}
         {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
         >
 {% endif %}
@@ -65,9 +59,8 @@
     {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
 </span></b></label>
     <input type="number" name="{{key}}" id="{{key}}" step="1"
-        value='{{ 0 + content.get(key) }}'
+        value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
         class='form-control narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
-        {% if field.required is defined and field.required %}required="required"{% endif %}
         {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
         >
 {% endif %}
@@ -588,7 +581,7 @@
 <label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
-    {% if field.required is defined and field.required %}required{% endif %}>
+    {{ macro.requiredattr(field) }}
     {% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
 </textarea>
 {% endif %}
@@ -599,7 +592,7 @@
 <label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <textarea name="{{key}}" class='form-control {% if field.class is defined %}{{ field.class }}{% endif %}'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
-    {% if field.required is defined and field.required %}required{% endif %}
+    {{ macro.requiredattr(field) }}
     >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 {% endif %}
 
@@ -614,8 +607,9 @@
 
     </label>
     <textarea id="{{ key }}" name="{{key}}" class='form-control {% if field.class is defined %}{{ field.class }}{% endif %}'
-              style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}' {% if field.required is defined and field.required %}required{% endif %}
-            >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+        style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'
+        {{ macro.requiredattr(field) }}
+        >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
 
