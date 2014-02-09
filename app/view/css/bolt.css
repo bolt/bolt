@@ -398,11 +398,6 @@ aside section {
 /**
  * Editing content ..
  */
-label {
-    min-width: 180px;
-    margin: 0.6em 0 0.6em;
-    vertical-align: top;
-}
 
 label label {
     display: inline !important;

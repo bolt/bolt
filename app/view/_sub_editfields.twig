@@ -15,14 +15,19 @@
 {# --------------- text --------------- #}
 
 {% if field.type == "text" %}
-    <label><b>{% if field.variant == "inline" %}<span class='left'>{% endif %}
-        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-{% if field.variant == "inline" %}</span>{% endif %}</b></label>
+    {% if field.variant != "inline" %}
+    <div class="col-sm-12">
+    {{ macro.label(key, field) }}
+    {% else %}
+    {{ macro.label(key, field, 'col-sm-2 control-label') }}
+    <div class="col-sm-10">
+    {% endif %}
     <input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
-        value='{{ content.get(key) }}' {{ macro.requiredattr(field) }}
-        class='form-control {% if field.class is defined %}{{ field.class }}{% endif %} {% if field.variant == "inline" %}narrow{% endif %}'
-        {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
-        >
+           value='{{ content.get(key) }}' {{ macro.requiredattr(field) }}
+           class='form-control {% if field.class is defined %}{{ field.class }}{% endif %}'
+            {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
+            >
+    </div>
 {% endif %}
 
 
@@ -578,7 +583,7 @@
 {# --------------- html --------------- #}
 
 {% if field.type == "html" %}
-<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+{{ macro.label(key, field) }}
 <textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
     {{ macro.requiredattr(field) }}
@@ -589,7 +594,7 @@
 {# --------------- textarea --------------- #}
 
 {% if field.type == "textarea" %}
-<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+{{ macro.label(key, field) }}
 <textarea name="{{key}}" class='form-control {% if field.class is defined %}{{ field.class }}{% endif %}'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
     {{ macro.requiredattr(field) }}
@@ -625,7 +630,7 @@
 {# --------------- date --------------- #}
 
 {% if field.type == "date" %}
-<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+{{ macro.label(key, field) }}
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='form-control {% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
@@ -644,7 +649,7 @@
 {# --------------- datetime --------------- #}
 
 {% if field.type == "datetime" %}
-<label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
+{{ macro.label(key, field) }}
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='form-control {% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>

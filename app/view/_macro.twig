@@ -35,3 +35,9 @@
 {% macro requiredattr(field) %}
     {% if field.required is defined and field.required %}required="required"{% endif %}
 {% endmacro %}
+
+{# label for forms when editing content #}
+{% macro label(key, field, class) %}
+
+    <label {% if class is not empty %}class="{{ class }}"{% endif %}><b>{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</b></label>
+{% endmacro %}
