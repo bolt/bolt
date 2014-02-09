@@ -11,11 +11,10 @@ label.permalink {
     margin: 0 0 0.5em;
 }
 
-label span.left {
-    display: block;
-    float: left;
-    min-width: 180px;
-    margin: 5px 8px 0 0;
+.form-horizontal .control-label {
+    text-align: left;
+    font-size: $font-size-base + 1px;
+    font-weight: normal;
 }
 
 input[type="checkbox"] {

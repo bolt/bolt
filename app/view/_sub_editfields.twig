@@ -106,7 +106,8 @@
 {# --------------- select --------------- #}
 
 {% if field.type == "select" %}
-    <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
+    {{ macro.label(key, field, 'col-sm-3 control-label') }}
+    <div class="col-sm-9">
     {% if field.multiple is defined and field.multiple %}
         <select name="{{key}}[]" id="{{key}}" class='{{ field.class }}' multiple>
             {% for value in field.values %}
@@ -120,19 +121,22 @@
             {% endfor %}
         </select>
     {% endif %}
+    </div>
 {% endif %}
 
 {# --------------- templateselect --------------- #}
 
 {% if field.type == "templateselect" %}
-<label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
-    <select name="{{key}}" id="{{key}}">
-        <option value="">{{ __('(default template)') }}</option>
-        <option value="" disabled>-----------</option>
-        {% for filename, name in listtemplates(field.filter) %}
-            <option value="{{filename}}" {% if content.get(key)==filename %}selected{% endif %}>{{name}}</option>
-        {% endfor %}
-    </select>
+    {{ macro.label(key, field, 'col-sm-3 control-label') }}
+    <div class="col-sm-9">
+        <select name="{{key}}" id="{{key}}" class='{{ field.class }}'>
+            <option value="">{{ __('(default template)') }}</option>
+            <option value="" disabled>-----------</option>
+            {% for filename, name in listtemplates(field.filter) %}
+                <option value="{{filename}}" {% if content.get(key)==filename %}selected{% endif %}>{{name}}</option>
+            {% endfor %}
+        </select>
+    </div>
 {% endif %}
 
 {# --------------- image --------------- #}
@@ -622,7 +626,6 @@
 
 {# --------------- datetime --------------- #}
 
-
 {% if field.type == "datetime" %}
     {{ macro.label(key, field, 'col-sm-3 control-label') }}
     <div class="col-sm-9">
@@ -649,7 +652,7 @@
 {# ---------------postfix & divider --------------- #}
 
 {% if field.postfix is defined and field.postfix is not empty %}
-    <div class='clearfix'>
+    <div class='col-sm-12'>
         {{ field.postfix|raw }}
     </div>
 {% endif %}
