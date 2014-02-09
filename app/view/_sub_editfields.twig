@@ -24,7 +24,7 @@
     {% endif %}
     <input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
            value='{{ content.get(key) }}' {{ macro.requiredattr(field) }}
-           class='form-control {% if field.class is defined %}{{ field.class }}{% endif %}'
+           class='{{ field.class }}'
             {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
             >
     </div>
@@ -39,7 +39,7 @@
     <div class="col-sm-10">
     <input type="number" name="{{key}}" id="{{key}}" step="{% if field.type != "integer" %}0.0000000{% endif %}1"
         value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
-        class='form-control narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
+        class='narrow {{ field.class }}'
         {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
         >
     </div>
@@ -63,7 +63,7 @@
     <input type="hidden" name="{{key}}" id="{{key}}" value='0'>
     <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
            {% if content.get(key) %}checked{% else %}notchecked{% endif %}
-           class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+           class='{{ field.class }}'>
 </div>
 {% endif %}
 
@@ -115,13 +115,13 @@
 {% if field.type == "select" %}
     <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
-        <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
+        <select name="{{key}}[]" id="{{key}}" class='{{ field.class }}' multiple>
             {% for value in field.values %}
                 <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
             {% endfor %}
         </select>
     {% else %}
-        <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+        <select name="{{key}}" id="{{key}}" class='{{ field.class }}'>
             {% for value in field.values %}
                 <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
             {% endfor %}
@@ -166,7 +166,7 @@
 
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
-            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'>
+            class='{{ field.class }} imageinput wide'>
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
@@ -263,7 +263,7 @@
 
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
-            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'><br>
+            class='{{ field.class }} imageinput'><br>
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
@@ -562,7 +562,7 @@
 
 {% if field.type == "html" %}
 {{ macro.label(key, field) }}
-<textarea name="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %} ckeditor'
+<textarea name="{{key}}" class='{{ field.class }} ckeditor'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
     {{ macro.requiredattr(field) }}
     >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
@@ -573,7 +573,7 @@
 
 {% if field.type == "textarea" %}
 {{ macro.label(key, field) }}
-<textarea name="{{key}}" class='form-control {% if field.class is defined %}{{ field.class }}{% endif %}'
+<textarea name="{{key}}" class='{{ field.class }}'
     style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
     {{ macro.requiredattr(field) }}
     >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
@@ -589,7 +589,7 @@
               data-content="{{ app.translator.trans('info.markdown',{},'infos') }}">{{ __('Info') }}</span>
 
     </label>
-    <textarea id="{{ key }}" name="{{key}}" class='form-control {% if field.class is defined %}{{ field.class }}{% endif %}'
+    <textarea id="{{ key }}" name="{{key}}" class='{{ field.class }}'
         style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'
         {{ macro.requiredattr(field) }}
         >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
@@ -611,7 +611,7 @@
 {{ macro.label(key, field) }}
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
-    class='form-control {% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
+    class='{{ field.class }} datepicker'>
 <input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
 <script type="text/javascript">
     $(function() {
@@ -630,10 +630,10 @@
 {{ macro.label(key, field) }}
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
-    class='form-control {% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
+    class='{{ field.class }} datepicker'>
 <input type="text" name="{{key}}-timeformatted" id="{{key}}-time"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('H:i') }}{% endif %}'
-    class='form-control {% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>
+    class='{{ field.class }} timepicker'>
 <input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
 <script type="text/javascript">
     $(function() {

@@ -345,7 +345,9 @@ class Config
                     $this->set("contenttypes/{$key}/fields/{$fieldname}/label", '');
                 }
                 if (!isset($field['class'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/class", '');
+                    $this->set("contenttypes/{$key}/fields/{$fieldname}/class", 'form-control');
+                } else {
+                    $this->set("contenttypes/{$key}/fields/{$fieldname}/class", 'form-control ' . $field['class']);
                 }
                 if (!isset($field['variant'])) {
                     $this->set("contenttypes/{$key}/fields/{$fieldname}/variant", '');
