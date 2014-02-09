@@ -1,4 +1,4 @@
-{% import '_sub_pretty.twig' as pretty %}
+{% import '_macro.twig' as macro %}
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -8,7 +8,7 @@
         <ul class='activity'>
             {% for log in activity %}
                 {% if attribute(users, log.username) is defined %}
-                    {% set userlink = pretty.userlink(attribute(users, log.username)) %}
+                    {% set userlink = macro.userlink(attribute(users, log.username)) %}
                 {% else %}
                     {% set userlink = __('unknown') %}
                 {% endif %}
@@ -17,7 +17,7 @@
                         {% if app.config.get('contenttypes')[log.contenttype] is defined %}
                             {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
                             {% set contenttype_display_name = contenttype.singular_name %}
-                            {% set content_display_name = pretty.contentlink_by_id(contenttype, log.message, log.content_id) %}
+                            {% set content_display_name = macro.contentlink_by_id(contenttype, log.message, log.content_id) %}
                         {% else %}
                             {% set contenttype_display_name = log.contenttype %}
                             {% set content_display_name = log.message %}

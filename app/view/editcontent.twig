@@ -1,5 +1,5 @@
 {% include '_header.twig' with { 'active':'content' } %}
-{% import '_sub_pretty.twig' as pretty %}
+{% import '_macro.twig' as macro %}
 
 <div class="row">
 
@@ -110,7 +110,7 @@
 
         <p class="lastsaved" style="margin-top: 12px;">
             {% if content.id != 0 %}
-            {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
+            {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(content.datechanged) }})</small></p>
         {% else %}
             {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
         {% endif %}
@@ -142,7 +142,7 @@
 
                 <p class="lastsaved">
                     {% if content.id != 0 %}
-                    {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
+                    {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(content.datechanged) }})</small></p>
                 {% else %}
                     {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
                 {% endif %}
@@ -200,7 +200,7 @@
                 $.post("", $( "#editcontent" ).serialize() )
                     .done(function( data ) {
                         // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': contenttype.singular_name}) }}";
-                        $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>');
+                        $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(content.datechanged) }})</small></p>');
                         $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
                         $('p.lastsaved').find('time').attr('datetime', moment().format());
                         $('p.lastsaved').find('time').attr('title', moment().format());

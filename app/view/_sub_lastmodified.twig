@@ -1,4 +1,4 @@
-{% import '_sub_pretty.twig' as pretty %}
+{% import '_macro.twig' as macro %}
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-clock-o fa-fw"></i> {% if filtered is defined and filtered %}
@@ -17,16 +17,16 @@
                             {% set title = contenttype.singular_name %}
                         {% else %}
                             {% if entry.title %}
-                                {% set title = pretty.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
+                                {% set title = macro.contentlink_by_id(contenttype, entry.title, entry.contentid) %}
                             {% else %}
                                 {% set title = __('%name% № %id%', { '%name%': contenttype.singular_name, '%id%': entry.contentid }) %}
                             {% endif %}
                             № {{ entry.contentid }}.
                         {% endif %}
                         {{ title }}
-                        {{ pretty.changelogmutation(entry.effectiveMutationType) }}
+                        {{ macro.changelogmutation(entry.effectiveMutationType) }}
                         {{ __('by') }} {{ entry.username }}
-                        <small>({{ pretty.datetime(entry.date) }})</small>
+                        <small>({{ macro.datetime(entry.date) }})</small>
                         <small><a href="{{ path('changelogdetails', { 'contenttype':contenttype.slug, 'contentid': entry.contentid, 'id': entry.id }) }}">view</a></small>
                     </li>
                 {% else %}
@@ -36,8 +36,8 @@
                 {% for content in latest %}
                     <li>
                         № {{content.id}}.
-                        {{ pretty.contentlink(contenttype, content) }}
-                        <small>({{ pretty.datetime(content.datechanged) }})</small>
+                        {{ macro.contentlink(contenttype, content) }}
+                        <small>({{ macro.datetime(content.datechanged) }})</small>
                     </li>
                 {% else %}
                     <li><em>{{ __('No latest %contenttype%',{'%contenttype%':contenttype.name}) }}.</em></li>
