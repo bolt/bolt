@@ -381,11 +381,6 @@ table.dataTable thead .sorting:after {
     height: auto;
 }
 
-
-.js-nav #page-wrapper {
-    margin-left: 250px;
-}
-
 .dropdown-menu .nav-header {
     clear: both;
     float: none;

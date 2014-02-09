@@ -72,7 +72,7 @@
 
 
 .navbar .navbar-brand {
-    position: absolute;
+    display: inline-block;
     top: 0px;
     left: 20px;
     color: #FFF;
@@ -141,6 +141,20 @@
     border-right: 1px solid #888;
     height: 40px;
     margin: 0 4px;
+}
+
+.navbar-toggle {
+  float: left;
+  margin-left: 15px;
+  margin-right: 0;
+}
+
+.navbar-header {
+  float: left;
+}
+
+.navbar-right {
+  float: right !important;
 }
 
 /**

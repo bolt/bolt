@@ -1,7 +1,7 @@
 
 body {
     background-color: $sidebarbackground;
-    color: $sidebartextcolour;    
+    color: $sidebartextcolour;
     font-size: 13px;
 }
 
@@ -64,7 +64,17 @@ footer  {
     vertical-align: top;
 }
 
+.js-nav #wrapper{
+  position: absolute;
+  left: 250px;
+}
 
+.js-nav #nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
 
 /**
  * Extensions screen
@@ -189,6 +199,10 @@ blockquote.quote cite {
     #editcontent div.video-container {
         padding-right: 0;
     }
+
+    #bolt-footer, .navbar-site span, .navbar-static-top .navbar-right .dropdown-toggle span {
+        display: none;
+    }
 }
 
 @media (max-width: 979px) {
@@ -211,8 +225,6 @@ blockquote.quote cite {
     }
 
     .navbar-collapse .navbar .navbar-header {
-        clear: both;
-        float: none;
         padding: 5px 12px 5px 24px;
     }
 
