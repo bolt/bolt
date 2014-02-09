@@ -2,7 +2,7 @@
 
 /* ------------------------------- */
 
- body {
+body {
     background-color: #f1f2f7;
     color: #4c4c4c;
 }
@@ -134,12 +134,12 @@
 }
 
 @media(max-width:768px) {
-	.navbar-static-side{
-		display:none;
-	}
-	.js-nav .navbar-static-side{
-		display:block;
-	}
+    .navbar-static-side{
+        display:none;
+    }
+    .js-nav .navbar-static-side{
+        display:block;
+    }
 }
 
 @media(min-width:768px) {
@@ -326,17 +326,17 @@ table.dataTable thead .sorting:after {
 }
 
 .navbar-static-top { 
-	background-color: #4c4c4c;
-	box-shadow: 0px 2px 3px #ccc;
-	border: none;
+    background-color: #4c4c4c;
+    box-shadow: 0px 2px 3px #ccc;
+    border: none;
 }
 
 .navbar-static-top a { 
-	color: #fff;
+    color: #fff;
 }
 
 .navbar-static-side {
-	background: url(../img/sidebarbg.png) no-repeat top right;
+    background: url(../img/sidebarbg.png) no-repeat top right;
 }
 
 .navbar-static-side li.active > a{
@@ -346,32 +346,32 @@ table.dataTable thead .sorting:after {
 }
 
 .navbar-brand {
-	display: inline-block;
-	color: #fff !important;
-	font-size: 24px;
-	padding: 0;
-	margin: 0 5px 0 15px;
-	line-height: 50px;
+    display: inline-block;
+    color: #fff !important;
+    font-size: 24px;
+    padding: 0;
+    margin: 0 5px 0 15px;
+    line-height: 50px;
 }
 
 .navbar-brand img {
-	width: 47px;
-	height: 47px;
-	margin: 0 2px 2px 0;
+    width: 47px;
+    height: 47px;
+    margin: 0 2px 2px 0;
 }
 
 .navbar-site {
-	display: inline-block;
-	color: #ccc!important;
-	font-size: 20px;
-	line-height: 30px;
-	margin-top: 9px;
-	padding: 1px 5px 0 5px;
+    display: inline-block;
+    color: #ccc!important;
+    font-size: 20px;
+    line-height: 30px;
+    margin-top: 9px;
+    padding: 1px 5px 0 5px;
 }
 
 .navbar-site i {
-	color: #ccc!important;
-	font-size: 16px;
+    color: #ccc!important;
+    font-size: 16px;
 }
 
 .navbar-brand:hover,
@@ -385,18 +385,18 @@ table.dataTable thead .sorting:after {
 }
 
 .page-header {
-	border: none;
+    border: none;
 }
 
 .login .logo {
-	margin-top:100px;
-	width: 358px;
-	height: auto;
+    margin-top:100px;
+    width: 358px;
+    height: auto;
 }
 
 
 .js-nav #page-wrapper {
-	margin-left: 250px;
+    margin-left: 250px;
 }
 
 .dropdown-menu .nav-header {
