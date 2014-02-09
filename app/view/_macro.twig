@@ -29,9 +29,7 @@
 {% endmacro %}
 
 {# output a 'relative' datetime #}
-{% macro datetime(d) %}
-    <time class="moment" datetime="{{ d|date("c") }}" title="{{ d }}">{{ d }}</time>
-{% endmacro %}
+{% macro datetime(d) %}<time class="moment" datetime="{{ d|date("c") }}" title="{{ d }}">{{ d }}</time>{% endmacro %}
 
 {# output the required="required" attribute for field in the form. #}
 {% macro requiredattr(field) %}
