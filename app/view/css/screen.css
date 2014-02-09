@@ -8570,7 +8570,7 @@ button.close {
   line-height: 38px;
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 0;
-  padding: 8px 0 0 0;
+  padding: 2px 8px 8px 8px;
 }
 
 /* line 86, ../sass/_bootstrapcustom.scss */
@@ -8721,7 +8721,7 @@ ul.dropdown-menu li a.nolink {
   color: #999999;
   cursor: default;
   font-weight: bold;
-  background-color: rgba(245, 245, 245, 0.5);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 /**
@@ -9870,22 +9870,25 @@ footer {
 
 /* line 67, ../sass/_bolt.scss */
 .js-nav #wrapper {
+  z-index: 1;
   position: absolute;
   left: 250px;
+  top: 0;
 }
 
-/* line 72, ../sass/_bolt.scss */
+/* line 74, ../sass/_bolt.scss */
 .js-nav #nav {
-  position: fixed;
+  position: absolute;
+  z-index: 2;
   top: 0;
-  left: 0;
+  left: -250px;
   height: 100%;
 }
 
 /**
  * Extensions screen
  */
-/* line 83, ../sass/_bolt.scss */
+/* line 86, ../sass/_bolt.scss */
 div.extension {
   border: 1px solid #CCC;
   background: #FFF;
@@ -9895,14 +9898,14 @@ div.extension {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-/* line 92, ../sass/_bolt.scss */
+/* line 95, ../sass/_bolt.scss */
 div.extension h3 {
   font-size: 17px;
   line-height: 28px;
   margin: 4px 0 0;
 }
 
-/* line 98, ../sass/_bolt.scss */
+/* line 101, ../sass/_bolt.scss */
 div.extension p {
   margin: 0 0 4px;
   line-height: 16px;
@@ -9911,7 +9914,7 @@ div.extension p {
 /**
  * Fancy, simple blockquotes
  */
-/* line 106, ../sass/_bolt.scss */
+/* line 109, ../sass/_bolt.scss */
 blockquote.quote {
   border: 0;
   margin: 15px 0px;
@@ -9922,7 +9925,7 @@ blockquote.quote {
   color: #AAA;
 }
 
-/* line 116, ../sass/_bolt.scss */
+/* line 119, ../sass/_bolt.scss */
 blockquote.quote cite {
   display: block;
   margin-top: 8px;
@@ -9937,35 +9940,35 @@ blockquote.quote cite {
  * Hide / show on phones or tablets..
  */
 @media (max-width: 480px) {
-  /* line 133, ../sass/_bolt.scss */
+  /* line 136, ../sass/_bolt.scss */
   #editcontent div.tagcloud {
     margin-left: 0;
     width: 100%;
   }
 }
 @media (max-width: 768px) {
-  /* line 142, ../sass/_bolt.scss */
+  /* line 145, ../sass/_bolt.scss */
   h1 {
     font-size: 26px;
     line-height: 31px;
     margin-top: 0;
   }
 
-  /* line 148, ../sass/_bolt.scss */
+  /* line 151, ../sass/_bolt.scss */
   h2 {
     font-size: 22px;
     line-height: 27px;
     margin-top: 0;
   }
 
-  /* line 154, ../sass/_bolt.scss */
+  /* line 157, ../sass/_bolt.scss */
   h3 {
     font-size: 20px;
     line-height: 28px;
     margin-top: 0;
   }
 
-  /* line 160, ../sass/_bolt.scss */
+  /* line 163, ../sass/_bolt.scss */
   .morelink {
     float: right;
     font-size: 12px;
@@ -9975,89 +9978,89 @@ blockquote.quote cite {
     top: 12px;
   }
 
-  /* line 169, ../sass/_bolt.scss */
+  /* line 172, ../sass/_bolt.scss */
   .container-fluid {
     margin-right: -12px;
     margin-left: -12px;
   }
 
-  /* line 174, ../sass/_bolt.scss */
+  /* line 177, ../sass/_bolt.scss */
   .navbar .brand {
     left: 8px;
   }
 
-  /* line 178, ../sass/_bolt.scss */
+  /* line 181, ../sass/_bolt.scss */
   .navbar-collapse ul.pull-right li {
     float: left;
     /* required for 'mobile' view.. */
   }
 
-  /* line 182, ../sass/_bolt.scss */
+  /* line 185, ../sass/_bolt.scss */
   .well {
     padding: 0px 0px 12px 8px;
   }
 
-  /* line 185, ../sass/_bolt.scss */
+  /* line 188, ../sass/_bolt.scss */
   label {
     margin: 0.5em 0 0.25em;
   }
 
-  /* line 189, ../sass/_bolt.scss */
+  /* line 192, ../sass/_bolt.scss */
   blockquote.quote {
     font-size: 18px;
     line-height: 24px;
     margin: 10px 15px;
   }
 
-  /* line 195, ../sass/_bolt.scss */
+  /* line 198, ../sass/_bolt.scss */
   #editcontent .imageinput {
     width: 90%;
   }
 
-  /* line 199, ../sass/_bolt.scss */
+  /* line 202, ../sass/_bolt.scss */
   #editcontent div.video-container {
     padding-right: 0;
   }
 
-  /* line 203, ../sass/_bolt.scss */
+  /* line 206, ../sass/_bolt.scss */
   #bolt-footer, .navbar-site span, .navbar-static-top .navbar-right .dropdown-toggle span {
     display: none;
   }
 }
 @media (max-width: 979px) {
-  /* line 210, ../sass/_bolt.scss */
+  /* line 213, ../sass/_bolt.scss */
   .navbar-inner {
     min-height: 50px;
   }
 
-  /* line 214, ../sass/_bolt.scss */
+  /* line 217, ../sass/_bolt.scss */
   .navbar-inner ul.dropdown-menu li {
     float: left;
     padding: 0;
   }
 
-  /* line 219, ../sass/_bolt.scss */
+  /* line 222, ../sass/_bolt.scss */
   .navbar-collapse .navbar > li {
     clear: both;
   }
 
-  /* line 223, ../sass/_bolt.scss */
+  /* line 226, ../sass/_bolt.scss */
   .navbar-collapse.collapse {
     margin-left: 8px;
   }
 
-  /* line 227, ../sass/_bolt.scss */
+  /* line 230, ../sass/_bolt.scss */
   .navbar-collapse .navbar .navbar-header {
     padding: 5px 12px 5px 24px;
   }
 
-  /* line 231, ../sass/_bolt.scss */
+  /* line 234, ../sass/_bolt.scss */
   .navbar-collapse .navbar > li > a, .navbar-collapse .dropdown-menu a {
     padding: 5px 12px;
     color: #E7E7E7 !important;
   }
 
-  /* line 236, ../sass/_bolt.scss */
+  /* line 239, ../sass/_bolt.scss */
   .navbar .navbar-btn {
     margin-top: 14px !important;
   }

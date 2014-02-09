@@ -77,7 +77,7 @@
                 </a>
                 <ul class="dropdown-menu pull-right">
                     {% if isallowed('files:config') %}
-                        <li class="navbar-header">{{ __('Configuration') }}</li>
+                        <li class="nav-header">{{ __('Configuration') }}</li>
                         <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ __('Users') }}</a></li>
                         <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
                             <i class="fa fa-cog"></i> {{ __('Configuration') }}</a></li>
@@ -93,7 +93,7 @@
                     {% endif %}
 
                     {% if app.extensions.hasMenuoptions %}
-                        <li class="navbar-header">{{ __('Extensions') }}</li>
+                        <li class="nav-header">{{ __('Extensions') }}</li>
                         {% for extension in app.extensions.getMenuoptions %}
                             <li>
                                 <a href="{{ extension.path }}">
@@ -104,7 +104,7 @@
                         {% endfor %}
                         <li class="divider"></li>
                     {% endif %}
-                    <li class="navbar-header">{{ __('Maintenance') }}</li>
+                    <li class="nav-header">{{ __('Maintenance') }}</li>
                     {% if isallowed('extensions') %}
                         <li><a href="{{ path('extensions') }}"><i class="fa fa-briefcase"></i> {{ __('Extensions') }}</a></li>
                     {% endif %}
@@ -118,7 +118,7 @@
                         <li><a href="{{ path('activitylog') }}"><i class="fa fa-file"></i> {{ __('Activity log') }}</a></li>
                     {% endif %}
                     <li class="divider"></li>
-                    <li class="navbar-header">{{ __('File Management') }}</li>
+                    <li class="nav-header">{{ __('File Management') }}</li>
                     {% if isallowed('files:theme') %}
                         <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-desktop"></i> {{ __('View / edit Templates') }}</a></li>
                     {% endif %}
@@ -127,7 +127,7 @@
                     {% endif %}
                     {% if isallowed('translation') %}
                     <li class="divider"></li>
-                    <li class="navbar-header">{{ __('Translations') }}</li>
+                    <li class="nav-header">{{ __('Translations') }}</li>
                         <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="fa fa-flag"></i> {{ __('Messages') }}</a></li>
                         <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="fa fa-flag"></i> {{ __('Long messages') }}</a></li>
                         <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="fa fa-flag"></i> {{ __('Contenttypes') }}</a></li>

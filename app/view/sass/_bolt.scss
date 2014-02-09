@@ -65,14 +65,17 @@ footer  {
 }
 
 .js-nav #wrapper{
+  z-index: 1;
   position: absolute;
   left: 250px;
+  top: 0;
 }
 
 .js-nav #nav {
-  position: fixed;
+  position: absolute;
+  z-index: 2;
   top: 0;
-  left: 0;
+  left: -250px;
   height: 100%;
 }
 

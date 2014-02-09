@@ -354,6 +354,7 @@ table.dataTable thead .sorting:after {
     line-height: 30px;
     margin-top: 9px;
     padding: 1px 5px 0 5px;
+    float: left;
 }
 
 .navbar-site i {

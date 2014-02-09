@@ -31,7 +31,7 @@
 
     {% if isallowed('edit', contenttype) and isallowed('delete', contenttype) %}
     <div class="btn-group">
-        <a href="#" class="btn deletechoosen showifchoosen" style="display:none;"><i class="fa fa-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': contenttype.name}) }}</a>
+        <a href="#" class="btn deletechoosen showifchoosen" style="display:none;"><i class="fa fa-trash-o"></i> {{ __('Delete %contenttype%',{'%contenttype%': contenttype.name}) }}</a>
     </div>
     {% endif %}
 
