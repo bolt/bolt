@@ -3,20 +3,24 @@
     cursor: help;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 12px;
-    float: none;
+    font-weight: normal;
     vertical-align: 2px;
+    background-color: #999;
+    line-height: 10px;
+    padding-bottom: 2px;
 }
 
 .popover {
-    width: 400px;
+    width: 360px;
+    max-width: 360px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 .popover-content {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: normal;
-    line-height: 20px;
+    line-height: 18px;
 }
 .popover-content p {
     margin: 4px 0;

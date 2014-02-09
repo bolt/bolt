@@ -9097,39 +9097,43 @@ aside .btn {
   cursor: help;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12px;
-  float: none;
+  font-weight: normal;
   vertical-align: 2px;
+  background-color: #999;
+  line-height: 10px;
+  padding-bottom: 2px;
 }
 
-/* line 10, ../sass/_popover.scss */
+/* line 13, ../sass/_popover.scss */
 .popover {
-  width: 400px;
+  width: 360px;
+  max-width: 360px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* line 15, ../sass/_popover.scss */
+/* line 19, ../sass/_popover.scss */
 .popover-content {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 18px;
 }
 
-/* line 21, ../sass/_popover.scss */
+/* line 25, ../sass/_popover.scss */
 .popover-content p {
   margin: 4px 0;
 }
 
 /* Note: We only use popover-bottom for items on the stack. If we start using it
    for anything else, we need to specify the selector further */
-/* line 27, ../sass/_popover.scss */
+/* line 31, ../sass/_popover.scss */
 .popover.bottom {
   width: 220px;
   margin-left: 110px;
   margin-top: 4px;
 }
 
-/* line 33, ../sass/_popover.scss */
+/* line 37, ../sass/_popover.scss */
 .popover.bottom .popover-content, .popover.bottom .popover-content code {
   font-size: 12px;
   overflow: hidden;

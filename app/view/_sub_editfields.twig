@@ -509,7 +509,7 @@
 
 {# --------------- geolocation --------------- #}
 
-    {% if field.type == "geolocation" %}
+{% if field.type == "geolocation" %}
 
         {% set geolocation = content.get(key) %}
         <div class="dropzone geolocation">
@@ -558,41 +558,45 @@
 {# --------------- html --------------- #}
 
 {% if field.type == "html" %}
-{{ macro.label(key, field) }}
-<textarea name="{{key}}" class='{{ field.class }} ckeditor'
-    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
-    {{ macro.requiredattr(field) }}
-    >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
-</textarea>
+    <div class="col-sm-12">
+    {{ macro.label(key, field) }}
+    <textarea name="{{key}}" class='{{ field.class }} ckeditor'
+        style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
+        {{ macro.requiredattr(field) }}
+        >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}
+    </textarea>
+    </div>
 {% endif %}
 
 {# --------------- textarea --------------- #}
 
 {% if field.type == "textarea" %}
-{{ macro.label(key, field) }}
-<textarea name="{{key}}" class='{{ field.class }}'
-    style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
-    {{ macro.requiredattr(field) }}
-    >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <div class="col-sm-12">
+        {{ macro.label(key, field) }}
+    <textarea name="{{key}}" class='{{ field.class }}'
+        style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
+        {{ macro.requiredattr(field) }}
+        >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    </div>
 {% endif %}
 
 
 {# --------------- textarea --------------- #}
 
 {% if field.type == "markdown" %}
-    <label>
-        <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
+    <div class="col-sm-12">
+    {{ macro.label(key, field) }}
         <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
               data-content="{{ app.translator.trans('info.markdown',{},'infos') }}">{{ __('Info') }}</span>
 
-    </label>
     <textarea id="{{ key }}" name="{{key}}" class='{{ field.class }}'
         style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'
         {{ macro.requiredattr(field) }}
         >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
 
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
-
+    </div>
+<!-- script snippet for markdown {{ key }} -->
 <script type="text/javascript">
     $(function() {
         bindMarkdown('{{key}}');

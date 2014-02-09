@@ -43,9 +43,9 @@ info:
             <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
             which is then converted to structurally valid HTML.</p>
             <p><strong>Quick reference:</strong><br>
-            # This is an &amp;lt;h1&amp;gt; tag<br>
-            ## This is an &amp;lt;h2&amp;gt; tag<br>
-            ###### This is an &amp;lt;h6&amp;gt; tag</p>
+            # This is an &lt;h1&gt;-tag<br>
+            ## This is an &lt;h2&gt;-tag<br>
+            ###### This is an &lt;h6&gt;-tag</p>
             <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
             ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
             this **<strong>is bold</strong>**.
