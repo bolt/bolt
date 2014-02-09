@@ -44,19 +44,12 @@ fieldset.checkbox div {
 #editcontent textarea {
     border-radius: 2px;
     border-color: #CCC;
-    font-size: 100%;
+    font-size: $font-size-base + 2px;
 }
 
-#editcontent input[type=email],
-#editcontent input[type=url],
-#editcontent input[type=text] {
-    width: 70%;
-    min-width: 200px;
-}
 
 #editcontent input.large {
     font-size: 150%;
-    width: 95%;
 }
 
 #editcontent input.narrow {
