@@ -3,6 +3,7 @@
  */
 
 $boltblue: #204460;
+$boltbluedarker: darken($boltblue, 5);
 $baseblue: #214968;
 
 $basebgcolour: #fefefe;
@@ -18,3 +19,6 @@ $linkmain: #194770;
 /*$linkvisited: #4c808b;*/
 $linkvisited: #295780;
 $linkactive: #103060;
+
+$sidebarbackground: #f1f2f7;
+$sidebartextcolour: #4c4c4c;
