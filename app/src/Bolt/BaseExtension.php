@@ -185,10 +185,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @param string $name
      * @param string $callback
      */
-    public function addTwigFunction($name, $callback)
+    public function addTwigFunction($name, $callback, $options = array())
     {
 
-        $this->functionlist[] = new \Twig_SimpleFunction($name, array($this, $callback));
+        $this->functionlist[] = new \Twig_SimpleFunction($name, array($this, $callback), $options);
 
     }
 
@@ -208,10 +208,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @param string $name
      * @param string $callback
      */
-    public function addTwigFilter($name, $callback)
+    public function addTwigFilter($name, $callback, $options = array())
     {
 
-        $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback));
+        $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback), $options);
 
     }
 
