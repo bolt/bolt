@@ -409,10 +409,18 @@ class Extension extends \Bolt\BaseExtension
             $subject = '[SimpleForms] ' . $formname;
         }
 
+        if (empty($formconfig['from_email'])) {
+            $formconfig['from_email'] = $formconfig['recipient_email'];
+        }
+
+        if (empty($formconfig['from_name'])) {
+            $formconfig['from_name'] = $formconfig['recipient_name'];
+        }
+
         // Compile the message..
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
+            ->setFrom(array($formconfig['from_email'] => $formconfig['from_name']))
             ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');

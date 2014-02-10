@@ -162,7 +162,7 @@ wysiwyg:
 
 # by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
 # instead. Uncomment the following lines to use an SMTP server with authentication.
-# Please check http://symfony.com/doc/current/reference/configuration/swiftmailer.html for a full range of options
+# Please check http://silex.sensiolabs.org/doc/providers/swiftmailer.html for a full range of options
 #mailoptions:
 #  host: localhost
 #  port: 25
