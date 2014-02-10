@@ -2445,7 +2445,7 @@ output {
   display: block;
   width: 100%;
   height: 34px;
-  padding: 6px 12px;
+  padding: 6px 6px;
   font-size: 14px;
   line-height: 1.42857;
   color: #555555;
@@ -2855,7 +2855,7 @@ select[multiple].input-lg,
   background-image: none;
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: 6px 12px;
+  padding: 6px 6px;
   font-size: 14px;
   line-height: 1.42857;
   border-radius: 4px;
@@ -3668,7 +3668,7 @@ input[type="button"].btn-block {
 
 /* line 64, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-addon {
-  padding: 6px 12px;
+  padding: 6px 6px;
   font-size: 14px;
   font-weight: normal;
   line-height: 1;
@@ -4534,7 +4534,7 @@ input[type="button"].btn-block {
 .pagination > li > span {
   position: relative;
   float: left;
-  padding: 6px 12px;
+  padding: 6px 6px;
   line-height: 1.42857;
   text-decoration: none;
   color: #428bca;
@@ -9449,7 +9449,7 @@ fieldset.checkbox div {
 #editcontent textarea {
   border-radius: 2px;
   border-color: #CCC;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 /* line 45, ../sass/_forms.scss */
