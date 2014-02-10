@@ -2,6 +2,17 @@
     <ul class="nav" id="side-menu">
         {% if app.session.get('user') is not null %}
 
+            {# one omnisearch here, for "extra small", the other in the header-navbar #}
+            <li class="sidebar-search">
+                <form class="navbar-form visible-xs" role="search">
+                    <div class="form-group has-feedback">
+                        <label class="control-label" for="inputSuccess4">Omnisearch…</label>
+                        <input type="text" class="form-control" placeholder="Omnisearch…" >
+                        <span class="fa fa-search form-control-feedback"></span>
+                    </div>
+                </form>
+            </li>
+
             {# Link to Dashboard  #}
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                 <i class="fa fa-dashboard"></i> {{ __('Dashboard') }}</a></li>

@@ -17,12 +17,13 @@
 
         <ul class="nav navbar-top-links navbar-right">
 
-              <form class="navbar-form" role="search">
+            {# one omnisearch here, for "small and up", the other in the side-navbar #}
+            <form class="navbar-form hidden-xs" role="search">
                 <div class="form-group has-feedback">
-                  <input type="text" class="form-control" placeholder="Omnisearch…">
-                  <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control " placeholder="Omnisearch…">
+                    <span class="fa fa-search form-control-feedback"></span>
                 </div>
-              </form>
+            </form>
 
             <!-- /.dropdown -->
             <li class="dropdown">
@@ -51,23 +52,6 @@
     </nav>
     <!-- /.navbar-static-top -->
 
-    {#
-    <div class="navbar navbar-fixed-top ">
-    <div class="navbar-bolt navbar-inverse">
-        <div class="container">
-            <a class="btn navbar-btn" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"><i class="fa fa-bars fa-2x"></i></span>
-            </a>
-            <a class="navbar-brand" href="{{ path('dashboard') }}">
-                <strong>{{ app.config.get('general/branding/name') }}</strong> <span class="hidden-phone"> {% if app.config.get('general/sitename') %}- {{ app.config.get('general/sitename') }}{% endif %}</span>
-            </a>
-
-            {% include '_sub_mainmenu.twig' %}
-
-        </div>
-    </div>
-</div>
-    #}
 
     <nav class="navbar-default navbar-static-side" role="navigation" id="nav">
         {% include '_sub_mainmenu.twig' %}

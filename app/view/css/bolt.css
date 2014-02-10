@@ -93,8 +93,12 @@
 
 /* Sidebar Menu Styles */
 
- .sidebar-search {
-    padding: 30px 15px 25px 15px;
+.sidebar-search {
+    padding: 0 15px 0 15px;
+}
+
+.sidebar-search form {
+    border: 0;
 }
 
 .arrow {
