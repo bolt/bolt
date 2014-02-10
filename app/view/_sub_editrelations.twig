@@ -12,37 +12,43 @@
 {# relationships for this record #}
 {% if contenttype.relations is defined %}
 
+<div class="form-group">
+    <fieldset>
+
     {% for relcontenttype, relation in contenttype.relations %}
 
-        <label for='relation-{{relcontenttype|trans}}'><b><span class='left'>
-            {% if relation.label %}{{ relation.label|trans }}{% else %}{{ relcontenttype|ucfirst|trans }}{% endif %}
-        </span></b></label>
+        {{ macro.label(relation.label, relcontenttype|ucfirst, 'col-sm-3 control-label', 'relation-' ~ relcontenttype) }}
+        <div class="col-sm-9">
 
-        {% if relation.multiple is defined and relation.multiple == 1 %}
-        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple  style="width: 70%;" data-placeholder="(none)">
-        {% else %}
-        <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' style="width: 70%;" data-placeholder="(none)">
-            <option value="0">(none)</option>
-        {% endif %}
-            {% for item in listcontent(relcontenttype, relation, content) %}
-                {% if relcontenttype==app.request.get('relation') and item.id==app.request.get('relationid') %}
-                    {%  set selectedbyrelation = true %}
-                {% else %}
-                    {%  set selectedbyrelation = false %}
-                {% endif %}
-                <option value="{{ item.id }}" {% if item.selected or selectedbyrelation %}selected{% endif %}>{{ item.title|escape }} <span>(№ {{ item.id }})</span></option>
-            {% endfor %}
 
-        </select>
+            {% if relation.multiple is defined and relation.multiple == 1 %}
+            <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple  style="width: 100%;" data-placeholder="(none)">
+            {% else %}
+            <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' style="width: 100%;" data-placeholder="(none)">
+                <option value="0">(none)</option>
+            {% endif %}
+                {% for item in listcontent(relcontenttype, relation, content) %}
+                    {% if relcontenttype==app.request.get('relation') and item.id==app.request.get('relationid') %}
+                        {%  set selectedbyrelation = true %}
+                    {% else %}
+                        {%  set selectedbyrelation = false %}
+                    {% endif %}
+                    <option value="{{ item.id }}" {% if item.selected or selectedbyrelation %}selected{% endif %}>{{ item.title|escape }} <span>(№ {{ item.id }})</span></option>
+                {% endfor %}
 
-        <script>
-            $('#relation-{{relcontenttype}}').select2({
-                placeholder: "(none)",
-                allowClear: true
-            });
-        </script>
+            </select>
 
+            <script>
+                $('#relation-{{relcontenttype}}').select2({
+                    placeholder: "(none)",
+                    allowClear: true
+                });
+            </script>
+
+        </div>
     {% endfor %}
+
+</div>
 
 {% endif %}
 
