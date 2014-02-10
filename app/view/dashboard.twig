@@ -53,7 +53,7 @@
         {% if multiplecontent %}
 
             <h3>
-                <span>
+                <span class="pull-right">
                     <a href="{{ path('overview', { 'contenttypeslug': contenttype }) }}" class='morelink'>
                         {{ __('More %contenttypes% »',{'%contenttypes%': app.config.get('contenttypes')[contenttype].name}) }}
                     </a>

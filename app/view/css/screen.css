@@ -9005,11 +9005,6 @@ h1 span {
 }
 
 /* line 82, ../sass/_textstyles.scss */
-h3 span {
-  float: right;
-}
-
-/* line 86, ../sass/_textstyles.scss */
 hr {
   clear: both;
   margin: 10px 0;
@@ -9019,12 +9014,12 @@ hr {
   width: 97%;
 }
 
-/* line 96, ../sass/_textstyles.scss */
+/* line 92, ../sass/_textstyles.scss */
 aside {
   margin-top: 15px;
 }
 
-/* line 100, ../sass/_textstyles.scss */
+/* line 96, ../sass/_textstyles.scss */
 aside section {
   background-color: #F2F1ED;
   border: 1px solid #DDC;
@@ -9034,7 +9029,7 @@ aside section {
   margin-bottom: 10px;
 }
 
-/* line 109, ../sass/_textstyles.scss */
+/* line 105, ../sass/_textstyles.scss */
 aside section h2 {
   font-size: 17px;
   line-height: 21px;
@@ -9042,28 +9037,28 @@ aside section h2 {
   color: #333;
 }
 
-/* line 116, ../sass/_textstyles.scss */
+/* line 112, ../sass/_textstyles.scss */
 aside .morelink {
   font-weight: normal;
   line-height: 1em;
   position: static;
 }
 
-/* line 122, ../sass/_textstyles.scss */
+/* line 118, ../sass/_textstyles.scss */
 aside section p {
   font-size: 12px;
   line-height: 16px;
   margin: 4px 0;
 }
 
-/* line 128, ../sass/_textstyles.scss */
+/* line 124, ../sass/_textstyles.scss */
 aside section p {
   font-size: 12px;
   line-height: 18px;
   margin: 4px 0;
 }
 
-/* line 135, ../sass/_textstyles.scss */
+/* line 131, ../sass/_textstyles.scss */
 aside ul {
   list-style: none;
   margin-left: 0;
@@ -9071,23 +9066,23 @@ aside ul {
   text-indent: -0.7em;
 }
 
-/* line 142, ../sass/_textstyles.scss */
+/* line 138, ../sass/_textstyles.scss */
 aside ul li:before {
   content: "- ";
 }
 
-/* line 146, ../sass/_textstyles.scss */
+/* line 142, ../sass/_textstyles.scss */
 aside ul li {
   line-height: 16px;
   margin-bottom: 4px;
 }
 
-/* line 151, ../sass/_textstyles.scss */
+/* line 147, ../sass/_textstyles.scss */
 aside ul li small {
   color: #777;
 }
 
-/* line 155, ../sass/_textstyles.scss */
+/* line 151, ../sass/_textstyles.scss */
 aside .btn {
   margin-bottom: 8px;
 }
