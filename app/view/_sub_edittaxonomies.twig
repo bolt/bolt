@@ -9,18 +9,19 @@
     </h3>
 
 {% for taxonomyslug in contenttype.taxonomy %}
-<fieldset>
+<div class="form-group">
+    <fieldset>
 
     {% if config.get('taxonomy')[taxonomyslug] is defined %}
 
         {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
+        {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
+        <div class="col-sm-9">
 
         {# ---------- tags ---------- #}
 
         {% if taxonomy.behaves_like == "tags" %}
-
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
 
             {% if content.taxonomy[taxonomy.slug] is defined %}
                 {% set tags = content.taxonomy[taxonomy.slug]|join(",") %}
@@ -28,9 +29,7 @@
                 {% set tags = "" %}
             {% endif %}
 
-            <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" style="width: 70%;" />
-
-
+            <input type='text' name='taxonomy[{{taxonomy.slug}}]' id='taxonomy-{{taxonomy.slug}}' value="{{tags}}" style="width: 100%;" />
 
             <div class="tagcloud" id="tagcloud-{{taxonomy.slug}}"></div>
             <script>
@@ -83,19 +82,16 @@
             });
             </script>
 
-
         {% endif %}
 
         {# ---------- categories ---------- #}
 
         {% if taxonomy.behaves_like == "categories" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
-
             {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' multiple>
+            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' class="form-control" multiple>
             {% else %}
-            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
+            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' class="form-control">
                 <option value="">{{ __('(no category)') }}</option>
                 <option value="" disabled>-----------</option>
             {% endif %}
@@ -112,9 +108,7 @@
 
         {% if taxonomy.behaves_like == "grouping" %}
 
-            <label for='taxonomy-{{taxonomy.slug}}'><b><span class='left'>{{ taxonomy.name|trans }}</span></b></label>
-
-            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}'>
+            <select name='taxonomy[{{taxonomy.slug}}][]' id='taxonomy-{{taxonomy.slug}}' class="narrow form-control pull-left">
                 <option value="">{{ __('(no group)') }}</option>
                 <option value="" disabled>-----------</option>
             {% for slug, group in taxonomy.options %}
@@ -123,21 +117,24 @@
             </select>
 
             {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
-                <label for="taxonomy-order-{{taxonomy.slug}}" style='display: inline;'>- Order:</label>
+                <label for="taxonomy-order-{{taxonomy.slug}}" class=" pull-left" style="margin: 6px 8px 0;">- Order:</label>
                 {% if content.sortorder %}
                     {% set sortorder = content.sortorder %}
                 {% else %}
                     {% set sortorder = 0 %}
                 {% endif %}
                 <input type="number" name="taxonomy-order[{{taxonomy.slug}}]" id="taxonomy-order-{{taxonomy.slug}}" step="1"
-                       value='{{ sortorder }}' class='verynarrow'>
+                       value='{{ sortorder }}' class='verynarrow form-control pull-left'>
             {% endif %}
 
         {% endif %}
 
+        </div>
+
     {% endif %}
 
-</fieldset>
+    </fieldset>
+</div>
 {% endfor %}
 <hr>
 {% endif %}

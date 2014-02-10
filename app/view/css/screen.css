@@ -9473,13 +9473,13 @@ fieldset.checkbox div {
 }
 
 /* line 49, ../sass/_forms.scss */
-#editcontent input.narrow {
+#editcontent .narrow {
   width: 30%;
   min-width: 200px;
 }
 
 /* line 54, ../sass/_forms.scss */
-#editcontent input.verynarrow {
+#editcontent .verynarrow {
   width: 8%;
   min-width: 50px;
 }
@@ -9497,7 +9497,7 @@ fieldset.checkbox div {
 }
 
 /* line 69, ../sass/_forms.scss */
-#editcontent input.narrow.wide {
+#editcontent .narrow.wide {
   /* Derp! */
   width: 60%;
   min-width: 200px;
@@ -9769,24 +9769,22 @@ fieldset.checkbox div {
 
 /* line 302, ../sass/_forms.scss */
 #editcontent div.tagcloud {
-  margin-left: 180px;
   margin-top: 6px;
-  width: 70%;
 }
 
-/* line 308, ../sass/_forms.scss */
+/* line 306, ../sass/_forms.scss */
 #editcontent div.tagcloud a {
   margin-right: 6px;
   display: inline-block;
 }
 
-/* line 313, ../sass/_forms.scss */
+/* line 311, ../sass/_forms.scss */
 .ui-sortable-helper {
   border: 1px solid #999;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* line 318, ../sass/_forms.scss */
+/* line 316, ../sass/_forms.scss */
 .ui-sortable-placeholder {
   border: 1px dashed #666;
   visibility: visible !important;

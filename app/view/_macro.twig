@@ -37,7 +37,7 @@
 {% endmacro %}
 
 {# label for forms when editing content #}
-{% macro label(key, field, class) %}
+{% macro label(key, field, class, for) %}
 
-    <label class="{{ class|default('control-label') }}">{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</label>
+    <label {% if for %}for="{{ for }}" {% endif %}class="{{ class|default('control-label') }}">{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</label>
 {% endmacro %}
