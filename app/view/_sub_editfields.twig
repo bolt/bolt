@@ -64,12 +64,13 @@
 {# --------------- slug --------------- #}
 
 {% if field.type == "slug" %}
-<label class='permalink'>{{ __('Permalink') }}:
-    <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
-    <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
-    <span class='sluglocker'><i class='icon-lock'></i></span> <span class='slugedit'><i class='icon-pencil'></i></span>
-</label>
-
+<div class="col-sm-12">
+    <label class='permalink'>{{ __('Permalink') }}:
+        <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
+        <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
+        <span class='sluglocker'><i class='icon-lock'></i></span> <span class='slugedit'><i class='icon-pencil'></i></span>
+    </label>
+</div>
 
 {% if field.uses is defined %}
 <script type="text/javascript">
