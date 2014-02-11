@@ -9469,44 +9469,38 @@ fieldset.checkbox div {
   min-width: 50px;
 }
 
-/* line 59, ../sass/_forms.scss */
-#editcontent input.wide {
-  width: 96%;
-  min-width: 200px;
-}
-
-/* line 64, ../sass/_forms.scss */
+/* line 60, ../sass/_forms.scss */
 #editcontent select.wide {
   width: 70%;
   min-width: 200px;
 }
 
-/* line 69, ../sass/_forms.scss */
+/* line 65, ../sass/_forms.scss */
 #editcontent .narrow.wide {
   /* Derp! */
   width: 60%;
   min-width: 200px;
 }
 
-/* line 74, ../sass/_forms.scss */
+/* line 70, ../sass/_forms.scss */
 #editcontent input.datepicker {
   width: 30%;
   min-width: 200px;
 }
 
-/* line 79, ../sass/_forms.scss */
+/* line 75, ../sass/_forms.scss */
 #editcontent input.timepicker {
   width: 10%;
   min-width: 80px;
 }
 
-/* line 84, ../sass/_forms.scss */
+/* line 80, ../sass/_forms.scss */
 #editcontent input[type=number] {
   width: 20%;
   min-width: 140px;
 }
 
-/* line 89, ../sass/_forms.scss */
+/* line 85, ../sass/_forms.scss */
 #editcontent textarea {
   width: 96%;
   height: 200px;
@@ -9520,85 +9514,80 @@ fieldset.checkbox div {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* line 102, ../sass/_forms.scss */
+/* line 98, ../sass/_forms.scss */
 #editcontent div.video-container {
   height: 120px;
   padding-right: 180px;
 }
 
-/* line 107, ../sass/_forms.scss */
+/* line 103, ../sass/_forms.scss */
 #editcontent div.video-right {
   float: right;
   width: 168px;
 }
 
-/* line 112, ../sass/_forms.scss */
+/* line 108, ../sass/_forms.scss */
 #editcontent div.image-container {
   height: 140px;
   padding-right: 130px;
 }
 
-/* line 117, ../sass/_forms.scss */
+/* line 113, ../sass/_forms.scss */
 #editcontent div.image-right {
   float: right;
   width: 128px;
 }
 
-/* line 123, ../sass/_forms.scss */
+/* line 119, ../sass/_forms.scss */
 #editcontent div.map-container {
   padding-right: 210px;
 }
 
-/* line 127, ../sass/_forms.scss */
+/* line 123, ../sass/_forms.scss */
 #editcontent div.map-right {
   float: right;
   width: 208px;
   margin-bottom: 8px;
 }
 
-/* line 133, ../sass/_forms.scss */
+/* line 129, ../sass/_forms.scss */
 #editcontent .imageholder {
   border: 1px solid #BBB;
-  width: 120px;
-  height: 120px;
+  width: 126px;
+  height: 126px;
   overflow: hidden;
   padding: 2px;
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* line 142, ../sass/_forms.scss */
+/* line 138, ../sass/_forms.scss */
 #editcontent .imageholder img {
   max-height: 120px;
 }
 
-/* line 145, ../sass/_forms.scss */
-#editcontent .imageinput {
-  border: 1px solid #BBB;
-}
-
-/* line 151, ../sass/_forms.scss */
+/* line 144, ../sass/_forms.scss */
 #editcontent div.image-container label,
 #editcontent div.video-container label,
 #editcontent div.map-container label {
   margin-top: 2px;
 }
 
-/* line 155, ../sass/_forms.scss */
+/* line 148, ../sass/_forms.scss */
 #editcontent .checkboxwrapper {
   padding: 0 0 12px 0;
 }
 
-/* line 159, ../sass/_forms.scss */
+/* line 152, ../sass/_forms.scss */
 #editcontent .checkboxwrapper span.left {
   min-width: 220px;
 }
 
-/* line 163, ../sass/_forms.scss */
+/* line 156, ../sass/_forms.scss */
 #editcontent .checkboxwrapper input {
   margin-top: 8px;
 }
 
-/* line 167, ../sass/_forms.scss */
+/* line 160, ../sass/_forms.scss */
 #editcontent .mapholder {
   border: 1px solid #BBB;
   width: 200px;
@@ -9607,58 +9596,60 @@ fieldset.checkbox div {
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* line 176, ../sass/_forms.scss */
+/* line 169, ../sass/_forms.scss */
 #editcontent .dropzone {
-  margin: 1em 0 0.5em;
-  height: 140px;
-  width: 97%;
-  clear: both;
+  border: 1px solid #F00;
 }
 
-/* line 183, ../sass/_forms.scss */
+/* line 173, ../sass/_forms.scss */
 #editcontent .geolocation {
   height: 180px;
 }
 
-/* line 187, ../sass/_forms.scss */
+/* line 177, ../sass/_forms.scss */
 #editcontent .dropzone.hover, #editcontent .dropzone.in {
   background: #DEF;
 }
 
-/* line 191, ../sass/_forms.scss */
+/* line 181, ../sass/_forms.scss */
 #editcontent .dropzone.hover *, #editcontent .dropzone.in * {
   opacity: 0.7;
 }
 
-/* line 195, ../sass/_forms.scss */
+/* line 185, ../sass/_forms.scss */
 #editcontent .clearfix {
   margin-bottom: 12px;
 }
 
-/* line 199, ../sass/_forms.scss */
+/* line 189, ../sass/_forms.scss */
 #editcontent small {
   font-size: 12px;
   color: #666;
 }
 
-/* line 204, ../sass/_forms.scss */
+/* line 194, ../sass/_forms.scss */
 .progress {
   width: 20%;
   display: none;
   margin-bottom: 0;
 }
 
-/* line 210, ../sass/_forms.scss */
+/* line 200, ../sass/_forms.scss */
 #editcontent .fileinput-select {
   float: left;
 }
 
-/* line 214, ../sass/_forms.scss */
+/* line 204, ../sass/_forms.scss */
+.fileinput-button {
+  margin: 0 !important;
+}
+
+/* line 208, ../sass/_forms.scss */
 #editcontent input.editslug {
   display: none;
 }
 
-/* line 220, ../sass/_forms.scss */
+/* line 214, ../sass/_forms.scss */
 #editcontent .sluglocker,
 #editcontent .slugedit {
   color: #666;
@@ -9667,13 +9658,13 @@ fieldset.checkbox div {
   cursor: pointer;
 }
 
-/* line 228, ../sass/_forms.scss */
+/* line 222, ../sass/_forms.scss */
 #editcontent div.imagelistholder.dropzone,
 #editcontent div.filelistholder.dropzone {
   height: auto;
 }
 
-/* line 234, ../sass/_forms.scss */
+/* line 228, ../sass/_forms.scss */
 #editcontent div.imagelistholder p,
 #editcontent div.filelistholder p {
   padding: 8px;
@@ -9682,7 +9673,7 @@ fieldset.checkbox div {
   font-style: italic;
 }
 
-/* line 242, ../sass/_forms.scss */
+/* line 236, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list,
 #editcontent div.filelistholder div.list {
   border: 1px solid #BBB;
@@ -9694,7 +9685,7 @@ fieldset.checkbox div {
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2) inset;
 }
 
-/* line 252, ../sass/_forms.scss */
+/* line 246, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div {
   height: 48px;
   margin: 6px;
@@ -9704,7 +9695,7 @@ fieldset.checkbox div {
   overflow: hidden;
 }
 
-/* line 261, ../sass/_forms.scss */
+/* line 255, ../sass/_forms.scss */
 #editcontent div.filelistholder div.list div {
   height: 70px;
   margin: 6px;
@@ -9715,13 +9706,13 @@ fieldset.checkbox div {
   background: url("/app/view/css/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% #e6e6e6;
 }
 
-/* line 270, ../sass/_forms.scss */
+/* line 264, ../sass/_forms.scss */
 #editcontent div.filelistholder div.list .fileDescription {
   font-size: 80%;
   font-weight: bold;
 }
 
-/* line 276, ../sass/_forms.scss */
+/* line 270, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div *,
 #editcontent div.filelistholder div.list div * {
   float: left;
@@ -9729,14 +9720,14 @@ fieldset.checkbox div {
   padding-left: 4px;
 }
 
-/* line 283, ../sass/_forms.scss */
+/* line 277, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div input,
 #editcontent div.filelistholder div.list div input {
   width: 264px;
   margin: 9px 0 0 4px;
 }
 
-/* line 289, ../sass/_forms.scss */
+/* line 283, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div i,
 #editcontent div.filelistholder div.list div i {
   margin: 11px 0 0;
@@ -9745,31 +9736,31 @@ fieldset.checkbox div {
   color: #999;
 }
 
-/* line 297, ../sass/_forms.scss */
+/* line 291, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.buttons,
 #editcontent div.filelistholder div.buttons {
   float: left;
   padding: 7px 8px;
 }
 
-/* line 302, ../sass/_forms.scss */
+/* line 296, ../sass/_forms.scss */
 #editcontent div.tagcloud {
   margin-top: 6px;
 }
 
-/* line 306, ../sass/_forms.scss */
+/* line 300, ../sass/_forms.scss */
 #editcontent div.tagcloud a {
   margin-right: 6px;
   display: inline-block;
 }
 
-/* line 311, ../sass/_forms.scss */
+/* line 305, ../sass/_forms.scss */
 .ui-sortable-helper {
   border: 1px solid #999;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* line 316, ../sass/_forms.scss */
+/* line 310, ../sass/_forms.scss */
 .ui-sortable-placeholder {
   border: 1px dashed #666;
   visibility: visible !important;
@@ -10217,14 +10208,7 @@ blockquote.quote cite {
   }
 }
 @media (min-width: 768px) {
-  /*
-      .navbar-static-side {
-          z-index: 1;
-          position: absolute;
-          width: 250px;
-          height:100%;
-      }*/
-  /* line 406, ../sass/_bolt.scss */
+  /* line 399, ../sass/_bolt.scss */
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
@@ -10233,39 +10217,39 @@ blockquote.quote cite {
 }
 /* Buttons */
 /* ------------------------------- */
-/* line 415, ../sass/_bolt.scss */
+/* line 408, ../sass/_bolt.scss */
 .btn-outline {
   color: inherit;
   background-color: transparent;
   transition: all .5s;
 }
 
-/* line 421, ../sass/_bolt.scss */
+/* line 414, ../sass/_bolt.scss */
 .btn-primary.btn-outline {
   color: #428bca;
 }
 
-/* line 425, ../sass/_bolt.scss */
+/* line 418, ../sass/_bolt.scss */
 .btn-success.btn-outline {
   color: #5cb85c;
 }
 
-/* line 429, ../sass/_bolt.scss */
+/* line 422, ../sass/_bolt.scss */
 .btn-info.btn-outline {
   color: #5bc0de;
 }
 
-/* line 433, ../sass/_bolt.scss */
+/* line 426, ../sass/_bolt.scss */
 .btn-warning.btn-outline {
   color: #f0ad4e;
 }
 
-/* line 437, ../sass/_bolt.scss */
+/* line 430, ../sass/_bolt.scss */
 .btn-danger.btn-outline {
   color: #d9534f;
 }
 
-/* line 445, ../sass/_bolt.scss */
+/* line 438, ../sass/_bolt.scss */
 .btn-primary.btn-outline:hover,
 .btn-success.btn-outline:hover,
 .btn-info.btn-outline:hover,
@@ -10277,69 +10261,69 @@ blockquote.quote cite {
 /* Pages */
 /* ------------------------------- */
 /* Dashboard Chat */
-/* line 455, ../sass/_bolt.scss */
+/* line 448, ../sass/_bolt.scss */
 .chat {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* line 461, ../sass/_bolt.scss */
+/* line 454, ../sass/_bolt.scss */
 .chat li {
   margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px dotted #B3A9A9;
 }
 
-/* line 467, ../sass/_bolt.scss */
+/* line 460, ../sass/_bolt.scss */
 .chat li.left .chat-body {
   margin-left: 60px;
 }
 
-/* line 471, ../sass/_bolt.scss */
+/* line 464, ../sass/_bolt.scss */
 .chat li.right .chat-body {
   margin-right: 60px;
 }
 
-/* line 475, ../sass/_bolt.scss */
+/* line 468, ../sass/_bolt.scss */
 .chat li .chat-body p {
   margin: 0;
   color: #777777;
 }
 
-/* line 481, ../sass/_bolt.scss */
+/* line 474, ../sass/_bolt.scss */
 .panel .slidedown .glyphicon,
 .chat .glyphicon {
   margin-right: 5px;
 }
 
-/* line 485, ../sass/_bolt.scss */
+/* line 478, ../sass/_bolt.scss */
 .chat-panel .panel-body {
   height: 350px;
   overflow-y: scroll;
 }
 
 /* Login Page */
-/* line 492, ../sass/_bolt.scss */
+/* line 485, ../sass/_bolt.scss */
 .login-panel {
   margin-top: 25%;
 }
 
 /* Flot Chart Containers */
-/* line 498, ../sass/_bolt.scss */
+/* line 491, ../sass/_bolt.scss */
 .flot-chart {
   display: block;
   height: 400px;
 }
 
-/* line 503, ../sass/_bolt.scss */
+/* line 496, ../sass/_bolt.scss */
 .flot-chart-content {
   width: 100%;
   height: 100%;
 }
 
 /* DataTables Overrides */
-/* line 514, ../sass/_bolt.scss */
+/* line 507, ../sass/_bolt.scss */
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc,
@@ -10348,21 +10332,21 @@ table.dataTable thead .sorting_desc_disabled {
   background: transparent;
 }
 
-/* line 518, ../sass/_bolt.scss */
+/* line 511, ../sass/_bolt.scss */
 table.dataTable thead .sorting_asc:after {
   content: "\f0de";
   float: right;
   font-family: fontawesome;
 }
 
-/* line 524, ../sass/_bolt.scss */
+/* line 517, ../sass/_bolt.scss */
 table.dataTable thead .sorting_desc:after {
   content: "\f0dd";
   float: right;
   font-family: fontawesome;
 }
 
-/* line 530, ../sass/_bolt.scss */
+/* line 523, ../sass/_bolt.scss */
 table.dataTable thead .sorting:after {
   content: "\f0dc";
   float: right;
@@ -10371,7 +10355,7 @@ table.dataTable thead .sorting:after {
 }
 
 /* Circle Buttons */
-/* line 539, ../sass/_bolt.scss */
+/* line 532, ../sass/_bolt.scss */
 .btn-circle {
   width: 30px;
   height: 30px;
@@ -10382,7 +10366,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.428571429;
 }
 
-/* line 549, ../sass/_bolt.scss */
+/* line 542, ../sass/_bolt.scss */
 .btn-circle.btn-lg, .btn-group-lg > .btn-circle.btn {
   width: 50px;
   height: 50px;
@@ -10392,7 +10376,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.33;
 }
 
-/* line 558, ../sass/_bolt.scss */
+/* line 551, ../sass/_bolt.scss */
 .btn-circle.btn-xl {
   width: 70px;
   height: 70px;
@@ -10402,7 +10386,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.33;
 }
 
-/* line 567, ../sass/_bolt.scss */
+/* line 560, ../sass/_bolt.scss */
 .show-grid [class^="col-"] {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -10410,24 +10394,24 @@ table.dataTable thead .sorting:after {
   background-color: #eee !important;
 }
 
-/* line 574, ../sass/_bolt.scss */
+/* line 567, ../sass/_bolt.scss */
 .show-grid {
   margin: 15px 0;
 }
 
-/* line 579, ../sass/_bolt.scss */
+/* line 572, ../sass/_bolt.scss */
 .navbar-static-side {
   background: url(../img/sidebarbg.png) no-repeat top right;
 }
 
-/* line 583, ../sass/_bolt.scss */
+/* line 576, ../sass/_bolt.scss */
 .navbar-static-side li.active > a {
   text-decoration: none;
   background-color: #3498db;
   color: white;
 }
 
-/* line 589, ../sass/_bolt.scss */
+/* line 582, ../sass/_bolt.scss */
 .navbar-brand {
   display: inline-block;
   color: #fff !important;
@@ -10437,14 +10421,14 @@ table.dataTable thead .sorting:after {
   line-height: 50px;
 }
 
-/* line 598, ../sass/_bolt.scss */
+/* line 591, ../sass/_bolt.scss */
 .navbar-brand img {
   width: 47px;
   height: 47px;
   margin: 0 2px 2px 0;
 }
 
-/* line 604, ../sass/_bolt.scss */
+/* line 597, ../sass/_bolt.scss */
 .navbar-site {
   display: inline-block;
   color: #cccccc !important;
@@ -10455,13 +10439,13 @@ table.dataTable thead .sorting:after {
   float: left;
 }
 
-/* line 614, ../sass/_bolt.scss */
+/* line 607, ../sass/_bolt.scss */
 .navbar-site i {
   color: #cccccc !important;
   font-size: 16px;
 }
 
-/* line 622, ../sass/_bolt.scss */
+/* line 615, ../sass/_bolt.scss */
 .navbar-brand:hover,
 .navbar-site:hover,
 .navbar-site:hover i {
@@ -10471,71 +10455,30 @@ table.dataTable thead .sorting:after {
   outline: 0;
 }
 
-/* line 629, ../sass/_bolt.scss */
+/* line 622, ../sass/_bolt.scss */
 .page-header {
   border: none;
 }
 
-/* line 633, ../sass/_bolt.scss */
+/* line 626, ../sass/_bolt.scss */
 .login .logo {
   margin-top: 100px;
-  width: 358px;
+  width: 179px;
   height: auto;
 }
 
-/* line 639, ../sass/_bolt.scss */
+/* line 632, ../sass/_bolt.scss */
 .dropdown-menu .nav-header {
   clear: both;
   float: none;
   padding: 3px 12px;
 }
 
-/* line 645, ../sass/_bolt.scss */
+/* line 638, ../sass/_bolt.scss */
 aside section {
   background-color: #f1f2f7;
   -moz-border-radius: 2px;
   border-radius: 2px;
   padding: 0 10px 10px;
   margin-bottom: 10px;
-}
-
-/**
- * Editing content ..
- */
-/* line 657, ../sass/_bolt.scss */
-label label {
-  display: inline !important;
-}
-
-/* line 661, ../sass/_bolt.scss */
-label.permalink {
-  margin: 0 0 0.5em;
-}
-
-/* line 665, ../sass/_bolt.scss */
-label span.left {
-  display: block;
-  float: left;
-  min-width: 180px;
-  margin: 5px 8px 0 0;
-}
-
-/* line 672, ../sass/_bolt.scss */
-input[type="checkbox"] {
-  margin: 4px 8px 0px 0;
-}
-
-/* line 676, ../sass/_bolt.scss */
-fieldset.checkbox {
-  display: inline-block;
-}
-
-/* line 680, ../sass/_bolt.scss */
-fieldset.checkbox label {
-  display: inline;
-}
-
-/* line 684, ../sass/_bolt.scss */
-fieldset.checkbox div {
-  margin: 0.3em 0 0.5em;
 }

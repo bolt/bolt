@@ -393,13 +393,6 @@ blockquote.quote cite {
 }
 
 @media(min-width:768px) {
-  /*
-      .navbar-static-side {
-          z-index: 1;
-          position: absolute;
-          width: 250px;
-          height:100%;
-      }*/
 
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
@@ -632,7 +625,7 @@ table.dataTable thead .sorting:after {
 
 .login .logo {
   margin-top:100px;
-  width: 358px;
+  width: 179px;
   height: auto;
 }
 
@@ -648,40 +641,5 @@ aside section {
   border-radius: 2px;
   padding: 0 10px 10px;
   margin-bottom: 10px;
-}
-
-/**
- * Editing content ..
- */
-
-label label {
-  display: inline !important;
-}
-
-label.permalink {
-  margin: 0 0 0.5em;
-}
-
-label span.left {
-  display: block;
-  float: left;
-  min-width: 180px;
-  margin: 5px 8px 0 0;
-}
-
-input[type="checkbox"] {
-  margin: 4px 8px 0px 0;
-}
-
-fieldset.checkbox {
-  display: inline-block;
-}
-
-fieldset.checkbox label {
-  display: inline;
-}
-
-fieldset.checkbox div {
-  margin: 0.3em 0 0.5em;
 }
 

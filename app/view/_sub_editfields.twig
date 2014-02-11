@@ -143,63 +143,52 @@
 {# --------------- image --------------- #}
 
 {% if field.type == "image" %}
-<div class="dropzone" id="dropzone-{{key}}">
+<div class="dropzone clearfix" id="dropzone-{{key}}">
 
-    <div class="image-right">
-        <div class='imageholder' id="thumbnail-{{key}}">
-            {% if content.get(key)!="" %}
-            <img src="{{ content.get(key)|thumbnail(120, 120, 'c') }}" width="120" height="120">
-            {% else %}
-            <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
+    <div class="col-sm-9">
+
+        {{ macro.label(key, field) }}
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+              data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
+
+        <input type="text" name="{{key}}" id="field-{{key}}" value='{{ content.get(key) }}' class='{{ field.class }}' style="margin-bottom: 8px;">
+
+        <div style="margin-bottom: 8px">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+            <div class="btn-group">
+                <span class="btn btn-info fileinput-button">
+                    <i class="fa fa-upload"></i>
+                    <span>{{ __('Upload image') }}</span>
+                    <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
+                </span>
+            </div>
+
+            <div class="btn-group" style="margin-left: 0px;">
+                <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-default fileinput-select" data-toggle="modal">
+                    <i class="fa fa-upload-alt"></i>
+                    {{ __('Select from server') }}
+                </a>
+            </div>
+
+            {% set items = stackitems(7, 'image') %}
+            {% if items %}
+            <div class="btn-group">
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-paper-clip"></i>
+                    {{ __('Select from stack') }}
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu" id="stack-{{key}}">
+                    {% for item in items %}
+                        <li>
+                            <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
             {% endif %}
         </div>
-    </div>
-    <div class="image-container">
-
-        <label>
-            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
-        </label>
-
-        <input type="text" name="{{key}}" id="field-{{key}}"
-            value='{{ content.get(key) }}'
-            class='{{ field.class }} imageinput wide'>
-
-<!-- The fileinput-button span is used to style the file input field as button -->
-        <div class="btn-group">
-            <span class="btn btn-info fileinput-button">
-                <i class="fa fa-upload"></i>
-                <span>{{ __('Upload image') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
-            </span>
-        </div>
-
-        <div class="btn-group" style="margin-left: 0px;">
-            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn fileinput-select" data-toggle="modal">
-                <i class="fa fa-upload-alt"></i>
-                {{ __('Select from server') }}
-            </a>
-        </div>
-
-        {% set items = stackitems(7, 'image') %}
-        {% if items %}
-        <div class="btn-group">
-            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-paper-clip"></i>
-                {{ __('Select from stack') }}
-                <span class="caret"></span>
-            </a>
-
-            <ul class="dropdown-menu" id="stack-{{key}}">
-                {% for item in items %}
-                    <li>
-                        <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small></a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
 
 
         <div class="progress progress-striped active" id="progress-{{key}}">
@@ -216,32 +205,41 @@
             </div>
         </div>
 
+    </div><!-- col-sm-9 -->
 
+    <div class="col-sm-3 clearfix">
+        <div class='imageholder' id="thumbnail-{{key}}">
+            {% if content.get(key)!="" %}
+                <img src="{{ content.get(key)|thumbnail(120, 120, 'c') }}" width="120" height="120">
+            {% else %}
+                <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
+            {% endif %}
+        </div>
+    </div><!-- col-sm-3 -->
 
-{% if not ismobileclient() %}
-
-<script type="text/javascript">
-    $(function() {
-        bindFileUpload('{{key}}');
-
-        $("#field-{{key}}").autocomplete({
-            source: "{{ paths.async }}filesautocomplete?ext=gif,jpg,jpeg,png",
-            minLength: 2,
-            close: function(){
-                if ($('#field-{{key}}').val() != "" ) {
-                    $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>");
-                } else {
-                    $('#thumbnail-{{key}}').html("<img src='{{ app.paths.app }}view/img/default_empty.png' width='120' height='120'>");
-                }
-            }
-        });
-
-    });
-</script>
-{% endif %}
-
-    </div>
 </div>
+
+    {% if not ismobileclient() %}
+    <script type="text/javascript">
+        $(function() {
+            bindFileUpload('{{key}}');
+
+            $("#field-{{key}}").autocomplete({
+                source: "{{ paths.async }}filesautocomplete?ext=gif,jpg,jpeg,png",
+                minLength: 2,
+                close: function(){
+                    if ($('#field-{{key}}').val() != "" ) {
+                        $('#thumbnail-{{key}}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI( $('#field-{{key}}').val() )+"' width='120' height='120'>");
+                    } else {
+                        $('#thumbnail-{{key}}').html("<img src='{{ app.paths.app }}view/img/default_empty.png' width='120' height='120'>");
+                    }
+                }
+            });
+
+        });
+    </script>
+    {% endif %}
+
 {% endif %}
 
 

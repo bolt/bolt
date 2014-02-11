@@ -56,10 +56,6 @@ fieldset.checkbox div {
     min-width: 50px;
 }
 
-#editcontent input.wide {
-    width: 96%;
-    min-width: 200px;
-}
 
 #editcontent select.wide {
     width: 70%;
@@ -132,8 +128,8 @@ fieldset.checkbox div {
 
 #editcontent .imageholder {
     border: 1px solid #BBB;
-    width: 120px;
-    height: 120px;
+    width: 126px;
+    height: 126px;
     overflow: hidden;
     padding: 2px;
     box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, 0.3);
@@ -141,9 +137,6 @@ fieldset.checkbox div {
 
 #editcontent .imageholder img {
     max-height: 120px;
-}
-#editcontent .imageinput {
-    border: 1px solid #BBB;
 }
 
 #editcontent div.image-container label,
@@ -174,10 +167,7 @@ fieldset.checkbox div {
 
 
 #editcontent .dropzone {
-    margin: 1em 0 0.5em;
-    height: 140px;
-    width: 97%;
-    clear: both;
+  border: 1px solid #F00;
 }
 
 #editcontent .geolocation {
@@ -209,6 +199,10 @@ fieldset.checkbox div {
 
 #editcontent .fileinput-select {
     float: left;
+}
+
+.fileinput-button {
+  margin: 0 !important;
 }
 
 #editcontent input.editslug {
