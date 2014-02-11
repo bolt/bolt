@@ -151,9 +151,9 @@
         <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
               data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
 
-        <input type="text" name="{{key}}" id="field-{{key}}" value='{{ content.get(key) }}' class='{{ field.class }}' style="margin-bottom: 8px;">
+        <input type="text" name="{{key}}" id="field-{{key}}" value='{{ content.get(key) }}' class='{{ field.class }}'>
 
-        <div style="margin-bottom: 8px">
+        <div style="margin-bottom: 10px; margin-top: 10px">
             <!-- The fileinput-button span is used to style the file input field as button -->
             <div class="btn-group">
                 <span class="btn btn-info fileinput-button">
@@ -207,7 +207,7 @@
 
     </div><!-- col-sm-9 -->
 
-    <div class="col-sm-3 clearfix">
+    <div class="col-sm-3">
         <div class='imageholder' id="thumbnail-{{key}}">
             {% if content.get(key)!="" %}
                 <img src="{{ content.get(key)|thumbnail(120, 120, 'c') }}" width="120" height="120">
@@ -217,7 +217,7 @@
         </div>
     </div><!-- col-sm-3 -->
 
-</div>
+</div><!-- dropzone -->
 
     {% if not ismobileclient() %}
     <script type="text/javascript">
@@ -247,21 +247,17 @@
 {# --------------- file --------------- #}
 
 {% if field.type == "file" %}
-<div class="dropzone" id="dropzone-{{key}}">
+<div class="col-sm-12 dropzone clearfix" id="dropzone-{{key}}">
 
-    <div class="image-container">
+    {{ macro.label(key, field) }}
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
+              data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
+    </label>
 
-        <label>
-            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
-                  data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
-        </label>
+    <input type="text" name="{{key}}" id="field-{{key}}" value='{{ content.get(key) }}' class='{{ field.class }}'>
 
-        <input type="text" name="{{key}}" id="field-{{key}}"
-            value='{{ content.get(key) }}'
-            class='{{ field.class }} imageinput'><br>
-
-<!-- The fileinput-button span is used to style the file input field as button -->
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
             <span class="btn btn-info fileinput-button">
                 <i class="fa fa-upload"></i>
@@ -273,7 +269,7 @@
         {% set items = stackitems(7, 'other,document') %}
         {% if items %}
             <div class="btn-group">
-                <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-paper-clip"></i>
                     {{ __('Select from stack') }}
                     <span class="caret"></span>
@@ -288,10 +284,11 @@
                 </ul>
             </div>
         {% endif %}
+    </div>
 
-        <div class="progress progress-striped active" id="progress-{{key}}">
-            <div class="bar" style="width: 0%;"></div>
-        </div>
+    <div class="progress progress-striped active" id="progress-{{key}}">
+        <div class="bar" style="width: 0%;"></div>
+    </div>
 
     {% if not ismobileclient() %}
         <div style="clear: left;" class="hidden-sm"><small>{{ app.translator.trans('info.upload.filesmall',{},'infos') }}</small></div>
@@ -308,7 +305,6 @@
         </script>
     {% endif %}
 
-    </div>
 </div>
 {% endif %}
 
@@ -442,9 +438,59 @@
 {% if field.type == "video" %}
 
 {% set video = content.get(key) %}
-<div class="dropzone">
+<div class="dropzone clearfix" id="dropzone-{{key}}">
 
-    <div class="video-right hidden-xs">
+    <div class="col-sm-8">
+
+        {{ macro.label(key, field) }}
+
+            (<span id="video-{{key}}-text">{% if video.title is defined %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+                  data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
+
+        <div class="form-group">
+            <div class="col-sm-2">
+                {{ macro.label(__('URL:')) }}
+
+            </div>
+            <div class="col-sm-10">
+                <input type="url" name="{{key}}[url]" id="video-{{key}}" value='{{ video.url|default('') }}' class="form-control">
+            </div>
+
+            <div class="col-sm-2">
+                {{ macro.label(__('Size:')) }}
+
+            </div>
+            <div class="col-sm-10">
+                <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width|default('') }}" class="form-control pull-left" style='width: 60px; min-width: 60px;'>
+                <span class="pull-left" style="margin: 6px 8px 0;">x</span>
+                <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height|default('') }}" class="form-control pull-left" style='width: 60px; min-width: 60px;'>
+                <span class="pull-left" style="margin: 6px 8px 0;">{{ __('pixels') }}</span>
+
+            </div>
+
+            <div class="col-sm-12">
+                <span class="hidden-sm">
+                    <a href="#myModal" role="button" class="btn btn-default " data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a>
+                </span>
+            </div>
+
+
+            <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio|default('') }}">
+            <input type="hidden" name="{{ key }}[title]" id="video-{{key}}-title" value="{{ video.title|default('') }}" readonly>
+            <input type="hidden" name="{{ key }}[authorname]" id="video-{{key}}-author_name" value="{{ video.authorname|default('') }}" readonly>
+            <input type="hidden" name="{{ key }}[authorurl]" id="video-{{key}}-author_url" value="{{ video.authorurl|default('') }}" readonly>
+            <input type="hidden" name="{{ key }}[html]" id="video-{{key}}-html" value="{% if video.html is defined %}{{ video.html|escape }}{% endif %}">
+            <input type="hidden" name="{{ key }}[thumbnail]" id="video-{{key}}-thumbnail" value="{{ video.thumbnail|default('') }}">
+
+        </div>
+
+        <script type="text/javascript">
+            bindVideoEmbed('{{key}}');
+        </script>
+    </div>
+
+    <div class="col-sm-4">
         <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px; text-align: center; background-color: #F8F8F8;">
             {% if video.thumbnail|default('') %}
                 <img src="{{ video.thumbnail }}" width="160" height="120">
@@ -454,35 +500,8 @@
         </div>
     </div>
 
-    <div class="video-container">
-        <label>
-            <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-            (<span id="video-{{key}}-text">{% if video.title is defined %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
-            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
-                  data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
-        </label>
-        <label>{{ __('URL:') }} <input type="url" name="{{key}}[url]" id="video-{{key}}"
-               value='{{ video.url|default('') }}' style='width: 60%;'>
-        </label>
 
-        <label>{{ __('Size:') }} <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width|default('') }}" style='width: 60px; min-width: 60px;'>
-        x <input type="number" name="{{ key }}[height]" id="video-{{key}}-height" value="{{ video.height|default('') }}" style='width: 60px; min-width: 60px;'>
-            pixels.
-            <span class="hidden-sm"><a href="#myModal" role="button" class="btn btn-default " data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a></span>
-        </label>
-
-        <input type="hidden" name="{{ key }}[ratio]" id="video-{{key}}-ratio" value="{{ video.ratio|default('') }}">
-        <input type="hidden" name="{{ key }}[title]" id="video-{{key}}-title" value="{{ video.title|default('') }}" readonly>
-        <input type="hidden" name="{{ key }}[authorname]" id="video-{{key}}-author_name" value="{{ video.authorname|default('') }}" readonly>
-        <input type="hidden" name="{{ key }}[authorurl]" id="video-{{key}}-author_url" value="{{ video.authorurl|default('') }}" readonly>
-        <input type="hidden" name="{{ key }}[html]" id="video-{{key}}-html" value="{% if video.html is defined %}{{ video.html|escape }}{% endif %}">
-        <input type="hidden" name="{{ key }}[thumbnail]" id="video-{{key}}-thumbnail" value="{{ video.thumbnail|default('') }}">
-
-        <script type="text/javascript">
-            bindVideoEmbed('{{key}}');
-        </script>
     </div>
-</div>
 
 <!-- Modal video preview -->
 <div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
