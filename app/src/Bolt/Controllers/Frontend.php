@@ -372,4 +372,19 @@ class Frontend
 
         return $app['render']->render($template);
     }
+
+    /**
+     * Renders the specified template from the current theme in response to a request without
+     * loading any content.
+     */
+    public static function template(Silex\Application $app, $template) {
+      $themePath    = realpath($app['paths']['themepath'] . '/');
+      $templatePath = realpath($app['paths']['themepath'] . '/' . $template);
+
+      // Verify that the resulting template path is located in the theme directory
+      if($themePath !== substr($templatePath, 0, strlen($themePath)))
+        throw new \Exception("Invalid template: $template");
+
+      return $app['render']->render(substr($templatePath, strlen($themePath)));
+    }
 }

@@ -106,3 +106,11 @@ contentlisting:
 #  _after        the after to call, if non-existent the 'after()' of the controller will be called
 #
 # Both _before and _after support a shortcut notation which re-uses the controller class: '::before'
+
+
+# Example: rendering a "static" template from the current theme with no associated record/content.
+# Note that you can still load and render content from within the template.
+ 
+# templatebinding:
+#   path:     /static-page/
+#   defaults: { _controller: 'Bolt\Controllers\Frontend::template', template: 'static-page.twig' }
