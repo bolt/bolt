@@ -70,11 +70,14 @@ fieldset.checkbox div {
 #editcontent input.datepicker {
     width: 30%;
     min-width: 200px;
+    margin-right: 8px;
+    float: left;
 }
 
 #editcontent input.timepicker {
     width: 10%;
     min-width: 80px;
+    float: left;
 }
 
 #editcontent input[type=number] {

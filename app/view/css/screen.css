@@ -9486,21 +9486,24 @@ fieldset.checkbox div {
 #editcontent input.datepicker {
   width: 30%;
   min-width: 200px;
+  margin-right: 8px;
+  float: left;
 }
 
-/* line 75, ../sass/_forms.scss */
+/* line 77, ../sass/_forms.scss */
 #editcontent input.timepicker {
   width: 10%;
   min-width: 80px;
+  float: left;
 }
 
-/* line 80, ../sass/_forms.scss */
+/* line 83, ../sass/_forms.scss */
 #editcontent input[type=number] {
   width: 20%;
   min-width: 140px;
 }
 
-/* line 85, ../sass/_forms.scss */
+/* line 88, ../sass/_forms.scss */
 #editcontent textarea {
   width: 96%;
   height: 200px;
@@ -9514,43 +9517,43 @@ fieldset.checkbox div {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* line 98, ../sass/_forms.scss */
+/* line 101, ../sass/_forms.scss */
 #editcontent div.video-container {
   height: 120px;
   padding-right: 180px;
 }
 
-/* line 103, ../sass/_forms.scss */
+/* line 106, ../sass/_forms.scss */
 #editcontent div.video-right {
   float: right;
   width: 168px;
 }
 
-/* line 108, ../sass/_forms.scss */
+/* line 111, ../sass/_forms.scss */
 #editcontent div.image-container {
   height: 140px;
   padding-right: 130px;
 }
 
-/* line 113, ../sass/_forms.scss */
+/* line 116, ../sass/_forms.scss */
 #editcontent div.image-right {
   float: right;
   width: 128px;
 }
 
-/* line 119, ../sass/_forms.scss */
+/* line 122, ../sass/_forms.scss */
 #editcontent div.map-container {
   padding-right: 210px;
 }
 
-/* line 123, ../sass/_forms.scss */
+/* line 126, ../sass/_forms.scss */
 #editcontent div.map-right {
   float: right;
   width: 208px;
   margin-bottom: 8px;
 }
 
-/* line 129, ../sass/_forms.scss */
+/* line 132, ../sass/_forms.scss */
 #editcontent .imageholder {
   border: 1px solid #BBB;
   width: 126px;
@@ -9560,34 +9563,34 @@ fieldset.checkbox div {
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* line 138, ../sass/_forms.scss */
+/* line 141, ../sass/_forms.scss */
 #editcontent .imageholder img {
   max-height: 120px;
 }
 
-/* line 144, ../sass/_forms.scss */
+/* line 147, ../sass/_forms.scss */
 #editcontent div.image-container label,
 #editcontent div.video-container label,
 #editcontent div.map-container label {
   margin-top: 2px;
 }
 
-/* line 148, ../sass/_forms.scss */
+/* line 151, ../sass/_forms.scss */
 #editcontent .checkboxwrapper {
   padding: 0 0 12px 0;
 }
 
-/* line 152, ../sass/_forms.scss */
+/* line 155, ../sass/_forms.scss */
 #editcontent .checkboxwrapper span.left {
   min-width: 220px;
 }
 
-/* line 156, ../sass/_forms.scss */
+/* line 159, ../sass/_forms.scss */
 #editcontent .checkboxwrapper input {
   margin-top: 8px;
 }
 
-/* line 160, ../sass/_forms.scss */
+/* line 163, ../sass/_forms.scss */
 #editcontent .mapholder {
   border: 1px solid #BBB;
   width: 200px;
@@ -9596,55 +9599,55 @@ fieldset.checkbox div {
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* line 169, ../sass/_forms.scss */
+/* line 172, ../sass/_forms.scss */
 #editcontent .dropzone {
   border: 1px solid #F00;
 }
 
-/* line 173, ../sass/_forms.scss */
+/* line 176, ../sass/_forms.scss */
 #editcontent .geolocation {
   height: 180px;
 }
 
-/* line 177, ../sass/_forms.scss */
+/* line 180, ../sass/_forms.scss */
 #editcontent .dropzone.hover, #editcontent .dropzone.in {
   background: #DEF;
 }
 
-/* line 181, ../sass/_forms.scss */
+/* line 184, ../sass/_forms.scss */
 #editcontent .dropzone.hover *, #editcontent .dropzone.in * {
   opacity: 0.7;
 }
 
-/* line 185, ../sass/_forms.scss */
+/* line 188, ../sass/_forms.scss */
 #editcontent small {
   font-size: 12px;
   color: #666;
 }
 
-/* line 190, ../sass/_forms.scss */
+/* line 193, ../sass/_forms.scss */
 .progress {
   width: 20%;
   display: none;
   margin-bottom: 0;
 }
 
-/* line 196, ../sass/_forms.scss */
+/* line 199, ../sass/_forms.scss */
 #editcontent .fileinput-select {
   float: left;
 }
 
-/* line 200, ../sass/_forms.scss */
+/* line 203, ../sass/_forms.scss */
 .fileinput-button {
   margin: 0 !important;
 }
 
-/* line 204, ../sass/_forms.scss */
+/* line 207, ../sass/_forms.scss */
 #editcontent input.editslug {
   display: none;
 }
 
-/* line 210, ../sass/_forms.scss */
+/* line 213, ../sass/_forms.scss */
 #editcontent .sluglocker,
 #editcontent .slugedit {
   color: #666;
@@ -9653,13 +9656,13 @@ fieldset.checkbox div {
   cursor: pointer;
 }
 
-/* line 218, ../sass/_forms.scss */
+/* line 221, ../sass/_forms.scss */
 #editcontent div.imagelistholder.dropzone,
 #editcontent div.filelistholder.dropzone {
   height: auto;
 }
 
-/* line 224, ../sass/_forms.scss */
+/* line 227, ../sass/_forms.scss */
 #editcontent div.imagelistholder p,
 #editcontent div.filelistholder p {
   padding: 8px;
@@ -9668,7 +9671,7 @@ fieldset.checkbox div {
   font-style: italic;
 }
 
-/* line 232, ../sass/_forms.scss */
+/* line 235, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list,
 #editcontent div.filelistholder div.list {
   border: 1px solid #BBB;
@@ -9680,7 +9683,7 @@ fieldset.checkbox div {
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2) inset;
 }
 
-/* line 242, ../sass/_forms.scss */
+/* line 245, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div {
   height: 48px;
   margin: 6px;
@@ -9690,7 +9693,7 @@ fieldset.checkbox div {
   overflow: hidden;
 }
 
-/* line 251, ../sass/_forms.scss */
+/* line 254, ../sass/_forms.scss */
 #editcontent div.filelistholder div.list div {
   height: 70px;
   margin: 6px;
@@ -9701,13 +9704,13 @@ fieldset.checkbox div {
   background: url("/app/view/css/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% #e6e6e6;
 }
 
-/* line 260, ../sass/_forms.scss */
+/* line 263, ../sass/_forms.scss */
 #editcontent div.filelistholder div.list .fileDescription {
   font-size: 80%;
   font-weight: bold;
 }
 
-/* line 266, ../sass/_forms.scss */
+/* line 269, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div *,
 #editcontent div.filelistholder div.list div * {
   float: left;
@@ -9715,14 +9718,14 @@ fieldset.checkbox div {
   padding-left: 4px;
 }
 
-/* line 273, ../sass/_forms.scss */
+/* line 276, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div input,
 #editcontent div.filelistholder div.list div input {
   width: 264px;
   margin: 9px 0 0 4px;
 }
 
-/* line 279, ../sass/_forms.scss */
+/* line 282, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div i,
 #editcontent div.filelistholder div.list div i {
   margin: 11px 0 0;
@@ -9731,31 +9734,31 @@ fieldset.checkbox div {
   color: #999;
 }
 
-/* line 287, ../sass/_forms.scss */
+/* line 290, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.buttons,
 #editcontent div.filelistholder div.buttons {
   float: left;
   padding: 7px 8px;
 }
 
-/* line 292, ../sass/_forms.scss */
+/* line 295, ../sass/_forms.scss */
 #editcontent div.tagcloud {
   margin-top: 6px;
 }
 
-/* line 296, ../sass/_forms.scss */
+/* line 299, ../sass/_forms.scss */
 #editcontent div.tagcloud a {
   margin-right: 6px;
   display: inline-block;
 }
 
-/* line 301, ../sass/_forms.scss */
+/* line 304, ../sass/_forms.scss */
 .ui-sortable-helper {
   border: 1px solid #999;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* line 306, ../sass/_forms.scss */
+/* line 309, ../sass/_forms.scss */
 .ui-sortable-placeholder {
   border: 1px dashed #666;
   visibility: visible !important;

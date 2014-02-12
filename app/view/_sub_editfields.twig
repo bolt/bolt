@@ -653,10 +653,10 @@
     <div class="col-sm-9">
         <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
                value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
-               class='{{ field.class }} datepicker pull-left' style="margin-right: 8px;">
+               class='{{ field.class }} datepicker'>
         <input type="text" name="{{key}}-timeformatted" id="{{key}}-time"
                value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('H:i') }}{% endif %}'
-               class='{{ field.class }} timepicker pull-left'>
+               class='{{ field.class }} timepicker'>
         <input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
     </div>
     <!-- script snippet for datetime field {{ key }} -->
