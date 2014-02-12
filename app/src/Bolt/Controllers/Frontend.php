@@ -378,6 +378,10 @@ class Frontend
      * loading any content.
      */
     public static function template(Silex\Application $app, $template) {
+      // Add the template extension if it is missing
+      if(!preg_match('/\\.twig$/i', $template))
+        $template .= '.twig';
+
       $themePath    = realpath($app['paths']['themepath'] . '/');
       $templatePath = realpath($app['paths']['themepath'] . '/' . $template);
 
