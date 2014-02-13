@@ -36,6 +36,8 @@ csrf: true
 testmode : true
 testmode_recipient: info@example.com
 
+# from_email and from_name can be set for picky SMTP servers
+
 # A simple contact form. Use as {{ simpleform('contact') }} in your templates.
 contact:
   recipient_email: info@example.org
