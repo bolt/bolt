@@ -315,7 +315,7 @@
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ez a weboldal a <a href='%url%' target='_blank' title='Kifinomult, könnyű és egyszerű tartalomkezelő'>Boltra épül</a>."
 "Timed publish": "Időzített publikálás"
 "Title": "Cím"
-"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "<a href='%url%'>A gyors kezdéshez addjon hozzá némi Lorem Ipsum minta tartalmat</a>."
+"To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "A gyors kezdéshez <a href='%url%'>addjon hozzá némi Lorem Ipsum minta tartalmat</a>."
 "Translations": "Fordítások"
 "Trim Activitylog": "Aktivitási napló tömörítése"
 "URL:": "URL"
