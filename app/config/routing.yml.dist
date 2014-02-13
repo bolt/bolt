@@ -17,29 +17,29 @@ homepage:
   defaults:           { _controller: 'Bolt\Controllers\Frontend::homepage' }
 
 search:
-  path:               /search
+  path:               /search/
   defaults:           { _controller: 'Bolt\Controllers\Frontend::search' }
 
 preview:
-  path:               /preview/{contenttypeslug}
+  path:               /preview/{contenttypeslug}/
   defaults:           { _controller: 'Bolt\Controllers\Frontend::preview' }
   requirements:
     contenttypeslug:  'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
 
 contentlink:
-  path:               /{contenttypeslug}/{slug}
+  path:               /{contenttypeslug}/{slug}/
   defaults:           { _controller: 'Bolt\Controllers\Frontend::record' }
   requirements:
     contenttypeslug:  'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
 
 taxonomylink:
-  path:               /{taxonomytype}/{slug}
+  path:               /{taxonomytype}/{slug}/
   defaults:           { _controller: 'Bolt\Controllers\Frontend::taxonomy' }
   requirements:
     taxonomytype:     'Bolt\Controllers\Routing::getAnyTaxonomyTypeRequirement'
 
 contentlisting:
-  path:               /{contenttypeslug}
+  path:               /{contenttypeslug}/
   defaults:           { _controller: 'Bolt\Controllers\Frontend::listing' }
   requirements:
     contenttypeslug:  'Bolt\Controllers\Routing::getPluralContentTypeRequirement'
