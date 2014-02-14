@@ -923,7 +923,7 @@ fieldset.checkbox div {
 
 
 #editcontent div.imagelistholder p,
-#editcontent div.filelistholder p, {
+#editcontent div.filelistholder p {
     padding: 8px;
     color: #999;
     margin: 0;

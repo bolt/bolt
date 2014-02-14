@@ -77,7 +77,7 @@
 
         <label><b><span class='left'>{{ __('Status:') }}</span></b>
         <select name="status" {% if allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} >
-            {% set status_names = { "published": "Published", "held": "Not published", "timed": "Timed publish", "draft": "Draft" } %}
+            {% set status_names = { "published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft") } %}
             {% for status in allowedStatuses %}
             <option value="{{status}}" {% if content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
             {% endfor %}
