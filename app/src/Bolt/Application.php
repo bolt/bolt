@@ -17,7 +17,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '1.4.5';
-        $values['bolt_name'] = 'dev';
+        $values['bolt_name'] = '';
 
         parent::__construct($values);
 
@@ -205,6 +205,15 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
+        $app = $this;
+
+        // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
+        $this['url_matcher'] = $this->share(function() use ($app) {
+            return new BoltUrlMatcher(
+                new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
+            );
+        });
+
         $request = Request::createFromGlobals();
         if ($proxies = $this['config']->get('general/trustProxies')) {
             $request->setTrustedProxies($proxies);

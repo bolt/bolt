@@ -203,6 +203,11 @@ class Config
         // Make sure Bolt's mount point is OK:
         $config['general']['branding']['path'] = '/' . safeString($config['general']['branding']['path']);
 
+        // Make sure $config['taxonomy'] is an array. (if the file is empty, YAML parses it as NULL)
+        if (empty($config['taxonomy'])) {
+            $config['taxonomy'] = array();
+        }
+
         // Clean up taxonomies
         foreach ($config['taxonomy'] as $key => $value) {
             if (!isset($config['taxonomy'][$key]['name'])) {

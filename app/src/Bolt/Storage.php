@@ -2293,8 +2293,16 @@ class Storage
     public function getTaxonomyTypeAssert($includesingular = false)
     {
 
+        $taxonomytypes = $this->app['config']->get('taxonomy');
+
+        // No taxonomies, nothing to assert. The route _DOES_ expect a string, so
+        // we return a regex that never matches.
+        if (empty($taxonomytypes)) {
+            return "$.";
+        }
+
         $slugs = array();
-        foreach ($this->app['config']->get('taxonomy') as $type) {
+        foreach ($taxonomytypes as $type) {
             $slugs[] = $type['slug'];
             if ($includesingular) {
                 $slugs[] = $type['singular_slug'];
@@ -2421,7 +2429,12 @@ class Storage
         // Get the contenttype from first $content
         $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
 
-        $taxonomytypes = array_keys($this->app['config']->get('taxonomy'));
+        $taxonomytypes = $this->app['config']->get('taxonomy');
+
+        // If there are no taxonomytypes, there won't be any results, so we return.
+        if (empty($taxonomytypes)) {
+            return;
+        }
 
         $query = sprintf(
             "SELECT * FROM %s WHERE content_id IN (?) AND contenttype=? AND taxonomytype IN (?)",
@@ -2429,7 +2442,7 @@ class Storage
         );
         $rows = $this->app['db']->executeQuery(
             $query,
-            array($ids, $contenttype, $taxonomytypes),
+            array($ids, $contenttype, array_keys($taxonomytypes)),
             array(DoctrineConn::PARAM_INT_ARRAY, \PDO::PARAM_STR, DoctrineConn::PARAM_STR_ARRAY)
         )->fetchAll();
 
