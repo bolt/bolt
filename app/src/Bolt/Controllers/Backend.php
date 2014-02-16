@@ -1115,9 +1115,11 @@ class Backend implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
                     /* Make sure that Upload Directory is properly configured and writable */
-                    $filename = $files['FileUpload']->getClientOriginalName();
+                    $filename = fixFilename(
+                        $files['FileUpload']->getClientOriginalName(),
+                        $app['config']->get('general/accept_file_types')
+                    );
                     $files['FileUpload']->move($currentfolder, $filename);
-                    echo "path: $path";
                     $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
                     // Add the file to our stack..

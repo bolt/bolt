@@ -116,6 +116,9 @@ thumbnails:
   save_files: false
   allow_upscale: false
 
+# File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
+accept_file_types: "gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm|svg"
+
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link
 # to the footer. Additionally you can change the mount-point for the backend, either for
