@@ -646,9 +646,6 @@ class Users
     }
 
 
-
-
-
     /**
      * Log out the currently logged in user.
      *
@@ -659,7 +656,11 @@ class Users
         $this->session->remove('user');
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
+        try {
+            $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
+        } catch (\Exception $e) {
+            // Nope. No auth tokens to be deleted. .
+        }
 
         // Remove the cookie..
         setcookie(
