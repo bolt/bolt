@@ -131,7 +131,8 @@ class Extension extends \Bolt\BaseExtension
         $error = "";
         $sent = false;
 
-        $form = $this->app['form.factory']->createBuilder('form', null, array('csrf_protection' => $this->config['csrf']));
+
+        $form = $this->app['form.factory']->createNamedBuilder($formname, 'form', null, array('csrf_protection' => $this->config['csrf']));
 
         foreach ($formconfig['fields'] as $name => $field) {
 
@@ -231,48 +232,59 @@ class Extension extends \Bolt\BaseExtension
         require_once('recaptcha-php-1.11/recaptchalib.php');
 
         if ('POST' == $this->app['request']->getMethod()) {
-            $isRecaptchaValid = true; // to prevent ReCaptcha check if not enabled
+            if(!$this->app['request']->request->has($formname)) {
+                // we're not submitting this particular form
+                if($formconfig['debugmode']==true) {
+                    $error .= "we're not submitting this form: ". $formname;
+                }
+                $sent = false;
+            } else {
+                // ok we're really submitting this form
 
-            if($this->config['recaptcha_enabled']){
-                $isRecaptchaValid = false; // by Default
+                $isRecaptchaValid = true; // to prevent ReCaptcha check if not enabled
 
-                $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
-                    $this->getRemoteAddress(),
-                    $_POST["recaptcha_challenge_field"],
-                    $_POST["recaptcha_response_field"]);
+                if($this->config['recaptcha_enabled']){
+                    $isRecaptchaValid = false; // by Default
 
-                $isRecaptchaValid = $resp->is_valid;
-            }
+                    $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
+                        $this->getRemoteAddress(),
+                        $_POST["recaptcha_challenge_field"],
+                        $_POST["recaptcha_response_field"]);
 
-            if($isRecaptchaValid) {
-                $form->bind($this->app['request']);
+                    $isRecaptchaValid = $resp->is_valid;
+                }
 
-                if ($form->isValid()) {
+                if($isRecaptchaValid) {
+                    $form->bind($this->app['request']);
 
-                    $res = $this->processForm($formconfig, $form, $formname);
+                    if ($form->isValid()) {
 
-                    if ($res) {
-                        $message = $formconfig['message_ok'];
-                        $sent = true;
+                        $res = $this->processForm($formconfig, $form, $formname);
 
-                        // If redirect_on_ok is set, redirect to that page when succesful.
-                        if (!empty($formconfig['redirect_on_ok'])) {
-                            $content = $this->app['storage']->getContent($formconfig['redirect_on_ok']);
-                            simpleredirect($content->link(), false);
+                        if ($res) {
+                            $message = $formconfig['message_ok'];
+                            $sent = true;
+
+                            // If redirect_on_ok is set, redirect to that page when succesful.
+                            if (!empty($formconfig['redirect_on_ok'])) {
+                                $content = $this->app['storage']->getContent($formconfig['redirect_on_ok']);
+                                simpleredirect($content->link(), false);
+                            }
+
+                        } else {
+                            $error = $formconfig['message_technical'];
                         }
 
                     } else {
-                        $error = $formconfig['message_technical'];
+
+                        $error = $formconfig['message_error'];
+
                     }
-
                 } else {
-
-                    $error = $formconfig['message_error'];
-
+                    $error = $this->config['recaptcha_error_message'];
                 }
-            } else {
-                $error = $this->config['recaptcha_error_message'];
             }
+
         }
 
 
@@ -296,6 +308,14 @@ class Extension extends \Bolt\BaseExtension
 
     private function processForm($formconfig, $form, $formname)
     {
+
+        if(!$this->app['request']->request->has($formname)) {
+            // we're not submitting this particular form
+            if($formconfig['debugmode']==true) {
+                \util::var_dump("we're not submitting this form: ". $formname);
+            }
+            return;
+        }
 
         $data = $form->getData();
 
@@ -337,33 +357,35 @@ class Extension extends \Bolt\BaseExtension
                 }
 
                 $files = $this->app['request']->files->get($form->getName());
-                $originalname = strtolower($files[$fieldname]->getClientOriginalName());
-                $filename = sprintf(
-                    "%s-%s-%s.%s",
-                    $fieldname,
-                    date('Y-m-d'),
-                    $this->app['randomgenerator']->generateString(8, 'abcdefghijklmnopqrstuvwxyz01234567890'),
-                    getExtension($originalname)
-                );
-                $link = sprintf("%s%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
+                if(array_key_exists($fieldname, $files) && !empty($files[$fieldname])) {
+                    $originalname = strtolower($files[$fieldname]->getClientOriginalName());
+                    $filename = sprintf(
+                        "%s-%s-%s.%s",
+                        $fieldname,
+                        date('Y-m-d'),
+                        $this->app['randomgenerator']->generateString(8, 'abcdefghijklmnopqrstuvwxyz01234567890'),
+                        getExtension($originalname)
+                    );
+                    $link = sprintf("%s%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
 
-                // Make sure the file is in the allowed extensions.
-                if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
-                    // If so, replace the file to designated folder.
-                    $files[$fieldname]->move($path, $filename);
-                    // by default we send a link
-                    $data[$fieldname] = $link;
+                    // Make sure the file is in the allowed extensions.
+                    if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
+                        // If so, replace the file to designated folder.
+                        $files[$fieldname]->move($path, $filename);
+                        // by default we send a link
+                        $data[$fieldname] = $link;
 
-                    if($formconfig['attach_files'] == 'true') {
-                        // if there is an attachment and no saved file on the server
-                        // only send the original name and the attachment
-                        if(empty($formconfig['storage_location'])) {
-                            $data[$fieldname] = $originalname ." ($link)";
+                        if($formconfig['attach_files'] == 'true') {
+                            // if there is an attachment and no saved file on the server
+                            // only send the original name and the attachment
+                            if(empty($formconfig['storage_location'])) {
+                                $data[$fieldname] = $originalname ." ($link)";
+                            }
+                            $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
                         }
-                        $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
+                    } else {
+                        $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                     }
-                } else {
-                    $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                 }
             }
 
