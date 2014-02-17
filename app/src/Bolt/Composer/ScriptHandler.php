@@ -34,9 +34,9 @@ class ScriptHandler
         $targetDir = $webDir . '/bolt-public/';
 
         $filesystem = new Filesystem();
-        $filesystem->remove($targetDir);
-        $filesystem->mkdir($targetDir, $dirMode);
-        // $filesystem->mkdir($targetDir, $dirMode);
+        if (! is_dir($targetDir)) {
+            $filesystem->mkdir($targetDir, $dirMode);
+        }
         foreach (array(
             'css',
             'font',
