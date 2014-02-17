@@ -53,7 +53,7 @@ class ScriptHandler
             $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');
         }
 
-        $filesystem->mirror(__DIR__ . '/../../../../config', $confDir . '/config');
+        $filesystem->mirror(__DIR__ . '/../../../config', $confDir . '/config');
         $filesystem->mirror(__DIR__ . '/../../../../theme', $confDir . '/theme');
 
         echo "Please tune up index.php, .htaccess, and configs - regarding theme_path as well - in $confDir/config/" . PHP_EOL;
