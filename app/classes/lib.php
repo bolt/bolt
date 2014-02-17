@@ -315,6 +315,8 @@ function fixFilename($filename, $allowedextensions)
         $filename .= ".file";
     }
 
+    $filename = safeString($filename, false, "\(\)");
+
     return $filename;
 }
 

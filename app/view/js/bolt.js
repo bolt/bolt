@@ -357,7 +357,11 @@ function bindFileUpload(key) {
                         stack.addToStack(filename);
 
                     } else {
-                        alert("Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable.");
+                        var message = "Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable."
+                            + "\n\n(error was: "
+                            + file.error + ")";
+
+                        alert(message);
                         window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 50);
                     }
                     $('#progress-' + key + ' div.bar').css('width', "100%");
