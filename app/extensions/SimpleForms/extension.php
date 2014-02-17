@@ -207,7 +207,7 @@ class Extension extends \Bolt\BaseExtension
                 // if the field is file, make sure we set the accept properly.
                 $accept = array();
 
-                // Don't accept _all_ types. If nothing set in config.yml, set some sensilbe defaults.
+                // Don't accept _all_ types. If nothing set in config.yml, set some sensible defaults.
                 if (empty($field['filetype'])) {
                     $field['filetype'] = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt', 'doc', 'docx');
                 }
@@ -231,7 +231,7 @@ class Extension extends \Bolt\BaseExtension
         require_once('recaptcha-php-1.11/recaptchalib.php');
 
         if ('POST' == $this->app['request']->getMethod()) {
-            $isRecaptchaValid = true; // to prevent recpatcha check if not enabled
+            $isRecaptchaValid = true; // to prevent ReCaptcha check if not enabled
 
             if($this->config['recaptcha_enabled']){
                 $isRecaptchaValid = false; // by Default
