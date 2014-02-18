@@ -72,6 +72,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
             new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('twig', array($this, 'twig'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
             new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
@@ -367,6 +368,34 @@ class TwigExtension extends \Twig_Extension
 
         return $output;
     }
+
+
+    /**
+     * Formats the given string as Twig in HTML
+     *
+     * @param  string $content
+     * @return string Twig output
+     */
+    public function twig($snippet, $extravars = array())
+    {
+
+        // Remember the current Twig loaders.
+        $oldloader = $this->app['twig']->getLoader();
+
+        $this->app['twig']->setLoader(new \Twig_Loader_String());
+
+        // Parse the snippet.
+        $html = $this->app['render']->render($snippet, $extravars);
+
+        // Re-set the loaders back to the old situation.
+        $this->app['twig']->setLoader($oldloader);
+
+        return $html;
+
+    }
+
+
+
 
     public function decorateTT($str)
     {
