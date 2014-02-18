@@ -396,6 +396,7 @@ class Users
 
             $user['sessionkey'] = $this->getAuthtoken($user['username']);
 
+            $this->session->migrate(true);
             $this->session->set('user', $user);
             $this->session->getFlashBag()->set('success', __("You've been logged on successfully."));
 
@@ -654,6 +655,7 @@ class Users
     {
         $this->session->getFlashBag()->set('info', __('You have been logged out.'));
         $this->session->remove('user');
+        $this->session->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         try {
@@ -672,10 +674,6 @@ class Users
             $this->app['config']->get('general/cookies_https_only'),
             true
         );
-
-        // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
-        // $this->session->invalidate();
-
     }
 
     /**
