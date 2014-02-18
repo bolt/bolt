@@ -579,7 +579,6 @@ class Backend implements ControllerProviderInterface
      */
     public function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request)
     {
-
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (empty($id)) {
@@ -602,6 +601,9 @@ class Backend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
+            if (!checkToken()) {
+                abort(400, __("Something went wrong"));
+            }
             if (!empty($id)) {
                 // Check if we're allowed to edit this content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
