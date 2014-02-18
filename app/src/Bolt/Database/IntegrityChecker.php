@@ -576,10 +576,10 @@ class IntegrityChecker
                         $myTable->addColumn($field, "text", array("default" => $this->textDefault));
                         break;
                     case 'datetime':
-                        $myTable->addColumn($field, "datetime");
+                        $myTable->addColumn($field, "datetime", array("notnull" => false));
                         break;
                     case 'date':
-                        $myTable->addColumn($field, "date");
+                        $myTable->addColumn($field, "date", array("notnull" => false));
                         break;
                     case 'slug':
                     case 'id':
