@@ -517,8 +517,8 @@ class Config
             $twigpath = array(realpath(__DIR__ . '/../../view'));
         }
 
-        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == 'object')) {
+            // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
+        if (! file_exists($themepath) && isset($this->app['session']) && ($this->app['session']) == 'object') {
             $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
         }
