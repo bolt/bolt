@@ -373,6 +373,14 @@ class TwigExtension extends \Twig_Extension
     /**
      * Formats the given string as Twig in HTML
      *
+     * Note: this is partially duplicating the template_from_string functionality:
+     * http://twig.sensiolabs.org/doc/functions/template_from_string.html
+     *
+     * We can't use that functionality though, since it requires the Twig_Extension_StringLoader()
+     * extension. If we would use that, when instantiating Twig, it screws up the rendering: Every
+     * template that has a filename that doesn't exist will be rendered as literal string. This
+     * _really_ messes up the 'cascading rendering' of our theme templates.
+     *
      * @param  string $content
      * @return string Twig output
      */
