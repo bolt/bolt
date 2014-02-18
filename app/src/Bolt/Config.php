@@ -203,6 +203,11 @@ class Config
         // Make sure Bolt's mount point is OK:
         $config['general']['branding']['path'] = '/' . safeString($config['general']['branding']['path']);
 
+        // Make sure $config['taxonomy'] is an array. (if the file is empty, YAML parses it as NULL)
+        if (empty($config['taxonomy'])) {
+            $config['taxonomy'] = array();
+        }
+
         // Clean up taxonomies
         foreach ($config['taxonomy'] as $key => $value) {
             if (!isset($config['taxonomy'][$key]['name'])) {
@@ -502,13 +507,13 @@ class Config
 
     private function setTwigPath()
     {
-        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        if($this->get('general/theme_path')) {
+            // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+        if ($this->get('general/theme_path')) {
             $themepath = realpath(BOLT_PROJECT_ROOT_DIR . $this->get('general/theme_path'));
         } else {
             $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme');
         }
-        $themepath .=  '/' . basename($this->get('general/theme'));
+        $themepath .= '/' . basename($this->get('general/theme'));
 
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
@@ -518,7 +523,7 @@ class Config
             $twigpath = array(realpath(__DIR__ . '/../../view'));
         }
 
-            // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
+        // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
         if (! file_exists($themepath) && isset($this->app['session']) && ($this->app['session']) == 'object') {
             $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
