@@ -149,6 +149,7 @@ kitchensink:
             multiple: false
             label: Choose an entry
             order: -id
+            format: "{{ item.title|escape }} <span>(№ {{ item.id }})</span>"
         pages:
             multiple: true
             order: title
