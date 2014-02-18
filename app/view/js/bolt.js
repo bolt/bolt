@@ -4,7 +4,7 @@ try { console.assert(1); } catch(e) { console = { log: function() {}, assert: fu
 jQuery(function($) {
 
     // Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog..
-    $('a.confirm').on('click', function(){
+    $('.confirm').on('click', function(){
         return confirm( $(this).data('confirm') );
     });
 
