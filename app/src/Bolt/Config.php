@@ -203,11 +203,6 @@ class Config
         // Make sure Bolt's mount point is OK:
         $config['general']['branding']['path'] = '/' . safeString($config['general']['branding']['path']);
 
-        // Make sure $config['taxonomy'] is an array. (if the file is empty, YAML parses it as NULL)
-        if (empty($config['taxonomy'])) {
-            $config['taxonomy'] = array();
-        }
-
         // Clean up taxonomies
         foreach ($config['taxonomy'] as $key => $value) {
             if (!isset($config['taxonomy'][$key]['name'])) {
@@ -511,8 +506,9 @@ class Config
         if($this->get('general/theme_path')) {
             $themepath = realpath(BOLT_PROJECT_ROOT_DIR . $this->get('general/theme_path'));
         } else {
-            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme/' . basename($this->get('general/theme')));
+            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme');
         }
+        $themepath .=  '/' . basename($this->get('general/theme'));
 
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
