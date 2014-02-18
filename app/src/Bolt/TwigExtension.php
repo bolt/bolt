@@ -428,11 +428,19 @@ class TwigExtension extends \Twig_Extension
      * @param  string $on
      * @return array
      */
-    public function order($array, $on)
+    public function order($array, $on, $on_secondary = '')
     {
 
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
+
+        // Set the secondary order, if any..
+        if (!empty($on_secondary)) {
+            list($this->order_on_secondary, $this->order_ascending_secondary) = $this->app['storage']->getSortOrder($on_secondary);
+        } else {
+            $this->order_on_secondary = false;
+            $this->order_ascending_secondary = false;
+        }
 
         uasort($array, array($this, "orderHelper"));
 
@@ -449,19 +457,32 @@ class TwigExtension extends \Twig_Extension
      */
     private function orderHelper($a, $b)
     {
+        $a_val = $a[$this->order_on];
+        $b_val = $b[$this->order_on];
 
-        $on = $this->order_on;
-        $ascending = $this->order_ascending;
-
-        $a_val = $a[$on];
-        $b_val = $b[$on];
-
-        if ($a_val == $b_val) {
-            return 0;
-        } elseif ($a_val < $b_val) {
-            return !$ascending;
+        // Check the primary sorting criterium..
+        if ($a_val < $b_val) {
+            return !$this->order_ascending;
+        } else if ($a_val > $b_val) {
+            return $this->order_ascending;
         } else {
-            return $ascending;
+            // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
+            if (empty($this->order_on_secondary)) {
+                return 0;
+            }
+
+            $a_val = $a[$this->order_on_secondary];
+            $b_val = $b[$this->order_on_secondary];
+
+            if ($a_val < $b_val) {
+                return !$this->order_ascending_secondary;
+            } else if ($a_val > $b_val) {
+                return $this->order_ascending_secondary;
+            } else {
+                // both criteria are the same. Whatever!
+                return 0;
+            }
+
         }
 
     }
