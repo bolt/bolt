@@ -118,6 +118,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get("/user/{action}/{id}", array($this, 'useraction'))
             ->before(array($this, 'before'))
+            ->method('POST')
             ->bind('useraction');
 
         $ctl->match("/files/{path}", array($this, 'files'))
@@ -617,8 +618,6 @@ class Backend implements ControllerProviderInterface
                 }
             }
 
-
-
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
@@ -627,7 +626,6 @@ class Backend implements ControllerProviderInterface
                 $content = $app['storage']->getContentObject($contenttypeslug);
                 $oldStatus = '';
             }
-
 
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
@@ -849,7 +847,6 @@ class Backend implements ControllerProviderInterface
 
     public function useredit($id, \Bolt\Application $app, Request $request)
     {
-
         // Get the user we want to edit (if any)
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
@@ -1019,7 +1016,10 @@ class Backend implements ControllerProviderInterface
      */
     public function useraction(Silex\Application $app, $action, $id)
     {
-
+        if (!checkToken()) {
+            $app['session']->getFlashBag()->set('info', __("An error occurred."));
+            return redirect('users');
+        }
         $user = $app['users']->getUser($id);
 
         if (!$user) {
