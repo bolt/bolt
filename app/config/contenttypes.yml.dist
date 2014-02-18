@@ -34,7 +34,7 @@ entries:
             type: html
             height: 300px
     relations:
-        entries:
+        pages:
           multiple: false
           order: title
           label: Select a page
