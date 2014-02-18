@@ -508,12 +508,13 @@ class Config
 
     private function setTwigPath()
     {
-        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        if($this->get('general/theme_path')) {
+            // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+        if ($this->get('general/theme_path')) {
             $themepath = realpath(BOLT_PROJECT_ROOT_DIR . $this->get('general/theme_path'));
         } else {
-            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme/' . basename($this->get('general/theme')));
+            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme');
         }
+        $themepath .= '/' . basename($this->get('general/theme'));
 
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
@@ -524,7 +525,7 @@ class Config
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == 'object')) {
+        if (! file_exists($themepath) && isset($this->app['session']) && (gettype($this->app['session']) == 'object')) {
             $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
         }
