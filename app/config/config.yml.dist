@@ -202,6 +202,12 @@ cookies_lifetime: 1209600
 # If you'd like it to be valid for all subdomains of 'www.example.org', set this to '.example.org'.
 cookies_domain:
 
+# If your system is using a custom session configuration (such as a redis handler from a
+# PHP extension) then we need to disable our session storage handler. In that case, set
+# this setting to false. Do not change this, unless you know what you're doing!
+# See: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+session_use_storage_handler: true
+
 # The hash_strength determines the amount of iterations for encrypting passwords. A higher number means
 # a harder to decrypt password, but takes longer to compute. '8' is the minimum, '10' is the default,
 # '12' is better.

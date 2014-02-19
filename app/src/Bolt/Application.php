@@ -47,6 +47,13 @@ class Application extends Silex\Application
             )
         ));
 
+        // Disable Silex's built-in native filebased session handler, and fall back to
+        // whatever's set in php.ini.
+        // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+        if ($this['config']->get('general/session_use_storage_handler') === false) {
+            $this['session.storage.handler'] = null;
+        }
+
         $this->register(new Provider\LogServiceProvider());
     }
 
