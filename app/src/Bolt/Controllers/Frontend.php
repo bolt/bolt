@@ -382,8 +382,8 @@ class Frontend
       if(!preg_match('/\\.twig$/i', $template))
         $template .= '.twig';
 
-      $themePath    = realpath($app['paths']['themepath'] . '/');
-      $templatePath = realpath($app['paths']['themepath'] . '/' . $template);
+      $themePath    = realpath($app['paths']['themepath'] . $app['paths']['theme']);
+      $templatePath = realpath($app['paths']['themepath'] . $app['paths']['theme'] . '/' . $template);
 
       // Verify that the resulting template path is located in the theme directory
       if($themePath !== substr($templatePath, 0, strlen($themePath)))
