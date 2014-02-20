@@ -756,7 +756,7 @@ class Content implements \ArrayAccess
         return preg_replace('/^([^?]*).*$/', '\\1', $link);
     }
 
-    protected function &getRouteRequirementParams(array &$route)
+    protected function getRouteRequirementParams(array $route)
     {
         $params = array();
         foreach($route['requirements'] ?: array() as $fieldName => $requirement) {
@@ -778,16 +778,16 @@ class Content implements \ArrayAccess
      * Retrieves the first route applicable to the content as a two-element array consisting of the binding and the
      * route array. Returns `null` if there is no applicable route.
      */
-    protected function &getRoute()
+    protected function getRoute()
     {
-        foreach ($this->app['config']->get('routing') as $binding => &$route)
+        foreach ($this->app['config']->get('routing') as $binding => $route)
             if ($this->isApplicableRoute($binding, $route))
                 return array($binding, $route);
 
         return null;
     }
 
-    protected function isApplicableRoute($binding, array &$route)
+    protected function isApplicableRoute($binding, array $route)
     {
         return 'contentlink' === $binding ||
                $route['contenttype'] === $this->contenttype['singular_slug'] ||
