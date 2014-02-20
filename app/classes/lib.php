@@ -844,11 +844,11 @@ function getPaths($original = array() )
     // Temp fix! @todo: Fix this properly.
     if ($config instanceof \Bolt\Config) {
         if ($config->get('general/theme_path')) {
-            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config->get('general/theme_path');
+            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config->get('general/theme_path') . '/' . $theme;
         }
     } else {
         if ( isset( $config['general']['theme_path'] ) ) {
-            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'];
+            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'] . '/' . $theme;
         }
     }
 
