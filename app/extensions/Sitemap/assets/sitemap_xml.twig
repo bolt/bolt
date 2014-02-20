@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {% for entry in entries %}
-        <url>
-            <loc>{{ app.paths.hosturl }}{{ entry.link }}</loc>
-            {% if entry.lastmod is defined %}
-                <lastmod>{{ entry.lastmod }}</lastmod>
-            {% endif %}
-        </url>
+        {% if entry.link is defined %}
+            <url>
+                <loc>{{ app.paths.hosturl }}{{ entry.link }}</loc>
+                {% if entry.lastmod is defined %}
+                    <lastmod>{{ entry.lastmod }}</lastmod>
+                {% endif %}
+            </url>
+        {% endif %}
     {% endfor %}
 </urlset>

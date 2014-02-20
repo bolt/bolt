@@ -105,7 +105,7 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right">
-                            {% if content.status == "published" %}
+                            {% if content.status == "published" and content.link is defined %}
                                 <li><a href="{{ content.link }}" target="_blank">
                                     <i class="icon-external-link"></i> {{ __('View on site') }}</a></li>
                             {% endif %}
