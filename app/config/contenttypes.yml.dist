@@ -34,7 +34,7 @@ entries:
             type: html
             height: 300px
     relations:
-        entries:
+        pages:
           multiple: false
           order: title
           label: Select a page
@@ -42,6 +42,7 @@ entries:
     record_template: entry.twig
     listing_template: listing.twig
     listing_records: 10
+    default_status: publish
     sort: datepublish DESC
     recordsperpage: 10
 
@@ -149,13 +150,14 @@ kitchensink:
             multiple: false
             label: Choose an entry
             order: -id
+            format: "{{ item.title|escape }} <span>(№ {{ item.id }})</span>"
         pages:
             multiple: true
             order: title
             label: Select zero or more pages
     taxonomy: [ categories, tags, chapters ]
     show_on_dashboard: true
-    default_status: draft
+    default_status: publish
     searchable: false
 
 

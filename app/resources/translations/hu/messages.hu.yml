@@ -1,4 +1,4 @@
-# app/resources/translations/hu/messages.hu.yml -- generated on 2014/02/13 20:32:13
+# app/resources/translations/hu/messages.hu.yml -- generated on 2014/02/21 11:11:06
 # 5 untranslated strings
 
 "Tip:":  #
@@ -8,7 +8,7 @@
 "of":  #
 
 #-----------------------------------------
-# 376 translated strings
+# 380 translated strings
 
 "%contenttypes% overview": "%contenttypes% áttekintése"
 "%contenttypes%": "%contenttypes%"
@@ -37,6 +37,7 @@
 "Alas, no about!": "Jaj, nincs bemutatkozás!"
 "All content types": "Minden tartalomtípus"
 "All users": "Minden felhasználó"
+"An error occurred.": "Hiba történt."
 "Anonymous": "Ismeretlen"
 "Are you sure you want to delete %username%?": "Biztos benne, hogy törli a %username% felhasználót?"
 "Are you sure you want to revert changes you have made since you last saved your menus?": "Biztos benne, hogy visszaállítja a módosításokat a legutolsó mentett állapotig?"
@@ -80,11 +81,13 @@
 "Configuration": "Beállítások"
 "Content '%title%' could not be deleted.": "'%title%' tartalom nem törölhető."
 "Content '%title%' could not be modified.": "'%title%' tartalom nem módosítható."
+"Content '%title%' has been changed to '%newStatus%'": "A(z) '%title%' állapota módosítva: '%newStatus%'"
 "Content '%title%' has been deleted.": "'%title%' tartalom törölve."
 "Content Type Permissions": "Tartalomtípus Engedélyek"
 "Content was duplicated. Click 'Save %contenttype%' to finalize.": "Dupklikált tartalom. Kattintson a '%contenttype% mentése' gombra a véglegesítéshez."
 "Content": "Tartalom"
 "Contenttypes": "Tartalomtípusok"
+"Could not save %contenttype%.": "A(z) %contenttype% nem menthető."
 "Create a new user": "Új felhasználó létrehozása"
 "Create the first user": "Első felhasználó létrehozása"
 "Created on:": "Létrehozva:"
@@ -271,6 +274,7 @@
 "Skipped <tt>%key%</tt> (already has records)": "<tt>%key%</tt> kihagyva (már tartalmaz bejegyzéseket)"
 "Skipped <tt>%key%</tt> (not checked)": "<tt>%key%</tt> kihagyva (nincs vizsgálva)"
 "Slug:": "Slug:"
+"Something went wrong": "Valami rosszul történt."
 "Something went wrong, please reload the page and try again": "Valami rosszul sikerült, kérem töltse újra az oldalt és próbálja mégegyszer"
 "Sophisticated, lightweight & simple CMS": "Kifinomult, könnyű és egyszerű tartalomkezelő"
 "Special elements": "Speciális elemek"

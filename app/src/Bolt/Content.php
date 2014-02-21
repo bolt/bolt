@@ -62,11 +62,6 @@ class Content implements \ArrayAccess
             $values['name'] = "(undefined $contenttypename)";
             $values['title'] = "(undefined $contenttypename)";
 
-            // If default status is set in contentttype..
-            if (!empty($this->contenttype['default_status'])) {
-                $values['status'] = $this->contenttype['default_status'];
-            }
-
             $this->setValues($values);
 
         }
@@ -126,6 +121,11 @@ class Content implements \ArrayAccess
         if (!isset($this->values['datedepublish']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
             $this->values['datedepublish'] = "0000-00-00 00:00:00";
+        }
+
+        // If default status is set in contentttype..
+        if (empty($this->values['status'])) {
+            $this->values['status'] = $this->contenttype['default_status'];
         }
 
         // Check if the values need to be unserialized, and pre-processed.
@@ -608,11 +608,39 @@ class Content implements \ArrayAccess
             $this->app['twig.loader']->addLoader(new \Twig_Loader_String());
 
             // Parse the snippet.
-            $snippet = $this->app['render']->render($snippet);
+            $snippet = $this->preParseHelper($snippet);
 
             // Re-set the loaders back to the old situation.
             $this->app['twig']->setLoader($oldloader);
 
+        }
+
+        return $snippet;
+
+    }
+
+    /**
+     * Allow for recursively splitting and parsing a snippet. Twig is being derpy.
+     *
+     * There's a problem with Twig: parsing snippets that are longer than the filesystem limit for filenames.
+     * This is because Twig will _first_ attempt to locate the snippet as a file, and only _then_ parse it as a
+     * snippet. Therefore, if the snippet is too long, we split it, and parse it in several parts.
+     *
+     * @param $snippet
+     * @return string
+     */
+    private function preParseHelper($snippet)
+    {
+        if (strlen($snippet) > 1800) {
+            // (First part), (opening twig brackets, rest of tag, closing twig brackets), (rest of string)
+            $result = preg_match('/(.*)({[{%#].*[}%#]})(.*)/ms', $snippet, $parts);
+            if ($result && count($parts)==4) {
+                // Note: $parts[0] is always the entire snippet. We only need to parse parts 1, 2, 3..
+                $snippet = $this->preParseHelper($parts[1]) . $this->preParseHelper($parts[2]) . $this->preParseHelper($parts[3]);
+            }
+        } else {
+            // Render the snippet.
+            $snippet = $this->app['render']->render($snippet);
         }
 
         return $snippet;
@@ -726,79 +754,73 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Creates a link to the content record
+     * Creates a URL for the content record.
      */
-    public function link($param = "")
+    public function link()
     {
-        // If there's no valid content, return no link.
-        if (empty($this->id)) {
-            return '';
-        }
+        if (empty($this->id))
+            return null;
 
-        $slugreference = $this->getReference();
+        list($binding, $route) = $this->getRoute();
 
-        // Default link binding (a.k.a. "name of route in routing.yml"), unless overridden below.
-        $linkbinding = 'contentlink';
+        if(!$route)
+            return null;
 
-        foreach ($this->app['config']->get('routing') as $binding => $route) {
-            if (isset($route['recordslug']) && ($route['recordslug'] == $slugreference)) {
-                $linkbinding = $binding;
-                break;
-            }
-            if (isset($route['contenttype']) &&
-                ( ($route['contenttype'] == $this->contenttype['singular_slug']) || ($route['contenttype'] == $this->contenttype['slug']) ) ) {
-                $linkbinding = $binding;
-                break;
-            }
-        }
+        $link = $this->app['url_generator']->generate($binding, array_filter(array_merge(
+            $route['defaults'] ?: array(),
+            $this->getRouteRequirementParams($route),
+            array(
+                'contenttypeslug' => $this->contenttype['singular_slug'],
+                'id'              => $this->id,
+                'slug'            => $this->values['slug']
+            )
+        )));
 
-        // Set up the 'parameters' to pass to url_generator->generate.
-        $params = array(
-            'contenttypeslug' => $this->contenttype['singular_slug'],
-            'id' => $this->id,
-            'slug' => $this->values['slug']
-        );
-
-        // If we have any extra requirements, we should add the matching fields
-        // too. For example, if we need a routing with our own date field:
-        //   requirements:
-        //     eventdate: '\d{4}-\d{2}-\d{2}'
-        if (is_array($route['requirements']) && !empty($route['requirements'])) {
-            foreach($route['requirements'] as $req => $reqvalue) {
-
-                // Don't override params that are already set!
-                if (isset($params[$req])) {
-                    continue;
-                }
-
-                // special case, if we need to have a date.
-                if ($reqvalue == '\d{4}-\d{2}-\d{2}') {
-                    $params[$req] = substr($this->values[$req], 0, 10);
-                } elseif (isset($this->taxonomy[$req])) {
-                    // turn something like '/chapters/meta' to 'meta'
-                    $taxonomyslug = explode( '/', array_shift(array_keys($this->taxonomy[$req])) );
-                    $taxonomyslug = array_pop($taxonomyslug);
-                    $params[$req] = $taxonomyslug;
-                } else {
-                    // or, just add the value.
-                    $params[$req] = $this->values[$req];
-                }
-            }
-        }
-
-        // Filter empty values and then use the route's defaults values.
-        $params = array_filter($params);
-        $params = array_merge($route['defaults'], $params);
-
-        $link = $this->app['url_generator']->generate($linkbinding, $params);
-
+        // Strip the query string generated by supplementary parameters.
         // since our $params contained all possible arguments and the ->generate()
         // added all $params which it didn't need in the query-string we can
         // safely strip the query-string.
         // NB. this does mean we don't support routes with query strings
-        $link = preg_replace('|(.+)[?].*|', '\\1', $link);
+        return preg_replace('/^([^?]*).*$/', '\\1', $link);
+    }
 
-        return $link;
+    protected function getRouteRequirementParams(array $route)
+    {
+        $params = array();
+        foreach($route['requirements'] ?: array() as $fieldName => $requirement) {
+            if('\d{4}-\d{2}-\d{2}' === $requirement) {
+                // Special case, if we need to have a date
+                $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
+            } elseif (isset($this->taxonomy[$fieldName])) {
+                // turn something like '/chapters/meta' to 'meta'
+                $params[$fieldName] = array_pop(explode('/', array_shift(array_keys($this->taxonomy[$fieldName]))));
+            } else {
+                // or, just add the value
+                $params[$fieldName] = $this->values[$fieldName];
+            }
+        }
+        return $params;
+    }
+
+    /**
+     * Retrieves the first route applicable to the content as a two-element array consisting of the binding and the
+     * route array. Returns `null` if there is no applicable route.
+     */
+    protected function getRoute()
+    {
+        foreach ($this->app['config']->get('routing') as $binding => $route)
+            if ($this->isApplicableRoute($binding, $route))
+                return array($binding, $route);
+
+        return null;
+    }
+
+    protected function isApplicableRoute($binding, array $route)
+    {
+        return 'contentlink' === $binding ||
+               $route['contenttype'] === $this->contenttype['singular_slug'] ||
+               $route['contenttype'] === $this->contenttype['slug'] ||
+               $route['recordslug'] === $this->getReference();
     }
 
     /**

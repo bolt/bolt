@@ -7,6 +7,7 @@
     <h1>{{ title|raw }}</h1>
 
     <form method="post" id="editcontent" enctype="multipart/form-data">
+        {% include '_sub_csrf_token.twig' %}
 
         {% include '_sub_editfields.twig' %}
 
@@ -189,7 +190,7 @@
                 $('form').watchChanges();
 
                 $.post("", $( "#editcontent" ).serialize() )
-                    .done(function( data ) {
+                    .done(function(data) {
                         // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': contenttype.singular_name}) }}";
                         $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>');
                         $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
@@ -197,9 +198,13 @@
                         $('p.lastsaved').find('time').attr('title', moment().format());
                         updateMoments();
 
-                        // Disable the buttons, to indicate stuff is being done.
+                    })
+                    .fail(function(){
+                        $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': contenttype.singular_name }) }}');
+                    })
+                    .always(function(){
+                        // Re-enable buttons
                         $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
-
                     });
             }
 

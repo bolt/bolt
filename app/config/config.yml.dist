@@ -120,6 +120,9 @@ thumbnails:
   save_files: false
   allow_upscale: false
 
+# File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
+accept_file_types: "gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|epub|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm|svg"
+
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link
 # to the footer. Additionally you can change the mount-point for the backend, either for
@@ -202,6 +205,12 @@ cookies_lifetime: 1209600
 # When set incorrectly, you might not be able to log on at all.
 # If you'd like it to be valid for all subdomains of 'www.example.org', set this to '.example.org'.
 cookies_domain:
+
+# If your system is using a custom session configuration (such as a redis handler from a
+# PHP extension) then we need to disable our session storage handler. In that case, set
+# this setting to false. Do not change this, unless you know what you're doing!
+# See: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+session_use_storage_handler: true
 
 # The hash_strength determines the amount of iterations for encrypting passwords. A higher number means
 # a harder to decrypt password, but takes longer to compute. '8' is the minimum, '10' is the default,

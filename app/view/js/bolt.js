@@ -4,7 +4,7 @@ try { console.assert(1); } catch(e) { console = { log: function() {}, assert: fu
 jQuery(function($) {
 
     // Any link (or clickable <i>-icon) with a class='confirm' gets a confirmation dialog..
-    $('a.confirm').on('click', function(){
+    $('.confirm').on('click', function(){
         return confirm( $(this).data('confirm') );
     });
 
@@ -357,7 +357,11 @@ function bindFileUpload(key) {
                         stack.addToStack(filename);
 
                     } else {
-                        alert("Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable.");
+                        var message = "Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable."
+                            + "\n\n(error was: "
+                            + file.error + ")";
+
+                        alert(message);
                         window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 50);
                     }
                     $('#progress-' + key + ' div.bar').css('width', "100%");

@@ -14,6 +14,9 @@
 
     {% for relcontenttype, relation in contenttype.relations %}
 
+        {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
+        {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
+
         <label for='relation-{{relcontenttype|trans}}'><b><span class='left'>
             {% if relation.label %}{{ relation.label|trans }}{% else %}{{ relcontenttype|ucfirst|trans }}{% endif %}
         </span></b></label>
@@ -25,9 +28,8 @@
             <option value="0">(none)</option>
         {% endif %}
             {% for item in listcontent(relcontenttype, relation, content) %}
-                <option value="{{ item.id }}" {% if item.selected %}selected{% endif %}>{{ item.title|escape }} <span>(№ {{ item.id }})</span></option>
+                <option value="{{ item.id }}" {% if item.selected %}selected{% endif %}>{{ format|twig({'item': item}) }}</option>
             {% endfor %}
-
         </select>
 
         <script>

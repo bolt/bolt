@@ -118,6 +118,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get("/user/{action}/{id}", array($this, 'useraction'))
             ->before(array($this, 'before'))
+            ->method('POST')
             ->bind('useraction');
 
         $ctl->match("/files/{path}", array($this, 'files'))
@@ -578,7 +579,6 @@ class Backend implements ControllerProviderInterface
      */
     public function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request)
     {
-
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (empty($id)) {
@@ -601,6 +601,9 @@ class Backend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
+            if (!checkToken()) {
+                abort(400, __("Something went wrong"));
+            }
             if (!empty($id)) {
                 // Check if we're allowed to edit this content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
@@ -617,8 +620,6 @@ class Backend implements ControllerProviderInterface
                 }
             }
 
-
-
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
@@ -627,7 +628,6 @@ class Backend implements ControllerProviderInterface
                 $content = $app['storage']->getContentObject($contenttypeslug);
                 $oldStatus = '';
             }
-
 
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
@@ -704,7 +704,6 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $content['status'] = 'draft';
             $title = sprintf("<strong>%s</strong>", __('New %contenttype%', array('%contenttype%' => $contenttype['singular_name'])));
             $app['log']->add("New content", 1, $content, 'edit');
         }
@@ -802,7 +801,7 @@ class Backend implements ControllerProviderInterface
         }
 
         if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
-            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to '$newStatus'", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
         } else {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
         }
@@ -849,7 +848,6 @@ class Backend implements ControllerProviderInterface
 
     public function useredit($id, \Bolt\Application $app, Request $request)
     {
-
         // Get the user we want to edit (if any)
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
@@ -1019,7 +1017,10 @@ class Backend implements ControllerProviderInterface
      */
     public function useraction(Silex\Application $app, $action, $id)
     {
-
+        if (!checkToken()) {
+            $app['session']->getFlashBag()->set('info', __("An error occurred."));
+            return redirect('users');
+        }
         $user = $app['users']->getUser($id);
 
         if (!$user) {
@@ -1115,9 +1116,11 @@ class Backend implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
                     /* Make sure that Upload Directory is properly configured and writable */
-                    $filename = $files['FileUpload']->getClientOriginalName();
+                    $filename = fixFilename(
+                        $files['FileUpload']->getClientOriginalName(),
+                        $app['config']->get('general/accept_file_types')
+                    );
                     $files['FileUpload']->move($currentfolder, $filename);
-                    echo "path: $path";
                     $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
                     // Add the file to our stack..
