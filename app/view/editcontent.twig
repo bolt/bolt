@@ -6,6 +6,8 @@
 
     <h1>{{ title|raw }}</h1>
 
+            {{  dump(content) }}
+
     <form method="post" id="editcontent" enctype="multipart/form-data">
         {% include '_sub_csrf_token.twig' %}
 

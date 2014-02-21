@@ -259,6 +259,9 @@ class Config
             if (!isset($temp['sort'])) {
                 $temp['sort'] = 'id';
             }
+            if (!isset($temp['default_status'])) {
+                $temp['default_status'] = 'draft';
+            }
             // Make sure all fields are lowercase and 'safe'.
             $tempfields = $temp['fields'];
             $temp['fields'] = array();

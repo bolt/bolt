@@ -62,11 +62,6 @@ class Content implements \ArrayAccess
             $values['name'] = "(undefined $contenttypename)";
             $values['title'] = "(undefined $contenttypename)";
 
-            // If default status is set in contentttype..
-            if (!empty($this->contenttype['default_status'])) {
-                $values['status'] = $this->contenttype['default_status'];
-            }
-
             $this->setValues($values);
 
         }
@@ -126,6 +121,11 @@ class Content implements \ArrayAccess
         if (!isset($this->values['datedepublish']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
             $this->values['datedepublish'] = "0000-00-00 00:00:00";
+        }
+
+        // If default status is set in contentttype..
+        if (empty($this->values['status'])) {
+            $this->values['status'] = $this->contenttype['default_status'];
         }
 
         // Check if the values need to be unserialized, and pre-processed.
