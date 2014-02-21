@@ -802,7 +802,7 @@ class Backend implements ControllerProviderInterface
         }
 
         if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
-            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to '$newStatus'", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
         } else {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
         }
