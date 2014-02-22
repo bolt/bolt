@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/src/Controller.php';
 require_once dirname(__FILE__) . '/src/Session.php';
 require_once dirname(__FILE__) . '/src/Visitor.php';
 require_once dirname(__FILE__) . '/src/VisitorsTwigExtension.php';
-require_once dirname(__FILE__) . '/vendor/Hybrid/User_Profile.php';
+require_once dirname(__FILE__) . '/lib/Hybrid/User_Profile.php';
 
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
