@@ -63,7 +63,7 @@ class Controller
 
 
     private function load_hybrid_auth() {
-        $stem = dirname(__DIR__) . '/vendor/Hybrid';
+        $stem = dirname(__DIR__) . '/lib/Hybrid';
         require_once("$stem/Auth.php" );
         require_once("$stem/Endpoint.php" );
         require_once("$stem/User_Profile.php");
