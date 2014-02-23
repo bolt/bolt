@@ -1,11 +1,11 @@
 info:
     upload:
         image: |
-            Use this field to upload a photo or image. Click the button to upload a file from your
-            computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-            from your desktop or from a different browser window.<br/>
-            Alternatively, you can use a previously uploaded image. To select a previously uploaded file, just
-            type (part) of the filename in the input area, and it will be autocompleted.
+            Gunakan bidang ini untuk mengunggah foto atau gambar. Klik tombol untuk menunggah berkas dari komputermu, atau
+            jika anda menggunakan versi terbaru Chrome atau Firefox, anda cukup men-drag'n'drop berkas dari desktop atau 
+            jendela browser yang lain.<br/>
+            Sebagai alternatif, anda juga dapat menggunakan citra yang sebelumnya sudah pernah diunggah. Untuk memilih berkas yang
+            pernah diunggah, cukup ketik sebagian nama berka pada bidang masukan dan otomatis akan langsung terisi.
         file: |
             Use this field to upload a file to include as a download or to use inside a page on the
             website. Click the button to upload a file from your computer, or if you're using a recent version
@@ -14,8 +14,8 @@ info:
             Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
             type (part) of the filename in the input area, and it will be autocompleted.
         filesmall: |
-            Use the button to upload a file. To select a previously uploaded file, you can
-            type (part) of the filename in the input area, and it will be autocompleted.
+            Gunakan tombol ini untuk menggungah berkas. Untuk memilih berkas yang pernah diunggah, anda cukup
+            mengetik sebagian dari nama berkas pada bidang masukan dan otomatis akan langung terisi.
         imagelist: |
             Use this field to upload a set of photos or image. Click the button to upload a file from your
                 computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
