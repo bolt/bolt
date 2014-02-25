@@ -9599,11 +9599,6 @@ fieldset.checkbox div {
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* line 172, ../sass/_forms.scss */
-#editcontent .dropzone {
-  border: 1px solid #F00;
-}
-
 /* line 176, ../sass/_forms.scss */
 #editcontent .geolocation {
   height: 180px;
