@@ -7,3 +7,6 @@ ignore:
   - /page/home
   - /page/error404
   - /page/private
+
+#ignore_contenttype:
+#  - pages
