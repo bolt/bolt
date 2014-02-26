@@ -882,6 +882,11 @@ var Stack = Backbone.Model.extend({
             imagelist[key].add(filename, filename);
         }
 
+        // For Filelist fields. Check if filelist[key] is an object.
+        if (typeof filelist == "object" && typeof filelist[key] == "object") {
+            filelist[key].add(filename, filename);
+        }
+
         // If the field has a thumbnail, set it.
         if ($('#thumbnail-' + key).is('*')) {
             src = path + "../thumbs/120x120c/"+encodeURI( filename );
@@ -969,7 +974,7 @@ var FilelistHolder = Backbone.View.extend({
                             "<span class='fileDescription'>" + fileName + "</span>" +
                             "<input type='text' value='" +
                             _.escape(file.get('title')) +
-                             "'><a href='#'><i class='icon-remove'></i></a></div>";
+                             "'><a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
         });
         if (this.list.models.length == 0) {
@@ -1102,7 +1107,7 @@ var ImagelistHolder = Backbone.View.extend({
         _.each(this.list.models, function(image){
             var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
                 "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
-                _.escape(image.get('title'))  + "'><a href='#'><i class='icon-remove'></i></a></div>";
+                _.escape(image.get('title'))  + "'><a href='#'><i class='fa fa-times'></i></a></div>";
             $list.append(html);
         });
         if (this.list.models.length == 0) {

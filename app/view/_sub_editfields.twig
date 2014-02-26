@@ -312,27 +312,28 @@
 {# --------------- imagelist --------------- #}
 
 {% if field.type == "imagelist" %}
-<label>
-    <b>
-        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-    </b>
-    <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
-      data-content="{{ app.translator.trans('info.upload.imagelist',{},'infos') }}">{{ __('Info') }}</span>
-</label>
+
 <div class="imagelistholder dropzone" id="imagelist-{{key}}">
-    <div class="list"></div>
+    <div class="col-sm-12">
+        {{ macro.label(key, field) }}
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+              data-content="{{ app.translator.trans('info.upload.filelist',{},'infos') }}">{{ __('Info') }}</span>
+    </div>
+    <div class="col-sm-9">
+        <div class="list"></div>
+    </div>
 
-    <div class="buttons">
-        <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
-            <i class="fa fa-upload"></i>
-            <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
-        </span>
+    <div class="buttons col-sm-3">
+        <div class="btn-group" style="margin: 0 0 6px;">
+            <span class="btn btn-info fileinput-button">
+                <i class="fa fa-upload"></i>
+                <span>{{ __('Upload image') }}</span>
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
+            </span>
 
-        <br clear="all">
-
-        <div class="btn-group" style="margin-left: 0px;">
-            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn fileinput-select" data-toggle="modal">
+        </div>
+        <div class="btn-group" style="margin: 0 0 6px;">
+            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-default fileinput-select" data-toggle="modal">
                 <i class="fa fa-upload-alt"></i>
                 {{ __('Select from server') }}
             </a>
@@ -340,7 +341,7 @@
 
         {% set items = stackitems(7, 'image') %}
         {% if items %}
-        <div class="btn-group">
+        <div class="btn-group" style="margin: 0 0 6px;">
             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-paper-clip"></i>
                 {{ __('Select from stack') }}
@@ -359,7 +360,6 @@
 
     </div>
     <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
-    <div class='clearfix'></div>
 
     <!-- Modal "select from server"  -->
     <div class="modal hide modal-wide" id="selectModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -389,36 +389,69 @@
 {# --------------- filelist --------------- #}
 
 {% if field.type == "filelist" %}
-<label>
-    <b>
-        {% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}
-    </b>
-    <span class="label info-pop"
-          data-html="true"
-          data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
-          data-content="{{ app.translator.trans('info.upload.filelist',{},'infos') }}">
-          {{ __('Info') }}
-    </span>
-</label>
-<div class="filelistholder dropzone" id="filelist-{{key}}">
-    <div class="list"></div>
-    <div class="buttons">
-        <span class="btn btn-default btn-info fileinput-button"
-              style="margin-bottom: 8px;">
 
+<div class="filelistholder dropzone" id="filelist-{{key}}">
+    <div class="col-sm-12">
+        {{ macro.label(key, field) }}
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+          data-content="{{ app.translator.trans('info.upload.filelist',{},'infos') }}">{{ __('Info') }}</span>
+    </div>
+    <div class="col-sm-9">
+        <div class="list"></div>
+    </div>
+
+    <div class="buttons col-sm-3">
+        <div class="btn-group" style="margin: 0 0 6px;">
+        <span class="btn btn-info fileinput-button">
             <i class="fa fa-upload"></i>
-            <span>{{ __('Upload files') }}</span>
+            <span>{{ __('Upload file') }}</span>
             <input id="fileupload-{{key}}"
                    type="file"
                    name="fileupload-{{key}}[]"
                    data-url="{{ paths.app }}classes/upload/">
         </span>
+
+        </div>
+        <div class="btn-group" style="margin: 0 0 6px;">
+            <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-default fileinput-select" data-toggle="modal">
+                <i class="fa fa-upload-alt"></i>
+                {{ __('Select from server') }}
+            </a>
+        </div>
+
+        {% set items = stackitems(7, 'other,document') %}
+        {% if items %}
+            <div class="btn-group" style="margin: 0 0 6px;">
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-paper-clip"></i>
+                    {{ __('Select from stack') }}
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu" id="stack-{{key}}">
+                    {% for item in items %}
+                        <li>
+                            <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }})</small></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
     </div>
-    <textarea name="{{key}}"
-              id="{{key}}"
-              class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+
+    <!-- Modal "select from server"  -->
+    <div class="modal hide modal-wide" id="selectModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default " data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+        </div>
+    </div>
 </div>
-<div class='clearfix'></div>
+
+
 
 <script type="text/javascript">
     $(function() {
@@ -438,7 +471,6 @@
 {% if field.type == "video" %}
 
 {% set video = content.get(key) %}
-<div class="dropzone clearfix" id="dropzone-{{key}}">
 
     <div class="col-sm-8">
 
@@ -451,15 +483,15 @@
         <div class="form-group">
             <div class="col-sm-2">
                 {{ macro.label(__('URL:')) }}
-
             </div>
             <div class="col-sm-10">
                 <input type="url" name="{{key}}[url]" id="video-{{key}}" value='{{ video.url|default('') }}' class="form-control">
             </div>
 
+        </div>
+        <div class="form-group">
             <div class="col-sm-2">
                 {{ macro.label(__('Size:')) }}
-
             </div>
             <div class="col-sm-10">
                 <input type="number" name="{{ key }}[width]" id="video-{{key}}-width" value="{{ video.width|default('') }}" class="form-control pull-left" style='width: 60px; min-width: 60px;'>
@@ -500,9 +532,6 @@
         </div>
     </div>
 
-
-    </div>
-
 <!-- Modal video preview -->
 <div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
@@ -529,48 +558,59 @@
 
 {% if field.type == "geolocation" %}
 
-        {% set geolocation = content.get(key) %}
-        <div class="dropzone geolocation">
+{% set geolocation = content.get(key) %}
 
-            <div class="map-right hidden-xs">
-                <div class='mapholder' id="map-{{key}}" style="width: 200px;">
-                        <img src="{{ geo.map|default('') }}" width="200" height="200">
-                </div>
+    <div class="col-sm-8">
+
+        {{ macro.label(key, field) }}
+
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
+                  data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
+
+        <div class="form-group">
+
+            <div class="col-sm-12">
+                <label>{{ __('Address lookup:') }}</label>
+                <input type="text" name="{{key}}[address]" id="{{key}}-address"
+                                          value='{{ geolocation.address|default('') }}' class="form-control">
             </div>
 
-            <div class="map-container">
-                <label>
-                    <b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b>
-                    <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}"
-                          data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
-                </label>
-                <label>{{ __('Address lookup:') }} <input type="text" name="{{key}}[address]" id="{{key}}-address"
-                    value='{{ geolocation.address|default('') }}' style='width: 60%;'>
-                </label>
-                <label>{{ __('Latitude:') }} <input type="text" name="{{key}}[latitude]" id="{{key}}-latitude"
-                    value='{{ geolocation.latitude|default('') }}' style='width: 30%;'>
-                 - {{ __('Longitude:') }} <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude"
-                    value='{{ geolocation.longitude|default('') }}' style='width: 30%;'>
-                </label>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <span class="pull-left" style="margin: 6px 8px 0 0;">{{ __('Latitude:') }}</span>
+                <input type="text" name="{{key}}[latitude]" id="{{key}}-latitude" value='{{ geolocation.latitude|default('') }}' class="form-control pull-left" style='width: 28%;'>
+                <span class="pull-left" style="margin: 6px 8px 0;">- {{ __('Longitude:') }}</span>
+                <input type="text" name="{{key}}[longitude]" id="{{key}}-longitude" value='{{ geolocation.longitude|default('') }}' class="form-control pull-left" style='width: 28%;'>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
                 <p>{{ __('Matched address:') }}
-                <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</span></p>
+                    <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</span></p>
                 <input type="hidden" name="{{key}}[formatted_address]" id="{{key}}-formatted_address"
                        value='{{ geolocation.formatted_address|default('') }}' style='width: 30%;'>
-                <script type="text/javascript">
-                    $(function() {
-                        bindGeolocation('{{key}}', '{{ geolocation.latitude|default('') }}', '{{ geolocation.longitude|default('') }}');
-                    });
-                </script>
             </div>
         </div>
+    </div>
+
+    <div class="col-sm-4" style="padding-left: 0;">
+            <div class='mapholder' id="map-{{key}}" style="width: 204px;">
+                <img src="{{ geo.map|default('') }}" width="200" height="200">
+            </div>
+    </div>
+
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="{{ paths.app }}view/js/jquery.gomap-1.3.2.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        bindGeolocation('{{key}}', '{{ geolocation.latitude|default('') }}', '{{ geolocation.longitude|default('') }}');
+    });
+</script>
 
-    {% endif %}
-
-
-
-
+{% endif %}
 
 
 {# --------------- html --------------- #}
