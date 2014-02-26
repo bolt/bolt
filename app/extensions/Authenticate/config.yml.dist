@@ -42,7 +42,7 @@ providers:
     #     openid_identifier: "http://openid.example.org"
         
 
-# Enabling debug_made will make this extension write out a logfile to /app/cache/authenticate.log.
+# Enabling debug_made will make this extension write out a logfile to {BOLT_CACHE_DIR}/authenticate.log.
 # Note: This file wil get huge, quickly!
 debug_mode: false
 

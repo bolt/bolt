@@ -42,14 +42,12 @@ class LowlevelChecks
                 "you've installed the Silex/Bolt components with Composer.");
         }
 
-        // Check if the app/cache file is present and writable
-        if (!file_exists(dirname(__FILE__).'/../cache')) {
-            $this->lowlevelError("The folder <code>app/cache/</code> doesn't exist. Make sure it's " .
+        // Check if the cache dir is present and writable
+        if (!is_dir(BOLT_CACHE_DIR)) {
+            $this->lowlevelError("The folder <code>" . BOLT_CACHE_DIR . "</code> doesn't exist. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
-        }
-
-        if (!is_writable(dirname(__FILE__).'/../cache')) {
-            $this->lowlevelError("The folder <code>app/cache/</code> isn't writable. Make sure it's " .
+        } elseif (!is_writable(BOLT_CACHE_DIR)) {
+            $this->lowlevelError("The folder <code>" . BOLT_CACHE_DIR . "</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 

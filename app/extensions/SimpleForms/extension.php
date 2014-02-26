@@ -344,7 +344,7 @@ class Extension extends \Bolt\BaseExtension
                     die("You must set the storage_location in the field $fieldname if you do not use attachments.");
                 } elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
                     // temporary files location will be a subdirectory of the cache
-                    $path = $this->app['paths']['apppath'] . '/cache';
+                    $path = BOLT_CACHE_DIR;
                     $linkpath = $this->app['paths']['app'] . 'cache';
                 } else {
                     // files location will be a subdirectory of the files

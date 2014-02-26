@@ -127,7 +127,7 @@ class Application extends Silex\Application
         }
 
         $this->register(new Silex\Provider\HttpCacheServiceProvider(), array(
-            'http_cache.cache_dir' => __DIR__ . '/cache/',
+            'http_cache.cache_dir' => BOLT_CACHE_DIR,
         ));
     }
 
@@ -137,7 +137,7 @@ class Application extends Silex\Application
             'twig.path'    => $this['config']->get('twigpath'),
             'twig.options' => array(
                 'debug'            => true,
-                'cache'            => __DIR__ . '/../../cache/',
+                'cache'            => BOLT_CACHE_DIR,
                 'strict_variables' => $this['config']->get('general/strict_variables'),
                 'autoescape'       => true,
             )
@@ -307,7 +307,7 @@ class Application extends Silex\Application
 
             // Register the Silex/Symfony web debug toolbar.
             $this->register(new Silex\Provider\WebProfilerServiceProvider(), array(
-                'profiler.cache_dir'    => __DIR__ . '/../../cache/profiler',
+                'profiler.cache_dir'    => BOLT_CACHE_DIR . '/profiler',
                 'profiler.mount_prefix' => '/_profiler', // this is the default
             ));
 

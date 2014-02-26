@@ -63,18 +63,18 @@ class IntegrityChecker
 
     private static function getValidityTimestampFilename()
     {
-        return dirname(__FILE__) . '/../../../cache/' . self::INTEGRITY_CHECK_TS_FILENAME;
+        return BOLT_CACHE_DIR . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
     public static function invalidate()
     {
-        // delete app/cache/dbcheck-ts
+        // delete the cached dbcheck-ts
         if (is_writable(self::getValidityTimestampFilename())) {
             unlink(self::getValidityTimestampFilename());
         } elseif (file_exists(self::getValidityTimestampFilename())) {
             $message = sprintf(
-                "The file 'app/cache/%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
-                self::INTEGRITY_CHECK_TS_FILENAME
+                "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
+                self::getValidityTimestampFilename()
             );
             die($message);
         }
