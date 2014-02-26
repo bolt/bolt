@@ -70,6 +70,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $configfile = $this->basepath . '/config.yml';
         $configdistfile = $this->basepath . '/config.yml.dist';
 
+        if(BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml'))
+        {
+            $configfile = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
+        }
+
         // If it's readable, we're cool
         if (is_readable($configfile)) {
             $yamlparser = new \Symfony\Component\Yaml\Parser();
