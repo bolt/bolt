@@ -60,6 +60,22 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
+     * Get location of config file
+     *
+     * @return string
+     */
+    public function getConfigFile()
+    {
+        $configfile = $this->basepath . '/config.yml';
+
+        if(BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml'))
+        {
+            $configfile = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
+        }
+        return $configfile;
+    }
+
+    /**
      * Get the config file. If it doesn't exist, attempt to fall back to config.yml.dist,
      * and rename it to config.yml.
      *
@@ -67,13 +83,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function getConfig()
     {
-        $configfile = $this->basepath . '/config.yml';
+        $configfile = $this->getConfigFile();
         $configdistfile = $this->basepath . '/config.yml.dist';
-
-        if(BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml'))
-        {
-            $configfile = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
-        }
 
         // If it's readable, we're cool
         if (is_readable($configfile)) {
@@ -141,9 +152,17 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->info['readme'] = false;
         }
 
-        if (file_exists($this->basepath . "/config.yml")) {
-            $this->info['config'] = $this->namespace . "/config.yml";
-            if (is_writable($this->basepath . "/config.yml")) {
+        $configFile = $this->getConfigFile();
+        if (file_exists($configFile)) {
+            if (BOLT_COMPOSER_INSTALLED && strpos($configFile, BOLT_CONFIG_DIR) === 0)
+            {
+                $this->info['config'] = "app/config/" . $this->namespace . ".yml";
+            }
+            else
+            {
+                $this->info['config'] = "app/extensions/" . $this->namespace . "/config.yml";
+            }
+            if (is_writable($configFile)) {
                 $this->info['config_writable'] = true;
             } else {
                 $this->info['config_writable'] = false;
