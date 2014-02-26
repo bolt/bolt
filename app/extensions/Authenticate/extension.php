@@ -51,7 +51,7 @@ class Extension extends \Bolt\BaseExtension
 
         // If debug is set, also set the path for the debug log.
         if ($this->config['debug_mode']) {
-            $this->config['debug_file'] = $this->app['paths']['rootpath'] . "/app/cache/authenticate.log";
+            $this->config['debug_file'] = BOLT_CACHE_DIR . "/authenticate.log";
             @touch($this->config['debug_file']);
         }
 
@@ -60,7 +60,7 @@ class Extension extends \Bolt\BaseExtension
 
         // CREATE TABLE 'bolt_visitors'
         $this->app['integritychecker']->registerExtensionTable(
-            function($schema) use ($table_prefix) {
+            function ($schema) use ($table_prefix) {
                 $table = $schema->createTable($table_prefix . "visitors");
                 $table->addColumn("id", "integer", array('autoincrement' => true));
                 $table->setPrimaryKey(array("id"));
@@ -69,11 +69,12 @@ class Extension extends \Bolt\BaseExtension
                 $table->addColumn("providerdata", "text");
                 $table->addColumn("apptoken", "string", array("length" => 64));
                 return $table;
-            });
+            }
+        );
 
         // CREATE TABLE 'bolt_visitors_sessions'
         $this->app['integritychecker']->registerExtensionTable(
-            function($schema) use ($table_prefix) {
+            function ($schema) use ($table_prefix) {
                 $table = $schema->createTable($table_prefix . "visitors_sessions");
                 $table->addColumn("id", "integer", array('autoincrement' => true));
                 $table->setPrimaryKey(array("id"));
@@ -83,7 +84,8 @@ class Extension extends \Bolt\BaseExtension
                 $table->addIndex(array("visitor_id"));
                 $table->addIndex(array("sessiontoken"));
                 return $table;
-            });
+            }
+        );
 
         $this->controller = new Controller($this->app, $this->config);
         $recognizedvisitor = $this->controller->checkvisitor($this->app);

@@ -6,13 +6,15 @@ mb_http_output('UTF-8');
 if (!defined('BOLT_PROJECT_ROOT_DIR')) {
     if (substr(__DIR__, -21) == implode(DIRECTORY_SEPARATOR, array('', 'vendor', 'bolt', 'bolt', 'app'))) { // installed bolt with composer
         define('BOLT_COMPOSER_INSTALLED', true);
-        define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
-        define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR . '/web');
-        define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR . '/config');
+        defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
+        defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR . '/web');
+        defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/cache');
+        defined('BOLT_CONFIG_DIR') or define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR . '/config');
     } else {
         define('BOLT_COMPOSER_INSTALLED', false);
-        define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
-        define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
+        defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
+        defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
+        defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/app/cache');
 
         // Set the config folder location. If we haven't set the constant in index.php, use one of the
         // default values.
