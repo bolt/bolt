@@ -21,7 +21,7 @@ class ConfigSet extends BaseCommand
     {
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
-        $file = $this->app['paths']['apppath']."/config/config.yml";
+        $file = BOLT_CONFIG_DIR . "/config.yml";
 
         $yaml = new \Bolt\YamlUpdater($file);
         $result = $yaml->change($key, $value);
