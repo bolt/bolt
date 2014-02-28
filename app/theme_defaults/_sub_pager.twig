@@ -19,7 +19,7 @@
 
 {% if pager.totalpages > 1 %}
 <div class="pagination pagination-centered {{class}}">
-  <ul>
+  <ul class="pagination">
 {# 'first' and 'prev' #}
 {% if pager.current > 1 and class!="narrow" %}
     <li><a href="{{link}}{{pager.current-1}}">&lsaquo; </a></li>
