@@ -1,0 +1,8 @@
+#twitter_handle: @MyTwitterHandle
+
+#data_widget_id: YOUR-WIDGET-ID-HERE
+
+## See: https://dev.twitter.com/docs/embedded-timelines
+#data_chrome: noheader nofooter noborders noscrollbar transparent
+
+#link_text: Tweets by @MyTwitterHandle
