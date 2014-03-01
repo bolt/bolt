@@ -1,0 +1,11 @@
+# Color scheme: 'gray', 'red' or 'white'
+color: red
+
+# The size: 'small' or 'large'
+size: small
+
+# Language: en - English or jp - Japanese (defaults to en) 
+language: en
+
+# Add hover tag on images: 'on' or 'off'
+hover: on
