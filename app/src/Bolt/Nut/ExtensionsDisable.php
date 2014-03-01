@@ -42,7 +42,7 @@ class ExtensionsDisable extends BaseCommand
 
         if ($update) {
             $key = "enabled_extensions";
-            $file = $this->app['paths']['apppath']."/config/config.yml";
+            $file = BOLT_CONFIG_DIR . "/config.yml";
             $yaml = new \Bolt\YamlUpdater($file);
             $result = $yaml->change($key, $enabled);
 

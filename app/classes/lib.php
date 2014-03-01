@@ -758,6 +758,9 @@ function getPaths($original = array() )
         if (!$config->get('general/theme')) {
             $config->set('general/theme', 'base-2013');
         }
+        if (!$config->get('general/theme_path')) {
+            $config->set('general/theme_path', '/theme');
+        }
         if (!$config->get('general/canonical') && isset($_SERVER['HTTP_HOST'])) {
             $config->set('general/canonical', $_SERVER['HTTP_HOST']);
         }
@@ -770,12 +773,16 @@ function getPaths($original = array() )
         }
 
         $theme = $config->get('general/theme');
+        $theme_path = $config->get('general/theme_path');
 
         $canonical = $config->get('general/canonical', "");
 
     } else {
         if (empty($config['general']['theme'])) {
             $config['general']['theme'] = 'base-2013';
+        }
+        if (empty($config['general']['theme_path'])) {
+            $config['general']['theme_path'] = '/theme';
         }
         if (empty($config['general']['canonical']) && isset($_SERVER['HTTP_HOST'])) {
             $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
@@ -789,6 +796,7 @@ function getPaths($original = array() )
         }
 
         $theme = $config['general']['theme'];
+        $theme_path = $config['general']['theme_path'];
 
         $canonical = isset($config['general']['canonical']) ? $config['general']['canonical'] : "";
 
@@ -823,34 +831,23 @@ function getPaths($original = array() )
     $paths = array(
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
         'root' => $path_prefix,
-        'rootpath' => realpath(__DIR__ . "/../../"),
+        'rootpath' => BOLT_PROJECT_ROOT_DIR,
         'theme' => $path_prefix . "theme/" . $theme . "/",
-        'themepath' => realpath(__DIR__ . "/../../theme/" . $theme),
+        'themepath' => BOLT_PROJECT_ROOT_DIR . $theme_path . "/" . $theme,
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
         'bolt' => $path_prefix . $mountpoint,
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
-        'filespath' => realpath(__DIR__ . "/../../files"),
+        'filespath' => BOLT_WEB_DIR . "/files",
         'canonical' => $canonical,
-        'current' => $currentpath
+        'current' => $currentpath,
     );
 
     $paths['hosturl'] = sprintf("%s://%s", $protocol, $paths['hostname']);
     $paths['rooturl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $paths['root']);
     $paths['canonicalurl'] = sprintf("%s://%s%s", $protocol, $paths['canonical'], $canonicalpath);
     $paths['currenturl'] = sprintf("%s://%s%s", $protocol, $paths['hostname'], $currentpath);
-
-    // Temp fix! @todo: Fix this properly.
-    if ($config instanceof \Bolt\Config) {
-        if ($config->get('general/theme_path')) {
-            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config->get('general/theme_path') . '/' . $theme;
-        }
-    } else {
-        if ( isset( $config['general']['theme_path'] ) ) {
-            $paths['themepath'] = BOLT_PROJECT_ROOT_DIR . $config['general']['theme_path'] . '/' . $theme;
-        }
-    }
 
     if ( BOLT_COMPOSER_INSTALLED ) {
         $paths['app'] = $path_prefix . "bolt-public/";
