@@ -11,7 +11,7 @@ class Extension extends \Bolt\BaseExtension
 
         $data = array(
             'name' =>"Twitter Feed",
-            'description' => "An extentions to add a Twitter feed to your site when using <code>{{ twitterfeed() }}</code> in your templates.",
+            'description' => "An extension to add a Twitter feed to your site when using <code>{{ twitterfeed() }}</code> in your templates.",
             'author' => "Gawain Lynch",
             'link' => "http://bolt.cm",
             'version' => "1.0",
@@ -30,28 +30,29 @@ class Extension extends \Bolt\BaseExtension
     }
 
     function twigTwitterFeed() {
-    	if ( $this->config['twitter_handle'] == '' || $this->config['data_widget_id'] == '' )
-    		return;
-    	
-    	$twitter_url = "https://twitter.com/" . str_replace( '@', '', $this->config['twitter_handle'] );
+        if ( $this->config['twitter_handle'] == '' || $this->config['data_widget_id'] == '' ) {
+            return;
+        }
+        
+        $twitter_url = "https://twitter.com/" . str_replace( '@', '', $this->config['twitter_handle'] );
 
-		$html = '<a class="twitter-timeline" href="' . $twitter_url . '"
-					data-widget-id="' . $this->config['data_widget_id'] . '" 
-				 	data-chrome="' . $this->config['data_chrome'] . '">' . $this->config['link_text'] . '</a>';
-		$html .= <<< EOM
-				<script>
-					!function(d, s, id) {
-						var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-						if (!d.getElementById(id)) {
-							js = d.createElement(s);
-							js.id = id;
-							js.src = p + '://platform.twitter.com/widgets.js';
-							fjs.parentNode.insertBefore(js, fjs);
-						}
-					}(document, 'script', 'twitter-wjs');
-				</script>
+        $html = '<a class="twitter-timeline" href="' . $twitter_url . '"
+                    data-widget-id="' . $this->config['data_widget_id'] . '" 
+                    data-chrome="' . $this->config['data_chrome'] . '">' . $this->config['link_text'] . '</a>';
+        $html .= <<< EOM
+                <script>
+                    !function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                        if (!d.getElementById(id)) {
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = p + '://platform.twitter.com/widgets.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }
+                    }(document, 'script', 'twitter-wjs');
+                </script>
 EOM;
-		
-		return new \Twig_Markup($html, 'UTF-8');
+        
+        return new \Twig_Markup($html, 'UTF-8');
     }
 }
