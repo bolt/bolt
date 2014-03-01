@@ -133,7 +133,7 @@ class Config
             $part = & $part[$key];
         }
 
-        if ($value != null) {
+        if ($value !== null) {
             return $value;
         }
 
