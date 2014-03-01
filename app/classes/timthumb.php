@@ -41,6 +41,15 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
     die("Malformed thumbnail URL. Should look like '/thumbs/320x240c/filename.jpg'.");
 }
 
+/**
+ * Bolt specific: Set BOLT_PROJECT_ROOT_DIR, and Bolt-specific settings..
+ */
+if (substr(__DIR__, -20) == DIRECTORY_SEPARATOR.'bolt-public'.DIRECTORY_SEPARATOR.'classes') { // installed bolt with composer
+    require_once __DIR__ . '/../../../vendor/bolt/bolt/app/bootstrap.php';
+} else {
+    require_once __DIR__ . '/../bootstrap.php';
+}
+
 // Let's get on with the rest..
 $yamlparser = new Symfony\Component\Yaml\Parser();
 $config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR .'/config.yml') . "\n");
