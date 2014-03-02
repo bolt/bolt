@@ -441,7 +441,7 @@ class Backend implements ControllerProviderInterface
         );
 
         // @todo Do we need pager here?
-        $app['pager'] = $pager;
+        //$app['pager'] = $pager; // $pages is not defined, so no
 
         $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
         $app['twig']->addGlobal('title', $title);
@@ -864,7 +864,7 @@ class Backend implements ControllerProviderInterface
         $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
         $allRoles = $app['permissions']->getDefinedRoles($app);
         $roles = array();
-        $userRoles = $user['roles'];
+        $userRoles = isset($user['roles']) ? $user['roles'] : array();
         foreach ($allRoles as $roleName => $role) {
             $roles[$roleName] = $role['label'];
         }

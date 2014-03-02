@@ -318,7 +318,11 @@ class Permissions
 
         switch ($parts[0]) {
             case 'overview':
-                list ($_, $contenttype) = $parts;
+                list ($_) = $parts;
+                $contenttype = null;
+                if (isset($parts[1])) {
+                    $contenttype = $parts[1];
+                }
                 if (empty($contenttype)) {
                     $this->audit("Granting 'overview' globally (hard-coded override)");
                     return true;
@@ -328,7 +332,14 @@ class Permissions
                 break;
 
             case 'contenttype':
-                list($_, $contenttype, $permission, $contentid) = $parts;
+                list($_, $contenttype) = $parts;
+                $permission = $contentid = null;
+                if (isset($parts[2])) {
+                    $permission = $parts[2];
+                }
+                if (isset($parts[3])) {
+                    $contentid = $parts[3];
+                }
                 if (empty($permission)) {
                     $permission = 'view';
                 }

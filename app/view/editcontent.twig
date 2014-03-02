@@ -37,7 +37,7 @@
                value='{{ content.datepublish|date('H:i') }}' class='timepicker'>
         <input type="hidden" name="datepublish" id="datepublish" value="{{ content.datepublish }}">
 
-        <input type="hidden" name="editreferrer" id="editreferrer" value="{{ editreferrer }}">
+        <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
         {% if isallowed('contenttype:' ~ contenttype.slug ~ ':publish:' ~ content.id) %}
         <script>
             $('#datepublish-date, #datepublish-time').on('change', function(){

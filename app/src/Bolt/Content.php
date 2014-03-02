@@ -794,9 +794,11 @@ class Content implements \ArrayAccess
             } elseif (isset($this->taxonomy[$fieldName])) {
                 // turn something like '/chapters/meta' to 'meta'
                 $params[$fieldName] = array_pop(explode('/', array_shift(array_keys($this->taxonomy[$fieldName]))));
-            } else {
-                // or, just add the value
+            } elseif (isset($this->values[$fieldName])) {
                 $params[$fieldName] = $this->values[$fieldName];
+            } else {
+                // unkown
+                $params[$fieldName] = null;
             }
         }
         return $params;
@@ -818,9 +820,9 @@ class Content implements \ArrayAccess
     protected function isApplicableRoute($binding, array $route)
     {
         return 'contentlink' === $binding ||
-               $route['contenttype'] === $this->contenttype['singular_slug'] ||
-               $route['contenttype'] === $this->contenttype['slug'] ||
-               $route['recordslug'] === $this->getReference();
+            (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
+            (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug']) ||
+            (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
     }
 
     /**
