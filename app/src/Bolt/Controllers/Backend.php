@@ -441,7 +441,7 @@ class Backend implements ControllerProviderInterface
         );
 
         // @todo Do we need pager here?
-        //$app['pager'] = $pager; // $pages is not defined, so no
+        //$app['pager'] = $pager; // $pager is not defined, so no
 
         $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
         $app['twig']->addGlobal('title', $title);
