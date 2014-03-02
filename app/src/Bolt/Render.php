@@ -103,7 +103,7 @@ class Render
     {
         $result = null;
         if ($this->checkCacheConditions('request', true)) {
-            $key = md5($this->app['request']->getPathInfo());
+            $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
 
             $result = $this->app['cache']->fetch($key);
 
@@ -153,7 +153,7 @@ class Render
 
             // This is where the magic happens.. We also store it with an empty 'template' name,
             // So we can later fetch it by its request..
-            $key = md5($this->app['request']->getPathInfo());
+            $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
             $this->app['cache']->save($key, $html, $this->cacheDuration());
 
         }
