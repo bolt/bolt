@@ -17,7 +17,8 @@
 # enabled: this one is easy huh? When set to false, returns a 404 on request
 # feed_records: the number of records to provide in the feed
 # feed_template: which template to use. This needs to be in the assets directory.
-# content_length: the number of characters in the content
+# content_length: the number of characters in the content. If set to '0', the content will
+#    not be trimmed, and HTML (links, markup, etc) will be kept intact.
 
 # Examples
 # --------
@@ -25,10 +26,10 @@
 #    enabled: true
 #    feed_records: 10
 #    feed_template: rss.twig
-#    content_length: 250
+#    content_length: 0
 
 #entries:
 #    enabled: false
 #    feed_records: 1
 #    feed_template: rss.twig
-#    content_length: 100
+#    content_length: 200
