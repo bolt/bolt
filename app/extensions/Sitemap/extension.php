@@ -41,6 +41,9 @@ class Extension extends \Bolt\BaseExtension
      */
     function initialize()
     {
+        if (empty($this->config['ignore_contenttype'])) {
+            $this->config['ignore_contenttype'] = array();
+        }
 
         // Set up the routes for the sitemap..
         $this->app->match("/sitemap", array($this, 'sitemap'));
