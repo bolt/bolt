@@ -583,28 +583,33 @@ function updateGeoCoords(key) {
 
 };
 
-
-
+/**
+ * Catch paste events towards a markdown textarea field.
+ *
+ * We use a fancy service to markdownify pasted html before we actually paste it in the textarea.
+ *
+ * @param  {String} key The ID of the markdown field
+ */
 function bindMarkdown(key) {
-// return pasted.replace(/\d+/,"XXX"); }
-    $('#'+key).catchpaste( function( pasted, options ) {
+    var container = $('#'+key);
+    var containerContent = $('#'+key).html();
+
+    container.catchpaste( function( pasted, options ) {
 
         $.ajax({
             url: asyncpath + 'markdownify',
             type: 'POST',
             data: { html: pasted },
             success: function(data) {
-                $('#'+key).val(data);
+                container.val(containerContent + data);
             },
             error: function() {
                 console.log('failed to get an URI');
-                $('#'+key).val(pasted);
+                container.val(containerContent + pasted);
             }
         });
         return "";
-
     });
-
 }
 
 /**
