@@ -16,7 +16,8 @@ main:
         path: entry/3
       - label: Sub 3
         path: entry/4
-      - class: sub-class
+      - label: Sub 4
+        class: sub-class
         path: page/3
   - label: All pages
     path: pages/
