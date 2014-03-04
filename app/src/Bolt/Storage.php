@@ -668,7 +668,7 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $fieldvalues['id'], $contenttype['slug'], false, false);
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], isset($fieldvalues['id']) ? $fieldvalues['id'] : null, $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
@@ -1128,10 +1128,7 @@ class Storage
                 $dboptions = $this->app['config']->getDBOptions();
                 $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
             } else {
-                $order = safeString($parameters['order']);
-                if ($order[0] == "-") {
-                    $order = substr($order, 1) . " DESC";
-                }
+                $order = $this->getEscapedSortorder($parameters['order'], false);
                 $queryparams .= " ORDER BY " . $order;
             }
         }
@@ -1478,14 +1475,6 @@ class Storage
             unset($meta_parameters['returnsingle']);
         }
 
-        /*
-        echo '<pre>parseTextQuery:';
-        echo '<strong>'.$textquery.'</strong><br/>';
-        //var_dump($decoded);
-        var_dump($meta_parameters);
-        var_dump($ctype_parameters);
-        echo '</pre><hr/>';
-        //*/
     }
 
     /**
@@ -1607,12 +1596,6 @@ class Storage
             'parameters' => array(),
             'hydrate' => true,
         );
-        /*
-        echo '<pre>decodeContentQuery before:';
-        echo '<strong>'.$textquery.'</strong><br/>';
-        var_dump($in_parameters);
-        echo '</pre><hr/>';
-        //*/
 
         list($meta_parameters, $ctype_parameters) = $this->organizeQueryParameters($in_parameters);
 
@@ -1621,13 +1604,6 @@ class Storage
         $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $ctype_parameters);
 
         $decoded['parameters'] = $meta_parameters;
-
-        /*
-        echo '<pre>decodeContentQuery after:';
-        echo '<strong>'.$textquery.'</strong><br/>';
-        var_dump($decoded['parameters']);
-        echo '</pre><hr/>';
-        //*/
 
         // for all the non-reserved parameters that are fields or taxonomies, we assume people want to do a 'where'
         foreach ($ctype_parameters as $contenttypeslug => $actual_parameters) {
@@ -1638,7 +1614,7 @@ class Storage
 
             // Set the 'order', if specified in the meta_parameters.
             if (!empty($meta_parameters['order'])) {
-                $order[] = $meta_parameters['order'];
+                $order[] = $this->getEscapedSortorder($meta_parameters['order'], false);
             }
 
             $query = array(
