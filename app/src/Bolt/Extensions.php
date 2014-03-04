@@ -809,8 +809,8 @@ class Extensions
             $context = $html;
         }
 
-        // then, attempt to insert it after the last <script> tag within context, matching indentation..
-        if (preg_match_all("~^([ \t]*)<script (.*)~mi", $context, $matches)) {
+        // then, attempt to insert it after the last </script> tag within context, matching indentation..
+        if (preg_match_all("~^([ \t]*)</script (.*)~mi", $context, $matches)) {
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);
