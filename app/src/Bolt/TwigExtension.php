@@ -544,6 +544,15 @@ class TwigExtension extends \Twig_Extension
             return true;
         }
 
+        // check against entrance page url from general configuration
+        $entrancePage = $this->app['config']->get('general/homepage');
+        $entrancePage = (substr($entrancePage, 0, 1) !== '/')
+                            ? '/' . $entrancePage
+                            : $entrancePage;
+        if ($link == $entrancePage) {
+            return true;
+        }
+
         // No contenttypeslug or slug -> not 'current'
         if (empty($route_params['contenttypeslug']) || empty($route_params['slug'])) {
             return false;
