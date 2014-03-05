@@ -208,7 +208,7 @@ class Backend implements ControllerProviderInterface
 
             default:
                 // Let's not disclose any internal information.
-                return abort(400, 'Invalid request');
+                return $app->abort(400, 'Invalid request');
         }
     }
 
@@ -602,7 +602,7 @@ class Backend implements ControllerProviderInterface
 
         if ($request->getMethod() == "POST") {
             if (!checkToken()) {
-                abort(400, __("Something went wrong"));
+                $app->abort(400, __("Something went wrong"));
             }
             if (!empty($id)) {
                 // Check if we're allowed to edit this content..
