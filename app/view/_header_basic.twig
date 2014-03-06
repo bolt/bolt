@@ -53,4 +53,4 @@
     <link rel="apple-touch-icon" sizes="144x144" href="{% if app.config.get('general/branding/apple-touch-icon-144x144') %}{{ app.config.get('general/branding/apple-touch-icon-144x144') }}{% else %}{{ paths.app }}view/img/apple-touch-icon-144x144.png{% endif %}">
 
 </head>
-<body {% if class is defined %}class="{{ class }}"{% endif %}>
+<body class="{% if class is defined %}{{ class }}{% endif %}{% if app.request.cookies.get('sidebar') %} collapsed-sidebar{% endif %}">

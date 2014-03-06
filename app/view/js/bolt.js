@@ -199,6 +199,8 @@ jQuery(function($) {
 
     stack = new Stack();
 
+    sidebar = new Sidebar();
+
     /*!
      *
      *  Offcanvas / Copyright (c) David Bushell | http://dbushell.com/
@@ -737,6 +739,29 @@ function bindMarkdown(key) {
 }
 
 /**
+ * Backbone object for collapsable sidebar.
+ */
+var Sidebar = Backbone.Model.extend({
+
+    defaults: {
+    },
+
+    initialize: function() {
+    },
+
+    collapse: function() {
+        $('body').addClass('collapsed-sidebar');
+        $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
+    },
+
+    expand: function() {
+        $('body').removeClass('collapsed-sidebar');
+        $.removeCookie('sidebar', { path: '/' });
+    }
+
+})
+
+/**
  * Backbone object for all file actions functionality.
  */
 var Files = Backbone.Model.extend({
@@ -922,6 +947,7 @@ var FileModel = Backbone.Model.extend({
     initialize: function() {
     }
 });
+
 var FilelistModel = Backbone.Model.extend({
     defaults: {
         id: null,
@@ -947,6 +973,7 @@ var Filelist = Backbone.Collection.extend({
         });
     }
 });
+
 var FilelistHolder = Backbone.View.extend({
 
     initialize: function(id) {

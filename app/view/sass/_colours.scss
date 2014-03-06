@@ -20,8 +20,14 @@ $linkmain: #194770;
 $linkvisited: #295780;
 $linkactive: #103060;
 
-$sidebarbackground: #f1f2f7;
-$sidebartextcolour: #4c4c4c;
+$sidebarbackground: adjust-saturation($boltblue, -20);
+$sidebartextcolour: #EEE;
+
+$sidebarlink: #DDD;
+$sidebarlinkhover: #FFF;
+$sidebarbackgroundhover: lighten($boltblue, 5);
+
+$bodytextcolour: #333;
 
 // The color of <hr> lines.
 $hr-border: #CCC;

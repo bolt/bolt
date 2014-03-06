@@ -49,11 +49,11 @@
 
 .navbar-bolt {
     background: transparent;
-    background-image: linear-gradient(bottom, $boltblue 10%, $boltbluedarker 100%);
-    background-image: -o-linear-gradient(bottom, $boltblue 10%, $boltbluedarker 100%);
-    background-image: -moz-linear-gradient(bottom, $boltblue 10%, $boltbluedarker 100%);
-    background-image: -webkit-linear-gradient(bottom, $boltblue 10%, $boltbluedarker 100%);
-    background-image: -ms-linear-gradient(bottom, $boltblue 10%, $boltbluedarker 100%);
+    background-image: linear-gradient(top, $boltblue 40%, $boltbluedarker 100%);
+    background-image: -o-linear-gradient(top, $boltblue 40%, $boltbluedarker 100%);
+    background-image: -moz-linear-gradient(top, $boltblue 40%, $boltbluedarker 100%);
+    background-image: -webkit-linear-gradient(top, $boltblue 40%, $boltbluedarker 100%);
+    background-image: -ms-linear-gradient(top, $boltblue 40%, $boltbluedarker 100%);
     background-repeat: repeat-x;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
 }
@@ -224,4 +224,19 @@ ul.dropdown-menu li a.nolink {
 .modal-wide {
     width: 660px;
     margin-left: -330px;
+}
+
+
+$list: '';
+$i: 1;
+$list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
+@for $i from 2 through $grid-columns {
+  $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}, #{$list}";
+}
+#{$list} {
+  border: 1px dashed #F99;
+}
+
+.row {
+  border: 1px dashed #99F;
 }

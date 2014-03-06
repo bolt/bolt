@@ -1,7 +1,7 @@
 
 body {
     background-color: $sidebarbackground;
-    color: $sidebartextcolour;
+    color: $bodytextcolour;
     font-size: 13px;
 }
 
@@ -274,6 +274,11 @@ blockquote.quote cite {
     min-height: 1300px;
     border-left: 1px solid #e7e7e7;
   }
+
+  body.collapsed-sidebar #page-wrapper {
+    margin: 0 0 0 48px;
+  }
+
 }
 
 .navbar-static-side > ul li {
@@ -350,6 +355,16 @@ blockquote.quote cite {
   border: 0;
 }
 
+.nav li a {
+  color: $sidebarlink;
+}
+
+.nav li a:hover {
+  color: $sidebarlinkhover;
+  background: $sidebarbackgroundhover;
+}
+
+
 .arrow {
   float: right;
 }
@@ -380,9 +395,20 @@ blockquote.quote cite {
   position: absolute;
   width: 180px;
   height:100%;
+  box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.2) inset;
 }
 
-@media(max-width:768px) {
+.sidebar-collapse {
+  min-width: 180px;
+}
+
+#sidebar-expand {
+  visibility: hidden;
+  display:none;
+}
+
+
+@media(max-width:766px) {
   .navbar-static-side{
     display:none;
     width: 280px;
@@ -399,11 +425,42 @@ blockquote.quote cite {
   .navbar-top-links .dropdown-alerts {
     margin-left: auto;
   }
+
+  body.collapsed-sidebar {
+    .navbar-static-side {
+      width: 52px;
+      overflow: hidden;
+      box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.3) inset;
+    }
+
+    .navbar-static-side:hover {
+      width: 180px;
+      overflow: visible;
+      box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #sidebar-collapse {
+      visibility: hidden;
+      display:none;
+    }
+
+    #sidebar-expand {
+      visibility: visible;
+      display:block;
+    }
+
+  }
+
 }
 
 /* Buttons */
 
 /* ------------------------------- */
+
+.btn-default {
+  background: #F2F2F2;
+  border: 1px solid #D8D8D8;
+}
 
 .btn-outline {
   color: inherit;
@@ -570,7 +627,8 @@ table.dataTable thead .sorting:after {
 
 
 .navbar-static-side {
-  background: url(../img/sidebarbg.png) no-repeat top right;
+  background: $sidebarbackground;
+  color: $sidebartextcolour;
 }
 
 .navbar-static-side li.active > a{
