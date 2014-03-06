@@ -528,28 +528,32 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
-
         $route_params = $this->app['request']->get('_route_params');
 
-        $link = false;
+        $linkToCheck  = false;
+
         if (is_array($content) && isset($content['link'])) {
-            $link = $content['link'];
+
+            $linkToCheck = $content['link'];
         } elseif ($content instanceof \Bolt\Content) {
-            $link = $content->link();
+
+            $linkToCheck = $content->link();
         }
 
+        $requestedUri    = explode('?', $this->app['request']->getRequestUri());
+
+        $entrancePageUrl = $this->app['config']->get('general/homepage');
+        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/')
+                            ? '/' . $entrancePageUrl
+                            : $entrancePageUrl;
+
         // check against Request Uri
-        $temp = explode('?', $this->app['request']->getRequestUri());
-        if ($temp[0] == $link) {
+        if ($requestedUri[0] == $linkToCheck) {
             return true;
         }
 
         // check against entrance page url from general configuration
-        $entrancePage = $this->app['config']->get('general/homepage');
-        $entrancePage = (substr($entrancePage, 0, 1) !== '/')
-                            ? '/' . $entrancePage
-                            : $entrancePage;
-        if ($link == $entrancePage) {
+        if ('/' == $requestedUri[0] && $linkToCheck == $entrancePageUrl) {
             return true;
         }
 
@@ -559,7 +563,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         // check against simple content.link
-        if ("/" . $route_params['contenttypeslug'] . "/" . $route_params['slug'] == $link) {
+        if ("/" . $route_params['contenttypeslug'] . "/" . $route_params['slug'] == $linkToCheck) {
             return true;
         }
 
@@ -576,7 +580,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return false;
-
     }
 
     /**
