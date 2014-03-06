@@ -146,11 +146,15 @@ class Extension extends \Bolt\BaseExtension
         $bolt_contenttype = strtolower( $record->contenttype['name'] );
         
         // Get the current value of the rating
-        $lookup = $this->dbLookupRating(array('contenttype' => $bolt_contenttype, 'record_id' => $bolt_record_id));
-        if(!empty($lookup) && isset($lookup[0]['vote_avg'])) {
-            $current_val = $lookup[0]['vote_avg'];
-        }
-        else {
+        try {
+            $lookup = $this->dbLookupRating(array('contenttype' => $bolt_contenttype, 'record_id' => $bolt_record_id));
+            if(!empty($lookup) && isset($lookup[0]['vote_avg'])) {
+                $current_val = $lookup[0]['vote_avg'];
+            }
+            else {
+                $current_val = 0;
+            }
+        } catch (\Exception $e) {
             $current_val = 0;
         }
 
