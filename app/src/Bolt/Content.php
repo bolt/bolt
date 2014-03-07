@@ -31,6 +31,17 @@ class Content implements \ArrayAccess
                     if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
                         $this->setGroup('', '', $taxonomytype);
                     }
+					
+					// add support for taxonomy default value when options is set 
+					$default_value = $this->app['config']->get('taxonomy/'.$taxonomytype.'/default');
+					$options = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options');
+					if ( 	isset( $options ) &&
+							isset($default_value) && 
+							array_search($default_value, array_keys($options)) !== false ) {
+							$name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
+							$this->setTaxonomy($taxonomytype, $default_value);
+							$this->sortTaxonomy();
+					}
                 }
             }
         }
