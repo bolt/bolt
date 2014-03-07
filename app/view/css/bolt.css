@@ -906,6 +906,10 @@ fieldset.checkbox div {
     height: 180px;
 }
 
+#editcontent .imageselect {
+    height: 160px;
+}
+
 #editcontent .dropzone.hover, #editcontent .dropzone.in  {
     background: #DEF;
 }
