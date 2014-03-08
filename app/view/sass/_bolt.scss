@@ -22,10 +22,12 @@ footer  {
 }
 
 .logo {
+    border: 1px dashed #F00;
     margin: 80px 0 20px 20px;
 }
 
 .logincontainer {
+    border: 1px dashed #F00;
     max-width: 600px;
 }
 
@@ -134,79 +136,14 @@ blockquote.quote cite {
 @media (max-width: 480px) {
 
     #editcontent div.tagcloud {
+        border: 1px dashed #F00;
         margin-left: 0;
         width: 100%;
     }
 
 }
 
-@media (max-width: 768px) {
 
-    h1 {
-        font-size: 26px;
-        line-height: 31px;
-        margin-top: 0;
-    }
-
-    h2 {
-        font-size: 22px;
-        line-height: 27px;
-        margin-top: 0;
-    }
-
-    h3 {
-        font-size: 20px;
-        line-height: 28px;
-        margin-top: 0;
-    }
-
-    .morelink {
-        float: right;
-        font-size: 12px;
-        line-height: 10px;
-        position: relative;
-        right: 0;
-        top: 12px;
-    }
-
-    .container-fluid {
-        margin-right: -12px;
-        margin-left: -12px;
-    }
-
-    .navbar .brand {
-        left: 8px;
-    }
-
-    .navbar-collapse ul.pull-right li {
-        float: left; /* required for 'mobile' view.. */
-    }
-
-    .well {
-        padding: 0px 0px 12px 8px;
-    }
-    label {
-        margin: 0.5em 0 0.25em;
-    }
-
-    blockquote.quote {
-        font-size: 18px;
-        line-height: 24px;
-        margin: 10px 15px;
-    }
-
-    #editcontent .imageinput {
-        width: 90%;
-    }
-
-    #editcontent div.video-container {
-        padding-right: 0;
-    }
-
-    #bolt-footer, .navbar-site span, .navbar-static-top .navbar-right .dropdown-toggle span {
-        display: none;
-    }
-}
 
 @media (max-width: 979px) {
 
@@ -261,7 +198,7 @@ blockquote.quote cite {
 }
 
 #page-wrapper {
-  padding: 0 15px;
+  padding: 16px 0 0;
   min-height: 568px;
   background-color:#fff;
 }
@@ -270,7 +207,7 @@ blockquote.quote cite {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 180px;
-    padding: 0 30px;
+    padding: 16px 16px 0 16px;
     min-height: 1300px;
     border-left: 1px solid #e7e7e7;
   }
@@ -281,9 +218,7 @@ blockquote.quote cite {
 
 }
 
-.navbar-static-side > ul li {
-  border-bottom: 1px solid #e7e7e7;
-}
+
 
 /* Navigation */
 
@@ -398,6 +333,21 @@ blockquote.quote cite {
   box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.2) inset;
 }
 
+.navbar-static-side {
+  background: $sidebarbackground;
+  color: $sidebartextcolour;
+}
+
+.navbar-static-side li.active > a{
+  text-decoration: none;
+  background-color: $sidebarbackgroundactive;
+  color: #FFF;
+}
+
+.navbar-static-side > ul li {
+  border-bottom: 1px solid #e7e7e7;
+}
+
 .sidebar-collapse {
   min-width: 180px;
 }
@@ -458,7 +408,7 @@ blockquote.quote cite {
 /* ------------------------------- */
 
 .btn-default {
-  background: #F2F2F2;
+  background: #E8E8E8;
   border: 1px solid #D8D8D8;
 }
 
@@ -626,60 +576,6 @@ table.dataTable thead .sorting:after {
 }
 
 
-.navbar-static-side {
-  background: $sidebarbackground;
-  color: $sidebartextcolour;
-}
-
-.navbar-static-side li.active > a{
-  text-decoration: none;
-  background-color: rgb(52, 152, 219);
-  color: rgb(255, 255, 255);
-}
-
-.navbar-brand {
-  display: inline-block;
-  color: #fff !important;
-  font-size: 24px;
-  padding: 0;
-  margin: 0 5px 0 15px;
-  line-height: 50px;
-}
-
-.navbar-brand img {
-  width: 47px;
-  height: 47px;
-  margin: 0 2px 2px 0;
-}
-
-.navbar-site {
-  display: inline-block;
-  color: #ccc!important;
-  font-size: 20px;
-  line-height: 30px;
-  margin-top: 9px;
-  padding: 1px 5px 0 5px;
-  float: left;
-}
-
-.navbar-site i {
-  color: #ccc!important;
-  font-size: 16px;
-}
-
-.navbar-brand:hover,
-.navbar-site:hover,
-.navbar-site:hover i
-{
-  color: #ffffff!important;
-  text-decoration: none;
-  background-color: #428bca;
-  outline: 0;
-}
-
-.page-header {
-  border: none;
-}
 
 .login .logo {
   margin-top:100px;
@@ -691,6 +587,11 @@ table.dataTable thead .sorting:after {
   clear: both;
   float: none;
   padding: 3px 12px;
+}
+
+
+aside {
+  margin-top: 0;
 }
 
 aside section {

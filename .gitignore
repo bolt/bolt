@@ -26,3 +26,5 @@ composer.lock
 tests/_log
 tests/*/*Guy.php
 .sass-cache
+
+*.codekit

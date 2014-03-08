@@ -20,12 +20,13 @@ $linkmain: #194770;
 $linkvisited: #295780;
 $linkactive: #103060;
 
-$sidebarbackground: adjust-saturation($boltblue, -20);
+$sidebarbackground: lighten(adjust-saturation($boltblue, -30), 6);
 $sidebartextcolour: #EEE;
 
 $sidebarlink: #DDD;
 $sidebarlinkhover: #FFF;
-$sidebarbackgroundhover: lighten($boltblue, 5);
+$sidebarbackgroundactive: lighten($boltblue, 6);
+$sidebarbackgroundhover: lighten($boltblue, 3);
 
 $bodytextcolour: #333;
 

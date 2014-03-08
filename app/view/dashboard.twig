@@ -1,11 +1,11 @@
 {% include '_header.twig' %}
 
 <div class="row">
-    <div class="col-md-12">
-        <h1 class="page-header">{{ __('Dashboard') }}</h1>
-    </div>
 
     <div class="col-md-8">
+
+        <h1 class="page-header">{{ __('Dashboard') }}</h1>
+        
 {%  if suggestloripsum %}
 
     <div class="alert alert-info">
@@ -15,6 +15,7 @@
         {{ __("To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.", {'%url%': path('prefill', {'force': 1}) }) }}
         {% endif %}
     </div>
+
 
 {%  endif %}
 
