@@ -89,11 +89,15 @@ class Extension extends \Bolt\BaseExtension
     function twigRateIt() {
         $max = $this->config['stars'];
         $inc = $this->config['increment'];
+        
+        if ($this->isCookieSet()) {
+            $readonly = 'data-rateit-readonly="true"';
+        }
 
         // Customisation goes here. See http://rateit.codeplex.com/documentation
         $html = '
             <input type="range" min="0" max="' . $max . '" value="0" step="' . $inc . '" id="boltrateit">
-            <div class="rateit ' . $this->config['class'] .'" data-bolt-record-id="" data-rateit-backingfld="#boltrateit" data-rateit-starwidth="' . $this->config['px'] .'" data-rateit-starheight="' . $this->config['px'] .'" ></div>
+            <div class="rateit ' . $this->config['class'] .'" data-bolt-record-id="" data-rateit-backingfld="#boltrateit" data-rateit-starwidth="' . $this->config['px'] .'" data-rateit-starheight="' . $this->config['px'] .'" ' . $readonly. '></div>
             <div class="' . $this->config['reponse_class'] . '" id="rateit_response" hidden></div>
                 ';
 
@@ -131,6 +135,17 @@ class Extension extends \Bolt\BaseExtension
         }
     
         return $record;
+    }
+    
+    private function isCookieSet() {
+        $record = $this->getRecord();
+        $bolt_record_id = $record->id;
+        $bolt_contenttype = strtolower( $record->contenttype['name'] );
+
+        if (isset($_COOKIE['rateit'][$bolt_contenttype][$bolt_record_id])) {
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -352,6 +367,7 @@ class Extension extends \Bolt\BaseExtension
         if ($ra === 1) {
             $response['retval'] = 0;
             $response['msg'] = str_replace( '%RATING%', $rating['vote'], $this->config['response_msg']);
+            setcookie("rateit[{$rating['contenttype']}][{$rating['record_id']}]", true, time()+31536000, '/');
         }
         else {
             $response['retval'] = 1;
