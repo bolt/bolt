@@ -221,9 +221,6 @@ class Extension extends \Bolt\BaseExtension
                         var value = ri.rateit('value');
                         var record_id = ri.data('bolt-record-id');
                         var contenttype = ri.data('bolt-contenttype');
-
-                        // Disable voting
-                        ri.rateit('readonly', true);
         
                         $.ajax({
                             url : '" . $this->ajax_path . "',
@@ -234,10 +231,15 @@ class Extension extends \Bolt\BaseExtension
                             },
                             type : 'POST',
                             success : function(data) {
-                                var retval = data.retval;
-                                var msg = data.msg;
-                                $('#rateit_response').html('<span>' + msg + '</span>');
-                                $('#rateit_response').show();
+                                if (value != 0) {
+                                    // Disable voting
+                                    ri.rateit('readonly', true);
+                                
+                                    var retval = data.retval;
+                                    var msg = data.msg;
+                                    $('#rateit_response').html('<span>' + msg + '</span>');
+                                    $('#rateit_response').show();
+                                }
         
                             },
                             error : function(jxhr, msg, err) {
