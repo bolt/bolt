@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
+use Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension;
 
 class Application extends Silex\Application
 {
@@ -202,6 +203,9 @@ class Application extends Silex\Application
 
         // Add the Bolt Twig functions, filters and tags.
         $this['twig']->addExtension(new TwigExtension($this));
+        if ($this['debug']) {
+        	$this['twig']->addExtension(new WebProfilerExtension());
+        }
         $this['twig']->addTokenParser(new SetcontentTokenParser());
 
         // Initialize enabled extensions.
