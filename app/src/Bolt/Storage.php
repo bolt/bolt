@@ -625,6 +625,14 @@ class Storage
                     $fieldvalues[$key] = "";
                 }
             }
+            
+            if ($values['type'] == "image") {
+                 if (!empty($fieldvalues[$key]['file'])) {
+                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                 } else {
+                     $fieldvalues[$key] = "";
+                 }
+            }
 
             if (in_array($values['type'], array("imagelist", "filelist")))  {
 
@@ -2002,7 +2010,9 @@ class Storage
     {
         list ($name, $asc) = $this->getSortOrder($name);
 
-        if ($prefix !== false) {
+        if( strpos($name, 'RAND') !== false ) {
+            $order = $name;
+        } elseif ($prefix !== false) {
             $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
         } else {
             $order = $this->app['db']->quoteIdentifier($name);
