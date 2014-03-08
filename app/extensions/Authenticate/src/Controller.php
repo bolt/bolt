@@ -62,7 +62,8 @@ class Controller
     }
 
 
-    private function load_hybrid_auth() {
+    private function load_hybrid_auth()
+    {
         $stem = dirname(__DIR__) . '/lib/Hybrid';
         require_once("$stem/Auth.php" );
         require_once("$stem/Endpoint.php" );
@@ -74,7 +75,8 @@ class Controller
      *
      * Prepare the visitor login from hybridauth
      */
-    public function login(Silex\Application $app, Request $request) {
+    public function login(Silex\Application $app, Request $request)
+    {
         $title = "login page";
 
         $recognizedvisitor = $this->checkvisitor($app);
@@ -152,7 +154,7 @@ class Controller
             //$markup = new \Twig_Markup($markup, 'UTF-8');
         }
 
-        return $this->page($app, 'login', $title, $markup);
+        return $this->page($title, $markup);
     }
 
     /**
@@ -206,10 +208,12 @@ class Controller
      */
     public function logout(Silex\Application $app = null)
     {
-        if (!$app) $app = $this->app;
+        if (!$app) {
+            $app = $this->app;
+        }
         $token = $app['session']->get('visitortoken');
         $session = new Session($app);
-        $token = $session->clear($token);
+        $session->clear($token);
 
         return redirect('homepage');
     }
@@ -240,19 +244,34 @@ class Controller
             $markup = new \Twig_Markup($markup, 'UTF-8');
         }
 
-        return $this->page($app, 'view', $title, $markup);
+        return $this->page($title, $markup);
     }
 
 
-    private function json(Silex\Application $app, Request $request, $responseData, $code = 200) {
+    /**
+     * Output the results in the default template
+     */
+    private function page($title, $markup)
+    {
+        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
+        $template = 'base.twig';
+        $context = array('title' => $title, 'markup' => $markup);
+
+        return $this->app['render']->render($template, $context);
+    }
+
+    private function json(Silex\Application $app, Request $request, $responseData, $code = 200)
+    {
         $response = $app->json($responseData, $code);
         if ($callback = $request->get('callback')) {
             $response->setCallback($callback);
         }
+
         return $response;
     }
 
-    public function tokenlogin(\Silex\Application $app, Request $request) {
+    public function tokenlogin(\Silex\Application $app, Request $request)
+    {
         $username = $request->get('username');
         $apptoken = $request->get('apptoken');
         $visitor = new Visitor($app);
@@ -262,6 +281,7 @@ class Controller
         }
         $session = new Session($app);
         $token = $session->login($known_visitor['id']);
+
         return $this->json($app, $request, array('status' => 'OK'), 200);
     }
 
@@ -270,7 +290,6 @@ class Controller
      */
     private function formatButton($link, $label) 
     {
-
         $button = $this->config['button_markup'];
 
         $button = str_replace("%link%", $this->app['paths']['root'] . $link, $button);
