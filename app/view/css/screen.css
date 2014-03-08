@@ -9778,7 +9778,7 @@ fieldset.checkbox div {
  */
 /* line 2, ../sass/_bolt.scss */
 body {
-  background-color: #3f515f;
+  background-color: #4f4f4f;
   color: #333333;
   font-size: 13px;
 }
@@ -10092,7 +10092,7 @@ blockquote.quote cite {
 /* line 297, ../sass/_bolt.scss */
 .nav li a:hover {
   color: white;
-  background: #244c6b;
+  background: #324a5d;
 }
 
 /* line 303, ../sass/_bolt.scss */
@@ -10137,14 +10137,14 @@ blockquote.quote cite {
 
 /* line 336, ../sass/_bolt.scss */
 .navbar-static-side {
-  background: #3f515f;
+  background: #4f4f4f;
   color: #eeeeee;
 }
 
 /* line 341, ../sass/_bolt.scss */
 .navbar-static-side li.active > a {
   text-decoration: none;
-  background-color: #285477;
+  background-color: #385267;
   color: #FFF;
 }
 
