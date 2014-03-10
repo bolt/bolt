@@ -183,7 +183,8 @@
 
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
-            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'>
+            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
+            {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
@@ -280,14 +281,15 @@
 
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
-            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'><br>
+            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'
+            {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} ><br>
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload File') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/" >
             </span>
         </div>
 
@@ -351,7 +353,8 @@
         <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
             <i class="icon-upload"></i>
             <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
+            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/"
+                   {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
         </span>
 
         <br clear="all">
@@ -436,7 +439,8 @@
             <input id="fileupload-{{key}}"
                    type="file"
                    name="fileupload-{{key}}[]"
-                   data-url="{{ paths.app }}classes/upload/">
+                   data-url="{{ paths.app }}classes/upload/"
+                    {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
         </span>
     </div>
     <textarea name="{{key}}"
