@@ -328,7 +328,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return the 'sluggified' version of a string.
      *
-     * @param $str input value
+     * @param $str string input value
      * @return string slug
      */
     public function slug($str)
@@ -1256,7 +1256,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return whether or not an item is on the stack
      *
-     * @param string filename
+     * @param $filename string filename
      */
     public function stacked($filename)
     {
