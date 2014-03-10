@@ -31,17 +31,17 @@ class Content implements \ArrayAccess
                     if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
                         $this->setGroup('', '', $taxonomytype);
                     }
-					
-					// add support for taxonomy default value when options is set 
-					$default_value = $this->app['config']->get('taxonomy/'.$taxonomytype.'/default');
-					$options = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options');
-					if ( 	isset( $options ) &&
-							isset($default_value) && 
-							array_search($default_value, array_keys($options)) !== false ) {
-							$name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
-							$this->setTaxonomy($taxonomytype, $default_value);
-							$this->sortTaxonomy();
-					}
+                    
+                    // add support for taxonomy default value when options is set 
+                    $default_value = $this->app['config']->get('taxonomy/'.$taxonomytype.'/default');
+                    $options = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options');
+                    if (     isset( $options ) &&
+                            isset($default_value) && 
+                            array_search($default_value, array_keys($options)) !== false ) {
+                            $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
+                            $this->setTaxonomy($taxonomytype, $default_value);
+                            $this->sortTaxonomy();
+                    }
                 }
             }
         }
@@ -1040,10 +1040,10 @@ class Content implements \ArrayAccess
     /**
      * Weight a text part relative to some other part
      *
-     * @param	string		the subject to search in
-     * @param	string		the complete search term (lowercased)
-     * @param	array		all the individuele search terms (lowercased)
-     * @param	integer		maximum number of points to return
+     * @param    string        the subject to search in
+     * @param    string        the complete search term (lowercased)
+     * @param    array        all the individuele search terms (lowercased)
+     * @param    integer        maximum number of points to return
      * @return integer the weight
      */
     private function weighQueryText($subject, $complete, $words, $max)

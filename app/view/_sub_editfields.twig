@@ -184,7 +184,7 @@
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
-			{% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
+            {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
@@ -282,7 +282,7 @@
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'
-			{% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} ><br>
+            {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} ><br>
 
 <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
@@ -439,7 +439,7 @@
                    type="file"
                    name="fileupload-{{key}}[]"
                    data-url="{{ paths.app }}classes/upload/"
-				    {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
+                    {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
         </span>
     </div>
     <textarea name="{{key}}"

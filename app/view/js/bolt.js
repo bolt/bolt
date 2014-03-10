@@ -373,26 +373,26 @@ function bindFileUpload(key) {
             $('#progress-' + key).show().addClass('progress-striped active');
             $('#progress-' + key + ' div.bar').css('width', progress+"%");
         })
-		.bind('fileuploadsubmit', function (e, data) {
-				var that = this,
-				fileTypes = $('#field-' + key).attr('accept');
-				
-				if( typeof fileTypes !== 'undefined' ) {
-					var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "gi" );
-					$.each( data.files , function (index, file) {
-						if( !pattern.test(file.type) ) {
-							var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
+        .bind('fileuploadsubmit', function (e, data) {
+                var that = this,
+                fileTypes = $('#field-' + key).attr('accept');
+                
+                if( typeof fileTypes !== 'undefined' ) {
+                    var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "gi" );
+                    $.each( data.files , function (index, file) {
+                        if( !pattern.test(file.type) ) {
+                            var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
                             + "\n\n(accept type was: "
                             + fileTypes + ")";
 
-							alert(message);
-							e.preventDefault();
-							return false;
-						}
-					});
-				}
-		})
-		;
+                            alert(message);
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+                }
+        })
+        ;
 }
 
 
@@ -922,23 +922,23 @@ var FilelistHolder = Backbone.View.extend({
                     });
                 }
             }).bind('fileuploadsubmit', function (e, data) {
-				var that = this,
-				fileTypes = $('#fileupload-' + contentkey).attr('accept');
-				
-				if( typeof fileTypes !== 'undefined' ) {
-					var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "i" );
-					$.each( data.files , function (index, file) {
-						if( !pattern.test(file.name) ) {
-							var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
-											+ "\n\n(accept type was: "
-											+ fileTypes + ")";
-							alert(message);
-							e.preventDefault();
-							return false;
-						}
-					});
-				}
-			});
+                var that = this,
+                fileTypes = $('#fileupload-' + contentkey).attr('accept');
+                
+                if( typeof fileTypes !== 'undefined' ) {
+                    var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "i" );
+                    $.each( data.files , function (index, file) {
+                        if( !pattern.test(file.name) ) {
+                            var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
+                                            + "\n\n(accept type was: "
+                                            + fileTypes + ")";
+                            alert(message);
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+                }
+            });
 
         $holder.find("div.list").on('click', 'a', function(e) {
             e.preventDefault();
@@ -1072,23 +1072,23 @@ var ImagelistHolder = Backbone.View.extend({
                     });
                 }
             }).bind('fileuploadsubmit', function (e, data) {
-				var that = this,
-				fileTypes = $('#fileupload-' + contentkey).attr('accept');
-				
-				if( typeof fileTypes !== 'undefined' ) {
-					var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "i" );
-					$.each( data.files , function (index, file) {
-						if( !pattern.test(file.name) ) {
-							var message = "Oops! There was an error uploading the image. Make sure that the file type is correct."
-											+ "\n\n(accept type was: "
-											+ fileTypes + ")";
-							alert(message);
-							e.preventDefault();
-							return false;
-						}
-					});
-				}
-			});
+                var that = this,
+                fileTypes = $('#fileupload-' + contentkey).attr('accept');
+
+                if( typeof fileTypes !== 'undefined' ) {
+                    var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "i" );
+                    $.each( data.files , function (index, file) {
+                        if( !pattern.test(file.name) ) {
+                            var message = "Oops! There was an error uploading the image. Make sure that the file type is correct."
+                                            + "\n\n(accept type was: "
+                                            + fileTypes + ")";
+                            alert(message);
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+                }
+            });
 
         $holder.find("div.list").on('click', 'a', function(e) {
             e.preventDefault();
