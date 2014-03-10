@@ -23,7 +23,7 @@ class CronEvent extends Event
                 $this->cronDaily;
                 break;
             case CRON_WEEKLY:
-                $this->cron.Weekly;
+                $this->cronWeekly;
                 break;
             case CRON_MONTHLY:
                 $this->cronMonthly;
