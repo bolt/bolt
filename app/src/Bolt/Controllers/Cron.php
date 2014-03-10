@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Bolt\Controllers;
 
@@ -13,6 +13,17 @@ use Bolt\CronEvents;
 
 /**
  * Simple cron dispatch class for Bolt
+ * 
+ * To create a listener you need to something similar in your class:
+ *      use Bolt\CronEvents;
+ *      $this->app['dispatcher']->addListener(CronEvents::CRON_INTERVAL, array($this, 'myJobCallbackMethod'));
+ *
+ * CRON_INTERVAL should be replace with one of the following:
+ *      * CRON_HOURLY
+ *      * CRON_DAILY
+ *      * CRON_WEEKLY
+ *      * CRON_MONTHLY
+ *      * CRON_YEARLY
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  *
@@ -25,7 +36,7 @@ class Cron extends Event
     private $prefix;
     private $tablename;
     private $runtime;
-
+     
     public $lastruns = array();
 
     public function __construct(Silex\Application $app)
@@ -33,15 +44,15 @@ class Cron extends Event
         $this->app = $app;
         $this->runtime = date("Y-m-d H:i:s", time());
         $this->intervals = array('hourly' => 0, 'daily' => 0, 'weekly' => 0, 'monthly' => 0, 'yearly' => 0);
-        $this->setTableName();
-
+        $this->setTableName();        
+        
         // Get schedules
         $this->getLastRun();
-
+        
         // Call out
         $this->execute();
     }
-
+    
     public function execute()
     {
         // Process event listeners
@@ -50,48 +61,48 @@ class Cron extends Event
             $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, new \Bolt\CronEvent)->doRunJobs(CRON_HOURLY);
             $this->setLastRun('hourly');
         }
-
+        
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->intervals['daily'] < strtotime("-1 day")) {
             echo "Cron Daily Jobs\n";
             $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, new \Bolt\CronEvent)->doRunJobs(CRON_DAILY);
             $this->setLastRun('daily');
         }
-
+        
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->intervals['weekly'] < strtotime("-1 week")) {
             echo "Cron Weekly Jobs\n";
             $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, new \Bolt\CronEvent)->doRunJobs(CRON_WEEKLY);
             $this->setLastRun('weekly');
         }
-
+        
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->intervals['monthly'] < strtotime("-1 month")) {
             echo "Cron Monthly Jobs\n";
             $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, new \Bolt\CronEvent)->doRunJobs(CRON_MONTHLY);
             $this->setLastRun('monthly');
         }
-
+        
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year") ) {
             echo "Cron Yearly Jobs\n";
             $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, new \Bolt\CronEvent)->doRunJobs(CRON_YEARLY);
             $this->setLastRun('yearly');
         }
     }
-
-
+    
+    
     /**
-     * Set the formatted name of our table
+     * Set the formatted name of our table 
      */
     private function setTableName()
     {
         $this->prefix = $this->app['config']->get('general/database/prefix', "bolt_");
-
+        
         if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
             $this->prefix .= "_";
         }
-
+        
         $this->tablename = $this->prefix . "cron";
     }
-
-
+    
+    
     /**
      * Query table for last run time of each interval
      */
@@ -109,7 +120,7 @@ class Cron extends Event
 
             // If we get an empty result for the interval, set it to the current
             // run time and notify the update method to do an INSERT rather than
-            // an UPDATE.
+            // an UPDATE.            
             if (empty($result)) {
                 $this->insert[$interval] = true;
             } else {
@@ -118,14 +129,14 @@ class Cron extends Event
             }
         }
     }
-
-
+    
+    
     /**
      * Update table for last run time of each interval
      */
     private function setLastRun($interval)
     {
-        // Get appropriate query string
+        // Get appropriate query string           
         if ($this->insert[$interval] === true) {
             $query = "INSERT INTO `{$this->tablename}` " .
             "(`interval`, `lastrun`) " .
@@ -135,13 +146,13 @@ class Cron extends Event
             "SET `lastrun` = :lastrun, `lastrun` = :lastrun " .
             "WHERE `interval` = :interval ";
         }
-
+        
         // Define the mapping
         $map = array(
             ':interval'  => $interval,
             ':lastrun'   => $this->runtime,
         );
-
+        
         // Write to db
         $db = $this->app['db']->executeUpdate($query, $map);
     }
