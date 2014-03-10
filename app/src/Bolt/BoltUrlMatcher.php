@@ -29,7 +29,7 @@ class BoltUrlMatcher implements UrlMatcherInterface
                     $this->wrapped->match($withoutTrailingSlash);
                     // Success! Redirect to the URL omitting the trailing slash.
                     return $this->redirect($withoutTrailingSlash);
-                } catch (Exception $e) { }
+                } catch (\Exception $e) { }
             } else {
                 $withTrailingSlash = $path.'/';
 
@@ -38,7 +38,7 @@ class BoltUrlMatcher implements UrlMatcherInterface
                     $this->wrapped->match($withTrailingSlash);
                     // Success! Redirect to the URL including a trailing slash.
                     return $this->redirect($withTrailingSlash);
-                } catch (Exception $e) { }
+                } catch (\Exception $e) { }
             }
 
             // If nothing worked, throw the original ResourceNotFoundException

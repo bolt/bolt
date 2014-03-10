@@ -1029,10 +1029,10 @@ class Content implements \ArrayAccess
     /**
      * Weight a text part relative to some other part
      *
-     * @param	string		the subject to search in
-     * @param	string		the complete search term (lowercased)
-     * @param	array		all the individuele search terms (lowercased)
-     * @param	integer		maximum number of points to return
+     * @param	$subject string The subject to search in.
+     * @param	$complete string The complete search term (lowercased).
+     * @param	$words array All the individual search terms (lowercased).
+     * @param	$max integer Maximum number of points to return.
      * @return integer the weight
      */
     private function weighQueryText($subject, $complete, $words, $max)

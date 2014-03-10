@@ -2002,7 +2002,9 @@ class Storage
     {
         list ($name, $asc) = $this->getSortOrder($name);
 
-        if ($prefix !== false) {
+        if( strpos($name, 'RAND') !== false ) {
+            $order = $name;
+        } elseif ($prefix !== false) {
             $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
         } else {
             $order = $this->app['db']->quoteIdentifier($name);

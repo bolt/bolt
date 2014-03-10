@@ -203,6 +203,7 @@ class Application extends Silex\Application
 
         // Add the Bolt Twig functions, filters and tags.
         $this['twig']->addExtension(new TwigExtension($this));
+
         $this['twig']->addTokenParser(new SetcontentTokenParser());
 
         // Initialize enabled extensions.
