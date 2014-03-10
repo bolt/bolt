@@ -936,7 +936,7 @@ class Backend implements ControllerProviderInterface
         }
 
         // Make sure the passwords are identical and some other check, with a custom validator..
-        $form->addEventListener(FormEvents::POST_BIND, function (FormEvent $event) use ($app) {
+        $form->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($app) {
 
             $form = $event->getForm();
             $id = $form['id']->getData();
@@ -982,7 +982,7 @@ class Backend implements ControllerProviderInterface
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->getMethod() == "POST") {
             //$form->bindRequest($request);
-            $form->bind($app['request']->get($form->getName()));
+            $form->submit($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
 
