@@ -356,7 +356,7 @@ function bindFileUpload(key) {
                         stack.addToStack(filename);
 
                     } else {
-                        var message = "Oops! There was an error uploading the image. Make sure the image file is not corrupt, and that the 'files/'-folder is writable."
+                        var message = "Oops! There was an error uploading the file. Make sure the file is not corrupt, and that the 'files/'-folder is writable."
                             + "\n\n(error was: "
                             + file.error + ")";
 
@@ -381,7 +381,7 @@ function bindFileUpload(key) {
 					var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "gi" );
 					$.each( data.files , function (index, file) {
 						if( !pattern.test(file.type) ) {
-							var message = "Oops! There was an error uploading the image. Make sure that the file type is correct."
+							var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
                             + "\n\n(accept type was: "
                             + fileTypes + ")";
 
