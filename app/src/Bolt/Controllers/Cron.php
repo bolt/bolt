@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+use Bolt\CronEvent;
 use Bolt\CronEvents;
 
 /**
@@ -55,34 +56,36 @@ class Cron extends Event
     
     public function execute()
     {
+        $event = new CronEvent($this->app);
+        
         // Process event listeners
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_HOURLY) && $this->intervals['hourly'] < strtotime("-1 hour")) {
             echo "Cron Hourly Jobs\n";
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, new \Bolt\CronEvent)->doRunJobs(CRON_HOURLY);
+            $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $event)->doRunJobs(CronEvents::CRON_HOURLY);
             $this->setLastRun('hourly');
         }
         
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->intervals['daily'] < strtotime("-1 day")) {
             echo "Cron Daily Jobs\n";
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, new \Bolt\CronEvent)->doRunJobs(CRON_DAILY);
+            $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event)->doRunJobs(CronEvents::CRON_DAILY);
             $this->setLastRun('daily');
         }
         
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->intervals['weekly'] < strtotime("-1 week")) {
             echo "Cron Weekly Jobs\n";
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, new \Bolt\CronEvent)->doRunJobs(CRON_WEEKLY);
+            $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event)->doRunJobs(CronEvents::CRON_WEEKLY);
             $this->setLastRun('weekly');
         }
         
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->intervals['monthly'] < strtotime("-1 month")) {
             echo "Cron Monthly Jobs\n";
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, new \Bolt\CronEvent)->doRunJobs(CRON_MONTHLY);
+            $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event)->doRunJobs(CronEvents::CRON_MONTHLY);
             $this->setLastRun('monthly');
         }
         
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year") ) {
             echo "Cron Yearly Jobs\n";
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, new \Bolt\CronEvent)->doRunJobs(CRON_YEARLY);
+            $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event)->doRunJobs(CronEvents::CRON_YEARLY);
             $this->setLastRun('yearly');
         }
     }
