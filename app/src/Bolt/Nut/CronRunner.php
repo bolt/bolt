@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Bolt\Controllers\Cron;
 
 class CronRunner extends BaseCommand
 {
@@ -33,7 +34,7 @@ class CronRunner extends BaseCommand
         }
 
         //$result = $this->app['cron']->execute($param);
-        $result = new \Bolt\Controllers\Cron($this->app);
+        $result = new Cron($this->app);
 
         if ($result) {
             $output->writeln("<info>Cron run!</info>");
