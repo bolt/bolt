@@ -84,142 +84,60 @@
 
             {# Menu with all settings #}
             {% if isallowed('settings') %}
-            <li class="{% if active=='settings' %}active {% endif %}dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {{ __('Settings') }}
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="dropdown-menu pull-right">
-                    {% if isallowed('files:config') %}
-                        <li class="nav-header">{{ __('Configuration') }}</li>
-                        <li><a href="{{ path('users') }}"><i class="fa fa-group"></i> {{ __('Users') }}</a></li>
-                        <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
-                            <i class="fa fa-cog"></i> {{ __('Configuration') }}</a></li>
-                        <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
-                            <i class="fa fa-hdd-o"></i> {{ __('Contenttypes') }}</a></li>
-                        <li><a href="{{ path('fileedit', { 'file': 'app/config/taxonomy.yml'}) }}">
-                            <i class="fa fa-tags"></i> {{ __('Taxonomy') }}</a></li>
-                        <li><a href="{{ path('fileedit', { 'file': 'app/config/menu.yml'}) }}">
-                            <i class="fa fa-list"></i> {{ __('Menu setup') }}</a></li>
-                        <li><a href="{{ path('fileedit', { 'file': 'app/config/routing.yml'}) }}">
-                            <i class="fa fa-random"></i> {{ __('Routing setup') }}</a></li>
-                        <li class="divider"></li>
-                    {% endif %}
-
-                    {% if app.extensions.hasMenuoptions %}
-                        <li class="nav-header">{{ __('Extensions') }}</li>
-                        {% for extension in app.extensions.getMenuoptions %}
-                            <li>
-                                <a href="{{ extension.path }}">
-                                    <i class="{{ extension.icon|default('icon-expand') }}"></i>
-                                    {{ extension.label }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                        <li class="divider"></li>
-                    {% endif %}
-                    <li class="nav-header">{{ __('Maintenance') }}</li>
-                    {% if isallowed('extensions') %}
-                        <li><a href="{{ path('extensions') }}"><i class="fa fa-briefcase"></i> {{ __('Extensions') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('dbupdate') %}
-                        <li><a href="{{ path('dbcheck') }}"><i class="fa fa-wrench"></i> {{ __('Check database') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('clearcache') %}
-                        <li><a href="{{ path('clearcache') }}"><i class="fa fa-magic"></i> {{ __('Clear the cache') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('activitylog') %}
-                        <li><a href="{{ path('activitylog') }}"><i class="fa fa-file"></i> {{ __('Activity log') }}</a></li>
-                    {% endif %}
-                    <li class="divider"></li>
-                    <li class="nav-header">{{ __('File Management') }}</li>
-                    {% if isallowed('files:theme') %}
-                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-desktop"></i> {{ __('View / edit Templates') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('files:uploads') %}
-                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-folder-open"></i> {{ __('Uploaded files') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('translation') %}
-                    <li class="divider"></li>
-                    <li class="nav-header">{{ __('Translations') }}</li>
-                        <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="fa fa-flag"></i> {{ __('Messages') }}</a></li>
-                        <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="fa fa-flag"></i> {{ __('Long messages') }}</a></li>
-                        <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="fa fa-flag"></i> {{ __('Contenttypes') }}</a></li>
-                    {% endif %}
-
-                </ul>
-            </li>
+            
 
             <span><i class="fa fa-cogs"></i> {{ __('Settings') }}</span>
 
             {% set title = { icon: 'cogs', label: __('Configuration') } %}
             {% set sub = [ 
-                { icon: 'group', label: __('Users'), link: path('users') },
-                { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'file': 'app/config/config.yml'}) },
-                { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'file': 'app/config/contenttypes.yml'}) },
-                { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'file': 'app/config/taxonomy.yml'}) },
+                { icon: 'group', label: __('Users'), link: path('users'), isallowed: 'fileedit' },
+                { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'file': 'app/config/config.yml'}), isallowed: 'fileedit' },
+                { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'file': 'app/config/contenttypes.yml'}), isallowed: 'fileedit' },
+                { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'file': 'app/config/taxonomy.yml'}), isallowed: 'fileedit' },
                 '-',
-                { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'file': 'app/config/menu.yml'}) },
-                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'file': 'app/config/routing.yml'}) }
+                { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'file': 'app/config/menu.yml'}), isallowed: 'fileedit' },
+                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'file': 'app/config/routing.yml'}), isallowed: 'fileedit' }
             ] %}
 
             {{ macro.sidebarblock(title, sub) }}
 
+            {% if app.extensions.hasMenuoptions %}
+                {% set title = { icon: 'cogs', label: __('Extensions') } %}
+                {% set sub = [] %}
+                {% for extension in app.extensions.getMenuoptions %}
+                    {% set sub = sub|merge([{ icon: extension.icon|default('icon-expand'), label: extension.label, link: extension.path }]) %}
+                {% endfor %}
+                {{ macro.sidebarblock(title, sub) }}
+            {% endif %}
 
+            {% set title = { icon: 'cogs', label: __('Maintenance') } %}
+            {% set sub = [ 
+                { icon: 'briefcase', label: __('Extensions'), link: path('extensions'), isallowed: 'extensions' },
+                { icon: 'wrench', label: __('Check database'), link: path('dbcheck'), isallowed: 'dbupdate' },
+                { icon: 'magic', label: __('Clear the cache'), link: path('clearcache'), isallowed: 'clearcache' },
+                { icon: 'file', label: __('Activity log'), link: path('activitylog'), isallowed: 'activitylog' }
+              
+            ] %}
 
-                        {#
+            {{ macro.sidebarblock(title, sub) }}
 
-            <li class="{% if active=='settings' %}active {% endif %}">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {{ __('Settings') }}
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="dropdown-menu pull-right">
-                    {% if isallowed('files:config') %}
+            {% set title = { icon: 'folder-open', label: __('File Management') } %}
+            {% set sub = [ 
+                { icon: 'desktop', label: __('Extensions'), link: path('files', { 'path': 'theme' }), isallowed: 'files:theme' },
+                { icon: 'folder-open', label: __('Uploaded files'), link: path('files', { 'path': 'files'}), isallowed: 'files:uploads' }
+            ] %}
 
-                    {% endif %}
+            {{ macro.sidebarblock(title, sub) }}
 
-                    {% if app.extensions.hasMenuoptions %}
-                        <li class="nav-header">{{ __('Extensions') }}</li>
-                        {% for extension in app.extensions.getMenuoptions %}
-                            <li>
-                                <a href="{{ extension.path }}">
-                                    <i class="{{ extension.icon|default('icon-expand') }}"></i>
-                                    {{ extension.label }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                        <li class="divider"></li>
-                    {% endif %}
-                    <li class="nav-header">{{ __('Maintenance') }}</li>
-                    {% if isallowed('extensions') %}
-                        <li><a href="{{ path('extensions') }}"><i class="fa fa-briefcase"></i> {{ __('Extensions') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('dbupdate') %}
-                        <li><a href="{{ path('dbcheck') }}"><i class="fa fa-wrench"></i> {{ __('Check database') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('clearcache') %}
-                        <li><a href="{{ path('clearcache') }}"><i class="fa fa-magic"></i> {{ __('Clear the cache') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('activitylog') %}
-                        <li><a href="{{ path('activitylog') }}"><i class="fa fa-file"></i> {{ __('Activity log') }}</a></li>
-                    {% endif %}
-                    <li class="divider"></li>
-                    <li class="nav-header">{{ __('File Management') }}</li>
-                    {% if isallowed('files:theme') %}
-                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-desktop"></i> {{ __('View / edit Templates') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('files:uploads') %}
-                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-folder-open"></i> {{ __('Uploaded files') }}</a></li>
-                    {% endif %}
-                    {% if isallowed('translation') %}
-                    <li class="divider"></li>
-                    <li class="nav-header">{{ __('Translations') }}</li>
-                        <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="fa fa-flag"></i> {{ __('Messages') }}</a></li>
-                        <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="fa fa-flag"></i> {{ __('Long messages') }}</a></li>
-                        <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="fa fa-flag"></i> {{ __('Contenttypes') }}</a></li>
-                    {% endif %}
+            {% set title = { icon: 'flag', label: __('Translations') } %}
+            {% set sub = [ 
+                { icon: 'flag', label: __('Messages'), link: path('translation', { 'domain': 'messages' }), isallowed: 'translation' },
+                { icon: 'flag', label: __('Long messages'), link: path('translation', { 'domain': 'infos' }), isallowed: 'translation' },
+                { icon: 'flag', label: __('Contenttypes'), link: path('translation', { 'domain': 'contenttypes' }), isallowed: 'translation' }
+            ] %}
 
-                </ul>
-            </li>         #}   
+            {{ macro.sidebarblock(title, sub) }}
+
             {% endif %}
 
             <hr>

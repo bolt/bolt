@@ -327,6 +327,15 @@ function initKeyboardShortcuts() {
 }
 
 
+/**
+ * Hide / show subitems in the siebar for mobile devices. 
+ */ 
+function showSidebarItems(name) {
+    $('.nav li.sub').removeClass('visible-xs');
+    $('.nav li.sub-'+name).addClass('visible-xs');
+    console.log('sub-side ' + name);
+} 
+
 
 /**
  * Initialise CKeditor instances.

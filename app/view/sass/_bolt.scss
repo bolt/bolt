@@ -324,11 +324,16 @@ blockquote.quote cite {
   .popover-content hr {
     margin: 4px 0;
   }
+} 
 
-  .sub a {
+.nav li.sub {
+    display: none;
+  }
+
+.nav li.sub a {
     padding: 6px 5px 6px 25px;
   }
-}
+
 
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
   background-color: $boltblue;

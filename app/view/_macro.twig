@@ -47,23 +47,33 @@
 
     {% if subitems is empty %}{% set subitems = popoveritems %}{% endif %}
     {% set name = title.label|slug()|lower() %}
-    {{ name }}
-    <li>
-        <a href="" class="menu-pop" data-action="showSideBarItems('{{name}}')" data-html="true" data-title="" data-content="{% for item in popoveritems %}
-            {% if item == "-" %}
-                <hr>
-            {% else %}
-                <a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}}</a>
-            {% endif %}
-        {% endfor %}">
-            <i class="fa fa-{{ title.icon }}"></i> {{ title.label }}
-        </a>
-    </li>
-    {% for item in popoveritems %}
-        {% if item != "-" %}
-            <li class="sub vxisible-xs sub-{{name}} hide"><a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}}</a></li>
+
+    {# only display the 'root' option, if any of the subitems are allowed to be shown. #}
+    {% set allowedany = false %}
+    {% for item in subitems %}
+        {% if item != "-" and isallowed(item.isallowed|default('dashboard')) %}
+            {% set allowedany = true %}
         {% endif %}
     {% endfor %}
-    <hr>
+
+    {# Show stuff! #}
+    {% if allowedany %}
+        <li>
+            <a href="" class="menu-pop" data-action="showSidebarItems('{{name}}')" data-html="true" data-title="" data-content="{% for item in popoveritems %}
+                {% if item == "-" %}
+                    <hr>
+                {% elseif isallowed(item.isallowed|default('dashboard')) %}
+                    <a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}} </a>
+                {% endif %}
+            {% endfor %}">
+                <i class="fa fa-{{ title.icon }}"></i> {{ title.label }}
+            </a>
+        </li>
+        {% for item in popoveritems %}
+            {% if item != "-" and isallowed(item.isallowed|default('dashboard')) %}
+                <li class="sub sub-{{name}}"><a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}}</a></li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
 {% endmacro %}
