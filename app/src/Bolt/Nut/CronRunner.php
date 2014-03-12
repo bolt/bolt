@@ -34,7 +34,7 @@ class CronRunner extends BaseCommand
         }
 
         //$result = $this->app['cron']->execute($param);
-        $result = new Cron($this->app);
+        $result = new Cron($this->app, $output);
 
         if ($result) {
             $output->writeln("<info>Cron run!</info>");
