@@ -585,6 +585,14 @@ class Content implements \ArrayAccess
                     $value = json_decode($this->values[$name]);
                     break;
 
+                case 'image':
+                    if (isset($this->values[$name]['file'])) {
+                        $value = $this->values[$name]['file'];
+                    } else {
+                        $value = $this->values[$name];
+                    }
+                    break;
+                
                 default:
                     $value = $this->values[$name];
                     break;
