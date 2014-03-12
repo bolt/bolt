@@ -745,6 +745,10 @@ class Content implements \ArrayAccess
         // Grab the first field of type 'image', and return that.
         foreach ($this->contenttype['fields'] as $key => $field) {
             if ($field['type']=='image') {
+                // After v1.5.1 we store image data as an array
+                if (is_array($this->values[ $key ])) {
+                    return $this->values[ $key ]['file'];
+                }
                 return $this->values[ $key ];
             }
         }

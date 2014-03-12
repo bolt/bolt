@@ -108,6 +108,7 @@ kitchensink:
             type: geolocation
         image:
             type: image
+            attrib: title
         imagelist:
             type: imagelist
         file:
