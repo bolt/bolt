@@ -41,3 +41,29 @@
 
     <label {% if for %}for="{{ for }}" {% endif %}class="{{ class|default('control-label') }}">{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</label>
 {% endmacro %}
+
+{# Sidebar-menu blocks with links, popover (for desktop) and touch-to-show (for mobile) #}
+{% macro sidebarblock(title, popoveritems, subitems) %}
+
+    {% if subitems is empty %}{% set subitems = popoveritems %}{% endif %}
+    {% set name = title.label|slug()|lower() %}
+    {{ name }}
+    <li>
+        <a href="" class="menu-pop" data-action="showSideBarItems('{{name}}')" data-html="true" data-title="" data-content="{% for item in popoveritems %}
+            {% if item == "-" %}
+                <hr>
+            {% else %}
+                <a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}}</a>
+            {% endif %}
+        {% endfor %}">
+            <i class="fa fa-{{ title.icon }}"></i> {{ title.label }}
+        </a>
+    </li>
+    {% for item in popoveritems %}
+        {% if item != "-" %}
+            <li class="sub vxisible-xs sub-{{name}} hide"><a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}}</a></li>
+        {% endif %}
+    {% endfor %}
+    <hr>
+
+{% endmacro %}

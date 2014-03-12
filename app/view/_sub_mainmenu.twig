@@ -1,3 +1,5 @@
+{% import '_macro.twig' as macro %}
+
 <div class="sidebar-collapse">
     <ul class="nav" id="side-menu">
         {% if app.session.get('user') is not null %}
@@ -146,6 +148,78 @@
 
                 </ul>
             </li>
+
+            <span><i class="fa fa-cogs"></i> {{ __('Settings') }}</span>
+
+            {% set title = { icon: 'cogs', label: __('Configuration') } %}
+            {% set sub = [ 
+                { icon: 'group', label: __('Users'), link: path('users') },
+                { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'file': 'app/config/config.yml'}) },
+                { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'file': 'app/config/contenttypes.yml'}) },
+                { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'file': 'app/config/taxonomy.yml'}) },
+                '-',
+                { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'file': 'app/config/menu.yml'}) },
+                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'file': 'app/config/routing.yml'}) }
+            ] %}
+
+            {{ macro.sidebarblock(title, sub) }}
+
+
+
+                        {#
+
+            <li class="{% if active=='settings' %}active {% endif %}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> {{ __('Settings') }}
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    {% if isallowed('files:config') %}
+
+                    {% endif %}
+
+                    {% if app.extensions.hasMenuoptions %}
+                        <li class="nav-header">{{ __('Extensions') }}</li>
+                        {% for extension in app.extensions.getMenuoptions %}
+                            <li>
+                                <a href="{{ extension.path }}">
+                                    <i class="{{ extension.icon|default('icon-expand') }}"></i>
+                                    {{ extension.label }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        <li class="divider"></li>
+                    {% endif %}
+                    <li class="nav-header">{{ __('Maintenance') }}</li>
+                    {% if isallowed('extensions') %}
+                        <li><a href="{{ path('extensions') }}"><i class="fa fa-briefcase"></i> {{ __('Extensions') }}</a></li>
+                    {% endif %}
+                    {% if isallowed('dbupdate') %}
+                        <li><a href="{{ path('dbcheck') }}"><i class="fa fa-wrench"></i> {{ __('Check database') }}</a></li>
+                    {% endif %}
+                    {% if isallowed('clearcache') %}
+                        <li><a href="{{ path('clearcache') }}"><i class="fa fa-magic"></i> {{ __('Clear the cache') }}</a></li>
+                    {% endif %}
+                    {% if isallowed('activitylog') %}
+                        <li><a href="{{ path('activitylog') }}"><i class="fa fa-file"></i> {{ __('Activity log') }}</a></li>
+                    {% endif %}
+                    <li class="divider"></li>
+                    <li class="nav-header">{{ __('File Management') }}</li>
+                    {% if isallowed('files:theme') %}
+                        <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="fa fa-desktop"></i> {{ __('View / edit Templates') }}</a></li>
+                    {% endif %}
+                    {% if isallowed('files:uploads') %}
+                        <li><a href="{{ path('files', { 'path': 'files'}) }}"><i class="fa fa-folder-open"></i> {{ __('Uploaded files') }}</a></li>
+                    {% endif %}
+                    {% if isallowed('translation') %}
+                    <li class="divider"></li>
+                    <li class="nav-header">{{ __('Translations') }}</li>
+                        <li><a href="{{ path('translation', { 'domain': 'messages' }) }}"><i class="fa fa-flag"></i> {{ __('Messages') }}</a></li>
+                        <li><a href="{{ path('translation', { 'domain': 'infos'}) }}"><i class="fa fa-flag"></i> {{ __('Long messages') }}</a></li>
+                        <li><a href="{{ path('translation', { 'domain': 'contenttypes'}) }}"><i class="fa fa-flag"></i> {{ __('Contenttypes') }}</a></li>
+                    {% endif %}
+
+                </ul>
+            </li>         #}   
             {% endif %}
 
             <hr>

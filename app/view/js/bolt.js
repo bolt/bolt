@@ -59,15 +59,17 @@ jQuery(function($) {
         setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
     }
 
-    // Hackish fix for an issue on Ipad, where dropdown menus wouldn't be clickable. Hopefully fixed in Bootstrap 2.1.2
-    // See https://github.com/twitter/bootstrap/issues/2975
-    // $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
-
-    // Initialize popovers.
-    $('.info-pop').popover({
+    // Initialize "info" popovers, used in 'edit content'.
+    $('span.info-pop').popover({
         trigger: 'hover',
         delay: { show: 500, hide: 200 }
     });
+
+    // Initialize popovers, used in sidebar menu.
+    $('a.menu-pop').popover({
+        trigger: 'hover',
+        delay: { show: 500, hide: 2000 }
+    });    
 
     // When hiding modal dialogs with a 'remote', remove the data, to make sure
     // other modal dialogs are forced to retrieve the content again.

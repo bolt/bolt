@@ -290,15 +290,49 @@ blockquote.quote cite {
   border: 0;
 }
 
-.nav li a {
-  color: $sidebarlink;
+.nav li {
+  a {
+    color: $sidebarlink;
+  }
+
+  a:hover {
+    color: $sidebarlinkhover;
+    background: $sidebarbackgroundhover;
+  }
+
+  .popover.right {
+    margin-left: -16px;
+  }
+
+  .popover-content {
+    color: #444;
+    padding: 0;
+  }
+
+  .popover-content a {
+    color: $boltbluedarker;
+    display: block;
+    background-color: transparent;
+    padding: 4px 6px 4px 12px;
+  }
+
+  .popover-content a:hover {
+    color: $boltbluedarker;
+    background-color: #EEE;
+  }
+
+  .popover-content hr {
+    margin: 4px 0;
+  }
+
+  .sub a {
+    padding: 6px 5px 6px 25px;
+  }
 }
 
-.nav li a:hover {
-  color: $sidebarlinkhover;
-  background: $sidebarbackgroundhover;
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  background-color: $boltblue;
 }
-
 
 .arrow {
   float: right;
