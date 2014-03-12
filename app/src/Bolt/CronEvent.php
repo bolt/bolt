@@ -10,26 +10,33 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class CronEvent extends Event
 {
+    private $app;
+    
     /**
      *
      */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
+    
     function doRunJobs($interval)
     {
         switch ($interval) {
-        	case CRON_HOURLY:
-        	    $this->cronHourly;
+        	case CronEvents::CRON_HOURLY:
+        	    $this->cronHourly();
         	    break;
-            case CRON_DAILY:
-                $this->cronDaily;
+            case CronEvents::CRON_DAILY:
+                $this->cronDaily();
                 break;
-            case CRON_WEEKLY:
-                $this->cronWeekly;
+            case CronEvents::CRON_WEEKLY:
+                $this->cronWeekly();
                 break;
-            case CRON_MONTHLY:
-                $this->cronMonthly;
+            case CronEvents::CRON_MONTHLY:
+                $this->cronMonthly();
                 break;
-            case CRON_YEARLY:
-                $this->cronYearly;
+            case CronEvents::CRON_YEARLY:
+                $this->cronYearly();
                 break;
         }
     }
@@ -48,6 +55,7 @@ class CronEvent extends Event
      */
     private function cronDaily()
     {
+        // Check for Bolt updates
     }
 
 
@@ -56,6 +64,13 @@ class CronEvent extends Event
      */
     private function cronWeekly()
     {
+        // Clear the cache
+        echo "Clearing cache\n";
+        $this->app['cache']->clearCache();
+        
+        // Trim log files
+        echo "Trimming logs\n";
+        $this->app['log']->trim();
     }
 
 
