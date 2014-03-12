@@ -51,6 +51,9 @@ class Cron extends Event
         // Get schedules
         $this->getLastRun();
         
+        // Time of day for daily, weekly, monthly and yearly jobs
+        $this->getScheduleThreshold();
+        
         // Call out
         $this->execute();
     }
@@ -66,28 +69,47 @@ class Cron extends Event
             $this->setLastRun('hourly');
         }
         
-        if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->intervals['daily'] < strtotime("-1 day")) {
-            $this->notify("Running Cron Daily Jobs");
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event)->doRunJobs(CronEvents::CRON_DAILY);
-            $this->setLastRun('daily');
+        // Only check the running of these if we've passed our threshold hour today 
+        if (time() > $this->threshold) {
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->intervals['daily'] < strtotime("-1 day")) {
+                $this->notify("Running Cron Daily Jobs");
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event)->doRunJobs(CronEvents::CRON_DAILY);
+                $this->setLastRun('daily');
+            }
+            
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->intervals['weekly'] < strtotime("-1 week")) {
+                $this->notify("Running Cron Weekly Jobs");
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event)->doRunJobs(CronEvents::CRON_WEEKLY);
+                $this->setLastRun('weekly');
+            }
+            
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->intervals['monthly'] < strtotime("-1 month")) {
+                $this->notify("Running Cron Monthly Jobs");
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event)->doRunJobs(CronEvents::CRON_MONTHLY);
+                $this->setLastRun('monthly');
+            }
+            
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year") ) {
+                $this->notify("Running Cron Yearly Jobs");
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event)->doRunJobs(CronEvents::CRON_YEARLY);
+                $this->setLastRun('yearly');
+            }
         }
+    }
+    
+    /**
+     * Get our configured hour and convert it to UNIX time
+     */
+    private function getScheduleThreshold()
+    {
+        $hour = $app['config']->get('general/cron_hour');
         
-        if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->intervals['weekly'] < strtotime("-1 week")) {
-            $this->notify("Running Cron Weekly Jobs");
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event)->doRunJobs(CronEvents::CRON_WEEKLY);
-            $this->setLastRun('weekly');
-        }
-        
-        if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->intervals['monthly'] < strtotime("-1 month")) {
-            $this->notify("Running Cron Monthly Jobs");
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event)->doRunJobs(CronEvents::CRON_MONTHLY);
-            $this->setLastRun('monthly');
-        }
-        
-        if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year") ) {
-            $this->notify("Running Cron Yearly Jobs");
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event)->doRunJobs(CronEvents::CRON_YEARLY);
-            $this->setLastRun('yearly');
+        if (empty($hour)) {
+            $this->threshold = strtotime("03:00");
+        } elseif (is_numeric($conf)) {
+            $this->threshold = strtotime($hour . ":00");
+        } elseif (is_string($conf)) {
+            $this->threshold = strtotime($hour);
         }
     }
     

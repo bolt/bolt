@@ -32,6 +32,10 @@ locale: en_GB
 maintenance_mode: false
 maintenance_template: maintenance_default.twig
 
+# The hour of the day for the internal cron task scheduler to run daily, weekly, 
+# monthly and yearly jobs.  Default: 3 (3 am)
+cron_hour: 3 
+
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. Don't include the
