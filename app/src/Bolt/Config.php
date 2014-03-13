@@ -250,7 +250,21 @@ class Config
 
         // Clean up contenttypes
         $config['contenttypes'] = array();
-        foreach ($tempContentTypes as $temp) {
+        foreach ($tempContentTypes as $key => $temp) {
+
+            // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
+            // neither 'singular_name' nor 'singular_slug' is set.
+            if (!isset($temp['name']) && !isset($temp['slug'])) {
+                $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+                $llc = new \LowlevelChecks();
+                $llc->lowlevelError($error);
+            }
+            if (!isset($temp['singular_name']) && !isset($temp['singular_slug'])) {
+                $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+                $llc = new \LowlevelChecks();
+                $llc->lowlevelError($error);
+            }
+
             if (!isset($temp['slug'])) {
                 $temp['slug'] = makeSlug($temp['name']);
             }
