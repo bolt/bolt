@@ -12,7 +12,7 @@
         "garetjax/phpbrowscap": "dev-master",
         "guzzle/guzzle": "3.3.*",
         "hautelook/phpass": "dev-master",
-        "ircmaxell/random-lib": "1.0.*@dev",
+        "ircmaxell/random-lib": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
         "php": ">=5.3.2",
         "silex/silex": "1.*",
