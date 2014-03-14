@@ -130,16 +130,25 @@
 {# --------------- select --------------- #}
 
 {% if field.type == "select" %}
+    {% if field.values is iterable %}
+        {% set values = field.values %}
+    {% else %}
+        {% set lookuptype = field.values|split('/')|first %}
+        {% set lookupfield = field.values|split('/')|last %}
+        {% setcontent lookups = lookuptype order 'title' %}
+        {% set values = lookups|selectfield(lookupfield) %}
+    {% endif %}
+    
     <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
-            {% for value in field.values %}
+            {% for value in values %}
                 <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
             {% endfor %}
         </select>
     {% else %}
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
-            {% for value in field.values %}
+            {% for value in values %}
                 <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
             {% endfor %}
         </select>
