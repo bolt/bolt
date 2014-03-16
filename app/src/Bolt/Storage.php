@@ -1173,6 +1173,13 @@ class Storage
 
     /**
      * Retrieve content from the database, filtered on taxonomy.
+     *
+     * Note: we can NOT sort on anything meaningful. Records are fetched from multiple
+     * content-types, so we can not do joins. Neither can we sort after fetching,
+     * because it would mean fetching _all_ records and _then_ doing the sorting.
+     * Instead, we do not sort here. If you need ordering, use the '|order()' in
+     * your templates.
+     *
      */
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
@@ -1182,7 +1189,6 @@ class Storage
         $slug = makeSlug($name);
 
         $limit = $parameters['limit'] ? : 100;
-        $order = $parameters['order'] ? : 'id ASC';
         $page = $parameters['page'] ? : 1;
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
@@ -1199,7 +1205,7 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
 
         // Add the limit
-        $query = "SELECT * FROM $tablename" . $where . " ORDER BY " . $order;
+        $query = "SELECT * FROM $tablename" . $where . " ORDER BY id ASC";
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);

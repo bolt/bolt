@@ -60,6 +60,8 @@ record_template: record.twig
 
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype.
+# Note: sorting on TAXONOMY-pages will give unexpected results, if it has a pager
+# If you need sorting on those, make sure you display all the records on one page.
 listing_template: listing.twig
 listing_records: 6
 listing_sort: datepublish DESC

@@ -23,6 +23,8 @@
                     {{ slug }}
                 {% endif %}
             </h1>
+            {# taxonomies are fetched unordered by design. If we specified an order in config.yml, sort them here: #}
+            {% set records = records|order(app.config.get('general/listing_sort')) %}
         {% endif %}
 
         {# This is also the default template for searchresults. If 'search' is defined,
