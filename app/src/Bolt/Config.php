@@ -214,7 +214,11 @@ class Config
                 $config['taxonomy'][$key]['name'] = ucwords($config['taxonomy'][$key]['slug']);
             }
             if (!isset($config['taxonomy'][$key]['singular_name'])) {
-                $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+                if (isset($config['taxonomy'][$key]['singular_slug'])) {
+                    $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+                } else {
+                    $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['slug']);
+                }
             }
             if (!isset($config['taxonomy'][$key]['slug'])) {
                 $config['taxonomy'][$key]['slug'] = strtolower(safeString($config['taxonomy'][$key]['name']));
@@ -246,7 +250,21 @@ class Config
 
         // Clean up contenttypes
         $config['contenttypes'] = array();
-        foreach ($tempContentTypes as $temp) {
+        foreach ($tempContentTypes as $key => $temp) {
+
+            // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
+            // neither 'singular_name' nor 'singular_slug' is set.
+            if (!isset($temp['name']) && !isset($temp['slug'])) {
+                $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+                $llc = new \LowlevelChecks();
+                $llc->lowlevelError($error);
+            }
+            if (!isset($temp['singular_name']) && !isset($temp['singular_slug'])) {
+                $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+                $llc = new \LowlevelChecks();
+                $llc->lowlevelError($error);
+            }
+
             if (!isset($temp['slug'])) {
                 $temp['slug'] = makeSlug($temp['name']);
             }
@@ -513,7 +531,7 @@ class Config
     {
             // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
         if ($this->get('general/theme_path')) {
-            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . $this->get('general/theme_path'));
+            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/' . $this->get('general/theme_path'));
         } else {
             $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme');
         }

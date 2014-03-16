@@ -92,7 +92,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('round', array($this, 'round')),
             new \Twig_SimpleFilter('floor', array($this, 'floor')),
             new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
-            new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo'))
+            new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo')),
+            new \Twig_SimpleFilter('selectfield', array($this, 'selectfield'))
         );
     }
 
@@ -860,6 +861,11 @@ class TwigExtension extends \Twig_Extension
         } else {
             $crop = substr($crop, 0, 1);
         }
+        
+        // After v1.5.1 we store image data as an array
+        if (is_array($filename)) {
+            $filename = $filename['file'];
+        }
 
         $thumbnail = sprintf(
             "%sthumbs/%sx%s%s/%s",
@@ -961,6 +967,11 @@ class TwigExtension extends \Twig_Extension
         if ($width != "" || $height != "") {
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
+        }
+        
+        // After v1.5.1 we store image data as an array
+        if (is_array($filename)) {
+            $filename = $filename['file'];
         }
 
         $image = sprintf(
@@ -1265,5 +1276,22 @@ class TwigExtension extends \Twig_Extension
 
         return $stacked;
 
+    }
+
+
+    /**
+     * Return a selected field from a contentset
+     *
+     * @param array $content A Bolt record array
+     * @param string fieldname Name of field to return from each record
+     */
+    public function selectfield($content, $fieldname)
+    {
+        foreach($content as $c) {
+            if(isset($c->values[$fieldname])) {
+                $retval[] = $c->values[$fieldname];
+            }
+        }
+        return $retval;
     }
 }

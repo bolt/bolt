@@ -31,6 +31,17 @@ class Content implements \ArrayAccess
                     if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
                         $this->setGroup('', '', $taxonomytype);
                     }
+
+                    // add support for taxonomy default value when options is set
+                    $default_value = $this->app['config']->get('taxonomy/'.$taxonomytype.'/default');
+                    $options = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options');
+                    if (     isset( $options ) &&
+                            isset($default_value) &&
+                            array_search($default_value, array_keys($options)) !== false ) {
+                            $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
+                            $this->setTaxonomy($taxonomytype, $default_value);
+                            $this->sortTaxonomy();
+                    }
                 }
             }
         }
@@ -574,6 +585,14 @@ class Content implements \ArrayAccess
                     $value = json_decode($this->values[$name]);
                     break;
 
+                case 'image':
+                    if (isset($this->values[$name]['file'])) {
+                        $value = $this->values[$name]['file'];
+                    } else {
+                        $value = $this->values[$name];
+                    }
+                    break;
+                
                 default:
                     $value = $this->values[$name];
                     break;
@@ -734,6 +753,10 @@ class Content implements \ArrayAccess
         // Grab the first field of type 'image', and return that.
         foreach ($this->contenttype['fields'] as $key => $field) {
             if ($field['type']=='image') {
+                // After v1.5.1 we store image data as an array
+                if (is_array($this->values[ $key ])) {
+                    return $this->values[ $key ]['file'];
+                }
                 return $this->values[ $key ];
             }
         }
@@ -1029,11 +1052,11 @@ class Content implements \ArrayAccess
     /**
      * Weight a text part relative to some other part
      *
-     * @param	$subject string The subject to search in.
-     * @param	$complete string The complete search term (lowercased).
-     * @param	$words array All the individual search terms (lowercased).
-     * @param	$max integer Maximum number of points to return.
-     * @return integer the weight
+     * @param  string  $subject  The subject to search in.
+     * @param  string  $complete The complete search term (lowercased).
+     * @param  array   $words    All the individual search terms (lowercased).
+     * @param  integer $max      Maximum number of points to return.
+     * @return integer           The weight
      */
     private function weighQueryText($subject, $complete, $words, $max)
     {

@@ -197,6 +197,7 @@ class Application extends Silex\Application
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\CronServiceProvider());
+            ->register(new Provider\FilePermissionsServiceProvider());
 
         $this['paths'] = getPaths($this['config']);
         $this['twig']->addGlobal('paths', $this['paths']);

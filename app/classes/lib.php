@@ -832,7 +832,7 @@ function getPaths($original = array() )
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
         'root' => $path_prefix,
         'rootpath' => BOLT_PROJECT_ROOT_DIR,
-        'theme' => $path_prefix . "theme/" . $theme . "/",
+        'theme' => str_replace("//", "/", $path_prefix . $theme_path . "/" . $theme . "/"),
         'themepath' => BOLT_PROJECT_ROOT_DIR . $theme_path . "/" . $theme,
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
@@ -1511,8 +1511,8 @@ function gatherTranslatableStrings($locale=null,$translated=array())
         ->name('*.php')
         ->notName('*~')
         ->exclude(array('cache','config','database','resources','tests'))
-        ->in(BOLT_WEB_DIR.'/theme') //
-        ->in(BOLT_PROJECT_ROOT_DIR.'/app')
+        ->in(dirname($app['paths']['themepath'])) //
+        ->in($app['paths']['apppath'])
     ;
     // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
     $re_dq = '/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s';

@@ -625,6 +625,14 @@ class Storage
                     $fieldvalues[$key] = "";
                 }
             }
+            
+            if ($values['type'] == "image") {
+                 if (!empty($fieldvalues[$key]['file'])) {
+                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                 } else {
+                     $fieldvalues[$key] = "";
+                 }
+            }
 
             if (in_array($values['type'], array("imagelist", "filelist")))  {
 
@@ -1174,6 +1182,7 @@ class Storage
         $slug = makeSlug($name);
 
         $limit = $parameters['limit'] ? : 100;
+        $order = $parameters['order'] ? : 'id ASC';
         $page = $parameters['page'] ? : 1;
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
@@ -1190,7 +1199,7 @@ class Storage
         $pagerquery = "SELECT COUNT(*) AS count FROM $tablename" . $where;
 
         // Add the limit
-        $query = "SELECT * FROM $tablename" . $where . " ORDER BY id DESC";
+        $query = "SELECT * FROM $tablename" . $where . " ORDER BY " . $order;
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);

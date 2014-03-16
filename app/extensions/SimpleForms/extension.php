@@ -122,9 +122,9 @@ class Extension extends \Bolt\BaseExtension
 
 
         if($formconfig['debugmode']==true) {
-            \util::var_dump($formconfig);
-            \util::var_dump($formname);
-            \util::var_dump($this->app['paths']);
+            \Dumper::dump($formconfig);
+            \Dumper::dump($formname);
+            \Dumper::dump($this->app['paths']);
         }
 
         $message = "";
@@ -312,7 +312,7 @@ class Extension extends \Bolt\BaseExtension
         if(!$this->app['request']->request->has($formname)) {
             // we're not submitting this particular form
             if($formconfig['debugmode']==true) {
-                \util::var_dump("we're not submitting this form: ". $formname);
+                \Dumper::dump("we're not submitting this form: ". $formname);
             }
             return;
         }
@@ -320,11 +320,11 @@ class Extension extends \Bolt\BaseExtension
         $data = $form->getData();
 
         if($formconfig['debugmode']==true) {
-            \util::var_dump($formconfig);
-            \util::var_dump($form);
-            \util::var_dump($formname);
-            \util::var_dump($data);
-            \util::var_dump($this->app['request']->files);
+            \Dumper::dump($formconfig);
+            \Dumper::dump($form);
+            \Dumper::dump($formname);
+            \Dumper::dump($data);
+            \Dumper::dump($this->app['request']->files);
         }
 
         // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
@@ -422,7 +422,7 @@ class Extension extends \Bolt\BaseExtension
             'form' =>  $data ));
 
         if($formconfig['debugmode']==true) {
-            \util::var_dump($mailhtml);
+            \Dumper::dump($mailhtml);
         }
 
         if (!empty($formconfig['mail_subject'])) {

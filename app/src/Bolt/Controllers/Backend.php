@@ -1102,6 +1102,11 @@ class Backend implements ControllerProviderInterface
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder . $path);
 
+        if (! $app['filepermissions']->authorized($currentfolder)) {
+            $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
+            $app->abort(403, $error);
+        }
+
         if (is_writable($currentfolder)) {
 
             // Define the "Upload here" form.
@@ -1162,6 +1167,10 @@ class Backend implements ControllerProviderInterface
                 }
 
                 $fullfilename = $currentfolder . "/" . $entry;
+
+                if (! $app['filepermissions']->authorized(realpath($fullfilename))) {
+                    continue;
+                }
 
                 if (is_file($fullfilename)) {
                     $files[$entry] = array(
@@ -1234,6 +1243,11 @@ class Backend implements ControllerProviderInterface
         } else {
             // otherwise just realpath it, relative to the 'webroot'.
             $filename = realpath(BOLT_WEB_DIR . "/" . $file);
+        }
+
+        if (! $app['filepermissions']->authorized($filename)) {
+            $error = __("Edit the file '%s' is forbidden.", array('%s' => $file));
+            $app->abort(403, $error);
         }
 
         $type = getExtension($filename);
