@@ -592,7 +592,7 @@ class Content implements \ArrayAccess
                         $value = $this->values[$name];
                     }
                     break;
-                
+
                 default:
                     $value = $this->values[$name];
                     break;
