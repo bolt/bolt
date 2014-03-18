@@ -625,7 +625,7 @@ class Storage
                     $fieldvalues[$key] = "";
                 }
             }
-            
+
             if ($values['type'] == "image") {
                  if (!empty($fieldvalues[$key]['file'])) {
                      $fieldvalues[$key] = serialize($fieldvalues[$key]);
