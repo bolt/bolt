@@ -109,18 +109,35 @@
                                 <li><a href="{{ content.link }}" target="_blank">
                                     <i class="icon-external-link"></i> {{ __('View on site') }}</a></li>
                             {% endif %}
+
+                            {% macro actionform(content, action, icon, text, confirmation_text) %}
+                                <form action="{{ path('contentaction', { 'action': action, 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}"
+                                      method="POST">
+                                    {% include('_sub_csrf_token.twig') %}
+                                    <button type="submit"
+                                        {% if confirmation_text %}
+                                            class="btn btn-link confirm" data-confirm="{{confirmation_text}}"
+                                        {%else%}
+                                            class="btn btn-link"
+                                        {%endif%}
+                                    >
+                                        <i class="{{ icon }}"></i>
+                                        {{ __(text) }}
+                                    </button>
+                                </form>
+                            {% endmacro %}
+                            {% from _self import actionform %}
                             {% if editable %}
                                 {% if content.status != "published" %}
                                     {% if isallowed('publish', content) %}
-                                    <li><a href="{{ path('contentaction', { 'action': 'publish', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
-                                        <i class="icon-star-empty"></i> {{ __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name}) }}</a></li>
+                                    <li>
+                                        {{ actionform(content, 'publish', 'icon-star-empty', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}
+                                    </li>
                                     {% endif %}
                                 {% else %}
                                     {% if isallowed('depublish', content) %}
-                                    <li><a href="{{ path('contentaction', { 'action': 'held', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
-                                        <i class="icon-star"></i> {{ __("Change status to 'held'") }}</a></li>
-                                    <li><a href="{{ path('contentaction', { 'action': 'draft', 'contenttypeslug': content.contenttype.slug,  'id': content.id }) }}">
-                                        <i class="icon-pencil"></i> {{ __("Change status to 'draft'") }}</a></li>
+                                    <li>{{ actionform(content, 'held', 'icon-star', __("Change status to 'held'")) }}</li>
+                                    <li>{{ actionform(content, 'draft', 'icon-pencil', __("Change status to 'draft'")) }}</li>
                                     {% endif %}
                                 {% endif %}
                                 {% if isallowed('create', content) %}
@@ -128,9 +145,12 @@
                                     <i class="icon-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 {% if isallowed('delete', content) %}
-                                <li><a href="{{ path('deletecontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, token: token() }) }}"
-                                       data-confirm="Are you sure you want to delete '{{content.getTitle}}'?" class="confirm">
-                                    <i class="icon-trash"></i> {{ __('Delete %contenttype%',{'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                                    <li>
+                                        {{ actionform(content, 'delete',
+                                                      'icon-trash',
+                                                      __('Delete %contenttype%',{'%contenttype%':content.contenttype.singular_name}),
+                                                      "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
+                                    </li>
                                 {% endif %}
                                 <li class="divider"></li>
                             {% endif %}

@@ -80,6 +80,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
             ->before(array($this, 'before'))
+            ->method('POST')
             ->bind('contentaction');
 
         $ctl->get("/changelog/{contenttype}/{contentid}", array($this, 'changelogList'))
@@ -777,6 +778,9 @@ class Backend implements ControllerProviderInterface
      */
     public function contentaction(Silex\Application $app, $action, $contenttypeslug, $id)
     {
+        if ($action === 'delete') {
+            return $this->deletecontent($app, $contenttypeslug, $id);
+        }
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         $content = $app['storage']->getContent($contenttype['slug'] . "/" . $id);
