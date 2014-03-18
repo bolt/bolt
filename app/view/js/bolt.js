@@ -174,9 +174,6 @@ function initKeyboardShortcuts() {
             console.log('watch');
         }, 1000);
 
-        // Initialize handler for 'closing window'
-        window.onbeforeunload = confirmExit;
-
         function confirmExit()
         {
             if ($('form').hasChanged()) {
@@ -184,6 +181,8 @@ function initKeyboardShortcuts() {
             }
         }
 
+        // Initialize handler for 'closing window'
+        window.onbeforeunload = confirmExit;
     }
 
 
@@ -376,7 +375,7 @@ function bindFileUpload(key) {
         .bind('fileuploadsubmit', function (e, data) {
                 var that = this,
                 fileTypes = $('#field-' + key).attr('accept');
-                
+
                 if( typeof fileTypes !== 'undefined' ) {
                     var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "gi" );
                     $.each( data.files , function (index, file) {
@@ -924,7 +923,7 @@ var FilelistHolder = Backbone.View.extend({
             }).bind('fileuploadsubmit', function (e, data) {
                 var that = this,
                 fileTypes = $('#fileupload-' + contentkey).attr('accept');
-                
+
                 if( typeof fileTypes !== 'undefined' ) {
                     var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "i" );
                     $.each( data.files , function (index, file) {
