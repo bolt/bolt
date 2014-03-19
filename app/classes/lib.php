@@ -303,25 +303,6 @@ function getExtension($filename)
 
 
 /**
- * Make sure a filename ends in an allowed extension. If it doesn't, append .file to it.
- *
- * @param string $filename
- * @param string $allowedextensions
- * @return string
- */
-function fixFilename($filename, $allowedextensions)
-{
-    if (!preg_match('/\.(' . $allowedextensions . ')$/i', $filename)) {
-        $filename .= ".file";
-    }
-
-    $filename = safeString($filename, false, "\(\)");
-
-    return $filename;
-}
-
-
-/**
  * Returns a "safe" version of the given string - basically only US-ASCII and
  * numbers. Needed because filenames and titles and such, can't use all characters.
  *
