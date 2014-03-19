@@ -1359,13 +1359,13 @@ class timthumb {
 
 	}
 	protected function serveImg($file){
-        if (!file_exists($file)) {
-        	$relfile = substr($file, 3);
-			if (BOLT_COMPOSER_INSTALLED) {
-				$file = BOLT_WEB_DIR . '/bolt-public/' . $relfile;
-			} else {
-				$file = BOLT_PROJECT_ROOT_DIR . '/app/' . $relfile;
-			}
+        if (! file_exists($file)) {
+            $relfile = substr($file, 3);
+            if (BOLT_COMPOSER_INSTALLED) {
+                $file = BOLT_WEB_DIR . '/bolt-public/' . $relfile;
+            } else {
+                $file = BOLT_PROJECT_ROOT_DIR . '/app/' . $relfile;
+            }
         }
 		$s = getimagesize($file);
 		if(! ($s && $s['mime'])){
