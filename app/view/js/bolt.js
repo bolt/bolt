@@ -378,7 +378,13 @@ function bindFileUpload(key) {
 
                 if( typeof fileTypes !== 'undefined' ) {
                     var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "gi" );
+                    var ffox = navigator.userAgent.indexOf("Firefox") > -1;
                     $.each( data.files , function (index, file) {
+                    	// workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=373621
+	                	if (ffox && file.name.toLowerCase().substr(-3) == 'pdf') {
+							var fTypes = fileTypes + '|html';
+							var pattern = new RegExp( "(\.|\/)(" + fTypes + ")$", "gi" );
+						}
                         if( !pattern.test(file.type) ) {
                             var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
                             + "\n\n(accept type was: "
