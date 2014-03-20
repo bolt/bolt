@@ -49,7 +49,7 @@ class Extension extends \Bolt\BaseExtension
         // Always include the ID in the set of fields
         array_unshift($fields, 'id');
         $fields = array_unique($fields);
-        $values = [];
+        $values = array();
         foreach ($fields as $field) {
             $values[$field] = $item->values[$field];
         }
