@@ -383,7 +383,7 @@ function bindFileUpload(key) {
                     	// workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=373621
 	                	if (ffox && file.name.toLowerCase().substr(-3) == 'pdf') {
 							var fTypes = fileTypes + '|html';
-							var pattern = new RegExp( "(\.|\/)(" + fTypes + ")$", "gi" );
+							pattern = new RegExp( "(\.|\/)(" + fTypes + ")$", "gi" );
 						}
                         if( !pattern.test(file.type) ) {
                             var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
