@@ -516,7 +516,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
-            'accept_file_types'           => "gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|epub|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm|svg",
+            'accept_file_types'           => explode(",", "gif,jpg,jpeg,png,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',
