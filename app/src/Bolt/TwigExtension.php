@@ -1287,7 +1287,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function selectfield($content, $fieldname)
     {
-        $retval[] = '';
+        $retval[] = array('');
         foreach($content as $c) {
             if(isset($c->values[$fieldname])) {
                 $retval[] = $c->values[$fieldname];
