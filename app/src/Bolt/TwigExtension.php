@@ -871,7 +871,7 @@ class TwigExtension extends \Twig_Extension
         } else {
             $crop = substr($crop, 0, 1);
         }
-        
+
         // After v1.5.1 we store image data as an array
         if (is_array($filename)) {
             $filename = $filename['file'];
@@ -978,7 +978,7 @@ class TwigExtension extends \Twig_Extension
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
         }
-        
+
         // After v1.5.1 we store image data as an array
         if (is_array($filename)) {
             $filename = $filename['file'];
@@ -1297,6 +1297,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function selectfield($content, $fieldname)
     {
+        $retval[] = array('');
         foreach($content as $c) {
             if(isset($c->values[$fieldname])) {
                 $retval[] = $c->values[$fieldname];
