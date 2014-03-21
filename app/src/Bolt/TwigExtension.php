@@ -531,8 +531,8 @@ class TwigExtension extends \Twig_Extension
     {
 
         $route_params = $this->app['request']->get('_route_params');
-        
-        // If passed a string, and it is in the route.. 
+
+        // If passed a string, and it is in the route..
         if (is_string($content) && in_array($content, $route_params)) {
             return true;
         }
@@ -1297,12 +1297,14 @@ class TwigExtension extends \Twig_Extension
      */
     public function selectfield($content, $fieldname)
     {
-        $retval[] = array('');
+        $retval = array('');
         foreach($content as $c) {
             if(isset($c->values[$fieldname])) {
                 $retval[] = $c->values[$fieldname];
             }
         }
+
         return $retval;
+        
     }
 }
