@@ -529,7 +529,17 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
+
         $route_params = $this->app['request']->get('_route_params');
+        
+        // If passed a string, and it is in the route.. 
+        if (is_string($content) && in_array($content, $route_params)) {
+            return true;
+        }
+        // special case for "home"
+        if (empty($content) && empty($route_params)) {
+            return true;
+        }
 
         $linkToCheck  = false;
 
