@@ -883,7 +883,9 @@ function path($path, $param = array(), $add = '')
 function redirect($path, $param = array(), $add = '')
 {
     global $app;
-
+    if ($path === 'login') {
+        $app['session']->set('retreat', array('route' => $app['request']->get('_route'), 'params' => $app['request']->get('_route_params')));
+    }
     return $app->redirect(path($path, $param, $add));
 
 }

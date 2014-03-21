@@ -191,8 +191,9 @@ class Backend implements ControllerProviderInterface
 
                 if ($result) {
                     $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
-
-                    return redirect('dashboard');
+                    $retreat = $app['session']->get('retreat');
+                    $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
+                    return redirect($redirect['route'], $redirect['params']);
                 }
                 return $this->getLogin($app, $request);
 
