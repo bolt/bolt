@@ -44,7 +44,11 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
 /**
  * Bolt specific: Set BOLT_PROJECT_ROOT_DIR, and Bolt-specific settings..
  */
-require_once __DIR__ . '/../bootstrap.php';
+if (substr(__DIR__, -20) == DIRECTORY_SEPARATOR.'bolt-public'.DIRECTORY_SEPARATOR.'classes') { // installed bolt with composer
+    require_once __DIR__ . '/../../../vendor/bolt/bolt/app/bootstrap.php';
+} else {
+    require_once __DIR__ . '/../bootstrap.php';
+}
 
 // Let's get on with the rest..
 $yamlparser = new Symfony\Component\Yaml\Parser();
@@ -1360,12 +1364,7 @@ class timthumb {
 	}
 	protected function serveImg($file){
         if (!file_exists($file)) {
-        	$relfile = substr($file, 3);
-			if (BOLT_COMPOSER_INSTALLED) {
-				$file = BOLT_WEB_DIR . '/bolt-public/' . $relfile;
-			} else {
-				$file = BOLT_PROJECT_ROOT_DIR . '/app/' . $relfile;
-			}
+            $file = BOLT_PROJECT_ROOT_DIR . '/app/' . substr($file, 3);
         }
 		$s = getimagesize($file);
 		if(! ($s && $s['mime'])){
