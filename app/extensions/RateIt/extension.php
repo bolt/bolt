@@ -10,7 +10,7 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-// For DB access 
+// For DB access
 use Doctrine\DBAL\Schema\Schema;
 
 class Extension extends \Bolt\BaseExtension
@@ -76,12 +76,12 @@ class Extension extends \Bolt\BaseExtension
         if (empty($this->config['logging'])) {
             $this->config['logging'] = 'off';
         }
-        
+
         $this->path = $this->app['paths']['app'] . 'extensions/' . $this->namespace;
 
-        $html = '<script type="text/javascript" src="' . $this->path . '/js/jquery.rateit.min.js"></script>';
+        $html = '<script type="text/javascript" defer="defer" src="' . $this->path . '/js/jquery.rateit.min.js"></script>';
         $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
-        
+
         $this->addTwigFunction('rateit', 'twigRateIt');
         $this->app->after(array($this, "afterCallback"), 1);
     }
@@ -89,7 +89,7 @@ class Extension extends \Bolt\BaseExtension
     function twigRateIt() {
         $max = $this->config['stars'];
         $inc = $this->config['increment'];
-        
+
         if ($this->isCookieSet()) {
             $readonly = 'data-rateit-readonly="true"';
         }
@@ -103,14 +103,14 @@ class Extension extends \Bolt\BaseExtension
 
         return new \Twig_Markup($html, 'UTF-8');
     }
-    
+
     function afterCallback()
     {
         $record = $this->getRecord();
-    
+
         $this->insertRateItJS($record);
     }
-    
+
     /**
      *
      *
@@ -121,22 +121,22 @@ class Extension extends \Bolt\BaseExtension
      */
     private function getRecord()
     {
-    
+
         if (isset($this->record)) {
             return $this->record;
         }
-    
+
         $globalTwigVars = $this->app['twig']->getGlobals('record');
-    
+
         if (isset($globalTwigVars['record'])) {
             $record = $globalTwigVars['record'];
         } else {
             $record = false;
         }
-    
+
         return $record;
     }
-    
+
     private function isCookieSet() {
         $record = $this->getRecord();
         $bolt_record_id = $record->id;
@@ -147,7 +147,7 @@ class Extension extends \Bolt\BaseExtension
         }
         return false;
     }
-    
+
     /**
      *
      *
@@ -160,7 +160,11 @@ class Extension extends \Bolt\BaseExtension
     {
         $bolt_record_id = $record->id;
         $bolt_contenttype = strtolower( $record->contenttype['name'] );
-        
+
+        if (empty($bolt_record_id) || empty($bolt_contenttype)) {
+            return;
+        }
+
         // Get the current value of the rating
         try {
             $lookup = $this->dbLookupRating(array('contenttype' => $bolt_contenttype, 'record_id' => $bolt_record_id));
@@ -174,13 +178,13 @@ class Extension extends \Bolt\BaseExtension
             $current_val = 0;
         }
 
-        // Set data that stores the Contenttype and record ID/number so that 
+        // Set data that stores the Contenttype and record ID/number so that
         // votes can be associated with this record
         //
         // Also we set the existing value here
         $js = "
             <script type =\"text/javascript\">
-            
+
             $(document).ready(function(){
                 $('.rateit').data('bolt-record-id', '" . $bolt_record_id . "');
                 $('.rateit').data('bolt-contenttype', '" . $bolt_contenttype . "');
@@ -188,13 +192,13 @@ class Extension extends \Bolt\BaseExtension
                 $('.rateit').rateit('value', " . $current_val . ");
 
             });
-            
+
             </script>
             ";
 
-        // If 'tooltips' is set in config, insert them here 
+        // If 'tooltips' is set in config, insert them here
         if (!empty($this->config['tooltips'])) {
-            $js .= "                    
+            $js .= "
             <script type=\"text/javascript\">
 
             var tooltipvalues = " . json_encode($this->config['tooltips']) . ";
@@ -204,24 +208,24 @@ class Extension extends \Bolt\BaseExtension
             });
             ";
         }
-        
+
         // Bind to clicks on RateIt
         $js .= "
             </script>
-            
+
             <script type =\"text/javascript\">
-       
+
             $('.rateit').bind(
                     'rated reset',
                     function(e) {
-        
+
                         var ri = $(this);
-        
+
                         // If the user pressed reset, it will get value: 0
                         var value = ri.rateit('value');
                         var record_id = ri.data('bolt-record-id');
                         var contenttype = ri.data('bolt-contenttype');
-        
+
                         $.ajax({
                             url : '" . $this->ajax_path . "',
                             data : {
@@ -234,13 +238,13 @@ class Extension extends \Bolt\BaseExtension
                                 if (value != 0) {
                                     // Disable voting
                                     ri.rateit('readonly', true);
-                                
+
                                     var retval = data.retval;
                                     var msg = data.msg;
                                     $('#rateit_response').html('<span>' + msg + '</span>');
                                     $('#rateit_response').show();
                                 }
-        
+
                             },
                             error : function(jxhr, msg, err) {
                                 $('#rateit_response').html('<span style=\"color:red\">AJAX error: (' + err + ')</span>');
@@ -249,12 +253,12 @@ class Extension extends \Bolt\BaseExtension
                             dataType: 'json'
                         });
                     });
-        
+
             </script>";
 
         $this->insertSnippet(SnippetLocation::END_OF_BODY, $js );
     }
-    
+
     /**
      * Register, setup and index our database table
      *
@@ -271,34 +275,34 @@ class Extension extends \Bolt\BaseExtension
             function(Schema $schema) use ($me) {
                 // Define table
                 $table = $schema->createTable($me->table_name);
-                
+
                 // Add primary column
                 $table->addColumn("id", "integer", array('autoincrement' => true));
                 $table->setPrimaryKey(array("id"));
-                
-                // Add working columns 
+
+                // Add working columns
                 $table->addColumn("content_id", "integer", array("length" => 11));
                 $table->addColumn("contenttype", "string", array("length" => 32));
                 $table->addColumn("vote_num", "integer");
                 $table->addColumn("vote_sum", "decimal", array("scale" => '2'));
                 $table->addColumn("vote_avg", "decimal", array("scale" => '2'));
-                
+
                 // Index column(s)
                 $table->addIndex(array('content_id'));
                 $table->addIndex(array('contenttype'));
                 return $table;
             });
-        
+
         // Log table
         $this->app['integritychecker']->registerExtensionTable(
             function(Schema $schema) use ($me) {
                 // Define table
                 $table = $schema->createTable($me->log_table_name);
-        
+
                 // Add primary column
                 $table->addColumn("id", "integer", array('autoincrement' => true));
                 $table->setPrimaryKey(array("id"));
-        
+
                 // Add working columns
                 $table->addColumn("datetime", "datetime");
                 $table->addColumn("ip", "string", array("length" => 39));
@@ -312,9 +316,9 @@ class Extension extends \Bolt\BaseExtension
     }
 
     /**
-     * Lookup extension database to see if a rating exists for an existing 
+     * Lookup extension database to see if a rating exists for an existing
      * record and return it.
-     * 
+     *
      * @since Bolt 1.5.1
      *
      * @param string $contenttype The Bolt contenttype being rated
@@ -323,8 +327,8 @@ class Extension extends \Bolt\BaseExtension
      */
     private function dbLookupRating(Array $rating) {
 
-        $query = 
-            "SELECT vote_num, vote_sum, vote_avg " . 
+        $query =
+            "SELECT vote_num, vote_sum, vote_avg " .
             "FROM `{$this->table_name}` " .
             "WHERE ( `contenttype` = '{$rating['contenttype']}' AND `content_id` = '{$rating['record_id']}' ) " .
             "LIMIT 1";
@@ -333,19 +337,19 @@ class Extension extends \Bolt\BaseExtension
 
         return $rating;
     }
-    
+
     /**
-     * Update extension database rating for an existing record with results of  
+     * Update extension database rating for an existing record with results of
      * incomming vote
-     * 
+     *
      * @since Bolt 1.5.1
      *
      * @param array $rating Array of details about the vote that was made
-     * @return array        Array to be returned to AJAX client 
+     * @return array        Array to be returned to AJAX client
      */
     private function dbUpdateRating(Array $rating) {
         $response = array();
-        
+
         if ($rating['create'] === true) {
             $query = "INSERT INTO `{$this->table_name}` " .
                      "(`contenttype`, `content_id`, `vote_num`, `vote_sum`, `vote_avg`) " .
@@ -353,7 +357,7 @@ class Extension extends \Bolt\BaseExtension
         }
         else {
             $query = "UPDATE `{$this->table_name}` " .
-                     "SET `vote_num` = :num, `vote_sum` = :sum, `vote_avg` = :avg " . 
+                     "SET `vote_num` = :num, `vote_sum` = :sum, `vote_avg` = :avg " .
                      "WHERE (`contenttype` = :type AND `content_id` = :id) ";
         }
         $map = array(
@@ -365,7 +369,7 @@ class Extension extends \Bolt\BaseExtension
                 );
 
         $ra = $this->app['db']->executeUpdate($query, $map);
-        
+
         if ($ra === 1) {
             $response['retval'] = 0;
             $response['msg'] = str_replace( '%RATING%', $rating['vote'], $this->config['response_msg']);
@@ -377,7 +381,7 @@ class Extension extends \Bolt\BaseExtension
         }
         return $response;
     }
-    
+
     /**
      * Log the readers rating vote
      *
@@ -386,23 +390,23 @@ class Extension extends \Bolt\BaseExtension
      * @param array|string $vars Do something
      * @return NULL
      */
-    private function dbLogVote(Request $request) 
+    private function dbLogVote(Request $request)
     {
         $query = "INSERT INTO `{$this->log_table_name}` " .
                  "(`datetime`, `ip`, `cookie`, `content_id`, `contenttype`, `vote`) " .
                  "VALUES (:datetime, :ip, :cookie, :content_id, :contenttype, :vote)";
         $map = array(
-                ':datetime' => date("Y-m-d H:i:s", time()), 
-                ':ip' => $request->getClientIp(), 
-                ':cookie' => $request->cookies->get('bolt_session'), 
-                ':content_id' => $request->get('record_id'), 
-                ':contenttype' => $request->get('contenttype'), 
+                ':datetime' => date("Y-m-d H:i:s", time()),
+                ':ip' => $request->getClientIp(),
+                ':cookie' => $request->cookies->get('bolt_session'),
+                ':content_id' => $request->get('record_id'),
+                ':contenttype' => $request->get('contenttype'),
                 ':vote' => floatval($request->get('value'))
                 );
 
         $ra = $this->app['db']->executeUpdate($query, $map);
     }
-    
+
     /**
      *
      * @since 1.0
@@ -423,11 +427,11 @@ class Extension extends \Bolt\BaseExtension
             if ($this->config['logging'] == 'on') {
                 $this->dbLogVote($request);
             }
-            
+
             $rating['contenttype'] = $request->get('contenttype');
             $rating['record_id'] = $request->get('record_id');
             $rating['vote'] = floatval($request->get('value'));
-            
+
             $db_rating = $this->dbLookupRating($rating);
 
             if (empty($db_rating)) {
