@@ -9116,22 +9116,27 @@ aside .btn {
   font-weight: normal;
   line-height: 18px;
 }
-
 /* line 25, ../sass/_popover.scss */
 .popover-content p {
   margin: 4px 0;
 }
+/* line 29, ../sass/_popover.scss */
+.popover-content a {
+  font-weight: normal;
+  overflow: hidden;
+  height: 2em;
+}
 
 /* Note: We only use popover-bottom for items on the stack. If we start using it
    for anything else, we need to specify the selector further */
-/* line 31, ../sass/_popover.scss */
+/* line 38, ../sass/_popover.scss */
 .popover.bottom {
   width: 220px;
   margin-left: 110px;
   margin-top: 4px;
 }
 
-/* line 37, ../sass/_popover.scss */
+/* line 44, ../sass/_popover.scss */
 .popover.bottom .popover-content, .popover.bottom .popover-content code {
   font-size: 12px;
   overflow: hidden;

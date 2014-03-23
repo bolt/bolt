@@ -19,18 +19,19 @@
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                 <i class="fa fa-dashboard"></i> {{ __('Dashboard') }}</a></li>
 
+
             {% for slug, contenttype in app.config.get('contenttypes') %}
                 {% if isallowed('contenttype:' ~ slug) and contenttype.show_in_menu %}
                     {% set title = { icon: contenttype.icon|default('th-list'), label: contenttype.name } %}
                     {% set sub = [
-                    { icon: 'group', label: __('Users'), link: path('users'), isallowed: 'fileedit' },
-                    { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'file': 'app/config/config.yml'}), isallowed: 'fileedit' },
-                    { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'file': 'app/config/contenttypes.yml'}), isallowed: 'fileedit' },
-                    { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'file': 'app/config/taxonomy.yml'}), isallowed: 'fileedit' },
+                    { icon: contenttype.icon|default('th-list'), label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}), link: path('overview', { 'contenttypeslug': slug }) },
+                    { icon: 'plus', label: __('New %contenttype%',{'%contenttype%': contenttype.singular_name}), link: path('editcontent', { 'contenttypeslug': slug, 'id': '' }), isallowed: 'contenttype:' ~ slug ~ ':create' },
                     '-',
-                    { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'file': 'app/config/menu.yml'}), isallowed: 'fileedit' },
-                    { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'file': 'app/config/routing.yml'}), isallowed: 'fileedit' }
                     ] %}
+                    {% setcontent records = slug limit 4 %}
+                    {% for record in records %}
+                        {% set sub = sub|merge([{ icon: 'file-text-o', label: record.excerpt(80, true), link: path('editcontent', { 'contenttypeslug': slug, 'id': record.id }) }]) %}
+                    {% endfor %}
 
                     {{ macro.sidebarblock(title, sub) }}
                 {% endif %}

@@ -1015,8 +1015,14 @@ class Content implements \ArrayAccess
      * @param  int    $length
      * @return string
      */
-    public function excerpt($length = 200)
+    public function excerpt($length = 200, $includetitle = false)
     {
+
+        if ($includetitle) {
+            $title = $this->getTitle();
+            $length = $length - strlen($title);
+        }
+
         $excerpt = array();
 
         if (!empty($this->contenttype['fields'])) {
@@ -1031,6 +1037,10 @@ class Content implements \ArrayAccess
 
         $excerpt = str_replace(">", "> ", implode(" ", $excerpt));
         $excerpt = trimText(strip_tags($excerpt), $length) ;
+
+        if (!empty($title)) {
+            $excerpt = sprintf("<b>%s</b> %s", $title, $excerpt);
+        }
 
         return new \Twig_Markup($excerpt, 'UTF-8');
 

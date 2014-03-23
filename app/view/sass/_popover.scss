@@ -21,9 +21,16 @@
     font-size: 13px;
     font-weight: normal;
     line-height: 18px;
-}
-.popover-content p {
-    margin: 4px 0;
+
+    p {
+        margin: 4px 0;
+    }
+
+    a {
+      font-weight: normal;
+      overflow: hidden;
+      height: 2em;
+    }
 }
 
 /* Note: We only use popover-bottom for items on the stack. If we start using it
