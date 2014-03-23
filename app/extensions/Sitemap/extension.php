@@ -41,6 +41,9 @@ class Extension extends \Bolt\BaseExtension
      */
     function initialize()
     {
+        if (empty($this->config['ignore_contenttype'])) {
+            $this->config['ignore_contenttype'] = array();
+        }
 
         // Set up the routes for the sitemap..
         $this->app->match("/sitemap", array($this, 'sitemap'));
@@ -60,16 +63,18 @@ class Extension extends \Bolt\BaseExtension
 
         $links = array(array('link' => $this->app['paths']['root'], 'title' => $this->app['config']->get('general/sitename')));
         foreach( $this->app['config']->get('contenttypes') as $contenttype ) {
-            if (isset($contenttype['listing_template'])) {
-                $links[] = array( 'link' => $this->app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
-            }
-            $content = $this->app['storage']->getContent(
-                $contenttype['slug'],
-                array('limit' => 10000, 'order' => 'datepublish desc')
-            );
-            foreach( $content as $entry ) {
-                $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
-                    'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
+            if(!in_array($contenttype['slug'], $this->config['ignore_contenttype'])) {
+                if (isset($contenttype['listing_template'])) {
+                    $links[] = array( 'link' => $this->app['paths']['root'].$contenttype['slug'], 'title' => $contenttype['name'] );
+                }
+                $content = $this->app['storage']->getContent(
+                    $contenttype['slug'],
+                    array('limit' => 10000, 'order' => 'datepublish desc')
+                );
+                foreach( $content as $entry ) {
+                    $links[] = array('link' => $entry->link(), 'title' => $entry->getTitle(),
+                        'lastmod' => date( \DateTime::W3C, strtotime($entry->get('datechanged'))));
+                }
             }
         }
 

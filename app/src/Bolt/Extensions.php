@@ -276,12 +276,16 @@ class Extensions
      *
      * @param string $filename
      */
-    public function addCss($filename)
+    public function addCss($filename, $late)
     {
 
         $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
 
-        $this->insertSnippet(SnippetLocation::BEFORE_CSS, $html);
+        if ($late) {
+            $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
+        } else {
+            $this->insertSnippet(SnippetLocation::BEFORE_CSS, $html);
+        }
 
     }
 
@@ -290,12 +294,16 @@ class Extensions
      * the other javascript files.
      * @param string $filename
      */
-    public function addJavascript($filename)
+    public function addJavascript($filename, $late)
     {
 
         $html = sprintf('<script src="%s"></script>', $filename);
 
-        $this->insertSnippet(SnippetLocation::AFTER_JS, $html);
+        if ($late) {
+            $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
+        } else {
+            $this->insertSnippet(SnippetLocation::AFTER_JS, $html);
+        }
 
     }
 
@@ -810,7 +818,7 @@ class Extensions
         }
 
         // then, attempt to insert it after the last <script> tag within context, matching indentation..
-        if (preg_match_all("~^([ \t]*)<script (.*)~mi", $context, $matches)) {
+        if (preg_match_all("~</script>~mi", $context, $matches)) {
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $tag);

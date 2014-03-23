@@ -8,38 +8,42 @@
     <div class="eight columns" role="content">
 
         <article>
+            {% if record is defined %}
 
-            {# make the 'home' variable refer to the current record, which is set by the
-               user in config.yml #}
-            {% set home = record %}
-            {% if home.title is defined and home.title is not empty %}
-                <h1>{{ home.title }}</h1>
+                {# make the 'home' variable refer to the current record, which is set by the
+                   user in config.yml #}
+                {% set home = record %}
+                {% if home.title is defined and home.title is not empty %}
+                    <h1>{{ home.title }}</h1>
+                {% endif %}
+
+                {% if home.image is defined and home.image is not empty %}
+                    <div class="five columns imageholder">
+                        <a href="{{ image(home.image) }}">
+                            <img src="{{ thumbnail(home.image, 400, 260) }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# display something introduction-like.. #}
+                {% if home.introduction is defined and home.introduction is not empty %}
+                    {{ home.introduction }}
+                {% elseif home.teaser is defined and home.teaser is not empty %}
+                    {{ home.teaser }}
+                {% elseif home is not empty %}
+                    <p>{{ home.excerpt(500) }}</p>
+                {% endif %}
+
+                {% if home.link is defined and home.link is not empty %}
+                    <a href="{{ home.link }}">{{ __('Read more') }} &raquo;</a>
+                {% endif %}
+
+                {# Tip: If you're curious what all of the available fields of this
+                   record contain, just use {{ print(home) }}, to print it all. #}
+
+            {% else %}
+                <p>{{ __('Content for home not found!') }}</p>
             {% endif %}
-
-            {% if home.image is defined and home.image is not empty %}
-                <div class="five columns imageholder">
-                    <a href="{{ image(home.image) }}">
-                        <img src="{{ thumbnail(home.image, 400, 260) }}">
-                    </a>
-                </div>
-            {% endif %}
-
-            {# display something introduction-like.. #}
-            {% if home.introduction is defined and home.introduction is not empty %}
-                {{ home.introduction }}
-            {% elseif home.teaser is defined and home.teaser is not empty %}
-                {{ home.teaser }}
-            {% elseif home is not empty %}
-                <p>{{ home.excerpt(500) }}</p>
-            {% endif %}
-
-            {% if home.link is defined and home.link is not empty %}
-                <a href="{{ home.link }}">{{ __('Read more') }} &raquo;</a>
-            {% endif %}
-
-            {# Tip: If you're curious what all of the available fields of this
-               record contain, just use {{ print(home) }}, to print it all. #}
-
         </article>
 
         <hr>

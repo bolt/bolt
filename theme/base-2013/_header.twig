@@ -32,6 +32,8 @@
 
     <script src="{{ paths.theme }}javascripts/app.js"></script>
 
+    {#<!-- A variable from the theme's config: {{ theme.foo }} -->#}
+
 </head>
 <body>
 
@@ -70,7 +72,7 @@
     <!-- Header bar -->
 
     <div class="headerphoto">
-        <img src="{{ paths.root }}theme/base-2013/images/header_3.jpg" width="1200" height="350" />
+        <img src="{{ paths.theme }}images/header_3.jpg" width="1200" height="350" />
         {# the values in the 'app.config' object are taken directly from the file app/config/config.yml #}
         <p><span>{{ app.config.get('general/sitename') }}</span>
             {% if app.config.get('general/payoff') %}

@@ -19,7 +19,7 @@ class ConfigGet extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $key = $input->getArgument('key');
-        $file = $this->app['paths']['apppath']."/config/config.yml";
+        $file = BOLT_CONFIG_DIR . "/config.yml";
 
         $yaml = new \Bolt\YamlUpdater($file);
         $match = $yaml->get($key);

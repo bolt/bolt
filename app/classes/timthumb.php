@@ -25,7 +25,9 @@
  */
 
 // @see: http://stackoverflow.com/questions/6483912/php-serverredirect-url-vs-serverrequest-uri
-if (!empty($_SERVER['REDIRECT_URL']) && (strpos($_SERVER['REDIRECT_URL'], 'timthumb.php') === false)) {
+if (!empty($_SERVER['REDIRECT_URL']) &&
+    (strpos($_SERVER['REDIRECT_URL'], 'timthumb.php') === false) &&
+    (strpos($_SERVER['REDIRECT_URL'], 'index.php') === false)) {
     $requesturi = $_SERVER['REDIRECT_URL'];
 } else {
     $requesturi = $_SERVER['REQUEST_URI'];
@@ -44,11 +46,7 @@ if (empty($matches[1]) || empty($matches[2]) || empty($matches[4])) {
 /**
  * Bolt specific: Set BOLT_PROJECT_ROOT_DIR, and Bolt-specific settings..
  */
-if (substr(__DIR__, -20) == DIRECTORY_SEPARATOR.'bolt-public'.DIRECTORY_SEPARATOR.'classes') { // installed bolt with composer
-    require_once __DIR__ . '/../../../vendor/bolt/bolt/app/bootstrap.php';
-} else {
-    require_once __DIR__ . '/../bootstrap.php';
-}
+require_once __DIR__ . '/../bootstrap.php';
 
 // Let's get on with the rest..
 $yamlparser = new Symfony\Component\Yaml\Parser();
@@ -70,7 +68,7 @@ define('ERROR_IMAGE', !empty($config['general']['thumbnails']['error_image'])
 
 // A CLI-server hack
 "cli-server" === php_sapi_name() && !defined('FILE_CACHE_DIRECTORY')
-    && define('FILE_CACHE_DIRECTORY', BOLT_PROJECT_ROOT_DIR . '/app/' . 'cache/thumbs/');
+    && define('FILE_CACHE_DIRECTORY', BOLT_CACHE_DIR . '/thumbs/');
 
 /* This might look a bit odd, but for now it's a convenient way to make sure we're serving images from
    either files/ or theme/.
@@ -134,7 +132,7 @@ if(! defined('FILE_CACHE_TIME_BETWEEN_CLEANS'))	define ('FILE_CACHE_TIME_BETWEEN
 if(! defined('FILE_CACHE_MAX_FILE_AGE') ) 	define ('FILE_CACHE_MAX_FILE_AGE', 86400);				// How old does a file have to be to be deleted from the cache
 if(! defined('FILE_CACHE_SUFFIX') ) 		define ('FILE_CACHE_SUFFIX', '.timthumb.txt');			// What to put at the end of all files in the cache directory so we can identify them
 if(! defined('FILE_CACHE_PREFIX') ) 		define ('FILE_CACHE_PREFIX', 'timthumb');				// What to put at the beg of all files in the cache directory so we can identify them
-if(! defined('FILE_CACHE_DIRECTORY') ) 		define ('FILE_CACHE_DIRECTORY', '../cache/thumbs/');				// Directory where images are cached. Left blank it will use the system temporary directory (which is better for security)
+if(! defined('FILE_CACHE_DIRECTORY') ) 		define ('FILE_CACHE_DIRECTORY', BOLT_CACHE_DIR . '/thumbs/');	// Directory where images are cached. Left blank it will use the system temporary directory (which is better for security)
 if(! defined('MAX_FILE_SIZE') )				define ('MAX_FILE_SIZE', 10485760);						// 10 Megs is 10485760. This is the max internal or external file size that we'll process.
 if(! defined('CURL_TIMEOUT') )				define ('CURL_TIMEOUT', 20);							// Timeout duration for Curl. This only applies if you have Curl installed and aren't using PHP's default URL fetching mechanism.
 if(! defined('WAIT_BETWEEN_FETCH_ERRORS') )	define ('WAIT_BETWEEN_FETCH_ERRORS', 3600);				//Time to wait between errors fetching remote file
@@ -1363,8 +1361,13 @@ class timthumb {
 
 	}
 	protected function serveImg($file){
-        if (!file_exists($file)) {
-            $file = BOLT_PROJECT_ROOT_DIR . '/app/' . substr($file, 3);
+        if (! file_exists($file)) {
+            $relfile = substr($file, 3);
+            if (BOLT_COMPOSER_INSTALLED) {
+                $file = BOLT_WEB_DIR . '/bolt-public/' . $relfile;
+            } else {
+                $file = BOLT_PROJECT_ROOT_DIR . '/app/' . $relfile;
+            }
         }
 		$s = getimagesize($file);
 		if(! ($s && $s['mime'])){

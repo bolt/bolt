@@ -396,6 +396,10 @@ class Users
 
             $user['sessionkey'] = $this->getAuthtoken($user['username']);
 
+            // We wish to create a new session-id for extended security, but due to a bug in PHP < 5.4.11, this
+            // will throw warnings. Suppress them here. #shakemyhead
+            // @see: https://bugs.php.net/bug.php?id=63379
+            @$this->session->migrate(true);
             $this->session->set('user', $user);
             $this->session->getFlashBag()->set('success', __("You've been logged on successfully."));
 
@@ -646,9 +650,6 @@ class Users
     }
 
 
-
-
-
     /**
      * Log out the currently logged in user.
      *
@@ -657,9 +658,14 @@ class Users
     {
         $this->session->getFlashBag()->set('info', __('You have been logged out.'));
         $this->session->remove('user');
+        @$this->session->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
+        try {
+            $this->db->delete($this->authtokentable, array('username' => $this->currentuser['username']));
+        } catch (\Exception $e) {
+            // Nope. No auth tokens to be deleted. .
+        }
 
         // Remove the cookie..
         setcookie(
@@ -671,10 +677,6 @@ class Users
             $this->app['config']->get('general/cookies_https_only'),
             true
         );
-
-        // This is commented out for now: shouldn't be necessary, and it also removes the flash notice.
-        // $this->session->invalidate();
-
     }
 
     /**

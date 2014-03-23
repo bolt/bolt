@@ -72,6 +72,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
             new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('twig', array($this, 'twig'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('tt', array($this, 'decorateTT'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('ucfirst', array($this, 'ucfirst')),
             new \Twig_SimpleFilter('excerpt', array($this, 'excerpt'), array('is_safe' => array('html'))),
@@ -91,7 +92,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('round', array($this, 'round')),
             new \Twig_SimpleFilter('floor', array($this, 'floor')),
             new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
-            new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo'))
+            new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo')),
+            new \Twig_SimpleFilter('selectfield', array($this, 'selectfield'))
         );
     }
 
@@ -327,7 +329,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return the 'sluggified' version of a string.
      *
-     * @param $str input value
+     * @param $str string input value
      * @return string slug
      */
     public function slug($str)
@@ -368,6 +370,42 @@ class TwigExtension extends \Twig_Extension
         return $output;
     }
 
+
+    /**
+     * Formats the given string as Twig in HTML
+     *
+     * Note: this is partially duplicating the template_from_string functionality:
+     * http://twig.sensiolabs.org/doc/functions/template_from_string.html
+     *
+     * We can't use that functionality though, since it requires the Twig_Extension_StringLoader()
+     * extension. If we would use that, when instantiating Twig, it screws up the rendering: Every
+     * template that has a filename that doesn't exist will be rendered as literal string. This
+     * _really_ messes up the 'cascading rendering' of our theme templates.
+     *
+     * @param  string $content
+     * @return string Twig output
+     */
+    public function twig($snippet, $extravars = array())
+    {
+
+        // Remember the current Twig loaders.
+        $oldloader = $this->app['twig']->getLoader();
+
+        $this->app['twig']->setLoader(new \Twig_Loader_String());
+
+        // Parse the snippet.
+        $html = $this->app['render']->render($snippet, $extravars);
+
+        // Re-set the loaders back to the old situation.
+        $this->app['twig']->setLoader($oldloader);
+
+        return $html;
+
+    }
+
+
+
+
     public function decorateTT($str)
     {
         return decorateTT($str);
@@ -391,11 +429,19 @@ class TwigExtension extends \Twig_Extension
      * @param  string $on
      * @return array
      */
-    public function order($array, $on)
+    public function order($array, $on, $on_secondary = '')
     {
 
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
+
+        // Set the secondary order, if any..
+        if (!empty($on_secondary)) {
+            list($this->order_on_secondary, $this->order_ascending_secondary) = $this->app['storage']->getSortOrder($on_secondary);
+        } else {
+            $this->order_on_secondary = false;
+            $this->order_ascending_secondary = false;
+        }
 
         uasort($array, array($this, "orderHelper"));
 
@@ -412,19 +458,32 @@ class TwigExtension extends \Twig_Extension
      */
     private function orderHelper($a, $b)
     {
+        $a_val = $a[$this->order_on];
+        $b_val = $b[$this->order_on];
 
-        $on = $this->order_on;
-        $ascending = $this->order_ascending;
-
-        $a_val = $a[$on];
-        $b_val = $b[$on];
-
-        if ($a_val == $b_val) {
-            return 0;
-        } elseif ($a_val < $b_val) {
-            return !$ascending;
+        // Check the primary sorting criterium..
+        if ($a_val < $b_val) {
+            return !$this->order_ascending;
+        } else if ($a_val > $b_val) {
+            return $this->order_ascending;
         } else {
-            return $ascending;
+            // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
+            if (empty($this->order_on_secondary)) {
+                return 0;
+            }
+
+            $a_val = $a[$this->order_on_secondary];
+            $b_val = $b[$this->order_on_secondary];
+
+            if ($a_val < $b_val) {
+                return !$this->order_ascending_secondary;
+            } else if ($a_val > $b_val) {
+                return $this->order_ascending_secondary;
+            } else {
+                // both criteria are the same. Whatever!
+                return 0;
+            }
+
         }
 
     }
@@ -473,16 +532,39 @@ class TwigExtension extends \Twig_Extension
 
         $route_params = $this->app['request']->get('_route_params');
 
-        $link = false;
-        if (is_array($content) && isset($content['link'])) {
-            $link = $content['link'];
-        } elseif ($content instanceof \Bolt\Content) {
-            $link = $content->link();
+        // If passed a string, and it is in the route..
+        if (is_string($content) && in_array($content, $route_params)) {
+            return true;
+        }
+        // special case for "home"
+        if (empty($content) && empty($route_params)) {
+            return true;
         }
 
+        $linkToCheck  = false;
+
+        if (is_array($content) && isset($content['link'])) {
+
+            $linkToCheck = $content['link'];
+        } elseif ($content instanceof \Bolt\Content) {
+
+            $linkToCheck = $content->link();
+        }
+
+        $requestedUri    = explode('?', $this->app['request']->getRequestUri());
+
+        $entrancePageUrl = $this->app['config']->get('general/homepage');
+        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/')
+                            ? '/' . $entrancePageUrl
+                            : $entrancePageUrl;
+
         // check against Request Uri
-        $temp = explode('?', $this->app['request']->getRequestUri());
-        if ($temp[0] == $link) {
+        if ($requestedUri[0] == $linkToCheck) {
+            return true;
+        }
+
+        // check against entrance page url from general configuration
+        if ('/' == $requestedUri[0] && $linkToCheck == $entrancePageUrl) {
             return true;
         }
 
@@ -492,7 +574,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         // check against simple content.link
-        if ("/" . $route_params['contenttypeslug'] . "/" . $route_params['slug'] == $link) {
+        if ("/" . $route_params['contenttypeslug'] . "/" . $route_params['slug'] == $linkToCheck) {
             return true;
         }
 
@@ -509,7 +591,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return false;
-
     }
 
     /**
@@ -791,6 +872,11 @@ class TwigExtension extends \Twig_Extension
             $crop = substr($crop, 0, 1);
         }
 
+        // After v1.5.1 we store image data as an array
+        if (is_array($filename)) {
+            $filename = $filename['file'];
+        }
+
         $thumbnail = sprintf(
             "%sthumbs/%sx%s%s/%s",
             $this->app['paths']['root'],
@@ -891,6 +977,11 @@ class TwigExtension extends \Twig_Extension
         if ($width != "" || $height != "") {
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
+        }
+
+        // After v1.5.1 we store image data as an array
+        if (is_array($filename)) {
+            $filename = $filename['file'];
         }
 
         $image = sprintf(
@@ -1186,7 +1277,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return whether or not an item is on the stack
      *
-     * @param string filename
+     * @param $filename string filename
      */
     public function stacked($filename)
     {
@@ -1194,6 +1285,26 @@ class TwigExtension extends \Twig_Extension
         $stacked = $this->app['stack']->isOnStack($filename);
 
         return $stacked;
+
+    }
+
+
+    /**
+     * Return a selected field from a contentset
+     *
+     * @param array $content A Bolt record array
+     * @param string fieldname Name of field to return from each record
+     */
+    public function selectfield($content, $fieldname)
+    {
+        $retval = array('');
+        foreach($content as $c) {
+            if(isset($c->values[$fieldname])) {
+                $retval[] = $c->values[$fieldname];
+            }
+        }
+
+        return $retval;
 
     }
 }

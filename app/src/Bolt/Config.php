@@ -133,7 +133,7 @@ class Config
             $part = & $part[$key];
         }
 
-        if ($value != null) {
+        if ($value !== null) {
             return $value;
         }
 
@@ -203,13 +203,22 @@ class Config
         // Make sure Bolt's mount point is OK:
         $config['general']['branding']['path'] = '/' . safeString($config['general']['branding']['path']);
 
+        // Make sure $config['taxonomy'] is an array. (if the file is empty, YAML parses it as NULL)
+        if (empty($config['taxonomy'])) {
+            $config['taxonomy'] = array();
+        }
+
         // Clean up taxonomies
         foreach ($config['taxonomy'] as $key => $value) {
             if (!isset($config['taxonomy'][$key]['name'])) {
                 $config['taxonomy'][$key]['name'] = ucwords($config['taxonomy'][$key]['slug']);
             }
             if (!isset($config['taxonomy'][$key]['singular_name'])) {
-                $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+                if (isset($config['taxonomy'][$key]['singular_slug'])) {
+                    $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['singular_slug']);
+                } else {
+                    $config['taxonomy'][$key]['singular_name'] = ucwords($config['taxonomy'][$key]['slug']);
+                }
             }
             if (!isset($config['taxonomy'][$key]['slug'])) {
                 $config['taxonomy'][$key]['slug'] = strtolower(safeString($config['taxonomy'][$key]['name']));
@@ -241,7 +250,21 @@ class Config
 
         // Clean up contenttypes
         $config['contenttypes'] = array();
-        foreach ($tempContentTypes as $temp) {
+        foreach ($tempContentTypes as $key => $temp) {
+
+            // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
+            // neither 'singular_name' nor 'singular_slug' is set.
+            if (!isset($temp['name']) && !isset($temp['slug'])) {
+                $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+                $llc = new \LowlevelChecks();
+                $llc->lowlevelError($error);
+            }
+            if (!isset($temp['singular_name']) && !isset($temp['singular_slug'])) {
+                $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+                $llc = new \LowlevelChecks();
+                $llc->lowlevelError($error);
+            }
+
             if (!isset($temp['slug'])) {
                 $temp['slug'] = makeSlug($temp['name']);
             }
@@ -253,6 +276,9 @@ class Config
             }
             if (!isset($temp['sort'])) {
                 $temp['sort'] = 'id';
+            }
+            if (!isset($temp['default_status'])) {
+                $temp['default_status'] = 'draft';
             }
             // Make sure all fields are lowercase and 'safe'.
             $tempfields = $temp['fields'];
@@ -284,6 +310,16 @@ class Config
             // Make sure taxonomy is an array.
             if (isset($temp['taxonomy']) && !is_array($temp['taxonomy'])) {
                 $temp['taxonomy'] = array($temp['taxonomy']);
+            }
+
+            // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
+            if (!empty($temp['relations']) && is_array($temp['relations'])) {
+                foreach($temp['relations'] as $key => $relation) {
+                    if ($key != makeSlug($key)) {
+                        $temp['relations'][makeSlug($key)] = $temp['relations'][$key];
+                        unset($temp['relations'][$key]);
+                    }
+                }
             }
 
             $config['contenttypes'][$temp['slug']] = $temp;
@@ -492,6 +528,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
+            'accept_file_types'           => explode(",", "gif,jpg,jpeg,png,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',
@@ -504,12 +541,13 @@ class Config
 
     private function setTwigPath()
     {
-        // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        if($this->get('general/theme_path')) {
-            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . $this->get('general/theme_path'));
+            // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
+        if ($this->get('general/theme_path')) {
+            $themepath = realpath(BOLT_WEB_DIR . '/' . ltrim('/', $this->get('general/theme_path')));
         } else {
-            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme/' . basename($this->get('general/theme')));
+            $themepath = realpath(BOLT_WEB_DIR . '/theme');
         }
+        $themepath .= '/' . basename($this->get('general/theme'));
 
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
@@ -520,7 +558,7 @@ class Config
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
-        if (!file_exists($themepath) && (gettype($this->app['session']) == 'object')) {
+        if (! file_exists($themepath) && isset($this->app['session']) && (gettype($this->app['session']) == 'object')) {
             $error = "Template folder 'theme/" . basename($this->get('general/theme')) . "' does not exist, or is not writable.";
             $this->app['session']->getFlashBag()->set('error', $error);
         }
@@ -559,15 +597,15 @@ class Config
             file_exists(BOLT_CONFIG_DIR . '/permissions.yml')  ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
         );
-        $cachetimestamp = file_exists(__DIR__ . '/../../cache/config_cache.php')
-            ? filemtime(__DIR__ . '/../../cache/config_cache.php')
+        $cachetimestamp = file_exists(BOLT_CACHE_DIR . '/config_cache.php')
+            ? filemtime(BOLT_CACHE_DIR . '/config_cache.php')
             : 0;
 
         //\util::var_dump($timestamps);
         //\util::var_dump($cachetimestamp);
 
         if ($cachetimestamp > max($timestamps)) {
-            $this->data = loadSerialize(__DIR__ . '/../../cache/config_cache.php');
+            $this->data = loadSerialize(BOLT_CACHE_DIR . '/config_cache.php');
 
             // Check if we loaded actual data.
             if (count($this->data) > 3 && !empty($this->data['general'])) {
@@ -581,12 +619,12 @@ class Config
     private function saveCache()
     {
         if ($this->get('general/caching/config')) {
-            saveSerialize(__DIR__ . '/../../cache/config_cache.php', $this->data);
+            saveSerialize(BOLT_CACHE_DIR . '/config_cache.php', $this->data);
 
             return;
         }
 
-        @unlink(__DIR__ . '/../../cache/config_cache.php');
+        @unlink(BOLT_CACHE_DIR . '/config_cache.php');
     }
 
     /**

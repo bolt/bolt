@@ -40,7 +40,10 @@ class BoltDataCollector extends DataCollector
             'name' => $this->app['bolt_name'],
             'fullversion' => sprintf('%s %s %s', __("Version: "), $this->app['bolt_version'], $this->app['bolt_name']),
             'payoff' => __('Sophisticated, lightweight & simple CMS'),
-            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", path('about'), __('About'))
+            'aboutlink' => sprintf("<a href=\"%s\">%s</a>", path('about'), __('About')),
+            'branding' => null,
+            'editlink' => null,
+            'edittitle' => null
         );
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {

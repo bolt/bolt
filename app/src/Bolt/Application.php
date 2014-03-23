@@ -47,6 +47,13 @@ class Application extends Silex\Application
             )
         ));
 
+        // Disable Silex's built-in native filebased session handler, and fall back to
+        // whatever's set in php.ini.
+        // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+        if ($this['config']->get('general/session_use_storage_handler') === false) {
+            $this['session.storage.handler'] = null;
+        }
+
         $this->register(new Provider\LogServiceProvider());
     }
 
@@ -120,7 +127,7 @@ class Application extends Silex\Application
         }
 
         $this->register(new Silex\Provider\HttpCacheServiceProvider(), array(
-            'http_cache.cache_dir' => __DIR__ . '/cache/',
+            'http_cache.cache_dir' => BOLT_CACHE_DIR,
         ));
     }
 
@@ -130,7 +137,7 @@ class Application extends Silex\Application
             'twig.path'    => $this['config']->get('twigpath'),
             'twig.options' => array(
                 'debug'            => true,
-                'cache'            => __DIR__ . '/../../cache/',
+                'cache'            => BOLT_CACHE_DIR,
                 'strict_variables' => $this['config']->get('general/strict_variables'),
                 'autoescape'       => true,
             )
@@ -189,13 +196,16 @@ class Application extends Silex\Application
             ->register(new Provider\IntegrityCheckerProvider())
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
-            ->register(new Provider\OmnisearchServiceProvider());
+            ->register(new Provider\OmnisearchServiceProvider())
+            ->register(new Provider\CronServiceProvider())
+            ->register(new Provider\FilePermissionsServiceProvider());
 
         $this['paths'] = getPaths($this['config']);
         $this['twig']->addGlobal('paths', $this['paths']);
 
         // Add the Bolt Twig functions, filters and tags.
         $this['twig']->addExtension(new TwigExtension($this));
+
         $this['twig']->addTokenParser(new SetcontentTokenParser());
 
         // Initialize enabled extensions.
@@ -206,6 +216,15 @@ class Application extends Silex\Application
 
     public function initMountpoints()
     {
+        $app = $this;
+
+        // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
+        $this['url_matcher'] = $this->share(function() use ($app) {
+            return new BoltUrlMatcher(
+                new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
+            );
+        });
+
         $request = Request::createFromGlobals();
         if ($proxies = $this['config']->get('general/trustProxies')) {
             $request->setTrustedProxies($proxies);
@@ -292,7 +311,7 @@ class Application extends Silex\Application
 
             // Register the Silex/Symfony web debug toolbar.
             $this->register(new Silex\Provider\WebProfilerServiceProvider(), array(
-                'profiler.cache_dir'    => __DIR__ . '/../../cache/profiler',
+                'profiler.cache_dir'    => BOLT_CACHE_DIR . '/profiler',
                 'profiler.mount_prefix' => '/_profiler', // this is the default
             ));
 

@@ -60,6 +60,22 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
+     * Get location of config file
+     *
+     * @return string
+     */
+    public function getConfigFile()
+    {
+        $configfile = $this->basepath . '/config.yml';
+
+        if(BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml'))
+        {
+            $configfile = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
+        }
+        return $configfile;
+    }
+
+    /**
      * Get the config file. If it doesn't exist, attempt to fall back to config.yml.dist,
      * and rename it to config.yml.
      *
@@ -67,7 +83,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function getConfig()
     {
-        $configfile = $this->basepath . '/config.yml';
+        $configfile = $this->getConfigFile();
         $configdistfile = $this->basepath . '/config.yml.dist';
 
         // If it's readable, we're cool
@@ -136,9 +152,17 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->info['readme'] = false;
         }
 
-        if (file_exists($this->basepath . "/config.yml")) {
-            $this->info['config'] = $this->namespace . "/config.yml";
-            if (is_writable($this->basepath . "/config.yml")) {
+        $configFile = $this->getConfigFile();
+        if (file_exists($configFile)) {
+            if (BOLT_COMPOSER_INSTALLED && strpos($configFile, BOLT_CONFIG_DIR) === 0)
+            {
+                $this->info['config'] = "app/config/" . $this->namespace . ".yml";
+            }
+            else
+            {
+                $this->info['config'] = "app/extensions/" . $this->namespace . "/config.yml";
+            }
+            if (is_writable($configFile)) {
                 $this->info['config_writable'] = true;
             } else {
                 $this->info['config_writable'] = false;
@@ -185,10 +209,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @param string $name
      * @param string $callback
      */
-    public function addTwigFunction($name, $callback)
+    public function addTwigFunction($name, $callback, $options = array())
     {
 
-        $this->functionlist[] = new \Twig_SimpleFunction($name, array($this, $callback));
+        $this->functionlist[] = new \Twig_SimpleFunction($name, array($this, $callback), $options);
 
     }
 
@@ -208,10 +232,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @param string $name
      * @param string $callback
      */
-    public function addTwigFilter($name, $callback)
+    public function addTwigFilter($name, $callback, $options = array())
     {
 
-        $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback));
+        $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback), $options);
 
     }
 
@@ -269,16 +293,16 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $filename
      */
-    public function addJavascript($filename)
+    public function addJavascript($filename, $late = false)
     {
 
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addJavascript($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
+            $this->app['extensions']->addJavascript($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename, $late);
         } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename);
+            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
@@ -291,15 +315,15 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $filename
      */
-    public function addCSS($filename)
+    public function addCSS($filename, $late = false)
     {
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addCss($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
+            $this->app['extensions']->addCss($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename, $late);
         } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename);
+            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);

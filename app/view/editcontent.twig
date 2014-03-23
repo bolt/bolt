@@ -10,6 +10,7 @@
     <div class="col-md-9">
 
     <form method="post" id="editcontent" enctype="multipart/form-data" class="form-horizontal" role="form">
+        {% include '_sub_csrf_token.twig' %}
 
         {% include '_sub_editfields.twig' %}
 
@@ -32,6 +33,8 @@
             </div>
         </div>
 
+        <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
+
         {% set can_publish = isallowed('contenttype:' ~ contenttype.slug ~ ':publish:' ~ content.id) %}
 
         <div class="form-group">
@@ -47,7 +50,6 @@
             </div>
         </div>
 
-
         {% if isallowed('contenttype:' ~ contenttype.slug ~ ':publish:' ~ content.id) %}
         <script>
             $('#datepublish-date, #datepublish-time').on('change', function(){
@@ -57,7 +59,6 @@
             });
         </script>
         {% endif %}
-
 
         {% set can_depublish = isallowed('contenttype:' ~ contenttype.slug ~ ':depublish:' ~ content.id) %}
 
@@ -140,6 +141,7 @@
             </div>
 
         </div>
+
     </form>
 
     </div><!-- /span9 -->
@@ -222,7 +224,7 @@
                 $('form').watchChanges();
 
                 $.post("", $( "#editcontent" ).serialize() )
-                    .done(function( data ) {
+                    .done(function(data) {
                         // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': contenttype.singular_name}) }}";
                         $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(content.datechanged) }})</small></p>');
                         $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
@@ -230,9 +232,13 @@
                         $('p.lastsaved').find('time').attr('title', moment().format());
                         updateMoments();
 
-                        // Disable the buttons, to indicate stuff is being done.
+                    })
+                    .fail(function(){
+                        $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': contenttype.singular_name }) }}');
+                    })
+                    .always(function(){
+                        // Re-enable buttons
                         $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
-
                     });
             }
 

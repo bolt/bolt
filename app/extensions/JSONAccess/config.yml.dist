@@ -1,0 +1,17 @@
+# Default configuration file for the JSONAccess extension.
+
+# List the contenttypes that are to be served through the JSON extension.
+# Only contenttypes listed here will be served; for any other contenttype,
+# the API will return 404 errors.
+contenttypes:
+    entries:
+        # The `list-fields` setting allows you to override the fields that
+        # appear in listings. Getting individual records will still include
+        # all fields.
+        list-fields: [ title, slug ]
+    pages:
+        # To use the defaults for a content type, just leave its entry
+        # empty.
+        # This will include all user-defined fields and the ID in the listing,
+        # but not any of the fields Bolt adds to all content types, such as
+        # 'datecreated'.

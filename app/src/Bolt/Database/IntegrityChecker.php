@@ -63,18 +63,18 @@ class IntegrityChecker
 
     private static function getValidityTimestampFilename()
     {
-        return dirname(__FILE__) . '/../../../cache/' . self::INTEGRITY_CHECK_TS_FILENAME;
+        return BOLT_CACHE_DIR . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
     public static function invalidate()
     {
-        // delete app/cache/dbcheck-ts
+        // delete the cached dbcheck-ts
         if (is_writable(self::getValidityTimestampFilename())) {
             unlink(self::getValidityTimestampFilename());
         } elseif (file_exists(self::getValidityTimestampFilename())) {
             $message = sprintf(
-                "The file 'app/cache/%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
-                self::INTEGRITY_CHECK_TS_FILENAME
+                "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
+                self::getValidityTimestampFilename()
             );
             die($message);
         }
@@ -496,6 +496,14 @@ class IntegrityChecker
         $contentChangelogTable->addColumn("diff", "text", array());
         $tables[] = $contentChangelogTable;
 
+        $cronTable = $schema->createTable($this->prefix."cron");
+        $cronTable->addColumn("id", "integer", array('autoincrement' => true));
+        $cronTable->setPrimaryKey(array("id"));
+        $cronTable->addColumn("interval", "string", array("length" => 16));
+        $cronTable->addIndex(array('interval'));
+        $cronTable->addColumn("lastrun", "datetime");
+        $tables[] = $cronTable;
+
         return $tables;
     }
 
@@ -576,10 +584,10 @@ class IntegrityChecker
                         $myTable->addColumn($field, "text", array("default" => $this->textDefault));
                         break;
                     case 'datetime':
-                        $myTable->addColumn($field, "datetime");
+                        $myTable->addColumn($field, "datetime", array("notnull" => false));
                         break;
                     case 'date':
-                        $myTable->addColumn($field, "date");
+                        $myTable->addColumn($field, "date", array("notnull" => false));
                         break;
                     case 'slug':
                     case 'id':

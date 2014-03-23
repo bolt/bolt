@@ -86,4 +86,23 @@ class libTest extends \PHPUnit_Framework_TestCase {
         $actual = trimToHTML($html, $length, $ellipseStr, $striptags, $nbsp);
         $this->assertEquals($expected, $actual);
     }
+
+    public static function getExtensionDataProvider() {
+        return array(
+                array('foobar.baz', 'baz'),
+                array('foobar.baz.quux', 'quux'),
+                array('foobar', ''),
+                array('foo.bar/baz.quux', 'quux'),
+                array('/foo.bar/baz.quux', 'quux'),
+                array('foo.bar/baz.', ''),
+            );
+    }
+
+    /**
+     * @dataProvider getExtensionDataProvider
+     */
+    public function testGetExtension($filename, $expected) {
+        $actual = getExtension($filename);
+        $this->assertEquals($expected, $actual);
+    }
 }

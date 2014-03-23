@@ -290,3 +290,5 @@
 "none": "aucun(e)"
 "of": "sur"
 "show all": "afficher tout"
+"Edit the file '%s' is forbidden.": "Editer le fichier '%s' est interdit."
+"Display the file or directory '%s' is forbidden.": "Interdit d'afficher le fichier ou le dossier '%s'."

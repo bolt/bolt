@@ -10,7 +10,7 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
-# The theme to use. Be sure to copy the theme/base-2013 folder, and change the
+# The theme to use. Be sure to copy the {theme_path}/base-2013 folder, and change the
 # name here accordingly. Don't edit the templates in theme/base-2013, because
 # they _will_ get updated in next releases
 theme: base-2013
@@ -27,6 +27,10 @@ locale: en_GB
 # this option using your own theme.
 maintenance_mode: false
 maintenance_template: maintenance_default.twig
+
+# The hour of the day for the internal cron task scheduler to run daily, weekly, 
+# monthly and yearly jobs.  Default: 3 (3 am)
+cron_hour: 3 
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
@@ -56,6 +60,8 @@ record_template: record.twig
 
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype.
+# Note: sorting on TAXONOMY-pages will give unexpected results, if it has a pager
+# If you need sorting on those, make sure you display all the records on one page.
 listing_template: listing.twig
 listing_records: 6
 listing_sort: datepublish DESC
@@ -116,6 +122,16 @@ thumbnails:
   save_files: false
   allow_upscale: false
 
+# File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
+
+# The following is a "safe" default list.
+accept_file_types: [gif, jpg, jpeg, png, tgz, txt, md, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
+
+# Alternatively, if you are willing to compromise security a bit, uncomment
+# the following list instead; it includes file types that are potentially
+# harmful, but usually desirable anyway.
+# accept_file_types: [gif, jpg, jpeg, png, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
+
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link
 # to the footer. Additionally you can change the mount-point for the backend, either for
@@ -162,6 +178,7 @@ wysiwyg:
 
 # by default, mail is sent using PHP's built-in mail function. In general, it's advised to use SMTP for sending mail
 # instead. Uncomment the following lines to use an SMTP server with authentication.
+# Please check http://silex.sensiolabs.org/doc/providers/swiftmailer.html for a full range of options
 #mailoptions:
 #  host: localhost
 #  port: 25
@@ -198,6 +215,12 @@ cookies_lifetime: 1209600
 # If you'd like it to be valid for all subdomains of 'www.example.org', set this to '.example.org'.
 cookies_domain:
 
+# If your system is using a custom session configuration (such as a redis handler from a
+# PHP extension) then we need to disable our session storage handler. In that case, set
+# this setting to false. Do not change this, unless you know what you're doing!
+# See: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+session_use_storage_handler: true
+
 # The hash_strength determines the amount of iterations for encrypting passwords. A higher number means
 # a harder to decrypt password, but takes longer to compute. '8' is the minimum, '10' is the default,
 # '12' is better.
@@ -224,8 +247,13 @@ hash_strength: 10
 #     - 127.0.0.1
 #     - 10.0.0.0/8
 
-# If you want Bolt installation get news through a proxy
+# Theme file path where themes are. They are under /theme in project's root folder
+# by default but can be relocated. This case you should define theme_path accordingly.
+# Make sure the path exists, and be aware that you'll get a new 'theme' folder on any
+# subsequent Bolt update. Changing this setting is not advised.
+# theme_path: theme
 
+# If you want Bolt installation get news through a proxy
 #httpProxy:
 #  host: my.proxy.server
 #  user: usr

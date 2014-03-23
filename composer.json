@@ -5,14 +5,14 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     "require": {
-        "bobdenotter/dumper": "dev-master",
+        "bolt/dumper": ">=0.7",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "dev-master",
         "filp/whoops": "1.*",
         "garetjax/phpbrowscap": "dev-master",
         "guzzle/guzzle": "3.3.*",
         "hautelook/phpass": "dev-master",
-        "ircmaxell/random-lib": "1.0.*@dev",
+        "ircmaxell/random-lib": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
         "php": ">=5.3.2",
         "silex/silex": "1.*",
@@ -41,12 +41,6 @@
         "squizlabs/php_codesniffer": "1.4.6",
         "codeception/codeception": "*"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/bobdenotter/dumper"
-        }
-    ],
     "minimum-stability": "beta",
     "config": {
         "preferred-install": "dist"
