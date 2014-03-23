@@ -43,7 +43,7 @@
 {% endmacro %}
 
 {# Sidebar-menu blocks with links, popover (for desktop) and touch-to-show (for mobile) #}
-{% macro sidebarblock(title, popoveritems, subitems) %}
+{% macro sidebarblock(title, popoveritems, subitems, wide) %}
 
     {% if subitems is empty %}{% set subitems = popoveritems %}{% endif %}
     {% set name = title.label|slug()|lower() %}
@@ -58,12 +58,12 @@
 
     {# Show stuff! #}
     {% if allowedany %}
-        <li>
+        <li {% if wide %}class="menu-pop-wide"{% endif %}>
             <a href="" class="menu-pop" data-action="showSidebarItems('{{name}}')" data-html="true" data-title="" data-content="{% spaceless %}{% for item in popoveritems %}
                 {% if item == "-" %}
                     <hr>
                 {% elseif isallowed(item.isallowed|default('dashboard')) %}
-                    <a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}}</a>
+                    <a href='{{item.link}}'><i class='fa fa-{{item.icon}} fa-fw'></i> {{item.label}}</a>
                 {% endif %}
             {% endfor %}{% endspaceless %}">
                 <span class="fa-stack">
@@ -75,7 +75,7 @@
         </li>
         {% for item in popoveritems %}
             {% if item != "-" and isallowed(item.isallowed|default('dashboard')) %}
-                <li class="sub sub-{{name}}"><a href='{{item.link}}'><i class='fa fa-{{item.icon}}'></i> {{item.label}}</a></li>
+                <li class="sub sub-{{name}}"><a href='{{item.link}}'><i class='fa fa-{{item.icon}} fa-fw'></i> {{item.label}}</a></li>
             {% endif %}
         {% endfor %}
     {% endif %}

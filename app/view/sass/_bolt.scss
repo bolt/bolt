@@ -225,6 +225,9 @@ blockquote.quote cite {
 /* ------------------------------- */
 
 /* Top Right Navigation Dropdown Styles */
+.navbar-top-links {
+  margin-top: 6px;
+}
 
 .navbar-top-links li {
   display: inline-block;
@@ -235,8 +238,8 @@ blockquote.quote cite {
 }
 
 .navbar-top-links li a {
-  padding: 15px;
-  min-height: 50px;
+  padding: 12px;
+  min-height: 42px;
 }
 
 .navbar-top-links .dropdown-menu li {
@@ -290,7 +293,12 @@ blockquote.quote cite {
   border: 0;
 }
 
-.nav hr {
+.nav span.heading {
+  display: block;
+  margin: 8px 4px 2px 10px;
+}
+
+.nav hr.sidebar {
   margin: 4px 8px;
   padding: 0;
   border-top: 1px solid lighten($sidebarbackground, 6);  
@@ -320,13 +328,16 @@ blockquote.quote cite {
   .popover-content {
     color: #444;
     padding: 0;
+    overflow: hidden;    
   }
 
   .popover-content a {
     color: $boltbluedarker;
     display: block;
     background-color: transparent;
-    padding: 4px 6px 4px 12px;
+    padding: 4px 6px 4px 4px;
+    height: auto;
+    width: 600px;
   }
 
   .popover-content a:hover {
@@ -336,6 +347,7 @@ blockquote.quote cite {
 
   .popover-content hr {
     margin: 4px 0;
+    padding: 0 8px;
   }
 } 
 
@@ -399,6 +411,7 @@ blockquote.quote cite {
 
 .sidebar-collapse {
   min-width: 160px;
+  padding-top: 4px;
 }
 
 #sidebar-expand {

@@ -21,13 +21,13 @@ $linkmain: #194770;
 $linkvisited: #295780;
 $linkactive: #103060;
 
-$sidebarbackground: lighten(adjust-saturation($boltblue, -50), 6);
+$sidebarbackground: lighten(adjust-saturation($boltblue, -35), 6);
 $sidebartextcolour: #EEE;
 
 $sidebarlink: #DDD;
 $sidebarlinkhover: #FFF;
-$sidebarbackgroundactive: lighten(adjust-saturation($boltblue, -20), 6);
-$sidebarbackgroundhover: lighten(adjust-saturation($boltblue, -20), 3);
+$sidebarbackgroundactive: lighten(adjust-saturation($boltblue, -20), 7);
+$sidebarbackgroundhover: lighten(adjust-saturation($boltblue, -20), 4);
 
 $bodytextcolour: #333;
 

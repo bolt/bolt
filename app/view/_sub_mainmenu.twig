@@ -24,15 +24,16 @@
                 {{ __('Dashboard') }}</a>
             </li>
 
-            <hr>
-            <span><i class="fa fa-files-o"></i> {{ __('Content') }}</span>
+            <hr class="sidebar">
+
+            <span class='heading'>{{ __('Content') }}</span>
 
             {# Menu with Contenttypes where show_in_menu is set true #}
             {% for slug, contenttype in app.config.get('contenttypes') %}
                 {% if isallowed('contenttype:' ~ slug) and contenttype.show_in_menu %}
-                    {% set title = { icon: contenttype.icon|default('th-list'), label: contenttype.name } %}
+                    {% set title = { icon: contenttype.icon|default('files-o'), label: contenttype.name } %}
                     {% set sub = [
-                    { icon: contenttype.icon|default('th-list'), label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}), link: path('overview', { 'contenttypeslug': slug }) },
+                    { icon: contenttype.icon|default('files-o'), label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}), link: path('overview', { 'contenttypeslug': slug }) },
                     { icon: 'plus', label: __('New %contenttype%',{'%contenttype%': contenttype.singular_name}), link: path('editcontent', { 'contenttypeslug': slug, 'id': '' }), isallowed: 'contenttype:' ~ slug ~ ':create' },
                     '-',
                     ] %}
@@ -41,7 +42,7 @@
                         {% set sub = sub|merge([{ icon: 'file-text-o', label: record.excerpt(80, true), link: path('editcontent', { 'contenttypeslug': slug, 'id': record.id }) }]) %}
                     {% endfor %}
 
-                    {{ macro.sidebarblock(title, sub) }}
+                    {{ macro.sidebarblock(title, sub, '', true) }}
 
                 {% endif %}
             {% endfor %}
@@ -65,12 +66,12 @@
             {% endfor %}
             {{ macro.sidebarblock(title, sub) }}
 
-            <hr>
-
             {# Menu with all settings #}
             {% if isallowed('settings') %}
 
-            <span><i class="fa fa-cogs"></i> {{ __('Settings') }}</span>
+            <hr class="sidebar">
+
+            <span class='heading'>{{ __('Settings') }}</span>
 
             {% set title = { icon: 'cogs', label: __('Configuration') } %}
             {% set sub = [
@@ -124,7 +125,8 @@
 
             {% endif %}
 
-            <hr>
+            <hr class="sidebar">
+
             <li class="">
                 <a href="#" data-action="sidebar.collapse()" id="sidebar-collapse">
                     <i class="fa fa-compress"></i> {{ __('Collapse sidebar') }}
@@ -138,14 +140,10 @@
 
         {% else %}
 
-            <li class="divider-vertical"></li>
-
             {# View site #}
             <li>
                 <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link"></i> {{ __('View site') }}</a>
             </li>
-
-            <li class="divider-vertical"></li>
 
             {# Login #}
             <li>
