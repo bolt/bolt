@@ -61,10 +61,15 @@ jQuery(function($) {
     });
 
     // Initialize popovers, used in sidebar menu.
-    $('a.menu-pop').popover({
+    $('nav.navbar-static-side a.menu-pop').popover({
         trigger: 'hover',
         delay: { show: 500, hide: 2000 }
-    });    
+    });
+
+    // Make sure we have only one open at the same time.
+    $('nav.navbar-static-side').on('show.bs.popover', function () {
+        $('nav.navbar-static-side a.menu-pop').popover('hide');
+    })
 
     // When hiding modal dialogs with a 'remote', remove the data, to make sure
     // other modal dialogs are forced to retrieve the content again.
@@ -322,8 +327,8 @@ function initKeyboardShortcuts() {
 
 
 /**
- * Hide / show subitems in the sidebar for mobile devices. 
- */ 
+ * Hide / show subitems in the sidebar for mobile devices.
+ */
 function showSidebarItems(name) {
     $('.nav li.sub').removeClass('visible-xs');
     $('.nav li.sub-'+name).addClass('visible-xs');

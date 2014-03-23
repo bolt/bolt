@@ -274,6 +274,9 @@ class Config
             if (!isset($temp['show_on_dashboard'])) {
                 $temp['show_on_dashboard'] = true;
             }
+            if (!isset($temp['show_in_menu'])) {
+                $temp['show_in_menu'] = true;
+            }
             if (!isset($temp['sort'])) {
                 $temp['sort'] = 'id';
             }

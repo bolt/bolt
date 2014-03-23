@@ -19,9 +19,28 @@
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                 <i class="fa fa-dashboard"></i> {{ __('Dashboard') }}</a></li>
 
-            {# Menu with Contenttypes where showinmenu is set true #}
             {% for slug, contenttype in app.config.get('contenttypes') %}
-                {% if isallowed('contenttype:' ~ slug) and contenttype.showinmenu %}
+                {% if isallowed('contenttype:' ~ slug) and contenttype.show_in_menu %}
+                    {% set title = { icon: contenttype.icon|default('th-list'), label: contenttype.name } %}
+                    {% set sub = [
+                    { icon: 'group', label: __('Users'), link: path('users'), isallowed: 'fileedit' },
+                    { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'file': 'app/config/config.yml'}), isallowed: 'fileedit' },
+                    { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'file': 'app/config/contenttypes.yml'}), isallowed: 'fileedit' },
+                    { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'file': 'app/config/taxonomy.yml'}), isallowed: 'fileedit' },
+                    '-',
+                    { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'file': 'app/config/menu.yml'}), isallowed: 'fileedit' },
+                    { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'file': 'app/config/routing.yml'}), isallowed: 'fileedit' }
+                    ] %}
+
+                    {{ macro.sidebarblock(title, sub) }}
+                {% endif %}
+            {% endfor %}
+            <hr>
+
+            {# Menu with Contenttypes where show_in_menu is set true #}
+            {% for slug, contenttype in app.config.get('contenttypes') %}
+                {% if isallowed('contenttype:' ~ slug) and contenttype.show_in_menu %}
+
                     <li class="{% if content.contenttype.slug==slug %}active {% endif %}dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-th-list{% endif %}"></i> {{ __(contenttype.name) }} <span class="fa arrow"></span>
@@ -60,13 +79,13 @@
             {% endfor %}
 
             {# Menu with all Contenttypes #}
-            <li class="{% if active=='content' and not content.contenttype.showinmenu %}active {% endif %}dropdown">
+            <li class="{% if active=='content' and not content.contenttype.show_in_menu %}active {% endif %}dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-sitemap"></i> {{ __('Content') }} <span class="fa arrow"></span>
                 </a>
                 <ul class="dropdown-menu pull-right">
                     {% for slug, contenttype in app.config.get('contenttypes') %}
-                        {% if isallowed('contenttype:' ~ slug) and not contenttype.showinmenu %}
+                        {% if isallowed('contenttype:' ~ slug) and not contenttype.show_in_menu %}
                             <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
                                 <i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-th-list{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
                             {% if loop.length < 5 %}
@@ -84,12 +103,12 @@
 
             {# Menu with all settings #}
             {% if isallowed('settings') %}
-            
+
 
             <span><i class="fa fa-cogs"></i> {{ __('Settings') }}</span>
 
             {% set title = { icon: 'cogs', label: __('Configuration') } %}
-            {% set sub = [ 
+            {% set sub = [
                 { icon: 'group', label: __('Users'), link: path('users'), isallowed: 'fileedit' },
                 { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'file': 'app/config/config.yml'}), isallowed: 'fileedit' },
                 { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'file': 'app/config/contenttypes.yml'}), isallowed: 'fileedit' },
@@ -111,18 +130,18 @@
             {% endif %}
 
             {% set title = { icon: 'cogs', label: __('Maintenance') } %}
-            {% set sub = [ 
+            {% set sub = [
                 { icon: 'briefcase', label: __('Extensions'), link: path('extensions'), isallowed: 'extensions' },
                 { icon: 'wrench', label: __('Check database'), link: path('dbcheck'), isallowed: 'dbupdate' },
                 { icon: 'magic', label: __('Clear the cache'), link: path('clearcache'), isallowed: 'clearcache' },
                 { icon: 'file', label: __('Activity log'), link: path('activitylog'), isallowed: 'activitylog' }
-              
+
             ] %}
 
             {{ macro.sidebarblock(title, sub) }}
 
             {% set title = { icon: 'folder-open', label: __('File Management') } %}
-            {% set sub = [ 
+            {% set sub = [
                 { icon: 'desktop', label: __('Extensions'), link: path('files', { 'path': 'theme' }), isallowed: 'files:theme' },
                 { icon: 'folder-open', label: __('Uploaded files'), link: path('files', { 'path': 'files'}), isallowed: 'files:uploads' }
             ] %}
@@ -130,7 +149,7 @@
             {{ macro.sidebarblock(title, sub) }}
 
             {% set title = { icon: 'flag', label: __('Translations') } %}
-            {% set sub = [ 
+            {% set sub = [
                 { icon: 'flag', label: __('Messages'), link: path('translation', { 'domain': 'messages' }), isallowed: 'translation' },
                 { icon: 'flag', label: __('Long messages'), link: path('translation', { 'domain': 'infos' }), isallowed: 'translation' },
                 { icon: 'flag', label: __('Contenttypes'), link: path('translation', { 'domain': 'contenttypes' }), isallowed: 'translation' }
