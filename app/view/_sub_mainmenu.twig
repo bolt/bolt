@@ -19,7 +19,10 @@
             <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                 <i class="fa fa-dashboard"></i> {{ __('Dashboard') }}</a></li>
 
+            <hr>
+            <span><i class="fa fa-files-o"></i> {{ __('Content') }}</span>
 
+            {# Menu with Contenttypes where show_in_menu is set true #}
             {% for slug, contenttype in app.config.get('contenttypes') %}
                 {% if isallowed('contenttype:' ~ slug) and contenttype.show_in_menu %}
                     {% set title = { icon: contenttype.icon|default('th-list'), label: contenttype.name } %}
@@ -34,77 +37,33 @@
                     {% endfor %}
 
                     {{ macro.sidebarblock(title, sub) }}
+
                 {% endif %}
             {% endfor %}
-            <hr>
 
-            {# Menu with Contenttypes where show_in_menu is set true #}
+            {# Menu with Contenttypes where show_in_menu is set false #}
+            {% set title = { icon: contenttype.icon|default('th-list'), label: __('Other contenttypes') } %}
+            {% set sub = [] %}
             {% for slug, contenttype in app.config.get('contenttypes') %}
-                {% if isallowed('contenttype:' ~ slug) and contenttype.show_in_menu %}
 
-                    <li class="{% if content.contenttype.slug==slug %}active {% endif %}dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-th-list{% endif %}"></i> {{ __(contenttype.name) }} <span class="fa arrow"></span>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            {% setcontent entries = slug where { status: 'published' } %}
-                            {% set lastgroup = "----" %}
-                            {% for entry in entries %}
-                                {# If we have 'grouping', print the row with the groupname.. #}
-                                {% if loop.first or entry.group.name != lastgroup %}
-                                    {% if entry.group.name  %}
-                                        {% if not loop.first %}<li class="divider"></li>{% endif %}
-                                        <li class="nav-header">{{ entry.group.name }}</li>
-                                    {% endif %}
-                                {% endif %}
-                                {% if entry.taxonomy %}
-                                    <li>
-                                        <a href="{% if contenttype.relationview %}{{ path('relatedto', { 'contenttypeslug': slug, 'id': entry.id }) }}{% else %}{{ path('editcontent', { 'contenttypeslug': slug, 'id': entry.id }) }}{% endif %}"><i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-square{% endif %}"></i> {% if entry.title|length > 15 %}{{ entry.title|slice(0, 15) }}…{% else %}{{ entry.title }}{% endif %}</a>
-                                    </li>
-                                {% endif %}
-                                {% if entry.group.name is defined and (loop.first or entry.group.name != lastgroup) %}
-                                    {% set lastgroup = entry.group.name %}
-                                {% endif %}
-                            {% endfor %}
 
-                            <li class="divider"></li>
-                            <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                    <i class="fa fa-th-list"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
-                            {% if isallowed('contenttype:' ~ slug ~ ':create') %}
-                                <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
-                                        <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
-                            {% endif %}
-                        </ul>
-                    </li>
+                {% if isallowed('contenttype:' ~ slug) and not contenttype.show_in_menu %}
+
+                    {% set sub = sub|merge([
+                    { icon: contenttype.icon|default('th-list'), label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}), link: path('overview', { 'contenttypeslug': slug }) },
+                    { icon: 'plus', label: __('New %contenttype%',{'%contenttype%': contenttype.singular_name}), link: path('editcontent', { 'contenttypeslug': slug, 'id': '' }), isallowed: 'contenttype:' ~ slug ~ ':create' },
+                    '-',
+                    ]) %}
+
                 {% endif %}
+
             {% endfor %}
+            {{ macro.sidebarblock(title, sub) }}
 
-            {# Menu with all Contenttypes #}
-            <li class="{% if active=='content' and not content.contenttype.show_in_menu %}active {% endif %}dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-sitemap"></i> {{ __('Content') }} <span class="fa arrow"></span>
-                </a>
-                <ul class="dropdown-menu pull-right">
-                    {% for slug, contenttype in app.config.get('contenttypes') %}
-                        {% if isallowed('contenttype:' ~ slug) and not contenttype.show_in_menu %}
-                            <li><a href="{{ path('overview', { 'contenttypeslug': slug }) }}">
-                                <i class="{% if contenttype.icon %}fa {{ contenttype.icon }}{% else %}fa fa-th-list{% endif %}"></i> {{ __('View %contenttypes%', {'%contenttypes%': contenttype.name}) }}</a></li>
-                            {% if loop.length < 5 %}
-                                {% if isallowed('contenttype:' ~ slug ~ ':create') %}
-                                <li><a href="{{ path('editcontent', { 'contenttypeslug': slug, 'id': '' }) }}">
-                                    <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</a></li>
-                                {% endif %}
-                                {% if not loop.last %}<li class="divider"></li>{% endif %}
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-
-                </ul>
-            </li>
+            <hr>
 
             {# Menu with all settings #}
             {% if isallowed('settings') %}
-
 
             <span><i class="fa fa-cogs"></i> {{ __('Settings') }}</span>
 
