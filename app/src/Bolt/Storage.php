@@ -1129,7 +1129,9 @@ class Storage
                 $queryparams .= " ORDER BY " . $dboptions['randomfunction'];
             } else {
                 $order = $this->getEscapedSortorder($parameters['order'], false);
-                $queryparams .= " ORDER BY " . $order;
+                if (!empty($order)) {
+                    $queryparams .= " ORDER BY " . $order;
+                }
             }
         }
 
@@ -1730,7 +1732,10 @@ class Storage
                 $query['where'] = 'WHERE ( ' . implode(' AND ', $where) . ' )';
             }
             if (count($order) > 0) {
-                $query['order'] = 'ORDER BY ' . implode(', ', $order);
+                $order = implode(', ', $order);
+                if (!empty($order)) {
+                    $query['order'] = 'ORDER BY ' . $order;
+                }
             }
 
             $decoded['queries'][] = $query;
@@ -2017,6 +2022,11 @@ class Storage
     {
         list ($name, $asc) = $this->getSortOrder($name);
 
+        // If we don't have a name, we can't determine a sortorder.
+        if (empty($name)) {
+            return false;
+        }
+
         if( strpos($name, 'RAND') !== false ) {
             $order = $name;
         } elseif ($prefix !== false) {
@@ -2042,6 +2052,11 @@ class Storage
      */
     public function getSortOrder($name)
     {
+        // If we don't get a string, we can't determine a sortorder.
+        if (!is_string($name)) {
+            return false;
+        }
+
         $parts = explode(' ', $name);
         $fieldname = $parts[0];
         $sort = 'ASC';
