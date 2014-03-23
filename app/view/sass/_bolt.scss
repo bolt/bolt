@@ -352,12 +352,14 @@ blockquote.quote cite {
 } 
 
 .nav li.sub {
-    display: none;
-  }
+  display: none;
+  overflow: hidden;
+}
 
 .nav li.sub a {
-    padding: 6px 5px 6px 25px;
-  }
+  padding: 6px 5px 6px 14px;
+  width: 800px;
+} 
 
 
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
