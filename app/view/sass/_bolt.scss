@@ -290,9 +290,22 @@ blockquote.quote cite {
   border: 0;
 }
 
-.nav li {
+.nav hr {
+  margin: 4px 8px;
+  padding: 0;
+  border-top: 1px solid lighten($sidebarbackground, 6);  
+  border-bottom: 1px solid darken($sidebarbackground, 6);  
+}
+
+.nav > li {
   a {
     color: $sidebarlink;
+    padding: 8px 15px 26px 8px;
+    height: 2.4em;
+  }
+
+  .fa-stack {
+    margin-top: -4px;
   }
 
   a:hover {
@@ -370,9 +383,6 @@ blockquote.quote cite {
   width: 180px;
   height:100%;
   box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.2) inset;
-}
-
-.navbar-static-side {
   background: $sidebarbackground;
   color: $sidebartextcolour;
 }
@@ -388,7 +398,7 @@ blockquote.quote cite {
 }
 
 .sidebar-collapse {
-  min-width: 180px;
+  min-width: 160px;
 }
 
 #sidebar-expand {
@@ -423,7 +433,7 @@ blockquote.quote cite {
     }
 
     .navbar-static-side:hover {
-      width: 180px;
+      width: 160px;
       overflow: visible;
       box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.2);
     }

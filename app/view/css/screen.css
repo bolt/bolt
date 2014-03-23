@@ -10089,163 +10089,173 @@ blockquote.quote cite {
   border: 0;
 }
 
-/* line 294, ../sass/_bolt.scss */
-.nav li a {
-  color: #dddddd;
+/* line 293, ../sass/_bolt.scss */
+.nav hr {
+  margin: 4px 8px;
+  padding: 0;
+  border-top: 1px solid #5f5f5f;
+  border-bottom: 1px solid #404040;
 }
-/* line 298, ../sass/_bolt.scss */
-.nav li a:hover {
+
+/* line 301, ../sass/_bolt.scss */
+.nav > li a {
+  color: #dddddd;
+  padding: 8px 15px 26px 8px;
+  height: 2.4em;
+}
+/* line 307, ../sass/_bolt.scss */
+.nav > li .fa-stack {
+  margin-top: -4px;
+}
+/* line 311, ../sass/_bolt.scss */
+.nav > li a:hover {
   color: white;
   background: #324a5d;
 }
-/* line 303, ../sass/_bolt.scss */
-.nav li .popover.right {
+/* line 316, ../sass/_bolt.scss */
+.nav > li .popover.right {
   margin-left: -16px;
 }
-/* line 307, ../sass/_bolt.scss */
-.nav li .popover-content {
+/* line 320, ../sass/_bolt.scss */
+.nav > li .popover-content {
   color: #444;
   padding: 0;
 }
-/* line 312, ../sass/_bolt.scss */
-.nav li .popover-content a {
+/* line 325, ../sass/_bolt.scss */
+.nav > li .popover-content a {
   color: #1a364d;
   display: block;
   background-color: transparent;
   padding: 4px 6px 4px 12px;
 }
-/* line 319, ../sass/_bolt.scss */
-.nav li .popover-content a:hover {
+/* line 332, ../sass/_bolt.scss */
+.nav > li .popover-content a:hover {
   color: #1a364d;
   background-color: #EEE;
 }
-/* line 324, ../sass/_bolt.scss */
-.nav li .popover-content hr {
+/* line 337, ../sass/_bolt.scss */
+.nav > li .popover-content hr {
   margin: 4px 0;
 }
 
-/* line 329, ../sass/_bolt.scss */
+/* line 342, ../sass/_bolt.scss */
 .nav li.sub {
   display: none;
 }
 
-/* line 333, ../sass/_bolt.scss */
+/* line 346, ../sass/_bolt.scss */
 .nav li.sub a {
   padding: 6px 5px 6px 25px;
 }
 
-/* line 338, ../sass/_bolt.scss */
+/* line 351, ../sass/_bolt.scss */
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
   background-color: #204460;
 }
 
-/* line 342, ../sass/_bolt.scss */
+/* line 355, ../sass/_bolt.scss */
 .arrow {
   float: right;
 }
 
-/* line 346, ../sass/_bolt.scss */
+/* line 359, ../sass/_bolt.scss */
 .fa.arrow:before {
   content: "\f104";
 }
 
-/* line 350, ../sass/_bolt.scss */
+/* line 363, ../sass/_bolt.scss */
 .active > a > .fa.arrow:before {
   content: "\f107";
 }
 
-/* line 354, ../sass/_bolt.scss */
+/* line 367, ../sass/_bolt.scss */
 .nav-second-level li,
 .nav-third-level li {
   border-bottom: none !important;
 }
 
-/* line 359, ../sass/_bolt.scss */
+/* line 372, ../sass/_bolt.scss */
 .nav-second-level li a {
   padding-left: 37px;
 }
 
-/* line 363, ../sass/_bolt.scss */
+/* line 376, ../sass/_bolt.scss */
 .nav-third-level li a {
   padding-left: 52px;
 }
 
-/* line 367, ../sass/_bolt.scss */
+/* line 380, ../sass/_bolt.scss */
 .navbar-static-side {
   z-index: 1;
   position: absolute;
   width: 180px;
   height: 100%;
   box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.2) inset;
-}
-
-/* line 375, ../sass/_bolt.scss */
-.navbar-static-side {
   background: #4f4f4f;
   color: #eeeeee;
 }
 
-/* line 380, ../sass/_bolt.scss */
+/* line 390, ../sass/_bolt.scss */
 .navbar-static-side li.active > a {
   text-decoration: none;
   background-color: #385267;
   color: #FFF;
 }
 
-/* line 386, ../sass/_bolt.scss */
+/* line 396, ../sass/_bolt.scss */
 .navbar-static-side > ul li {
   border-bottom: 1px solid #e7e7e7;
 }
 
-/* line 390, ../sass/_bolt.scss */
+/* line 400, ../sass/_bolt.scss */
 .sidebar-collapse {
-  min-width: 180px;
+  min-width: 160px;
 }
 
-/* line 394, ../sass/_bolt.scss */
+/* line 404, ../sass/_bolt.scss */
 #sidebar-expand {
   visibility: hidden;
   display: none;
 }
 
 @media (max-width: 766px) {
-  /* line 401, ../sass/_bolt.scss */
+  /* line 411, ../sass/_bolt.scss */
   .navbar-static-side {
     display: none;
     width: 280px;
   }
 
-  /* line 405, ../sass/_bolt.scss */
+  /* line 415, ../sass/_bolt.scss */
   .js-nav .navbar-static-side {
     display: block;
   }
 }
 @media (min-width: 768px) {
-  /* line 412, ../sass/_bolt.scss */
+  /* line 422, ../sass/_bolt.scss */
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
     margin-left: auto;
   }
 
-  /* line 419, ../sass/_bolt.scss */
+  /* line 429, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side {
     width: 52px;
     overflow: hidden;
     box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.3) inset;
   }
-  /* line 425, ../sass/_bolt.scss */
+  /* line 435, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side:hover {
-    width: 180px;
+    width: 160px;
     overflow: visible;
     box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.2);
   }
-  /* line 431, ../sass/_bolt.scss */
+  /* line 441, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-collapse {
     visibility: hidden;
     display: none;
   }
-  /* line 436, ../sass/_bolt.scss */
+  /* line 446, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-expand {
     visibility: visible;
     display: block;
@@ -10253,45 +10263,45 @@ blockquote.quote cite {
 }
 /* Buttons */
 /* ------------------------------- */
-/* line 449, ../sass/_bolt.scss */
+/* line 459, ../sass/_bolt.scss */
 .btn-default {
   background: #E8E8E8;
   border: 1px solid #D8D8D8;
 }
 
-/* line 454, ../sass/_bolt.scss */
+/* line 464, ../sass/_bolt.scss */
 .btn-outline {
   color: inherit;
   background-color: transparent;
   transition: all .5s;
 }
 
-/* line 460, ../sass/_bolt.scss */
+/* line 470, ../sass/_bolt.scss */
 .btn-primary.btn-outline {
   color: #428bca;
 }
 
-/* line 464, ../sass/_bolt.scss */
+/* line 474, ../sass/_bolt.scss */
 .btn-success.btn-outline {
   color: #5cb85c;
 }
 
-/* line 468, ../sass/_bolt.scss */
+/* line 478, ../sass/_bolt.scss */
 .btn-info.btn-outline {
   color: #5bc0de;
 }
 
-/* line 472, ../sass/_bolt.scss */
+/* line 482, ../sass/_bolt.scss */
 .btn-warning.btn-outline {
   color: #f0ad4e;
 }
 
-/* line 476, ../sass/_bolt.scss */
+/* line 486, ../sass/_bolt.scss */
 .btn-danger.btn-outline {
   color: #d9534f;
 }
 
-/* line 480, ../sass/_bolt.scss */
+/* line 490, ../sass/_bolt.scss */
 .btn-primary.btn-outline:hover,
 .btn-success.btn-outline:hover,
 .btn-info.btn-outline:hover,
@@ -10303,69 +10313,69 @@ blockquote.quote cite {
 /* Pages */
 /* ------------------------------- */
 /* Dashboard Chat */
-/* line 494, ../sass/_bolt.scss */
+/* line 504, ../sass/_bolt.scss */
 .chat {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* line 500, ../sass/_bolt.scss */
+/* line 510, ../sass/_bolt.scss */
 .chat li {
   margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px dotted #B3A9A9;
 }
 
-/* line 506, ../sass/_bolt.scss */
+/* line 516, ../sass/_bolt.scss */
 .chat li.left .chat-body {
   margin-left: 60px;
 }
 
-/* line 510, ../sass/_bolt.scss */
+/* line 520, ../sass/_bolt.scss */
 .chat li.right .chat-body {
   margin-right: 60px;
 }
 
-/* line 514, ../sass/_bolt.scss */
+/* line 524, ../sass/_bolt.scss */
 .chat li .chat-body p {
   margin: 0;
   color: #777777;
 }
 
-/* line 519, ../sass/_bolt.scss */
+/* line 529, ../sass/_bolt.scss */
 .panel .slidedown .glyphicon,
 .chat .glyphicon {
   margin-right: 5px;
 }
 
-/* line 524, ../sass/_bolt.scss */
+/* line 534, ../sass/_bolt.scss */
 .chat-panel .panel-body {
   height: 350px;
   overflow-y: scroll;
 }
 
 /* Login Page */
-/* line 531, ../sass/_bolt.scss */
+/* line 541, ../sass/_bolt.scss */
 .login-panel {
   margin-top: 25%;
 }
 
 /* Flot Chart Containers */
-/* line 537, ../sass/_bolt.scss */
+/* line 547, ../sass/_bolt.scss */
 .flot-chart {
   display: block;
   height: 400px;
 }
 
-/* line 542, ../sass/_bolt.scss */
+/* line 552, ../sass/_bolt.scss */
 .flot-chart-content {
   width: 100%;
   height: 100%;
 }
 
 /* DataTables Overrides */
-/* line 549, ../sass/_bolt.scss */
+/* line 559, ../sass/_bolt.scss */
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc,
@@ -10374,21 +10384,21 @@ table.dataTable thead .sorting_desc_disabled {
   background: transparent;
 }
 
-/* line 557, ../sass/_bolt.scss */
+/* line 567, ../sass/_bolt.scss */
 table.dataTable thead .sorting_asc:after {
   content: "\f0de";
   float: right;
   font-family: fontawesome;
 }
 
-/* line 563, ../sass/_bolt.scss */
+/* line 573, ../sass/_bolt.scss */
 table.dataTable thead .sorting_desc:after {
   content: "\f0dd";
   float: right;
   font-family: fontawesome;
 }
 
-/* line 569, ../sass/_bolt.scss */
+/* line 579, ../sass/_bolt.scss */
 table.dataTable thead .sorting:after {
   content: "\f0dc";
   float: right;
@@ -10397,7 +10407,7 @@ table.dataTable thead .sorting:after {
 }
 
 /* Circle Buttons */
-/* line 578, ../sass/_bolt.scss */
+/* line 588, ../sass/_bolt.scss */
 .btn-circle {
   width: 30px;
   height: 30px;
@@ -10408,7 +10418,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.428571429;
 }
 
-/* line 588, ../sass/_bolt.scss */
+/* line 598, ../sass/_bolt.scss */
 .btn-circle.btn-lg, .btn-group-lg > .btn-circle.btn {
   width: 50px;
   height: 50px;
@@ -10418,7 +10428,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.33;
 }
 
-/* line 597, ../sass/_bolt.scss */
+/* line 607, ../sass/_bolt.scss */
 .btn-circle.btn-xl {
   width: 70px;
   height: 70px;
@@ -10428,7 +10438,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.33;
 }
 
-/* line 606, ../sass/_bolt.scss */
+/* line 616, ../sass/_bolt.scss */
 .show-grid [class^="col-"] {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -10436,31 +10446,31 @@ table.dataTable thead .sorting:after {
   background-color: #eee !important;
 }
 
-/* line 613, ../sass/_bolt.scss */
+/* line 623, ../sass/_bolt.scss */
 .show-grid {
   margin: 15px 0;
 }
 
-/* line 619, ../sass/_bolt.scss */
+/* line 629, ../sass/_bolt.scss */
 .login .logo {
   margin-top: 100px;
   width: 179px;
   height: auto;
 }
 
-/* line 625, ../sass/_bolt.scss */
+/* line 635, ../sass/_bolt.scss */
 .dropdown-menu .nav-header {
   clear: both;
   float: none;
   padding: 3px 12px;
 }
 
-/* line 632, ../sass/_bolt.scss */
+/* line 642, ../sass/_bolt.scss */
 aside {
   margin-top: 0;
 }
 
-/* line 636, ../sass/_bolt.scss */
+/* line 646, ../sass/_bolt.scss */
 aside section {
   background-color: #f1f2f7;
   -moz-border-radius: 2px;
