@@ -24,12 +24,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "An extentions to add RateIt to your site when using <code>{{ rateit('slider_name') }}</code> in your templates.",
             'author' => "Gawain Lynch",
             'link' => "http://bolt.cm",
-            'version' => "1.0",
+            'version' => "1.2",
             'required_bolt_version' => "1.5",
             'highest_bolt_version' => "2.0",
             'type' => "Twig function",
             'first_releasedate' => "2014-03-04",
-            'latest_releasedate' => "2014-03-04",
+            'latest_releasedate' => "2014-03-24",
         );
 
         return $data;
