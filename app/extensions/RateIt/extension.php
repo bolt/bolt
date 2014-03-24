@@ -24,12 +24,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "An extentions to add RateIt to your site when using <code>{{ rateit('slider_name') }}</code> in your templates.",
             'author' => "Gawain Lynch",
             'link' => "http://bolt.cm",
-            'version' => "1.1",
+            'version' => "1.0",
             'required_bolt_version' => "1.5",
             'highest_bolt_version' => "2.0",
             'type' => "Twig function",
             'first_releasedate' => "2014-03-04",
-            'latest_releasedate' => "2014-03-22",
+            'latest_releasedate' => "2014-03-04",
         );
 
         return $data;
@@ -42,15 +42,20 @@ class Extension extends \Bolt\BaseExtension
 
         // Set up a controller for AJAX requests
         $this->ajax_path = '/ajax/' . __NAMESPACE__;
-//        $this->app->match($this->ajax_path, array($this, 'ajaxRateIt'));
         $this->app->post($this->ajax_path, array($this, 'ajaxRateIt'))->bind('ajaxRateIt');
 
-        // Make sure the css is inserted as well..
-        if (!empty($this->config['stylesheet'])) {
-            $this->addCSS($this->config['stylesheet']);
-        } else {
-            $this->addCSS('css/rateit.css');
+        if (empty($this->config['stylesheet']) || @filectime(realpath($this->app['paths']['extensionspath']) . $this->config['stylesheet']) === false) {
+            $this->config['stylesheet'] = 'css/rateit.css';
         }
+
+        // Make sure the css is inserted as well..
+        if ($this->config['location'] == 'body') {
+            $this->addCSS($this->config['stylesheet'], true);
+
+        } else {
+            $this->addCSS($this->config['stylesheet']);
+        }
+
 
         // Sane defaults
         if (empty($this->config['stars'])) {
