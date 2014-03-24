@@ -44,7 +44,7 @@ class Extension extends \Bolt\BaseExtension
         $this->ajax_path = '/ajax/' . __NAMESPACE__;
         $this->app->post($this->ajax_path, array($this, 'ajaxRateIt'))->bind('ajaxRateIt');
 
-        if (empty($this->config['stylesheet']) || @filectime(realpath($this->app['paths']['extensionspath']) . $this->config['stylesheet']) === false) {
+        if (empty($this->config['stylesheet']) || file_exists(realpath($this->app['paths']['extensionspath']) . $this->config['stylesheet']) === false) {
             $this->config['stylesheet'] = 'css/rateit.css';
         }
 
