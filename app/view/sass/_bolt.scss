@@ -391,6 +391,8 @@ blockquote.quote cite {
 .navbar-static-side li.active > a{
   text-decoration: none;
   background-color: $sidebarbackgroundactive;
+  border-top: 1px solid darken($sidebarbackgroundactive, 2);
+  border-bottom: 1px solid darken($sidebarbackgroundactive, 2);
   color: #FFF;
 }
 

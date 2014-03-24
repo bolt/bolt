@@ -8521,13 +8521,13 @@ button.close {
 /* line 48, ../sass/_bootstrapcustom.scss */
 .navbar-bolt {
   background: transparent;
-  background-image: linear-gradient(top, #204460 40%, #1a364d 100%);
-  background-image: -o-linear-gradient(top, #204460 40%, #1a364d 100%);
-  background-image: -moz-linear-gradient(top, #204460 40%, #1a364d 100%);
-  background-image: -webkit-linear-gradient(top, #204460 40%, #1a364d 100%);
-  background-image: -ms-linear-gradient(top, #204460 40%, #1a364d 100%);
+  background-image: linear-gradient(top, #204460 80%, #1a364d 100%);
+  background-image: -o-linear-gradient(top, #204460 80%, #1a364d 100%);
+  background-image: -moz-linear-gradient(top, #204460 80%, #1a364d 100%);
+  background-image: -webkit-linear-gradient(top, #204460 80%, #1a364d 100%);
+  background-image: -ms-linear-gradient(top, #204460 80%, #1a364d 100%);
   background-repeat: repeat-x;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 /* line 59, ../sass/_bootstrapcustom.scss */
@@ -10206,40 +10206,42 @@ blockquote.quote cite {
 .navbar-static-side li.active > a {
   text-decoration: none;
   background-color: #39556a;
+  border-top: 1px solid #365064;
+  border-bottom: 1px solid #365064;
   color: #FFF;
 }
 
-/* line 397, ../sass/_bolt.scss */
+/* line 399, ../sass/_bolt.scss */
 .navbar-static-side > ul li {
   border-bottom: 1px solid #e7e7e7;
 }
 
-/* line 401, ../sass/_bolt.scss */
+/* line 403, ../sass/_bolt.scss */
 .sidebar-collapse {
   min-width: 170px;
   padding-top: 4px;
 }
 
-/* line 406, ../sass/_bolt.scss */
+/* line 408, ../sass/_bolt.scss */
 #sidebar-expand {
   visibility: hidden;
   display: none;
 }
 
 @media (max-width: 766px) {
-  /* line 413, ../sass/_bolt.scss */
+  /* line 415, ../sass/_bolt.scss */
   .navbar-static-side {
     display: none;
     width: 280px;
   }
 
-  /* line 417, ../sass/_bolt.scss */
+  /* line 419, ../sass/_bolt.scss */
   .js-nav .navbar-static-side {
     display: block;
   }
 }
 @media (min-width: 768px) {
-  /* line 424, ../sass/_bolt.scss */
+  /* line 426, ../sass/_bolt.scss */
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 180px;
@@ -10248,35 +10250,35 @@ blockquote.quote cite {
     border-left: 1px solid #e7e7e7;
   }
 
-  /* line 432, ../sass/_bolt.scss */
+  /* line 434, ../sass/_bolt.scss */
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
     margin-left: auto;
   }
 
-  /* line 440, ../sass/_bolt.scss */
+  /* line 442, ../sass/_bolt.scss */
   body.collapsed-sidebar #page-wrapper {
     margin: 0 0 0 44px;
   }
-  /* line 444, ../sass/_bolt.scss */
+  /* line 446, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side {
     width: 44px;
     overflow: hidden;
     box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
   }
-  /* line 450, ../sass/_bolt.scss */
+  /* line 452, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side:hover {
     width: 170px;
     overflow: visible;
     box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2);
   }
-  /* line 456, ../sass/_bolt.scss */
+  /* line 458, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-collapse {
     visibility: hidden;
     display: none;
   }
-  /* line 461, ../sass/_bolt.scss */
+  /* line 463, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-expand {
     visibility: visible;
     display: block;
@@ -10284,45 +10286,45 @@ blockquote.quote cite {
 }
 /* Buttons */
 /* ------------------------------- */
-/* line 474, ../sass/_bolt.scss */
+/* line 476, ../sass/_bolt.scss */
 .btn-default {
   background: #E8E8E8;
   border: 1px solid #D8D8D8;
 }
 
-/* line 479, ../sass/_bolt.scss */
+/* line 481, ../sass/_bolt.scss */
 .btn-outline {
   color: inherit;
   background-color: transparent;
   transition: all .5s;
 }
 
-/* line 485, ../sass/_bolt.scss */
+/* line 487, ../sass/_bolt.scss */
 .btn-primary.btn-outline {
   color: #428bca;
 }
 
-/* line 489, ../sass/_bolt.scss */
+/* line 491, ../sass/_bolt.scss */
 .btn-success.btn-outline {
   color: #5cb85c;
 }
 
-/* line 493, ../sass/_bolt.scss */
+/* line 495, ../sass/_bolt.scss */
 .btn-info.btn-outline {
   color: #5bc0de;
 }
 
-/* line 497, ../sass/_bolt.scss */
+/* line 499, ../sass/_bolt.scss */
 .btn-warning.btn-outline {
   color: #f0ad4e;
 }
 
-/* line 501, ../sass/_bolt.scss */
+/* line 503, ../sass/_bolt.scss */
 .btn-danger.btn-outline {
   color: #d9534f;
 }
 
-/* line 505, ../sass/_bolt.scss */
+/* line 507, ../sass/_bolt.scss */
 .btn-primary.btn-outline:hover,
 .btn-success.btn-outline:hover,
 .btn-info.btn-outline:hover,
@@ -10334,69 +10336,69 @@ blockquote.quote cite {
 /* Pages */
 /* ------------------------------- */
 /* Dashboard Chat */
-/* line 519, ../sass/_bolt.scss */
+/* line 521, ../sass/_bolt.scss */
 .chat {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* line 525, ../sass/_bolt.scss */
+/* line 527, ../sass/_bolt.scss */
 .chat li {
   margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px dotted #B3A9A9;
 }
 
-/* line 531, ../sass/_bolt.scss */
+/* line 533, ../sass/_bolt.scss */
 .chat li.left .chat-body {
   margin-left: 60px;
 }
 
-/* line 535, ../sass/_bolt.scss */
+/* line 537, ../sass/_bolt.scss */
 .chat li.right .chat-body {
   margin-right: 60px;
 }
 
-/* line 539, ../sass/_bolt.scss */
+/* line 541, ../sass/_bolt.scss */
 .chat li .chat-body p {
   margin: 0;
   color: #777777;
 }
 
-/* line 544, ../sass/_bolt.scss */
+/* line 546, ../sass/_bolt.scss */
 .panel .slidedown .glyphicon,
 .chat .glyphicon {
   margin-right: 5px;
 }
 
-/* line 549, ../sass/_bolt.scss */
+/* line 551, ../sass/_bolt.scss */
 .chat-panel .panel-body {
   height: 350px;
   overflow-y: scroll;
 }
 
 /* Login Page */
-/* line 556, ../sass/_bolt.scss */
+/* line 558, ../sass/_bolt.scss */
 .login-panel {
   margin-top: 25%;
 }
 
 /* Flot Chart Containers */
-/* line 562, ../sass/_bolt.scss */
+/* line 564, ../sass/_bolt.scss */
 .flot-chart {
   display: block;
   height: 400px;
 }
 
-/* line 567, ../sass/_bolt.scss */
+/* line 569, ../sass/_bolt.scss */
 .flot-chart-content {
   width: 100%;
   height: 100%;
 }
 
 /* DataTables Overrides */
-/* line 574, ../sass/_bolt.scss */
+/* line 576, ../sass/_bolt.scss */
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc,
@@ -10405,21 +10407,21 @@ table.dataTable thead .sorting_desc_disabled {
   background: transparent;
 }
 
-/* line 582, ../sass/_bolt.scss */
+/* line 584, ../sass/_bolt.scss */
 table.dataTable thead .sorting_asc:after {
   content: "\f0de";
   float: right;
   font-family: fontawesome;
 }
 
-/* line 588, ../sass/_bolt.scss */
+/* line 590, ../sass/_bolt.scss */
 table.dataTable thead .sorting_desc:after {
   content: "\f0dd";
   float: right;
   font-family: fontawesome;
 }
 
-/* line 594, ../sass/_bolt.scss */
+/* line 596, ../sass/_bolt.scss */
 table.dataTable thead .sorting:after {
   content: "\f0dc";
   float: right;
@@ -10428,7 +10430,7 @@ table.dataTable thead .sorting:after {
 }
 
 /* Circle Buttons */
-/* line 603, ../sass/_bolt.scss */
+/* line 605, ../sass/_bolt.scss */
 .btn-circle {
   width: 30px;
   height: 30px;
@@ -10439,7 +10441,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.428571429;
 }
 
-/* line 613, ../sass/_bolt.scss */
+/* line 615, ../sass/_bolt.scss */
 .btn-circle.btn-lg, .btn-group-lg > .btn-circle.btn {
   width: 50px;
   height: 50px;
@@ -10449,7 +10451,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.33;
 }
 
-/* line 622, ../sass/_bolt.scss */
+/* line 624, ../sass/_bolt.scss */
 .btn-circle.btn-xl {
   width: 70px;
   height: 70px;
@@ -10459,7 +10461,7 @@ table.dataTable thead .sorting:after {
   line-height: 1.33;
 }
 
-/* line 631, ../sass/_bolt.scss */
+/* line 633, ../sass/_bolt.scss */
 .show-grid [class^="col-"] {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -10467,31 +10469,31 @@ table.dataTable thead .sorting:after {
   background-color: #eee !important;
 }
 
-/* line 638, ../sass/_bolt.scss */
+/* line 640, ../sass/_bolt.scss */
 .show-grid {
   margin: 15px 0;
 }
 
-/* line 644, ../sass/_bolt.scss */
+/* line 646, ../sass/_bolt.scss */
 .login .logo {
   margin-top: 100px;
   width: 179px;
   height: auto;
 }
 
-/* line 650, ../sass/_bolt.scss */
+/* line 652, ../sass/_bolt.scss */
 .dropdown-menu .nav-header {
   clear: both;
   float: none;
   padding: 3px 12px;
 }
 
-/* line 657, ../sass/_bolt.scss */
+/* line 659, ../sass/_bolt.scss */
 aside {
   margin-top: 0;
 }
 
-/* line 661, ../sass/_bolt.scss */
+/* line 663, ../sass/_bolt.scss */
 aside section {
   background-color: #f1f2f7;
   -moz-border-radius: 2px;
