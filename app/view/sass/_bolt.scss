@@ -91,7 +91,7 @@ div.extension {
     border-radius: 2px;
     padding: 0 10px 8px;
     margin: 0 10px 8px 0;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, .3);
 }
 
 div.extension h3 {
@@ -203,20 +203,7 @@ blockquote.quote cite {
   background-color:#fff;
 }
 
-@media(min-width:768px) {
-  #page-wrapper {
-    position: inherit;
-    margin: 0 0 0 180px;
-    padding: 16px 16px 0 16px;
-    min-height: 1300px;
-    border-left: 1px solid #e7e7e7;
-  }
 
-  body.collapsed-sidebar #page-wrapper {
-    margin: 0 0 0 48px;
-  }
-
-}
 
 
 
@@ -301,8 +288,8 @@ blockquote.quote cite {
 .nav hr.sidebar {
   margin: 4px 8px;
   padding: 0;
-  border-top: 1px solid lighten($sidebarbackground, 6);  
-  border-bottom: 1px solid darken($sidebarbackground, 6);  
+  border-top: 1px solid lighten($sidebarbackground, 6);
+  border-bottom: 1px solid darken($sidebarbackground, 6);
 }
 
 .nav > li {
@@ -310,6 +297,7 @@ blockquote.quote cite {
     color: $sidebarlink;
     padding: 8px 15px 26px 8px;
     height: 2.4em;
+    min-width: 180px;
   }
 
   .fa-stack {
@@ -322,13 +310,13 @@ blockquote.quote cite {
   }
 
   .popover.right {
-    margin-left: -16px;
+    margin-left: -26px;
   }
 
   .popover-content {
     color: #444;
     padding: 0;
-    overflow: hidden;    
+    overflow: hidden;
   }
 
   .popover-content a {
@@ -349,7 +337,7 @@ blockquote.quote cite {
     margin: 4px 0;
     padding: 0 8px;
   }
-} 
+}
 
 .nav li.sub {
   display: none;
@@ -359,7 +347,7 @@ blockquote.quote cite {
 .nav li.sub a {
   padding: 6px 5px 6px 14px;
   width: 800px;
-} 
+}
 
 
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
@@ -395,8 +383,7 @@ blockquote.quote cite {
   z-index: 1;
   position: absolute;
   width: 180px;
-  height:100%;
-  box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
   background: $sidebarbackground;
   color: $sidebartextcolour;
 }
@@ -412,7 +399,7 @@ blockquote.quote cite {
 }
 
 .sidebar-collapse {
-  min-width: 160px;
+  min-width: 170px;
   padding-top: 4px;
 }
 
@@ -434,6 +421,14 @@ blockquote.quote cite {
 
 @media(min-width:768px) {
 
+  #page-wrapper {
+    position: inherit;
+    margin: 0 0 0 180px;
+    padding: 16px 16px 0 16px;
+    min-height: 1300px;
+    border-left: 1px solid #e7e7e7;
+  }
+
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
@@ -441,16 +436,21 @@ blockquote.quote cite {
   }
 
   body.collapsed-sidebar {
+
+    #page-wrapper {
+      margin: 0 0 0 44px;
+    }
+
     .navbar-static-side {
-      width: 52px;
+      width: 44px; //@see: body.collapsed-sidebar #page-wrapper
       overflow: hidden;
-      box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.3) inset;
+      box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
     }
 
     .navbar-static-side:hover {
-      width: 160px;
+      width: 170px;
       overflow: visible;
-      box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2);
     }
 
     #sidebar-collapse {

@@ -9106,7 +9106,7 @@ aside .btn {
 .popover {
   width: 160px;
   max-width: 360px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
 /* line 19, ../sass/_popover.scss */
@@ -9890,7 +9890,7 @@ div.extension {
   border-radius: 2px;
   padding: 0 10px 8px;
   margin: 0 10px 8px 0;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
 /* line 97, ../sass/_bolt.scss */
@@ -9999,67 +9999,52 @@ blockquote.quote cite {
   background-color: #fff;
 }
 
-@media (min-width: 768px) {
-  /* line 207, ../sass/_bolt.scss */
-  #page-wrapper {
-    position: inherit;
-    margin: 0 0 0 180px;
-    padding: 16px 16px 0 16px;
-    min-height: 1300px;
-    border-left: 1px solid #e7e7e7;
-  }
-
-  /* line 215, ../sass/_bolt.scss */
-  body.collapsed-sidebar #page-wrapper {
-    margin: 0 0 0 48px;
-  }
-}
 /* Navigation */
 /* ------------------------------- */
 /* Top Right Navigation Dropdown Styles */
-/* line 228, ../sass/_bolt.scss */
+/* line 215, ../sass/_bolt.scss */
 .navbar-top-links {
   margin-top: 6px;
 }
 
-/* line 232, ../sass/_bolt.scss */
+/* line 219, ../sass/_bolt.scss */
 .navbar-top-links li {
   display: inline-block;
 }
 
-/* line 236, ../sass/_bolt.scss */
+/* line 223, ../sass/_bolt.scss */
 .navbar-top-links li:last-child {
   margin-right: 15px;
 }
 
-/* line 240, ../sass/_bolt.scss */
+/* line 227, ../sass/_bolt.scss */
 .navbar-top-links li a {
   padding: 12px;
   min-height: 42px;
 }
 
-/* line 245, ../sass/_bolt.scss */
+/* line 232, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-menu li {
   display: block;
 }
 
-/* line 249, ../sass/_bolt.scss */
+/* line 236, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-menu li:last-child {
   margin-right: 0;
 }
 
-/* line 253, ../sass/_bolt.scss */
+/* line 240, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-menu li a {
   padding: 3px 20px;
   min-height: 0;
 }
 
-/* line 258, ../sass/_bolt.scss */
+/* line 245, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-menu li a div {
   white-space: normal;
 }
 
-/* line 262, ../sass/_bolt.scss */
+/* line 249, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-messages,
 .navbar-top-links .dropdown-tasks,
 .navbar-top-links .dropdown-alerts {
@@ -10067,45 +10052,45 @@ blockquote.quote cite {
   min-width: 0;
 }
 
-/* line 269, ../sass/_bolt.scss */
+/* line 256, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-messages {
   margin-left: 5px;
 }
 
-/* line 273, ../sass/_bolt.scss */
+/* line 260, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-tasks {
   margin-left: -59px;
 }
 
-/* line 277, ../sass/_bolt.scss */
+/* line 264, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-alerts {
   margin-left: -123px;
 }
 
-/* line 281, ../sass/_bolt.scss */
+/* line 268, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-user {
   right: 0;
   left: auto;
 }
 
 /* Sidebar Menu Styles */
-/* line 288, ../sass/_bolt.scss */
+/* line 275, ../sass/_bolt.scss */
 .sidebar-search {
   padding: 0 15px 0 15px;
 }
 
-/* line 292, ../sass/_bolt.scss */
+/* line 279, ../sass/_bolt.scss */
 .sidebar-search form {
   border: 0;
 }
 
-/* line 296, ../sass/_bolt.scss */
+/* line 283, ../sass/_bolt.scss */
 .nav span.heading {
   display: block;
   margin: 8px 4px 2px 10px;
 }
 
-/* line 301, ../sass/_bolt.scss */
+/* line 288, ../sass/_bolt.scss */
 .nav hr.sidebar {
   margin: 4px 8px;
   padding: 0;
@@ -10113,32 +10098,33 @@ blockquote.quote cite {
   border-bottom: 1px solid #36414a;
 }
 
-/* line 309, ../sass/_bolt.scss */
+/* line 296, ../sass/_bolt.scss */
 .nav > li a {
   color: #dddddd;
   padding: 8px 15px 26px 8px;
   height: 2.4em;
+  min-width: 180px;
 }
-/* line 315, ../sass/_bolt.scss */
+/* line 303, ../sass/_bolt.scss */
 .nav > li .fa-stack {
   margin-top: -4px;
 }
-/* line 319, ../sass/_bolt.scss */
+/* line 307, ../sass/_bolt.scss */
 .nav > li a:hover {
   color: white;
   background: #344d60;
 }
-/* line 324, ../sass/_bolt.scss */
+/* line 312, ../sass/_bolt.scss */
 .nav > li .popover.right {
-  margin-left: -16px;
+  margin-left: -26px;
 }
-/* line 328, ../sass/_bolt.scss */
+/* line 316, ../sass/_bolt.scss */
 .nav > li .popover-content {
   color: #444;
   padding: 0;
   overflow: hidden;
 }
-/* line 334, ../sass/_bolt.scss */
+/* line 322, ../sass/_bolt.scss */
 .nav > li .popover-content a {
   color: #1a364d;
   display: block;
@@ -10147,131 +10133,143 @@ blockquote.quote cite {
   height: auto;
   width: 600px;
 }
-/* line 343, ../sass/_bolt.scss */
+/* line 331, ../sass/_bolt.scss */
 .nav > li .popover-content a:hover {
   color: #1a364d;
   background-color: #EEE;
 }
-/* line 348, ../sass/_bolt.scss */
+/* line 336, ../sass/_bolt.scss */
 .nav > li .popover-content hr {
   margin: 4px 0;
   padding: 0 8px;
 }
 
-/* line 354, ../sass/_bolt.scss */
+/* line 342, ../sass/_bolt.scss */
 .nav li.sub {
   display: none;
   overflow: hidden;
 }
 
-/* line 359, ../sass/_bolt.scss */
+/* line 347, ../sass/_bolt.scss */
 .nav li.sub a {
   padding: 6px 5px 6px 14px;
   width: 800px;
 }
 
-/* line 365, ../sass/_bolt.scss */
+/* line 353, ../sass/_bolt.scss */
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
   background-color: #204460;
 }
 
-/* line 369, ../sass/_bolt.scss */
+/* line 357, ../sass/_bolt.scss */
 .arrow {
   float: right;
 }
 
-/* line 373, ../sass/_bolt.scss */
+/* line 361, ../sass/_bolt.scss */
 .fa.arrow:before {
   content: "\f104";
 }
 
-/* line 377, ../sass/_bolt.scss */
+/* line 365, ../sass/_bolt.scss */
 .active > a > .fa.arrow:before {
   content: "\f107";
 }
 
-/* line 381, ../sass/_bolt.scss */
+/* line 369, ../sass/_bolt.scss */
 .nav-second-level li,
 .nav-third-level li {
   border-bottom: none !important;
 }
 
-/* line 386, ../sass/_bolt.scss */
+/* line 374, ../sass/_bolt.scss */
 .nav-second-level li a {
   padding-left: 37px;
 }
 
-/* line 390, ../sass/_bolt.scss */
+/* line 378, ../sass/_bolt.scss */
 .nav-third-level li a {
   padding-left: 52px;
 }
 
-/* line 394, ../sass/_bolt.scss */
+/* line 382, ../sass/_bolt.scss */
 .navbar-static-side {
   z-index: 1;
   position: absolute;
   width: 180px;
-  height: 100%;
-  box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
   background: #43515b;
   color: #eeeeee;
 }
 
-/* line 404, ../sass/_bolt.scss */
+/* line 391, ../sass/_bolt.scss */
 .navbar-static-side li.active > a {
   text-decoration: none;
   background-color: #39556a;
   color: #FFF;
 }
 
-/* line 410, ../sass/_bolt.scss */
+/* line 397, ../sass/_bolt.scss */
 .navbar-static-side > ul li {
   border-bottom: 1px solid #e7e7e7;
 }
 
-/* line 414, ../sass/_bolt.scss */
+/* line 401, ../sass/_bolt.scss */
 .sidebar-collapse {
-  min-width: 160px;
+  min-width: 170px;
   padding-top: 4px;
 }
 
-/* line 419, ../sass/_bolt.scss */
+/* line 406, ../sass/_bolt.scss */
 #sidebar-expand {
   visibility: hidden;
   display: none;
 }
 
 @media (max-width: 766px) {
-  /* line 426, ../sass/_bolt.scss */
+  /* line 413, ../sass/_bolt.scss */
   .navbar-static-side {
     display: none;
     width: 280px;
   }
 
-  /* line 430, ../sass/_bolt.scss */
+  /* line 417, ../sass/_bolt.scss */
   .js-nav .navbar-static-side {
     display: block;
   }
 }
 @media (min-width: 768px) {
-  /* line 437, ../sass/_bolt.scss */
+  /* line 424, ../sass/_bolt.scss */
+  #page-wrapper {
+    position: inherit;
+    margin: 0 0 0 180px;
+    padding: 16px 16px 0 16px;
+    min-height: 1300px;
+    border-left: 1px solid #e7e7e7;
+  }
+
+  /* line 432, ../sass/_bolt.scss */
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
     margin-left: auto;
   }
 
+  /* line 440, ../sass/_bolt.scss */
+  body.collapsed-sidebar #page-wrapper {
+    margin: 0 0 0 44px;
+  }
   /* line 444, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side {
-    width: 52px;
+    width: 44px;
     overflow: hidden;
-    box-shadow: -5px -2px 4px rgba(0, 0, 0, 0.3) inset;
+    box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
   }
   /* line 450, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side:hover {
-    width: 160px;
+    width: 170px;
     overflow: visible;
-    box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2);
   }
   /* line 456, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-collapse {

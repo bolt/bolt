@@ -13,11 +13,11 @@
 .popover {
     width: 160px;
     max-width: 360px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
 .menu-pop-wide .popover {
-    width: 320px !important;    
+    width: 320px !important;
 }
 
 .popover-content {
