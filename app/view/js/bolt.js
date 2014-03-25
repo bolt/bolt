@@ -58,18 +58,8 @@ jQuery(function($) {
     $('span.info-pop').popover({
         trigger: 'hover',
         delay: { show: 500, hide: 200 }
-    });
+    }); 
 
-    // Initialize popovers, used in sidebar menu.
-    $('nav.navbar-static-side a.menu-pop').popover({
-        trigger: 'hover',
-        delay: { show: 500, hide: 200000 }
-    });
-
-    // Make sure we have only one open at the same time.
-    $('nav.navbar-static-side').on('show.bs.popover', function () {
-        $('nav.navbar-static-side a.menu-pop').popover('hide');
-    })
 
     // When hiding modal dialogs with a 'remote', remove the data, to make sure
     // other modal dialogs are forced to retrieve the content again.
@@ -325,15 +315,6 @@ function initKeyboardShortcuts() {
 
 }
 
-
-/**
- * Hide / show subitems in the sidebar for mobile devices.
- */
-function showSidebarItems(name) {
-    $('.nav li.sub').removeClass('visible-xs');
-    $('.nav li.sub-'+name).addClass('visible-xs');
-    console.log('sub-side ' + name);
-}
 
 
 /**
@@ -778,16 +759,46 @@ var Sidebar = Backbone.Model.extend({
     },
 
     initialize: function() {
+
+        // Make sure the sidebar is the full height of the page.
+        $('.navbar-static-side').css('min-height', $('div#page-wrapper').height() + 40);
+
+        // Initialize popovers, used in sidebar menu.
+        $('nav.navbar-static-side a.menu-pop').popover({
+            trigger: 'hover',
+            delay: { show: 500, hide: 200000 }
+        });
+
+        // Make sure we have only one open at the same time.
+        $('nav.navbar-static-side').on('show.bs.popover', function () {
+            sidebar.closePopOvers();
+        });        
+
+    },
+
+    /**
+     * Hide / show subitems in the sidebar for mobile devices.
+     */
+    showSidebarItems: function(name) {
+        $('.nav li.sub').removeClass('visible-xs');
+        $('.nav li.sub-'+name).addClass('visible-xs');
+        console.log('sub-side ' + name);
     },
 
     collapse: function() {
+        sidebar.closePopOvers();
         $('body').addClass('collapsed-sidebar');
         $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
     },
 
     expand: function() {
+        sidebar.closePopOvers();
         $('body').removeClass('collapsed-sidebar');
         $.removeCookie('sidebar', { path: '/' });
+    },
+
+    closePopOvers: function() {
+        $('nav.navbar-static-side a.menu-pop').popover('hide');
     }
 
 })
