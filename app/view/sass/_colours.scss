@@ -7,14 +7,8 @@ $boltbluedarker: darken($boltblue, 5);
 $boltbluelighter: lighten($boltblue, 5);
 $baseblue: #214968;
 
-$basebgcolour: #fefefe;
-$basefgcolour: #434341;
-
-$lightbgcolour: #F2F1E4;
-$lightfgcolour: #434341;
-
-$darkbgcolour: #E7E7E7;
-$darkfgcolour: #434341;
+$basebgcolour: #FBFBFB;
+$bodytextcolour: #333;
 
 $linkmain: #194770;
 /*$linkvisited: #4c808b;*/
@@ -29,7 +23,6 @@ $sidebarlinkhover: #FFF;
 $sidebarbackgroundactive: lighten(adjust-saturation($boltblue, -20), 7);
 $sidebarbackgroundhover: lighten(adjust-saturation($boltblue, -20), 4);
 
-$bodytextcolour: #333;
 
 // The color of <hr> lines.
 $hr-border: #CCC;

@@ -115,7 +115,6 @@
 
 .navbar .navbar > li > form > button.btn,
 .navbar .navbar > li > a {
-    color: $darkbgcolour;
     font-weight: bold;
     padding: 9px 10px 11px;
     margin: 0 0 0 0;
@@ -196,9 +195,8 @@ ul.dropdown-menu li.divider {
 }
 
 ul.dropdown-menu li a.nolink {
-    background-color: $lightbgcolour !important;
-    background-image: none !important;
-    color: $lightfgcolour !important;
+    background-color: $basebgcolour !important;
+    color: lighten($bodytextcolour, 8) !important;
 }
 
 

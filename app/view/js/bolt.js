@@ -777,6 +777,10 @@ var Sidebar = Backbone.Model.extend({
                 sidebar.closePopOvers();
             });        
 
+            $('#page-wrapper').on('touch, click', function () {
+                sidebar.closePopOvers();
+            });        
+
         }
 
     },
