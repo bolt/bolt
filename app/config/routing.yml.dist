@@ -100,6 +100,14 @@ contentlisting:
 #     chapters: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['chapters', 'kitchensink'] ]
 #   contenttype: kitchensinks
 
+# categorybinding:
+#   path: /{categories}/{slug}
+#   defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'kitchensinks', 'categories': 'none' }
+#   requirements:
+#     categories: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['categories', 'none'] ]
+#   contenttype: kitchensinks
+  
+
 # Supported internal defaults are:
 #  _controller   the controller class::method to be called
 #  _before       the before to call, if non-existent the 'before()' of the controller will be called
