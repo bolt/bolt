@@ -495,89 +495,6 @@ input.semitransparent:focus {
 
 }
 
-/* Buttons */
-
-/* ------------------------------- */
-
-.btn-default {
-  background: #E8E8E8;
-  border: 1px solid #D8D8D8;
-}
-
-.btn-outline {
-  color: inherit;
-  background-color: transparent;
-  transition: all .5s;
-}
-
-.btn-primary.btn-outline {
-  color: #428bca;
-}
-
-.btn-success.btn-outline {
-  color: #5cb85c;
-}
-
-.btn-info.btn-outline {
-  color: #5bc0de;
-}
-
-.btn-warning.btn-outline {
-  color: #f0ad4e;
-}
-
-.btn-danger.btn-outline {
-  color: #d9534f;
-}
-
-.btn-primary.btn-outline:hover,
-.btn-success.btn-outline:hover,
-.btn-info.btn-outline:hover,
-.btn-warning.btn-outline:hover,
-.btn-danger.btn-outline:hover {
-  color: #fff;
-}
-
-/* Pages */
-
-/* ------------------------------- */
-
-/* Dashboard Chat */
-
-.chat {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.chat li {
-  margin-bottom: 10px;
-  padding-bottom: 5px;
-  border-bottom: 1px dotted #B3A9A9;
-}
-
-.chat li.left .chat-body {
-  margin-left: 60px;
-}
-
-.chat li.right .chat-body {
-  margin-right: 60px;
-}
-
-.chat li .chat-body p {
-  margin: 0;
-  color: #777777;
-}
-
-.panel .slidedown .glyphicon,
-.chat .glyphicon {
-  margin-right: 5px;
-}
-
-.chat-panel .panel-body {
-  height: 350px;
-  overflow-y: scroll;
-}
 
 /* Login Page */
 
@@ -624,36 +541,6 @@ table.dataTable thead .sorting:after {
   float: right;
   font-family: fontawesome;
   color: rgba(50,50,50,.5);
-}
-
-/* Circle Buttons */
-
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  padding: 6px 0;
-  border-radius: 15px;
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.428571429;
-}
-
-.btn-circle.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 10px 16px;
-  border-radius: 25px;
-  font-size: 18px;
-  line-height: 1.33;
-}
-
-.btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 10px 16px;
-  border-radius: 35px;
-  font-size: 24px;
-  line-height: 1.33;
 }
 
 .show-grid [class^="col-"] {

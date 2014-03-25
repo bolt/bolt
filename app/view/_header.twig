@@ -13,12 +13,13 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ path('dashboard') }}">
-                <img src="{{ paths.app }}view/img/bolt-icon.svg">Bolt
+                {# <img src="{{ paths.app }}view/img/bolt-icon.svg"> #}
+                Bolt
             </a> 
             {% if content.link %}
-                <a href="{{ content.link }}" target="_blank" class="navbar-site btn hidden-xs"><span>{{ __('View on site') }}</span> <i class="fa fa-external-link"></i></a>
+                <a href="{{ content.link }}" target="_blank" class="navbar-site hidden-xs"><span>{{ __('View on site') }}</span></a>
             {% else %}
-                <a href="{{ paths.root }}" target="_blank" class="navbar-site btn hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span> <i class="fa fa-external-link fa-fw"></i></a>
+                <a href="{{ paths.root }}" target="_blank" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
             {% endif %}        
         </div>
         <!-- /.navbar-header -->

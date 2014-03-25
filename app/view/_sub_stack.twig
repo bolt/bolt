@@ -2,7 +2,7 @@
     {% if options=="full" %}
 
     <section>
-        <h2><i class="fa fa-paper-clip"></i> {{ __('Files on the stack') }}</h2>
+        <h2><i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}</h2>
 
         <div id="protostack">
 
@@ -35,7 +35,7 @@
 
 
         <div class="btn-group">
-            <span class="btn fileinput-button">
+            <span class="btn btn-tertiary fileinput-button">
                 <i class="fa fa-upload"></i>
                 <span>{{ __('Upload') }}</span>
                 <input id="fileupload-stack" type="file" name="fileupload-stack[]" data-url="{{ paths.app }}classes/upload/">
@@ -43,8 +43,8 @@
         </div>
 
         <div class="btn-group" style="margin-left: 0px;">
-            <a data-target="#selectModal-stack" href="{{ paths.async }}browse/files?key=stack" class="btn fileinput-select" data-toggle="modal">
-                <i class="fa fa-upload-alt"></i>
+            <a data-target="#selectModal-stack" href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal">
+                <i class="fa fa-download"></i>
                 {{ __('Select') }}
             </a>
         </div>
@@ -63,7 +63,7 @@
 
     {% elseif options=="minimal" %}
 
-        <h2><i class="fa fa-paper-clip"></i> {{ __('Files on the stack') }}</h2>
+        <h2><i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}</h2>
         <div id="stackholder">
             {% for item in stack %}
 

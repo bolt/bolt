@@ -2,10 +2,12 @@
  * Colour scheme
  */
 
+// for easier layouting.. Will be deleted..
+$columnborders: false ;
+
 $boltblue: #204460;
 $boltbluedarker: darken($boltblue, 5);
 $boltbluelighter: lighten($boltblue, 5);
-$baseblue: #214968;
 
 $basebgcolour: #FBFBFB;
 $bodytextcolour: #333;
@@ -23,9 +25,35 @@ $sidebarlinkhover: #FFF;
 $sidebarbackgroundactive: lighten(adjust-saturation($boltblue, -20), 7);
 $sidebarbackgroundhover: lighten(adjust-saturation($boltblue, -20), 4);
 
-
 // The color of <hr> lines.
 $hr-border: #CCC;
 
 // The padding to the left and right of form-control inputs.
 $padding-base-horizontal: 6px;
+
+// Primary button
+$btn-primary-color: #fff;
+$btn-primary-bg: #DC6A23;
+$btn-primary-border: darken($btn-primary-bg, 6%);
+
+// Secondary button
+$btn-secondary-color: #fff;
+$btn-secondary-bg: adjust-saturation(lighten($btn-primary-bg, 7%), -20);
+$btn-secondary-border: darken($btn-secondary-bg, 6%);
+
+// Tertiary button
+$btn-tertiary-color: #fff;
+$btn-tertiary-bg: adjust-saturation(lighten($boltblue, 35%), -20);
+$btn-tertiary-border: darken($btn-tertiary-bg, 6%);
+
+// Default button
+$btn-default-color: #fff;
+$btn-default-bg: #BBB;
+$btn-default-border: darken($btn-default-bg, 6%);
+
+
+// Special BOLT button
+$btn-bolt-color: #fff;
+$btn-bolt-bg: $boltblue;
+$btn-bolt-border: darken($btn-bolt-bg, 6%);
+
