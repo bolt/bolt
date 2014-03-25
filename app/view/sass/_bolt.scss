@@ -282,7 +282,7 @@ blockquote.quote cite {
 
 .nav span.heading {
   display: block;
-  margin: 8px 4px 2px 10px;
+  margin: 8px 4px 2px 9px;
 }
 
 .nav hr.sidebar {
@@ -295,9 +295,9 @@ blockquote.quote cite {
 .nav > li {
   a {
     color: $sidebarlink;
-    padding: 8px 15px 26px 8px;
+    padding: 8px 15px 26px 6px;
     height: 2.4em;
-    min-width: 180px;
+    font-weight: normal;
   }
 
   .fa-stack {
@@ -306,11 +306,11 @@ blockquote.quote cite {
 
   a:hover {
     color: $sidebarlinkhover;
-    background: $sidebarbackgroundhover;
+    background: lighten($sidebarbackgroundhover, 5);
   }
 
   .popover.right {
-    margin-left: -26px;
+    margin-left: -8px;
   }
 
   .popover-content {
@@ -337,6 +337,7 @@ blockquote.quote cite {
     margin: 4px 0;
     padding: 0 8px;
   }
+
 }
 
 .nav li.sub {
@@ -383,6 +384,7 @@ blockquote.quote cite {
   z-index: 1;
   position: absolute;
   width: 180px;
+  min-height: 100%;
   box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
   background: $sidebarbackground;
   color: $sidebartextcolour;
@@ -391,8 +393,10 @@ blockquote.quote cite {
 .navbar-static-side li.active > a{
   text-decoration: none;
   background-color: $sidebarbackgroundactive;
-  border-top: 1px solid darken($sidebarbackgroundactive, 2);
-  border-bottom: 1px solid darken($sidebarbackgroundactive, 2);
+  border-top: 1px solid darken($sidebarbackgroundactive, 4);
+  border-bottom: 1px solid darken($sidebarbackgroundactive, 4);
+  padding-top: 7px;
+  padding-bottom: 25px;
   color: #FFF;
 }
 
@@ -402,12 +406,17 @@ blockquote.quote cite {
 
 .sidebar-collapse {
   min-width: 170px;
-  padding-top: 4px;
+  padding-top: 12px;
 }
 
 #sidebar-expand {
   visibility: hidden;
   display:none;
+  padding-left: 11px;    
+}
+
+#sidebar-collapse {
+  padding-left: 11px;    
 }
 
 
@@ -426,8 +435,7 @@ blockquote.quote cite {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 180px;
-    padding: 16px 16px 0 16px;
-    min-height: 1300px;
+    padding: 16px 16px 40px 16px;
     border-left: 1px solid #e7e7e7;
   }
 
@@ -440,11 +448,11 @@ blockquote.quote cite {
   body.collapsed-sidebar {
 
     #page-wrapper {
-      margin: 0 0 0 44px;
+      margin: 0 0 0 48px; //@see: body.collapsed-sidebar .navbar-static-side
     }
 
     .navbar-static-side {
-      width: 44px; //@see: body.collapsed-sidebar #page-wrapper
+      width: 48px; //@see: body.collapsed-sidebar #page-wrapper
       overflow: hidden;
       box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
     }
@@ -457,7 +465,7 @@ blockquote.quote cite {
 
     #sidebar-collapse {
       visibility: hidden;
-      display:none;
+      display:none;  
     }
 
     #sidebar-expand {

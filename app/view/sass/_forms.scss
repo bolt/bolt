@@ -95,7 +95,6 @@ fieldset.checkbox div {
     line-height: 21px;
     color: #444;
     font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
-    box-shadow: 0 0 2px rgba(0,0,0,.1);
 }
 
 #editcontent div.video-container {
@@ -135,7 +134,7 @@ fieldset.checkbox div {
     height: 126px;
     overflow: hidden;
     padding: 2px;
-    box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, 0.3);
+    box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 #editcontent .imageholder img {
@@ -165,7 +164,7 @@ fieldset.checkbox div {
     width: 200px;
     height: 160px;
     padding: 2px;
-    box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, 0.3);
+    box-shadow:  2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 #editcontent .geolocation {
@@ -234,7 +233,7 @@ fieldset.checkbox div {
     width: 390px;
     background-color: #FFF;
     border-radius: 3px;
-    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2) inset;
 }
 
 #editcontent div.imagelistholder div.list div {
@@ -242,7 +241,7 @@ fieldset.checkbox div {
     margin: 6px;
     border-radius: 3px;
     cursor: ns-resize;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 
@@ -251,7 +250,7 @@ fieldset.checkbox div {
     margin: 6px;
     border-radius: 3px;
     cursor: ns-resize;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
     overflow: hidden;
     background: url("/app/view/css/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% rgb(230, 230, 230);
 }
@@ -298,7 +297,7 @@ fieldset.checkbox div {
 
 .ui-sortable-helper {
     border: 1px solid #999;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
 }
 
 .ui-sortable-placeholder {

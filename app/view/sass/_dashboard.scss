@@ -46,7 +46,7 @@
 }
 
 .dashboardlisting tr.grouping th {
-    background-color: transparent;
+    background-color: transparent !important; 
     text-align: left;
     font-weight: bold;
     color: #888;
