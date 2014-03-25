@@ -198,7 +198,7 @@ blockquote.quote cite {
 }
 
 #page-wrapper {
-  padding: 16px 0 0;
+  padding: 16px 4px 0;
   min-height: 568px;
   background-color:#fff;
 }
@@ -276,8 +276,18 @@ blockquote.quote cite {
   padding: 0 15px 0 15px;
 }
 
-.sidebar-search form {
-  border: 0;
+input.semitransparent {
+  opacity: 0.5;
+}
+
+input.semitransparent:focus {
+  opacity: 1;
+}
+.navbar-form {
+  border: 0px;
+  box-shadow: none !important;
+  font-size: 120%;
+  padding: 0 15px 8px 6px;  
 }
 
 .nav span.heading {
@@ -353,6 +363,18 @@ blockquote.quote cite {
 
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
   background-color: $boltblue;
+}
+
+@media(max-width:766px) {
+  
+  .nav span.heading {
+    font-size: 120%;
+  }
+
+  .nav > li a {
+    font-size: 120%;
+  }
+
 }
 
 .arrow {

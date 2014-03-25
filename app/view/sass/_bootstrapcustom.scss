@@ -244,17 +244,18 @@ ul.dropdown-menu li a.nolink {
     margin-left: -330px;
 }
 
+@if $columnborders {
+  $list: '';
+  $i: 1;
+  $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
+  @for $i from 2 through $grid-columns {
+    $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}, #{$list}";
+  }
+  #{$list} {
+    border: 1px dashed #F99;
+  }
 
-$list: '';
-$i: 1;
-$list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
-@for $i from 2 through $grid-columns {
-  $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}, #{$list}";
-}
-#{$list} {
-  border: 1px dashed #F99;
-}
-
-.row {
-  border: 1px dashed #99F;
+  .row {
+    border: 1px dashed #99F;
+  }
 }

@@ -763,16 +763,21 @@ var Sidebar = Backbone.Model.extend({
         // Make sure the sidebar is the full height of the page.
         $('.navbar-static-side').css('min-height', $('div#page-wrapper').height() + 40);
 
-        // Initialize popovers, used in sidebar menu.
-        $('nav.navbar-static-side a.menu-pop').popover({
-            trigger: 'hover',
-            delay: { show: 500, hide: 200000 }
-        });
+        // Do this, only if the sidebar is visible. (not when in small-responsive view)
+        if ($('nav.navbar-static-side').is(':visible')) {
 
-        // Make sure we have only one open at the same time.
-        $('nav.navbar-static-side').on('show.bs.popover', function () {
-            sidebar.closePopOvers();
-        });        
+            // Initialize popovers, used in sidebar menu. 
+            $('nav.navbar-static-side a.menu-pop').popover({
+                trigger: 'hover',
+                delay: { show: 500, hide: 200000 }
+            });
+
+            // Make sure we have only one open at the same time.
+            $('nav.navbar-static-side').on('show.bs.popover', function () {
+                sidebar.closePopOvers();
+            });        
+
+        }
 
     },
 
@@ -780,6 +785,7 @@ var Sidebar = Backbone.Model.extend({
      * Hide / show subitems in the sidebar for mobile devices.
      */
     showSidebarItems: function(name) {
+        sidebar.closePopOvers();
         $('.nav li.sub').removeClass('visible-xs');
         $('.nav li.sub-'+name).addClass('visible-xs');
         console.log('sub-side ' + name);

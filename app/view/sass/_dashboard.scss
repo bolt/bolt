@@ -130,3 +130,9 @@
 .dashboardlisting td.excerpt.large span {
     height: 54px;
 }
+
+@media (max-width: 767px) {
+    .visible-xs {
+        display: inline !important;
+    }
+}
