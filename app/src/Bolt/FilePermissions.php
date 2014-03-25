@@ -80,5 +80,23 @@ class FilePermissions
 
         return $authorized;
     }
+
+    /**
+     * Checks if a given file is acceptable for upload.
+     */
+    public function allowedUpload($originalFilename) {
+        // no UNIX-hidden files
+        if ($originalFilename[0] === '.') {
+            return false;
+        }
+        // only whitelisted extensions
+        $extension = strtolower(getExtension($originalFilename));
+        $allowedExtensions = $this->getAllowedUploadExtensions();
+        return (in_array($extension, $allowedExtensions));
+    }
+
+    public function getAllowedUploadExtensions() {
+        return $this->app['config']->get('general/accept_file_types');
+    }
     
 }

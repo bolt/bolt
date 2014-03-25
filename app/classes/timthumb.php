@@ -25,7 +25,9 @@
  */
 
 // @see: http://stackoverflow.com/questions/6483912/php-serverredirect-url-vs-serverrequest-uri
-if (!empty($_SERVER['REDIRECT_URL']) && (strpos($_SERVER['REDIRECT_URL'], 'timthumb.php') === false)) {
+if (!empty($_SERVER['REDIRECT_URL']) &&
+    (strpos($_SERVER['REDIRECT_URL'], 'timthumb.php') === false) &&
+    (strpos($_SERVER['REDIRECT_URL'], 'index.php') === false)) {
     $requesturi = $_SERVER['REDIRECT_URL'];
 } else {
     $requesturi = $_SERVER['REQUEST_URI'];
@@ -1359,13 +1361,13 @@ class timthumb {
 
 	}
 	protected function serveImg($file){
-        if (!file_exists($file)) {
-        	$relfile = substr($file, 3);
-			if (BOLT_COMPOSER_INSTALLED) {
-				$file = BOLT_WEB_DIR . '/bolt-public/' . $relfile;
-			} else {
-				$file = BOLT_PROJECT_ROOT_DIR . '/app/' . $relfile;
-			}
+        if (! file_exists($file)) {
+            $relfile = substr($file, 3);
+            if (BOLT_COMPOSER_INSTALLED) {
+                $file = BOLT_WEB_DIR . '/bolt-public/' . $relfile;
+            } else {
+                $file = BOLT_PROJECT_ROOT_DIR . '/app/' . $relfile;
+            }
         }
 		$s = getimagesize($file);
 		if(! ($s && $s['mime'])){

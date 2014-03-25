@@ -529,7 +529,17 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
+
         $route_params = $this->app['request']->get('_route_params');
+
+        // If passed a string, and it is in the route..
+        if (is_string($content) && in_array($content, $route_params)) {
+            return true;
+        }
+        // special case for "home"
+        if (empty($content) && empty($route_params)) {
+            return true;
+        }
 
         $linkToCheck  = false;
 
@@ -861,7 +871,7 @@ class TwigExtension extends \Twig_Extension
         } else {
             $crop = substr($crop, 0, 1);
         }
-        
+
         // After v1.5.1 we store image data as an array
         if (is_array($filename)) {
             $filename = $filename['file'];
@@ -968,7 +978,7 @@ class TwigExtension extends \Twig_Extension
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
         }
-        
+
         // After v1.5.1 we store image data as an array
         if (is_array($filename)) {
             $filename = $filename['file'];
@@ -1287,11 +1297,14 @@ class TwigExtension extends \Twig_Extension
      */
     public function selectfield($content, $fieldname)
     {
+        $retval = array('');
         foreach($content as $c) {
             if(isset($c->values[$fieldname])) {
                 $retval[] = $c->values[$fieldname];
             }
         }
+
         return $retval;
+
     }
 }

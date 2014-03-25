@@ -592,7 +592,7 @@ class Content implements \ArrayAccess
                         $value = $this->values[$name];
                     }
                     break;
-                
+
                 default:
                     $value = $this->values[$name];
                     break;
@@ -713,30 +713,49 @@ class Content implements \ArrayAccess
     public function getTitle()
     {
 
-        if (isset($this->values['title'])) {
-            return $this->values['title'];
-        } elseif (isset($this->values['name'])) {
-            return $this->values['name'];
-        } elseif (isset($this->values['caption'])) {
-            return $this->values['caption'];
-        } elseif (isset($this->values['subject'])) {
-            return $this->values['subject'];
-        } else {
-
-            // Grab the first field of type 'text', and assume that's the title.
-            if (!empty($this->contenttype['fields'])) {
-                foreach ($this->contenttype['fields'] as $key => $field) {
-                    if ($field['type']=='text') {
-                        return $this->values[ $key ];
-                    }
-                }
-            }
-
-            // nope, no title was found..
-            return "(untitled)";
+        if ($column = $this->getTitleColumnName()) {
+            return $this->values[$column];
         }
 
+        // nope, no title was found..
+        return "(untitled)";
+
     }
+
+    /**
+     * Get the columnname of the title, name, caption or subject..
+     */
+    public function getTitleColumnName()
+    {
+
+        // Sets the names of some 'common' names for the 'title' column.
+        $names = array('title', 'name', 'caption', 'subject');
+
+        // Some localised options as well
+        $names = array_merge($names, array('titel', 'naam', 'onderwerp')); // NL
+        $names = array_merge($names, array('nom', 'sujet')); // FR
+        $names = array_merge($names, array('nombre', 'sujeto')); // ES
+
+        foreach ($names as $name) {
+            if (isset($this->values[$name])) {
+                return $name;
+            }
+        }
+
+        // Otherwise, grab the first field of type 'text', and assume that's the title.
+        if (!empty($this->contenttype['fields'])) {
+            foreach ($this->contenttype['fields'] as $key => $field) {
+                if ($field['type']=='text') {
+                    return $key;
+                }
+            }
+        }
+
+        // nope, no title was found..
+        return false;
+
+    }
+
 
 
     /**

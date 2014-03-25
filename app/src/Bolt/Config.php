@@ -312,6 +312,16 @@ class Config
                 $temp['taxonomy'] = array($temp['taxonomy']);
             }
 
+            // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
+            if (!empty($temp['relations']) && is_array($temp['relations'])) {
+                foreach($temp['relations'] as $key => $relation) {
+                    if ($key != makeSlug($key)) {
+                        $temp['relations'][makeSlug($key)] = $temp['relations'][$key];
+                        unset($temp['relations'][$key]);
+                    }
+                }
+            }
+
             $config['contenttypes'][$temp['slug']] = $temp;
         }
 
@@ -516,7 +526,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
-            'accept_file_types'           => "gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|epub|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm|svg",
+            'accept_file_types'           => explode(",", "gif,jpg,jpeg,png,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',
@@ -531,9 +541,9 @@ class Config
     {
             // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
         if ($this->get('general/theme_path')) {
-            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/' . $this->get('general/theme_path'));
+            $themepath = realpath(BOLT_WEB_DIR . '/' . ltrim('/', $this->get('general/theme_path')));
         } else {
-            $themepath = realpath(BOLT_PROJECT_ROOT_DIR . '/theme');
+            $themepath = realpath(BOLT_WEB_DIR . '/theme');
         }
         $themepath .= '/' . basename($this->get('general/theme'));
 
