@@ -303,25 +303,6 @@ function getExtension($filename)
 
 
 /**
- * Make sure a filename ends in an allowed extension. If it doesn't, append .file to it.
- *
- * @param string $filename
- * @param string $allowedextensions
- * @return string
- */
-function fixFilename($filename, $allowedextensions)
-{
-    if (!preg_match('/\.(' . $allowedextensions . ')$/i', $filename)) {
-        $filename .= ".file";
-    }
-
-    $filename = safeString($filename, false, "\(\)");
-
-    return $filename;
-}
-
-
-/**
  * Returns a "safe" version of the given string - basically only US-ASCII and
  * numbers. Needed because filenames and titles and such, can't use all characters.
  *
@@ -833,9 +814,11 @@ function getPaths($original = array() )
         'root' => $path_prefix,
         'rootpath' => BOLT_PROJECT_ROOT_DIR,
         'theme' => str_replace("//", "/", $path_prefix . $theme_path . "/" . $theme . "/"),
-        'themepath' => BOLT_PROJECT_ROOT_DIR . $theme_path . "/" . $theme,
+        'themepath' => BOLT_WEB_DIR . $theme_path . "/" . $theme,
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
+        'extensions' => $path_prefix . "extensions/",
+        'extensionspath' => realpath(__DIR__ . "/../extensions"),
         'bolt' => $path_prefix . $mountpoint,
         'async' => $path_prefix . "async/",
         'files' => $path_prefix . "files/",
@@ -902,7 +885,9 @@ function path($path, $param = array(), $add = '')
 function redirect($path, $param = array(), $add = '')
 {
     global $app;
-
+    if ($path === 'login') {
+        $app['session']->set('retreat', array('route' => $app['request']->get('_route'), 'params' => $app['request']->get('_route_params')));
+    }
     return $app->redirect(path($path, $param, $add));
 
 }

@@ -495,7 +495,7 @@ class IntegrityChecker
         // a plain-text summary of the differences between the old and the new version
         $contentChangelogTable->addColumn("diff", "text", array());
         $tables[] = $contentChangelogTable;
-        
+
         $cronTable = $schema->createTable($this->prefix."cron");
         $cronTable->addColumn("id", "integer", array('autoincrement' => true));
         $cronTable->setPrimaryKey(array("id"));

@@ -44,11 +44,6 @@ jQuery(function($) {
     // Add Date and Timepickers..
     $(".datepicker").datepicker({ dateFormat: "DD, d MM yy" });
 
-    $.mask.definitions['2']='[0-2]';
-    $.mask.definitions['5']='[0-5]';
-
-    $(".timepicker").mask("29:59");
-
     // initialize 'moment' timestamps..
     if ($('.moment').is('*')) {
         updateMoments();
@@ -58,10 +53,6 @@ jQuery(function($) {
     if ($('#latestactivity').is('*')) {
         setTimeout( function(){ updateLatestActivity(); }, 20 * 1000);
     }
-
-    // Hackish fix for an issue on Ipad, where dropdown menus wouldn't be clickable. Hopefully fixed in Bootstrap 2.1.2
-    // See https://github.com/twitter/bootstrap/issues/2975
-    // $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 
     // Initialize popovers.
     $('.info-pop').popover({

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Bolt\Controllers;
 
@@ -13,7 +13,7 @@ use Bolt\CronEvents;
 
 /**
  * Simple cron dispatch class for Bolt
- * 
+ *
  * To create a listener you need to something similar in your class:
  *      use Bolt\CronEvents;
  *      $this->app['dispatcher']->addListener(CronEvents::CRON_INTERVAL, array($this, 'myJobCallbackMethod'));
@@ -37,7 +37,7 @@ class Cron extends Event
     private $prefix;
     private $tablename;
     private $runtime;
-     
+
     public $lastruns = array();
 
     public function __construct(Silex\Application $app, $output = false)
@@ -46,49 +46,49 @@ class Cron extends Event
         $this->output = $output;
         $this->runtime = date("Y-m-d H:i:s", time());
         $this->intervals = array('hourly' => 0, 'daily' => 0, 'weekly' => 0, 'monthly' => 0, 'yearly' => 0);
-        $this->setTableName();        
-        
+        $this->setTableName();
+
         // Get schedules
         $this->getLastRun();
-        
+
         // Time of day for daily, weekly, monthly and yearly jobs
         $this->getScheduleThreshold();
-        
+
         // Call out
         $this->execute();
     }
-    
+
     public function execute()
     {
         $event = new CronEvent($this->app, $this->output);
-        
+
         // Process event listeners
         if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_HOURLY) && $this->intervals['hourly'] < strtotime("-1 hour")) {
             $this->notify("Running Cron Hourly Jobs");
             $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $event)->doRunJobs(CronEvents::CRON_HOURLY);
             $this->setLastRun('hourly');
         }
-        
-        // Only check the running of these if we've passed our threshold hour today 
+
+        // Only check the running of these if we've passed our threshold hour today
         if (time() > $this->threshold) {
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->intervals['daily'] < strtotime("-1 day")) {
                 $this->notify("Running Cron Daily Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event)->doRunJobs(CronEvents::CRON_DAILY);
                 $this->setLastRun('daily');
             }
-            
+
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->intervals['weekly'] < strtotime("-1 week")) {
                 $this->notify("Running Cron Weekly Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event)->doRunJobs(CronEvents::CRON_WEEKLY);
                 $this->setLastRun('weekly');
             }
-            
+
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->intervals['monthly'] < strtotime("-1 month")) {
                 $this->notify("Running Cron Monthly Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event)->doRunJobs(CronEvents::CRON_MONTHLY);
                 $this->setLastRun('monthly');
             }
-            
+
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year") ) {
                 $this->notify("Running Cron Yearly Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event)->doRunJobs(CronEvents::CRON_YEARLY);
@@ -96,14 +96,14 @@ class Cron extends Event
             }
         }
     }
-    
+
     /**
      * Get our configured hour and convert it to UNIX time
      */
     private function getScheduleThreshold()
     {
         $hour = $app['config']->get('general/cron_hour');
-        
+
         if (empty($hour)) {
             $this->threshold = strtotime("03:00");
         } elseif (is_numeric($conf)) {
@@ -112,9 +112,9 @@ class Cron extends Event
             $this->threshold = strtotime($hour);
         }
     }
-    
+
     /**
-     * If we're passed an OutputInterface, we're called from Nut and can notify 
+     * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user
      */
     private function notify($msg)
@@ -123,22 +123,22 @@ class Cron extends Event
             $this->output->writeln("<info>{$msg}</info>");
         }
     }
-    
+
     /**
-     * Set the formatted name of our table 
+     * Set the formatted name of our table
      */
     private function setTableName()
     {
         $this->prefix = $this->app['config']->get('general/database/prefix', "bolt_");
-        
+
         if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
             $this->prefix .= "_";
         }
-        
+
         $this->tablename = $this->prefix . "cron";
     }
-    
-    
+
+
     /**
      * Query table for last run time of each interval
      */
@@ -156,7 +156,7 @@ class Cron extends Event
 
             // If we get an empty result for the interval, set it to the current
             // run time and notify the update method to do an INSERT rather than
-            // an UPDATE.            
+            // an UPDATE.
             if (empty($result)) {
                 $this->insert[$interval] = true;
             } else {
@@ -165,14 +165,14 @@ class Cron extends Event
             }
         }
     }
-    
-    
+
+
     /**
      * Update table for last run time of each interval
      */
     private function setLastRun($interval)
     {
-        // Get appropriate query string           
+        // Get appropriate query string
         if ($this->insert[$interval] === true) {
             $query = "INSERT INTO `{$this->tablename}` " .
             "(`interval`, `lastrun`) " .
@@ -182,13 +182,13 @@ class Cron extends Event
             "SET `lastrun` = :lastrun, `lastrun` = :lastrun " .
             "WHERE `interval` = :interval ";
         }
-        
+
         // Define the mapping
         $map = array(
             ':interval'  => $interval,
             ':lastrun'   => $this->runtime,
         );
-        
+
         // Write to db
         $db = $this->app['db']->executeUpdate($query, $map);
     }

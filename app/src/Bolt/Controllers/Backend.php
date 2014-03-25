@@ -191,8 +191,9 @@ class Backend implements ControllerProviderInterface
 
                 if ($result) {
                     $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
-
-                    return redirect('dashboard');
+                    $retreat = $app['session']->get('retreat');
+                    $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
+                    return redirect($redirect['route'], $redirect['params']);
                 }
                 return $this->getLogin($app, $request);
 
@@ -1098,7 +1099,6 @@ class Backend implements ControllerProviderInterface
 
     public function files($path, Silex\Application $app, Request $request)
     {
-
         $files = array();
         $folders = array();
 
@@ -1124,16 +1124,26 @@ class Backend implements ControllerProviderInterface
                 $form->bind($request);
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
-                    /* Make sure that Upload Directory is properly configured and writable */
-                    $filename = fixFilename(
-                        $files['FileUpload']->getClientOriginalName(),
-                        $app['config']->get('general/accept_file_types')
-                    );
-                    $files['FileUpload']->move($currentfolder, $filename);
-                    $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
+                    // clean up and validate filename
+                    $originalFilename = $files['FileUpload']->getClientOriginalName();
+                    $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
+                    if ($app['filepermissions']->allowedUpload($filename)) {
+                        $files['FileUpload']->move($currentfolder, $filename);
+                        $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
-                    // Add the file to our stack..
-                    $app['stack']->add($path . "/" . $filename);
+                        // Add the file to our stack..
+                        $app['stack']->add($path . "/" . $filename);
+                    }
+                    else {
+                        $extensionList = array();
+                        foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
+                            $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
+                        }
+                        $extensionList = implode(' ', $extensionList);
+                        $app['session']->getFlashBag()->set('error',
+                            __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
+                            . $extensionList);
+                    }
                 } else {
                     $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));
                 }

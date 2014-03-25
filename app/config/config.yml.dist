@@ -123,7 +123,14 @@ thumbnails:
   allow_upscale: false
 
 # File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
-accept_file_types: "gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|epub|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm|svg"
+
+# The following is a "safe" default list.
+accept_file_types: [gif, jpg, jpeg, png, tgz, txt, md, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
+
+# Alternatively, if you are willing to compromise security a bit, uncomment
+# the following list instead; it includes file types that are potentially
+# harmful, but usually desirable anyway.
+# accept_file_types: [gif, jpg, jpeg, png, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link

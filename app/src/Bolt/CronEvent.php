@@ -13,7 +13,7 @@ class CronEvent extends Event
 {
     private $app;
     private $output;
-    
+
     /**
      *
      */
@@ -22,7 +22,7 @@ class CronEvent extends Event
         $this->app = $app;
         $this->output = $output;
     }
-    
+
     function doRunJobs($interval)
     {
         switch ($interval) {
@@ -70,7 +70,7 @@ class CronEvent extends Event
         // Clear the cache
         $this->app['cache']->clearCache();
         $this->notify("Clearing cache");
-        
+
         // Trim log files
         $this->app['log']->trim();
         $this->notify("Trimming logs");
@@ -91,8 +91,8 @@ class CronEvent extends Event
     private function cronYearly()
     {
     }
-    
-    
+
+
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user

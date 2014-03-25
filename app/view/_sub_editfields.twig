@@ -138,7 +138,7 @@
         {% setcontent lookups = lookuptype order 'title' %}
         {% set values = lookups|selectfield(lookupfield) %}
     {% endif %}
-    
+
     <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
@@ -684,7 +684,7 @@
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
-<input type="text" name="{{key}}-timeformatted" id="{{key}}-time"
+<input type="time" name="{{key}}-timeformatted" id="{{key}}-time"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('H:i') }}{% endif %}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} timepicker'>
 <input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">

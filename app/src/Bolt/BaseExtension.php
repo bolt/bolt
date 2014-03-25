@@ -293,16 +293,16 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $filename
      */
-    public function addJavascript($filename)
+    public function addJavascript($filename, $late = false)
     {
 
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addJavascript($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
+            $this->app['extensions']->addJavascript($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename, $late);
         } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename);
+            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
@@ -315,15 +315,15 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $filename
      */
-    public function addCSS($filename)
+    public function addCSS($filename, $late = false)
     {
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addCss($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename);
+            $this->app['extensions']->addCss($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename, $late);
         } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename);
+            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);

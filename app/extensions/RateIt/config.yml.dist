@@ -1,5 +1,10 @@
-# The css stylesheet
+# The CSS stylesheet
 stylesheet: css/rateit.css
+
+# CSS stylesheet location: 'head', 'body' (default: 'head')
+# will locate the CSS in eithe the <head> section or near the end of the <body> 
+# section
+location: head
 
 # Number of stars (default: 5)
 #stars: 5
