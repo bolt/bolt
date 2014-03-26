@@ -211,13 +211,12 @@ class Extension extends \Bolt\BaseExtension
             $('.rateit').bind('over', function(e, value) {
                 $(this).attr('title', tooltipvalues[value - 1]);
             });
-            ";
+
+            </script>";
         }
 
         // Bind to clicks on RateIt
         $js .= "
-            </script>
-
             <script type =\"text/javascript\">
 
             $('.rateit').bind(
