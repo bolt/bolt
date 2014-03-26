@@ -1,0 +1,13 @@
+body {
+    width: 960px;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px dotted #777;
+}

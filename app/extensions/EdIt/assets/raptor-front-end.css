@@ -1,0 +1,174 @@
+/**
+ * Basic color menu plugin default colors.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-white {
+  color: #ffffff;
+}
+
+/* line 10, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-black {
+  color: #000000;
+}
+
+/* line 14, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-blue {
+  color: #4f81bd;
+}
+
+/* line 18, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-red {
+  color: #c0504d;
+}
+
+/* line 22, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-green {
+  color: #9bbb59;
+}
+
+/* line 26, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-purple {
+  color: #8064a2;
+}
+
+/* line 30, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-orange {
+  color: #f79646;
+}
+
+/* line 34, color-menu-basic/color-menu-basic-front-end.scss */
+.cms-grey {
+  color: #999;
+}
+
+/**
+ * Float plugin default colors.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, float/float-front-end.scss */
+.cms-float-left {
+  float: left;
+}
+
+/* line 10, float/float-front-end.scss */
+.cms-float-right {
+  float: right;
+}
+
+/**
+ * Basic font-family menu plugin default fonts.
+ *
+ * @author Nikolay Rodionov <rodi.incave@gmail.com>
+ */
+/* line 6, font-family/font-family-front-end.scss */
+.cms-font-arial {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* line 10, font-family/font-family-front-end.scss */
+.cms-font-palatino {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+/* line 14, font-family/font-family-front-end.scss */
+.cms-font-georgia {
+  font-family: Georgia, serif;
+}
+
+/* line 18, font-family/font-family-front-end.scss */
+.cms-font-times {
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* line 22, font-family/font-family-front-end.scss */
+.cms-font-comic-sans {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+/* line 26, font-family/font-family-front-end.scss */
+.cms-font-impact {
+  font-family: Impact, Charcoal, sans-serif;
+}
+
+/* line 30, font-family/font-family-front-end.scss */
+.cms-font-courier {
+  font-family: "Courier New", Courier, monospace;
+}
+
+/**
+ * Text align styles.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, text-align/style/text-align-front-end.scss */
+.cms-center {
+  text-align: center;
+}
+
+/* line 10, text-align/style/text-align-front-end.scss */
+.cms-left {
+  text-align: left;
+}
+
+/* line 14, text-align/style/text-align-front-end.scss */
+.cms-right {
+  text-align: right;
+}
+
+/* line 18, text-align/style/text-align-front-end.scss */
+.cms-justify {
+  text-align: justify;
+}
+
+/**
+ * Bold formatting styles.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, bold/style/bold-front-end.scss */
+.cms-bold {
+  font-weight: bold;
+}
+
+/**
+ * Italic formatting styles.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, italic/style/italic-front-end.scss */
+.cms-italic {
+  font-style: italic;
+}
+
+/**
+ * Strike formatting styles.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, strike-through/style/strike-front-end.scss */
+.cms-strike {
+  text-decoration: line-through;
+}
+
+/**
+ * Bold formatting styles.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, block-quote/style/bold-front-end.scss */
+.cms-bold {
+  font-weight: bold;
+}
+
+/**
+ * Underline formatting styles.
+ *
+ * @author David Neilsen <david@panmedia.co.nz>
+ */
+/* line 6, underline/style/underline-front-end.scss */
+.cms-underline {
+  text-decoration: underline;
+}
