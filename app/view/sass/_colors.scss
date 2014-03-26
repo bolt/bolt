@@ -12,15 +12,14 @@ $boltbluelighter: lighten($boltblue, 5);
 $basebgcolour: #FBFBFB;
 $bodytextcolour: #333;
 
-$linkmain: #194770;
-/*$linkvisited: #4c808b;*/
-$linkvisited: #295780;
-$linkactive: #103060;
+$linkmain: lighten(adjust-saturation($boltblue, 100), 4);
+$linkvisited: $linkmain;
+$linkactive: lighten(adjust-saturation($boltblue, 100), 10);
 
 $sidebarbackground: lighten(adjust-saturation($boltblue, -35), 6);
-$sidebartextcolour: #EEE;
+$sidebartextcolour: #DDD;
 
-$sidebarlink: #DDD;
+$sidebarlink: #EEE;
 $sidebarlinkhover: #FFF;
 $sidebarbackgroundactive: lighten(adjust-saturation($boltblue, -20), 7);
 $sidebarbackgroundhover: lighten(adjust-saturation($boltblue, -20), 4);

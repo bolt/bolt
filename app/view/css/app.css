@@ -4,7 +4,6 @@
 /**
  * Colour scheme
  */
-/*$linkvisited: #4c808b;*/
 /**
  * External resource: Bootstrap.
  * We do seperate imports here, instead of jsut importing 'bootstrap.scss', because we do not need
@@ -9138,25 +9137,25 @@ h2 {
 
 /* line 21, ../sass/_textstyles.scss */
 a {
-  color: #194770;
+  color: #005394;
   font-weight: bold;
 }
 
 /* line 26, ../sass/_textstyles.scss */
 a:link {
-  color: #194770;
+  color: #005394;
 }
 
 /* line 30, ../sass/_textstyles.scss */
 a:visited {
-  color: #295780;
+  color: #005394;
 }
 
 /* line 34, ../sass/_textstyles.scss */
 a:focus,
 a:hover,
 a:active {
-  color: #103060;
+  color: #0065b3;
 }
 
 /* line 41, ../sass/_textstyles.scss */
@@ -10291,21 +10290,21 @@ input.semitransparent:focus {
 /* line 289, ../sass/_bolt.scss */
 .nav span.heading {
   display: block;
-  margin: 8px 4px 2px 9px;
+  margin: 9px 4px 2px 10px;
 }
 
 /* line 294, ../sass/_bolt.scss */
 .nav hr.sidebar {
-  margin: 4px 8px;
+  margin: 6px 10px;
   padding: 0;
   border-top: 1px solid #50606d;
-  border-bottom: 1px solid #36414a;
+  border-bottom: 1px solid #3b464f;
 }
 
 /* line 302, ../sass/_bolt.scss */
 .nav > li a {
-  color: #dddddd;
-  padding: 8px 15px 26px 6px;
+  color: #eeeeee;
+  padding: 9px 15px 27px 8px;
   height: 2.4em;
   font-weight: normal;
 }
@@ -10416,7 +10415,7 @@ input.semitransparent:focus {
   min-height: 100%;
   box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
   background: #43515b;
-  color: #eeeeee;
+  color: #dddddd;
 }
 
 /* line 412, ../sass/_bolt.scss */
@@ -10470,7 +10469,7 @@ input.semitransparent:focus {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 180px;
-    padding: 16px 16px 40px 24px;
+    padding: 26px 18px 40px 30px;
     border-left: 1px solid #e7e7e7;
   }
 
@@ -10588,7 +10587,7 @@ table.dataTable thead .sorting:after {
 
 /* line 573, ../sass/_bolt.scss */
 aside {
-  margin-top: 0;
+  margin-top: 6px;
 }
 
 /* line 577, ../sass/_bolt.scss */

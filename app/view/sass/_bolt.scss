@@ -288,20 +288,20 @@ input.semitransparent:focus {
 
 .nav span.heading {
   display: block;
-  margin: 8px 4px 2px 9px;
+  margin: 9px 4px 2px 10px;
 }
 
 .nav hr.sidebar {
-  margin: 4px 8px;
+  margin: 6px 10px;
   padding: 0;
   border-top: 1px solid lighten($sidebarbackground, 6);
-  border-bottom: 1px solid darken($sidebarbackground, 6);
+  border-bottom: 1px solid darken($sidebarbackground, 4);
 }
 
 .nav > li {
   a {
     color: $sidebarlink;
-    padding: 8px 15px 26px 6px;
+    padding: 9px 15px 27px 8px;
     height: 2.4em;
     font-weight: normal;
   }
@@ -454,7 +454,7 @@ input.semitransparent:focus {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 180px;
-    padding: 16px 16px 40px 24px;
+    padding: 26px 18px 40px 30px;
     border-left: 1px solid #e7e7e7;
   }
 
@@ -571,7 +571,7 @@ table.dataTable thead .sorting:after {
 
 
 aside {
-  margin-top: 0;
+  margin-top: 6px;
 }
 
 aside section {
