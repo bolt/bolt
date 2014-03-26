@@ -808,7 +808,7 @@ function getPaths($original = array() )
         $canonicalpath = $currentpath;
     }
 
-    $theme_path = ltrim($theme_path, '/');
+    $theme_path = trim($theme_path, '/');
     // Set the paths
     $paths = array(
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
