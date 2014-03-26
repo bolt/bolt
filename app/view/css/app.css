@@ -2869,7 +2869,7 @@ select[multiple].input-lg,
 }
 /* line 26, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn:hover, .btn:focus {
-  color: #555555;
+  color: #777777;
   text-decoration: none;
 }
 /* line 32, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
@@ -2891,21 +2891,21 @@ select[multiple].input-lg,
 
 /* line 53, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn-default {
-  color: #555555;
+  color: #777777;
   background-color: #eeeeee;
-  border-color: #dfdfdf;
+  border-color: #e1e1e1;
 }
 /* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active {
-  color: #555555;
+  color: #777777;
   background-color: #dadada;
-  border-color: silver;
+  border-color: #c3c3c3;
 }
 /* line 515, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .open .btn-default.dropdown-toggle {
-  color: #555555;
+  color: #777777;
   background-color: #dadada;
-  border-color: silver;
+  border-color: #c3c3c3;
 }
 /* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:active, .btn-default.active {
@@ -2918,12 +2918,12 @@ select[multiple].input-lg,
 /* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default.disabled, .btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled:active, .btn-default.disabled.active, .btn-default[disabled], .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled]:active, .btn-default[disabled].active, fieldset[disabled] .btn-default, fieldset[disabled] .btn-default:hover, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default:active, fieldset[disabled] .btn-default.active {
   background-color: #eeeeee;
-  border-color: #dfdfdf;
+  border-color: #e1e1e1;
 }
 /* line 540, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default .badge {
   color: #eeeeee;
-  background-color: #555555;
+  background-color: #777777;
 }
 
 /* line 56, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
@@ -8485,16 +8485,15 @@ button.close {
 .btn-group > a.btn-xs, .btn-group-xs.btn-group > a.btn {
   font-weight: normal;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #194770;
 }
 
-/* line 22, ../sass/_bootstrapcustom.scss */
+/* line 21, ../sass/_bootstrapcustom.scss */
 .btn-group > .btn + .dropdown-toggle {
   padding-left: 4px;
   padding-right: 8px;
 }
 
-/* line 29, ../sass/_bootstrapcustom.scss */
+/* line 28, ../sass/_bootstrapcustom.scss */
 .btn-primary {
   color: white;
   background-color: #dc6a23;
@@ -8532,7 +8531,7 @@ button.close {
   background-color: white;
 }
 
-/* line 35, ../sass/_bootstrapcustom.scss */
+/* line 34, ../sass/_bootstrapcustom.scss */
 .btn-secondary {
   color: white;
   background-color: #cb8458;
@@ -8570,7 +8569,7 @@ button.close {
   background-color: white;
 }
 
-/* line 41, ../sass/_bootstrapcustom.scss */
+/* line 40, ../sass/_bootstrapcustom.scss */
 .btn-tertiary {
   color: white;
   background-color: #7b9db8;
@@ -8608,24 +8607,24 @@ button.close {
   background-color: white;
 }
 
-/* line 47, ../sass/_bootstrapcustom.scss */
+/* line 46, ../sass/_bootstrapcustom.scss */
 .btn-default {
-  color: #555555;
+  color: #777777;
   background-color: #eeeeee;
-  border-color: #dfdfdf;
-  color: #555555 !important;
+  border-color: #e1e1e1;
+  color: #777777 !important;
 }
 /* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active {
-  color: #555555;
+  color: #777777;
   background-color: #dadada;
-  border-color: silver;
+  border-color: #c3c3c3;
 }
 /* line 515, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .open .btn-default.dropdown-toggle {
-  color: #555555;
+  color: #777777;
   background-color: #dadada;
-  border-color: silver;
+  border-color: #c3c3c3;
 }
 /* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:active, .btn-default.active {
@@ -8638,15 +8637,15 @@ button.close {
 /* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default.disabled, .btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled:active, .btn-default.disabled.active, .btn-default[disabled], .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled]:active, .btn-default[disabled].active, fieldset[disabled] .btn-default, fieldset[disabled] .btn-default:hover, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default:active, fieldset[disabled] .btn-default.active {
   background-color: #eeeeee;
-  border-color: #dfdfdf;
+  border-color: #e1e1e1;
 }
 /* line 540, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default .badge {
   color: #eeeeee;
-  background-color: #555555;
+  background-color: #777777;
 }
 
-/* line 53, ../sass/_bootstrapcustom.scss */
+/* line 52, ../sass/_bootstrapcustom.scss */
 .btn-bolt {
   color: white;
   background-color: #204460;
@@ -8683,21 +8682,21 @@ button.close {
   background-color: white;
 }
 
-/* line 58, ../sass/_bootstrapcustom.scss */
+/* line 57, ../sass/_bootstrapcustom.scss */
 .dropdown-menu .btn-link {
   color: #555555;
   padding: 1px 14px;
   display: block;
 }
 
-/* line 64, ../sass/_bootstrapcustom.scss */
+/* line 63, ../sass/_bootstrapcustom.scss */
 .dropdown-menu .btn-link:hover {
   color: #1a364d;
   background-color: #e8e8e8;
   text-decoration: none;
 }
 
-/* line 71, ../sass/_bootstrapcustom.scss */
+/* line 70, ../sass/_bootstrapcustom.scss */
 .page-header {
   margin: 0 0 12px;
 }
@@ -8705,19 +8704,19 @@ button.close {
 /**
  * Override navbar styles
  */
-/* line 80, ../sass/_bootstrapcustom.scss */
+/* line 79, ../sass/_bootstrapcustom.scss */
 .navbar-fixed-top, .navbar-fixed-bottom {
   position: static;
   background-color: #204460;
 }
 
-/* line 85, ../sass/_bootstrapcustom.scss */
+/* line 84, ../sass/_bootstrapcustom.scss */
 .navbar-fixed-top .container {
   width: auto;
   margin-right: 20px;
 }
 
-/* line 90, ../sass/_bootstrapcustom.scss */
+/* line 89, ../sass/_bootstrapcustom.scss */
 .navbar-bolt {
   background: transparent;
   background-image: linear-gradient(top, #204460 80%, #1a364d 100%);
@@ -8730,21 +8729,21 @@ button.close {
   border: 0;
 }
 
-/* line 102, ../sass/_bootstrapcustom.scss */
+/* line 101, ../sass/_bootstrapcustom.scss */
 .navbar-bolt div.navbar-collapse {
   float: right;
   clear: none;
   display: inline-block;
 }
 
-/* line 108, ../sass/_bootstrapcustom.scss */
+/* line 107, ../sass/_bootstrapcustom.scss */
 .navbar-bolt ul.navbar,
 .navbar-bolt ul.navbar li {
   list-style: none;
   display: inline;
 }
 
-/* line 115, ../sass/_bootstrapcustom.scss */
+/* line 114, ../sass/_bootstrapcustom.scss */
 .navbar .navbar-brand {
   display: inline-block;
   top: 0px;
@@ -8757,14 +8756,14 @@ button.close {
   padding: 10px 8px 8px 10px;
 }
 
-/* line 127, ../sass/_bootstrapcustom.scss */
+/* line 126, ../sass/_bootstrapcustom.scss */
 .navbar .navbar-brand img {
   width: 26px;
   height: 26px;
   margin: 0 2px 2px 0;
 }
 
-/* line 133, ../sass/_bootstrapcustom.scss */
+/* line 132, ../sass/_bootstrapcustom.scss */
 .navbar-site {
   display: inline-block;
   color: #ccc !important;
@@ -8777,13 +8776,13 @@ button.close {
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* line 145, ../sass/_bootstrapcustom.scss */
+/* line 144, ../sass/_bootstrapcustom.scss */
 .navbar-site i {
   color: #cccccc !important;
   font-size: 16px;
 }
 
-/* line 150, ../sass/_bootstrapcustom.scss */
+/* line 149, ../sass/_bootstrapcustom.scss */
 .navbar-brand:hover,
 .navbar-site:hover,
 .navbar-site:hover i {
@@ -8793,7 +8792,7 @@ button.close {
   outline: 0;
 }
 
-/* line 161, ../sass/_bootstrapcustom.scss */
+/* line 160, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li > form > button.btn,
 .navbar .navbar > li > a {
   font-weight: bold;
@@ -8801,7 +8800,7 @@ button.close {
   margin: 0 0 0 0;
 }
 
-/* line 168, ../sass/_bootstrapcustom.scss */
+/* line 167, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li > form > button.btn {
   line-height: inherit;
   border-width: 0;
@@ -8813,20 +8812,20 @@ button.close {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* line 179, ../sass/_bootstrapcustom.scss */
+/* line 178, ../sass/_bootstrapcustom.scss */
 .navbar form {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
   display: inline;
 }
 
-/* line 185, ../sass/_bootstrapcustom.scss */
+/* line 184, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li > form > button.btn:hover {
   color: white;
   text-decoration: none;
 }
 
-/* line 190, ../sass/_bootstrapcustom.scss */
+/* line 189, ../sass/_bootstrapcustom.scss */
 .navbar .navbar .active > a,
 .navbar .navbar .active > a:hover {
   color: white;
@@ -8834,12 +8833,12 @@ button.close {
   background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* line 197, ../sass/_bootstrapcustom.scss */
+/* line 196, ../sass/_bootstrapcustom.scss */
 .navbar .navbar-collapse .navbar.pull-right {
   margin-top: 10px;
 }
 
-/* line 201, ../sass/_bootstrapcustom.scss */
+/* line 200, ../sass/_bootstrapcustom.scss */
 .navbar .divider-vertical {
   background-color: #666;
   border-right: 1px solid #888;
@@ -8847,19 +8846,19 @@ button.close {
   margin: 0 4px;
 }
 
-/* line 208, ../sass/_bootstrapcustom.scss */
+/* line 207, ../sass/_bootstrapcustom.scss */
 .navbar-toggle {
   float: left;
   margin-left: 15px;
   margin-right: 0;
 }
 
-/* line 214, ../sass/_bootstrapcustom.scss */
+/* line 213, ../sass/_bootstrapcustom.scss */
 .navbar-header {
   float: left;
 }
 
-/* line 218, ../sass/_bootstrapcustom.scss */
+/* line 217, ../sass/_bootstrapcustom.scss */
 .navbar-right {
   float: right !important;
 }
@@ -8867,28 +8866,28 @@ button.close {
 /**
  * Dropdown menu lists
  */
-/* line 225, ../sass/_bootstrapcustom.scss */
+/* line 224, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu {
   margin: 0;
 }
 
-/* line 229, ../sass/_bootstrapcustom.scss */
+/* line 228, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li {
   text-align: left;
 }
 
-/* line 233, ../sass/_bootstrapcustom.scss */
+/* line 232, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li a {
   font-size: 13px;
   padding: 3px 14px;
 }
 
-/* line 238, ../sass/_bootstrapcustom.scss */
+/* line 237, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li.divider {
   margin: 4px 1px;
 }
 
-/* line 242, ../sass/_bootstrapcustom.scss */
+/* line 241, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li a.nolink {
   background-color: #fbfbfb !important;
   color: #474747 !important;
@@ -8897,29 +8896,29 @@ ul.dropdown-menu li a.nolink {
 /**
  * Styles for pagination
  */
-/* line 251, ../sass/_bootstrapcustom.scss */
+/* line 250, ../sass/_bootstrapcustom.scss */
 .pagination li a,
 .pagination li.disabled a {
   background-color: rgba(220, 220, 220, 0.35);
 }
 
-/* line 256, ../sass/_bootstrapcustom.scss */
+/* line 255, ../sass/_bootstrapcustom.scss */
 .pagination li:first-child a {
   border-radius: 6px 0 0 6px;
 }
 
-/* line 260, ../sass/_bootstrapcustom.scss */
+/* line 259, ../sass/_bootstrapcustom.scss */
 .pagination li:last-child a {
   border-radius: 0 6px 6px 0;
 }
 
-/* line 264, ../sass/_bootstrapcustom.scss */
+/* line 263, ../sass/_bootstrapcustom.scss */
 .pagination.narrow li a,
 .pagination.narrow li.disabled a {
   padding: 0 4px;
 }
 
-/* line 269, ../sass/_bootstrapcustom.scss */
+/* line 268, ../sass/_bootstrapcustom.scss */
 .pagination .active a {
   color: #999999;
   cursor: default;
@@ -8930,12 +8929,12 @@ ul.dropdown-menu li a.nolink {
 /**
  * End of styles for pagination
  */
-/* line 281, ../sass/_bootstrapcustom.scss */
+/* line 280, ../sass/_bootstrapcustom.scss */
 .modal-backdrop, .modal-backdrop.fade.in {
   opacity: 0.5;
 }
 
-/* line 285, ../sass/_bootstrapcustom.scss */
+/* line 284, ../sass/_bootstrapcustom.scss */
 .modal-wide {
   width: 660px;
   margin-left: -330px;
