@@ -1355,6 +1355,17 @@ function getReferrer(Symfony\Component\HttpFoundation\Request $request) {
     return $referrer;
 }
 
+function htmlencode($str) {
+    return htmlspecialchars($str, ENT_QUOTES);
+}
+
+function htmlencode_params($params) {
+    $result = array();
+    foreach ($params as $key => $val) {
+        $result[$key] = htmlencode($val);
+    }
+    return $result;
+}
 
 /**
  * i18n made right, second attempt...
@@ -1407,13 +1418,13 @@ function __() {
             if ($fn == 'transChoice') {
                     $trans = $app['translator']->transChoice(
                         $text,$args[1],$tr_args,
-                        isset($args[3]) ? $args[3] : 'contenttypes',
+                        htmlencode_params(isset($args[3]) ? $args[3] : 'contenttypes'),
                         isset($args[4]) ? $args[4] : $app['request']->getLocale()
                     );
             } else {
                     $trans = $app['translator']->trans(
                         $text,$tr_args,
-                        isset($args[2]) ? $args[2] : 'contenttypes',
+                        htmlencode_params(isset($args[2]) ? $args[2] : 'contenttypes'),
                         isset($args[3]) ? $args[3] : $app['request']->getLocale()
                     );
             }
@@ -1425,6 +1436,9 @@ function __() {
     }
 
     //try {
+    if (isset($args[1])) {
+        $args[1] = htmlencode_params($args[1]);
+    }
     switch($num_args) {
         case 5:
             return $app['translator']->transChoice($args[0],$args[1],$args[2],$args[3],$args[4]);
