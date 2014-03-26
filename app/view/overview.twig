@@ -51,12 +51,12 @@
                     <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
                 </a>
                 {% if request('filter') or request('order') %}
-                    <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
+                    <a class="btn btn-tertiary" href="?">{{ __('Clear sort/filter') }}</a>
                 {% endif %}
 
                 <form class="form-inline" style="margin-top:15px;">
-                    <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Filtering') }}">
-                    <button type="submit" class="btn">{{ __('Filter') }}</button>
+                    <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Filtering…') }}">
+                    <button type="submit" class="btn btn-tertiary">{{ __('Filter') }}</button>
                     {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
                 </form>
             </div>

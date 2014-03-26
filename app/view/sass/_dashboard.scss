@@ -86,9 +86,6 @@
 
 .dashboardlisting td {
     border-bottom: 1px solid #E5E5E5;
-    padding: 6px;
-    vertical-align: top;
-    line-height: 18px;
     font-size: 13px;
 }
 
@@ -97,8 +94,8 @@
 .dashboardlisting td.actions,
 .dashboardlisting td.listthumb  {
     white-space: nowrap;
-    text-align: center;
     color: #666;
+    padding: 8px 2px;    
 }
 
 .dashboardlisting td.username {
@@ -114,7 +111,7 @@
 }
 
 .dashboardlisting td.actions {
-    min-width: 90px;
+    min-width: 80px;
     text-align: right;
 }
 

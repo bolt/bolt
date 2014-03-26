@@ -5,7 +5,6 @@
     font-size: 14px;
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: normal !important;
-    color: $btn-primary-color !important;
 }
 
 .btn-group > .btn-xs {
@@ -28,32 +27,49 @@
 
 // Primary button for Bolt:
 .btn-primary {
-  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+    @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+    color: $btn-primary-color !important;      
 }
 
 // Secondary button for bolt: 
 .btn-secondary {
-  @include button-variant($btn-secondary-color, $btn-secondary-bg, $btn-secondary-border);
+    @include button-variant($btn-primary-color, $btn-secondary-bg, $btn-secondary-border);
+    color: $btn-primary-color !important;      
 }
 
 // Tertiary button for bolt: 
 .btn-tertiary {
-  @include button-variant($btn-tertiary-color, $btn-tertiary-bg, $btn-tertiary-border);
+    @include button-variant($btn-primary-color, $btn-tertiary-bg, $btn-tertiary-border);
+    color: $btn-primary-color !important;      
 }
 
 // Default button for bolt: 
 .btn-default {
-  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+    @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+    color: $btn-default-color !important;  
 }
 
 // Bolt button for bolt: 
 .btn-bolt {
-  @include button-variant($btn-bolt-color, $btn-bolt-bg, $btn-bolt-border);
+    @include button-variant($btn-bolt-color, $btn-bolt-bg, $btn-bolt-border);
+}
+
+// Buttons that behave as a link, and specifically in a dropdown-menu.
+.dropdown-menu .btn-link {
+    color: $dropdown-link-color;
+    padding: 1px 14px;    
+    display: block;
+}
+
+.dropdown-menu .btn-link:hover {
+    color: $dropdown-link-hover-color;
+    background-color: $dropdown-link-hover-bg;
+    text-decoration: none;
 }
 
 // Override page-header
 .page-header {
-  margin: 0 0 12px;
+    margin: 0 0 12px;
 }
 
 
@@ -109,36 +125,36 @@
 }
 
 .navbar .navbar-brand img {
-  width: 26px;
-  height: 26px;
-  margin: 0 2px 2px 0;
+    width: 26px;
+    height: 26px;
+    margin: 0 2px 2px 0;
 }
 
 .navbar-site {
-  display: inline-block;
-  color: #ccc !important;
-  font-size: 22px;
-  line-height: 30px;
-  margin-top: 10px;
-  padding: 1px 5px 0 5px;
-  float: left;
-  font-weight: normal;
-  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    color: #ccc !important;
+    font-size: 22px;
+    line-height: 30px;
+    margin-top: 10px;
+    padding: 1px 5px 0 5px;
+    float: left;
+    font-weight: normal;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .navbar-site i {
-  color: #ccc!important;
-  font-size: 16px;
+    color: #ccc!important;
+    font-size: 16px;
 }
 
 .navbar-brand:hover,
 .navbar-site:hover,
 .navbar-site:hover i
 {
-  color: #ffffff!important;
-  text-decoration: none;
-  background-color: #428bca;
-  outline: 0;
+    color: #ffffff!important;
+    text-decoration: none;
+    background-color: #428bca;
+    outline: 0;
 }
 
 
@@ -190,17 +206,17 @@
 }
 
 .navbar-toggle {
-  float: left;
-  margin-left: 15px;
-  margin-right: 0;
+    float: left;
+    margin-left: 15px;
+    margin-right: 0;
 }
 
 .navbar-header {
-  float: left;
+    float: left;
 }
 
 .navbar-right {
-  float: right !important;
+   float: right !important;
 }
 
 /**
@@ -216,7 +232,7 @@ ul.dropdown-menu li {
 
 ul.dropdown-menu li a {
     font-size: 13px;
-    padding: 1px 14px;
+    padding: 3px 14px;
 }
 
 ul.dropdown-menu li.divider {
@@ -272,17 +288,16 @@ ul.dropdown-menu li a.nolink {
 }
 
 @if $columnborders {
-  $list: '';
-  $i: 1;
-  $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
-  @for $i from 2 through $grid-columns {
-    $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}, #{$list}";
-  }
-  #{$list} {
-    border: 1px dashed #F99;
-  }
-
-  .row {
-    border: 1px dashed #99F;
-  }
+    $list: '';
+    $i: 1;
+    $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
+    @for $i from 2 through $grid-columns {
+        $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}, #{$list}";
+    }
+    #{$list} {
+        border: 1px dashed #F99;
+    }
+    .row {
+        border: 1px dashed #99F;
+    }
 }

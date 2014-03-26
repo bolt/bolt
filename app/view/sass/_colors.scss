@@ -3,7 +3,7 @@
  */
 
 // for easier layouting.. Will be deleted..
-$columnborders: false ;
+$columnborders: false;
 
 $boltblue: #204460;
 $boltbluedarker: darken($boltblue, 5);
@@ -37,18 +37,16 @@ $btn-primary-bg: #DC6A23;
 $btn-primary-border: darken($btn-primary-bg, 6%);
 
 // Secondary button
-$btn-secondary-color: #fff;
 $btn-secondary-bg: adjust-saturation(lighten($btn-primary-bg, 7%), -20);
 $btn-secondary-border: darken($btn-secondary-bg, 6%);
 
 // Tertiary button
-$btn-tertiary-color: #fff;
 $btn-tertiary-bg: adjust-saturation(lighten($boltblue, 35%), -20);
 $btn-tertiary-border: darken($btn-tertiary-bg, 6%);
 
 // Default button
-$btn-default-color: #fff;
-$btn-default-bg: #BBB;
+$btn-default-color: #555;
+$btn-default-bg: #EEE;
 $btn-default-border: darken($btn-default-bg, 6%);
 
 
@@ -57,3 +55,7 @@ $btn-bolt-color: #fff;
 $btn-bolt-bg: $boltblue;
 $btn-bolt-border: darken($btn-bolt-bg, 6%);
 
+// Text-links in dropdowns and pop-overs
+$dropdown-link-color: #555;
+$dropdown-link-hover-color: $boltbluedarker;
+$dropdown-link-hover-bg: #E8E8E8;

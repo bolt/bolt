@@ -198,7 +198,7 @@ blockquote.quote cite {
 }
 
 #page-wrapper {
-  padding: 16px 4px 0;
+  padding: 16px 6px 0;
   min-height: 568px;
   background-color: $basebgcolour;
 }
@@ -326,17 +326,18 @@ input.semitransparent:focus {
   }
 
   .popover-content a {
-    color: $boltbluedarker;
-    display: block;
+    color: $dropdown-link-color;
     background-color: transparent;
+    display: block;
     padding: 4px 6px 4px 4px;
     height: auto;
     width: 600px;
   }
 
   .popover-content a:hover {
-    color: $boltbluedarker;
-    background-color: #EEE;
+    color: $dropdown-link-hover-color;
+    background-color: $dropdown-link-hover-bg;
+    text-decoration: none;
   }
 
   .popover-content hr {
@@ -453,7 +454,7 @@ input.semitransparent:focus {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 180px;
-    padding: 16px 16px 40px 16px;
+    padding: 16px 16px 40px 24px;
     border-left: 1px solid #e7e7e7;
   }
 

@@ -182,9 +182,15 @@
             {# We are only interested in the 'alt' attribute right now, but this will allow easy extension #}
             {% for attrib in attribs %}
 	            {% if attrib == 'title' %}
-	                <label>{{ __('Title/Alt Text:') }} <input type="text" name="{{key}}[title]" id="{{key}}-title"
-	                    value='{{ image.title|default('') }}' style='width: 80%;'>
-	                </label>
+                <div class="form-group" style="margin-top: 8px;">
+                    <div class="col-sm-4">
+	                   <label class="control-label" for="{{key}}[title]">{{ __('Title/Alt Text:') }} </label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text" name="{{key}}[title]" id="{{key}}-title"
+    	                    value='{{ image.title|default('') }}' class="form-control">
+                    </div>
+                </div>
 	            {% endif %}
 	        {% endfor %}
 

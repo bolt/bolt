@@ -1,3 +1,5 @@
+{% import '_macro.twig' as macro %}
+
             {# If we have 'grouping', print the row with the groupname.. #}
             {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
                 {% if not loop.first %}</tbody>{% endif %}
@@ -121,33 +123,18 @@
                                         <i class="fa fa-link"></i> {{  __('View related content') }}</a></li>
                             {% endif %}
 
-                            {% macro actionform(content, action, icon, text, confirmation_text) %}
-                                <form action="{{ path('contentaction', { 'action': action, 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}"
-                                      method="POST">
-                                    {% include('_sub_csrf_token.twig') %}
-                                    <button type="submit"
-                                        {% if confirmation_text %}
-                                            class="btn btn-link confirm" data-confirm="{{confirmation_text}}"
-                                        {%else%}
-                                            class="btn btn-link"
-                                        {%endif%}
-                                    >
-                                        <i class="fa{{ icon }}"></i>
-                                        {{ __(text) }}
-                                    </button>
-                                </form>
-                            {% endmacro %}
+
                             {% from _self import actionform %}
                             {% if editable %}
                                 {% if content.status != "published" %}
                                     {% if isallowed('publish', content) %}
 
-                                    <li>{{ actionform(content, 'publish', 'fa-star-empty', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
+                                    <li>{{ macro.actionform(content, 'publish', 'fa-star-empty', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
                                     {% endif %}
                                 {% else %}
                                     {% if isallowed('depublish', content) %}
-                                    <li>{{ actionform(content, 'held', 'fa-star', __("Change status to 'held'")) }}</li>
-                                    <li>{{ actionform(content, 'draft', 'fa-pencil', __("Change status to 'draft'")) }}</li>
+                                    <li>{{ macro.actionform(content, 'held', 'fa-star', __("Change status to 'held'")) }}</li>
+                                    <li>{{ macro.actionform(content, 'draft', 'fa-pencil', __("Change status to 'draft'")) }}</li>
 
                                     {% endif %}
                                 {% endif %}
@@ -156,7 +143,7 @@
                                     <i class="fa fa-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
                                 {% endif %}
                                 {% if isallowed('delete', content) %}
-                                <li>{{ actionform(content, 'delete',
+                                <li>{{ macro.actionform(content, 'delete',
                                                       'fa-trash-o',
                                                       __('Delete %contenttype%',{'%contenttype%':content.contenttype.singular_name}),
                                                       "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
