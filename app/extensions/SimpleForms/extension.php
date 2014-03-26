@@ -352,7 +352,7 @@ class Extension extends \Bolt\BaseExtension
             // Save the choice label, not the submitted safe string value.
             if ($formconfig['fields'][$key]['type'] == 'choice' && !empty($formconfig['fields'][$key]['choices'])) {
                 $options = array();
-                foreach ($field['choices'] as $option) {
+                foreach ($formconfig['fields'][$key]['choices'] as $option) {
                     $options[safeString($option)] = $option;
                 }
 
