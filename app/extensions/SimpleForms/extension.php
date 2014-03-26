@@ -190,6 +190,14 @@ class Extension extends \Bolt\BaseExtension
                 }
             }
 
+            if (!empty($field['empty_value'])) {
+                $options['empty_value'] = $field['empty_value'];
+            }
+
+            if (!empty($field['maxlength'])) {
+                $options['attr']['maxlength'] = $field['maxlength'];
+            }
+
             if (!empty($field['expanded'])) {
                 $options['expanded'] = $field['expanded'];
             }
@@ -216,6 +224,13 @@ class Extension extends \Bolt\BaseExtension
                     $accept[] = ".".$ext;
                 }
                 $options['attr']['accept'] = implode(",", $accept);
+
+                if (!empty($field['mimetype'])) {
+                    $options['constraints'][] = new Assert\File(array(
+                        'mimeTypes' => $field['mimetype'],
+                        'mimeTypesMessage' => $formconfig['mime_types_message'] . ' ' . implode(', ', $field['filetype']),
+                    ));
+                }
             }
 
             // Yeah, this feels a bit flakey, but I'm not sure how I can get the form type in the template
@@ -327,10 +342,21 @@ class Extension extends \Bolt\BaseExtension
             \Dumper::dump($this->app['request']->files);
         }
 
-        // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
+        // process submitted data
         foreach($data as $key => $value) {
+            // For legibility, change boolean fields to "yes" or "no".
             if (gettype($value)=="boolean") {
                 $data[$key] = ($value ? "yes" : "no");
+            }
+
+            // Save the choice label, not the submitted safe string value.
+            if ($formconfig['fields'][$key]['type'] == 'choice' && !empty($formconfig['fields'][$key]['choices'])) {
+                $options = array();
+                foreach ($field['choices'] as $option) {
+                    $options[safeString($option)] = $option;
+                }
+
+                $data[$key] = $options[$value];
             }
         }
 
@@ -348,8 +374,13 @@ class Extension extends \Bolt\BaseExtension
                     $linkpath = $this->app['paths']['app'] . 'cache';
                 } else {
                     // files location will be a subdirectory of the files
-                    $path = $this->app['paths']['filespath'] . "/". $fieldvalues['storage_location'];
-                    $linkpath = $this->app['paths']['files'] . $fieldvalues['storage_location'];
+                    $path = $this->app['paths']['filespath'] . "/" . $formconfig['storage_location'];
+                    $linkpath = $this->app['paths']['files'] . $formconfig['storage_location'];
+                }
+
+                // make sure the path is exists
+                if (!is_dir($path)) {
+                    makeDir($path);
                 }
 
                 if (!is_writable($path)) {
@@ -366,7 +397,7 @@ class Extension extends \Bolt\BaseExtension
                         $this->app['randomgenerator']->generateString(8, 'abcdefghijklmnopqrstuvwxyz01234567890'),
                         getExtension($originalname)
                     );
-                    $link = sprintf("%s%s/%s", $this->app['paths']['rooturl'], $linkpath, $filename);
+                    $link = sprintf("%s%s/%s", $this->app['paths']['hosturl'], $linkpath, $filename);
 
                     // Make sure the file is in the allowed extensions.
                     if (in_array(getExtension($originalname), $fieldvalues['filetype'])) {
