@@ -3,6 +3,8 @@ namespace EdIt;
 
 use Symfony\Component\HttpFoundation\Response, Symfony\Component\Translation\Loader as TranslationLoader;
 use Symfony\Component\Yaml\Dumper as YamlDumper, Symfony\Component\Yaml\Parser as YamlParser, Symfony\Component\Yaml\Exception\ParseException;
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 
 class EdItException extends \Exception
 {
@@ -84,25 +86,45 @@ class Extension extends \Bolt\BaseExtension
 
             $this->addTwigFunction('editable', 'twigEditable');
 
-            $this->app->get("/edit/saveit/", array(
+            /*
+             * $this->app->get("/edit/saveit/", array( $this, 'saveit' ));
+             */
+            $ctrl = $this->app;
+            $ctrl->post('/edit/saveit', array(
                 $this,
                 'saveit'
-            ))->bind('saveit');
+            ))
+                ->method('POST')
+                ->bind('saveit');
         }
     }
 
-    public function saveit()
-    {}
+    public function saveit(Application $app, Request $request)
+    {
+        $rawdata = $request->request->get('editcontent');
+        $data = json_decode($rawdata, true);
+        return json_encode(true);
+    }
 
     /**
      * Twig function {{ editable('foo') }} in In Place Editor extension.
      */
-    function twigEditable($record, $fieldname)
+    function twigEditable($record, $fieldname, $options = array())
     {
         $slug = $record->contenttype['slug'];
         $id = $record->id;
+        $token = '';
 
-        $html = "<editable data-content_id=\"ext-edit-{$slug}-{$id}\">" . $record->values[$fieldname] . "</editable>";
+        $parameters = new \stdClass();
+        $parameters->id = $id;
+        $parameters->slug = $slug;
+        $parameters->token = $token;
+        $parameters->field = $fieldname;
+
+        $encparms = htmlspecialchars(json_encode($parameters));
+        $html = "<editable data-content_id=\"ext_edit_{$slug}_{$id}\"";
+        $html .= $options ? "data-options='". json_encode($options) . "'" : "";
+        $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</editable>";
 
         return new \Twig_Markup($html, 'UTF-8');
     }
