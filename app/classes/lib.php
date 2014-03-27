@@ -808,13 +808,14 @@ function getPaths($original = array() )
         $canonicalpath = $currentpath;
     }
 
+    $theme_path = trim($theme_path, '/');
     // Set the paths
     $paths = array(
         'hostname' => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "localhost",
         'root' => $path_prefix,
         'rootpath' => BOLT_PROJECT_ROOT_DIR,
-        'theme' => str_replace("//", "/", $path_prefix . $theme_path . "/" . $theme . "/"),
-        'themepath' => BOLT_WEB_DIR . $theme_path . "/" . $theme,
+        'theme' => str_replace("//", "/", $path_prefix . "/" . $theme_path . "/" . $theme . "/"),
+        'themepath' => BOLT_WEB_DIR . "/" . $theme_path . "/" . $theme,
         'app' => $path_prefix . "app/",
         'apppath' => realpath(__DIR__ . "/.."),
         'extensions' => $path_prefix . "app/extensions/",
