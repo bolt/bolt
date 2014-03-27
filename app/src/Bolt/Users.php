@@ -145,7 +145,6 @@ class Users
             $user['roles'] = json_encode(array_values(array_unique($user['roles'])));
         }
 
-
         // Decide whether to insert a new record, or update an existing one.
         if (empty($user['id'])) {
             unset($user['id']);
@@ -185,11 +184,13 @@ class Users
             } else {
                 // User doesn't exist anymore
                 $this->logout();
+
                 return false;
             }
             if (!$this->currentuser['enabled']) {
                 // user has been disabled since logging in
                 $this->logout();
+
                 return false;
             }
         } else {
@@ -212,6 +213,7 @@ class Users
         // Check if user is _still_ allowed to log on..
         if (!$this->isAllowed('login') || !$this->currentuser['enabled']) {
             $this->logout();
+
             return false;
         }
 
@@ -228,7 +230,7 @@ class Users
      * Get a key to identify the session with.
      *
      * @param  string $name
-     * @param string $salt
+     * @param  string $salt
      * @return string
      */
     private function getAuthtoken($name = "", $salt = "")
@@ -324,7 +326,6 @@ class Users
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
     }
-
 
     /**
      * Remove a user from the database.
@@ -649,7 +650,6 @@ class Users
 
     }
 
-
     /**
      * Log out the currently logged in user.
      *
@@ -792,12 +792,11 @@ class Users
 
     }
 
-
     /**
      * Enable or disable a user, specified by id.
      *
-     * @param  int $id
-     * @param  int $enabled
+     * @param  int  $id
+     * @param  int  $enabled
      * @return bool
      */
     public function setEnabled($id, $enabled = 1)
@@ -817,8 +816,8 @@ class Users
     /**
      * Check if a certain user has a specific role
      *
-     * @param mixed $id
-     * @param string $role
+     * @param  mixed  $id
+     * @param  string $role
      * @return bool
      */
     public function hasRole($id, $role)
@@ -837,8 +836,8 @@ class Users
     /**
      * Add a certain role from a specific user.
      *
-     * @param mixed $id
-     * @param string $role
+     * @param  mixed  $id
+     * @param  string $role
      * @return bool
      */
     public function addRole($id, $role)
@@ -860,8 +859,8 @@ class Users
     /**
      * Remove a certain role from a specific user.
      *
-     * @param mixed $id
-     * @param string $role
+     * @param  mixed  $id
+     * @param  string $role
      * @return bool
      */
     public function removeRole($id, $role)
@@ -939,8 +938,8 @@ class Users
      * "contenttype:$contenttype:change-ownership:$id" - Change the ownership
      *                                of the specified content type or item.
      *
-     * @param string $what The desired permission, as elaborated upon above.
-     * @return bool TRUE if the permission is granted, FALSE if denied.
+     * @param  string $what The desired permission, as elaborated upon above.
+     * @return bool   TRUE if the permission is granted, FALSE if denied.
      */
     public function isAllowed($what)
     {

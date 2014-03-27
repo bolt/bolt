@@ -5,7 +5,6 @@ namespace Authenticate;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Global controller
@@ -32,7 +31,7 @@ class Controller
     /**
      * Check who the visitor is
      */
-    public function checkvisitor(Silex\Application $app = null) 
+    public function checkvisitor(Silex\Application $app = null)
     {
 
         // In case we're calling statically, we need to have $app
@@ -48,8 +47,8 @@ class Controller
         if ($this->current_visitor) {
             // Set the Apptoken
             $this->current_visitor['apptoken'] = $visitor->check_app_token();
-    
-            // Guess the 'avatar' image from the present data. 
+
+            // Guess the 'avatar' image from the present data.
             $profile = unserialize($this->current_visitor['providerdata']);
 
             if (!empty($profile->photoURL)) {
@@ -80,7 +79,7 @@ class Controller
         $title = "login page";
 
         $recognizedvisitor = $this->checkvisitor($app);
-        if($recognizedvisitor) {
+        if ($recognizedvisitor) {
             // already logged in - show the account
             return redirect('homepage');
             exit;
@@ -88,7 +87,7 @@ class Controller
 
         $provider = \util::get_var('provider', false);
 
-        if($provider) {
+        if ($provider) {
             $this->load_hybrid_auth();
 
             try {
@@ -97,20 +96,19 @@ class Controller
                 // get the type early - because we might need to enable it
                 if (isset($this->config['providers'][$provider]['type'])) {
                     $providertype = $this->config['providers'][$provider]['type'];
-                }
-                else {
+                } else {
                     $providertype = $provider;
                 }
 
                 // enable OpenID
-                if($providertype == 'OpenID' && $this->config['providers'][$provider]['enabled'] == true) {
+                if ($providertype == 'OpenID' && $this->config['providers'][$provider]['enabled'] == true) {
                     $this->config['providers']['OpenID']['enabled'] = true;
                 }
 
                 // initialize the authentication with the modified config
                 $hybridauth = new \Hybrid_Auth($this->config);
 
-                if($providertype=='OpenID' && !empty($this->config['providers'][$provider]['openid_identifier'])) {
+                if ($providertype=='OpenID' && !empty($this->config['providers'][$provider]['openid_identifier'])) {
                     // try to authenticate with the selected OpenID provider
                     $providerurl = $this->config['providers'][$provider]['openid_identifier'];
                     $adapter = $hybridauth->authenticate( $providertype, array("openid_identifier" => $providerurl));
@@ -121,7 +119,7 @@ class Controller
                 // then grab the user profile
                 $user_profile = $adapter->getUserProfile();
 
-                if($user_profile) {
+                if ($user_profile) {
                     $visitor = new Visitor($app);
                     $visitor->setProvider( $provider );
                     $visitor->setProfile( $user_profile );
@@ -130,7 +128,7 @@ class Controller
                     $known_visitor = $visitor->checkExisting();
 
                     // create a new user profile if it does not exist yet - and load it
-                    if(!$known_visitor) {
+                    if (!$known_visitor) {
                         $new_visitor = $visitor->save();
 
                         // check if user profile is known internally
@@ -144,8 +142,7 @@ class Controller
                     return redirect('homepage');
                 }
 
-            }
-            catch( Exception $e ){
+            } catch ( Exception $e ) {
                 echo "Error: please try again!";
                 echo "Original error message: " . $e->getMessage();
             }
@@ -165,8 +162,8 @@ class Controller
 
         $buttons = array();
 
-        foreach($this->config['providers'] as $provider => $values) {
-            if($values['enabled']==true) {
+        foreach ($this->config['providers'] as $provider => $values) {
+            if ($values['enabled']==true) {
                 $label = !empty($values['label'])?$values['label']:$provider;
                 $buttons[] = $this->formatButton($this->config['basepath'].'/login?provider='. $provider, $label);
             }
@@ -223,13 +220,14 @@ class Controller
      *
      * View the current visitor
      */
-    public function view(Silex\Application $app, Request $request) {
+    public function view(Silex\Application $app, Request $request)
+    {
         $markup = '';
 
         // login the visitor
         $recognizedvisitor = $this->checkvisitor($app);
 
-        if($recognizedvisitor) {
+        if ($recognizedvisitor) {
             $markup = $this->showvisitorprofile() ;
         } else {
             // go directly to login page
@@ -286,9 +284,9 @@ class Controller
     }
 
     /**
-     * Simple function to format the HTML for a button. 
+     * Simple function to format the HTML for a button.
      */
-    private function formatButton($link, $label) 
+    private function formatButton($link, $label)
     {
         $button = $this->config['button_markup'];
 
@@ -300,4 +298,3 @@ class Controller
     }
 
 }
-

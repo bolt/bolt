@@ -21,7 +21,6 @@ class Stack
     private $documenttypes = array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx');
     private $app;
 
-
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
@@ -40,7 +39,7 @@ class Stack
     /**
      * Add a certain item to the stack.
      *
-     * @param string $filename
+     * @param  string $filename
      * @return bool
      */
     public function add($filename)
@@ -52,6 +51,7 @@ class Stack
 
         array_unshift($this->items, $filename);
         $this->persist();
+
         return true;
     }
 
@@ -93,8 +93,8 @@ class Stack
      * Return a list with the current stacked items. Add some relevant info to each item,
      * and also check if the item is present and readable.
      *
-     * @param int $count
-     * @param string $typefilter
+     * @param  int    $count
+     * @param  string $typefilter
      * @return array
      */
     public function listitems($count = 100, $typefilter = "")
@@ -155,13 +155,11 @@ class Stack
                 $thisitem['permissions']
             );
 
-
             if ($type == "image") {
                 $size = getimagesize($fullpath);
                 $thisitem['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                 $thisitem['info'] .= sprintf("<br>%s: %s × %s px", __("Size"), $size[0], $size[1]);
             }
-
 
             //add it to our list..
             $list[] = $thisitem;

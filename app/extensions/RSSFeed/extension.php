@@ -3,18 +3,15 @@
 
 namespace RSSFeed;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
-
 
     /**
      * Info block for RSSFeed Extension.
      */
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -34,7 +31,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
         $this->app->match('/{contenttypeslug}/rss/feed.{extension}', array($this, 'feed'))
             ->assert('extension', '(xml|rss)')

@@ -167,8 +167,9 @@ class Application extends Silex\Application
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
         if (!function_exists('intl_get_error_code')) {
-            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php';
-            require_once BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php';
+            $localePrefix = '/vendor/symfony/locale/Symfony/Component/Locale';
+            require_once BOLT_PROJECT_ROOT_DIR . $localePrefix . '/Resources/stubs/functions.php';
+            require_once BOLT_PROJECT_ROOT_DIR . $localePrefix . '/Resources/stubs/IntlDateFormatter.php';
         }
 
         $this->register(new Provider\TranslationServiceProvider());
@@ -218,7 +219,7 @@ class Application extends Silex\Application
         $app = $this;
 
         // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
-        $this['url_matcher'] = $this->share(function() use ($app) {
+        $this['url_matcher'] = $this->share(function () use ($app) {
             return new BoltUrlMatcher(
                 new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
             );
@@ -324,7 +325,8 @@ class Application extends Silex\Application
             $this->register(new Provider\TwigProfilerServiceProvider());
 
             $this['twig.loader.filesystem']->addPath(
-                BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                BOLT_PROJECT_ROOT_DIR . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle'
+                .'/Resources/views',
                 'WebProfiler'
             );
             $this['twig.loader.filesystem']->addPath(__DIR__ . '/../../view', 'BoltProfiler');
@@ -352,7 +354,7 @@ class Application extends Silex\Application
     /**
      * Global 'after' handler. Adds 'after' HTML-snippets and Meta-headers to the output.
      *
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
      */
     public function afterHandler(Request $request, Response $response)
@@ -365,7 +367,10 @@ class Application extends Silex\Application
             // only add when content-type is text/html
             if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
                 // Add our meta generator tag..
-                $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+                $this['extensions']->insertSnippet(
+                    Extensions\Snippets\Location::AFTER_META,
+                    '<meta name="generator" content="Bolt">'
+                );
 
                 // Perhaps add a canonical link..
 
@@ -399,7 +404,7 @@ class Application extends Silex\Application
     /**
      * Handle errors thrown in the application. Set up whoops, if set in conf
      *
-     * @param \Exception $exception
+     * @param  \Exception $exception
      * @return Response
      */
     public function ErrorHandler(\Exception $exception)
@@ -411,6 +416,7 @@ class Application extends Silex\Application
             if ($user['userlevel'] < 2) {
                 $template = $this['config']->get('general/maintenance_template');
                 $body = $this['render']->render($template);
+
                 return new Response($body, 503);
             }
         }
@@ -446,7 +452,10 @@ class Application extends Silex\Application
         $twigvars['title'] = 'An error has occurred!';
 
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
-            $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
+            $content = $this['storage']->getContent(
+                $this['config']->get('general/notfound'),
+                array('returnsingle' => true)
+            );
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof \Bolt\Content && !empty($content->id)) {
@@ -454,11 +463,13 @@ class Application extends Silex\Application
 
                 return $this['render']->render($template, array(
                     'record' => $content,
-                    $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
+                    // Make sure we can also access it as {{ page.title }} for pages, etc.
+                    $content->contenttype['singular_slug'] => $content
                 ));
             }
 
-            $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
+            $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. "
+                                 . "Sorry about that.";
         }
 
         return $this['render']->render('error.twig', $twigvars);

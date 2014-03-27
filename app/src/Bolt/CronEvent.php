@@ -1,7 +1,6 @@
 <?php
 namespace Bolt;
 
-use Bolt\CronEvents;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,12 +22,12 @@ class CronEvent extends Event
         $this->output = $output;
     }
 
-    function doRunJobs($interval)
+    public function doRunJobs($interval)
     {
         switch ($interval) {
-        	case CronEvents::CRON_HOURLY:
-        	    $this->cronHourly();
-        	    break;
+            case CronEvents::CRON_HOURLY:
+                $this->cronHourly();
+                break;
             case CronEvents::CRON_DAILY:
                 $this->cronDaily();
                 break;
@@ -44,14 +43,12 @@ class CronEvent extends Event
         }
     }
 
-
     /**
      * Hourly jobs
      */
     private function cronHourly()
     {
     }
-
 
     /**
      * Daily jobs
@@ -60,7 +57,6 @@ class CronEvent extends Event
     {
         // Check for Bolt updates
     }
-
 
     /**
      * Weekly jobs
@@ -76,14 +72,12 @@ class CronEvent extends Event
         $this->notify("Trimming logs");
     }
 
-
     /**
      * Monthly jobs
      */
     private function cronMonthly()
     {
     }
-
 
     /**
      * Yearly jobs
@@ -92,14 +86,13 @@ class CronEvent extends Event
     {
     }
 
-
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify
      * the end user
      */
     private function notify($msg)
     {
-        if($this->output !== false) {
+        if ($this->output !== false) {
             $this->output->writeln("<info>    {$msg}</info>");
         }
     }

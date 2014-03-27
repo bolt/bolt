@@ -24,7 +24,7 @@ class Config
         'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
     );
 
-    static private $yamlParser;
+    private static $yamlParser;
 
     /**
      * @param Application $app
@@ -48,7 +48,7 @@ class Config
     /**
      * @param  string $basename
      * @param  array  $default
-     * @param  bool  $useDefaultConfigPath
+     * @param  bool   $useDefaultConfigPath
      * @return array
      */
     private function parseConfigYaml($basename, $default = array(), $useDefaultConfigPath = true)
@@ -72,7 +72,7 @@ class Config
      * $app['config']->set('general/branding/name', 'Bolt');
      *
      * @param  string $path
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return bool
      */
     public function set($path, $value)
@@ -314,7 +314,7 @@ class Config
 
             // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
             if (!empty($temp['relations']) && is_array($temp['relations'])) {
-                foreach($temp['relations'] as $key => $relation) {
+                foreach ($temp['relations'] as $key => $relation) {
                     if ($key != makeSlug($key)) {
                         $temp['relations'][makeSlug($key)] = $temp['relations'][$key];
                         unset($temp['relations'][$key]);
@@ -358,6 +358,7 @@ class Config
                         array('%contenttype%' => $key, '%field%' => $fieldname)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
+
                     return;
                 }
 
@@ -371,6 +372,7 @@ class Config
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
                             $this->app['session']->getFlashBag()->set('error', $error);
+
                             return;
                         }
                     }
@@ -424,6 +426,7 @@ class Config
                     array('%link%' => path('dbcheck'))
                 );
                 $this->app['session']->getFlashBag()->set('error', $msg);
+
                 return;
             }
         }
@@ -437,6 +440,7 @@ class Config
                     array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
+
                 return;
             }
         }
@@ -450,6 +454,7 @@ class Config
                         array('%slug%' => $slug)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
+
                     return;
                 }
             }

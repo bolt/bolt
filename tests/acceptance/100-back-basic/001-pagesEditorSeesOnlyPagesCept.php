@@ -6,4 +6,3 @@ $I->see('View Pages');
 $I->dontSee('Edit Entries');
 $I->dontSee('Edit Kitchensinks');
 $I->dontSee('Edit Dummies');
-

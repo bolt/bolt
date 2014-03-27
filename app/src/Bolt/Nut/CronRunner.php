@@ -41,4 +41,3 @@ class CronRunner extends BaseCommand
         }
     }
 }
-

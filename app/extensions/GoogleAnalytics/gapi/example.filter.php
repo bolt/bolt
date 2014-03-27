@@ -11,10 +11,10 @@ $ga = new gapi(ga_email,ga_password);
  * Note: OR || operators are calculated first, before AND &&.
  * There are no brackets () for precedence and no quotes are
  * required around parameters.
- * 
- * Do not use brackets () for precedence, these are only valid for 
+ *
+ * Do not use brackets () for precedence, these are only valid for
  * use in regular expressions operators!
- * 
+ *
  * The below filter represented in normal PHP logic would be:
  * country == 'United States' && ( browser == 'Firefox || browser == 'Chrome')
  */

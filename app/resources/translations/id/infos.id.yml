@@ -2,7 +2,7 @@ info:
     upload:
         image: |
             Gunakan bidang ini untuk mengunggah foto atau gambar. Klik tombol untuk menunggah berkas dari komputermu, atau
-            jika anda menggunakan versi terbaru Chrome atau Firefox, anda cukup men-drag'n'drop berkas dari desktop atau 
+            jika anda menggunakan versi terbaru Chrome atau Firefox, anda cukup men-drag'n'drop berkas dari desktop atau
             jendela browser yang lain.<br/>
             Sebagai alternatif, anda juga dapat menggunakan citra yang sebelumnya sudah pernah diunggah. Untuk memilih berkas yang
             pernah diunggah, cukup ketik sebagian nama berka pada bidang masukan dan otomatis akan langsung terisi.

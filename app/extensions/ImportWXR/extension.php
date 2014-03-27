@@ -3,18 +3,13 @@
 
 namespace ImportWXR;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
-
 
     /**
      * Info block for RSSFeed Extension.
      */
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -34,7 +29,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
         // Set the path to match in the controller.
         $path = $this->app['config']->get('general/branding/path') . '/importwxr';
@@ -67,7 +62,7 @@ class Extension extends \Bolt\BaseExtension
             $action = "start";
         }
 
-        require_once("src/parsers.php");
+        require_once 'src/parsers.php';
         $parser = new \WXR_Parser();
 
         switch ($action) {
@@ -109,7 +104,6 @@ class Extension extends \Bolt\BaseExtension
 
                 $res = $parser->parse($file);
 
-
                 foreach ($res['posts'] as $post) {
                     $output .= $this->importPost($post, true);
                     if ($counter++ >= 4) {
@@ -120,8 +114,6 @@ class Extension extends \Bolt\BaseExtension
                 $output .= sprintf("<p>Looking good? Then click below to import the Records: </p>");
 
                 $output .= "<p><a class='btn btn-primary' href='?action=confirm'><strong>Confirm!</strong></a></p>";
-
-
 
         }
 
@@ -168,7 +160,6 @@ class Extension extends \Bolt\BaseExtension
 
                 $value = $post[$from];
 
-
                 switch ($from) {
                     case "post_parent":
                         if (!empty($value)) {
@@ -200,10 +191,9 @@ class Extension extends \Bolt\BaseExtension
 
         }
 
-
         // Perhaps import the categories as well..
         if (!empty($mapping['category']) && !empty($post['terms'])) {
-            foreach($post['terms'] as $term) {
+            foreach ($post['terms'] as $term) {
                 if ($term['domain'] == 'category') {
                     $record->setTaxonomy($mapping['category'], $term['slug']);
                     if (!in_array($term['slug'], $this->foundcategories)) {
@@ -224,14 +214,14 @@ class Extension extends \Bolt\BaseExtension
             $output .= $this->memUsage() ."mb.</em></small><br>";
         }
 
-
         return $output;
 
     }
 
-    function memusage()
+    public function memusage()
     {
         $mem = number_format(memory_get_usage() / 1048576, 1);
+
         return $mem;
 
     }

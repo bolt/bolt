@@ -37,13 +37,13 @@ class Frontend
             if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['config']->get('general/maintenance_template');
                 $body = $app['render']->render($template);
+
                 return new Response($body, 503);
             }
         }
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.frontend.before');
-
 
     }
 
@@ -377,7 +377,8 @@ class Frontend
      * Renders the specified template from the current theme in response to a request without
      * loading any content.
      */
-    public static function template(Silex\Application $app, $template) {
+    public static function template(Silex\Application $app, $template)
+    {
       // Add the template extension if it is missing
       if(!preg_match('/\\.twig$/i', $template))
         $template .= '.twig';

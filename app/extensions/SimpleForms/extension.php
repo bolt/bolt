@@ -5,14 +5,14 @@ namespace SimpleForms;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
     private $global_fields;
     private $text_labels;
     private $labelsenabled;
 
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -32,7 +32,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
 
         // fields that the global config should have
@@ -86,15 +86,14 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-
     /**
      * Create a simple Form.
      *
-     * @param string $formname
-     * @internal param string $name
+     * @param  string $formname
+     *                          @internal param string $name
      * @return string
      */
-    function simpleForm($formname = "")
+    public function simpleForm($formname = "")
     {
 
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
@@ -107,21 +106,20 @@ class Extension extends \Bolt\BaseExtension
         }
 
         // Set the mail configuration for empty fields to the global defaults if they exist
-        foreach($this->global_fields as $configkey) {
+        foreach ($this->global_fields as $configkey) {
             if (!array_key_exists($configkey, $formconfig) && !empty($this->config[$configkey])) {
                 $formconfig[$configkey] = $this->config[$configkey];
-            } elseif(!array_key_exists($configkey, $formconfig) && empty($this->config[$configkey])) {
+            } elseif (!array_key_exists($configkey, $formconfig) && empty($this->config[$configkey])) {
                 $formconfig[$configkey] = false;
             }
         }
 
         // tanslate labels if labels extension exists
-        if($this->labelsenabled) {
+        if ($this->labelsenabled) {
             $this->labelfields($formconfig);
         }
 
-
-        if($formconfig['debugmode']==true) {
+        if ($formconfig['debugmode']==true) {
             \Dumper::dump($formconfig);
             \Dumper::dump($formname);
             \Dumper::dump($this->app['paths']);
@@ -130,7 +128,6 @@ class Extension extends \Bolt\BaseExtension
         $message = "";
         $error = "";
         $sent = false;
-
 
         $form = $this->app['form.factory']->createNamedBuilder($formname, 'form', null, array('csrf_protection' => $this->config['csrf']));
 
@@ -244,12 +241,12 @@ class Extension extends \Bolt\BaseExtension
         $form = $form->getForm();
 
         // Include the ReCaptcha PHP Library
-        require_once('recaptcha-php-1.11/recaptchalib.php');
+        require_once 'recaptcha-php-1.11/recaptchalib.php';
 
         if ('POST' == $this->app['request']->getMethod()) {
-            if(!$this->app['request']->request->has($formname)) {
+            if (!$this->app['request']->request->has($formname)) {
                 // we're not submitting this particular form
-                if($formconfig['debugmode']==true) {
+                if ($formconfig['debugmode']==true) {
                     $error .= "we're not submitting this form: ". $formname;
                 }
                 $sent = false;
@@ -258,7 +255,7 @@ class Extension extends \Bolt\BaseExtension
 
                 $isRecaptchaValid = true; // to prevent ReCaptcha check if not enabled
 
-                if($this->config['recaptcha_enabled']){
+                if ($this->config['recaptcha_enabled']) {
                     $isRecaptchaValid = false; // by Default
 
                     $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
@@ -269,7 +266,7 @@ class Extension extends \Bolt\BaseExtension
                     $isRecaptchaValid = $resp->is_valid;
                 }
 
-                if($isRecaptchaValid) {
+                if ($isRecaptchaValid) {
                     $form->bind($this->app['request']);
 
                     if ($form->isValid()) {
@@ -324,17 +321,18 @@ class Extension extends \Bolt\BaseExtension
     private function processForm($formconfig, $form, $formname)
     {
 
-        if(!$this->app['request']->request->has($formname)) {
+        if (!$this->app['request']->request->has($formname)) {
             // we're not submitting this particular form
-            if($formconfig['debugmode']==true) {
+            if ($formconfig['debugmode']==true) {
                 \Dumper::dump("we're not submitting this form: ". $formname);
             }
+
             return;
         }
 
         $data = $form->getData();
 
-        if($formconfig['debugmode']==true) {
+        if ($formconfig['debugmode']==true) {
             \Dumper::dump($formconfig);
             \Dumper::dump($form);
             \Dumper::dump($formname);
@@ -343,7 +341,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
         // process submitted data
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             // For legibility, change boolean fields to "yes" or "no".
             if (gettype($value)=="boolean") {
                 $data[$key] = ($value ? "yes" : "no");
@@ -368,7 +366,7 @@ class Extension extends \Bolt\BaseExtension
             if ($fieldvalues['type'] == "file") {
                 if (empty($formconfig['storage_location']) && $formconfig['attach_files']===false) {
                     die("You must set the storage_location in the field $fieldname if you do not use attachments.");
-                } elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
+                } elseif (empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
                     // temporary files location will be a subdirectory of the cache
                     $path = BOLT_CACHE_DIR;
                     $linkpath = $this->app['paths']['app'] . 'cache';
@@ -388,7 +386,7 @@ class Extension extends \Bolt\BaseExtension
                 }
 
                 $files = $this->app['request']->files->get($form->getName());
-                if(array_key_exists($fieldname, $files) && !empty($files[$fieldname])) {
+                if (array_key_exists($fieldname, $files) && !empty($files[$fieldname])) {
                     $originalname = strtolower($files[$fieldname]->getClientOriginalName());
                     $filename = sprintf(
                         "%s-%s-%s.%s",
@@ -406,10 +404,10 @@ class Extension extends \Bolt\BaseExtension
                         // by default we send a link
                         $data[$fieldname] = $link;
 
-                        if($formconfig['attach_files'] == 'true') {
+                        if ($formconfig['attach_files'] == 'true') {
                             // if there is an attachment and no saved file on the server
                             // only send the original name and the attachment
-                            if(empty($formconfig['storage_location'])) {
+                            if (empty($formconfig['storage_location'])) {
                                 $data[$fieldname] = $originalname ." ($link)";
                             }
                             $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
@@ -452,7 +450,7 @@ class Extension extends \Bolt\BaseExtension
         $mailhtml = $this->app['render']->render($formconfig['mail_template'], array(
             'form' =>  $data ));
 
-        if($formconfig['debugmode']==true) {
+        if ($formconfig['debugmode']==true) {
             \Dumper::dump($mailhtml);
         }
 
@@ -478,49 +476,49 @@ class Extension extends \Bolt\BaseExtension
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
-        if(($formconfig['attach_files'] == 'true') && is_array($attachments)) {
-            foreach($attachments as $attachment) {
+        if (($formconfig['attach_files'] == 'true') && is_array($attachments)) {
+            foreach ($attachments as $attachment) {
                 $message->attach($attachment);
             }
         }
 
         // check for testmode
-        if($formconfig['testmode']==true) {
+        if ($formconfig['testmode']==true) {
             // override recipient with debug recipient
             $message->setTo(array($formconfig['testmode_recipient'] => $formconfig['recipient_name']));
 
             // do not add other cc and bcc addresses in testmode
-            if(!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
+            if (!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
                 $this->app['log']->add('Did not set Cc for '. $formname . ' to '. $formconfig['recipient_cc_email'] . ' (in testmode)', 3);
             }
-            if(!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
+            if (!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
                 $this->app['log']->add('Did not set Bcc for '. $formname . ' to '. $formconfig['recipient_bcc_email'] . ' (in testmode)', 3);
             }
         } else {
             // only add other recipients when not in testmode
-            if(!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
+            if (!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
                 $message->setCc($formconfig['recipient_cc_email']);
                 $this->app['log']->add('Added Cc for '. $formname . ' to '. $formconfig['recipient_cc_email'], 3);
             }
-            if(!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
+            if (!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
                 $message->setBcc($formconfig['recipient_bcc_email']);
                 $this->app['log']->add('Added Bcc for '. $formname . ' to '. $formconfig['recipient_bcc_email'], 3);
             }
 
             // check for other email addresses to be added
-            foreach($formconfig['fields'] as $key => $values) {
+            foreach ($formconfig['fields'] as $key => $values) {
                 if ($values['type']=="email" && in_array($values['use_as'], array('to_email', 'from_email', 'cc_email', 'bcc_email'))) {
                     $tmp_email = $data[$key];
 
-                    if(isset($values['use_with'])) {
+                    if (isset($values['use_with'])) {
                         $tmp_name = $data[$values['use_with']];
-                        if(!$tmp_name) {
+                        if (!$tmp_name) {
                             $tmp_name = $tmp_email;
                         }
                     } else {
                         $tmp_name = $tmp_email;
                     }
-                    switch($values['use_as']) {
+                    switch ($values['use_as']) {
                         case 'from_email':
                             // override from address
                             //$message->setSender($formconfig['recipient_email']); // just to be clear who really sent it
@@ -546,7 +544,7 @@ class Extension extends \Bolt\BaseExtension
         $res = $this->app['mailer']->send($message);
 
         if ($res) {
-            if($formconfig['testmode']) {
+            if ($formconfig['testmode']) {
                 $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['testmode_recipient'] . ' (in testmode) - ' . $formconfig['recipient_name'], 3);
             } else {
                 $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['recipient_email'] . ' - ' . $formconfig['recipient_name'], 3);
@@ -570,7 +568,7 @@ class Extension extends \Bolt\BaseExtension
 
         if ($server->has('HTTP_CLIENT_IP')) {
             $addr = $server->get('HTTP_CLIENT_IP');
-        } else if ($server->has('HTTP_X_FORWARDED_FOR')) {
+        } elseif ($server->has('HTTP_X_FORWARDED_FOR')) {
             $addr = $server->get('HTTP_X_FORWARDED_FOR');
         } else {
             $addr = $server->get('REMOTE_ADDR');

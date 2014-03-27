@@ -3,14 +3,12 @@
 
 namespace TitleCase;
 
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
-
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
     private $smallwords = "a,aan,achter,af,an,and,at,bij,binnen,boven,buiten,but,by,de,door,een,else,en,for,from,het,if,in,in,into,inzake,is,langs,maar,met,na,naar,naast,nabij,namens,nor,of,of,off,om,omtrent,on,ondanks,onder,ook,op,or,out,over,over,per,richting,rond,rondom,te,tegen,the,then,tijdens,to,tot,tussen,uit,van,vanaf,vanuit,vanwege,via,volgens,voor,voorbij,wegens,when,with,zonder";
 
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -30,15 +28,14 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
 
         $this->addTwigFilter('titlecase', 'titleCaseFilter');
 
     }
 
-
-    function titleCaseFilter($str)
+    public function titleCaseFilter($str)
     {
 
         $str = $this->titleCase($str);
@@ -46,7 +43,6 @@ class Extension extends \Bolt\BaseExtension
         return new \Twig_Markup($str, 'UTF-8');
 
     }
-
 
     private function titleCase($str)
     {

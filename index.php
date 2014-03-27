@@ -27,4 +27,3 @@ if (preg_match("^thumbs/[0-9]+x[0-9]+[a-z]*/.*^i", $_SERVER['REQUEST_URI'])) {
     // Here we go!
     $app->run();
 }
-

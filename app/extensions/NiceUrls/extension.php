@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Bolt\BaseExtension as BoltExtension;
 
-class Extension extends BoltExtension
+class extension extends BoltExtension
 {
     protected $config;
 
@@ -112,13 +112,14 @@ class Extension extends BoltExtension
                 $string = str_replace($part, $newpart, $string);
             }
         }
+
         return $string;
     }
 
     /**
      * Validate routing definitions
      *
-     * @param array $routingData
+     * @param  array   $routingData
      * @return boolean
      */
     protected function isValidRoutingData($routingData)
@@ -138,6 +139,7 @@ class Extension extends BoltExtension
         if (!array_key_exists('contenttypeslug', $routingData['to'])) {
             return false;
         }
+
         return true;
     }
 

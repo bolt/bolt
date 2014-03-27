@@ -161,7 +161,10 @@ class Backend implements ControllerProviderInterface
         // get the 'latest' from each of the content types.
         foreach ($app['config']->get('contenttypes') as $key => $contenttype) {
             if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] == true) {
-                $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
+                $latest[$key] = $app['storage']->getContent(
+                    $key,
+                    array('limit' => $limit, 'order' => 'datechanged DESC')
+                );
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
                 }
@@ -177,10 +180,11 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Dashboard"));
 
-        return $app['render']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
-
+        return $app['render']->render(
+            'dashboard.twig',
+            array('latest' => $latest, 'suggestloripsum' => $suggestloripsum)
+        );
     }
-
 
     public function postLogin(Silex\Application $app, Request $request)
     {
@@ -192,9 +196,12 @@ class Backend implements ControllerProviderInterface
                 if ($result) {
                     $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
                     $retreat = $app['session']->get('retreat');
-                    $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
+                    $redirect = !empty($retreat) && is_array($retreat) ?
+                        $retreat : array('route' => 'dashboard', 'params' => array());
+
                     return redirect($redirect['route'], $redirect['params']);
                 }
+
                 return $this->getLogin($app, $request);
 
             case 'reset':
@@ -204,8 +211,10 @@ class Backend implements ControllerProviderInterface
                     $app['users']->session->getFlashBag()->set('error', __("Please provide a username", array()));
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
+
                     return redirect('login');
                 }
+
                 return $this->getLogin($app, $request);
 
             default:
@@ -220,6 +229,7 @@ class Backend implements ControllerProviderInterface
     public function getLogin(Silex\Application $app, Request $request)
     {
         $app['twig']->addGlobal('title', "Login");
+
         return $app['render']->render('login.twig');
     }
 
@@ -237,13 +247,12 @@ class Backend implements ControllerProviderInterface
 
     }
 
-
     /**
      * Reset the password. This controller is normally only reached when the user
      * clicks a "password reset" link in the email.
      *
-     * @param Silex\Application $app
-     * @param Request $request
+     * @param  Silex\Application $app
+     * @param  Request           $request
      * @return string
      */
     public function resetpassword(Silex\Application $app, Request $request)
@@ -254,7 +263,6 @@ class Backend implements ControllerProviderInterface
         return redirect('login');
 
     }
-
 
     /**
      * Check the database for missing tables and columns. Does not do actual repairs
@@ -317,13 +325,15 @@ class Backend implements ControllerProviderInterface
      */
     public function clearcache(Silex\Application $app)
     {
-
         $result = $app['cache']->clearCache();
 
         $output = __("Deleted %s files from cache.", array('%s' => $result['successfiles']));
 
         if (!empty($result['failedfiles'])) {
-            $output .= " " . __("%s files could not be deleted. You should delete them manually.", array('%s' => $result['failedfiles']));
+            $output .= " " . __(
+                    "%s files could not be deleted. You should delete them manually.",
+                    array('%s' => $result['failedfiles'])
+                );
             $app['session']->getFlashBag()->set('error', $output);
         } else {
             $app['session']->getFlashBag()->set('success', $output);
@@ -331,7 +341,8 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Clear the cache"));
 
-        $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
+        $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again")
+                 . "</a></p>";
 
         return $app['render']->render('base.twig', array(
             'content' => $content,
@@ -555,6 +566,7 @@ class Backend implements ControllerProviderInterface
             'pagecount' => $pagecount,
             'currentpage' => $page,
             );
+
         return $app['render']->render('changeloglist.twig', $renderVars);
     }
 
@@ -575,6 +587,7 @@ class Backend implements ControllerProviderInterface
             'prevEntry' => $prev,
             'content' => $content,
             );
+
         return $app['render']->render('changelogdetails.twig', $renderVars);
     }
 
@@ -591,14 +604,17 @@ class Backend implements ControllerProviderInterface
             $perm = "contenttype:$contenttypeslug:edit:$id";
         }
         if (!$app['users']->isAllowed($perm)) {
-            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+            $app['session']->getFlashBag()->set(
+                'error',
+                __('You do not have the right privileges to edit that record.')
+            );
 
             return redirect('dashboard');
         }
 
         // set the editreferrer in twig if it was not set yet.
         $tmpreferrer = getReferrer($app['request']);
-        if(strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt']) )  {
+        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt']) ) {
             $app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }
 
@@ -611,14 +627,20 @@ class Backend implements ControllerProviderInterface
             if (!empty($id)) {
                 // Check if we're allowed to edit this content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id")) {
-                    $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+                    $app['session']->getFlashBag()->set(
+                        'error',
+                        __('You do not have the right privileges to edit that record.')
+                    );
 
                     return redirect('dashboard');
                 }
             } else {
                 // Check if we're allowed to create content..
                 if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
-                    $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to create a new record.'));
+                    $app['session']->getFlashBag()->set(
+                        'error',
+                        __('You do not have the right privileges to create a new record.')
+                    );
 
                     return redirect('dashboard');
                 }
@@ -638,7 +660,12 @@ class Backend implements ControllerProviderInterface
             $content->setFromPost($request->request->all(), $contenttype);
             $newStatus = $content['status'];
 
-            $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
+            $statusOK = $app['users']->isContentStatusTransitionAllowed(
+                $oldStatus,
+                $newStatus,
+                $contenttype['slug'],
+                $id
+            );
 
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
@@ -650,9 +677,21 @@ class Backend implements ControllerProviderInterface
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
             if ($statusOK && $app['storage']->saveContent($content, $contenttype['slug'])) {
                 if (!empty($id)) {
-                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
+                    $app['session']->getFlashBag()->set(
+                        'success',
+                        __(
+                            'The changes to this %contenttype% have been saved.',
+                            array('%contenttype%' => $contenttype['singular_name'])
+                        )
+                    );
                 } else {
-                    $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.', array('%contenttype%' => $contenttype['singular_name'])));
+                    $app['session']->getFlashBag()->set(
+                        'success',
+                        __(
+                            'The new %contenttype% has been saved.',
+                            array('%contenttype%' => $contenttype['singular_name'])
+                        )
+                    );
                 }
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
@@ -664,21 +703,30 @@ class Backend implements ControllerProviderInterface
                         $id = $app['storage']->getLatestId($contenttype['slug']);
                     }
 
-                    return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
-
+                    return redirect(
+                        'editcontent',
+                        array('contenttypeslug' => $contenttype['slug'], 'id' => $id),
+                        "#".$app['request']->get('returnto')
+                    );
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
                 // check if a pager was set in the referrer - if yes go back there
                 $editreferrer = $app['request']->get('editreferrer');
-                if($editreferrer) {
+                if ($editreferrer) {
                     return simpleredirect($editreferrer);
                 } else {
                     return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
                 }
 
             } else {
-                $app['session']->getFlashBag()->set('error', __('There was an error saving this %contenttype%.', array('%contenttype%' => $contenttype['singular_name'])));
+                $app['session']->getFlashBag()->set(
+                    'error',
+                    __(
+                        'There was an error saving this %contenttype%.',
+                        array('%contenttype%' => $contenttype['singular_name'])
+                    )
+                );
                 $app['log']->add("Save content error", 3, $content, 'error');
             }
         }
@@ -687,12 +735,20 @@ class Backend implements ControllerProviderInterface
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
             if (empty($content)) {
-                $app->abort(404, __('The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed.', array('%contenttype%' => $contenttype['singular_name'])));
+                $app->abort(
+                    404,
+                    __('The %type% you were looking for does not exist. It was probably deleted, or it never existed.',
+                        array('%type%' => $contenttype['singular_name'])
+                    )
+                );
             }
 
             // Check if we're allowed to edit this content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:{$content['id']}")) {
-                $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+                $app['session']->getFlashBag()->set(
+                    'error',
+                    __('You do not have the right privileges to edit that record.')
+                );
 
                 return redirect('dashboard');
             }
@@ -704,13 +760,19 @@ class Backend implements ControllerProviderInterface
         } else {
             // Check if we're allowed to create content..
             if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:create")) {
-                $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to create a new record.'));
+                $app['session']->getFlashBag()->set(
+                    'error',
+                    __('You do not have the right privileges to create a new record.')
+                );
 
                 return redirect('dashboard');
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $title = sprintf("<strong>%s</strong>", __('New %contenttype%', array('%contenttype%' => $contenttype['singular_name'])));
+            $title = sprintf(
+                "<strong>%s</strong>",
+                __('New %contenttype%', array('%contenttype%' => $contenttype['singular_name']))
+            );
             $app['log']->add("New content", 1, $content, 'edit');
         }
 
@@ -735,7 +797,14 @@ class Backend implements ControllerProviderInterface
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $content->setValue('ownerid', "");
-            $app['session']->getFlashBag()->set('info', __("Content was duplicated. Click 'Save %contenttype%' to finalize.", array('%contenttype%' => $contenttype['singular_name'])));
+
+            $app['session']->getFlashBag()->set(
+                'info',
+                __(
+                    "Content was duplicated. Click 'Save %contenttype%' to finalize.",
+                    array('%contenttype%' => $contenttype['singular_name'])
+                )
+            );
         }
 
         // Set the users and the current owner of this content.
@@ -770,9 +839,15 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
             $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
         } elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
-            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __("Content '%title%' has been deleted.", array('%title%' => $title))
+            );
         } else {
-            $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __("Content '%title%' could not be deleted.", array('%title%' => $title))
+            );
         }
 
         return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
@@ -799,6 +874,7 @@ class Backend implements ControllerProviderInterface
         );
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->set('error', __('No such action for content.'));
+
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
         $newStatus = $actionStatuses[$action];
@@ -806,13 +882,23 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
 
         if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
-            $app['session']->getFlashBag()->set('info', __("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __(
+                    "Content '%title%' has been changed to '%newStatus%'",
+                    array('%title%' => $title, '%newStatus%' => $newStatus)
+                )
+            );
         } else {
-            $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be modified.", array('%title%' => $title)));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __("Content '%title%' could not be modified.", array('%title%' => $title))
+            );
         }
 
         return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
@@ -846,6 +932,7 @@ class Backend implements ControllerProviderInterface
             }
         }
         $globalPermissions = $app['permissions']->getGlobalRoles();
+
         return $app['twig']->render(
             'roles.twig',
             array(
@@ -955,8 +1042,6 @@ class Backend implements ControllerProviderInterface
             // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
             // then make sure it's at least 6 characters long.
             if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
-                //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
                 $error = new FormError(__("This value is too short. It should have 6 characters or more."));
                 $form['password']->addError($error);
             }
@@ -968,17 +1053,23 @@ class Backend implements ControllerProviderInterface
 
             // Usernames must be unique..
             if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
-                $form['username']->addError(new FormError(__('This username is already in use. Choose another username.')));
+                $form['username']->addError(
+                    new FormError(__('This username is already in use. Choose another username.'))
+                );
             }
 
             // Email addresses must be unique..
             if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
+                $form['email']->addError(
+                    new FormError(__('This email address is already in use. Choose another email address.'))
+                );
             }
 
             // Displaynames must be unique..
             if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
+                $form['displayname']->addError(
+                    new FormError(__('This displayname is already in use. Choose another displayname.'))
+                );
             }
 
         });
@@ -1004,9 +1095,15 @@ class Backend implements ControllerProviderInterface
                 $res = $app['users']->saveUser($user);
                 $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
                 if ($res) {
-                    $app['session']->getFlashBag()->set('success', __('User %s has been saved.', array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set(
+                        'success',
+                        __('User %s has been saved.', array('%s' => $user['displayname']))
+                    );
                 } else {
-                    $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
+                    $app['session']->getFlashBag()->set(
+                        'error',
+                        __('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname']))
+                    );
                 }
 
                 return redirect('users');
@@ -1028,6 +1125,7 @@ class Backend implements ControllerProviderInterface
     {
         if (!checkToken()) {
             $app['session']->getFlashBag()->set('info', __("An error occurred."));
+
             return redirect('users');
         }
         $user = $app['users']->getUser($id);
@@ -1137,8 +1235,7 @@ class Backend implements ControllerProviderInterface
 
                         // Add the file to our stack..
                         $app['stack']->add($path . "/" . $filename);
-                    }
-                    else {
+                    } else {
                         $extensionList = array();
                         foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
                             $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
@@ -1151,6 +1248,7 @@ class Backend implements ControllerProviderInterface
                 } else {
                     $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));
                 }
+
                 return redirect('files', array('path' => $path));
             }
 
@@ -1527,6 +1625,7 @@ class Backend implements ControllerProviderInterface
         // we let the user stay, because they need to set up the first user.
         if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
             $app['twig']->addGlobal('frontend', false);
+
             return;
         }
 
@@ -1535,6 +1634,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+
             return redirect('useredit', array('id' => ""));
         }
 

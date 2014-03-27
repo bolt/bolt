@@ -68,10 +68,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $configfile = $this->basepath . '/config.yml';
 
-        if(BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml'))
-        {
+        if (BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml')) {
             $configfile = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
         }
+
         return $configfile;
     }
 
@@ -154,12 +154,9 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         $configFile = $this->getConfigFile();
         if (file_exists($configFile)) {
-            if (BOLT_COMPOSER_INSTALLED && strpos($configFile, BOLT_CONFIG_DIR) === 0)
-            {
+            if (BOLT_COMPOSER_INSTALLED && strpos($configFile, BOLT_CONFIG_DIR) === 0) {
                 $this->info['config'] = "app/config/" . $this->namespace . ".yml";
-            }
-            else
-            {
+            } else {
                 $this->info['config'] = "app/extensions/" . $this->namespace . "/config.yml";
             }
             if (is_writable($configFile)) {
@@ -400,7 +397,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @param string $var1
      * @param string $var2
      * @param string $var3
-     * @internal param string $name
+     *                               @internal param string $name
      */
     public function addWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
     {
@@ -441,6 +438,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             return true;
         } else {
             simpleredirect($this->app['config']->get('general/branding/path'));
+
             return false;
         }
     }

@@ -15,21 +15,21 @@ $html = "
 <p>Magno hic ingenio, sed res se tamen sic habet, ut nimis imperiosi philosophi sit vetare meminisse. Esse enim quam vellet iniquus iustus poterat inpune. <b>Quorum altera prosunt, nocent altera.</b> Deinde disputat, quod cuiusque generis animantium statui deceat extremum. Paulum, cum regem Persem captum adduceret, eodem flumine invectio? Nihil opus est exemplis hoc facere longius. Sic consequentibus vestris sublatis prima tolluntur. Nam memini etiam quae nolo, oblivisci non possum quae volo. Diodorus, eius auditor, adiungit ad honestatem vacuitatem doloris. </p>
 
 <ol>
-	<li>Num igitur utiliorem tibi hunc Triarium putas esse posse, quam si tua sint Puteolis granaria?</li>
-	<li>Oratio me istius philosophi non offendit;</li>
-	<li>Mihi quidem Homerus huius modi quiddam vidisse videatur in iis, quae de Sirenum cantibus finxerit.</li>
-	<li>Quicquid porro animo cernimus, id omne oritur a sensibus;</li>
-	<li>Materiam vero rerum et copiam apud hos exilem, apud illos uberrimam reperiemus.</li>
+    <li>Num igitur utiliorem tibi hunc Triarium putas esse posse, quam si tua sint Puteolis granaria?</li>
+    <li>Oratio me istius philosophi non offendit;</li>
+    <li>Mihi quidem Homerus huius modi quiddam vidisse videatur in iis, quae de Sirenum cantibus finxerit.</li>
+    <li>Quicquid porro animo cernimus, id omne oritur a sensibus;</li>
+    <li>Materiam vero rerum et copiam apud hos exilem, apud illos uberrimam reperiemus.</li>
 </ol>
 
 
 <p>Sine ea igitur iucunde negat posse se vivere? Age nunc isti doceant, vel tu potius quis enim ista melius? Hoc mihi cum tuo fratre convenit. Sed erat aequius Triarium aliquid de dissensione nostra iudicare. At Zeno eum non beatum modo, sed etiam divitem dicere ausus est. Nihil illinc huc pervenit. Ita graviter et severe voluptatem secrevit a bono. </p>
 
 <ul>
-	<li>Quod cum accidisset ut alter alterum necopinato videremus, surrexit statim.</li>
-	<li>In his igitur partibus duabus nihil erat, quod Zeno commutare gestiret.</li>
-	<li>De ingenio eius in his disputationibus, non de moribus quaeritur.</li>
-	<li>Ergo, si semel tristior effectus est, hilara vita amissa est?</li>
+    <li>Quod cum accidisset ut alter alterum necopinato videremus, surrexit statim.</li>
+    <li>In his igitur partibus duabus nihil erat, quod Zeno commutare gestiret.</li>
+    <li>De ingenio eius in his disputationibus, non de moribus quaeritur.</li>
+    <li>Ergo, si semel tristior effectus est, hilara vita amissa est?</li>
 </ul>
 
 
@@ -44,12 +44,9 @@ $html = "
 </blockquote>
 ";
 
-
 include 'markdownify_extra.php';
 $md = new Markdownify(false, 90, false);
 
 $output = $md->parseString($html);
 
 echo nl2br(htmlentities($output));
-
-

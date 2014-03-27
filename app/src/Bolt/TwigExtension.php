@@ -103,12 +103,11 @@ class TwigExtension extends \Twig_Extension
      *
      * @see \Dumper::dump
      *
-     * @param  mixed $var
+     * @param  mixed  $var
      * @return string
      */
     public function printDump($var)
     {
-
         return \Dumper::dump($var, DUMPER_CAPTURE);
 
     }
@@ -118,12 +117,11 @@ class TwigExtension extends \Twig_Extension
      *
      * @see \Dumper::backtrace
      *
-     * @param  mixed $var
+     * @param  mixed  $var
      * @return string
      */
     public function printBacktrace($depth = 15)
     {
-
         return \Dumper::backtrace($depth, true);
 
     }
@@ -150,7 +148,7 @@ class TwigExtension extends \Twig_Extension
      * Returns the date time in a particular format. Takes the locale into
      * account.
      * @param  string|\DateTime $dateTime
-     * @param  string $format
+     * @param  string           $format
      * @return string           Formatted date and time
      */
     public function localedatetime($dateTime, $format = "%B %e, %Y %H:%M")
@@ -194,7 +192,7 @@ class TwigExtension extends \Twig_Extension
      * Create an excerpt for the given content
      *
      * @param  string $content
-     * @param  int $length  Defaults to 200 characters
+     * @param  int    $length  Defaults to 200 characters
      * @return string Resulting excerpt
      */
     public function excerpt($content, $length = 200)
@@ -242,12 +240,11 @@ class TwigExtension extends \Twig_Extension
 
     }
 
-
     /**
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
      * for use in Flashbag messages, to allow easy editing.
      *
-     * @param string $str
+     * @param  string $str
      * @return string Resulting string
      */
     public function ymllink($str)
@@ -263,14 +260,12 @@ class TwigExtension extends \Twig_Extension
 
     }
 
-
-
     /**
      * Get an array with the dimensions of an image, together with its
      * aspectratio and some other info.
      *
-     * @param string $filename
-     * @return array Specifics
+     * @param  string $filename
+     * @return array  Specifics
      */
     public function imageinfo($filename)
     {
@@ -325,7 +320,6 @@ class TwigExtension extends \Twig_Extension
 
     }
 
-
     /**
      * Return the 'sluggified' version of a string.
      *
@@ -345,7 +339,7 @@ class TwigExtension extends \Twig_Extension
      * Trims the given string to a particular length.
      *
      * @param  string $content
-     * @param  int $length  Defaults to 200
+     * @param  int    $length  Defaults to 200
      * @return string Trimmed output
      *
      */
@@ -369,7 +363,6 @@ class TwigExtension extends \Twig_Extension
 
         return $output;
     }
-
 
     /**
      * Formats the given string as Twig in HTML
@@ -403,9 +396,6 @@ class TwigExtension extends \Twig_Extension
 
     }
 
-
-
-
     public function decorateTT($str)
     {
         return decorateTT($str);
@@ -425,7 +415,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Sorts / orders items of an array
      *
-     * @param  array $array
+     * @param  array  $array
      * @param  string $on
      * @return array
      */
@@ -464,7 +454,7 @@ class TwigExtension extends \Twig_Extension
         // Check the primary sorting criterium..
         if ($a_val < $b_val) {
             return !$this->order_ascending;
-        } else if ($a_val > $b_val) {
+        } elseif ($a_val > $b_val) {
             return $this->order_ascending;
         } else {
             // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
@@ -477,7 +467,7 @@ class TwigExtension extends \Twig_Extension
 
             if ($a_val < $b_val) {
                 return !$this->order_ascending_secondary;
-            } else if ($a_val > $b_val) {
+            } elseif ($a_val > $b_val) {
                 return $this->order_ascending_secondary;
             } else {
                 // both criteria are the same. Whatever!
@@ -657,8 +647,8 @@ class TwigExtension extends \Twig_Extension
      * Lists content of a specific contenttype, specifically for editing
      * relations in the backend.
      *
-     * @param  string $contenttype
-     * @param  array $relationoptions
+     * @param  string        $contenttype
+     * @param  array         $relationoptions
      * @param  \Bolt\Content $content
      * @return string
      */
@@ -696,10 +686,10 @@ class TwigExtension extends \Twig_Extension
      * Output a simple pager, for paged pages.
      *
      * @param  \Twig_Environment $env
-     * @param  string $pagerName
-     * @param  int $surr
-     * @param  string $template  The template to apply
-     * @param  string $class
+     * @param  string            $pagerName
+     * @param  int               $surr
+     * @param  string            $template  The template to apply
+     * @param  string            $class
      * @return string            The rendered pager HTML
      */
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
@@ -802,7 +792,7 @@ class TwigExtension extends \Twig_Extension
      *
      * @param  string $parameter    The parameter to get
      * @param  string $from         "GET", "POST", all the other falls back to REQUEST.
-     * @param  bool $stripslashes Apply stripslashes. Defaults to false.
+     * @param  bool   $stripslashes Apply stripslashes. Defaults to false.
      * @return mixed
      */
     public function request($parameter, $from = "", $stripslashes = false)
@@ -844,10 +834,10 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to make a path to an image thumbnail.
      *
-     * @param  string $filename Target filename
+     * @param  string     $filename Target filename
      * @param  string|int $width    Target width
      * @param  string|int $height   Target height
-     * @param  string $crop     String identifier for cropped images. You can use next option fit, borders, resize or crop(dy default)
+     * @param  string     $crop     String identifier for cropped images. You can use next option fit, borders, resize or crop(dy default)
      * @return string     Thumbnail path
      */
     public function thumbnail($filename, $width = '', $height = '', $crop = "")
@@ -896,8 +886,8 @@ class TwigExtension extends \Twig_Extension
      * example: {{ showimage(content.image, 320, 240) }}
      *
      * @param  string $filename Image filename
-     * @param  int $width    Image width
-     * @param  int $height   Image height
+     * @param  int    $width    Image width
+     * @param  int    $height   Image height
      * @param  string $crop     Crop image string identifier
      * @return string HTML output
      */
@@ -926,10 +916,10 @@ class TwigExtension extends \Twig_Extension
      * example: {{ content.image|fancybox(width=320, height=240, title="My Image") }}
      *
      * @param  string $filename Image filename
-     * @param  int $width Image width
-     * @param  int $height Image height
-     * @param  string $crop Crop image string identifier
-     * @param  string $title Display title for image
+     * @param  int    $width    Image width
+     * @param  int    $height   Image height
+     * @param  string $crop     Crop image string identifier
+     * @param  string $title    Display title for image
      * @return string HTML output
      */
     public function fancybox($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
@@ -965,10 +955,10 @@ class TwigExtension extends \Twig_Extension
     /**
      * Helper function to make a path to an image.
      *
-     * @param  string $filename Target filename
+     * @param  string     $filename Target filename
      * @param  string|int $width    Target width
      * @param  string|int $height   Target height
-     * @param  string $crop     String identifier for cropped images
+     * @param  string     $crop     String identifier for cropped images
      * @return string     Image path
      */
     public function image($filename, $width = "", $height = "", $crop = "")
@@ -997,8 +987,8 @@ class TwigExtension extends \Twig_Extension
     /**
      * Makes a piece of HTML editable
      *
-     * @param string $html The HTML to be editable
-     * @param \Bolt\Content The actual content
+     * @param  string $html  The HTML to be editable
+     *                       @param \Bolt\Content The actual content
      * @param  string $field
      * @return string
      */
@@ -1038,9 +1028,9 @@ class TwigExtension extends \Twig_Extension
      * Output a menu.
      *
      * @param  \Twig_Environment $env
-     * @param  string $identifier Identifier for a particular menu
-     * @param  string $template   The template to use.
-     * @param  array $params     Extra parameters to pass on to the menu template.
+     * @param  string            $identifier Identifier for a particular menu
+     * @param  string            $template   The template to use.
+     * @param  array             $params     Extra parameters to pass on to the menu template.
      * @return null
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
@@ -1185,8 +1175,8 @@ class TwigExtension extends \Twig_Extension
      * Check if a certain action is allowed for the current user (and possibly
      * content item).
      *
-     * @param string $what Operation
-     * @param mixed $content If specified, a Content item.
+     * @param  string $what    Operation
+     * @param  mixed  $content If specified, a Content item.
      * @return bool   True if allowed
      */
     public function isAllowed($what, $content = null)
@@ -1194,6 +1184,7 @@ class TwigExtension extends \Twig_Extension
         if ($content) {
             $what = "contenttype:{$content->contenttype['slug']}:$what:{$content['id']}";
         }
+
         return $this->app['users']->isAllowed($what);
     }
 
@@ -1230,13 +1221,12 @@ class TwigExtension extends \Twig_Extension
      * @see function safeString() in app/classes/lib.php.
      *
      * @param $str
-     * @param bool $strict
-     * @param string $extrachars
+     * @param  bool   $strict
+     * @param  string $extrachars
      * @return string
      */
     public function safestring($str, $strict = false, $extrachars = "")
     {
-
         return safeString($str, $strict, $extrachars);
 
     }
@@ -1260,9 +1250,9 @@ class TwigExtension extends \Twig_Extension
     /**
      * Return an array with the items on the stack
      *
-     * @param int $amount
-     * @param string $type type
-     * @return
+     * @param int    $amount
+     * @param string $type   type
+     *                       @return
      */
     public function stackitems($amount = 20, $type = "")
     {
@@ -1272,7 +1262,6 @@ class TwigExtension extends \Twig_Extension
         return $items;
 
     }
-
 
     /**
      * Return whether or not an item is on the stack
@@ -1288,18 +1277,17 @@ class TwigExtension extends \Twig_Extension
 
     }
 
-
     /**
      * Return a selected field from a contentset
      *
      * @param array $content A Bolt record array
-     * @param string fieldname Name of field to return from each record
+     *                       @param string fieldname Name of field to return from each record
      */
     public function selectfield($content, $fieldname)
     {
         $retval = array('');
-        foreach($content as $c) {
-            if(isset($c->values[$fieldname])) {
+        foreach ($content as $c) {
+            if (isset($c->values[$fieldname])) {
                 $retval[] = $c->values[$fieldname];
             }
         }

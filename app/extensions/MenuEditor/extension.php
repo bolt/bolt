@@ -14,14 +14,13 @@ class Extension extends \Bolt\BaseExtension
     private $authorized = false;
     private $backupDir;
     private $translationDir;
-    public  $config;
+    public $config;
 
     /**
      * @return array
      */
     public function info()
     {
-
         return array(
             'name'          => "MenuEditor",
             'description'   => "a visual menu editor",
@@ -74,20 +73,16 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        if ($this->authorized)
-        {
+        if ($this->authorized) {
 
             $this->path = $this->app['config']->get('general/branding/path') . '/extensions/menu-editor';
             $this->app->match($this->path, array($this, 'loadMenuEditor'));
 
             $this->translationDir = __DIR__.'/translations/' . $this->app['locale'];
-            if (is_dir($this->translationDir))
-            {
+            if (is_dir($this->translationDir)) {
                 $iterator = new \DirectoryIterator($this->translationDir);
-                foreach ($iterator as $fileInfo)
-                {
-                    if ($fileInfo->isFile())
-                    {
+                foreach ($iterator as $fileInfo) {
+                    if ($fileInfo->isFile()) {
                         $this->app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
                         $this->app['translator']->addResource('yml', $fileInfo->getRealPath(), $this->app['locale']);
                     }
@@ -142,6 +137,7 @@ class Extension extends \Bolt\BaseExtension
 
                     if ($this->restoreBackup($filetime)) {
                         $this->app['session']->getFlashBag()->set('success', __('Backup successfully restored'));
+
                         return $this->app->json(array('status' => 0));
                     }
 
@@ -227,14 +223,12 @@ class Extension extends \Bolt\BaseExtension
             $contenttypes[$cK]['records'] = $this->app['storage']->getContent($contenttype['name'], array());
         }
 
-        foreach ($taxonomys as $tK => $taxonomy)
-        {
+        foreach ($taxonomys as $tK => $taxonomy) {
 
             $taxonomys[$tK]['me_options'] = array();
 
             // fetch slugs
-            if (isset($taxonomy['behaves_like']) && 'tags' == $taxonomy['behaves_like'])
-            {
+            if (isset($taxonomy['behaves_like']) && 'tags' == $taxonomy['behaves_like']) {
 
                 $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
 
@@ -267,8 +261,7 @@ class Extension extends \Bolt\BaseExtension
 
         // fetch backups
         $backups = array();
-        if (true === $this->config['enableBackups'])
-        {
+        if (true === $this->config['enableBackups']) {
             try {
                 $backups = $this->backup(0, true);
 
@@ -308,6 +301,7 @@ class Extension extends \Bolt\BaseExtension
         // Insert just before </head>
         preg_match("~^([ \t]*)</head~mi", $html, $matches);
         $replacement = sprintf("%s\t%s\n%s", $matches[1], $assets, $matches[0]);
+
         return str_replace_first($matches[0], $replacement, $html);
 
     }
@@ -316,7 +310,7 @@ class Extension extends \Bolt\BaseExtension
      * Saves a backup of the current menu.yml
      *
      * @param $writeLock
-     * @param bool $justFetchList
+     * @param  bool                $justFetchList
      * @return array
      * @throws MenuEditorException
      */
@@ -343,24 +337,23 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        if ($justFetchList)
-        {
+        if ($justFetchList) {
             // make sure there's at least one backup file (first use...)
-            if (count($backupFiles) == 0)
-            {
+            if (count($backupFiles) == 0) {
                 if (!@copy(BOLT_CONFIG_DIR . '/menu.yml', $this->backupDir . '/menu.'. time() . '.yml')) {
                     throw new MenuEditorException(__("Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml"));
                 }
+
                 return $this->backup(0, true);
             }
 
             krsort($backupFiles);
+
             return $backupFiles;
         }
 
         ksort($backupFiles);
-        foreach ($backupFiles as $timestamp=>$backupFile)
-        {
+        foreach ($backupFiles as $timestamp=>$backupFile) {
             if (count($backupFiles) <= (int) $this->config['keepBackups']) {
                 break;
             }
@@ -383,10 +376,8 @@ class Extension extends \Bolt\BaseExtension
 
         $backupFiles = $this->backup(0, true);
 
-        foreach ($backupFiles as $backupFiletime=>$backupFile)
-        {
-            if ($backupFiletime == $filetime)
-            {
+        foreach ($backupFiles as $backupFiletime=>$backupFile) {
+            if ($backupFiletime == $filetime) {
                 // try to overwrite menu.yml
                 if (@copy($this->backupDir . '/' . $backupFile, BOLT_CONFIG_DIR . '/menu.yml')) {
                     return true;
@@ -413,12 +404,10 @@ class Extension extends \Bolt\BaseExtension
                 return;
             }
 
-            if (@is_dir($this->translationDir))
-            {
+            if (@is_dir($this->translationDir)) {
 
                 // try to set symbolic link
-                if (@file_exists(__DIR__.'/translations/readme_'. $this->app['locale'] .'.md'))
-                {
+                if (@file_exists(__DIR__.'/translations/readme_'. $this->app['locale'] .'.md')) {
                     @copy(__DIR__ . '/readme.md', __DIR__ . '/readme_en.md');
                     @unlink(__DIR__ . '/readme.md');
                     @symlink(__DIR__.'/translations/readme_'. $this->app['locale'] .'.md', __DIR__ . '/readme.md');

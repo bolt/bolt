@@ -3,13 +3,13 @@
 
 namespace RSSAggregator;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
     /**
      * Info block for RSS Aggregator Extension.
      */
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -35,7 +35,7 @@ class Extension extends \Bolt\BaseExtension
     /**
      * Initialize RSS Aggregator. Called during bootstrap phase.
      */
-    function init()
+    public function init()
     {
 
         // If yourextension has a 'config.yml', it is automatically loaded.
@@ -52,11 +52,11 @@ class Extension extends \Bolt\BaseExtension
     /**
      * Twig function {{ rss_aggregator() }} in RSS Aggregator extension.
      */
-    function twigRss_aggregator($url = false, $options = array())
+    public function twigRss_aggregator($url = false, $options = array())
     {
 
-        if(!$url) {
-            return new \Twig_Markup('External feed could not be loaded! No URL specified.', 'UTF-8'); 
+        if (!$url) {
+            return new \Twig_Markup('External feed could not be loaded! No URL specified.', 'UTF-8');
         }
 
         // Construct a cache handle from the URL
@@ -74,19 +74,19 @@ class Extension extends \Bolt\BaseExtension
 
         // Handle options parameter
 
-        if(!array_key_exists('limit', $options)) {
+        if (!array_key_exists('limit', $options)) {
             $options['limit'] = $defaultLimit;
         }
-        if(!array_key_exists('showDesc', $options)) {
+        if (!array_key_exists('showDesc', $options)) {
             $options['showDesc'] = $defaultShowDesc;
         }
-        if(!array_key_exists('showDate', $options)) {
+        if (!array_key_exists('showDate', $options)) {
             $options['showDate'] = $defaultShowDate;
         }
-        if(!array_key_exists('descCutoff', $options)) {
+        if (!array_key_exists('descCutoff', $options)) {
             $options['descCutoff'] = $defaultDescCutoff;
         }
-        if(!array_key_exists('cacheMaxAge', $options)) {
+        if (!array_key_exists('cacheMaxAge', $options)) {
             $options['cacheMaxAge'] = $defaultCacheMaxAge;
         }
 
@@ -94,7 +94,6 @@ class Extension extends \Bolt\BaseExtension
         if (!file_exists($cachedir)) {
             mkdir($cachedir, 0777, true);
         }
-        
 
         // Use cache file if possible
         if (file_exists($cachefile)) {
@@ -124,7 +123,7 @@ class Extension extends \Bolt\BaseExtension
         // Parse document
         $feed = array();
 
-        foreach($doc->getElementsByTagName('item') as $node) {
+        foreach ($doc->getElementsByTagName('item') as $node) {
             $item = array(
                 'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
                 'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
@@ -139,7 +138,7 @@ class Extension extends \Bolt\BaseExtension
         // if limit is set higher than the actual amount of items in the feed, adjust limit
         $limit = $options['limit'] > count($feed) ? count($feed) : $options['limit'];
 
-        for($i = 0; $i < $limit; $i++) {
+        for ($i = 0; $i < $limit; $i++) {
                 $title = htmlentities(strip_tags($feed[$i]['title']), ENT_QUOTES, "UTF-8");
                 $link = htmlentities(strip_tags($feed[$i]['link']), ENT_QUOTES, "UTF-8");
                 $desc = htmlentities(strip_tags($feed[$i]['desc']), ENT_QUOTES, "UTF-8");

@@ -2,23 +2,23 @@
     <div>
 
         {% setcontent about = "page/about" %}
-        
+
         {# check if there's a page with slug 'about' #}
         {% if about.title is defined %}
 
             <h3>{{ about.title }}</h3>
             {{ about.introduction|raw }}
-        
+
             <a href="{{ about.link }}">link</a>
 
         {% else %}
-        
+
             <h3>Alas, no about!</h3>
-            
-            <p>If there was a Page with 'about' for a slug, it would've been shown 
-                here. But there isn't one, so that's why you're seeing this 
+
+            <p>If there was a Page with 'about' for a slug, it would've been shown
+                here. But there isn't one, so that's why you're seeing this
                 placeholder.</p>
-        
+
         {% endif %}
 
         {% setcontent pages = "pages/latest/5" %}
@@ -40,7 +40,7 @@
         {% for entry in entries %}
         <li><a href="{{ entry.link }}">{{ entry.title }}</a></li>
         {% else %}
-        <p>No recent entries.</p>        
+        <p>No recent entries.</p>
         {% endfor %}
         </ul>
         <p><a href="{{ paths.root }}entries">Entries overview</a>.</p>
@@ -49,4 +49,3 @@
     </div>
 
 </aside>
-

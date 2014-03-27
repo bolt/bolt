@@ -8,14 +8,9 @@ require_once dirname(__FILE__) . '/src/Visitor.php';
 require_once dirname(__FILE__) . '/src/VisitorsTwigExtension.php';
 require_once dirname(__FILE__) . '/lib/Hybrid/User_Profile.php';
 
-use Silex;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
-    function info()
+    public function info()
     {
         $data = array(
             'name' => "Authenticate",
@@ -32,14 +27,13 @@ class Extension extends \Bolt\BaseExtension
         return $data;
     }
 
-
     /**
      * Initialize Authenticate. Called during bootstrap phase.
      *
      * Checks if a visitor is known, and loads the associated visitor
      * Also handles the routing for login, logout and view
      */
-    function initialize()
+    public function initialize()
     {
         if (empty($this->config['basepath'])) {
             $this->config['basepath'] = "visitors";
@@ -68,6 +62,7 @@ class Extension extends \Bolt\BaseExtension
                 $table->addColumn("provider", "string", array("length" => 64));
                 $table->addColumn("providerdata", "text");
                 $table->addColumn("apptoken", "string", array("length" => 64));
+
                 return $table;
             }
         );
@@ -83,6 +78,7 @@ class Extension extends \Bolt\BaseExtension
                 $table->addColumn("lastseen", "datetime");
                 $table->addIndex(array("visitor_id"));
                 $table->addIndex(array("sessiontoken"));
+
                 return $table;
             }
         );
