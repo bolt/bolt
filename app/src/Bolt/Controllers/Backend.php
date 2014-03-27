@@ -697,7 +697,9 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $title = sprintf("<strong>%s</strong> » %s", __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])), $content->getTitle());
+            $title = sprintf("<strong>%s</strong> » %s",
+                __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])),
+                htmlencode($content->getTitle()));
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             // Check if we're allowed to create content..
