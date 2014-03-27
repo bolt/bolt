@@ -84,7 +84,10 @@ class Extension extends \Bolt\BaseExtension
 
         $this->path = $this->app['paths']['app'] . 'extensions/' . $this->namespace;
 
-        $html = '<script type="text/javascript" defer="defer" src="' . $this->path . '/js/jquery.rateit.min.js"></script>';
+        $html = '
+            <script type="text/javascript" defer="defer" src="' . $this->path . '/js/jquery.rateit.min.js"></script>
+            <script type="text/javascript" defer="defer" src="' . $this->path . '/js/bolt.rateit.js"></script>
+                ';
         $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
 
         $this->addTwigFunction('rateit', 'twigRateIt');
@@ -214,51 +217,6 @@ class Extension extends \Bolt\BaseExtension
 
             </script>";
         }
-
-        // Bind to clicks on RateIt
-        $js .= "
-            <script type =\"text/javascript\">
-
-            $('.rateit').bind(
-                    'rated reset',
-                    function(e) {
-
-                        var ri = $(this);
-
-                        // If the user pressed reset, it will get value: 0
-                        var value = ri.rateit('value');
-                        var record_id = ri.data('bolt-record-id');
-                        var contenttype = ri.data('bolt-contenttype');
-
-                        $.ajax({
-                            url : '" . $this->ajax_path . "',
-                            data : {
-                                record_id : record_id,
-                                contenttype : contenttype,
-                                value : value
-                            },
-                            type : 'POST',
-                            success : function(data) {
-                                if (value != 0) {
-                                    // Disable voting
-                                    ri.rateit('readonly', true);
-
-                                    var retval = data.retval;
-                                    var msg = data.msg;
-                                    $('#rateit_response').html('<span>' + msg + '</span>');
-                                    $('#rateit_response').show();
-                                }
-
-                            },
-                            error : function(jxhr, msg, err) {
-                                $('#rateit_response').html('<span style=\"color:red\">AJAX error: (' + err + ')</span>');
-                                $('#rateit_response').show();
-                            },
-                            dataType: 'json'
-                        });
-                    });
-
-            </script>";
 
         $this->insertSnippet(SnippetLocation::END_OF_BODY, $js );
     }
