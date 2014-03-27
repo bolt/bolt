@@ -858,7 +858,7 @@ class Backend implements ControllerProviderInterface
         // Get the user we want to edit (if any)
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
-            $title = "<strong>" . __('Edit user') . "</strong> » " . $user['displayname'];
+            $title = "<strong>" . __('Edit user') . "</strong> » " . htmlencode($user['displayname']);
         } else {
             $user = $app['users']->getEmptyUser();
             $title = "<strong>" . __('Create a new user') . "</strong>";
