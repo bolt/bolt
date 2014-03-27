@@ -2,8 +2,6 @@
 
 namespace Bolt;
 
-use Silex;
-
 /**
  * This class implements role-based permissions.
  */
@@ -69,18 +67,19 @@ class Permissions
     {
         $roles = $this->app['config']->get('permissions/roles');
         $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => __('Built-in superuser role, automatically grants all permissions'), 'builtin' => true);
+
         return $roles;
     }
 
     /**
      * Gets meta-information on the specified role.
-     * @param string $roleName
-     * @return array An associative array describing the role. Keys are:
-     * - 'label': A human-readable role name, suitable as a label in the
-     *            backend
-     * - 'description': A description of what this role is supposed to do.
-     * - 'builtin': Optional; if present and true-ish, this is a built-in
-     *              role and cannot be overridden in permissions.yml.
+     * @param  string $roleName
+     * @return array  An associative array describing the role. Keys are:
+     *                         - 'label': A human-readable role name, suitable as a label in the
+     *                         backend
+     *                         - 'description': A description of what this role is supposed to do.
+     *                         - 'builtin': Optional; if present and true-ish, this is a built-in
+     *                         role and cannot be overridden in permissions.yml.
      */
     public function getRole($roleName)
     {
@@ -107,9 +106,9 @@ class Permissions
     /**
      * Gets the roles for a given user. If a content type is specified, the
      * "owner" role is added if appropriate.
-     * @param array $user An array as returned by Users::getUser()
-     * @param Content $content An optional Content object to check ownership
-     * @return array An associative array of roles for the given user
+     * @param  array   $user    An array as returned by Users::getUser()
+     * @param  Content $content An optional Content object to check ownership
+     * @return array   An associative array of roles for the given user
      */
     public function getUserRoles($user, Content $content = null)
     {
@@ -123,6 +122,7 @@ class Permissions
             $userRoleNames[] = self::ROLE_OWNER;
         }
         $userRoleNames[] = self::ROLE_OWNER;
+
         return
             array_combine(
                 $userRoleNames,
@@ -139,12 +139,12 @@ class Permissions
      * Low-level permission check. Given a set of available roles, a
      * permission, and an optional content type, this method checks whether
      * the permission may be granted.
-     * @param array $roleNames - an array of effective role names. This must
-     *                           include any of the appropriate automatic
-     *                           roles, as these are not added at this point.
-     * @param string $permissionName - which permission to check
-     * @param string $contenttype
-     * @return bool TRUE if granted, FALSE if not.
+     * @param  array  $roleNames      - an array of effective role names. This must
+     *                                include any of the appropriate automatic
+     *                                roles, as these are not added at this point.
+     * @param  string $permissionName - which permission to check
+     * @param  string $contenttype
+     * @return bool   TRUE if granted, FALSE if not.
      */
     public function checkPermission($roleNames, $permissionName, $contenttype = null)
     {
@@ -155,6 +155,7 @@ class Permissions
                     ($contenttype ? "for $contenttype " : "") .
                     "to root user"
                 );
+
                 return true;
         }
         foreach ($roleNames as $roleName) {
@@ -164,6 +165,7 @@ class Permissions
                     ($contenttype ? "for $contenttype " : "") .
                     "based on role $roleName"
                 );
+
                 return true;
             }
         }
@@ -172,6 +174,7 @@ class Permissions
             ($contenttype ? "for $contenttype" : "") .
             "; available roles: " . implode(', ', $roleNames)
         );
+
         return false;
     }
 
@@ -194,12 +197,14 @@ class Permissions
         if (!is_array($roles)) {
             throw new \Exception("Configuration error: $permissionName is not granted to any roles.");
         }
+
         return in_array($roleName, $roles);
     }
 
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
     {
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
+
         return in_array($roleName, $roles);
     }
 
@@ -243,6 +248,7 @@ class Permissions
             $contenttypeRoles = array();
         }
         $effectiveRoles = array_unique(array_merge($overrideRoles, $contenttypeRoles));
+
         return $effectiveRoles;
     }
 
@@ -250,9 +256,9 @@ class Permissions
      * Gets the effective roles for a given user.
      * The effective roles include the roles that were explicitly assigned,
      * as well as the built-in automatic roles.
-     * @param mixed $user An array or array-access object that contains a
-     *                    'roles' key; if no user is given, "guest" access is
-     *                    assumed.
+     * @param  mixed $user An array or array-access object that contains a
+     *                     'roles' key; if no user is given, "guest" access is
+     *                     assumed.
      * @return array A list of effective role names for this user.
      */
     public function getEffectiveRolesForUser($user)
@@ -264,6 +270,7 @@ class Permissions
             $userRoles = array();
         }
         $userRoles[] = Permissions::ROLE_ANONYMOUS;
+
         return $userRoles;
     }
 
@@ -291,14 +298,14 @@ class Permissions
      * "contenttype:$contenttype:change-ownership:$id" - Change the ownership
      *                                of the specified content type or item.
      *
-     * @param string $what The desired permission, as elaborated upon above.
-     * @param mixed $user The user to check permissions against.
-     * @param string $contenttype Optional: Content type slug. If specified,
-     *               $what is taken to be a relative permission (e.g. 'edit')
-     *               rather than an absolute one (e.g. 'contenttype:pages:edit').
-     * @param int $contentid Only used if $contenttype is given, to further
-     *                       specifiy the content item.
-     * @return bool TRUE if the permission is granted, FALSE if denied.
+     * @param  string $what        The desired permission, as elaborated upon above.
+     * @param  mixed  $user        The user to check permissions against.
+     * @param  string $contenttype Optional: Content type slug. If specified,
+     *                             $what is taken to be a relative permission (e.g. 'edit')
+     *                             rather than an absolute one (e.g. 'contenttype:pages:edit').
+     * @param  int    $contentid   Only used if $contenttype is given, to further
+     *                             specifiy the content item.
+     * @return bool   TRUE if the permission is granted, FALSE if denied.
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
@@ -325,6 +332,7 @@ class Permissions
                 }
                 if (empty($contenttype)) {
                     $this->audit("Granting 'overview' globally (hard-coded override)");
+
                     return true;
                 } else {
                     $permission = 'view';
@@ -368,6 +376,7 @@ class Permissions
                 // Backend/deletecontent(), respectively, because transitions
                 // are governed by a set of separate permissions.
                 $this->audit("Granting '{$parts[0]}' (hard-coded override)");
+
                 return true;
 
             default:
@@ -412,6 +421,7 @@ class Permissions
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid = null)
     {
         $perm = $this->getContentStatusTransitionPermission($fromStatus, $toStatus);
+
         return $this->isAllowed($perm, $user, $contenttype, $contentid);
     }
 }

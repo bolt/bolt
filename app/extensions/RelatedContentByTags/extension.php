@@ -1,10 +1,10 @@
 <?php
 namespace RelatedContentByTags;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -26,13 +26,13 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
 
         $this->addTwigFunction('relatedcontentbytags', 'relatedContentByTags');
 
         // Always make sure a default config.yml is available.
-        if( !isset($this->config) ) {
+        if ( !isset($this->config) ) {
             $this->config = array();
         }
 
@@ -56,12 +56,12 @@ class Extension extends \Bolt\BaseExtension
 
     /**
      * @author Xiao-Hu Tai
-     * @param \Bolt\Content $record   The record to search similar content for.
-     * @param array         $options  Options for custom queries.
+     * @param \Bolt\Content $record  The record to search similar content for.
+     * @param array         $options Options for custom queries.
      *
      * @return array Returns an array with the elements sorted by similarity.
      */
-    function relatedContentByTags($record, $options = array())
+    public function relatedContentByTags($record, $options = array())
     {
 
         $startTime     = microtime(true);
@@ -95,7 +95,7 @@ class Extension extends \Bolt\BaseExtension
         if (!isset( $record->contenttype['taxonomy'])) {
             return array();
         }
-        foreach ( $record->contenttype['taxonomy'] as $key ) {
+        foreach ($record->contenttype['taxonomy'] as $key) {
             if ($app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
                 // only useful if values exist, otherwise just skip this taxonomy
                 if ($record->taxonomy[$key]) {
@@ -107,10 +107,10 @@ class Extension extends \Bolt\BaseExtension
 
         // Make the basic WHERE query for all behaves-like-tags values in $record.
         $queryWhere = array();
-        foreach ( $tagsValues as $tagName => $values ) {
+        foreach ($tagsValues as $tagName => $values) {
             $subqueryWhere = array();
 
-            foreach( $values as $word ) {
+            foreach ($values as $word) {
                 $subqueryWhere[] = sprintf('%s.slug = "%s"', $taxonomyTable, $word);
             }
             $temp  = sprintf( '%s.taxonomytype = "%s"', $taxonomyTable, $tagName );
@@ -122,8 +122,8 @@ class Extension extends \Bolt\BaseExtension
 
         // Get all contenttypes (database tables) that have a similar behaves-like-tags taxonomies like $record
         $tables = array();
-        foreach ( $contenttypes as $key => $contenttype ) {
-            foreach( $contenttype['taxonomy'] as $taxonomyKey ) {
+        foreach ($contenttypes as $key => $contenttype) {
+            foreach ($contenttype['taxonomy'] as $taxonomyKey) {
                 if (in_array( $taxonomyKey, $tagsTaxonomies )) {
                     $tables[] = $contenttype['slug'];
                     break;
@@ -176,7 +176,6 @@ class Extension extends \Bolt\BaseExtension
 
         $totalTime = microtime(true) - $startTime;
         // \util::var_dump( sprintf('%.03f seconds', $totalTime) );
-
         return $results;
 
     }
@@ -191,7 +190,7 @@ class Extension extends \Bolt\BaseExtension
         // 1. more similar tags => higher score
         $taxonomies = $b->taxonomy;
         foreach ($taxonomies as $taxonomyKey => $values) {
-            if( in_array($taxonomyKey, $tagsTaxonomies) ) {
+            if ( in_array($taxonomyKey, $tagsTaxonomies) ) {
                 foreach ($values as $value) {
                     if (in_array($value, $tagsValues[$taxonomyKey])) {
                         $similarity += $pointsTag;
@@ -219,7 +218,6 @@ class Extension extends \Bolt\BaseExtension
         $t2   = \DateTime::createFromFormat( 'Y-m-d H:i:s', $b->values['datepublish'] );
         $diff = abs( $t1->getTimestamp() - $t2->getTimestamp() ); // diff in seconds
         // $diff = $diff / (60 * 60 *24 ); // diff in days
-
         return $diff;
 
     }
@@ -238,7 +236,7 @@ class Extension extends \Bolt\BaseExtension
             // less difference is more important
             return -1;
         }
-        if ($a->diff > $b->diff) { 
+        if ($a->diff > $b->diff) {
             // more difference is less important
             return +1;
         }

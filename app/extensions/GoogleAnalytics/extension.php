@@ -5,11 +5,11 @@ namespace GoogleAnalytics;
 
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
-    function info() {
-
+    public function info()
+    {
         $data = array(
             'name' =>"Google Analytics",
             'description' => "A small extension to add the scripting for a Google Analytics tracker to your site.",
@@ -27,8 +27,8 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize() {
-
+    public function initialize()
+    {
         $this->addSnippet(SnippetLocation::END_OF_HEAD, 'insertAnalytics');
 
         $additionalhtml = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
@@ -38,8 +38,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-
-    function insertAnalytics()
+    public function insertAnalytics()
     {
 
         if (empty($this->config['webproperty'])) {
@@ -51,7 +50,7 @@ class Extension extends \Bolt\BaseExtension
         $html = <<< EOM
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (function (i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function () {
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
@@ -72,7 +71,7 @@ EOM;
       _gaq.push(['_setDomainName', '%domainname%']);
       _gaq.push(['_trackPageview']);
 
-      (function() {
+      (function () {
           var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
           ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
@@ -89,10 +88,7 @@ EOM;
 
     }
 
-
-
-
-    function analyticsWidget()
+    public function analyticsWidget()
     {
         // http://ga-dev-tools.appspot.com/explorer/
         // http://code.google.com/p/gapi-google-analytics-php-interface/
@@ -143,7 +139,7 @@ EOM;
         );
 
         // aggregate data:
-        foreach($tempresults as $result) {
+        foreach ($tempresults as $result) {
 
             $pageviews[] = array(
                 'date' => date('M j',strtotime($result->getDate())),
@@ -181,7 +177,7 @@ EOM;
 
         $sources = array();
 
-        foreach($results as $result) {
+        foreach ($results as $result) {
             if ($result->getReferralPath() == "(not set)") {
                 $sources[] = array(
                     'link' => false,
@@ -213,7 +209,7 @@ EOM;
 
         $pages = array();
 
-        foreach($results as $result) {
+        foreach ($results as $result) {
             $pages[] = array(
                 'host' => $result->gethostname() . $result->getPagePath(),
                 'visits' => $result->getVisits()
@@ -238,8 +234,8 @@ EOM;
 
     }
 
-
-    function secondMinute($seconds) {
+    public function secondMinute($seconds)
+    {
         return sprintf('%d:%02d', floor($seconds/60), $seconds % 60);
     }
 

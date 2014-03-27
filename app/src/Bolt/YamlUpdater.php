@@ -55,13 +55,14 @@ class YamlUpdater
         $this->lines = count($this->file);
 
         $this->changed = false;
+
         return true;
     }
 
     /**
      * Get a value from the yml. return an array with info
      *
-     * @param  string $key
+     * @param  string     $key
      * @return bool|array
      */
     public function get($key)
@@ -87,7 +88,7 @@ class YamlUpdater
      * Find a specific part of the key, starting from $this->pointer
      *
      * @param $keypart
-     * @param  int $indent
+     * @param  int      $indent
      * @return bool|int
      */
     private function find($keypart, $indent = 0)
@@ -188,7 +189,7 @@ class YamlUpdater
 
     /**
      * Save our modified .yml file.
-     * @param bool $makebackup
+     * @param  bool $makebackup
      * @return bool true if save was successful
      */
     public function save($makebackup = true)

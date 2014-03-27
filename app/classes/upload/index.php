@@ -19,7 +19,7 @@ if (strpos(__DIR__, DIRECTORY_SEPARATOR.'bolt-public'.DIRECTORY_SEPARATOR) !== f
 }
 
 // Make sure the session is started.
-if(session_id() == "") {
+if (session_id() == "") {
     session_start();
 }
 
@@ -32,7 +32,7 @@ if (!isset($_SESSION['_sf2_attributes']['user']['id'])) {
 // Make sure the folder exists.
 makeDir(__DIR__.'/../../../files/'.date('Y-m'));
 
-require('upload.class.php');
+require 'upload.class.php';
 
 // Default accepted filetypes are: gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm
 

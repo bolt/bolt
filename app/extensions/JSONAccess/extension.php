@@ -10,7 +10,7 @@ namespace JSONAccess;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
     public function info()
     {
@@ -38,12 +38,12 @@ class Extension extends \Bolt\BaseExtension
                   ->bind('json');
     }
 
-    private function clean_item($item, $type = 'list-fields') {
+    private function clean_item($item, $type = 'list-fields')
+    {
         $contenttype = $item->contenttype['slug'];
         if (isset($this->config['contenttypes'][$contenttype][$type])) {
             $fields = $this->config['contenttypes'][$contenttype][$type];
-        }
-        else {
+        } else {
             $fields = array_keys($item->contenttype['fields']);
         }
         // Always include the ID in the set of fields
@@ -53,6 +53,7 @@ class Extension extends \Bolt\BaseExtension
         foreach ($fields as $field) {
             $values[$field] = $item->values[$field];
         }
+
         return $values;
     }
 
@@ -101,6 +102,7 @@ class Extension extends \Bolt\BaseExtension
         if ($callback = $request->get('callback')) {
             $response->setCallback($callback);
         }
+
         return $response;
     }
 
@@ -118,7 +120,7 @@ class Extension extends \Bolt\BaseExtension
         if ($callback = $request->get('callback')) {
             $response->setCallback($callback);
         }
+
         return $response;
     }
 }
-

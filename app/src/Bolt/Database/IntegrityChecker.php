@@ -92,6 +92,7 @@ class IntegrityChecker
     {
         // compare app/cache/dbcheck-ts vs. current timestamp
         $validityTS = intval(@file_get_contents(self::getValidityTimestampFilename()));
+
         return ($validityTS >= time() - self::INTEGRITY_CHECK_INTERVAL);
     }
 
@@ -335,7 +336,7 @@ class IntegrityChecker
     /**
      * This method allows extensions to register their own tables.
      * @param Callable $generator A generator function that takes the Schema
-     *         instance and returns a table or an array of tables.
+     *                            instance and returns a table or an array of tables.
      */
     public function registerExtensionTable($generator)
     {
@@ -353,11 +354,11 @@ class IntegrityChecker
                 foreach ($table as $t) {
                     $tables[] = $t;
                 }
-            }
-            else {
+            } else {
                 $tables[] = $table;
             }
         }
+
         return $tables;
     }
 

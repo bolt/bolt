@@ -60,6 +60,7 @@ class ChangelogItem implements \ArrayAccess
         if (is_array($pdiff)) {
             ksort($pdiff);
         }
+
         return $pdiff;
     }
 

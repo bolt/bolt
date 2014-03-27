@@ -4,7 +4,6 @@ namespace Bolt\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Bolt\TwigProfilerEngine;
 use Bolt\DataCollector\TwigDataCollector;
 
 class TwigProfilerServiceProvider implements ServiceProviderInterface

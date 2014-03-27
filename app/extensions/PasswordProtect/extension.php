@@ -3,9 +3,7 @@
 
 namespace PasswordProtect;
 
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
-
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
     public function info()
@@ -114,6 +112,5 @@ class Extension extends \Bolt\BaseExtension
         return new \Twig_Markup($html, 'UTF-8');
 
     }
-
 
 }

@@ -16,10 +16,9 @@
 namespace WaffleOrders;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Doctrine\DBAL\Schema\Schema;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
     public function info()
     {
@@ -45,13 +44,14 @@ class Extension extends \Bolt\BaseExtension
         $this->my_table_name = $prefix . 'waffle_orders';
         $me = $this;
         $this->app['integritychecker']->registerExtensionTable(
-            function(Schema $schema) use ($me) {
+            function (Schema $schema) use ($me) {
                 $table = $schema->createTable($me->my_table_name);
                 $table->addColumn("id", "integer", array('autoincrement' => true));
                 $table->setPrimaryKey(array("id"));
                 $table->addColumn("customer_name", "string", array("length" => 64));
                 $table->addIndex(array('customer_name'));
                 $table->addColumn("num_waffles_ordered", "integer");
+
                 return $table;
             });
         $this->app->get("/waffles", array($this, 'show_waffles'))->bind('show_waffles');
@@ -75,12 +75,14 @@ class Extension extends \Bolt\BaseExtension
                 $template_vars['postData'][$key] = $request->get($key);
             }
         }
+
         return $this->render('waffles.twig', $template_vars);
     }
 
     public function clear_waffles(Request $request)
     {
         $rows_deleted = $this->app['db']->executeUpdate('DELETE FROM ' . $this->my_table_name);
+
         return $this->app->redirect('/waffles');
     }
 
@@ -111,18 +113,19 @@ class Extension extends \Bolt\BaseExtension
                     ));
             if ($rows_affected === 1) {
                 return $this->app->redirect('/waffles');
-            }
-            else {
+            } else {
                 $errors['general'] = 'Sorry, something went wrong';
             }
         }
+
         return $this->show_waffles($request, $errors);
     }
 
-    private function render($template, $data) {
+    private function render($template, $data)
+    {
         $this->app['twig.loader.filesystem']->addPath(dirname(__FILE__) . '/templates');
+
         return $this->app['render']->render($template, $data);
     }
 
 }
-

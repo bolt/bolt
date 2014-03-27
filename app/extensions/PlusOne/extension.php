@@ -3,13 +3,13 @@
 
 namespace PlusOne;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
     /**
      * Info block for +1 Button Extension.
      */
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -35,21 +35,21 @@ class Extension extends \Bolt\BaseExtension
     /**
      * Initialize +1 Button. Called during bootstrap phase.
      */
-    function initialize()
+    public function initialize()
     {
 
         // Add javascript file
-	    $snippet = <<< EOM
+        $snippet = <<< EOM
 <script type="text/javascript">
 window.___gcfg = {lang: '%lang%'};
-(function() {
+(function () {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 })();
 </script>
 EOM;
-	    $snippet = str_replace("%lang%", $this->config['lang'], $snippet);
+        $snippet = str_replace("%lang%", $this->config['lang'], $snippet);
 
         // Add string snippet to endofbody
         $this->insertSnippet('endofbody', $snippet);
@@ -62,11 +62,11 @@ EOM;
     /**
      * Twig function {{ plusone() }} in +1 Button extension.
      */
-    function twigPlusone()
+    public function twigPlusone()
     {
 
         $html= <<< EOM
-		<div class="g-plusone" data-size="%size%" data-annotation="%annotation%" data-width="%width%"></div>
+        <div class="g-plusone" data-size="%size%" data-annotation="%annotation%" data-width="%width%"></div>
 EOM;
         $html = str_replace("%size%", $this->config['style'], $html);
         $html = str_replace("%annotation%", $this->config['annotation'], $html);
@@ -77,5 +77,3 @@ EOM;
     }
 
 }
-
-

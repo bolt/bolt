@@ -803,7 +803,7 @@ class Extensions
      *
      * @param  string $tag
      * @param  string $html
-     * @param bool $insidehead
+     * @param  bool   $insidehead
      * @return string
      */
     public function insertAfterJs($tag, $html, $insidehead = true)
@@ -872,7 +872,7 @@ class Extensions
      *
      * @param string $label
      * @param string $path
-     * @param bool $icon
+     * @param bool   $icon
      * @param string $requiredPermission (NULL if no permission is required)
      */
     public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)

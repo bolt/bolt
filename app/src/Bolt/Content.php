@@ -379,8 +379,8 @@ class Content implements \ArrayAccess
      * Taken from jQuery file upload..
      *
      * @see upcountName()
-     * @param array $matches
-     * @internal param string $name
+     * @param  array  $matches
+     *                         @internal param string $name
      * @return string
      */
     protected function upcountNameCallback($matches)
@@ -517,8 +517,8 @@ class Content implements \ArrayAccess
      * @param $group
      * @param string $name
      * @param string $taxonomytype
-     * @param int $sortorder
-     * @internal param string $value
+     * @param int    $sortorder
+     *                             @internal param string $value
      */
     public function setGroup($group, $name, $taxonomytype, $sortorder = 0)
     {
@@ -776,6 +776,7 @@ class Content implements \ArrayAccess
                 if (is_array($this->values[ $key ])) {
                     return $this->values[ $key ]['file'];
                 }
+
                 return $this->values[ $key ];
             }
         }
@@ -806,6 +807,7 @@ class Content implements \ArrayAccess
         list($binding, $route) = $this->getRoute();
 
         if(!$route)
+
             return null;
 
         $link = $this->app['url_generator']->generate($binding, array_filter(array_merge(
@@ -829,8 +831,8 @@ class Content implements \ArrayAccess
     protected function getRouteRequirementParams(array $route)
     {
         $params = array();
-        foreach($route['requirements'] ?: array() as $fieldName => $requirement) {
-            if('\d{4}-\d{2}-\d{2}' === $requirement) {
+        foreach ($route['requirements'] ?: array() as $fieldName => $requirement) {
+            if ('\d{4}-\d{2}-\d{2}' === $requirement) {
                 // Special case, if we need to have a date
                 $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
             } elseif (isset($this->taxonomy[$fieldName])) {
@@ -843,6 +845,7 @@ class Content implements \ArrayAccess
                 $params[$fieldName] = null;
             }
         }
+
         return $params;
     }
 
@@ -1075,7 +1078,7 @@ class Content implements \ArrayAccess
      * @param  string  $complete The complete search term (lowercased).
      * @param  array   $words    All the individual search terms (lowercased).
      * @param  integer $max      Maximum number of points to return.
-     * @return integer           The weight
+     * @return integer The weight
      */
     private function weighQueryText($subject, $complete, $words, $max)
     {
@@ -1156,6 +1159,7 @@ class Content implements \ArrayAccess
                 }
             }
         }
+
         return $taxonomies;
     }
 

@@ -5,7 +5,7 @@ namespace PinIt;
 
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
     public function info()
@@ -36,8 +36,7 @@ class Extension extends \Bolt\BaseExtension
         }
         if (empty($this->config['size']) || $this->config['size'] = 'small') {
             $this->config['size'] = "20";
-        }
-        elseif ($this->config['size'] == 'large') {
+        } elseif ($this->config['size'] == 'large') {
             $this->config['size'] = "28";
         }
         if (empty($this->config['language'])) {
@@ -56,10 +55,10 @@ class Extension extends \Bolt\BaseExtension
 
         if ( $this->config['hover'] == "on" )
             $hover = 'data-pin-hover="true"';
-        
+
         $html = <<< EOM
             <script type="text/javascript" $hover>
-            (function(d){
+            (function (d) {
                 var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
                 p.type = 'text/javascript';
                 p.async = true;
@@ -68,6 +67,7 @@ class Extension extends \Bolt\BaseExtension
             }(document));
             </script>
 EOM;
+
         return $html;
 
     }
@@ -80,11 +80,11 @@ EOM;
                 <img src="//assets.pinterest.com/images/pidgets/pinit_fg_%lang%_rect_%color%_%size%.png" />
             </a>
 EOM;
-        
+
         $html = str_replace("%lang%", $this->config['language'], $html);
         $html = str_replace("%color%", $this->config['color'], $html);
         $html = str_replace("%size%", $this->config['size'], $html);
-        
+
         return new \Twig_Markup($html, 'UTF-8');
 
     }

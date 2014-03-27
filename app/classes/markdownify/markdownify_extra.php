@@ -27,29 +27,31 @@
  */
 require_once dirname(__FILE__).'/markdownify.php';
 
-class Markdownify_Extra extends Markdownify {
+class Markdownify_Extra extends Markdownify
+{
   /**
    * table data, including rows with content and the maximum width of each col
    *
    * @var array
    */
-  var $table = array();
+  public $table = array();
   /**
    * current col
    *
    * @var int
    */
-  var $col = -1;
+  public $col = -1;
   /**
    * current row
    *
    * @var int
    */
-  var $row = 0;
+  public $row = 0;
   /**
    * constructor, see Markdownify::Markdownify() for more information
    */
-  function Markdownify_Extra($linksAfterEachParagraph = MDFY_LINKS_EACH_PARAGRAPH, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML) {
+  public function Markdownify_Extra($linksAfterEachParagraph = MDFY_LINKS_EACH_PARAGRAPH, $bodyWidth = MDFY_BODYWIDTH, $keepHTML = MDFY_KEEPHTML)
+  {
     parent::Markdownify($linksAfterEachParagraph, $bodyWidth, $keepHTML);
 
     ### new markdownable tags & attributes
@@ -120,7 +122,8 @@ class Markdownify_Extra extends Markdownify {
    * @param int $level 1-6
    * @return void
    */
-  function handleHeader($level) {
+  public function handleHeader($level)
+  {
     static $id = null;
     if ($this->parser->isStartTag) {
       if (isset($this->parser->tagAttributes['id'])) {
@@ -140,7 +143,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_abbr() {
+  public function handleTag_abbr()
+  {
     if ($this->parser->isStartTag) {
       $this->stack();
       $this->buffer();
@@ -167,7 +171,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function flushStacked_abbr() {
+  public function flushStacked_abbr()
+  {
     $out = array();
     foreach ($this->stack['abbr'] as $k => $tag) {
       if (!isset($tag['unstacked'])) {
@@ -186,7 +191,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_table() {
+  public function handleTag_table()
+  {
     if ($this->parser->isStartTag) {
       # check if upcoming table can be converted
       if ($this->keepHTML) {
@@ -241,7 +247,7 @@ class Markdownify_Extra extends Markdownify {
       # finally build the table in Markdown Extra syntax
       $separator = array();
       # seperator with correct align identifikators
-      foreach($this->table['aligns'] as $col => $align) {
+      foreach ($this->table['aligns'] as $col => $align) {
         if (!$this->keepHTML && !isset($this->table['col_widths'][$col])) {
           break;
         }
@@ -285,7 +291,8 @@ class Markdownify_Extra extends Markdownify {
    * @param int $col
    * @return void
    */
-  function alignTdContent(&$content, $col) {
+  public function alignTdContent(&$content, $col)
+  {
     switch ($this->table['aligns'][$col]) {
       default:
       case 'left':
@@ -308,7 +315,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_tr() {
+  public function handleTag_tr()
+  {
     if ($this->parser->isStartTag) {
       $this->col = -1;
     } else {
@@ -321,7 +329,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_td() {
+  public function handleTag_td()
+  {
     if ($this->parser->isStartTag) {
       $this->col++;
       if (!isset($this->table['col_widths'][$this->col])) {
@@ -340,7 +349,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_th() {
+  public function handleTag_th()
+  {
     if (!$this->keepHTML && !isset($this->table['rows'][1]) && !isset($this->table['aligns'][$this->col+1])) {
       if (isset($this->parser->tagAttributes['align'])) {
         $this->table['aligns'][$this->col+1] = $this->parser->tagAttributes['align'];
@@ -356,7 +366,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_dl() {
+  public function handleTag_dl()
+  {
     if (!$this->parser->isStartTag) {
       $this->setLineBreaks(2);
     }
@@ -367,7 +378,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    **/
-  function handleTag_dt() {
+  public function handleTag_dt()
+  {
     if (!$this->parser->isStartTag) {
       $this->setLineBreaks(1);
     }
@@ -378,7 +390,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_dd() {
+  public function handleTag_dd()
+  {
     if ($this->parser->isStartTag) {
       if (substr(ltrim($this->parser->html), 0, 3) == '<p>') {
         # next comes a paragraph, so we'll need an extra line
@@ -404,7 +417,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_fnref() {
+  public function handleTag_fnref()
+  {
     $this->out('[^'.$this->parser->tagAttributes['target'].']');
   }
   /**
@@ -414,7 +428,8 @@ class Markdownify_Extra extends Markdownify {
    * @param void
    * @return void
    */
-  function handleTag_fn() {
+  public function handleTag_fn()
+  {
     if ($this->parser->isStartTag) {
       $this->out('[^'.$this->parser->tagAttributes['name'].']:');
       $this->setLineBreaks(1);
@@ -430,7 +445,8 @@ class Markdownify_Extra extends Markdownify {
    *  @param void
    *  @return void
    */
-  function handleTag_footnotes() {
+  public function handleTag_footnotes()
+  {
     if (!$this->parser->isStartTag) {
       $this->setLineBreaks(2);
     }
@@ -439,11 +455,12 @@ class Markdownify_Extra extends Markdownify {
     /**
      * parse a HTML string, clean up footnotes prior
      *
-     * @param string $html
-     * @internal param string $HTML input
+     * @param  string $html
+     *                      @internal param string $HTML input
      * @return string Markdown formatted output
      */
-  function parseString($html) {
+  public function parseString($html)
+  {
     /** TODO: custom markdown-extra options, e.g. titles & classes **/
     # <sup id="fnref:..."><a href"#fn..." rel="footnote">...</a></sup>
     # => <fnref target="..." />
@@ -463,6 +480,7 @@ class Markdownify_Extra extends Markdownify {
     #   ...
     # </footnotes>
     $html = preg_replace_callback('#<div class="footnotes">\s*<hr />\s*<ol>\s*(.+)\s*</ol>\s*</div>#Us', array(&$this, '_makeFootnotes'), $html);
+
     return parent::parseString($html);
   }
   /**
@@ -473,7 +491,8 @@ class Markdownify_Extra extends Markdownify {
    * @param array $matches
    * @return string
    */
-  function _makeFootnotes($matches) {
+  public function _makeFootnotes($matches)
+  {
     # <li id="fn:1">
     #   ...
     #   <a href="#fnref:block" rev="footnote">&#8617;</a></p>
@@ -487,6 +506,7 @@ class Markdownify_Extra extends Markdownify {
     $fns = str_replace('<li id="fn:', '<fn name="', $fns);
 
     $fns = '<footnotes>'.$fns.'</footnotes>';
+
     return preg_replace('#</li>\s*(?=(?:<fn|</footnotes>))#s', '</fn>$1', $fns);
   }
 }

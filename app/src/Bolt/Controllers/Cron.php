@@ -3,10 +3,8 @@
 namespace Bolt\Controllers;
 
 use Silex;
-use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Bolt\CronEvent;
 use Bolt\CronEvents;
@@ -119,7 +117,7 @@ class Cron extends Event
      */
     private function notify($msg)
     {
-        if($this->output !== false) {
+        if ($this->output !== false) {
             $this->output->writeln("<info>{$msg}</info>");
         }
     }

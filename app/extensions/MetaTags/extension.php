@@ -2,7 +2,7 @@
 namespace MetaTags;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
     private $title;
@@ -10,7 +10,7 @@ class Extension extends \Bolt\BaseExtension
     private $record;
     private $executed = false;
 
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -32,7 +32,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
         $this->config = isset($this->config) ? $this->config : array();
         $this->metas  = isset($this->config['meta']) ? $this->config['meta'] : array();
@@ -43,9 +43,8 @@ class Extension extends \Bolt\BaseExtension
         $this->app->after(array($this, "afterCallback"), 1);
     }
 
-
     // Specifically for <meta> tags
-    function afterCallback() 
+    public function afterCallback()
     {
 
         $record = $this->getRecord();
@@ -53,7 +52,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    private function getRecord() 
+    private function getRecord()
     {
 
         if (isset($this->record)) {
@@ -109,12 +108,12 @@ class Extension extends \Bolt\BaseExtension
                         try {
                             $function = new \ReflectionMethod($record, $field);
                             $value    = $function->invokeArgs($record, $params);
-                        } catch(\ReflectionException $e) {
+                        } catch (\ReflectionException $e) {
                             // echo $e->getMessage();
                         }
                     }
 
-                    $value = (string)$value; // instanceof Twig_Markup
+                    $value = (string) $value; // instanceof Twig_Markup
 
                     if (!empty($value)) {
                         break;
@@ -138,7 +137,7 @@ class Extension extends \Bolt\BaseExtension
         $this->executed = true;
     }
 
-    function metatitle($separator = '', $sitename = '')
+    public function metatitle($separator = '', $sitename = '')
     {
         $record = $this->getRecord();
         $metas  = $this->setMetasFromRecord($record);
@@ -158,12 +157,13 @@ class Extension extends \Bolt\BaseExtension
         return $this->title . $separator . $sitename;
     }
 
-    function meta($name, $content)
+    public function meta($name, $content)
     {
         switch ($name) {
 
             case 'title':
                 $this->title = $content;
+
                 return false;
 
             default:
@@ -176,7 +176,7 @@ class Extension extends \Bolt\BaseExtension
 
                 return sprintf('<meta %s="%s" content="%s">', $keyname, $name, $content);
         }
-        
+
     }
 
 }

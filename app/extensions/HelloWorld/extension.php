@@ -4,11 +4,11 @@
 
 namespace HelloWorld;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
-    function info() {
-
+    public function info()
+    {
         $data = array(
             'name' =>"Hello, World!",
             'description' => "A small extension to add a 'Hello, World!'-greeting to your site, when using <code>{{ helloworld() }}</code> in your templates.",
@@ -26,14 +26,14 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize() {
-
+    public function initialize()
+    {
         $this->addTwigFunction('helloworld', 'twigHelloworld');
 
     }
 
-    function twigHelloworld($name="") {
-
+    public function twigHelloworld($name="")
+    {
         // if $name isn't set, use the one from the config.yml. Unless that's empty too, then use "world".
         if (empty($name)) {
             if (!empty($this->config['name'])) {
@@ -50,9 +50,3 @@ class Extension extends \Bolt\BaseExtension
     }
 
 }
-
-
-
-
-
-

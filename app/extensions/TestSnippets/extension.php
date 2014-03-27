@@ -5,11 +5,11 @@ namespace TestSnippets;
 
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
-    function info() {
-
+    public function info()
+    {
         $data = array(
             'name' =>"Snippets Tester",
             'description' => "A developer extension to add snippets to all available locations in a sensible HTML document.",
@@ -27,8 +27,8 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize() {
-
+    public function initialize()
+    {
         $this->insertSnippet(SnippetLocation::START_OF_HEAD, 'callback', "startofhead");
         $this->insertSnippet(SnippetLocation::START_OF_HEAD, "<!-- inserted string snippet startofhead -->");
 
@@ -63,9 +63,8 @@ class Extension extends \Bolt\BaseExtension
         $this->insertSnippet(SnippetLocation::AFTER_HTML, "<!-- inserted string snippet afterhtml -->");
     }
 
-
-    function callback($var) {
-
+    public function callback($var)
+    {
         $html = "<!-- snippet inserted via callback with parameter '$var'.. -->";
 
         return new \Twig_Markup($html, 'UTF-8');

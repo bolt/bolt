@@ -4,7 +4,7 @@
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
  */
-class LowlevelChecks
+class lowlevelchecks
 {
 
     /**
@@ -86,28 +86,30 @@ class LowlevelChecks
     {
         $cfg = $config->get('general/database');
 
-        if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
-            if(empty($cfg['password']) && ($cfg['username']=="root") ) {
+        if ($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
+            if (empty($cfg['password']) && ($cfg['username']=="root") ) {
                 $this->lowlevelError("There is no <code>password</code> set for the database connection, and you're using user 'root'." .
                     "<br>That must surely be a mistake, right? Bolt will stubbornly refuse to run until you've set a password for 'root'.");
             }
-            if(empty($cfg['databasename'])) {
+            if (empty($cfg['databasename'])) {
                 $this->lowlevelError("There is no <code>databasename</code> set for your database.");
             }
-            if(empty($cfg['username'])) {
+            if (empty($cfg['username'])) {
                 $this->lowlevelError("There is no <code>username</code> set for your database.");
             }
         }
 
-        if($cfg['driver']=='mysql') {
+        if ($cfg['driver']=='mysql') {
             if (!extension_loaded('pdo_mysql')) {
                 $this->lowlevelError("MySQL was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_mysql driver.");
             }
+
             return;
         } elseif ($cfg['driver']=='postgres') {
             if (!extension_loaded('pdo_pgsql')) {
                 $this->lowlevelError("Postgres was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_pgsql driver.");
             }
+
             return;
         } elseif ($cfg['driver']=='sqlite') {
             if (!extension_loaded('pdo_sqlite')) {
@@ -185,7 +187,7 @@ class LowlevelChecks
 
         $app_path = $path_prefix . 'app/';
 
-        if ( BOLT_COMPOSER_INSTALLED ) {
+        if (BOLT_COMPOSER_INSTALLED) {
             $app_path = $path_prefix . "bolt-public/";
         }
 

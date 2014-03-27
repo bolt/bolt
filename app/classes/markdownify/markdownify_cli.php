@@ -2,7 +2,8 @@
 <?php
 require dirname(__FILE__) .'/markdownify_extra.php';
 
-function param($name, $default = false) {
+function param($name, $default = false)
+{
   if (!in_array('--'.$name, $_SERVER['argv']))
     return $default;
   reset($_SERVER['argv']);
@@ -16,7 +17,6 @@ function param($name, $default = false) {
   else
     return $value;
 }
-
 
 $input = stream_get_contents(STDIN);
 

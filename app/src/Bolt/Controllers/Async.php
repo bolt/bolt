@@ -233,6 +233,7 @@ class Async implements ControllerProviderInterface
         $query = $app['db']->executeQuery($query, array($taxonomytype));
 
         $results = $query->fetchAll();
+
         return $app->json($results);
     }
 
@@ -254,10 +255,10 @@ class Async implements ControllerProviderInterface
             if ($a['slug'] == $b['slug']) {
                 return 0;
             }
+
             return ($a['slug'] < $b['slug']) ? -1 : 1;
 
         });
-
 
         return $app->json($results);
     }
@@ -269,7 +270,7 @@ class Async implements ControllerProviderInterface
     public function lastmodified(Silex\Application $app, $contenttypeslug, $contentid = null)
     {
         // Let's find out how we should determine what the latest changes were:
-        $contentLogEnabled = (bool)$app['config']->get('general/changelog/enabled');
+        $contentLogEnabled = (bool) $app['config']->get('general/changelog/enabled');
 
         if ($contentLogEnabled) {
             return $this->lastmodifiedByContentLog($app, $contenttypeslug, $contentid);
@@ -287,6 +288,7 @@ class Async implements ControllerProviderInterface
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
         $body = $app['render']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
+
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -312,6 +314,7 @@ class Async implements ControllerProviderInterface
             'filtered' => $isFiltered,
             );
         $body = $app['render']->render('_sub_lastmodified.twig', $renderVars);
+
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -343,7 +346,6 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-
 
     /**
      * List browse on the server, so we can insert them in the file input.
@@ -445,7 +447,6 @@ class Async implements ControllerProviderInterface
 
     }
 
-
      /**
      * Delete a file on the server.
      *
@@ -463,6 +464,7 @@ class Async implements ControllerProviderInterface
 
         if (is_file($filePath) && is_readable($filePath)) {
             @unlink($filePath);
+
             return true;
         } else {
             return false;
@@ -481,8 +483,6 @@ class Async implements ControllerProviderInterface
 
     }
 
-
-
     public function showstack(Silex\Application $app)
     {
 
@@ -497,8 +497,6 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-
-
 
     /**
      * Middleware function to do some tasks that should be done for all aynchronous

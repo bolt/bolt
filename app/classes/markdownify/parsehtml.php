@@ -22,13 +22,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-class parseHTML {
+class parsehtml
+{
   /**
    * tags which are always empty (<br /> etc.)
    *
    * @var array<string>
    */
-  var $emptyTags = array(
+  public $emptyTags = array(
     'br',
     'hr',
     'input',
@@ -44,7 +45,7 @@ class parseHTML {
    *
    * @var array<string>
    */
-  var $preformattedTags = array(
+  public $preformattedTags = array(
     'script',
     'style',
     'pre',
@@ -55,13 +56,13 @@ class parseHTML {
    *
    * @var bool
    */
-  var $noTagsInCode = false;
+  public $noTagsInCode = false;
   /**
    * html to be parsed
    *
    * @var string
    */
-  var $html = '';
+  public $html = '';
   /**
    * node type:
    *
@@ -73,7 +74,7 @@ class parseHTML {
    *
    * @var string
    */
-  var $nodeType = '';
+  public $nodeType = '';
   /**
    * current node content, i.e. either a
    * simple string (text node), or something like
@@ -81,7 +82,7 @@ class parseHTML {
    *
    * @var string
    */
-  var $node = '';
+  public $node = '';
   /**
    * wether current node is an opening tag (<a>) or not (</a>)
    * set to NULL if current node is not a tag
@@ -89,52 +90,52 @@ class parseHTML {
    *
    * @var bool | null
    */
-  var $isStartTag = null;
+  public $isStartTag = null;
   /**
    * wether current node is an empty tag (<br />) or not (<a></a>)
    *
    * @var bool | null
    */
-  var $isEmptyTag = null;
+  public $isEmptyTag = null;
   /**
    * tag name
    *
    * @var string | null
    */
-  var $tagName = '';
+  public $tagName = '';
   /**
    * attributes of current tag
    *
    * @var array (attribName=>value) | null
    */
-  var $tagAttributes = null;
+  public $tagAttributes = null;
   /**
    * wether the current tag is a block element
    *
    * @var bool | null
    */
-  var $isBlockElement = null;
+  public $isBlockElement = null;
 
   /**
    * keep whitespace
    *
    * @var int
    */
-  var $keepWhitespace = 0;
+  public $keepWhitespace = 0;
   /**
    * list of open tags
    * count this to get current depth
    *
    * @var array
    */
-  var $openTags = array();
+  public $openTags = array();
   /**
    * list of block elements
    *
    * @var array
    * TODO: what shall we do with <del> and <ins> ?!
    */
-  var $blockElements = array (
+  public $blockElements = array (
     # tag name => <bool> is block
     # block elements
     'address' => true,
@@ -228,9 +229,11 @@ class parseHTML {
    * @param void
    * @return bool
    */
-  function nextNode() {
+  public function nextNode()
+  {
     if (empty($this->html)) {
       # we are done with parsing the html string
+
       return false;
     }
     static $skipWhitespace = true;
@@ -250,6 +253,7 @@ class parseHTML {
         #trigger_error('this might need some work', E_USER_NOTICE);
         $pos = strpos($this->html, '>');
         $this->setNode('pi', $pos + 1);
+
         return true;
       }
       if (substr($token, 0, 4) == '<!--') {
@@ -265,6 +269,7 @@ class parseHTML {
         $this->setNode('comment', $pos);
 
         $skipWhitespace = true;
+
         return true;
       }
       if ($token == '<!DOCTYPE') {
@@ -272,6 +277,7 @@ class parseHTML {
         $this->setNode('doctype', strpos($this->html, '>')+1);
 
         $skipWhitespace = true;
+
         return true;
       }
       if ($token == '<![CDATA[') {
@@ -287,6 +293,7 @@ class parseHTML {
         $this->handleWhitespaces();
 
         $skipWhitespace = true;
+
         return true;
       }
       if ($this->parseTag()) {
@@ -297,6 +304,7 @@ class parseHTML {
         } else {
           $skipWhitespace = false;
         }
+
         return true;
       }
     }
@@ -314,6 +322,7 @@ class parseHTML {
       return $this->nextNode();
     }
     $skipWhitespace = false;
+
     return true;
   }
   /**
@@ -322,7 +331,8 @@ class parseHTML {
    * @param void
    * @return bool
    */
-  function parseTag() {
+  public function parseTag()
+  {
     static $a_ord, $z_ord, $special_ords;
     if (!isset($a_ord)) {
       $a_ord = ord('a');
@@ -356,11 +366,13 @@ class parseHTML {
     if (empty($tagName) || !isset($this->blockElements[$tagName])) {
       # something went wrong => invalid tag
       $this->invalidTag();
+
       return false;
     }
     if ($this->noTagsInCode && end($this->openTags) == 'code' && !($tagName == 'code' && !$isStartTag)) {
       # we supress all HTML tags inside code tags
       $this->invalidTag();
+
       return false;
     }
 
@@ -400,11 +412,13 @@ class parseHTML {
         $currAttrib = '';
       } else {
         $this->invalidTag();
+
         return false;
       }
     }
     if ($this->html[$pos] != '>') {
       $this->invalidTag();
+
       return false;
     }
 
@@ -417,6 +431,7 @@ class parseHTML {
         # end tags must not contain any attributes
         # or maybe we did not expect a different tag to be closed
         $this->invalidTag();
+
         return false;
       }
       array_pop($this->openTags);
@@ -437,6 +452,7 @@ class parseHTML {
     }
     $this->nodeType = 'tag';
     $this->isBlockElement = $this->blockElements[$tagName];
+
     return true;
   }
   /**
@@ -445,7 +461,8 @@ class parseHTML {
    * @param void
    * @return void
    */
-  function invalidTag() {
+  public function invalidTag()
+  {
     $this->html = substr_replace($this->html, '&lt;', 0, 1);
   }
   /**
@@ -455,7 +472,8 @@ class parseHTML {
    * @param int $pos to which position shall we cut?
    * @return void
    */
-  function setNode($type, $pos) {
+  public function setNode($type, $pos)
+  {
     if ($this->nodeType == 'tag') {
       # set tag specific vars to null
       # $type == tag should not be called here
@@ -477,7 +495,8 @@ class parseHTML {
    * @param string $str
    * @return bool
    */
-  function match($str) {
+  public function match($str)
+  {
     return substr($this->html, 0, strlen($str)) == $str;
   }
   /**
@@ -486,9 +505,11 @@ class parseHTML {
    * @param void
    * @return void
    */
-  function handleWhitespaces() {
+  public function handleWhitespaces()
+  {
     if ($this->keepWhitespace) {
       # <pre> or <code> before...
+
       return;
     }
     # truncate multiple whitespaces to a single one
@@ -500,10 +521,12 @@ class parseHTML {
    * @param void
    * @return void
    */
-  function normalizeNode() {
+  public function normalizeNode()
+  {
     $this->node = '<';
     if (!$this->isStartTag) {
       $this->node .= '/'.$this->tagName.'>';
+
       return;
     }
     $this->node .= $this->tagName;
@@ -525,14 +548,15 @@ class parseHTML {
  * @param bool $noTagsInCode
  * @return string
  */
-function indentHTML($html, $indent = "  ", $noTagsInCode = false) {
+function indentHTML($html, $indent = "  ", $noTagsInCode = false)
+{
   $parser = new parseHTML;
   $parser->noTagsInCode = $noTagsInCode;
   $parser->html = $html;
   $html = '';
   $last = true; # last tag was block elem
   $indent_a = array();
-  while($parser->nextNode()) {
+  while ($parser->nextNode()) {
     if ($parser->nodeType == 'tag') {
       $parser->normalizeNode();
     }
@@ -575,6 +599,7 @@ function indentHTML($html, $indent = "  ", $noTagsInCode = false) {
       }
     }
   }
+
   return $html;
 }
 /*

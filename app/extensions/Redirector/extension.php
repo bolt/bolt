@@ -11,7 +11,7 @@ use Bolt\BaseExtension;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-class Extension extends BaseExtension
+class extension extends BaseExtension
 {
     public $wildcards = array(
         'all' => '.*',
@@ -110,7 +110,7 @@ class Extension extends BaseExtension
 
         // Assign configuration groups to arrays in object
         $configGroups = array('options', 'redirects', 'jits', 'variables');
-        foreach($configGroups as $group) {
+        foreach ($configGroups as $group) {
             if (!empty($this->config[$group])) {
                 $this->$group = $this->config[$group];
             } else {
@@ -124,7 +124,7 @@ class Extension extends BaseExtension
      * Throw an exception
      *
      * @return void
-     * @throw \Exception
+     *              @throw \Exception
      */
     public function except($message = null, $code = null)
     {

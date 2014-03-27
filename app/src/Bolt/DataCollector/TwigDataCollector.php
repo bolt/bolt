@@ -169,7 +169,6 @@ class TwigDataCollector extends DataCollector
         return $this->data['templatechosen'];
     }
 
-
     /**
      * Getter for templateerror
      *

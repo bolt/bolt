@@ -5,9 +5,9 @@ namespace Disqus;
 
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -27,7 +27,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
 
         $this->addTwigFunction('disqus', 'disqus');
@@ -36,7 +36,6 @@ class Extension extends \Bolt\BaseExtension
         if (empty($this->config['disqus_name'])) { $this->config['disqus_name'] = "No name set"; }
 
     }
-
 
 function disqus($title="")
     {
@@ -47,7 +46,7 @@ function disqus($title="")
             var disqus_shortname = '%shortname%';
             %title%var disqus_url = '%url%';
 
-            (function() {
+            (function () {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
                 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
@@ -72,9 +71,7 @@ EOM;
 
     }
 
-
-
-    function disquslink($link)
+    public function disquslink($link)
     {
 
         $script = <<< EOM
@@ -103,11 +100,4 @@ EOM;
 
     }
 
-
 }
-
-
-
-
-
-

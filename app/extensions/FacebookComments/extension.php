@@ -5,10 +5,10 @@ namespace FacebookComments;
 
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
 
-    function info()
+    public function info()
     {
 
         $data = array(
@@ -28,7 +28,7 @@ class Extension extends \Bolt\BaseExtension
 
     }
 
-    function initialize()
+    public function initialize()
     {
         // Nothing here.. Note: This extension defines the snippets and functions in getSnippets() and getFunctions()
     }
@@ -37,7 +37,7 @@ class Extension extends \Bolt\BaseExtension
      * Return the available Snippets
      * @return array
      */
-    function getSnippets()
+    public function getSnippets()
     {
         return array(
             array(SnippetLocation::END_OF_BODY, 'facebookScript')
@@ -55,19 +55,17 @@ class Extension extends \Bolt\BaseExtension
         );
     }
 
-
-
     /**
      * Callback for snippet 'facebookscript'.
      *
      * @return string
      */
-    function facebookScript()
+    public function facebookScript()
     {
 
         $html = <<< EOM
     <div id="fb-root"></div>
-    <script>(function(d, s, id) {
+    <script>(function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
@@ -75,15 +73,15 @@ class Extension extends \Bolt\BaseExtension
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 EOM;
+
         return $html;
 
     }
 
-
     /**
      * Callback for Twig function 'facebookcomments'.
      */
-    function facebookComments($title="")
+    public function facebookComments($title="")
     {
 
         if (empty($this->config['width'])) { $this->config['width'] = "470"; }
@@ -99,9 +97,4 @@ EOM;
 
     }
 
-
-
-
 }
-
-
