@@ -1417,14 +1417,14 @@ function __() {
             //echo "\n" . '<!-- contenttype replaced: '.htmlentities($text)." -->\n";
             if ($fn == 'transChoice') {
                     $trans = $app['translator']->transChoice(
-                        $text,$args[1],$tr_args,
-                        htmlencode_params(isset($args[3]) ? $args[3] : 'contenttypes'),
+                        $text,$args[1],htmlencode_params($tr_args),
+                        isset($args[3]) ? $args[3] : 'contenttypes',
                         isset($args[4]) ? $args[4] : $app['request']->getLocale()
                     );
             } else {
                     $trans = $app['translator']->trans(
-                        $text,$tr_args,
-                        htmlencode_params(isset($args[2]) ? $args[2] : 'contenttypes'),
+                        $text,htmlencode_params($tr_args),
+                        isset($args[2]) ? $args[2] : 'contenttypes',
                         isset($args[3]) ? $args[3] : $app['request']->getLocale()
                     );
             }
