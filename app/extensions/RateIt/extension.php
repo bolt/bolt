@@ -24,12 +24,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "An extentions to add RateIt to your site when using <code>{{ rateit('slider_name') }}</code> in your templates.",
             'author' => "Gawain Lynch",
             'link' => "http://bolt.cm",
-            'version' => "1.2",
+            'version' => "1.3",
             'required_bolt_version' => "1.5",
             'highest_bolt_version' => "2.0",
             'type' => "Twig function",
             'first_releasedate' => "2014-03-04",
-            'latest_releasedate' => "2014-03-24",
+            'latest_releasedate' => "2014-03-27",
         );
 
         return $data;
@@ -84,8 +84,11 @@ class Extension extends \Bolt\BaseExtension
 
         $this->path = $this->app['paths']['app'] . 'extensions/' . $this->namespace;
 
-        $html = '<script type="text/javascript" defer="defer" src="' . $this->path . '/js/jquery.rateit.min.js"></script>';
-        $this->insertSnippet(SnippetLocation::END_OF_BODY, $html);
+        $html = '
+            <script type="text/javascript" src="' . $this->path . '/js/jquery.rateit.min.js"></script>
+            <script type="text/javascript" src="' . $this->path . '/js/bolt.rateit.js"></script>
+                ';
+        $this->insertSnippet(SnippetLocation::END_OF_HTML, $html);
 
         $this->addTwigFunction('rateit', 'twigRateIt');
         $this->app->after(array($this, "afterCallback"), 1);
@@ -215,52 +218,7 @@ class Extension extends \Bolt\BaseExtension
             </script>";
         }
 
-        // Bind to clicks on RateIt
-        $js .= "
-            <script type =\"text/javascript\">
-
-            $('.rateit').bind(
-                    'rated reset',
-                    function(e) {
-
-                        var ri = $(this);
-
-                        // If the user pressed reset, it will get value: 0
-                        var value = ri.rateit('value');
-                        var record_id = ri.data('bolt-record-id');
-                        var contenttype = ri.data('bolt-contenttype');
-
-                        $.ajax({
-                            url : '" . $this->ajax_path . "',
-                            data : {
-                                record_id : record_id,
-                                contenttype : contenttype,
-                                value : value
-                            },
-                            type : 'POST',
-                            success : function(data) {
-                                if (value != 0) {
-                                    // Disable voting
-                                    ri.rateit('readonly', true);
-
-                                    var retval = data.retval;
-                                    var msg = data.msg;
-                                    $('#rateit_response').html('<span>' + msg + '</span>');
-                                    $('#rateit_response').show();
-                                }
-
-                            },
-                            error : function(jxhr, msg, err) {
-                                $('#rateit_response').html('<span style=\"color:red\">AJAX error: (' + err + ')</span>');
-                                $('#rateit_response').show();
-                            },
-                            dataType: 'json'
-                        });
-                    });
-
-            </script>";
-
-        $this->insertSnippet(SnippetLocation::END_OF_BODY, $js );
+        $this->insertSnippet(SnippetLocation::END_OF_HTML, $js );
     }
 
     /**
