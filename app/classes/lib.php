@@ -886,9 +886,21 @@ function path($path, $param = array(), $add = '')
 function redirect($path, $param = array(), $add = '')
 {
     global $app;
-    if ($path === 'login') {
-        $app['session']->set('retreat', array('route' => $app['request']->get('_route'), 'params' => $app['request']->get('_route_params')));
+
+    // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
+    if (($path == 'login') && ($app['request']->get('_route') !== 'logout') ) {
+
+        $app['session']->set(
+            'retreat',
+            array(
+                'route' => $app['request']->get('_route'),
+                'params' => $app['request']->get('_route_params')
+            )
+        );
+    } else {
+        $app['session']->set('retreat', '');
     }
+
     return $app->redirect(path($path, $param, $add));
 
 }
