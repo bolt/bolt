@@ -29,3 +29,10 @@
 {% endmacro %}
 
 {% macro datetime(d) %}<time class="moment" datetime="{{ d|date("c") }}" title="{{ d }}">{{ d }}</time>{% endmacro %}
+
+{% macro typepopover(types) %}
+    {% set types = types|default(app.config.get('general/accept_file_types')) %}
+    {%  set text = __("Allowed filetypes are: ") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
+    <span class="label info-pop" ata-title=""
+      data-html="true" data-content="{{ text }}">{{ __('Types') }}</span>
+{% endmacro %}

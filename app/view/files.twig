@@ -1,5 +1,7 @@
 {% include '_header.twig' with { 'active':'settings' } %}
 
+{% import '_sub_pretty.twig' as pretty %}
+
 <h1>{{ __('Files: %path%', { '%path%' : path } ) }}</h1>
 
 {% if pathsegments|length > 1 %}
@@ -111,6 +113,7 @@
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload file') }}</span>
             </button>
+            {{ pretty.typepopover() }}
         </fieldset>
     </form>
 

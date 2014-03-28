@@ -298,6 +298,17 @@ class Config
                         $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
                     }
                 }
+
+                // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
+                if ($temp['fields'][$key]['type'] == 'image') {
+                    if (empty($temp['fields'][$key]['extensions'])) {
+                        $temp['fields'][$key]['extensions'] = array('gif', 'jpg', 'jpeg', 'png');
+                    }
+
+                    if (!is_array($temp['fields'][$key]['extensions'])) {
+                        $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
+                    }
+                }
             }
 
             // Make sure the 'uses' of the slug is an array.
@@ -526,7 +537,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
-            'accept_file_types'           => explode(",", "gif,jpg,jpeg,png,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
+            'accept_file_types'           => explode(",", "twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',

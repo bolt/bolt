@@ -109,6 +109,7 @@ kitchensink:
         image:
             type: image
             attrib: title
+            extensions: [ gif, jpg, png ]
         imagelist:
             type: imagelist
         file:
