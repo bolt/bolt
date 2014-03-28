@@ -1156,7 +1156,8 @@ class TwigExtension extends \Twig_Extension
             "The ability to simplify means to eliminate the unnecessary so that the necessary may speak.#Hans Hofmann",
             "I've learned to keep things simple. Look at your choices, pick the best one, then go to work with all your heart.#Pat Riley",
             "A little simplification would be the first step toward rational living, I think.#Eleanor Roosevelt",
-            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus"
+            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus",
+            "Keep it simple, stupid#Kelly Johnson"
         );
 
         $randomquote = explode("#", $quotes[array_rand($quotes, 1)]);
