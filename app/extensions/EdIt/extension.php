@@ -1,15 +1,10 @@
 <?php
 namespace EdIt;
 
-use Symfony\Component\HttpFoundation\Response, Symfony\Component\Translation\Loader as TranslationLoader;
-use Symfony\Component\Yaml\Dumper as YamlDumper, Symfony\Component\Yaml\Parser as YamlParser, Symfony\Component\Yaml\Exception\ParseException;
+require_once __DIR__ . '/src/EditableElement.php';
+
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-
-class EdItException extends \Exception
-{
-}
-;
 
 class Extension extends \Bolt\BaseExtension
 {
@@ -86,9 +81,6 @@ class Extension extends \Bolt\BaseExtension
 
             $this->addTwigFunction('editable', 'twigEditable');
 
-            /*
-             * $this->app->get("/edit/saveit/", array( $this, 'saveit' ));
-             */
             $ctrl = $this->app;
             $ctrl->post('/edit/saveit', array(
                 $this,
@@ -103,27 +95,30 @@ class Extension extends \Bolt\BaseExtension
     {
         $rawdata = $request->request->get('editcontent');
         $data = json_decode($rawdata, true);
-        return json_encode(true);
+        $parameters = $data['parameters'];
+
+        $element = new EditableElement($app);
+        $element->id = $parameters['id'];
+        $element->contenttypeslug = $parameters['contenttypeslug'];
+        $element->token = $parameters['token'];
+        $element->fieldname = $parameters['fieldname'];
+
+        $contentprop = $element->getElementContentId();
+        $content = $data[$contentprop];
+
+        $result = $element->save($content);
+        return json_encode((bool) $result);
     }
 
-    /**
-     * Twig function {{ editable('foo') }} in In Place Editor extension.
-     */
     function twigEditable($record, $fieldname, $options = array())
     {
-        $slug = $record->contenttype['slug'];
-        $id = $record->id;
-        $token = '';
+        $element = new EditableElement($this->app);
+        $element->applyRecord($record, $fieldname);
+        $contentid = $element->getElementContentId();
 
-        $parameters = new \stdClass();
-        $parameters->id = $id;
-        $parameters->slug = $slug;
-        $parameters->token = $token;
-        $parameters->field = $fieldname;
-
-        $encparms = htmlspecialchars(json_encode($parameters));
-        $html = "<editable data-content_id=\"ext_edit_{$slug}_{$id}\"";
-        $html .= $options ? "data-options='". json_encode($options) . "'" : "";
+        $encparms = htmlspecialchars(json_encode($element));
+        $html = "<editable data-content_id=\"{$contentid}\"";
+        $html .= $options ? "data-options='" . json_encode($options) . "'" : "";
         $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</editable>";
 
         return new \Twig_Markup($html, 'UTF-8');

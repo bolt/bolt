@@ -1,11 +1,15 @@
-# user roles that are allowed to use the menu-editor
-# this list implicitly grants access to users with role "root"
-# available roles (by default): root, admin, developer, chief-editor, editor, guest, everyone
+# User roles that are allowed to use the Ed-It inplace editor
+# Similar to MenuEditor available roles are: root, admin, developer, chief-editor, editor, guest, everyone
 permissions: [ admin, developer, chief-editor ]
 
-# creates a backup of your old menu.yml before saving
-# if you want to use this feature, make sure that the extension folder app/extensions/MenuEditor is writable by your webserver
-enableBackups: true
+# Define your Javascript inline editor module here.
+# For developer purposes it is the raw javascript code and isn't minified. Change to minified for better performance.
+# At the moment it is using Raptor editor. See licensing terms here: https://www.raptor-editor.com/
+# Raptor's saveJson plugin has patched to be able to post some metadata about content.
+editorjs: raptor.js
 
-# the last x backups will be kept
-keepBackups: 10
+# CSS style for editor
+editorcss: raptor-front-end.css
+
+# Bootstrap code to initialize editor instances
+startup: startup.js
