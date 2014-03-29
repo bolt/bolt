@@ -2,7 +2,7 @@
  * Startup
  */
 $(function() {
-    $('editable').each(function() {
+    $('section.bolt-ext-editable').each(function() {
         $element = $(this);
         options = $element.data('options') || {};
 

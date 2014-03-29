@@ -32,7 +32,7 @@ class Extension extends \Bolt\BaseExtension
             'author' => "Rix Beck / Neologik Team",
             'link' => "http://www.neologik.hu",
             'email' => 'rix@neologik.hu',
-            'version' => "0.2",
+            'version' => "0.3",
 
             'required_bolt_version' => "1.5.2",
             'highest_bolt_version' => "1.5.2",
@@ -124,9 +124,9 @@ class Extension extends \Bolt\BaseExtension
                 $contentid = $element->getElementContentId();
 
                 $encparms = htmlspecialchars(json_encode($element));
-                $html = "<editable data-content_id=\"{$contentid}\"";
+                $html = "<section class=\"bolt-ext-editable\" data-content_id=\"{$contentid}\"";
                 $html .= $options ? "data-options='" . json_encode($options) . "'" : "";
-                $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</editable>";
+                $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</section>";
             }
         } else {
             $html = $record ? $record->values[$fieldname] : '';
