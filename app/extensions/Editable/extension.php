@@ -1,5 +1,5 @@
 <?php
-namespace EdIt;
+namespace Editable;
 
 require_once __DIR__ . '/src/EditableElement.php';
 
@@ -20,7 +20,7 @@ class Extension extends \Bolt\BaseExtension
     public function info()
     {
         return array(
-            'name' => "EdIt",
+            'name' => "Editable",
             'description' => "Edit content where it is",
             'tags' => array(
                 'content',
@@ -32,7 +32,7 @@ class Extension extends \Bolt\BaseExtension
             'author' => "Rix Beck / Neologik Team",
             'link' => "http://www.neologik.hu",
             'email' => 'rix@neologik.hu',
-            'version' => "0.1",
+            'version' => "0.2",
 
             'required_bolt_version' => "1.5.2",
             'highest_bolt_version' => "1.5.2",
@@ -74,20 +74,21 @@ class Extension extends \Bolt\BaseExtension
             $editorcss = $this->config['editorcss'];
             $startup = $this->config['startup'];
 
-            $this->addJavascript("assets/{$editorjs}");
             $this->addJquery();
             $this->addCSS("assets/{$editorcss}");
+            $this->addJavascript("assets/{$editorjs}", true);
             $this->addJavascript("assets/{$startup}", true);
 
             $this->addTwigFunction('editable', 'twigEditable');
 
-            $ctrl = $this->app;
-            $ctrl->post('/edit/saveit', array(
+            $this->app->post('/edit/saveit', array(
                 $this,
                 'saveit'
             ))
                 ->method('POST')
                 ->bind('saveit');
+        } else {
+            $this->addTwigFunction('editable', 'twigEditableNoAuth');
         }
     }
 
@@ -110,17 +111,39 @@ class Extension extends \Bolt\BaseExtension
         return json_encode((bool) $result);
     }
 
-    function twigEditable($record, $fieldname, $options = array())
+    public function twigEditable($fieldname, $record = null, $options = array())
     {
-        $element = new EditableElement($this->app);
-        $element->applyRecord($record, $fieldname);
-        $contentid = $element->getElementContentId();
+        $html = '';
+        $record = $record ?  : $this->getDefaultRecord();
 
-        $encparms = htmlspecialchars(json_encode($element));
-        $html = "<editable data-content_id=\"{$contentid}\"";
-        $html .= $options ? "data-options='" . json_encode($options) . "'" : "";
-        $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</editable>";
+        if ($record) {
+            $element = new EditableElement($this->app);
+            $element->applyRecord($record, $fieldname);
+            $contentid = $element->getElementContentId();
 
+            $encparms = htmlspecialchars(json_encode($element));
+            $html = "<editable data-content_id=\"{$contentid}\"";
+            $html .= $options ? "data-options='" . json_encode($options) . "'" : "";
+            $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</editable>";
+        }
         return new \Twig_Markup($html, 'UTF-8');
+    }
+
+    public function twigEditableNoAuth($fieldname, $record = null, $options = array())
+    {
+        $record = $record ?  : $this->getDefaultRecord();
+        $html = $record ? $record->values[$fieldname] : '';
+        return new \Twig_Markup($html, 'UTF-8');
+    }
+
+    protected function getDefaultRecord()
+    {
+        $globals = $this->app['twig']->getGlobals('record');
+
+        if (! isset($globals['record'])) {
+            return false;
+        }
+
+        return $globals['record'];
     }
 }

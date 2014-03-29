@@ -1,5 +1,5 @@
 <?php
-namespace EdIt;
+namespace Editable;
 
 use Silex\Application;
 
