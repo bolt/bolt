@@ -46,6 +46,7 @@ class Extension extends \Bolt\BaseExtension
      */
     public function initialize()
     {
+        // @todo Is it a good idea to enable plugin on backend?
         $this->config = $this->getConfig();
 
         if (! isset($this->config['permissions']) || ! is_array($this->config['permissions'])) {
@@ -79,17 +80,15 @@ class Extension extends \Bolt\BaseExtension
             $this->addJavascript("assets/{$editorjs}", true);
             $this->addJavascript("assets/{$startup}", true);
 
-            $this->addTwigFunction('editable', 'twigEditable');
-
             $this->app->post('/edit/saveit', array(
                 $this,
                 'saveit'
             ))
                 ->method('POST')
                 ->bind('saveit');
-        } else {
-            $this->addTwigFunction('editable', 'twigEditableNoAuth');
         }
+
+        $this->addTwigFunction('editable', 'twigEditable');
     }
 
     public function saveit(Application $app, Request $request)
@@ -111,28 +110,27 @@ class Extension extends \Bolt\BaseExtension
         return json_encode((bool) $result);
     }
 
+    // because of some caching issues always the same twig function was calling so
+    // can't add different php functions with same name to be able to handle different cases
     public function twigEditable($fieldname, $record = null, $options = array())
     {
         $html = '';
         $record = $record ?  : $this->getDefaultRecord();
 
-        if ($record) {
-            $element = new EditableElement($this->app);
-            $element->applyRecord($record, $fieldname);
-            $contentid = $element->getElementContentId();
+        if ($this->authorized) {
+            if ($record && $record instanceof \Bolt\Content) {
+                $element = new EditableElement($this->app);
+                $element->applyRecord($record, $fieldname);
+                $contentid = $element->getElementContentId();
 
-            $encparms = htmlspecialchars(json_encode($element));
-            $html = "<editable data-content_id=\"{$contentid}\"";
-            $html .= $options ? "data-options='" . json_encode($options) . "'" : "";
-            $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</editable>";
+                $encparms = htmlspecialchars(json_encode($element));
+                $html = "<editable data-content_id=\"{$contentid}\"";
+                $html .= $options ? "data-options='" . json_encode($options) . "'" : "";
+                $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</editable>";
+            }
+        } else {
+            $html = $record ? $record->values[$fieldname] : '';
         }
-        return new \Twig_Markup($html, 'UTF-8');
-    }
-
-    public function twigEditableNoAuth($fieldname, $record = null, $options = array())
-    {
-        $record = $record ?  : $this->getDefaultRecord();
-        $html = $record ? $record->values[$fieldname] : '';
         return new \Twig_Markup($html, 'UTF-8');
     }
 

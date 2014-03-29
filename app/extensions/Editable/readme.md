@@ -60,6 +60,8 @@ twig array map with a following possible format:
 
 With this option you may enable or disable the specific plugin of Raptor editor.
 
+**Warning! Parameter order has changed since version v0.1 because record object became optional now.**
+
 Raptor
 ======
 
