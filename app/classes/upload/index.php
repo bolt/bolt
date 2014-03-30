@@ -39,5 +39,5 @@ require('upload.class.php');
 $upload_handler = new UploadHandler(array(
     'upload_dir' => dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))).'/files/'.date('Y-m')."/",
     'upload_url' => '/files/'.date('Y-m')."/",
-    'accept_file_types' => '/\.(' . $app['config']->get('general/accept_file_types') . ')$/i'
+    'accept_file_types' => '/\.(' . implode('|', $app['config']->get('general/accept_file_types')) . ')$/i'
 ));
