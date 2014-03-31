@@ -1,88 +1,37 @@
 <?php
 namespace Editable;
 
-require_once __DIR__ . '/src/EditableElement.php';
+require_once __DIR__ . '/src/ExtensionHelper.php';
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Bolt\Content;
 
-class Extension extends \Bolt\BaseExtension
+class Extension extends ExtensionHelper
 {
 
-    protected $authorized = false;
-
-    protected $config;
-
-    /**
-     *
-     * @return array
-     */
-    public function info()
-    {
-        return array(
-            'name' => "Editable",
-            'description' => "Edit content where it is",
-            'tags' => array(
-                'content',
-                'editor',
-                'admin',
-                'tool'
-            ),
-            'type' => "Administrative Tool",
-            'author' => "Rix Beck / Neologik Team",
-            'link' => "http://www.neologik.hu",
-            'email' => 'rix@neologik.hu',
-            'version' => "0.3",
-
-            'required_bolt_version' => "1.5.2",
-            'highest_bolt_version' => "1.5.2",
-            'first_releasedate' => "2014-03-31",
-            'latest_releasedate' => "2014-03-31"
-        );
-    }
+    protected $controller;
 
     /**
      * Initialize extension
      */
     public function initialize()
     {
+        parent::initialize();
         // @todo Is it a good idea to enable plugin on backend?
-        $this->config = $this->getConfig();
-
-        if (! isset($this->config['permissions']) || ! is_array($this->config['permissions'])) {
-            $this->config['permissions'] = array(
-                'root',
-                'admin',
-                'developer'
-            );
-        } else {
-            $this->config['permissions'][] = 'root';
-        }
-
-        $currentUser = $this->app['users']->getCurrentUser();
-        $currentUserId = $currentUser['id'];
-
-        foreach ($this->config['permissions'] as $role) {
-            if ($this->app['users']->hasRole($currentUserId, $role)) {
-                $this->authorized = true;
-                break;
-            }
-        }
 
         if ($this->authorized) {
+            $this->registerLoader();
 
-            $editorjs = $this->config['editorjs'];
-            $editorcss = $this->config['editorcss'];
-            $startup = $this->config['startup'];
+            $config = $this->config;
+            $this->controller = $this->createController($config['editor']);
+            $this->controller->initialize($this->app);
 
-            $this->addJquery();
-            $this->addCSS("assets/{$editorcss}");
-            $this->addJavascript("assets/{$editorjs}", true);
-            $this->addJavascript("assets/{$startup}", true);
+            $this->addAssets($config);
 
-            $this->app->post('/edit/saveit', array(
+            $this->app->post('/editable/save', array(
                 $this,
-                'saveit'
+                'save'
             ))
                 ->method('POST')
                 ->bind('saveit');
@@ -91,27 +40,50 @@ class Extension extends \Bolt\BaseExtension
         $this->addTwigFunction('editable', 'twigEditable');
     }
 
-    public function saveit(Application $app, Request $request)
+    /**
+     * Builds and adds html assets are defined in config.yml
+     */
+    protected function addAssets($config)
     {
-        $rawdata = $request->request->get('editcontent');
-        $data = json_decode($rawdata, true);
-        $parameters = $data['parameters'];
+        $name = $config['editor'];
+        $styles = $config['styles'] ?  : array();
+        $scripts = $config['scripts'] ?  : array();
+        $editor = $name . '.js';
 
-        $element = new EditableElement($app);
-        $element->id = $parameters['id'];
-        $element->contenttypeslug = $parameters['contenttypeslug'];
-        $element->token = $parameters['token'];
-        $element->fieldname = $parameters['fieldname'];
+        $this->addJquery();
+        $this->addJavascript("{$name}/{$editor}", true);
 
-        $contentprop = $element->getElementContentId();
-        $content = $data[$contentprop];
+        foreach ($styles as $item) {
+            $this->addCSS("{$item}.css");
+        }
 
-        $result = $element->save($content);
-        return json_encode((bool) $result);
+        foreach ($scripts as $item) {
+            $this->addJavascript("{$item}.js", true);
+        }
+    }
+
+    /**
+     * Receives save http request
+     *
+     * @param Application $app
+     * @param Request $request
+     * @return string
+     */
+    public function save(Application $app, Request $request)
+    {
+        $result = $this->controller->save($app, $request);
+        return json_encode($result);
     }
 
     // because of some caching issues always the same twig function was calling so
     // can't add different php functions with same name to be able to handle different cases
+    /**
+     *
+     * @param string $fieldname
+     * @param string $record
+     * @param unknown $options
+     * @return \Twig_Markup
+     */
     public function twigEditable($fieldname, $record = null, $options = array())
     {
         $html = '';
@@ -121,12 +93,7 @@ class Extension extends \Bolt\BaseExtension
             if ($record && $record instanceof \Bolt\Content) {
                 $element = new EditableElement($this->app);
                 $element->applyRecord($record, $fieldname);
-                $contentid = $element->getElementContentId();
-
-                $encparms = htmlspecialchars(json_encode($element));
-                $html = "<section class=\"bolt-ext-editable\" data-content_id=\"{$contentid}\"";
-                $html .= $options ? "data-options='" . json_encode($options) . "'" : "";
-                $html .= "data-parameters='{$encparms}'>" . $record->values[$fieldname] . "</section>";
+                $html = $this->controller->getHtml($element, $record, $options);
             }
         } else {
             $html = $record ? $record->values[$fieldname] : '';
@@ -134,6 +101,11 @@ class Extension extends \Bolt\BaseExtension
         return new \Twig_Markup($html, 'UTF-8');
     }
 
+    /**
+     * Gets actual record in template context
+     *
+     * @return boolean Bolt\Content if no current record in template context
+     */
     protected function getDefaultRecord()
     {
         $globals = $this->app['twig']->getGlobals('record');

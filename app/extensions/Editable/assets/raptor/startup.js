@@ -12,7 +12,7 @@ $(function() {
                     plugin: 'saveJson'
                 },
                 saveJson: {
-                    url: '/edit/saveit',
+                    url: '/editable/save',
                     // type: 'get',
                     // The parameter name for the posted data
                     postName: 'editcontent',

@@ -2,14 +2,22 @@
 # Similar to MenuEditor available roles are: root, admin, developer, chief-editor, editor, guest, everyone
 permissions: [ admin, developer, chief-editor ]
 
-# Define your Javascript inline editor module here.
-# For developer purposes it is the raw javascript code and isn't minified. Change to minified for better performance.
-# At the moment it is using Raptor editor. See licensing terms here: https://www.raptor-editor.com/
-# Raptor's saveJson plugin has patched to be able to post some metadata about content.
-editorjs: raptor.js
+# assets/{editor}/{editor}.js - if exists load it, otherwise fallback to default
+# assets/{assets} - iterates over and try to load
 
-# CSS style for editor
-editorcss: raptor-front-end.css
+# Name of editor used. You may implement others like Raptor Editor
+# raptor.js will be find and it must be exists somewhere in $resourcePaths.
+# $resourcePaths is a member of Editable\ExtensionHelper class.
+# By default {basepath}/assets/{editor}.js, {theme}/{editor.js} are in resource paths.
+#editor: raptor
 
-# Bootstrap code to initialize editor instances
-startup: startup.js
+# Required stylesheets without '.css'. Resource search fallback is same as above.
+#styles: [ raptor/raptor-front-end ]
+
+# Required scripts without '.js'. Resource search fallback is same as above.
+#scripts: [ raptor/startup ]
+
+# Default editor settings
+editor: ckeditor
+styles: [ ]
+scripts: [ ckeditor/startup ]

@@ -65,8 +65,8 @@ class EditableElement
         }
 
         $content->values[$this->fieldname] = $value;
-        $status = $this->app['storage']->saveContent($content, $this->contenttypeslug);
-        return $status;
+        $id = $this->app['storage']->saveContent($content, $this->contenttypeslug);
+        return $id;
     }
 
     public function getElementContentId()
