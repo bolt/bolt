@@ -87,7 +87,7 @@
 
         <h2><strong>{{ __("Roles and Permissions") }}</strong></h2>
 
-        <p>{{ __('The settings for roles and permissions are stored in %permissions%.', {'%permissions%': '<code>permissions.yml</code>'}) }}</p>
+        <p>{{ __('The settings for roles and permissions are stored in <code>%permissions%</code>.', {'%permissions%': 'permissions.yml'}) }}</p>
         <a class="btn btn-small" href="{{ path('fileedit', { 'file': 'app/config/permissions.yml'}) }}">{{ __("Roles and Permissions") }}</a>
 
         <h2><strong>{{ __("Current sessions") }}</strong></h2>
