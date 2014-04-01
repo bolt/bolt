@@ -586,7 +586,7 @@ class Content implements \ArrayAccess
                     break;
 
                 case 'image':
-                    if (isset($this->values[$name]['file'])) {
+                    if (is_array($this->values[$name]) && isset($this->values[$name]['file'])) {
                         $value = $this->values[$name]['file'];
                     } else {
                         $value = $this->values[$name];
