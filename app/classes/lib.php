@@ -1094,9 +1094,17 @@ function loadSerialize($filename, $silent = false)
     }
 
     $serialized_data = trim(implode("", file($filename)));
+    $serialized_data = str_replace("<?php /* bolt */ die(); ?".">", "", $serialized_data);
 
-    $serialized_data = str_replace("<?php /* bolt */ die(); ?>", "", $serialized_data);
+    // new-style JSON-encoded data; detect automatically
+    if (substr($serialized_data, 0, 5) === 'json:') {
+        $serialized_data = substr($serialized_data, 5);
+        $data = json_decode($serialized_data, true);
+        return $data;
+    }
 
+    // old-style serialized data; to be phased out, but leaving intact for
+    // backwards-compatibility
     @$data = unserialize($serialized_data);
     if (is_array($data)) {
         return $data;
@@ -1127,7 +1135,7 @@ function saveSerialize($filename, &$data)
 {
     $filename = fixPath($filename);
 
-    $ser_string = "<?php /* bolt */ die(); ?>".serialize($data);
+    $ser_string = "<?php /* bolt */ die(); ?".">json:" . json_encode($data);
 
     // disallow user to interrupt
     ignore_user_abort(true);
@@ -1180,7 +1188,7 @@ function saveSerialize($filename, &$data)
             'webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
             'Current path: ' . getcwd() . '.'
         );
-        debug_printbacktrace();
+        debug_print_backtrace();
         die();
     }
     umask($old_umask);
@@ -1681,4 +1689,19 @@ function gatherTranslatableStrings($locale = null, $translated = array())
     ksort($ctype_domain['translated']);
 
     return array($msg_domain, $ctype_domain);
+}
+
+/**
+ * Leniently decode a serialized compound data structure, detecting whether
+ * it's dealing with JSON-encoded data or a PHP-serialized string.
+ */
+function smart_unserialize($str, $assoc = false) {
+    if ($str[0] === '{' || $str[0] === '[') {
+        $data = json_decode($str, $assoc);
+        if ($data !== false) {
+            return $data;
+        }
+    }
+    $data = unserialize($str);
+    return $data;
 }

@@ -142,7 +142,7 @@ class Content implements \ArrayAccess
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
             if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
-                $unserdata = @unserialize($value);
+                $unserdata = @smart_unserialize($value);
                 if ($unserdata !== false) {
                     $this->values[$key] = $unserdata;
                 }
@@ -195,7 +195,7 @@ class Content implements \ArrayAccess
 
         // Check if the value need to be unserialized..
         if (is_string($value) && substr($value, 0, 2)=="a:") {
-            $unserdata = @unserialize($value);
+            $unserdata = @smart_unserialize($value);
             if ($unserdata !== false) {
                 $value = $unserdata;
             }

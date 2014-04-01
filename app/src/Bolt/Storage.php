@@ -612,7 +612,7 @@ class Storage
 
             if ($values['type'] == "video") {
                 if (!empty($fieldvalues[$key]['url'])) {
-                    $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                 } else {
                     $fieldvalues[$key] = "";
                 }
@@ -620,7 +620,7 @@ class Storage
 
             if ($values['type'] == "geolocation") {
                 if (!empty($fieldvalues[$key]['address'])) {
-                    $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                 } else {
                     $fieldvalues[$key] = "";
                 }
@@ -628,7 +628,7 @@ class Storage
 
             if ($values['type'] == "image") {
                  if (!empty($fieldvalues[$key]['file'])) {
-                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                  } else {
                      $fieldvalues[$key] = "";
                  }
@@ -647,7 +647,7 @@ class Storage
             }
 
             if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
-                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                $fieldvalues[$key] = json_encode($fieldvalues[$key]);
             }
 
         }
