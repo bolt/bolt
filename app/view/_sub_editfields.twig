@@ -153,7 +153,6 @@
     {% else %}
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
             {% for value in field.values %}
-                {{ print(value | length) }}
                 {% if value is iterable and (value | length) > 1 %}
                     <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1]}}</option>
                 {% else %}
