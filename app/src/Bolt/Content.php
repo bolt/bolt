@@ -141,7 +141,7 @@ class Content implements \ArrayAccess
 
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
+            if (!empty($value) && is_string($value) && (substr($value, 0, 2)=="a:" || $value[0] == '[' || $value[0] == '{')) {
                 $unserdata = @smart_unserialize($value);
                 if ($unserdata !== false) {
                     $this->values[$key] = $unserdata;

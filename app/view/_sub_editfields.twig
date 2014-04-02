@@ -172,7 +172,7 @@
 
 {% if field.type == "image" %}
 
-    {% if content.get(key) is not iterable %}
+{% if content.get(key) is not iterable %}
     {# This image was stored in the old format until re-saved #}
     {% set image = {'file': content.get(key)} %}
 {% else %}
