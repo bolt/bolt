@@ -28,13 +28,18 @@ class Stack
 
         $currentuser = $this->app['users']->getCurrentUser();
 
-        if (isset($_SESSION['stack']) && is_array(unserialize($_SESSION['stack']))) {
-            $this->items = unserialize($_SESSION['stack']);
-        } elseif (isset($currentuser['stack']) && is_array(unserialize($currentuser['stack']))) {
-            $this->items = unserialize($currentuser['stack']);
-        } else {
-            $this->items = array();
+        $stack_items = false;
+        if (isset($_SESSION['stack'])) {
+            $stack_items = smart_unserialize($_SESSION['stack']);
         }
+        if (!is_array($stack_items)) {
+            $stack_items = smart_unserialize($currentuser['stack']);
+        }
+        if (!is_array($stack_items)) {
+            $stack_items = array();
+        }
+
+        $this->items = $stack_items;
     }
 
     /**
@@ -181,7 +186,7 @@ class Stack
     {
 
         $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
-        $ser = serialize($this->items);
+        $ser = json_encode($this->items);
 
         $_SESSION['items'] = $ser;
 

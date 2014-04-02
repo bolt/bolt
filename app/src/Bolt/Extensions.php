@@ -244,6 +244,9 @@ class Extensions
                     $this->initialized[$extension]->getConfig();
                     $this->initialized[$extension]->initialize();
 
+                    // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
+                    $this->getSnippets($extension);
+
                     if ($this->initialized[$extension] instanceof \Twig_Extension) {
                         $this->app['twig']->addExtension($this->initialized[$extension]);
                     }
@@ -275,8 +278,9 @@ class Extensions
      * other css files.
      *
      * @param string $filename
+     * @param bool $late
      */
-    public function addCss($filename, $late)
+    public function addCss($filename, $late = false)
     {
 
         $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
@@ -293,8 +297,9 @@ class Extensions
      * Add a particular javascript file to the output. This will be inserted after
      * the other javascript files.
      * @param string $filename
+     * @param bool $late
      */
-    public function addJavascript($filename, $late)
+    public function addJavascript($filename, $late = false)
     {
 
         $html = sprintf('<script src="%s"></script>', $filename);

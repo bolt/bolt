@@ -133,9 +133,9 @@ class Users
 
         // Make sure the 'stack' is set.
         if (empty($user['stack'])) {
-            $user['stack'] = serialize(array());
+            $user['stack'] = json_encode(array());
         } elseif (is_array($user['stack'])) {
-            $user['stack'] = serialize($user['stack']);
+            $user['stack'] = json_encode($user['stack']);
         }
 
         // Serialize roles array

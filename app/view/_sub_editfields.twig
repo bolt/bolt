@@ -172,8 +172,8 @@
 
 {% if field.type == "image" %}
 
-{% if content.get(key) is not iterable %}
-	{# This image was stored in the old format until re-saved #}
+    {% if content.get(key) is not iterable %}
+    {# This image was stored in the old format until re-saved #}
     {% set image = {'file': content.get(key)} %}
 {% else %}
     {% set image = content.get(key) %}
@@ -203,6 +203,10 @@
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
             {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
 
+        <p class="filetypes">
+            {{ __("Allowed filetypes are: ") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
+        </p>
+
         {% if field.attrib is defined %}
 
             {# If the user has set a single attribute as a string, convert it to an array #}
@@ -210,16 +214,16 @@
 
             {# We are only interested in the 'alt' attribute right now, but this will allow easy extension #}
             {% for attrib in attribs %}
-	            {% if attrib == 'title' %}
-	                <label>{{ __('Title/Alt Text:') }} <input type="text" name="{{key}}[title]" id="{{key}}-title"
-	                    value='{{ image.title|default('') }}' style='width: 80%;'>
-	                </label>
-	            {% endif %}
-	        {% endfor %}
+                {% if attrib == 'title' %}
+                    <label>{{ __('Title/Alt Text:') }} <input type="text" name="{{key}}[title]" id="{{key}}-title"
+                        value='{{ image.title|default('') }}' style='width: 80%;'>
+                    </label>
+                {% endif %}
+            {% endfor %}
 
         {% endif %}
 
-<!-- The fileinput-button span is used to style the file input field as button -->
+        <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
@@ -317,7 +321,11 @@
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'
             {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} ><br>
 
-<!-- The fileinput-button span is used to style the file input field as button -->
+        <p class="filetypes">
+            {{ __("Allowed filetypes are: ") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
+        </p>
+
+        <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
@@ -500,7 +508,7 @@
 {% if field.type == "video" %}
 
 {% set video = content.get(key) %}
-<div class="dropzone">
+<div class="dropzone video">
 
     <div class="video-right hide-phone">
         <div class='imageholder' id="thumbnail-{{key}}" style="width: 160px; text-align: center; background-color: #F8F8F8;">

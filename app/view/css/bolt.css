@@ -894,16 +894,19 @@ fieldset.checkbox div {
     box-shadow:  1px 1px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
-
 #editcontent .dropzone {
     margin: 1em 0 0.5em;
-    height: 140px;
+    height: 166px;
     width: 97%;
     clear: both;
 }
 
 #editcontent .geolocation {
     height: 180px;
+}
+
+#editcontent .video {
+    height: 140px;
 }
 
 #editcontent .imageselect {
@@ -925,6 +928,17 @@ fieldset.checkbox div {
 #editcontent small {
     font-size: 12px;
     color: #666;
+}
+
+#editcontent p.filetypes {
+    font-size: 90%;
+    color: #888;
+    margin: -4px 0 6px;
+}
+
+
+#editcontent p.filetypes code {
+    color: #888;
 }
 
 .progress {

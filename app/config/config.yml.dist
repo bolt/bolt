@@ -28,9 +28,9 @@ locale: en_GB
 maintenance_mode: false
 maintenance_template: maintenance_default.twig
 
-# The hour of the day for the internal cron task scheduler to run daily, weekly, 
+# The hour of the day for the internal cron task scheduler to run daily, weekly,
 # monthly and yearly jobs.  Default: 3 (3 am)
-cron_hour: 3 
+cron_hour: 3
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
@@ -124,14 +124,14 @@ thumbnails:
 
 # File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
 
-# The following is a "safe" default list.
-accept_file_types: [gif, jpg, jpeg, png, tgz, txt, md, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
+# The following is the default list of file-types that can be ulpoaded through the 'files' screen.
+accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
-# Alternatively, if you are willing to compromise security a bit, uncomment
-# the following list instead; it includes file types that are potentially
-# harmful, but usually desirable anyway.
-# accept_file_types: [gif, jpg, jpeg, png, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
+# Alternatively, if you wish to limit these, uncomment the following list instead;
+# it includes file types that are harder to exploit.
+# accept_file_types: [ gif, jpg, jpeg, png, txt, md, pdf, epub, mp3, svg ]
 
+#
 # If you want to 'brand' the Bolt backend for a client, you can change some key variables
 # here, that determine the name of the backend, and adds a primary support/contact link
 # to the footer. Additionally you can change the mount-point for the backend, either for

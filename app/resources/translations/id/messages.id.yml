@@ -81,7 +81,7 @@
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.":  #
 "The menu.yml config-file was edited by someone else in the meantime, please reload the page.":  #
 "The requested changelog entry doesn't exist.":  #
-"The settings for roles and permissions are stored in %permissions%.":  #
+"The settings for roles and permissions are stored in <code>%permissions%</code>.":  #
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.":  #
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.":  #
 "The translations file '%s' is not readable.":  #
