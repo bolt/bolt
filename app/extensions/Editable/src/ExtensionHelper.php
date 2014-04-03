@@ -32,10 +32,10 @@ abstract class ExtensionHelper extends BaseExtension
             'author' => "Rix Beck / Neologik Team",
             'link' => "http://www.neologik.hu",
             'email' => 'rix@neologik.hu',
-            'version' => "0.41",
+            'version' => "0.5",
 
-            'required_bolt_version' => "1.5.2",
-            'highest_bolt_version' => "1.5.2",
+            'required_bolt_version' => "1.5.3",
+            'highest_bolt_version' => "1.5.3",
             'first_releasedate' => "2014-03-31",
             'latest_releasedate' => "2014-03-31"
         );
