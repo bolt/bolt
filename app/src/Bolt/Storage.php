@@ -611,6 +611,9 @@ class Storage
             }
 
             if ($values['type'] == "video") {
+                if (!is_array($var)) {
+                   $fieldvalues[$key] = array();
+                }
                 foreach (array('html', 'responsive') as $subkey) {
                     $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
                 }
