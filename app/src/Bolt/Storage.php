@@ -174,7 +174,7 @@ class Storage
                 case 'image':
                     // Get a random image..
                     if (!empty($this->images)) {
-                        $content[$field] = $this->images[array_rand($this->images)];
+                        $content[$field]['file'] = $this->images[array_rand($this->images)];
                     }
                     break;
                 case 'html':
@@ -612,7 +612,9 @@ class Storage
 
             if ($values['type'] == "video") {
                 foreach (array('html', 'responsive') as $subkey) {
-                    $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                    if (!empty($fieldvalues[$key][$subkey])) {
+                        $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                    }
                 }
                 if (!empty($fieldvalues[$key]['url'])) {
                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
