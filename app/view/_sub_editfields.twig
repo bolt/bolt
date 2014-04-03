@@ -172,7 +172,7 @@
 
 {% if field.type == "image" %}
 
-    {% if content.get(key) is not iterable %}
+{% if content.get(key) is not iterable %}
     {# This image was stored in the old format until re-saved #}
     {% set image = {'file': content.get(key)} %}
 {% else %}
@@ -228,7 +228,7 @@
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload image') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php">
             </span>
         </div>
 
@@ -330,7 +330,7 @@
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload File') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/" >
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php" >
             </span>
         </div>
 
@@ -394,7 +394,7 @@
         <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
             <i class="icon-upload"></i>
             <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/"
+            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php"
                    {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
         </span>
 
@@ -480,7 +480,7 @@
             <input id="fileupload-{{key}}"
                    type="file"
                    name="fileupload-{{key}}[]"
-                   data-url="{{ paths.app }}classes/upload/"
+                   data-url="{{ paths.app }}classes/upload/index.php"
                     {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
         </span>
     </div>

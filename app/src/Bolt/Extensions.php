@@ -244,6 +244,9 @@ class Extensions
                     $this->initialized[$extension]->getConfig();
                     $this->initialized[$extension]->initialize();
 
+                    // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
+                    $this->getSnippets($extension);
+
                     if ($this->initialized[$extension] instanceof \Twig_Extension) {
                         $this->app['twig']->addExtension($this->initialized[$extension]);
                     }

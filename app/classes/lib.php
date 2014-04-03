@@ -763,7 +763,7 @@ function getPaths($original = array())
     }
 
     // Make sure we're not trying to access bolt as "/index.php/bolt/", because all paths will be broken.
-    if (!empty($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], "/index.php") !== false) {
+    if (!empty($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], "/index.php/") !== false) {
         simpleredirect(str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
     }
 
@@ -1695,7 +1695,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
  * Leniently decode a serialized compound data structure, detecting whether
  * it's dealing with JSON-encoded data or a PHP-serialized string.
  */
-function smart_unserialize($str, $assoc = false) {
+function smart_unserialize($str, $assoc = true) {
     if ($str[0] === '{' || $str[0] === '[') {
         $data = json_decode($str, $assoc);
         if ($data !== false) {
