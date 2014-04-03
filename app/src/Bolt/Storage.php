@@ -611,6 +611,9 @@ class Storage
             }
 
             if ($values['type'] == "video") {
+                foreach (array('html', 'responsive') as $subkey) {
+                    $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                }
                 if (!empty($fieldvalues[$key]['url'])) {
                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                 } else {

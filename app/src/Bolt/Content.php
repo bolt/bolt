@@ -139,12 +139,24 @@ class Content implements \ArrayAccess
             $this->values['status'] = $this->contenttype['default_status'];
         }
 
+        $serialized_field_types = array(
+            'geolocation',
+            'imagelist',
+            'image',
+            'file',
+            'filelist',
+            'video',
+            'select',
+            'templateselect',
+            'checkbox');
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
-                $unserdata = @smart_unserialize($value);
-                if ($unserdata !== false) {
-                    $this->values[$key] = $unserdata;
+            if (in_array($this->fieldtype($key), $serialized_field_types)) {
+                if (!empty($value) && is_string($value) && (substr($value, 0, 2)=="a:" || $value[0] === '[' || $value[0] === '{')) {
+                    $unserdata = @smart_unserialize($value);
+                    if ($unserdata !== false) {
+                        $this->values[$key] = $unserdata;
+                    }
                 }
             }
 
