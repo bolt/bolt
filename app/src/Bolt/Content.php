@@ -593,8 +593,13 @@ class Content implements \ArrayAccess
 
                 case 'imagelist':
                 case 'filelist':
-                    // Parse the field as JSON, return the array
-                    $value = json_decode($this->values[$name]);
+                    if (is_string($this->values[$name])) {
+                        // Parse the field as JSON, return the array
+                        $value = json_decode($this->values[$name]);
+                    } else {
+                        // Already an array, do nothing. 
+                        $value = $this->values[$name];
+                    }
                     break;
 
                 case 'image':
