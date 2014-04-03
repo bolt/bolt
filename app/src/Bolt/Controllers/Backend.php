@@ -1009,7 +1009,12 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
                 }
 
-                return redirect('users');
+                if ($firstuser) {
+                    // To the dashboard, where 'login' will be triggered..
+                    return redirect('dashboard');
+                } else {
+                    return redirect('users');
+                }
 
             }
         }
