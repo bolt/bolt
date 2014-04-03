@@ -427,7 +427,7 @@
         {% endif %}
 
     </div>
-    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>
     <div class='clearfix'></div>
 
     <!-- Modal "select from server"  -->
@@ -484,9 +484,7 @@
                     {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
         </span>
     </div>
-    <textarea name="{{key}}"
-              id="{{key}}"
-              class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>
 </div>
 <div class='clearfix'></div>
 
