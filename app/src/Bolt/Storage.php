@@ -640,8 +640,9 @@ class Storage
             }
 
             if (in_array($values['type'], array("imagelist", "filelist")))  {
-
-                if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                if (is_array($fieldvalues[$key])) {
+                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
                     // Don't store '[]'
                     $fieldvalues[$key] = "";
                 }
