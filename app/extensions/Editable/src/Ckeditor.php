@@ -14,16 +14,11 @@ class Ckeditor extends EditorController
      */
     public function initialize(Application $app)
     {
+        $weblib = 'view/lib';
+        $webbase = ((BOLT_COMPOSER_INSTALLED) ? '/bolt-public/' : '/') . $weblib;
+        $filebase = BOLT_WEB_DIR . ((BOLT_COMPOSER_INSTALLED) ? '/bolt-public/' : '/') . $weblib;
+        $this->extension->addResourcePath($filebase, $webbase);
 
-         // Uncomment following section and remove assets/ckeditor folder if bolt's core will shipped with corresponding Ckeditor.
-         // Actual version of Ckeditor of Bolt is differs somehow with the boundled in extension.
-
-        /*
-         * $weblib = 'view/lib';
-         * $webbase = ((BOLT_COMPOSER_INSTALLED) ? '/bolt-public/' : '/') . $weblib;
-         * $filebase = BOLT_WEB_DIR . ((BOLT_COMPOSER_INSTALLED) ? '/bolt-public/' : '/') . $weblib;
-         * $this->extension->addResourcePath($filebase, $webbase);
-         */
 
          // Fallback to view/js for eg. jquery-ui if necessary
 

@@ -19,5 +19,5 @@ permissions: [ admin, developer, chief-editor ]
 
 # Default editor settings
 editor: ckeditor
-styles: [ ]
+styles: [ ckeditor/plugins/editable/editable ]
 scripts: [ ckeditor/startup ]

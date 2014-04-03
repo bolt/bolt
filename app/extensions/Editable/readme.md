@@ -50,30 +50,112 @@ you may set the `teaser` field of a record to editable with the following twig c
 `record` can be any content object available either implicitly or explicitly.
 If optional `record` parameter omitted default record from the template context will be selected.
 
-If the actual visitor has logged in and has corresponding perrmissions to change then can edit the content.
+If the actual visitor has logged in and has corresponding permissions to change then can edit the content.
 Moving the mouse over the editable area of the page an `Edit` button will float over that should raise the editor toolbar.
 
-The editor toolbar can be customized with the optional `options` parameter of `editable()`. This parameter is a key=>value
-twig array map with a following possible format:
+The editor toolbar can be customized with the optional `options` parameter of `editable()` like below.
 
 ``{{ editable('teser', record, { 'logo': false, 'statistics': false }) }}``
 
-With this option you may enable or disable the specific plugin of Raptor editor.
+With this option you may enable or disable editor specific options that may differs in underlying editors.
+In Raptor this parameter is a key=>value twig array map and turns off/on the corresponding plugins of Raptor.
 
 **Warning! Parameter order has changed since version v0.1 because record object became optional now.**
 
-Raptor
-======
+Options in Raptor
+-----------------
+
+Currently following plugins are enabled by default and can be switched off:
+
+* dockToScreen
+* dockToElement
+* guides
+* viewSource
+* historyUndo
+* historyRedo
+* textBold,
+* textItalic
+* textUnderline
+* listUnordered
+* listOrdered
+* hrCreate
+* clearFormatting
+* linkCreate
+* linkRemove
+
+and these are can be enabled:
+
+* floatLeft
+* floatNone
+* floatRight
+* textBlockQuote
+* textStrike
+* textSuper
+* textSub
+* alignLeft
+* alignCenter
+* alignJustify
+* alignRight
+* languageMenu
+* statistics
+* logo
+* textSizeDecrease
+* textSizeIncrease
+* fontFamilyMenu
+* embed
+* insertFile
+* colorMenuBasic
+* tagMenu
+* classMenu
+* snippetMenu
+* specialCharacters
+* tableCreate
+* tableInsertRow
+* tableDeleteRow
+* tableInsertColumn
+* tableDeleteColumn
+
+Options in CKeditor
+-------------------
+
+Options in CKeditor just configures toolbar button groups and doesn't adds or removes any plugin.
+Toolbar functions are grouped by group name which defines available toolbar functions internally.
+Following toolbar functions enabled under a group name by default and these can't be turned off:
+
+* inlinesave: EditableSave
+* styles: Format
+* basicstyles: Bold, Italic, Underline, Strike
+* paragraph: NumberedList, BulletedList, Indent, Outdent, Blockquote
+* table: Table
+
+These are the optional toolbar elements:
+
+* anchor: Link, Unlink, Anchor
+* links: Link, Unlink
+* subsuper: Subscript, Superscript
+* mediaembed: MediaEmbed
+* align: JustifyLeft, JustifyCenter, JustifyRight, JustifyBlock
+* colors: TextColor, BGColor
+* tools: SpecialChar, RemoveFormat, Maximize, Source
+
+Enable a group in editor toolbar just list the group name in the `option` parameter this way:
+
+``{{ editable('teser', record, 'anchor, subsuper') }}`` or ``{{ editable('teser', record, [ 'anchor', 'subsuper' ]) }}``
+
+About Raptor
+------------
 
 <a href="https://www.raptor-editor.com/" target="_blank">Raptor</a> is LGPL licensed Javascript in-place editor.
 About its configuration and API please visit the site.
-Raptor comes with many plugins has been integrated in. Each function in the editor toolbar is a plugin that can
-be enabled or disabled in the frontend. (See its' plugins at Raptor's documentation)
 
-In the other hand you may check `assets/startup.js` about the available option flags.
-
-Otherwise this boundled build of Raptor.js is a slightly patched version. Check `saveJson` plugin to see how it is
+This boundled build of Raptor.js is a slightly patched version. Check `saveJson` plugin to see how it is
 modified to be able to post some extra data to server side.
+
+About CKEditor
+--------------
+
+Extension has made support internal CKEditor boundled in Bolt but may use with your custom build with CKEditor download site.
+This case just copy your distribution to ``Editable/assets/ckeditor`` and (I hope) no any special settings required.
 
 Notes
 =====

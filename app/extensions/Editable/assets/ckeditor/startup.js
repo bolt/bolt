@@ -1,49 +1,90 @@
 (function() {
-    CKEDITOR.plugins.add('inlinesave', {
-        init: function(editor) {
-            editor.addCommand('inlinesave', {
-                exec: function(editor) {
-                    var data = {};
-                    var $element = $(editor.element.$);
-                    data.parameters = $element.data('parameters');
-                    data[editor.element.$.dataset['content_id']] = editor.getData();
-                    jQuery.ajax({
-                        type: "POST",
-                        url: '/editable/save',
-                        data: {
-                            editcontent: JSON.stringify(data)
-                        }
-                    }).done(function(data, textStatus, jqXHR) {
-                        alert('Block saved successfully');
-                    }).fail(function(jqXHR, textStatus, errorThrown) {
-                        alert('Error saving block');
-                    });
-                }
-            });
-
-            editor.ui.addButton('Inlinesave', {
-                label: 'Save',
-                command: 'inlinesave',
-                icon: this.path + 'images/save.png'
-            });
+    var extras = {
+        anchor: {
+            name: 'links',
+            items: ['Link', 'Unlink', '-', 'Anchor']
+        },
+        links: {
+            name: 'links',
+            items: ['Link', 'Unlink']
+        },
+        subsuper: {
+            name: 'subsuper',
+            items: ['Subscript', 'Superscript']
+        },
+        mediaembed: {
+            name: 'embed',
+            items: ['MediaEmbed']
+        },
+        align: {
+            name: 'align',
+            items: ['JustifyLeft',
+                    'JustifyCenter',
+                    'JustifyRight',
+                    'JustifyBlock']
+        },
+        colors: {
+            name: 'colors',
+            items: ['TextColor', 'BGColor']
+        },
+        tools: {
+            name: 'tools',
+            items: ['SpecialChar',
+                    '-',
+                    'RemoveFormat',
+                    'Maximize',
+                    '-',
+                    'Source']
         }
-    });
+    };
+    var toolbar = [{
+        name: 'inlinesave',
+        items: ['EditableSave']
+    }, {
+        name: 'styles',
+        items: ['Format']
+    }, {
+        name: 'basicstyles',
+        items: ['Bold', 'Italic', 'Underline', 'Strike']
+    }, {
+        name: 'paragraph',
+        items: ['NumberedList',
+                'BulletedList',
+                'Indent',
+                'Outdent',
+                '-',
+                'Blockquote']
+    },
+    {
+        name: 'table',
+        items: ['Table']
+    }];
+
+    CKEDITOR.plugins.addExternal('editable', '../../../extensions/Editable/assets/ckeditor/plugins/editable/','plugin.js');
+    CKEDITOR.config.extraPlugins = 'editable';
 
     CKEDITOR.on('instanceCreated', function(event) {
         var editor = event.editor;
         var $element = $(editor.element.$);
-        var options = $element.data('options') || {};
+        var options = $element.data('options');
+        var tbItems = toolbar;
+
+        if (typeof options == "string") {
+            options = options.split(',');
+        }
+        for (var i = 0; i < options.length; i++) {
+            var menuItem = extras[options[i]];
+            if (typeof menuItem == "object") {
+                tbItems = tbItems.concat(menuItem);
+            }
+        }
 
         editor.on('configLoaded', function() {
-
-            if (options.toolbarGroups) {
-                editor.config.toolbarGroups = options.toolbarGroups;
-            }
+            editor.config.toolbar = tbItems;
         });
 
-        editor.on('focus', function(e) {
-            // alert('focus');
-        })
     });
-
+    /*
+     * @todo Implement snapshot capturing of a block and following changes
+     */
 })();
