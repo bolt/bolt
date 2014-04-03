@@ -66,7 +66,7 @@
     CKEDITOR.on('instanceCreated', function(event) {
         var editor = event.editor;
         var $element = $(editor.element.$);
-        var options = $element.data('options');
+        var options = $element.data('options') || [];
         var tbItems = toolbar;
 
         if (typeof options == "string") {
