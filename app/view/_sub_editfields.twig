@@ -142,14 +142,22 @@
     <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
-            {% for value in values %}
-                <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
+            {% for value in field.values %}
+                {% if value is iterable and (value | length) > 1 %}
+                    <option value="{{value[0]}}" {% if value[0] in content.get(key) %}selected{% endif %}>{{value[1]}}</option>
+                {% else %}
+                    <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
+                {% endif %}
             {% endfor %}
         </select>
     {% else %}
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
-            {% for value in values %}
-                <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
+            {% for value in field.values %}
+                {% if value is iterable and (value | length) > 1 %}
+                    <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1]}}</option>
+                {% else %}
+                    <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
+                {% endif %}
             {% endfor %}
         </select>
     {% endif %}
@@ -427,7 +435,7 @@
         {% endif %}
 
     </div>
-    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>
     <div class='clearfix'></div>
 
     <!-- Modal "select from server"  -->
@@ -484,9 +492,7 @@
                     {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
         </span>
     </div>
-    <textarea name="{{key}}"
-              id="{{key}}"
-              class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>
 </div>
 <div class='clearfix'></div>
 
