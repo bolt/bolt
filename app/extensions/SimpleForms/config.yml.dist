@@ -7,6 +7,8 @@ message_ok: Thanks! Your message has been sent.
 message_error: There was an error in the form. Please check the form, and try again.
 message_technical: There were some technical difficulties, so your message was not sent. We apologize for the inconvenience.
 button_text: Send
+# Optional. Used only, when you have a file field.
+# mime_types_message: "Not allowed file type. Allowed file types are:"
 
 # ReCaptcha Config - Set these options to enable ReCaptcha spam protection.
 # Generate your keys at https://www.google.com/recaptcha/admin/create
@@ -60,10 +62,17 @@ contact:
 # A demo form to showcase various options for fields. Use as
 # {{ simpleform('demo') }} in your templates.
 demo:
+  mail_subject: "Fancy Mail Subject"
   recipient_email: info@example.org
   recipient_name: Info
   recipient_cc_email: another@example.com
   recipient_cc_name: Another Email Address
+  # if you want to save form content to a database make a table with the exact column names and types of your fields
+  insert_into_table: bolt_your_table_name
+  # uploaded files will be saved here if you have a file field
+  storage_location: demo_uploads
+  # uploaded files attached to the email if true
+  attach_files: true
   fields:
     subject:
       type: text
@@ -71,6 +80,7 @@ demo:
       required: false
       label: Subject of your message
       placeholder: Just a quick message ..
+      maxlength: 30
     name:
       type: text
       required: true
@@ -89,8 +99,16 @@ demo:
     favorite:
       type: choice
       label: My favorite animals are
+      empty_value: My favorite animals are
       choices: [ Kittens, Puppies, Penguins, Koala bears, "I don't like animals" ]
       required: true
+    file:
+      type: file
+      label: Upload a file
+      required: true
+      filetype: [jpg, gif, tiff, png, pdf]
+      #mimetypes are optional, used by Symfony Forms Validator
+      mimetype: ["application/pdf", "application/x-pdf", "image/tiff", "image/x-tiff", "image/png", "image/jpeg", "image/pjpeg", "image/gif"]
     option1:
       type: checkbox
       label: Newsletter
@@ -101,5 +119,3 @@ demo:
       placeholder: Yes, I will gladly agree to something or other.
       required: true
   button_text: Send the Demo form!
-
-

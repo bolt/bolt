@@ -298,7 +298,7 @@
 "The menu.yml config-file was edited by someone else in the meantime, please reload the page.": "A menu.yml fájlt idő közben valaki szerkesztette, töltse újra az oldalt."
 "The new %contenttype% has been saved.": "Az új %contenttype% mentve."
 "The requested changelog entry doesn't exist.": "A kért változásnapló bejegyzés nem létezik."
-"The settings for roles and permissions are stored in %permissions%.": "A szerepek és az engedélyek beállításai tárolva a %permissions% fájlban."
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": "A szerepek és az engedélyek beállításai tárolva a %permissions% fájlban."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "A '%slug%' slug több, mint egy tartalomtípusban használt. Szerkessze úgy a contenttypes.yml fájlt, hogy különbözzenek."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "A '%s' nyelvi fájl nem hozható létre. A saját szerkesztőjét kell használnia ahhoz, hogy módosítani tudja."
 "The translations file '%s' is not readable.": "A '%s' nyelvi fájl nem olvasható."

@@ -445,7 +445,9 @@ class Backend implements ControllerProviderInterface
         // @todo Do we need pager here?
         //$app['pager'] = $pager; // $pager is not defined, so no
 
-        $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
+        $title = sprintf("<strong>%s</strong> » %s",
+                    __('Overview'),
+                    htmlencode($contenttype['name']));
         $app['twig']->addGlobal('title', $title);
 
         return $app['render']->render(
@@ -695,7 +697,9 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $title = sprintf("<strong>%s</strong> » %s", __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])), $content->getTitle());
+            $title = sprintf("<strong>%s</strong> » %s",
+                __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])),
+                htmlencode($content->getTitle()));
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             // Check if we're allowed to create content..
@@ -856,7 +860,7 @@ class Backend implements ControllerProviderInterface
         // Get the user we want to edit (if any)
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
-            $title = "<strong>" . __('Edit user') . "</strong> » " . $user['displayname'];
+            $title = "<strong>" . __('Edit user') . "</strong> » " . htmlencode($user['displayname']);
         } else {
             $user = $app['users']->getEmptyUser();
             $title = "<strong>" . __('Create a new user') . "</strong>";
@@ -1005,7 +1009,12 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
                 }
 
-                return redirect('users');
+                if ($firstuser) {
+                    // To the dashboard, where 'login' will be triggered..
+                    return redirect('dashboard');
+                } else {
+                    return redirect('users');
+                }
 
             }
         }
