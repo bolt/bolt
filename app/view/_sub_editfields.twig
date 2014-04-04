@@ -142,7 +142,7 @@
     <label><b><span class='left'>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</span></b></label>
     {% if field.multiple is defined and field.multiple %}
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
-            {% for value in field.values %}
+            {% for value in values %}
                 {% if value is iterable and (value | length) > 1 %}
                     <option value="{{value[0]}}" {% if value[0] in content.get(key) %}selected{% endif %}>{{value[1]}}</option>
                 {% else %}
@@ -152,7 +152,7 @@
         </select>
     {% else %}
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
-            {% for value in field.values %}
+            {% for value in values %}
                 {% if value is iterable and (value | length) > 1 %}
                     <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1]}}</option>
                 {% else %}
