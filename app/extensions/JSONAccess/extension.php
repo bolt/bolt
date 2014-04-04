@@ -78,10 +78,14 @@ class Extension extends \Bolt\BaseExtension
             }
         }
         if ($order = $request->get('order')) {
-            if (!preg_match('/^([a-zA-Z][a-zA-Z0-9\(\)_\\-]*)\\s*(ASC|DESC)?$/', $order, $matches)) {
+            if (!preg_match('/^([a-zA-Z][a-zA-Z0-9_\\-]*)\\s*(ASC|DESC)?$/', $order, $matches)) {
                 return $this->app->abort(400, 'Invalid request');
             }
             $options['order'] = $order;
+        }
+        if (strtoupper($options['order']) == 'RAND' || strtoupper($options['order']) == 'RANDOM' || strtoupper($options['order']) == 'SHUFFLE') {
+            $opt = $app['config']->getDBOptions();
+            $options['order'] = $opt['randomfunction'];
         }
         $items = $this->app['storage']->getContent($contenttype, $options);
 
