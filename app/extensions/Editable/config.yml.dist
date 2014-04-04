@@ -1,0 +1,21 @@
+# User roles that are allowed to use the Ed-It inplace editor
+# Similar to MenuEditor available roles are: root, admin, developer, chief-editor, editor, guest, everyone
+permissions: [ admin, developer, chief-editor ]
+
+# Name of editor to be used. You may implement different Editors like Raptor.
+# See readme.md about details.
+# raptor.js will be find and it must be exists somewhere in $resourcePaths.
+# $resourcePaths is a member of Editable\ExtensionHelper class.
+# By default {basepath}/assets/{editor}.js, {theme}/{editor.js} are in resource paths.
+#editor: raptor
+
+# Required stylesheets without '.css'. Resource search fallback is same as above.
+#styles: [ raptor/raptor-front-end ]
+
+# Required scripts without '.js'. Resource search fallback is same as above.
+#scripts: [ raptor/startup ]
+
+# Default editor settings
+editor: ckeditor
+styles: [ ckeditor/plugins/editable/editable ]
+scripts: [ ckeditor/startup ]
