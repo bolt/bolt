@@ -3,7 +3,7 @@ Ed-It In Place Editor extension
 
 Actually, I made this stuff just for fun to see how easy implement additional functions with an extension and I may say,
 Bolt is cool. :-)
-This extension tries to extend administation functionality of Bolt on Frontend with enabling in-place editing some content.
+This extension extends administation functionality of Bolt on Frontend with enabling in-place editing some content.
 
 Administrator or chief editor of the site may think there are some type of content on the site which may be editable in place
 where it is. This function could be useful if editor wants to see instantly how the edited content would looks like in its page
@@ -53,68 +53,6 @@ If optional `record` parameter omitted default record from the template context 
 If the actual visitor has logged in and has corresponding permissions to change then can edit the content.
 Moving the mouse over the editable area of the page an `Edit` button will float over that should raise the editor toolbar.
 
-The editor toolbar can be customized with the optional `options` parameter of `editable()` like below.
-
-``{{ editable('teser', record, { 'logo': false, 'statistics': false }) }}``
-
-With this option you may enable or disable editor specific options that may differs in underlying editors.
-In Raptor this parameter is a key=>value twig array map and turns off/on the corresponding plugins of Raptor.
-
-**Warning! Parameter order has changed since version v0.1 because record object became optional now.**
-
-Options in Raptor
------------------
-
-Currently following plugins are enabled by default and can be switched off:
-
-* dockToScreen
-* dockToElement
-* guides
-* viewSource
-* historyUndo
-* historyRedo
-* textBold,
-* textItalic
-* textUnderline
-* listUnordered
-* listOrdered
-* hrCreate
-* clearFormatting
-* linkCreate
-* linkRemove
-
-and these are can be enabled:
-
-* floatLeft
-* floatNone
-* floatRight
-* textBlockQuote
-* textStrike
-* textSuper
-* textSub
-* alignLeft
-* alignCenter
-* alignJustify
-* alignRight
-* languageMenu
-* statistics
-* logo
-* textSizeDecrease
-* textSizeIncrease
-* fontFamilyMenu
-* embed
-* insertFile
-* colorMenuBasic
-* tagMenu
-* classMenu
-* snippetMenu
-* specialCharacters
-* tableCreate
-* tableInsertRow
-* tableDeleteRow
-* tableInsertColumn
-* tableDeleteColumn
-
 Options in CKeditor
 -------------------
 
@@ -142,20 +80,20 @@ Enable a group in editor toolbar just list the group name in the `option` parame
 
 ``{{ editable('teser', record, 'anchor, subsuper') }}`` or ``{{ editable('teser', record, [ 'anchor', 'subsuper' ]) }}``
 
+About CKEditor
+--------------
+
+Extension has made to support internal CKEditor boundled in Bolt but may use with your custom build with CKEditor download site.
+This case just copy your distribution to ``Editable/assets/ckeditor`` and (I hope) no any special settings required.
+
 About Raptor
 ------------
 
 <a href="https://www.raptor-editor.com/" target="_blank">Raptor</a> is LGPL licensed Javascript in-place editor.
 About its configuration and API please visit the site.
 
-This boundled build of Raptor.js is a slightly patched version. Check `saveJson` plugin to see how it is
-modified to be able to post some extra data to server side.
-
-About CKEditor
---------------
-
-Extension has made support internal CKEditor boundled in Bolt but may use with your custom build with CKEditor download site.
-This case just copy your distribution to ``Editable/assets/ckeditor`` and (I hope) no any special settings required.
+To keep Bolt project size low, Raptor editor has removed from extension.
+If you need to reimplement, check ``Raptor.php`` and ``config.yml.dist`` and put html related assets in ``assets/raptor/``.
 
 Notes
 =====

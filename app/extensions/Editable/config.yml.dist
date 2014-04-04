@@ -2,10 +2,8 @@
 # Similar to MenuEditor available roles are: root, admin, developer, chief-editor, editor, guest, everyone
 permissions: [ admin, developer, chief-editor ]
 
-# assets/{editor}/{editor}.js - if exists load it, otherwise fallback to default
-# assets/{assets} - iterates over and try to load
-
-# Name of editor used. You may implement others like Raptor Editor
+# Name of editor to be used. You may implement different Editors like Raptor.
+# See readme.md about details.
 # raptor.js will be find and it must be exists somewhere in $resourcePaths.
 # $resourcePaths is a member of Editable\ExtensionHelper class.
 # By default {basepath}/assets/{editor}.js, {theme}/{editor.js} are in resource paths.
