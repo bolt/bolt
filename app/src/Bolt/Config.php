@@ -252,6 +252,11 @@ class Config
         $config['contenttypes'] = array();
         foreach ($tempContentTypes as $key => $temp) {
 
+            // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
+            if (!isset($temp['slug']) && !is_numeric($key)) {
+                $temp['slug'] = makeSlug($key);
+            }
+
             // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
             // neither 'singular_name' nor 'singular_slug' is set.
             if (!isset($temp['name']) && !isset($temp['slug'])) {
