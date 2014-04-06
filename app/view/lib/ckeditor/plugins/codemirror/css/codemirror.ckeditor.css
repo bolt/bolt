@@ -1,0 +1,141 @@
+/* Extra for the CKEditor CodeMirror Plugin */
+
+.CodeMirror {font:13px/1.4em monospace;}
+
+.CodeMirror .activeline { background: #e8f2ff; }
+
+.CodeMirror .CodeMirror-foldmarker {
+	color: blue;
+	text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
+	font-family: arial;
+	line-height: .3;
+	cursor: pointer;
+}
+
+/* Source Dialog Buttons */
+.searchCodeButton span,
+.autoFormat span,
+.CommentSelectedRange span,
+.UncommentSelectedRange span {width:16px;height:16px;margin-left:6px}
+
+.searchCodeButton span {background: url("../icons/SearchCode.png") no-repeat}
+.autoFormat span {background: url("../icons/AutoFormat.png") no-repeat}
+.CommentSelectedRange span {background: url("../icons/CommentSelectedRange.png") no-repeat}
+.UncommentSelectedRange span {background: url("../icons/UncommentSelectedRange.png") no-repeat}
+
+/* Fixes for the sourceDialog */
+.cke_reset_all .CodeMirror-scroll * { white-space:normal}
+
+.cke_reset_all .cm-s-cobalt *,
+.cke_reset_all .cm-s-erlang-dark *,
+.cke_reset_all .cm-s-lesser-dark *,
+.cke_reset_all .cm-s-monokai *,
+.cke_reset_all .cm-s-night *,
+.cke_reset_all .cm-s-rubyblue *,
+.cke_reset_all .cm-s-twilight *,
+.cke_reset_all .cm-s-xq-dark * { color:inherit;font:inherit }
+
+/* Fixes for themes */
+.cm-s-cobalt .CodeMirror-selected { background: #b36539 !important; }
+.cm-s-erlang-dark .CodeMirror-selected { background: #b36539 !important; }
+.cm-s-lesser-dark .CodeMirror-selected {background: #45443B !important;}
+.cm-s-monokai .CodeMirror-selected {background: #49483E !important;}
+.cm-s-night .CodeMirror-selected { background: #447 !important; }
+.cm-s-rubyblue .CodeMirror-selected { background: #38566F !important; }
+.cm-s-twilight .CodeMirror-selected { background: #323232 !important; }
+.cm-s-xq-dark .CodeMirror-selected { background: #a8f !important; }
+
+.cm-s-blackboard .activeline,
+.cm-s-cobalt .activeline,
+.cm-s-erlang-dark .activeline,
+.cm-s-lesser-dark .activeline,
+.cm-s-monokai .activeline,
+.cm-s-night .activeline,
+.cm-s-rubyblue .activeline,
+.cm-s-vibrant-ink .activeline,
+.cm-s-xq-dark .activeline { background: #757575; }
+.cm-s-twilight .activeline { background:#494949; }
+
+.CodeMirror-focused .cm-matchhighlight {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==);
+    background-position: bottom;
+    background-repeat: repeat-x;
+}
+
+/* Dialog Addon */
+.CodeMirror-dialog {
+  position: absolute;
+  left: 0; right: 0;
+  background: white;
+  z-index: 15;
+  padding: .1em .8em;
+  overflow: hidden;
+  color: #333;
+}
+
+.CodeMirror-dialog-top {
+  border-bottom: 1px solid #eee;
+  top: 0;
+}
+
+.CodeMirror-dialog-bottom {
+  border-top: 1px solid #eee;
+  bottom: 0;
+}
+
+.CodeMirror-dialog input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 20em;
+  color: inherit;
+  font-family: monospace;
+}
+
+.CodeMirror-dialog button {
+  font-size: 70%;
+}
+.CodeMirror-hints {
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+  list-style: none;
+
+  margin: 0;
+  padding: 2px;
+
+  -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+  -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+  box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+  border-radius: 3px;
+  border: 1px solid silver;
+
+  background: white;
+  font-size: 90%;
+  font-family: monospace;
+
+  max-height: 20em;
+  overflow-y: auto;
+}
+
+.CodeMirror-hint {
+  margin: 0;
+  padding: 0 4px;
+  border-radius: 2px;
+  max-width: 19em;
+  overflow: hidden;
+  white-space: pre;
+  color: black;
+  cursor: pointer;
+}
+
+.CodeMirror-hint-active {
+  background: #08f;
+  color: white;
+}
+
+.cm-trailingspace {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
+	background-position: bottom left;
+	background-repeat: repeat-x;
+}
