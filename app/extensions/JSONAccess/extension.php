@@ -83,6 +83,10 @@ class Extension extends \Bolt\BaseExtension
             }
             $options['order'] = $order;
         }
+        if (strtoupper($options['order']) == 'RAND' || strtoupper($options['order']) == 'RANDOM' || strtoupper($options['order']) == 'SHUFFLE') {
+            $opt = $this->app['config']->getDBOptions();
+            $options['order'] = $opt['randomfunction'];
+        }
         $items = $this->app['storage']->getContent($contenttype, $options);
 
         // If we don't have any items, this can mean one of two things: either
