@@ -191,6 +191,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.uiColor = '#DDDDDD';
     config.resize_enabled = true;
     config.entities = false;
+    config.extraPlugins = 'codemirror';
     config.toolbar = [
         { name: 'styles', items: [ 'Format' ] },
         { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
@@ -210,7 +211,7 @@ CKEDITOR.editorConfig = function( config ) {
         config.toolbar = config.toolbar.concat({ name: 'image', items: [ 'Image' ] });
     }
     if (wysiwyg.embed) {
-        config.extraPlugins = 'oembed,widget';
+        config.extraPlugins += ',oembed,widget';
         config.oembed_maxWidth = '853';
         config.oembed_maxHeight = '480';
         config.toolbar = config.toolbar.concat({ name: 'embed', items: [ 'oembed' ] });
