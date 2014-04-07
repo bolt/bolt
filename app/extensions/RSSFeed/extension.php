@@ -19,15 +19,15 @@ class Extension extends \Bolt\BaseExtension
 
         $data = array(
             'name' => "RSSFeed",
-            'description' => "Adds capability of providing RSS feeds of your content types.",
-            'author' => "WeDesignIt, Patrick van Kouteren",
+            'description' => "Adds capability of providing RSS feeds of your content.",
+            'author' => "WeDesignIt, Patrick van Kouteren, Gawain Lynch",
             'link' => "http://www.wedesignit.nl",
-            'version' => "0.2",
-            'required_bolt_version' => "1.0 RC",
-            'highest_bolt_version' => "1.0 RC",
+            'version' => "0.3",
+            'required_bolt_version' => "1.0",
+            'highest_bolt_version' => "1.5.5",
             'type' => "General",
             'first_releasedate' => "2012-11-06",
-            'latest_releasedate' => "2013-02-04"
+            'latest_releasedate' => "2014-04-08"
         );
 
         return $data;
