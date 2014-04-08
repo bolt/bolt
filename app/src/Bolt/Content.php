@@ -309,6 +309,8 @@ class Content implements \ArrayAccess
         if (!empty($values['relation'])) {
             $this->relation = $values['relation'];
             unset($values['relation']);
+        } else {
+            $this->relation = array();
         }
 
         // @todo check for allowed file types..
