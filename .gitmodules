@@ -1,3 +1,0 @@
-[submodule "app/extensions/PlusOne"]
-	path = app/extensions/PlusOne
-	url = git@github.com:bolt/PlusOne.git

@@ -309,6 +309,8 @@ class Content implements \ArrayAccess
         if (!empty($values['relation'])) {
             $this->relation = $values['relation'];
             unset($values['relation']);
+        } else {
+            $this->relation = array();
         }
 
         // @todo check for allowed file types..
@@ -597,7 +599,7 @@ class Content implements \ArrayAccess
                         // Parse the field as JSON, return the array
                         $value = json_decode($this->values[$name]);
                     } else {
-                        // Already an array, do nothing. 
+                        // Already an array, do nothing.
                         $value = $this->values[$name];
                     }
                     break;
@@ -817,13 +819,15 @@ class Content implements \ArrayAccess
      */
     public function link()
     {
-        if (empty($this->id))
+        if (empty($this->id)) {
             return null;
+        }
 
         list($binding, $route) = $this->getRoute();
 
-        if(!$route)
+        if(!$route) {
             return null;
+        }
 
         $link = $this->app['url_generator']->generate($binding, array_filter(array_merge(
             $route['defaults'] ?: array(),
@@ -869,19 +873,28 @@ class Content implements \ArrayAccess
      */
     protected function getRoute()
     {
-        foreach ($this->app['config']->get('routing') as $binding => $route)
-            if ($this->isApplicableRoute($binding, $route))
+        $allroutes = $this->app['config']->get('routing');
+
+        // First, try to find a custom route that's applicable
+        foreach ($allroutes as $binding => $route) {
+            if ($this->isApplicableRoute($binding, $route)) {
                 return array($binding, $route);
+            }
+        }
+
+        // Just return the 'generic' contentlink route.
+        if (!empty($allroutes['contentlink'])) {
+            return array('contentlink', $allroutes['contentlink']);
+        }
 
         return null;
     }
 
     protected function isApplicableRoute($binding, array $route)
     {
-        return 'contentlink' === $binding ||
-            (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
-            (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug']) ||
-            (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
+        return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
+        (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug']) ||
+        (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
     }
 
     /**

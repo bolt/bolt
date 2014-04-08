@@ -19,15 +19,15 @@ class Extension extends \Bolt\BaseExtension
 
         $data = array(
             'name' => "RSSFeed",
-            'description' => "Adds capability of providing RSS feeds of your content types.",
-            'author' => "WeDesignIt, Patrick van Kouteren",
+            'description' => "Adds capability of providing RSS feeds of your content.",
+            'author' => "WeDesignIt, Patrick van Kouteren, Gawain Lynch",
             'link' => "http://www.wedesignit.nl",
-            'version' => "0.2",
-            'required_bolt_version' => "1.0 RC",
-            'highest_bolt_version' => "1.0 RC",
+            'version' => "0.3",
+            'required_bolt_version' => "1.0",
+            'highest_bolt_version' => "1.5.5",
             'type' => "General",
             'first_releasedate' => "2012-11-06",
-            'latest_releasedate' => "2013-02-04"
+            'latest_releasedate' => "2014-04-08"
         );
 
         return $data;
@@ -36,13 +36,19 @@ class Extension extends \Bolt\BaseExtension
 
     function initialize()
     {
+        // Sitewide feed
+        $this->app->match('/rss/feed.{extension}', array($this, 'feed'))
+        ->assert('extension', '(xml|rss)')
+        ;
+
+        // Contenttype specific feed(s)
         $this->app->match('/{contenttypeslug}/rss/feed.{extension}', array($this, 'feed'))
             ->assert('extension', '(xml|rss)')
             ->assert('contenttypeslug', $this->app['storage']->getContentTypeAssert())
         ;
     }
 
-    public function feed($contenttypeslug)
+    public function feed($contenttypeslug = '')
     {
         $this->disableJquery();
         // Clear snippet list. There's no clear any more, so just set to null
@@ -52,6 +58,11 @@ class Extension extends \Bolt\BaseExtension
         $defaultFeedRecords = 5;
         $defaultContentLength = 100;
         $defaultTemplate = 'rss.twig';
+
+        // If we're on the front page, use sitewide configuration
+        if ($contenttypeslug == '') {
+            $contenttypeslug = 'sitewide';
+        }
 
         if (!isset($this->config[$contenttypeslug]['enabled']) ||
             $this->config[$contenttypeslug]['enabled'] != 'true'
@@ -68,12 +79,36 @@ class Extension extends \Bolt\BaseExtension
                 $this->config[$contenttypeslug]['content_length'] :
                 $defaultContentLength)
         );
-        $contenttype = $this->app['storage']->getContentType($contenttypeslug);
 
-        $content = $this->app['storage']->getContent(
-            $contenttype['slug'],
-            array('limit' => $amount, 'order' => 'datepublish desc')
-        );
+        // Get our content
+        if ($contenttypeslug == 'sitewide') {
+            foreach ($this->config[$contenttypeslug]['content_types'] as $types ) {
+                $contenttypes[] = $this->app['storage']->getContentType($types);
+            }
+        } else {
+            $contenttypes[] = $this->app['storage']->getContentType($contenttypeslug);
+        }
+
+        // Get content for each contenttype we've selected as an assoc. array
+        // by content type
+        foreach ($contenttypes as $contenttype) {
+            $content[$contenttype['slug']] = $this->app['storage']->getContent(
+                $contenttype['slug'],
+                array('limit' => $amount, 'order' => 'datepublish desc')
+            );
+        }
+
+        // Now narrow our content array to $amount based on date
+        foreach ($content as $slug => $recordid) {
+            foreach ($recordid as $record) {
+                $key = strtotime($record->values['datepublish']) . $slug;
+                $tmp[$key] = $record;
+            }
+        }
+
+        // Sort the array and return a reduced one
+        krsort($tmp);
+        $content = array_slice($tmp, 0, $amount);
 
         if (!$content) {
             $this->app->abort(404, "Feed for '$contenttypeslug' not found.");
