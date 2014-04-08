@@ -817,8 +817,9 @@ class Content implements \ArrayAccess
      */
     public function link()
     {
-        if (empty($this->id))
+        if (empty($this->id)) {
             return null;
+        }
 
         list($binding, $route) = $this->getRoute();
 
