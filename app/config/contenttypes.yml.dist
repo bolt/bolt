@@ -147,6 +147,10 @@ kitchensink:
             values: [ A-tuin, Donatello, Rafael, Leonardo, Michelangelo, Koopa, Squirtle ]
             multiple: true
             postfix: "Select your favourite turtle(s)."
+        selectentry:
+            type: select
+            values: entries/id,title
+            postfix: "Select an entry"
     relations:
         entries:
             multiple: false
