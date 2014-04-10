@@ -32,9 +32,9 @@ class Cache extends FilesystemCache
      * @param  string                               $cacheDir
      * @throws \Exception|\InvalidArgumentException
      */
-    public function __construct($cacheDir = "")
+    public function __construct($cacheDir = null)
     {
-        if ($cacheDir == "") {
+        if (!isset($cacheDir)) {
             $cacheDir = BOLT_CACHE_DIR;
         } else {
             // We don't have $app here, so we use the filesystem component
