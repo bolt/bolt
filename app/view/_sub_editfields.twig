@@ -135,6 +135,9 @@
     {% else %}
         {% set lookuptype = field.values|split('/')|first %}
         {% set lookupfield = field.values|split('/')|last %}
+        {% if ',' in lookupfield %}
+            {% set lookupfield = lookupfield|split(',') %}
+        {% endif %}
         {% setcontent lookups = lookuptype order 'title' %}
         {% set values = lookups|selectfield(lookupfield) %}
     {% endif %}

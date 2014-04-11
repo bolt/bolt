@@ -16,7 +16,7 @@ class Application extends Silex\Application
 {
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '1.5.5';
+        $values['bolt_version'] = '1.5.6';
         $values['bolt_name'] = 'dev';
 
         parent::__construct($values);
