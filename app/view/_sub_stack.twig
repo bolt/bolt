@@ -38,7 +38,11 @@
             <span class="btn fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload') }}</span>
-                <input id="fileupload-stack" type="file" name="fileupload-stack[]" data-url="{{ paths.app }}classes/upload/">
+                <input id="fileupload-stack" 
+                       type="file" 
+                       name="fileupload-stack[]" 
+                       data-url="{{ paths.app }}classes/upload/"
+                       accept=".{{ filetypes|join(',.') }}">
             </span>
         </div>
 
@@ -48,6 +52,10 @@
                 {{ __('Select') }}
             </a>
         </div>
+
+        <p class="filetypes">
+            {{ __("Allowed filetypes are: ") }} <code>{{ filetypes|join("</code>, <code>")|raw }}</code>.
+        </p>
 
         <!-- Modal "select from server"  -->
         <div class="modal hide modal-wide" id="selectModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

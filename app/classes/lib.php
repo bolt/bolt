@@ -1238,12 +1238,20 @@ function str_replace_first($search, $replace, $subject)
  * @return array
  * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
  * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
+ * @author Bob for bolt-specific excludes
  */
 function array_merge_recursive_distinct (array &$array1, array &$array2)
 {
     $merged = $array1;
 
     foreach ($array2 as $key => &$value) {
+
+        // if $key = 'accept_file_types, don't merge..
+        if ($key == 'accept_file_types') {
+            $merged[$key] = $array2[$key];
+            continue;
+        }
+
         if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
             $merged[$key] = array_merge_recursive_distinct($merged [$key], $value);
         } else {

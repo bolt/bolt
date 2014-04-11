@@ -152,6 +152,7 @@ class Config
             $this->parseConfigYaml('config.yml'),
             $this->parseConfigYaml('config_local.yml')
         );
+
         $config['taxonomy']    = $this->parseConfigYaml('taxonomy.yml');
         $tempContentTypes      = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']        = $this->parseConfigYaml('menu.yml');
@@ -165,7 +166,7 @@ class Config
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
-
+        
         $this->paths = getPaths($config);
         $this->setDefaults();
 
@@ -288,15 +289,19 @@ class Config
             // Make sure all fields are lowercase and 'safe'.
             $tempfields = $temp['fields'];
             $temp['fields'] = array();
+
             foreach ($tempfields as $key => $value) {
                 // Fix name 'keys' for fields
                 $key = str_replace('-', '_', strtolower(safeString($key, true)));
                 $temp['fields'][$key] = $value;
 
                 // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
-                if ($temp['fields'][$key]['type'] == 'file') {
+                if ($temp['fields'][$key]['type'] == 'file' || $temp['fields'][$key]['type'] == 'filelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
-                        $temp['fields'][$key]['extensions'] = array('pdf', 'txt', 'md', 'doc', 'docx', 'zip', 'tgz');
+                        $temp['fields'][$key]['extensions'] = array_intersect(
+                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'), 
+                            $config['general']['accept_file_types']
+                        );
                     }
 
                     if (!is_array($temp['fields'][$key]['extensions'])) {
@@ -305,9 +310,12 @@ class Config
                 }
 
                 // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
-                if ($temp['fields'][$key]['type'] == 'image') {
+                if ($temp['fields'][$key]['type'] == 'image' || $temp['fields'][$key]['type'] == 'imagelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
-                        $temp['fields'][$key]['extensions'] = array('gif', 'jpg', 'jpeg', 'png');
+                        $temp['fields'][$key]['extensions'] = array_intersect(
+                            array('gif', 'jpg', 'jpeg', 'png'), 
+                            $config['general']['accept_file_types']
+                        );
                     }
 
                     if (!is_array($temp['fields'][$key]['extensions'])) {
@@ -542,7 +550,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
-            'accept_file_types'           => explode(",", "twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
+            'accept_file_types'           => explode(",", "twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',
