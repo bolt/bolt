@@ -596,7 +596,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * Get a simple Anti-CSRF-like token.
      *
-     * @see getToken()
+     * @see \Bolt\Users::getAntiCSRFToken()
      * @return string
      */
     public function token()

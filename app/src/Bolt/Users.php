@@ -329,7 +329,7 @@ class Users
             $token = $app['request']->get('token');
         }
 
-        if ($token === getToken()) {
+        if ($token === $this->getAntiCSRFToken()) {
             return true;
         } else {
             $app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
