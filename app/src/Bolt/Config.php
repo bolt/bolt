@@ -170,11 +170,20 @@ class Config
         $this->paths = getPaths($config);
         $this->setDefaults();
 
+        // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
             $config['general']['wysiwyg']['ck']['contentsCss'] = array(
                 1 => $config['general']['wysiwyg']['ck']['contentsCss']
             );
         }
+
+        // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
+        // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
+        if (!is_array($config['general']['accept_file_types'])) {
+            unset($config['general']['accept_file_types']);
+        }
+
+        // Merge the array with the defaults. Setting the required values that aren't already set.
         $config['general'] = array_merge_recursive_distinct($this->defaultConfig, $config['general']);
 
         // Make sure the cookie_domain for the sessions is set properly.
