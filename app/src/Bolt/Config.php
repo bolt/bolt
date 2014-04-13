@@ -450,15 +450,15 @@ class Config
         }
 
         // Check DB-tables integrity
-        if ($this->app['integritychecker']->needsCheck()) {
-            if (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) {
-                $msg = __(
-                    "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                    array('%link%' => path('dbcheck'))
-                );
-                $this->app['session']->getFlashBag()->set('error', $msg);
-                return;
-            }
+        if ($this->app['integritychecker']->needsCheck() &&
+           (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) &&
+            $this->app['users']->getCurrentUsername()) {
+            $msg = __(
+                "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
+                array('%link%' => path('dbcheck'))
+            );
+            $this->app['session']->getFlashBag()->set('error', $msg);
+            return;
         }
 
         // Sanity checks for taxonomy.yml
