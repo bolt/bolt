@@ -22,7 +22,7 @@ body {
   margin: 0;
 }
 
-/* line 30, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 41, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 article,
 aside,
 details,
@@ -38,7 +38,7 @@ summary {
   display: block;
 }
 
-/* line 50, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 53, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 audio,
 canvas,
 progress,
@@ -53,7 +53,7 @@ audio:not([controls]) {
   height: 0;
 }
 
-/* line 73, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 74, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 [hidden],
 template {
   display: none;
@@ -64,7 +64,7 @@ a {
   background: transparent;
 }
 
-/* line 93, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 94, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 a:active,
 a:hover {
   outline: 0;
@@ -75,7 +75,7 @@ abbr[title] {
   border-bottom: 1px dotted;
 }
 
-/* line 113, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 114, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 b,
 strong {
   font-weight: bold;
@@ -103,7 +103,7 @@ small {
   font-size: 80%;
 }
 
-/* line 157, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 158, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 sub,
 sup {
   font-size: 75%;
@@ -149,7 +149,7 @@ pre {
   overflow: auto;
 }
 
-/* line 225, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 228, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 code,
 kbd,
 pre,
@@ -158,7 +158,7 @@ samp {
   font-size: 1em;
 }
 
-/* line 248, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 252, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 button,
 input,
 optgroup,
@@ -174,13 +174,13 @@ button {
   overflow: visible;
 }
 
-/* line 273, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 274, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 button,
 select {
   text-transform: none;
 }
 
-/* line 286, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 289, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 button,
 html input[type="button"],
 input[type="reset"],
@@ -189,13 +189,13 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-/* line 298, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 299, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 button[disabled],
 html input[disabled] {
   cursor: default;
 }
 
-/* line 307, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 308, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
@@ -207,14 +207,14 @@ input {
   line-height: normal;
 }
 
-/* line 330, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 331, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
 
-/* line 342, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 343, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   height: auto;
@@ -228,7 +228,7 @@ input[type="search"] {
   box-sizing: content-box;
 }
 
-/* line 366, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 367, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
@@ -263,7 +263,7 @@ table {
   border-spacing: 0;
 }
 
-/* line 420, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
+/* line 421, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_normalize.scss */
 td,
 th {
   padding: 0;
@@ -278,7 +278,7 @@ th {
     box-shadow: none !important;
   }
 
-  /* line 15, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 16, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   a,
   a:visited {
     text-decoration: underline;
@@ -294,13 +294,13 @@ th {
     content: " (" attr(title) ")";
   }
 
-  /* line 29, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 30, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   a[href^="javascript:"]:after,
   a[href^="#"]:after {
     content: "";
   }
 
-  /* line 34, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 35, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   pre,
   blockquote {
     border: 1px solid #999;
@@ -312,7 +312,7 @@ th {
     display: table-header-group;
   }
 
-  /* line 44, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 45, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   tr,
   img {
     page-break-inside: avoid;
@@ -323,7 +323,7 @@ th {
     max-width: 100% !important;
   }
 
-  /* line 53, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 55, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   p,
   h2,
   h3 {
@@ -331,7 +331,7 @@ th {
     widows: 3;
   }
 
-  /* line 60, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 61, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   h2,
   h3 {
     page-break-after: avoid;
@@ -347,7 +347,7 @@ th {
     display: none;
   }
 
-  /* line 76, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 77, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   .table td,
   .table th {
     background-color: #fff !important;
@@ -369,7 +369,7 @@ th {
     border-collapse: collapse !important;
   }
 
-  /* line 95, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
+  /* line 96, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_print.scss */
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #ddd !important;
@@ -382,7 +382,7 @@ th {
   box-sizing: border-box;
 }
 
-/* line 14, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
+/* line 15, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
 *:before,
 *:after {
   -webkit-box-sizing: border-box;
@@ -393,7 +393,7 @@ th {
 /* line 22, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
 html {
   font-size: 62.5%;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* line 27, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
@@ -405,7 +405,7 @@ body {
   background-color: white;
 }
 
-/* line 36, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
+/* line 39, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
 input,
 button,
 select,
@@ -420,7 +420,7 @@ a {
   color: #428bca;
   text-decoration: none;
 }
-/* line 52, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
+/* line 53, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
 a:hover, a:focus {
   color: #2a6496;
   text-decoration: underline;
@@ -493,7 +493,7 @@ hr {
   border: 0;
 }
 
-/* line 9, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 10, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: inherit;
@@ -501,7 +501,7 @@ h1, h2, h3, h4, h5, h6,
   line-height: 1.1;
   color: inherit;
 }
-/* line 16, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 17, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 h1 small,
 h1 .small, h2 small,
 h2 .small, h3 small,
@@ -521,14 +521,14 @@ h6 .small,
   color: #999999;
 }
 
-/* line 24, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 26, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 h1, .h1,
 h2, .h2,
 h3, .h3 {
   margin-top: 20px;
   margin-bottom: 10px;
 }
-/* line 30, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 31, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 h1 small,
 h1 .small, .h1 small,
 .h1 .small,
@@ -541,14 +541,14 @@ h3 .small, .h3 small,
   font-size: 65%;
 }
 
-/* line 35, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 37, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 h4, .h4,
 h5, .h5,
 h6, .h6 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 41, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 42, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 h4 small,
 h4 .small, .h4 small,
 .h4 .small,
@@ -610,7 +610,7 @@ p {
   }
 }
 
-/* line 78, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 79, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 small,
 .small {
   font-size: 85%;
@@ -758,13 +758,13 @@ a.bg-danger:hover {
   border-bottom: 1px solid #eeeeee;
 }
 
-/* line 138, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 139, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 ul,
 ol {
   margin-top: 0;
   margin-bottom: 10px;
 }
-/* line 142, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 143, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 ul ul,
 ul ol,
 ol ul,
@@ -795,7 +795,7 @@ dl {
   margin-bottom: 20px;
 }
 
-/* line 176, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 177, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 dt,
 dd {
   line-height: 1.42857;
@@ -826,7 +826,7 @@ dd {
   .dl-horizontal dd {
     margin-left: 180px;
   }
-  /* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+  /* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
   .dl-horizontal dd:before, .dl-horizontal dd:after {
     content: " ";
     display: table;
@@ -836,7 +836,7 @@ dd {
     clear: both;
   }
 }
-/* line 212, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 214, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 abbr[title],
 abbr[data-original-title] {
   cursor: help;
@@ -862,7 +862,7 @@ blockquote ul:last-child,
 blockquote ol:last-child {
   margin-bottom: 0;
 }
-/* line 240, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 242, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 blockquote footer,
 blockquote small,
 blockquote .small {
@@ -878,7 +878,7 @@ blockquote .small:before {
   content: '\2014 \00A0';
 }
 
-/* line 257, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 258, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 .blockquote-reverse,
 blockquote.pull-right {
   padding-right: 15px;
@@ -906,7 +906,7 @@ blockquote.pull-right .small:after {
   content: '\00A0 \2014';
 }
 
-/* line 277, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
+/* line 278, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_type.scss */
 blockquote:before,
 blockquote:after {
   content: "";
@@ -919,7 +919,7 @@ address {
   line-height: 1.42857;
 }
 
-/* line 7, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_code.scss */
+/* line 10, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_code.scss */
 code,
 kbd,
 pre,
@@ -984,7 +984,7 @@ pre code {
   padding-left: 15px;
   padding-right: 15px;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .container:before, .container:after {
   content: " ";
   display: table;
@@ -1019,7 +1019,7 @@ pre code {
   padding-left: 15px;
   padding-right: 15px;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .container-fluid:before, .container-fluid:after {
   content: " ";
   display: table;
@@ -1034,7 +1034,7 @@ pre code {
   margin-left: -15px;
   margin-right: -15px;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .row:before, .row:after {
   content: " ";
   display: table;
@@ -2111,7 +2111,7 @@ th {
   width: 100%;
   margin-bottom: 20px;
 }
-/* line 25, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+/* line 26, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
 .table > thead > tr > th,
 .table > thead > tr > td,
 .table > tbody > tr > th,
@@ -2128,7 +2128,7 @@ th {
   vertical-align: bottom;
   border-bottom: 2px solid #dddddd;
 }
-/* line 44, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+/* line 45, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
 .table > caption + thead > tr:first-child > th,
 .table > caption + thead > tr:first-child > td,
 .table > colgroup + thead > tr:first-child > th,
@@ -2146,7 +2146,7 @@ th {
   background-color: white;
 }
 
-/* line 69, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+/* line 70, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
 .table-condensed > thead > tr > th,
 .table-condensed > thead > tr > td,
 .table-condensed > tbody > tr > th,
@@ -2160,7 +2160,7 @@ th {
 .table-bordered {
   border: 1px solid #dddddd;
 }
-/* line 88, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+/* line 89, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td,
 .table-bordered > tbody > tr > th,
@@ -2169,19 +2169,19 @@ th {
 .table-bordered > tfoot > tr > td {
   border: 1px solid #dddddd;
 }
-/* line 95, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+/* line 96, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
   border-bottom-width: 2px;
 }
 
-/* line 109, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+/* line 110, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
   background-color: #f9f9f9;
 }
 
-/* line 123, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+/* line 124, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
   background-color: whitesmoke;
@@ -2202,7 +2202,7 @@ table th[class*="col-"] {
   display: table-cell;
 }
 
-/* line 448, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 451, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table > thead > tr > td.active,
 .table > thead > tr > th.active, .table > thead > tr.active > td, .table > thead > tr.active > th,
 .table > tbody > tr > td.active,
@@ -2216,13 +2216,13 @@ table th[class*="col-"] {
   background-color: whitesmoke;
 }
 
-/* line 459, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 462, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table-hover > tbody > tr > td.active:hover,
 .table-hover > tbody > tr > th.active:hover, .table-hover > tbody > tr.active:hover > td, .table-hover > tbody > tr.active:hover > th {
   background-color: #e8e8e8;
 }
 
-/* line 448, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 451, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table > thead > tr > td.success,
 .table > thead > tr > th.success, .table > thead > tr.success > td, .table > thead > tr.success > th,
 .table > tbody > tr > td.success,
@@ -2236,13 +2236,13 @@ table th[class*="col-"] {
   background-color: #dff0d8;
 }
 
-/* line 459, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 462, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover, .table-hover > tbody > tr.success:hover > td, .table-hover > tbody > tr.success:hover > th {
   background-color: #d0e9c6;
 }
 
-/* line 448, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 451, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table > thead > tr > td.info,
 .table > thead > tr > th.info, .table > thead > tr.info > td, .table > thead > tr.info > th,
 .table > tbody > tr > td.info,
@@ -2256,13 +2256,13 @@ table th[class*="col-"] {
   background-color: #d9edf7;
 }
 
-/* line 459, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 462, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table-hover > tbody > tr > td.info:hover,
 .table-hover > tbody > tr > th.info:hover, .table-hover > tbody > tr.info:hover > td, .table-hover > tbody > tr.info:hover > th {
   background-color: #c4e3f3;
 }
 
-/* line 448, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 451, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table > thead > tr > td.warning,
 .table > thead > tr > th.warning, .table > thead > tr.warning > td, .table > thead > tr.warning > th,
 .table > tbody > tr > td.warning,
@@ -2276,13 +2276,13 @@ table th[class*="col-"] {
   background-color: #fcf8e3;
 }
 
-/* line 459, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 462, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table-hover > tbody > tr > td.warning:hover,
 .table-hover > tbody > tr > th.warning:hover, .table-hover > tbody > tr.warning:hover > td, .table-hover > tbody > tr.warning:hover > th {
   background-color: #faf2cc;
 }
 
-/* line 448, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 451, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table > thead > tr > td.danger,
 .table > thead > tr > th.danger, .table > thead > tr.danger > td, .table > thead > tr.danger > th,
 .table > tbody > tr > td.danger,
@@ -2296,7 +2296,7 @@ table th[class*="col-"] {
   background-color: #f2dede;
 }
 
-/* line 459, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 462, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .table-hover > tbody > tr > td.danger:hover,
 .table-hover > tbody > tr > th.danger:hover, .table-hover > tbody > tr.danger:hover > td, .table-hover > tbody > tr.danger:hover > th {
   background-color: #ebcccc;
@@ -2317,7 +2317,7 @@ table th[class*="col-"] {
   .table-responsive > .table {
     margin-bottom: 0;
   }
-  /* line 190, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+  /* line 191, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
   .table-responsive > .table > thead > tr > th,
   .table-responsive > .table > thead > tr > td,
   .table-responsive > .table > tbody > tr > th,
@@ -2330,7 +2330,7 @@ table th[class*="col-"] {
   .table-responsive > .table-bordered {
     border: 0;
   }
-  /* line 207, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+  /* line 208, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
   .table-responsive > .table-bordered > thead > tr > th:first-child,
   .table-responsive > .table-bordered > thead > tr > td:first-child,
   .table-responsive > .table-bordered > tbody > tr > th:first-child,
@@ -2339,7 +2339,7 @@ table th[class*="col-"] {
   .table-responsive > .table-bordered > tfoot > tr > td:first-child {
     border-left: 0;
   }
-  /* line 211, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+  /* line 212, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
   .table-responsive > .table-bordered > thead > tr > th:last-child,
   .table-responsive > .table-bordered > thead > tr > td:last-child,
   .table-responsive > .table-bordered > tbody > tr > th:last-child,
@@ -2348,7 +2348,7 @@ table th[class*="col-"] {
   .table-responsive > .table-bordered > tfoot > tr > td:last-child {
     border-right: 0;
   }
-  /* line 224, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
+  /* line 225, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_tables.scss */
   .table-responsive > .table-bordered > tbody > tr:last-child > th,
   .table-responsive > .table-bordered > tbody > tr:last-child > td,
   .table-responsive > .table-bordered > tfoot > tr:last-child > th,
@@ -2391,7 +2391,7 @@ input[type="search"] {
   box-sizing: border-box;
 }
 
-/* line 51, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 52, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 input[type="radio"],
 input[type="checkbox"] {
   margin: 4px 0 0;
@@ -2411,13 +2411,13 @@ input[type="range"] {
   width: 100%;
 }
 
-/* line 70, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 71, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 select[multiple],
 select[size] {
   height: auto;
 }
 
-/* line 76, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 78, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
@@ -2477,7 +2477,7 @@ output {
 .form-control::-webkit-input-placeholder {
   color: #999999;
 }
-/* line 139, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 141, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
   cursor: not-allowed;
   background-color: #eeeeee;
@@ -2499,7 +2499,7 @@ input[type="date"] {
   margin-bottom: 15px;
 }
 
-/* line 178, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 179, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .radio,
 .checkbox {
   display: block;
@@ -2516,7 +2516,7 @@ input[type="date"] {
   cursor: pointer;
 }
 
-/* line 191, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 194, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
@@ -2525,13 +2525,13 @@ input[type="date"] {
   margin-left: -20px;
 }
 
-/* line 198, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 199, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .radio + .radio,
 .checkbox + .checkbox {
   margin-top: -5px;
 }
 
-/* line 204, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 205, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .radio-inline,
 .checkbox-inline {
   display: inline-block;
@@ -2542,14 +2542,14 @@ input[type="date"] {
   cursor: pointer;
 }
 
-/* line 213, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 214, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .radio-inline + .radio-inline,
 .checkbox-inline + .checkbox-inline {
   margin-top: 0;
   margin-left: 10px;
 }
 
-/* line 228, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 229, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 input[type="radio"][disabled], fieldset[disabled] input[type="radio"],
 input[type="checkbox"][disabled], fieldset[disabled]
 input[type="checkbox"],
@@ -2583,7 +2583,7 @@ select.input-sm, .input-group-sm > select.form-control,
   line-height: 30px;
 }
 
-/* line 937, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 938, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 textarea.input-sm, .input-group-sm > textarea.form-control,
 .input-group-sm > textarea.input-group-addon,
 .input-group-sm > .input-group-btn > textarea.btn,
@@ -2613,7 +2613,7 @@ select.input-lg, .input-group-lg > select.form-control,
   line-height: 46px;
 }
 
-/* line 937, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 938, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 textarea.input-lg, .input-group-lg > textarea.form-control,
 .input-group-lg > textarea.input-group-addon,
 .input-group-lg > .input-group-btn > textarea.btn,
@@ -2644,7 +2644,7 @@ select[multiple].input-lg,
   text-align: center;
 }
 
-/* line 864, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 869, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .has-success .help-block,
 .has-success .control-label,
 .has-success .radio,
@@ -2676,7 +2676,7 @@ select[multiple].input-lg,
   color: #3c763d;
 }
 
-/* line 864, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 869, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .has-warning .help-block,
 .has-warning .control-label,
 .has-warning .radio,
@@ -2708,7 +2708,7 @@ select[multiple].input-lg,
   color: #8a6d3b;
 }
 
-/* line 864, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 869, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .has-error .help-block,
 .has-error .control-label,
 .has-error .radio,
@@ -2771,7 +2771,7 @@ select[multiple].input-lg,
     margin-bottom: 0;
     vertical-align: middle;
   }
-  /* line 344, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+  /* line 345, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
   .form-inline .radio, .navbar-form .radio,
   .form-inline .checkbox,
   .navbar-form .checkbox {
@@ -2781,7 +2781,7 @@ select[multiple].input-lg,
     padding-left: 0;
     vertical-align: middle;
   }
-  /* line 352, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+  /* line 353, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
   .form-inline .radio input[type="radio"], .navbar-form .radio input[type="radio"],
   .form-inline .checkbox input[type="checkbox"],
   .navbar-form .checkbox input[type="checkbox"] {
@@ -2794,7 +2794,7 @@ select[multiple].input-lg,
   }
 }
 
-/* line 377, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 381, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .form-horizontal .control-label,
 .form-horizontal .radio,
 .form-horizontal .checkbox,
@@ -2804,7 +2804,7 @@ select[multiple].input-lg,
   margin-bottom: 0;
   padding-top: 7px;
 }
-/* line 388, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
+/* line 389, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .form-horizontal .radio,
 .form-horizontal .checkbox {
   min-height: 27px;
@@ -2814,7 +2814,7 @@ select[multiple].input-lg,
   margin-left: -15px;
   margin-right: -15px;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .form-horizontal .form-group:before, .form-horizontal .form-group:after {
   content: " ";
   display: table;
@@ -2866,19 +2866,19 @@ select[multiple].input-lg,
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-/* line 26, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
+/* line 27, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn:hover, .btn:focus {
   color: #777777;
   text-decoration: none;
 }
-/* line 32, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
+/* line 33, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn:active, .btn.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
-/* line 39, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
+/* line 41, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
   cursor: not-allowed;
   pointer-events: none;
@@ -2894,7 +2894,7 @@ select[multiple].input-lg,
   background-color: #eeeeee;
   border-color: #e1e1e1;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active {
   color: #777777;
   background-color: #dadada;
@@ -2906,7 +2906,7 @@ select[multiple].input-lg,
   background-color: #dadada;
   border-color: #c3c3c3;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:active, .btn-default.active {
   background-image: none;
 }
@@ -2914,7 +2914,7 @@ select[multiple].input-lg,
 .open .btn-default.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default.disabled, .btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled:active, .btn-default.disabled.active, .btn-default[disabled], .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled]:active, .btn-default[disabled].active, fieldset[disabled] .btn-default, fieldset[disabled] .btn-default:hover, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default:active, fieldset[disabled] .btn-default.active {
   background-color: #eeeeee;
   border-color: #e1e1e1;
@@ -2931,7 +2931,7 @@ select[multiple].input-lg,
   background-color: #dc6a23;
   border-color: #c25d1f;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
   color: white;
   background-color: #b9591d;
@@ -2943,7 +2943,7 @@ select[multiple].input-lg,
   background-color: #b9591d;
   border-color: #8d4416;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-primary:active, .btn-primary.active {
   background-image: none;
 }
@@ -2951,7 +2951,7 @@ select[multiple].input-lg,
 .open .btn-primary.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
   background-color: #dc6a23;
   border-color: #c25d1f;
@@ -2968,7 +2968,7 @@ select[multiple].input-lg,
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active {
   color: white;
   background-color: #47a447;
@@ -2980,7 +2980,7 @@ select[multiple].input-lg,
   background-color: #47a447;
   border-color: #398439;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-success:active, .btn-success.active {
   background-image: none;
 }
@@ -2988,7 +2988,7 @@ select[multiple].input-lg,
 .open .btn-success.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-success.disabled, .btn-success.disabled:hover, .btn-success.disabled:focus, .btn-success.disabled:active, .btn-success.disabled.active, .btn-success[disabled], .btn-success[disabled]:hover, .btn-success[disabled]:focus, .btn-success[disabled]:active, .btn-success[disabled].active, fieldset[disabled] .btn-success, fieldset[disabled] .btn-success:hover, fieldset[disabled] .btn-success:focus, fieldset[disabled] .btn-success:active, fieldset[disabled] .btn-success.active {
   background-color: #5cb85c;
   border-color: #4cae4c;
@@ -3005,7 +3005,7 @@ select[multiple].input-lg,
   background-color: #5bc0de;
   border-color: #46b8da;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active {
   color: white;
   background-color: #39b3d7;
@@ -3017,7 +3017,7 @@ select[multiple].input-lg,
   background-color: #39b3d7;
   border-color: #269abc;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-info:active, .btn-info.active {
   background-image: none;
 }
@@ -3025,7 +3025,7 @@ select[multiple].input-lg,
 .open .btn-info.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-info.disabled, .btn-info.disabled:hover, .btn-info.disabled:focus, .btn-info.disabled:active, .btn-info.disabled.active, .btn-info[disabled], .btn-info[disabled]:hover, .btn-info[disabled]:focus, .btn-info[disabled]:active, .btn-info[disabled].active, fieldset[disabled] .btn-info, fieldset[disabled] .btn-info:hover, fieldset[disabled] .btn-info:focus, fieldset[disabled] .btn-info:active, fieldset[disabled] .btn-info.active {
   background-color: #5bc0de;
   border-color: #46b8da;
@@ -3042,7 +3042,7 @@ select[multiple].input-lg,
   background-color: #f0ad4e;
   border-color: #eea236;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active {
   color: white;
   background-color: #ed9c28;
@@ -3054,7 +3054,7 @@ select[multiple].input-lg,
   background-color: #ed9c28;
   border-color: #d58512;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-warning:active, .btn-warning.active {
   background-image: none;
 }
@@ -3062,7 +3062,7 @@ select[multiple].input-lg,
 .open .btn-warning.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-warning.disabled, .btn-warning.disabled:hover, .btn-warning.disabled:focus, .btn-warning.disabled:active, .btn-warning.disabled.active, .btn-warning[disabled], .btn-warning[disabled]:hover, .btn-warning[disabled]:focus, .btn-warning[disabled]:active, .btn-warning[disabled].active, fieldset[disabled] .btn-warning, fieldset[disabled] .btn-warning:hover, fieldset[disabled] .btn-warning:focus, fieldset[disabled] .btn-warning:active, fieldset[disabled] .btn-warning.active {
   background-color: #f0ad4e;
   border-color: #eea236;
@@ -3079,7 +3079,7 @@ select[multiple].input-lg,
   background-color: #d9534f;
   border-color: #d43f3a;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active {
   color: white;
   background-color: #d2322d;
@@ -3091,7 +3091,7 @@ select[multiple].input-lg,
   background-color: #d2322d;
   border-color: #ac2925;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-danger:active, .btn-danger.active {
   background-image: none;
 }
@@ -3099,7 +3099,7 @@ select[multiple].input-lg,
 .open .btn-danger.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-danger.disabled, .btn-danger.disabled:hover, .btn-danger.disabled:focus, .btn-danger.disabled:active, .btn-danger.disabled.active, .btn-danger[disabled], .btn-danger[disabled]:hover, .btn-danger[disabled]:focus, .btn-danger[disabled]:active, .btn-danger[disabled].active, fieldset[disabled] .btn-danger, fieldset[disabled] .btn-danger:hover, fieldset[disabled] .btn-danger:focus, fieldset[disabled] .btn-danger:active, fieldset[disabled] .btn-danger.active {
   background-color: #d9534f;
   border-color: #d43f3a;
@@ -3117,23 +3117,23 @@ select[multiple].input-lg,
   cursor: pointer;
   border-radius: 0;
 }
-/* line 87, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
+/* line 90, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn-link, .btn-link:active, .btn-link[disabled], fieldset[disabled] .btn-link {
   background-color: transparent;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 94, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
+/* line 97, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
   border-color: transparent;
 }
-/* line 100, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
+/* line 101, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn-link:hover, .btn-link:focus {
   color: #2a6496;
   text-decoration: underline;
   background-color: transparent;
 }
-/* line 108, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
+/* line 109, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
   color: #999999;
   text-decoration: none;
@@ -3278,14 +3278,14 @@ input[type="button"].btn-block {
   white-space: nowrap;
 }
 
-/* line 75, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
+/* line 76, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: #1a364d;
   background-color: #e8e8e8;
 }
 
-/* line 85, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
+/* line 87, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
   color: white;
   text-decoration: none;
@@ -3293,12 +3293,12 @@ input[type="button"].btn-block {
   background-color: #428bca;
 }
 
-/* line 100, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
+/* line 102, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
 .dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
   color: #999999;
 }
 
-/* line 108, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
+/* line 109, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_dropdowns.scss */
 .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
   text-decoration: none;
   background-color: transparent;
@@ -3380,7 +3380,7 @@ input[type="button"].btn-block {
     right: auto;
   }
 }
-/* line 6, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 7, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group,
 .btn-group-vertical {
   position: relative;
@@ -3393,7 +3393,7 @@ input[type="button"].btn-block {
   position: relative;
   float: left;
 }
-/* line 15, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 18, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group > .btn:hover, .btn-group > .btn:focus, .btn-group > .btn:active, .btn-group > .btn.active,
 .btn-group-vertical > .btn:hover,
 .btn-group-vertical > .btn:focus,
@@ -3407,7 +3407,7 @@ input[type="button"].btn-block {
   outline: none;
 }
 
-/* line 30, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 33, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group .btn + .btn,
 .btn-group .btn + .btn-group,
 .btn-group .btn-group + .btn,
@@ -3419,7 +3419,7 @@ input[type="button"].btn-block {
 .btn-toolbar {
   margin-left: -5px;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-toolbar:before, .btn-toolbar:after {
   content: " ";
   display: table;
@@ -3428,12 +3428,12 @@ input[type="button"].btn-block {
 .btn-toolbar:after {
   clear: both;
 }
-/* line 43, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 44, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-toolbar .btn-group,
 .btn-toolbar .input-group {
   float: left;
 }
-/* line 47, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 49, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-toolbar > .btn,
 .btn-toolbar > .btn-group,
 .btn-toolbar > .input-group {
@@ -3455,7 +3455,7 @@ input[type="button"].btn-block {
   border-top-right-radius: 0;
 }
 
-/* line 66, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 67, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group > .btn:last-child:not(:first-child),
 .btn-group > .dropdown-toggle:not(:first-child) {
   border-bottom-left-radius: 0;
@@ -3472,7 +3472,7 @@ input[type="button"].btn-block {
   border-radius: 0;
 }
 
-/* line 79, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 80, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group > .btn-group:first-child > .btn:last-child,
 .btn-group > .btn-group:first-child > .dropdown-toggle {
   border-bottom-right-radius: 0;
@@ -3485,7 +3485,7 @@ input[type="button"].btn-block {
   border-top-left-radius: 0;
 }
 
-/* line 89, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 90, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group .dropdown-toggle:active,
 .btn-group.open .dropdown-toggle {
   outline: 0;
@@ -3530,7 +3530,7 @@ input[type="button"].btn-block {
   border-width: 0 5px 5px;
 }
 
-/* line 148, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 150, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group-vertical > .btn,
 .btn-group-vertical > .btn-group,
 .btn-group-vertical > .btn-group > .btn {
@@ -3539,7 +3539,7 @@ input[type="button"].btn-block {
   width: 100%;
   max-width: 100%;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-group-vertical > .btn-group:before, .btn-group-vertical > .btn-group:after {
   content: " ";
   display: table;
@@ -3552,7 +3552,7 @@ input[type="button"].btn-block {
 .btn-group-vertical > .btn-group > .btn {
   float: none;
 }
-/* line 165, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 168, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group-vertical > .btn + .btn,
 .btn-group-vertical > .btn + .btn-group,
 .btn-group-vertical > .btn-group + .btn,
@@ -3583,7 +3583,7 @@ input[type="button"].btn-block {
   border-radius: 0;
 }
 
-/* line 191, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 192, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child,
 .btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
   border-bottom-right-radius: 0;
@@ -3603,7 +3603,7 @@ input[type="button"].btn-block {
   table-layout: fixed;
   border-collapse: separate;
 }
-/* line 210, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 211, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 .btn-group-justified > .btn,
 .btn-group-justified > .btn-group {
   float: none;
@@ -3615,7 +3615,7 @@ input[type="button"].btn-block {
   width: 100%;
 }
 
-/* line 223, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
+/* line 224, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_button-groups.scss */
 [data-toggle="buttons"] > .btn > input[type="radio"],
 [data-toggle="buttons"] > .btn > input[type="checkbox"] {
   display: none;
@@ -3640,7 +3640,7 @@ input[type="button"].btn-block {
   margin-bottom: 0;
 }
 
-/* line 45, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 47, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-addon,
 .input-group-btn,
 .input-group .form-control {
@@ -3653,7 +3653,7 @@ input[type="button"].btn-block {
   border-radius: 0;
 }
 
-/* line 55, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 56, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-addon,
 .input-group-btn {
   width: 1%;
@@ -3689,13 +3689,13 @@ input[type="button"].btn-block {
   font-size: 18px;
   border-radius: 6px;
 }
-/* line 88, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 89, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-addon input[type="radio"],
 .input-group-addon input[type="checkbox"] {
   margin-top: 0;
 }
 
-/* line 95, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 101, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group .form-control:first-child,
 .input-group-addon:first-child,
 .input-group-btn:first-child > .btn,
@@ -3712,7 +3712,7 @@ input[type="button"].btn-block {
   border-right: 0;
 }
 
-/* line 107, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 113, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group .form-control:last-child,
 .input-group-addon:last-child,
 .input-group-btn:last-child > .btn,
@@ -3743,16 +3743,16 @@ input[type="button"].btn-block {
 .input-group-btn > .btn + .btn {
   margin-left: -1px;
 }
-/* line 137, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 139, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-btn > .btn:hover, .input-group-btn > .btn:focus, .input-group-btn > .btn:active {
   z-index: 2;
 }
-/* line 146, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 147, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-btn:first-child > .btn,
 .input-group-btn:first-child > .btn-group {
   margin-right: -1px;
 }
-/* line 152, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
+/* line 153, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-btn:last-child > .btn,
 .input-group-btn:last-child > .btn-group {
   margin-left: -1px;
@@ -3764,7 +3764,7 @@ input[type="button"].btn-block {
   padding-left: 0;
   list-style: none;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .nav:before, .nav:after {
   content: " ";
   display: table;
@@ -3784,7 +3784,7 @@ input[type="button"].btn-block {
   display: block;
   padding: 10px 15px;
 }
-/* line 23, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
+/* line 24, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
 .nav > li > a:hover, .nav > li > a:focus {
   text-decoration: none;
   background-color: #eeeeee;
@@ -3793,14 +3793,14 @@ input[type="button"].btn-block {
 .nav > li.disabled > a {
   color: #999999;
 }
-/* line 34, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
+/* line 35, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
 .nav > li.disabled > a:hover, .nav > li.disabled > a:focus {
   color: #999999;
   text-decoration: none;
   background-color: transparent;
   cursor: not-allowed;
 }
-/* line 46, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
+/* line 48, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
   background-color: #eeeeee;
   border-color: #428bca;
@@ -3837,7 +3837,7 @@ input[type="button"].btn-block {
 .nav-tabs > li > a:hover {
   border-color: #eeeeee #eeeeee #dddddd;
 }
-/* line 96, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
+/* line 98, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
   color: #555555;
   background-color: white;
@@ -3858,7 +3858,7 @@ input[type="button"].btn-block {
 .nav-pills > li + li {
   margin-left: 2px;
 }
-/* line 131, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
+/* line 133, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
   color: white;
   background-color: #428bca;
@@ -3913,7 +3913,7 @@ input[type="button"].btn-block {
   margin-right: 0;
   border-radius: 4px;
 }
-/* line 199, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
+/* line 201, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
 .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a,
 .nav-tabs-justified > .active > a:hover,
 .nav-tabs.nav-justified > .active > a:hover,
@@ -3927,7 +3927,7 @@ input[type="button"].btn-block {
     border-bottom: 1px solid #dddddd;
     border-radius: 4px 4px 0 0;
   }
-  /* line 210, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
+  /* line 212, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navs.scss */
   .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:hover,
@@ -3960,7 +3960,7 @@ input[type="button"].btn-block {
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .navbar:before, .navbar:after {
   content: " ";
   display: table;
@@ -3976,7 +3976,7 @@ input[type="button"].btn-block {
   }
 }
 
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .navbar-header:before, .navbar-header:after {
   content: " ";
   display: table;
@@ -4002,7 +4002,7 @@ input[type="button"].btn-block {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   -webkit-overflow-scrolling: touch;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .navbar-collapse:before, .navbar-collapse:after {
   content: " ";
   display: table;
@@ -4033,14 +4033,14 @@ input[type="button"].btn-block {
   .navbar-collapse.in {
     overflow-y: visible;
   }
-  /* line 82, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 84, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
     padding-left: 0;
     padding-right: 0;
   }
 }
 
-/* line 98, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 99, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .container > .navbar-header,
 .container > .navbar-collapse,
 .container-fluid > .navbar-header,
@@ -4049,7 +4049,7 @@ input[type="button"].btn-block {
   margin-left: -15px;
 }
 @media (min-width: 768px) {
-  /* line 98, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 99, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .container > .navbar-header,
   .container > .navbar-collapse,
   .container-fluid > .navbar-header,
@@ -4071,7 +4071,7 @@ input[type="button"].btn-block {
   }
 }
 
-/* line 128, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 129, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-fixed-top,
 .navbar-fixed-bottom {
   position: fixed;
@@ -4080,7 +4080,7 @@ input[type="button"].btn-block {
   z-index: 1030;
 }
 @media (min-width: 768px) {
-  /* line 128, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 129, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-fixed-top,
   .navbar-fixed-bottom {
     border-radius: 0;
@@ -4108,12 +4108,12 @@ input[type="button"].btn-block {
   line-height: 20px;
   height: 50px;
 }
-/* line 160, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 161, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-brand:hover, .navbar-brand:focus {
   text-decoration: none;
 }
 @media (min-width: 768px) {
-  /* line 166, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 167, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
     margin-left: -15px;
   }
@@ -4175,7 +4175,7 @@ input[type="button"].btn-block {
     border: 0;
     box-shadow: none;
   }
-  /* line 237, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 238, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-nav .open .dropdown-menu > li > a,
   .navbar-nav .open .dropdown-menu .dropdown-header {
     padding: 5px 15px 5px 25px;
@@ -4184,7 +4184,7 @@ input[type="button"].btn-block {
   .navbar-nav .open .dropdown-menu > li > a {
     line-height: 20px;
   }
-  /* line 243, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 244, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-nav .open .dropdown-menu > li > a:focus {
     background-image: none;
   }
@@ -4313,7 +4313,7 @@ input[type="button"].btn-block {
 .navbar-default .navbar-brand {
   color: #777777;
 }
-/* line 389, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 390, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
   color: #5e5e5e;
   background-color: transparent;
@@ -4326,17 +4326,17 @@ input[type="button"].btn-block {
 .navbar-default .navbar-nav > li > a {
   color: #777777;
 }
-/* line 404, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 405, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   color: #333333;
   background-color: transparent;
 }
-/* line 411, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 413, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
   color: #555555;
   background-color: #e7e7e7;
 }
-/* line 419, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 421, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > .disabled > a, .navbar-default .navbar-nav > .disabled > a:hover, .navbar-default .navbar-nav > .disabled > a:focus {
   color: #cccccc;
   background-color: transparent;
@@ -4345,7 +4345,7 @@ input[type="button"].btn-block {
 .navbar-default .navbar-toggle {
   border-color: #dddddd;
 }
-/* line 430, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 431, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
   background-color: #dddddd;
 }
@@ -4353,12 +4353,12 @@ input[type="button"].btn-block {
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #888888;
 }
-/* line 439, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 440, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
   border-color: #e7e7e7;
 }
-/* line 448, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 450, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
   background-color: #e7e7e7;
   color: #555555;
@@ -4368,17 +4368,17 @@ input[type="button"].btn-block {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #777777;
   }
-  /* line 461, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 462, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
     color: #333333;
     background-color: transparent;
   }
-  /* line 468, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 470, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #555555;
     background-color: #e7e7e7;
   }
-  /* line 476, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 478, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {
     color: #cccccc;
     background-color: transparent;
@@ -4402,7 +4402,7 @@ input[type="button"].btn-block {
 .navbar-inverse .navbar-brand {
   color: #999999;
 }
-/* line 509, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
   color: white;
   background-color: transparent;
@@ -4415,17 +4415,17 @@ input[type="button"].btn-block {
 .navbar-inverse .navbar-nav > li > a {
   color: #999999;
 }
-/* line 524, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 525, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
   color: white;
   background-color: transparent;
 }
-/* line 531, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 533, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
   color: white;
   background-color: #090909;
 }
-/* line 539, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 541, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-inverse .navbar-nav > .disabled > a, .navbar-inverse .navbar-nav > .disabled > a:hover, .navbar-inverse .navbar-nav > .disabled > a:focus {
   color: #444444;
   background-color: transparent;
@@ -4434,7 +4434,7 @@ input[type="button"].btn-block {
 .navbar-inverse .navbar-toggle {
   border-color: #333333;
 }
-/* line 551, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 552, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
   background-color: #333333;
 }
@@ -4442,12 +4442,12 @@ input[type="button"].btn-block {
 .navbar-inverse .navbar-toggle .icon-bar {
   background-color: white;
 }
-/* line 560, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 561, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
   border-color: #101010;
 }
-/* line 568, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+/* line 570, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
   background-color: #090909;
   color: white;
@@ -4465,17 +4465,17 @@ input[type="button"].btn-block {
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #999999;
   }
-  /* line 587, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 588, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
     color: white;
     background-color: transparent;
   }
-  /* line 594, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 596, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: white;
     background-color: #090909;
   }
-  /* line 602, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
+  /* line 604, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus {
     color: #444444;
     background-color: transparent;
@@ -4524,7 +4524,7 @@ input[type="button"].btn-block {
 .pagination > li {
   display: inline;
 }
-/* line 12, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
+/* line 13, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
 .pagination > li > a,
 .pagination > li > span {
   position: relative;
@@ -4537,20 +4537,20 @@ input[type="button"].btn-block {
   border: 1px solid #dddddd;
   margin-left: -1px;
 }
-/* line 25, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
+/* line 26, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
 .pagination > li:first-child > a,
 .pagination > li:first-child > span {
   margin-left: 0;
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
 }
-/* line 32, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
+/* line 33, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
   border-bottom-right-radius: 4px;
   border-top-right-radius: 4px;
 }
-/* line 41, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
+/* line 42, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
 .pagination > li > a:hover, .pagination > li > a:focus,
 .pagination > li > span:hover,
 .pagination > li > span:focus {
@@ -4558,7 +4558,7 @@ input[type="button"].btn-block {
   background-color: #eeeeee;
   border-color: #dddddd;
 }
-/* line 51, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
+/* line 53, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
 .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus,
 .pagination > .active > span,
 .pagination > .active > span:hover,
@@ -4569,7 +4569,7 @@ input[type="button"].btn-block {
   border-color: #428bca;
   cursor: default;
 }
-/* line 63, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
+/* line 68, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pagination.scss */
 .pagination > .disabled > span,
 .pagination > .disabled > span:hover,
 .pagination > .disabled > span:focus,
@@ -4582,38 +4582,38 @@ input[type="button"].btn-block {
   cursor: not-allowed;
 }
 
-/* line 559, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 560, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .pagination-lg > li > a,
 .pagination-lg > li > span {
   padding: 10px 16px;
   font-size: 18px;
 }
-/* line 565, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 566, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .pagination-lg > li:first-child > a,
 .pagination-lg > li:first-child > span {
   border-bottom-left-radius: 6px;
   border-top-left-radius: 6px;
 }
-/* line 571, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 572, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .pagination-lg > li:last-child > a,
 .pagination-lg > li:last-child > span {
   border-bottom-right-radius: 6px;
   border-top-right-radius: 6px;
 }
 
-/* line 559, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 560, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .pagination-sm > li > a,
 .pagination-sm > li > span {
   padding: 5px 10px;
   font-size: 12px;
 }
-/* line 565, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 566, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .pagination-sm > li:first-child > a,
 .pagination-sm > li:first-child > span {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
-/* line 571, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 572, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .pagination-sm > li:last-child > a,
 .pagination-sm > li:last-child > span {
   border-bottom-right-radius: 3px;
@@ -4627,7 +4627,7 @@ input[type="button"].btn-block {
   list-style: none;
   text-align: center;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .pager:before, .pager:after {
   content: " ";
   display: table;
@@ -4640,7 +4640,7 @@ input[type="button"].btn-block {
 .pager li {
   display: inline;
 }
-/* line 14, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
+/* line 15, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
 .pager li > a,
 .pager li > span {
   display: inline-block;
@@ -4649,23 +4649,23 @@ input[type="button"].btn-block {
   border: 1px solid #dddddd;
   border-radius: 15px;
 }
-/* line 23, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
+/* line 24, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
 .pager li > a:hover,
 .pager li > a:focus {
   text-decoration: none;
   background-color: #eeeeee;
 }
-/* line 31, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
+/* line 32, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
 .pager .next > a,
 .pager .next > span {
   float: right;
 }
-/* line 38, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
+/* line 39, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
 .pager .previous > a,
 .pager .previous > span {
   float: left;
 }
-/* line 45, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
+/* line 48, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_pager.scss */
 .pager .disabled > a,
 .pager .disabled > a:hover,
 .pager .disabled > a:focus,
@@ -4688,7 +4688,7 @@ input[type="button"].btn-block {
   vertical-align: baseline;
   border-radius: .25em;
 }
-/* line 19, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
 .label[href]:hover, .label[href]:focus {
   color: white;
   text-decoration: none;
@@ -4708,7 +4708,7 @@ input[type="button"].btn-block {
 .label-default {
   background-color: #999999;
 }
-/* line 584, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 585, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .label-default[href]:hover, .label-default[href]:focus {
   background-color: gray;
 }
@@ -4717,7 +4717,7 @@ input[type="button"].btn-block {
 .label-primary {
   background-color: #428bca;
 }
-/* line 584, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 585, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .label-primary[href]:hover, .label-primary[href]:focus {
   background-color: #3071a9;
 }
@@ -4726,7 +4726,7 @@ input[type="button"].btn-block {
 .label-success {
   background-color: #5cb85c;
 }
-/* line 584, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 585, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .label-success[href]:hover, .label-success[href]:focus {
   background-color: #449d44;
 }
@@ -4735,7 +4735,7 @@ input[type="button"].btn-block {
 .label-info {
   background-color: #5bc0de;
 }
-/* line 584, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 585, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .label-info[href]:hover, .label-info[href]:focus {
   background-color: #31b0d5;
 }
@@ -4744,7 +4744,7 @@ input[type="button"].btn-block {
 .label-warning {
   background-color: #f0ad4e;
 }
-/* line 584, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 585, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .label-warning[href]:hover, .label-warning[href]:focus {
   background-color: #ec971f;
 }
@@ -4753,7 +4753,7 @@ input[type="button"].btn-block {
 .label-danger {
   background-color: #d9534f;
 }
-/* line 584, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 585, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .label-danger[href]:hover, .label-danger[href]:focus {
   background-color: #c9302c;
 }
@@ -4788,14 +4788,14 @@ input[type="button"].btn-block {
   padding: 1px 5px;
 }
 
-/* line 39, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_badges.scss */
+/* line 40, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_badges.scss */
 a.badge:hover, a.badge:focus {
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 48, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_badges.scss */
+/* line 49, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_badges.scss */
 a.list-group-item.active > .badge,
 .nav-pills > .active > a > .badge {
   color: #428bca;
@@ -4819,7 +4819,7 @@ a.list-group-item.active > .badge,
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
-/* line 17, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_thumbnails.scss */
+/* line 18, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_thumbnails.scss */
 .thumbnail > img,
 .thumbnail a > img {
   display: block;
@@ -4834,7 +4834,7 @@ a.list-group-item.active > .badge,
   color: #333333;
 }
 
-/* line 34, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_thumbnails.scss */
+/* line 36, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_thumbnails.scss */
 a.thumbnail:hover,
 a.thumbnail:focus,
 a.thumbnail.active {
@@ -4857,7 +4857,7 @@ a.thumbnail.active {
 .alert .alert-link {
   font-weight: bold;
 }
-/* line 27, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_alerts.scss */
+/* line 28, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_alerts.scss */
 .alert > p,
 .alert > ul {
   margin-bottom: 0;
@@ -4950,6 +4950,7 @@ a.thumbnail.active {
     background-position: 0 0;
   }
 }
+
 @keyframes progress-bar-stripes {
   /* line 17, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_progress-bars.scss */
   from {
@@ -4961,6 +4962,7 @@ a.thumbnail.active {
     background-position: 0 0;
   }
 }
+
 /* line 27, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_progress-bars.scss */
 .progress {
   overflow: hidden;
@@ -5041,14 +5043,14 @@ a.thumbnail.active {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
-/* line 10, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_media.scss */
+/* line 11, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_media.scss */
 .media,
 .media-body {
   overflow: hidden;
   zoom: 1;
 }
 
-/* line 17, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_media.scss */
+/* line 18, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_media.scss */
 .media,
 .media .media {
   margin-top: 15px;
@@ -5127,12 +5129,12 @@ a.list-group-item {
 a.list-group-item .list-group-item-heading {
   color: #333333;
 }
-/* line 62, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_list-group.scss */
+/* line 63, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_list-group.scss */
 a.list-group-item:hover, a.list-group-item:focus {
   text-decoration: none;
   background-color: whitesmoke;
 }
-/* line 69, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_list-group.scss */
+/* line 71, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_list-group.scss */
 a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.active:focus {
   z-index: 2;
   color: white;
@@ -5162,12 +5164,12 @@ a.list-group-item-success {
 a.list-group-item-success .list-group-item-heading {
   color: inherit;
 }
-/* line 483, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 484, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-success:hover, a.list-group-item-success:focus {
   color: #3c763d;
   background-color: #d0e9c6;
 }
-/* line 488, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 490, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-success.active, a.list-group-item-success.active:hover, a.list-group-item-success.active:focus {
   color: #fff;
   background-color: #3c763d;
@@ -5188,12 +5190,12 @@ a.list-group-item-info {
 a.list-group-item-info .list-group-item-heading {
   color: inherit;
 }
-/* line 483, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 484, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-info:hover, a.list-group-item-info:focus {
   color: #31708f;
   background-color: #c4e3f3;
 }
-/* line 488, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 490, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-info.active, a.list-group-item-info.active:hover, a.list-group-item-info.active:focus {
   color: #fff;
   background-color: #31708f;
@@ -5214,12 +5216,12 @@ a.list-group-item-warning {
 a.list-group-item-warning .list-group-item-heading {
   color: inherit;
 }
-/* line 483, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 484, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-warning:hover, a.list-group-item-warning:focus {
   color: #8a6d3b;
   background-color: #faf2cc;
 }
-/* line 488, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 490, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-warning.active, a.list-group-item-warning.active:hover, a.list-group-item-warning.active:focus {
   color: #fff;
   background-color: #8a6d3b;
@@ -5240,12 +5242,12 @@ a.list-group-item-danger {
 a.list-group-item-danger .list-group-item-heading {
   color: inherit;
 }
-/* line 483, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 484, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-danger:hover, a.list-group-item-danger:focus {
   color: #a94442;
   background-color: #ebcccc;
 }
-/* line 488, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 490, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
   color: #fff;
   background-color: #a94442;
@@ -5278,7 +5280,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel-body {
   padding: 15px;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .panel-body:before, .panel-body:after {
   content: " ";
   display: table;
@@ -5321,12 +5323,12 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
   border-top-width: 0;
 }
 
-/* line 68, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 69, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table,
 .panel > .table-responsive > .table {
   margin-bottom: 0;
 }
-/* line 78, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 79, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table:first-child > thead:first-child > tr:first-child td:first-child,
 .panel > .table:first-child > thead:first-child > tr:first-child th:first-child,
 .panel > .table:first-child > tbody:first-child > tr:first-child td:first-child,
@@ -5337,7 +5339,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child {
   border-top-left-radius: 3px;
 }
-/* line 82, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 83, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table:first-child > thead:first-child > tr:first-child td:last-child,
 .panel > .table:first-child > thead:first-child > tr:first-child th:last-child,
 .panel > .table:first-child > tbody:first-child > tr:first-child td:last-child,
@@ -5348,7 +5350,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child {
   border-top-right-radius: 3px;
 }
-/* line 95, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 96, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table:last-child > tbody:last-child > tr:last-child td:first-child,
 .panel > .table:last-child > tbody:last-child > tr:last-child th:first-child,
 .panel > .table:last-child > tfoot:last-child > tr:last-child td:first-child,
@@ -5359,7 +5361,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child {
   border-bottom-left-radius: 3px;
 }
-/* line 99, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 100, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table:last-child > tbody:last-child > tr:last-child td:last-child,
 .panel > .table:last-child > tbody:last-child > tr:last-child th:last-child,
 .panel > .table:last-child > tfoot:last-child > tr:last-child td:last-child,
@@ -5370,22 +5372,22 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child {
   border-bottom-right-radius: 3px;
 }
-/* line 106, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 107, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .panel-body + .table,
 .panel > .panel-body + .table-responsive {
   border-top: 1px solid #dddddd;
 }
-/* line 110, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 111, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table > tbody:first-child > tr:first-child th,
 .panel > .table > tbody:first-child > tr:first-child td {
   border-top: 0;
 }
-/* line 114, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 115, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table-bordered,
 .panel > .table-responsive > .table-bordered {
   border: 0;
 }
-/* line 121, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 122, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table-bordered > thead > tr > th:first-child,
 .panel > .table-bordered > thead > tr > td:first-child,
 .panel > .table-bordered > tbody > tr > th:first-child,
@@ -5400,7 +5402,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel > .table-responsive > .table-bordered > tfoot > tr > td:first-child {
   border-left: 0;
 }
-/* line 125, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 126, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table-bordered > thead > tr > th:last-child,
 .panel > .table-bordered > thead > tr > td:last-child,
 .panel > .table-bordered > tbody > tr > th:last-child,
@@ -5415,7 +5417,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel > .table-responsive > .table-bordered > tfoot > tr > td:last-child {
   border-right: 0;
 }
-/* line 129, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 130, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table-bordered > thead > tr:first-child > th, .panel > .table-bordered > thead > tr:first-child > td,
 .panel > .table-bordered > tbody > tr:first-child > th,
 .panel > .table-bordered > tbody > tr:first-child > td,
@@ -5429,7 +5431,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 .panel > .table-responsive > .table-bordered > tfoot > tr:first-child > td {
   border-top: 0;
 }
-/* line 133, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
+/* line 134, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_panels.scss */
 .panel > .table-bordered > thead > tr:last-child > th, .panel > .table-bordered > thead > tr:last-child > td,
 .panel > .table-bordered > tbody > tr:last-child > th,
 .panel > .table-bordered > tbody > tr:last-child > td,
@@ -5667,7 +5669,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
   opacity: 0.2;
   filter: alpha(opacity=20);
 }
-/* line 15, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_close.scss */
+/* line 16, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_close.scss */
 .close:hover, .close:focus {
   color: black;
   text-decoration: none;
@@ -5793,7 +5795,7 @@ button.close {
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .modal-footer:before, .modal-footer:after {
   content: " ";
   display: table;
@@ -6011,7 +6013,7 @@ button.close {
   padding: 9px 14px;
 }
 
-/* line 52, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_popovers.scss */
+/* line 53, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_popovers.scss */
 .popover > .arrow, .popover > .arrow:after {
   position: absolute;
   display: block;
@@ -6101,7 +6103,7 @@ button.close {
   bottom: -10px;
 }
 
-/* line 20, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 21, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .clearfix:before, .clearfix:after {
   content: " ";
   display: table;
@@ -6166,6 +6168,7 @@ button.close {
 @-ms-viewport {
   width: device-width;
 }
+
 /* line 649, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .visible-xs, .visible-sm, .visible-md, .visible-lg {
   display: none !important;
@@ -6187,7 +6190,7 @@ button.close {
     display: table-row !important;
   }
 
-  /* line 643, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+  /* line 644, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
   th.visible-xs,
   td.visible-xs {
     display: table-cell !important;
@@ -6209,7 +6212,7 @@ button.close {
     display: table-row !important;
   }
 
-  /* line 643, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+  /* line 644, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
   th.visible-sm,
   td.visible-sm {
     display: table-cell !important;
@@ -6231,7 +6234,7 @@ button.close {
     display: table-row !important;
   }
 
-  /* line 643, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+  /* line 644, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
   th.visible-md,
   td.visible-md {
     display: table-cell !important;
@@ -6253,7 +6256,7 @@ button.close {
     display: table-row !important;
   }
 
-  /* line 643, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+  /* line 644, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
   th.visible-lg,
   td.visible-lg {
     display: table-cell !important;
@@ -6304,7 +6307,7 @@ button.close {
     display: table-row !important;
   }
 
-  /* line 643, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+  /* line 644, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
   th.visible-print,
   td.visible-print {
     display: table-cell !important;
@@ -6332,6 +6335,7 @@ button.close {
   font-weight: normal;
   font-style: normal;
 }
+
 /* line 4, ../_resources/fontawesome/scss/_core.scss */
 .fa {
   display: inline-block;
@@ -6446,6 +6450,7 @@ button.close {
     -moz-transform: rotate(359deg);
   }
 }
+
 @-webkit-keyframes spin {
   /* line 16, ../_resources/fontawesome/scss/_spinning.scss */
   0% {
@@ -6457,6 +6462,7 @@ button.close {
     -webkit-transform: rotate(359deg);
   }
 }
+
 @-o-keyframes spin {
   /* line 20, ../_resources/fontawesome/scss/_spinning.scss */
   0% {
@@ -6468,6 +6474,7 @@ button.close {
     -o-transform: rotate(359deg);
   }
 }
+
 @-ms-keyframes spin {
   /* line 24, ../_resources/fontawesome/scss/_spinning.scss */
   0% {
@@ -6479,6 +6486,7 @@ button.close {
     -ms-transform: rotate(359deg);
   }
 }
+
 @keyframes spin {
   /* line 28, ../_resources/fontawesome/scss/_spinning.scss */
   0% {
@@ -6490,6 +6498,7 @@ button.close {
     transform: rotate(359deg);
   }
 }
+
 /* line 4, ../_resources/fontawesome/scss/_rotated-flipped.scss */
 .fa-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=$rotation);
@@ -6665,7 +6674,7 @@ button.close {
   content: "\f012";
 }
 
-/* line 22, ../_resources/fontawesome/scss/_icons.scss */
+/* line 23, ../_resources/fontawesome/scss/_icons.scss */
 .fa-gear:before,
 .fa-cog:before {
   content: "\f013";
@@ -6721,7 +6730,7 @@ button.close {
   content: "\f01d";
 }
 
-/* line 34, ../_resources/fontawesome/scss/_icons.scss */
+/* line 35, ../_resources/fontawesome/scss/_icons.scss */
 .fa-rotate-right:before,
 .fa-repeat:before {
   content: "\f01e";
@@ -6857,7 +6866,7 @@ button.close {
   content: "\f03a";
 }
 
-/* line 62, ../_resources/fontawesome/scss/_icons.scss */
+/* line 63, ../_resources/fontawesome/scss/_icons.scss */
 .fa-dedent:before,
 .fa-outdent:before {
   content: "\f03b";
@@ -6898,7 +6907,7 @@ button.close {
   content: "\f043";
 }
 
-/* line 71, ../_resources/fontawesome/scss/_icons.scss */
+/* line 72, ../_resources/fontawesome/scss/_icons.scss */
 .fa-edit:before,
 .fa-pencil-square-o:before {
   content: "\f044";
@@ -7049,7 +7058,7 @@ button.close {
   content: "\f063";
 }
 
-/* line 102, ../_resources/fontawesome/scss/_icons.scss */
+/* line 103, ../_resources/fontawesome/scss/_icons.scss */
 .fa-mail-forward:before,
 .fa-share:before {
   content: "\f064";
@@ -7110,7 +7119,7 @@ button.close {
   content: "\f070";
 }
 
-/* line 115, ../_resources/fontawesome/scss/_icons.scss */
+/* line 116, ../_resources/fontawesome/scss/_icons.scss */
 .fa-warning:before,
 .fa-exclamation-triangle:before {
   content: "\f071";
@@ -7206,7 +7215,7 @@ button.close {
   content: "\f084";
 }
 
-/* line 135, ../_resources/fontawesome/scss/_icons.scss */
+/* line 136, ../_resources/fontawesome/scss/_icons.scss */
 .fa-gears:before,
 .fa-cogs:before {
   content: "\f085";
@@ -7422,13 +7431,13 @@ button.close {
   content: "\f0b2";
 }
 
-/* line 179, ../_resources/fontawesome/scss/_icons.scss */
+/* line 180, ../_resources/fontawesome/scss/_icons.scss */
 .fa-group:before,
 .fa-users:before {
   content: "\f0c0";
 }
 
-/* line 181, ../_resources/fontawesome/scss/_icons.scss */
+/* line 182, ../_resources/fontawesome/scss/_icons.scss */
 .fa-chain:before,
 .fa-link:before {
   content: "\f0c1";
@@ -7444,13 +7453,13 @@ button.close {
   content: "\f0c3";
 }
 
-/* line 185, ../_resources/fontawesome/scss/_icons.scss */
+/* line 186, ../_resources/fontawesome/scss/_icons.scss */
 .fa-cut:before,
 .fa-scissors:before {
   content: "\f0c4";
 }
 
-/* line 187, ../_resources/fontawesome/scss/_icons.scss */
+/* line 188, ../_resources/fontawesome/scss/_icons.scss */
 .fa-copy:before,
 .fa-files-o:before {
   content: "\f0c5";
@@ -7461,7 +7470,7 @@ button.close {
   content: "\f0c6";
 }
 
-/* line 190, ../_resources/fontawesome/scss/_icons.scss */
+/* line 191, ../_resources/fontawesome/scss/_icons.scss */
 .fa-save:before,
 .fa-floppy-o:before {
   content: "\f0c7";
@@ -7562,19 +7571,19 @@ button.close {
   content: "\f0db";
 }
 
-/* line 211, ../_resources/fontawesome/scss/_icons.scss */
+/* line 212, ../_resources/fontawesome/scss/_icons.scss */
 .fa-unsorted:before,
 .fa-sort:before {
   content: "\f0dc";
 }
 
-/* line 213, ../_resources/fontawesome/scss/_icons.scss */
+/* line 214, ../_resources/fontawesome/scss/_icons.scss */
 .fa-sort-down:before,
 .fa-sort-asc:before {
   content: "\f0dd";
 }
 
-/* line 215, ../_resources/fontawesome/scss/_icons.scss */
+/* line 216, ../_resources/fontawesome/scss/_icons.scss */
 .fa-sort-up:before,
 .fa-sort-desc:before {
   content: "\f0de";
@@ -7590,19 +7599,19 @@ button.close {
   content: "\f0e1";
 }
 
-/* line 219, ../_resources/fontawesome/scss/_icons.scss */
+/* line 220, ../_resources/fontawesome/scss/_icons.scss */
 .fa-rotate-left:before,
 .fa-undo:before {
   content: "\f0e2";
 }
 
-/* line 221, ../_resources/fontawesome/scss/_icons.scss */
+/* line 222, ../_resources/fontawesome/scss/_icons.scss */
 .fa-legal:before,
 .fa-gavel:before {
   content: "\f0e3";
 }
 
-/* line 223, ../_resources/fontawesome/scss/_icons.scss */
+/* line 224, ../_resources/fontawesome/scss/_icons.scss */
 .fa-dashboard:before,
 .fa-tachometer:before {
   content: "\f0e4";
@@ -7618,7 +7627,7 @@ button.close {
   content: "\f0e6";
 }
 
-/* line 227, ../_resources/fontawesome/scss/_icons.scss */
+/* line 228, ../_resources/fontawesome/scss/_icons.scss */
 .fa-flash:before,
 .fa-bolt:before {
   content: "\f0e7";
@@ -7634,7 +7643,7 @@ button.close {
   content: "\f0e9";
 }
 
-/* line 231, ../_resources/fontawesome/scss/_icons.scss */
+/* line 232, ../_resources/fontawesome/scss/_icons.scss */
 .fa-paste:before,
 .fa-clipboard:before {
   content: "\f0ea";
@@ -7790,7 +7799,7 @@ button.close {
   content: "\f10a";
 }
 
-/* line 263, ../_resources/fontawesome/scss/_icons.scss */
+/* line 264, ../_resources/fontawesome/scss/_icons.scss */
 .fa-mobile-phone:before,
 .fa-mobile:before {
   content: "\f10b";
@@ -7821,7 +7830,7 @@ button.close {
   content: "\f111";
 }
 
-/* line 270, ../_resources/fontawesome/scss/_icons.scss */
+/* line 271, ../_resources/fontawesome/scss/_icons.scss */
 .fa-mail-reply:before,
 .fa-reply:before {
   content: "\f112";
@@ -7897,7 +7906,7 @@ button.close {
   content: "\f122";
 }
 
-/* line 286, ../_resources/fontawesome/scss/_icons.scss */
+/* line 288, ../_resources/fontawesome/scss/_icons.scss */
 .fa-star-half-empty:before,
 .fa-star-half-full:before,
 .fa-star-half-o:before {
@@ -7919,7 +7928,7 @@ button.close {
   content: "\f126";
 }
 
-/* line 292, ../_resources/fontawesome/scss/_icons.scss */
+/* line 293, ../_resources/fontawesome/scss/_icons.scss */
 .fa-unlink:before,
 .fa-chain-broken:before {
   content: "\f127";
@@ -8110,25 +8119,25 @@ button.close {
   content: "\f14e";
 }
 
-/* line 331, ../_resources/fontawesome/scss/_icons.scss */
+/* line 332, ../_resources/fontawesome/scss/_icons.scss */
 .fa-toggle-down:before,
 .fa-caret-square-o-down:before {
   content: "\f150";
 }
 
-/* line 333, ../_resources/fontawesome/scss/_icons.scss */
+/* line 334, ../_resources/fontawesome/scss/_icons.scss */
 .fa-toggle-up:before,
 .fa-caret-square-o-up:before {
   content: "\f151";
 }
 
-/* line 335, ../_resources/fontawesome/scss/_icons.scss */
+/* line 336, ../_resources/fontawesome/scss/_icons.scss */
 .fa-toggle-right:before,
 .fa-caret-square-o-right:before {
   content: "\f152";
 }
 
-/* line 337, ../_resources/fontawesome/scss/_icons.scss */
+/* line 338, ../_resources/fontawesome/scss/_icons.scss */
 .fa-euro:before,
 .fa-eur:before {
   content: "\f153";
@@ -8139,19 +8148,19 @@ button.close {
   content: "\f154";
 }
 
-/* line 340, ../_resources/fontawesome/scss/_icons.scss */
+/* line 341, ../_resources/fontawesome/scss/_icons.scss */
 .fa-dollar:before,
 .fa-usd:before {
   content: "\f155";
 }
 
-/* line 342, ../_resources/fontawesome/scss/_icons.scss */
+/* line 343, ../_resources/fontawesome/scss/_icons.scss */
 .fa-rupee:before,
 .fa-inr:before {
   content: "\f156";
 }
 
-/* line 344, ../_resources/fontawesome/scss/_icons.scss */
+/* line 347, ../_resources/fontawesome/scss/_icons.scss */
 .fa-cny:before,
 .fa-rmb:before,
 .fa-yen:before,
@@ -8159,20 +8168,20 @@ button.close {
   content: "\f157";
 }
 
-/* line 348, ../_resources/fontawesome/scss/_icons.scss */
+/* line 350, ../_resources/fontawesome/scss/_icons.scss */
 .fa-ruble:before,
 .fa-rouble:before,
 .fa-rub:before {
   content: "\f158";
 }
 
-/* line 351, ../_resources/fontawesome/scss/_icons.scss */
+/* line 352, ../_resources/fontawesome/scss/_icons.scss */
 .fa-won:before,
 .fa-krw:before {
   content: "\f159";
 }
 
-/* line 353, ../_resources/fontawesome/scss/_icons.scss */
+/* line 354, ../_resources/fontawesome/scss/_icons.scss */
 .fa-bitcoin:before,
 .fa-btc:before {
   content: "\f15a";
@@ -8428,7 +8437,7 @@ button.close {
   content: "\f190";
 }
 
-/* line 405, ../_resources/fontawesome/scss/_icons.scss */
+/* line 406, ../_resources/fontawesome/scss/_icons.scss */
 .fa-toggle-left:before,
 .fa-caret-square-o-left:before {
   content: "\f191";
@@ -8449,7 +8458,7 @@ button.close {
   content: "\f194";
 }
 
-/* line 410, ../_resources/fontawesome/scss/_icons.scss */
+/* line 411, ../_resources/fontawesome/scss/_icons.scss */
 .fa-turkish-lira:before,
 .fa-try:before {
   content: "\f195";
@@ -8499,7 +8508,7 @@ button.close {
   border-color: #c25d1f;
   color: white !important;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
   color: white;
   background-color: #b9591d;
@@ -8511,7 +8520,7 @@ button.close {
   background-color: #b9591d;
   border-color: #8d4416;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-primary:active, .btn-primary.active {
   background-image: none;
 }
@@ -8519,7 +8528,7 @@ button.close {
 .open .btn-primary.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
   background-color: #dc6a23;
   border-color: #c25d1f;
@@ -8537,7 +8546,7 @@ button.close {
   border-color: #c47340;
   color: white !important;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active {
   color: white;
   background-color: #bf6e3b;
@@ -8549,7 +8558,7 @@ button.close {
   background-color: #bf6e3b;
   border-color: #98572f;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-secondary:active, .btn-secondary.active {
   background-image: none;
 }
@@ -8557,7 +8566,7 @@ button.close {
 .open .btn-secondary.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-secondary.disabled, .btn-secondary.disabled:hover, .btn-secondary.disabled:focus, .btn-secondary.disabled:active, .btn-secondary.disabled.active, .btn-secondary[disabled], .btn-secondary[disabled]:hover, .btn-secondary[disabled]:focus, .btn-secondary[disabled]:active, .btn-secondary[disabled].active, fieldset[disabled] .btn-secondary, fieldset[disabled] .btn-secondary:hover, fieldset[disabled] .btn-secondary:focus, fieldset[disabled] .btn-secondary:active, fieldset[disabled] .btn-secondary.active {
   background-color: #cb8458;
   border-color: #c47340;
@@ -8575,7 +8584,7 @@ button.close {
   border-color: #678ead;
   color: white !important;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-tertiary:hover, .btn-tertiary:focus, .btn-tertiary:active, .btn-tertiary.active {
   color: white;
   background-color: #6089a9;
@@ -8587,7 +8596,7 @@ button.close {
   background-color: #6089a9;
   border-color: #4b6f8c;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-tertiary:active, .btn-tertiary.active {
   background-image: none;
 }
@@ -8595,7 +8604,7 @@ button.close {
 .open .btn-tertiary.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-tertiary.disabled, .btn-tertiary.disabled:hover, .btn-tertiary.disabled:focus, .btn-tertiary.disabled:active, .btn-tertiary.disabled.active, .btn-tertiary[disabled], .btn-tertiary[disabled]:hover, .btn-tertiary[disabled]:focus, .btn-tertiary[disabled]:active, .btn-tertiary[disabled].active, fieldset[disabled] .btn-tertiary, fieldset[disabled] .btn-tertiary:hover, fieldset[disabled] .btn-tertiary:focus, fieldset[disabled] .btn-tertiary:active, fieldset[disabled] .btn-tertiary.active {
   background-color: #7b9db8;
   border-color: #678ead;
@@ -8613,7 +8622,7 @@ button.close {
   border-color: #e1e1e1;
   color: #777777 !important;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active {
   color: #777777;
   background-color: #dadada;
@@ -8625,7 +8634,7 @@ button.close {
   background-color: #dadada;
   border-color: #c3c3c3;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default:active, .btn-default.active {
   background-image: none;
 }
@@ -8633,7 +8642,7 @@ button.close {
 .open .btn-default.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-default.disabled, .btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled:active, .btn-default.disabled.active, .btn-default[disabled], .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled]:active, .btn-default[disabled].active, fieldset[disabled] .btn-default, fieldset[disabled] .btn-default:hover, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default:active, fieldset[disabled] .btn-default.active {
   background-color: #eeeeee;
   border-color: #e1e1e1;
@@ -8650,7 +8659,7 @@ button.close {
   background-color: #204460;
   border-color: #183449;
 }
-/* line 507, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 510, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-bolt:hover, .btn-bolt:focus, .btn-bolt:active, .btn-bolt.active {
   color: white;
   background-color: #162e41;
@@ -8662,7 +8671,7 @@ button.close {
   background-color: #162e41;
   border-color: #09131b;
 }
-/* line 520, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 521, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-bolt:active, .btn-bolt.active {
   background-image: none;
 }
@@ -8670,7 +8679,7 @@ button.close {
 .open .btn-bolt.dropdown-toggle {
   background-image: none;
 }
-/* line 530, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+/* line 534, ../_resources/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .btn-bolt.disabled, .btn-bolt.disabled:hover, .btn-bolt.disabled:focus, .btn-bolt.disabled:active, .btn-bolt.disabled.active, .btn-bolt[disabled], .btn-bolt[disabled]:hover, .btn-bolt[disabled]:focus, .btn-bolt[disabled]:active, .btn-bolt[disabled].active, fieldset[disabled] .btn-bolt, fieldset[disabled] .btn-bolt:hover, fieldset[disabled] .btn-bolt:focus, fieldset[disabled] .btn-bolt:active, fieldset[disabled] .btn-bolt.active {
   background-color: #204460;
   border-color: #183449;
@@ -8735,7 +8744,7 @@ button.close {
   display: inline-block;
 }
 
-/* line 107, ../sass/_bootstrapcustom.scss */
+/* line 108, ../sass/_bootstrapcustom.scss */
 .navbar-bolt ul.navbar,
 .navbar-bolt ul.navbar li {
   list-style: none;
@@ -8781,7 +8790,7 @@ button.close {
   font-size: 16px;
 }
 
-/* line 149, ../sass/_bootstrapcustom.scss */
+/* line 152, ../sass/_bootstrapcustom.scss */
 .navbar-brand:hover,
 .navbar-site:hover,
 .navbar-site:hover i {
@@ -8791,7 +8800,7 @@ button.close {
   outline: 0;
 }
 
-/* line 160, ../sass/_bootstrapcustom.scss */
+/* line 161, ../sass/_bootstrapcustom.scss */
 .navbar .navbar > li > form > button.btn,
 .navbar .navbar > li > a {
   font-weight: bold;
@@ -8824,7 +8833,7 @@ button.close {
   text-decoration: none;
 }
 
-/* line 189, ../sass/_bootstrapcustom.scss */
+/* line 190, ../sass/_bootstrapcustom.scss */
 .navbar .navbar .active > a,
 .navbar .navbar .active > a:hover {
   color: white;
@@ -8895,7 +8904,7 @@ ul.dropdown-menu li a.nolink {
 /**
  * Styles for pagination
  */
-/* line 250, ../sass/_bootstrapcustom.scss */
+/* line 251, ../sass/_bootstrapcustom.scss */
 .pagination li a,
 .pagination li.disabled a {
   background-color: rgba(220, 220, 220, 0.35);
@@ -8911,7 +8920,7 @@ ul.dropdown-menu li a.nolink {
   border-radius: 0 6px 6px 0;
 }
 
-/* line 263, ../sass/_bootstrapcustom.scss */
+/* line 264, ../sass/_bootstrapcustom.scss */
 .pagination.narrow li a,
 .pagination.narrow li.disabled a {
   padding: 0 4px;
@@ -9151,7 +9160,7 @@ a:visited {
   color: #005394;
 }
 
-/* line 34, ../sass/_textstyles.scss */
+/* line 36, ../sass/_textstyles.scss */
 a:focus,
 a:hover,
 a:active {
@@ -9418,7 +9427,7 @@ aside .btn {
   /* #F2F2EC; */
 }
 
-/* line 72, ../sass/_dashboard.scss */
+/* line 76, ../sass/_dashboard.scss */
 .dashboardlisting tr.dim td.id,
 .dashboardlisting tr.dim td.excerpt,
 .dashboardlisting tr.dim td.listthumb,
@@ -9440,7 +9449,7 @@ aside .btn {
   font-size: 13px;
 }
 
-/* line 92, ../sass/_dashboard.scss */
+/* line 95, ../sass/_dashboard.scss */
 .dashboardlisting td.id,
 .dashboardlisting td.username,
 .dashboardlisting td.actions,
@@ -9657,7 +9666,7 @@ fieldset.checkbox div {
   margin: 0.3em 0 0.5em;
 }
 
-/* line 36, ../sass/_forms.scss */
+/* line 38, ../sass/_forms.scss */
 #editcontent input,
 #editcontent select,
 #editcontent textarea {
@@ -9781,7 +9790,7 @@ fieldset.checkbox div {
   max-height: 120px;
 }
 
-/* line 144, ../sass/_forms.scss */
+/* line 146, ../sass/_forms.scss */
 #editcontent div.image-container label,
 #editcontent div.video-container label,
 #editcontent div.map-container label {
@@ -9855,7 +9864,7 @@ fieldset.checkbox div {
   display: none;
 }
 
-/* line 205, ../sass/_forms.scss */
+/* line 207, ../sass/_forms.scss */
 #editcontent .sluglocker,
 #editcontent .slugedit {
   color: #666;
@@ -9864,13 +9873,13 @@ fieldset.checkbox div {
   cursor: pointer;
 }
 
-/* line 214, ../sass/_forms.scss */
+/* line 215, ../sass/_forms.scss */
 #editcontent div.imagelistholder.dropzone,
 #editcontent div.filelistholder.dropzone {
   height: auto;
 }
 
-/* line 220, ../sass/_forms.scss */
+/* line 221, ../sass/_forms.scss */
 #editcontent div.imagelistholder p,
 #editcontent div.filelistholder p {
   padding: 8px;
@@ -9879,7 +9888,7 @@ fieldset.checkbox div {
   font-style: italic;
 }
 
-/* line 228, ../sass/_forms.scss */
+/* line 229, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list,
 #editcontent div.filelistholder div.list {
   border: 1px solid #BBB;
@@ -9918,7 +9927,7 @@ fieldset.checkbox div {
   font-weight: bold;
 }
 
-/* line 262, ../sass/_forms.scss */
+/* line 263, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div *,
 #editcontent div.filelistholder div.list div * {
   float: left;
@@ -9926,14 +9935,14 @@ fieldset.checkbox div {
   padding-left: 4px;
 }
 
-/* line 269, ../sass/_forms.scss */
+/* line 270, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div input,
 #editcontent div.filelistholder div.list div input {
   width: 264px;
   margin: 9px 0 0 4px;
 }
 
-/* line 275, ../sass/_forms.scss */
+/* line 276, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div i,
 #editcontent div.filelistholder div.list div i {
   margin: 11px 0 0;
@@ -9942,7 +9951,7 @@ fieldset.checkbox div {
   color: #999;
 }
 
-/* line 283, ../sass/_forms.scss */
+/* line 284, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.buttons,
 #editcontent div.filelistholder div.buttons {
   float: left;
@@ -10234,7 +10243,7 @@ blockquote.quote cite {
   white-space: normal;
 }
 
-/* line 245, ../sass/_bolt.scss */
+/* line 247, ../sass/_bolt.scss */
 .navbar-top-links .dropdown-messages,
 .navbar-top-links .dropdown-tasks,
 .navbar-top-links .dropdown-alerts {
@@ -10391,7 +10400,7 @@ input.semitransparent:focus {
   content: "\f107";
 }
 
-/* line 389, ../sass/_bolt.scss */
+/* line 390, ../sass/_bolt.scss */
 .nav-second-level li,
 .nav-third-level li {
   border-bottom: none !important;
@@ -10473,7 +10482,7 @@ input.semitransparent:focus {
     border-left: 1px solid #e7e7e7;
   }
 
-  /* line 461, ../sass/_bolt.scss */
+  /* line 463, ../sass/_bolt.scss */
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
@@ -10527,7 +10536,7 @@ input.semitransparent:focus {
 }
 
 /* DataTables Overrides */
-/* line 520, ../sass/_bolt.scss */
+/* line 524, ../sass/_bolt.scss */
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc,
@@ -10597,4 +10606,56 @@ aside section {
   border-radius: 2px;
   padding: 0 10px 10px;
   margin-bottom: 10px;
+}
+
+/*-- Omnisearch --*/
+/* line 588, ../sass/_bolt.scss */
+.omnisearch > .select2-dropdown-open, .omnisearch > .select2-container-active {
+  box-shadow: none !important;
+}
+/* line 592, ../sass/_bolt.scss */
+.omnisearch > .select2-choices {
+  background: transparent none !important;
+  border: none !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+/* line 601, ../sass/_bolt.scss */
+.omnisearch > .select2-choices > .select2-search-field > input, .omnisearch > .select2-choices > .select2-search-field > input:focus {
+  min-width: 200px;
+}
+/* line 607, ../sass/_bolt.scss */
+.omnisearch .select2-search-choice {
+  display: none;
+}
+/* line 611, ../sass/_bolt.scss */
+.omnisearch > .select2-choices {
+  border: 0px;
+}
+/* line 613, ../sass/_bolt.scss */
+.omnisearch > .select2-choices > .select2-search-field input {
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+/* line 624, ../sass/_bolt.scss */
+.omnisearch-result-label {
+  font-weight: bold;
+}
+
+/* line 628, ../sass/_bolt.scss */
+.omnisearch-result-label span {
+  font-weight: normal;
+}
+
+/* line 632, ../sass/_bolt.scss */
+.omnisearch-result-description {
+  font-size: smaller;
+  color: #999;
+}
+
+/* line 637, ../sass/_bolt.scss */
+.select2-highlighted .omnisearch-result-description {
+  color: #FFF;
 }
