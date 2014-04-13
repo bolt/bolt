@@ -594,14 +594,14 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Get a simple CSRF-like token.
+     * Get a simple Anti-CSRF-like token.
      *
      * @see getToken()
      * @return string
      */
     public function token()
     {
-        return getToken();
+        return $this->app['users']->getAntiCSRFToken();
 
     }
 

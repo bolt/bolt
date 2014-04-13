@@ -302,6 +302,43 @@ class Users
 
     }
 
+    /**
+     * Generate a Anti-CSRF-like token, to use in GET requests for stuff that ought to be POST-ed forms.
+     *
+     * @return string $token
+     */
+    function getAntiCSRFToken()
+    {
+        $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['bolt_session'];
+        $token = substr(md5($seed), 0, 8);
+
+        return $token;
+    }
+
+    /**
+     * Check if a given token matches the current (correct) Anit-CSRF-like token
+     *
+     * @param string $token
+     * @return bool
+     */
+    function checkAntiCSRFToken($token = "")
+    {
+        global $app;
+
+        if (empty($token)) {
+            $token = $app['request']->get('token');
+        }
+
+        if ($token === getToken()) {
+            return true;
+        } else {
+            $app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
+
+            return false;
+        }
+    }
+
+
     public function getActiveSessions()
     {
 
