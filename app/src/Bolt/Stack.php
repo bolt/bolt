@@ -19,7 +19,6 @@ class Stack
     private $items;
     private $imagetypes = array('jpg', 'jpeg', 'png', 'gif');
     private $documenttypes = array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv');
-    private $alltypes = array();
     private $app;
 
     public function __construct(Silex\Application $app)
