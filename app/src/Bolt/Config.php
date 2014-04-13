@@ -639,9 +639,19 @@ class Config
             $this->data = loadSerialize(BOLT_CACHE_DIR . '/config_cache.php');
 
             // Check if we loaded actual data.
-            if (count($this->data) > 3 && !empty($this->data['general'])) {
-                return true;
+            if (count($this->data) < 4 || empty($this->data['general'])) {
+                return false;
             }
+
+            // Check to make sure the version is still the same. If not, effectively invalidate the
+            // cached config to force a reload.
+            if (!isset($this->data['version']) || ($this->data['version'] != $this->app->getVersion())) {
+                return false;
+            }
+
+            // Yup, all seems to be right.
+            return true;
+
         }
 
         return false;
@@ -649,6 +659,10 @@ class Config
 
     private function saveCache()
     {
+
+        // Store the version number along with the config.
+        $this->data['version'] = $this->app->getVersion();
+
         if ($this->get('general/caching/config')) {
             saveSerialize(BOLT_CACHE_DIR . '/config_cache.php', $this->data);
 
