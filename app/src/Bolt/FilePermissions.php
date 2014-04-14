@@ -4,7 +4,7 @@ namespace Bolt;
 
 /**
  * Use to check if an access to a file is allowed.
- * 
+ *
  * @author Benjamin Georgeault <benjamin@wedgesama.fr>
  */
 class FilePermissions
@@ -51,7 +51,7 @@ class FilePermissions
 
     /**
      * Check if you can do something with the given file or directory.
-     * 
+     *
      * @param $filename
      * @return boolean
      */
@@ -96,7 +96,11 @@ class FilePermissions
     }
 
     public function getAllowedUploadExtensions() {
-        return $this->app['config']->get('general/accept_file_types');
+        $allowedUploadExtensions = $this->app['config']->get('general/accept_file_types');
+        if (!is_array($allowedUploadExtensions)) {
+            $allowedUploadExtensions = array('twig', 'html', 'js', 'css', 'scss', 'gif', 'jpg', 'jpeg', 'png', 'ico', 'zip', 'tgz', 'txt', 'md', 'doc', 'docx', 'pdf', 'epub', 'xls', 'xlsx', 'ppt', 'pptx', 'mp3', 'ogg', 'wav', 'm4a', 'mp4', 'm4v', 'ogv', 'wmv', 'avi', 'webm', 'svg');
+        }
+        return $allowedUploadExtensions;
     }
-    
+
 }
