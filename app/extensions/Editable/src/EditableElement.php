@@ -32,7 +32,7 @@ class EditableElement
         ));
         if ($this->app['users']->isAllowed($perm)) {
             $this->id = $record->id;
-            $this->token = getToken();
+            $this->token = $this->app['users']->getAntiCSRFToken();
             $this->fieldname = $fieldname;
         }
     }
@@ -60,7 +60,7 @@ class EditableElement
         $content['datechanged'] = $now;
 
         // @todo filter fields must not be overvritten
-        if (! checkToken($this->token) || $this->id != $content['id'] || ! array_key_exists($this->fieldname, $content->values)) {
+        if (! $this->app['users']->checkAntiCSRFToken($this->token) || $this->id != $content['id'] || ! array_key_exists($this->fieldname, $content->values)) {
             return false;
         }
 

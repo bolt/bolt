@@ -594,14 +594,14 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Get a simple CSRF-like token.
+     * Get a simple Anti-CSRF-like token.
      *
-     * @see getToken()
+     * @see \Bolt\Users::getAntiCSRFToken()
      * @return string
      */
     public function token()
     {
-        return getToken();
+        return $this->app['users']->getAntiCSRFToken();
 
     }
 
@@ -1276,14 +1276,14 @@ class TwigExtension extends \Twig_Extension
 
 
     /**
-     * Return whether or not an item is on the stack
+     * Return whether or not an item is on the stack, and is stackable in the first place.
      *
      * @param $filename string filename
      */
     public function stacked($filename)
     {
 
-        $stacked = $this->app['stack']->isOnStack($filename);
+        $stacked = ( $this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename) );
 
         return $stacked;
 

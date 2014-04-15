@@ -36,3 +36,12 @@
     <span class="label info-pop" ata-title=""
       data-html="true" data-content="{{ text }}">{{ __('Types') }}</span>
 {% endmacro %}
+
+{% macro stackbutton(file) %}
+    {% if not stacked(file.newpath) %}  
+    <a href="#" class="btn btn-mini" data-action="stack.addToStack('{{file.newpath}}', this);">
+        <i class="icon-paper-clip"></i>
+        {{ __('Place on stack') }}
+    </a>
+    {% endif %}
+{% endmacro %}

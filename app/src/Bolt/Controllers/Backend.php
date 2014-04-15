@@ -605,7 +605,7 @@ class Backend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
-            if (!checkToken()) {
+            if (!$app['users']->checkAntiCSRFToken()) {
                 $app->abort(400, __("Something went wrong"));
             }
             if (!empty($id)) {
@@ -767,7 +767,7 @@ class Backend implements ControllerProviderInterface
 
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
             $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
-        } elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
+        } elseif ($app['users']->checkAntiCSRFToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%' => $title)));
         } else {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%' => $title)));
@@ -1029,7 +1029,7 @@ class Backend implements ControllerProviderInterface
      */
     public function useraction(Silex\Application $app, $action, $id)
     {
-        if (!checkToken()) {
+        if (!$app['users']->checkAntiCSRFToken()) {
             $app['session']->getFlashBag()->set('info', __("An error occurred."));
             return redirect('users');
         }
@@ -1064,7 +1064,7 @@ class Backend implements ControllerProviderInterface
 
             case "delete":
 
-                if (checkToken() && $app['users']->deleteUser($id)) {
+                if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
                     $app['log']->add("Deleted user '" . $user['displayname'] . "'.", 3, '', 'user');
                     $app['session']->getFlashBag()->set('info', __("User '%s' is deleted.", array('%s' => $user['displayname'])));
                 } else {

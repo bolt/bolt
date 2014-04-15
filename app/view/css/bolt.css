@@ -535,14 +535,14 @@ aside .morelink {
 
 aside section p {
     font-size: 12px;
-    line-height: 16px;
+    line-height: 18px;
     margin: 4px 0;
 }
 
-aside section p {
-    font-size: 12px;
-    line-height: 18px;
-    margin: 4px 0;
+aside section p.filetypes {
+    font-size: 90%;
+    color: #888;
+    margin: -4px 0 6px;
 }
 
 
@@ -896,7 +896,7 @@ fieldset.checkbox div {
 
 #editcontent .dropzone {
     margin: 1em 0 0.5em;
-    height: 166px;
+    height: 176px;
     width: 97%;
     clear: both;
 }
