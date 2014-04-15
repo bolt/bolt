@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 
         watch: {
             scripts: {
-                files: ['javascripts/*.js', 'stylesheets/*.scss'],
+                files: ['js/*.js', 'sass/*.scss'],
                 tasks: ['sass'],
                 options: {
                     spawn: false,
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
                     style: 'compressed'
                 },
                 files: {
-                    'css/*.css': 'sass/*.scss'
+                    'css/app.css': 'sass/app.scss'
                 }
             } 
         }        
@@ -52,8 +52,8 @@ module.exports = function(grunt) {
     //grunt.loadNpmTasks('grunt-contrib-concat');
     //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    // grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    // grunt.loadNpmTasks('grunt-sass');
 
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.

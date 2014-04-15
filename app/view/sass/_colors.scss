@@ -12,17 +12,17 @@ $boltbluelighter: lighten($boltblue, 5);
 $basebgcolour: #FBFBFB;
 $bodytextcolour: #333;
 
-$linkmain: lighten(adjust-saturation($boltblue, 100), 4);
+$linkmain: lighten(saturate($boltblue, 100), 4);
 $linkvisited: $linkmain;
-$linkactive: lighten(adjust-saturation($boltblue, 100), 10);
+$linkactive: lighten(saturate($boltblue, 100), 10);
 
-$sidebarbackground: lighten(adjust-saturation($boltblue, -35), 6);
+$sidebarbackground: lighten(desaturate($boltblue, 35), 6);
 $sidebartextcolour: #DDD;
 
 $sidebarlink: #EEE;
 $sidebarlinkhover: #FFF;
-$sidebarbackgroundactive: lighten(adjust-saturation($boltblue, -20), 7);
-$sidebarbackgroundhover: lighten(adjust-saturation($boltblue, -20), 4);
+$sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
+$sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 4);
 
 // The color of <hr> lines.
 $hr-border: #CCC;
@@ -36,11 +36,11 @@ $btn-primary-bg: #DC6A23;
 $btn-primary-border: darken($btn-primary-bg, 6%);
 
 // Secondary button
-$btn-secondary-bg: adjust-saturation(lighten($btn-primary-bg, 7%), -20);
+$btn-secondary-bg: desaturate(lighten($btn-primary-bg, 7%), 20);
 $btn-secondary-border: darken($btn-secondary-bg, 6%);
 
 // Tertiary button
-$btn-tertiary-bg: adjust-saturation(lighten($boltblue, 35%), -20);
+$btn-tertiary-bg: desaturate(lighten($boltblue, 35%), 20);
 $btn-tertiary-border: darken($btn-tertiary-bg, 6%);
 
 // Default button
