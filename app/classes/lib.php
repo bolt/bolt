@@ -40,41 +40,6 @@ function makeDir($name)
     return $success;
 }
 
-/**
- * Generate a CSRF-like token, to use in GET requests for stuff that ought to be POST-ed forms.
- *
- * @return string $token
- */
-function getToken()
-{
-    $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_COOKIE['bolt_session'];
-    $token = substr(md5($seed), 0, 8);
-
-    return $token;
-}
-
-/**
- * Check if a given token matches the current (correct) CSRF-like token
- *
- * @param string $token
- * @return bool
- */
-function checkToken($token = "")
-{
-    global $app;
-
-    if (empty($token)) {
-        $token = $app['request']->get('token');
-    }
-
-    if ($token === getToken()) {
-        return true;
-    } else {
-        $app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
-
-        return false;
-    }
-}
 
 /**
  * Clean posted data. Convert tabs to spaces (primarily for yaml) and
@@ -1238,12 +1203,20 @@ function str_replace_first($search, $replace, $subject)
  * @return array
  * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
  * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
+ * @author Bob for bolt-specific excludes
  */
 function array_merge_recursive_distinct (array &$array1, array &$array2)
 {
     $merged = $array1;
 
     foreach ($array2 as $key => &$value) {
+
+        // if $key = 'accept_file_types, don't merge..
+        if ($key == 'accept_file_types') {
+            $merged[$key] = $array2[$key];
+            continue;
+        }
+
         if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
             $merged[$key] = array_merge_recursive_distinct($merged [$key], $value);
         } else {

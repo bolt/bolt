@@ -153,6 +153,12 @@
                 {% endif %}
             {% endfor %}
         </select>
+        <label><span class='left' style="line-height: 1px;">&nbsp;</span></label>
+        <div style="margin-top: -14px;">
+            <a href="#" class="btn bnt-info btn-mini" onclick="jQuery('#{{key}} option').prop('selected', true); return false;">{{ __("Select all") }}</a>
+            <a href="#" class="btn bnt-info btn-mini" onclick="jQuery('#{{key}} option').prop('selected', false); return false;">{{ __("Select none") }}</a>
+        </div>
+
     {% else %}
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
             {% for value in values %}
@@ -209,10 +215,11 @@
                 data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
+        {# note: jQuery file-upload expects types separated by a '|', unlike the HTML spec. #}
         <input type="text" name="{{key}}[file]" id="field-{{key}}"
             value='{{ image.file|default('') }}'
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
-            {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
+            accept="{{ field.extensions|join('|') }}"> 
 
         <p class="filetypes">
             {{ __("Allowed filetypes are: ") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
@@ -239,7 +246,7 @@
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload image') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php">
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php" accept=".{{ field.extensions|join(",.") }}">
             </span>
         </div>
 
@@ -327,10 +334,12 @@
                   data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
         </label>
 
+        {# note: jQuery file-upload expects types separated by a '|', unlike the HTML spec. #}
         <input type="text" name="{{key}}" id="field-{{key}}"
             value='{{ content.get(key) }}'
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'
-            {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} ><br>
+            accept="{{ field.extensions|join('|') }}">
+            <br>
 
         <p class="filetypes">
             {{ __("Allowed filetypes are: ") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
@@ -341,7 +350,7 @@
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload File') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php" >
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php"  accept=".{{ field.extensions|join(",.") }}">
             </span>
         </div>
 
@@ -405,8 +414,11 @@
         <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
             <i class="icon-upload"></i>
             <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php"
-                   {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
+            <input id="fileupload-{{key}}"
+                   type="file"
+                   name="fileupload-{{key}}[]"
+                   data-url="{{ paths.app }}classes/upload/index.php"
+                   accept="{{ field.extensions|join('|') }}">
         </span>
 
         <br clear="all">
@@ -492,7 +504,7 @@
                    type="file"
                    name="fileupload-{{key}}[]"
                    data-url="{{ paths.app }}classes/upload/index.php"
-                    {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
+                   accept="{{ field.extensions|join('|') }}">
         </span>
     </div>
     <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>

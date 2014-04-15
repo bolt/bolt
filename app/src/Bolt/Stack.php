@@ -18,9 +18,8 @@ class Stack
 
     private $items;
     private $imagetypes = array('jpg', 'jpeg', 'png', 'gif');
-    private $documenttypes = array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx');
+    private $documenttypes = array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv');
     private $app;
-
 
     public function __construct(Silex\Application $app)
     {
@@ -38,6 +37,10 @@ class Stack
         if (!is_array($stack_items)) {
             $stack_items = array();
         }
+
+        // intersect the allowed types with the types set
+        $this->imagetypes = array_intersect($this->imagetypes, $app['config']->get('general/accept_file_types'));
+        $this->documenttypes = array_intersect($this->documenttypes, $app['config']->get('general/accept_file_types'));
 
         $this->items = $stack_items;
     }
@@ -93,6 +96,21 @@ class Stack
 
         return false;
     }
+
+    /**
+     * Check if a given filename is stackable.
+     *
+     * @param string $filename
+     */
+    public function isStackable($filename)
+    {
+        $ext = getExtension($filename);
+
+        echo "[ $ext ]";
+
+        return in_array($ext, $this->getFileTypes());
+
+    }    
 
     /**
      * Return a list with the current stacked items. Add some relevant info to each item,
@@ -195,4 +213,13 @@ class Stack
         $this->app['users']->saveUser($currentuser);
 
     }
+
+    /**
+     * Get the allowed filetypes.
+     */ 
+    public function getFileTypes()
+    {
+        return array_merge($this->imagetypes, $this->documenttypes);
+    }
+
 }
