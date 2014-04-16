@@ -105,7 +105,7 @@ class Extension extends \Bolt\BaseExtension
                     href="http://bufferapp.com/add"
                     class="socialite bufferapp-button"
                     data-text="' . $this->record->values['title'] . '"
-                    data-url="' . $this->config['url'] . '"
+                    data-url="' . urlencode($this->config['url']) . '"
                     data-count="' . $this->config['bufferapp_count'] . '"
                     data-via="' . $this->config['bufferapp_twitter_user'] . '"
                     data-picture="' . $image . '"
@@ -121,7 +121,7 @@ class Extension extends \Bolt\BaseExtension
         $html = '
             <div class="social-buttons cf">
                 <a
-                    href="http://www.facebook.com/sharer.php?u=' . $this->config['url'] . '&t=' . $this->record->values['title'] . '"
+                    href="http://www.facebook.com/sharer.php?u=' . urlencode($this->config['url']) . '&t=' . urlencode($this->record->values['title']) . '"
                 	class="socialite facebook-like"
                     data-href="' . $this->config['url'] . '"
                 	data-send="false"
@@ -386,7 +386,7 @@ class Extension extends \Bolt\BaseExtension
         $html = '
             <div class="social-buttons cf">
                 <a
-                    href="http://www.linkedin.com/shareArticle?mini=true&url=' . $this->config['url'] . '&title=' . $this->record->values['title'] . '"
+                    href="http://www.linkedin.com/shareArticle?mini=true&url=' . urlencode($this->config['url']) . '&title=' . urlencode($this->record->values['title']) . '"
                 	class="socialite linkedin-share"
                 	data-url="' . $this->config['url'] . '"
                 	data-counter="top" rel="nofollow" target="_blank">
@@ -401,7 +401,7 @@ class Extension extends \Bolt\BaseExtension
         $html = '
             <div class="social-buttons cf">
                 <a
-                    href="http://www.linkedin.com/shareArticle?mini=true&url=' . $this->config['url'] . '&title=' . $this->record->values['title'] . '"
+                    href="http://www.linkedin.com/shareArticle?mini=true&url=' . urlencode($this->config['url']) . '&title=' . urlencode($this->record->values['title']) . '"
                 	class="socialite linkedin-recommend"
                     data-url="' . $this->config['url'] . '"
                 	data-counter="top"
