@@ -64,7 +64,7 @@
                 {% for content in multiplecontent %}
 
                     {% set editable = isallowed('edit', content) %}
-                    {% include ['custom/listing/'~contenttype|lower~'.twig', '_sub_listing.twig'] with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true } %}
+                    {% include ['custom/listing/'~content.contenttype.slug~'.twig', '_sub_listing.twig'] with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true } %}
 
                 {% endfor %}
             </table>
