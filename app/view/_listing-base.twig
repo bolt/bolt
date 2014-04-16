@@ -1,5 +1,5 @@
             {# If we have 'grouping', print the row with the groupname.. #}
-            {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+            {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) and request('order') == '' %}
                 <tr class="grouping">
                     <th colspan="{% block listing_columns %}5{% endblock %}">
                         <h3 {% if loop.first %}class="first"{% endif %}>
@@ -15,7 +15,7 @@
 
 
             {# print the header for the first row.. #}
-            {% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup)) %}
+            {% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup) and request('order') == '') %}
                 {% set lastgroup = content.group.name|default %}
                 {% if "filter" in app.request.query.all|keys %}
                     {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
