@@ -242,7 +242,7 @@ myformname:
 **Tip:** If you want to include the current date and time into the database, set the 'DEFAULT' of the field to 'CURRENT_TIMESTAMP': 
 
 <pre>
-CREATE TABLE `meldingen` (
+CREATE TABLE `notifications` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   ..
   ..
