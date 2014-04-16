@@ -106,6 +106,21 @@ to modify the functionality or appearance:
   - `use_with: fieldname` - An optional name for an email field. Use this to reference another field, that will be used
     to display the name of the person, used in the `use_as`. Doing this, you can make emails with proper recipients, that
     will be shown as `Example person <info@example.org>`. See the 'Email input with extra recipient' example below.
+  - `minlength` - Add HTML5 form validation minimum length input attribute. Browsers that recognize HTML5 form validation
+    will not except any input shorter than your entered value. Example: `<input type="text" minlength="5"`
+  - `maxlength` - Add HTML5 form validation maxlength to your input attribute. Browsers that recognize HTML5 form
+    validation will not except any input longer than your entered value. Example: `<input type="text" maxlength="25"`
+  - `autofocus` HTML5 autofocus attribute. On page render the input with `autofocus="on"` will be highlighted. Options
+    are `autofocus: on` or `autofocus: off`. Only one form element can have the autofocus attribute. It cannot be
+    applied if the type is `hidden`.
+  - `autocomplete` HTML5 form attribute that turns the in browser autocomplete function on or off. This is ignored if the
+   input type is set to `hidden`.
+      * `off`: must explicitly enter a value into this field for every use. the browser does not automatically complete the entry.
+      * `on`: The browser can automatically complete the value based on values that the user has entered during previous uses.
+  - `pattern` A JavaScript regular expression to check the input field against. This attribute applies to fields with a type
+   of `text`, `search`, `tel`, `url` or `email`.
+    Example alphanumeric: `<input type="text" pattern="^[a-zA-Z0-9]+" />`
+
 
 The different fieldtypes are as follows, with a short example outlining the specific options for that field.
 Remember you can also use the basic options as well.
@@ -239,7 +254,7 @@ myformname:
   button_text: Send the Demo form!
 </pre>
 
-**Tip:** If you want to include the current date and time into the database, set the 'DEFAULT' of the field to 'CURRENT_TIMESTAMP': 
+**Tip:** If you want to include the current date and time into the database, set the 'DEFAULT' of the field to 'CURRENT_TIMESTAMP':
 
 <pre>
 CREATE TABLE `notifications` (
