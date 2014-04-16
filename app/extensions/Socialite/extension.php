@@ -105,7 +105,7 @@ class Extension extends \Bolt\BaseExtension
                     href="http://bufferapp.com/add"
                     class="socialite bufferapp-button"
                     data-text="' . $this->record->values['title'] . '"
-                    data-url="' . urlencode($this->config['url']) . '"
+                    data-url="' . $this->config['url'] . '"
                     data-count="' . $this->config['bufferapp_count'] . '"
                     data-via="' . $this->config['bufferapp_twitter_user'] . '"
                     data-picture="' . $image . '"
