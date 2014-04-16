@@ -231,7 +231,7 @@
 "This email address is already in use. Choose another email address.": "Этот адрес электронной почты уже используется. Выберите другой адрес электронной почты."
 "This record is related to %contenttype%": "Эта запись связана с %contenttype%"
 "This username is already in use. Choose another username.": "Это имя пользователя уже используется. Выберите другое имя пользователя."
-"This value is too short. It should have 6 characters or more.": "Это значение является слишком коротким. Оно должен иметь 6 символов или более."
+"This value is too short. It should have 6 characters or more.": "Это значение является слишком коротким. Оно должно содержать 6 или более символов."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Этот сайт создан с использованием <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Bolt CMS</a>."
 "Tip:": "Подсказка:"
 "Title": "Название"
