@@ -198,6 +198,22 @@ class Extension extends \Bolt\BaseExtension
                 $options['attr']['maxlength'] = $field['maxlength'];
             }
 
+            if (!empty($field['minlength'])) {
+                $options['attr']['minlength'] = $field['minlength'];
+            }
+
+            if (!empty($field['autofocus'])) {
+                $options['attr']['autofocus'] = $field['autofocus'];
+            }
+
+            if (!empty($field['pattern'])) {
+                $options['attr']['pattern'] = $field['pattern'];
+            }
+
+            if (!empty($field['autocomplete'])) {
+                $options['attr']['autocomplete'] = $field['autocomplete'];
+            }
+
             if (!empty($field['expanded'])) {
                 $options['expanded'] = $field['expanded'];
             }
