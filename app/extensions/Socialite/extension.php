@@ -18,12 +18,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "",
             'author' => "Gawain Lynch",
             'link' => "http://bolt.cm",
-            'version' => "1.0",
+            'version' => "1.1",
             'required_bolt_version' => "1.5",
             'highest_bolt_version' => "2.0",
             'type' => "Twig function",
             'first_releasedate' => "2014-03-26",
-            'latest_releasedate' => "2014-03-26",
+            'latest_releasedate' => "2014-04-17",
         );
 
         return $data;
