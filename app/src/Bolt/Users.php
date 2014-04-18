@@ -38,8 +38,7 @@ class Users
         $this->authtokentable = $prefix . "authtoken";
         $this->users = array();
         $this->session = $app['session'];
-        $this->remoteIP = $_SERVER['REMOTE_ADDR'];
-
+        $this->remoteIP = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "";
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
