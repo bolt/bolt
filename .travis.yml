@@ -15,3 +15,4 @@ before_script:
   - php composer.phar install --prefer-source
   - mkdir -p tests/_log
   - chmod 777 tests/_log
+

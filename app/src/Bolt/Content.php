@@ -139,12 +139,24 @@ class Content implements \ArrayAccess
             $this->values['status'] = $this->contenttype['default_status'];
         }
 
+        $serialized_field_types = array(
+            'geolocation',
+            'imagelist',
+            'image',
+            'file',
+            'filelist',
+            'video',
+            'select',
+            'templateselect',
+            'checkbox');
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
-            if (!empty($value) && is_string($value) && substr($value, 0, 2)=="a:") {
-                $unserdata = @unserialize($value);
-                if ($unserdata !== false) {
-                    $this->values[$key] = $unserdata;
+            if (in_array($this->fieldtype($key), $serialized_field_types)) {
+                if (!empty($value) && is_string($value) && (substr($value, 0, 2)=="a:" || $value[0] === '[' || $value[0] === '{')) {
+                    $unserdata = @smart_unserialize($value);
+                    if ($unserdata !== false) {
+                        $this->values[$key] = $unserdata;
+                    }
                 }
             }
 
@@ -195,7 +207,7 @@ class Content implements \ArrayAccess
 
         // Check if the value need to be unserialized..
         if (is_string($value) && substr($value, 0, 2)=="a:") {
-            $unserdata = @unserialize($value);
+            $unserdata = @smart_unserialize($value);
             if ($unserdata !== false) {
                 $value = $unserdata;
             }
@@ -297,6 +309,8 @@ class Content implements \ArrayAccess
         if (!empty($values['relation'])) {
             $this->relation = $values['relation'];
             unset($values['relation']);
+        } else {
+            $this->relation = array();
         }
 
         // @todo check for allowed file types..
@@ -581,12 +595,17 @@ class Content implements \ArrayAccess
 
                 case 'imagelist':
                 case 'filelist':
-                    // Parse the field as JSON, return the array
-                    $value = json_decode($this->values[$name]);
+                    if (is_string($this->values[$name])) {
+                        // Parse the field as JSON, return the array
+                        $value = json_decode($this->values[$name]);
+                    } else {
+                        // Already an array, do nothing.
+                        $value = $this->values[$name];
+                    }
                     break;
 
                 case 'image':
-                    if (isset($this->values[$name]['file'])) {
+                    if (is_array($this->values[$name]) && isset($this->values[$name]['file'])) {
                         $value = $this->values[$name]['file'];
                     } else {
                         $value = $this->values[$name];
@@ -800,13 +819,15 @@ class Content implements \ArrayAccess
      */
     public function link()
     {
-        if (empty($this->id))
+        if (empty($this->id)) {
             return null;
+        }
 
         list($binding, $route) = $this->getRoute();
 
-        if(!$route)
+        if(!$route) {
             return null;
+        }
 
         $link = $this->app['url_generator']->generate($binding, array_filter(array_merge(
             $route['defaults'] ?: array(),
@@ -852,19 +873,28 @@ class Content implements \ArrayAccess
      */
     protected function getRoute()
     {
-        foreach ($this->app['config']->get('routing') as $binding => $route)
-            if ($this->isApplicableRoute($binding, $route))
+        $allroutes = $this->app['config']->get('routing');
+
+        // First, try to find a custom route that's applicable
+        foreach ($allroutes as $binding => $route) {
+            if ($this->isApplicableRoute($binding, $route)) {
                 return array($binding, $route);
+            }
+        }
+
+        // Just return the 'generic' contentlink route.
+        if (!empty($allroutes['contentlink'])) {
+            return array('contentlink', $allroutes['contentlink']);
+        }
 
         return null;
     }
 
     protected function isApplicableRoute($binding, array $route)
     {
-        return 'contentlink' === $binding ||
-            (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
-            (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug']) ||
-            (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
+        return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
+        (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug']) ||
+        (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
     }
 
     /**

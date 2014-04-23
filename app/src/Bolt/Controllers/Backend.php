@@ -434,7 +434,7 @@ class Backend implements ControllerProviderInterface
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $order = $app['request']->query->get('order', '');
+        $order = $app['request']->query->get('order', $contenttype['sort']);
         $page = $app['request']->query->get('page');
         $filter = $app['request']->query->get('filter');
 
@@ -454,7 +454,9 @@ class Backend implements ControllerProviderInterface
         // @todo Do we need pager here?
         //$app['pager'] = $pager; // $pager is not defined, so no
 
-        $title = sprintf("<strong>%s</strong> » %s", __('Overview'), $contenttype['name']);
+        $title = sprintf("<strong>%s</strong> » %s",
+                    __('Overview'),
+                    htmlencode($contenttype['name']));
         $app['twig']->addGlobal('title', $title);
 
         return $app['render']->render(
@@ -663,7 +665,7 @@ class Backend implements ControllerProviderInterface
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         if ($request->getMethod() == "POST") {
-            if (!checkToken()) {
+            if (!$app['users']->checkAntiCSRFToken()) {
                 $app->abort(400, __("Something went wrong"));
             }
             if (!empty($id)) {
@@ -718,9 +720,7 @@ class Backend implements ControllerProviderInterface
                 if ($app['request']->get('returnto')) {
 
                     // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
-                    if (empty($id)) {
-                        $id = $app['storage']->getLatestId($contenttype['slug']);
-                    }
+                    $id = $app['storage']->getLatestId($contenttype['slug']);
 
                     return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id), "#".$app['request']->get('returnto'));
 
@@ -755,7 +755,9 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $title = sprintf("<strong>%s</strong> » %s", __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])), $content->getTitle());
+            $title = sprintf("<strong>%s</strong> » %s",
+                __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])),
+                htmlencode($content->getTitle()));
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             // Check if we're allowed to create content..
@@ -825,7 +827,7 @@ class Backend implements ControllerProviderInterface
 
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:delete:$id")) {
             $app['session']->getFlashBag()->set('error', __("Permission denied", array()));
-        } elseif (checkToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
+        } elseif ($app['users']->checkAntiCSRFToken() && $app['storage']->deleteContent($contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' has been deleted.", array('%title%' => $title)));
         } else {
             $app['session']->getFlashBag()->set('info', __("Content '%title%' could not be deleted.", array('%title%' => $title)));
@@ -946,7 +948,7 @@ class Backend implements ControllerProviderInterface
         // Get the user we want to edit (if any)
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
-            $title = "<strong>" . __('Edit user') . "</strong> » " . $user['displayname'];
+            $title = "<strong>" . __('Edit user') . "</strong> » " . htmlencode($user['displayname']);
         } else {
             $user = $app['users']->getEmptyUser();
             $title = "<strong>" . __('Create a new user') . "</strong>";
@@ -1095,7 +1097,12 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
                 }
 
-                return redirect('users');
+                if ($firstuser) {
+                    // To the dashboard, where 'login' will be triggered..
+                    return redirect('dashboard');
+                } else {
+                    return redirect('users');
+                }
 
             }
         }
@@ -1112,7 +1119,7 @@ class Backend implements ControllerProviderInterface
      */
     public function useraction(Silex\Application $app, $action, $id)
     {
-        if (!checkToken()) {
+        if (!$app['users']->checkAntiCSRFToken()) {
             $app['session']->getFlashBag()->set('info', __("An error occurred."));
             return redirect('users');
         }
@@ -1147,7 +1154,7 @@ class Backend implements ControllerProviderInterface
 
             case "delete":
 
-                if (checkToken() && $app['users']->deleteUser($id)) {
+                if ($app['users']->checkAntiCSRFToken() && $app['users']->deleteUser($id)) {
                     $app['log']->add("Deleted user '" . $user['displayname'] . "'.", 3, '', 'user');
                     $app['session']->getFlashBag()->set('info', __("User '%s' is deleted.", array('%s' => $user['displayname'])));
                 } else {

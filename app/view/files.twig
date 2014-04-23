@@ -1,4 +1,5 @@
 {% include '_header.twig' with { 'active':'settings' } %}
+{% import '_macro.twig' as macro %}
 
 <div class="row">
 
@@ -7,6 +8,7 @@
     </div>
 
 </div>
+
 
 {% if pathsegments|length > 1 %}
     <p>{{ __('Path:') }}
@@ -76,12 +78,7 @@
 
             <div class="btn-group">
 
-                {% if not stacked(file.newpath) %}
-                <a href="#" class="btn btn-default btn-xs" data-action="stack.addToStack('{{file.newpath}}', this);">
-                    <i class="fa fa-paperclip"></i>
-                    {{ __('Place on stack') }}
-                </a>
-                {% endif %}
+                {{ macro.stackbutton(file) }}
 
                 <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
                     <i class="fa fa-info-sign"></i>
@@ -117,6 +114,7 @@
                 <i class="fa fa-upload"></i>
                 <span>{{ __('Upload file') }}</span>
             </button>
+            {{ pretty.typepopover() }}
         </fieldset>
     </form>
 

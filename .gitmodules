@@ -1,6 +1,9 @@
 [submodule "app/view/_resources/bootstrap-sass"]
-	path = app/view/_resources/bootstrap-sass
-	url = git@github.com:twbs/bootstrap-sass.git
+    path = app/view/_resources/bootstrap-sass
+    url = https://github.comtwbs/bootstrap-sass.git
 [submodule "app/view/_resources/fontawesome"]
-	path = app/view/_resources/fontawesome
-	url = git@github.com:FortAwesome/Font-Awesome.git
+    path = app/view/_resources/fontawesome
+    url = https://github.com/FortAwesome/Font-Awesome.git
+[submodule "theme/base-2014"]
+    path = theme/base-2014
+    url = https://github.com/bolt/base-2014.git

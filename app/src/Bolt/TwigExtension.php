@@ -594,14 +594,14 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Get a simple CSRF-like token.
+     * Get a simple Anti-CSRF-like token.
      *
-     * @see getToken()
+     * @see \Bolt\Users::getAntiCSRFToken()
      * @return string
      */
     public function token()
     {
-        return getToken();
+        return $this->app['users']->getAntiCSRFToken();
 
     }
 
@@ -1156,7 +1156,8 @@ class TwigExtension extends \Twig_Extension
             "The ability to simplify means to eliminate the unnecessary so that the necessary may speak.#Hans Hofmann",
             "I've learned to keep things simple. Look at your choices, pick the best one, then go to work with all your heart.#Pat Riley",
             "A little simplification would be the first step toward rational living, I think.#Eleanor Roosevelt",
-            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus"
+            "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus",
+            "Keep it simple, stupid.#Kelly Johnson"
         );
 
         $randomquote = explode("#", $quotes[array_rand($quotes, 1)]);
@@ -1275,14 +1276,14 @@ class TwigExtension extends \Twig_Extension
 
 
     /**
-     * Return whether or not an item is on the stack
+     * Return whether or not an item is on the stack, and is stackable in the first place.
      *
      * @param $filename string filename
      */
     public function stacked($filename)
     {
 
-        $stacked = $this->app['stack']->isOnStack($filename);
+        $stacked = ( $this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename) );
 
         return $stacked;
 
@@ -1293,14 +1294,29 @@ class TwigExtension extends \Twig_Extension
      * Return a selected field from a contentset
      *
      * @param array $content A Bolt record array
-     * @param string fieldname Name of field to return from each record
+     * @param mixed fieldname Name of field (string), or array of names of
+     *                        fields, to return from each record
      */
     public function selectfield($content, $fieldname)
     {
         $retval = array('');
         foreach($content as $c) {
-            if(isset($c->values[$fieldname])) {
-                $retval[] = $c->values[$fieldname];
+            if (is_array($fieldname)) {
+                $row = array();
+                foreach ($fieldname as $fn) {
+                    if(isset($c->values[$fn])) {
+                        $row[] = $c->values[$fn];
+                    }
+                    else {
+                        $row[] = null;
+                    }
+                }
+                $retval[] = $row;
+            }
+            else {
+                if(isset($c->values[$fieldname])) {
+                    $retval[] = $c->values[$fieldname];
+                }
             }
         }
 

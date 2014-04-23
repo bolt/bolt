@@ -512,7 +512,8 @@ class Async implements ControllerProviderInterface
 
         return $app['render']->render('_sub_stack.twig', array(
             'stack' => $stack,
-            'options' => $options
+            'options' => $options,
+            'filetypes' => $app['stack']->getFileTypes()
         ));
 
     }

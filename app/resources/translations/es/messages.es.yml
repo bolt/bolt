@@ -259,7 +259,7 @@
 "The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.": "Los campos 'name' y 'singular_name' de '%contenttype%' son iguales (%name%). Modifica contenttypes.yml para que sean distintos."
 "The new %contenttype% has been saved.": "El nuevo %contenttype% ha sido guardado."
 "The requested changelog entry doesn't exist.": "La entrada solicitada del registro de cambios no existe"
-"The settings for roles and permissions are stored in %permissions%.": "Los ajustes de los roles y permisos están almacenados en %permissions%"
+"The settings for roles and permissions are stored in <code>%permissions%</code>.": "Los ajustes de los roles y permisos están almacenados en %permissions%"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "El slug '%slug%' se usa en más de un tipo de contenido. Modifica contenttypes.yml para que sean distintos."
 "The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.": "Los campos 'slug' y 'singular_slug' de '%contenttype%' son iguales (%slug%). Modifica contenttypes.yml para que sean distintos."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "El archivo de traducciones '%s' no puede ser creado. Necesitas usar tu propio editor para hacer modificaciones al archivo."

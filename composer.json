@@ -14,7 +14,7 @@
         "hautelook/phpass": "dev-master",
         "ircmaxell/random-lib": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
-        "php": ">=5.3.2",
+        "php": ">=5.3.3",
         "silex/silex": "1.*",
         "silex/web-profiler": "~1.0",
         "swiftmailer/swiftmailer": "5.*",

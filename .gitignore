@@ -27,4 +27,5 @@ tests/_log
 tests/*/*Guy.php
 .sass-cache
 node_modules
-*.codekit
+.buildpath
+.project

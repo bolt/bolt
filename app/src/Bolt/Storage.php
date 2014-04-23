@@ -174,7 +174,7 @@ class Storage
                 case 'image':
                     // Get a random image..
                     if (!empty($this->images)) {
-                        $content[$field] = $this->images[array_rand($this->images)];
+                        $content[$field]['file'] = $this->images[array_rand($this->images)];
                     }
                     break;
                 case 'html':
@@ -611,8 +611,13 @@ class Storage
             }
 
             if ($values['type'] == "video") {
+                foreach (array('html', 'responsive') as $subkey) {
+                    if (!empty($fieldvalues[$key][$subkey])) {
+                        $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                    }
+                }
                 if (!empty($fieldvalues[$key]['url'])) {
-                    $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                 } else {
                     $fieldvalues[$key] = "";
                 }
@@ -620,7 +625,7 @@ class Storage
 
             if ($values['type'] == "geolocation") {
                 if (!empty($fieldvalues[$key]['address'])) {
-                    $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                 } else {
                     $fieldvalues[$key] = "";
                 }
@@ -628,15 +633,16 @@ class Storage
 
             if ($values['type'] == "image") {
                  if (!empty($fieldvalues[$key]['file'])) {
-                     $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
                  } else {
                      $fieldvalues[$key] = "";
                  }
             }
 
             if (in_array($values['type'], array("imagelist", "filelist")))  {
-
-                if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                if (is_array($fieldvalues[$key])) {
+                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
                     // Don't store '[]'
                     $fieldvalues[$key] = "";
                 }
@@ -647,7 +653,7 @@ class Storage
             }
 
             if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
-                $fieldvalues[$key] = serialize($fieldvalues[$key]);
+                $fieldvalues[$key] = json_encode($fieldvalues[$key]);
             }
 
         }

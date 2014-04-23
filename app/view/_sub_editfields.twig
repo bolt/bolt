@@ -113,6 +113,9 @@
     {% else %}
         {% set lookuptype = field.values|split('/')|first %}
         {% set lookupfield = field.values|split('/')|last %}
+        {% if ',' in lookupfield %}
+            {% set lookupfield = lookupfield|split(',') %}
+        {% endif %}
         {% setcontent lookups = lookuptype order 'title' %}
         {% set values = lookups|selectfield(lookupfield) %}
     {% endif %}
@@ -122,13 +125,27 @@
     {% if field.multiple is defined and field.multiple %}
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
             {% for value in values %}
-                <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
+                {% if value is iterable and (value | length) > 1 %}
+                    <option value="{{value[0]}}" {% if value[0] in content.get(key) %}selected{% endif %}>{{value[1]}}</option>
+                {% else %}
+                    <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
+                {% endif %}
             {% endfor %}
         </select>
+        <label><span class='left' style="line-height: 1px;">&nbsp;</span></label>
+        <div style="margin-top: -14px;">
+            <a href="#" class="btn bnt-info btn-mini" onclick="jQuery('#{{key}} option').prop('selected', true); return false;">{{ __("Select all") }}</a>
+            <a href="#" class="btn bnt-info btn-mini" onclick="jQuery('#{{key}} option').prop('selected', false); return false;">{{ __("Select none") }}</a>
+        </div>
+
     {% else %}
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
             {% for value in values %}
-                <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
+                {% if value is iterable and (value | length) > 1 %}
+                    <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1]}}</option>
+                {% else %}
+                    <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
+                {% endif %}
             {% endfor %}
         </select>
     {% endif %}
@@ -160,7 +177,16 @@
         {% set image = content.get(key) %}
     {% endif %}
 
+<<<<<<< HEAD
 <div class="dropzone clearfix" id="dropzone-{{key}}">
+=======
+{% if content.get(key) is not iterable %}
+    {# This image was stored in the old format until re-saved #}
+    {% set image = {'file': content.get(key)} %}
+{% else %}
+    {% set image = content.get(key) %}
+{% endif %}
+>>>>>>> master
 
     <div class="col-sm-9">
 
@@ -169,10 +195,15 @@
         <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}"
               data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
 
+        {# note: jQuery file-upload expects types separated by a '|', unlike the HTML spec. #}
         <input type="text" name="{{key}}[file]" id="field-{{key}}"
             value='{{ image.file|default('') }}'
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
-            {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
+            accept="{{ field.extensions|join('|') }}"> 
+
+        <p class="filetypes">
+            {{ __("Allowed filetypes are: ") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
+        </p>
 
         {% if field.attrib is defined %}
 
@@ -181,6 +212,7 @@
 
             {# We are only interested in the 'alt' attribute right now, but this will allow easy extension #}
             {% for attrib in attribs %}
+<<<<<<< HEAD
 	            {% if attrib == 'title' %}
                 <div class="form-group" style="margin-top: 8px;">
                     <div class="col-sm-4">
@@ -205,6 +237,25 @@
                     <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/">
                 </span>
             </div>
+=======
+                {% if attrib == 'title' %}
+                    <label>{{ __('Title/Alt Text:') }} <input type="text" name="{{key}}[title]" id="{{key}}-title"
+                        value='{{ image.title|default('') }}' style='width: 80%;'>
+                    </label>
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+        <!-- The fileinput-button span is used to style the file input field as button -->
+        <div class="btn-group">
+            <span class="btn btn-info fileinput-button">
+                <i class="icon-upload"></i>
+                <span>{{ __('Upload image') }}</span>
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php" accept=".{{ field.extensions|join(",.") }}">
+            </span>
+        </div>
+>>>>>>> master
 
             <div class="btn-group" style="margin-left: 0px;">
                 <a data-target="#selectModal-{{key}}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
@@ -297,18 +348,32 @@
               data-content="{{ app.translator.trans('info.upload.file',{},'infos') }}">{{ __('Info') }}</span>
     </label>
 
+<<<<<<< HEAD
     <input type="text" name="{{key}}" id="field-{{key}}"
         value='{{ content.get(key) }}'
         class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'
         {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} ><br>
 
     <div style="margin-bottom: 10px; margin-top: 10px;">
+=======
+        {# note: jQuery file-upload expects types separated by a '|', unlike the HTML spec. #}
+        <input type="text" name="{{key}}" id="field-{{key}}"
+            value='{{ content.get(key) }}'
+            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput'
+            accept="{{ field.extensions|join('|') }}">
+            <br>
+
+        <p class="filetypes">
+            {{ __("Allowed filetypes are: ") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
+        </p>
+
+>>>>>>> master
         <!-- The fileinput-button span is used to style the file input field as button -->
         <div class="btn-group">
             <span class="btn btn-info fileinput-button">
                 <i class="fa fa-upload"></i>
                 <span>{{ __('Upload File') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/" >
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php"  accept=".{{ field.extensions|join(",.") }}">
             </span>
         </div>
 
@@ -369,6 +434,7 @@
         <div class="list"></div>
     </div>
 
+<<<<<<< HEAD
     <div class="buttons col-sm-3">
         <div class="btn-group" style="margin: 0 0 6px;">
             <span class="btn btn-info fileinput-button">
@@ -377,6 +443,20 @@
                 <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/"
                    {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
             </span>
+=======
+    <div class="buttons">
+        <span class="btn btn-info fileinput-button" style="margin-bottom: 8px;">
+            <i class="icon-upload"></i>
+            <span>{{ __('Upload image') }}</span>
+            <input id="fileupload-{{key}}"
+                   type="file"
+                   name="fileupload-{{key}}[]"
+                   data-url="{{ paths.app }}classes/upload/index.php"
+                   accept="{{ field.extensions|join('|') }}">
+        </span>
+
+        <br clear="all">
+>>>>>>> master
 
         </div>
         <div class="btn-group" style="margin: 0 0 6px;">
@@ -406,7 +486,12 @@
         {% endif %}
 
     </div>
+<<<<<<< HEAD
     <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+=======
+    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>
+    <div class='clearfix'></div>
+>>>>>>> master
 
     <!-- Modal "select from server"  -->
     <div class="modal hide modal-wide" id="selectModal-{{key}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -455,8 +540,8 @@
             <input id="fileupload-{{key}}"
                    type="file"
                    name="fileupload-{{key}}[]"
-                   data-url="{{ paths.app }}classes/upload/"
-                    {% if field.extensions is defined %}accept="{{ field.extensions|join('|') }}"{% endif %} >
+                   data-url="{{ paths.app }}classes/upload/index.php"
+                   accept="{{ field.extensions|join('|') }}">
         </span>
 
         </div>
@@ -497,6 +582,10 @@
             <button class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+    <textarea name="{{key}}" id="{{key}}" class="hide">{% if content.get(key) is defined %}{{ content.get(key)|json_encode() }}{% endif %}</textarea>
+>>>>>>> master
 </div>
 
 
@@ -519,6 +608,10 @@
 {% if field.type == "video" %}
 
 {% set video = content.get(key) %}
+<<<<<<< HEAD
+=======
+<div class="dropzone video">
+>>>>>>> master
 
     <div class="col-sm-8">
 

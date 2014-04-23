@@ -69,7 +69,7 @@
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-{{title.icon}} fa-stack-1x fa-inverse" style="color: #333;"></i>
-                </span> 
+                </span>
                 {{ title.label }}
             </a>
         </li>
@@ -97,4 +97,21 @@
         {{ __(text) }}
     </button>
 </form>
+{% endmacro %}
+
+
+{% macro typepopover(types) %}
+    {% set types = types|default(app.config.get('general/accept_file_types')) %}
+    {%  set text = __("Allowed filetypes are: ") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
+    <span class="label info-pop" ata-title=""
+          data-html="true" data-content="{{ text }}">{{ __('Types') }}</span>
+{% endmacro %}
+
+{% macro stackbutton(file) %}
+    {% if not stacked(file.newpath) %}
+        <a href="#" class="btn btn-mini" data-action="stack.addToStack('{{file.newpath}}', this);">
+            <i class="fa fa-paperclip"></i>
+            {{ __('Place on stack') }}
+        </a>
+    {% endif %}
 {% endmacro %}

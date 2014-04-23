@@ -152,6 +152,7 @@ class Config
             $this->parseConfigYaml('config.yml'),
             $this->parseConfigYaml('config_local.yml')
         );
+
         $config['taxonomy']    = $this->parseConfigYaml('taxonomy.yml');
         $tempContentTypes      = $this->parseConfigYaml('contenttypes.yml');
         $config['menu']        = $this->parseConfigYaml('menu.yml');
@@ -165,15 +166,24 @@ class Config
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
-
+        
         $this->paths = getPaths($config);
         $this->setDefaults();
 
+        // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($config['general']['wysiwyg']['ck']['contentsCss'])) {
             $config['general']['wysiwyg']['ck']['contentsCss'] = array(
                 1 => $config['general']['wysiwyg']['ck']['contentsCss']
             );
         }
+
+        // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
+        // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
+        if (isset($config['general']['accept_file_types']) && !is_array($config['general']['accept_file_types'])) {
+            unset($config['general']['accept_file_types']);
+        }
+
+        // Merge the array with the defaults. Setting the required values that aren't already set.
         $config['general'] = array_merge_recursive_distinct($this->defaultConfig, $config['general']);
 
         // Make sure the cookie_domain for the sessions is set properly.
@@ -252,6 +262,11 @@ class Config
         $config['contenttypes'] = array();
         foreach ($tempContentTypes as $key => $temp) {
 
+            // If the slug isn't set, and the 'key' isn't numeric, use that as the slug.
+            if (!isset($temp['slug']) && !is_numeric($key)) {
+                $temp['slug'] = makeSlug($key);
+            }
+
             // If neither 'name' nor 'slug' is set, we need to warn the user. Same goes for when
             // neither 'singular_name' nor 'singular_slug' is set.
             if (!isset($temp['name']) && !isset($temp['slug'])) {
@@ -286,15 +301,33 @@ class Config
             // Make sure all fields are lowercase and 'safe'.
             $tempfields = $temp['fields'];
             $temp['fields'] = array();
+
             foreach ($tempfields as $key => $value) {
                 // Fix name 'keys' for fields
                 $key = str_replace('-', '_', strtolower(safeString($key, true)));
                 $temp['fields'][$key] = $value;
 
                 // If field is a "file" type, make sure the 'extensions' are set, and it's an array.
-                if ($temp['fields'][$key]['type'] == 'file') {
+                if ($temp['fields'][$key]['type'] == 'file' || $temp['fields'][$key]['type'] == 'filelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
-                        $temp['fields'][$key]['extensions'] = array('pdf', 'txt', 'md', 'doc', 'docx', 'zip', 'tgz');
+                        $temp['fields'][$key]['extensions'] = array_intersect(
+                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'), 
+                            $config['general']['accept_file_types']
+                        );
+                    }
+
+                    if (!is_array($temp['fields'][$key]['extensions'])) {
+                        $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
+                    }
+                }
+
+                // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
+                if ($temp['fields'][$key]['type'] == 'image' || $temp['fields'][$key]['type'] == 'imagelist') {
+                    if (empty($temp['fields'][$key]['extensions'])) {
+                        $temp['fields'][$key]['extensions'] = array_intersect(
+                            array('gif', 'jpg', 'jpeg', 'png'), 
+                            $config['general']['accept_file_types']
+                        );
                     }
 
                     if (!is_array($temp['fields'][$key]['extensions'])) {
@@ -422,15 +455,15 @@ class Config
         }
 
         // Check DB-tables integrity
-        if ($this->app['integritychecker']->needsCheck()) {
-            if (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) {
-                $msg = __(
-                    "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                    array('%link%' => path('dbcheck'))
-                );
-                $this->app['session']->getFlashBag()->set('error', $msg);
-                return;
-            }
+        if ($this->app['integritychecker']->needsCheck() &&
+           (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) &&
+            $this->app['users']->getCurrentUsername()) {
+            $msg = __(
+                "The database needs to be updated / repaired. Go to 'Settings' > '<a href=\"%link%\">Check Database</a>' to do this now.",
+                array('%link%' => path('dbcheck'))
+            );
+            $this->app['session']->getFlashBag()->set('error', $msg);
+            return;
         }
 
         // Sanity checks for taxonomy.yml
@@ -531,7 +564,7 @@ class Config
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
             ),
-            'accept_file_types'           => explode(",", "gif,jpg,jpeg,png,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
+            'accept_file_types'           => explode(",", "twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg"),
             'hash_strength'               => 10,
             'branding'                    => array(
                 'name'        => 'Bolt',
@@ -546,7 +579,7 @@ class Config
     {
             // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
         if ($this->get('general/theme_path')) {
-            $themepath = realpath(BOLT_WEB_DIR . '/' . ltrim('/', $this->get('general/theme_path')));
+            $themepath = realpath(BOLT_WEB_DIR . '/' . ltrim($this->get('general/theme_path'), '/'));
         } else {
             $themepath = realpath(BOLT_WEB_DIR . '/theme');
         }
@@ -611,9 +644,19 @@ class Config
             $this->data = loadSerialize(BOLT_CACHE_DIR . '/config_cache.php');
 
             // Check if we loaded actual data.
-            if (count($this->data) > 3 && !empty($this->data['general'])) {
-                return true;
+            if (count($this->data) < 4 || empty($this->data['general'])) {
+                return false;
             }
+
+            // Check to make sure the version is still the same. If not, effectively invalidate the
+            // cached config to force a reload.
+            if (!isset($this->data['version']) || ($this->data['version'] != $this->app->getVersion())) {
+                return false;
+            }
+
+            // Yup, all seems to be right.
+            return true;
+
         }
 
         return false;
@@ -621,6 +664,10 @@ class Config
 
     private function saveCache()
     {
+
+        // Store the version number along with the config.
+        $this->data['version'] = $this->app->getVersion();
+
         if ($this->get('general/caching/config')) {
             saveSerialize(BOLT_CACHE_DIR . '/config_cache.php', $this->data);
 

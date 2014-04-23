@@ -38,6 +38,7 @@ class Users
         $this->authtokentable = $prefix . "authtoken";
         $this->users = array();
         $this->session = $app['session'];
+        $this->remoteIP = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "";
 
         // Set 'validsession', to see if the current session is valid.
         $this->validsession = $this->checkValidSession();
@@ -133,9 +134,9 @@ class Users
 
         // Make sure the 'stack' is set.
         if (empty($user['stack'])) {
-            $user['stack'] = serialize(array());
+            $user['stack'] = json_encode(array());
         } elseif (is_array($user['stack'])) {
-            $user['stack'] = serialize($user['stack']);
+            $user['stack'] = json_encode($user['stack']);
         }
 
         // Serialize roles array
@@ -199,7 +200,7 @@ class Users
             return $result;
         }
 
-        $key = $this->getAuthtoken($this->currentuser['username']);
+        $key = $this->getAuthToken($this->currentuser['username']);
 
         if ($key != $this->currentuser['sessionkey']) {
             $this->app['log']->add("keys don't match. Invalidating session: $key != " . $this->currentuser['sessionkey'], 2);
@@ -231,41 +232,41 @@ class Users
      * @param string $salt
      * @return string
      */
-    private function getAuthtoken($name = "", $salt = "")
+    private function getAuthToken($name = "", $salt = "")
     {
 
         if (empty($name)) {
             return false;
         }
 
-        $key = $name . "-" . $salt;
+        $seed = $name . "-" . $salt;
 
         if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
-            $key .= "-". $_SERVER['REMOTE_ADDR'];
+            $seed .= "-". $this->remoteIP;
         }
         if ($this->app['config']->get('general/cookies_use_browseragent')) {
-            $key .= "-". $_SERVER['HTTP_USER_AGENT'];
+            $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $key .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
+            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
         }
 
-        $key = md5($key);
+        $token = md5($seed);
 
-        return $key;
+        return $token;
 
     }
 
     /**
      * Set the Authtoken cookie and DB-entry. If it's already present, update it.
      */
-    private function setAuthtoken()
+    private function setAuthToken()
     {
 
         $salt = $this->app['randomgenerator']->generateString(12);
         $token = array(
             'username' => $this->currentuser['username'],
-            'token' => $this->getAuthtoken($this->currentuser['username'], $salt),
+            'token' => $this->getAuthToken($this->currentuser['username'], $salt),
             'salt' => $salt,
             'validity' => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
             'ip' => $_SERVER['REMOTE_ADDR'],
@@ -301,6 +302,54 @@ class Users
         }
 
     }
+
+    /**
+     * Generate a Anti-CSRF-like token, to use in GET requests for stuff that ought to be POST-ed forms.
+     *
+     * @return string $token
+     */
+    function getAntiCSRFToken()
+    {
+        $seed = $this->app['request']->cookies->get('bolt_session');
+
+        if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
+            $seed .= "-". $this->remoteIP;
+        }
+        if ($this->app['config']->get('general/cookies_use_browseragent')) {
+            $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
+        }
+        if ($this->app['config']->get('general/cookies_use_httphost')) {
+            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
+        }
+
+        $token = substr(md5($seed), 0, 8);
+
+        return $token;
+    }
+
+    /**
+     * Check if a given token matches the current (correct) Anit-CSRF-like token
+     *
+     * @param string $token
+     * @return bool
+     */
+    function checkAntiCSRFToken($token = "")
+    {
+        global $app;
+
+        if (empty($token)) {
+            $token = $app['request']->get('token');
+        }
+
+        if ($token === $this->getAntiCSRFToken()) {
+            return true;
+        } else {
+            $app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
+
+            return false;
+        }
+    }
+
 
     public function getActiveSessions()
     {
@@ -380,7 +429,7 @@ class Users
 
             $update = array(
                 'lastseen' => date('Y-m-d H:i:s'),
-                'lastip' => $_SERVER['REMOTE_ADDR'],
+                'lastip' => $this->remoteIP,
                 'failedlogins' => 0,
                 'throttleduntil' => $this->throttleUntil(0)
             );
@@ -394,7 +443,7 @@ class Users
 
             $user = $this->getUser($user['id']);
 
-            $user['sessionkey'] = $this->getAuthtoken($user['username']);
+            $user['sessionkey'] = $this->getAuthToken($user['username']);
 
             // We wish to create a new session-id for extended security, but due to a bug in PHP < 5.4.11, this
             // will throw warnings. Suppress them here. #shakemyhead
@@ -405,7 +454,7 @@ class Users
 
             $this->currentuser = $user;
 
-            $this->setAuthtoken();
+            $this->setAuthToken();
 
             return true;
 
@@ -450,7 +499,7 @@ class Users
         }
 
         $authtoken = $_COOKIE['bolt_authtoken'];
-        $remoteip = $_SERVER['REMOTE_ADDR'];
+        $remoteip = $this->remoteIP;
         $browser = getBrowserInfo();
 
         $this->deleteExpiredSessions();
@@ -469,7 +518,7 @@ class Users
             return false;
         }
 
-        $checksalt = $this->getAuthtoken($row['username'], $row['salt']);
+        $checksalt = $this->getAuthToken($row['username'], $row['salt']);
 
         if ($checksalt == $row['token']) {
 
@@ -477,7 +526,7 @@ class Users
 
             $update = array(
                 'lastseen' => date('Y-m-d H:i:s'),
-                'lastip' => $_SERVER['REMOTE_ADDR'],
+                'lastip' => $this->remoteIP,
                 'failedlogins' => 0,
                 'throttleduntil' => $this->throttleUntil(0)
             );
@@ -489,14 +538,14 @@ class Users
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
 
-            $user['sessionkey'] = $this->getAuthtoken($user['username']);
+            $user['sessionkey'] = $this->getAuthToken($user['username']);
 
             $this->session->set('user', $user);
             $this->session->getFlashBag()->set('success', __("Session resumed."));
 
             $this->currentuser = $user;
 
-            $this->setAuthtoken();
+            $this->setAuthToken();
 
             return true;
 
@@ -545,7 +594,7 @@ class Users
             // Set the shadow password and related stuff in the database..
             $update = array(
                 'shadowpassword' => $shadowhashed,
-                'shadowtoken' => $shadowtoken . "-" . str_replace(".", "-", $_SERVER['REMOTE_ADDR']),
+                'shadowtoken' => $shadowtoken . "-" . str_replace(".", "-", $this->remoteIP),
                 'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours"))
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
@@ -593,7 +642,7 @@ class Users
     public function resetPasswordConfirm($token)
     {
 
-        $token .= "-" . str_replace(".", "-", $_SERVER['REMOTE_ADDR']);
+        $token .= "-" . str_replace(".", "-", $this->remoteIP);
 
         $now = date("Y-m-d H:i:s");
 

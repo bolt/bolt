@@ -557,7 +557,6 @@ class IntegrityChecker
                 switch ($values['type']) {
                     case 'text':
                     case 'templateselect':
-                    case 'image':
                     case 'file':
                         $myTable->addColumn($field, "string", array("length" => 256, "default" => ""));
                         break;
@@ -575,6 +574,7 @@ class IntegrityChecker
                         break;
                     case 'html':
                     case 'textarea':
+                    case 'image':
                     case 'video':
                     case 'markdown':
                     case 'geolocation':
