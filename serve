@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# A little helper script to run Bolt on localhost, port 8000, sending the error
+# log to a file named bolt.log, in the current directory.
+php -S localhost:8000 -t . index.php 2>> bolt.log &
