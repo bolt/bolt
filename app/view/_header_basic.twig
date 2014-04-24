@@ -14,6 +14,10 @@
     <script src="{{ paths.app }}view/js/backbone-min.js"></script>
     <script src="{{ paths.app }}view/js/jquery-ui-1.10.3.custom.min.js"></script>
 
+    {% if app.locale is defined and app.locale != 'en' and file_exists(paths.apppath ~ '/view/js/i18n/datepicker-' ~ app.locale ~ '.js') %}
+        <script src="{{ paths.app }}view/js/i18n/datepicker-{{ app.locale }}.js"></script>
+    {% endif %}
+
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/smoothness/jquery-ui-1.10.3.custom.min.css">
 
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
