@@ -41,6 +41,10 @@ class Extension extends \Bolt\BaseExtension
             $html = '<script type="text/javascript">document.body.className += "socialite-scroll";</script>';
         }
 
+        if (empty($this->config['template'])) {
+            $this->config['template'] = 'assets/socialite.twig';
+        }
+
         // Insert out JS late so that we are more likely to work with a late
         // jQuery insertion
         $html .= '
