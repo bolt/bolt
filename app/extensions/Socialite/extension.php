@@ -122,17 +122,17 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="http://www.facebook.com/sharer.php?u=' . urlencode($this->config['url']) . '&amp;t=' . urlencode($this->record->values['title']) . '"
-                	class="socialite facebook-like"
+                    class="socialite facebook-like"
                     data-href="' . $this->config['url'] . '"
-                	data-send="false"
-                	data-action="' . $this->config['facebook_like_action'] . '"
-                	data-colorscheme="' . $this->config['facebook_like_colorscheme'] . '"
-            	    data-kid_directed_site="' . $this->config['facebook_like_kid_directed_site'] . '"
-                	data-show-faces="' . $this->config['facebook_like_show_faces'] . '"
-        	        data-layout="' . $this->config['facebook_like_layout'] . '"
-                	data-width="' . $this->config['facebook_like_width'] . '"
-                	rel="nofollow" target="_blank">
-                	   <span class="vhidden">Share on Facebook</span>
+                    data-send="false"
+                    data-action="' . $this->config['facebook_like_action'] . '"
+                    data-colorscheme="' . $this->config['facebook_like_colorscheme'] . '"
+                    data-kid_directed_site="' . $this->config['facebook_like_kid_directed_site'] . '"
+                    data-show-faces="' . $this->config['facebook_like_show_faces'] . '"
+                    data-layout="' . $this->config['facebook_like_layout'] . '"
+                    data-width="' . $this->config['facebook_like_width'] . '"
+                    rel="nofollow" target="_blank">
+                       <span class="vhidden">Share on Facebook</span>
                 </a>
             </div>';
 
@@ -144,17 +144,17 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="' . $args . '"
-                	class="socialite facebook-like"
+                    class="socialite facebook-like"
                     data-href="' . $args . '"
-                	data-send="false"
-                	data-action="' . $this->config['facebook_follow_action'] . '"
-                	data-colorscheme="' . $this->config['facebook_follow_colorscheme'] . '"
-            	    data-kid_directed_site="' . $this->config['facebook_follow_kid_directed_site'] . '"
-                	data-show-faces="' . $this->config['facebook_follow_show_faces'] . '"
-        	        data-layout="' . $this->config['facebook_follow_layout'] . '"
-                	data-width="' . $this->config['facebook_follow_width'] . '"
-                	rel="nofollow" target="_blank">
-                	   <span class="vhidden">Share on Facebook</span>
+                    data-send="false"
+                    data-action="' . $this->config['facebook_follow_action'] . '"
+                    data-colorscheme="' . $this->config['facebook_follow_colorscheme'] . '"
+                    data-kid_directed_site="' . $this->config['facebook_follow_kid_directed_site'] . '"
+                    data-show-faces="' . $this->config['facebook_follow_show_faces'] . '"
+                    data-layout="' . $this->config['facebook_follow_layout'] . '"
+                    data-width="' . $this->config['facebook_follow_width'] . '"
+                    rel="nofollow" target="_blank">
+                       <span class="vhidden">Share on Facebook</span>
                 </a>
             </div>';
 
@@ -166,14 +166,14 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="' . $args . '"
-                	class="socialite facebook-facepile"
+                    class="socialite facebook-facepile"
                     data-href="' . $args . '"
-                	data-max-rows="' . $this->config['facebook_facepile_max_rows'] . '"
+                    data-max-rows="' . $this->config['facebook_facepile_max_rows'] . '"
                     data-colorscheme="' . $this->config['facebook_facepile_colorscheme'] . '"
-                	data-size="' . $this->config['facebook_facepile_size'] . '"
+                    data-size="' . $this->config['facebook_facepile_size'] . '"
                     data-show-count="' . $this->config['facebook_facepile_count'] . '"
-                	rel="nofollow" target="_blank">
-                	   <span class="vhidden">Facebook Facepile</span>
+                    rel="nofollow" target="_blank">
+                       <span class="vhidden">Facebook Facepile</span>
                 </a>
             </div>';
 //data-max-rows="2" data-colorscheme="light" data-size="small" data-show-count="true"
@@ -303,12 +303,12 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="' . $args . '"
-                	class="socialite googleplus-follow"
+                    class="socialite googleplus-follow"
                     data-annotation="' . $this->config['google_plus_follow_annotation'] . '"
-                	data-height="' . $this->config['google_plus_follow_size'] . '"
-                	data-href="' . $args . '"
-            	    data-rel="' . $this->config['google_plus_follow_relationship'] . '"
-                	rel="nofollow" target="_blank">
+                    data-height="' . $this->config['google_plus_follow_size'] . '"
+                    data-href="' . $args . '"
+                    data-rel="' . $this->config['google_plus_follow_relationship'] . '"
+                    rel="nofollow" target="_blank">
                         <span class="vhidden">Follow on Google+</span>
                 </a>
             </div>';
@@ -321,9 +321,9 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="https://plus.google.com/share?url=' . $this->config['url'] . '"
-                	class="socialite googleplus-one"
-                	data-size="tall"
-                	data-href="' . $this->config['url'] . '" rel="nofollow" target="_blank">
+                    class="socialite googleplus-one"
+                    data-size="tall"
+                    data-href="' . $this->config['url'] . '" rel="nofollow" target="_blank">
                         <span class="vhidden">+1 on Google+</span>
                 </a>
             </div>';
@@ -348,13 +348,13 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="https://plus.google.com/share?url=' . $this->config['url'] . '"
-                	class="socialite googleplus-share"
+                    class="socialite googleplus-share"
                     data-action="share"
                     data-annotation="' . $this->config['google_plus_share_annotation'] . '"
                     data-height="' . $this->config['google_plus_share_size'] . '"
-                	data-href="' . $this->config['url'] . '"
-                	rel="nofollow" target="_blank">
-                	   <span class="vhidden">Share on Google+</span>
+                    data-href="' . $this->config['url'] . '"
+                    rel="nofollow" target="_blank">
+                       <span class="vhidden">Share on Google+</span>
                 </a>
             </div>';
 
@@ -366,7 +366,7 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="' . $args . '"
-                	class="socialite googleplus-badge"
+                    class="socialite googleplus-badge"
                     data-href="' . $args . '"
                     data-layout="' . $this->config['google_plus_badge_layout'] . '"
                     data-width="' . $this->config['google_plus_badge_width'] . '"
@@ -374,7 +374,7 @@ class Extension extends \Bolt\BaseExtension
                     data-showcoverphoto="' . $this->config['google_plus_badge_photo'] . '"
                     data-showtagline="' . $this->config['google_plus_badge_tagline'] . '"
                     data-rel="' . $this->config['google_plus_badge_relationship'] . '"
-                	rel="nofollow" target="_blank">
+                    rel="nofollow" target="_blank">
                         <span class="vhidden">Follow on Google+</span>
                 </a>
             </div>';
@@ -387,10 +387,10 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . urlencode($this->config['url']) . '&amp;title=' . urlencode($this->record->values['title']) . '"
-                	class="socialite linkedin-share"
-                	data-url="' . $this->config['url'] . '"
-                	data-counter="top" rel="nofollow" target="_blank">
-                	   <span class="vhidden">Share on LinkedIn</span>
+                    class="socialite linkedin-share"
+                    data-url="' . $this->config['url'] . '"
+                    data-counter="top" rel="nofollow" target="_blank">
+                       <span class="vhidden">Share on LinkedIn</span>
                 </a>
             </div>';
 
@@ -402,11 +402,11 @@ class Extension extends \Bolt\BaseExtension
             <div class="social-buttons cf">
                 <a
                     href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . urlencode($this->config['url']) . '&amp;title=' . urlencode($this->record->values['title']) . '"
-                	class="socialite linkedin-recommend"
+                    class="socialite linkedin-recommend"
                     data-url="' . $this->config['url'] . '"
-                	data-counter="top"
-                	rel="nofollow" target="_blank">
-                	   <span class="vhidden">Share on LinkedIn</span>
+                    data-counter="top"
+                    rel="nofollow" target="_blank">
+                       <span class="vhidden">Share on LinkedIn</span>
                 </a>
             </div>';
 
