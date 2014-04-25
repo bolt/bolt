@@ -6,7 +6,7 @@ use Silex;
 
 class Content implements \ArrayAccess
 {
-    private $app;
+    protected $app;
     public $id;
     public $values;
     public $taxonomy;

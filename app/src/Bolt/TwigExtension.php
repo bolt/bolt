@@ -59,7 +59,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('stackitems', array($this, 'stackitems')),
             new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
-            new \Twig_SimpleFunction('imageinfo', array($this, 'imageinfo'))
+            new \Twig_SimpleFunction('imageinfo', array($this, 'imageinfo')),
+            new \Twig_SimpleFunction('file_exists', 'file_exists')
         );
     }
 
