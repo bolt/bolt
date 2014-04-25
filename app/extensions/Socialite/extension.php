@@ -103,20 +103,14 @@ class Extension extends \Bolt\BaseExtension
             $image = $this->app['paths']['rooturl'] . $this->app['paths']['files'] . $this->record->values['image'];
         }
 
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="http://bufferapp.com/add"
-                    class="socialite bufferapp-button"
-                    data-text="' . $this->record->values['title'] . '"
-                    data-url="' . $this->config['url'] . '"
-                    data-count="' . $this->config['bufferapp_count'] . '"
-                    data-via="' . $this->config['bufferapp_twitter_user'] . '"
-                    data-picture="' . $image . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Buffer it</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'buffer',
+            'text' => $this->record->values['title'],
+            'url' => $this->config['url'],
+            'count' => $this->config['bufferapp_count'],
+            'via' => $this->config['bufferapp_twitter_user'],
+            'picture' => $image
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }

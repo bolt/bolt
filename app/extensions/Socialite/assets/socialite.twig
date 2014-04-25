@@ -1,0 +1,16 @@
+
+{% if socialite == 'BufferAppButton' %}
+<div class="social-buttons cf">
+    <a
+        href="http://bufferapp.com/add"
+        class="socialite bufferapp-button"
+        data-text="{{ text }}"
+        data-url="{{ url }}"
+        data-count="{{ count }}"
+        data-via="{{ via }}"
+        data-picture="{{ image }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Buffer it</span>
+    </a>
+</div>
+{% endif %}
