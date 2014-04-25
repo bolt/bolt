@@ -219,7 +219,7 @@
         <input type="text" name="{{key}}[file]" id="field-{{key}}"
             value='{{ image.file|default('') }}'
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
-            accept="{{ field.extensions|join('|') }}"> 
+            accept="{{ field.extensions|join('|') }}">
 
         <p class="filetypes">
             {{ __("Allowed filetypes are:") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
@@ -692,7 +692,7 @@
 {% if field.type == "date" %}
 <label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
-    value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
+    value='{{ pretty.datepickervalue(content.get(key)) }}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
 <input type="hidden" name="{{key}}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
 <script type="text/javascript">
@@ -711,7 +711,7 @@
 {% if field.type == "datetime" %}
 <label><b>{% if field.label %}{{field.label|trans}}{% else %}{{ key|ucfirst|trans}}{%endif%}</b></label>
 <input type="text" name="{{key}}-dateformatted" id="{{key}}-date"
-    value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('l, d F Y') }}{% endif %}'
+    value='{{ pretty.datepickervalue(content.get(key)) }}'
     class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'>
 <input type="time" name="{{key}}-timeformatted" id="{{key}}-time"
     value='{% if content.get(key) and (content.get(key) > "0001-01-01 00:00:00") %}{{ content.get(key)|date('H:i') }}{% endif %}'
