@@ -54,7 +54,7 @@
         </label>
         <input type="text" name="datedepublish-dateformatted" id="datedepublish-date"
                {% if not can_depublish %}disabled="disabled"{%endif%}
-               value='{% if content.datedepublish > '1970-01-01 01:01:01' %}{{ content.datepublish|localdate('%A')|capitalize ~ content.datepublish|date(', d') ~ content.datepublish|localdate(' %B') ~ content.datepublish|date(' Y') }}{% endif %}' class='datepicker'>
+               value='{% if content.datedepublish > '1970-01-01 01:01:01' %}{{ content.datedepublish|localdate('%A')|capitalize ~ content.datedepublish|date(', d') ~ content.datedepublish|localdate(' %B') ~ content.datedepublish|date(' Y') }}{% endif %}' class='datepicker'>
         <input type="time" name="datedepublish-timeformatted" id="datedepublish-time"
                {% if not can_depublish %}disabled="disabled"{%endif%}
                value='{% if content.datedepublish > '1970-01-01 01:01:01' %}{{ content.datedepublish|date('H:i') }}{% endif %}' class='timepicker'>
