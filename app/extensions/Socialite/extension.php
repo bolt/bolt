@@ -115,66 +115,49 @@ class Extension extends \Bolt\BaseExtension
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function FacebookLike() {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="http://www.facebook.com/sharer.php?u=' . urlencode($this->config['url']) . '&amp;t=' . urlencode($this->record->values['title']) . '"
-                    class="socialite facebook-like"
-                    data-href="' . $this->config['url'] . '"
-                    data-send="false"
-                    data-action="' . $this->config['facebook_like_action'] . '"
-                    data-colorscheme="' . $this->config['facebook_like_colorscheme'] . '"
-                    data-kid_directed_site="' . $this->config['facebook_like_kid_directed_site'] . '"
-                    data-show-faces="' . $this->config['facebook_like_show_faces'] . '"
-                    data-layout="' . $this->config['facebook_like_layout'] . '"
-                    data-width="' . $this->config['facebook_like_width'] . '"
-                    rel="nofollow" target="_blank">
-                       <span class="vhidden">Share on Facebook</span>
-                </a>
-            </div>';
+private function FacebookLike() {
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'FacebookLike',
+            'url' => $this->config['url'],
+            'title' => $this->record->values['title'],
+            'action' => $this->config['facebook_like_action'],
+            'colorscheme' => $this->config['facebook_like_colorscheme'],
+            'kid_directed_site' => $this->config['facebook_like_kid_directed_site'],
+            'showfaces' => $this->config['facebook_like_show_faces'],
+            'layout' => $this->config['facebook_like_layout'],
+            'width' => $this->config['facebook_like_width']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function FacebookFollow($args = false) {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="' . $args . '"
-                    class="socialite facebook-like"
-                    data-href="' . $args . '"
-                    data-send="false"
-                    data-action="' . $this->config['facebook_follow_action'] . '"
-                    data-colorscheme="' . $this->config['facebook_follow_colorscheme'] . '"
-                    data-kid_directed_site="' . $this->config['facebook_follow_kid_directed_site'] . '"
-                    data-show-faces="' . $this->config['facebook_follow_show_faces'] . '"
-                    data-layout="' . $this->config['facebook_follow_layout'] . '"
-                    data-width="' . $this->config['facebook_follow_width'] . '"
-                    rel="nofollow" target="_blank">
-                       <span class="vhidden">Share on Facebook</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'FacebookFollow',
+            'url' => $args,
+            'action' => $this->config['facebook_follow_action'],
+            'colorscheme' => $this->config['facebook_follow_colorscheme'],
+            'kid_directed_site' => $this->config['facebook_follow_kid_directed_site'],
+            'showfaces' => $this->config['facebook_follow_show_faces'],
+            'layout' => $this->config['facebook_follow_layout'],
+            'width' => $this->config['facebook_follow_width']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function FacebookFacepile($args = false) {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="' . $args . '"
-                    class="socialite facebook-facepile"
-                    data-href="' . $args . '"
-                    data-max-rows="' . $this->config['facebook_facepile_max_rows'] . '"
-                    data-colorscheme="' . $this->config['facebook_facepile_colorscheme'] . '"
-                    data-size="' . $this->config['facebook_facepile_size'] . '"
-                    data-show-count="' . $this->config['facebook_facepile_count'] . '"
-                    rel="nofollow" target="_blank">
-                       <span class="vhidden">Facebook Facepile</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'FacebookFacepile',
+            'url' => $args,
+            'maxrows' => $this->config['facebook_facepile_max_rows'],
+            'colorscheme' => $this->config['facebook_facepile_colorscheme'],
+            'size' => $this->config['facebook_facepile_size'],
+            'count' => $this->config['facebook_facepile_count']
+        ));
+
 //data-max-rows="2" data-colorscheme="light" data-size="small" data-show-count="true"
+
         return new \Twig_Markup($html, 'UTF-8');
     }
 

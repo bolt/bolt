@@ -14,3 +14,57 @@
     </a>
 </div>
 {% endif %}
+
+{% if socialite == 'FacebookLike' %}
+<div class="social-buttons cf">
+    <a
+        href="http://www.facebook.com/sharer.php?u={{ url|escape('url') }}&amp;t={{ title|escape('url') }}"
+        class="socialite facebook-like"
+        data-href="{{ url }}"
+        data-send="false"
+        data-action="{{ action }}"
+        data-colorscheme="{{ data-colorscheme }}"
+        data-kid_directed_site="{{ kid_directed_site }}"
+        data-show-faces="{{ showfaces }}"
+        data-layout="{{ layout }}"
+        data-width="{{ width }}"
+        rel="nofollow" target="_blank">
+           <span class="vhidden">Share on Facebook</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'FacebookFollow' %}
+<div class="social-buttons cf">
+    <a
+        href="{{ url }}"
+        class="socialite facebook-like"
+        data-href="{{ url }}"
+        data-send="false"
+        data-action="{{ action }}"
+        data-colorscheme="{{ data-colorscheme }}"
+        data-kid_directed_site="{{ kid_directed_site }}"
+        data-show-faces="{{ showfaces }}"
+        data-layout="{{ layout }}"
+        data-width="{{ width }}"
+        rel="nofollow" target="_blank">
+           <span class="vhidden">Share on Facebook</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'FacebookFacepile' %}
+<div class="social-buttons cf">
+    <a
+		href="{{ url }}"
+		class="socialite facebook-facepile"
+		data-href="{{ url }}"
+		data-max-rows="{{ maxrows }}"
+		data-colorscheme="{{ colorscheme }}"
+		data-size="{{ size }}"
+		data-show-count="{{ count }}"
+		rel="nofollow" target="_blank">
+		   <span class="vhidden">Facebook Facepile</span>
+    </a>
+</div>
+{% endif %}
