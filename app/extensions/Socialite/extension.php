@@ -186,7 +186,7 @@ class Extension extends \Bolt\BaseExtension
     {
         $html = $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterFollow',
-            'twitter_handle' => $this->record->values['twitter_handle'],
+            'twitter_handle' => $this->config['twitter_handle'],
             'title' => $this->record->values['title'],
             'url' => $this->config['url'],
             'align' => $this->config['twitter_follow_align'],
@@ -201,7 +201,7 @@ class Extension extends \Bolt\BaseExtension
     {
         $html = $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterFollow',
-            'twitter_handle' => $this->record->values['twitter_handle'],
+            'twitter_handle' => $this->config['twitter_handle'],
             'title' => $this->record->values['title'],
             'url' => $this->config['url'],
             'align' => $this->config['twitter_mention_align'],
