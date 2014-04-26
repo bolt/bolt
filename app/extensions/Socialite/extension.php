@@ -108,7 +108,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
         $html = $this->app['render']->render($this->config['template'], array(
-            'socialite' => 'buffer',
+            'socialite' => 'BufferAppButton',
             'text' => $this->record->values['title'],
             'url' => $this->config['url'],
             'count' => $this->config['bufferapp_count'],
