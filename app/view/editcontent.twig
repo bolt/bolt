@@ -137,7 +137,7 @@
     <p>
         {{ __("Current (saved) status:") }}
         <a href="#statusselect" data-action="$('#statusselect').focus();" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
-            <strong>{{ status_names[content.status] }}</strong>
+            <strong>{{ status_names[content.status]|default(__("None")) }}</strong>
         </a>
     </p>
 
