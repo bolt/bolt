@@ -56,15 +56,101 @@
 {% if socialite == 'FacebookFacepile' %}
 <div class="social-buttons cf">
     <a
-		href="{{ url }}"
-		class="socialite facebook-facepile"
-		data-href="{{ url }}"
-		data-max-rows="{{ maxrows }}"
-		data-colorscheme="{{ colorscheme }}"
-		data-size="{{ size }}"
-		data-show-count="{{ count }}"
-		rel="nofollow" target="_blank">
-		   <span class="vhidden">Facebook Facepile</span>
+        href="{{ url }}"
+        class="socialite facebook-facepile"
+        data-href="{{ url }}"
+        data-max-rows="{{ maxrows }}"
+        data-colorscheme="{{ colorscheme }}"
+        data-size="{{ size }}"
+        data-show-count="{{ count }}"
+        rel="nofollow" target="_blank">
+           <span class="vhidden">Facebook Facepile</span>
     </a>
+</div>
+{% endif %}
+
+{% if socialite == 'TwitterShare' %}
+<div class="social-buttons cf">
+    <a
+        href="http://twitter.com/share"
+        class="socialite twitter-share"
+        data-text="{{ title }}"
+        data-url="{{ url }}"
+        data-align="{{ align }}"
+        data-count="{{ count }}"
+        data-size="{{ size }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Share on Twitter</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'TwitterFollow' %}
+<div class="social-buttons cf">
+    <a
+        href="http://twitter.com/{{ twitter_handle }}"
+        class="socialite twitter-follow"
+        data-text="{{ title }}"
+        data-url="{{ url }}"
+        data-align="{{ align }}"
+        data-count="{{ count }}"
+        data-size="{{ size }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Follow on Twitter</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'TwitterMention' %}
+<div class="social-buttons cf">
+    <a
+        href="https://twitter.com/intent/tweet?screen_name={{ twitter_handle }}"
+        class="socialite twitter-mention"
+        data-text="{{ title }}"
+        data-url="{{ url }}"
+        data-align="{{ align }}"
+        data-size="{{ size }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Mention on Twitter</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'TwitterHashtag' %}
+<div class="social-buttons cf">
+    <a
+        href="https://twitter.com/intent/tweet?button_hashtag={{ hashtag }}"
+        class="socialite twitter-hashtag"
+        data-text="{{ title }}"
+        data-url="{{ url }}"
+        data-align="{{ align }}"
+        data-size="{{ size }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Hashtag on Twitter</span>
+        </a>
+</div>
+{% endif %}
+
+{% if socialite == 'TwitterEmbed' %}
+<div class="social-buttons cf">
+    <a
+        href="{{ url }}"
+        class="socialite twitter-embed"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Embed from Twitter</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'TwitterTimeline' %}
+<div class="social-buttons cf">
+<a
+    href="https://twitter.com/{{ twitter_handle }}"
+    class="socialite twitter-timeline"
+    data-widget-id="{{ widget_id }}"
+    data-chrome="{{ chrome }}"
+    rel="nofollow" target="_blank">
+        <span class="vhidden">PopAnth on Twitter</span>
+</a>
 </div>
 {% endif %}

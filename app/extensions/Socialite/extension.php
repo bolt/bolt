@@ -96,7 +96,8 @@ class Extension extends \Bolt\BaseExtension
         }
     }
 
-    private function BufferAppButton($args = false) {
+    private function BufferAppButton($args = false)
+    {
         if (is_array($this->record->values['image'])) {
             $image = $this->app['paths']['rooturl'] . $this->app['paths']['files'] . $this->record->values['image']['file'];
         } else {
@@ -115,7 +116,8 @@ class Extension extends \Bolt\BaseExtension
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-private function FacebookLike() {
+    private function FacebookLike()
+    {
         $html = $this->app['render']->render($this->config['template'], array(
             'socialite' => 'FacebookLike',
             'url' => $this->config['url'],
@@ -131,7 +133,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function FacebookFollow($args = false) {
+    private function FacebookFollow($args = false)
+    {
         $html = $this->app['render']->render($this->config['template'], array(
             'socialite' => 'FacebookFollow',
             'url' => $args,
@@ -146,7 +149,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function FacebookFacepile($args = false) {
+    private function FacebookFacepile($args = false)
+    {
         $html = $this->app['render']->render($this->config['template'], array(
             'socialite' => 'FacebookFacepile',
             'url' => $args,
@@ -161,81 +165,69 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function TwitterShare() {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="http://twitter.com/share"
-                    class="socialite twitter-share"
-                    data-text="' . $this->record->values['title'] . '"
-                    data-url="' . $this->config['url'] . '"
-                    data-align="' . $this->config['twitter_share_align'] . '"
-                    data-count="' . $this->config['twitter_share_count'] . '"
-                    data-size="' . $this->config['twitter_share_size'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Share on Twitter</span>
-                </a>
-            </div>';
+    private function TwitterShare()
+    {
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'TwitterShare',
+            'title' => $this->record->values['title'],
+            'url' => $this->config['url'],
+            'align' => $this->config['twitter_share_align'],
+            'count' => $this->config['twitter_share_count'],
+            'size' => $this->config['twitter_share_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function TwitterFollow() {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="http://twitter.com/PopAnth"
-                    class="socialite twitter-follow"
-                    data-text="' . $this->record->values['title'] . '"
-                    data-url="' . $this->config['url'] . '"
-                    data-align="' . $this->config['twitter_follow_align'] . '"
-                    data-count="' . $this->config['twitter_follow_count'] . '"
-                    data-size="' . $this->config['twitter_follow_size'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Follow on Twitter</span>
-                </a>
-            </div>';
+    private function TwitterFollow()
+    {
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'TwitterFollow',
+            'twitter_handle' => $this->record->values['twitter_handle'],
+            'title' => $this->record->values['title'],
+            'url' => $this->config['url'],
+            'align' => $this->config['twitter_follow_align'],
+            'count' => $this->config['twitter_follow_count'],
+            'size' => $this->config['twitter_follow_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function TwitterMention () {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="https://twitter.com/intent/tweet?screen_name=PopAnth"
-                    class="socialite twitter-mention"
-                    data-text="' . $this->record->values['title'] . '"
-                    data-url="' . $this->config['url'] . '"
-                    data-align="' . $this->config['twitter_mention_align'] . '"
-                    data-size="' . $this->config['twitter_mention_size'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Mention on Twitter</span>
-                </a>
-            </div>';
+    private function TwitterMention ()
+    {
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'TwitterFollow',
+            'twitter_handle' => $this->record->values['twitter_handle'],
+            'title' => $this->record->values['title'],
+            'url' => $this->config['url'],
+            'align' => $this->config['twitter_mention_align'],
+            'size' => $this->config['twitter_mention_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function TwitterHashtag($args = false) {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="https://twitter.com/intent/tweet?button_hashtag=' . $args . '"
-                    class="socialite twitter-hashtag"
-                    data-text="' . $this->record->values['title'] . '"
-                    data-url="' . $this->config['url'] . '"
-                    data-align="' . $this->config['twitter_hashtag_align'] . '"
-                    data-size="' . $this->config['twitter_hashtag_size'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Hashtag on Twitter</span>
-                </a>
-            </div>';
+    private function TwitterHashtag($args = false)
+    {
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'TwitterHashtag',
+            'hashtag' => $args,
+            'title' => $this->record->values['title'],
+            'url' => $this->config['url'],
+            'align' => $this->config['twitter_hashtag_align'],
+            'size' => $this->config['twitter_hashtag_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function TwitterEmbed($args = false) {
+    private function TwitterEmbed($args = false)
+    {
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'TwitterEmbed',
+            'url' => $args
+        ));
         $html = '
             <div class="social-buttons cf">
                 <a
@@ -249,29 +241,26 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function TwitterTimeline() {
+    private function TwitterTimeline()
+    {
         if ( $this->config['twitter_handle'] == '' || $this->config['twitter_data_widget_id'] == '' ) {
             return;
         }
 
-        $twitter_url = "https://twitter.com/" . str_replace( '@', '', $this->config['twitter_handle'] );
+        $twitter_handle = str_replace( '@', '', $this->config['twitter_handle'] );
 
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="' . $twitter_url . '"
-                    class="socialite twitter-timeline"
-                    data-widget-id="' . $this->config['twitter_data_widget_id'] . '"
-                    data-chrome="' . $this->config['twitter_data_chrome'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">PopAnth on Twitter</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'TwitterHashtag',
+            'twitter_handle' => $twitter_handle,
+            'widget_id' => $this->config['twitter_data_widget_id'],
+            'chrome' => $this->config['twitter_data_chrome']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GooglePlusFollow($args = false) {
+    private function GooglePlusFollow($args = false)
+    {
         if ($this->config['google_plus_follow_size'] == 'small') {
             $this->config['google_plus_follow_size'] = 15;
         } elseif ($this->config['google_plus_follow_size'] == 'medium') {
@@ -297,7 +286,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GooglePlusOne() {
+    private function GooglePlusOne()
+    {
         $html = '
             <div class="social-buttons cf">
                 <a
@@ -312,7 +302,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GooglePlusShare() {
+    private function GooglePlusShare()
+    {
         if ($this->config['google_plus_share_annotation'] == 'bubble' ||
             $this->config['google_plus_share_annotation'] == 'vertical-bubble') {
             $this->config['google_plus_share_size'] = '';
@@ -342,7 +333,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GooglePlusBadge($args) {
+    private function GooglePlusBadge($args)
+    {
         $html = '
             <div class="social-buttons cf">
                 <a
@@ -363,7 +355,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function LinkedinShare() {
+    private function LinkedinShare()
+    {
         $html = '
             <div class="social-buttons cf">
                 <a
@@ -378,7 +371,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function LinkedinRecommend() {
+    private function LinkedinRecommend()
+    {
         $html = '
             <div class="social-buttons cf">
                 <a
@@ -394,7 +388,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function PinterestPinit() {
+    private function PinterestPinit()
+    {
         if (empty($this->config['pinterest_pinit_color'])) {
             $this->config['pinterest_pinit_color'] = "red";
         }
@@ -429,7 +424,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function SpotifyPlay() {
+    private function SpotifyPlay()
+    {
         $html = '
             <div class="social-buttons cf">
 
@@ -438,7 +434,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function HackerNewsShare() {
+    private function HackerNewsShare()
+    {
         $html = '
             <div class="social-buttons cf">
 
@@ -447,7 +444,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function HithubWatch() {
+    private function HithubWatch()
+    {
         $html = '
             <div class="social-buttons cf">
 
@@ -456,7 +454,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GithubFork() {
+    private function GithubFork()
+    {
         $html = '
             <div class="social-buttons cf">
 
@@ -465,7 +464,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GithubFollow() {
+    private function GithubFollow()
+    {
         $html = '
             <div class="social-buttons cf">
 
@@ -474,7 +474,8 @@ private function FacebookLike() {
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function DzoneSubmit() {
+    private function DzoneSubmit()
+    {
         $html = '
             <div class="social-buttons cf">
 
