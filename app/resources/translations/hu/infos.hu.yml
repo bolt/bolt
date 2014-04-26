@@ -60,11 +60,10 @@ info:
         ezek használhatók 'kapcsolódó bejegyzések', 'tekintse meg ezeket is' linkek vagy
         annak megjelenítéséhez, hogy hogyan kapcsolódnak egy struktúrába a bejegyzések.
     taxonomy: |
-        By selecting one or more taxonomies for this record,
-                  you are classifying this record to have those properties. On the
-                  website this can be used to group certain records together, or
-                  to automatically create links to records that share a
-                  classification.
+        Egy vagy több taxonómia kiválasztásával ezt a bejegyzést tulajdonságokkal
+        látja el. A weboldalon ez használható, hogy különböző bejegyzéseket csoportosítson,
+        vagy automatikusan létrehozzon olyan linkeket azokhoz a bejegyzésekhez amelyek
+        ugyanazon tulajdonságokat viselik.
 about:
     bolt: |
         <p>A Bolt egy olyan tartalomkezelő rendszel, mely törekszik a gyorsaságra, az egyszerűségre, a
