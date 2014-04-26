@@ -371,20 +371,13 @@ class Extension extends \Bolt\BaseExtension
             $this->config['pinterest_pinit_hover'] = "on";
         }
 
-        $html = '
-            <div class="social-buttons cf" style="margin-top: 41px;">
-                <a
-                    href="//www.pinterest.com/pin/create/button/"
-                    class="socialite pinterest-pinit"
-                    data-pin-do="buttonBookmark"
-                    data-pin-lang="' . $this->config['pinterest_pinit_language'] . '"
-                    data-pin-color="' . $this->config['pinterest_pinit_color'] . '"
-                    data-pin-height="' . $this->config['pinterest_pinit_size'] . '"
-                    data-pin-config="' . $this->config['pinterest_pinit_config'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">PinIt on Pinterest</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'PinterestPinit',
+            'lang' => $this->config['pinterest_pinit_language'],
+            'color' => $this->config['pinterest_pinit_color'],
+            'height' => $this->config['pinterest_pinit_size'],
+            'config' => $this->config['pinterest_pinit_config']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }

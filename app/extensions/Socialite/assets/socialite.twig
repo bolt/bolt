@@ -239,3 +239,19 @@
     </a>
 </div>
 {% endif %}
+
+{% if socialite == 'PinterestPinit' %}
+<div class="social-buttons cf" style="margin-top: 41px;">
+    <a
+        href="//www.pinterest.com/pin/create/button/"
+        class="socialite pinterest-pinit"
+        data-pin-do="buttonBookmark"
+        data-pin-lang="{{ lang }}"
+        data-pin-color="{{ color }}"
+        data-pin-height="{{ height }}"
+        data-pin-config="{{ config }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">PinIt on Pinterest</span>
+    </a>
+</div>
+{% endif %}
