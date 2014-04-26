@@ -154,3 +154,63 @@
     </a>
 </div>
 {% endif %}
+
+{% if socialite == 'GooglePlusFollow' %}
+<div class="social-buttons cf">
+    <a
+        href="{{ url }}"
+        class="socialite googleplus-follow"
+        data-annotation="{{ annotation }}"
+        data-height="{{ height }}"
+        data-href="{{ url }}"
+        data-rel="{{ rel }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Follow on Google+</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'GooglePlusOne' %}
+<div class="social-buttons cf">
+    <a
+        href="https://plus.google.com/share?url={{ url|escape('url') }}"
+        class="socialite googleplus-one"
+        data-size="tall"
+        data-href="{{ url }}" rel="nofollow" target="_blank">
+            <span class="vhidden">+1 on Google+</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'GooglePlusShare' %}
+<div class="social-buttons cf">
+    <a
+        href="https://plus.google.com/share?url={{ url|escape('url') }}"
+        class="socialite googleplus-share"
+        data-action="share"
+        data-annotation="{{ annotation }}"
+        data-height="{{ height }}"
+        data-href="{{ url }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Share on Google+</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'GooglePlusBadge' %}
+<div class="social-buttons cf">
+    <a
+        href="{{ url }}"
+        class="socialite googleplus-badge"
+        data-href="{{ url }}"
+        data-layout="{{ layout }}"
+        data-width="{{ width }}"
+        data-theme="{{ theme }}"
+        data-showcoverphoto="{{ showcoverphoto }}"
+        data-showtagline="{{ showtagline }}"
+        data-rel="{{ rel }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Follow on Google+</span>
+    </a>
+</div>
+{% endif %}

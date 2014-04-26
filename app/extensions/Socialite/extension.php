@@ -269,35 +269,23 @@ class Extension extends \Bolt\BaseExtension
             $this->config['google_plus_follow_size'] = 24;
         }
 
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="' . $args . '"
-                    class="socialite googleplus-follow"
-                    data-annotation="' . $this->config['google_plus_follow_annotation'] . '"
-                    data-height="' . $this->config['google_plus_follow_size'] . '"
-                    data-href="' . $args . '"
-                    data-rel="' . $this->config['google_plus_follow_relationship'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Follow on Google+</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GooglePlusFollow',
+            'url' => $args,
+            'annotation' => $this->config['google_plus_follow_annotation'],
+            'height' => $this->config['google_plus_follow_size'],
+            'rel' => $this->config['google_plus_follow_relationship']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GooglePlusOne()
     {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="https://plus.google.com/share?url=' . $this->config['url'] . '"
-                    class="socialite googleplus-one"
-                    data-size="tall"
-                    data-href="' . $this->config['url'] . '" rel="nofollow" target="_blank">
-                        <span class="vhidden">+1 on Google+</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GooglePlusOne',
+            'url' => $this->config['url']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
@@ -316,41 +304,29 @@ class Extension extends \Bolt\BaseExtension
                 $this->config['google_plus_share_size'] = 24;
             }
         }
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="https://plus.google.com/share?url=' . $this->config['url'] . '"
-                    class="socialite googleplus-share"
-                    data-action="share"
-                    data-annotation="' . $this->config['google_plus_share_annotation'] . '"
-                    data-height="' . $this->config['google_plus_share_size'] . '"
-                    data-href="' . $this->config['url'] . '"
-                    rel="nofollow" target="_blank">
-                       <span class="vhidden">Share on Google+</span>
-                </a>
-            </div>';
+
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GooglePlusShare',
+            'url' => $this->config['url'],
+            'annotation' => $this->config['google_plus_share_annotation'],
+            'height' => $this->config['google_plus_share_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GooglePlusBadge($args)
     {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="' . $args . '"
-                    class="socialite googleplus-badge"
-                    data-href="' . $args . '"
-                    data-layout="' . $this->config['google_plus_badge_layout'] . '"
-                    data-width="' . $this->config['google_plus_badge_width'] . '"
-                    data-theme="' . $this->config['google_plus_badge_theme'] . '"
-                    data-showcoverphoto="' . $this->config['google_plus_badge_photo'] . '"
-                    data-showtagline="' . $this->config['google_plus_badge_tagline'] . '"
-                    data-rel="' . $this->config['google_plus_badge_relationship'] . '"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Follow on Google+</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GooglePlusBadge',
+            'url' => $args,
+            'layout' => $this->config['google_plus_badge_layout'],
+            'width' => $this->config['google_plus_badge_width'],
+            'theme' => $this->config['google_plus_badge_theme'],
+            'showcoverphoto' => $this->config['google_plus_badge_photo'],
+            'showtagline' => $this->config['google_plus_badge_tagline'],
+            'rel' => $this->config['google_plus_badge_relationship'],
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
