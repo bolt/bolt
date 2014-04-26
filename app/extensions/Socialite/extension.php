@@ -75,10 +75,10 @@ class Extension extends \Bolt\BaseExtension
         foreach ($buttons as $key => $value) {
 
             if (is_numeric($key) && method_exists($this, $value)) {
-                return call_user_method($value, $this);
+                return call_user_func(array($this, $value), $this);
 
             } elseif (method_exists($this, $key)) {
-                return call_user_method($key, $this, $value);
+                return call_user_func(array($this, $key), $value);
             }
 
         }
