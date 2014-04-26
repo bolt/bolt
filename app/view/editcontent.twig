@@ -31,7 +31,7 @@
         </label>
         <input type="text" name="datepublish-dateformatted" id="datepublish-date"
                {% if not can_publish %}disabled="disabled"{%endif%}
-               value='{{ content.datepublish|date('l, d F Y') }}' class='datepicker'>
+               value='{{ pretty.datepickervalue(content.datepublish) }}' class='datepicker'>
         <input type="time" name="datepublish-timeformatted" id="datepublish-time"
                {% if not can_publish %}disabled="disabled"{%endif%}
                value='{{ content.datepublish|date('H:i') }}' class='timepicker'>
@@ -54,7 +54,7 @@
         </label>
         <input type="text" name="datedepublish-dateformatted" id="datedepublish-date"
                {% if not can_depublish %}disabled="disabled"{%endif%}
-               value='{% if content.datedepublish > '1970-01-01 01:01:01' %}{{ content.datedepublish|date('l, d F Y') }}{% endif %}' class='datepicker'>
+               value='{{ pretty.datepickervalue(content.datedepublish) }}' class='datepicker'>
         <input type="time" name="datedepublish-timeformatted" id="datedepublish-time"
                {% if not can_depublish %}disabled="disabled"{%endif%}
                value='{% if content.datedepublish > '1970-01-01 01:01:01' %}{{ content.datedepublish|date('H:i') }}{% endif %}' class='timepicker'>
@@ -77,7 +77,7 @@
             {% endif %}</p>
 
         <label><b><span class='left'>{{ __('Status:') }}</span></b>
-        <select name="status" {% if allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} >
+        <select name="status" id="statusselect" {% if allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} >
             {% set status_names = { "published": __("Published"), "held": __("Not published"), "timed": __("Timed publish"), "draft": __("Draft") } %}
             {% for status in allowedStatuses %}
             <option value="{{status}}" {% if content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
@@ -134,6 +134,14 @@
         <i class="icon-flag"></i> {{ __('Save & return to overview') }}
     </button>
 
+    <p>
+        {{ __("Current (saved) status:") }}
+        <a href="#statusselect" data-action="$('#statusselect').focus();" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
+            <strong>{{ status_names[content.status]|default(__("None")) }}</strong>
+        </a>
+    </p>
+
+
     <p class="lastsaved">
         {% if content.id != 0 %}
             {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ pretty.datetime(content.datechanged) }})</small></p>
@@ -141,6 +149,9 @@
             {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
         {% endif %}
     </p>
+
+
+
 
 <script type="text/javascript">
     $(function() {
@@ -197,6 +208,8 @@
                         $('p.lastsaved').find('time').attr('datetime', moment().format());
                         $('p.lastsaved').find('time').attr('title', moment().format());
                         updateMoments();
+
+                        $('a#lastsavedstatus strong').text( $("#statusselect option:selected").text() );
 
                     })
                     .fail(function(){

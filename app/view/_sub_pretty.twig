@@ -32,16 +32,22 @@
 
 {% macro typepopover(types) %}
     {% set types = types|default(app.config.get('general/accept_file_types')) %}
-    {%  set text = __("Allowed filetypes are: ") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
+    {%  set text = __("Allowed filetypes are:") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
     <span class="label info-pop" ata-title=""
       data-html="true" data-content="{{ text }}">{{ __('Types') }}</span>
 {% endmacro %}
 
 {% macro stackbutton(file) %}
-    {% if not stacked(file.newpath) %}  
+    {% if not stacked(file.newpath) %}
     <a href="#" class="btn btn-mini" data-action="stack.addToStack('{{file.newpath}}', this);">
         <i class="icon-paper-clip"></i>
         {{ __('Place on stack') }}
     </a>
     {% endif %}
 {% endmacro %}
+
+{% macro datepickervalue(date) %}{% spaceless %}
+    {% if date > '1970-01-01 01:01:01' %}
+       {{ date|localdate('%A')|capitalize ~ date|date(', d') ~ date|localdate(' %B') ~ date|date(' Y') }}
+    {% endif %}
+{% endspaceless %}{% endmacro %}
