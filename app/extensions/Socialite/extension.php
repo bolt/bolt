@@ -333,33 +333,22 @@ class Extension extends \Bolt\BaseExtension
 
     private function LinkedinShare()
     {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . urlencode($this->config['url']) . '&amp;title=' . urlencode($this->record->values['title']) . '"
-                    class="socialite linkedin-share"
-                    data-url="' . $this->config['url'] . '"
-                    data-counter="top" rel="nofollow" target="_blank">
-                       <span class="vhidden">Share on LinkedIn</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'LinkedinShare',
+            'url' => $this->config['url'],
+            'title' => $this->record->values['title']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function LinkedinRecommend()
     {
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . urlencode($this->config['url']) . '&amp;title=' . urlencode($this->record->values['title']) . '"
-                    class="socialite linkedin-recommend"
-                    data-url="' . $this->config['url'] . '"
-                    data-counter="top"
-                    rel="nofollow" target="_blank">
-                       <span class="vhidden">Share on LinkedIn</span>
-                </a>
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'LinkedinRecommend',
+            'url' => $this->config['url'],
+            'title' => $this->record->values['title']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }

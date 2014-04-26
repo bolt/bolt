@@ -214,3 +214,28 @@
     </a>
 </div>
 {% endif %}
+
+{% if socialite == 'LinkedinShare' %}
+<div class="social-buttons cf">
+    <a
+        href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ url|escape('url') }}&amp;title={{ title|escape('url') }}"
+        class="socialite linkedin-share"
+        data-url="{{ url }}"
+        data-counter="top" rel="nofollow" target="_blank">
+            <span class="vhidden">Share on LinkedIn</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'LinkedinRecommend' %}
+<div class="social-buttons cf">
+    <a
+        href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ url|escape('url') }}&amp;title={{ title|escape('url') }}"
+        class="socialite linkedin-recommend"
+        data-url="{{ url }}"
+        data-counter="top"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Share on LinkedIn</span>
+    </a>
+</div>
+{% endif %}
