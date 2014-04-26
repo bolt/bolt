@@ -381,7 +381,7 @@ class Extension extends \Bolt\BaseExtension
 
         return new \Twig_Markup($html, 'UTF-8');
     }
-
+/*
     private function SpotifyPlay()
     {
         $html = '
@@ -402,7 +402,7 @@ class Extension extends \Bolt\BaseExtension
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function HithubWatch()
+    private function GithubWatch()
     {
         $html = '
             <div class="social-buttons cf">
@@ -441,4 +441,5 @@ class Extension extends \Bolt\BaseExtension
 
         return new \Twig_Markup($html, 'UTF-8');
     }
+*/
 }
