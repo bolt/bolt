@@ -2838,7 +2838,8 @@ class Storage
     }
 
     /**
-     * Check if the table $name exists.
+     * Check if the table $name exists. We use our own queries here, because it's _much_
+     * faster than Doctrine's getSchemaManager()
      *
      * @param $name
      * @return bool
@@ -2851,9 +2852,19 @@ class Storage
         }
 
         // See if the table exists.
-        try {
-            $this->app['db']->query("DESC $name");
-        } catch (\Exception $e) {
+        $dboptions = $this->app['config']->getDBOptions();
+        if ($dboptions['driver'] == 'pdo_sqlite') {
+            // For SQLite:
+            $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
+        } else {
+            // For MySQL and Postgres:
+            $databasename = $this->app['config']->get('general/database/databasename');
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
+        }
+
+        $res = $this->app['db']->fetchColumn($query);
+
+        if (empty($res)) {
             return false;
         }
 
