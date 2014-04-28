@@ -46,7 +46,7 @@ Share on LinkedIn: <code>{{ socialite('LinkedinShare') }}</code>
 PinIt on Pinterest: <code>{{ socialite('PinterestPinit') }}</code>
 
 ####GitHub
-Star a user/oranisation's repo on GitHub:
+Star a user/organisation's repo on GitHub:
 
 <code>{{ socialite('GitHubStar') }}</code> (uses setting in config.yml)
 
@@ -54,7 +54,7 @@ or
 
 <code>{{ socialite({'GitHubStar': ['github_user','github_repo']}) }}</code>
 
-Fork a user/oranisation's repo on GitHub:
+Fork a user/organisation's repo on GitHub:
 
 <code>{{ socialite('GitHubFork') }}</code> (uses setting in config.yml)
 
