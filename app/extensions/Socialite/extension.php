@@ -252,7 +252,7 @@ class Extension extends \Bolt\BaseExtension
         $twitter_handle = str_replace( '@', '', $this->config['twitter_handle'] );
 
         $html = $this->app['render']->render($this->config['template'], array(
-            'socialite' => 'TwitterHashtag',
+            'socialite' => 'TwitterTimeline',
             'twitter_handle' => $twitter_handle,
             'widget_id' => $this->config['twitter_data_widget_id'],
             'chrome' => $this->config['twitter_data_chrome']
