@@ -75,9 +75,11 @@ class Extension extends \Bolt\BaseExtension
         foreach ($buttons as $key => $value) {
 
             if (is_numeric($key) && method_exists($this, $value)) {
-                return call_user_func(array($this, $value), false);
+                $html = call_user_func(array($this, $value), false);
+                return new \Twig_Markup($html, 'UTF-8');
             } elseif (method_exists($this, $key)) {
-                return call_user_func(array($this, $key), $value);
+                $html = call_user_func(array($this, $key), $value);
+                return new \Twig_Markup($html, 'UTF-8');
             }
 
         }
