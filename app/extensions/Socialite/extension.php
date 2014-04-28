@@ -403,33 +403,94 @@ class Extension extends \Bolt\BaseExtension
 
         return new \Twig_Markup($html, 'UTF-8');
     }
-
-    private function GithubWatch()
+*/
+    private function GitHubStar($args)
     {
-        $html = '
-            <div class="social-buttons cf">
+        if (empty($args[0])) {
+            $user = $this->config['github_user'];
+        } else {
+            $user = $args[0];
+        }
+        if (empty($args[1])) {
+            $repo = $this->config['github_repo'];
+        } else {
+            $repo = $args[1];
+        }
 
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GitHubStar',
+            'user' => $user,
+            'repo' => $repo,
+            'count' => $this->config['github_count'],
+            'size' => $this->config['github_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GithubFork()
+    private function GitHubFork($args)
     {
-        $html = '
-            <div class="social-buttons cf">
+        if (empty($args[0])) {
+            $user = $this->config['github_user'];
+        } else {
+            $user = $args[0];
+        }
+        if (empty($args[1])) {
+            $repo = $this->config['github_repo'];
+        } else {
+            $repo = $args[1];
+        }
 
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GitHubFork',
+            'user' => $user,
+            'repo' => $repo,
+            'count' => $this->config['github_count'],
+            'size' => $this->config['github_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }
 
-    private function GithubFollow()
+    private function GitHubFollow($args)
     {
-        $html = '
-            <div class="social-buttons cf">
+        if (empty($args)) {
+            $user = $this->config['github_user'];
+        } else {
+            $user = $args;
+        }
 
-            </div>';
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GitHubFollow',
+            'user' => $user,
+            'count' => $this->config['github_count'],
+            'size' => $this->config['github_size']
+        ));
+
+        return new \Twig_Markup($html, 'UTF-8');
+    }
+
+/*
+    private function GitHubWatch($args)
+    {
+        if (empty($args[0])) {
+            $user = $this->config['github_user'];
+        } else {
+            $user = $args[0];
+        }
+        if (empty($args[1])) {
+            $repo = $this->config['github_repo'];
+        } else {
+            $repo = $args[1];
+        }
+
+        $html = $this->app['render']->render($this->config['template'], array(
+            'socialite' => 'GitHubWatch',
+            'user' => $user,
+            'repo' => $repo,
+            'count' => $this->config['github_count'],
+            'size' => $this->config['github_size']
+        ));
 
         return new \Twig_Markup($html, 'UTF-8');
     }

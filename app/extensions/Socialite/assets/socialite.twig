@@ -255,3 +255,51 @@
     </a>
 </div>
 {% endif %}
+
+{# Star and watched are mixed up #}
+{% if socialite == 'GitHubStar' %}
+<div class="social-buttons cf">
+    <a
+        href="http://github.com/{{ user }}/{{ repo }}"
+        class="socialite github-watch"
+        data-user="{{ user }}"
+        data-repo="{{ repo }}"
+        data-type="watch"
+        data-count="{{ count }}"
+        data-size="{{ size }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Star on GitHub</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'GitHubFork' %}
+<div class="social-buttons cf">
+    <a
+        href="http://github.com/{{ user }}/{{ repo }}"
+        class="socialite github-fork"
+        data-user="{{ user }}"
+        data-repo="{{ repo }}"
+        data-type="fork"
+        data-count="{{ count }}"
+        data-size="{{ size }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Fork on GitHub</span>
+    </a>
+</div>
+{% endif %}
+
+{% if socialite == 'GitHubFollow' %}
+<div class="social-buttons cf">
+    <a
+        href="http://github.com/{{ user }}"
+        class="socialite github-follow"
+        data-user="{{ user }}"
+        data-type="follow"
+        data-count="{{ count }}"
+        data-size="{{ size }}"
+        rel="nofollow" target="_blank">
+            <span class="vhidden">Follow on GitHub</span>
+    </a>
+</div>
+{% endif %}

@@ -45,6 +45,31 @@ Share on LinkedIn: <code>{{ socialite('LinkedinShare') }}</code>
 ####Pinterest
 PinIt on Pinterest: <code>{{ socialite('PinterestPinit') }}</code>
 
+####GitHub
+Star a user/oranisation's repo on GitHub:
+
+<code>{{ socialite('GitHubStar') }}</code> (uses setting in config.yml)
+
+or
+
+<code>{{ socialite({'GitHubStar': ['github_user','github_repo']}) }}</code>
+
+Fork a user/oranisation's repo on GitHub:
+
+<code>{{ socialite('GitHubFork') }}</code> (uses setting in config.yml)
+
+or
+
+<code>{{ socialite({'GitHubFork': ['github_user','github_repo']}) }}</code>
+
+Follow a user on GitHub:
+
+<code>{{ socialite('GitHubFollow') }}</code> (uses setting in config.yml)
+
+or
+
+<code>{{ socialite({'GitHubFollow': 'github_user'}) }}</code>
+
 
 ##Required Configuration Options
 --------------------------------
@@ -58,3 +83,4 @@ For the Twitter feed set up you will need to follow these steps:
   2. Click the 'Create new' button 
   3. Copy the data-widget-id number from the box below 'Preview' to your config.yml file
   4. Add your Twitter handle and other settings to your configuration 
+  
