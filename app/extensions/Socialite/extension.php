@@ -106,7 +106,7 @@ class Extension extends \Bolt\BaseExtension
             $image = $this->app['paths']['rooturl'] . $this->app['paths']['files'] . $this->record->values['image'];
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'BufferAppButton',
             'text' => $this->record->values['title'],
             'url' => $this->config['url'],
@@ -114,13 +114,11 @@ class Extension extends \Bolt\BaseExtension
             'via' => $this->config['bufferapp_twitter_user'],
             'picture' => $image
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function FacebookLike()
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'FacebookLike',
             'url' => $this->config['url'],
             'title' => $this->record->values['title'],
@@ -131,13 +129,11 @@ class Extension extends \Bolt\BaseExtension
             'layout' => $this->config['facebook_like_layout'],
             'width' => $this->config['facebook_like_width']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function FacebookFollow($args = false)
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'FacebookFollow',
             'url' => $args,
             'action' => $this->config['facebook_follow_action'],
@@ -147,13 +143,11 @@ class Extension extends \Bolt\BaseExtension
             'layout' => $this->config['facebook_follow_layout'],
             'width' => $this->config['facebook_follow_width']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function FacebookFacepile($args = false)
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'FacebookFacepile',
             'url' => $args,
             'maxrows' => $this->config['facebook_facepile_max_rows'],
@@ -163,13 +157,11 @@ class Extension extends \Bolt\BaseExtension
         ));
 
 //data-max-rows="2" data-colorscheme="light" data-size="small" data-show-count="true"
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function TwitterShare()
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterShare',
             'title' => $this->record->values['title'],
             'url' => $this->config['url'],
@@ -177,13 +169,11 @@ class Extension extends \Bolt\BaseExtension
             'count' => $this->config['twitter_share_count'],
             'size' => $this->config['twitter_share_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function TwitterFollow()
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterFollow',
             'twitter_handle' => $this->config['twitter_handle'],
             'title' => $this->record->values['title'],
@@ -192,13 +182,11 @@ class Extension extends \Bolt\BaseExtension
             'count' => $this->config['twitter_follow_count'],
             'size' => $this->config['twitter_follow_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function TwitterMention ()
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterFollow',
             'twitter_handle' => $this->config['twitter_handle'],
             'title' => $this->record->values['title'],
@@ -206,13 +194,11 @@ class Extension extends \Bolt\BaseExtension
             'align' => $this->config['twitter_mention_align'],
             'size' => $this->config['twitter_mention_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function TwitterHashtag($args = false)
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterHashtag',
             'hashtag' => $args,
             'title' => $this->record->values['title'],
@@ -220,27 +206,14 @@ class Extension extends \Bolt\BaseExtension
             'align' => $this->config['twitter_hashtag_align'],
             'size' => $this->config['twitter_hashtag_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function TwitterEmbed($args = false)
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterEmbed',
             'url' => $args
         ));
-        $html = '
-            <div class="social-buttons cf">
-                <a
-                    href="' . $args . '"
-                    class="socialite twitter-embed"
-                    rel="nofollow" target="_blank">
-                        <span class="vhidden">Embed from Twitter</span>
-                </a>
-            </div>';
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function TwitterTimeline()
@@ -251,14 +224,12 @@ class Extension extends \Bolt\BaseExtension
 
         $twitter_handle = str_replace( '@', '', $this->config['twitter_handle'] );
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'TwitterTimeline',
             'twitter_handle' => $twitter_handle,
             'widget_id' => $this->config['twitter_data_widget_id'],
             'chrome' => $this->config['twitter_data_chrome']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GooglePlusFollow($args = false)
@@ -271,25 +242,21 @@ class Extension extends \Bolt\BaseExtension
             $this->config['google_plus_follow_size'] = 24;
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GooglePlusFollow',
             'url' => $args,
             'annotation' => $this->config['google_plus_follow_annotation'],
             'height' => $this->config['google_plus_follow_size'],
             'rel' => $this->config['google_plus_follow_relationship']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GooglePlusOne()
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GooglePlusOne',
             'url' => $this->config['url']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GooglePlusShare()
@@ -307,19 +274,17 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GooglePlusShare',
             'url' => $this->config['url'],
             'annotation' => $this->config['google_plus_share_annotation'],
             'height' => $this->config['google_plus_share_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GooglePlusBadge($args)
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GooglePlusBadge',
             'url' => $args,
             'layout' => $this->config['google_plus_badge_layout'],
@@ -329,30 +294,24 @@ class Extension extends \Bolt\BaseExtension
             'showtagline' => $this->config['google_plus_badge_tagline'],
             'rel' => $this->config['google_plus_badge_relationship'],
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function LinkedinShare()
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'LinkedinShare',
             'url' => $this->config['url'],
             'title' => $this->record->values['title']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function LinkedinRecommend()
     {
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'LinkedinRecommend',
             'url' => $this->config['url'],
             'title' => $this->record->values['title']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function PinterestPinit()
@@ -373,15 +332,13 @@ class Extension extends \Bolt\BaseExtension
             $this->config['pinterest_pinit_hover'] = "on";
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'PinterestPinit',
             'lang' => $this->config['pinterest_pinit_language'],
             'color' => $this->config['pinterest_pinit_color'],
             'height' => $this->config['pinterest_pinit_size'],
             'config' => $this->config['pinterest_pinit_config']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 /*
     private function SpotifyPlay()
@@ -417,15 +374,13 @@ class Extension extends \Bolt\BaseExtension
             $repo = $args[1];
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GitHubStar',
             'user' => $user,
             'repo' => $repo,
             'count' => $this->config['github_count'],
             'size' => $this->config['github_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GitHubFork($args)
@@ -441,15 +396,13 @@ class Extension extends \Bolt\BaseExtension
             $repo = $args[1];
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GitHubFork',
             'user' => $user,
             'repo' => $repo,
             'count' => $this->config['github_count'],
             'size' => $this->config['github_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function GitHubFollow($args)
@@ -460,14 +413,12 @@ class Extension extends \Bolt\BaseExtension
             $user = $args;
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GitHubFollow',
             'user' => $user,
             'count' => $this->config['github_count'],
             'size' => $this->config['github_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
 /*
@@ -484,15 +435,13 @@ class Extension extends \Bolt\BaseExtension
             $repo = $args[1];
         }
 
-        $html = $this->app['render']->render($this->config['template'], array(
+        return $this->app['render']->render($this->config['template'], array(
             'socialite' => 'GitHubWatch',
             'user' => $user,
             'repo' => $repo,
             'count' => $this->config['github_count'],
             'size' => $this->config['github_size']
         ));
-
-        return new \Twig_Markup($html, 'UTF-8');
     }
 
     private function DzoneSubmit()
