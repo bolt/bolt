@@ -290,7 +290,7 @@ class Config
                 $temp['show_on_dashboard'] = true;
             }
             if (!isset($temp['sort'])) {
-                $temp['sort'] = 'id';
+                $temp['sort'] = '';
             }
             if (!isset($temp['default_status'])) {
                 $temp['default_status'] = 'draft';
