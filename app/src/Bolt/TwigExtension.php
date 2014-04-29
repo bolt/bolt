@@ -1057,6 +1057,12 @@ class TwigExtension extends \Twig_Extension
             $menu = util::array_first($menus);
         }
 
+        // If the menu loaded is null, replace it with an empty array instead of
+        // throwing an error.
+        if (!is_array($menu)) {
+            $menu = array();
+        }
+
         foreach ($menu as $key => $item) {
             $menu[$key] = $this->menuHelper($item);
             if (isset($item['submenu'])) {
