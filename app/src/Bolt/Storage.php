@@ -17,6 +17,8 @@ class Storage
      */
     private $app;
 
+    private $tables;
+
     /**
      * @var string
      */
@@ -37,6 +39,8 @@ class Storage
         if ($this->prefix[strlen($this->prefix) - 1] != "_") {
             $this->prefix .= "_";
         }
+
+        $this->tables = array();
 
     }
 
@@ -1765,8 +1769,13 @@ class Storage
     private function runContenttypeChecks(array $contenttypes)
     {
         foreach ($contenttypes as $contenttypeslug) {
-            $contenttype = $this->getContentType($contenttypeslug);
 
+            // Make sure we do this only once per contenttype
+            if (isset($this->app->checkedcontenttype[$contenttypeslug])) {
+                continue;
+            }
+
+            $contenttype = $this->getContentType($contenttypeslug);
             $tablename = $this->getTablename($contenttype['slug']);
 
             // If the table doesn't exist (yet), return false..
@@ -1777,6 +1786,9 @@ class Storage
             // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
             $this->publishTimedRecords($contenttype);
             $this->depublishExpiredRecords($contenttype);
+
+            // "mark" this one as checked.
+            $this->app->checkedcontenttype[$contenttypeslug] = true;
         }
 
         return true;
@@ -1896,6 +1908,9 @@ class Storage
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
+        // Start the 'stopwatch' for the profiler.
+        $this->app['stopwatch']->start('bolt.getcontent', 'doctrine');
+
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
         if (!empty($whereparameters)) {
             $parameters = array_merge((array) $parameters, (array) $whereparameters);
@@ -1905,7 +1920,7 @@ class Storage
         $decoded = $this->decodeContentQuery($textquery, $parameters);
         if ($decoded === false) {
             $this->app['log']->add("Storage: No valid query '$textquery'");
-
+            $this->app['stopwatch']->stop('bolt.getcontent');
             return false;
         }
 
@@ -1913,6 +1928,7 @@ class Storage
 
         // Run checks and some actions (@todo put these somewhere else?)
         if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
+            $this->app['stopwatch']->stop('bolt.getcontent');
             return false;
         }
 
@@ -1945,6 +1961,7 @@ class Storage
         // Return content
         if ($decoded['return_single']) {
             if (util::array_first_key($results)) {
+                $this->app['stopwatch']->stop('bolt.getcontent');
                 return util::array_first($results);
             }
 
@@ -1953,7 +1970,7 @@ class Storage
                 $textquery
             );
             $this->app['log']->add($msg);
-
+            $this->app['stopwatch']->stop('bolt.getcontent');
             return false;
         }
 
@@ -1970,6 +1987,7 @@ class Storage
         $GLOBALS['pager'][$pager_name] = $pager;
         $this->app['twig']->addGlobal('pager', $pager);
 
+        $this->app['stopwatch']->stop('bolt.getcontent');
         return $results;
     }
 
@@ -2820,49 +2838,39 @@ class Storage
     }
 
     /**
-     * Get an associative array with the bolt_tables tables and columns in the DB.
-     *
-     * @return array
-     */
-    protected function getTables()
-    {
-        // Only do this once..
-        if (!empty($this->app['tables'])) {
-            return $this->app['tables'];
-        }
-
-        $sm = $this->app['db']->getSchemaManager();
-
-        $this->tables = array();
-
-        foreach ($sm->listTables() as $table) {
-            if (strpos($table->getName(), $this->prefix) === 0) {
-                foreach ($table->getColumns() as $column) {
-                    $this->tables[$table->getName()][$column->getName()] = $column->getType();
-                }
-                // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
-            }
-        }
-
-        // @todo: Fix this!! Move this to '$app->config'..
-        $this->app['tables'] = $this->tables;
-
-        return $this->tables;
-
-    }
-
-    /**
-     * Check if the table $name exists.
+     * Check if the table $name exists. We use our own queries here, because it's _much_
+     * faster than Doctrine's getSchemaManager()
      *
      * @param $name
      * @return bool
      */
     protected function tableExists($name)
     {
+        // We only should check each table once.
+        if (isset($this->tables[$name])) {
+            return true;
+        }
 
-        $tables = $this->getTables();
+        // See if the table exists.
+        $dboptions = $this->app['config']->getDBOptions();
+        if ($dboptions['driver'] == 'pdo_sqlite') {
+            // For SQLite:
+            $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
+        } else {
+            // For MySQL and Postgres:
+            $databasename = $this->app['config']->get('general/database/databasename');
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
+        }
 
-        return (!empty($tables[$name]));
+        $res = $this->app['db']->fetchColumn($query);
+
+        if (empty($res)) {
+            return false;
+        }
+
+        $this->tables[$name] = true;
+
+        return true;
 
     }
 

@@ -257,4 +257,19 @@ pinterest_pinit_hover: on
 bufferapp_count: vertical
 
 # Twitter username to mention
-bufferapp_twitter_user: PopAnth 
+bufferapp_twitter_user: BoltCM 
+
+################################################################################
+### GitHub
+
+# GitHub user/organisation name
+github_user: bolt
+
+# GitHub repository
+github_repo: bolt
+
+# Show numeric count next to button: 'true' or 'false'
+github_count: 'true'
+
+# Button size: 'large' or 'small'
+github_size: large
