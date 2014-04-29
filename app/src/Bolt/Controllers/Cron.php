@@ -102,7 +102,7 @@ class Cron extends Event
      */
     private function getScheduleThreshold()
     {
-        $hour = $app['config']->get('general/cron_hour');
+        $hour = $this->app['config']->get('general/cron_hour');
 
         if (empty($hour)) {
             $this->threshold = strtotime("03:00");
