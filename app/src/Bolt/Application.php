@@ -17,7 +17,7 @@ class Application extends Silex\Application
     public function __construct(array $values = array())
     {
         $values['bolt_version'] = '1.6.0';
-        $values['bolt_name'] = 'RC';
+        $values['bolt_name'] = 'RC2';
 
         parent::__construct($values);
 
@@ -133,11 +133,19 @@ class Application extends Silex\Application
 
     public function initRendering()
     {
+
+        // Should we cache or not?
+        if ($this['config']->get('general/caching/templates')) {
+            $cache = BOLT_CACHE_DIR;
+        } else {
+            $cache = false;
+        }
+
         $this->register(new Silex\Provider\TwigServiceProvider(), array(
             'twig.path'    => $this['config']->get('twigpath'),
             'twig.options' => array(
                 'debug'            => true,
-                'cache'            => BOLT_CACHE_DIR,
+                'cache'            => $cache,
                 'strict_variables' => $this['config']->get('general/strict_variables'),
                 'autoescape'       => true,
             )

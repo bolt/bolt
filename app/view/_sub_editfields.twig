@@ -19,6 +19,7 @@
         class='{% if field.class is defined %}{{ field.class }}{% endif %} {% if field.variant == "inline" %}narrow{% endif %}'
         {% if field.required is defined and field.required %}required="required"{% endif %}
         {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
+        maxlength="255"
         >
 {% endif %}
 
@@ -62,6 +63,7 @@
         class='narrow {% if field.class is defined %}{{ field.class }}{% endif %}'
         {% if field.required is defined and field.required %}required="required"{% endif %}
         {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
+        max="2147483647" min="-2147483647"
         >
 {% endif %}
 
