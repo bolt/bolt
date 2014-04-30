@@ -4,6 +4,7 @@ namespace Bolt;
 use Bolt\CronEvents;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -21,11 +22,18 @@ class CronEvent extends Event
     {
         $this->app = $app;
         $this->output = $output;
+
+        // Add listeners
+        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_MONTHLY, array($this, 'doRunScheduledJobs'));
+        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY, array($this, 'doRunScheduledJobs'));
     }
 
-    function doRunJobs($interval)
+    public function doRunScheduledJobs(Event $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        switch ($interval) {
+        switch ($eventName) {
             case CronEvents::CRON_HOURLY:
                 $this->cronHourly();
                 break;
