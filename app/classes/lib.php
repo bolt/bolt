@@ -645,12 +645,12 @@ function hackislyParseRegexTemplates($obj)
 {
     $str = print_r($obj, true);
 
-    preg_match_all('/(\/[a-z0-9_\/-]+\.twig)/i', $str, $matches);
+    preg_match_all('| => (.+\.twig)|i', $str, $matches);
 
     $templates = array();
 
     foreach ($matches[1] as $match) {
-        $templates[] = basename(dirname($match)) . "/" . basename($match);
+        $templates[] = str_replace(BOLT_PROJECT_ROOT_DIR . DIRECTORY_SEPARATOR, '', $match);
     }
 
     return $templates;
