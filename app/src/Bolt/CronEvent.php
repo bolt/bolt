@@ -26,9 +26,9 @@ class CronEvent extends Event
     function doRunJobs($interval)
     {
         switch ($interval) {
-        	case CronEvents::CRON_HOURLY:
-        	    $this->cronHourly();
-        	    break;
+            case CronEvents::CRON_HOURLY:
+                $this->cronHourly();
+                break;
             case CronEvents::CRON_DAILY:
                 $this->cronDaily();
                 break;
