@@ -1023,19 +1023,12 @@ class Content implements \ArrayAccess
      */
     public function fieldtype($key)
     {
-
-        if (empty($this->contenttype['fields'])) {
+        if (isset($this->contenttype['fields'][$key])) {
+            return $this->contenttype['fields'][$key]['type'];
+        }
+        else {
             return '';
         }
-
-        foreach ($this->contenttype['fields'] as $name => $field) {
-            if ($name == $key) {
-                return $field['type'];
-            }
-        }
-
-        return '';
-
     }
 
     /**
