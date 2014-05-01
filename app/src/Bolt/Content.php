@@ -571,11 +571,13 @@ class Content implements \ArrayAccess
 
         if (isset($this->values[$name])) {
             $fieldtype = $this->fieldtype($name);
+            $fieldinfo = $this->fieldinfo($name);
+            $allowtwig = !empty($fieldinfo['allowtwig']);
 
             switch ($fieldtype) {
                 case 'markdown':
 
-                    $value = $this->preParse($this->values[$name]);
+                    $value = $this->preParse($this->values[$name], $allowtwig);
 
                     // Parse the field as Markdown, return HTML
                     $value = \Parsedown::instance()->parse($value);
@@ -588,7 +590,7 @@ class Content implements \ArrayAccess
                 case 'text':
                 case 'textarea':
 
-                    $value = $this->preParse($this->values[$name]);
+                    $value = $this->preParse($this->values[$name], $allowtwig);
                     $value = new \Twig_Markup($value, 'UTF-8');
 
                     break;
@@ -627,11 +629,11 @@ class Content implements \ArrayAccess
      * @param  string $snippet
      * @return string
      */
-    public function preParse($snippet)
+    public function preParse($snippet, $allowtwig)
     {
 
         // Quickly verify that we actually need to parse the snippet!
-        if (strpos($snippet, "{{")!==false || strpos($snippet, "{%")!==false || strpos($snippet, "{#")!==false) {
+        if ($allowtwig && preg_match('/[{][{%#]/', $snippet)) {
 
             $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
 
@@ -1017,18 +1019,29 @@ class Content implements \ArrayAccess
     }
 
     /**
+     * Get field information for the given field.
+     * @param $key
+     * @return array An associative array containing at least the key 'type',
+     *               and, depending on the type, other keys.
+     */
+    public function fieldinfo($key)
+    {
+        if (isset($this->contenttype['fields'][$key])) {
+            return $this->contenttype['fields'][$key];
+        }
+        else {
+            return array('type' => '');
+        }
+    }
+
+    /**
      * Get the fieldtype for a given fieldname.
      * @param $key
      * @return string
      */
-    public function fieldtype($key)
-    {
-        if (isset($this->contenttype['fields'][$key])) {
-            return $this->contenttype['fields'][$key]['type'];
-        }
-        else {
-            return '';
-        }
+    public function fieldtype($key) {
+        $field = $this->fieldinfo($key);
+        return $field['type'];
     }
 
     /**
