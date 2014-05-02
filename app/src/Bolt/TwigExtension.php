@@ -1095,6 +1095,11 @@ class TwigExtension extends \Twig_Extension
 
         if (isset($item['path']) && $item['path'] == "homepage") {
             $item['link'] = $this->app['paths']['root'];
+        } elseif (isset($item['route'])) {
+            $param = empty($item['param']) ? array() : $item['param'];
+            $add = empty($item['add']) ? '' : $item['add'];
+
+            $item['link'] = path($item['route'], $param, $add);
         } elseif (isset($item['path'])) {
             // if the item is like 'content/1', get that content.
             if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $item['path'])) {
