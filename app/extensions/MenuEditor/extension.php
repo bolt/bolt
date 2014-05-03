@@ -30,12 +30,12 @@ class Extension extends \Bolt\BaseExtension
             'author'        => "Steven Wüthrich / bacbos lab",
             'link'          => "http://www.bacbos.ch",
             'email'         => 'steven.wuethrich@me.com',
-            'version'       => "1.4.4",
+            'version'       => "1.6.0",
 
             'required_bolt_version' => "1.4",
-            'highest_bolt_version'  => "1.4.3",
+            'highest_bolt_version'  => "1.6.0",
             'first_releasedate'     => "2013-12-22",
-            'latest_releasedate'    => "2014-01-01"
+            'latest_releasedate'    => "2014-05-03"
         );
 
     }
@@ -211,6 +211,29 @@ class Extension extends \Bolt\BaseExtension
             } catch (MenuEditorException $e) {
                 return $this->app->json(array('writeLock' => $e->getMessage(), 'status' => $e->getCode()));
             }
+            
+            /**
+             * search contenttype(s)
+             */
+            try {
+            	if ($this->app['request']->get('action') == 'search-contenttypes') {
+            		$ct = $this->app['request']->get('ct');
+            		$q = $this->app['request']->get('q');
+            		$retVal = Array();
+            		if (empty($ct)) {
+            		    $contenttypes = $this->app['config']->get('contenttypes');
+						foreach ($contenttypes as $ck => $contenttype) {
+							$retVal[] = $this->app['storage']->getContent($contenttype['name'], array('title'=> "%$q%", 'slug'=>"%$q%", 'limit'=>100, 'order'=>'title'));
+						}
+            		} else {
+            			$retVal[] = $this->app['storage']->getContent($ct, array('title'=> "%$q%", 'limit'=>100, 'order'=>'title'));
+            		}
+            		
+            		return $this->app->json(array('records' => $retVal));
+            	}
+            } catch (Exception $e) {
+            
+            }
         }
 
         // add eMenuEditor template namespace to twig
@@ -300,8 +323,8 @@ class Extension extends \Bolt\BaseExtension
 
         $assets = '<script src="{urlbase}/extensions/MenuEditor/assets/jquery.nestable.min.js"></script>
 <script src="{urlbase}/extensions/MenuEditor/assets/bootbox.min.js"></script>
-<script src="{urlbase}/extensions/MenuEditor/assets/menueditor.min.js"></script>
-<link rel="stylesheet" href="{urlbase}/extensions/MenuEditor/assets/menueditor.min.css">';
+<script src="{urlbase}/extensions/MenuEditor/assets/menueditor.js"></script>
+<link rel="stylesheet" href="{urlbase}/extensions/MenuEditor/assets/menueditor.css">';
 
         $assets = preg_replace('~\{urlbase\}~', $urlbase, $assets);
 
