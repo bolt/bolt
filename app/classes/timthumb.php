@@ -352,7 +352,13 @@ class timthumb {
 			}
 		}
 
-		$cachePrefix = ($this->isURL ? '_ext_' : '_int_');
+		$this->setCacheFile();
+		$this->debug(2, "Cache file is: " . $this->cachefile);
+
+		return true;
+	}
+    protected function setCacheFile() {
+        $cachePrefix = ($this->isURL ? '_ext_' : '_int_');
 		if($this->isURL){
 			$arr = explode('&', $_SERVER ['QUERY_STRING']);
 			asort($arr);
@@ -370,10 +376,7 @@ class timthumb {
 			//We include the mtime of the local file in case in changes on disk.
 			$this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
 		}
-		$this->debug(2, "Cache file is: " . $this->cachefile);
-
-		return true;
-	}
+    }
 	public function __destruct(){
 		foreach($this->toDeletes as $del){
 			$this->debug(2, "Deleting temp file $del");
@@ -409,7 +412,12 @@ class timthumb {
 	protected function handleErrors(){
 		if($this->haveErrors()){
 			if(NOT_FOUND_IMAGE && $this->is404()){
-				if($this->serveImg(NOT_FOUND_IMAGE)){
+                $this->src = realpath(__DIR__.'/'.NOT_FOUND_IMAGE);
+                $this->setCacheFile();
+                $this->processImageAndWriteToCache(realpath(__DIR__.'/'.NOT_FOUND_IMAGE));
+                if ($this->serveCacheFile()) {
+                    exit(0);
+                } elseif($this->serveImg(NOT_FOUND_IMAGE)){
 					exit(0);
 				} else {
 					$this->error("Additionally, the 404 image that is configured could not be found or there was an error serving it.");
