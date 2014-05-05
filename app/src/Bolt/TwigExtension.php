@@ -109,9 +109,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-
-        return \Dumper::dump($var, DUMPER_CAPTURE);
-
+        if ($this->app['config']->get('general/debug')) {
+            return \Dumper::dump($var, DUMPER_CAPTURE);
+        }
+        else {
+            return '';
+        }
     }
 
     /**
@@ -124,9 +127,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function printBacktrace($depth = 15)
     {
-
-        return \Dumper::backtrace($depth, true);
-
+        if ($this->app['config']->get('general/debug')) {
+            return \Dumper::backtrace($depth, true);
+        }
+        else {
+            return '';
+        }
     }
 
     /**
