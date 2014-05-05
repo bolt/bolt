@@ -68,6 +68,7 @@
 
     // general messages
     trans_additem                   = "{{ __("Select an item to add") }}";
+    trans_searchitem                = "{{ __("Search for an item to add") }}";
     trans_save                      = "{{ __("Save") }}";
     trans_removefrommenu            = "{{ __("Remove from menu") }}";
     trans_deleteWithSubmenus        = "{{ __("Are you sure you wish to remove this item from the menu, along with all its sub-items?") }}"
@@ -148,16 +149,13 @@
 
         <section>
             <h4>{{ __('Contenttypes') }}</h4>
-            <select name='me-addct' class='me-addct wide' style="width: 100%;">
-                <option></option>
-                {% for contenttype in contenttypes %}
-                <optgroup label="{{ __(contenttype.name) }}">
-                    {% for record in contenttype.records %}
-                    <option value="{{ record.id }}" data-slug="{{ contenttype.slug }}">{{ record.title }}</option>
-                    {% endfor %}
-                </optgroup>
+            <select name="me-addct-filter" class="me-addct-filter wide" style="width: 100%;">
+            	<!-- <option value="">All</option> -->
+            {% for contenttype in contenttypes %}
+            	<option value="{{ contenttype.name }}">{{contenttype.name}}</option>
             {% endfor %}
             </select>
+            <div name="me-addct" class="me-addct wide" style="width: 100%;"></div>
             <div style="margin-top: 10px;">
                 <div class="left-inner-addon ">
                     <i class="icon-pushpin"></i>
