@@ -116,6 +116,7 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
+            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
             $this->values['datecreated'] = "1970-01-01 00:00:00";
         }
 
@@ -131,7 +132,8 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datedepublish']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
-            $this->values['datedepublish'] = "0000-00-00 00:00:00";
+            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
+            $this->values['datedepublish'] = "1900-01-01 00:00:00";
         }
 
         // If default status is set in contentttype..
