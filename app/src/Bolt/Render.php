@@ -43,16 +43,7 @@ class Render
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
 
-        if ($html = $this->fetchCachedTemplate($template)) {
-
-            // Do nothing.. The page is fetched from cache..
-
-        } else {
-
-            $html = $this->app['twig']->render($template, $vars);
-            $this->cacheRenderedTemplate($template, $html);
-
-        }
+        $html = $this->app['twig']->render($template, $vars);
 
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.render');
@@ -75,23 +66,6 @@ class Render
 
         return $html;
 
-    }
-
-
-    /**
-     * Retrieve a  page (or basically, any template) from cache
-     *
-     * @param string $template
-     * @return mixed
-     */
-    public function fetchCachedTemplate($template)
-    {
-        if ($this->checkCacheConditions('templates', true)) {
-            $key = md5($template . $this->app['request']->getRequestUri());
-
-            return $this->app['cache']->fetch($key);
-
-        }
     }
 
     /**
@@ -120,25 +94,6 @@ class Render
         }
 
         return $result;
-    }
-
-    /**
-     * Store a page (or basically, any template) to cache.
-     *
-     * @param $template
-     * @param $html
-     */
-    public function cacheRenderedTemplate($template, $html)
-    {
-
-        if ($this->checkCacheConditions('templates')) {
-
-            // Store it part-wise, with the correct template name..
-            $key = md5($template . $this->app['request']->getRequestUri());
-            $this->app['cache']->save($key, $html, $this->cacheDuration());
-
-        }
-
     }
 
     /**
