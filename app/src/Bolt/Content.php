@@ -653,34 +653,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Allow for recursively splitting and parsing a snippet. Twig is being derpy.
-     *
-     * There's a problem with Twig: parsing snippets that are longer than the filesystem limit for filenames.
-     * This is because Twig will _first_ attempt to locate the snippet as a file, and only _then_ parse it as a
-     * snippet. Therefore, if the snippet is too long, we split it, and parse it in several parts.
-     *
-     * @param $snippet
-     * @return string
-     */
-    private function preParseHelper($snippet)
-    {
-        if (strlen($snippet) > 1800) {
-            // (First part), (opening twig brackets, rest of tag, closing twig brackets), (rest of string)
-            $result = preg_match('/(.*)({[{%#].*[}%#]})(.*)/ms', $snippet, $parts);
-            if ($result && count($parts)==4) {
-                // Note: $parts[0] is always the entire snippet. We only need to parse parts 1, 2, 3..
-                $snippet = $this->preParseHelper($parts[1]) . $this->preParseHelper($parts[2]) . $this->preParseHelper($parts[3]);
-            }
-        } else {
-            // Render the snippet.
-            $snippet = $this->app['render']->render($snippet);
-        }
-
-        return $snippet;
-
-    }
-
-    /**
      * Magic __call function, used for when templates use {{ content.title }},
      * so we can map it to $this->values['title']
      *
