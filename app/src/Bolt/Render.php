@@ -24,9 +24,16 @@ class Render
      *
      * @param Silex\Application $app
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, $safe = false)
     {
         $this->app = $app;
+        $this->safe = $safe;
+        if ($safe) {
+            $this->twigKey = 'safe_twig';
+        }
+        else {
+            $this->twigKey = 'twig';
+        }
     }
 
     /**
@@ -43,7 +50,7 @@ class Render
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
 
-        $html = $this->app['twig']->render($template, $vars);
+        $html = $this->app[$this->twigKey]->render($template, $vars);
 
         // Stop the 'stopwatch' for the profiler.
         $this->app['stopwatch']->stop('bolt.render');
@@ -103,16 +110,12 @@ class Render
      */
     public function cacheRequest($html)
     {
-
         if ($this->checkCacheConditions('request')) {
-
             // This is where the magic happens.. We also store it with an empty 'template' name,
             // So we can later fetch it by its request..
             $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
             $this->app['cache']->save($key, $html, $this->cacheDuration());
-
         }
-
     }
 
     /**
@@ -139,6 +142,11 @@ class Render
      */
     public function checkCacheConditions($type = 'template', $checkoverride = false)
     {
+        // Do not cache in "safe" mode: we don't want to accidentally bleed
+        // sensitive data from a previous unsafe run.
+        if ($this->safe) {
+            return false;
+        }
 
         // Only cache pages in the frontend.
         if ($this->app['end'] != "frontend") {

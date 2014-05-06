@@ -223,38 +223,40 @@ class Extensions
      */
     public function initialize()
     {
-        foreach ($this->enabled as $extension) {
-            $filename = $this->basefolder . "/" . $extension . "/extension.php";
+        foreach ($this->enabled as $extensionKey) {
+            $filename = $this->basefolder . "/" . $extensionKey . "/extension.php";
 
             if (is_readable($filename)) {
                 include_once($filename);
 
-                $classname = '\\' . $extension . '\\Extension';
+                $classname = '\\' . $extensionKey . '\\Extension';
 
                 if (!class_exists($classname)) {
-                    $this->app['log']->add("Couldn't initialize $extension: Class '$classname' doesn't exist", 3);
+                    $this->app['log']->add("Couldn't initialize $extensionKey: Class '$classname' doesn't exist", 3);
 
                     return;
                 }
 
-                $this->initialized[$extension] = new $classname($this->app);
+                $extension = new $classname($this->app);
+                $this->initialized[$extensionKey] = $extension;
 
-                if ($this->initialized[$extension] instanceof BaseExtensionInterface) {
-
-                    $this->initialized[$extension]->getConfig();
-                    $this->initialized[$extension]->initialize();
+                if ($extension instanceof BaseExtensionInterface) {
+                    $extension->getConfig();
+                    $extension->initialize();
 
                     // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
-                    $this->getSnippets($extension);
+                    $this->getSnippets($extensionKey);
 
-                    if ($this->initialized[$extension] instanceof \Twig_Extension) {
-                        $this->app['twig']->addExtension($this->initialized[$extension]);
+                    if ($extension instanceof \Twig_Extension) {
+                        $info = $extension->info();
+                        $this->app['twig']->addExtension($extension);
+                        if (!empty($info['allow_in_user_content'])) {
+                            $this->app['safe_twig']->addExtension($extension);
+                        }
                     }
                 }
             }
-
         }
-
     }
 
     /**

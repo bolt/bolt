@@ -638,27 +638,18 @@ class Content implements \ArrayAccess
         if ($allowtwig && preg_match('/[{][{%#]/', $snippet)) {
 
             $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
-
-            // Remember the current Twig loaders.
-            $oldloader = $this->app['twig']->getLoader();
-
-            // Switch to the string loader.. this is the preferred option, but breaks {{ simpleform() }} in content.
-            // $this->app['twig']->setLoader(new \Twig_Loader_String());
-
-            // Add the the string loader..
-            // @TODO: Unfortunately, split the input again. :-(
-            $this->app['twig.loader']->addLoader(new \Twig_Loader_String());
-
-            // Parse the snippet.
-            $snippet = $this->preParseHelper($snippet);
-
-            // Re-set the loaders back to the old situation.
-            $this->app['twig']->setLoader($oldloader);
-
+            return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
         }
 
         return $snippet;
 
+    }
+
+    public function getTemplateContext() {
+        return array(
+            'record' => $this,
+            $this->contenttype['singular_slug'] => $this // Make sure we can also access it as {{ page.title }} for pages, etc.
+        );
     }
 
     /**

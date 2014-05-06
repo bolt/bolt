@@ -24,6 +24,7 @@ class Extension extends \Bolt\BaseExtension
             'type' => "Twig function",
             'first_releasedate' => "2014-03-26",
             'latest_releasedate' => "2014-04-26",
+            'allow_in_user_content' => true,
         );
 
         return $data;

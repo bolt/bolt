@@ -152,6 +152,7 @@ class Application extends Silex\Application
         ));
 
         $this->register(new Provider\RenderServiceProvider());
+        $this->register(new Provider\RenderServiceProvider(true));
     }
 
     public function initLocale()
@@ -205,6 +206,7 @@ class Application extends Silex\Application
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\CronServiceProvider())
+            ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider());
 
         $this['paths'] = getPaths($this['config']);
@@ -212,6 +214,7 @@ class Application extends Silex\Application
 
         // Add the Bolt Twig functions, filters and tags.
         $this['twig']->addExtension(new TwigExtension($this));
+        $this['safe_twig']->addExtension(new TwigExtension($this, true));
 
         $this['twig']->addTokenParser(new SetcontentTokenParser());
 
@@ -284,6 +287,18 @@ class Application extends Silex\Application
         $this['twig']->addGlobal('users', $this['users']->getUsers());
         $this['twig']->addGlobal('config', $this['config']);
         $this['twig']->addGlobal('theme', $this['config']->get('theme'));
+
+        $this['safe_twig']->addGlobal('bolt_name', $this['bolt_name']);
+        $this['safe_twig']->addGlobal('bolt_version', $this['bolt_version']);
+
+        $this['safe_twig']->addGlobal('frontend', false);
+        $this['safe_twig']->addGlobal('backend', false);
+        $this['safe_twig']->addGlobal('async', false);
+        $this['safe_twig']->addGlobal($this['config']->getWhichEnd(), true);
+
+        $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
+        // $this['safe_twig']->addGlobal('config', $this['config']);
+        $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
 
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
@@ -460,10 +475,7 @@ class Application extends Silex\Application
             if ($content instanceof \Bolt\Content && !empty($content->id)) {
                 $template = $content->template();
 
-                return $this['render']->render($template, array(
-                    'record' => $content,
-                    $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-                ));
+                return $this['render']->render($template, $content->getTemplateContext());
             }
 
             $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
