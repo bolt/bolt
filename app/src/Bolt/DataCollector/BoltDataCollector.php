@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Datacollector;
+namespace Bolt\DataCollector;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
