@@ -231,7 +231,7 @@ class Content implements \ArrayAccess
             return;
         }
 
-        if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish') {
+        if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish' || $key == 'datedepublish') {
             if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value)) {
                 // @todo Try better date-parsing, instead of just setting it to 'now'..
                 $value = date("Y-m-d H:i:s");
