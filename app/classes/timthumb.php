@@ -362,7 +362,7 @@ class timthumb {
 		if($this->isURL){
 			$arr = explode('&', $_SERVER ['QUERY_STRING']);
 			asort($arr);
-			$this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . implode('', $arr) . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
+			$this->cachefile = $this->cacheDirectory . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . implode('', $arr) . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
 		} else {
 			$this->localImage = $this->getLocalImagePath($this->src);
 			if(! $this->localImage){
@@ -374,7 +374,7 @@ class timthumb {
 			$this->debug(1, "Local image path is {$this->localImage}");
 			$this->localImageMTime = @filemtime($this->localImage);
 			//We include the mtime of the local file in case in changes on disk.
-			$this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
+			$this->cachefile = $this->cacheDirectory . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
 		}
     }
 	public function __destruct(){
