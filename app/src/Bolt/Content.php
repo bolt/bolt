@@ -448,6 +448,11 @@ class Content implements \ArrayAccess
             $this->sortorder = $sortorder;
         }
 
+        // Fallback for when sortorder is explicitly set.
+        if (is_int($sortorder) && (strpos($value, "#") === false)) {
+            $value .= "#" . $sortorder;
+        }
+
         // Make the 'key' of the array an absolute link to the taxonomy.
         $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $value);
 
