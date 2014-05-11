@@ -344,7 +344,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)
     {
-        $this->menuoptions[$path] = $this->app['extensions']->addMenuOption($label, $path, $icon, $requiredPermission);
+        $this->app['extensions']->addMenuOption($label, $path, $icon, $requiredPermission);
     }
 
     /**

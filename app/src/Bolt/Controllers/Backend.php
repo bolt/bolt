@@ -729,7 +729,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('slug', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
-            $content->setValue('datedepublish', "1900-01-01 00:00:00");
+            $content->setValue('datedepublish', "1900-01-01 00:00:00"); // Not all DB-engines can handle a date like '0000-00-00'
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $content->setValue('ownerid', "");

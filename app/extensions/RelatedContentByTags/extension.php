@@ -19,7 +19,7 @@ class Extension extends \Bolt\BaseExtension
             'first_releasedate' => "2013-10-25",
             'latest_releasedate' => "2013-10-25",
             'dependancies' => "",
-            'priority' => 10
+            'priority' => 10,
         );
 
         return $data;

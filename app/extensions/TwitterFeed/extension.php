@@ -33,11 +33,11 @@ class Extension extends \Bolt\BaseExtension
         if ( $this->config['twitter_handle'] == '' || $this->config['data_widget_id'] == '' ) {
             return;
         }
-        
+
         $twitter_url = "https://twitter.com/" . str_replace( '@', '', $this->config['twitter_handle'] );
 
         $html = '<a class="twitter-timeline" href="' . $twitter_url . '"
-                    data-widget-id="' . $this->config['data_widget_id'] . '" 
+                    data-widget-id="' . $this->config['data_widget_id'] . '"
                     data-chrome="' . $this->config['data_chrome'] . '">' . $this->config['link_text'] . '</a>';
         $html .= <<< EOM
                 <script>
@@ -52,7 +52,7 @@ class Extension extends \Bolt\BaseExtension
                     }(document, 'script', 'twitter-wjs');
                 </script>
 EOM;
-        
+
         return new \Twig_Markup($html, 'UTF-8');
     }
 }

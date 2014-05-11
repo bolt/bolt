@@ -30,3 +30,4 @@ tests/*/*Guy.php
 .project
 
 app/view/config.codekit
+/bolt.log
