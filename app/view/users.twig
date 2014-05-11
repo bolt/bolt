@@ -15,10 +15,18 @@
             </tr>
             {% for user in users %}
 
-                <tr class="{% if user.enabled==0 %}dim{% endif %}">
-                    <td class='id'>№ {{user.id}}</td>
+                <tr>
+                    <td class='id'>
+                        {% if user.enabled==0 %}<s>{% endif %}
+                        № {{user.id}}
+                        {% if user.enabled==0 %}</s>{% endif %}</td>
 
-                    <td><strong>{{ user.displayname }}</strong> ({{ user.username}}) </td>
+                    <td>
+                        {% if user.enabled==0 %}<s>{% endif %}
+                        <strong>{{ user.displayname }}</strong> ({{ user.username}}) 
+                        {% if user.enabled==0 %}</s>{% endif %}
+                    </td>
+
                     <td>
                         {% if user.lastseen|date('Y') > "1901" %}
                             <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>

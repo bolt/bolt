@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Bolt - Fatal error.</title>
+    <title>{{ __('Bolt - Fatal error.') }}</title>
     <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/bootstrap.min.css" />
 </head>
 <body style="padding: 20px;">
@@ -12,12 +12,12 @@
     <h1>{{ __('Bolt - Fatal error.') }}</h1>
 
     <ul>
-        <li>Class: {{ class }}</li>
-        <li>Message: {{ message }}</li>
-        <li>Code: {{ code }}</li>
+        <li>{{ __('Class:') }} {{ class }}</li>
+        <li>{{ __('Message:') }} {{ message }}</li>
+        <li>{{ __('Code:') }} {{ code }}</li>
     </ul>
-
-    {% if app.config.get('general/debug') %}
+    
+    {% if app.config.get('general/debug') and app.session.get('user') is not null %}
         {% for i in trace %}
             {% if i.line is defined and i.class is defined %}
                 <p>
