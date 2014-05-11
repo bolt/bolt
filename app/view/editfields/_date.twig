@@ -1,0 +1,25 @@
+<fieldset>
+
+    {#-- Label --#}
+    <label><b>{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}</b></label>
+
+    {#-- Input --#}
+    <input
+        type="text"
+        name="{{ key }}-dateformatted" id="{{ key }}-date"
+        value='{{ pretty.datepickervalue(content.get(key)) }}'
+        class='{% if field.class is defined %}{{ field.class }}{% endif %} datepicker'
+    >
+    <input type="hidden" name="{{ key }}" id="{{ key }}" value="{{ content.get(key)|date('Y-m-d H:i:s') }}">
+
+    {#-- Script --#}
+    <script type="text/javascript">
+        $(function() {
+            $('#{{ key }}-date').on('change.bolt', function(){
+                var date = $('#{{ key }}-date').datepicker( "getDate" );
+                $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date));
+            }).trigger('change.bolt');;
+        });
+    </script>
+
+</fieldset>

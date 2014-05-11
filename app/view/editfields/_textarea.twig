@@ -1,0 +1,15 @@
+<fieldset>
+
+    {#-- Label --#}
+    <label><b>{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}</b></label>
+
+    {#-- Input --#}
+    <textarea
+        name="{{ key }}"
+        class='{% if field.class is defined %}{{ field.class }}{% endif %}'
+        style='{% if field.height is defined %}height: {{ field.height }}{% endif %}'
+        {% if field.required is defined and field.required %}required{% endif %}
+        {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}
+    >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+
+</fieldset>
