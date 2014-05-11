@@ -4,6 +4,7 @@
 namespace SimpleForms;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Filesystem;
 
 class Extension extends \Bolt\BaseExtension
 {
@@ -377,6 +378,8 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
+        $fileSystem = new Filesystem;
+
         // Some fieldtypes (like 'date' and 'file') require post-processing.
         foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
 
@@ -397,7 +400,7 @@ class Extension extends \Bolt\BaseExtension
 
                 // make sure the path is exists
                 if (!is_dir($path)) {
-                    makeDir($path);
+                    $fileSystem->mkdir($path);
                 }
 
                 if (!is_writable($path)) {

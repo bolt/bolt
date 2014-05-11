@@ -956,10 +956,11 @@ class timthumb {
             return;
         }
 
+        $fileSystem = new Symfony\Component\Filesystem;
+
         // Make sure the paths exists. Try to create it, if possible.
         $pathparts = explode("/", $_GET['requestname']);
-        $path = dirname(dirname(__DIR__)) . "/" . implode("/", array_slice($pathparts, 0, (count($pathparts)-1)));
-        makeDir($path);
+        $fileSystem->mkdir($path);
 
         // Copy the file, and chmod
         $newfilename = dirname(dirname(__DIR__)) . "/" . urldecode($_GET['requestname']);
