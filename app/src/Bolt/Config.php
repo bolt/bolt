@@ -37,6 +37,7 @@ class Config
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->initializePaths();
 
         if (!$this->loadCache()) {
             $this->getConfig();
