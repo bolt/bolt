@@ -2,7 +2,7 @@ Socialite
 ====================
 
 An extention to add asynchronous (lazy/late loading) social media buttons and 
-widgets to your tempalates using <code>{{ socialite('SocialNetwork') }}</code> 
+widgets to your templates using <code>{{ socialite('SocialNetwork') }}</code> 
 or <code>{{ socialite({'SocialNetwork': 'variable'}) }}</code>.
 
 The extension is based on the [Socialite JavaScript](https://github.com/tmort/Socialite) 
