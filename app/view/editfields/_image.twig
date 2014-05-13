@@ -1,0 +1,126 @@
+<fieldset class="dropzone imageselect" id="dropzone-{{ key }}">
+
+    {#-- Setup --#}
+    {% if content.get(key) is not iterable %}
+        {# This image was stored in the old format until re-saved #}
+        {% set image = {'file': content.get(key)} %}
+    {% else %}
+        {% set image = content.get(key) %}
+    {% endif %}
+
+    <div class="image-right">
+        <div class='imageholder' id="thumbnail-{{ key }}">
+            {% if content.get(key)!="" %}
+            <img src="{{ image.file|thumbnail(120, 120, 'c') }}" width="120" height="120">
+            {% else %}
+            <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="image-container">
+        {#-- Label --#}
+        <label>
+            <b>{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}</b>
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{ field.label }}{% else %}{{ key|ucfirst }}{% endif %}"
+                data-content="{{ app.translator.trans('info.upload.image',{},'infos') }}">{{ __('Info') }}</span>
+        </label>
+
+        {# note: jQuery file-upload expects types separated by a '|', unlike the HTML spec. #}
+        <input type="text" name="{{ key }}[file]" id="field-{{ key }}"
+            value='{{ image.file|default('') }}'
+            class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
+            accept="{{ field.extensions|join('|') }}">
+
+        <p class="filetypes">
+            {{ __("Allowed filetypes are:") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
+        </p>
+
+        {% if field.attrib is defined %}
+
+            {# If the user has set a single attribute as a string, convert it to an array #}
+            {% if field.attrib is not iterable %}{% set attribs = {0: field.attrib} %}{% else %}{% set attribs = field.attrib %}{% endif %}
+
+            {# We are only interested in the 'alt' attribute right now, but this will allow easy extension #}
+            {% for attrib in attribs %}
+                {% if attrib == 'title' %}
+                    <label>{{ __('Title/Alt Text:') }} <input type="text" name="{{ key }}[title]" id="{{ key }}-title"
+                        value='{{ image.title|default('') }}' style='width: 80%;'>
+                    </label>
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+
+        {# The fileinput-button span is used to style the file input field as button #}
+        <div class="btn-group">
+            <span class="btn btn-info fileinput-button">
+                <i class="icon-upload"></i>
+                <span>{{ __('Upload image') }}</span>
+                <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ paths.app }}classes/upload/index.php" accept=".{{ field.extensions|join(",.") }}">
+            </span>
+        </div>
+
+        <div class="btn-group" style="margin-left: 0px;">
+            <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn fileinput-select" data-toggle="modal">
+                <i class="icon-upload-alt"></i>
+                {{ __('Select from server') }}
+            </a>
+        </div>
+
+        {% set items = stackitems(7, 'image') %}
+        {% if items %}
+        <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-paper-clip"></i>
+                {{ __('Select from stack') }}
+                <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu" id="stack-{{ key }}">
+                {% for item in items %}
+                    <li>
+                        <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">{{ item.basename }} <small>({{ item.filesize }}, {{ item.imagesize }} px)</small></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="progress progress-striped active" id="progress-{{ key }}">
+            <div class="bar" style="width: 0%;"></div>
+        </div>
+
+        {# Modal "select from server" #}
+        <div class="modal hide modal-wide" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+            </div>
+        </div>
+
+        {% if not ismobileclient() %}
+        <script type="text/javascript">
+            $(function() {
+                bindFileUpload('{{ key }}');
+
+                $("#field-{{ key }}").autocomplete({
+                    source: "{{ paths.async }}filesautocomplete?ext=gif,jpg,jpeg,png",
+                    minLength: 2,
+                    close: function(){
+                        if ($('#field-{{ key }}').val() != "" ) {
+                            $('#thumbnail-{{ key }}').html("<img src='{{ app.paths.root }}thumbs/120x120c/"+encodeURI( $('#field-{{ key }}').val() )+"' width='120' height='120'>");
+                        } else {
+                            $('#thumbnail-{{ key }}').html("<img src='{{ app.paths.app }}view/img/default_empty.png' width='120' height='120'>");
+                        }
+                    }
+                });
+
+            });
+        </script>
+        {% endif %}
+    </div>
+
+</fieldset>

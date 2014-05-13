@@ -865,13 +865,19 @@ fieldset.checkbox div {
     max-height: 120px;
 }
 #editcontent .imageinput {
-    border: 1px solid #BBB;
+    border: 2px solid #BBB;
 }
 
 #editcontent div.image-container label,
 #editcontent div.video-container label,
 #editcontent div.map-container label {
     margin-top: 2px;
+}
+
+#editcontent fieldset {
+    border-top: 1px dotted #B0C4DE;
+	margin: 2px 0;
+	padding: 4px 0;
 }
 
 #editcontent .checkboxwrapper {

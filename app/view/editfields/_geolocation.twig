@@ -1,0 +1,47 @@
+<fieldset class="dropzone geolocation">
+
+    {#-- Setup --#}
+    {% set geolocation = content.get(key) %}
+
+    <div class="map-right hide-phone">
+        <div class='mapholder' id="map-{{ key }}" style="width: 200px;">
+            <img src="{{ geo.map|default('') }}" width="200" height="200">
+        </div>
+    </div>
+
+    <div class="map-container">
+        {#-- Label --#}
+        <label>
+            <b>{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}</b>
+            <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}"
+                  data-content="{{ app.translator.trans('info.geolocation',{},'infos') }}">{{ __('Info') }}</span>
+        </label>
+        <label>{{ __('Address lookup:') }} <input type="text" name="{{ key }}[address]" id="{{ key }}-address"
+            value='{{ geolocation.address|default('') }}' style='width: 60%;'
+            {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}>
+        </label>
+        <label>{{ __('Latitude:') }} <input type="text" name="{{ key }}[latitude]" id="{{ key }}-latitude"
+            value='{{ geolocation.latitude|default('') }}' style='width: 30%;'>
+         - {{ __('Longitude:') }} <input type="text" name="{{ key }}[longitude]" id="{{ key }}-longitude"
+            value='{{ geolocation.longitude|default('') }}' style='width: 30%;'>
+        </label>
+
+        {#-- Input --#}
+        <p>{{ __('Matched address:') }}
+        <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</span></p>
+        <input type="hidden" name="{{ key }}[formatted_address]" id="{{ key }}-formatted_address"
+               value='{{ geolocation.formatted_address|default('') }}' style='width: 30%;'>
+
+        {#-- Script --#}
+        <script type="text/javascript">
+            $(function() {
+                bindGeolocation('{{ key }}', '{{ geolocation.latitude|default('') }}', '{{ geolocation.longitude|default('') }}');
+            });
+        </script>
+    </div>
+
+    {#-- Script --#}
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{{ paths.app }}view/js/jquery.gomap-1.3.2.min.js"></script>
+
+</fieldset>

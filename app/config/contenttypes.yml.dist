@@ -95,6 +95,8 @@ kitchensink:
             class: large
             required: true
             pattern: "*{2,255}" # see: http://html5pattern.com/
+            title: "At least 2, up to 255 characters"
+            placeholder: "Enter the title here"
         slug:
             type: slug
             uses: [ selectfield, title ]

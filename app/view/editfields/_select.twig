@@ -1,0 +1,50 @@
+<fieldset>
+
+    {#-- Setup --#}
+    {% if field.values is iterable %}
+        {% set values = field.values %}
+    {% else %}
+        {% set lookuptype = field.values|split('/')|first %}
+        {% set lookupfield = field.values|split('/')|last %}
+        {% if ',' in lookupfield %}
+            {% set lookupfield = lookupfield|split(',') %}
+        {% endif %}
+        {% setcontent lookups = lookuptype order 'title' %}
+        {% set values = lookups|selectfield(lookupfield) %}
+    {% endif %}
+
+    {#-- Label --#}
+    <label><b><span class="left">
+        {% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}
+    </span></b></label>
+
+    {#-- Input --#}
+    {% if field.multiple is defined and field.multiple %}
+        <select name="{{ key }}[]" id="{{ key }}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
+            {% for value in values %}
+                {% if value is iterable and (value | length) > 1 %}
+                    <option value="{{ value[0] }}" {% if value[0] in content.get(key) %}selected{% endif %}>{{ value[1:]|join(' / ') }}</option>
+                {% else %}
+                    <option value="{{ value }}" {% if value in content.get(key) %}selected{% endif %}>{{ value }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
+        <div style="margin-top: -14px;">
+            <a href="#" class="btn bnt-info btn-mini" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">{{ __("Select all") }}</a>
+            <a href="#" class="btn bnt-info btn-mini" onclick="jQuery('#{{ key }} option').prop('selected', false); return false;">{{ __("Select none") }}</a>
+        </div>
+
+    {% else %}
+        <select name="{{ key }}" id="{{ key }}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
+            {% for value in values %}
+                {% if value is iterable and (value | length) > 1 %}
+                    <option value="{{ value[0] }}" {% if content.get(key)==value[0] %}selected{% endif %}>{{ value[1:]|join(' / ') }}</option>
+                {% else %}
+                    <option value="{{ value }}" {% if content.get(key)==value %}selected{% endif %}>{{ value }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    {% endif %}
+
+</fieldset>

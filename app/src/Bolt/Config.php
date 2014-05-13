@@ -166,7 +166,7 @@ class Config
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
-        
+
         $this->paths = getPaths($config);
         $this->setDefaults();
 
@@ -308,7 +308,7 @@ class Config
                 if ($temp['fields'][$key]['type'] == 'file' || $temp['fields'][$key]['type'] == 'filelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'), 
+                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
                             $config['general']['accept_file_types']
                         );
                     }
@@ -322,7 +322,7 @@ class Config
                 if ($temp['fields'][$key]['type'] == 'image' || $temp['fields'][$key]['type'] == 'imagelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('gif', 'jpg', 'jpeg', 'png'), 
+                            array('gif', 'jpg', 'jpeg', 'png'),
                             $config['general']['accept_file_types']
                         );
                     }
@@ -409,24 +409,23 @@ class Config
                     }
                 }
 
-                // Make sure we have a 'label', 'class', 'variant' and 'default'.
-                if (!isset($field['label'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/label", '');
-                }
-                if (!isset($field['class'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/class", '');
-                }
-                if (!isset($field['variant'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/variant", '');
-                }
-                if (!isset($field['default'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/default", '');
-                }
-                if (!isset($field['pattern'])) {
-                    $this->set("contenttypes/{$key}/fields/{$fieldname}/pattern", '');
-                }
+                // Make sure we have a 'label', 'class', 'variant', 'default', ...
+				$requiredoptions = array(
+					'label',
+					'class',
+					'variant',
+					'default',
+					'pattern',
+					'title',
+					'placeholder',
+				);
+				foreach ($requiredoptions as $option) {
+					if (!isset($field[$option])) {
+						$this->set('contenttypes/'.$key.'/fields/'.$fieldname.'/'.$option, '');
+					}
+				}
 
-                // Make sure the 'type' is in the list of allowed types
+				// Make sure the 'type' is in the list of allowed types
                 if (!isset($field['type']) || !in_array($field['type'], $this->defaultFieldTypes)) {
                     $error = __(
                         "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.",

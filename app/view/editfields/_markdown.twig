@@ -1,0 +1,29 @@
+<fieldset>
+
+    {#-- Label --#}
+    <label>
+        <b>{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}</b>
+        <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{ field.label }}{% else %}{{ key|ucfirst }}{% endif %}"
+            data-content="{{ app.translator.trans('info.markdown',{},'infos') }}">{{ __('Info') }}</span>
+    </label>
+
+    {#-- Input --#}
+    <textarea
+        id="{{ key }}"
+        name="{{ key }}"
+        class='{% if field.class is defined %}{{ field.class }}{% endif %}'
+        style='{% if field.height is defined %}height: {{ field.height }} !important;{% endif %}'
+        {% if field.required is defined and field.required %}required{% endif %}
+        {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}
+    >{% if content.get(key) is defined %}{{ content.get(key) }}{% endif %}</textarea>
+
+    <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
+
+    {#-- Script --#}
+    <script type="text/javascript">
+        $(function() {
+            bindMarkdown('{{ key }}');
+        });
+    </script>
+
+</fieldset>

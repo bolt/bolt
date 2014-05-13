@@ -1,0 +1,63 @@
+{#-- Setup --#}
+{% set video = content.get(key) %}
+
+<fieldset>
+
+    <div class="dropzone video">
+
+        <div class="video-right hide-phone">
+            <div class="imageholder" id="thumbnail-{{ key }}" style="width: 160px; text-align: center; background-color: #f8f8f8;">
+                {% if video.thumbnail|default('') %}
+                    <img src="{{ video.thumbnail }}" width="160" height="120">
+                {% else %}
+                    <img src="{{ app.paths.app }}view/img/default_empty.png" width="120" height="120">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="video-container">
+            <label>
+                <b>{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}</b>
+                (<span id="video-{{ key }}-text">{% if video.title is defined %}"{{ video.title|trimtext(18) }}" by {{ video.authorname|trimtext(18) }}{% endif %}</span>)
+                <span class="label info-pop" data-html="true" data-title="{% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}"
+                      data-content="{{ app.translator.trans('info.upload.video',{},'infos') }}">{{ __('Info') }}</span>
+            </label>
+            <label>{{ __('URL:') }} <input type="url" name="{{ key }}[url]" id="video-{{ key }}"
+                   value='{{ video.url|default('') }}' style='width: 60%;'
+                   {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}>
+            </label>
+
+            <label>{{ __('Size:') }} <input type="number" name="{{ key }}[width]" id="video-{{ key }}-width" value="{{ video.width|default('') }}" style='width: 60px; min-width: 60px;'>
+            &times; <input type="number" name="{{ key }}[height]" id="video-{{ key }}-height" value="{{ video.height|default('') }}" style='width: 60px; min-width: 60px;'>
+                pixels.
+                <span class="hide-tablet"><a href="#myModal" role="button" class="btn" data-toggle="modal" style='float: right;'>{{ __('Preview video') }}</a></span>
+            </label>
+
+            <input type="hidden" name="{{ key }}[ratio]" id="video-{{ key }}-ratio" value="{{ video.ratio|default('') }}">
+            <input type="hidden" name="{{ key }}[title]" id="video-{{ key }}-title" value="{{ video.title|default('') }}" readonly>
+            <input type="hidden" name="{{ key }}[authorname]" id="video-{{ key }}-author_name" value="{{ video.authorname|default('') }}" readonly>
+            <input type="hidden" name="{{ key }}[authorurl]" id="video-{{ key }}-author_url" value="{{ video.authorurl|default('') }}" readonly>
+            <input type="hidden" name="{{ key }}[html]" id="video-{{ key }}-html" value="{% if video.html is defined %}{{ video.html|escape }}{% endif %}">
+            <input type="hidden" name="{{ key }}[thumbnail]" id="video-{{ key }}-thumbnail" value="{{ video.thumbnail|default('') }}">
+
+            <script type="text/javascript">
+                bindVideoEmbed('{{ key }}');
+            </script>
+        </div>
+    </div>
+
+    {#-- Modal video preview --#}
+    <div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body">
+            {% if video.html is defined %}
+                {{ video.html }}
+            {% else %}
+                <p>{{ __('No video url is set, no video to show.') }}</p>
+            {% endif %}
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+        </div>
+    </div>
+
+</fieldset>

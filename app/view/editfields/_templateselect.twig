@@ -1,0 +1,17 @@
+<fieldset>
+
+    {#-- Label --#}
+    <label><b><span class="left">
+        {% if field.label %}{{ field.label|trans }}{% else %}{{ key|ucfirst|trans }}{% endif %}
+    </span></b></label>
+
+    {#-- Input --#}
+    <select name="{{ key }}" id="{{ key }}">
+        <option value="">{{ __('(default template)') }}</option>
+        <option value="" disabled>-----------</option>
+        {% for filename, name in listtemplates(field.filter) %}
+            <option value="{{ filename }}" {% if content.get(key)==filename %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+    </select>
+
+</fieldset>
