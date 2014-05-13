@@ -371,7 +371,8 @@ class Extension extends \Bolt\BaseExtension
 
         if($formconfig['debugmode']==true) {
             \Dumper::dump($formconfig);
-            \Dumper::dump($form);
+            // This yields a Fatal Error: "FormBuilder methods cannot be accessed anymore once the builder is turned into a FormConfigInterface instance."
+            //\Dumper::dump($form);
             \Dumper::dump($formname);
             \Dumper::dump($data);
             \Dumper::dump($this->app['request']->files);
