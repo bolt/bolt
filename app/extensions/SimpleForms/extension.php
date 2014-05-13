@@ -173,6 +173,11 @@ class Extension extends \Bolt\BaseExtension
             if (!empty($field['postfix'])) {
                 $options['attr']['postfix'] = $field['postfix'];
             }
+            if (is_array($field['data'])) {
+                foreach ($field['data'] as $datakey => $datavalue) {
+                    $options['attr']['data-'.$datakey] = $datavalue;
+                }
+            }
 
             if (!empty($field['required']) && $field['required'] == true) {
                 $options['required'] = true;
