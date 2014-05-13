@@ -430,9 +430,9 @@ class Extension extends \Bolt\BaseExtension
                     $originalname = strtolower($files[$fieldname]->getClientOriginalName());
                     $filename = sprintf(
                         "%s-%s-%s.%s",
-                        $fieldname,
                         date('Y-m-d'),
-                        $this->app['randomgenerator']->generateString(8, 'abcdefghijklmnopqrstuvwxyz01234567890'),
+                        str_replace('upload', '', $fieldname),
+                        $this->app['randomgenerator']->generateString(12, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890'),
                         getExtension($originalname)
                     );
                     $link = sprintf("%s%s/%s", $this->app['paths']['hosturl'], $linkpath, $filename);
