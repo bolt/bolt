@@ -690,7 +690,7 @@ class Config
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => __DIR__ . '/../../database/' . $basename,
+                'path' => isset($configdb['path']) ? $configdb["path"] : __DIR__ . '/../../database/' . $basename,
                 'randomfunction' => 'RANDOM()'
             );
         } else {
