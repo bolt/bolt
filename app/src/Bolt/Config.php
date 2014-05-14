@@ -688,9 +688,13 @@ class Config
                 $basename .= '.db';
             }
 
+            if(isset($configdb["path"])) {
+                if(substr($configdb['path'],0,1) !== "/") $configdb["path"] = getPaths()["rootpath"]."/".$configdb["path"];
+            }
+
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path']) ? $configdb["path"] : __DIR__ . '/../../database/' . $basename,
+                'path' => isset($configdb['path']) ? realpath($configdb["path"])."/".$basename : __DIR__ . '/../../database/' . $basename,
                 'randomfunction' => 'RANDOM()'
             );
         } else {
