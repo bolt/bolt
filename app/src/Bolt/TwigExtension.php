@@ -394,6 +394,14 @@ class TwigExtension extends \Twig_Extension
         // Parse the field as Markdown, return HTML
         $output = \Parsedown::instance()->parse($content);
 
+        // Sanitize/clean the HTML.
+        $maid = new \Maid\Maid(array(
+            'output-format' => 'html',
+            'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
+            'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
+        ));
+        $output = $maid->clean($output);
+
         return $output;
     }
 

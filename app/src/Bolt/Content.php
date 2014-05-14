@@ -583,7 +583,13 @@ class Content implements \ArrayAccess
 
                     // Parse the field as Markdown, return HTML
                     $value = \Parsedown::instance()->parse($value);
-                    $maid = new \Maid\Maid(array('output-format' => 'html'));
+
+                    // Sanitize/clean the HTML.
+                    $maid = new \Maid\Maid(array(
+                        'output-format' => 'html',
+                        'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
+                        'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
+                    ));
                     $value = $maid->clean($value);
                     $value = new \Twig_Markup($value, 'UTF-8');
                     break;
