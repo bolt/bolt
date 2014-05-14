@@ -264,6 +264,9 @@ class Application extends Silex\Application
         
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new \Bolt\Thumbs\ThumbnailProvider());
+        
+        // Mount the 'async' controllers on /async. Not configurable.
+        $this->mount('/upload', new Controllers\Upload());
 
         if ($this['config']->get('general/enforce_ssl')) {
             foreach ($this['routes']->getIterator() as $route) {

@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Uploader implements ControllerProviderInterface
 {
+    
+    public $app;
+    public $uploaddir;
+    
     public function connect(Silex\Application $app)
     {
         $ctr = $app['controllers_factory'];
@@ -23,6 +27,16 @@ class Uploader implements ControllerProviderInterface
 
     public function uploadFile(Silex\Application $app)
     {
+        
+        if(isset($this->app["uploaddir"])) {
+            $this->uploaddir = $this->app["uploaddir"];
+        } elseif(defined("BOLT_PROJECT_ROOT_DIR")) {
+            $this->uploaddir = BOLT_PROJECT_ROOT_DIR . "/files";
+        }
+
+        // Make sure the folder exists.
+        makeDir($this->uploaddir.'/'.date('Y-m'));
+        
         // Default accepted filetypes are: gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm
         if (is_array($app['config']->get('general/accept_file_types'))) {
             $accepted_ext = implode('|', $app['config']->get('general/accept_file_types'));
@@ -30,7 +44,7 @@ class Uploader implements ControllerProviderInterface
             $accepted_ext = $app['config']->get('general/accept_file_types');
         }
 
-        $upload_handler = new \UploadHandler(array(
+        $upload_handler = new Bolt\UploadHandler(array(
             'upload_dir' => dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))).'/files/'.date('Y-m')."/",
             'upload_url' => '/files/'.date('Y-m')."/",
             'accept_file_types' => '/\.(' . $accepted_ext . ')$/i'
