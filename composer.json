@@ -50,6 +50,7 @@
         "psr-0": {
             "Bolt": "app/src/",
             "Bolt\\Tests": "app/tests"
-        }
+        },
+        "files": ["app/classes/lib.php", "app/classes/lowlevelchecks.php","app/classes/util.php"]
     }
 }
