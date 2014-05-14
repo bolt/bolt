@@ -689,7 +689,8 @@ class Config
             }
 
             if(isset($configdb["path"])) {
-                if(substr($configdb['path'],0,1) !== "/") $configdb["path"] = getPaths()["rootpath"]."/".$configdb["path"];
+                $configpaths = getPaths();
+                if(substr($configdb['path'],0,1) !== "/") $configdb["path"] = $configpaths["rootpath"]."/".$configdb["path"];
             }
 
             $dboptions = array(
