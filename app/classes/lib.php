@@ -5,43 +5,6 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
 
 /**
- * Recursively creates chmodded directories. Returns true on success,
- * and false on failure.
- *
- * NB! Directories are created with permission 777 - worldwriteable -
- * unless you have set 'chmod_dir' to 0XYZ in the advanced config.
- *
- * @param string $name
- * @return boolean
- */
-function makeDir($name)
-{
-    // if it exists, just return.
-    if (file_exists($name)) {
-        return true;
-    }
-
-    // If more than one level, try parent first..
-    // If creating parent fails, we can abort immediately.
-    if (dirname($name) != ".") {
-        $success = makeDir(dirname($name));
-        if (!$success) {
-            return false;
-        }
-    }
-
-    $mode_dec = octdec('0777');
-
-    $oldumask = umask(0);
-    $success = @mkdir($name, $mode_dec);
-    @chmod($name, $mode_dec);
-    umask($oldumask);
-
-    return $success;
-}
-
-
-/**
  * Clean posted data. Convert tabs to spaces (primarily for yaml) and
  * stripslashes when magic quotes are turned on.
  *

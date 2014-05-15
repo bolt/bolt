@@ -17,6 +17,7 @@ if ('cli-server' === php_sapi_name()) {
         return false;
     }
 }
+define('BOLT_PROJECT_ROOT_DIR', __DIR__);
 
 require_once __DIR__ . '/app/bootstrap.php';
 

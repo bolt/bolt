@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Symfony\Component\Filesystem;
 
 class Content implements \ArrayAccess
 {
@@ -343,10 +344,11 @@ class Content implements \ArrayAccess
                     continue;
                 }
 
-                $fieldname = substr($key, 11);
+                $fieldname  = substr($key, 11);
+                $fileSystem = new Filesystem;
 
                 // Make sure the folder exists.
-                makeDir(dirname($filename));
+                $fileSystem->mkdir(dirname($filename));
 
                 // Check if we don't have doubles.
                 if (is_file($filename)) {
