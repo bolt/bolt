@@ -124,7 +124,7 @@ class ResourceManager
         $this->setUrl("current",       $request->getPathInfo());
         $this->setUrl("canonicalurl",  sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getUrl('canonical'), $canonicalpath));
         $this->setUrl("currenturl",    sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('hostname'), $currentpath));
-        $this->setUrl("hosturl",       sprintf('%s://%s', $this->getRequest("protocol"), $this->getRequest('hostname')));
+        $this->setUrl("hosturl",       sprintf('%s://%s',   $this->getRequest("protocol"), $this->getRequest('hostname')));
         $this->setUrl("rooturl",       sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getUrl('canonical'), $this->getUrl("root")));
     }
       
@@ -141,7 +141,7 @@ class ResourceManager
         $canonical   = $app['config']->get('general/canonical', "");
         
         $this->setPath("themepath", sprintf('%s/%s/%s/', $this->getPath("rootpath"), $theme_path,$theme));
-        $this->setUrl("theme",      sprintf('%s%s/%s',   $this->getUrl("root"), $theme_path, $theme));
+        $this->setUrl("theme",      sprintf('%s/%s',   $theme_path, $theme));
         $this->setUrl("canonical",  $canonical);
     }
     
