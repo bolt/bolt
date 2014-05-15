@@ -119,13 +119,25 @@ class ResourceManager
             $protocol = "cli";
         }
         
-        $this->setRequest("protocol",  $protocol);
-        $this->setRequest("hostname",  $request->server->get('HTTP_HOST'));
-        $this->setUrl("current",       $request->getPathInfo());
-        $this->setUrl("canonicalurl",  sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getUrl('canonical'), $canonicalpath));
-        $this->setUrl("currenturl",    sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('hostname'), $currentpath));
-        $this->setUrl("hosturl",       sprintf('%s://%s',   $this->getRequest("protocol"), $this->getRequest('hostname')));
-        $this->setUrl("rooturl",       sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getUrl('canonical'), $this->getUrl("root")));
+        $this->setRequest("protocol",   $protocol);
+        $this->setRequest("hostname",   $request->server->get('HTTP_HOST'));
+        $this->setUrl("current",        $request->getPathInfo());
+        $this->setUrl("canonicalurl",   sprintf('%s://%s%s', 
+                                            $this->getRequest("protocol"), 
+                                            $this->getUrl('canonical'), 
+                                            $this->getUrl('current')
+                                        ));
+        $this->setUrl("currenturl",     sprintf('%s://%s%s', 
+                                            $this->getRequest("protocol"), 
+                                            $this->getRequest('hostname'), 
+                                            $this->getUrl('current')
+                                        ));
+        $this->setUrl("hosturl",        sprintf('%s://%s', $this->getRequest("protocol"), $this->getRequest('hostname')));
+        $this->setUrl("rooturl",        sprintf('%s://%s%s', 
+                                            $this->getRequest("protocol"), 
+                                            $this->getUrl('canonical'), 
+                                            $this->getUrl("root")
+                                        ));
     }
       
       
