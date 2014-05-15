@@ -963,7 +963,7 @@ class timthumb {
         $path      = BOLT_PROJECT_ROOT_DIR
                         . DIRECTORY_SEPARATOR
                         . implode(DIRECTORY_SEPARATOR,
-                                  array_slice($pathparts, 0, (count($pathparts)-1))));
+                                  array_slice($pathparts, 0, (count($pathparts)-1)));
         $fileSystem->mkdir($path);
 
         // Copy the file, and chmod
