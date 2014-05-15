@@ -960,6 +960,10 @@ class timthumb {
 
         // Make sure the paths exists. Try to create it, if possible.
         $pathparts = explode("/", $_GET['requestname']);
+        $path      = BOLT_PROJECT_ROOT_DIR
+                        . DIRECTORY_SEPARATOR
+                        . implode(DIRECTORY_SEPARATOR,
+                                  array_slice($pathparts, 0, (count($pathparts)-1))));
         $fileSystem->mkdir($path);
 
         // Copy the file, and chmod
