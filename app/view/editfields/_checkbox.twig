@@ -1,0 +1,23 @@
+{# Available options: class, label #}
+
+{% set attr_chk = {
+    type:     'checkbox',
+    name_id:  key,
+    value:    '1',
+    checked:  content.get(key),
+    class:    field.class,
+}%}
+
+{% set attr_hid = {
+    type:     'hidden',
+    name_id:  key,
+    value:    '0',
+}%}
+
+
+<label class="col-sm-3 control-label">{{ macro.labeltxt(key, field) }}</label>
+<div class="col-sm-9">
+    {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
+    <input{{ macro.attr(attr_hid) }}>
+    <input{{ macro.attr(attr_chk) }}>
+</div>
