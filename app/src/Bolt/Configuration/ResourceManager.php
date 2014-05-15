@@ -30,7 +30,7 @@ class ResourceManager
      *
      * @param string $path
      */
-    public function __construct($root, Request $request = null, Application $app)
+    public function __construct($root, Application $app, Request $request = null)
     {
         $this->root = realpath($root);
         $this->app  = $app;
