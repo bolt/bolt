@@ -51,6 +51,9 @@ class ResourceManager
         $this->setUrl("async",  "/async/");
         $this->setUrl("bolt",   "/bolt/");
         
+        $this->setPath("web", $this->root);
+        $this->setPath("cache", $this->root."/app/cache");
+        $this->setPath("config", $this->root."app/config");
     }
 
 
