@@ -359,7 +359,7 @@ class Extensions
                         $widget['key'],
                         $widget['key'],
                         !$widget['defer'] ? '' : " data-defer='true'",
-                        $this->renderWidget($widget['key']),
+                        $widget['defer'] ? '' : $this->renderWidget($widget['key']),
                         empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
                     );
 
