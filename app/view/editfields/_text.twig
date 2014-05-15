@@ -1,0 +1,25 @@
+{# Available options: class, label, pattern, placeholder, required, title, variant:inline #}
+
+{% set attr_txt = {
+    type:         (field.pattern in ['url', 'email']) ? field.pattern : 'text',
+    name_id:      key,
+    value:        content.get(key),
+    required:     field.required,
+    class:        field.class,
+    pattern:      (field.pattern and field.pattern not in ['url', 'email']) ? field.pattern : '',
+    title:        field.title,
+    placeholder:  field.placeholder,
+}%}
+
+
+{% if field.variant == 'inline' %}
+    <label class="col-sm-3 control-label">{{ macro.labeltxt(key, field) }}</label>
+    <div class="col-sm-9">
+        <input{{ macro.attr(attr_input) }}>
+    </div>
+{% else %}
+    <div class="col-sm-12">
+        <label>{{ macro.labeltxt(key, field) }}</label>
+        <input{{ macro.attr(attr_txt) }}>
+    </div>
+{% endif %}

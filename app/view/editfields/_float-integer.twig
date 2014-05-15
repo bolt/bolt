@@ -1,0 +1,19 @@
+{# Available options: class, label, pattern, placeholder, required, title #}
+
+{% set attr_num = {
+    type:         'number',
+    name_id:      key,
+    step:         (field.type == "integer") ? '1' : '0.00000001',
+    value:        0 + content.get(key),
+    required:     field.required,
+    class:        ('narrow ' ~ field.class)|trim,
+    pattern:      field.pattern ?: '',
+    title:        field.title,
+    placeholder:  field.placeholder,
+}%}
+
+
+<label class="col-sm-3 control-label">{{ macro.labeltxt(key, field) }}</label>
+<div class="col-sm-9">
+    <input{{ macro.attr(attr_num) }}>
+</div>

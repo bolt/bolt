@@ -36,10 +36,40 @@
     {% if field.required is defined and field.required %}required="required"{% endif %}
 {% endmacro %}
 
+{# outputs tag attributes #}
+{% macro attr(attributes) %}
+    {% spaceless %}
+        {% for attrname, value in attributes if value is not empty %}
+            {% if attrname in ['required', 'checked', 'disabled', 'autofocus'] %}
+                {{ attrname }}="{{ attrname }}"
+            {% elseif attrname == 'name_id' %}
+                name="{{ value }}" id="{{ value }}"
+            {% else %}
+                {{ attrname }}="{{ value }}"
+            {% endif %}
+        {% endfor %}
+    {% endspaceless %}
+{% endmacro %}
+
+{# label text (TOD: rename to label, when other macro isn't neede anymore) #}
+{% macro labeltxt(key, field) %}
+    {{- field.label ?: key|ucfirst -}}
+{% endmacro %}
+
 {# label for forms when editing content #}
 {% macro label(key, field, class, for) %}
-
-    <label {% if for %}for="{{ for }}" {% endif %}class="{{ class|default('control-label') }}">{% if field.label %}{{field.label}}{% else %}{{ key|ucfirst}}{%endif%}</label>
+    {% spaceless %}
+        <label
+            {# for   #} {% if for %}for="{{ for }}"{% endif %}
+            {# class #} class="{{ class|default('control-label') }}"
+        >
+            {% if field.label %}
+                {{field.label}}
+            {% else %}
+                {{ key|ucfirst}}
+            {%endif%}
+        </label>
+    {% endspaceless %}
 {% endmacro %}
 
 {# Sidebar-menu blocks with links, popover (for desktop) and touch-to-show (for mobile) #}
