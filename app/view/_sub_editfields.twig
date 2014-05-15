@@ -140,7 +140,7 @@
         {% if ',' in lookupfield %}
             {% set lookupfield = lookupfield|split(',') %}
         {% endif %}
-        {% setcontent lookups = lookuptype order 'title' %}
+        {% setcontent lookups = lookuptype order lookupfield|last %}
         {% set values = lookups|selectfield(lookupfield) %}
     {% endif %}
 
@@ -680,11 +680,14 @@
 
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
 
+{# Yeah, this is really annoying, when pasting into a field that already has content. Commented out for now,
+   until we fix it properly.
 <script type="text/javascript">
     $(function() {
         bindMarkdown('{{key}}');
     });
 </script>
+#}
 
 {% endif %}
 
