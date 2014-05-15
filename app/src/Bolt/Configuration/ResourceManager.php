@@ -100,12 +100,7 @@ class ResourceManager
         return array_merge($this->paths, $this->urls, $this->request);
     }
 
-    public function initialize()
-    {
-        $this->initializeApp($this->app);
-        $this->initializeRequest($this->requestObject);
-    }
-    
+
     /**
      * Takes a Request object and uses it to initialize settings that depend on the request
      *
@@ -130,9 +125,15 @@ class ResourceManager
         $this->setUrl("canonicalurl",  sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getUrl('canonical'), $canonicalpath));
         $this->setUrl("currenturl",    sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('hostname'), $currentpath));
         $this->setUrl("hosturl",       sprintf('%s://%s', $this->getRequest("protocol"), $this->getRequest('hostname')));
-        $this->setUrl("rooturl",       sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getUrl('canonical'), $this->get("root")));
+        $this->setUrl("rooturl",       sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getUrl('canonical'), $this->getUrl("root")));
     }
-        
+      
+      
+    /**
+     * Takes a Bolt Application and uses it to initialize settings that depend on the application config
+     *
+     * @return void
+     **/  
     public function initializeApp(Application $app)
     {
         $theme       = $app['config']->get('general/theme');
@@ -143,6 +144,13 @@ class ResourceManager
         $this->setUrl("theme",      sprintf('%s%s/%s',   $this->getUrl("root"), $theme_path, $theme));
         $this->setUrl("canonical",  $canonical);
     }
+    
+    public function initialize()
+    {
+        $this->initializeApp($this->app);
+        $this->initializeRequest($this->requestObject);
+    }
+    
     
  
 
