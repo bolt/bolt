@@ -114,7 +114,11 @@ jQuery(function($) {
 
     files = new Files();
 
-    stack = new Stack();
+    // If we have a 'stackholder' on the page, bind the uploader and file-selector.
+    if ($('#stackholder').is('*')) {
+        stack = new Stack();
+    }
+
 
 });
 
@@ -653,15 +657,8 @@ var Stack = Backbone.Model.extend({
     defaults: {
     },
 
-    /**
-     * If we have a 'stackholder' on the page, bind the uploader and file-selector.
-     */
     initialize: function() {
-
-        if ($('#stackholder').is('*')) {
-            this.bindEvents();
-        }
-
+        this.bindEvents();
     },
 
     bindEvents: function() {
