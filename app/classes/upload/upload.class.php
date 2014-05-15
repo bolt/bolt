@@ -481,12 +481,21 @@ class UploadHandler
         return $success;
     }
 
+    protected function fix_FF_BUG_373621($file, $type)
+    {
+        $fixed = $type;
+        if (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') && substr($file->name, - 3) == 'pdf') {
+            $fixed = 'application/pdf';
+        }
+        return $fixed;
+    }
+
     protected function handle_file_upload($uploaded_file, $name, $size, $type, $error,
                                           $index = null, $content_range = null) {
         $file = new stdClass();
         $file->name = $this->trim_file_name($name, $type, $index, $content_range);
         $file->size = $this->fix_integer_overflow(intval($size));
-        $file->type = $type;
+        $file->type = $this->fix_FF_BUG_373621($file, $type);
         if ($this->validate($uploaded_file, $file, $error, $index)) {
             $this->handle_form_data($file, $index);
             $upload_dir = $this->get_upload_path();
