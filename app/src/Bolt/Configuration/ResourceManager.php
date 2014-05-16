@@ -184,6 +184,9 @@ class ResourceManager
         if(!defined('BOLT_CACHE_DIR')) {
             define('BOLT_CACHE_DIR', $this->getPath('cache'));
         }
+        if(!defined('BOLT_CONFIG_DIR')) {
+            define('BOLT_CONFIG_DIR', $this->getPath('config'));
+        }
     }
     
     
