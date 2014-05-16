@@ -161,7 +161,7 @@ class ResourceManager
         $theme       = $app['config']->get('general/theme');
         $theme_path  = $app['config']->get('general/theme_path');
         if(!$theme_path) {
-            $theme_path = 'theme';
+            $theme_path = '/theme';
         }
         $canonical   = $app['config']->get('general/canonical', "");
         
