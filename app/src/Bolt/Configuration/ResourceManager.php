@@ -64,7 +64,7 @@ class ResourceManager
     public function setPath($name, $value)
     {
         if(substr($value,0,1) !== "/") {
-            $value = $this->getPath("root")."/".$value;
+            $value = $this->getPath("rootpath")."/".$value;
         }
         $this->paths[$name] = $value;
     }
