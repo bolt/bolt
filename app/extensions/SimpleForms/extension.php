@@ -393,7 +393,10 @@ class Extension extends \Bolt\BaseExtension
                     $options[safeString($option)] = $option;
                 }
 
-                $data[$key] = $options[$value];
+                // For multiple choices, prevent "Illegal offset type" warnings.
+                if (!is_array($value) && isset($options[$value])) {
+                    $data[$key] = $options[$value];
+                }
             }
         }
 
