@@ -660,7 +660,6 @@ function getPaths($original = array())
 {
     global $app;
     $paths = $app['resources']->getPaths();
-    $app['twig']->addGlobal('paths', $paths);
     return $paths;
 }
 
