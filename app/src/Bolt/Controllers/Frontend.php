@@ -122,7 +122,7 @@ class Frontend
 
         // Setting the canonical path and the editlink.
         $app['canonicalpath'] = $content->link();
-        $app['paths'] = getPaths($app);
+        $app['paths'] = $app['resources']->getPaths();
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
