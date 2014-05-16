@@ -114,6 +114,8 @@ jQuery(function($) {
 
     files = new Files();
 
+    folders = new Folders();
+
     // If we have a 'stackholder' on the page, bind the uploader and file-selector.
     if ($('#stackholder').is('*')) {
         stack = new Stack();
@@ -1110,3 +1112,72 @@ function openVideo(url) {
 
 }
 
+/**
+ * This backbone model cares about folder actions within /files in the backend.
+ */
+var Folders = Backbone.Model.extend({
+
+    defaults: {
+    },
+
+    initialize: function() {
+    },
+
+    /**
+     * Rename a folder.
+     *
+     * @param string promptQuestionString Translated version of "Which file to rename?".
+     * @param string parentPath           Parent path of the folder to rename.
+     * @param string oldName              Old name of the folder to be renamed.
+     * @param string newName              New name of the folder to be renamed.
+     */
+    rename: function(promptQuestionString, parentPath, oldFolderName, element)
+    {
+        var newFolderName = window.prompt(promptQuestionString);
+
+        if (!newFolderName.length) {
+            return;
+        }
+
+        $.ajax({
+            url: asyncpath + 'folder/rename',
+            type: 'POST',
+            data: {
+                'parent':  parentPath,
+                'oldname': oldFolderName,
+                'newname': newFolderName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this folder!');
+            }
+        });
+    },
+
+    /**
+     * Rename a folder.
+     *
+     * @param string parentPath Parent path of the folder to remove.
+     * @param string folderName Name of the folder to remove.
+     */
+    remove: function(parentPath, folderName, element)
+    {
+        $.ajax({
+            url: asyncpath + 'folder/remove',
+            type: 'POST',
+            data: {
+                'parent':     parentPath,
+                'foldername': folderName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this folder!');
+            }
+        });
+    }
+
+});

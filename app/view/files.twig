@@ -50,15 +50,25 @@
 
                     <ul class="dropdown-menu pull-right">
                         <li>
-                            <a href="#">
+                            <a href="#"
+                               data-action="folders.rename('{{__("Please enter a new folder name")}}',
+                                                           '{{ pathsegments|keys|last }}',
+                                                           '{{ folder.foldername }}',
+                                                           this);">
+
                                 <i class="icon-keyboard"></i>
-                                {{ __('Rename %foldername%',
-                                      {'%foldername%': folder.foldername }) }}
+                                {{ __('Rename %foldername%', { '%foldername%': folder.foldername }) }}
                             </a>
-                            <a href="#">
+                            <a href="#"
+                               class="confirm"
+                               data-confirm="{{ __("Do you really whant to delete %foldername%?",
+                                                    {'%foldername%': folder.foldername }) }}"
+                               data-action="folders.remove('{{ pathsegments|keys|last }}',
+                                                           '{{ folder.foldername }}',
+                                                           this);">
+
                                 <i class="icon-ban-circle"></i>
-                                {{ __('Delete %foldername%',
-                                      {'%foldername%': folder.foldername }) }}
+                                {{ __('Delete %foldername%', { '%foldername%': folder.foldername }) }}
                             </a>
                         </li>
                     </ul>
