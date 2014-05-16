@@ -4,7 +4,7 @@
 namespace SimpleForms;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Extension extends \Bolt\BaseExtension
 {

@@ -956,7 +956,7 @@ class timthumb {
             return;
         }
 
-        $fileSystem = new Symfony\Component\Filesystem;
+        $fileSystem = new Symfony\Component\Filesystem\Filesystem;
 
         // Make sure the paths exists. Try to create it, if possible.
         $pathparts = explode("/", $_GET['requestname']);
