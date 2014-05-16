@@ -215,7 +215,7 @@ class Application extends Silex\Application
             ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider());
 
-        $this['paths'] = getPaths($this['config']);
+        $this['paths'] = $this['resources']->getPaths();
         $this['twig']->addGlobal('paths', $this['resources']->getPaths());
 
         // Add the Bolt Twig functions, filters and tags.
@@ -444,7 +444,7 @@ class Application extends Silex\Application
             }
         }
 
-        $paths = getPaths($this['config']);
+        $paths = $this['resources']->getPaths();
 
         $twigvars = array();
 
