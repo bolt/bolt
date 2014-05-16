@@ -28,7 +28,6 @@ class Application extends Silex\Application
         }
         
         $this['resources']->setApp($this);
-        $this['resources']->initialize();
         $this->initConfig();
 
         $this['debug'] = $this['config']->get('general/debug', false);
