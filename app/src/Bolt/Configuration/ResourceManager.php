@@ -166,6 +166,22 @@ class ResourceManager
         $this->initializeRequest($this->requestObject);
     }
     
+    public function compat()
+    {
+        if(!defined("BOLT_COMPOSER_INSTALLED")) {
+            define('BOLT_COMPOSER_INSTALLED', false);
+        }
+        if(!defined("BOLT_PROJECT_ROOT_DIR")) {
+            define('BOLT_PROJECT_ROOT_DIR', $this->root);
+        }
+        if(!defined('BOLT_WEB_DIR')) {
+            define('BOLT_WEB_DIR', $this->getPath('web'));
+        }
+        if(!defined('BOLT_CACHE_DIR')) {
+            define('BOLT_CACHE_DIR', $this->getPath('cache'));
+        }
+    }
+    
     
  
 

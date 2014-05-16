@@ -27,6 +27,14 @@ class ComposerResources extends ResourceManager
     }
 
 
+    public function compat()
+    {
+        if(!defined("BOLT_COMPOSER_INSTALLED")) {
+            define('BOLT_COMPOSER_INSTALLED', true);
+        }
+        parent::compat();
+    }
+
 
 
 }
