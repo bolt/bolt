@@ -4,7 +4,7 @@
 namespace SimpleForms;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Extension extends \Bolt\BaseExtension
 {
@@ -393,7 +393,10 @@ class Extension extends \Bolt\BaseExtension
                     $options[safeString($option)] = $option;
                 }
 
-                $data[$key] = $options[$value];
+                // For multiple choices, prevent "Illegal offset type" warnings.
+                if (!is_array($value) && isset($options[$value])) {
+                    $data[$key] = $options[$value];
+                }
             }
         }
 

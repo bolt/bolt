@@ -3,7 +3,7 @@
 namespace Bolt;
 
 use Silex;
-use Symfony\Component\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Content implements \ArrayAccess
 {

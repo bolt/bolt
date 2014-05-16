@@ -3,30 +3,35 @@
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 
-$rootDirectory        = dirname(__DIR__);
-$installedViaComposer = file_exists($rootDirectory . DIRECTORY_SEPARATOR . 'composer.lock');
 
-define('BOLT_COMPOSER_INSTALLED', $installedViaComposer);
+// This seems to be flawed..
+//$rootDirectory        = dirname(__DIR__);
+//$installedViaComposer = file_exists($rootDirectory . DIRECTORY_SEPARATOR . 'composer.lock');
 
-if (!defined('BOLT_PROJECT_ROOT_DIR')) {
-    if ($installedViaComposer) {
-        defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR . '/web');
-        defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/cache');
-        defined('BOLT_CONFIG_DIR') or define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR . '/config');
-    } else {
-        defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
-        defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/app/cache');
+// We assume that if '/vendor/'. is in the path, it's installed via composer. Needs confirmation..
+$installedViaComposer = (strpos("/vendor/", __DIR__) !== false);
 
-        // Set the config folder location. If we haven't set the constant in index.php, use one of the
-        // default values.
-        if (!defined('BOLT_CONFIG_DIR')) {
-            if (is_dir(__DIR__ . '/config')) {
-                // Default value, /app/config/..
-                define('BOLT_CONFIG_DIR', __DIR__ . '/config');
-            } else {
-                // otherwise use /config, outside of the webroot folder.
-                define('BOLT_CONFIG_DIR', dirname(dirname(__DIR__)) . '/config');
-            }
+defined('BOLT_COMPOSER_INSTALLED') or define('BOLT_COMPOSER_INSTALLED', $installedViaComposer);
+
+if (BOLT_COMPOSER_INSTALLED) {
+    defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
+    defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR . '/web');
+    defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/cache');
+    defined('BOLT_CONFIG_DIR') or define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR . '/config');
+} else {
+    defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
+    defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
+    defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/app/cache');
+
+    // Set the config folder location. If we haven't set the constant in index.php, use one of the
+    // default values.
+    if (!defined('BOLT_CONFIG_DIR')) {
+        if (is_dir(__DIR__ . '/config')) {
+            // Default value, /app/config/..
+            define('BOLT_CONFIG_DIR', __DIR__ . '/config');
+        } else {
+            // otherwise use /config, outside of the webroot folder.
+            define('BOLT_CONFIG_DIR', dirname(dirname(__DIR__)) . '/config');
         }
     }
 }

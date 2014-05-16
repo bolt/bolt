@@ -104,7 +104,14 @@ class TwigExtension extends \Twig_Extension
         );
     }
 
-    public function file_exists($fn) {
+    /**
+     * Check if a file exists.
+     *
+     * @param string $fn
+     * @return bool
+     */
+    public function file_exists($fn)
+    {
         if ($this->safe) {
             return false; // pretend we don't know anything about any files
         }
@@ -112,6 +119,7 @@ class TwigExtension extends \Twig_Extension
             return file_exists($fn);
         }
     }
+
 
     /**
      * Output pretty-printed arrays / objects.

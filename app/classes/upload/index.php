@@ -29,7 +29,7 @@ if (!isset($_SESSION['_sf2_attributes']['user']['id'])) {
     die();
 }
 
-$fileSystem = new Symfony\Component\Filesystem;
+$fileSystem = new Symfony\Component\Filesystem\Filesystem;
 
 // Make sure the folder exists.
 $fileSystem->mkdir(__DIR__.'/../../../files/'.date('Y-m'));

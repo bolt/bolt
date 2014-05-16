@@ -114,7 +114,11 @@ jQuery(function($) {
 
     files = new Files();
 
-    stack = new Stack();
+    // If we have a 'stackholder' on the page, bind the uploader and file-selector.
+    if ($('#stackholder').is('*')) {
+        stack = new Stack();
+    }
+
 
 });
 
@@ -366,27 +370,8 @@ function bindFileUpload(key) {
             var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
             $('#progress-' + key).show().addClass('progress-striped active');
             $('#progress-' + key + ' div.bar').css('width', progress+"%");
-        })
-        .bind('fileuploadsubmit', function (e, data) {
-                var that = this,
-                fileTypes = $('#field-' + key).attr('accept');
+        });
 
-                if( typeof fileTypes !== 'undefined' ) {
-                    var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "gi" );
-                    $.each( data.files , function (index, file) {
-                        if( !pattern.test(file.type) ) {
-                            var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
-                            + "\n\n(accept type was: "
-                            + fileTypes + ")";
-
-                            alert(message);
-                            e.preventDefault();
-                            return false;
-                        }
-                    });
-                }
-        })
-        ;
 }
 
 
@@ -672,15 +657,8 @@ var Stack = Backbone.Model.extend({
     defaults: {
     },
 
-    /**
-     * If we have a 'stackholder' on the page, bind the uploader and file-selector.
-     */
     initialize: function() {
-
-        if ($('#stackholder').is('*')) {
-            this.bindEvents();
-        }
-
+        this.bindEvents();
     },
 
     bindEvents: function() {
@@ -709,7 +687,7 @@ var Stack = Backbone.Model.extend({
             type = "other";
         }
 
-        // We don't need 'files/' in the path. Accept intput with or without it, but strip
+        // We don't need 'files/' in the path. Accept input with or without it, but strip
         // it out here..
         filename = filename.replace(/files\//ig, '');
 
@@ -1131,3 +1109,4 @@ function openVideo(url) {
     $('body').append(modal);
 
 }
+

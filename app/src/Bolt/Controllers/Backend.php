@@ -1131,25 +1131,31 @@ class Backend implements ControllerProviderInterface
                 $form->bind($request);
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
-                    // clean up and validate filename
-                    $originalFilename = $files['FileUpload']->getClientOriginalName();
-                    $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
-                    if ($app['filepermissions']->allowedUpload($filename)) {
-                        $files['FileUpload']->move($currentfolder, $filename);
-                        $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
-                        // Add the file to our stack..
-                        $app['stack']->add($path . "/" . $filename);
-                    }
-                    else {
-                        $extensionList = array();
-                        foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
-                            $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
+                    // Check if we even have an uploaded file.
+                    if (isset($files['FileUpload'])) {
+
+                        // clean up and validate filename
+                        $originalFilename = $files['FileUpload']->getClientOriginalName();
+                        $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
+
+                        if ($app['filepermissions']->allowedUpload($filename)) {
+                            $files['FileUpload']->move($currentfolder, $filename);
+                            $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
+
+                            // Add the file to our stack..
+                            $app['stack']->add($path . "/" . $filename);
+                        } else {
+                            $extensionList = array();
+                            foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
+                                $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
+                            }
+                            $extensionList = implode(' ', $extensionList);
+                            $app['session']->getFlashBag()->set('error',
+                                __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
+                                . $extensionList);
                         }
-                        $extensionList = implode(' ', $extensionList);
-                        $app['session']->getFlashBag()->set('error',
-                            __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
-                            . $extensionList);
+                        
                     }
                 } else {
                     $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));

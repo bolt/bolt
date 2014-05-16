@@ -7,7 +7,7 @@
     "require": {
         "bolt/dumper": ">=0.7",
         "doctrine/dbal": "~2.4",
-        "erusev/parsedown": "dev-master",
+        "erusev/parsedown": "1.*",
         "filp/whoops": "1.*",
         "garetjax/phpbrowscap": "dev-master",
         "guzzle/guzzle": "3.3.*",
