@@ -11,9 +11,9 @@ mb_http_output('UTF-8');
 // We assume that if '/vendor/'. is in the path, it's installed via composer. Needs confirmation..
 $installedViaComposer = (strpos("/vendor/", __DIR__) !== false);
 
-define('BOLT_COMPOSER_INSTALLED', $installedViaComposer);
+defined('BOLT_COMPOSER_INSTALLED') or define('BOLT_COMPOSER_INSTALLED', $installedViaComposer);
 
-if ($installedViaComposer) {
+if (BOLT_COMPOSER_INSTALLED) {
     defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
     defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR . '/web');
     defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/cache');
