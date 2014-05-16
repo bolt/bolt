@@ -30,10 +30,9 @@ class ResourceManager
      *
      * @param string $path
      */
-    public function __construct($root, Application $app, Request $request = null)
+    public function __construct($root, Request $request = null)
     {
         $this->root = realpath($root);
-        $this->app  = $app;
         $this->requestObject = $request;
         
         $this->setUrl("root", "/");
@@ -55,7 +54,12 @@ class ResourceManager
         $this->setPath("cache", $this->root."/app/cache");
         $this->setPath("config", $this->root."app/config");
     }
-
+    
+    public function setApp(Application $app)
+    {
+        $this->app  = $app;
+    }
+    
 
     public function setPath($name, $value)
     {
