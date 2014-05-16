@@ -15,93 +15,13 @@
 {# --------------- text --------------- #}
 
 {% if field.type == "text" %}
-    {% if field.variant != "inline" %}
-    <div class="col-sm-12">
-    {{ macro.label(key, field) }}
-    {% else %}
-    {{ macro.label(key, field, 'col-sm-3 control-label') }}
-    <div class="col-sm-9">
-    {% endif %}
-    <input type="{% if field.pattern in ['url', 'email'] %}{{ field.pattern }}{% else %}text{% endif %}" name="{{key}}" id="{{key}}"
-           value='{{ content.get(key) }}' {{ macro.requiredattr(field) }}
-           class='{{ field.class }}'
-            {% if field.pattern and field.pattern not in ['url', 'email'] %}pattern="{{ field.pattern }}"{% endif %}
-            >
-    </div>
-{% endif %}
-
-
-
-{# --------------- float, integer or (deprecated) number  --------------- #}
-
-{% if field.type in ["float", "integer", "number"] %}
-    {{ macro.label(key, field, 'col-sm-3 control-label') }}
-    <div class="col-sm-9">
-    <input type="number" name="{{key}}" id="{{key}}" step="{% if field.type != "integer" %}0.0000000{% endif %}1"
-        value='{{ 0 + content.get(key) }}' {{ macro.requiredattr(field) }}
-        class='narrow {{ field.class }}'
-        {% if field.pattern %}pattern="{{ field.pattern }}"{% endif %}
-        >
-    </div>
-{% endif %}
-
-
-
-
-{# --------------- checkbox --------------- #}
-
-{% if field.type  == "checkbox" %}
-    {{ macro.label(key, field, 'col-sm-3 control-label') }}
-    <div class="col-sm-9">
-        {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
-        <input type="hidden" name="{{key}}" id="{{key}}" value='0'>
-        <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
-               {% if content.get(key) %}checked{% else %}notchecked{% endif %}
-               class='{{ field.class }}'>
-    </div>
-{% endif %}
-
-{# --------------- slug --------------- #}
-
-{% if field.type == "slug" %}
-<div class="col-sm-12">
-    <label class='permalink'>{{ __('Permalink') }}:
-        <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
-        <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
-        <span class='sluglocker'><i class='fa fa-lock'></i></span> <span class='slugedit'><i class='fa fa-pencil'></i></span>
-    </label>
-</div>
-
-{% if field.uses is defined %}
-<script type="text/javascript">
-    $(function() {
-        $('.sluglocker').bind('click', function() {
-           if ($('.sluglocker i').hasClass('fa-lock')) {
-               $('.sluglocker i').removeClass('fa-lock').addClass('fa-unlock');
-               makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{key}}', false);
-           } else {
-               $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-               stopMakeUri({{ field.uses|json_encode|raw }});
-           }
-        });
-        $('.slugedit').bind('click', function() {
-
-            newslug = prompt("Set the slug to:");
-
-            $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-            stopMakeUri({{ field.uses|json_encode|raw }});
-
-            makeUriAjax(newslug, '{{ content.contenttype.slug }}', '{{ content.id }}', '{{key}}', false)
-
-
-        });
-    {% if content.get(key) is empty  %}
-        $('.sluglocker').trigger('click');
-    {% endif %}
-    });
-</script>
-{% endif %}
-
+    {% include 'editfields/_text.twig' %}
+{% elseif field.type in ["float", "integer", "number"] %}
+    {% include 'editfields/_float-integer.twig' %}
+{% elseif field.type  == "checkbox" %}
+    {% include 'editfields/_checkbox.twig' %}
+{% elseif field.type == "slug" %}
+    {% include 'editfields/_slug.twig' %}
 {% endif %}
 
 {# --------------- select --------------- #}
@@ -190,7 +110,7 @@
         <input type="text" name="{{key}}[file]" id="field-{{key}}"
             value='{{ image.file|default('') }}'
             class='{% if field.class is defined %}{{ field.class }}{% endif %} imageinput wide'
-            accept="{{ field.extensions|join('|') }}"> 
+            accept="{{ field.extensions|join('|') }}">
 
         <p class="filetypes">
             {{ __("Allowed filetypes are:") }} <code>{{ field.extensions|join("</code>, <code>")|raw }}</code>.
