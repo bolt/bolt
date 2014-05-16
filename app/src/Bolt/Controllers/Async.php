@@ -84,6 +84,10 @@ class Async implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('removefolder');
 
+        $ctr->post("/folder/create", array($this, 'createfolder'))
+            ->before(array($this, 'before'))
+            ->bind('createfolder');
+
         return $ctr;
 
     }
@@ -596,6 +600,36 @@ class Async implements ControllerProviderInterface
 
         try {
             $fileSystemHelper->remove($completePath);
+        } catch(IOException $exception) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Create a new folder.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request he HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the creation was successful
+     */
+    public function createfolder(Silex\Application $app, Request $request)
+    {
+        $parentPath = $request->request->get('parent');
+        $folderName = $request->request->get('foldername');
+
+        $completePath = BOLT_PROJECT_ROOT_DIR
+                        . DIRECTORY_SEPARATOR
+                        . $parentPath
+                        . $folderName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->mkdir($completePath);
         } catch(IOException $exception) {
 
             return false;

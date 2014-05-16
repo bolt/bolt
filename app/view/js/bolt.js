@@ -1124,6 +1124,36 @@ var Folders = Backbone.Model.extend({
     },
 
     /**
+     * Create a folder.
+     *
+     * @param string promptQuestionString Translated version of "What's the new filename?".
+     * @param string parentPath Parent path of the folder to create.
+     */
+    create: function(promptQuestionString, parentPath, element)
+    {
+        var newFolderName = window.prompt(promptQuestionString);
+
+        if (!newFolderName.length) {
+            return;
+        }
+
+        $.ajax({
+            url: asyncpath + 'folder/create',
+            type: 'POST',
+            data: {
+                'parent':     parentPath,
+                'foldername': newFolderName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this folder!');
+            }
+        });
+    },
+
+    /**
      * Rename a folder.
      *
      * @param string promptQuestionString Translated version of "Which file to rename?".

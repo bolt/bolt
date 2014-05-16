@@ -82,19 +82,17 @@
             </td>
         </tr>
     {% endfor %}
-    {% if folder.writable %}
-        <tr>
-            <td colspan="3">
-                <a href="">
-                    <i class="icon-plus"></i>
-                    <b>{{ __('Create folder') }}</b>
-                </a>
-            </td>
-        </tr>
-    {% endif %}
     </table>
 {% endif %}
-
+<p>
+    <a href="#"
+       data-action="folders.create('{{ __("Please enter a new folder name") }}',
+                                   '{{ pathsegments|keys|last }}',
+                                   this);">
+        <i class="icon-plus"></i>
+        {{ __('Create folder') }}
+    </a>
+</p>
 {% if files|length > 0 %}
     <table class='dashboardlisting'>
         <tr>
