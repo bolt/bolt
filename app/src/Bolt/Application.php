@@ -23,6 +23,10 @@ class Application extends Silex\Application
 
         // Initialize the config. Note that we do this here, on 'construct'.
         // All other initialisation is triggered from bootstrap.php
+        if(isset($this['resources'])) {
+            $this['resources']->setApp($this);
+            $this['resources']->initialize();
+        }
         $this->initConfig();
 
         $this['debug'] = $this['config']->get('general/debug', false);
