@@ -14,10 +14,12 @@ $installedViaComposer = (strpos("/vendor/", __DIR__) !== false);
 define('BOLT_COMPOSER_INSTALLED', $installedViaComposer);
 
 if ($installedViaComposer) {
+    defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
     defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR . '/web');
     defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/cache');
     defined('BOLT_CONFIG_DIR') or define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR . '/config');
 } else {
+    defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
     defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
     defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/app/cache');
 
