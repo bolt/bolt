@@ -21,7 +21,6 @@ $checker->doChecks();
 
 // Create the 'Bolt application'.
 $app = new Bolt\Application(array('resources'=>$config));
-$app->initialize();
 
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($app['config']);
