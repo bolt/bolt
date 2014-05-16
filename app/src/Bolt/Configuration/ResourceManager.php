@@ -52,7 +52,7 @@ class ResourceManager
         
         $this->setPath("web", $this->root);
         $this->setPath("cache", $this->root."/app/cache");
-        $this->setPath("config", $this->root."app/config");
+        $this->setPath("config", $this->root."/app/config");
     }
     
     public function setApp(Application $app)
