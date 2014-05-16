@@ -656,12 +656,7 @@ function hackislyParseRegexTemplates($obj)
     return $templates;
 }
 
-function getPaths($original = array())
-{
-    global $app;
-    $paths = $app['resources']->getPaths();
-    return $paths;
-}
+
 
 /**
  * Simple wrapper for $app['url_generator']->generate()
