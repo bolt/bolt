@@ -38,8 +38,50 @@
                     {{ folder.modified }}
                 </time>
             </td>
+            <td class="actions">
+                <div class="btn-group">
+                {% if folder.writable %}
+
+                    <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                        <i class="icon-info-sign"></i>
+                        {{ __('Options') }}
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="#">
+                                <i class="icon-keyboard"></i>
+                                {{ __('Rename %foldername%',
+                                      {'%foldername%': folder.foldername }) }}
+                            </a>
+                            <a href="#">
+                                <i class="icon-ban-circle"></i>
+                                {{ __('Delete %foldername%',
+                                      {'%foldername%': folder.foldername }) }}
+                            </a>
+                        </li>
+                    </ul>
+                {% else %}
+                    <a class="btn btn-mini">
+                        <i class="icon-exclamation-sign"></i>
+                        {{ __('Folder permissions insufficient') }}
+                    </a>
+                {% endif %}
+                </div>
+            </td>
         </tr>
     {% endfor %}
+    {% if folder.writable %}
+        <tr>
+            <td colspan="3">
+                <a href="">
+                    <i class="icon-plus"></i>
+                    <b>{{ __('Create folder') }}</b>
+                </a>
+            </td>
+        </tr>
+    {% endif %}
     </table>
 {% endif %}
 
