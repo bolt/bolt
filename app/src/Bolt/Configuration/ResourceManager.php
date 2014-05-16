@@ -160,6 +160,9 @@ class ResourceManager
     {
         $theme       = $app['config']->get('general/theme');
         $theme_path  = $app['config']->get('general/theme_path');
+        if(!$themepath) {
+            $themepath = 'theme';
+        }
         $canonical   = $app['config']->get('general/canonical', "");
         
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
