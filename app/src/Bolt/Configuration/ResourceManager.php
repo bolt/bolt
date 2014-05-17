@@ -74,6 +74,9 @@ class ResourceManager
         if(!array_key_exists($name, $this->paths)) {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
+        if(array_key_exists($name."path", $this->paths)) {
+            return $this->paths[$name."path"];
+        }
         return $this->paths[$name];
     }
     
