@@ -89,6 +89,9 @@ class ResourceManager
     
     public function getUrl($name)
     {
+        if(array_key_exists($name."url", $this->urls)) {
+            return $this->urls[$name."url"];
+        }
         if(!array_key_exists($name, $this->urls)) {
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
         }
