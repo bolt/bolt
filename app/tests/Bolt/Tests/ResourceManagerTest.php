@@ -101,5 +101,19 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("https://bolt.dev/bolt/test/location",  $config->getUrl("canonical"));
     }
     
+    public function testComposerCustomConfig()
+    {
+        $config = new ComposerResources(__DIR__);
+        $app = new Application(array('resources'=>$config));
+        $this->assertEquals(__DIR__."/vendor/bolt/bolt/app",            $config->getPath("app"));
+        $this->assertEquals(__DIR__."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
+        $this->assertEquals("/bolt-public/",                            $config->getUrl("app"));
+    }
+    
+    public function testCompatibilityConstants()
+    {
+
+    }
+    
     
 }
