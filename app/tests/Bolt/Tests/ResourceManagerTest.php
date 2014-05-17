@@ -3,6 +3,8 @@ namespace Bolt\Tests;
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Configuration\ComposerResources;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  * Class to test correct operation and locations of resource manager class and extensions.
@@ -77,6 +79,26 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("cli://bolt.dev/bolt",  $config->getUrl("canonical"));
         $this->assertEquals("cli://bolt.dev",       $config->getUrl("host"));
         $this->assertEquals("cli://bolt.dev/",      $config->getUrl("root"));
+    }
+    
+    public function testCustomRequest()
+    {
+        $request = Request::create(
+            "/bolt/test/location",
+            "GET",
+            array(),
+            array(),
+            array(),
+            array(
+                'HTTP_HOST'=>'test.dev',
+                'SERVER_PROTOCOL'=>'https'
+            )  
+        );
+        $config = new ResourceManager(__DIR__, $request);
+        $app = new Application(array('resources'=>$config));
+        $this->assertEquals("https",                $config->getRequest("protocol"));
+        $this->assertEquals("test.dev",             $config->getRequest("hostname"));
+        $this->assertEquals("https://bolt.dev/bolt/test/location",  $config->getUrl("canonical"));
     }
     
     
