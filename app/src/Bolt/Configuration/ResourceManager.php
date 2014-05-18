@@ -166,14 +166,10 @@ class ResourceManager
      **/  
     public function initializeApp(Application $app)
     {
-        $theme       = $app['config']->get('general/theme');
-        $theme_path  = $app['config']->get('general/theme_path');
-        if(!$theme_path) {
-            $theme_path = '/theme';
-        }
+
+        $this->setThemePath($app['config']);
         $canonical   = $app['config']->get('general/canonical', "");
         
-        $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
         $this->setUrl("theme",      sprintf('%s/%s/',   $theme_path, $theme));
         $this->setRequest("canonical", $canonical);
     }
@@ -201,6 +197,23 @@ class ResourceManager
         if(!defined('BOLT_CONFIG_DIR')) {
             define('BOLT_CONFIG_DIR', $this->getPath('config'));
         }
+    }
+    
+    /**
+     *  This currently gets special treatment because of the processing order.
+     *  The theme path is needed before the app has constructed, so this is a shortcut to 
+     *  allow the Application constructor to pre-provide a theme path.
+     *
+     * @return void
+     **/
+    public function setThemePath($generalConfig)
+    {
+        $theme       = $generalConfig->get('general/theme');
+        $theme_path  = $generalConfig->get('general/theme_path');
+        if(!$theme_path) {
+            $theme_path = '/theme';
+        }
+        $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
     }
     
     

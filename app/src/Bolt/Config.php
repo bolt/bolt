@@ -161,6 +161,7 @@ class Config
         $config['extensions']  = array();
 
         // fetch the theme config. requires special treatment due to the path
+        $this->app['resources']->setThemePath($config['general']);
         $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
