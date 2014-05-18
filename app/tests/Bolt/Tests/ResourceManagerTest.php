@@ -109,11 +109,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(__DIR__."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
         $this->assertEquals("/bolt-public/",                            $config->getUrl("app"));
     }
-    
-    public function testCompatibilityConstants()
-    {
 
-    }
-    
-    
+
 }
