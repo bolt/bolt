@@ -209,10 +209,8 @@ class ResourceManager
     public function setThemePath($generalConfig)
     {
         $theme       = $generalConfig['theme'];
-        $theme_path  = $generalConfig['theme_path'];
-        if(!$theme_path) {
-            $theme_path = '/theme';
-        }
+        $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
+
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
     }
     
