@@ -167,7 +167,7 @@ class ResourceManager
     public function initializeApp(Application $app)
     {
 
-        $this->setThemePath($app['config']);
+        $this->setThemePath($app['config']->get("general"));
         $canonical   = $app['config']->get('general/canonical', "");
         
         $this->setUrl("theme",      sprintf('%s/%s/',   $theme_path, $theme));
@@ -208,8 +208,8 @@ class ResourceManager
      **/
     public function setThemePath($generalConfig)
     {
-        $theme       = $generalConfig->get('general/theme');
-        $theme_path  = $generalConfig->get('general/theme_path');
+        $theme       = $generalConfig['theme'];
+        $theme_path  = $generalConfig['theme_path'];
         if(!$theme_path) {
             $theme_path = '/theme';
         }
