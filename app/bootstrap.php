@@ -4,8 +4,13 @@ mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 require_once __DIR__ . '/../vendor/autoload.php';
 
+if(strpos("/vendor/", __DIR__) !== false) {
+    $config = new Bolt\Configuration\ComposerResources(__DIR__."/../");
 
-$config = new Bolt\Configuration\ResourceManager(__DIR__."/../");
+} else {
+    $config = new Bolt\Configuration\ResourceManager(__DIR__."/../");
+
+}
 $config->compat();
 
 
