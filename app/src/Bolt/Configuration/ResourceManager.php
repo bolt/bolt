@@ -67,6 +67,9 @@ class ResourceManager
             $value = $this->getPath("rootpath")."/".$value;
         }
         $this->paths[$name] = $value;
+        if(strpos($name, "path") === false) {
+            $this->paths[$name."path"] = $value;
+        }
     }
     
     public function getPath($name)
