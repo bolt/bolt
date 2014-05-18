@@ -362,8 +362,11 @@ class Async implements ControllerProviderInterface
         // Set the selected value in the proper field
         $key = $app['request']->get('key');
 
-        $basefolder = BOLT_WEB_DIR . '/';
+        $basefolder = $app['resources']->getPath('files');
         $path = stripTrailingSlash(str_replace("..", "", $path));
+        if($path == 'files') {
+            $path = '/';
+        }
         $currentfolder = realpath($basefolder . $path);
 
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
