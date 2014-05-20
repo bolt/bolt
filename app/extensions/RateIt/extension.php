@@ -1,16 +1,13 @@
 <?php
-// RateIt extension for Bolt
+/**
+ * RateIt extension for Bolt
+ */
 
 namespace RateIt;
 
-// For JS and CSS insertion
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
-
-// For AJAX handling
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-
-// For DB access
 use Doctrine\DBAL\Schema\Schema;
 
 class Extension extends \Bolt\BaseExtension
@@ -35,9 +32,7 @@ class Extension extends \Bolt\BaseExtension
         return $data;
     }
 
-    function initialize() {
-
-        // Check the database table is up and working
+    public function initialize() {
         $this->dbRegister();
 
         // Set up a controller for AJAX requests
@@ -48,7 +43,7 @@ class Extension extends \Bolt\BaseExtension
             $this->config['stylesheet'] = 'css/rateit.css';
         }
 
-        // Make sure the css is inserted as well..
+        // Inject CSS
         if ($this->config['location'] == 'body') {
             $this->addCSS($this->config['stylesheet'], true);
 
@@ -84,51 +79,78 @@ class Extension extends \Bolt\BaseExtension
 
         $this->path = $this->app['paths']['app'] . 'extensions/' . $this->namespace;
 
+        // Inject scripts
         $html = '
-            <script type="text/javascript" src="' . $this->path . '/js/jquery.rateit.min.js"></script>
-            <script type="text/javascript" src="' . $this->path . '/js/bolt.rateit.js"></script>
+            <script type="text/javascript" src="' . htmlspecialchars($this->path, ENT_QUOTES) . '/js/jquery.rateit.min.js"></script>
+            <script type="text/javascript" src="' . htmlspecialchars($this->path, ENT_QUOTES)  . '/js/bolt.rateit.js"></script>
                 ';
         $this->insertSnippet(SnippetLocation::END_OF_HTML, $html);
 
+        // If 'tooltips' is set in config, insert them here
+        if (!empty($this->config['tooltips'])) {
+            $js .= "
+            <script type=\"text/javascript\">
+
+            var tooltipvalues = " . json_encode($this->config['tooltips']) . ";
+
+            $('.rateit').bind('over', function(e, value) {
+                $(this).attr('title', tooltipvalues[value - 1]);
+            });
+
+            </script>";
+            $this->insertSnippet(SnippetLocation::END_OF_HTML, $js);
+        }
+
+        // Twig hook
         $this->addTwigFunction('rateit', 'twigRateIt');
-        $this->app->after(array($this, "afterCallback"), 1);
     }
 
-    function twigRateIt() {
+    public function twigRateIt($record = null) {
+        $record = $this->getRecord($record);
+
         $max = $this->config['stars'];
         $inc = $this->config['increment'];
 
-        if ($this->isCookieSet()) {
-            $readonly = 'data-rateit-readonly="true"';
+        $bolt_record_id = $record->id;
+        $bolt_contenttype = strtolower($record->contenttype['name']);
+
+        if (empty($bolt_record_id) || empty($bolt_contenttype)) {
+            return new \Twig_Markup('<!-- Error: content not found -->', 'UTF-8');
+        }
+
+        // Get the current value of the rating
+        try {
+            $lookup = $this->dbLookupRating(array('contenttype' => $bolt_contenttype, 'record_id' => $bolt_record_id));
+            if(!empty($lookup) && isset($lookup[0]['vote_avg'])) {
+                $current_val = $lookup[0]['vote_avg'];
+            }
+            else {
+                $current_val = 0;
+            }
+        } catch (\Exception $e) {
+            $current_val = 0;
         }
 
         // Customisation goes here. See http://rateit.codeplex.com/documentation
-        $html = '
-            <input type="range" min="0" max="' . $max . '" value="0" step="' . $inc . '" id="boltrateit">
-            <div class="rateit ' . $this->config['class'] .'" data-bolt-record-id="" data-rateit-backingfld="#boltrateit" data-rateit-starwidth="' . $this->config['px'] .'" data-rateit-starheight="' . $this->config['px'] .'" ' . $readonly. '></div>
-            <div class="' . $this->config['reponse_class'] . '" id="rateit_response" hidden></div>
-                ';
-
-        return new \Twig_Markup($html, 'UTF-8');
+        $template = file_get_contents(__DIR__ . '/twig/rateit.twig');
+        $context = array(
+            'config' => $this->config,
+            'max' => $max,
+            'readonly' => $this->isCookieSet($record),
+            'inc' => $inc,
+            'record' => $record,
+            'bolt_record_id' => $bolt_record_id,
+            'bolt_contenttype' => $bolt_contenttype,
+            'current_val' => $current_val
+            );
+        return new \Twig_Markup($this->app['safe_render']->render($template, $context), 'UTF-8');
     }
 
-    function afterCallback()
+    private function getRecord($record = null)
     {
-        $record = $this->getRecord();
-
-        $this->insertRateItJS($record);
-    }
-
-    /**
-     *
-     *
-     * @since 1.0
-     *
-     * @param array|string $vars Do something
-     * @return NULL
-     */
-    private function getRecord()
-    {
+        if ($record) {
+            return $record;
+        }
 
         if (isset($this->record)) {
             return $this->record;
@@ -137,16 +159,17 @@ class Extension extends \Bolt\BaseExtension
         $globalTwigVars = $this->app['twig']->getGlobals('record');
 
         if (isset($globalTwigVars['record'])) {
-            $record = $globalTwigVars['record'];
-        } else {
-            $record = false;
+            return $globalTwigVars['record'];
+        }
+        else {
+            return false;
         }
 
         return $record;
     }
 
-    private function isCookieSet() {
-        $record = $this->getRecord();
+    private function isCookieSet($record = null) {
+        $record = $this->getRecord($record);
         $bolt_record_id = $record->id;
         $bolt_contenttype = strtolower( $record->contenttype['name'] );
 
@@ -166,59 +189,6 @@ class Extension extends \Bolt\BaseExtension
      */
     private function insertRateItJS($record)
     {
-        $bolt_record_id = $record->id;
-        $bolt_contenttype = strtolower( $record->contenttype['name'] );
-
-        if (empty($bolt_record_id) || empty($bolt_contenttype)) {
-            return;
-        }
-
-        // Get the current value of the rating
-        try {
-            $lookup = $this->dbLookupRating(array('contenttype' => $bolt_contenttype, 'record_id' => $bolt_record_id));
-            if(!empty($lookup) && isset($lookup[0]['vote_avg'])) {
-                $current_val = $lookup[0]['vote_avg'];
-            }
-            else {
-                $current_val = 0;
-            }
-        } catch (\Exception $e) {
-            $current_val = 0;
-        }
-
-        // Set data that stores the Contenttype and record ID/number so that
-        // votes can be associated with this record
-        //
-        // Also we set the existing value here
-        $js = "
-            <script type =\"text/javascript\">
-
-            $(document).ready(function(){
-                $('.rateit').data('bolt-record-id', '" . $bolt_record_id . "');
-                $('.rateit').data('bolt-contenttype', '" . $bolt_contenttype . "');
-
-                $('.rateit').rateit('value', " . $current_val . ");
-
-            });
-
-            </script>
-            ";
-
-        // If 'tooltips' is set in config, insert them here
-        if (!empty($this->config['tooltips'])) {
-            $js .= "
-            <script type=\"text/javascript\">
-
-            var tooltipvalues = " . json_encode($this->config['tooltips']) . ";
-
-            $('.rateit').bind('over', function(e, value) {
-                $(this).attr('title', tooltipvalues[value - 1]);
-            });
-
-            </script>";
-        }
-
-        $this->insertSnippet(SnippetLocation::END_OF_HTML, $js );
     }
 
     /**
