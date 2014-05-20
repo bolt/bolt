@@ -114,11 +114,7 @@ jQuery(function($) {
 
     files = new Files();
 
-    // If we have a 'stackholder' on the page, bind the uploader and file-selector.
-    if ($('#stackholder').is('*')) {
-        stack = new Stack();
-    }
-
+    stack = new Stack();
 
 });
 
