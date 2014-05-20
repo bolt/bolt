@@ -16,7 +16,7 @@ class Application extends Silex\Application
 {
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '1.6.1';
+        $values['bolt_version'] = '1.6.2';
         $values['bolt_name'] = '';
 
         parent::__construct($values);
@@ -230,7 +230,7 @@ class Application extends Silex\Application
     }
 
     public function initExtensions() {
-        $this['extensions']->initialize();        
+        $this['extensions']->initialize();
     }
 
     public function initMountpoints()
