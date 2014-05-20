@@ -77,6 +77,9 @@ class Application extends Silex\Application
         // Initialise the Mount points for 'frontend', 'backend' and 'async'.
         $this->initMountpoints();
 
+        // Initialize enabled extensions before executing handlers.
+        $this->initExtensions();
+
         // Initialise the global 'before' handler.
         $this->before(array($this, 'BeforeHandler'));
 
@@ -218,10 +221,16 @@ class Application extends Silex\Application
 
         $this['twig']->addTokenParser(new SetcontentTokenParser());
 
-        // Initialize enabled extensions.
-        $this['extensions']->initialize();
+        // Initialize stopwatch even if debug is not enabled.
+        $this['stopwatch'] = $this->share(function () {
+            return new Stopwatch\Stopwatch();
+        });
 
         // @todo: make a provider for the Integrity checker and Random generator..
+    }
+
+    public function initExtensions() {
+        $this['extensions']->initialize();        
     }
 
     public function initMountpoints()
@@ -361,11 +370,6 @@ class Application extends Silex\Application
                 }
             });
         } else {
-            // Even if debug is not enabled,
-            $this['stopwatch'] = $this->share(function () {
-                return new Stopwatch\Stopwatch();
-            });
-
             error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
         }
 
