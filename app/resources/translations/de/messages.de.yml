@@ -252,3 +252,7 @@
 "and edited": "und bearbeitet"
 "more activity": "mehr Aktivitäten"
 "type:": "Typ:"
+"Please enter a new folder name": "Bitte gebe einen neuen Verzeichnisnamen an"
+"Rename %foldername%": "%foldername% umbenennen"
+"Delete %foldername%": "%foldername% löschen"
+"Folder permissions insufficient": "Verzeichnisberechtigungen lassen das nicht zu"
