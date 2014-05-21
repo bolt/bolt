@@ -1206,4 +1206,8 @@ var Folders = Backbone.Model.extend({
         });
     }
 
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> d2c205250e0f95146e232b0f326e4a8ba379964f
