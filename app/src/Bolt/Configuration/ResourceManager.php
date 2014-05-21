@@ -133,8 +133,7 @@ class ResourceManager
         if (null === $request) {
             $request = Request::createFromGlobals();
         }
-        
-        if ($request->server->get("SERVER_PROTOCOL") == "" ) {
+        if (null !== $request->server->get("SERVER_PROTOCOL") ) {
             $protocol = strtolower(substr($request->server->get("SERVER_PROTOCOL"), 0, 5)) == 'https' ? 'https' : 'http';
         } else {
             $protocol = "cli";
