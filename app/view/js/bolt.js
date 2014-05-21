@@ -162,7 +162,6 @@ function initKeyboardShortcuts() {
         // Initialize watching for changes on "the form".
         window.setTimeout(function(){
             var $form = $('form').watchChanges();
-            console.log('watch');
         }, 1000);
 
         function confirmExit()
@@ -474,7 +473,6 @@ function bindVideoEmbedAjax(key) {
 
 
     $.getJSON(url, function(data) {
-        console.log(data);
         if (data.html) {
             $('#video-'+key+'-html').val(data.html);
             $('#video-'+key+'-width').val(data.width);
@@ -569,7 +567,6 @@ function updateGeoCoords(key) {
         geocoder.geocode({ 'latLng': latlng }, function(results, status) {
             $('#' + key + '-reversegeo').html(results[0].formatted_address);
             $('#' + key + '-formatted_address').val(results[0].formatted_address);
-            // console.log(results);
         });
 
     }
@@ -730,7 +727,6 @@ var Stack = Backbone.Model.extend({
 
         // For "normal" file and image fields..
         if ($('#field-' + key).is('*')) {
-            console.log('is!');
             $('#field-' + key).val(filename);
         }
 
