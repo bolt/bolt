@@ -1097,15 +1097,7 @@ class TwigExtension extends \Twig_Extension
             $menu = array();
         }
 
-        foreach ($menu as $key => $item) {
-            $menu[$key] = $this->menuHelper($item);
-            if (isset($item['submenu'])) {
-                foreach ($item['submenu'] as $subkey => $subitem) {
-                    $menu[$key]['submenu'][$subkey] = $this->menuHelper($subitem);
-                }
-            }
-
-        }
+        $menu = $this->menuBuilder($menu);
 
         $twigvars = array(
             'name' => $name,
@@ -1120,6 +1112,27 @@ class TwigExtension extends \Twig_Extension
         return $env->render($template, $twigvars);
 
     }
+
+    /**
+     * Recursively scans the passed array to ensure everything gets the menuHelper() treatment.
+     *
+     * @param  array $menu
+     * @return array
+     */
+    private function menuBuilder($menu)
+    {
+        foreach ($menu as $key => $item) {
+            $menu[$key] = $this->menuHelper($item);
+            if (isset($item['submenu'])) {
+                    $menu[$key]['submenu'] = $this->menuBuilder($item['submenu']);
+            }
+
+        }
+
+        return $menu;
+
+    }
+
 
     /**
      * Updates a menu item to have at least a 'link' key.
