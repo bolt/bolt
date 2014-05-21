@@ -355,10 +355,11 @@ class Extensions
                 if ($type == $widget['type'] && $location == $widget['location']) {
 
                     $html = sprintf(
-                        "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>",
+                        "<section><div class='widget' id='widget-%s' data-key='%s'%s>%s</div>%s</section>",
                         $widget['key'],
                         $widget['key'],
-                        $this->renderWidget($widget['key']),
+                        !$widget['defer'] ? '' : " data-defer='true'",
+                        $widget['defer'] ? '' : $this->renderWidget($widget['key']),
                         empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
                     );
 

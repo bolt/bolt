@@ -69,13 +69,17 @@ jQuery(function($) {
     // Render any deferred widgets, if any.
     $('div.widget').each(function() {
 
+        if (typeof $(this).data('defer') === 'undefined') {
+            return;
+        }
+
         var key = $(this).data('key');
 
         $.ajax({
             url: asyncpath + 'widget/' + key,
             type: 'GET',
             success: function(result) {
-                $('#widget-' + key).html(result)
+                $('#widget-' + key).html(result);
             },
             error: function() {
                 console.log('failed to get widget');
