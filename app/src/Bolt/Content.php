@@ -918,7 +918,9 @@ class Content implements \ArrayAccess
      * Gets one or more related records.
      *
      */
-    public function related($filtercontenttype = '', $filterid = '') {
+    public function related($filtercontenttype = '', $filterid = '')
+    {
+
         if (empty($this->relation)) {
             return false; // nothing to do here.
         }

@@ -591,6 +591,7 @@ class Storage
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
             switch ($values['type']) {
+
                 // Set the slug, while we're at it..
                 case 'slug':
                     if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
