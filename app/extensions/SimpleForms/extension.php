@@ -19,12 +19,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.8",
-            'required_bolt_version' => "1.1",
-            'highest_bolt_version' => "1.1",
+            'version' => "1.9",
+            'required_bolt_version' => "1.6",
+            'highest_bolt_version' => "1.6",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2014-02-17",
+            'latest_releasedate' => "2014-05-22",
             'allow_in_user_content' => true,
         );
         return $data;
