@@ -323,6 +323,23 @@ class Application extends Silex\Application
 
         // Stop the 'stopwatch' for the profiler.
         $this['stopwatch']->stop('bolt.app.before');
+
+        // Register requirements, use $this['requirementschecker']->run() to run the check
+        $this['requirementschecker'] = new RequirementsChecker($this);
+        $this['requirementschecker']->addRequirement(new Requirement('php', 'PHP version', '5.3.3', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('class', 'PDO', 'installed', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('extension', 'cURL', 'installed', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('extension', 'GD', 'installed', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('writable', 'app/cache/', 'writable', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('writable', 'app/config/', 'writable', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('writable', 'app/database/', 'writable', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('writable', 'files/', 'writable', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('writable', 'theme/', 'writable', false, ''));
+        $this['requirementschecker']->addRequirement(new Requirement('ini', 'date.timezone', 'set', false, ''));
+
+        // Uncomment this line to run the requirementschecker as a test
+        //return new Response($this['requirementschecker']->run());
+
     }
 
     public function initAfterHandler()
