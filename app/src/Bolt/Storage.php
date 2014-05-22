@@ -576,7 +576,7 @@ class Storage
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            echo "Contenttype is required.";
+            echo 'Contenttype is required.';
 
             return false;
         }
@@ -592,68 +592,71 @@ class Storage
 
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
-
-            // Set the slug, while we're at it..
-            if ($values['type'] == "slug") {
-                if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
-                    $uses = '';
-                    foreach ($values['uses'] as $usesField) {
-                        $uses .= $fieldvalues[$usesField] . ' ';
+            switch ($values['type']) {
+                // Set the slug, while we're at it..
+                case 'slug':
+                    if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
+                        $uses = '';
+                        foreach ($values['uses'] as $usesField) {
+                            $uses .= $fieldvalues[$usesField] . ' ';
+                        }
+                        $fieldvalues['slug'] = makeSlug($uses);
+                    } elseif (!empty($fieldvalues['slug'])) {
+                        $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                    } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
+                        $fieldvalues['slug'] = $fieldvalues['id'];
                     }
-                    $fieldvalues['slug'] = makeSlug($uses);
-                } elseif (!empty($fieldvalues['slug'])) {
-                    $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
-                } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
-                    $fieldvalues['slug'] = $fieldvalues['id'];
-                }
-            }
+                    break;
 
-            if ($values['type'] == "video") {
-                foreach (array('html', 'responsive') as $subkey) {
-                    if (!empty($fieldvalues[$key][$subkey])) {
-                        $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                case 'video':
+                    foreach (array('html', 'responsive') as $subkey) {
+                        if (!empty($fieldvalues[$key][$subkey])) {
+                            $fieldvalues[$key][$subkey] = (string) $fieldvalues[$key][$subkey];
+                        }
                     }
-                }
-                if (!empty($fieldvalues[$key]['url'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                    if (!empty($fieldvalues[$key]['url'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "geolocation") {
-                if (!empty($fieldvalues[$key]['address'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'geolocation':
+                    if (!empty($fieldvalues[$key]['address'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "image") {
-                 if (!empty($fieldvalues[$key]['file'])) {
-                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                 } else {
-                     $fieldvalues[$key] = "";
-                 }
-            }
+                case 'image':
+                    if (!empty($fieldvalues[$key]['file'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if (in_array($values['type'], array("imagelist", "filelist")))  {
-                if (is_array($fieldvalues[$key])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
-                    // Don't store '[]'
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'imagelist':
+                case 'filelist':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                        // Don't store '[]'
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "integer") {
-                $fieldvalues[$key] = round($fieldvalues[$key]);
-            }
+                case 'integer':
+                    $fieldvalues[$key] = round($fieldvalues[$key]);
+                    break;
 
-            if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
-                $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                case 'select':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    }
+                    break;
             }
-
         }
 
         // Clean up fields, check unneeded columns.
@@ -672,7 +675,8 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], isset($fieldvalues['id']) ? $fieldvalues['id'] : null, $contenttype['slug'], false, false);
+        $get_id = isset($fieldvalues['id']) ? $fieldvalues['id'] : null;
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $get_id, $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
