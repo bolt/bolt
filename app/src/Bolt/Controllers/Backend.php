@@ -648,7 +648,7 @@ class Backend implements ControllerProviderInterface
             }
 
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
-            if ($statusOK && $app['storage']->saveContent($content, $contenttype['slug'])) {
+            if ($statusOK && $app['storage']->saveContent($content)) {
                 if (!empty($id)) {
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 } else {
@@ -1155,7 +1155,7 @@ class Backend implements ControllerProviderInterface
                                 __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
                                 . $extensionList);
                         }
-                        
+
                     }
                 } else {
                     $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));

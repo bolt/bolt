@@ -568,11 +568,9 @@ class Storage
         }
     }
 
-    public function saveContent($content, $contenttype = "")
+    public function saveContent($content)
     {
-
         $contenttype = $content->contenttype;
-
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
