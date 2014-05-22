@@ -161,13 +161,14 @@ class Config
         $config['extensions']  = array();
 
         // fetch the theme config. requires special treatment due to the path
-        $paths = getPaths($config);
+        $this->app['resources']->setThemePath($config['general']);
+        $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
         
-        $this->paths = getPaths($config);
+        $this->paths = $this->app['resources']->getPaths();
         $this->setDefaults();
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
@@ -603,7 +604,7 @@ class Config
 
     private function setCKPath()
     {
-        $this->paths = getPaths($this);
+        $this->paths = $this->app['resources']->getPaths();
 
         // Make sure the paths for CKeditor config are always set correctly..
         $this->set('general/wysiwyg/ck/contentsCss', array(
@@ -689,7 +690,7 @@ class Config
             }
 
             if(isset($configdb["path"])) {
-                $configpaths = getPaths();
+                $configpaths = $this->app['resources']->getPaths();
                 if(substr($configdb['path'],0,1) !== "/") $configdb["path"] = $configpaths["rootpath"]."/".$configdb["path"];
             }
 

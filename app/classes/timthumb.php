@@ -50,20 +50,20 @@ require_once __DIR__ . '/../bootstrap.php';
 
 // Let's get on with the rest..
 $yamlparser = new Symfony\Component\Yaml\Parser();
-$config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR .'/config.yml') . "\n");
+$config = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR .'/config.yml') . "\n");
 
 // Set some default settings, as defined in our config.yml
-define('DEFAULT_Q', !empty($config['general']['thumbnails']['quality'])
-    ? $config['general']['thumbnails']['quality']
+define('DEFAULT_Q', !empty($config['thumbnails']['quality'])
+    ? $config['thumbnails']['quality']
     : 70);
-define('DEFAULT_ZC', !empty($config['general']['thumbnails']['cropping'])
-    ? $config['general']['thumbnails']['cropping']
+define('DEFAULT_ZC', !empty($config['thumbnails']['cropping'])
+    ? $config['thumbnails']['cropping']
     : 'crop');
-define('NOT_FOUND_IMAGE', !empty($config['general']['thumbnails']['notfound_image'])
-    ? "../" . $config['general']['thumbnails']['notfound_image']
+define('NOT_FOUND_IMAGE', !empty($config['thumbnails']['notfound_image'])
+    ? "../" . $config['thumbnails']['notfound_image']
     : "");
-define('ERROR_IMAGE', !empty($config['general']['thumbnails']['error_image'])
-    ? "../" . $config['general']['thumbnails']['error_image']
+define('ERROR_IMAGE', !empty($config['thumbnails']['error_image'])
+    ? "../" . $config['thumbnails']['error_image']
     : "");
 
 // A CLI-server hack
@@ -664,8 +664,8 @@ class timthumb {
 		}
 
 		// Bolt specific - don't upscale images unless explicitly told to
-		if( !isset($config['general']['thumbnails']['allow_upscale']) ||
-            $config['general']['thumbnails']['allow_upscale'] == false ) {
+		if( !isset($config['thumbnails']['allow_upscale']) ||
+            $config['thumbnails']['allow_upscale'] == false ) {
 			if( $new_width > $width ) {
 				$new_width = $width;
 			}
@@ -952,7 +952,7 @@ class timthumb {
     {
         global $config;
 
-        if ($config['general']['thumbnails']['save_files'] != true) {
+        if ($config['thumbnails']['save_files'] != true) {
             return;
         }
 
