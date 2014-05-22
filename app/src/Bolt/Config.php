@@ -26,12 +26,18 @@ class Config
 
     static private $yamlParser;
 
+    private $basedir;
+    private $webdir;
+    private $cachedir;
+    private $configdir;
+
     /**
      * @param Application $app
      */
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->initializePaths();
 
         if (!$this->loadCache()) {
             $this->getConfig();
@@ -57,7 +63,7 @@ class Config
             self::$yamlParser = new Yaml\Parser();
         }
 
-        $filename = $useDefaultConfigPath ? (BOLT_CONFIG_DIR . '/' . $basename) : $basename;
+        $filename = $useDefaultConfigPath ? ($this->configdir . '/' . $basename) : $basename;
 
         if (is_readable($filename)) {
             return self::$yamlParser->parse(file_get_contents($filename) . "\n");
@@ -166,7 +172,7 @@ class Config
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
-        
+
         $this->paths = getPaths($config);
         $this->setDefaults();
 
@@ -308,7 +314,7 @@ class Config
                 if ($temp['fields'][$key]['type'] == 'file' || $temp['fields'][$key]['type'] == 'filelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'), 
+                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
                             $config['general']['accept_file_types']
                         );
                     }
@@ -322,7 +328,7 @@ class Config
                 if ($temp['fields'][$key]['type'] == 'image' || $temp['fields'][$key]['type'] == 'imagelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('gif', 'jpg', 'jpeg', 'png'), 
+                            array('gif', 'jpg', 'jpeg', 'png'),
                             $config['general']['accept_file_types']
                         );
                     }
@@ -570,13 +576,28 @@ class Config
         );
     }
 
+    private function initializePaths()
+    {
+        if(isset($this->app['basedir'])) $this->basedir = $this->app["basedir"];
+        if(defined('BOLT_PROJECT_ROOT_DIR')) $this->basedir = BOLT_PROJECT_ROOT_DIR;
+
+        if(isset($this->app['webdir'])) $this->webdir = $this->app["webdir"];
+        if(defined('BOLT_WEB_DIR')) $this->webdir = BOLT_WEB_DIR;
+
+        if(isset($this->app['cachedir'])) $this->cachedir = $this->app["cachedir"];
+        if(defined('BOLT_CACHE_DIR')) $this->cachedir = BOLT_CACHE_DIR;
+
+        if(isset($this->app['configdir'])) $this->configdir = $this->app["configdir"];
+        if(defined('BOLT_CONFIG_DIR')) $this->configdir = BOLT_CONFIG_DIR;
+    }
+
     private function setTwigPath()
     {
             // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
         if ($this->get('general/theme_path')) {
-            $themepath = realpath(BOLT_WEB_DIR . '/' . ltrim($this->get('general/theme_path'), '/'));
+            $themepath = realpath($this->webdir . '/' . ltrim($this->get('general/theme_path'), '/'));
         } else {
-            $themepath = realpath(BOLT_WEB_DIR . '/theme');
+            $themepath = realpath($this->webdir . '/theme');
         }
         $themepath .= '/' . basename($this->get('general/theme'));
 
@@ -620,23 +641,23 @@ class Config
            it shouldn't trigger an update for the cache, while the others should.
         */
         $timestamps = array(
-            file_exists(BOLT_CONFIG_DIR . '/config.yml')       ? filemtime(BOLT_CONFIG_DIR . '/config.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/taxonomy.yml')     ? filemtime(BOLT_CONFIG_DIR . '/taxonomy.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR . '/contenttypes.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/menu.yml')         ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/routing.yml')      ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/permissions.yml')  ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
+            file_exists($this->configdir . '/config.yml')       ? filemtime($this->configdir . '/config.yml') : 10000000000,
+            file_exists($this->configdir . '/taxonomy.yml')     ? filemtime($this->configdir . '/taxonomy.yml') : 10000000000,
+            file_exists($this->configdir . '/contenttypes.yml') ? filemtime($this->configdir . '/contenttypes.yml') : 10000000000,
+            file_exists($this->configdir . '/menu.yml')         ? filemtime($this->configdir . '/menu.yml') : 10000000000,
+            file_exists($this->configdir . '/routing.yml')      ? filemtime($this->configdir . '/routing.yml') : 10000000000,
+            file_exists($this->configdir . '/permissions.yml')  ? filemtime($this->configdir . '/permissions.yml') : 10000000000,
+            file_exists($this->configdir . '/config_local.yml') ? filemtime($this->configdir . '/config_local.yml') : 0,
         );
-        $cachetimestamp = file_exists(BOLT_CACHE_DIR . '/config_cache.php')
-            ? filemtime(BOLT_CACHE_DIR . '/config_cache.php')
+        $cachetimestamp = file_exists($this->cachedir . '/config_cache.php')
+            ? filemtime($this->cachedir . '/config_cache.php')
             : 0;
 
         //\util::var_dump($timestamps);
         //\util::var_dump($cachetimestamp);
 
         if ($cachetimestamp > max($timestamps)) {
-            $this->data = loadSerialize(BOLT_CACHE_DIR . '/config_cache.php');
+            $this->data = loadSerialize($this->cachedir . '/config_cache.php');
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
@@ -664,12 +685,12 @@ class Config
         $this->data['version'] = $this->app->getVersion();
 
         if ($this->get('general/caching/config')) {
-            saveSerialize(BOLT_CACHE_DIR . '/config_cache.php', $this->data);
+            saveSerialize($this->cachedir . '/config_cache.php', $this->data);
 
             return;
         }
 
-        @unlink(BOLT_CACHE_DIR . '/config_cache.php');
+        @unlink($this->cachedir . '/config_cache.php');
     }
 
     /**
