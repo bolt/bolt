@@ -132,6 +132,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/sub/directory/app/',              $config->getUrl('app'));
         $this->assertEquals('/sub/directory/app/extensions/',   $config->getUrl('extensions'));
         $this->assertEquals('/sub/directory/files/',            $config->getUrl('files'));
+        $this->assertEquals('/sub/directory/async/',            $config->getUrl('async'));
     }
 
 
