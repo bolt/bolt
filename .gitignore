@@ -1,11 +1,12 @@
 app/cache/*
 app/config/*.yml
-*config.yml
 app/database/*
+*config.yml
 files/*
 thumbs/
 vendor/
 composer.phar
+composer.lock
 .DS_Store
 ._.DS_Store
 .idea
@@ -22,10 +23,9 @@ php-cs-fixer.phar
 .swp
 *.lock
 .gitignore
-composer.lock
 tests/_log
 tests/*/*Guy.php
-.sass-cache
-node_modules
+app/view/node_modules
+app/view/bower_components
 .buildpath
 .project
