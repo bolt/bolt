@@ -92,7 +92,7 @@ class ResourceManager
     
     public function getUrl($name)
     {
-        if(array_key_exists($name."url", $this->urls)) {
+        if(array_key_exists($name."url", $this->urls) && $name !=='root' ) {
             return $this->urls[$name."url"];
         }
         if(!array_key_exists($name, $this->urls)) {
@@ -137,6 +137,13 @@ class ResourceManager
             $protocol = strtolower(substr($request->server->get("SERVER_PROTOCOL"), 0, 5)) == 'https' ? 'https' : 'http';
         } else {
             $protocol = "cli";
+        }
+        
+        if("" !== $request->getBasePath()) {
+            $this->setUrl('root',       $request->getBasePath()."/");
+            $this->setUrl("app",        $this->getUrl('root')."app/");
+            $this->setUrl("extensions", $this->getUrl('app')."extensions/");
+            $this->setUrl("files",      $this->getUrl('root')."files/");
         }
         
         $this->setRequest("protocol",   $protocol);

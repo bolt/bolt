@@ -78,7 +78,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("bolt.dev",             $config->getRequest("hostname"));
         $this->assertEquals("cli://bolt.dev/bolt",  $config->getUrl("canonical"));
         $this->assertEquals("cli://bolt.dev",       $config->getUrl("host"));
-        $this->assertEquals("cli://bolt.dev/",      $config->getUrl("root"));
+        $this->assertEquals("cli://bolt.dev/",      $config->getUrl("rooturl"));
     }
     
     public function testCustomRequest()
@@ -108,6 +108,30 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(__DIR__."/vendor/bolt/bolt/app",            $config->getPath("app"));
         $this->assertEquals(__DIR__."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
         $this->assertEquals("/bolt-public/",                            $config->getUrl("app"));
+    }
+    
+    public function testNonRootDirectory()
+    {
+        $request = Request::create(
+            "/sub/directory/bolt/test/location",
+            "GET",
+            array(),
+            array(),
+            array(),
+            array(
+                'SCRIPT_NAME'       => '/sub/directory/index.php',
+                'PHP_SELF'          => '/sub/directory/index.php',
+                'SCRIPT_FILENAME'   => '/path/to/sub/directory/index.php'
+            )  
+        );
+                
+        $config = new ResourceManager(__DIR__, $request);
+        $app = new Application(array('resources'=>$config));
+        
+        $this->assertEquals('/sub/directory/',                  $config->getUrl('root'));
+        $this->assertEquals('/sub/directory/app/',              $config->getUrl('app'));
+        $this->assertEquals('/sub/directory/app/extensions/',   $config->getUrl('extensions'));
+        $this->assertEquals('/sub/directory/files/',            $config->getUrl('files'));
     }
 
 
