@@ -221,7 +221,7 @@ class ResourceManager
     {
         $theme       = $generalConfig['theme'];
         $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
-        $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme/';
+        $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
 
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
         $this->setUrl("theme",      sprintf('%s/%s/',   $theme_url, $theme));
