@@ -187,6 +187,8 @@ class ResourceManager
     {
         $this->initializeApp($this->app);
         $this->initializeRequest($this->requestObject);
+        $this->setThemePath($this->app['config']->get("general"));
+
     }
     
     public function compat()
@@ -218,7 +220,7 @@ class ResourceManager
     public function setThemePath($generalConfig)
     {
         $theme       = $generalConfig['theme'];
-        $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
+        $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: $this->getUrl('root').'theme';
 
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
         $this->setUrl("theme",      sprintf('%s/%s/',   $theme_path, $theme));
