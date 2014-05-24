@@ -152,6 +152,32 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/custom/',  $config->getUrl('bolt'));
         $this->assertEquals('/custom/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
     }
+    
+    public function testConfigsWithNonRootDirectory()
+    {
+        $request = Request::create(
+            "/sub/directory/bolt/test/location",
+            "GET",
+            array(),
+            array(),
+            array(),
+            array(
+                'SCRIPT_NAME'       => '/sub/directory/index.php',
+                'PHP_SELF'          => '/sub/directory/index.php',
+                'SCRIPT_FILENAME'   => '/path/to/sub/directory/index.php'
+            )  
+        );
+        
+        $config = new ResourceManager(__DIR__, $request);
+        $app = new Application(array('resources'=>$config));
+        $app['config']->set('general/branding/path', '/custom');
+        $config->initialize();
+        $this->assertEquals('/sub/directory/custom/',  $config->getUrl('bolt'));
+        $this->assertEquals(
+            '/sub/directory/custom/files/files/', 
+            $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl')
+        );
+    }
 
 
 }

@@ -181,8 +181,8 @@ class ResourceManager
         $canonical   = $app['config']->get('general/canonical', "");
         
         $this->setRequest("canonical", $canonical);
-        $branding = $app['config']->get('general/branding/path').'/';
-        $this->setUrl("bolt", $branding);
+        $branding = ltrim( $app['config']->get('general/branding/path').'/' , '/');
+        $this->setUrl("bolt", $this->getUrl('root').$branding);
         $app['config']->setCkPath();
     }
     
