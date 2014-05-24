@@ -612,7 +612,7 @@ class Config
             $this->paths['app'] . 'view/css/ckeditor.css'
         ));
         $this->set('general/wysiwyg/filebrowser/browseUrl', $this->paths['async'] . 'filebrowser/');
-        $this->set('general/wysiwyg/filebrowser/imageBrowseUrl', $this->paths['bolt'] . 'files/files');
+        $this->set('general/wysiwyg/filebrowser/imageBrowseUrl', $this->paths['files']);
     }
 
     private function loadCache()
