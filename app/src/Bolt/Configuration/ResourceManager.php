@@ -144,6 +144,7 @@ class ResourceManager
             $this->setUrl("app",        $this->getUrl('root')."app/");
             $this->setUrl("extensions", $this->getUrl('app')."extensions/");
             $this->setUrl("files",      $this->getUrl('root')."files/");
+            $this->setUrl("async",      $this->getUrl('root')."async/");
         }
         
         $this->setRequest("protocol",   $protocol);
@@ -186,6 +187,8 @@ class ResourceManager
     {
         $this->initializeApp($this->app);
         $this->initializeRequest($this->requestObject);
+        $this->setThemePath($this->app['config']->get("general"));
+
     }
     
     public function compat()
@@ -218,9 +221,10 @@ class ResourceManager
     {
         $theme       = $generalConfig['theme'];
         $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
+        $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
 
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
-        $this->setUrl("theme",      sprintf('%s/%s/',   $theme_path, $theme));
+        $this->setUrl("theme",      sprintf('%s/%s/',   $theme_url, $theme));
     }
     
     
