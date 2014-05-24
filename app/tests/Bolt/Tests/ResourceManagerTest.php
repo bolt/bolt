@@ -134,6 +134,24 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/sub/directory/async/',            $config->getUrl('async'));
         $this->assertContains('/sub/directory/theme/',          $config->getUrl('theme'));
     }
+    
+    public function testConfigDrivenUrls()
+    {
+        $config = new ResourceManager(__DIR__, $request);
+        $app = new Application(array('resources'=>$config));
+        $this->assertEquals('/bolt/',  $config->getUrl('bolt'));
+        $this->assertEquals('/bolt/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
+    }
+    
+    public function testConfigDrivenUrlsWithBrandingOverride()
+    {
+        $config = new ResourceManager(__DIR__, $request);
+        $app = new Application(array('resources'=>$config));
+        $app['config']->set('general/branding/path', '/custom');
+        $config->initialize();
+        $this->assertEquals('/custom/',  $config->getUrl('bolt'));
+        $this->assertEquals('/custom/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
+    }
 
 
 }
