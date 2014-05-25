@@ -78,8 +78,6 @@
             </span>
         </b>
     </label>
-    {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
-    <input type="hidden" name="{{key}}" id="{{key}}" value='0'>
     <input type="checkbox" name="{{key}}" id="{{key}}" value='1'
            {% if content.get(key) %}checked{% else %}notchecked{% endif %}
            class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
@@ -140,7 +138,7 @@
         {% if ',' in lookupfield %}
             {% set lookupfield = lookupfield|split(',') %}
         {% endif %}
-        {% setcontent lookups = lookuptype order 'title' %}
+        {% setcontent lookups = lookuptype order lookupfield|last %}
         {% set values = lookups|selectfield(lookupfield) %}
     {% endif %}
 
@@ -149,7 +147,7 @@
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
             {% for value in values %}
                 {% if value is iterable and (value | length) > 1 %}
-                    <option value="{{value[0]}}" {% if value[0] in content.get(key) %}selected{% endif %}>{{value[1]}}</option>
+                    <option value="{{value[0]}}" {% if value[0] in content.get(key) %}selected{% endif %}>{{value[1:]|join(' / ')}}</option>
                 {% else %}
                     <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
                 {% endif %}
@@ -165,7 +163,7 @@
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
             {% for value in values %}
                 {% if value is iterable and (value | length) > 1 %}
-                    <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1]}}</option>
+                    <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1:]|join(' / ')}}</option>
                 {% else %}
                     <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
                 {% endif %}
@@ -633,7 +631,7 @@
                 </script>
             </div>
         </div>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="{{ paths.app }}view/js/jquery.gomap-1.3.2.min.js"></script>
 
     {% endif %}
@@ -680,11 +678,14 @@
 
     <textarea id="jquery-catchpaste-textarea" style="position: absolute; width: 0 !important; height: 0; left: -10000px;"></textarea>
 
+{# Yeah, this is really annoying, when pasting into a field that already has content. Commented out for now,
+   until we fix it properly.
 <script type="text/javascript">
     $(function() {
         bindMarkdown('{{key}}');
     });
 </script>
+#}
 
 {% endif %}
 

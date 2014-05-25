@@ -7,6 +7,8 @@ use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class Async implements ControllerProviderInterface
 {
@@ -75,6 +77,18 @@ class Async implements ControllerProviderInterface
         $ctr->get("/showstack", array($this, 'showstack'))
             ->before(array($this, 'before'))
             ->bind('showstack');
+
+        $ctr->post("/folder/rename", array($this, 'renamefolder'))
+            ->before(array($this, 'before'))
+            ->bind('renamefolder');
+
+        $ctr->post("/folder/remove", array($this, 'removefolder'))
+            ->before(array($this, 'before'))
+            ->bind('removefolder');
+
+        $ctr->post("/folder/create", array($this, 'createfolder'))
+            ->before(array($this, 'before'))
+            ->bind('createfolder');
 
         return $ctr;
 
@@ -362,8 +376,11 @@ class Async implements ControllerProviderInterface
         // Set the selected value in the proper field
         $key = $app['request']->get('key');
 
-        $basefolder = BOLT_WEB_DIR . '/';
+        $basefolder = $app['resources']->getPath('files');
         $path = stripTrailingSlash(str_replace("..", "", $path));
+        if($path == 'files') {
+            $path = '/';
+        }
         $currentfolder = realpath($basefolder . $path);
 
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
@@ -525,5 +542,104 @@ class Async implements ControllerProviderInterface
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.async.before');
 
+    }
+
+    /**
+     * Rename a folder within the files directory tree.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request The HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the renaming action was successful
+     */
+    public function renamefolder(Silex\Application $app, Request $request)
+    {
+        $parentPath = $request->request->get('parent');
+        $oldName    = $request->request->get('oldname');
+        $newName    = $request->request->get('newname');
+
+        $oldPath    = BOLT_PROJECT_ROOT_DIR
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . $oldName;
+
+        $newPath    = BOLT_PROJECT_ROOT_DIR
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . $newName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->rename($oldPath,
+                                      $newPath,
+                                      false /* Don't rename if target exists already! */);
+        } catch(IOException $exception) {
+
+            /* Thrown if target already exists or renaming failed. */
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Delete a folder recursively if writeable.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request The HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the renaming action was successful
+     */
+    public function removefolder(Silex\Application $app, Request $request)
+    {
+        $parentPath = $request->request->get('parent');
+        $folderName = $request->request->get('foldername');
+
+        $completePath = BOLT_PROJECT_ROOT_DIR
+                        . DIRECTORY_SEPARATOR
+                        . $parentPath
+                        . $folderName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->remove($completePath);
+        } catch(IOException $exception) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Create a new folder.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request he HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the creation was successful
+     */
+    public function createfolder(Silex\Application $app, Request $request)
+    {
+        $parentPath = $request->request->get('parent');
+        $folderName = $request->request->get('foldername');
+
+        $completePath = BOLT_PROJECT_ROOT_DIR
+                        . DIRECTORY_SEPARATOR
+                        . $parentPath
+                        . $folderName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->mkdir($completePath);
+        } catch(IOException $exception) {
+
+            return false;
+        }
+
+        return true;
     }
 }

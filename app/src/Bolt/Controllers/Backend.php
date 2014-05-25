@@ -633,9 +633,29 @@ class Backend implements ControllerProviderInterface
                 $oldStatus = '';
             }
 
+            // Add non successfull control values to request values
+            // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
+            $request_all = $request->request->all();
+
+            foreach ($contenttype['fields'] as $key => $values) {
+                if (!isset($request_all[$key])) {
+                    switch ($values['type']) {
+                        case 'select':
+                            if (isset($values['multiple']) and $values['multiple'] == true) {
+                                $request_all[$key] = array();
+                            }
+                            break;
+
+                        case 'checkbox':
+                            $request_all[$key] = 0;
+                            break;
+                    }
+                }
+            }
+
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
-            $content->setFromPost($request->request->all(), $contenttype);
+            $content->setFromPost($request_all, $contenttype);
             $newStatus = $content['status'];
 
             $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
@@ -648,7 +668,7 @@ class Backend implements ControllerProviderInterface
             }
 
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
-            if ($statusOK && $app['storage']->saveContent($content, $contenttype['slug'])) {
+            if ($statusOK && $app['storage']->saveContent($content)) {
                 if (!empty($id)) {
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 } else {
@@ -729,7 +749,7 @@ class Backend implements ControllerProviderInterface
             $content->setValue('slug', "");
             $content->setValue('datecreated', "");
             $content->setValue('datepublish', "");
-            $content->setValue('datedepublish', "1900-01-01 00:00:00");
+            $content->setValue('datedepublish', "1900-01-01 00:00:00"); // Not all DB-engines can handle a date like '0000-00-00'
             $content->setValue('datechanged', "");
             $content->setValue('username', "");
             $content->setValue('ownerid', "");
@@ -1131,25 +1151,31 @@ class Backend implements ControllerProviderInterface
                 $form->bind($request);
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
-                    // clean up and validate filename
-                    $originalFilename = $files['FileUpload']->getClientOriginalName();
-                    $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
-                    if ($app['filepermissions']->allowedUpload($filename)) {
-                        $files['FileUpload']->move($currentfolder, $filename);
-                        $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
-                        // Add the file to our stack..
-                        $app['stack']->add($path . "/" . $filename);
-                    }
-                    else {
-                        $extensionList = array();
-                        foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
-                            $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
+                    // Check if we even have an uploaded file.
+                    if (isset($files['FileUpload'])) {
+
+                        // clean up and validate filename
+                        $originalFilename = $files['FileUpload']->getClientOriginalName();
+                        $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
+
+                        if ($app['filepermissions']->allowedUpload($filename)) {
+                            $files['FileUpload']->move($currentfolder, $filename);
+                            $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
+
+                            // Add the file to our stack..
+                            $app['stack']->add($path . "/" . $filename);
+                        } else {
+                            $extensionList = array();
+                            foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
+                                $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
+                            }
+                            $extensionList = implode(' ', $extensionList);
+                            $app['session']->getFlashBag()->set('error',
+                                __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
+                                . $extensionList);
                         }
-                        $extensionList = implode(' ', $extensionList);
-                        $app['session']->getFlashBag()->set('error',
-                            __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
-                            . $extensionList);
+
                     }
                 } else {
                     $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));

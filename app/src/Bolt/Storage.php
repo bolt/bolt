@@ -275,16 +275,16 @@ class Storage
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
      */
-    private function logUpdate($contenttype, $contentid, $newContent) {
-        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent);
+    private function logUpdate($contenttype, $contentid, $newContent, $oldContent) {
+        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent, $oldContent);
     }
 
     /**
      * Writes a content-changelog entry for a deleted entry.
      * This function must be called *before* the actual update, because it
      */
-    private function logDelete($contenttype, $contentid) {
-        $this->writeChangelog('DELETE', $contenttype, $contentid);
+    private function logDelete($contenttype, $contentid, $content) {
+        $this->writeChangelog('DELETE', $contenttype, $contentid, null, $content);
     }
 
     /**
@@ -295,7 +295,8 @@ class Storage
      * @param int $contentid ID of the content item to log.
      * @param array $newContent For 'INSERT' and 'UPDATE', the new content;
      *                          null for 'DELETE'.
-     *
+     * @param array $oldContent For 'UPDATE' and 'DELETE', the current content;
+     *                          null for 'INSTERT'.
      * For the 'UPDATE' and 'DELETE' actions, this function fetches the
      * previous data from the database; this means that you must call it
      * _before_ running the actual update/delete query; for the 'INSERT'
@@ -303,20 +304,13 @@ class Storage
      * an ID, you can only really call the logging function _after_ the update.
      * @throws \Exception
      */
-    private function writeChangelog($action, $contenttype, $contentid, $newContent = null) {
+    private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null) {
         $allowed = array('INSERT', 'UPDATE', 'DELETE');
         if (!in_array($action, $allowed)) {
             throw new \Exception("Invalid action '$action' specified for changelog (must be one of [ " . implode(', ', $allowed) . " ])");
         }
 
         if ($this->app['config']->get('general/changelog/enabled')) {
-            $tablename = $this->getTablename($contenttype);
-            if ($action === 'INSERT') {
-                $oldContent = null;
-            }
-            else {
-                $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentid));
-            }
             if (empty($oldContent) && empty($newContent)) {
                 throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
             }
@@ -574,15 +568,13 @@ class Storage
         }
     }
 
-    public function saveContent($content, $contenttype = "")
+    public function saveContent($content)
     {
-
         $contenttype = $content->contenttype;
-
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            echo "Contenttype is required.";
+            echo 'Contenttype is required.';
 
             return false;
         }
@@ -598,68 +590,72 @@ class Storage
 
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
+            switch ($values['type']) {
 
-            // Set the slug, while we're at it..
-            if ($values['type'] == "slug") {
-                if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
-                    $uses = '';
-                    foreach ($values['uses'] as $usesField) {
-                        $uses .= $fieldvalues[$usesField] . ' ';
+                // Set the slug, while we're at it..
+                case 'slug':
+                    if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
+                        $uses = '';
+                        foreach ($values['uses'] as $usesField) {
+                            $uses .= $fieldvalues[$usesField] . ' ';
+                        }
+                        $fieldvalues['slug'] = makeSlug($uses);
+                    } elseif (!empty($fieldvalues['slug'])) {
+                        $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                    } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
+                        $fieldvalues['slug'] = $fieldvalues['id'];
                     }
-                    $fieldvalues['slug'] = makeSlug($uses);
-                } elseif (!empty($fieldvalues['slug'])) {
-                    $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
-                } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
-                    $fieldvalues['slug'] = $fieldvalues['id'];
-                }
-            }
+                    break;
 
-            if ($values['type'] == "video") {
-                foreach (array('html', 'responsive') as $subkey) {
-                    if (!empty($fieldvalues[$key][$subkey])) {
-                        $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                case 'video':
+                    foreach (array('html', 'responsive') as $subkey) {
+                        if (!empty($fieldvalues[$key][$subkey])) {
+                            $fieldvalues[$key][$subkey] = (string) $fieldvalues[$key][$subkey];
+                        }
                     }
-                }
-                if (!empty($fieldvalues[$key]['url'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                    if (!empty($fieldvalues[$key]['url'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "geolocation") {
-                if (!empty($fieldvalues[$key]['address'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'geolocation':
+                    if (!empty($fieldvalues[$key]['address'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "image") {
-                 if (!empty($fieldvalues[$key]['file'])) {
-                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                 } else {
-                     $fieldvalues[$key] = "";
-                 }
-            }
+                case 'image':
+                    if (!empty($fieldvalues[$key]['file'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if (in_array($values['type'], array("imagelist", "filelist")))  {
-                if (is_array($fieldvalues[$key])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
-                    // Don't store '[]'
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'imagelist':
+                case 'filelist':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                        // Don't store '[]'
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "integer") {
-                $fieldvalues[$key] = round($fieldvalues[$key]);
-            }
+                case 'integer':
+                    $fieldvalues[$key] = round($fieldvalues[$key]);
+                    break;
 
-            if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
-                $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                case 'select':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    }
+                    break;
             }
-
         }
 
         // Clean up fields, check unneeded columns.
@@ -678,7 +674,8 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], isset($fieldvalues['id']) ? $fieldvalues['id'] : null, $contenttype['slug'], false, false);
+        $get_id = isset($fieldvalues['id']) ? $fieldvalues['id'] : null;
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $get_id, $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
@@ -722,9 +719,11 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
-        $this->logDelete($contenttype, $id);
-
         $tablename = $this->getTablename($contenttype);
+
+        $oldContent = $this->findContent($tablename, $id);
+
+        $this->logDelete($contenttype, $id, $oldContent);
 
         $res = $this->app['db']->delete($tablename, array('id' => $id));
 
@@ -785,6 +784,8 @@ class Storage
 
         $tablename = $this->getTablename($contenttype);
 
+        $oldContent = $this->findContent($tablename, $content['id']);
+
         $content['datechanged'] = date('Y-m-d H:i:s');
 
         // Keep datecreated around, for when we might need to 'insert' instead of 'update' after all
@@ -794,7 +795,7 @@ class Storage
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
         if ($res == true) {
-            $this->logUpdate($contenttype, $content['id'], $content);
+            $this->logUpdate($contenttype, $content['id'], $content, $oldContent);
             return true;
         } else {
             // Attempt to _insert_ it, instead of updating..
@@ -2898,6 +2899,18 @@ class Storage
 
         return intval($count) > 0;
 
+    }
+
+    /**
+     * Find record from Content Type and Content Id
+     * @param string $tablename Table name
+     * @param int    $contentId Content Id
+     * @return array
+     */
+    protected function findContent($tablename, $contentId) {
+
+        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentId));
+        return $oldContent;
     }
 
 }

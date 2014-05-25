@@ -24,7 +24,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
         if (isset($app['translator'])) {
-            $paths = getPaths($app);
+            $paths = $app['resources']->getPaths();
 
             $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
 

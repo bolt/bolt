@@ -122,7 +122,7 @@ class Frontend
 
         // Setting the canonical path and the editlink.
         $app['canonicalpath'] = $content->link();
-        $app['paths'] = getPaths($app);
+        $app['paths'] = $app['resources']->getPaths();
         $app['editlink'] = path('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
         $app['edittitle'] = $content->getTitle();
 
@@ -284,29 +284,6 @@ class Frontend
 
     }
 
-    public static function searchNotWeighted(Request $request, Silex\Application $app)
-    {
-        //$searchterms =  safeString($request->get('search'));
-        $template = $app['config']->get('general/search_results_template', $app['config']->get('general/listing_template'));
-
-        // @todo Preparation for stage 2
-        //$resultsPP = (int) $app['config']->get('general/search_results_records');
-        //$page = (!empty($_GET['page']) ? $_GET['page'] : 1);
-
-        //$parameters = array('limit' => $resultsPP, 'page' => $page, 'filter' => $request->get('search'));
-
-        $search = cleanPostedData($request->get('search'), false, true);
-        $parameters = array('filter' => $search, 'status' => 'published');
-
-        $content = $app['storage']->searchAllContentTypes($parameters);
-
-        $app['twig']->addGlobal('records', $content);
-        $app['twig']->addGlobal('search', $search);
-
-        return $app['render']->render($template);
-
-    }
-
     public static function search(Request $request, Silex\Application $app)
     {
         $q = '';
@@ -391,4 +368,5 @@ class Frontend
 
       return $app['render']->render(substr($templatePath, strlen($themePath)));
     }
+
 }

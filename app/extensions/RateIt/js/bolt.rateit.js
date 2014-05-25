@@ -38,3 +38,9 @@ $('.rateit').bind(
 				dataType : 'json'
 			});
 		});
+
+$(document).ready(function(){
+    $('.rateit').each(function(){
+        $(this).rateit('value', $(this).data('bolt-rateit-value'));
+    });
+});

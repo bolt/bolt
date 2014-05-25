@@ -27,7 +27,7 @@ class Extension extends \Bolt\BaseExtension
             'highest_bolt_version' => "1.4",
             'type' => "Import",
             'first_releasedate' => "2013-11-17",
-            'latest_releasedate' => "2013-12-18"
+            'latest_releasedate' => "2013-12-18",
         );
 
         return $data;

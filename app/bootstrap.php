@@ -2,48 +2,28 @@
 
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
+require_once __DIR__ . '/../vendor/autoload.php';
 
-if (!defined('BOLT_PROJECT_ROOT_DIR')) {
-    if (substr(__DIR__, -21) == implode(DIRECTORY_SEPARATOR, array('', 'vendor', 'bolt', 'bolt', 'app'))) { // installed bolt with composer
-        define('BOLT_COMPOSER_INSTALLED', true);
-        defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', substr(__DIR__, 0, -21));
-        defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR . '/web');
-        defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/cache');
-        defined('BOLT_CONFIG_DIR') or define('BOLT_CONFIG_DIR', BOLT_PROJECT_ROOT_DIR . '/config');
-    } else {
-        define('BOLT_COMPOSER_INSTALLED', false);
-        defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', dirname(__DIR__));
-        defined('BOLT_WEB_DIR') or define('BOLT_WEB_DIR', BOLT_PROJECT_ROOT_DIR);
-        defined('BOLT_CACHE_DIR') or define('BOLT_CACHE_DIR', BOLT_PROJECT_ROOT_DIR . '/app/cache');
-
-        // Set the config folder location. If we haven't set the constant in index.php, use one of the
-        // default values.
-        if (!defined('BOLT_CONFIG_DIR')) {
-            if (is_dir(__DIR__ . '/config')) {
-                // Default value, /app/config/..
-                define('BOLT_CONFIG_DIR', __DIR__ . '/config');
-            } else {
-                // otherwise use /config, outside of the webroot folder.
-                define('BOLT_CONFIG_DIR', dirname(dirname(__DIR__)) . '/config');
-            }
-        }
-    }
+if(strpos("/vendor/", __DIR__) !== false) {
+    $config = new Bolt\Configuration\ComposerResources(__DIR__."/../");
+} else {
+    $config = new Bolt\Configuration\ResourceManager(__DIR__."/../");
 }
+$config->compat();
+
 
 // First, do some low level checks, like whether autoload is present, the cache
 // folder is writable, if the minimum PHP version is present, etc.
 require_once __DIR__ . '/classes/lib.php';
 require_once __DIR__ . '/classes/lowlevelchecks.php';
+require_once __DIR__ . '/classes/util.php';
+
 
 $checker = new LowlevelChecks();
 $checker->doChecks();
 
-// Let's get on with the rest..
-require_once BOLT_PROJECT_ROOT_DIR . '/vendor/autoload.php';
-require_once __DIR__ . '/classes/util.php';
-
 // Create the 'Bolt application'.
-$app = new Bolt\Application();
+$app = new Bolt\Application(array('resources'=>$config));
 
 // Finally, check if the app/database folder is writable, if it needs to be.
 $checker->doDatabaseCheck($app['config']);

@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Silex;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Content implements \ArrayAccess
 {
@@ -116,6 +117,7 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
+            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
             $this->values['datecreated'] = "1970-01-01 00:00:00";
         }
 
@@ -131,7 +133,8 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datedepublish']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
-            $this->values['datedepublish'] = "0000-00-00 00:00:00";
+            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
+            $this->values['datedepublish'] = "1900-01-01 00:00:00";
         }
 
         // If default status is set in contentttype..
@@ -229,7 +232,7 @@ class Content implements \ArrayAccess
             return;
         }
 
-        if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish') {
+        if ($key == 'datecreated' || $key == 'datechanged' || $key == 'datepublish' || $key == 'datedepublish') {
             if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value)) {
                 // @todo Try better date-parsing, instead of just setting it to 'now'..
                 $value = date("Y-m-d H:i:s");
@@ -341,10 +344,11 @@ class Content implements \ArrayAccess
                     continue;
                 }
 
-                $fieldname = substr($key, 11);
+                $fieldname  = substr($key, 11);
+                $fileSystem = new Filesystem;
 
                 // Make sure the folder exists.
-                makeDir(dirname($filename));
+                $fileSystem->mkdir(dirname($filename));
 
                 // Check if we don't have doubles.
                 if (is_file($filename)) {
@@ -571,15 +575,23 @@ class Content implements \ArrayAccess
 
         if (isset($this->values[$name])) {
             $fieldtype = $this->fieldtype($name);
+            $fieldinfo = $this->fieldinfo($name);
+            $allowtwig = !empty($fieldinfo['allowtwig']);
 
             switch ($fieldtype) {
                 case 'markdown':
 
-                    $value = $this->preParse($this->values[$name]);
+                    $value = $this->preParse($this->values[$name], $allowtwig);
 
                     // Parse the field as Markdown, return HTML
                     $value = \Parsedown::instance()->parse($value);
-                    $maid = new \Maid\Maid(array('output-format' => 'html'));
+
+                    // Sanitize/clean the HTML.
+                    $maid = new \Maid\Maid(array(
+                        'output-format' => 'html',
+                        'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
+                        'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
+                    ));
                     $value = $maid->clean($value);
                     $value = new \Twig_Markup($value, 'UTF-8');
                     break;
@@ -588,7 +600,7 @@ class Content implements \ArrayAccess
                 case 'text':
                 case 'textarea':
 
-                    $value = $this->preParse($this->values[$name]);
+                    $value = $this->preParse($this->values[$name], $allowtwig);
                     $value = new \Twig_Markup($value, 'UTF-8');
 
                     break;
@@ -627,62 +639,25 @@ class Content implements \ArrayAccess
      * @param  string $snippet
      * @return string
      */
-    public function preParse($snippet)
+    public function preParse($snippet, $allowtwig)
     {
 
         // Quickly verify that we actually need to parse the snippet!
-        if (strpos($snippet, "{{")!==false || strpos($snippet, "{%")!==false || strpos($snippet, "{#")!==false) {
+        if ($allowtwig && preg_match('/[{][{%#]/', $snippet)) {
 
             $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
-
-            // Remember the current Twig loaders.
-            $oldloader = $this->app['twig']->getLoader();
-
-            // Switch to the string loader.. this is the preferred option, but breaks {{ simpleform() }} in content.
-            // $this->app['twig']->setLoader(new \Twig_Loader_String());
-
-            // Add the the string loader..
-            // @TODO: Unfortunately, split the input again. :-(
-            $this->app['twig.loader']->addLoader(new \Twig_Loader_String());
-
-            // Parse the snippet.
-            $snippet = $this->preParseHelper($snippet);
-
-            // Re-set the loaders back to the old situation.
-            $this->app['twig']->setLoader($oldloader);
-
+            return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
         }
 
         return $snippet;
 
     }
 
-    /**
-     * Allow for recursively splitting and parsing a snippet. Twig is being derpy.
-     *
-     * There's a problem with Twig: parsing snippets that are longer than the filesystem limit for filenames.
-     * This is because Twig will _first_ attempt to locate the snippet as a file, and only _then_ parse it as a
-     * snippet. Therefore, if the snippet is too long, we split it, and parse it in several parts.
-     *
-     * @param $snippet
-     * @return string
-     */
-    private function preParseHelper($snippet)
-    {
-        if (strlen($snippet) > 1800) {
-            // (First part), (opening twig brackets, rest of tag, closing twig brackets), (rest of string)
-            $result = preg_match('/(.*)({[{%#].*[}%#]})(.*)/ms', $snippet, $parts);
-            if ($result && count($parts)==4) {
-                // Note: $parts[0] is always the entire snippet. We only need to parse parts 1, 2, 3..
-                $snippet = $this->preParseHelper($parts[1]) . $this->preParseHelper($parts[2]) . $this->preParseHelper($parts[3]);
-            }
-        } else {
-            // Render the snippet.
-            $snippet = $this->app['render']->render($snippet);
-        }
-
-        return $snippet;
-
+    public function getTemplateContext() {
+        return array(
+            'record' => $this,
+            $this->contenttype['singular_slug'] => $this // Make sure we can also access it as {{ page.title }} for pages, etc.
+        );
     }
 
     /**
@@ -943,41 +918,33 @@ class Content implements \ArrayAccess
      * Gets one or more related records.
      *
      */
-    public function related($filtercontenttype = "", $filterid = "")
+    public function related($filtercontenttype = '', $filterid = '')
     {
 
         if (empty($this->relation)) {
-            // nothing to do here.
-            return false;
+            return false; // nothing to do here.
         }
 
         $records = array();
 
         foreach ($this->relation as $contenttype => $ids) {
-
-            if (!empty($filtercontenttype) && ($contenttype!=$filtercontenttype)) {
+            if (!empty($filtercontenttype) && ($contenttype != $filtercontenttype)) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
-
             foreach ($ids as $id) {
-
-                if (!empty($filterid) && ($id!=$filterid)) {
+                if (!empty($filterid) && ($id != $filterid)) {
                     continue; // Skip other ids, if we requested a specific id.
                 }
 
-                $record = $this->app['storage']->getContent($contenttype."/".$id);
+                $record = $this->app['storage']->getContent($contenttype . '/' . $id);
 
                 if (!empty($record)) {
-                    $records[] = $this->app['storage']->getContent($contenttype."/".$id);
+                    $records[] = $record;
                 }
-
             }
         }
-
         return $records;
-
     }
-
 
     /**
      * Gets the correct template to use, based on our cascading template rules.
@@ -1017,25 +984,29 @@ class Content implements \ArrayAccess
     }
 
     /**
+     * Get field information for the given field.
+     * @param $key
+     * @return array An associative array containing at least the key 'type',
+     *               and, depending on the type, other keys.
+     */
+    public function fieldinfo($key)
+    {
+        if (isset($this->contenttype['fields'][$key])) {
+            return $this->contenttype['fields'][$key];
+        }
+        else {
+            return array('type' => '');
+        }
+    }
+
+    /**
      * Get the fieldtype for a given fieldname.
      * @param $key
      * @return string
      */
-    public function fieldtype($key)
-    {
-
-        if (empty($this->contenttype['fields'])) {
-            return '';
-        }
-
-        foreach ($this->contenttype['fields'] as $name => $field) {
-            if ($name == $key) {
-                return $field['type'];
-            }
-        }
-
-        return '';
-
+    public function fieldtype($key) {
+        $field = $this->fieldinfo($key);
+        return $field['type'];
     }
 
     /**

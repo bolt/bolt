@@ -4,37 +4,34 @@
 namespace SimpleForms;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Extension extends \Bolt\BaseExtension
 {
-
     private $global_fields;
     private $text_labels;
     private $labelsenabled;
 
     function info()
     {
-
         $data = array(
             'name' =>"Simple Forms",
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.8",
-            'required_bolt_version' => "1.1",
-            'highest_bolt_version' => "1.1",
+            'version' => "1.9",
+            'required_bolt_version' => "1.6",
+            'highest_bolt_version' => "1.6",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2014-02-17",
+            'latest_releasedate' => "2014-05-22",
+            'allow_in_user_content' => true,
         );
-
         return $data;
-
     }
 
     function initialize()
     {
-
         // fields that the global config should have
         $this->global_fields = array(
             'stylesheet',
@@ -68,7 +65,8 @@ class Extension extends \Bolt\BaseExtension
         // Make sure the css is inserted as well..
         if (!empty($this->config['stylesheet'])) {
             $this->addCSS($this->config['stylesheet']);
-        } else {
+        }
+        else {
             $this->config['stylesheet'] = "";
         }
 
@@ -96,13 +94,13 @@ class Extension extends \Bolt\BaseExtension
      */
     function simpleForm($formname = "")
     {
-
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
         // Select which form to use..
         if (isset($this->config[$formname])) {
             $formconfig = $this->config[$formname];
-        } else {
+        }
+        else {
             return "Simpleforms notice: No form known by name '$formname'.";
         }
 
@@ -110,18 +108,18 @@ class Extension extends \Bolt\BaseExtension
         foreach($this->global_fields as $configkey) {
             if (!array_key_exists($configkey, $formconfig) && !empty($this->config[$configkey])) {
                 $formconfig[$configkey] = $this->config[$configkey];
-            } elseif(!array_key_exists($configkey, $formconfig) && empty($this->config[$configkey])) {
+            }
+            elseif(!array_key_exists($configkey, $formconfig) && empty($this->config[$configkey])) {
                 $formconfig[$configkey] = false;
             }
         }
 
-        // tanslate labels if labels extension exists
+        // translate labels if labels extension exists
         if($this->labelsenabled) {
             $this->labelfields($formconfig);
         }
 
-
-        if($formconfig['debugmode']==true) {
+        if ($formconfig['debugmode']==true) {
             \Dumper::dump($formconfig);
             \Dumper::dump($formname);
             \Dumper::dump($this->app['paths']);
@@ -135,7 +133,6 @@ class Extension extends \Bolt\BaseExtension
         $form = $this->app['form.factory']->createNamedBuilder($formname, 'form', null, array('csrf_protection' => $this->config['csrf']));
 
         foreach ($formconfig['fields'] as $name => $field) {
-
             $options = array();
 
             if ($field['type'] == "ip" || $field['type'] == "timestamp") {
@@ -167,6 +164,9 @@ class Extension extends \Bolt\BaseExtension
             if (!empty($field['class'])) {
                 $options['attr']['class'] = $field['class'];
             }
+            if (!empty($field['hint'])) {
+                $options['attr']['hint'] = $field['hint'];
+            }
 
             if (!empty($field['prefix'])) {
                 $options['attr']['prefix'] = $field['prefix'];
@@ -174,11 +174,17 @@ class Extension extends \Bolt\BaseExtension
             if (!empty($field['postfix'])) {
                 $options['attr']['postfix'] = $field['postfix'];
             }
+            if (is_array($field['data'])) {
+                foreach ($field['data'] as $datakey => $datavalue) {
+                    $options['attr']['data-'.$datakey] = $datavalue;
+                }
+            }
 
             if (!empty($field['required']) && $field['required'] == true) {
                 $options['required'] = true;
                 $options['constraints'][] = new Assert\NotBlank();
-            } else {
+            }
+            else {
                 $options['required'] = false;
             }
 
@@ -187,6 +193,23 @@ class Extension extends \Bolt\BaseExtension
                 $options['choices'] = array();
                 foreach ($field['choices'] as $option) {
                     $options['choices'][ safeString($option)] = $option;
+                }
+            }
+
+            // for optgroups
+            if (!empty($field['optgroups']) && is_array($field['optgroups'])) {
+                $options['choices'] = array();
+                foreach ($field['optgroups'] as $key => $value) {
+                    $label   = $value['label'];
+                    $choices = array();
+
+                    if (is_array($value['choices'])) {
+                        foreach ($value['choices'] as $k => $v) {
+                            $choices[safeString($v)] = $v;
+                        }
+                    }
+
+                    $options['choices'][$label] = $choices;
                 }
             }
 
@@ -209,7 +232,6 @@ class Extension extends \Bolt\BaseExtension
             if (!empty($field['pattern'])) {
                 $options['attr']['pattern'] = $field['pattern'];
             }
-
             if (!empty($field['autocomplete'])) {
                 $options['attr']['autocomplete'] = $field['autocomplete'];
             }
@@ -225,10 +247,11 @@ class Extension extends \Bolt\BaseExtension
             // Make sure $field has a type, or the form will break.
             if (empty($field['type'])) {
                 $field['type'] = "text";
-            } elseif ($field['type'] == "email") {
-                // if the field is email, check for a valid email address
+            }
+            elseif ($field['type'] == "email") {
                 $options['constraints'][] = new Assert\Email();
-            } elseif ($field['type'] == "file") {
+            }
+            elseif ($field['type'] == "file") {
                 // if the field is file, make sure we set the accept properly.
                 $accept = array();
 
@@ -249,17 +272,15 @@ class Extension extends \Bolt\BaseExtension
                 }
             }
 
-            // Yeah, this feels a bit flakey, but I'm not sure how I can get the form type in the template
-            // in another way.
+            // Yeah, this feels a bit flaky, but I'm not sure how I can get
+            // the form type in the template in another way.
             $options['attr']['type'] = $field['type'];
 
             $form->add($name, $field['type'], $options);
-
         }
 
         $form = $form->getForm();
 
-        // Include the ReCaptcha PHP Library
         require_once('recaptcha-php-1.11/recaptchalib.php');
 
         if ('POST' == $this->app['request']->getMethod()) {
@@ -269,15 +290,15 @@ class Extension extends \Bolt\BaseExtension
                     $error .= "we're not submitting this form: ". $formname;
                 }
                 $sent = false;
-            } else {
+            }
+            else {
                 // ok we're really submitting this form
-
                 $isRecaptchaValid = true; // to prevent ReCaptcha check if not enabled
 
                 if($this->config['recaptcha_enabled']){
                     $isRecaptchaValid = false; // by Default
 
-                    $resp = recaptcha_check_answer ($this->config['recaptcha_private_key'],
+                    $resp = recaptcha_check_answer($this->config['recaptcha_private_key'],
                         $this->getRemoteAddress(),
                         $_POST["recaptcha_challenge_field"],
                         $_POST["recaptcha_response_field"]);
@@ -302,16 +323,19 @@ class Extension extends \Bolt\BaseExtension
                                 simpleredirect($content->link(), false);
                             }
 
-                        } else {
+                        }
+                        else {
                             $error = $formconfig['message_technical'];
                         }
 
-                    } else {
+                    }
+                    else {
 
                         $error = $formconfig['message_error'];
 
                     }
-                } else {
+                }
+                else {
                     $error = $this->config['recaptcha_error_message'];
                 }
             }
@@ -332,14 +356,10 @@ class Extension extends \Bolt\BaseExtension
         ));
 
         return new \Twig_Markup($formhtml, 'UTF-8');
-
     }
-
-
 
     private function processForm($formconfig, $form, $formname)
     {
-
         if(!$this->app['request']->request->has($formname)) {
             // we're not submitting this particular form
             if($formconfig['debugmode']==true) {
@@ -352,13 +372,14 @@ class Extension extends \Bolt\BaseExtension
 
         if($formconfig['debugmode']==true) {
             \Dumper::dump($formconfig);
-            \Dumper::dump($form);
+            // This yields a Fatal Error: "FormBuilder methods cannot be accessed anymore once the builder is turned into a FormConfigInterface instance."
+            //\Dumper::dump($form);
             \Dumper::dump($formname);
             \Dumper::dump($data);
             \Dumper::dump($this->app['request']->files);
         }
 
-        // process submitted data
+        // $data contains the posted data. For legibility, change boolean fields to "yes" or "no".
         foreach($data as $key => $value) {
             // For legibility, change boolean fields to "yes" or "no".
             if (gettype($value)=="boolean") {
@@ -372,9 +393,14 @@ class Extension extends \Bolt\BaseExtension
                     $options[safeString($option)] = $option;
                 }
 
-                $data[$key] = $options[$value];
+                // For multiple choices, prevent "Illegal offset type" warnings.
+                if (!is_array($value) && isset($options[$value])) {
+                    $data[$key] = $options[$value];
+                }
             }
         }
+
+        $fileSystem = new Filesystem;
 
         // Some fieldtypes (like 'date' and 'file') require post-processing.
         foreach ($formconfig['fields'] as $fieldname => $fieldvalues) {
@@ -384,11 +410,13 @@ class Extension extends \Bolt\BaseExtension
             if ($fieldvalues['type'] == "file") {
                 if (empty($formconfig['storage_location']) && $formconfig['attach_files']===false) {
                     die("You must set the storage_location in the field $fieldname if you do not use attachments.");
-                } elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
+                }
+                elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
                     // temporary files location will be a subdirectory of the cache
                     $path = BOLT_CACHE_DIR;
                     $linkpath = $this->app['paths']['app'] . 'cache';
-                } else {
+                }
+                else {
                     // files location will be a subdirectory of the files
                     $path = $this->app['paths']['filespath'] . "/" . $formconfig['storage_location'];
                     $linkpath = $this->app['paths']['files'] . $formconfig['storage_location'];
@@ -396,7 +424,7 @@ class Extension extends \Bolt\BaseExtension
 
                 // make sure the path is exists
                 if (!is_dir($path)) {
-                    makeDir($path);
+                    $fileSystem->mkdir($path);
                 }
 
                 if (!is_writable($path)) {
@@ -408,9 +436,9 @@ class Extension extends \Bolt\BaseExtension
                     $originalname = strtolower($files[$fieldname]->getClientOriginalName());
                     $filename = sprintf(
                         "%s-%s-%s.%s",
-                        $fieldname,
                         date('Y-m-d'),
-                        $this->app['randomgenerator']->generateString(8, 'abcdefghijklmnopqrstuvwxyz01234567890'),
+                        str_replace('upload', '', $fieldname),
+                        $this->app['randomgenerator']->generateString(12, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890'),
                         getExtension($originalname)
                     );
                     $link = sprintf("%s%s/%s", $this->app['paths']['hosturl'], $linkpath, $filename);
@@ -430,7 +458,8 @@ class Extension extends \Bolt\BaseExtension
                             }
                             $attachments[] = \Swift_Attachment::fromPath($link)->setFilename($originalname);
                         }
-                    } else {
+                    }
+                    else {
                         $data[$fieldname] = "Invalid upload, ignored ($originalname)";
                     }
                 }
@@ -441,14 +470,18 @@ class Extension extends \Bolt\BaseExtension
                 $format = isset($fieldvalues['format']) ? $fieldvalues['format'] : "Y-m-d";
                 $data[$fieldname] = $data[$fieldname]->format($format);
             }
-
             if ($fieldvalues['type'] == "ip") {
                 $data[$fieldname] = $this->getRemoteAddress();
             }
-
             if ($fieldvalues['type'] == "timestamp") {
                 $format = "%F %T";
                 $data[$fieldname] = strftime($format);
+            }
+            if ($fieldvalues['type'] == "choice" && $fieldvalues['multiple'] == true) {
+                // just to be sure
+                if (is_array( $data[$fieldname])) {
+                    $data[$fieldname] = implode(', ', $data[$fieldname]); // maybe <li> items in <ul>
+                }
             }
 
         }
@@ -466,7 +499,8 @@ class Extension extends \Bolt\BaseExtension
         }
 
         $mailhtml = $this->app['render']->render($formconfig['mail_template'], array(
-            'form' =>  $data ));
+            'form' =>  $data,
+            'config' => $formconfig));
 
         if($formconfig['debugmode']==true) {
             \Dumper::dump($mailhtml);
@@ -474,7 +508,8 @@ class Extension extends \Bolt\BaseExtension
 
         if (!empty($formconfig['mail_subject'])) {
             $subject = $formconfig['mail_subject'];
-        } else {
+        }
+        else {
             $subject = '[SimpleForms] ' . $formname;
         }
 
@@ -512,7 +547,8 @@ class Extension extends \Bolt\BaseExtension
             if(!empty($formconfig['recipient_bcc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_bcc_email']) {
                 $this->app['log']->add('Did not set Bcc for '. $formname . ' to '. $formconfig['recipient_bcc_email'] . ' (in testmode)', 3);
             }
-        } else {
+        }
+        else {
             // only add other recipients when not in testmode
             if(!empty($formconfig['recipient_cc_email']) && $formconfig['recipient_email']!=$formconfig['recipient_cc_email']) {
                 $message->setCc($formconfig['recipient_cc_email']);
@@ -533,25 +569,21 @@ class Extension extends \Bolt\BaseExtension
                         if(!$tmp_name) {
                             $tmp_name = $tmp_email;
                         }
-                    } else {
+                    }
+                    else {
                         $tmp_name = $tmp_email;
                     }
                     switch($values['use_as']) {
                         case 'from_email':
-                            // override from address
-                            //$message->setSender($formconfig['recipient_email']); // just to be clear who really sent it
                             $message->setFrom(array($tmp_email => $tmp_name));
                             break;
                         case 'to_email':
-                            // add another recipient
                             $message->addTo($tmp_email, $tmp_name);
                             break;
                         case 'cc_email':
-                            // add a copy address
                             $message->addCc($tmp_email, $tmp_name);
                             break;
                         case 'bcc_email':
-                            // add a blind copy address
                             $message->addBcc($tmp_email, $tmp_name);
                             break;
                     }
@@ -563,9 +595,10 @@ class Extension extends \Bolt\BaseExtension
 
         if ($res) {
             if($formconfig['testmode']) {
-                $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['testmode_recipient'] . ' (in testmode) - ' . $formconfig['recipient_name'], 3);
-            } else {
-                $this->app['log']->add('Sent email from '. $formname . ' to '. $formconfig['recipient_email'] . ' - ' . $formconfig['recipient_name'], 3);
+                $this->app['log']->add('Sent email from ' . $formname . ' to '. $formconfig['testmode_recipient'] . ' (in testmode) - ' . $formconfig['recipient_name'], 3);
+            }
+            else {
+                $this->app['log']->add('Sent email from ' . $formname . ' to '. $formconfig['recipient_email'] . ' - ' . $formconfig['recipient_name'], 3);
             }
         }
 
@@ -581,19 +614,13 @@ class Extension extends \Bolt\BaseExtension
      */
     private function getRemoteAddress()
     {
-
         $server = $this->app['request']->server;
-
         if ($server->has('HTTP_CLIENT_IP')) {
-            $addr = $server->get('HTTP_CLIENT_IP');
-        } else if ($server->has('HTTP_X_FORWARDED_FOR')) {
-            $addr = $server->get('HTTP_X_FORWARDED_FOR');
-        } else {
-            $addr = $server->get('REMOTE_ADDR');
+            return $server->get('HTTP_CLIENT_IP');
         }
-
-        return $addr;
-
+        if ($server->has('HTTP_X_FORWARDED_FOR')) {
+            return $server->get('HTTP_X_FORWARDED_FOR');
+        }
+        return $server->get('REMOTE_ADDR');
     }
-
 }

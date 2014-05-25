@@ -1,4 +1,8 @@
 # This file defines role-based access control for your Bolt site.
+# Before making any modifications to this file, make sure you've thoroughly read
+# the documentation at http://docs.bolt.cm/permissions, and understand the 
+# consequences of making uninformed changes to the roles and permissions. 
+
 # First, we need to define some roles. There are three built-in roles that you
 # should never add manually:
 # - 'root', the "superuser" role; Bolt will automatically grant all permissions
@@ -13,10 +17,10 @@
 #   no user is logged in at all.
 roles:
     editor:
-        description: This user can edit stuff
+        description: This user can edit some content.
         label: Editor
     chief-editor:
-        description: This user can edit anything
+        description: This user can edit any content in the system.
         label: Chief Editor
     admin:
         description: User-level administrator.
@@ -25,6 +29,7 @@ roles:
         description: Developer access. Only required to change system-level settings.
         label: Developer
     guest:
+        description: This user can log on, but is not allowed to edit any content.
         label: Guest Editor
 
 # Now we'll define some permissions. Each permission comes with a list of roles

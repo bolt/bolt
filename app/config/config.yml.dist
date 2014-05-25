@@ -124,7 +124,7 @@ thumbnails:
 
 # File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
 
-# The following is the default list of file-types that can be ulpoaded through the 'files' screen.
+# The following is the default list of file-types that can be uploaded through the 'files' screen.
 accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
 # Alternatively, if you wish to limit these, uncomment the following list instead;

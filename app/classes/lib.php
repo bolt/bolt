@@ -5,43 +5,6 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
 
 /**
- * Recursively creates chmodded directories. Returns true on success,
- * and false on failure.
- *
- * NB! Directories are created with permission 777 - worldwriteable -
- * unless you have set 'chmod_dir' to 0XYZ in the advanced config.
- *
- * @param string $name
- * @return boolean
- */
-function makeDir($name)
-{
-    // if it exists, just return.
-    if (file_exists($name)) {
-        return true;
-    }
-
-    // If more than one level, try parent first..
-    // If creating parent fails, we can abort immediately.
-    if (dirname($name) != ".") {
-        $success = makeDir(dirname($name));
-        if (!$success) {
-            return false;
-        }
-    }
-
-    $mode_dec = octdec('0777');
-
-    $oldumask = umask(0);
-    $success = @mkdir($name, $mode_dec);
-    @chmod($name, $mode_dec);
-    umask($oldumask);
-
-    return $success;
-}
-
-
-/**
  * Clean posted data. Convert tabs to spaces (primarily for yaml) and
  * stripslashes when magic quotes are turned on.
  *
@@ -645,138 +608,18 @@ function hackislyParseRegexTemplates($obj)
 {
     $str = print_r($obj, true);
 
-    preg_match_all('/(\/[a-z0-9_\/-]+\.twig)/i', $str, $matches);
+    preg_match_all('| => (.+\.twig)|i', $str, $matches);
 
     $templates = array();
 
     foreach ($matches[1] as $match) {
-        $templates[] = basename(dirname($match)) . "/" . basename($match);
+        $templates[] = str_replace(BOLT_PROJECT_ROOT_DIR . DIRECTORY_SEPARATOR, '', $match);
     }
 
     return $templates;
 }
 
-function getPaths($original = array())
-{
-    // If we passed the entire $app, set the $config
-    if ($original instanceof \Bolt\Application) {
-        if (!empty($original['canonicalpath'])) {
-            $canonicalpath = $original['canonicalpath'];
-        }
-        $config = $original['config'];
-    } else {
-        $config = $original;
-    }
 
-    // Make sure $config is not empty. This is for when this function is called from lowlevelError().
-    // Temp fix! @todo: Fix this properly.
-    if ($config instanceof \Bolt\Config) {
-        if (!$config->get('general/theme')) {
-            $config->set('general/theme', 'base-2013');
-        }
-        if (!$config->get('general/theme_path')) {
-            $config->set('general/theme_path', '/theme');
-        }
-        if (!$config->get('general/canonical') && isset($_SERVER['HTTP_HOST'])) {
-            $config->set('general/canonical', $_SERVER['HTTP_HOST']);
-        }
-
-        // Set the correct mountpoint.
-        if ($config->get('general/branding/path')) {
-            $mountpoint = substr($config->get('general/branding/path'), 1) . "/";
-        } else {
-            $mountpoint = "bolt/";
-        }
-
-        $theme = $config->get('general/theme');
-        $theme_path = $config->get('general/theme_path');
-
-        $canonical = $config->get('general/canonical', "");
-
-    } else {
-        if (empty($config['general']['theme'])) {
-            $config['general']['theme'] = 'base-2013';
-        }
-        if (empty($config['general']['theme_path'])) {
-            $config['general']['theme_path'] = '/theme';
-        }
-        if (empty($config['general']['canonical']) && isset($_SERVER['HTTP_HOST'])) {
-            $config['general']['canonical'] = $_SERVER['HTTP_HOST'];
-        }
-
-        // Set the correct mountpoint..
-        if (!empty($config['general']['branding']['path'])) {
-            $mountpoint = substr($config['general']['branding']['path'], 1) . "/";
-        } else {
-            $mountpoint = "bolt/";
-        }
-
-        $theme = $config['general']['theme'];
-        $theme_path = $config['general']['theme_path'];
-
-        $canonical = isset($config['general']['canonical']) ? $config['general']['canonical'] : "";
-
-    }
-    $theme_path = trim($theme_path, '/');
-
-    // Set the root
-    $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
-    $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
-    $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
-    if (empty($path_prefix) || 'cli-server' === php_sapi_name()) {
-        $path_prefix = "/";
-    }
-
-    // Make sure we're not trying to access bolt as "/index.php/bolt/", because all paths will be broken.
-    if (!empty($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], "/index.php/") !== false) {
-        simpleredirect(str_replace("/index.php", "", $_SERVER['REQUEST_URI']));
-    }
-
-    if (!empty($_SERVER["SERVER_PROTOCOL"])) {
-        $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https' ? 'https' : 'http';
-    } else {
-        $protocol = "cli";
-    }
-
-    $hostname = empty($_SERVER['HTTP_HOST']) ? 'localhost' : $_SERVER['HTTP_HOST'];
-
-    $currentpath = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
-
-    if (empty($canonicalpath)) {
-        $canonicalpath = $currentpath;
-    }
-
-    // Set the paths
-    $paths = array(
-        'hostname' => $hostname,
-        'root' => $path_prefix,
-        'rootpath' => BOLT_PROJECT_ROOT_DIR,
-        'theme' => str_replace('//', '/', $path_prefix . '/' . $theme_path . '/' . $theme . '/'),
-        'themepath' => BOLT_WEB_DIR . '/' . $theme_path . '/' . $theme,
-        'app' => $path_prefix . (BOLT_COMPOSER_INSTALLED ? 'bolt-public/' : 'app/'),
-        'apppath' => realpath(__DIR__ . '/..'),
-        'extensions' => $path_prefix . 'app/extensions/',
-        'extensionspath' => realpath(__DIR__ . '/../extensions'),
-        'bolt' => $path_prefix . $mountpoint,
-        'async' => $path_prefix . 'async/',
-        'files' => $path_prefix . 'files/',
-        'filespath' => BOLT_WEB_DIR . '/files',
-        'canonical' => $canonical,
-        'current' => $currentpath,
-        'hosturl' => sprintf('%s://%s', $protocol, $hostname),
-        'rooturl' => sprintf('%s://%s%s', $protocol, $canonical, $path_prefix),
-        'canonicalurl' => sprintf('%s://%s%s', $protocol, $canonical, $canonicalpath),
-        'currenturl' => sprintf('%s://%s%s', $protocol, $hostname, $currentpath),
-    );
-
-    // Set it in $app, optionally.
-    if ($original instanceof \Bolt\Application) {
-        $original['paths'] = $paths;
-        $original['twig']->addGlobal('paths', $paths);
-    }
-
-    return $paths;
-}
 
 /**
  * Simple wrapper for $app['url_generator']->generate()

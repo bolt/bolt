@@ -16,14 +16,20 @@ class Application extends Silex\Application
 {
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '1.6.0';
-        $values['bolt_name'] = 'RC2';
+        $values['bolt_version'] = '1.7';
+        $values['bolt_name'] = 'dev';
 
         parent::__construct($values);
 
         // Initialize the config. Note that we do this here, on 'construct'.
         // All other initialisation is triggered from bootstrap.php
+        if(!isset($this['resources'])) {
+            $this['resources'] = new Configuration\ResourceManager(BOLT_PROJECT_ROOT_DIR);
+        }
+        
+        $this['resources']->setApp($this);
         $this->initConfig();
+        $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
         $this['debugbar'] = false;
@@ -76,6 +82,9 @@ class Application extends Silex\Application
 
         // Initialise the Mount points for 'frontend', 'backend' and 'async'.
         $this->initMountpoints();
+
+        // Initialize enabled extensions before executing handlers.
+        $this->initExtensions();
 
         // Initialise the global 'before' handler.
         $this->before(array($this, 'BeforeHandler'));
@@ -152,6 +161,7 @@ class Application extends Silex\Application
         ));
 
         $this->register(new Provider\RenderServiceProvider());
+        $this->register(new Provider\RenderServiceProvider(true));
     }
 
     public function initLocale()
@@ -205,20 +215,28 @@ class Application extends Silex\Application
             ->register(new Provider\ExtensionServiceProvider())
             ->register(new Provider\StackServiceProvider())
             ->register(new Provider\CronServiceProvider())
+            ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider());
 
-        $this['paths'] = getPaths($this['config']);
-        $this['twig']->addGlobal('paths', $this['paths']);
+        $this['paths'] = $this['resources']->getPaths();
+        $this['twig']->addGlobal('paths', $this['resources']->getPaths());
 
         // Add the Bolt Twig functions, filters and tags.
         $this['twig']->addExtension(new TwigExtension($this));
+        $this['safe_twig']->addExtension(new TwigExtension($this, true));
 
         $this['twig']->addTokenParser(new SetcontentTokenParser());
 
-        // Initialize enabled extensions.
-        $this['extensions']->initialize();
+        // Initialize stopwatch even if debug is not enabled.
+        $this['stopwatch'] = $this->share(function () {
+            return new Stopwatch\Stopwatch();
+        });
 
         // @todo: make a provider for the Integrity checker and Random generator..
+    }
+
+    public function initExtensions() {
+        $this['extensions']->initialize();
     }
 
     public function initMountpoints()
@@ -285,6 +303,18 @@ class Application extends Silex\Application
         $this['twig']->addGlobal('config', $this['config']);
         $this['twig']->addGlobal('theme', $this['config']->get('theme'));
 
+        $this['safe_twig']->addGlobal('bolt_name', $this['bolt_name']);
+        $this['safe_twig']->addGlobal('bolt_version', $this['bolt_version']);
+
+        $this['safe_twig']->addGlobal('frontend', false);
+        $this['safe_twig']->addGlobal('backend', false);
+        $this['safe_twig']->addGlobal('async', false);
+        $this['safe_twig']->addGlobal($this['config']->getWhichEnd(), true);
+
+        $this['safe_twig']->addGlobal('user', $this['users']->getCurrentUser());
+        // $this['safe_twig']->addGlobal('config', $this['config']);
+        $this['safe_twig']->addGlobal('theme', $this['config']->get('theme'));
+
         if ($response = $this['render']->fetchCachedRequest()) {
             // Stop the 'stopwatch' for the profiler.
             $this['stopwatch']->stop('bolt.app.before');
@@ -346,11 +376,6 @@ class Application extends Silex\Application
                 }
             });
         } else {
-            // Even if debug is not enabled,
-            $this['stopwatch'] = $this->share(function () {
-                return new Stopwatch\Stopwatch();
-            });
-
             error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
         }
 
@@ -423,7 +448,7 @@ class Application extends Silex\Application
             }
         }
 
-        $paths = getPaths($this['config']);
+        $paths = $this['resources']->getPaths();
 
         $twigvars = array();
 
@@ -460,10 +485,7 @@ class Application extends Silex\Application
             if ($content instanceof \Bolt\Content && !empty($content->id)) {
                 $template = $content->template();
 
-                return $this['render']->render($template, array(
-                    'record' => $content,
-                    $content->contenttype['singular_slug'] => $content // Make sure we can also access it as {{ page.title }} for pages, etc.
-                ));
+                return $this['render']->render($template, $content->getTemplateContext());
             }
 
             $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";

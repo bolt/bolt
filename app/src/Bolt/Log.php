@@ -104,7 +104,7 @@ class Log
             $log['content_id'] = intval($content->id);
         } else {
             $log['contenttype'] = "";
-            $log['content_id'] = "";
+            $log['content_id'] = 0;
         }
 
         // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";

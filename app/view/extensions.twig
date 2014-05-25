@@ -6,6 +6,17 @@
 <div class="row-fluid">
 
     <div class="span6">
+        <h4>{{ __('Enabling extensions:') }}</h4>
+
+        {{ app.translator.trans('extension.enable',{},'infos')|raw }}
+
+    </div>
+
+</div>
+
+<div class="row-fluid">
+
+    <div class="span6">
         <h2>{{ __('Enabled extensions') }}</h2>
 
         {% for extension in extensions if extension.enabled %}
@@ -35,16 +46,7 @@
 
 </div>
 
-    <div class="row-fluid">
 
-        <div class="span6">
-            <h4>{{ __('Enabling extensions:') }}</h4>
-
-            {{ app.translator.trans('extension.enable',{},'infos')|raw }}
-
-        </div>
-
-    </div>
 
 
 
