@@ -374,6 +374,7 @@ img.mfp-img {
 .mfp-with-zoom .mfp-container,
 .mfp-with-zoom.mfp-bg {
     opacity: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* weird quirk on Chrome 34 / OSX: background didn't show consistently. This line fixes it.
     -webkit-backface-visibility: hidden;
     /* ideally, transition speed should match zoom duration */
     -webkit-transition: all 0.3s ease-out;
@@ -387,7 +388,6 @@ img.mfp-img {
 }
 .mfp-with-zoom.mfp-ready.mfp-bg {
     opacity: 0.5;
-    filter: alpha(opacity=50);
 }
 
 .mfp-with-zoom.mfp-removing .mfp-container,
