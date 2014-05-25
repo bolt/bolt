@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    style: 'compressed',
+                    style: 'nested',
                     loadPath: [
                         'node_modules/bootstrap-sass/vendor/assets/stylesheets/',
                         'node_modules/font-awesome/scss/'
