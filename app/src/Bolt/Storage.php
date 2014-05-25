@@ -275,7 +275,7 @@ class Storage
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
      */
-    private function logUpdate($contenttype, $contentid, $newContent, $oldContent) {
+    private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null) {
         $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent, $oldContent);
     }
 
