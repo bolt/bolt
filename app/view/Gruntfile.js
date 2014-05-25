@@ -44,6 +44,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('default', ['sass']);
+    grunt.registerTask('default', ['sass', 'watch']);
 
 };
