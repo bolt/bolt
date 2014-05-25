@@ -264,7 +264,7 @@ function makeSlug($str, $length = 64)
 }
 
 /**
- * Encodes a filename, for use in thumbnails, fancybox, etc.
+ * Encodes a filename, for use in thumbnails, magnific popup, etc.
  *
  * @param string $filename
  * @return string

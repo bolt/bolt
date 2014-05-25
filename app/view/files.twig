@@ -107,8 +107,7 @@
 
                     {% if file.readable %}
                         <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}"
-                           class='fancybox'
-                           rel='fancybox'
+                           class='magnific'
                            title="Image: {{ file.filename }}">
                             <b>{{ file.filename }}</b>
                         </a>

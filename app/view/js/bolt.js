@@ -8,10 +8,19 @@ jQuery(function($) {
         return confirm( $(this).data('confirm') );
     });
 
-    // Initialize the Fancybox shizzle.
-    $('.fancybox').fancybox({
-        margin: [ 20, 20, 40, 20],
-        helpers: { overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.5)' } } }
+    // Initialize the Magnific popup shizzle.
+    $('.magnific, .fancybox').magnificPopup({
+        type: 'image',
+        gallery: { enabled: true },
+        disableOn: 400,
+        closeBtnInside: true,
+        enableEscapeKey: true,
+        mainClass: 'mfp-with-zoom',
+        zoom: {
+            enabled: true,
+            duration: 300,
+            easing: 'ease-in-out'
+        }
     });
 
     initActions();
