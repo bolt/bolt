@@ -1,10 +1,12 @@
 {
-    "name": "Bolt-2-backend",
-    "version": "2.0.0-dev",
-    "devDependencies": {
-        "node-sass": "~0.7.0",
-        "grunt": "~0.4.1",
-        "grunt-contrib-watch": "~0.5.3",
-        "grunt-sass": "~0.8.0"
-    }
+  "name": "Bolt-2-backend",
+  "version": "2.0.0-dev",
+  "devDependencies": {
+    "node-sass": "~0.7.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "bootstrap-sass": "^3.1.1",
+    "grunt-contrib-sass": "~0.7.3",
+    "font-awesome": "~4.0.3"
+  }
 }
