@@ -38,7 +38,11 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    style: 'compressed'
+                    style: 'compressed',
+                    loadPath: [
+                        'node_modules/bootstrap-sass/vendor/assets/stylesheets/',
+                        'node_modules/font-awesome/scss/'
+                    ]
                 },
                 files: {
                     'css/app.css': 'sass/app.scss'
