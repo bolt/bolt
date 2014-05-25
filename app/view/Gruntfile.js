@@ -1,29 +1,7 @@
 module.exports = function(grunt) {
 
-    // 1. All configuration goes here 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
-        /*
-        concat: {   
-            dist: {
-                src: [
-                    'javascripts/app.js', 
-                    'javascripts/foundation.min.js' 
-                ],
-                dest: 'javascripts/app.min.js',
-            }
-        }
-        */
-
-        /*
-        uglify: {
-            build: {
-                src: 'javascripts/app.js',
-                dest: 'javascripts/app.min.js'
-            }
-        },
-        */
 
         watch: {
             scripts: {
@@ -48,19 +26,24 @@ module.exports = function(grunt) {
                     'css/app.css': 'sass/app.scss'
                 }
             } 
-        }        
+        },
+
+
+        copy: {
+            main: {
+                files: [
+                    // includes files within path
+                    {expand: true, flatten: true, src: ['node_modules/font-awesome/fonts/*'], dest: 'fonts/', filter: 'isFile'}
+                ]
+            }
+        }
 
     });
 
-    // 3. Where we tell Grunt we plan to use this plug-in.
-    //grunt.loadNpmTasks('grunt-contrib-concat');
-    //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
-    // grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
-
-    // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
     grunt.registerTask('default', ['sass']);
 
 };
