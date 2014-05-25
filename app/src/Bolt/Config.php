@@ -602,7 +602,7 @@ class Config
         $this->data['twigpath'] = $twigpath;
     }
 
-    private function setCKPath()
+    public function setCKPath()
     {
         $this->paths = $this->app['resources']->getPaths();
 
@@ -611,8 +611,11 @@ class Config
             $this->paths['app'] . 'view/lib/ckeditor/contents.css',
             $this->paths['app'] . 'view/css/ckeditor.css'
         ));
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->paths['async'] . 'filebrowser/');
-        $this->set('general/wysiwyg/filebrowser/imageBrowseUrl', $this->paths['bolt'] . 'files/files');
+        $this->set('general/wysiwyg/filebrowser/browseUrl',     $this->app['resources']->getUrl('async') . 'filebrowser/');
+        $this->set(
+            'general/wysiwyg/filebrowser/imageBrowseUrl',
+            $this->app['resources']->getUrl('bolt')  . 'files' . '/files/'
+        );
     }
 
     private function loadCache()
