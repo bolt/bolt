@@ -65,7 +65,7 @@
                                     </span></td>
                     <td class='listthumb'>
                         {% if content.getImage is not empty %}
-                            {{content.getImage|fancybox(thumbsize, thumbsize*0.75, 'c')}}
+                            {{content.getImage|popup(thumbsize, thumbsize*0.75, 'c')}}
                         {% endif %}
                     </td>
                 {% endblock %}

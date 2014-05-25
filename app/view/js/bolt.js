@@ -8,7 +8,7 @@ jQuery(function($) {
         return confirm( $(this).data('confirm') );
     });
 
-    // Initialize the Magnific popup shizzle.
+    // Initialize the Magnific popup shizzle. Fancybox is still here as a trigger, for backwards compatibility.
     $('.magnific, .fancybox').magnificPopup({
         type: 'image',
         gallery: { enabled: true },

@@ -58,7 +58,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFunction('image', array($this, 'image')),
             new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
+            new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
@@ -89,7 +90,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('image', array($this, 'image')),
             new \Twig_SimpleFilter('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
+            new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('first', array($this, 'first')),
@@ -950,11 +952,14 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Helper function to wrap an image in a fancybox HTML tag, with thumbnail
+     * Helper function to wrap an image in a Magnific popup HTML tag, with thumbnail
      *
-     * example: {{ content.image|fancybox(320, 240) }}
-     * example: {{ fancybox(content.image, 320, 240) }}
-     * example: {{ content.image|fancybox(width=320, height=240, title="My Image") }}
+     * example: {{ content.image|popup(320, 240) }}
+     * example: {{ popup(content.image, 320, 240) }}
+     * example: {{ content.image|popup(width=320, height=240, title="My Image") }}
+     *
+     * Note: This function used to be called 'fancybox', but Fancybox was deprecated in favor
+     * of the Magnific Popup library.
      *
      * @param  string $filename Image filename
      * @param  int $width Image width
@@ -963,7 +968,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $title Display title for image
      * @return string HTML output
      */
-    public function fancybox($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
+    public function popup($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
     {
 
         if (!empty($filename)) {
@@ -981,7 +986,7 @@ class TwigExtension extends \Twig_Extension
             }
 
             $output = sprintf(
-                '<a href="%s" class="fancybox" rel="fancybox" title="%s"><img src="%s" width="%s" height="%s"></a>',
+                '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s"></a>',
                 $large, $title, $thumbnail, $width, $height
             );
 
