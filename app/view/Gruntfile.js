@@ -20,7 +20,8 @@ module.exports = function(grunt) {
                     loadPath: [
                         'node_modules/bootstrap-sass/vendor/assets/stylesheets/',
                         'node_modules/font-awesome/scss/'
-                    ]
+                    ],
+                    lineNumbers: true
                 },
                 files: {
                     'css/app.css': 'sass/app.scss'
