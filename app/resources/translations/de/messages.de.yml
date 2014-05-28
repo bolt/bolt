@@ -41,7 +41,7 @@
 "Details are shown above. The importer will now try again with a different parser...": "Details werden unten aufgelistet. Der Importierer wird es mit einem anderen Parser erneut versuchen."
 "Display name": "Angezeigter Name"
 "Display the file or directory '%s' is forbidden.":  "Datei oder Verzeichnis '%s': keine ausreichende Berechtigung."
-"Do you really whant to delete %foldername%?": "Möchten Sie das Verzeichnis %foldername% wirklich löschen?"
+"Do you really want to delete %foldername%?": "Möchten Sie das Verzeichnis %foldername% wirklich löschen?"
 "Draft": "Entwurf"
 "Edit %contenttype%": "%contenttype% editieren"
 "Edit Config": "Konfiguration editieren"

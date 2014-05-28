@@ -36,7 +36,7 @@ info:
         annak húzásával. Elsőként írja be a (hozzávetőleges) címet a 'cím' mezőbe, majd a megfelelő földrajzi szélesség
         és hosszúság le lesz kérve a Google Térkép API használatával, továbbá a lehető legközelebbi egyező cím is a
         Google szerint.<br />
-        Ha a jelölőt más pozícióba szeretné mozgatni, csak fogd és vidd módszerrel helyezze át a min-térképen. A földrajzi
+        Ha a jelölőt más pozícióba szeretné mozgatni, csak fogd és vidd módszerrel helyezze át a mini-térképen. A földrajzi
         szélesség és hosszúság automatikusan frissítve lesz.
     markdown: |
         A markdown egy szöveget HTML kóddá alakító eszköz webes publikálók számára.
