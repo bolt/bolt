@@ -4,7 +4,7 @@
 
 <ul class="nav nav-tabs" id="myTab">
     <li class="active">
-        <a href="#stack" data-toggle="tab">
+        <a href="#stacktab" data-toggle="tab">
             {{ __('Stack') }}
         </a>
     </li>
@@ -21,7 +21,7 @@
 
 <div class="tab-content">
 
-    <div class="tab-pane active" id="stack">
+    <div class="tab-pane active" id="stacktab">
         {{ render(path("showstack", {'items': 10, 'options': 'list' } )) }}
     </div>
 
