@@ -1131,6 +1131,10 @@ fieldset.checkbox div {
     background-color: #BBB !important;
 }
 
+.cke_dialog_ui_input_text {
+    min-height: 24px; /* Because IE8 and IE9 are cray-cray. */
+}
+
 /* Overrides for CodeMirror */
 
 .CodeMirror {
