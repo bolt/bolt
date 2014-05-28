@@ -106,11 +106,9 @@ class Stack
     {
         $ext = getExtension($filename);
 
-        echo "[ $ext ]";
-
         return in_array($ext, $this->getFileTypes());
 
-    }    
+    }
 
     /**
      * Return a list with the current stacked items. Add some relevant info to each item,
@@ -216,7 +214,7 @@ class Stack
 
     /**
      * Get the allowed filetypes.
-     */ 
+     */
     public function getFileTypes()
     {
         return array_merge($this->imagetypes, $this->documenttypes);
