@@ -109,7 +109,7 @@
             <div class="col-sm-8">
                 <select name="ownerid" {% if not isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}disabled="disabled"{% endif %} class="form-control narrow">
                     {% for user in users %}
-                        <option value="{{ user.id }}" {% if user.id == contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
+                        <option value="{{ user.id }}" {% if contentowner and user.id == contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
                     {% endfor %}
                 </select>
             </div>
