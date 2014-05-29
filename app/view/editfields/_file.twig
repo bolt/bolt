@@ -1,0 +1,95 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    class:       field.class|default(''),
+    label:       field.label|default(''),
+    extensions:  field.extensions|default([]),
+}%}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set items = stackitems(7, 'other,document') %}
+
+{% set attr_filepath = {
+    accept:  option.extensions|join('|'),
+    class:   option.class~' imageinput',
+    id:      'field-'~key,
+    name:    key,
+    type:    'text',
+    value:   content.get(key),
+}%}
+
+{% set attr_upload = {
+    accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
+    data_url:  paths.app~'classes/upload/index.php',
+    id:        'fileupload-'~key,
+    name:      'fileupload-'~key~'[]',
+    type:      'file',
+}%}
+
+{#=== FIELDSET =======================================================================================================#}
+
+<fieldset class="file">
+
+    <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
+
+        <label class="control-label">{{ macro.infopop(labelkey, 'info.upload.file') }}</label>
+        <input{{ macro.attr(attr_filepath) }}><br>
+
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+
+            {# The fileinput-button span is used to style the file input field as button #}
+            <div class="btn-group">
+                <span class="btn btn-info fileinput-button">
+                    <i class="fa fa-upload"></i>
+                    <span>{{ __('Upload File') }}</span>
+                    <input{{ macro.attr(attr_upload) }}>
+                </span>
+            </div>
+
+            {% if items %}
+                <div class="btn-group">
+                    <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-paperclip"></i> {{ __('Select from stack') }} <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu" id="stack-{{ key }}">
+                        {% for item in items %}
+                            <li>
+                                <a href="#" data-action="stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
+                                    {{ item.basename }} <small>({{ item.filesize }})</small>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="progress progress-striped active" id="progress-{{ key }}">
+            <div class="bar" style="width: 0%;"></div>
+        </div>
+
+        {% if not ismobileclient() %}
+            <div style="clear: left;" class="hidden-sm">
+                <small>{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</small>
+            </div>
+        {% endif %}
+    </div>
+
+</fieldset>
+
+{#=== SCRIPT =========================================================================================================#}
+
+{% if not ismobileclient() %}
+    <script>
+        $(function() {
+            bindFileUpload('{{ key }}');
+
+            $("#field-{{ key }}").autocomplete({
+                source: "{{ paths.async }}filesautocomplete?ext={{ option.extensions|join(',') }}",
+                minLength: 2
+            });
+        });
+    </script>
+{% endif %}

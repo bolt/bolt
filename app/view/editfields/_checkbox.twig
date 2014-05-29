@@ -1,23 +1,37 @@
-{# Available options: class, label #}
+{#=== OPTIONS ========================================================================================================#}
 
-{% set attr_chk = {
-    type:     'checkbox',
-    name_id:  key,
-    value:    '1',
-    checked:  content.get(key),
-    class:    field.class,
+{% set option = {
+    class:  field.class|default(''),
+    label:  field.label|default(''),
 }%}
 
-{% set attr_hid = {
-    type:     'hidden',
+{#=== INIT ===========================================================================================================#}
+
+{% set attr_checkbox = {
+    checked:  content.get(key),
+    class:    option.class,
     name_id:  key,
+    type:     'checkbox',
+    value:    '1',
+}%}
+
+{% set attr_hidden = {
+    name_id:  key,
+    type:     'hidden',
     value:    '0',
 }%}
 
+{#=== FIELDSET =======================================================================================================#}
 
-<label class="col-sm-3 control-label">{{ macro.labeltxt(key, field) }}</label>
-<div class="col-sm-9">
-    {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
-    <input{{ macro.attr(attr_hid) }}>
-    <input{{ macro.attr(attr_chk) }}>
-</div>
+{# fieldset.checkbox already used: -> chkbox #}
+<fieldset class="chkbox">
+
+    <label class="col-sm-3 control-label">{{ labelkey }}</label>
+    <div class="col-sm-9">
+        {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
+        {# Can be removed later, see current master #}
+        <input{{ macro.attr(attr_hidden) }}>
+        <input{{ macro.attr(attr_checkbox) }}>
+    </div>
+
+</fieldset>
