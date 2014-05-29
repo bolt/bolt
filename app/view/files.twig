@@ -41,7 +41,7 @@
         <td>
             {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
                 {% if file.readable %}
-                    <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" class='fancybox' rel='fancybox' title="Image: {{ file.filename }}">
+                    <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}" class='magnific' title="Image: {{ file.filename }}">
                         <b>{{ file.filename }}</b>
                     </a>
                 {% else %}
@@ -80,22 +80,45 @@
 
                 {{ macro.stackbutton(file) }}
 
-                <a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
-                    <i class="fa fa-info-sign"></i>
-                    {{ __('Options') }}
-                    <span class="caret"></span>
-                </a>
+                {% if folder.writable %}
 
-                <ul class="dropdown-menu pull-right">
-                    <li><a href="#" data-action="files.deleteFile('{{file.newpath}}', this);">
-                        <i class="fa fa-ban-circle"></i> {{ __('Delete %filename%',{'%filename%':file.filename}) }}</a></li>
-                    <li><a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
-                        <i class="fa fa-copy"></i> {{ __('Duplicate %filename%',{'%filename%':file.filename}) }}</a></li>
-                    <li class="divider"></li>
-                    <li><a class="nolink">{{ __('Permissions') }}:
-                            <strong><code>{{ file.permissions }}</code></strong></a></li>
+                    <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                        <i class="icon-info-sign"></i>
+                        {{ __('Options') }}
+                        <span class="caret"></span>
+                    </a>
 
-                </ul>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="#"
+                               data-action="folders.rename('{{__("Please enter a new folder name")}}',
+                                                           '{{ pathsegments|keys|last }}',
+                                                           '{{ folder.foldername }}',
+                                                           this);">
+
+                                <i class="icon-keyboard"></i>
+                                {{ __('Rename %foldername%', { '%foldername%': folder.foldername }) }}
+                            </a>
+                            <a href="#"
+                               class="confirm"
+                               data-confirm="{{ __("Do you really want to delete %foldername%?",
+                                                    {'%foldername%': folder.foldername }) }}"
+                               data-action="folders.remove('{{ pathsegments|keys|last }}',
+                                                           '{{ folder.foldername }}',
+                                                           this);">
+
+                                <i class="icon-ban-circle"></i>
+                                {{ __('Delete %foldername%', { '%foldername%': folder.foldername }) }}
+                            </a>
+                        </li>
+                    </ul>
+                {% else %}
+                    <a class="btn btn-mini">
+                        <i class="icon-exclamation-sign"></i>
+                        {{ __('Folder permissions insufficient') }}
+                    </a>
+                {% endif %}
+
             </div>
 
         </td>
@@ -114,7 +137,7 @@
                 <i class="fa fa-upload"></i>
                 <span>{{ __('Upload file') }}</span>
             </button>
-            {{ pretty.typepopover() }}
+            {{ macro.typepopover() }}
         </fieldset>
     </form>
 
