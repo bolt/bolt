@@ -15,12 +15,6 @@
     value:    '1',
 }%}
 
-{% set attr_hidden = {
-    name_id:  key,
-    type:     'hidden',
-    value:    '0',
-}%}
-
 {#=== FIELDSET =======================================================================================================#}
 
 {# fieldset.checkbox already used: -> chkbox #}
@@ -28,9 +22,7 @@
 
     <label class="col-sm-3 control-label">{{ labelkey }}</label>
     <div class="col-sm-9">
-        {# hidden field, to 'detect' unchecked checkboxes in $_POST. See: http://stackoverflow.com/a/1992745 #}
-        {# Can be removed later, see current master #}
-        <input{{ macro.attr(attr_hidden) }}>
+
         <input{{ macro.attr(attr_checkbox) }}>
     </div>
 
