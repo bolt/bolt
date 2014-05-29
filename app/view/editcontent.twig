@@ -95,7 +95,7 @@
         <div class="form-group">
             {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
             <div class="col-sm-8">
-                <select name="status" {% if allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
+                <select name="status" id="statusselect" {% if allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
                     {% set status_names = { "published": "Published", "held": "Not published", "timed": "Timed publish", "draft": "Draft" } %}
                     {% for status in allowedStatuses %}
                         <option value="{{status}}" {% if content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
@@ -130,13 +130,15 @@
                     <i class="fa fa-flag"></i> {{ __('Save & return') }}
                 </button>
 
-                <p class="lastsaved" style="margin-top: 12px;">
+                <p style="margin-top: 12px;">
                     {% if content.id != 0 %}
                     {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(content.datechanged) }})</small></p>
                 {% else %}
                     {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': contenttype.singular_name}) }}
                 {% endif %}
                 </p>
+
+            
 
             </div>
 
@@ -166,6 +168,13 @@
                     <i class="fa fa-flag"></i> {{ __('Save & return') }}
                 </button>
 
+                <p>
+                    {{ __("Current (saved) status:") }}
+                    <a href="#statusselect" data-action="$('#statusselect').focus();" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
+                        <strong>{{ status_names[content.status]|default(__("None")) }}</strong>
+                    </a>
+                </p>
+                
                 <p class="lastsaved">
                     {% if content.id != 0 %}
                     {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(content.datechanged) }})</small></p>
