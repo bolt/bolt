@@ -29,8 +29,10 @@ if (!isset($_SESSION['_sf2_attributes']['user']['id'])) {
     die();
 }
 
+$fileSystem = new Symfony\Component\Filesystem\Filesystem;
+
 // Make sure the folder exists.
-makeDir(__DIR__.'/../../../files/'.date('Y-m'));
+$fileSystem->mkdir(__DIR__.'/../../../files/'.date('Y-m'));
 
 require('upload.class.php');
 

@@ -17,6 +17,8 @@ class Storage
      */
     private $app;
 
+    private $tables;
+
     /**
      * @var string
      */
@@ -37,6 +39,8 @@ class Storage
         if ($this->prefix[strlen($this->prefix) - 1] != "_") {
             $this->prefix .= "_";
         }
+
+        $this->tables = array();
 
     }
 
@@ -271,16 +275,16 @@ class Storage
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
      */
-    private function logUpdate($contenttype, $contentid, $newContent) {
-        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent);
+    private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null) {
+        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent, $oldContent);
     }
 
     /**
      * Writes a content-changelog entry for a deleted entry.
      * This function must be called *before* the actual update, because it
      */
-    private function logDelete($contenttype, $contentid) {
-        $this->writeChangelog('DELETE', $contenttype, $contentid);
+    private function logDelete($contenttype, $contentid, $content) {
+        $this->writeChangelog('DELETE', $contenttype, $contentid, null, $content);
     }
 
     /**
@@ -291,7 +295,8 @@ class Storage
      * @param int $contentid ID of the content item to log.
      * @param array $newContent For 'INSERT' and 'UPDATE', the new content;
      *                          null for 'DELETE'.
-     *
+     * @param array $oldContent For 'UPDATE' and 'DELETE', the current content;
+     *                          null for 'INSTERT'.
      * For the 'UPDATE' and 'DELETE' actions, this function fetches the
      * previous data from the database; this means that you must call it
      * _before_ running the actual update/delete query; for the 'INSERT'
@@ -299,20 +304,13 @@ class Storage
      * an ID, you can only really call the logging function _after_ the update.
      * @throws \Exception
      */
-    private function writeChangelog($action, $contenttype, $contentid, $newContent = null) {
+    private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null) {
         $allowed = array('INSERT', 'UPDATE', 'DELETE');
         if (!in_array($action, $allowed)) {
             throw new \Exception("Invalid action '$action' specified for changelog (must be one of [ " . implode(', ', $allowed) . " ])");
         }
 
         if ($this->app['config']->get('general/changelog/enabled')) {
-            $tablename = $this->getTablename($contenttype);
-            if ($action === 'INSERT') {
-                $oldContent = null;
-            }
-            else {
-                $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentid));
-            }
             if (empty($oldContent) && empty($newContent)) {
                 throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
             }
@@ -570,15 +568,13 @@ class Storage
         }
     }
 
-    public function saveContent($content, $contenttype = "")
+    public function saveContent($content)
     {
-
         $contenttype = $content->contenttype;
-
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            echo "Contenttype is required.";
+            echo 'Contenttype is required.';
 
             return false;
         }
@@ -594,68 +590,72 @@ class Storage
 
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
+            switch ($values['type']) {
 
-            // Set the slug, while we're at it..
-            if ($values['type'] == "slug") {
-                if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
-                    $uses = '';
-                    foreach ($values['uses'] as $usesField) {
-                        $uses .= $fieldvalues[$usesField] . ' ';
+                // Set the slug, while we're at it..
+                case 'slug':
+                    if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
+                        $uses = '';
+                        foreach ($values['uses'] as $usesField) {
+                            $uses .= $fieldvalues[$usesField] . ' ';
+                        }
+                        $fieldvalues['slug'] = makeSlug($uses);
+                    } elseif (!empty($fieldvalues['slug'])) {
+                        $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                    } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
+                        $fieldvalues['slug'] = $fieldvalues['id'];
                     }
-                    $fieldvalues['slug'] = makeSlug($uses);
-                } elseif (!empty($fieldvalues['slug'])) {
-                    $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
-                } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
-                    $fieldvalues['slug'] = $fieldvalues['id'];
-                }
-            }
+                    break;
 
-            if ($values['type'] == "video") {
-                foreach (array('html', 'responsive') as $subkey) {
-                    if (!empty($fieldvalues[$key][$subkey])) {
-                        $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                case 'video':
+                    foreach (array('html', 'responsive') as $subkey) {
+                        if (!empty($fieldvalues[$key][$subkey])) {
+                            $fieldvalues[$key][$subkey] = (string) $fieldvalues[$key][$subkey];
+                        }
                     }
-                }
-                if (!empty($fieldvalues[$key]['url'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                    if (!empty($fieldvalues[$key]['url'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "geolocation") {
-                if (!empty($fieldvalues[$key]['address'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'geolocation':
+                    if (!empty($fieldvalues[$key]['address'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "image") {
-                 if (!empty($fieldvalues[$key]['file'])) {
-                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                 } else {
-                     $fieldvalues[$key] = "";
-                 }
-            }
+                case 'image':
+                    if (!empty($fieldvalues[$key]['file'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if (in_array($values['type'], array("imagelist", "filelist")))  {
-                if (is_array($fieldvalues[$key])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
-                    // Don't store '[]'
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'imagelist':
+                case 'filelist':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                        // Don't store '[]'
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "integer") {
-                $fieldvalues[$key] = round($fieldvalues[$key]);
-            }
+                case 'integer':
+                    $fieldvalues[$key] = round($fieldvalues[$key]);
+                    break;
 
-            if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
-                $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                case 'select':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    }
+                    break;
             }
-
         }
 
         // Clean up fields, check unneeded columns.
@@ -674,7 +674,8 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], isset($fieldvalues['id']) ? $fieldvalues['id'] : null, $contenttype['slug'], false, false);
+        $get_id = isset($fieldvalues['id']) ? $fieldvalues['id'] : null;
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $get_id, $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
@@ -718,9 +719,11 @@ class Storage
             $contenttype = $contenttype['slug'];
         }
 
-        $this->logDelete($contenttype, $id);
-
         $tablename = $this->getTablename($contenttype);
+
+        $oldContent = $this->findContent($tablename, $id);
+
+        $this->logDelete($contenttype, $id, $oldContent);
 
         $res = $this->app['db']->delete($tablename, array('id' => $id));
 
@@ -781,6 +784,8 @@ class Storage
 
         $tablename = $this->getTablename($contenttype);
 
+        $oldContent = $this->findContent($tablename, $content['id']);
+
         $content['datechanged'] = date('Y-m-d H:i:s');
 
         // Keep datecreated around, for when we might need to 'insert' instead of 'update' after all
@@ -790,7 +795,7 @@ class Storage
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
         if ($res == true) {
-            $this->logUpdate($contenttype, $content['id'], $content);
+            $this->logUpdate($contenttype, $content['id'], $content, $oldContent);
             return true;
         } else {
             // Attempt to _insert_ it, instead of updating..
@@ -1765,8 +1770,13 @@ class Storage
     private function runContenttypeChecks(array $contenttypes)
     {
         foreach ($contenttypes as $contenttypeslug) {
-            $contenttype = $this->getContentType($contenttypeslug);
 
+            // Make sure we do this only once per contenttype
+            if (isset($this->app->checkedcontenttype[$contenttypeslug])) {
+                continue;
+            }
+
+            $contenttype = $this->getContentType($contenttypeslug);
             $tablename = $this->getTablename($contenttype['slug']);
 
             // If the table doesn't exist (yet), return false..
@@ -1777,6 +1787,9 @@ class Storage
             // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
             $this->publishTimedRecords($contenttype);
             $this->depublishExpiredRecords($contenttype);
+
+            // "mark" this one as checked.
+            $this->app->checkedcontenttype[$contenttypeslug] = true;
         }
 
         return true;
@@ -1896,6 +1909,9 @@ class Storage
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
+        // Start the 'stopwatch' for the profiler.
+        $this->app['stopwatch']->start('bolt.getcontent', 'doctrine');
+
         // $whereparameters is passed if called from a compiled template. If present, merge it with $parameters.
         if (!empty($whereparameters)) {
             $parameters = array_merge((array) $parameters, (array) $whereparameters);
@@ -1905,7 +1921,7 @@ class Storage
         $decoded = $this->decodeContentQuery($textquery, $parameters);
         if ($decoded === false) {
             $this->app['log']->add("Storage: No valid query '$textquery'");
-
+            $this->app['stopwatch']->stop('bolt.getcontent');
             return false;
         }
 
@@ -1913,6 +1929,7 @@ class Storage
 
         // Run checks and some actions (@todo put these somewhere else?)
         if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
+            $this->app['stopwatch']->stop('bolt.getcontent');
             return false;
         }
 
@@ -1945,6 +1962,7 @@ class Storage
         // Return content
         if ($decoded['return_single']) {
             if (util::array_first_key($results)) {
+                $this->app['stopwatch']->stop('bolt.getcontent');
                 return util::array_first($results);
             }
 
@@ -1953,7 +1971,7 @@ class Storage
                 $textquery
             );
             $this->app['log']->add($msg);
-
+            $this->app['stopwatch']->stop('bolt.getcontent');
             return false;
         }
 
@@ -1970,6 +1988,7 @@ class Storage
         $GLOBALS['pager'][$pager_name] = $pager;
         $this->app['twig']->addGlobal('pager', $pager);
 
+        $this->app['stopwatch']->stop('bolt.getcontent');
         return $results;
     }
 
@@ -2820,49 +2839,39 @@ class Storage
     }
 
     /**
-     * Get an associative array with the bolt_tables tables and columns in the DB.
-     *
-     * @return array
-     */
-    protected function getTables()
-    {
-        // Only do this once..
-        if (!empty($this->app['tables'])) {
-            return $this->app['tables'];
-        }
-
-        $sm = $this->app['db']->getSchemaManager();
-
-        $this->tables = array();
-
-        foreach ($sm->listTables() as $table) {
-            if (strpos($table->getName(), $this->prefix) === 0) {
-                foreach ($table->getColumns() as $column) {
-                    $this->tables[$table->getName()][$column->getName()] = $column->getType();
-                }
-                // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
-            }
-        }
-
-        // @todo: Fix this!! Move this to '$app->config'..
-        $this->app['tables'] = $this->tables;
-
-        return $this->tables;
-
-    }
-
-    /**
-     * Check if the table $name exists.
+     * Check if the table $name exists. We use our own queries here, because it's _much_
+     * faster than Doctrine's getSchemaManager()
      *
      * @param $name
      * @return bool
      */
     protected function tableExists($name)
     {
+        // We only should check each table once.
+        if (isset($this->tables[$name])) {
+            return true;
+        }
 
-        $tables = $this->getTables();
+        // See if the table exists.
+        $dboptions = $this->app['config']->getDBOptions();
+        if ($dboptions['driver'] == 'pdo_sqlite') {
+            // For SQLite:
+            $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
+        } else {
+            // For MySQL and Postgres:
+            $databasename = $this->app['config']->get('general/database/databasename');
+            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
+        }
 
-        return (!empty($tables[$name]));
+        $res = $this->app['db']->fetchColumn($query);
+
+        if (empty($res)) {
+            return false;
+        }
+
+        $this->tables[$name] = true;
+
+        return true;
 
     }
 
@@ -2890,6 +2899,18 @@ class Storage
 
         return intval($count) > 0;
 
+    }
+
+    /**
+     * Find record from Content Type and Content Id
+     * @param string $tablename Table name
+     * @param int    $contentId Content Id
+     * @return array
+     */
+    protected function findContent($tablename, $contentId) {
+
+        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentId));
+        return $oldContent;
     }
 
 }

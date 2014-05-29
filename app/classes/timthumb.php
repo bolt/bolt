@@ -50,20 +50,20 @@ require_once __DIR__ . '/../bootstrap.php';
 
 // Let's get on with the rest..
 $yamlparser = new Symfony\Component\Yaml\Parser();
-$config['general'] = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR .'/config.yml') . "\n");
+$config = $yamlparser->parse(file_get_contents(BOLT_CONFIG_DIR .'/config.yml') . "\n");
 
 // Set some default settings, as defined in our config.yml
-define('DEFAULT_Q', !empty($config['general']['thumbnails']['quality'])
-    ? $config['general']['thumbnails']['quality']
+define('DEFAULT_Q', !empty($config['thumbnails']['quality'])
+    ? $config['thumbnails']['quality']
     : 70);
-define('DEFAULT_ZC', !empty($config['general']['thumbnails']['cropping'])
-    ? $config['general']['thumbnails']['cropping']
+define('DEFAULT_ZC', !empty($config['thumbnails']['cropping'])
+    ? $config['thumbnails']['cropping']
     : 'crop');
-define('NOT_FOUND_IMAGE', !empty($config['general']['thumbnails']['notfound_image'])
-    ? "../" . $config['general']['thumbnails']['notfound_image']
+define('NOT_FOUND_IMAGE', !empty($config['thumbnails']['notfound_image'])
+    ? "../" . $config['thumbnails']['notfound_image']
     : "");
-define('ERROR_IMAGE', !empty($config['general']['thumbnails']['error_image'])
-    ? "../" . $config['general']['thumbnails']['error_image']
+define('ERROR_IMAGE', !empty($config['thumbnails']['error_image'])
+    ? "../" . $config['thumbnails']['error_image']
     : "");
 
 // A CLI-server hack
@@ -352,11 +352,17 @@ class timthumb {
 			}
 		}
 
-		$cachePrefix = ($this->isURL ? '_ext_' : '_int_');
+		$this->setCacheFile();
+		$this->debug(2, "Cache file is: " . $this->cachefile);
+
+		return true;
+	}
+    protected function setCacheFile() {
+        $cachePrefix = ($this->isURL ? '_ext_' : '_int_');
 		if($this->isURL){
 			$arr = explode('&', $_SERVER ['QUERY_STRING']);
 			asort($arr);
-			$this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . implode('', $arr) . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
+			$this->cachefile = $this->cacheDirectory . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . implode('', $arr) . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
 		} else {
 			$this->localImage = $this->getLocalImagePath($this->src);
 			if(! $this->localImage){
@@ -368,12 +374,9 @@ class timthumb {
 			$this->debug(1, "Local image path is {$this->localImage}");
 			$this->localImageMTime = @filemtime($this->localImage);
 			//We include the mtime of the local file in case in changes on disk.
-			$this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
+			$this->cachefile = $this->cacheDirectory . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . $this->localImageMTime . $_SERVER ['QUERY_STRING'] . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
 		}
-		$this->debug(2, "Cache file is: " . $this->cachefile);
-
-		return true;
-	}
+    }
 	public function __destruct(){
 		foreach($this->toDeletes as $del){
 			$this->debug(2, "Deleting temp file $del");
@@ -409,7 +412,12 @@ class timthumb {
 	protected function handleErrors(){
 		if($this->haveErrors()){
 			if(NOT_FOUND_IMAGE && $this->is404()){
-				if($this->serveImg(NOT_FOUND_IMAGE)){
+                $this->src = realpath(__DIR__.'/'.NOT_FOUND_IMAGE);
+                $this->setCacheFile();
+                $this->processImageAndWriteToCache(realpath(__DIR__.'/'.NOT_FOUND_IMAGE));
+                if ($this->serveCacheFile()) {
+                    exit(0);
+                } elseif($this->serveImg(NOT_FOUND_IMAGE)){
 					exit(0);
 				} else {
 					$this->error("Additionally, the 404 image that is configured could not be found or there was an error serving it.");
@@ -656,8 +664,8 @@ class timthumb {
 		}
 
 		// Bolt specific - don't upscale images unless explicitly told to
-		if( !isset($config['general']['thumbnails']['allow_upscale']) ||
-            $config['general']['thumbnails']['allow_upscale'] == false ) {
+		if( !isset($config['thumbnails']['allow_upscale']) ||
+            $config['thumbnails']['allow_upscale'] == false ) {
 			if( $new_width > $width ) {
 				$new_width = $width;
 			}
@@ -944,14 +952,19 @@ class timthumb {
     {
         global $config;
 
-        if ($config['general']['thumbnails']['save_files'] != true) {
+        if ($config['thumbnails']['save_files'] != true) {
             return;
         }
 
+        $fileSystem = new Symfony\Component\Filesystem\Filesystem;
+
         // Make sure the paths exists. Try to create it, if possible.
         $pathparts = explode("/", $_GET['requestname']);
-        $path = dirname(dirname(__DIR__)) . "/" . implode("/", array_slice($pathparts, 0, (count($pathparts)-1)));
-        makeDir($path);
+        $path      = BOLT_PROJECT_ROOT_DIR
+                        . DIRECTORY_SEPARATOR
+                        . implode(DIRECTORY_SEPARATOR,
+                                  array_slice($pathparts, 0, (count($pathparts)-1)));
+        $fileSystem->mkdir($path);
 
         // Copy the file, and chmod
         $newfilename = dirname(dirname(__DIR__)) . "/" . urldecode($_GET['requestname']);

@@ -23,8 +23,9 @@
     <script src="{{ paths.app }}view/js/jquery.plugins.js"></script>
 
     <script src="{{ paths.app }}view/js/bootstrap.min.js"></script>
-    <script src="{{ paths.app }}view/lib/fancybox/jquery.fancybox.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/fancybox/jquery.fancybox.css">
+
+    <script src="{{ paths.app }}view/js/jquery.magnific-popup.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/magnific-popup.css">
 
     <link rel="stylesheet" href="{{ paths.app }}view/lib/select2/select2.css">
     <script src="{{ paths.app }}view/lib/select2/select2.min.js"></script>
@@ -39,11 +40,13 @@
     <script src="{{ paths.app }}view/js/moment-langs.min.js"></script>
     <script type="text/javascript">
         moment.lang('{{ app.locale|default('en') }}');
+        var ckeditor_lang="{{ app.locale|default('en') }}";
     </script>
 
     <script src="{{ paths.app }}view/js/bootbox.min.js"></script>
 
     <script>var ckeditor_lang="{{ app.locale|default('en') }}";</script>
+    <script src="{{ paths.app }}view/js/modernizr.custom.2.8.1.js"></script>
     <script src="{{ paths.app }}view/js/bolt.js"></script>
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>

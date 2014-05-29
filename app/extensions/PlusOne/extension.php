@@ -25,7 +25,8 @@ class Extension extends \Bolt\BaseExtension
             'first_releasedate' => "2013-08-21",
             'latest_releasedate' => "2013-08-21",
             'dependencies' => "",
-            'priority' => 10
+            'priority' => 10,
+            'allow_in_user_content' => true,
         );
 
         return $data;

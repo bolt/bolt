@@ -30,3 +30,5 @@ app/view/.sass-cache
 .buildpath
 .project
 npm-debug.log
+app/view/config.codekit
+/bolt.log

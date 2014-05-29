@@ -161,13 +161,14 @@ class Config
         $config['extensions']  = array();
 
         // fetch the theme config. requires special treatment due to the path
-        $paths = getPaths($config);
+        $this->app['resources']->setThemePath($config['general']);
+        $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
         
-        $this->paths = getPaths($config);
+        $this->paths = $this->app['resources']->getPaths();
         $this->setDefaults();
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
@@ -293,7 +294,7 @@ class Config
                 $temp['show_in_menu'] = true;
             }
             if (!isset($temp['sort'])) {
-                $temp['sort'] = 'id';
+                $temp['sort'] = '';
             }
             if (!isset($temp['default_status'])) {
                 $temp['default_status'] = 'draft';
@@ -606,17 +607,20 @@ class Config
         $this->data['twigpath'] = $twigpath;
     }
 
-    private function setCKPath()
+    public function setCKPath()
     {
-        $this->paths = getPaths($this);
+        $this->paths = $this->app['resources']->getPaths();
 
         // Make sure the paths for CKeditor config are always set correctly..
         $this->set('general/wysiwyg/ck/contentsCss', array(
             $this->paths['app'] . 'view/lib/ckeditor/contents.css',
             $this->paths['app'] . 'view/css/ckeditor.css'
         ));
-        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->paths['async'] . 'filebrowser/');
-        $this->set('general/wysiwyg/filebrowser/imageBrowseUrl', $this->paths['bolt'] . 'files/files');
+        $this->set('general/wysiwyg/filebrowser/browseUrl',     $this->app['resources']->getUrl('async') . 'filebrowser/');
+        $this->set(
+            'general/wysiwyg/filebrowser/imageBrowseUrl',
+            $this->app['resources']->getUrl('bolt')  . 'files' . '/files/'
+        );
     }
 
     private function loadCache()
@@ -693,9 +697,14 @@ class Config
                 $basename .= '.db';
             }
 
+            if(isset($configdb["path"])) {
+                $configpaths = $this->app['resources']->getPaths();
+                if(substr($configdb['path'],0,1) !== "/") $configdb["path"] = $configpaths["rootpath"]."/".$configdb["path"];
+            }
+
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => __DIR__ . '/../../database/' . $basename,
+                'path' => isset($configdb['path']) ? realpath($configdb["path"])."/".$basename : __DIR__ . '/../../database/' . $basename,
                 'randomfunction' => 'RANDOM()'
             );
         } else {

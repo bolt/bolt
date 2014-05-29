@@ -1,18 +1,11 @@
-# app/resources/translations/nl/messages.nl.yml -- generated on 2014/04/25 13:21:55
-# 65 untranslated strings
+# app/resources/translations/nl/messages.nl.yml -- generated on 2014/04/25 15:13:20
+# 49 untranslated strings
 
-"Are you sure you want to revert changes you have made since you last saved your menus?": "Weet je zeker dat je de niet-opgeslagen wijzigingen wilt terugdraaien?" #
-"Are you sure you wish to remove this item from the menu, along with all its sub-items?": "Weet je zeker dat je dit menu-item wilt verwijderen, samen met alle sub-items?"  #
-"Backup file could not be found": "De backup kon niet worden gevonden" #
-"Backup successfully restored": "Backup met succes hersteld" #
 "Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.":  #
-"Change Log": "Changelog" #
-"Class:": "Class" #
-"Code:": "Code" #
 "Content '%title%' has been changed to '%newStatus%'":  #
 "Content Type Permissions":  #
 "Content for home not found!":  #
-"Could not save %contenttype%.": "Kon %contenttype% niet opslaan." #
+"Current (saved) status:": "Huidige (opgeslagen) status:"  #
 "Display the file or directory '%s' is forbidden.":  #
 "Edit the file '%s' is forbidden.":  #
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ":  #
@@ -26,10 +19,8 @@
 "Message:":  #
 "Name of new menu":  #
 "Overview of all":  #
-"Owner": "Eigenaar" #
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.":  #
 "Password reset successful! You can now log on with the password that was sent to you via email.":  #
-"Permission denied": "Permissie gewiegerd" #
 "Please confirm that you wish to restore the menu":  #
 "Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml":  #
 "Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml":  #
@@ -50,25 +41,18 @@
 "Unable to overwrite menu.yml":  #
 "Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.":  #
 "Unable to save your menu.":  #
-"Upload files": "Upload bestanden" #
 "You do not have the right privileges to create a new record.":  #
-"back to editing": "terug naar bewerken" #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record.":  #
 "css classes":  #
 "field":  #
 "http://":  #
 "in:":  #
 "label":  #
-"line": "regel" #
-"new value": "nieuwe waarde" #
 "no label set":  #
-"no": "nee" #
 "old value":  #
-"px.": "px." #
-"title": "titel" #
-"yes": "ja" #
 
 #-----------------------------------------
-# 328 translated strings
+# 346 translated strings
 
 "%contenttypes% overview": "%contenttypes% overzicht"
 "%contenttypes%": "%contenttypes%"
@@ -101,10 +85,14 @@
 "An error occurred.": "Er is een fout opgetreden."
 "Anonymous": "Anoniem"
 "Are you sure you want to delete %username%?": "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
+"Are you sure you want to revert changes you have made since you last saved your menus?": "Weet je zeker dat je de niet-opgeslagen wijzigingen wilt terugdraaien?"
+"Are you sure you wish to remove this item from the menu, along with all its sub-items?": "Weet je zeker dat je dit menu-item wilt verwijderen, samen met alle sub-items?"
 "Are you sure you wish to revert? Your changes will be lost, if you don't save them.": "Weet je zeker dat je wilt terugdraaien? Je wijzigingen gaan verloren, tenzij je ze opslaat."
 "Assigned roles": "Toegekende rollen"
 "Author:": "Auteur:"
 "Back to login": "Terug naar login"
+"Backup file could not be found": "De backup kon niet worden gevonden"
+"Backup successfully restored": "Backup met succes hersteld"
 "Below are the third party libraries that are used by Bolt.": "Hieronder staan de externe libraries waar Bolt gebruik van maakt"
 "Bolt - Fatal error.": "Bolt - Kritieke fout."
 "Bolt documentation on Github": "Bolt documentatie op Github"
@@ -118,6 +106,7 @@
 "Cancel": "Annuleer"
 "Categories": "Categorieën"
 "Category": "Categorie"
+"Change Log": "Changelog"
 "Change status to 'draft'": "Zet status op 'klad'"
 "Change status to 'held'": "Zet status op 'niet gepubliceerd'"
 "Chapter": "Hoofdstuk"
@@ -125,12 +114,14 @@
 "Check again": "Controleer nogmaals"
 "Check database": "Controleer de database"
 "Choose an entry": "Kies een entry"
+"Class:": "Class"
 "Clear Activitylog": "Wis activiteitenlog"
 "Clear cache again": "Leeg de cache nogmaals"
 "Clear filter": "Wis filter"
 "Clear sort/filter": "Wis sortering/filter"
 "Clear the cache": "Leeg de cache"
 "Close": "Sluit"
+"Code:": "Code"
 "Configuration": "Configuratie"
 "Content '%title%' could not be deleted.": "Inhoud '%title%' kon niet worden opgeslagen."
 "Content '%title%' could not be modified.": "Inhoud '%title%' kon niet worden aangepast."
@@ -138,6 +129,7 @@
 "Content was duplicated. Click 'Save %contenttype%' to finalize.": "Inhoud is gedupliceerd. Klik op 'Sla %contenttype% op' om af te ronden."
 "Content": "Inhoud"
 "Contenttypes": "Contenttypen"
+"Could not save %contenttype%.": "Kon %contenttype% niet opslaan."
 "Create a new user": "Maak een nieuwe gebruiker aan"
 "Create the first user": "Maak de eerste gebruiker aan"
 "Created on:": "Aangemaakt op:"
@@ -244,6 +236,7 @@
 "Order: %sort%": "Volgorde: %sort%"
 "Overview for": "Overzicht van"
 "Overview": "Overzicht"
+"Owner": "Eigenaar"
 "Owner:": "Eigenaar:"
 "Page": "Pagina"
 "Password (confirmation)": "Wachtwoord (opnieuw)"
@@ -252,6 +245,7 @@
 "Path": "Pad"
 "Path:": "Pad:"
 "Permalink": "Permalink"
+"Permission denied": "Permissie gewiegerd"
 "Permissions": "Permissies"
 "Place on stack": "Plaats op stack"
 "Please choose the record you want to link to:": "Kies het record waarnaar je wilt linken:"
@@ -278,7 +272,7 @@
 "Roles": "Rollen"
 "Routing setup": "Route instellingen"
 "Save %contenttype%": "Sla %contenttype% op"
-"Save & return to overview": "Sla op & ga terug naar overzicht"
+"Save & return to overview": "Sla op & naar overzicht"
 "Save": "Opslaan"
 "Saved on:": "Opgeslagen op:"
 "Saved": "Opgeslagen"
@@ -350,6 +344,7 @@
 "Upload File": "Upload bestand"
 "Upload a file to this folder:": "Upload een bestand naar deze map:"
 "Upload file": "Upload bestand"
+"Upload files": "Upload bestanden"
 "Upload image": "Upload beeld"
 "Upload": "Uploaden"
 "Uploaded files": "Geüploade bestanden"
@@ -389,12 +384,19 @@
 "Your password": "Je wachtwoord"
 "Your username": "Je inlognaam"
 "and edited": "en bewerkt"
+"back to editing": "terug naar bewerken"
 "by": "door"
 "latest update:": "laatst bijgewerkt:"
+"line": "regel"
 "logged in": "ingelogd"
 "logged out": "uitgelogd"
 "more activity": "meer activiteit"
+"new value": "nieuwe waarde"
+"no": "nee"
 "none": "geen"
 "of": "van"
+"px.": "px."
 "show all": "Toon alle"
+"title": "titel"
 "unknown": "onbekend"
+"yes": "ja"

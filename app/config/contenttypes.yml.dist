@@ -78,7 +78,6 @@ pages:
             type: templateselect
             filter: '*.twig'
     taxonomy: [ chapters ]
-    sort: title
     recordsperpage: 100
 
 # The 'Kitchensink' is not particularly useful in most cases, but it does a good

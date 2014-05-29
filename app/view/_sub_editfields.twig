@@ -36,7 +36,7 @@
         {% if ',' in lookupfield %}
             {% set lookupfield = lookupfield|split(',') %}
         {% endif %}
-        {% setcontent lookups = lookuptype order 'title' %}
+        {% setcontent lookups = lookuptype order lookupfield|last %}
         {% set values = lookups|selectfield(lookupfield) %}
     {% endif %}
 
@@ -46,7 +46,7 @@
         <select name="{{key}}[]" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}' multiple>
             {% for value in values %}
                 {% if value is iterable and (value | length) > 1 %}
-                    <option value="{{value[0]}}" {% if value[0] in content.get(key) %}selected{% endif %}>{{value[1]}}</option>
+                    <option value="{{value[0]}}" {% if value[0] in content.get(key) %}selected{% endif %}>{{value[1:]|join(' / ')}}</option>
                 {% else %}
                     <option value="{{value}}" {% if value in content.get(key) %}selected{% endif %}>{{value}}</option>
                 {% endif %}
@@ -62,7 +62,7 @@
         <select name="{{key}}" id="{{key}}" class='{% if field.class is defined %}{{ field.class }}{% endif %}'>
             {% for value in values %}
                 {% if value is iterable and (value | length) > 1 %}
-                    <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1]}}</option>
+                    <option value="{{value[0]}}" {% if content.get(key)==value[0] %}selected{% endif %}>{{value[1:]|join(' / ')}}</option>
                 {% else %}
                     <option value="{{value}}" {% if content.get(key)==value %}selected{% endif %}>{{value}}</option>
                 {% endif %}

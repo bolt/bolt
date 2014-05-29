@@ -27,7 +27,8 @@ class Extension extends BoltExtension
             'highest_bolt_version' => "1.1",
             'type' => "General",
             'first_releasedate' => "2012-11-06",
-            'latest_releasedate' => "2013-05-29"
+            'latest_releasedate' => "2013-05-29",
+            // 'allow_in_user_content' => true, // Can we safely allow this? Does it make sense?
         );
 
         return $data;

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# A little helper script to run BoltCM on localhost (port 8000) using the PHP (>= v5.4) integrated web server,
+# sending the error log to a file named bolt.log, in the current directory, in case something goes wrong.
+php -S localhost:8000 -t . index.php 2>> bolt.log &

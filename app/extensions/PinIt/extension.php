@@ -23,6 +23,7 @@ class Extension extends \Bolt\BaseExtension
             'type' => "Twig function",
             'first_releasedate' => "2014-02-26",
             'latest_releasedate' => "2014-02-26",
+            'allow_in_user_content' => true,
         );
 
         return $data;
@@ -56,7 +57,7 @@ class Extension extends \Bolt\BaseExtension
 
         if ( $this->config['hover'] == "on" )
             $hover = 'data-pin-hover="true"';
-        
+
         $html = <<< EOM
             <script type="text/javascript" $hover>
             (function(d){
@@ -80,11 +81,11 @@ EOM;
                 <img src="//assets.pinterest.com/images/pidgets/pinit_fg_%lang%_rect_%color%_%size%.png" />
             </a>
 EOM;
-        
+
         $html = str_replace("%lang%", $this->config['language'], $html);
         $html = str_replace("%color%", $this->config['color'], $html);
         $html = str_replace("%size%", $this->config['size'], $html);
-        
+
         return new \Twig_Markup($html, 'UTF-8');
 
     }

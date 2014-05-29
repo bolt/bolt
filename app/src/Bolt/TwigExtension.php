@@ -15,9 +15,15 @@ class TwigExtension extends \Twig_Extension
      */
     private $app;
 
-    public function __construct(Silex\Application $app)
+    /**
+     * @var bool
+     */
+    private $safe;
+
+    public function __construct(Silex\Application $app, $safe = false)
     {
         $this->app = $app;
+        $this->safe = $safe;
     }
 
     public function getName()
@@ -52,7 +58,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFunction('image', array($this, 'image')),
             new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
+            new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
@@ -60,7 +67,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('stackitems', array($this, 'stackitems')),
             new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
             new \Twig_SimpleFunction('imageinfo', array($this, 'imageinfo')),
-            new \Twig_SimpleFunction('file_exists', 'file_exists')
+            new \Twig_SimpleFunction('file_exists', array($this, 'file_exists'))
         );
     }
 
@@ -83,7 +90,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('image', array($this, 'image')),
             new \Twig_SimpleFilter('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('fancybox', array($this, 'fancybox'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
+            new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('order', array($this, 'order')),
             new \Twig_SimpleFilter('first', array($this, 'first')),
@@ -98,6 +106,22 @@ class TwigExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * Check if a file exists.
+     *
+     * @param string $fn
+     * @return bool
+     */
+    public function file_exists($fn)
+    {
+        if ($this->safe) {
+            return false; // pretend we don't know anything about any files
+        }
+        else {
+            return file_exists($fn);
+        }
+    }
+
 
     /**
      * Output pretty-printed arrays / objects.
@@ -109,9 +133,13 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-
-        return \Dumper::dump($var, DUMPER_CAPTURE);
-
+        if ($this->safe) { return '?'; }
+        if ($this->app['config']->get('general/debug')) {
+            return \Dumper::dump($var, DUMPER_CAPTURE);
+        }
+        else {
+            return '';
+        }
     }
 
     /**
@@ -124,9 +152,13 @@ class TwigExtension extends \Twig_Extension
      */
     public function printBacktrace($depth = 15)
     {
-
-        return \Dumper::backtrace($depth, true);
-
+        if ($this->safe) { return null; }
+        if ($this->app['config']->get('general/debug')) {
+            return \Dumper::backtrace($depth, true);
+        }
+        else {
+            return '';
+        }
     }
 
     /**
@@ -253,6 +285,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function ymllink($str)
     {
+        // There is absolutely no way anyone could possibly need this in a
+        // "safe" context
+        if ($this->safe) { return null; }
 
         if (preg_match("/ ([a-z0-9_-]+\.yml)/i", $str, $matches)) {
             $path = path('fileedit', array('file' => "app/config/" . $matches[1]));
@@ -275,6 +310,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function imageinfo($filename)
     {
+        // This function is vulnerable to path traversal, so blocking it in
+        // safe mode for now.
+        if ($this->safe) { return null; }
 
         $fullpath = sprintf("%s/%s", $this->app['paths']['filespath'], $filename);
 
@@ -335,11 +373,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function slug($str)
     {
-
         $slug = makeSlug($str);
 
         return $slug;
-
     }
 
     /**
@@ -368,6 +404,14 @@ class TwigExtension extends \Twig_Extension
         // Parse the field as Markdown, return HTML
         $output = \Parsedown::instance()->parse($content);
 
+        // Sanitize/clean the HTML.
+        $maid = new \Maid\Maid(array(
+            'output-format' => 'html',
+            'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
+            'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
+        ));
+        $output = $maid->clean($output);
+
         return $output;
     }
 
@@ -388,24 +432,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function twig($snippet, $extravars = array())
     {
-
-        // Remember the current Twig loaders.
-        $oldloader = $this->app['twig']->getLoader();
-
-        $this->app['twig']->setLoader(new \Twig_Loader_String());
-
-        // Parse the snippet.
-        $html = $this->app['render']->render($snippet, $extravars);
-
-        // Re-set the loaders back to the old situation.
-        $this->app['twig']->setLoader($oldloader);
-
-        return $html;
-
+        return $this->app['safe_render']->render($snippet, $extravars);
     }
-
-
-
 
     public function decorateTT($str)
     {
@@ -603,7 +631,6 @@ class TwigExtension extends \Twig_Extension
     public function token()
     {
         return $this->app['users']->getAntiCSRFToken();
-
     }
 
 
@@ -615,6 +642,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function listtemplates($filter = "")
     {
+        // No need to list templates in safe mode.
+        if ($this->safe) { return null; }
 
         $files = array();
 
@@ -808,6 +837,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function request($parameter, $from = "", $stripslashes = false)
     {
+        // Don't expose request in safe context
+        if ($this->safe) { return null; }
+
         $from = strtoupper($from);
 
         if ($from == "GET") {
@@ -920,11 +952,14 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Helper function to wrap an image in a fancybox HTML tag, with thumbnail
+     * Helper function to wrap an image in a Magnific popup HTML tag, with thumbnail
      *
-     * example: {{ content.image|fancybox(320, 240) }}
-     * example: {{ fancybox(content.image, 320, 240) }}
-     * example: {{ content.image|fancybox(width=320, height=240, title="My Image") }}
+     * example: {{ content.image|popup(320, 240) }}
+     * example: {{ popup(content.image, 320, 240) }}
+     * example: {{ content.image|popup(width=320, height=240, title="My Image") }}
+     *
+     * Note: This function used to be called 'fancybox', but Fancybox was deprecated in favor
+     * of the Magnific Popup library.
      *
      * @param  string $filename Image filename
      * @param  int $width Image width
@@ -933,7 +968,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $title Display title for image
      * @return string HTML output
      */
-    public function fancybox($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
+    public function popup($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
     {
 
         if (!empty($filename)) {
@@ -951,7 +986,7 @@ class TwigExtension extends \Twig_Extension
             }
 
             $output = sprintf(
-                '<a href="%s" class="fancybox" rel="fancybox" title="%s"><img src="%s" width="%s" height="%s"></a>',
+                '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s"></a>',
                 $large, $title, $thumbnail, $width, $height
             );
 
@@ -1005,6 +1040,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function editable($html, $content, $field)
     {
+        // Editing content from within content? NOPE NOPE NOPE...
+        if ($this->safe) { return null; }
+
         $contenttype = $content->contenttype['slug'];
 
         $output = sprintf(
@@ -1046,6 +1084,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
     {
+        if ($this->safe) { return null; }
 
         $menus = $this->app['config']->get('menu');
 
@@ -1057,15 +1096,13 @@ class TwigExtension extends \Twig_Extension
             $menu = util::array_first($menus);
         }
 
-        foreach ($menu as $key => $item) {
-            $menu[$key] = $this->menuHelper($item);
-            if (isset($item['submenu'])) {
-                foreach ($item['submenu'] as $subkey => $subitem) {
-                    $menu[$key]['submenu'][$subkey] = $this->menuHelper($subitem);
-                }
-            }
-
+        // If the menu loaded is null, replace it with an empty array instead of
+        // throwing an error.
+        if (!is_array($menu)) {
+            $menu = array();
         }
+
+        $menu = $this->menuBuilder($menu);
 
         $twigvars = array(
             'name' => $name,
@@ -1082,6 +1119,27 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
+     * Recursively scans the passed array to ensure everything gets the menuHelper() treatment.
+     *
+     * @param  array $menu
+     * @return array
+     */
+    private function menuBuilder($menu)
+    {
+        foreach ($menu as $key => $item) {
+            $menu[$key] = $this->menuHelper($item);
+            if (isset($item['submenu'])) {
+                    $menu[$key]['submenu'] = $this->menuBuilder($item['submenu']);
+            }
+
+        }
+
+        return $menu;
+
+    }
+
+
+    /**
      * Updates a menu item to have at least a 'link' key.
      *
      * @param  array $item
@@ -1095,6 +1153,11 @@ class TwigExtension extends \Twig_Extension
 
         if (isset($item['path']) && $item['path'] == "homepage") {
             $item['link'] = $this->app['paths']['root'];
+        } elseif (isset($item['route'])) {
+            $param = empty($item['param']) ? array() : $item['param'];
+            $add = empty($item['add']) ? '' : $item['add'];
+
+            $item['link'] = path($item['route'], $param, $add);
         } elseif (isset($item['path'])) {
             // if the item is like 'content/1', get that content.
             if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $item['path'])) {
@@ -1249,6 +1312,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function redirect($path)
     {
+        // Nope! We're not allowing user-supplied content to issue redirects.
+        if ($this->safe) { return null; }
 
         simpleredirect($path);
 

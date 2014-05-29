@@ -1,14 +1,7 @@
-# app/resources/translations/hu/messages.hu.yml -- generated on 2014/02/21 11:11:06
-# 5 untranslated strings
+# app/resources/translations/hu/messages.hu.yml -- generated on 2014/04/25 18:35:51
+# no untranslated strings; good ;-)
 
-"Tip:":  #
-"by":  #
-"in:":  #
-"none":  #
-"of":  #
-
-#-----------------------------------------
-# 380 translated strings
+# 393 translated strings
 
 "%contenttypes% overview": "%contenttypes% áttekintése"
 "%contenttypes%": "%contenttypes%"
@@ -37,6 +30,7 @@
 "Alas, no about!": "Jaj, nincs bemutatkozás!"
 "All content types": "Minden tartalomtípus"
 "All users": "Minden felhasználó"
+"Allowed filetypes are:": "Engedélyezett fájltípusok:"
 "An error occurred.": "Hiba történt."
 "Anonymous": "Ismeretlen"
 "Are you sure you want to delete %username%?": "Biztos benne, hogy törli a %username% felhasználót?"
@@ -84,6 +78,7 @@
 "Content '%title%' has been changed to '%newStatus%'": "A(z) '%title%' állapota módosítva: '%newStatus%'"
 "Content '%title%' has been deleted.": "'%title%' tartalom törölve."
 "Content Type Permissions": "Tartalomtípus Engedélyek"
+"Content for home not found!": "A kezdőlap tartalma nem található!"
 "Content was duplicated. Click 'Save %contenttype%' to finalize.": "Dupklikált tartalom. Kattintson a '%contenttype% mentése' gombra a véglegesítéshez."
 "Content": "Tartalom"
 "Contenttypes": "Tartalomtípusok"
@@ -105,6 +100,7 @@
 "Disable %username%": "%username% érvénytelenítése"
 "Disabled extensions": "Nem engedélyezett kiterjesztések"
 "Display name": "Megjelenített név"
+"Display the file or directory '%s' is forbidden.": "A '%s' fájl vagy könyvtár megtekintése megtagadva."
 "Done!": "Kész!"
 "Draft": "Vázlat"
 "Duplicate %contenttype%": "%contenttype% duplikálása"
@@ -112,6 +108,7 @@
 "Edit %contenttype%": "%contenttype% szerkesztése"
 "Edit Config": "Konfiguráció szerkesztése"
 "Edit file": "Fájl szerkesztése"
+"Edit the file '%s' is forbidden.": "A '%s' fájl szerkesztése megtagadva."
 "Edit translations file '%s'.": "'%s' nyelvi fájl szerkesztése."
 "Edit user": "Felhasználó szerkesztése"
 "Edit": "Szerkesztés"
@@ -122,6 +119,7 @@
 "Everybody": "Mindenki"
 "Excerpt": "Kivonat"
 "Extensions": "Kiterjesztések"
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ": "A '%file%' fájl nem tölthető fel (rossz/tiltott fájl típus). Bizonyosodjon meg róla, hogy a fájl kiterjesztése egy a következőkből:"
 "File '%file%' could not be uploaded.": "A '%file%' fájlt nem lehet feltölteni."
 "File '%file%' was uploaded successfully.": "A '%file%' fájl sikeresen feltöltve."
 "File '%s' could not be saved, for some reason.": "A '%s' nevű fájl nem menthető valamilyen ok miatt."
@@ -260,6 +258,7 @@
 "Select an item to add": "Válasszon egy elemet a hozzáadáshoz"
 "Select from server": "Kiválasztás a szerverről"
 "Select from stack": "Választás kötegből"
+"Select none": "Összes törlése"
 "Select zero or more pages": "Válasszon ki egy vagy több oldalt"
 "Select": "Kiválasztás"
 "Session expires": "A munkamenet lejár"
@@ -308,7 +307,7 @@
 "There was an error when reading this WXR file": "Hiba történt a WXR fájl olvasásakor"
 "There's something wrong with this extension, please report to the author and edit your menu manually until this is fixed.": "Valami probléma van ezzel a kiterjesztéssel, kérjük jelezze a készítőjének és szerkessze manuálisan a menüt míg javítva nem lesz."
 "This %contenttype% has not been saved yet.": "Ez a %contenttype% még nincs mentve."
-"This %contenttype% was created": "A %contenttype% létrehozva"
+"This %contenttype% was created": "A(z) %contenttype% létrehozva"
 "This displayname is already in use. Choose another displayname.": "Ez a megjelenített név foglalt. Válasszon másikat."
 "This does not appear to be a WXR file, missing/invalid WXR version number": "Ez nem egy WXR fájl, hiányzó/érvénytelen WXR verziószám"
 "This email address is already in use. Choose another email address.": "Ez az email cím már használatban van. Válasszon másikat."
@@ -318,10 +317,13 @@
 "This value is too short. It should have 6 characters or more.": "Az érték túl rövid. Legalább 6 karakter hosszúságút adjon meg."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ez a weboldal a <a href='%url%' target='_blank' title='Kifinomult, könnyű és egyszerű tartalomkezelő'>Boltra épül</a>."
 "Timed publish": "Időzített publikálás"
+"Tip:": "Tipp:"
 "Title": "Cím"
+"Title/Alt Text:": "Title/Alt Szöveg:"
 "To get started quickly, <a href='%url%'>add some Lorem Ipsum dummy content</a>.": "A gyors kezdéshez <a href='%url%'>addjon hozzá némi Lorem Ipsum minta tartalmat</a>."
 "Translations": "Fordítások"
 "Trim Activitylog": "Aktivitási napló tömörítése"
+"Types": "Típusok"
 "URL:": "URL"
 "Unable to overwrite menu.yml": "A menu.yml fájlt nem lehet felülírni."
 "Unable to save backup! Please make sure MenuEditor/backups is writable by your webserver or disable the feature in the extensions configuration.": "Biztonsági mentés sikertelen! Bizonyosodjon meg róla, hogy a MenuEditor/backups könyvtár írható vagy kapcsolja ki ezt a funkciót a kiterjesztés konfigurációjában."
@@ -372,9 +374,11 @@
 "Your username": "Az ön felhasználóneve"
 "and edited": "és szerkesztve"
 "back to editing": "vissza a szerkesztéshez"
+"by": "általa:"
 "css classes": "css osztályok"
 "field": "mező"
 "http://": "http://"
+"in:": "itt:"
 "label": "címke"
 "latest update:": "legutóbbi frissítés"
 "line": "sor"
@@ -384,6 +388,8 @@
 "new value": "új érték"
 "no label set": "nincs címke beállítva"
 "no": "nem"
+"none": "nincs"
+"of": "/"
 "old value": "régi érték"
 "px.": "px."
 "show all": "mind mutatása"

@@ -8,10 +8,19 @@ jQuery(function($) {
         return confirm( $(this).data('confirm') );
     });
 
-    // Initialize the Fancybox shizzle.
-    $('.fancybox').fancybox({
-        margin: [ 20, 20, 40, 20],
-        helpers: { overlay: { css: { 'background' : 'rgba(0, 0, 0, 0.5)' } } }
+    // Initialize the Magnific popup shizzle. Fancybox is still here as a trigger, for backwards compatibility.
+    $('.magnific, .fancybox').magnificPopup({
+        type: 'image',
+        gallery: { enabled: true },
+        disableOn: 400,
+        closeBtnInside: true,
+        enableEscapeKey: true,
+        mainClass: 'mfp-with-zoom',
+        zoom: {
+            enabled: true,
+            duration: 300,
+            easing: 'ease-in-out'
+        }
     });
 
     initActions();
@@ -70,13 +79,17 @@ jQuery(function($) {
     // Render any deferred widgets, if any.
     $('div.widget').each(function() {
 
+        if (typeof $(this).data('defer') === 'undefined') {
+            return;
+        }
+
         var key = $(this).data('key');
 
         $.ajax({
             url: asyncpath + 'widget/' + key,
             type: 'GET',
             success: function(result) {
-                $('#widget-' + key).html(result)
+                $('#widget-' + key).html(result);
             },
             error: function() {
                 console.log('failed to get widget');
@@ -232,6 +245,8 @@ jQuery(function($) {
 
     files = new Files();
 
+    folders = new Folders();
+
     stack = new Stack();
 
     sidebar = new Sidebar();
@@ -340,7 +355,6 @@ function initKeyboardShortcuts() {
         // Initialize watching for changes on "the form".
         window.setTimeout(function(){
             var $form = $('form').watchChanges();
-            console.log('watch');
         }, 1000);
 
         function confirmExit()
@@ -544,27 +558,8 @@ function bindFileUpload(key) {
             var progress = Math.round(100 * data._bitrateTimer.loaded / data.files[0].size);
             $('#progress-' + key).show().addClass('progress-striped active');
             $('#progress-' + key + ' div.bar').css('width', progress+"%");
-        })
-        .bind('fileuploadsubmit', function (e, data) {
-                var that = this,
-                fileTypes = $('#field-' + key).attr('accept');
+        });
 
-                if( typeof fileTypes !== 'undefined' ) {
-                    var pattern = new RegExp( "(\.|\/)(" + fileTypes + ")$", "gi" );
-                    $.each( data.files , function (index, file) {
-                        if( !pattern.test(file.type) ) {
-                            var message = "Oops! There was an error uploading the file. Make sure that the file type is correct."
-                            + "\n\n(accept type was: "
-                            + fileTypes + ")";
-
-                            alert(message);
-                            e.preventDefault();
-                            return false;
-                        }
-                    });
-                }
-        })
-        ;
 }
 
 
@@ -671,7 +666,6 @@ function bindVideoEmbedAjax(key) {
 
 
     $.getJSON(url, function(data) {
-        console.log(data);
         if (data.html) {
             $('#video-'+key+'-html').val(data.html);
             $('#video-'+key+'-width').val(data.width);
@@ -766,7 +760,6 @@ function updateGeoCoords(key) {
         geocoder.geocode({ 'latLng': latlng }, function(results, status) {
             $('#' + key + '-reversegeo').html(results[0].formatted_address);
             $('#' + key + '-formatted_address').val(results[0].formatted_address);
-            // console.log(results);
         });
 
     }
@@ -913,15 +906,8 @@ var Stack = Backbone.Model.extend({
     defaults: {
     },
 
-    /**
-     * If we have a 'stackholder' on the page, bind the uploader and file-selector.
-     */
     initialize: function() {
-
-        if ($('#stackholder').is('*')) {
-            this.bindEvents();
-        }
-
+        this.bindEvents();
     },
 
     bindEvents: function() {
@@ -950,7 +936,7 @@ var Stack = Backbone.Model.extend({
             type = "other";
         }
 
-        // We don't need 'files/' in the path. Accept intput with or without it, but strip
+        // We don't need 'files/' in the path. Accept input with or without it, but strip
         // it out here..
         filename = filename.replace(/files\//ig, '');
 
@@ -997,7 +983,6 @@ var Stack = Backbone.Model.extend({
 
         // For "normal" file and image fields..
         if ($('#field-' + key).is('*')) {
-            console.log('is!');
             $('#field-' + key).val(filename);
         }
 
@@ -1379,3 +1364,103 @@ function openVideo(url) {
     $('body').append(modal);
 
 }
+
+/**
+ * This backbone model cares about folder actions within /files in the backend.
+ */
+var Folders = Backbone.Model.extend({
+
+    defaults: {
+    },
+
+    initialize: function() {
+    },
+
+    /**
+     * Create a folder.
+     *
+     * @param string promptQuestionString Translated version of "What's the new filename?".
+     * @param string parentPath Parent path of the folder to create.
+     */
+    create: function(promptQuestionString, parentPath, element)
+    {
+        var newFolderName = window.prompt(promptQuestionString);
+
+        if (!newFolderName.length) {
+            return;
+        }
+
+        $.ajax({
+            url: asyncpath + 'folder/create',
+            type: 'POST',
+            data: {
+                'parent':     parentPath,
+                'foldername': newFolderName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this folder!');
+            }
+        });
+    },
+
+    /**
+     * Rename a folder.
+     *
+     * @param string promptQuestionString Translated version of "Which file to rename?".
+     * @param string parentPath           Parent path of the folder to rename.
+     * @param string oldName              Old name of the folder to be renamed.
+     * @param string newName              New name of the folder to be renamed.
+     */
+    rename: function(promptQuestionString, parentPath, oldFolderName, element)
+    {
+        var newFolderName = window.prompt(promptQuestionString);
+
+        if (!newFolderName.length) {
+            return;
+        }
+
+        $.ajax({
+            url: asyncpath + 'folder/rename',
+            type: 'POST',
+            data: {
+                'parent':  parentPath,
+                'oldname': oldFolderName,
+                'newname': newFolderName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this folder!');
+            }
+        });
+    },
+
+    /**
+     * Rename a folder.
+     *
+     * @param string parentPath Parent path of the folder to remove.
+     * @param string folderName Name of the folder to remove.
+     */
+    remove: function(parentPath, folderName, element)
+    {
+        $.ajax({
+            url: asyncpath + 'folder/remove',
+            type: 'POST',
+            data: {
+                'parent':     parentPath,
+                'foldername': folderName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this folder!');
+            }
+        });
+    }
+
+});

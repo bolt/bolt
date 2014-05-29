@@ -176,6 +176,7 @@
             </div>
         </div>
 
+
 <script type="text/javascript">
     $(function() {
 
@@ -231,6 +232,8 @@
                         $('p.lastsaved').find('time').attr('datetime', moment().format());
                         $('p.lastsaved').find('time').attr('title', moment().format());
                         updateMoments();
+
+                        $('a#lastsavedstatus strong').text( $("#statusselect option:selected").text() );
 
                     })
                     .fail(function(){
