@@ -1,0 +1,98 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    label:  field.label|default(''),
+}%}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set geolocation = content.get(key) %}
+
+{% set attr_lat = {
+    class:  'form-control pull-left',
+    id:     key~'-latitude',
+    name:   key~'[latitude]',
+    style:  'width: 28%;',
+    type:   'text',
+    value:  geolocation.latitude|default(''),
+}%}
+
+{% set attr_lon = {
+    class:  'form-control pull-left',
+    id:     key~'-longitude',
+    name:   key~'[longitude]',
+    style:  'width: 28%;',
+    type:   'text',
+    value:  geolocation.longitude|default(''),
+}%}
+
+{% set attr_address = {
+    class:  'form-control',
+    id:     key~'-address',
+    name:   key~'[address]',
+    type:   'text',
+    value:  geolocation.address|default(''),
+}%}
+
+{% set attr_formatted = {
+    id:     key~'-formatted_address',
+    name:   key~'[formatted_address]',
+    style:  'width: 30%;',
+    type:   'hidden',
+    value:  geolocation.formatted_address|default(''),
+}%}
+
+{#=== FIELDSET =======================================================================================================#}
+
+<fieldset class="geolocation">
+
+    <div class="col-sm-8">
+
+        <label class="control-label">{{ macro.infopop(labelkey, 'info.geolocation') }}</label>
+
+        <div class="form-group">
+
+            <div class="col-sm-12">
+                <label>{{ __('Address lookup:') }}</label>
+                <input{{ macro.attr(attr_address) }}>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <span class="pull-left" style="margin: 6px 8px 0 0;">{{ __('Latitude:') }}</span>
+                <input{{ macro.attr(attr_lat) }}>
+                <span class="pull-left" style="margin: 6px 8px 0;">- {{ __('Longitude:') }}</span>
+                <input{{ macro.attr(attr_lon) }}>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <p>{{ __('Matched address:') }}
+                    <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</span>
+                </p>
+                <input{{ macro.attr(attr_formatted) }}>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-sm-4" style="padding-left: 0;">
+        <div class="mapholder" id="map-{{ key }}" style="width: 204px;">
+            <img src="{{ geo.map|default('') }}" width="200" height="200">
+        </div>
+    </div>
+
+</fieldset>
+
+{#=== SCRIPT =========================================================================================================#}
+
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="{{ paths.app }}view/js/jquery.gomap-1.3.2.min.js"></script>
+<script>
+    $(function() {
+        bindGeolocation('{{ key }}', '{{ geolocation.latitude|default('') }}', '{{ geolocation.longitude|default('') }}');
+    });
+</script>

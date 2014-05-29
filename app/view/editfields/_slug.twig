@@ -1,38 +1,50 @@
-{# Available options: uses #}
+{#=== OPTIONS ========================================================================================================#}
 
-{% set attr_slg = {
-    type:     'text',
-    name_id:  key,
-    value:    content.get(key),
-    class:    'editslug',
+{% set option = {
+    uses:  field.uses|default(''),
 }%}
 
+{#=== INIT ===========================================================================================================#}
 
-<div class="col-sm-12">
-    <label class="permalink">{{ __('Permalink') }}:
-        <code>/{{ content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ content.get(key) }}</span></code>
-        <input{{ macro.attr(attr_slg) }}>
-        <span class="sluglocker"><i class="fa fa-lock"></i></span> <span class="slugedit"><i class="fa fa-pencil"></i></span>
-    </label>
-</div>
+{% set attr_slug = {
+    class:    'editslug',
+    name_id:  key,
+    type:     'text',
+    value:    content.get(key),
+}%}
 
+{#=== FIELDSET =======================================================================================================#}
 
-{% if field.uses is defined %}
+<fieldset class="slug">
+
+    <div class="col-sm-12">
+        <label class="permalink">{{ __('Permalink') }}:
+            <code>/{{ content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ content.get(key) }}</span></code>
+            <input{{ macro.attr(attr_slug) }}>
+            <span class="sluglocker"><i class="fa fa-lock"></i></span> <span class="slugedit"><i class="fa fa-pencil"></i></span>
+        </label>
+    </div>
+
+</fieldset>
+
+{#=== SCRIPT =========================================================================================================#}
+
+{% if option.uses %}
 <script>
     $(function() {
         $('.sluglocker').bind('click', function() {
            if ($('.sluglocker i').hasClass('fa-lock')) {
                $('.sluglocker i').removeClass('fa-lock').addClass('fa-unlock');
-               makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{ key }}', false);
+               makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ option.uses|json_encode|raw }}, '{{ key }}', false);
            } else {
                $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-               stopMakeUri({{ field.uses|json_encode|raw }});
+               stopMakeUri({{ option.uses|json_encode|raw }});
            }
         });
         $('.slugedit').bind('click', function() {
-            newslug = prompt("Set the slug to:");
+            newslug = prompt("Set the slug to:", $('#show-{{ key }}').text());
             $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-            stopMakeUri({{ field.uses|json_encode|raw }});
+            stopMakeUri({{ option.uses|json_encode|raw }});
             makeUriAjax(newslug, '{{ content.contenttype.slug }}', '{{ content.id }}', '{{ key }}', false);
         });
     {% if content.get(key) is empty %}
