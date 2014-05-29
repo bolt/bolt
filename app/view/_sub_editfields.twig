@@ -88,10 +88,10 @@
 {# --------------- slug --------------- #}
 
 {% if field.type == "slug" %}
-<label class='permalink'>{{ __('Permalink') }}:
-    <code>/{{ content.contenttype.singular_slug }}/<span id='show-{{key}}'>{{ content.get(key) }}</span></code>
-    <input type="text" name="{{key}}"  id="{{key}}" value='{{ content.get(key) }}' class='editslug'>
-    <span class='sluglocker'><i class='icon-lock'></i></span> <span class='slugedit'><i class='icon-pencil'></i></span>
+<label class="permalink">{{ __('Permalink') }}:
+    <code>/{{ content.contenttype.singular_slug }}/<span id="show-{{ key }}">{{ content.get(key) }}</span></code>
+    <input type="text" name="{{ key }}" id="{{ key }}" value="{{ content.get(key) }}" class="editslug">
+    <span class="sluglocker"><i class="icon-lock"></i></span> <span class="slugedit"><i class="icon-pencil"></i></span>
 </label>
 
 
@@ -101,22 +101,20 @@
         $('.sluglocker').bind('click', function() {
            if ($('.sluglocker i').hasClass('icon-lock')) {
                $('.sluglocker i').removeClass('icon-lock').addClass('icon-unlock');
-               makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{key}}', false);
+               makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{ key }}', false);
            } else {
                $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
                stopMakeUri({{ field.uses|json_encode|raw }});
            }
         });
         $('.slugedit').bind('click', function() {
+            newslug = prompt("{{ __('Set the slug to:') }}", $("#show-{{ key }}").text());
 
-            newslug = prompt("Set the slug to:");
-
-            $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
-            stopMakeUri({{ field.uses|json_encode|raw }});
-
-            makeUriAjax(newslug, '{{ content.contenttype.slug }}', '{{ content.id }}', '{{key}}', false)
-
-
+            if (newslug != null) {
+                $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
+                stopMakeUri({{ field.uses|json_encode|raw }});
+                makeUriAjax(newslug, '{{ content.contenttype.slug }}', '{{ content.id }}', '{{ key }}', false)
+            }
         });
     {% if content.get(key) is empty  %}
         $('.sluglocker').trigger('click');
