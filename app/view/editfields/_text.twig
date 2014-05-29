@@ -17,6 +17,7 @@
     class:        option.class,
     name_id:      key,
     pattern:      (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
+    maxlength:    255,
     placeholder:  option.placeholder,
     required:     option.required,
     title:        option.title,
