@@ -7,6 +7,17 @@
 
 <div class="row">
 
+    <div class="row">
+
+        <div class="col-md-6">
+            <h4>{{ __('Enabling extensions:') }}</h4>
+
+            {{ app.translator.trans('extension.enable',{},'infos')|raw }}
+
+        </div>
+
+    </div>
+
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -52,19 +63,6 @@
     </div>
 
 </div>
-
-    <div class="row">
-
-        <div class="col-md-6">
-            <h4>{{ __('Enabling extensions:') }}</h4>
-
-            {{ app.translator.trans('extension.enable',{},'infos')|raw }}
-
-        </div>
-
-    </div>
-
-
 
     <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
