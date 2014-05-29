@@ -1,3 +1,4 @@
 [submodule "theme/base-2014"]
     path = theme/base-2014
     url = https://github.com/bolt/base-2014.git
+    ignore = dirty
