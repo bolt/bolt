@@ -1,19 +1,35 @@
-{# Available options: class, label, pattern, placeholder, required, title #}
+{#=== OPTIONS ========================================================================================================#}
 
-{% set attr_num = {
-    type:         'number',
-    name_id:      key,
-    step:         (field.type == "integer") ? '1' : '0.00000001',
-    value:        0 + content.get(key),
-    required:     field.required,
-    class:        ('narrow ' ~ field.class)|trim,
-    pattern:      field.pattern ?: '',
-    title:        field.title,
-    placeholder:  field.placeholder,
+{% set option = {
+    class:        field.class|default(''),
+    label:        field.label|default(''),
+    pattern:      field.pattern|default(''),
+    placeholder:  field.placeholder|default(''),
+    required:     field.required|default(false),
+    title:        field.title|default(''),
 }%}
 
+{#=== INIT ===========================================================================================================#}
 
-<label class="col-sm-3 control-label">{{ macro.labeltxt(key, field) }}</label>
-<div class="col-sm-9">
-    <input{{ macro.attr(attr_num) }}>
-</div>
+{% set attr_number = {
+    class:        option.class~' narrow',
+    name_id:      key,
+    pattern:      option.pattern,
+    placeholder:  option.placeholder,
+    required:     option.required,
+    step:         (field.type == 'integer') ? '1' : '0.00000001',
+    title:        option.title,
+    type:         'number',
+    value:        0 + content.get(key),
+}%}
+
+{#=== FIELDSET =======================================================================================================#}
+
+<fieldset class="float-integer">
+
+    <label class="col-sm-3 control-label">{{ labelkey }}</label>
+    <div class="col-sm-9">
+        <input{{ macro.attr(attr_number) }}>
+    </div>
+
+</fieldset>

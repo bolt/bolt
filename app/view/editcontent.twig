@@ -24,7 +24,7 @@
             {{ __('Meta information') }}
         </h3>
 
-        <input type="hidden" name="editreferrer" id="editreferrer" value="{{ editreferrer }}">
+        <input type="hidden" name="editreferrer" id="editreferrer" value="{{ editreferrer|default('') }}">
 
         <div class="form-group">
             {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}

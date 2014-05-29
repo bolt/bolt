@@ -1,0 +1,42 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    class:     field.class|default(''),
+    height:    field.height|default(''),
+    label:     field.label|default(''),
+    required:  field.required|default(false),
+}%}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set attr_text = {
+    class:     option.class,
+    name_id:   key,
+    required:  option.required,
+    style:     (option.height) ? 'height: '.option.height~' !important;' : '',
+}%}
+
+{% set attr_catchpaste = {
+    id:     'jquery-catchpaste-textarea',
+    style:  'position: absolute; width: 0 !important; height: 0; left: -10000px;',
+}%}
+
+{#=== FIELDSET =======================================================================================================#}
+
+<fieldset class="markdown">
+
+    <div class="col-sm-12">
+        <label class="control-label">{{ macro.infopop(labelkey, 'info.markdown') }}</label>
+        <textarea{{ macro.attr(attr_text) }}>{{ content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_catchpaste) }}></textarea>
+    </div>
+
+</fieldset>
+
+{#=== SCRIPT =========================================================================================================#}
+
+<script>
+    $(function() {
+        bindMarkdown('{{ key }}');
+    });
+</script>
