@@ -18,6 +18,8 @@
     placeholder:  option.placeholder,
     required:     option.required,
     step:         (field.type == 'integer') ? '1' : '0.00000001',
+    min:         (field.type == 'integer') ? '-2147483647' : '',
+    max:         (field.type == 'integer') ? '2147483647' : '',
     title:        option.title,
     type:         'number',
     value:        0 + content.get(key),
