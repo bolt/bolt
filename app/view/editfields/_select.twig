@@ -17,7 +17,7 @@
     {% if ',' in lookupfield %}
         {% set lookupfield = lookupfield|split(',') %}
     {% endif %}
-    {% setcontent lookups = lookuptype order 'title' %}
+    {% setcontent lookups = lookuptype order lookupfield %}
     {% set values = lookups|selectfield(lookupfield) %}
 {% endif %}
 
