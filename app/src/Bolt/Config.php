@@ -161,7 +161,7 @@ class Config
         $config['extensions']  = array();
 
         // fetch the theme config. requires special treatment due to the path
-        $this->app['resources']->setThemePath($config['general']);
+        $this->app['resources']->initializeConfig($config);
         $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
@@ -573,14 +573,8 @@ class Config
 
     private function setTwigPath()
     {
-            // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        if ($this->get('general/theme_path')) {
-            $themepath = realpath(BOLT_WEB_DIR . '/' . ltrim($this->get('general/theme_path'), '/'));
-        } else {
-            $themepath = realpath(BOLT_WEB_DIR . '/theme');
-        }
-        $themepath .= '/' . basename($this->get('general/theme'));
 
+        $themepath = $this->app['resources']->getPath("theme");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
         if ($end == 'frontend' && file_exists($themepath)) {
@@ -652,6 +646,10 @@ class Config
             if (!isset($this->data['version']) || ($this->data['version'] != $this->app->getVersion())) {
                 return false;
             }
+            
+            // Trigger the config loaded event on the resource manager
+            $this->app['resources']->initializeConfig($this->data);
+
 
             // Yup, all seems to be right.
             return true;

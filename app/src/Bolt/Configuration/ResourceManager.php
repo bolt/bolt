@@ -63,8 +63,8 @@ class ResourceManager
 
     public function setPath($name, $value)
     {
-        if(substr($value,0,1) !== "/") {
-            $value = $this->getPath("rootpath")."/".$value;
+        if(!preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/",$value)) {
+            $value = $this->root."/".$value;
         }
         $this->paths[$name] = $value;
         if(strpos($name, "path") === false) {
@@ -176,13 +176,20 @@ class ResourceManager
      **/  
     public function initializeApp(Application $app)
     {
-
-        $this->setThemePath($app['config']->get("general"));
-        $canonical   = $app['config']->get('general/canonical', "");
-        
+        $canonical   = $app['config']->get('general/canonical', "");        
         $this->setRequest("canonical", $canonical);
     }
-    
+
+    /**
+     * Takes a loaded config array and uses it to initialize settings that depend on it
+     *
+     * @return void
+     **/  
+    public function initializeConfig($config)
+    {
+        $this->setThemePath($config["general"]);
+    }
+        
     public function initialize()
     {
         $this->initializeApp($this->app);
