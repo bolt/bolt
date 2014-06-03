@@ -969,15 +969,9 @@ function updateBrowscap()
     // Create a new Browscap object (loads or creates the cache)
     $bcap = new \phpbrowscap\Browscap(dirname(__DIR__) . '/resources/browscap/');
 
-    echo "dir: " . dirname(__DIR__) . '/resources/browscap/' . "\n\n";
-
     $bcap->doAutoUpdate = true;
 
-    $bcap->getSourceVersion();
-
     $browser = $bcap->getBrowser();
-
-    print_r($browser);
 
     echo __("Browscap file updated.") ."\n\n";
 }
