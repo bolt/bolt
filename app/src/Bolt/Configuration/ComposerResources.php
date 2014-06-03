@@ -16,7 +16,6 @@ use Bolt\Application;
  */
 class ComposerResources extends ResourceManager
 {
-
     
     public function initialize()
     {
