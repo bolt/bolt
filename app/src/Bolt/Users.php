@@ -271,7 +271,7 @@ class Users
             'validity' => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
             'ip' => $_SERVER['REMOTE_ADDR'],
             'lastseen' => date('Y-m-d H:i:s'),
-            'useragent' => getBrowserInfo()
+            'useragent' => $this->app['request']->headers->get('User-Agent')
         );
 
         // Update or set the authtoken cookie..
@@ -500,7 +500,7 @@ class Users
 
         $authtoken = $_COOKIE['bolt_authtoken'];
         $remoteip = $this->remoteIP;
-        $browser = getBrowserInfo();
+        $browser = $this->app['request']->headers->get('User-Agent');
 
         $this->deleteExpiredSessions();
 

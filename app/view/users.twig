@@ -23,7 +23,7 @@
 
                     <td>
                         {% if user.enabled==0 %}<s>{% endif %}
-                        <strong>{{ user.displayname }}</strong> ({{ user.username}}) 
+                        <strong>{{ user.displayname }}</strong> ({{ user.username}})
                         {% if user.enabled==0 %}</s>{% endif %}
                     </td>
 
@@ -115,7 +115,10 @@
                     <td><time class="moment" datetime="{{ session.lastseen|date("c") }}" title="{{ session.lastseen }}">{{ session.lastseen }}</time></td>
                     <td><time class="moment" datetime="{{ session.validity|date("c") }}" title="{{ session.validity }}">{{ session.validity }}</time></td>
                     <td>{{ session.ip }}</td>
-                    <td>{{ session.useragent }}</td>
+                    <td>
+                        <span class="useragent label info-pop" data-ua="{{ session.useragent }}" data-html="true"
+                              data-content="{{ session.useragent }}">{{ session.useragent|trimtext(40) }}</span>
+                    </td>
 
                 </tr>
 
@@ -140,5 +143,19 @@
     </aside>
 </div>
 
+{# parsing the useragents into something more readable. #} %}
+<script type="text/javascript" src="{{ paths.app }}view/js/ua-parser.min.js"></script>
+<script>
+    jQuery(function($) {
+        var useragents = $('.useragent').each(function(e){
+            console.log($(this).data('ua'));
+
+            var parser = new UAParser($(this).data('ua'));
+            var result = parser.getResult();
+            $(this).html(result.browser.name + " " + result.browser.major + " / " + result.os.name + " " + result.os.version);
+        });
+
+    });
+</script>
 
 {% include '_footer.twig' %}
