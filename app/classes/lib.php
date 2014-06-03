@@ -805,56 +805,6 @@ function containsHTML($str)
     return !empty($matches[3]);
 }
 
-/**
- * Simple PHP Browser Detection
- */
-function getBrowserInfo()
-{
-    // Create a new Browscap object (loads or creates the cache)
-    $bcap = new \phpbrowscap\Browscap(dirname(__DIR__) . '/resources/browscap/');
-
-    $bcap->doAutoUpdate = false;
-
-    try {
-        $browser = $bcap->getBrowser()->Parent;
-        if (strpos($bcap->getBrowser()->browser_name, 'CriOS') > 0) {
-            $browser = 'Chrome';
-        }
-
-        $platformversion = $bcap->getBrowser()->Platform_Version;
-        if ($platformversion == 'unknown') {
-            $platformversion = '';
-        }
-
-        $browser = sprintf(
-            '%s / %s %s',
-            $browser,
-            $bcap->getBrowser()->Platform,
-            $platformversion
-        );
-
-    } catch (Exception $e) {
-        $browser = 'Unknown';
-    }
-    //\util::var_dump($bc->getBrowser());
-
-    return trim($browser);
-}
-
-/**
- * Update our app/resources/browscap/ files.
- */
-function updateBrowscap()
-{
-    // Create a new Browscap object (loads or creates the cache)
-    $bcap = new \phpbrowscap\Browscap(dirname(__DIR__) . '/resources/browscap/');
-
-    $bcap->doAutoUpdate = true;
-
-    $browser = $bcap->getBrowser();
-
-    echo __("Browscap file updated.") ."\n\n";
-}
 
 /**
  * Loads a serialized file, unserializes it, and returns it.
