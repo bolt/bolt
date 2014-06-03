@@ -176,10 +176,7 @@ class ResourceManager
      **/  
     public function initializeApp(Application $app)
     {
-
-        $this->setThemePath($app['config']->get("general"));
-        $canonical   = $app['config']->get('general/canonical', "");
-        
+        $canonical   = $app['config']->get('general/canonical', "");        
         $this->setRequest("canonical", $canonical);
     }
     
