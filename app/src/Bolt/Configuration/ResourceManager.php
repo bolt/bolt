@@ -63,8 +63,8 @@ class ResourceManager
 
     public function setPath($name, $value)
     {
-        if(substr($value,0,1) !== "/") {
-            $value = $this->getPath("rootpath")."/".$value;
+        if(!preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/",$value)) {
+            $value = $this->root."/".$value;
         }
         $this->paths[$name] = $value;
         if(strpos($name, "path") === false) {
