@@ -26,15 +26,11 @@ class ComposerResources extends ResourceManager
     {
         parent::__construct($root, $request);
         $this->setPath("composer", "vendor/bolt/bolt");
-    }
-    
-    public function initialize()
-    {
-        parent::initialize();
         $this->setPath("apppath", $this->getPath('composer')."/app");
         $this->setPath("extensionspath", $this->getPath('app')."/extensions");
         $this->setUrl("app", "/bolt-public/");
     }
+
 
 
     public function compat()
