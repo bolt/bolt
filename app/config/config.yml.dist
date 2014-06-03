@@ -258,3 +258,9 @@ hash_strength: 10
 #  host: my.proxy.server
 #  user: usr
 #  password: pwd
+
+
+# options for when you're working with Grunt. Feel free to ignore these, if you don't use grunt. 
+grunt:
+  livereload: true
+  livereloadport: 35729
