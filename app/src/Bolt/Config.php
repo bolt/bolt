@@ -573,21 +573,13 @@ class Config
 
     private function setTwigPath()
     {
-            // I don't think we can set Twig's path in runtime, so we have to resort to hackishness to set the path..
-        if ($this->get('general/theme_path')) {
-            $themepath = realpath(BOLT_WEB_DIR . '/' . ltrim($this->get('general/theme_path'), '/'));
-        } else {
-            $themepath = realpath(BOLT_WEB_DIR . '/theme');
-        }
-        $themepath .= '/' . basename($this->get('general/theme'));
 
+        $themepath = $this->app['resources']->getPath("theme");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
         if ($end == 'frontend' && file_exists($themepath)) {
             $twigpath = array($themepath);
-        } else {
-            $twigpath = array(realpath(__DIR__ . '/../../view'));
-        }
+        } 
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.
         if (! file_exists($themepath) && isset($this->app['session']) && (gettype($this->app['session']) == 'object')) {
