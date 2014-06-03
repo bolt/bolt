@@ -9,7 +9,6 @@
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "1.*",
         "filp/whoops": "1.*",
-        "garetjax/phpbrowscap": "dev-master",
         "guzzle/guzzle": "3.3.*",
         "hautelook/phpass": "dev-master",
         "ircmaxell/random-lib": "dev-master",
