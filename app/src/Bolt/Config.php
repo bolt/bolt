@@ -161,7 +161,7 @@ class Config
         $config['extensions']  = array();
 
         // fetch the theme config. requires special treatment due to the path
-        $this->app['resources']->setThemePath($config['general']);
+        $this->app['resources']->initializeConfig($config);
         $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/config.yml';
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
@@ -644,6 +644,10 @@ class Config
             if (!isset($this->data['version']) || ($this->data['version'] != $this->app->getVersion())) {
                 return false;
             }
+            
+            // Trigger the config loaded event on the resource manager
+            $this->app['resources']->initializeConfig($this->data);
+
 
             // Yup, all seems to be right.
             return true;

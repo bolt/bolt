@@ -179,7 +179,17 @@ class ResourceManager
         $canonical   = $app['config']->get('general/canonical', "");        
         $this->setRequest("canonical", $canonical);
     }
-    
+
+    /**
+     * Takes a loaded config array and uses it to initialize settings that depend on it
+     *
+     * @return void
+     **/  
+    public function initializeConfig($config)
+    {
+        $this->setThemePath($config["general"]);
+    }
+        
     public function initialize()
     {
         $this->initializeApp($this->app);
