@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        config: grunt.file.readYAML('../config/config.yml'),
 
         watch: {
             scripts: {
@@ -9,6 +10,7 @@ module.exports = function(grunt) {
                 tasks: ['sass'],
                 options: {
                     spawn: false,
+                    livereload: true
                 },
             } 
         },        
@@ -21,12 +23,13 @@ module.exports = function(grunt) {
                         'node_modules/bootstrap-sass/vendor/assets/stylesheets/',
                         'node_modules/font-awesome/scss/'
                     ],
-                    lineNumbers: true
+                    lineNumbers: true,
                 },
                 files: {
                     'css/app.css': 'sass/app.scss'
                 }
-            } 
+            }, 
+
         },
 
 

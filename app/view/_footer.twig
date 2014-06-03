@@ -33,5 +33,10 @@
        {%  if config.get('general/wysiwyg/filebrowser') is iterable %}filebrowser: {{ config.get('general/wysiwyg/filebrowser')|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
        };
 </script>
+{% if app.config.get('general/grunt/livereload') %}
+GJDFGSGDFG
 
-</html>
+<script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
+{% else %}
+NEE!
+{% endif %}</html>
