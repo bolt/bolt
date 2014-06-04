@@ -33,10 +33,8 @@
        {%  if config.get('general/wysiwyg/filebrowser') is iterable %}filebrowser: {{ config.get('general/wysiwyg/filebrowser')|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
        };
 </script>
-{% if app.config.get('general/grunt/livereload') %}
-GJDFGSGDFG
 
-<script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
-{% else %}
-NEE!
+{# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml.  #}
+{% if app.config.get('general/grunt/livereload') %}
+    <script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
 {% endif %}</html>
