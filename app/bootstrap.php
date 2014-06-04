@@ -2,7 +2,7 @@
 
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once BOLT_PROJECT_ROOT_DIR . '/vendor/autoload.php';
 
 if(strpos("/vendor/", __DIR__) !== false) {
     $config = new Bolt\Configuration\ComposerResources(__DIR__."/../");
