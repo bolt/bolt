@@ -29,6 +29,8 @@ class Storage
      */
     private $checkedfortimed = array();
 
+    protected static $pager = array();
+
     public function __construct(Bolt\Application $app)
     {
         $this->app = $app;
@@ -1249,7 +1251,8 @@ class Storage
             'showing_from' => ($page - 1) * $limit + 1,
             'showing_to' => ($page - 1) * $limit + count($taxorows)
         );
-        $GLOBALS['pager'][$taxonomytype['slug'] . "/" . $slug] = $pager;
+
+        $this->app['storage']->setPager($taxonomytype['slug'] . "/" . $slug, $pager);
 
         return $content;
 
@@ -1985,8 +1988,8 @@ class Storage
             'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
             'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
         );
-        $GLOBALS['pager'][$pager_name] = $pager;
-        $this->app['twig']->addGlobal('pager', $pager);
+        $this->setPager($pager_name, $pager);
+        $this->app['twig']->addGlobal('pager', $this->getPager($pager_name));
 
         $this->app['stopwatch']->stop('bolt.getcontent');
         return $results;
@@ -2913,4 +2916,47 @@ class Storage
         return $oldContent;
     }
 
+    /*
+     * This is for replacing Pager objects stored in $_GLOBAL that is indecency...
+     */
+
+    /**
+     * Setter for pager storage element
+     * @param string $name
+     * @param array $pager
+     */
+    public function setPager($name, $pager)
+    {
+        if (! array_key_exists($name, static::$pager)) {
+            static::$pager = array(
+                $name => $pager
+            );
+        } else {
+            static::$pager[$name] = $pager;
+        }
+        return $this;
+    }
+
+    /**
+     * Getter of a pager element. Pager can hold a paging snapshot map.
+     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
+     * @return array
+     */
+    public function &getPager($name = null)
+    {
+        if ($name) {
+            if (array_key_exists($name, static::$pager)) {
+                return static::$pager[$name];
+            } else {
+                return false;
+            }
+        } else {
+            return static::$pager;
+        }
+    }
+
+    public function isEmptyPager()
+    {
+        return (count(static::$pager) === 0);
+    }
 }
