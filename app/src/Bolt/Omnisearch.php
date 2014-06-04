@@ -18,11 +18,12 @@ use Symfony\Component\Finder\Finder;
 class Omnisearch
 {
 
+    const OMNISEARCH_LANDINGPAGE = 99999;
     const OMNISEARCH_CONTENTTYPE = 9999;
     const OMNISEARCH_MENUITEM    = 5000;
     const OMNISEARCH_EXTENSION   = 3000;
-    const OMNISEARCH_FILE        = 2000;
-    const OMNISEARCH_CONTENT     = 1000;
+    const OMNISEARCH_CONTENT     = 2000;
+    const OMNISEARCH_FILE        = 1000;
 
     private $showNewContenttype  = true;
     private $showViewContenttype = true;
@@ -31,6 +32,9 @@ class Omnisearch
     private $showExtensions      = true;
     private $showFiles           = true;
     private $showRecords         = true;
+
+    // Show the option to the landing page for search results.
+    private $showLandingpage     = true;
 
     private $app;
     private $backend;
@@ -198,7 +202,7 @@ class Omnisearch
             $index = 0;
             foreach ($extensionsmenu as $extension) {
                 $this->register(array(
-                    'keywords' => array( $extension['label'], 'Extensions'),
+                    'keywords' => array($extension['label'], 'Extensions'),
                     'label' => __('Extensions').' » '.$extension['label'],
                     'description' => '',
                     'priority' => self::OMNISEARCH_EXTENSION - $index,
@@ -207,7 +211,7 @@ class Omnisearch
 
                 $index--;
             }
-        }        
+        }
 
     }
 
@@ -215,10 +219,11 @@ class Omnisearch
     {
 
         // options
-        // $options['keywords']; // array with descriptions to match for
-        // $options['priority']; // higher number, higher priority
-        // $options['group'];    // hmm, something like "Extension", "Contenttypes" (New, View), "Template", "Content" (Edit), 
-        // $options['path'];     // the URL to go to
+        // $options['label'];       // label shown in the search results
+        // $options['description']; // currently unused
+        // $options['keywords'];    // array with descriptions to match for
+        // $options['priority'];    // higher number, higher priority
+        // $options['path'];        // the URL to go to
 
         // automatically adds the translations
         $keywords = $options['keywords'];
@@ -230,14 +235,14 @@ class Omnisearch
 
     }
 
-    public function query($query)
+    public function query($query, $withRecord = false)
     {
 
         $options = array();
 
         $this->find('/theme', $query, '*.twig', $query, -10); // find in file contents
         $this->find('/theme', $query, '*'.$query.'*.twig', false, 10); // find in filenames, '/'.preg_quote($query).'.*\.twig$/i';
-        $this->search($query);
+        $this->search($query, $withRecord);
 
         foreach ($this->data as $item) {
             $matches   = $this->matches($item['path'], $query );
@@ -254,6 +259,19 @@ class Omnisearch
             if ($matches) {
                 $options[] = $item;
             }
+        }
+
+        if ($this->showLandingpage) {
+            // todo: Do we want to add this at the beginning, at the end,
+            // or maybe after x results.
+
+            $options[] = array(
+                'keywords' => array('Omnisearch'),
+                'label' => sprintf("%s", __('Omnisearch')),
+                'description' => '',
+                'priority' => self::OMNISEARCH_LANDINGPAGE,
+                'path' => $this->backend . 'omnisearch?q=' . $query,
+            );
         }
 
         usort($options, array($this, 'compareOptions'));
@@ -299,7 +317,7 @@ class Omnisearch
     }
 
     // search in database
-    private function search($query)
+    private function search($query, $withRecord = false)
     {
 
         if (!$this->showRecords) {
@@ -316,13 +334,19 @@ class Omnisearch
             $contenttitle        = $result->getTitle();
             $contenttypesingular = $result->contenttype['singular_name'];
 
-            $this->register(array(
+            $item = array(
                 'label' => sprintf('%s %s № %s » <span>%s</span>', __('Edit'), $contenttypesingular, $contentid, $contenttitle),
-                'path' => $backend.'editcontent/'.$contenttypeslug.'/'.$contentid,
+                'path' => $this->backend.'editcontent/'.$contenttypeslug.'/'.$contentid,
                 'description' => '',
                 'keywords' => array($query),
                 'priority' => self::OMNISEARCH_CONTENT - $index,
-            ));
+            );
+
+            if ($withRecord) {
+                $item['record'] = $result;
+            }
+
+            $this->register($item);
 
             $index++;
         }

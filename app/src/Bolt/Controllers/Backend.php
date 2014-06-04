@@ -154,6 +154,10 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('translation');
 
+        $ctl->get("/omnisearch", array($this, 'omnisearch'))
+            ->before(array($this, 'before'))
+            ->bind('omnisearch');
+
         return $ctl;
     }
 
@@ -378,6 +382,23 @@ class Backend implements ControllerProviderInterface
 
     }
 
+    /**
+     * Show the Omnisearch results.
+     */
+    public function omnisearch(Silex\Application $app)
+    {
+
+        $title = __('Omnisearch');
+        $query = $app['request']->query->get('q', '');
+        $results = array();
+
+        if (strlen($query) >= 3) {
+            $results = $app['omnisearch']->query( $query, true );
+        }
+
+        return $app['render']->render('omnisearch.twig', array('title' => $title, 'query' => $query, 'results' => $results));
+
+    }
 
     /**
      * Generate some lipsum in the DB.
