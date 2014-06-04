@@ -268,7 +268,8 @@ class Storage
     /**
      * Writes a content-changelog entry for a newly-created entry.
      */
-    private function logInsert($contenttype, $contentid, $content) {
+    private function logInsert($contenttype, $contentid, $content)
+    {
         $this->writeChangelog('INSERT', $contenttype, $contentid, $content);
     }
 
@@ -277,7 +278,8 @@ class Storage
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
      */
-    private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null) {
+    private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null)
+    {
         $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent, $oldContent);
     }
 
@@ -285,7 +287,8 @@ class Storage
      * Writes a content-changelog entry for a deleted entry.
      * This function must be called *before* the actual update, because it
      */
-    private function logDelete($contenttype, $contentid, $content) {
+    private function logDelete($contenttype, $contentid, $content)
+    {
         $this->writeChangelog('DELETE', $contenttype, $contentid, null, $content);
     }
 
@@ -306,7 +309,8 @@ class Storage
      * an ID, you can only really call the logging function _after_ the update.
      * @throws \Exception
      */
-    private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null) {
+    private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null)
+    {
         $allowed = array('INSERT', 'UPDATE', 'DELETE');
         if (!in_array($action, $allowed)) {
             throw new \Exception("Invalid action '$action' specified for changelog (must be one of [ " . implode(', ', $allowed) . " ])");
@@ -366,7 +370,8 @@ class Storage
         }
     }
 
-    private function makeOrderLimitSql($options) {
+    private function makeOrderLimitSql($options)
+    {
         $sql = '';
         if (isset($options['order'])) {
             $sql .= " ORDER BY " . $options['order'];
@@ -393,7 +398,8 @@ class Storage
      *                       - 'order' (string)
      * @return array
      */
-    public function getChangelog($options) {
+    public function getChangelog($options)
+    {
         $tablename = $this->getTablename('content_changelog');
         $sql = "SELECT log.*, log.title " .
                "    FROM $tablename as log ";
@@ -407,7 +413,8 @@ class Storage
         return $objs;
     }
 
-    public function countChangelog($options) {
+    public function countChangelog($options)
+    {
         $tablename = $this->getTablename('content_changelog');
         $sql = "SELECT COUNT(1) " .
                "    FROM $tablename as log ";
@@ -427,7 +434,8 @@ class Storage
      *                       - 'id' (int), to filter by a specific changelog entry ID
      * @return array
      */
-    public function getChangelogByContentType($contenttype, $options) {
+    public function getChangelogByContentType($contenttype, $options)
+    {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
@@ -457,7 +465,8 @@ class Storage
         return $objs;
     }
 
-    public function countChangelogByContentType($contenttype, $options) {
+    public function countChangelogByContentType($contenttype, $options)
+    {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
@@ -487,7 +496,8 @@ class Storage
      * @param int $id The content-changelog ID
      * @return \Bolt\ChangelogItem|null
      */
-    public function getChangelogEntry($contenttype, $contentid, $id) {
+    public function getChangelogEntry($contenttype, $contentid, $id)
+    {
         return $this->_getChangelogEntry($contenttype, $contentid, $id, '=');
     }
 
@@ -500,7 +510,8 @@ class Storage
      * @param int $id The content-changelog ID
      * @return \Bolt\ChangelogItem|null
      */
-    public function getNextChangelogEntry($contenttype, $contentid, $id) {
+    public function getNextChangelogEntry($contenttype, $contentid, $id)
+    {
         return $this->_getChangelogEntry($contenttype, $contentid, $id, '>');
     }
 
@@ -513,7 +524,8 @@ class Storage
      * @param int $id The content-changelog ID
      * @return \Bolt\ChangelogItem|null
      */
-    public function getPrevChangelogEntry($contenttype, $contentid, $id) {
+    public function getPrevChangelogEntry($contenttype, $contentid, $id)
+    {
         return $this->_getChangelogEntry($contenttype, $contentid, $id, '<');
     }
 
@@ -531,7 +543,8 @@ class Storage
      * @throws \Exception
      * @return \Bolt\ChangelogItem|null
      */
-    private function _getChangelogEntry($contenttype, $contentid, $id, $cmp_op) {
+    private function _getChangelogEntry($contenttype, $contentid, $id, $cmp_op)
+    {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
@@ -2054,8 +2067,7 @@ class Storage
         if (empty($name)) {
             return false;
         }
-
-        if( strpos($name, 'RAND') !== false ) {
+        if (strpos($name, 'RAND') !== false) {
             $order = $name;
         } elseif ($prefix !== false) {
             $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
@@ -2063,7 +2075,7 @@ class Storage
             $order = $this->app['db']->quoteIdentifier($name);
         }
 
-        if (!$asc) {
+        if (! $asc) {
             $order .= " DESC";
         }
 
@@ -2756,7 +2768,8 @@ class Storage
     }
 
 
-    public function getLatestId($contenttypeslug) {
+    public function getLatestId($contenttypeslug)
+    {
 
         $tablename = $this->getTablename($contenttypeslug);
 
@@ -2910,9 +2923,11 @@ class Storage
      * @param int    $contentId Content Id
      * @return array
      */
-    protected function findContent($tablename, $contentId) {
-
-        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentId));
+    protected function findContent($tablename, $contentId)
+    {
+        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array(
+            $contentId
+        ));
         return $oldContent;
     }
 
