@@ -12,7 +12,7 @@ class Extension extends \Bolt\BaseExtension
     private $text_labels;
     private $labelsenabled;
 
-    function info()
+    public function info()
     {
         $data = array(
             'name' =>"Simple Forms",
@@ -30,7 +30,7 @@ class Extension extends \Bolt\BaseExtension
         return $data;
     }
 
-    function initialize()
+    public function initialize()
     {
         // fields that the global config should have
         $this->global_fields = array(
@@ -81,9 +81,130 @@ class Extension extends \Bolt\BaseExtension
         }
 
         $this->addTwigFunction('simpleform', 'simpleForm');
-
     }
 
+    private function buildField($name, $field) {
+        $options = array();
+        $options['required'] = false;
+
+        $mappings = array(
+                'label' => 'label',
+                'value' => 'attr:value',
+                'read_only' => 'read_only',
+                'placeholder' => 'attr:placeholder',
+                'class' => 'attr:class',
+                'hint' => 'attr:hint',
+                'required' => 'required',
+                'prefix' => 'attr:prefix',
+                'postfix' => 'attr:postfix',
+                'empty_value' => 'empty_value',
+                'maxlength' => 'attr:maxlength',
+                'minlength' => 'attr:minlength',
+                'autofocus' => 'attr:autofocus',
+                'pattern' => 'attr:pattern',
+                'autocomplete' => 'attr:autocomplete',
+                'expanded' => 'expanded',
+                'multiple' => 'multiple',
+            );
+
+        foreach ($mappings as $src => $dst) {
+            if (!empty($field[$src])) {
+                $value = $field[$src];
+                $dstPath = explode(':', $dst);
+                switch (count($dstPath)) {
+                    case 1:
+                        $options[$dstPath[0]] = $value; break;
+                    case 2:
+                        $options[$dstPath[0]][$dstPath[1]] = $value; break;
+                    default:
+                        throw \Exception("Invalid number of path components in $dstPath");
+                }
+            }
+        }
+
+        if ($field['type'] == "ip" || $field['type'] == "timestamp") {
+            // we're storing IP and timestamp later.
+            return null;
+        }
+
+        if (!empty($field['allow_override']) && !empty($_GET[$name])) {
+            $value = strip_tags($_GET[$name]); // Note Symfony's form also takes care of escaping this.
+            $options['attr']['value'] = $value;
+        }
+
+        if (is_array($field['data'])) {
+            foreach ($field['data'] as $datakey => $datavalue) {
+                $options['attr']['data-'.$datakey] = $datavalue;
+            }
+        }
+
+        if ($options['required']) {
+            $options['constraints'][] = new Assert\NotBlank();
+        }
+
+        if (!empty($field['choices']) && is_array($field['choices'])) {
+            // Make the keys more sensible.
+            $options['choices'] = array();
+            foreach ($field['choices'] as $option) {
+                $options['choices'][ safeString($option)] = $option;
+            }
+        }
+
+        // for optgroups
+        if (!empty($field['optgroups']) && is_array($field['optgroups'])) {
+            $options['choices'] = array();
+            foreach ($field['optgroups'] as $key => $value) {
+                $label   = $value['label'];
+                $choices = array();
+
+                if (is_array($value['choices'])) {
+                    foreach ($value['choices'] as $k => $v) {
+                        $choices[safeString($v)] = $v;
+                    }
+                }
+
+                $options['choices'][$label] = $choices;
+            }
+        }
+
+        // Make sure $field has a type, or the form will break.
+        if (empty($field['type'])) {
+            $type = "text";
+        }
+        else {
+            $type = $field['type'];
+        }
+
+        if ($type === "email") {
+            $options['constraints'][] = new Assert\Email();
+        }
+        if ($type === "file") {
+            // if the field is file, make sure we set the accept properly.
+            $accept = array();
+
+            // Don't accept _all_ types. If nothing set in config.yml, set some sensible defaults.
+            if (empty($field['filetype'])) {
+                $field['filetype'] = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt', 'doc', 'docx');
+            }
+            foreach ($field['filetype'] as $ext) {
+                $accept[] = ".".$ext;
+            }
+            $options['attr']['accept'] = implode(",", $accept);
+
+            if (!empty($field['mimetype'])) {
+                $options['constraints'][] = new Assert\File(array(
+                            'mimeTypes' => $field['mimetype'],
+                            'mimeTypesMessage' => $formconfig['mime_types_message'] . ' ' . implode(', ', $field['filetype']),
+                            ));
+            }
+        }
+
+        // Yeah, this feels a bit flaky, but I'm not sure how I can get
+        // the form type in the template in another way.
+        $options['attr']['type'] = $type;
+
+        return $options;
+    }
 
     /**
      * Create a simple Form.
@@ -92,7 +213,7 @@ class Extension extends \Bolt\BaseExtension
      * @internal param string $name
      * @return string
      */
-    function simpleForm($formname = "")
+    public function simpleForm($formname = "")
     {
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
@@ -133,150 +254,9 @@ class Extension extends \Bolt\BaseExtension
         $form = $this->app['form.factory']->createNamedBuilder($formname, 'form', null, array('csrf_protection' => $this->config['csrf']));
 
         foreach ($formconfig['fields'] as $name => $field) {
-            $options = array();
+            $options = $this->buildField($name, $field);
 
-            if ($field['type'] == "ip" || $field['type'] == "timestamp") {
-                // we're storing IP and timestamp later.
-                continue;
-            }
-
-            if (!empty($field['label'])) {
-                $options['label'] = $field['label'];
-            }
-
-            if (!empty($field['value'])) {
-                $options['attr']['value'] = $field['value'];
-            }
-
-            if (!empty($field['allow_override']) && !empty($_GET[$name])) {
-                $value = strip_tags($_GET[$name]); // Note Symfony's form also takes care of escaping this.
-                $options['attr']['value'] = $value;
-            }
-
-            if (!empty($field['read_only'])) {
-                $options['read_only'] = $field['read_only'];
-            }
-
-            if (!empty($field['placeholder'])) {
-                $options['attr']['placeholder'] = $field['placeholder'];
-            }
-
-            if (!empty($field['class'])) {
-                $options['attr']['class'] = $field['class'];
-            }
-            if (!empty($field['hint'])) {
-                $options['attr']['hint'] = $field['hint'];
-            }
-
-            if (!empty($field['prefix'])) {
-                $options['attr']['prefix'] = $field['prefix'];
-            }
-            if (!empty($field['postfix'])) {
-                $options['attr']['postfix'] = $field['postfix'];
-            }
-            if (is_array($field['data'])) {
-                foreach ($field['data'] as $datakey => $datavalue) {
-                    $options['attr']['data-'.$datakey] = $datavalue;
-                }
-            }
-
-            if (!empty($field['required']) && $field['required'] == true) {
-                $options['required'] = true;
-                $options['constraints'][] = new Assert\NotBlank();
-            }
-            else {
-                $options['required'] = false;
-            }
-
-            if (!empty($field['choices']) && is_array($field['choices'])) {
-                // Make the keys more sensible.
-                $options['choices'] = array();
-                foreach ($field['choices'] as $option) {
-                    $options['choices'][ safeString($option)] = $option;
-                }
-            }
-
-            // for optgroups
-            if (!empty($field['optgroups']) && is_array($field['optgroups'])) {
-                $options['choices'] = array();
-                foreach ($field['optgroups'] as $key => $value) {
-                    $label   = $value['label'];
-                    $choices = array();
-
-                    if (is_array($value['choices'])) {
-                        foreach ($value['choices'] as $k => $v) {
-                            $choices[safeString($v)] = $v;
-                        }
-                    }
-
-                    $options['choices'][$label] = $choices;
-                }
-            }
-
-            if (!empty($field['empty_value'])) {
-                $options['empty_value'] = $field['empty_value'];
-            }
-
-            if (!empty($field['maxlength'])) {
-                $options['attr']['maxlength'] = $field['maxlength'];
-            }
-
-            if (!empty($field['minlength'])) {
-                $options['attr']['minlength'] = $field['minlength'];
-            }
-
-            if (!empty($field['autofocus'])) {
-                $options['attr']['autofocus'] = $field['autofocus'];
-            }
-
-            if (!empty($field['pattern'])) {
-                $options['attr']['pattern'] = $field['pattern'];
-            }
-            if (!empty($field['autocomplete'])) {
-                $options['attr']['autocomplete'] = $field['autocomplete'];
-            }
-
-            if (!empty($field['expanded'])) {
-                $options['expanded'] = $field['expanded'];
-            }
-
-            if (!empty($field['multiple'])) {
-                $options['multiple'] = $field['multiple'];
-            }
-
-            // Make sure $field has a type, or the form will break.
-            if (empty($field['type'])) {
-                $field['type'] = "text";
-            }
-            elseif ($field['type'] == "email") {
-                $options['constraints'][] = new Assert\Email();
-            }
-            elseif ($field['type'] == "file") {
-                // if the field is file, make sure we set the accept properly.
-                $accept = array();
-
-                // Don't accept _all_ types. If nothing set in config.yml, set some sensible defaults.
-                if (empty($field['filetype'])) {
-                    $field['filetype'] = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt', 'doc', 'docx');
-                }
-                foreach ($field['filetype'] as $ext) {
-                    $accept[] = ".".$ext;
-                }
-                $options['attr']['accept'] = implode(",", $accept);
-
-                if (!empty($field['mimetype'])) {
-                    $options['constraints'][] = new Assert\File(array(
-                        'mimeTypes' => $field['mimetype'],
-                        'mimeTypesMessage' => $formconfig['mime_types_message'] . ' ' . implode(', ', $field['filetype']),
-                    ));
-                }
-            }
-
-            // Yeah, this feels a bit flaky, but I'm not sure how I can get
-            // the form type in the template in another way.
-            $options['attr']['type'] = $field['type'];
-
-            $form->add($name, $field['type'], $options);
+            $form->add($name, $options['attr']['type'], $options);
         }
 
         $form = $form->getForm();
@@ -310,9 +290,7 @@ class Extension extends \Bolt\BaseExtension
                     $form->bind($this->app['request']);
 
                     if ($form->isValid()) {
-
                         $res = $this->processForm($formconfig, $form, $formname);
-
                         if ($res) {
                             $message = $formconfig['message_ok'];
                             $sent = true;
@@ -322,26 +300,20 @@ class Extension extends \Bolt\BaseExtension
                                 $content = $this->app['storage']->getContent($formconfig['redirect_on_ok']);
                                 simpleredirect($content->link(), false);
                             }
-
                         }
                         else {
                             $error = $formconfig['message_technical'];
                         }
-
                     }
                     else {
-
                         $error = $formconfig['message_error'];
-
                     }
                 }
                 else {
                     $error = $this->config['recaptcha_error_message'];
                 }
             }
-
         }
-
 
         $formhtml = $this->app['render']->render($formconfig['template'], array(
             "submit" => "Send",
