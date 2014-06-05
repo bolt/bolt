@@ -79,9 +79,8 @@ class Async implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('showstack');
 
-        $ctr->match("/omnisearch", array($this, 'omnisearch')) // change to post or get
-            ->before(array($this, 'before'))
-            ->bind('omnisearch');
+        $ctr->get("/omnisearch", array($this, 'omnisearch'))
+            ->before(array($this, 'before'));
 
         $ctr->post("/folder/rename", array($this, 'renamefolder'))
             ->before(array($this, 'before'))

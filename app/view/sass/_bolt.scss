@@ -583,57 +583,60 @@ aside section {
 }
 
 /*-- Omnisearch --*/
+
 .omnisearch {
 
-    & > .select2-dropdown-open, & > .select2-container-active {
-        box-shadow: none !important;      
-    }
+  & > .select2-dropdown-open, & > .select2-container-active {
+    box-shadow: none !important;
+  }
 
-    & > .select2-choices {
-
-          background : transparent none !important;
-          border : none !important;
-          outline : 0 !important;
-          box-shadow: none !important;
-
-      & > .select2-search-field {
-
-        & > input, & > input:focus {
-          min-width: 200px;
-        }
+  & > .select2-choices {
+    background : transparent none !important;
+    border : none !important;
+    outline : 0 !important;
+    box-shadow: none !important;
+    & > .select2-search-field {
+      & > input, & > input:focus {
+        min-width: 200px;
       }
     }
+  }
 
-    .select2-search-choice {
-        display: none;
-    }
+  .select2-search-choice {
+    display: none;
+  }
 
-    & > .select2-choices {
-        border: 0px;
-        & > .select2-search-field input {
-            padding : 0;
-            font-size: inherit;
-            font-family: inherit;
-        }
+  & > .select2-choices {
+    border: 0px;
+    & > .select2-search-field input {
+      padding : 0;
+      font-size: inherit;
+      font-family: inherit;
     }
+  }
+
 }
 
 .omnisearch-result { }
 .omnisearch-result-info { }
 
 .omnisearch-result-label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .omnisearch-result-label span {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .omnisearch-result-description {
-    font-size: smaller;
-    color: #999;
+  font-size: smaller;
+  color: #999;
 }
 
 .select2-highlighted .omnisearch-result-description {
-    color : #FFF; // better contrast.
+  color : #FFF; // better contrast.
+}
+
+.omnisearchlisting tbody tr td a span {
+  font-weight: normal;
 }
