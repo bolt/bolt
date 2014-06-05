@@ -169,7 +169,7 @@ class Log
             'showing_to' => ($page-1)*$amount + count($rows)
         );
 
-        $GLOBALS['pager']['activity'] = $pager;
+        $this->app['storage']->setPager('activity', $pager);
 
         return $rows;
     }
