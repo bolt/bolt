@@ -2,11 +2,11 @@
 
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
-require_once __DIR__ . '/../vendor/autoload.php';
-
-if(strpos("/vendor/", __DIR__) !== false) {
+if(strpos(__DIR__, "/vendor/") !== false) {
+    require_once __DIR__ . '/../../../../vendor/autoload.php';
     $config = new Bolt\Configuration\ComposerResources(__DIR__."/../");
 } else {
+    require_once __DIR__ . '/../vendor/autoload.php';
     $config = new Bolt\Configuration\ResourceManager(__DIR__."/../");
 }
 $config->compat();
