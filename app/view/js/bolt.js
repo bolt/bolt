@@ -153,13 +153,13 @@ jQuery(function($) {
         }
     });
 
-    // Delete choosed Items
+    // Delete chosen Items
     $("a.deletechoosen").click(function(e) {
         e.preventDefault();
         aItems = getSelectedItems();
 
         if(aItems.length <1){
-            bootbox.alert("Nothing choosed to delete");
+            bootbox.alert("Nothing chosen to delete");
         }else{
             bootbox.confirm("Delete this "+(aItems.length===1? "Entry":"Entries")+"?", function(confirmed) {
                 $(".alert").alert();
@@ -801,7 +801,16 @@ var Sidebar = Backbone.Model.extend({
     initialize: function() {
 
         // Make sure the sidebar is the full height of the page.
-        $('.navbar-static-side').css('min-height', $('div#page-wrapper').height() + 40);
+
+        height1 = $('div#page-wrapper').height());
+        height2 = 50; // $('div#page-wrapper').height();
+
+        //$('.navbar-static-side').css('min-height', $('div#page-wrapper').css('height')  );
+        $('.navbar-static-side').css('min-height', Math.max(height1, height2) );
+
+        //window.setTimeout(function(){
+        //    $('.navbar-static-side').css('min-height', Math.max(height1, height2) );
+        //}, 1000);
 
         // Do this, only if the sidebar is visible. (not when in small-responsive view)
         if ($('nav.navbar-static-side').is(':visible')) {
