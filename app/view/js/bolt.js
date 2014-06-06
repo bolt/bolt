@@ -802,7 +802,7 @@ var Sidebar = Backbone.Model.extend({
 
         // Make sure the sidebar is the full height of the page.
 
-        height1 = $('div#page-wrapper').height());
+        height1 = $('div#page-wrapper').height();
         height2 = 50; // $('div#page-wrapper').height();
 
         //$('.navbar-static-side').css('min-height', $('div#page-wrapper').css('height')  );
