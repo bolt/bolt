@@ -846,8 +846,8 @@ pre {
 .container {
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px; }
+  padding-left: 20px;
+  padding-right: 20px; }
   /* line 14, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
   .container:before, .container:after {
     content: " ";
@@ -858,22 +858,22 @@ pre {
   @media (min-width: 768px) {
     /* line 10, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_grid.scss */
     .container {
-      width: 750px; } }
+      width: 760px; } }
   @media (min-width: 992px) {
     /* line 10, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_grid.scss */
     .container {
-      width: 970px; } }
+      width: 980px; } }
   @media (min-width: 1200px) {
     /* line 10, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_grid.scss */
     .container {
-      width: 1170px; } }
+      width: 1180px; } }
 
 /* line 30, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_grid.scss */
 .container-fluid {
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px; }
+  padding-left: 20px;
+  padding-right: 20px; }
   /* line 14, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
   .container-fluid:before, .container-fluid:after {
     content: " ";
@@ -884,8 +884,8 @@ pre {
 
 /* line 39, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_grid.scss */
 .row {
-  margin-left: -15px;
-  margin-right: -15px; }
+  margin-left: -20px;
+  margin-right: -20px; }
   /* line 14, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
   .row:before, .row:after {
     content: " ";
@@ -898,8 +898,8 @@ pre {
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px; }
+  padding-left: 20px;
+  padding-right: 20px; }
 
 /* line 33, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/mixins/_grid-framework.scss */
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
@@ -2429,8 +2429,8 @@ select[multiple].input-lg,
   min-height: 27px; }
 /* line 457, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .form-horizontal .form-group {
-  margin-left: -15px;
-  margin-right: -15px; }
+  margin-left: -20px;
+  margin-right: -20px; }
   /* line 14, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
   .form-horizontal .form-group:before, .form-horizontal .form-group:after {
     content: " ";
@@ -2451,7 +2451,7 @@ select[multiple].input-lg,
 /* line 480, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_forms.scss */
 .form-horizontal .has-feedback .form-control-feedback {
   top: 0;
-  right: 15px; }
+  right: 20px; }
 
 /* line 9, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_buttons.scss */
 .btn {
@@ -3381,8 +3381,8 @@ tbody.collapse.in {
 /* line 50, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-collapse {
   overflow-x: visible;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
   border-top: 1px solid transparent;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   -webkit-overflow-scrolling: touch; }
@@ -3431,8 +3431,8 @@ tbody.collapse.in {
 .container > .navbar-collapse,
 .container-fluid > .navbar-header,
 .container-fluid > .navbar-collapse {
-  margin-right: -15px;
-  margin-left: -15px; }
+  margin-right: -20px;
+  margin-left: -20px; }
   @media (min-width: 768px) {
     /* line 108, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
     .container > .navbar-header,
@@ -3478,7 +3478,7 @@ tbody.collapse.in {
 /* line 163, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
+  padding: 15px 20px;
   font-size: 18px;
   line-height: 20px;
   height: 50px; }
@@ -3488,13 +3488,13 @@ tbody.collapse.in {
   @media (min-width: 768px) {
     /* line 176, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
     .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
-      margin-left: -15px; } }
+      margin-left: -20px; } }
 
 /* line 189, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-toggle {
   position: relative;
   float: right;
-  margin-right: 15px;
+  margin-right: 20px;
   padding: 9px 10px;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -3521,7 +3521,7 @@ tbody.collapse.in {
 
 /* line 228, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-nav {
-  margin: 7.5px -15px; }
+  margin: 7.5px -20px; }
   /* line 231, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-nav > li > a {
     padding-top: 10px;
@@ -3561,7 +3561,7 @@ tbody.collapse.in {
           padding-bottom: 15px; }
       /* line 274, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
       .navbar-nav.navbar-right:last-child {
-        margin-right: -15px; } }
+        margin-right: -20px; } }
 
 @media (min-width: 768px) {
   /* line 288, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
@@ -3573,9 +3573,9 @@ tbody.collapse.in {
     float: right !important; } }
 /* line 302, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-form {
-  margin-left: -15px;
-  margin-right: -15px;
-  padding: 10px 15px;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding: 10px 20px;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -3599,7 +3599,7 @@ tbody.collapse.in {
       box-shadow: none; }
       /* line 334, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
       .navbar-form.navbar-right:last-child {
-        margin-right: -15px; } }
+        margin-right: -20px; } }
 
 /* line 344, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-nav > li > .dropdown-menu {
@@ -3633,8 +3633,8 @@ tbody.collapse.in {
     /* line 374, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
     .navbar-text {
       float: left;
-      margin-left: 15px;
-      margin-right: 15px; }
+      margin-left: 20px;
+      margin-right: 20px; }
       /* line 383, /Users/bobdenotter/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_navbar.scss */
       .navbar-text.navbar-right:last-child {
         margin-right: 0; } }
@@ -8142,25 +8142,30 @@ label.permalink {
 .form-horizontal .control-label {
   text-align: left;
   font-size: 15px;
-  font-weight: normal; }
+  font-weight: normal;
+  margin-bottom: 2px; }
 
-/* line 20, ../sass/_forms.scss */
+/* line 22, ../sass/_forms.scss */
+.form-group {
+  margin-bottom: 20px; }
+
+/* line 26, ../sass/_forms.scss */
 input[type="checkbox"] {
   margin: 4px 8px 0px 0; }
 
-/* line 24, ../sass/_forms.scss */
+/* line 30, ../sass/_forms.scss */
 fieldset.checkbox {
   display: inline-block; }
 
-/* line 28, ../sass/_forms.scss */
+/* line 34, ../sass/_forms.scss */
 fieldset.checkbox label {
   display: inline; }
 
-/* line 32, ../sass/_forms.scss */
+/* line 38, ../sass/_forms.scss */
 fieldset.checkbox div {
   margin: 0.3em 0 0.5em; }
 
-/* line 36, ../sass/_forms.scss */
+/* line 42, ../sass/_forms.scss */
 #editcontent input,
 #editcontent select,
 #editcontent textarea {
@@ -8168,50 +8173,50 @@ fieldset.checkbox div {
   border-color: #CCC;
   font-size: 15px; }
 
-/* line 45, ../sass/_forms.scss */
+/* line 51, ../sass/_forms.scss */
 #editcontent input.large {
   font-size: 150%; }
 
-/* line 49, ../sass/_forms.scss */
+/* line 55, ../sass/_forms.scss */
 #editcontent .narrow {
   width: 30%;
   min-width: 200px; }
 
-/* line 54, ../sass/_forms.scss */
+/* line 60, ../sass/_forms.scss */
 #editcontent .verynarrow {
   width: 8%;
   min-width: 50px; }
 
-/* line 60, ../sass/_forms.scss */
+/* line 66, ../sass/_forms.scss */
 #editcontent select.wide {
   width: 70%;
   min-width: 200px; }
 
-/* line 65, ../sass/_forms.scss */
+/* line 71, ../sass/_forms.scss */
 #editcontent .narrow.wide {
   /* Derp! */
   width: 60%;
   min-width: 200px; }
 
-/* line 70, ../sass/_forms.scss */
+/* line 76, ../sass/_forms.scss */
 #editcontent input.datepicker {
   width: 30%;
   min-width: 200px;
   margin-right: 8px;
   float: left; }
 
-/* line 77, ../sass/_forms.scss */
+/* line 83, ../sass/_forms.scss */
 #editcontent input.timepicker {
   width: 10%;
   min-width: 80px;
   float: left; }
 
-/* line 83, ../sass/_forms.scss */
+/* line 89, ../sass/_forms.scss */
 #editcontent input[type=number] {
   width: 20%;
   min-width: 140px; }
 
-/* line 88, ../sass/_forms.scss */
+/* line 94, ../sass/_forms.scss */
 #editcontent textarea {
   width: 96%;
   height: 200px;
@@ -8223,37 +8228,37 @@ fieldset.checkbox div {
   color: #444;
   font-family: Menlo, Consolas, Monaco, "Courier New", monospace; }
 
-/* line 100, ../sass/_forms.scss */
+/* line 106, ../sass/_forms.scss */
 #editcontent div.video-container {
   height: 120px;
   padding-right: 180px; }
 
-/* line 105, ../sass/_forms.scss */
+/* line 111, ../sass/_forms.scss */
 #editcontent div.video-right {
   float: right;
   width: 168px; }
 
-/* line 110, ../sass/_forms.scss */
+/* line 116, ../sass/_forms.scss */
 #editcontent div.image-container {
   height: 140px;
   padding-right: 130px; }
 
-/* line 115, ../sass/_forms.scss */
+/* line 121, ../sass/_forms.scss */
 #editcontent div.image-right {
   float: right;
   width: 128px; }
 
-/* line 121, ../sass/_forms.scss */
+/* line 127, ../sass/_forms.scss */
 #editcontent div.map-container {
   padding-right: 210px; }
 
-/* line 125, ../sass/_forms.scss */
+/* line 131, ../sass/_forms.scss */
 #editcontent div.map-right {
   float: right;
   width: 208px;
   margin-bottom: 8px; }
 
-/* line 131, ../sass/_forms.scss */
+/* line 137, ../sass/_forms.scss */
 #editcontent .imageholder {
   border: 1px solid #BBB;
   width: 126px;
@@ -8262,29 +8267,29 @@ fieldset.checkbox div {
   padding: 2px;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2); }
 
-/* line 140, ../sass/_forms.scss */
+/* line 146, ../sass/_forms.scss */
 #editcontent .imageholder img {
   max-height: 120px; }
 
-/* line 144, ../sass/_forms.scss */
+/* line 150, ../sass/_forms.scss */
 #editcontent div.image-container label,
 #editcontent div.video-container label,
 #editcontent div.map-container label {
   margin-top: 2px; }
 
-/* line 150, ../sass/_forms.scss */
+/* line 156, ../sass/_forms.scss */
 #editcontent .checkboxwrapper {
   padding: 0 0 12px 0; }
 
-/* line 154, ../sass/_forms.scss */
+/* line 160, ../sass/_forms.scss */
 #editcontent .checkboxwrapper span.left {
   min-width: 220px; }
 
-/* line 158, ../sass/_forms.scss */
+/* line 164, ../sass/_forms.scss */
 #editcontent .checkboxwrapper input {
   margin-top: 8px; }
 
-/* line 162, ../sass/_forms.scss */
+/* line 168, ../sass/_forms.scss */
 #editcontent .mapholder {
   border: 1px solid #BBB;
   width: 200px;
@@ -8292,42 +8297,42 @@ fieldset.checkbox div {
   padding: 2px;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2); }
 
-/* line 170, ../sass/_forms.scss */
+/* line 176, ../sass/_forms.scss */
 #editcontent .geolocation {
   height: 180px; }
 
-/* line 174, ../sass/_forms.scss */
+/* line 180, ../sass/_forms.scss */
 #editcontent .dropzone.hover, #editcontent .dropzone.in {
   background: #DEF; }
 
-/* line 178, ../sass/_forms.scss */
+/* line 184, ../sass/_forms.scss */
 #editcontent .dropzone.hover *, #editcontent .dropzone.in * {
   opacity: 0.7; }
 
-/* line 182, ../sass/_forms.scss */
+/* line 188, ../sass/_forms.scss */
 #editcontent small {
   font-size: 12px;
   color: #666; }
 
-/* line 187, ../sass/_forms.scss */
+/* line 193, ../sass/_forms.scss */
 .progress {
   width: 20%;
   display: none;
   margin-bottom: 0; }
 
-/* line 193, ../sass/_forms.scss */
+/* line 199, ../sass/_forms.scss */
 #editcontent .fileinput-select {
   float: left; }
 
-/* line 197, ../sass/_forms.scss */
+/* line 203, ../sass/_forms.scss */
 .fileinput-button {
   margin: 0 !important; }
 
-/* line 201, ../sass/_forms.scss */
+/* line 207, ../sass/_forms.scss */
 #editcontent input.editslug {
   display: none; }
 
-/* line 205, ../sass/_forms.scss */
+/* line 211, ../sass/_forms.scss */
 #editcontent .sluglocker,
 #editcontent .slugedit {
   color: #666;
@@ -8335,12 +8340,12 @@ fieldset.checkbox div {
   padding: 0 3px;
   cursor: pointer; }
 
-/* line 214, ../sass/_forms.scss */
+/* line 220, ../sass/_forms.scss */
 #editcontent div.imagelistholder.dropzone,
 #editcontent div.filelistholder.dropzone {
   height: auto; }
 
-/* line 220, ../sass/_forms.scss */
+/* line 226, ../sass/_forms.scss */
 #editcontent div.imagelistholder p,
 #editcontent div.filelistholder p {
   padding: 8px;
@@ -8348,7 +8353,7 @@ fieldset.checkbox div {
   margin: 0;
   font-style: italic; }
 
-/* line 228, ../sass/_forms.scss */
+/* line 234, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list,
 #editcontent div.filelistholder div.list {
   border: 1px solid #BBB;
@@ -8359,7 +8364,7 @@ fieldset.checkbox div {
   border-radius: 3px;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2) inset; }
 
-/* line 239, ../sass/_forms.scss */
+/* line 245, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div {
   height: 48px;
   margin: 6px;
@@ -8368,7 +8373,7 @@ fieldset.checkbox div {
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
   overflow: hidden; }
 
-/* line 248, ../sass/_forms.scss */
+/* line 254, ../sass/_forms.scss */
 #editcontent div.filelistholder div.list div {
   height: 70px;
   margin: 6px;
@@ -8378,25 +8383,25 @@ fieldset.checkbox div {
   overflow: hidden;
   background: url("/app/view/css/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 61% #e6e6e6; }
 
-/* line 257, ../sass/_forms.scss */
+/* line 263, ../sass/_forms.scss */
 #editcontent div.filelistholder div.list .fileDescription {
   font-size: 80%;
   font-weight: bold; }
 
-/* line 262, ../sass/_forms.scss */
+/* line 268, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div *,
 #editcontent div.filelistholder div.list div * {
   float: left;
   margin: 4px 3px 0;
   padding-left: 4px; }
 
-/* line 269, ../sass/_forms.scss */
+/* line 275, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div input,
 #editcontent div.filelistholder div.list div input {
   width: 264px;
   margin: 9px 0 0 4px; }
 
-/* line 275, ../sass/_forms.scss */
+/* line 281, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.list div i,
 #editcontent div.filelistholder div.list div i {
   margin: 11px 0 0;
@@ -8404,27 +8409,27 @@ fieldset.checkbox div {
   cursor: pointer;
   color: #999; }
 
-/* line 283, ../sass/_forms.scss */
+/* line 289, ../sass/_forms.scss */
 #editcontent div.imagelistholder div.buttons,
 #editcontent div.filelistholder div.buttons {
   float: left;
   padding: 7px 8px; }
 
-/* line 289, ../sass/_forms.scss */
+/* line 295, ../sass/_forms.scss */
 #editcontent div.tagcloud {
   margin-top: 6px; }
 
-/* line 293, ../sass/_forms.scss */
+/* line 299, ../sass/_forms.scss */
 #editcontent div.tagcloud a {
   margin-right: 6px;
   display: inline-block; }
 
-/* line 298, ../sass/_forms.scss */
+/* line 304, ../sass/_forms.scss */
 .ui-sortable-helper {
   border: 1px solid #999;
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3); }
 
-/* line 303, ../sass/_forms.scss */
+/* line 309, ../sass/_forms.scss */
 .ui-sortable-placeholder {
   border: 1px dashed #666;
   visibility: visible !important;

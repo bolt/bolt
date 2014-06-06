@@ -15,6 +15,12 @@ label.permalink {
     text-align: left;
     font-size: $font-size-base + 1px;
     font-weight: normal;
+    margin-bottom: 2px;
+}
+
+
+.form-group {
+  margin-bottom: 20px;
 }
 
 input[type="checkbox"] {
