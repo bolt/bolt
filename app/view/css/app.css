@@ -8957,43 +8957,47 @@ aside section {
   margin-bottom: 10px; }
 
 /*-- Omnisearch --*/
-/* line 588, ../sass/_bolt.scss */
+/* line 589, ../sass/_bolt.scss */
 .omnisearch > .select2-dropdown-open, .omnisearch > .select2-container-active {
   box-shadow: none !important; }
-/* line 592, ../sass/_bolt.scss */
+/* line 593, ../sass/_bolt.scss */
 .omnisearch > .select2-choices {
   background: transparent none !important;
   border: none !important;
   outline: 0 !important;
   box-shadow: none !important; }
-  /* line 601, ../sass/_bolt.scss */
+  /* line 599, ../sass/_bolt.scss */
   .omnisearch > .select2-choices > .select2-search-field > input, .omnisearch > .select2-choices > .select2-search-field > input:focus {
     min-width: 200px; }
-/* line 607, ../sass/_bolt.scss */
+/* line 605, ../sass/_bolt.scss */
 .omnisearch .select2-search-choice {
   display: none; }
-/* line 611, ../sass/_bolt.scss */
+/* line 609, ../sass/_bolt.scss */
 .omnisearch > .select2-choices {
   border: 0px; }
-  /* line 613, ../sass/_bolt.scss */
+  /* line 611, ../sass/_bolt.scss */
   .omnisearch > .select2-choices > .select2-search-field input {
     padding: 0;
     font-size: inherit;
     font-family: inherit; }
 
-/* line 624, ../sass/_bolt.scss */
+/* line 623, ../sass/_bolt.scss */
 .omnisearch-result-label {
   font-weight: bold; }
 
-/* line 628, ../sass/_bolt.scss */
+/* line 627, ../sass/_bolt.scss */
 .omnisearch-result-label span {
   font-weight: normal; }
 
-/* line 632, ../sass/_bolt.scss */
+/* line 631, ../sass/_bolt.scss */
 .omnisearch-result-description {
   font-size: smaller;
   color: #999; }
 
-/* line 637, ../sass/_bolt.scss */
+/* line 636, ../sass/_bolt.scss */
 .select2-highlighted .omnisearch-result-description {
   color: #FFF; }
+
+/* line 640, ../sass/_bolt.scss */
+.omnisearchlisting tbody tr td a span {
+  font-weight: normal; }
