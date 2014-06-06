@@ -187,7 +187,9 @@ class ResourceManager
      **/  
     public function initializeConfig($config)
     {
-        $this->setThemePath($config["general"]);
+        if(is_array($config) && isset($config['general'])) {
+            $this->setThemePath($config["general"]);
+        }
     }
         
     public function initialize()
@@ -234,8 +236,8 @@ class ResourceManager
      **/
     public function setThemePath($generalConfig)
     {
-        $theme       = $generalConfig['theme'];
-        $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
+        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme'] : "";
+        $theme_path  = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: '/theme';
         $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
 
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
