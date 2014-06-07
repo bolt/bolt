@@ -8145,7 +8145,7 @@ aside .btn {
 
 /* line 13, ../sass/_popover.scss */
 .popover {
-  width: 160px;
+  width: 200px;
   max-width: 360px;
   box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2); }
 
@@ -9140,72 +9140,73 @@ input.semitransparent:focus {
   /* line 443, ../sass/_bolt.scss */
   .navbar-static-side {
     display: none;
-    width: 280px; }
+    width: 280px;
+    overflow: hidden; }
 
-  /* line 447, ../sass/_bolt.scss */
+  /* line 448, ../sass/_bolt.scss */
   .js-nav .navbar-static-side {
     display: block; } }
 @media (min-width: 768px) {
-  /* line 454, ../sass/_bolt.scss */
+  /* line 455, ../sass/_bolt.scss */
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 180px;
     padding: 26px 18px 40px 30px;
     border-left: 1px solid #e7e7e7; }
 
-  /* line 461, ../sass/_bolt.scss */
+  /* line 462, ../sass/_bolt.scss */
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
   .navbar-top-links .dropdown-alerts {
     margin-left: auto; }
 
-  /* line 469, ../sass/_bolt.scss */
+  /* line 470, ../sass/_bolt.scss */
   body.collapsed-sidebar #page-wrapper {
     margin: 0 0 0 48px; }
-  /* line 473, ../sass/_bolt.scss */
+  /* line 474, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side {
     width: 48px;
     overflow: hidden;
     box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
     color: #aaaaaa; }
-  /* line 481, ../sass/_bolt.scss */
+  /* line 482, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side .nav > li a {
     color: #aaaaaa; }
-  /* line 486, ../sass/_bolt.scss */
+  /* line 487, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side:hover {
     width: 170px;
     overflow: visible;
     box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2);
     color: #dddddd; }
-    /* line 494, ../sass/_bolt.scss */
+    /* line 495, ../sass/_bolt.scss */
     body.collapsed-sidebar .navbar-static-side:hover .nav > li a {
       color: #eeeeee; }
-  /* line 501, ../sass/_bolt.scss */
+  /* line 502, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-collapse {
     visibility: hidden;
     display: none; }
-  /* line 506, ../sass/_bolt.scss */
+  /* line 507, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-expand {
     visibility: visible;
     display: block; } }
 /* Login Page */
-/* line 518, ../sass/_bolt.scss */
+/* line 519, ../sass/_bolt.scss */
 .login-panel {
   margin-top: 25%; }
 
 /* Flot Chart Containers */
-/* line 524, ../sass/_bolt.scss */
+/* line 525, ../sass/_bolt.scss */
 .flot-chart {
   display: block;
   height: 400px; }
 
-/* line 529, ../sass/_bolt.scss */
+/* line 530, ../sass/_bolt.scss */
 .flot-chart-content {
   width: 100%;
   height: 100%; }
 
 /* DataTables Overrides */
-/* line 536, ../sass/_bolt.scss */
+/* line 537, ../sass/_bolt.scss */
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc,
@@ -9213,53 +9214,53 @@ table.dataTable thead .sorting_asc_disabled,
 table.dataTable thead .sorting_desc_disabled {
   background: transparent; }
 
-/* line 544, ../sass/_bolt.scss */
+/* line 545, ../sass/_bolt.scss */
 table.dataTable thead .sorting_asc:after {
   content: "\f0de";
   float: right;
   font-family: fontawesome; }
 
-/* line 550, ../sass/_bolt.scss */
+/* line 551, ../sass/_bolt.scss */
 table.dataTable thead .sorting_desc:after {
   content: "\f0dd";
   float: right;
   font-family: fontawesome; }
 
-/* line 556, ../sass/_bolt.scss */
+/* line 557, ../sass/_bolt.scss */
 table.dataTable thead .sorting:after {
   content: "\f0dc";
   float: right;
   font-family: fontawesome;
   color: rgba(50, 50, 50, 0.5); }
 
-/* line 563, ../sass/_bolt.scss */
+/* line 564, ../sass/_bolt.scss */
 .show-grid [class^="col-"] {
   padding-top: 10px;
   padding-bottom: 10px;
   border: 1px solid #ddd;
   background-color: #eee !important; }
 
-/* line 570, ../sass/_bolt.scss */
+/* line 571, ../sass/_bolt.scss */
 .show-grid {
   margin: 15px 0; }
 
-/* line 576, ../sass/_bolt.scss */
+/* line 577, ../sass/_bolt.scss */
 .login .logo {
   margin-top: 100px;
   width: 179px;
   height: auto; }
 
-/* line 582, ../sass/_bolt.scss */
+/* line 583, ../sass/_bolt.scss */
 .dropdown-menu .nav-header {
   clear: both;
   float: none;
   padding: 3px 12px; }
 
-/* line 589, ../sass/_bolt.scss */
+/* line 590, ../sass/_bolt.scss */
 aside {
   margin-top: 6px; }
 
-/* line 593, ../sass/_bolt.scss */
+/* line 594, ../sass/_bolt.scss */
 aside section {
   background-color: #f1f2f7;
   -moz-border-radius: 2px;
@@ -9268,47 +9269,47 @@ aside section {
   margin-bottom: 10px; }
 
 /*-- Omnisearch --*/
-/* line 605, ../sass/_bolt.scss */
+/* line 606, ../sass/_bolt.scss */
 .omnisearch > .select2-dropdown-open, .omnisearch > .select2-container-active {
   box-shadow: none !important; }
-/* line 609, ../sass/_bolt.scss */
+/* line 610, ../sass/_bolt.scss */
 .omnisearch > .select2-choices {
   background: transparent none !important;
   border: none !important;
   outline: 0 !important;
   box-shadow: none !important; }
-  /* line 615, ../sass/_bolt.scss */
+  /* line 616, ../sass/_bolt.scss */
   .omnisearch > .select2-choices > .select2-search-field > input, .omnisearch > .select2-choices > .select2-search-field > input:focus {
     min-width: 200px; }
-/* line 621, ../sass/_bolt.scss */
+/* line 622, ../sass/_bolt.scss */
 .omnisearch .select2-search-choice {
   display: none; }
-/* line 625, ../sass/_bolt.scss */
+/* line 626, ../sass/_bolt.scss */
 .omnisearch > .select2-choices {
   border: 0px; }
-  /* line 627, ../sass/_bolt.scss */
+  /* line 628, ../sass/_bolt.scss */
   .omnisearch > .select2-choices > .select2-search-field input {
     padding: 0;
     font-size: inherit;
     font-family: inherit; }
 
-/* line 639, ../sass/_bolt.scss */
+/* line 640, ../sass/_bolt.scss */
 .omnisearch-result-label {
   font-weight: bold; }
 
-/* line 643, ../sass/_bolt.scss */
+/* line 644, ../sass/_bolt.scss */
 .omnisearch-result-label span {
   font-weight: normal; }
 
-/* line 647, ../sass/_bolt.scss */
+/* line 648, ../sass/_bolt.scss */
 .omnisearch-result-description {
   font-size: smaller;
   color: #999; }
 
-/* line 652, ../sass/_bolt.scss */
+/* line 653, ../sass/_bolt.scss */
 .select2-highlighted .omnisearch-result-description {
   color: #FFF; }
 
-/* line 656, ../sass/_bolt.scss */
+/* line 657, ../sass/_bolt.scss */
 .omnisearchlisting tbody tr td a span {
   font-weight: normal; }

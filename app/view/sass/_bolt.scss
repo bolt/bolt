@@ -443,6 +443,7 @@ input.semitransparent:focus {
   .navbar-static-side{
     display:none;
     width: 280px;
+    overflow: hidden;
   }
   .js-nav .navbar-static-side{
     display:block;

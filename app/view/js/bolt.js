@@ -818,7 +818,7 @@ var Sidebar = Backbone.Model.extend({
             // Initialize popovers, used in sidebar menu. 
             $('nav.navbar-static-side a.menu-pop').popover({
                 trigger: 'hover',
-                delay: { show: 500, hide: 200000 }
+                delay: { show: 300, hide: 2000 }
             });
 
             // Make sure we have only one open at the same time.
