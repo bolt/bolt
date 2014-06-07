@@ -9034,7 +9034,7 @@ input.semitransparent:focus {
   overflow: hidden; }
 /* line 328, ../sass/_bolt.scss */
 .nav > li .popover-content a {
-  color: #555555;
+  color: #555555 !important;
   background-color: transparent;
   display: block;
   padding: 4px 6px 4px 4px;
@@ -9166,38 +9166,46 @@ input.semitransparent:focus {
   body.collapsed-sidebar .navbar-static-side {
     width: 48px;
     overflow: hidden;
-    box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset; }
-  /* line 479, ../sass/_bolt.scss */
+    box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
+    color: #aaaaaa; }
+  /* line 481, ../sass/_bolt.scss */
+  body.collapsed-sidebar .navbar-static-side .nav > li a {
+    color: #aaaaaa; }
+  /* line 486, ../sass/_bolt.scss */
   body.collapsed-sidebar .navbar-static-side:hover {
     width: 170px;
     overflow: visible;
-    box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2); }
-  /* line 485, ../sass/_bolt.scss */
+    box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2);
+    color: #dddddd; }
+    /* line 494, ../sass/_bolt.scss */
+    body.collapsed-sidebar .navbar-static-side:hover .nav > li a {
+      color: #eeeeee; }
+  /* line 501, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-collapse {
     visibility: hidden;
     display: none; }
-  /* line 490, ../sass/_bolt.scss */
+  /* line 506, ../sass/_bolt.scss */
   body.collapsed-sidebar #sidebar-expand {
     visibility: visible;
     display: block; } }
 /* Login Page */
-/* line 502, ../sass/_bolt.scss */
+/* line 518, ../sass/_bolt.scss */
 .login-panel {
   margin-top: 25%; }
 
 /* Flot Chart Containers */
-/* line 508, ../sass/_bolt.scss */
+/* line 524, ../sass/_bolt.scss */
 .flot-chart {
   display: block;
   height: 400px; }
 
-/* line 513, ../sass/_bolt.scss */
+/* line 529, ../sass/_bolt.scss */
 .flot-chart-content {
   width: 100%;
   height: 100%; }
 
 /* DataTables Overrides */
-/* line 520, ../sass/_bolt.scss */
+/* line 536, ../sass/_bolt.scss */
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc:after,
 table.dataTable thead .sorting_desc,
@@ -9205,53 +9213,53 @@ table.dataTable thead .sorting_asc_disabled,
 table.dataTable thead .sorting_desc_disabled {
   background: transparent; }
 
-/* line 528, ../sass/_bolt.scss */
+/* line 544, ../sass/_bolt.scss */
 table.dataTable thead .sorting_asc:after {
   content: "\f0de";
   float: right;
   font-family: fontawesome; }
 
-/* line 534, ../sass/_bolt.scss */
+/* line 550, ../sass/_bolt.scss */
 table.dataTable thead .sorting_desc:after {
   content: "\f0dd";
   float: right;
   font-family: fontawesome; }
 
-/* line 540, ../sass/_bolt.scss */
+/* line 556, ../sass/_bolt.scss */
 table.dataTable thead .sorting:after {
   content: "\f0dc";
   float: right;
   font-family: fontawesome;
   color: rgba(50, 50, 50, 0.5); }
 
-/* line 547, ../sass/_bolt.scss */
+/* line 563, ../sass/_bolt.scss */
 .show-grid [class^="col-"] {
   padding-top: 10px;
   padding-bottom: 10px;
   border: 1px solid #ddd;
   background-color: #eee !important; }
 
-/* line 554, ../sass/_bolt.scss */
+/* line 570, ../sass/_bolt.scss */
 .show-grid {
   margin: 15px 0; }
 
-/* line 560, ../sass/_bolt.scss */
+/* line 576, ../sass/_bolt.scss */
 .login .logo {
   margin-top: 100px;
   width: 179px;
   height: auto; }
 
-/* line 566, ../sass/_bolt.scss */
+/* line 582, ../sass/_bolt.scss */
 .dropdown-menu .nav-header {
   clear: both;
   float: none;
   padding: 3px 12px; }
 
-/* line 573, ../sass/_bolt.scss */
+/* line 589, ../sass/_bolt.scss */
 aside {
   margin-top: 6px; }
 
-/* line 577, ../sass/_bolt.scss */
+/* line 593, ../sass/_bolt.scss */
 aside section {
   background-color: #f1f2f7;
   -moz-border-radius: 2px;
@@ -9260,47 +9268,47 @@ aside section {
   margin-bottom: 10px; }
 
 /*-- Omnisearch --*/
-/* line 589, ../sass/_bolt.scss */
+/* line 605, ../sass/_bolt.scss */
 .omnisearch > .select2-dropdown-open, .omnisearch > .select2-container-active {
   box-shadow: none !important; }
-/* line 593, ../sass/_bolt.scss */
+/* line 609, ../sass/_bolt.scss */
 .omnisearch > .select2-choices {
   background: transparent none !important;
   border: none !important;
   outline: 0 !important;
   box-shadow: none !important; }
-  /* line 599, ../sass/_bolt.scss */
+  /* line 615, ../sass/_bolt.scss */
   .omnisearch > .select2-choices > .select2-search-field > input, .omnisearch > .select2-choices > .select2-search-field > input:focus {
     min-width: 200px; }
-/* line 605, ../sass/_bolt.scss */
+/* line 621, ../sass/_bolt.scss */
 .omnisearch .select2-search-choice {
   display: none; }
-/* line 609, ../sass/_bolt.scss */
+/* line 625, ../sass/_bolt.scss */
 .omnisearch > .select2-choices {
   border: 0px; }
-  /* line 611, ../sass/_bolt.scss */
+  /* line 627, ../sass/_bolt.scss */
   .omnisearch > .select2-choices > .select2-search-field input {
     padding: 0;
     font-size: inherit;
     font-family: inherit; }
 
-/* line 623, ../sass/_bolt.scss */
+/* line 639, ../sass/_bolt.scss */
 .omnisearch-result-label {
   font-weight: bold; }
 
-/* line 627, ../sass/_bolt.scss */
+/* line 643, ../sass/_bolt.scss */
 .omnisearch-result-label span {
   font-weight: normal; }
 
-/* line 631, ../sass/_bolt.scss */
+/* line 647, ../sass/_bolt.scss */
 .omnisearch-result-description {
   font-size: smaller;
   color: #999; }
 
-/* line 636, ../sass/_bolt.scss */
+/* line 652, ../sass/_bolt.scss */
 .select2-highlighted .omnisearch-result-description {
   color: #FFF; }
 
-/* line 640, ../sass/_bolt.scss */
+/* line 656, ../sass/_bolt.scss */
 .omnisearchlisting tbody tr td a span {
   font-weight: normal; }

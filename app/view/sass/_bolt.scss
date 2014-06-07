@@ -326,7 +326,7 @@ input.semitransparent:focus {
   }
 
   .popover-content a {
-    color: $dropdown-link-color;
+    color: $dropdown-link-color !important;
     background-color: transparent;
     display: block;
     padding: 4px 6px 4px 4px;
@@ -474,12 +474,28 @@ input.semitransparent:focus {
       width: 48px; //@see: body.collapsed-sidebar #page-wrapper
       overflow: hidden;
       box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
+      color: $sidebartextcolourcollapsed;
+    }
+
+    .navbar-static-side .nav > li {
+      a {
+        color: $sidebartextcolourcollapsed;
+      }
     }
 
     .navbar-static-side:hover {
       width: 170px;
       overflow: visible;
       box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2);
+
+      color: $sidebartextcolour;
+
+      .nav > li {
+        a {
+          color: $sidebarlink;
+        }
+      }
+
     }
 
     #sidebar-collapse {

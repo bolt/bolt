@@ -18,11 +18,13 @@ $linkactive: lighten(saturate($boltblue, 100), 10);
 
 $sidebarbackground: lighten(desaturate($boltblue, 35), 6);
 $sidebartextcolour: #DDD;
+$sidebartextcolourcollapsed: #AAA;
 
 $sidebarlink: #EEE;
 $sidebarlinkhover: #FFF;
 $sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
 $sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 4);
+
 
 // The color of <hr> lines.
 $hr-border: #CCC;

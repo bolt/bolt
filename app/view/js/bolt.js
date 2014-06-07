@@ -317,10 +317,10 @@ function getSelectedItems(){
  */
 function initActions() {
 
-    // Unbind the clicks, with the 'action' namespace.
+    // Unbind the click events, with the 'action' namespace.
     $('button, input[type=button], a').off('click.action');
 
-    // Bind the clicks, with the 'action' namespace.
+    // Bind the click events, with the 'action' namespace.
     $('button, input[type=button], a').on('click.action', function(e){
         var action = $(this).data('action');
         if (typeof(action) != "undefined" && (action != "") ) {
@@ -841,7 +841,11 @@ var Sidebar = Backbone.Model.extend({
         sidebar.closePopOvers();
         $('.nav li.sub').removeClass('visible-xs');
         $('.nav li.sub-'+name).addClass('visible-xs');
-        console.log('sub-side ' + name);
+        // Check if the class is actually visible. If not, we're not on mobile, and we should just
+        // redirect to the first link, to prevent confusion. 
+        if ($('html').hasClass('no-touch')) {
+            window.location.href = $('.nav li.sub-'+name).find('a').first().attr('href');
+        }
     },
 
     collapse: function() {
