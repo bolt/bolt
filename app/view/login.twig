@@ -1,64 +1,73 @@
-{% include '_header_basic.twig' %}
+{% include '_header_basic.twig' with { 'class': 'login'} %}
 
+<div class="view-site">
+    <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
+</div>
 
-<div class="container login">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 
-            <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
+        <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
 
-            <div class="login-panel panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Please Sign In</h3>
-                </div>
-                <div class="panel-body">
-                    <form class="loginform" method="post">
+        {% include '_messages.twig' %}
 
-                            {% include '_messages.twig' %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ __("Sign in to Bolt") }}</h3>
+            </div>
+            <div class="panel-body">
 
-                            <div class="form-group input-prepend">
-                                <input class="form-control" type="text" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%} autofocus>
-                            </div>
-                            <div class="form-group password">
-                                <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
-                            </div>
-                                <p style="margin-top: 0px;" class="loginbuttons">
+        <form method="post" class="form-horizontal" role="form">
 
-                                        <button type="button" class="btn btn-link forgot"> {{ __('I forgot my password…') }}</button>
-                                    <button type="submit" class="btn btn-lg btn-primary btn-block" name="action" value="login"><i class="fa fa-signin"></i> {{ __('Log on') }}</button>
-                                </p>
-                                <p style="margin-top: 0px; display: none;" class="resetbuttons">
-                                    <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="fa fa-envelope"></i> {{ __('Reset my password') }}</button>
-                                    <button type="button" class="btn btn-link remembered" style="float: right;"> {{ __('Back to login') }}</button>
-                                </p>
-                    </form>
+            <label class="control-label">{{ __('Username') }}</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input class="form-control" type="text" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
+            </div>
+
+            <div class="password-group">
+                <label class="control-label">
+                    {{ __('Password') }} &nbsp; 
+                    <span class="togglepass show-password"><i class="fa fa-eye"></i> {{ __('Show') }}</span>
+                    <span class="togglepass hide-password"><i class="fa fa-eye-slash"></i> {{ __('Hide') }}</span>
+                </label>
+                <div class="input-group" >
+                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                    <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
+
                 </div>
             </div>
 
+            <br>
+            <p class="login-group">
+                <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
+                <button type="button" class="btn btn-link login-forgot"> {{ __('I forgot my password…') }}</button>
+            </p>
+            <p style="display: none;" class="reset-group">
+                <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
+                <button type="button" class="btn btn-link login-remembered"> {{ __('Back to login') }}</button>
+            </p>
 
-            <blockquote class='quote'>{{ randomquote() }}</blockquote>
+        </form>
 
-            <div class="view-site">
-                <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link"></i> {{ __('View site') }}</a>
-            </div>
+</div>
+</div>
 
-        </div>
+        <blockquote class='quote'>{{ randomquote() }}</blockquote>
+
     </div>
+
 </div>
 
 
 <script type="text/javascript">
-    $(function() {
-        $('.forgot').bind('click', function(e){
-            $('.loginbuttons, .password').slideUp('slow');
-            $('.resetbuttons').slideDown('slow');
-        });
-        $('.remembered').bind('click', function(e){
-            $('.loginbuttons, .password').slideDown('slow');
-            $('.resetbuttons').slideUp('slow');
-        });
-    });
+    var path = "{{ paths.bolt }}"; var asyncpath = "{{ paths.async }}"; var apppath = "{{ paths.app }}";
 </script>
+
+{# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml.  #}
+{% if app.config.get('general/grunt/livereload') %}
+    <script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
+{% endif %}</html>
 
 </body>
 

@@ -1,0 +1,72 @@
+body.login {
+
+    background-color: #F8F8F8;
+
+    .logo {
+        margin: 80px 0 20px 20px;
+    }
+
+    input.form-control {
+        max-width: 300px;
+    }
+
+    .panel {
+        box-shadow: 0 0 150px rgba(0, 0, 0, .15);
+    }
+
+    .togglepass {
+        color: #999;
+        cursor: pointer;
+    }
+
+    .togglepass.hide-password {
+        display: none;
+    }
+
+    .view-site {
+        position: absolute;
+        right: 44px;
+        top: 18px;
+    }
+
+    .btn-primary {
+        padding-left: 4em;
+        padding-right: 4em;
+    }
+
+    .login-forgot,
+    .login-remembered {
+        float: right;
+    }
+
+}
+
+
+
+@media (max-width: 766px) {
+
+    body.login {
+
+        label.control-label {
+            padding-top: 7px;
+        }
+
+        .logo {
+            margin: 18px 0 18px 18px;
+            width: 120px;
+        }
+
+        .view-site {
+            right: 12px;
+            top: 8px;
+        }        
+
+        .login-forgot, 
+        .login-remembered {
+            float: none;
+        }
+
+
+    }
+
+}

@@ -116,7 +116,7 @@
                             <ul class="dropdown-menu pull-right">
                             {% if content.status == "published" and content.link is defined %}
                                 <li><a href="{{ content.link }}" target="_blank">
-                                    <i class="fa fa-external-link"></i> {{ __('View on site') }}</a></li>
+                                    <i class="fa fa-external-link-square"></i> {{ __('View on site') }}</a></li>
                             {% endif %}
                             {% if content.relation  %}
                                 <li><a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" target="_blank">

@@ -21,39 +21,6 @@ footer  {
     z-index: 10000;
 }
 
-.logo {
-    border: 1px dashed #F00;
-    margin: 80px 0 20px 20px;
-}
-
-.logincontainer {
-    border: 1px dashed #F00;
-    max-width: 600px;
-}
-
-.loginform {
-    background-color: #FFF;
-    box-shadow: 0px 0px 150px 10px rgba(0, 0, 0, 0.15);
-}
-
-.loginform label {
-    width: 246px;
-    margin-top: 12px;
-}
-
-.togglepass {
-    color: #999;
-    float: right;
-}
-
-.view-site {
-    position: absolute;
-    right: 44px;
-    top: 18px;
-}
-
-
-
 .table-changelog-details th {
     width: 40%;
 }
@@ -136,7 +103,6 @@ blockquote.quote cite {
 @media (max-width: 480px) {
 
     #editcontent div.tagcloud {
-        border: 1px dashed #F00;
         margin-left: 0;
         width: 100%;
     }

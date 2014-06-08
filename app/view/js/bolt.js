@@ -98,17 +98,27 @@ jQuery(function($) {
 
     });
 
-    // Toggleclass options for showing / hiding the password input.
+    // Toggle options for showing / hiding the password input on the logon screen.
     $(".togglepass").on('click', function() {
-        if ($(this).hasClass('show')) {
+        if ($(this).hasClass('show-password')) {
             $('input[name="password"]').attr('type', 'text');
-            $('.togglepass.show').hide();
-            $('.togglepass.hide').show();
+            $('.togglepass.show-password').hide();
+            $('.togglepass.hide-password').show();
         } else {
             $('input[name="password"]').attr('type', 'password');
-            $('.togglepass.show').show();
-            $('.togglepass.hide').hide();
+            $('.togglepass.show-password').show();
+            $('.togglepass.hide-password').hide();
         }
+    });
+
+    // Toggle options for showing / hiding the password input on the logon screen
+    $('.login-forgot').bind('click', function(e){
+        $('.login-group, .password-group').slideUp('slow');
+        $('.reset-group').slideDown('slow');
+    });
+    $('.login-remembered').bind('click', function(e){
+        $('.login-group, .password-group').slideDown('slow');
+        $('.reset-group').slideUp('slow');
     });
 
     $( window ).konami({
