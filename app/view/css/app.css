@@ -7842,6 +7842,11 @@ ul.dropdown-menu li a.nolink {
   width: 660px;
   margin-left: -330px; }
 
+/* line 289, ../sass/_bootstrapcustom.scss */
+.bootbox .btn {
+  padding-left: 20px;
+  padding-right: 20px; }
+
 /** Overrides for CKeditor */
 /* line 3, ../sass/_ckeditorcustom.scss */
 .cke_reset_all, .cke_reset_all * {

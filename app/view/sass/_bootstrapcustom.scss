@@ -286,6 +286,12 @@ ul.dropdown-menu li a.nolink {
     margin-left: -330px;
 }
 
+.bootbox .btn {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
 @if $columnborders {
     $list: '';
     $i: 1;
