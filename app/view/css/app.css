@@ -8746,42 +8746,46 @@ body.login {
   body.login .panel {
     box-shadow: 0 0 150px rgba(0, 0, 0, 0.15); }
   /* line 17, ../sass/_login.scss */
+  body.login .panel-title {
+    line-height: 1.2; }
+  /* line 21, ../sass/_login.scss */
   body.login .togglepass {
     color: #999;
     cursor: pointer; }
-  /* line 22, ../sass/_login.scss */
+  /* line 26, ../sass/_login.scss */
   body.login .togglepass.hide-password {
     display: none; }
-  /* line 26, ../sass/_login.scss */
+  /* line 30, ../sass/_login.scss */
   body.login .view-site {
     position: absolute;
     right: 44px;
     top: 18px; }
-  /* line 32, ../sass/_login.scss */
+  /* line 36, ../sass/_login.scss */
   body.login .btn-primary {
     padding-left: 4em;
     padding-right: 4em; }
-  /* line 37, ../sass/_login.scss */
+  /* line 41, ../sass/_login.scss */
   body.login .login-forgot,
   body.login .login-remembered {
     float: right; }
 
 @media (max-width: 766px) {
-  /* line 50, ../sass/_login.scss */
+  /* line 54, ../sass/_login.scss */
   body.login label.control-label {
     padding-top: 7px; }
-  /* line 54, ../sass/_login.scss */
+  /* line 58, ../sass/_login.scss */
   body.login .logo {
     margin: 18px 0 18px 18px;
     width: 120px; }
-  /* line 59, ../sass/_login.scss */
+  /* line 63, ../sass/_login.scss */
   body.login .view-site {
     right: 12px;
     top: 8px; }
-  /* line 64, ../sass/_login.scss */
+  /* line 68, ../sass/_login.scss */
   body.login .login-forgot,
   body.login .login-remembered {
-    float: none; } }
+    float: none;
+    margin-top: 8px; } }
 /**
  * The leftover styles
  */

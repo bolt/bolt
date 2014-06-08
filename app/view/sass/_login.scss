@@ -14,6 +14,10 @@ body.login {
         box-shadow: 0 0 150px rgba(0, 0, 0, .15);
     }
 
+    .panel-title {
+        line-height: 1.2;
+    }
+
     .togglepass {
         color: #999;
         cursor: pointer;
@@ -64,6 +68,7 @@ body.login {
         .login-forgot, 
         .login-remembered {
             float: none;
+            margin-top: 8px;
         }
 
 
