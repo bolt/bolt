@@ -122,7 +122,7 @@ contenttype-default:
     edit: [ editor ]
     create: [ editor ]
     change-ownership: [ owner ]
-    view: [ anonymous ]
+    view: [ everyone ]
 
 contenttypes:
 
