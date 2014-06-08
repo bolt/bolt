@@ -4,8 +4,8 @@
     <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
 </div>
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 
         <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
 
@@ -17,41 +17,41 @@
             </div>
             <div class="panel-body">
 
-        <form method="post" class="form-horizontal" role="form">
+                <form method="post" class="form-horizontal" role="form">
 
-            <label class="control-label">{{ __('Username') }}</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
+                    <label class="control-label">{{ __('Username') }}</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
+                    </div>
+
+                    <div class="password-group">
+                        <label class="control-label">
+                            {{ __('Password') }} &nbsp; 
+                            <span class="togglepass show-password"><i class="fa fa-eye"></i> {{ __('Show') }}</span>
+                            <span class="togglepass hide-password"><i class="fa fa-eye-slash"></i> {{ __('Hide') }}</span>
+                        </label>
+                        <div class="input-group" >
+                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                            <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <p class="login-group">
+                        <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
+                        <button type="button" class="btn btn-link login-forgot"> {{ __('I forgot my password…') }}</button>
+                    </p>
+                    <p style="display: none;" class="reset-group">
+                        <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
+                        <button type="button" class="btn btn-link login-remembered"> {{ __('Back to login') }}</button>
+                    </p>
+
+                </form>
+
             </div>
-
-            <div class="password-group">
-                <label class="control-label">
-                    {{ __('Password') }} &nbsp; 
-                    <span class="togglepass show-password"><i class="fa fa-eye"></i> {{ __('Show') }}</span>
-                    <span class="togglepass hide-password"><i class="fa fa-eye-slash"></i> {{ __('Hide') }}</span>
-                </label>
-                <div class="input-group" >
-                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                    <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
-
-                </div>
-            </div>
-
-            <br>
-            <p class="login-group">
-                <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
-                <button type="button" class="btn btn-link login-forgot"> {{ __('I forgot my password…') }}</button>
-            </p>
-            <p style="display: none;" class="reset-group">
-                <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
-                <button type="button" class="btn btn-link login-remembered"> {{ __('Back to login') }}</button>
-            </p>
-
-        </form>
-
-</div>
-</div>
+        </div>
 
         <blockquote class='quote'>{{ randomquote() }}</blockquote>
 
@@ -66,7 +66,7 @@
 
 {# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml.  #}
 {% if app.config.get('general/grunt/livereload') %}
-    <script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
+<script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
 {% endif %}</html>
 
 </body>
