@@ -149,29 +149,29 @@ jQuery(function($) {
         });
     });
 
-    // Check if choosed Items then show action buttons
+    // Check if any records in the overview have been checked, and if so: show action buttons
     $('.dashboardlisting input:checkbox').click(function() {
         var aItems = getSelectedItems();
         if(aItems.length>=1){
             // if checked
-            $('a.checkchoosen').removeClass('disabled');
-            $('a.showifchoosen').show();
+            $('a.checkchosen').removeClass('disabled');
+            $('a.showifchosen').show();
         }else{
             // if none checked
-            $('a.checkchoosen').addClass('disabled');
-            $('a.showifchoosen').hide();
+            $('a.checkchosen').addClass('disabled');
+            $('a.showifchosen').hide();
         }
     });
 
     // Delete chosen Items
-    $("a.deletechoosen").click(function(e) {
+    $("a.deletechosen").click(function(e) {
         e.preventDefault();
         aItems = getSelectedItems();
 
         if(aItems.length <1){
             bootbox.alert("Nothing chosen to delete");
         }else{
-            bootbox.confirm("Delete this "+(aItems.length===1? "Entry":"Entries")+"?", function(confirmed) {
+            bootbox.confirm("Delete these "+(aItems.length===1? "Entry":"Entries")+"?", function(confirmed) {
                 $(".alert").alert();
                 if(confirmed===true){
                     $.each(aItems, function( index, id ) {
@@ -181,7 +181,7 @@ jQuery(function($) {
                             type: 'get',
                             success: function(feedback){
                                 $('#item_'+id).hide();
-                                $('a.deletechoosen').hide();
+                                $('a.deletechosen').hide();
                             }
                         });
                     });
