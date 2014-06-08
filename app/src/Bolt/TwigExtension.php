@@ -886,12 +886,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function thumbnail($filename, $width = '', $height = '', $zoomcrop = 'crop')
     {
-        if (!preg_match('/^\d+$/', $width)) {
+        if (!is_numeric($width)) {
             $thumbconf = $this->app['config']->get('general/thumbnails');
             $width = empty($thumbconf['default_thumbnail'][0]) ? 100 : $thumbconf['default_thumbnail'][0];
         }
 
-        if (!preg_match('/^\d+$/', $height)) {
+        if (!is_numeric($height)) {
             $thumbconf = $this->app['config']->get('general/thumbnails');
             $height = empty($thumbconf['default_thumbnail'][1]) ? 100 : $thumbconf['default_thumbnail'][1];
         }
@@ -926,7 +926,15 @@ class TwigExtension extends \Twig_Extension
             $filename = $filename['file'];
         }
 
-        return $this->app['paths']['root'].'thumbs/'.$width.'x'.$height.$scale.'/'.safeFilename($filename);
+        $path = sprintf('%sthumbs/%sx%s%s/%s',
+            $this->app['paths']['root'],
+            round($width),
+            round($height),
+            $scale,
+            safeFilename($filename)
+        );
+        
+        return $path;
     }
 
     /**
