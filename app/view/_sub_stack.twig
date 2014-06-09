@@ -33,7 +33,6 @@
             {% endfor %}
         </div>
 
-
         <div class="btn-group">
             <span class="btn btn-tertiary fileinput-button">
                 <i class="fa fa-upload"></i>
@@ -47,25 +46,16 @@
         </div>
 
         <div class="btn-group" style="margin-left: 0px;">
-            <a data-target="#selectModal-stack" href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal">
+            <a href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#selectModal-stack">
                 <i class="fa fa-download"></i>
                 {{ __('Select') }}
             </a>
         </div>
 
-        {# -- visual clutter, grmbml, grmbl --
-        <p class="filetypes">
-            {{ __("Allowed filetypes are:") }} <code>{{ filetypes|join("</code>, <code>")|raw }}</code>.
-        </p>
-        #}
-
         <!-- Modal "select from server"  -->
-        <div class="modal hide modal-wide" id="selectModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+        <div class="modal fade" id="selectModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content"></div>
             </div>
         </div>
 

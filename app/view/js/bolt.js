@@ -940,7 +940,8 @@ var Stack = Backbone.Model.extend({
         // In the modal dialog, to navigate folders..
         $('#selectImageModal-stack').on('click','.folder', function(e) {
             e.preventDefault();
-            $('#selectImageModal-stack .modal-body').load($(this).attr('href'));
+            alert('hoi');
+            $('#selectImageModal-stack .modal-content').load($(this).attr('href'));
         });
 
     },
@@ -1038,7 +1039,7 @@ var Stack = Backbone.Model.extend({
     },
 
     changeFolder: function(key, foldername) {
-        $('#selectModal-' + key + ' .modal-body').load(foldername);
+        $('#selectModal-' + key + ' .modal-content').load(foldername);
     }
 
 });
@@ -1355,7 +1356,7 @@ var ImagelistHolder = Backbone.View.extend({
         // In the modal dialog, to navigate folders..
         $('#selectImageModal-' + contentkey).on('click','.folder', function(e) {
             e.preventDefault();
-            $('#selectImageModal-' + contentkey + ' .modal-body').load($(this).attr('href'));
+            $('#selectImageModal-' + contentkey + ' .modal-content').load($(this).attr('href'));
         });
 
         // In the modal dialog, to select a file..
