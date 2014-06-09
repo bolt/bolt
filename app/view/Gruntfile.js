@@ -40,7 +40,46 @@ module.exports = function(grunt) {
                     {expand: true, flatten: true, src: ['node_modules/font-awesome/fonts/*'], dest: 'fonts/', filter: 'isFile'}
                 ]
             }
-        }
+        },
+
+
+        concat: {
+            bootstrap: {
+                src: [
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js',
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/button.js',
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/dropdown.js',
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js',
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/transition.js',
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/modal.js',
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip.js',
+                    'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/popover.js',
+                ],
+                dest: 'js/bootstrap-concat.js',
+            },
+            bolt: {
+                // TODO: configure this. 
+                //src: ['src/main.js', 'src/extras.js'],
+                //dest: 'dist/with_extras.js',
+            },
+        },
+
+        uglify: {
+            bootstrap: {
+                files: {
+                    'js/bootstrap.js': [
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js',
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/button.js',
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/dropdown.js',
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js',
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/transition.js',
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/modal.js',
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip.js',
+                        'node_modules/bootstrap-sass/vendor/assets/javascripts/bootstrap/popover.js'
+                    ]
+                }
+            }
+        } 
 
     });
 
