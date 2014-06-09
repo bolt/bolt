@@ -102,12 +102,16 @@
 
 {# Modal "select from server" #}
 {% macro serverselect(key, text) %}
-    <div class="modal hide modal-wide" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-            <button class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+            {#
+            <div class="modal-footer">
+                <button class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('Cancel') }}</button>
+            </div>
+            #}
         </div>
-    </div>
+    </div>    
 {% endmacro %}
 
 {#=== FIELDSET =======================================================================================================#}
