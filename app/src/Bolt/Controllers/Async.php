@@ -395,9 +395,10 @@ class Async implements ControllerProviderInterface
         $key = $app['request']->get('key');
 
         $basefolder = $app['resources']->getPath('files');
+
         $path = stripTrailingSlash(str_replace("..", "", $path));
         if($path == 'files') {
-            $path = '/';
+            $path = '';
         }
         $currentfolder = realpath($basefolder . $path);
 
@@ -427,6 +428,7 @@ class Async implements ControllerProviderInterface
 
                 if (is_file($fullfilename)) {
                     $relativepath = str_replace("files/", "", ($path . "/" . $entry));
+                    $relativepath = trim($relativepath, "/");
                     $files[$entry] = array(
                         'path' => $path,
                         'filename' => $entry,

@@ -11,13 +11,12 @@
     </div>          
     <div class="modal-body">
 
-{{ dump(pathsegments) }}
 
 {% if pathsegments|length > 1 %}
     <p>{{ __('Path:') }}
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
-    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': path, 'key': key }) }}');" class="folder">{{segment}}</a>
+    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': path, 'key': key }) }}');" class="folder">{{ segment|default('…') }}</a>
     {% endfor %}
     </p>
 {% endif %}
