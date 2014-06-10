@@ -35,9 +35,9 @@ abstract class ExtensionHelper extends BaseExtension
             'version' => "0.53",
 
             'required_bolt_version' => "1.5.3",
-            'highest_bolt_version' => "1.5.3",
+            'highest_bolt_version' => "1.7.0",
             'first_releasedate' => "2014-03-31",
-            'latest_releasedate' => "2014-03-31"
+            'latest_releasedate' => "2014-06-10"
         );
     }
 

@@ -102,3 +102,8 @@ Please feel free to make modifications or changes. Theoretically any kind of in-
 with a little alignment.
 I hope my code may contains bugs or mistakes that would means I'm still alive. :-)
 
+Release Notes
+=============
+
+* 06-10-2014 - No option for editing images, corrected.
+
