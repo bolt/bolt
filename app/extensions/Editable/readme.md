@@ -105,5 +105,7 @@ I hope my code may contains bugs or mistakes that would means I'm still alive. :
 Release Notes
 =============
 
-* 06-10-2014 - No option for editing images, corrected.
+* 06-10-2014
+** No option for editing images, corrected.
+** Replacing annoying alert messages on save result
 

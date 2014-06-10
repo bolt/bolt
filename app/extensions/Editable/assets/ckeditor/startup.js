@@ -88,6 +88,7 @@
             editor.config.toolbar = tbItems;
         });
 
+        $('body').append('<div id="ext-editable-popup" style="display:none"/>');
     });
     /*
      * @todo Implement snapshot capturing of a block and following changes
