@@ -11,7 +11,6 @@ $application = $app['console'];
 $application->add(new Bolt\Nut\CronRunner($app));
 $application->add(new Bolt\Nut\CacheClear($app));
 $application->add(new Bolt\Nut\Info($app));
-$application->add(new Bolt\Nut\Browscap($app));
 $application->add(new Bolt\Nut\LogTrim($app));
 $application->add(new Bolt\Nut\LogClear($app));
 $application->add(new Bolt\Nut\DatabaseCheck($app));
@@ -24,7 +23,7 @@ $application->add(new Bolt\Nut\ExtensionsEnable($app));
 $application->add(new Bolt\Nut\ExtensionsDisable($app));
 $application->add(new Bolt\Nut\UserRoleAdd($app));
 $application->add(new Bolt\Nut\UserRoleRemove($app));
-//$application->add(new Bolt\Nut\ExtensionsInstall($app)); 
+//$application->add(new Bolt\Nut\ExtensionsInstall($app));
 //$application->add(new Bolt\Nut\ExtensionsUpdate($app));
 //$application->add(new Bolt\Nut\ExtensionsUninstall($app));
 
