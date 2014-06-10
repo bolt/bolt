@@ -8,8 +8,9 @@
 # - 'root', the "superuser" role; Bolt will automatically grant all permissions
 #   to this role. Manually adding it to any permission is pointless, because it
 #   implicitly grants every permission anyway.
-# - 'everyone', the "anonymous" role; every user automatically has this role.
-#   Adding the 'everyone' role to any permission will grant it to all users.
+# - 'everyone', the "base" role; every logged-in user automatically has this
+#   role. Adding the 'everyone' role to any permission will grant it to all
+#   users (but not to unauthenticated users).
 # - 'owner': this role is only valid in the context of an individual content
 #   item, and the user who "owns" the item (usually the person who created it)
 #   will be in the 'owner' role.
