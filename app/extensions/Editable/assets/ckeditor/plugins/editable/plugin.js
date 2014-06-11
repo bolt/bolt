@@ -13,9 +13,9 @@ CKEDITOR.plugins.add('editable', {
                         editcontent: JSON.stringify(data)
                     }
                 }).done(function(data, textStatus, jqXHR) {
-                    alert('Block saved successfully');
+                    message('Block saved successfully!', 'save-ok', 2000);
                 }).fail(function(jqXHR, textStatus, errorThrown) {
-                    alert('Error saving block');
+                    message('Error saving block!', 'save-error', 3000);
                 });
             }
         });
@@ -24,5 +24,15 @@ CKEDITOR.plugins.add('editable', {
             label: 'Save',
             command: 'inlinesave'
         });
+
+        function message(msg, cls, duration) {
+            $('#ext-editable-popup').addClass(cls).html(msg).fadeIn(200, function() {
+                setTimeout(function() {
+                    $('#ext-editable-popup').fadeOut(500, function() {
+                        $(this).removeClass(cls);
+                    })
+                }, duration);
+            });
+        }
     }
 });

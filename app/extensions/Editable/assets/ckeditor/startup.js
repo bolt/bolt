@@ -35,6 +35,10 @@
                     'Maximize',
                     '-',
                     'Source']
+        },
+        image: {
+            name: 'image',
+            items: ['Image']
         }
     };
     var toolbar = [{
@@ -60,7 +64,7 @@
         items: ['Table']
     }];
 
-    CKEDITOR.plugins.addExternal('editable', '../../../extensions/Editable/assets/ckeditor/plugins/editable/','plugin.js');
+    CKEDITOR.plugins.addExternal('editable', '../../../extensions/Editable/assets/ckeditor/plugins/editable/', 'plugin.js');
     CKEDITOR.config.extraPlugins = 'editable';
     CKEDITOR.config.autoParagraph = false;
 
@@ -84,6 +88,7 @@
             editor.config.toolbar = tbItems;
         });
 
+        $('body').append('<div id="ext-editable-popup" style="display:none"/>');
     });
     /*
      * @todo Implement snapshot capturing of a block and following changes
