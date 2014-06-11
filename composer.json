@@ -5,6 +5,10 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     
+    "repositories": [
+        { "type": "vcs","url":  "https://github.com/bolt/bolt-thumbs"}
+    ],
+    
     "require": {
         "bolt/dumper": ">=0.7",
         "bolt/thumbs": "dev-master",
