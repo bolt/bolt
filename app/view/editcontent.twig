@@ -43,6 +43,7 @@
             $('#datepublish-date, #datepublish-time').on('change', function(){
                 var date = $('#datepublish-date').datepicker("getDate");
                 var time = $('#datepublish-time').val() + ":00";
+                if(time == ":00") time = "00:00:00";
                 $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
             });
         </script>
