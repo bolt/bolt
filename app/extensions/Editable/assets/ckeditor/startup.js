@@ -1,4 +1,7 @@
 (function() {
+    var MSG_EDITABLE = 'You can edit this field by a click with ';
+    var MSG_CONTENTINFO = 'The content will be edited is: ';
+
     var extras = {
         anchor: {
             name: 'links',
@@ -68,6 +71,10 @@
     CKEDITOR.config.extraPlugins = 'editable';
     CKEDITOR.config.autoParagraph = false;
 
+    $(document).ready(function() {
+        $('body').append('<div id="ext-editable-popup" style="display:none"/>');
+    });
+
     CKEDITOR.on('instanceCreated', function(event) {
         var editor = event.editor;
         var $element = $(editor.element.$);
@@ -88,7 +95,13 @@
             editor.config.toolbar = tbItems;
         });
 
-        $('body').append('<div id="ext-editable-popup" style="display:none"/>');
+        editor.on('instanceReady', function() {
+            var target = JSON.parse($element.attr('data-parameters'));
+            $element.attr('title', MSG_EDITABLE + $element.attr('title') + '.\n'
+                                  + MSG_CONTENTINFO + target.contenttypeslug
+                                  + '@' + target.fieldname);
+        });
+
     });
     /*
      * @todo Implement snapshot capturing of a block and following changes

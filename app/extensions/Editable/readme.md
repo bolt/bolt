@@ -109,3 +109,6 @@ Release Notes
 ** No option for editing images, corrected.
 ** Replacing annoying alert messages on save result
 
+* 06-10-2014
+** Display a brief info on mouse over about the area which is editable
+
