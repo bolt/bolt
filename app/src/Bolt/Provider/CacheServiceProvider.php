@@ -13,7 +13,7 @@ class CacheServiceProvider implements ServiceProviderInterface
 
         $app['cache'] = $app->share(function () {
 
-            $cache = new Cache();
+            $cache = new Cache($app['resources']->getPath('cache'));
 
             return $cache;
 
