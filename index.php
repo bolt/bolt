@@ -20,12 +20,5 @@ if ('cli-server' === php_sapi_name()) {
 define('BOLT_PROJECT_ROOT_DIR', __DIR__);
 
 require_once __DIR__ . '/app/bootstrap.php';
-
-if (preg_match("^thumbs/[0-9]+x[0-9]+[a-z]*/.*^i", $_SERVER['REQUEST_URI'])) {
-    // If it's not a prebuilt file, but it is a thumb that needs processing
-    require __DIR__ . '/app/classes/timthumb.php';
-} else {
-    // Here we go!
-    $app->run();
-}
+$app->run();
 
