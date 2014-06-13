@@ -4,12 +4,17 @@
     "homepage": "http://bolt.cm",
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
+    
+    "repositories": [
+        { "type": "vcs","url":  "https://github.com/bolt/bolt-thumbs"}
+    ],
+    
     "require": {
         "bolt/dumper": ">=0.7",
+        "bolt/thumbs": "1.0.*@dev",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "1.*",
         "filp/whoops": "1.*",
-        "garetjax/phpbrowscap": "dev-master",
         "guzzle/guzzle": "3.3.*",
         "hautelook/phpass": "dev-master",
         "ircmaxell/random-lib": "dev-master",

@@ -335,11 +335,11 @@ class Frontend
             'totalpages' => ceil($result['no_of_results'] / $page_size),
             'current' => $page,
             'showing_from' => $offset + 1,
-            'showing_to' => $offset + count($result['results'])
+            'showing_to' => $offset + count($result['results']),
+            'link' => '/search?q=' . rawurlencode($q) . '&page='
         );
 
-        $GLOBALS['pager']['search'] = $pager;
-        $GLOBALS['pager']['search']['link'] = '/search?q=' . rawurlencode($q) . '&page=';
+        $app['storage']->setPager('search', $pager);
 
         $app['twig']->addGlobal('records', $result['results']);
         $app['twig']->addGlobal('search', $result['query']['use_q']);

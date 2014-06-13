@@ -40,9 +40,9 @@ This way we can reproduce your issue, turn it into a test and prevent the issue 
 
 Unit tests
 ----------
-For running unit tests you need [phpunit](http://www.phpunit.de/)
+For running unit tests you need [phpunit](http://www.phpunit.de/).
 
-After installing, you can run the unit test suite by running
+After installing, you can run the unit test suite by running:
 
     $ phpunit -c app/
 
@@ -64,7 +64,7 @@ Currently, these are the third party extensions we're aware of:
 - [Newsletter subscription](https://github.com/magabriel/bolt-extension-newsletter-subscription) by @magabriel
 
 The extensions can be placed in the `app/extensions` folder.
-Learn more about writing extensions from our [docs](https://github.com/bolt/bolt-docs/blob/master/source/extensions.md)
+Learn more about writing extensions from our [docs](https://github.com/bolt/bolt-docs/blob/master/source/extensions.md).
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bolt/bolt/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

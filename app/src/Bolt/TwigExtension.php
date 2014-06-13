@@ -734,13 +734,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
-        // @todo Yuck, $GLOBALS.. figure out a better way to do this.
-        if (!isset($GLOBALS['pager']) || !is_array($GLOBALS['pager'])) {
+        if ($this->app['storage']->isEmptyPager()) {
             // nothing to page..
             return "";
         }
 
-        $pager = $GLOBALS['pager'];
+        $pager = &$this->app['storage']->getPager();
 
         if (!empty($pagerName)) {
             $thisPager = $pager[$pagerName];
@@ -880,29 +879,46 @@ class TwigExtension extends \Twig_Extension
      * @param  string $filename Target filename
      * @param  string|int $width    Target width
      * @param  string|int $height   Target height
-     * @param  string $crop     String identifier for cropped images. You can use next option fit, borders, resize or crop(dy default)
-     * @return string     Thumbnail path
+     * @param  string $zoomcrop     Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
+     *                              Set width or height parameter to '0' for proportional scaling
+     *                              Setting them to '' uses default values.
+     * @return string               Thumbnail path
      */
-    public function thumbnail($filename, $width = '', $height = '', $crop = "")
+    public function thumbnail($filename, $width = '', $height = '', $zoomcrop = 'crop')
     {
-        $thumbconf = $this->app['config']->get('general/thumbnails');
-
-        if (empty($width)) {
-            $width = !empty($thumbconf['default_thumbnail'][0]) ? $thumbconf['default_thumbnail'][0] : 100;
-        } else {
-            $width = (int) $width;
+        if (!is_numeric($width)) {
+            $thumbconf = $this->app['config']->get('general/thumbnails');
+            $width = empty($thumbconf['default_thumbnail'][0]) ? 100 : $thumbconf['default_thumbnail'][0];
         }
 
-        if (empty($height)) {
-            $height = !empty($thumbconf['default_thumbnail'][1]) ? $thumbconf['default_thumbnail'][1] : 100;
-        } else {
-            $height = (int) $height;
+        if (!is_numeric($height)) {
+            $thumbconf = $this->app['config']->get('general/thumbnails');
+            $height = empty($thumbconf['default_thumbnail'][1]) ? 100 : $thumbconf['default_thumbnail'][1];
         }
 
-        if (empty($crop)) {
-            $crop = !empty($thumbconf['cropping']) ? $thumbconf['cropping'] : 'c';
-        } else {
-            $crop = substr($crop, 0, 1);
+        switch ($zoomcrop) {
+            case 'fit':
+            case 'f':
+                $scale = 'f';
+                break;
+
+            case 'resize':
+            case 'r':
+                $scale = 'r';
+                break;
+
+            case 'borders':
+            case 'b':
+                $scale = 'b';
+                break;
+
+            case 'crop':
+            case 'c':
+                $scale = 'c';
+                break;
+
+            default:
+                $scale = !empty($thumbconf['cropping']) ? $thumbconf['cropping'] : 'c';
         }
 
         // After v1.5.1 we store image data as an array
@@ -910,16 +926,15 @@ class TwigExtension extends \Twig_Extension
             $filename = $filename['file'];
         }
 
-        $thumbnail = sprintf(
-            "%sthumbs/%sx%s%s/%s",
+        $path = sprintf('%sthumbs/%sx%s%s/%s',
             $this->app['paths']['root'],
-            $width,
-            $height,
-            $crop,
+            round($width),
+            round($height),
+            $scale,
             safeFilename($filename)
         );
-
-        return $thumbnail;
+        
+        return $path;
     }
 
     /**
