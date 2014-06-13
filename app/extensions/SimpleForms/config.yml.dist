@@ -22,6 +22,12 @@ recaptcha_theme: clean
 # you know what you're doing.
 csrf: true
 
+# Default fallback sender email
+# this is required because Swiftmailer will reject the message without one
+# please make this a sensible existing email address
+from_email: default@example.org
+from_name: Default
+
 # global cc email address
 # set this value to an email address that will receive a copy of every email from simpleforms
 # recipient_cc_email: info@example.com
@@ -63,6 +69,9 @@ contact:
 # {{ simpleform('demo') }} in your templates.
 demo:
   mail_subject: "Fancy Mail Subject"
+  from_email: demoform@example.org
+  from_name: demoform sender
+  # you can override the default sender email-address in a form
   recipient_email: info@example.org
   recipient_name: Info
   recipient_cc_email: another@example.com
