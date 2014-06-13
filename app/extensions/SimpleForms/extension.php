@@ -385,7 +385,7 @@ class Extension extends \Bolt\BaseExtension
                 }
                 elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
                     // temporary files location will be a subdirectory of the cache
-                    $path = BOLT_CACHE_DIR;
+                    $path = $this->app['resources']->getPath('cache');
                     $linkpath = $this->app['paths']['app'] . 'cache';
                 }
                 else {
