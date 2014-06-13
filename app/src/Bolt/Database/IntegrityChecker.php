@@ -63,7 +63,7 @@ class IntegrityChecker
 
     private static function getValidityTimestampFilename()
     {
-        return BOLT_CACHE_DIR . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
+        return $this->app['resources']->getPath('cache') . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
     public static function invalidate()
