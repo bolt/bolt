@@ -19,12 +19,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.9",
+            'version' => "1.10",
             'required_bolt_version' => "1.6",
             'highest_bolt_version' => "1.6",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2014-05-22",
+            'latest_releasedate' => "2014-06-13",
             'allow_in_user_content' => true,
         );
         return $data;
@@ -42,6 +42,8 @@ class Extension extends \Bolt\BaseExtension
             'message_technical',
             'button_text',
             'attach_files',
+            'from_email',
+            'from_name',
             'recipient_cc_email',
             'recipient_cc_name',
             'recipient_bcc_email',
@@ -496,11 +498,20 @@ class Extension extends \Bolt\BaseExtension
         // Compile the message..
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($formconfig['from_email'] => $formconfig['from_name']))
-            ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
+        // set the default recipient for this form
+        if (!empty($formconfig['recipient_email'])) {
+            $message->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']));
+        }
+
+        // set the default sender for this form
+        if (!empty($formconfig['from_email'])) {
+            $message->setFrom(array($formconfig['from_email'] => $formconfig['from_name']));
+        }
+
+        // add attachments if enabled in config
         if(($formconfig['attach_files'] == 'true') && is_array($attachments)) {
             foreach($attachments as $attachment) {
                 $message->attach($attachment);
@@ -547,15 +558,29 @@ class Extension extends \Bolt\BaseExtension
                     }
                     switch($values['use_as']) {
                         case 'from_email':
+                            // set the special sender for this form
                             $message->setFrom(array($tmp_email => $tmp_name));
+                            // add the values to the formconfig in case we want to see this later
+                            if (empty($formconfig['from_email'])) {
+                                $formconfig['from_email'] = $tmp_email;
+                                $formconfig['from_name'] = $tmp_name;
+                            }
                             break;
                         case 'to_email':
+                            // add another recipient
                             $message->addTo($tmp_email, $tmp_name);
+                            // add the values to the formconfig in case we want to see this later
+                            if (empty($formconfig['recipient_email'])) {
+                                $formconfig['recipient_email'] = $tmp_email;
+                                $formconfig['recipient_name'] = $tmp_name;
+                            }
                             break;
                         case 'cc_email':
+                            // add another carbon copy recipient
                             $message->addCc($tmp_email, $tmp_name);
                             break;
                         case 'bcc_email':
+                            // add another blind carbon copy recipient
                             $message->addBcc($tmp_email, $tmp_name);
                             break;
                     }
@@ -563,8 +588,14 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
+        // log the attempt
+        $this->app['log']->add('Sending message '. $formname
+                               . ' from '. $formconfig['from_email']
+                               . ' to '. $formconfig['recipient_email'], 3);
+
         $res = $this->app['mailer']->send($message);
 
+        // log the result of the attempt
         if ($res) {
             if($formconfig['testmode']) {
                 $this->app['log']->add('Sent email from ' . $formname . ' to '. $formconfig['testmode_recipient'] . ' (in testmode) - ' . $formconfig['recipient_name'], 3);
