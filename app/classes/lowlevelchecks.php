@@ -4,8 +4,24 @@
  * A class to perform several 'low level' checks. Since we're doing it (by design)
  * _before_ the autoloader gets initialized, we can't use autoloading.
  */
+
 class LowlevelChecks
 {
+    
+    public $config;
+    
+    
+    /**
+     * The constructor requires a resource manager object to perform checks against.
+     * This should ideally be typehinted to Bolt\Configuration\ResourceManager 
+     *
+     * @return void
+     **/
+    
+    public function __construct($config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * Perform the checks.
