@@ -26,16 +26,22 @@ class ResourceManager
     protected $request  = array();
     
     public $urlPrefix = "";
+    
+    protected $verifier = false;
 
     /**
      * Constructor initialises on the app root path.
      *
      * @param string $path
      */
-    public function __construct($root, Request $request = null)
+    public function __construct($root, Request $request = null, $verifier = null)
     {
         $this->root = realpath($root);
         $this->requestObject = $request;
+        
+        if(null !== $verifier) {
+            $this->verifier = $verifier;
+        }
         
         $this->setUrl("root", "/");
         $this->setPath("rootpath", $this->root);
@@ -246,6 +252,21 @@ class ResourceManager
 
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
         $this->setUrl("theme",      sprintf('%s/%s/',   $theme_url, $theme));
+    }
+    
+    
+    /**
+     * Verifies the configuration to ensure that paths exist and are writable.
+     *
+     * @return void
+     * @author 
+     **/
+    public function verify()
+    {
+        if(!$this->verifier) {
+            $this->verifier = new LowlevelChecks($this);  
+        }
+        $this->verifier->doChecks();
     }
     
     

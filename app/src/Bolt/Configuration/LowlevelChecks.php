@@ -1,4 +1,5 @@
 <?php
+namespace Bolt\Configuration;
 
 /**
  * A class to perform several 'low level' checks. Since we're doing it (by design)
@@ -18,7 +19,7 @@ class LowlevelChecks
      * @return void
      **/
     
-    public function __construct($config)
+    public function __construct($config = null)
     {
         $this->config = $config;
     }
@@ -53,17 +54,17 @@ class LowlevelChecks
 
         // Check if the vendor folder is present. If not, this is most likely because
         // the user checked out the repo from Git, without running composer.
-        if (!file_exists(BOLT_PROJECT_ROOT_DIR.'/vendor/autoload.php')) {
+        if (!file_exists($this->config->getPath('root').'/vendor/autoload.php')) {
             $this->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
                 "you've installed the Silex/Bolt components with Composer.");
         }
 
         // Check if the cache dir is present and writable
-        if (!is_dir(BOLT_CACHE_DIR)) {
-            $this->lowlevelError("The folder <code>" . BOLT_CACHE_DIR . "</code> doesn't exist. Make sure it's " .
+        if (!is_dir($this->config->getPath('cache'))) {
+            $this->lowlevelError("The folder <code>" . $this->config->getPath('cache') . "</code> doesn't exist. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
-        } elseif (!is_writable(BOLT_CACHE_DIR)) {
-            $this->lowlevelError("The folder <code>" . BOLT_CACHE_DIR . "</code> isn't writable. Make sure it's " .
+        } elseif (!is_writable($this->config->getPath('cache'))) {
+            $this->lowlevelError("The folder <code>" . $this->config->getPath('cache') . "</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
@@ -74,9 +75,9 @@ class LowlevelChecks
         // .htaccess), we still need a dummy .htaccess just for the sake of
         // this check. Plus we can't really tell whether what's *inside*
         // htaccess is doing the right thing or not.
-        if (!is_readable(BOLT_WEB_DIR.'/.htaccess')) {
+        if (!is_readable($this->config->getPath('web').'/.htaccess')) {
             $this->lowlevelError("The file <code>" .
-                htmlspecialchars(BOLT_WEB_DIR, ENT_QUOTES) .
+                htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) .
                 "/.htaccess</code> doesn't exist. Make sure it's " .
                 "present and readable to the user that the webserver is using.");
         }
@@ -162,8 +163,8 @@ class LowlevelChecks
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath(BOLT_CONFIG_DIR."/") . "/$name.yml.dist";
-        $ymlname = realpath(BOLT_CONFIG_DIR."/") . "/$name.yml";
+        $distname = realpath($this->config->getPath('config')."/") . "/$name.yml.dist";
+        $ymlname = realpath($this->config->getPath('config')."/") . "/$name.yml";
 
         if (file_exists($ymlname)) {
             return; // Okidoki..
@@ -191,19 +192,6 @@ class LowlevelChecks
      */
     public function lowlevelError($message)
     {
-        // Set the root
-        $path_prefix = dirname($_SERVER['PHP_SELF'])."/";
-        $path_prefix = preg_replace("/^[a-z]:/i", "", $path_prefix);
-        $path_prefix = str_replace("//", "/", str_replace("\\", "/", $path_prefix));
-        if (empty($path_prefix) || 'cli-server' === php_sapi_name()) {
-            $path_prefix = "/";
-        }
-
-        $app_path = $path_prefix . 'app/';
-
-        if ( BOLT_COMPOSER_INSTALLED ) {
-            $app_path = $path_prefix . "bolt-public/";
-        }
 
         $html = <<< EOM
 <!DOCTYPE html>
@@ -211,7 +199,16 @@ class LowlevelChecks
 <head>
     <meta charset="utf-8" />
     <title>Bolt - Error</title>
-    <link rel="stylesheet" type="text/css" href="%path%view/css/bootstrap.min.css" />
+    <style>
+        body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;}
+        h1 {font-size: 38.5px;line-height: 40px;margin: 10px 0px;}
+        p{margin: 0px 0px 10px;}
+        strong{font-weight:bold;}
+        code {padding: 2px 4px;color: #D14;background-color: #F7F7F9;border: 1px solid #E1E1E8;white-space: nowrap;}
+        code, pre {padding: 0px 3px 2px;font-family: Monaco,Menlo,Consolas,"Courier New",monospace;font-size: 12px;color: #333;border-radius: 3px;}
+        a {color: #08C;text-decoration: none;}
+        ul, ol {padding: 0px;margin: 0px 0px 10px 25px;}
+    </style>
 </head>
 <body style="padding: 20px;">
 
@@ -240,7 +237,6 @@ class LowlevelChecks
 EOM;
 
         $html = str_replace("%error%", $message, $html);
-        $html = str_replace("%path%", htmlspecialchars($app_path, ENT_QUOTES), $html);
 
         // TODO: Information disclosure vulnerability. A misconfigured system
         // will give an attacker detailed information about the state of the

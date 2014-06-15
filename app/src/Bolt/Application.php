@@ -118,7 +118,7 @@ class Application extends Silex\Application
                 $error .= "<br><br>Since you're using " . $dboptions['driver'] . ", you should also make sure that the
                 database <code>" . $dboptions['dbname'] . "</code> exists, and the configured user has access to it.";
             }
-            $checker = new \LowlevelChecks();
+            $checker = new Configuration\LowlevelChecks($this['resources']);
             $checker->lowLevelError($error);
         }
 
