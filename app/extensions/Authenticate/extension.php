@@ -51,7 +51,7 @@ class Extension extends \Bolt\BaseExtension
 
         // If debug is set, also set the path for the debug log.
         if ($this->config['debug_mode']) {
-            $this->config['debug_file'] = BOLT_CACHE_DIR . "/authenticate.log";
+            $this->config['debug_file'] = $this->app['resources']->getPath('cache') . "/authenticate.log";
             @touch($this->config['debug_file']);
         }
 

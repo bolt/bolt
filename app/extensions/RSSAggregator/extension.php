@@ -62,7 +62,7 @@ class Extension extends \Bolt\BaseExtension
         // Construct a cache handle from the URL
         $handle = preg_replace('/[^A-Za-z0-9_-]+/', '', $url);
         $handle = str_replace('httpwww', '', $handle);
-        $cachedir = BOLT_CACHE_DIR . '/rssaggregator/';
+        $cachedir = $this->app['resources']->getPath('cache') . '/rssaggregator/';
         $cachefile = $cachedir.'/'.$handle.'.cache';
 
         // default options

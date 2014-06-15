@@ -11,9 +11,9 @@ class CacheServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
 
-        $app['cache'] = $app->share(function () {
+        $app['cache'] = $app->share(function () use($app) {
 
-            $cache = new Cache();
+            $cache = new Cache($app['resources']->getPath('cache'));
 
             return $cache;
 
