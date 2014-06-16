@@ -136,7 +136,7 @@ class Application extends Silex\Application
         }
 
         $this->register(new Silex\Provider\HttpCacheServiceProvider(), array(
-            'http_cache.cache_dir' => BOLT_CACHE_DIR,
+            'http_cache.cache_dir' => $this['resources']->getPath('cache'),
         ));
     }
 
@@ -145,7 +145,7 @@ class Application extends Silex\Application
 
         // Should we cache or not?
         if ($this['config']->get('general/caching/templates')) {
-            $cache = BOLT_CACHE_DIR;
+            $cache = $this['resources']->getPath('cache');
         } else {
             $cache = false;
         }
@@ -352,7 +352,7 @@ class Application extends Silex\Application
 
             // Register the Silex/Symfony web debug toolbar.
             $this->register(new Silex\Provider\WebProfilerServiceProvider(), array(
-                'profiler.cache_dir'    => BOLT_CACHE_DIR . '/profiler',
+                'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
                 'profiler.mount_prefix' => '/_profiler', // this is the default
             ));
 

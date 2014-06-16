@@ -1,12 +1,5 @@
 <?php
 
-// If you wish to put the folder with the Bolt configuration files in another location than /app/config/,
-// define it here as a constant. If you do not define it here, the default location is used.
-
-// One level above the 'webroot'
-// define('BOLT_CONFIG_DIR', __DIR__ . '/config');
-// define('BOLT_CACHE_DIR', __DIR__ . '/cache');
-
 // PHP -S (built-in webserver) doesn't handle static assets without a `return false`
 // For more information, see: http://silex.sensiolabs.org/doc/web_servers.html#php-5-4
 if ('cli-server' === php_sapi_name()) {

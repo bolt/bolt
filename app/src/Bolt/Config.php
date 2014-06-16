@@ -631,15 +631,15 @@ class Config
             file_exists(BOLT_CONFIG_DIR . '/permissions.yml')  ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
         );
-        $cachetimestamp = file_exists(BOLT_CACHE_DIR . '/config_cache.php')
-            ? filemtime(BOLT_CACHE_DIR . '/config_cache.php')
+        $cachetimestamp = file_exists($this->app['resources']->getPath('cache') . '/config_cache.php')
+            ? filemtime($this->app['resources']->getPath('cache') . '/config_cache.php')
             : 0;
 
         //\util::var_dump($timestamps);
         //\util::var_dump($cachetimestamp);
 
         if ($cachetimestamp > max($timestamps)) {
-            $this->data = loadSerialize(BOLT_CACHE_DIR . '/config_cache.php');
+            $this->data = loadSerialize($this->app['resources']->getPath('cache') . '/config_cache.php');
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
@@ -671,12 +671,12 @@ class Config
         $this->data['version'] = $this->app->getVersion();
 
         if ($this->get('general/caching/config')) {
-            saveSerialize(BOLT_CACHE_DIR . '/config_cache.php', $this->data);
+            saveSerialize($this->app['resources']->getPath('cache') . '/config_cache.php', $this->data);
 
             return;
         }
 
-        @unlink(BOLT_CACHE_DIR . '/config_cache.php');
+        @unlink($this->app['resources']->getPath('cache') . '/config_cache.php');
     }
 
     /**

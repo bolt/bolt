@@ -34,15 +34,9 @@ class Cache extends FilesystemCache
      */
     public function __construct($cacheDir = null)
     {
-        if (!isset($cacheDir)) {
-            $cacheDir = BOLT_CACHE_DIR;
-        } else {
-            // We don't have $app here, so we use the filesystem component
-            // directly here.
-            $filesystem = new Filesystem();
-            if (!$filesystem->isAbsolutePath($cacheDir)) {
-                $cacheDir = realpath(__DIR__ . "/" . $cacheDir);
-            }
+        $filesystem = new Filesystem();
+        if (!$filesystem->isAbsolutePath($cacheDir)) {
+            $cacheDir = realpath(__DIR__ . "/" . $cacheDir);
         }
 
         try {

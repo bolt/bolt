@@ -27,7 +27,7 @@
 
                     <div class="password-group">
                         <label class="control-label">
-                            {{ __('Password') }} &nbsp; 
+                            {{ __('Password') }} &nbsp;
                             <span class="togglepass show-password"><i class="fa fa-eye"></i> {{ __('Show') }}</span>
                             <span class="togglepass hide-password"><i class="fa fa-eye-slash"></i> {{ __('Hide') }}</span>
                         </label>
@@ -48,10 +48,16 @@
                         <button type="button" class="btn btn-link login-remembered"> {{ __('Back to login') }}</button>
                     </p>
 
+                    <p class='cookie-notice alert alert-danger'>
+                        {{ __("Note: Cookies are required to log on to Bolt. Please allow cookies.")}}
+                    </p>
+
                 </form>
 
             </div>
+
         </div>
+
 
         <blockquote class='quote'>{{ randomquote() }}</blockquote>
 
