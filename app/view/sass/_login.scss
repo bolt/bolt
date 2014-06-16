@@ -43,8 +43,15 @@ body.login {
         float: right;
     }
 
+  p.cookie-notice {
+    display: none;
+  }
+
 }
 
+html.no-cookies p.cookie-notice {
+  display: block;
+}
 
 
 @media (max-width: 766px) {
@@ -63,9 +70,9 @@ body.login {
         .view-site {
             right: 12px;
             top: 8px;
-        }        
+        }
 
-        .login-forgot, 
+        .login-forgot,
         .login-remembered {
             float: none;
             margin-top: 8px;
