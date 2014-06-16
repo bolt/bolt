@@ -139,7 +139,7 @@
                 {% endif %}
                 </p>
 
-            
+
 
             </div>
 
@@ -161,13 +161,62 @@
                     <i class="fa fa-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
                 </button>
 
-                <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
-                    <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
-                </button>
+
 
                 <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
                     <i class="fa fa-flag"></i> {{ __('Save & return') }}
                 </button>
+
+
+                <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
+                    <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+                </button>
+
+                <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
+                    <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+                </button>
+
+
+                <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
+                    <i class="fa fa-external-link-square"></i> Bekijk op site
+                </button>
+
+                <br>
+
+                <!-- Split button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary"> <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+
+
+                <!-- Split button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">
+                            <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+                    </button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
 
                 <p>
                     {{ __("Current (saved) status:") }}
@@ -175,7 +224,7 @@
                         <strong>{{ status_names[content.status]|default(__("None")) }}</strong>
                     </a>
                 </p>
-                
+
                 <p class="lastsaved">
                     {% if content.id != 0 %}
                     {{ __('Saved on:') }} <strong>{{ content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(content.datechanged) }})</small></p>
