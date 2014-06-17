@@ -1,5 +1,3 @@
-{{ dump(pager) }}
-
 {% if "filter" in app.request.query.all|keys %}
     {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
 {% elseif "search" in app.request.query.all|keys %}

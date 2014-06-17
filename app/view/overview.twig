@@ -2,16 +2,12 @@
 
 <div class="row">
 
-    {{ pager() }}
-
     <div class="col-lg-12">
         <h1 class="page-header">            {{ title|raw }}
             <span>{% if pager is defined and pager.totalpages > 1 %}
                 {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
             {%endif %}</span></h1>
     </div>
-
-    {{ pager() }}
 
     <div class="col-md-9">
 

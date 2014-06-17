@@ -1992,17 +1992,20 @@ class Storage
         }
 
         // Set up the $pager array with relevant values..
-        $pager_name = $decoded['contenttypes'][0];
-        $pager = array(
-            'for' => $pager_name,
-            'count' => $total_results,
-            'totalpages' => ceil($total_results / $decoded['parameters']['limit']),
-            'current' => $decoded['parameters']['page'],
-            'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
-            'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
-        );
-        $this->setPager($pager_name, $pager);
-        $this->app['twig']->addGlobal('pager', $this->getPager($pager_name));
+        if ($decoded['parameters']['paging']) {
+            $pager_name = $decoded['contenttypes'][0];
+            $pager = array(
+                'for' => $pager_name,
+                'count' => $total_results,
+                'totalpages' => ceil($total_results / $decoded['parameters']['limit']),
+                'current' => $decoded['parameters']['page'],
+                'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
+                'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
+            );
+
+            $this->setPager($pager_name, $pager);
+            $this->app['twig']->addGlobal('pager', $this->getPager($pager_name));
+        }
 
         $this->app['stopwatch']->stop('bolt.getcontent');
         return $results;
