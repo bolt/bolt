@@ -94,6 +94,11 @@
         </select>
         </label>
 
+        {% if isChangelogEnabled() %}
+            <label><b><span class='left'>{{ __('Comment:') }}</span></b>
+                <textarea name="changelog-comment" {% if not isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}disabled="disabled"{% endif %} rows="4"></textarea>
+            </label>
+        {% endif %}
 
         <button type="button" class="btn btn-primary" id="savecontinuebutton" style="margin-right: 8px;">
             <i class="icon-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
