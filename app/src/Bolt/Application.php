@@ -217,7 +217,8 @@ class Application extends Silex\Application
             ->register(new Provider\OmnisearchServiceProvider())
             ->register(new Provider\CronServiceProvider())
             ->register(new Provider\SafeTwigServiceProvider())
-            ->register(new Provider\FilePermissionsServiceProvider());
+            ->register(new Provider\FilePermissionsServiceProvider())
+            ->register(new Thumbs\ThumbnailProvider());
 
         $this['paths'] = $this['resources']->getPaths();
         $this['twig']->addGlobal('paths', $this['resources']->getPaths());
