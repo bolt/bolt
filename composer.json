@@ -11,7 +11,7 @@
     
     "require": {
         "bolt/dumper": ">=0.7",
-        "bolt/thumbs": "1.0.*@dev",
+        "bolt/thumbs": "~1.6",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "1.*",
         "filp/whoops": "1.*",
