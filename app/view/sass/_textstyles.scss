@@ -108,37 +108,31 @@ aside .morelink {
 
 aside section p {
     font-size: 12px;
-    line-height: 16px;
-    margin: 4px 0;
-}
-
-aside section p {
-    font-size: 12px;
     line-height: 18px;
     margin: 4px 0;
 }
 
 
-aside ul {
+aside .panel-body > ul {
     list-style: none;
     margin-left: 0;
     padding-left: 0.7em;
     text-indent: -0.7em;
 }
 
-aside ul li:before {
+aside .panel-body > ul li:before {
     content: "- ";
 }
 
-aside ul li {
+aside .panel-body > ul li {
     line-height: 16px;
     margin-bottom: 4px;
 }
 
-aside ul li small {
+aside .panel-body > ul li small {
     color: #777;
 }
 
-aside .btn {
+aside .btn-group {
     margin-bottom: 8px;
 }

@@ -46,7 +46,7 @@
 }
 
 .dashboardlisting tr.grouping th {
-    background-color: transparent !important; 
+    background-color: transparent !important;
     text-align: left;
     font-weight: bold;
     color: #888;
@@ -95,7 +95,7 @@
 .dashboardlisting td.listthumb  {
     white-space: nowrap;
     color: #666;
-    padding: 8px 2px;    
+    padding: 8px 2px;
 }
 
 .dashboardlisting td.username {
@@ -113,6 +113,11 @@
 .dashboardlisting td.actions {
     min-width: 96px;
     text-align: right;
+}
+
+.dashboardlisting .btn-group > .btn + .dropdown-toggle {
+  padding-left: 3px;
+  padding-right: 6px;
 }
 
 .dashboardlisting td.excerpt span {

@@ -760,10 +760,14 @@ class Backend implements ControllerProviderInterface
                 // If 'returnto is set', we return to the edit page, with the correct anchor.
                 if ($app['request']->get('returnto')) {
 
-                    // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
-                    $id = $app['storage']->getLatestId($contenttype['slug']);
-
-                    return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id), "#".$app['request']->get('returnto'));
+                    if ($app['request']->get('returnto') == "new") {
+                        // We must 'return to' the edit "New record" page.
+                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0));
+                    } else {
+                        // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
+                        $id = $app['storage']->getLatestId($contenttype['slug']);
+                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
+                    }
 
                 }
 

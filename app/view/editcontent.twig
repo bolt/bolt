@@ -157,65 +157,46 @@
             </div>
 
             <div class="panel-body">
-                <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton" style="margin-right: 8px;">
-                    <i class="fa fa-flag"></i> {{ __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
-                </button>
 
-
-
-                <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
-                    <i class="fa fa-flag"></i> {{ __('Save & return') }}
-                </button>
-
-
-                <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
-                    <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
-                </button>
-
-                <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
-                    <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
-                </button>
-
-
-                <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
-                    <i class="fa fa-external-link-square"></i> Bekijk op site
-                </button>
-
-                <br>
-
-                <!-- Split button -->
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary"> <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}</button>
+                    <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton">
+                        <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': contenttype.singular_name}) }}
+                    </button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li>
+                            <button type="submit" class="btn btn-default" id="sidebarsavebutton" style="margin-right: 8px;">
+                                <i class="fa fa-flag"></i> {{ __('Save & return') }}
+                            </button>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-default" id="sidebarsavenewbutton" style="margin-right: 8px;">
+                                <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+                            </button>
+                        </li>
                     </ul>
                 </div>
 
-
-                <!-- Split button -->
                 <div class="btn-group">
                     <button type="button" class="btn btn-default">
                             <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
                     </button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
+                    {% if content.status == "published" and content.link is defined %}
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ content.link }}" target="_blank">
+                                    <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
+                                </a>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </div>
 
                 <p>
@@ -244,16 +225,22 @@
             $('#savebutton').trigger('click');
         });
         $('#savebutton').bind('click', function(e){
+
             // Re-set the changes to the form..
             $('form').watchChanges();
+
         });
 
-        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
-        $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
-            e.preventDefault();
-            var newaction = "{{ paths.root }}" + "preview" + "/{{ contenttype.singular_slug }}";
-            $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
-            $('#editcontent').attr('action', '').attr('target', "_self");
+        // Handle "save and new".
+        $('#sidebarsavenewbutton, #savenewbutton').bind('click', function(e){
+
+            // Re-set the changes to the form..
+            $('form').watchChanges();
+
+            // Do a regular post, and expect to be redirected back to the "new record" page.
+            var newaction = "?returnto=new";
+            $('#editcontent').attr('action', newaction).submit();
+
         });
 
         // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular
@@ -306,13 +293,22 @@
 
         });
 
+        // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+        $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
+
+            e.preventDefault();
+            var newaction = "{{ paths.root }}" + "preview" + "/{{ contenttype.singular_slug }}";
+            $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
+            $('#editcontent').attr('action', '').attr('target', "_self");
+
+        });
+
     });
 </script>
 
     {{ render(path("lastmodified", {"contenttypeslug": contenttype.slug, "contentid": content.id} )) }}
 
     {{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}
-
 
     </aside>
 </div>

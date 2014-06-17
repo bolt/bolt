@@ -18,37 +18,32 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.btn-group > .btn + .dropdown-toggle {
-  padding-left: 4px;
-  padding-right: 8px;
-}
-
 
 // Primary button for Bolt:
 .btn-primary {
     @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
-    color: $btn-primary-color !important;      
+    color: $btn-primary-color !important;
 }
 
-// Secondary button for bolt: 
+// Secondary button for bolt:
 .btn-secondary {
     @include button-variant($btn-primary-color, $btn-secondary-bg, $btn-secondary-border);
-    color: $btn-primary-color !important;      
+    color: $btn-primary-color !important;
 }
 
-// Tertiary button for bolt: 
+// Tertiary button for bolt:
 .btn-tertiary {
     @include button-variant($btn-primary-color, $btn-tertiary-bg, $btn-tertiary-border);
-    color: $btn-primary-color !important;      
+    color: $btn-primary-color !important;
 }
 
-// Default button for bolt: 
+// Default button for bolt:
 .btn-default {
     @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
-    color: $btn-default-color !important;  
+    color: $btn-default-color !important;
 }
 
-// Bolt button for bolt: 
+// Bolt button for bolt:
 .btn-bolt {
     @include button-variant($btn-bolt-color, $btn-bolt-bg, $btn-bolt-border);
 }
@@ -56,7 +51,7 @@
 // Buttons that behave as a link, and specifically in a dropdown-menu.
 .dropdown-menu .btn-link {
     color: $dropdown-link-color;
-    padding: 1px 14px;    
+    padding: 1px 14px;
     display: block;
 }
 
