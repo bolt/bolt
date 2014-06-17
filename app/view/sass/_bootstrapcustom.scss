@@ -239,33 +239,6 @@ ul.dropdown-menu li a.nolink {
 }
 
 
-/**
- * Styles for pagination
- */
-.pagination li a,
-.pagination li.disabled a {
-    background-color: rgba(220, 220, 220, 0.35);
-}
-
-.pagination li:first-child a {
-    border-radius: 6px 0 0 6px;
-}
-
-.pagination li:last-child a {
-    border-radius: 0 6px 6px 0;
-}
-
-.pagination.narrow li a,
-.pagination.narrow li.disabled a {
-    padding: 0 4px;
-}
-
-.pagination .active a {
-    color: #999999;
-    cursor: default;
-    font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.2);
-}
 
 /**
  * End of styles for pagination

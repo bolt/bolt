@@ -1,3 +1,5 @@
+{{ dump(pager) }}
+
 {% if "filter" in app.request.query.all|keys %}
     {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
 {% elseif "search" in app.request.query.all|keys %}
@@ -17,8 +19,8 @@
 {% set link = "?" ~ filter ~ order ~ "page=" %}
 
 {% if pager.totalpages > 1 %}
-<div class="pagination pagination-centered {{class}}">
-    <ul>
+<div class="{{class}}" style="text-align: center">
+    <ul class="pagination pagination-centered {{class}}">
         <li><span>
     {# Showing {{ pager.for }} {{ pager.showing_from }} - {{ pager.showing_to }} of {{  pager.count }} #}
     {{ __('Showing %pager_for% %from% - %to% of %count%', {'%pager_for%': pager.for,'%from%': pager.showing_from,'%to%': pager.showing_to,'%count%': pager.count}) }}

@@ -9,7 +9,7 @@ $boltblue: #204460;
 $boltbluedarker: darken($boltblue, 5);
 $boltbluelighter: lighten($boltblue, 5);
 
-$basebgcolour: #FBFBFB;
+$basebgcolour: #FDFDFA;
 $bodytextcolour: #333;
 
 $linkmain: lighten(saturate($boltblue, 100), 4);
@@ -30,7 +30,7 @@ $sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 4);
 $hr-border: #CCC;
 
 // The padding to the left and right of form-control inputs.
-$padding-base-horizontal: 6px;
+$padding-base-horizontal: 8px;
 
 // Primary button
 $btn-primary-color: #FFF;

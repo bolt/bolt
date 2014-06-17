@@ -2035,7 +2035,7 @@ output {
   display: block;
   width: 100%;
   height: 34px;
-  padding: 6px 6px;
+  padding: 6px 8px;
   font-size: 14px;
   line-height: 1.42857;
   color: #555555;
@@ -2464,7 +2464,7 @@ select[multiple].input-lg,
   background-image: none;
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: 6px 6px;
+  padding: 6px 8px;
   font-size: 14px;
   line-height: 1.42857;
   border-radius: 4px;
@@ -3110,7 +3110,7 @@ tbody.collapse.in {
 
 /* line 73, /Users/bob/Sites/bolt/app/view/node_modules/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_input-groups.scss */
 .input-group-addon {
-  padding: 6px 6px;
+  padding: 6px 8px;
   font-size: 14px;
   font-weight: normal;
   line-height: 1;
@@ -3834,7 +3834,7 @@ tbody.collapse.in {
     .pagination > li > span {
       position: relative;
       float: left;
-      padding: 6px 6px;
+      padding: 6px 8px;
       line-height: 1.42857;
       text-decoration: none;
       color: #428bca;
@@ -7794,50 +7794,22 @@ ul.dropdown-menu li.divider {
 
 /* line 236, ../sass/_bootstrapcustom.scss */
 ul.dropdown-menu li a.nolink {
-  background-color: #fbfbfb !important;
+  background-color: #fdfdfa !important;
   color: #474747 !important; }
-
-/**
- * Styles for pagination
- */
-/* line 245, ../sass/_bootstrapcustom.scss */
-.pagination li a,
-.pagination li.disabled a {
-  background-color: rgba(220, 220, 220, 0.35); }
-
-/* line 250, ../sass/_bootstrapcustom.scss */
-.pagination li:first-child a {
-  border-radius: 6px 0 0 6px; }
-
-/* line 254, ../sass/_bootstrapcustom.scss */
-.pagination li:last-child a {
-  border-radius: 0 6px 6px 0; }
-
-/* line 258, ../sass/_bootstrapcustom.scss */
-.pagination.narrow li a,
-.pagination.narrow li.disabled a {
-  padding: 0 4px; }
-
-/* line 263, ../sass/_bootstrapcustom.scss */
-.pagination .active a {
-  color: #999999;
-  cursor: default;
-  font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.2); }
 
 /**
  * End of styles for pagination
  */
-/* line 275, ../sass/_bootstrapcustom.scss */
+/* line 248, ../sass/_bootstrapcustom.scss */
 .modal-backdrop, .modal-backdrop.fade.in {
   opacity: 0.5; }
 
-/* line 279, ../sass/_bootstrapcustom.scss */
+/* line 252, ../sass/_bootstrapcustom.scss */
 .modal-wide {
   width: 660px;
   margin-left: -330px; }
 
-/* line 284, ../sass/_bootstrapcustom.scss */
+/* line 257, ../sass/_bootstrapcustom.scss */
 .modal .btn {
   padding-left: 20px;
   padding-right: 20px; }
@@ -8130,7 +8102,8 @@ aside .btn-group {
 aside .dropdown-menu .btn-link {
   display: block;
   width: 100%;
-  text-align: left; }
+  text-align: left;
+  margin-bottom: 4px; }
 
 /* line 2, ../sass/_popover.scss */
 .info-pop {
@@ -8949,7 +8922,7 @@ blockquote.quote cite {
 #page-wrapper {
   padding: 16px 6px 0;
   min-height: 568px;
-  background-color: #fbfbfb; }
+  background-color: #fdfdfa; }
 
 /* Navigation */
 /* ------------------------------- */
