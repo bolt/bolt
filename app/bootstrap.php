@@ -15,9 +15,10 @@ $autoload = array(
 );
 
 foreach($autoload as $type=>$path) {
-   if(require_once $path) {
-    $install = $type;
-   } 
+    if(is_readable($path) && require_once $path) {
+        $install = $type;
+        continue;
+    } 
 }
 
 if(!$install) {
