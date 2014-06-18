@@ -18,12 +18,13 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    style: 'nested',
+                    style: 'compressed',
                     loadPath: [
                         'node_modules/bootstrap-sass/vendor/assets/stylesheets/',
                         'node_modules/font-awesome/scss/'
                     ],
-                    lineNumbers: true
+                    lineNumbers: false,
+                    sourcemap: true
                 },
                 files: {
                     'css/app.css': 'sass/app.scss'
