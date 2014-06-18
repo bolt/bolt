@@ -204,8 +204,8 @@ class LowlevelChecks
         h1 {font-size: 38.5px;line-height: 40px;margin: 10px 0px;}
         p{margin: 0px 0px 10px;}
         strong{font-weight:bold;}
-        code {padding: 2px 4px;color: #D14;background-color: #F7F7F9;border: 1px solid #E1E1E8;white-space: nowrap;}
         code, pre {padding: 0px 3px 2px;font-family: Monaco,Menlo,Consolas,"Courier New",monospace;font-size: 12px;color: #333;border-radius: 3px;}
+        code {padding: 2px 4px;color: #D14;background-color: #F7F7F9;border: 1px solid #E1E1E8;white-space: nowrap;}
         a {color: #08C;text-decoration: none;}
         ul, ol {padding: 0px;margin: 0px 0px 10px 25px;}
     </style>
