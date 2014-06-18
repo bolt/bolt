@@ -58,20 +58,16 @@
 
 {% macro buttons(key, paths) %}
     {# The fileinput-button span is used to style the file input field as button #}
-    <div class="btn-group">
         <span class="btn btn-secondary fileinput-button">
             <i class="fa fa-upload"></i>
             <span>{{ __('Upload image') }}</span>
             <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ paths.app }}classes/upload/">
         </span>
-    </div>
 
-    <div class="btn-group" style="margin-left: 0px;">
-        <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
+        <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal" style="margin: auto 4px auto 8px;">
             <i class="fa fa-download"></i>
             {{ __('Select from server') }}
         </a>
-    </div>
 {% endmacro %}
 
 {% macro stack(key, items) %}

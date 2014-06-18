@@ -18,6 +18,9 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.btn-group + .btn-group {
+    margin-left: 4px;
+}
 
 // Primary button for Bolt:
 .btn-primary {
