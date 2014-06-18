@@ -146,7 +146,7 @@ class LowlevelChecks
         }
 
         // If the .db file is present, make sure it is writable
-        if (file_exists($this->config->getPath('app')'/database/'.$filename) && !is_writable(dirname(__FILE__).'/../database/'.$filename)) {
+        if (file_exists($this->config->getPath('app').'/database/'.$filename) && !is_writable(dirname(__FILE__).'/../database/'.$filename)) {
             $this->lowlevelError("The database file <code>app/database/" .
                 htmlspecialchars($filename, ENT_QUOTES) .
                 "</code> isn't writable. Make sure it's " .
