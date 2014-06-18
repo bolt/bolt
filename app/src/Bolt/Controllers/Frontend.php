@@ -275,8 +275,22 @@ class Frontend
             $app->abort(404, $error);
         }
 
+        $name = $slug;
+        // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
+        foreach($content as $record) {
+            $flat = \Util::array_flatten($record->taxonomy);
+            $key = $app['paths']['root'] . $taxonomytype['slug'] . '/' . $slug;
+            if (isset($flat[$key])) {
+                $name = $flat[$key];
+            }
+            $key = $app['paths']['root'] . $taxonomytype['singular_slug'] . '/' . $slug;
+            if (isset($flat[$key])) {
+                $name = $flat[$key];
+            }
+        }
+
         $app['twig']->addGlobal('records', $content);
-        $app['twig']->addGlobal('slug', $slug);
+        $app['twig']->addGlobal('slug', $name);
         $app['twig']->addGlobal('taxonomy', $app['config']->get('taxonomy/' . $taxonomyslug));
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
