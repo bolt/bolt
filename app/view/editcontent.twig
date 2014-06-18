@@ -141,7 +141,6 @@
                     </ul>
                 </div>
 
-
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="previewbutton">
                         <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
@@ -169,7 +168,11 @@
                 {% endif %}
                 </p>
 
-
+                {% if isChangelogEnabled() %}
+                    <label><b><span class='left'>{{ __('Comment:') }}</span></b>
+                        <textarea name="changelog-comment" {% if not isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}disabled="disabled"{% endif %} rows="4"></textarea>
+                    </label>
+                {% endif %}
 
             </div>
 

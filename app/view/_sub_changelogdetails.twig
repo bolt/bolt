@@ -2,6 +2,10 @@
         {% import '_macro.twig' as macro %}
 
         <h3>"{{ entry.title }}" {{ macro.changelogmutation(entry.effectiveMutationType) }} {{ macro.datetime(entry.date) }} {{ __('by') }} {{ entry.username }}</h3>
+        {% if isChangelogEnabled() %}
+            <h4>{{ entry.comment }}</h4>
+        {% endif %}
+
         <table class="table table-bordered table-condensed table-changelog-details">
             <thead>
             <tr><th>{{ __('field') }}</th><th>{{ __('old value') }}</th><th>{{ __('new value') }}</th></tr>

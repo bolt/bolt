@@ -223,7 +223,8 @@ class Storage
             foreach ($contenttype['taxonomy'] as $taxonomy) {
                 if ($this->app['config']->get('taxonomy/' . $taxonomy . '/options')) {
                     $options = $this->app['config']->get('taxonomy/' . $taxonomy . '/options');
-                    $contentobject->setTaxonomy($taxonomy, array_rand($options), rand(1, 1000));
+                    $key = array_rand($options);
+                    $contentobject->setTaxonomy($taxonomy, $key, $options[$key], rand(1, 1000));
                 }
                 if ($this->app['config']->get('taxonomy/' . $taxonomy . '/behaves_like') == "tags") {
                     $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
@@ -359,6 +360,7 @@ class Storage
             }
             $str = json_encode($data);
             $user = $this->app['users']->getCurrentUser();
+            $comment = $this->app['request']->request->get('changelog-comment');
             $entry['title'] = $title;
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['ownerid'] = $user['id'];
@@ -366,6 +368,7 @@ class Storage
             $entry['contentid'] = $contentid;
             $entry['mutation_type'] = $action;
             $entry['diff'] = $str;
+            $entry['comment'] = $comment;
             $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
         }
     }
@@ -2498,7 +2501,7 @@ class Storage
         )->fetchAll();
 
         foreach ($rows as $key => $row) {
-            $content[$row['content_id']]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['sortorder']);
+            $content[$row['content_id']]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['name'], $row['sortorder']);
         }
 
         foreach ($content as $key => $value) {
@@ -2574,7 +2577,7 @@ class Storage
                 if (isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
                     $name = $configTaxonomies[$taxonomytype]['options'][$slug];
                 } else {
-                    $name = "";
+                    $name = $slug;
                 }
 
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
@@ -2583,7 +2586,7 @@ class Storage
                         'content_id' => $content_id,
                         'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
-                        'slug' => $slug,
+                        'slug' => makeSlug($slug),
                         'name' => $name,
                         'sortorder' => $sortorder
                     );

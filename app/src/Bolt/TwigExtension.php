@@ -67,7 +67,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('stackitems', array($this, 'stackitems')),
             new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
             new \Twig_SimpleFunction('imageinfo', array($this, 'imageinfo')),
-            new \Twig_SimpleFunction('file_exists', array($this, 'file_exists'))
+            new \Twig_SimpleFunction('file_exists', array($this, 'file_exists')),
+            new \Twig_SimpleFunction('isChangelogEnabled', array($this, 'isChangelogEnabled')),
         );
     }
 
@@ -1403,5 +1404,10 @@ class TwigExtension extends \Twig_Extension
 
         return $retval;
 
+    }
+
+    public function isChangelogEnabled()
+    {
+        return $this->app->get('general/changelog/enabled');
     }
 }
