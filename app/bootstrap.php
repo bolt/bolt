@@ -11,7 +11,7 @@ require_once __DIR__ . '/src/Bolt/Configuration/LowlevelChecks.php';
 
 if(strpos(__DIR__, "/vendor/") !== false) {
     require_once __DIR__ . '/../../../../vendor/autoload.php';    
-    $config = new Bolt\Configuration\ComposerResources(__DIR__."/../");
+    $config = new Bolt\Configuration\Composer(__DIR__."/../");
 } else {
     require_once __DIR__ . '/../vendor/autoload.php';
     $config = new Bolt\Configuration\Standard(__DIR__."/../");
