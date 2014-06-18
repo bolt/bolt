@@ -15,6 +15,7 @@ class ChangelogItem implements \ArrayAccess
     public $contentid;
     public $mutation_type;
     public $diff;
+    public $comment;
 
     public function __construct(Silex\Application $app, $values = array())
     {
@@ -51,6 +52,9 @@ class ChangelogItem implements \ArrayAccess
         }
         if (isset($values['diff'])) {
             $this->diff = $values['diff'];
+        }
+        if (isset($values['comment'])) {
+            $this->comment = $values['comment'];
         }
     }
 

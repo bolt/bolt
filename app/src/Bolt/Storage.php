@@ -360,6 +360,7 @@ class Storage
             }
             $str = json_encode($data);
             $user = $this->app['users']->getCurrentUser();
+            $comment = $this->app['request']->request->get('changelog-comment');
             $entry['title'] = $title;
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['ownerid'] = $user['id'];
@@ -367,6 +368,7 @@ class Storage
             $entry['contentid'] = $contentid;
             $entry['mutation_type'] = $action;
             $entry['diff'] = $str;
+            $entry['comment'] = $comment;
             $this->app['db']->insert($this->getTablename('content_changelog'), $entry);
         }
     }
