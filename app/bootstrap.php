@@ -22,13 +22,9 @@ $config->verify();
 $config->compat();
 
 
-
 // Create the 'Bolt application'
 $app = new Bolt\Application(array('resources'=>$config));
 
-// Finally, check if the app/database folder is writable, if it needs to be.
-$checker = new Bolt\Configuration\LowlevelChecks($config);
-$checker->doDatabaseCheck($app['config']);
 
 // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
 $app->initialize();
