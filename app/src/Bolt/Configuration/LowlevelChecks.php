@@ -32,7 +32,7 @@ class LowlevelChecks
     {
         $test = $basedir."/vendor/autoload.php";
         if(!is_readable($test)) {
-            $checker->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
+            $this->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
                 "you've installed the required components with Composer.");
         }
         return $test;
