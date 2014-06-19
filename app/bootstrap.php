@@ -8,12 +8,18 @@ mb_http_output('UTF-8');
 require_once __DIR__ . '/classes/lib.php';
 require_once __DIR__ . '/classes/util.php';
 require_once __DIR__ . '/src/Bolt/Configuration/LowlevelChecks.php';
+$basedir = getcwd();
+if(!file_exists($basedir."/vendor/autoload.php")) {
+    $checker = new Bolt\Configuration\LowlevelChecks;
+    $checker->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
+                "you've installed the required components with Composer.");
+} else {
+    require_once $basedir."/vendor/autoload.php";
+}
 
 if(strpos(__DIR__, "/vendor/") !== false) {
-    require_once __DIR__ . '/../../../../vendor/autoload.php';    
     $config = new Bolt\Configuration\Composer(__DIR__."/../");
 } else {
-    require_once __DIR__ . '/../vendor/autoload.php';
     $config = new Bolt\Configuration\Standard(__DIR__."/../");
 }
 $config->compat();
