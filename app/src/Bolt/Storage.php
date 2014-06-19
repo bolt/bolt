@@ -2005,7 +2005,7 @@ class Storage
             'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
         );
         $this->setPager($pager_name, $pager);
-        $this->app['twig']->addGlobal('pager', $this->getPager($pager_name));
+        $this->app['twig']->addGlobal('pager', $this->getPager());
 
         $this->app['stopwatch']->stop('bolt.getcontent');
         return $results;
@@ -2945,13 +2945,8 @@ class Storage
      */
     public function setPager($name, $pager)
     {
-        if (! array_key_exists($name, static::$pager)) {
-            static::$pager = array(
-                $name => $pager
-            );
-        } else {
-            static::$pager[$name] = $pager;
-        }
+        static::$pager[$name] = $pager;
+
         return $this;
     }
 
