@@ -327,7 +327,7 @@ footer  {
     content: "";
     top: 0;
     bottom: 0;
-    left: 16px;
+    left: 21px;
     width: 14px;
     max-width: 2px;
     background-color: #E1E6ED;
@@ -343,20 +343,22 @@ footer  {
 .changelog-details>.user{
     display: inline-block;
     width: 42px;
-    position: absolute;
     left: 0;
-}
-.changelog-details>.user>img{
     border-radius: 100%;
     border: 2px solid #5293C4;
     max-width: 70px;
-    position: relative;
+    max-width: 70px;
+    text-align: center;
+    height: 42px;
+    position: absolute;
+    font-size: 40px;
+    background: white;
 }
 .changelog-details>.body {
     border: 1px solid #DDE4ED;
     padding: 5px 8px 8px;
     margin-right: 1px;
-    margin-left: 50px;
+    margin-left: 55px;
     position: relative;
     border-radius: 4px;
 }
@@ -365,7 +367,7 @@ footer  {
     display: block;
     position: absolute;
     left: -6px;
-    top: 11px;
+    top: 17px;
     width: 10px;
     height: 10px;
     border: 1px solid #DDE4ED;
