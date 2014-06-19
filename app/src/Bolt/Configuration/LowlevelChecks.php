@@ -75,20 +75,6 @@ class LowlevelChecks
                 "present and writable to the user that the webserver is using.");
         }
 
-        // Check if .htaccess is present and readable
-        // tdammers@gmail.com: This is actually a bad thing to check: it means
-        // that if we're running on nginx, or rewrites have been set up in the
-        // main apache config (which is more efficient than doing it in
-        // .htaccess), we still need a dummy .htaccess just for the sake of
-        // this check. Plus we can't really tell whether what's *inside*
-        // htaccess is doing the right thing or not.
-        if (!is_readable($this->config->getPath('web').'/.htaccess')) {
-            $this->lowlevelError("The file <code>" .
-                htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) .
-                "/.htaccess</code> doesn't exist. Make sure it's " .
-                "present and readable to the user that the webserver is using.");
-        }
-
         // If the config folder is OK, but the config files are missing, attempt to fix it.
         $this->lowlevelConfigFix('config');
         $this->lowlevelConfigFix('menu');
