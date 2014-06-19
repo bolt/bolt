@@ -1,13 +1,7 @@
-# app/resources/translations/pt/messages.pt.yml -- generated on 2014/06/16 23:20:01
-# 4 untranslated strings
+# app/resources/translations/pt/messages.pt.yml -- generated on 2014/06/18 23:01:46
+# no untranslated strings; good ;-)
 
-"Built-in role, automatically granted at all times, even if no user is logged in":  "Criar papel, concedido automaticamente em todos os momentos, mesmo que nenhum usuário esteja logado"
-"Built-in role, automatically granted to every registered user": "Criar papel, concedido automaticamente para todos os usuários registrados"
-"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Criar papel, válido apenas no contexto de um recurso, e atribuído automaticamente para o proprietário deste recurso."
-"Built-in superuser role, automatically grants all permissions": "Criar papel de super-usuário, concede automaticamente todas as permissões"
-
-#-----------------------------------------
-# 400 translated strings
+# 406 translated strings
 
 "%contenttypes% overview": "%contenttypes% visão geral "
 "%contenttypes%": "%contenttypes%"
@@ -26,6 +20,7 @@
 "Actions for this %contenttype%": "Ações para %contenttype%"
 "Actions": "Ações"
 "Activity log": "Registro de atividades"
+"Add a comment:": "Adicione um comentário"
 "Add new menu": "Adicionar novo menu"
 "Add some sample <a href='%url%' class='btn btn-small'>Records with Loripsum text</a>": "Adicionar algum exemplo <a href='%url%' class='btn btn-small'>Registrar com testo Loripsum</a>"
 "Add to menu": "Adicionar para o menu"
@@ -53,6 +48,10 @@
 "Bolt documentation on Github": "Bolt-Documentação no Github (en)"
 "Bolt on Github": "Bolt no Github"
 "Browser / platform": "Navegador / plataforma"
+"Built-in role, automatically granted at all times, even if no user is logged in": "Criar papel, concedido automaticamente em todos os momentos, mesmo que nenhum usuário esteja logado"
+"Built-in role, automatically granted to every registered user": "Criar papel, concedido automaticamente para todos os usuários registrados"
+"Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.": "Criar papel, válido apenas no contexto de um recurso, e atribuído automaticamente para o proprietário deste recurso."
+"Built-in superuser role, automatically grants all permissions": "Criar papel de super-usuário, concede automaticamente todas as permissões"
 "Can't set %field% in %contenttype%: Not a valid field.": "Não pode setar %field% em %contenttype%. Não é um campo válido"
 "Cancel": "Cancelar"
 "Categories": "Categorias"
@@ -74,6 +73,7 @@
 "Click to change current status.": "Clique para alterar o status atual."
 "Close": "Fechar"
 "Code:": "Código"
+"Comment": "Comentário"
 "Configuration": "Configurações"
 "Content '%title%' could not be deleted.": "O conteúdo %title% não pode ser excluído."
 "Content '%title%' could not be modified.": "O conteúdo %title% não pode ser modificado..."
@@ -373,6 +373,7 @@
 "View on site": "Visualizar no site"
 "View site": "Visualizar site"
 "View translations file '%s'.": "Ver arquivo de traduções '%s'."
+"Write a brief comment, it will help other editors to get a quick overview of what's changed.": "Escreva um breve comentário, ele vai ajudar outros editores com uma visão geral do que mudou."
 "Written by <em>%name%</em> on %date%": "Escrito por <em>%name%</em> em %date%"
 "You do not have the right privileges to create a new record.": "Você não tem os privilégios corretos para criar um novo registro."
 "You do not have the right privileges to edit that record.": "Você não possui permissões para alterar este registro."
