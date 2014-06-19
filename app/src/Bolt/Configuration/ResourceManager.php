@@ -216,8 +216,7 @@ class ResourceManager
         $branding = ltrim( $this->app['config']->get('general/branding/path').'/' , '/');
         $this->setUrl("bolt", $this->getUrl('root').$branding);
         $this->app['config']->setCkPath();
-        $this->verify();
-        $this->verifier->doDatabaseCheck($this->app['config']);
+        $this->getVerifier()->doDatabaseCheck($this->app['config']);
     }
     
     public function compat()
@@ -265,10 +264,16 @@ class ResourceManager
      **/
     public function verify()
     {
+        
+        $this->getVerifier()->doChecks();
+    }
+    
+    public function getVerifier()
+    {
         if(!$this->verifier) {
             $this->verifier = new LowlevelChecks($this);  
         }
-        $this->verifier->doChecks();
+        return $this->verifier;
     }
     
     
