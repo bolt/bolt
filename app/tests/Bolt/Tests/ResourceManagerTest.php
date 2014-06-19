@@ -105,6 +105,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Composer(__DIR__);
         $config->setPath('cache', 'app/cache');
+        $config->setPath('database', 'app/database');
         $app = new Application(array('resources'=>$config));
         $this->assertEquals(__DIR__."/vendor/bolt/bolt/app",            $config->getPath("app"));
         $this->assertEquals(__DIR__."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
