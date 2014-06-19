@@ -62,6 +62,7 @@ class ResourceManager
         $this->setPath("web", $this->root);
         $this->setPath("cache", $this->root."/app/cache");
         $this->setPath("config", $this->root."/app/config");
+        $this->setPath("database", $this->root."/app/database");
     }
     
     public function setApp(Application $app)

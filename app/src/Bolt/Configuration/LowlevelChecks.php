@@ -133,13 +133,15 @@ class LowlevelChecks
         }
 
         // Check if the app/database folder and .db file are present and writable
-        if (!is_writable($this->config->getPath('app').'/database')) {
-            $this->lowlevelError("The folder <code>app/database/</code> doesn't exist or it is not writable. Make sure it's " .
+        if (!is_writable($this->config->getPath('database'))) {
+            $this->lowlevelError("The folder <code>".
+                $this->config->getPath('database') .
+                "</code> doesn't exist or it is not writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
 
         // If the .db file is present, make sure it is writable
-        if (file_exists($this->config->getPath('app').'/database/'.$filename) && !is_writable($this->config->getPath('app').'/database/'.$filename)) {
+        if (file_exists($this->config->getPath('database')."/".$filename) && !is_writable($this->config->getPath('database')."/".$filename)) {
             $this->lowlevelError("The database file <code>app/database/" .
                 htmlspecialchars($filename, ENT_QUOTES) .
                 "</code> isn't writable. Make sure it's " .
@@ -156,7 +158,7 @@ class LowlevelChecks
      */
     private function lowlevelConfigFix($name)
     {
-        $distname = realpath($this->config->getPath('config')."/") . "/$name.yml.dist";
+        $distname = realpath(__DIR__."/../../../config/$name.yml.dist");
         $ymlname = realpath($this->config->getPath('config')."/") . "/$name.yml";
 
         if (file_exists($ymlname)) {
@@ -164,9 +166,10 @@ class LowlevelChecks
         }
 
         if (!@copy($distname, $ymlname)) {
-            $message = sprintf("Couldn't create a new <code>%s</code>-file. Create the file manually by copying
+            $message = sprintf("Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
                 htmlspecialchars($name . ".yml", ENT_QUOTES),
+                htmlspecialchars($this->config->getPath('config'),ENT_QUOTES),
                 htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
             );
             $this->lowlevelError($message);
