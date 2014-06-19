@@ -23,6 +23,20 @@ class LowlevelChecks
     {
         $this->config = $config;
     }
+    
+    /**
+     * Checks that the supplied directory has a loadable autoload.php file.
+     * This works outside any other config and throws an immediate error if not available.
+     */
+    public function autoloadCheck($basedir)
+    {
+        $test = $basedir."/vendor/autoload.php";
+        if(!is_readable($test)) {
+            $checker->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
+                "you've installed the required components with Composer.");
+        }
+        return $test;
+    }
 
     /**
      * Perform the checks.
@@ -50,13 +64,6 @@ class LowlevelChecks
             $this->lowlevelError("Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the ".
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously.");
-        }
-
-        // Check if the vendor folder is present. If not, this is most likely because
-        // the user checked out the repo from Git, without running composer.
-        if (!file_exists($this->config->getPath('root').'/vendor/autoload.php')) {
-            $this->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
-                "you've installed the Silex/Bolt components with Composer.");
         }
 
         // Check if the cache dir is present and writable
@@ -146,7 +153,7 @@ class LowlevelChecks
         }
 
         // If the .db file is present, make sure it is writable
-        if (file_exists($this->config->getPath('app').'/database/'.$filename) && !is_writable(dirname(__FILE__).'/../database/'.$filename)) {
+        if (file_exists($this->config->getPath('app').'/database/'.$filename) && !is_writable($this->config->getPath('app').'/database/'.$filename)) {
             $this->lowlevelError("The database file <code>app/database/" .
                 htmlspecialchars($filename, ENT_QUOTES) .
                 "</code> isn't writable. Make sure it's " .

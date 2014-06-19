@@ -18,6 +18,8 @@ class Composer extends Standard
         $this->setPath("composer", "vendor/bolt/bolt");
         $this->setPath("apppath", $this->getPath('composer')."/app");
         $this->setPath("extensionspath", $this->getPath('app')."/extensions");
+        $this->setPath("cache", $this->root."/cache");
+        $this->setPath("config", $this->root."/config");
         $this->setUrl("app", "/bolt-public/");
     }
 
@@ -40,7 +42,7 @@ class Composer extends Standard
      **/
     public function setThemePath($generalConfig)
     {
-        $theme       = $generalConfig['theme'];
+        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme']: '';
         $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
         $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("composer"), $theme_path,$theme));
