@@ -20,18 +20,23 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
     
     public function setup()
     {
-        $uploadfolder = mkdir(__DIR__."/tmpupload");
+        $uploadfolder = mkdir(__DIR__."/files", 0777, true);
     }
     
     public function tearDown()
     {
-        rmdir(__DIR__."/tmpupload");
+        rmdir(__DIR__."/files");
     }
     
+    
+    /**
+    * @runInSeparateProcess
+    */
     public function testResponses()
     {
         global $app;
         $app = $this->getApp();
+        $app['resources']->setPath('files', __DIR__."/files");
         
         $request = Request::create(
             "/upload/files",
@@ -43,7 +48,11 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         );
 
         $response = $app->handle($request);
-        print_r($response->__toString()); exit;
+        $this->assertEquals(200, $response->getStatusCode());
+        $json = json_decode($response->getContent()); 
+
+        // We haven't posted a file so this error should happen by default
+        $this->assertEquals("Filetype not allowed", $json[0]->error);
     }
     
     

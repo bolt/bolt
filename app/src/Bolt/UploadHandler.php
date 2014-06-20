@@ -1,5 +1,7 @@
 <?php
 namespace Bolt;
+use Symfony\Component\HttpFoundation\Request;
+
 /*
  * jQuery File Upload Plugin PHP Class 5.18.6
  * https://github.com/blueimp/jQuery-File-Upload
@@ -117,20 +119,23 @@ class UploadHandler
         }
     }
 
-    protected function initialize() {
-        switch ($_SERVER['REQUEST_METHOD']) {
+    public function initialize($request = null) {
+        if (null === $request) {
+            $request = Request::createFromGlobals();
+        }
+        switch ($request->getMethod()) {
             case 'OPTIONS':
             case 'HEAD':
-                $this->head();
+                return $this->head();
                 break;
             case 'GET':
-                $this->get();
+                return $this->get();
                 break;
             case 'POST':
-                $this->post();
+                return $this->post();
                 break;
             case 'DELETE':
-                $this->delete();
+                return $this->delete();
                 break;
             default:
                 header('HTTP/1.1 405 Method Not Allowed');
@@ -484,7 +489,7 @@ class UploadHandler
 
     protected function handle_file_upload($uploaded_file, $name, $size, $type, $error,
                                           $index = null, $content_range = null) {
-        $file = new stdClass();
+        $file = new \stdClass();
         $file->name = $this->trim_file_name($name, $type, $index, $content_range);
         $file->size = $this->fix_integer_overflow(intval($size));
         $file->type = $type;

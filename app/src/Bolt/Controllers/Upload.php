@@ -18,9 +18,9 @@ class Upload implements ControllerProviderInterface
     {
         $ctr = $app['controllers_factory'];
 
-        $ctr->post("/{namespace}", function(Silex\Application $app, Request $request, $namespace){
+        $ctr->match("/{namespace}", function(Silex\Application $app, Request $request, $namespace){
             
-            $this->uploadFile($app, $request, $namespace);
+            return $this->uploadFile($app, $request, $namespace);
         
         })->assert('namespace', '.+');
 
@@ -49,11 +49,14 @@ class Upload implements ControllerProviderInterface
         }
 
         $upload_handler = new UploadHandler(array(
-            'upload_dir' => dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))).'/files/'.date('Y-m')."/",
-            'upload_url' => '/files/'.date('Y-m')."/",
+            'upload_dir' => $base.'/'.date('Y-m')."/",
+            'upload_url' => '/$namespace/'.date('Y-m')."/",
             'accept_file_types' => '/\.(' . $accepted_ext . ')$/i'
         ));
-
+        ob_start();
+        $upload_handler->initialize($request);
+        $content = ob_get_clean();
+        return $content;
     }
     
 
