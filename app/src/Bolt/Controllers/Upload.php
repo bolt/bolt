@@ -7,7 +7,7 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Uploader implements ControllerProviderInterface
+class Upload implements ControllerProviderInterface
 {
     
     public $app;
@@ -51,7 +51,7 @@ class Uploader implements ControllerProviderInterface
         ));
 
     }
-
+    
 
 
     /**
