@@ -1,5 +1,7 @@
 {% import '_sub_pretty.twig' as pretty %}
 
+{% if isallowed('activitylog') %}
+
 <section class="news">
     <h2>{{ __('Latest activity') }}</h2>
     <ul class='activity'>
@@ -42,3 +44,4 @@
 
 </section>
 
+{% endif %}
