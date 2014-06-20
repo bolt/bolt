@@ -1,4 +1,5 @@
 <?php
+namespace Bolt;
 /*
  * jQuery File Upload Plugin PHP Class 5.18.6
  * https://github.com/blueimp/jQuery-File-Upload
