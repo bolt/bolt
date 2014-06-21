@@ -145,6 +145,7 @@ class ResourceManager
             $this->setUrl("extensions", $this->getUrl('app')."extensions/");
             $this->setUrl("files",      $this->getUrl('root')."files/");
             $this->setUrl("async",      $this->getUrl('root')."async/");
+            $this->setUrl("upload",     $this->getUrl('root')."upload/");
         }
         
         $this->setRequest("protocol",   $protocol);
