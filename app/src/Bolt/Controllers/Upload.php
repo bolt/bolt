@@ -103,10 +103,13 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $successfulFiles = array($result->name);
             } elseif($result instanceof Collection) {
                 foreach($result as $resultFile) {
-                    $successfulFiles[] = $namespace."/".$resultFile->name;
+                    $successfulFiles[] = array(
+                        'url'=>$namespace."/".$resultFile->name,
+                        'name'=>$resultFile->name
+                    );
                 }
             }
-            return new JsonResponse(array("status"=>"OK","files"=>$successfulFiles));
+            return new JsonResponse(array("status"=>"OK", $successfulFiles));
         } else {
             $result->clear();
             foreach($result->getMessages() as $error) {
