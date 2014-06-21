@@ -72,6 +72,8 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         
         $filesToProcess = $request->files->get($namespace);
         
+        print_r($filesToProcess); exit;
+                
         if($filesToProcess instanceof UploadedFile) {
             $filesToProcess[] = array('tmp_name'=> $filesToProcess->getClientOriginalName());
         }
