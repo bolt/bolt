@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Container\Local;
+use Sirius\Upload\Result\File;
+use Sirius\Upload\Result\Collection;
+
+
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -99,7 +103,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 $successfulFiles = array($result->name);
             } elseif($result instanceof Collection) {
                 foreach($result as $resultFile) {
-                    $successfulFiles[] = $namespace."/".$resultFile['name'];
+                    $successfulFiles[] = $namespace."/".$resultFile->name;
                 }
             }
             return new JsonResponse(array("status"=>"OK","files"=>$successfulFiles));
