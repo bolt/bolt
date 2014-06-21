@@ -4,15 +4,47 @@ namespace Bolt\Controllers;
 
 use Silex;
 use Silex\ControllerProviderInterface;
+use Silex\ServiceProviderInterface;
+
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Bolt\UploadHandler;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-class Upload implements ControllerProviderInterface
+use Sirius\Upload\Handler as UploadHandler;
+use Sirius\Upload\Container\Local;
+
+class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
     
     public $app;
     public $uploaddir;
+    
+    public function register(Silex\Application $app)
+    {
+        $app['upload'] = $app->share(function ($app) { 
+            
+            $allowedExensions = $app['config']->get('general/accept_file_types');
+            $uploadHandler = new UploadHandler($app['upload.container']);
+            $uploadHandler->setPrefix($app['upload.prefix']);
+            $uploadHandler->addRule('extension', ['allowed' => $allowedExensions]);
+            return $uploadHandler;
+        });
+        
+        
+        $app['upload.container'] = $app->share(function ($app) {
+            $base = $app['resources']->getPath($app['upload.namespace']);
+            if(!is_writable($base)) {
+                throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
+            }
+            $container = new Local($base);
+            return $container;
+        });
+        
+        $app['upload.namespace'] = 'files';
+        
+        $app['upload.prefix'] = date('Y-m')."/";
+    }
     
     public function connect(Silex\Application $app)
     {
@@ -31,32 +63,25 @@ class Upload implements ControllerProviderInterface
     public function uploadFile(Silex\Application $app, Request $request, $namespace)
     {
         
-        $base = $app['resources']->getPath($namespace);
+        $app['upload.namespace'] = $namespace;
         
-        // Make sure the folder exists.
-        if(!is_dir($base)) {
-            mkdir($base, 0777, true);
-        }
-        if(!is_writable($base)) {
-            throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
-        }
-        
-        // Default accepted filetypes are: gif|jpe?g|png|zip|tgz|txt|md|docx?|pdf|xlsx?|pptx?|mp3|ogg|wav|m4a|mp4|m4v|ogv|wmv|avi|webm
-        if (is_array($app['config']->get('general/accept_file_types'))) {
-            $accepted_ext = implode('|', $app['config']->get('general/accept_file_types'));
-        } else {
-            $accepted_ext = $app['config']->get('general/accept_file_types');
-        }
+        $filesToProcess = $request->files->get($namespace);
+        if(!$filesToProcess) {
+            return new JsonResponse(array("status"=>"ERROR","files"=>array()));
+        }      
+                
+        $result = $app['upload']->process($filesToProcess);
 
-        $upload_handler = new UploadHandler(array(
-            'upload_dir' => $base.'/'.date('Y-m')."/",
-            'upload_url' => '/$namespace/'.date('Y-m')."/",
-            'accept_file_types' => '/\.(' . $accepted_ext . ')$/i'
-        ));
-        ob_start();
-        $upload_handler->initialize($request);
-        $content = ob_get_clean();
-        return $content;
+        if ($result->isValid()) {
+            $result->confirm();
+            return new JsonResponse(array("status"=>"OK","files"=>$namespace."/".$result->name));
+        } else {
+            $result->clear();
+            foreach($result->getMessages() as $error) {
+                $errors[] = $error->__toString();
+            }
+            return new JsonResponse(array("status"=>"ERROR", "messages"=>$errors));
+        }
     }
     
 
@@ -77,6 +102,11 @@ class Upload implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+    }
+    
+    public function boot(Silex\Application $app)
+    {
+        
     }
 
 }
