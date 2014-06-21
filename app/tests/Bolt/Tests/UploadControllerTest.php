@@ -114,7 +114,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $response->getStatusCode());
         
         $content = json_decode($response->getContent());
-        $file = $content[0][0];
+        $file = $content[0];
         $this->assertAttributeNotEmpty('error', $file);
         $this->assertRegExp('/extension/i',$file->error);
 

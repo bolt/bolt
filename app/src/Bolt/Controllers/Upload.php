@@ -108,7 +108,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     );
                 }
             }
-            return new JsonResponse(array($successfulFiles));
+            return new JsonResponse($successfulFiles);
         } else {
             $result->clear();
             $errorFiles = array();
@@ -121,7 +121,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 ); 
             }
             
-            return new JsonResponse(array($errorFiles));
+            return new JsonResponse($errorFiles);
         }
     }
     
