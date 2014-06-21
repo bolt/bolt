@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Container\Local;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
     
@@ -57,7 +59,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             }
             return $this->uploadFile($app, $request, $namespace);
         
-        })->assert('namespace', '.?');
+        })->assert('namespace', '.*');
 
         return $ctr;
 
@@ -69,6 +71,11 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $app['upload.namespace'] = $namespace;
         
         $filesToProcess = $request->files->get($namespace);
+        
+        if($filesToProcess instanceof UploadedFile) {
+            $filesToProcess[] = array('tmp_name'=> $filesToProcess->getClientOriginalName());
+        }
+        
         if(!$filesToProcess) {
             return new JsonResponse(array("status"=>"ERROR","files"=>array()));
         }      
