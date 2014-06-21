@@ -50,11 +50,14 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         $ctr = $app['controllers_factory'];
 
-        $ctr->match("/{namespace}", function(Silex\Application $app, Request $request, $namespace){
-            
+        $ctr->match("/{namespace}", function(Silex\Application $app, Request $request, $namespace = null){
+
+            if($namespace === "") {
+                $namespace = $app['upload.namespace'];
+            }
             return $this->uploadFile($app, $request, $namespace);
         
-        })->assert('namespace', '.+');
+        })->assert('namespace', '.?');
 
         return $ctr;
 
