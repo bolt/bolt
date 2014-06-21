@@ -3,6 +3,7 @@ namespace Bolt\Tests;
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
     
 use Bolt\Configuration as Config;
 
@@ -20,12 +21,13 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
     
     public function setup()
     {
-        $uploadfolder = mkdir(__DIR__."/files", 0777, true);
+        @mkdir(__DIR__."/files", 0777, true);
     }
     
     public function tearDown()
     {
-        rmdir(__DIR__."/files");
+        $this->rmdir(__DIR__."/files");
+        @rmdir(__DIR__.'/files');
     }
     
     
@@ -36,7 +38,6 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
     {
         global $app;
         $app = $this->getApp();
-        $app['resources']->setPath('files', __DIR__."/files");
         
         $request = Request::create(
             "/upload/files",
@@ -49,10 +50,65 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
         $response = $app->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
-        $json = json_decode($response->getContent()); 
 
-        // We haven't posted a file so this error should happen by default
-        $this->assertEquals("Filetype not allowed", $json[0]->error);
+        // We haven't posted a file so an empty resultset should be returned
+        $content = json_decode($response->getContent());
+        $this->assertEquals("ERROR", $content->status);
+        $this->assertEquals(0, count($content->files));
+    }
+    
+    public function testUpload()
+    {
+        global $app;
+        $app = $this->getApp();
+        $request = Request::create(
+            "/upload/files",
+            "POST",
+            array(),
+            array(),
+            array(
+                "files"=>array(
+                    'tmp_name'  => __DIR__."/resources/generic-logo.png",
+                    'name'      => 'logo.png'
+                )
+            ),
+            array()  
+        );
+        $response = $app->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $content = json_decode($response->getContent());
+        $this->assertEquals("OK", $content->status);
+        $this->assertEquals(1, count($content->files));
+
+
+    }
+    
+    public function testInvalidFiletype()
+    {
+        global $app;
+        $app = $this->getApp();
+        $request = Request::create(
+            "/upload/files",
+            "POST",
+            array(),
+            array(),
+            array(
+                "files"=>array(
+                    'tmp_name'  => __DIR__."/resources/generic-logo-evil.exe",
+                    'name'      => 'logo.exe'
+                )
+            ),
+            array()  
+        );
+        
+        $response = $app->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $content = json_decode($response->getContent());
+        $this->assertEquals("ERROR", $content->status);
+        $this->assertEquals(1, count($content->messages));
+
     }
     
     
@@ -69,9 +125,24 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $app['debug'] = false;
         $app['session'] = $sessionMock;
         $app->initialize();
+        $app['resources']->setPath('files', __DIR__."/files");
         return $app;
     }
     
+    protected function rmdir($dir) {  
+        $iterator = new \RecursiveIteratorIterator( 
+                            new \RecursiveDirectoryIterator($dir , \FilesystemIterator::SKIP_DOTS), 
+                            \RecursiveIteratorIterator::CHILD_FIRST
+                        );
+        foreach ($iterator as $file) {  
+            if ($file->isDir()) {  
+                rmdir($file->getPathname());  
+            } else {  
+                unlink($file->getPathname());  
+            }  
+        }  
+    } 
 
 
 }
+
