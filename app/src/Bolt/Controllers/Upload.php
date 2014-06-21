@@ -74,7 +74,10 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         
         $app['upload.namespace'] = $namespace;
         
-        $files = (array)$request->files->get($namespace);
+        $files = $request->files->get($namespace);
+        if(!$files) {
+            return new JsonResponse(array());
+        } 
         $filesToProcess = array();
         foreach($files as $file) {
             if($file instanceof UploadedFile) {
@@ -83,16 +86,12 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     'tmp_name' => $file->getPathName()
                 );
             } else {
-                $filesToProcess = $file;
+                $filesToProcess[] = $file;
             }
         } 
-
-                
         
         
-        if(!$filesToProcess) {
-            return new JsonResponse(array("status"=>"ERROR","files"=>array()));
-        }      
+             
         
                 
         $result = $app['upload']->process($filesToProcess);
@@ -109,13 +108,20 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     );
                 }
             }
-            return new JsonResponse(array("status"=>"OK", $successfulFiles));
+            return new JsonResponse(array($successfulFiles));
         } else {
             $result->clear();
-            foreach($result->getMessages() as $error) {
-                $errors[] = $error->__toString();
+            $errorFiles = array();
+            foreach($result as $resultFile) {
+                $errors = $resultFile->getMessages();
+                $errorFiles[] = array(
+                    'url'=>$namespace."/".$resultFile->original_name,
+                    'name'=>$resultFile->original_name,
+                    'error' => $errors[0]->__toString()
+                ); 
             }
-            return new JsonResponse(array("status"=>"ERROR", "messages"=>$errors));
+            
+            return new JsonResponse(array($errorFiles));
         }
     }
     

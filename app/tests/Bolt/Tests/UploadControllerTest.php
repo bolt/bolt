@@ -50,13 +50,15 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
         $response = $app->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
-
+        
         // We haven't posted a file so an empty resultset should be returned
         $content = json_decode($response->getContent());
-        $this->assertEquals("ERROR", $content->status);
-        $this->assertEquals(0, count($content->files));
+        $this->assertEquals(0, count($content));
     }
     
+    /**
+    * @runInSeparateProcess
+    */
     public function testUpload()
     {
         global $app;
@@ -68,8 +70,10 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
             array(),
             array(
                 "files"=>array(
-                    'tmp_name'  => __DIR__."/resources/generic-logo.png",
-                    'name'      => 'logo.png'
+                    array(
+                        'tmp_name'  => __DIR__."/resources/generic-logo.png",
+                        'name'      => 'logo.png'
+                    )
                 )
             ),
             array()  
@@ -78,12 +82,14 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $response->getStatusCode());
         
         $content = json_decode($response->getContent());
-        $this->assertEquals("OK", $content->status);
-        $this->assertEquals(1, count($content->files));
+        $this->assertEquals(1, count($content));
 
 
     }
     
+    /**
+    * @runInSeparateProcess
+    */
     public function testInvalidFiletype()
     {
         global $app;
@@ -95,8 +101,10 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
             array(),
             array(
                 "files"=>array(
-                    'tmp_name'  => __DIR__."/resources/generic-logo-evil.exe",
-                    'name'      => 'logo.exe'
+                    array(
+                        'tmp_name'  => __DIR__."/resources/generic-logo-evil.exe",
+                        'name'      => 'logo.exe'
+                    )
                 )
             ),
             array()  
@@ -106,8 +114,9 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $response->getStatusCode());
         
         $content = json_decode($response->getContent());
-        $this->assertEquals("ERROR", $content->status);
-        $this->assertEquals(1, count($content->messages));
+        $file = $content[0][0];
+        $this->assertAttributeNotEmpty('error', $file);
+        $this->assertRegExp('/extension/i',$file->error);
 
     }
     
