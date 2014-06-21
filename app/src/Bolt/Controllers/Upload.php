@@ -70,23 +70,39 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         
         $app['upload.namespace'] = $namespace;
         
-        $filesToProcess = $request->files->get($namespace);
-        
-        print_r($filesToProcess); exit;
+        $files = (array)$request->files->get($namespace);
+        $filesToProcess = array();
+        foreach($files as $file) {
+            if($file instanceof UploadedFile) {
+                $filesToProcess[] = array(
+                    'name'=> $file->getClientOriginalName(),
+                    'tmp_name' => $file->getPathName()
+                );
+            } else {
+                $filesToProcess = $file;
+            }
+        } 
+
                 
-        if($filesToProcess instanceof UploadedFile) {
-            $filesToProcess[] = array('tmp_name'=> $filesToProcess->getClientOriginalName());
-        }
+        
         
         if(!$filesToProcess) {
             return new JsonResponse(array("status"=>"ERROR","files"=>array()));
         }      
+        
                 
         $result = $app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
             $result->confirm();
-            return new JsonResponse(array("status"=>"OK","files"=>$namespace."/".$result->name));
+            if($result instanceof File) {
+                $successfulFiles = array($result->name);
+            } elseif($result instanceof Collection) {
+                foreach($result as $resultFile) {
+                    $successfulFiles[] = $namespace."/".$resultFile['name'];
+                }
+            }
+            return new JsonResponse(array("status"=>"OK","files"=>$successfulFiles));
         } else {
             $result->clear();
             foreach($result->getMessages() as $error) {
