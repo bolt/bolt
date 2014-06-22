@@ -50,7 +50,7 @@ class ComposerResources extends ResourceManager
      **/
     public function setThemePath($generalConfig)
     {
-        $theme       = $generalConfig['theme'];
+        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme'] : "";
         $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
         $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("composer"), $theme_path,$theme));
