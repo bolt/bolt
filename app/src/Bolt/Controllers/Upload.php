@@ -34,6 +34,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             $allowedExensions = $app['config']->get('general/accept_file_types');
             $uploadHandler = new UploadHandler($app['upload.container']);
             $uploadHandler->setPrefix($app['upload.prefix']);
+            $uploadHandler->setOverwrite($app['upload.overwrite']);
             $uploadHandler->addRule('extension', ['allowed' => $allowedExensions]);
             return $uploadHandler;
         });
@@ -58,6 +59,8 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         
         // This gets prepended to all file saves, can be reset to "" or add your own closure for more complex ones.
         $app['upload.prefix'] = date('Y-m')."/";
+        
+        $app['upload.overwrite'] = false;
     }
     
     public function connect(Silex\Application $app)
