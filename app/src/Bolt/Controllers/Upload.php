@@ -35,7 +35,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             $uploadHandler = new UploadHandler($app['upload.container']);
             $uploadHandler->setPrefix($app['upload.prefix']);
             $uploadHandler->setOverwrite($app['upload.overwrite']);
-            $uploadHandler->addRule('extension', ['allowed' => $allowedExensions]);
+            $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
             return $uploadHandler;
         });
         
@@ -66,13 +66,13 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     public function connect(Silex\Application $app)
     {
         $ctr = $app['controllers_factory'];
-
-        $ctr->match("/{namespace}", function(Silex\Application $app, Request $request, $namespace = null){
+        $controller = $this;
+        $ctr->match( "/{namespace}", function(Silex\Application $app, Request $request, $namespace = null) use($controller){
 
             if($namespace === "") {
                 $namespace = $app['upload.namespace'];
             }
-            return $this->uploadFile($app, $request, $namespace);
+            return $controller->uploadFile($app, $request, $namespace);
         
         })->assert('namespace', '.*');
 
