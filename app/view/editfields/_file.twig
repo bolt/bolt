@@ -21,7 +21,7 @@
 
 {% set attr_upload = {
     accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  paths.app~'classes/upload/index.php',
+    data_url:  paths.upload,
     id:        'fileupload-'~key,
     name:      'fileupload-'~key~'[]',
     type:      'file',

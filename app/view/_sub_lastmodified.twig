@@ -15,7 +15,8 @@
                 {% for index, entry in changelog %}
                     <li
                         {%- if isChangelogEnabled() %}
-                            class="info-pop" data-html="true" data-content="{{ entry.comment}}" data-placement="left" data-original-title="Comment"
+                            class="info-pop" data-html="true" data-content="{{ entry.comment|default(__('None')) }}" 
+                            data-placement="left" data-original-title="{{ __('Comment') }}"
                         {% endif -%}
                     >
                         {% if filtered is defined and filtered %}
@@ -56,4 +57,3 @@
         {% endif %}
     </div>
 </div>
-

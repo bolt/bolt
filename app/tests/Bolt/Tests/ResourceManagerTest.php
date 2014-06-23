@@ -137,7 +137,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testConfigDrivenUrls()
     {
-        $config = new ResourceManager(__DIR__, $request);
+        $config = new ResourceManager(__DIR__);
         $app = new Application(array('resources'=>$config));
         $this->assertEquals('/bolt/',  $config->getUrl('bolt'));
         $this->assertEquals('/bolt/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
@@ -145,7 +145,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testConfigDrivenUrlsWithBrandingOverride()
     {
-        $config = new ResourceManager(__DIR__, $request);
+        $config = new ResourceManager(__DIR__);
         $app = new Application(array('resources'=>$config));
         $app['config']->set('general/branding/path', '/custom');
         $config->initialize();

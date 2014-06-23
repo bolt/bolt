@@ -31,4 +31,6 @@ app/view/.sass-cache
 .project
 npm-debug.log
 app/view/config.codekit
+app/view/.sass-cache
+app/view/node_modules
 /bolt.log

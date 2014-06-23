@@ -34,7 +34,6 @@ class ScriptHandler
         foreach (array('css', 'font', 'img', 'js', 'lib') as $dir) {
             $filesystem->mirror(__DIR__ . '/../../../view/' . $dir, $targetDir . '/view/' . $dir);
         }
-        $filesystem->mirror(__DIR__ . '/../../../classes/upload', $targetDir . '/classes/upload');
 
         if (!$filesystem->exists($webDir . '/files/')) {
             $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');

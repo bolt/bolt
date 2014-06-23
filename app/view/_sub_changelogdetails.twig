@@ -6,18 +6,40 @@
             <h4>{{ entry.comment }}</h4>
         {% endif %}
 
-        <table class="table table-bordered table-condensed table-changelog-details">
-            <thead>
-            <tr><th>{{ __('field') }}</th><th>{{ __('old value') }}</th><th>{{ __('new value') }}</th></tr>
-            </thead>
-            <tbody>
-            {% for key, fieldDiff in entry.parsedDiff %}
-            <tr>
-                <td>{{ key }}</td>
-                <td class="source-code">{{ fieldDiff[0] }}</td>
-                <td class="source-code">{{ fieldDiff[1] }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="changelog-details">
+        <div class="user">
+           <i class="icon icon-user"></i>
+        </div>
+
+        <div class="body">
+            <div class="time">
+                <i class="icon icon-time"></i>
+                <span>{{ pretty.changelogmutation(entry.effectiveMutationType) }} {{ pretty.datetime(entry.date) }}</span>
+            </div>
+
+            <div class="name">
+                <span class="label label-info arrowed arrowed-in-right">{{ entry.username }}</span>
+            </div>
+            <div class="text">
+                <p>
+                    <i class="icon-comments-alt"></i>
+                    {{ entry.comment|default('Not commented') }}
+                </p>
+            </div>
+            <table class="table table-bordered table-condensed table-changelog-details">
+                <thead>
+                <tr><th>{{ __('field') }}</th><th>{{ __('old value') }}</th><th>{{ __('new value') }}</th></tr>
+                </thead>
+                <tbody>
+                {% for key, fieldDiff in entry.parsedDiff %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td class="source-code">{{ fieldDiff[0] }}</td>
+                        <td class="source-code">{{ fieldDiff[1] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endmacro %}

@@ -31,9 +31,11 @@
     <div class="col-md-9">
         <h1><strong>{{ __('Change Log') }}</strong> » {{ title }}</h1>
         {{ pager(currentpage, pagecount) }}
-        {% for entry in entries %}
-            {{ changelogdetails.changelogdetails(entry) }}
-        {% endfor %}
+        <div class="changelog-list">
+            {% for entry in entries %}
+                {{ changelogdetails.changelogdetails(entry) }}
+            {% endfor %}
+        </div>
         {{ pager(currentpage, pagecount) }}
         {% if contenttype %}
             <a href="{{ path('editcontent', { 'contenttypeslug': contenttype, 'id': content.id }) }}">

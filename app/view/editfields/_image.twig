@@ -61,7 +61,7 @@
         <span class="btn btn-secondary fileinput-button">
             <i class="fa fa-upload"></i>
             <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ paths.app }}classes/upload/">
+            <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ paths.upload }}">
         </span>
 
         <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal" style="margin: auto 4px auto 8px;">

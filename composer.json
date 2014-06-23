@@ -6,12 +6,15 @@
     "license": "MIT",
     
     "repositories": [
-        { "type": "vcs","url":  "https://github.com/bolt/bolt-thumbs"}
+        { "type": "vcs","url":  "https://github.com/bolt/bolt-thumbs"},
+        { "type": "vcs","url":  "https://github.com/rossriley/upload"},
+        { "type": "vcs","url":  "https://github.com/rossriley/validation"}
     ],
     
     "require": {
         "bolt/dumper": ">=0.7",
         "bolt/thumbs": "1.7.*@dev",
+        "siriusphp/upload": "~1.2",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "1.*",
         "filp/whoops": "1.*",

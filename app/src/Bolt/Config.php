@@ -703,7 +703,8 @@ class Config
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
                 'path' => isset($configdb['path']) ? realpath($configdb["path"])."/".$basename : __DIR__ . '/../../database/' . $basename,
-                'randomfunction' => 'RANDOM()'
+                'randomfunction' => 'RANDOM()',
+                'memory' => isset($configdb['memory']) ? true : false
             );
         } else {
             // Assume we configured it correctly. Yeehaa!
