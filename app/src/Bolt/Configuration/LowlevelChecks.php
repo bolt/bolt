@@ -10,6 +10,7 @@ class LowlevelChecks
 {
     
     public $config;
+    public $disableApacheChecks = false;
     
     
     /**
@@ -67,7 +68,25 @@ class LowlevelChecks
             $this->lowlevelError("The folder <code>" . $this->config->getPath('cache') . "</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
-
+        
+        /**
+         * This check looks for the presence of the .htaccess file inside the web directory.
+         * It is here only as a convenience check for users that install the basic version of Bolt.
+         * 
+         * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks(); 
+         * inside your bootstrap.php file.
+         **/
+        if(false !== strpos($_SERVER['SERVER_SOFTWARE'],'Apache') && false === $this->disableApacheChecks) {
+            if(!is_readable($this->config->getPath('web').'/.htaccess')) {
+                $this->lowlevelError("The file <code>" .
+                    htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) .
+                    "/.htaccess</code> doesn't exist. Make sure it's " .
+                    "present and readable to the user that the webserver is using.");
+            }
+        }
+        
+         
+         
         // If the config folder is OK, but the config files are missing, attempt to fix it.
         $this->lowlevelConfigFix('config');
         $this->lowlevelConfigFix('menu');
@@ -141,6 +160,11 @@ class LowlevelChecks
                 "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file.");
         }
 
+    }
+    
+    public function disableApacheChecks()
+    {
+        $this->disableApacheChecks = true;
     }
 
     /**

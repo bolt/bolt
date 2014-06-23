@@ -28,6 +28,7 @@ class ResourceManager
     public $urlPrefix = "";
     
     protected $verifier = false;
+    
 
     /**
      * Constructor initialises on the app root path.
