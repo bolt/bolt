@@ -7,6 +7,7 @@ mb_http_output('UTF-8');
 // folder is writable, if the minimum PHP version is present, etc.
 if (version_compare(PHP_VERSION, '5.3.2') >= 0) {
     require_once "legacy.php";
+    exit;
 }
 require_once __DIR__ . '/classes/lib.php';
 require_once __DIR__ . '/classes/util.php';
