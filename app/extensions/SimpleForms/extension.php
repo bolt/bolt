@@ -19,12 +19,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.10",
+            'version' => "1.11",
             'required_bolt_version' => "1.6",
             'highest_bolt_version' => "1.6",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2014-06-13",
+            'latest_releasedate' => "2014-06-20",
             'allow_in_user_content' => true,
         );
         return $data;
@@ -124,8 +124,8 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
-        if ($field['type'] == "ip" || $field['type'] == "timestamp") {
-            // we're storing IP and timestamp later.
+        if (in_array($field['type'], array("ip", "remotehost", "useragent", "timestamp"))) {
+            // we're storing IP, host, useragent and timestamp later.
             return null;
         }
 
@@ -140,6 +140,18 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
+        if (!empty($field['role'])) {
+            switch($field['role']) {
+                case 'sequence':
+                    // this is a sequential field
+                    $options['attr']['data-role'] = $field['role'];
+                    break;
+                default:
+                    // go away
+                    break;
+            }
+        }
+
         if ($options['required']) {
             $options['constraints'][] = new Assert\NotBlank();
         }
@@ -148,7 +160,7 @@ class Extension extends \Bolt\BaseExtension
             // Make the keys more sensible.
             $options['choices'] = array();
             foreach ($field['choices'] as $option) {
-                $options['choices'][ safeString($option)] = $option;
+                $options['choices'][ safeString($option) ] = $option;
             }
         }
 
@@ -243,9 +255,9 @@ class Extension extends \Bolt\BaseExtension
         }
 
         if ($formconfig['debugmode']==true) {
+            \Dumper::dump('Building '.$formname);
             \Dumper::dump($formconfig);
-            \Dumper::dump($formname);
-            \Dumper::dump($this->app['paths']);
+            //\Dumper::dump($this->app['paths']);
         }
 
         $message = "";
@@ -345,10 +357,10 @@ class Extension extends \Bolt\BaseExtension
         $data = $form->getData();
 
         if($formconfig['debugmode']==true) {
+            \Dumper::dump('Processing '.$formname);
             \Dumper::dump($formconfig);
             // This yields a Fatal Error: "FormBuilder methods cannot be accessed anymore once the builder is turned into a FormConfigInterface instance."
             //\Dumper::dump($form);
-            \Dumper::dump($formname);
             \Dumper::dump($data);
             \Dumper::dump($this->app['request']->files);
         }
@@ -358,6 +370,18 @@ class Extension extends \Bolt\BaseExtension
             // For legibility, change boolean fields to "yes" or "no".
             if (gettype($value)=="boolean") {
                 $data[$key] = ($value ? "yes" : "no");
+            }
+
+            if (!empty($formconfig['fields'][$key]['role'])) {
+                $role = $formconfig['fields'][$key]['role'];
+
+                switch($role) {
+                    case 'sequence':
+                        $data[$key] = $this->getSequence($formconfig, $form, $formname, $key);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             // Save the choice label, not the submitted safe string value.
@@ -374,6 +398,11 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
+        if($formconfig['debugmode']==true) {
+            \Dumper::dump('Prepared data for '.$formname);
+            \Dumper::dump($data);
+        }
+
         $fileSystem = new Filesystem;
 
         // Some fieldtypes (like 'date' and 'file') require post-processing.
@@ -387,7 +416,7 @@ class Extension extends \Bolt\BaseExtension
                 }
                 elseif(empty($formconfig['storage_location']) && $formconfig['attach_files']==false) {
                     // temporary files location will be a subdirectory of the cache
-                    $path = $this->app['resources']->getPath('cache');
+                    $path = BOLT_CACHE_DIR;
                     $linkpath = $this->app['paths']['app'] . 'cache';
                 }
                 else {
@@ -447,6 +476,12 @@ class Extension extends \Bolt\BaseExtension
             if ($fieldvalues['type'] == "ip") {
                 $data[$fieldname] = $this->getRemoteAddress();
             }
+            if ($fieldvalues['type'] == "remotehost") {
+                $data[$fieldname] = $this->getRemoteHost();
+            }
+            if ($fieldvalues['type'] == "useragent") {
+                $data[$fieldname] = $this->getRemoteAgent();
+            }
             if ($fieldvalues['type'] == "timestamp") {
                 $format = "%F %T";
                 $data[$fieldname] = strftime($format);
@@ -458,6 +493,11 @@ class Extension extends \Bolt\BaseExtension
                 }
             }
 
+        }
+
+        if($formconfig['debugmode']==true) {
+            \Dumper::dump('Prepared files for '.$formname);
+            \Dumper::dump($data);
         }
 
         // Attempt to insert the data into a table, if specified..
@@ -626,4 +666,73 @@ class Extension extends \Bolt\BaseExtension
         }
         return $server->get('REMOTE_ADDR');
     }
+
+
+    /**
+     * Get the user's remote hostname for logging.
+     * Ignore proxy stuff
+     * Note: these addresses can't be 'trusted', Use them for logging only.
+     *
+     * @return string
+     */
+    private function getRemoteHost()
+    {
+        $server = $this->app['request']->server;
+
+        $host = $server->get('REMOTE_HOST');
+        if($host) {
+            return $host;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get the user's user agent string for logging
+     * Note: these addresses can't be 'trusted', Use them for logging only.
+     *
+     * @return string
+     */
+    private function getRemoteAgent()
+    {
+        $server = $this->app['request']->server;
+        return $server->get('HTTP_USER_AGENT');
+    }
+
+    /**
+     * Get the next number from a sequence
+     *
+     * @return int
+     */
+    private function getSequence($formconfig, $form, $formname, $column)
+    {
+        $sequence = null;
+
+        // Attempt get the next sequence from a table, if specified..
+        if (!empty($formconfig['insert_into_table'])) {
+            try {
+
+                $query = sprintf(
+                    "SELECT MAX(%s) as max FROM %s",
+                    $column,
+                    $formconfig['insert_into_table']
+                );
+                $sequence = $this->app['db']->executeQuery( $query )->fetchColumn();
+
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+                $this->app['log']->add("SimpleForms could not fetch next sequence number from table". $formconfig['insert_into_table'] . ' - check if the table exists.', 3);
+                echo "Couldn't fetch next sequence number from table " . $formconfig['insert_into_table'] . ".";
+            }
+        }
+
+        $sequence++;
+
+        if($formconfig['debugmode']==true) {
+            \Dumper::dump('Get sequence for '.$formname . ' column: '. $column . ' - '. $sequence);
+        }
+
+        return $sequence;
+    }
+
 }

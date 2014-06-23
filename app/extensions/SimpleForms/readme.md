@@ -161,7 +161,8 @@ Remember you can also use the basic options as well.
 The `format` option is used for formatting the date in the emails. You can use the options that are available in
 PHP's `date()` function. See the [documentation for details](http://php.net/date).
 
-**Using ReCaptcha field:**
+Using ReCaptcha field:
+----------------------
 
 To protect your forms from spam-bots, you can enable the ReCaptcha service. This lets the visitors type out two words or
 numbers from a picture, to prove that they're human. To enable ReCaptcha, simply enable/fill all the <code>recaptcha_</code>
@@ -169,7 +170,8 @@ fields in <code>config.yml</code>. If you don't have a private/public keypair ye
 [this URL](https://www.google.com/recaptcha/admin/create) to create them.
 
 
-**Email input with extra recipient:**
+Email input with extra recipient:
+---------------------------------
 
 If you want to send a copy of the an email address the visitor entered, you can use the `use_as` and
 `use_with` options for email and text fields.
@@ -185,7 +187,8 @@ You can define as many email fields as you like and the addresses will be used, 
       type: text
       label: "The name of the person this email is sent to"
 
-**Upload:**
+Upload:
+-------
 
 Uploads are special, complicated and unsafe.
 
@@ -233,7 +236,8 @@ myformname:
 </pre>
 
 
-**Save to database:**
+Save to database:
+-----------------
 
 There is an option to keep a logfile in the database of all form submissions.
 For this log you need to make a table with columns named after the fieldnames in the form and set the `insert_into_table`
@@ -266,3 +270,69 @@ CREATE TABLE `notifications` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 </pre>
+
+
+special log fields
+------------------
+
+There are a few field types for logging ip-addresses and other user values
+
+**Remote address**
+
+    log_ip:
+      type: ip
+
+This will fetch the remote IP address and even try to look through proxies for it.
+
+**Remote host**
+
+    log_remotehost:
+      type: remotehost
+
+This will attempt to lookup the remote hostname, or just give you an empty string.
+
+**Remote user agent**
+
+    log_useragent:
+      type: useragent
+
+This will return the browser's user agent string.
+
+**Timestamp**
+
+    log_timestamp:
+      type: timestamp
+
+This returns the current timestamp.
+
+Sequences
+---------
+
+By popular demand (Hello Peter) there is also a `sequence` option for your field. With this foption you can tell the visitor his or her number in an email.
+
+It has some dependencies.
+
+  - The results must be saved to a table (because there needs to be a record somewhere)
+  - There must be a numerical field in the table (you want this)
+  - The field must probably be hidden in the form
+  - The role must be set to 'sequence' in the `config.yml`
+
+The code to make a sequence field in a form would be:
+
+<pre>
+myformname:
+  recipient_email: info@example.org
+  recipient_name: Info
+  insert_into_table: tablename
+  fields:    
+    recipient:
+      type: email
+      use_as: to_email
+      label: "Your email address"
+    sequence:
+      label: "Next number"
+      type: hidden
+      role: sequence
+</pre>
+
+This form would count every submission and save the number in the database.
