@@ -56,7 +56,7 @@ global:
     fileedit: [ admin, developer ]
     files:config: [ developer ]
     files:theme: [ developer ]
-    files:uploads: [ admin, developer ]
+    files:uploads: [ admin, developer, chief-editor ]
     files: [ editor, admin, developer ]
     prefill: [ developer ]
     settings: [ admin, developer, everyone ]
