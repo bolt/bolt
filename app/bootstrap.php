@@ -5,6 +5,9 @@ mb_http_output('UTF-8');
 
 // First, do some low level checks, like whether autoload is present, the cache
 // folder is writable, if the minimum PHP version is present, etc.
+if (version_compare(PHP_VERSION, '5.3.2') >= 0) {
+    require_once "legacy.php";
+}
 require_once __DIR__ . '/classes/lib.php';
 require_once __DIR__ . '/classes/util.php';
 require_once __DIR__ . '/src/Bolt/Configuration/LowlevelChecks.php';
