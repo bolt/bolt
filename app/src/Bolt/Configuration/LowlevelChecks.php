@@ -74,9 +74,9 @@ class LowlevelChecks
          * It is here only as a convenience check for users that install the basic version of Bolt.
          * 
          * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks(); 
-         * inside your bootstrap.php file.
+         * inside your bootstrap.php file, just before the call to $config->verify().
          **/
-        if(false !== strpos($_SERVER['SERVER_SOFTWARE'],'Apache') && false === $this->disableApacheChecks) {
+        if(false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
             if(!is_readable($this->config->getPath('web').'/.htaccess')) {
                 $this->lowlevelError("The file <code>" .
                     htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) .
