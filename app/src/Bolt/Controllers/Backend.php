@@ -219,6 +219,9 @@ class Backend implements ControllerProviderInterface
      */
     public function getLogin(Silex\Application $app, Request $request)
     {
+        if( ( $app['users']->currentuser['enabled'] >= 1 ) && ( $app['users']->currentuser['username'] != '' ) ) {
+            return redirect('dashboard', array());
+        }
         $app['twig']->addGlobal('title', "Login");
         return $app['render']->render('login.twig');
     }
