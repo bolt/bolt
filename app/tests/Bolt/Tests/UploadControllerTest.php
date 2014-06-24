@@ -31,7 +31,10 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
     }
     
     
-
+    /**
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled
+    */
     public function testResponses()
     {
         global $app;
@@ -54,7 +57,10 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($content));
     }
     
-
+    /**
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled
+    */
     public function testUpload()
     {
         global $app;
@@ -83,7 +89,10 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
     }
     
-
+    /**
+    * @runInSeparateProcess
+    * @preserveGlobalState disabled
+    */
     public function testInvalidFiletype()
     {
         global $app;
