@@ -57,7 +57,7 @@ class Config
             self::$yamlParser = new Yaml\Parser();
         }
 
-        $filename = $useDefaultConfigPath ? (BOLT_CONFIG_DIR . '/' . $basename) : $basename;
+        $filename = $useDefaultConfigPath ? ($this->app['resources']->getPath('config') . '/' . $basename) : $basename;
 
         if (is_readable($filename)) {
             return self::$yamlParser->parse(file_get_contents($filename) . "\n");

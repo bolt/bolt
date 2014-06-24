@@ -28,12 +28,11 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
     {
         $this->rmdir(__DIR__."/files");
         @rmdir(__DIR__.'/files');
+        @unlink(TEST_ROOT.'/app/cache/config_cache.php');
     }
     
     
-    /**
-    * @runInSeparateProcess
-    */
+
     public function testResponses()
     {
         global $app;
@@ -56,9 +55,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($content));
     }
     
-    /**
-    * @runInSeparateProcess
-    */
+
     public function testUpload()
     {
         global $app;
@@ -87,9 +84,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
     }
     
-    /**
-    * @runInSeparateProcess
-    */
+
     public function testInvalidFiletype()
     {
         global $app;
@@ -128,14 +123,15 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         ->setConstructorArgs(array(new MockFileSessionStorage()))
         ->getMock();
                         
-        $config = new Config\ResourceManager(__DIR__);
+        $config = new Config\ResourceManager(TEST_ROOT);
         $bolt = new Application(array('resources'=>$config));
         $bolt['config']->set('general/database', array(
-            'driver'=>'pdo_sqlite',
+            'driver'=>'sqlite',
             'databasename'=>'test',
             'username'=>'test', 
             'memory'=>true
         ));
+        
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', __DIR__."/files");
         $bolt->initialize();
