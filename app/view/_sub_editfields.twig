@@ -244,7 +244,7 @@
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload image') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php" accept=".{{ field.extensions|join(",.") }}">
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.upload }}" accept=".{{ field.extensions|join(",.") }}">
             </span>
         </div>
 
@@ -348,7 +348,7 @@
             <span class="btn btn-info fileinput-button">
                 <i class="icon-upload"></i>
                 <span>{{ __('Upload File') }}</span>
-                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.app }}classes/upload/index.php"  accept=".{{ field.extensions|join(",.") }}">
+                <input id="fileupload-{{key}}" type="file" name="fileupload-{{key}}[]" data-url="{{ paths.upload }}"  accept=".{{ field.extensions|join(",.") }}">
             </span>
         </div>
 
@@ -415,7 +415,7 @@
             <input id="fileupload-{{key}}"
                    type="file"
                    name="fileupload-{{key}}[]"
-                   data-url="{{ paths.app }}classes/upload/index.php"
+                   data-url="{{ paths.upload }}"
                    accept="{{ field.extensions|join('|') }}">
         </span>
 
@@ -501,7 +501,7 @@
             <input id="fileupload-{{key}}"
                    type="file"
                    name="fileupload-{{key}}[]"
-                   data-url="{{ paths.app }}classes/upload/index.php"
+                   data-url="{{ paths.upload }}"
                    accept="{{ field.extensions|join('|') }}">
         </span>
     </div>

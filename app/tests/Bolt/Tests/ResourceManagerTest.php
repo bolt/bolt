@@ -2,7 +2,7 @@
 namespace Bolt\Tests;
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Configuration\ComposerResources;
+use Bolt\Configuration\Composer;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -103,7 +103,9 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testComposerCustomConfig()
     {
-        $config = new ComposerResources(__DIR__);
+        $config = new Composer(__DIR__);
+        $config->setPath('cache', 'app/cache');
+        $config->setPath('database', 'app/database');
         $app = new Application(array('resources'=>$config));
         $this->assertEquals(__DIR__."/vendor/bolt/bolt/app",            $config->getPath("app"));
         $this->assertEquals(__DIR__."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
@@ -137,7 +139,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testConfigDrivenUrls()
     {
-        $config = new ResourceManager(__DIR__, $request);
+        $config = new ResourceManager(__DIR__);
         $app = new Application(array('resources'=>$config));
         $this->assertEquals('/bolt/',  $config->getUrl('bolt'));
         $this->assertEquals('/bolt/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
@@ -145,7 +147,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testConfigDrivenUrlsWithBrandingOverride()
     {
-        $config = new ResourceManager(__DIR__, $request);
+        $config = new ResourceManager(__DIR__);
         $app = new Application(array('resources'=>$config));
         $app['config']->set('general/branding/path', '/custom');
         $config->initialize();

@@ -24,7 +24,8 @@ class Application extends Silex\Application
         // Initialize the config. Note that we do this here, on 'construct'.
         // All other initialisation is triggered from bootstrap.php
         if(!isset($this['resources'])) {
-            $this['resources'] = new Configuration\ResourceManager(BOLT_PROJECT_ROOT_DIR);
+            $this['resources'] = new Configuration\ResourceManager(getcwd());
+            $this['resources']->compat();
         }
         
         $this['resources']->setApp($this);
@@ -117,7 +118,7 @@ class Application extends Silex\Application
                 $error .= "<br><br>Since you're using " . $dboptions['driver'] . ", you should also make sure that the
                 database <code>" . $dboptions['dbname'] . "</code> exists, and the configured user has access to it.";
             }
-            $checker = new \LowlevelChecks();
+            $checker = new Configuration\LowlevelChecks($this['resources']);
             $checker->lowLevelError($error);
         }
 
@@ -217,6 +218,7 @@ class Application extends Silex\Application
             ->register(new Provider\CronServiceProvider())
             ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
+            ->register(new Controllers\Upload())
             ->register(new Thumbs\ThumbnailProvider());
 
         $this['paths'] = $this['resources']->getPaths();
@@ -264,6 +266,9 @@ class Application extends Silex\Application
         
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new \Bolt\Thumbs\ThumbnailProvider());
+        
+        // Mount the 'upload' controller on /upload.
+        $this->mount('/upload', new Controllers\Upload());
 
         if ($this['config']->get('general/enforce_ssl')) {
             foreach ($this['routes']->getIterator() as $route) {

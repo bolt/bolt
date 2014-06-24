@@ -95,9 +95,12 @@
         </label>
 
         {% if isChangelogEnabled() %}
-            <label><b><span class='left'>{{ __('Comment:') }}</span></b>
-                <textarea name="changelog-comment" {% if not isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}disabled="disabled"{% endif %} rows="4"></textarea>
+            <label><b><span class='left'>{{ __('Add a comment:') }}</span></b>
+            <input type="text" name="changelog-comment" id="changelog-comment"
+                   {% if not isallowed("contenttype:" ~ contenttype.slug ~ ":change-owner:" ~ content.id) %}disabled="disabled"{% endif %}
+                   />
             </label>
+            <p>{{ __('Write a brief comment, it will help other editors to get a quick overview of what\'s changed.') }}</p>
         {% endif %}
 
         <button type="button" class="btn btn-primary" id="savecontinuebutton" style="margin-right: 8px;">

@@ -46,7 +46,7 @@ roles:
 # inside the code, so they don't appear here.
 global:
     about: [ editor, admin, developer ] # view the 'About Bolt' page
-    activitylog: [ admin, developer ]
+    activitylog: [ admin, developer, chief-editor ]
     clearcache: [ admin, developer ]
     contentaction: [ editor, admin, developer ]
     dashboard: [ everyone ]
@@ -57,7 +57,7 @@ global:
     fileedit: [ admin, developer ]
     files:config: [ developer ]
     files:theme: [ developer ]
-    files:uploads: [ admin, developer ]
+    files:uploads: [ admin, developer, chief-editor ]
     files: [ editor, admin, developer ]
     prefill: [ developer ]
     settings: [ admin, developer, everyone ]

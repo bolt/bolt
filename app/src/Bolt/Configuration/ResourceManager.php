@@ -24,16 +24,25 @@ class ResourceManager
     protected $paths    = array();
     protected $urls     = array();
     protected $request  = array();
+    
+    public $urlPrefix = "";
+    
+    protected $verifier = false;
+    
 
     /**
      * Constructor initialises on the app root path.
      *
      * @param string $path
      */
-    public function __construct($root, Request $request = null)
+    public function __construct($root, Request $request = null, $verifier = null)
     {
         $this->root = realpath($root);
         $this->requestObject = $request;
+        
+        if(null !== $verifier) {
+            $this->verifier = $verifier;
+        }
         
         $this->setUrl("root", "/");
         $this->setPath("rootpath", $this->root);
@@ -48,11 +57,13 @@ class ResourceManager
         $this->setPath("filespath", $this->root."/files");
         
         $this->setUrl("async",  "/async/");
+        $this->setUrl("upload", "/upload/");
         $this->setUrl("bolt",   "/bolt/");
         
         $this->setPath("web", $this->root);
         $this->setPath("cache", $this->root."/app/cache");
         $this->setPath("config", $this->root."/app/config");
+        $this->setPath("database", $this->root."/app/database");
     }
     
     public function setApp(Application $app)
@@ -98,7 +109,7 @@ class ResourceManager
         if(!array_key_exists($name, $this->urls)) {
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
         }
-        return $this->urls[$name];
+        return $this->urlPrefix.$this->urls[$name];
     }
     
     public function setRequest($name, $value)
@@ -145,6 +156,7 @@ class ResourceManager
             $this->setUrl("extensions", $this->getUrl('app')."extensions/");
             $this->setUrl("files",      $this->getUrl('root')."files/");
             $this->setUrl("async",      $this->getUrl('root')."async/");
+            $this->setUrl("upload",     $this->getUrl('root')."upload/");
         }
         
         $this->setRequest("protocol",   $protocol);
@@ -205,7 +217,7 @@ class ResourceManager
         $branding = ltrim( $this->app['config']->get('general/branding/path').'/' , '/');
         $this->setUrl("bolt", $this->getUrl('root').$branding);
         $this->app['config']->setCkPath();
-
+        $this->verifyDb();
     }
     
     public function compat()
@@ -242,6 +254,31 @@ class ResourceManager
 
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
         $this->setUrl("theme",      sprintf('%s/%s/',   $theme_url, $theme));
+    }
+    
+    
+    /**
+     * Verifies the configuration to ensure that paths exist and are writable.
+     *
+     * @return void
+     * @author 
+     **/
+    public function verify()
+    {
+        $this->getVerifier()->doChecks();
+    }
+    
+    public function verifyDb()
+    {
+        $this->getVerifier()->doDatabaseCheck($this->app['config']);
+    }
+    
+    public function getVerifier()
+    {
+        if(!$this->verifier) {
+            $this->verifier = new LowlevelChecks($this);  
+        }
+        return $this->verifier;
     }
     
     

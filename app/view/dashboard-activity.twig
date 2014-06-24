@@ -1,44 +1,47 @@
 {% import '_sub_pretty.twig' as pretty %}
 
-<section class="news">
-    <h2>{{ __('Latest activity') }}</h2>
-    <ul class='activity'>
-{% for log in activity %}
-    {% if attribute(users, log.username) is defined %}
-        {% set userlink = pretty.userlink(attribute(users, log.username)) %}
-    {% else %}
-        {% set userlink = __('unknown') %}
-    {% endif %}
-    <li>
-        {%  if log.code == "save content" %}
-            {% if app.config.get('contenttypes')[log.contenttype] is defined %}
-                {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
-                {% set contenttype_display_name = contenttype.singular_name %}
-                {% set content_display_name = pretty.contentlink_by_id(contenttype, log.message, log.content_id) %}
+{% if isallowed('activitylog') %}
+
+    <section class="news">
+        <h2>{{ __('Latest activity') }}</h2>
+        <ul class='activity'>
+        {% for log in activity %}
+            {% if attribute(users, log.username) is defined %}
+                {% set userlink = pretty.userlink(attribute(users, log.username)) %}
             {% else %}
-                {% set contenttype_display_name = log.contenttype %}
-                {% set content_display_name = log.message %}
+                {% set userlink = __('unknown') %}
             {% endif %}
+            <li>
+                {%  if log.code == "save content" %}
+                    {% if app.config.get('contenttypes')[log.contenttype] is defined %}
+                        {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
+                        {% set contenttype_display_name = contenttype.singular_name %}
+                        {% set content_display_name = pretty.contentlink_by_id(contenttype, log.message, log.content_id) %}
+                    {% else %}
+                        {% set contenttype_display_name = log.contenttype %}
+                        {% set content_display_name = log.message %}
+                    {% endif %}
 
-            {{ __('Saved') }} {{ contenttype_display_name }}
-            "<strong>{{ content_display_name }}</strong>" {{ __('by') }} <em>{{ userlink }}</em>
-        {%  elseif log.code == "login" %}
-            <em>{{ userlink }}</em> {{ __('logged in') }}
-        {%  elseif log.code == "logout" %}
-            <em>{{ userlink }}</em> {{ __('logged out') }}
-        {%  elseif log.code == "fixme" %}
-            <b>{{ __('Fixme:') }}</b> {{ log.message }}
-        {%  elseif log.code == "user" %}
-            <b>{{ log.message }}</b> {{ __('by') }} {{ userlink }}
-        {%  else %}
-            {{ log.message }}
-        {%  endif %}
-        <small>(<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)</small>
-    </li>
-{%  endfor %}
-    </ul>
+                    {{ __('Saved') }} {{ contenttype_display_name }}
+                    "<strong>{{ content_display_name }}</strong>" {{ __('by') }} <em>{{ userlink }}</em>
+                {%  elseif log.code == "login" %}
+                    <em>{{ userlink }}</em> {{ __('logged in') }}
+                {%  elseif log.code == "logout" %}
+                    <em>{{ userlink }}</em> {{ __('logged out') }}
+                {%  elseif log.code == "fixme" %}
+                    <b>{{ __('Fixme:') }}</b> {{ log.message }}
+                {%  elseif log.code == "user" %}
+                    <b>{{ log.message }}</b> {{ __('by') }} {{ userlink }}
+                {%  else %}
+                    {{ log.message }}
+                {%  endif %}
+                <small>(<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)</small>
+            </li>
+        {%  endfor %}
+        </ul>
 
-    <p>&nbsp;<a href="{{ path('activitylog') }}" class="morelink">{{ __('more activity') }} »</a></p>
+        <p>&nbsp;<a href="{{ path('activitylog') }}" class="morelink">{{ __('more activity') }} »</a></p>
 
-</section>
+    </section>
 
+{% endif %}
