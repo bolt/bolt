@@ -670,8 +670,10 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
+            $comment = $request->request->get('changelog-comment');
+
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
-            if ($statusOK && $app['storage']->saveContent($content)) {
+            if ($statusOK && $app['storage']->saveContent($content, $comment)) {
                 if (!empty($id)) {
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 } else {
