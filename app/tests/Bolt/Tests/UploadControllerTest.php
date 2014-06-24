@@ -31,9 +31,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
     }
     
     
-    /**
-    * @runInSeparateProcess
-    */
+
     public function testResponses()
     {
         global $app;
@@ -56,9 +54,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($content));
     }
     
-    /**
-    * @runInSeparateProcess
-    */
+
     public function testUpload()
     {
         global $app;
@@ -87,9 +83,7 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 
     }
     
-    /**
-    * @runInSeparateProcess
-    */
+
     public function testInvalidFiletype()
     {
         global $app;
