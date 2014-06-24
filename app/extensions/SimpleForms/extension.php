@@ -85,7 +85,7 @@ class Extension extends \Bolt\BaseExtension
         $this->addTwigFunction('simpleform', 'simpleForm');
     }
 
-    private function buildField($name, $field) {
+    private function buildField($name, $field, $with = array()) {
         $options = array();
         $options['required'] = false;
 
@@ -129,6 +129,16 @@ class Extension extends \Bolt\BaseExtension
             return null;
         }
 
+        if (!empty($field['default'])) {
+            $value = strip_tags($field['default']); // Note Symfony's form also takes care of escaping this.
+            $options['data'] = $value;
+        }
+
+        if (!empty($with[$name])) {
+            $value = strip_tags($with[$name]); // Note Symfony's form also takes care of escaping this.
+            $options['attr']['value'] = $value;
+        }
+
         if (!empty($field['allow_override']) && !empty($_GET[$name])) {
             $value = strip_tags($_GET[$name]); // Note Symfony's form also takes care of escaping this.
             $options['attr']['value'] = $value;
@@ -159,8 +169,8 @@ class Extension extends \Bolt\BaseExtension
         if (!empty($field['choices']) && is_array($field['choices'])) {
             // Make the keys more sensible.
             $options['choices'] = array();
-            foreach ($field['choices'] as $option) {
-                $options['choices'][ safeString($option) ] = $option;
+            foreach ($field['choices'] as $key => $option) {
+                $options['choices'][ safeString($key) ] = $option;
             }
         }
 
@@ -173,7 +183,7 @@ class Extension extends \Bolt\BaseExtension
 
                 if (is_array($value['choices'])) {
                     foreach ($value['choices'] as $k => $v) {
-                        $choices[safeString($v)] = $v;
+                        $choices[safeString($k)] = $v;
                     }
                 }
 
@@ -227,7 +237,7 @@ class Extension extends \Bolt\BaseExtension
      * @internal param string $name
      * @return string
      */
-    public function simpleForm($formname = "")
+    public function simpleForm($formname = "", $with = array())
     {
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
@@ -268,9 +278,12 @@ class Extension extends \Bolt\BaseExtension
         $form = $this->app['form.factory']->createNamedBuilder($formname, 'form', null, array('csrf_protection' => $this->config['csrf']));
 
         foreach ($formconfig['fields'] as $name => $field) {
-            $options = $this->buildField($name, $field);
+            $options = $this->buildField($name, $field, $with);
 
-            $form->add($name, $options['attr']['type'], $options);
+            // only add known fields with options to the form
+            if($options) {
+                $form->add($name, $options['attr']['type'], $options);
+            }
         }
 
         $form = $form->getForm();
