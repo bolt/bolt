@@ -1408,6 +1408,7 @@ class TwigExtension extends \Twig_Extension
 
     public function isChangelogEnabled()
     {
-        return $this->app->get('general/changelog/enabled');
+        $enabled = $this->app['config']->get('general/changelog/enabled');
+        return $enabled;
     }
 }
