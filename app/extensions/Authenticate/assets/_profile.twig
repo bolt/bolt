@@ -1,0 +1,19 @@
+<div class="profile">
+    <h3>
+        <a href="{{ profile.profileURL }}" target="_blank">{{ profile.displayName }}</a>
+    </h3>
+
+    <a href="{{ profile.profileURL }}" target="_blank">
+    {% if visitor.avatar %}
+        <img src="{{ visitor.avatar }}" title="{{ profile.displayName }}">
+    {% elseif profile.photoURL %}
+        <img src="{{ profile.photoURL }}" title="{{ profile.displayName }}">
+    {% endif %}
+    </a>
+
+    {% if profile.description %}
+    <p>
+        {{ profile.description }}
+    </p>
+    {% endif %}
+</div>
