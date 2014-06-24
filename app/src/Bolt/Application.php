@@ -53,7 +53,7 @@ class Application extends Silex\Application
                 'cookie_httponly' => true
             )
         ));
-
+        
         // Disable Silex's built-in native filebased session handler, and fall back to
         // whatever's set in php.ini.
         // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations

@@ -104,9 +104,9 @@ class LowlevelChecks
      * be done _after_ the other checks, since we need to have the $config, to see if we even
      * _need_ to do this check.
      */
-    public function doDatabaseCheck($config)
+    public function doDatabaseCheck()
     {
-        $cfg = $config->get('general/database');
+        $cfg = $this->config->app['config']->get('general/database');
 
         if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
             if(empty($cfg['password']) && ($cfg['username']=="root") ) {

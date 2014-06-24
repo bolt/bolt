@@ -15,3 +15,4 @@ else
 }
 
 require_once "upload-bootstrap.php";
+define('TEST_ROOT', realpath(__DIR__."/../../"));

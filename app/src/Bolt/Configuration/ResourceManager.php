@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ResourceManager
 {
-    protected $app;
+    public $app;
     protected $root;
     protected $requestObject;
     
@@ -270,7 +270,7 @@ class ResourceManager
     
     public function verifyDb()
     {
-        $this->getVerifier()->doDatabaseCheck($this->app['config']);
+        $this->getVerifier()->doDatabaseCheck();
     }
     
     public function getVerifier()
