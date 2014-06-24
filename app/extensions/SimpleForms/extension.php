@@ -270,7 +270,10 @@ class Extension extends \Bolt\BaseExtension
         foreach ($formconfig['fields'] as $name => $field) {
             $options = $this->buildField($name, $field);
 
-            $form->add($name, $options['attr']['type'], $options);
+            // only add known fields with options to the form
+            if($options) {
+                $form->add($name, $options['attr']['type'], $options);
+            }
         }
 
         $form = $form->getForm();
