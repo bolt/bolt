@@ -46,7 +46,7 @@ class VisitorsTwigExtension extends \Twig_Extension
         return $this->controller->checkvisitor(); 
     }
     public function showvisitorlogin() { return $this->controller->showvisitorlogin(); }
-    public function showvisitorlogout($label = "") { 
+    public function showvisitorlogout($label = "Logout") {
         return $this->controller->showvisitorlogout($label); 
     }
     public function showvisitorprofile() { return $this->controller->showvisitorprofile(); }
