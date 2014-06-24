@@ -5,16 +5,10 @@
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
     
-    "repositories": [
-        { "type": "vcs","url":  "https://github.com/bolt/bolt-thumbs"},
-        { "type": "vcs","url":  "https://github.com/rossriley/upload"},
-        { "type": "vcs","url":  "https://github.com/rossriley/validation"}
-    ],
     
     "require": {
         "bolt/dumper": ">=0.7",
         "bolt/thumbs": "1.7.*@dev",
-        "siriusphp/upload": "~1.2",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "1.*",
         "filp/whoops": "1.*",
@@ -23,6 +17,7 @@
         "ircmaxell/random-lib": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
         "php": ">=5.3.3",
+        "rossriley/upload": "~1.2",
         "silex/silex": "1.*",
         "silex/web-profiler": "~1.0",
         "swiftmailer/swiftmailer": "5.*",

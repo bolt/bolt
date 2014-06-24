@@ -697,7 +697,9 @@ class Config
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path']) ? realpath($configdb["path"])."/".$basename : __DIR__ . '/../../database/' . $basename,
+                'path' => isset($configdb['path']) 
+                            ?   realpath($configdb["path"])."/".$basename 
+                            :   $this->app['resources']->getPath('database') ."/". $basename,
                 'randomfunction' => 'RANDOM()',
                 'memory' => isset($configdb['memory']) ? true : false
             );

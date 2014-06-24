@@ -129,13 +129,17 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         ->getMock();
                         
         $config = new Config\ResourceManager(__DIR__);
-        $app = new Application(array('resources'=>$config));
-        $app['config']->set('general/database', array('databasename'=>'test','username'=>'test'));
-        $app['debug'] = false;
-        $app['session'] = $sessionMock;
-        $app->initialize();
-        $app['resources']->setPath('files', __DIR__."/files");
-        return $app;
+        $bolt = new Application(array('resources'=>$config));
+        $bolt['config']->set('general/database', array(
+            'driver'=>'pdo_sqlite',
+            'databasename'=>'test',
+            'username'=>'test', 
+            'memory'=>true
+        ));
+        $bolt['session'] = $sessionMock;
+        $bolt['resources']->setPath('files', __DIR__."/files");
+        $bolt->initialize();
+        return $bolt;
     }
     
     protected function rmdir($dir) {  
