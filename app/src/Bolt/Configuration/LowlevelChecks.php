@@ -139,10 +139,15 @@ class LowlevelChecks
             $this->lowlevelError("The selected database type is not supported.");
         }
 
+        if(true == $cfg['memory']) {
+            return;
+        }
+        
         $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : "bolt";
         if (getExtension($filename)!="db") {
             $filename .= ".db";
         }
+        
 
         // Check if the app/database folder and .db file are present and writable
         if (!is_writable($this->config->getPath('database'))) {
