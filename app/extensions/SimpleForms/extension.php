@@ -213,6 +213,18 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
+        // for recipient_choice
+        if ($type == "recipient_choice") {
+
+            // change type
+            $type = "choice";
+
+            $options['choices'] = array();
+            foreach ($field['recipient_choices'] as $option_id => $option_arr) {
+                $options['choices'][ safeString($option_id)] = safeString($option_arr['label']);
+            }
+        }
+
         // Yeah, this feels a bit flaky, but I'm not sure how I can get
         // the form type in the template in another way.
         $options['attr']['type'] = $type;
@@ -395,6 +407,12 @@ class Extension extends \Bolt\BaseExtension
                 if (!is_array($value) && isset($options[$value])) {
                     $data[$key] = $options[$value];
                 }
+            }
+
+            // Override the recipient_email with the recipient_choice list, not the submitted safe string value.
+            if ($formconfig['fields'][$key]['type'] == 'recipient_choice' && !empty($formconfig['fields'][$key]['recipient_choices'])) {
+                $data[$key] = $formconfig['fields'][$key]['recipient_choices'][$value]['recipient_email'];
+                $formconfig['recipient_email'] = $data[$key];
             }
         }
 

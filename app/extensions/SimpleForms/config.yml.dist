@@ -127,4 +127,17 @@ demo:
       label: Agree to this!
       placeholder: Yes, I will gladly agree to something or other.
       required: true
+    choose_recipient:
+      type: recipient_choice
+      label: Choose the recipient
+      recipient_choices:
+        info:
+          label: Info
+          recipient_email: info@example.com
+        support:
+          label: Support
+          recipient_email: support@example.com
+        boss:
+          label: Boss
+          recipient_email: boss@example.org
   button_text: Send the Demo form!
