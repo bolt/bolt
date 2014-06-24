@@ -139,7 +139,7 @@ class LowlevelChecks
             $this->lowlevelError("The selected database type is not supported.");
         }
 
-        if(true == $cfg['memory']) {
+        if(isset($cfg['memory']) && true == $cfg['memory']) {
             return;
         }
         
