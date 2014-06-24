@@ -130,8 +130,6 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
                         
         $config = new Config\ResourceManager(__DIR__);
         $app = new Application(array('resources'=>$config));
-        $app['config']->set('general/database', array('databasename'=>'test','username'=>'test'));
-        $app['debug'] = false;
         $app['session'] = $sessionMock;
         $app->initialize();
         $app['resources']->setPath('files', __DIR__."/files");
