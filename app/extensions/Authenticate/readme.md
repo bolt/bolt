@@ -95,7 +95,7 @@ Visitor information
 
 Use `{{ dump(visitor) }}` to see the values stored after logging on. The values you'd use most are likely:
 
-  - Username: `{{ visitor.username}}`
+  - Username: `{{ visitor.username }}`
   - Avatar: `{{ visitor.avatar }}`
 
 Using these values in your own extensions
@@ -121,3 +121,9 @@ If you want to use this in a template, you can use the following code:
     {% endif %}
 
 
+Show the full profile
+---------------------
+
+    {% if knownvisitor() %}
+        {{ showvisitorprofile() }}
+    {% endif %}
