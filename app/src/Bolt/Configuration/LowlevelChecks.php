@@ -107,6 +107,9 @@ class LowlevelChecks
     public function doDatabaseCheck()
     {
         $cfg = $this->config->app['config']->get('general/database');
+        if(!isset($cfg['driver'])) {
+            return;
+        }
 
         if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
             if(empty($cfg['password']) && ($cfg['username']=="root") ) {
