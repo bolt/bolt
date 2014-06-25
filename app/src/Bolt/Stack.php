@@ -106,11 +106,9 @@ class Stack
     {
         $ext = getExtension($filename);
 
-        echo "[ $ext ]";
-
         return in_array($ext, $this->getFileTypes());
 
-    }    
+    }
 
     /**
      * Return a list with the current stacked items. Add some relevant info to each item,

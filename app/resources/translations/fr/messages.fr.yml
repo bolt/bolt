@@ -232,6 +232,7 @@
 "There are no users in the database. Please create the first user.": "Aucun utilisateurs dans la base de donnée. Merci de créer le premier utilisateur."
 "There was an error saving this %contenttype%.": "Erreur en enregistrant ce %contenttype%."
 "There was an error when reading this WXR file": "Une erreur est survenue lors de la lecture de ce fichier WXR"
+"This %contenttype% has not been saved yet.": "Ce(tte) %contenttype% n'a pas encore été enregistré."
 "This %contenttype% was created": "Ce %contenttype% a été créé"
 "This displayname is already in use. Choose another displayname.": "Ce «displayname» est déja utilisé. Merci d'un choisir un autre"
 "This does not appear to be a WXR file, missing/invalid WXR version number": "Cela ne semble pas être un fichier WXR, numéro de version WXR manquante/invalide"

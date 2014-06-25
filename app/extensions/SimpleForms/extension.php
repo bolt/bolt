@@ -12,25 +12,25 @@ class Extension extends \Bolt\BaseExtension
     private $text_labels;
     private $labelsenabled;
 
-    function info()
+    public function info()
     {
         $data = array(
             'name' =>"Simple Forms",
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.9",
+            'version' => "1.11",
             'required_bolt_version' => "1.6",
             'highest_bolt_version' => "1.6",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2014-05-22",
+            'latest_releasedate' => "2014-06-20",
             'allow_in_user_content' => true,
         );
         return $data;
     }
 
-    function initialize()
+    public function initialize()
     {
         // fields that the global config should have
         $this->global_fields = array(
@@ -42,6 +42,8 @@ class Extension extends \Bolt\BaseExtension
             'message_technical',
             'button_text',
             'attach_files',
+            'from_email',
+            'from_name',
             'recipient_cc_email',
             'recipient_cc_name',
             'recipient_bcc_email',
@@ -81,9 +83,152 @@ class Extension extends \Bolt\BaseExtension
         }
 
         $this->addTwigFunction('simpleform', 'simpleForm');
-
     }
 
+    private function buildField($name, $field, $with = array()) {
+        $options = array();
+        $options['required'] = false;
+
+        $mappings = array(
+                'label' => 'label',
+                'value' => 'attr:value',
+                'read_only' => 'read_only',
+                'placeholder' => 'attr:placeholder',
+                'class' => 'attr:class',
+                'hint' => 'attr:hint',
+                'required' => 'required',
+                'prefix' => 'attr:prefix',
+                'postfix' => 'attr:postfix',
+                'empty_value' => 'empty_value',
+                'maxlength' => 'attr:maxlength',
+                'minlength' => 'attr:minlength',
+                'autofocus' => 'attr:autofocus',
+                'pattern' => 'attr:pattern',
+                'autocomplete' => 'attr:autocomplete',
+                'expanded' => 'expanded',
+                'multiple' => 'multiple',
+            );
+
+        foreach ($mappings as $src => $dst) {
+            if (!empty($field[$src])) {
+                $value = $field[$src];
+                $dstPath = explode(':', $dst);
+                switch (count($dstPath)) {
+                    case 1:
+                        $options[$dstPath[0]] = $value; break;
+                    case 2:
+                        $options[$dstPath[0]][$dstPath[1]] = $value; break;
+                    default:
+                        throw \Exception("Invalid number of path components in $dstPath");
+                }
+            }
+        }
+
+        if (in_array($field['type'], array("ip", "remotehost", "useragent", "timestamp"))) {
+            // we're storing IP, host, useragent and timestamp later.
+            return null;
+        }
+
+        if (!empty($field['default'])) {
+            $value = strip_tags($field['default']); // Note Symfony's form also takes care of escaping this.
+            $options['data'] = $value;
+        }
+
+        if (!empty($with[$name])) {
+            $value = strip_tags($with[$name]); // Note Symfony's form also takes care of escaping this.
+            $options['attr']['value'] = $value;
+        }
+
+        if (!empty($field['allow_override']) && !empty($_GET[$name])) {
+            $value = strip_tags($_GET[$name]); // Note Symfony's form also takes care of escaping this.
+            $options['attr']['value'] = $value;
+        }
+
+        if (is_array($field['data'])) {
+            foreach ($field['data'] as $datakey => $datavalue) {
+                $options['attr']['data-'.$datakey] = $datavalue;
+            }
+        }
+
+        if (!empty($field['role'])) {
+            switch($field['role']) {
+                case 'sequence':
+                    // this is a sequential field
+                    $options['attr']['data-role'] = $field['role'];
+                    break;
+                default:
+                    // go away
+                    break;
+            }
+        }
+
+        if ($options['required']) {
+            $options['constraints'][] = new Assert\NotBlank();
+        }
+
+        if (!empty($field['choices']) && is_array($field['choices'])) {
+            // Make the keys more sensible.
+            $options['choices'] = array();
+            foreach ($field['choices'] as $key => $option) {
+                $options['choices'][ safeString($key) ] = $option;
+            }
+        }
+
+        // for optgroups
+        if (!empty($field['optgroups']) && is_array($field['optgroups'])) {
+            $options['choices'] = array();
+            foreach ($field['optgroups'] as $key => $value) {
+                $label   = $value['label'];
+                $choices = array();
+
+                if (is_array($value['choices'])) {
+                    foreach ($value['choices'] as $k => $v) {
+                        $choices[safeString($k)] = $v;
+                    }
+                }
+
+                $options['choices'][$label] = $choices;
+            }
+        }
+
+        // Make sure $field has a type, or the form will break.
+        if (empty($field['type'])) {
+            $type = "text";
+        }
+        else {
+            $type = $field['type'];
+        }
+
+        if ($type === "email") {
+            $options['constraints'][] = new Assert\Email();
+        }
+        if ($type === "file") {
+            // if the field is file, make sure we set the accept properly.
+            $accept = array();
+
+            // Don't accept _all_ types. If nothing set in config.yml, set some sensible defaults.
+            if (empty($field['filetype'])) {
+                $field['filetype'] = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt', 'doc', 'docx');
+            }
+            foreach ($field['filetype'] as $ext) {
+                $accept[] = ".".$ext;
+            }
+            $options['attr']['accept'] = implode(",", $accept);
+
+            if (!empty($field['mimetype'])) {
+                $options['constraints'][] = new Assert\File(array(
+                            'mimeTypes' => $field['mimetype'],
+                            'mimeTypesMessage' => $formconfig['mime_types_message'] . ' ' . implode(', ', $field['filetype']),
+                            ));
+            }
+        }
+
+        // Yeah, this feels a bit flaky, but I'm not sure how I can get
+        // the form type in the template in another way.
+        $options['attr']['type'] = $type;
+
+        return $options;
+    }
 
     /**
      * Create a simple Form.
@@ -92,7 +237,7 @@ class Extension extends \Bolt\BaseExtension
      * @internal param string $name
      * @return string
      */
-    function simpleForm($formname = "")
+    public function simpleForm($formname = "", $with = array())
     {
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
@@ -120,9 +265,9 @@ class Extension extends \Bolt\BaseExtension
         }
 
         if ($formconfig['debugmode']==true) {
+            \Dumper::dump('Building '.$formname);
             \Dumper::dump($formconfig);
-            \Dumper::dump($formname);
-            \Dumper::dump($this->app['paths']);
+            //\Dumper::dump($this->app['paths']);
         }
 
         $message = "";
@@ -133,150 +278,12 @@ class Extension extends \Bolt\BaseExtension
         $form = $this->app['form.factory']->createNamedBuilder($formname, 'form', null, array('csrf_protection' => $this->config['csrf']));
 
         foreach ($formconfig['fields'] as $name => $field) {
-            $options = array();
+            $options = $this->buildField($name, $field, $with);
 
-            if ($field['type'] == "ip" || $field['type'] == "timestamp") {
-                // we're storing IP and timestamp later.
-                continue;
+            // only add known fields with options to the form
+            if($options) {
+                $form->add($name, $options['attr']['type'], $options);
             }
-
-            if (!empty($field['label'])) {
-                $options['label'] = $field['label'];
-            }
-
-            if (!empty($field['value'])) {
-                $options['attr']['value'] = $field['value'];
-            }
-
-            if (!empty($field['allow_override']) && !empty($_GET[$name])) {
-                $value = strip_tags($_GET[$name]); // Note Symfony's form also takes care of escaping this.
-                $options['attr']['value'] = $value;
-            }
-
-            if (!empty($field['read_only'])) {
-                $options['read_only'] = $field['read_only'];
-            }
-
-            if (!empty($field['placeholder'])) {
-                $options['attr']['placeholder'] = $field['placeholder'];
-            }
-
-            if (!empty($field['class'])) {
-                $options['attr']['class'] = $field['class'];
-            }
-            if (!empty($field['hint'])) {
-                $options['attr']['hint'] = $field['hint'];
-            }
-
-            if (!empty($field['prefix'])) {
-                $options['attr']['prefix'] = $field['prefix'];
-            }
-            if (!empty($field['postfix'])) {
-                $options['attr']['postfix'] = $field['postfix'];
-            }
-            if (is_array($field['data'])) {
-                foreach ($field['data'] as $datakey => $datavalue) {
-                    $options['attr']['data-'.$datakey] = $datavalue;
-                }
-            }
-
-            if (!empty($field['required']) && $field['required'] == true) {
-                $options['required'] = true;
-                $options['constraints'][] = new Assert\NotBlank();
-            }
-            else {
-                $options['required'] = false;
-            }
-
-            if (!empty($field['choices']) && is_array($field['choices'])) {
-                // Make the keys more sensible.
-                $options['choices'] = array();
-                foreach ($field['choices'] as $option) {
-                    $options['choices'][ safeString($option)] = $option;
-                }
-            }
-
-            // for optgroups
-            if (!empty($field['optgroups']) && is_array($field['optgroups'])) {
-                $options['choices'] = array();
-                foreach ($field['optgroups'] as $key => $value) {
-                    $label   = $value['label'];
-                    $choices = array();
-
-                    if (is_array($value['choices'])) {
-                        foreach ($value['choices'] as $k => $v) {
-                            $choices[safeString($v)] = $v;
-                        }
-                    }
-
-                    $options['choices'][$label] = $choices;
-                }
-            }
-
-            if (!empty($field['empty_value'])) {
-                $options['empty_value'] = $field['empty_value'];
-            }
-
-            if (!empty($field['maxlength'])) {
-                $options['attr']['maxlength'] = $field['maxlength'];
-            }
-
-            if (!empty($field['minlength'])) {
-                $options['attr']['minlength'] = $field['minlength'];
-            }
-
-            if (!empty($field['autofocus'])) {
-                $options['attr']['autofocus'] = $field['autofocus'];
-            }
-
-            if (!empty($field['pattern'])) {
-                $options['attr']['pattern'] = $field['pattern'];
-            }
-            if (!empty($field['autocomplete'])) {
-                $options['attr']['autocomplete'] = $field['autocomplete'];
-            }
-
-            if (!empty($field['expanded'])) {
-                $options['expanded'] = $field['expanded'];
-            }
-
-            if (!empty($field['multiple'])) {
-                $options['multiple'] = $field['multiple'];
-            }
-
-            // Make sure $field has a type, or the form will break.
-            if (empty($field['type'])) {
-                $field['type'] = "text";
-            }
-            elseif ($field['type'] == "email") {
-                $options['constraints'][] = new Assert\Email();
-            }
-            elseif ($field['type'] == "file") {
-                // if the field is file, make sure we set the accept properly.
-                $accept = array();
-
-                // Don't accept _all_ types. If nothing set in config.yml, set some sensible defaults.
-                if (empty($field['filetype'])) {
-                    $field['filetype'] = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'txt', 'doc', 'docx');
-                }
-                foreach ($field['filetype'] as $ext) {
-                    $accept[] = ".".$ext;
-                }
-                $options['attr']['accept'] = implode(",", $accept);
-
-                if (!empty($field['mimetype'])) {
-                    $options['constraints'][] = new Assert\File(array(
-                        'mimeTypes' => $field['mimetype'],
-                        'mimeTypesMessage' => $formconfig['mime_types_message'] . ' ' . implode(', ', $field['filetype']),
-                    ));
-                }
-            }
-
-            // Yeah, this feels a bit flaky, but I'm not sure how I can get
-            // the form type in the template in another way.
-            $options['attr']['type'] = $field['type'];
-
-            $form->add($name, $field['type'], $options);
         }
 
         $form = $form->getForm();
@@ -310,9 +317,7 @@ class Extension extends \Bolt\BaseExtension
                     $form->bind($this->app['request']);
 
                     if ($form->isValid()) {
-
                         $res = $this->processForm($formconfig, $form, $formname);
-
                         if ($res) {
                             $message = $formconfig['message_ok'];
                             $sent = true;
@@ -322,26 +327,20 @@ class Extension extends \Bolt\BaseExtension
                                 $content = $this->app['storage']->getContent($formconfig['redirect_on_ok']);
                                 simpleredirect($content->link(), false);
                             }
-
                         }
                         else {
                             $error = $formconfig['message_technical'];
                         }
-
                     }
                     else {
-
                         $error = $formconfig['message_error'];
-
                     }
                 }
                 else {
                     $error = $this->config['recaptcha_error_message'];
                 }
             }
-
         }
-
 
         $formhtml = $this->app['render']->render($formconfig['template'], array(
             "submit" => "Send",
@@ -371,10 +370,10 @@ class Extension extends \Bolt\BaseExtension
         $data = $form->getData();
 
         if($formconfig['debugmode']==true) {
+            \Dumper::dump('Processing '.$formname);
             \Dumper::dump($formconfig);
             // This yields a Fatal Error: "FormBuilder methods cannot be accessed anymore once the builder is turned into a FormConfigInterface instance."
             //\Dumper::dump($form);
-            \Dumper::dump($formname);
             \Dumper::dump($data);
             \Dumper::dump($this->app['request']->files);
         }
@@ -384,6 +383,18 @@ class Extension extends \Bolt\BaseExtension
             // For legibility, change boolean fields to "yes" or "no".
             if (gettype($value)=="boolean") {
                 $data[$key] = ($value ? "yes" : "no");
+            }
+
+            if (!empty($formconfig['fields'][$key]['role'])) {
+                $role = $formconfig['fields'][$key]['role'];
+
+                switch($role) {
+                    case 'sequence':
+                        $data[$key] = $this->getSequence($formconfig, $form, $formname, $key);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             // Save the choice label, not the submitted safe string value.
@@ -398,6 +409,11 @@ class Extension extends \Bolt\BaseExtension
                     $data[$key] = $options[$value];
                 }
             }
+        }
+
+        if($formconfig['debugmode']==true) {
+            \Dumper::dump('Prepared data for '.$formname);
+            \Dumper::dump($data);
         }
 
         $fileSystem = new Filesystem;
@@ -473,6 +489,12 @@ class Extension extends \Bolt\BaseExtension
             if ($fieldvalues['type'] == "ip") {
                 $data[$fieldname] = $this->getRemoteAddress();
             }
+            if ($fieldvalues['type'] == "remotehost") {
+                $data[$fieldname] = $this->getRemoteHost();
+            }
+            if ($fieldvalues['type'] == "useragent") {
+                $data[$fieldname] = $this->getRemoteAgent();
+            }
             if ($fieldvalues['type'] == "timestamp") {
                 $format = "%F %T";
                 $data[$fieldname] = strftime($format);
@@ -484,6 +506,11 @@ class Extension extends \Bolt\BaseExtension
                 }
             }
 
+        }
+
+        if($formconfig['debugmode']==true) {
+            \Dumper::dump('Prepared files for '.$formname);
+            \Dumper::dump($data);
         }
 
         // Attempt to insert the data into a table, if specified..
@@ -524,11 +551,20 @@ class Extension extends \Bolt\BaseExtension
         // Compile the message..
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($formconfig['from_email'] => $formconfig['from_name']))
-            ->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']))
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 
+        // set the default recipient for this form
+        if (!empty($formconfig['recipient_email'])) {
+            $message->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']));
+        }
+
+        // set the default sender for this form
+        if (!empty($formconfig['from_email'])) {
+            $message->setFrom(array($formconfig['from_email'] => $formconfig['from_name']));
+        }
+
+        // add attachments if enabled in config
         if(($formconfig['attach_files'] == 'true') && is_array($attachments)) {
             foreach($attachments as $attachment) {
                 $message->attach($attachment);
@@ -575,15 +611,29 @@ class Extension extends \Bolt\BaseExtension
                     }
                     switch($values['use_as']) {
                         case 'from_email':
+                            // set the special sender for this form
                             $message->setFrom(array($tmp_email => $tmp_name));
+                            // add the values to the formconfig in case we want to see this later
+                            if (empty($formconfig['from_email'])) {
+                                $formconfig['from_email'] = $tmp_email;
+                                $formconfig['from_name'] = $tmp_name;
+                            }
                             break;
                         case 'to_email':
+                            // add another recipient
                             $message->addTo($tmp_email, $tmp_name);
+                            // add the values to the formconfig in case we want to see this later
+                            if (empty($formconfig['recipient_email'])) {
+                                $formconfig['recipient_email'] = $tmp_email;
+                                $formconfig['recipient_name'] = $tmp_name;
+                            }
                             break;
                         case 'cc_email':
+                            // add another carbon copy recipient
                             $message->addCc($tmp_email, $tmp_name);
                             break;
                         case 'bcc_email':
+                            // add another blind carbon copy recipient
                             $message->addBcc($tmp_email, $tmp_name);
                             break;
                     }
@@ -591,8 +641,14 @@ class Extension extends \Bolt\BaseExtension
             }
         }
 
+        // log the attempt
+        $this->app['log']->add('Sending message '. $formname
+                               . ' from '. $formconfig['from_email']
+                               . ' to '. $formconfig['recipient_email'], 3);
+
         $res = $this->app['mailer']->send($message);
 
+        // log the result of the attempt
         if ($res) {
             if($formconfig['testmode']) {
                 $this->app['log']->add('Sent email from ' . $formname . ' to '. $formconfig['testmode_recipient'] . ' (in testmode) - ' . $formconfig['recipient_name'], 3);
@@ -623,4 +679,73 @@ class Extension extends \Bolt\BaseExtension
         }
         return $server->get('REMOTE_ADDR');
     }
+
+
+    /**
+     * Get the user's remote hostname for logging.
+     * Ignore proxy stuff
+     * Note: these addresses can't be 'trusted', Use them for logging only.
+     *
+     * @return string
+     */
+    private function getRemoteHost()
+    {
+        $server = $this->app['request']->server;
+
+        $host = $server->get('REMOTE_HOST');
+        if($host) {
+            return $host;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get the user's user agent string for logging
+     * Note: these addresses can't be 'trusted', Use them for logging only.
+     *
+     * @return string
+     */
+    private function getRemoteAgent()
+    {
+        $server = $this->app['request']->server;
+        return $server->get('HTTP_USER_AGENT');
+    }
+
+    /**
+     * Get the next number from a sequence
+     *
+     * @return int
+     */
+    private function getSequence($formconfig, $form, $formname, $column)
+    {
+        $sequence = null;
+
+        // Attempt get the next sequence from a table, if specified..
+        if (!empty($formconfig['insert_into_table'])) {
+            try {
+
+                $query = sprintf(
+                    "SELECT MAX(%s) as max FROM %s",
+                    $column,
+                    $formconfig['insert_into_table']
+                );
+                $sequence = $this->app['db']->executeQuery( $query )->fetchColumn();
+
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+                $this->app['log']->add("SimpleForms could not fetch next sequence number from table". $formconfig['insert_into_table'] . ' - check if the table exists.', 3);
+                echo "Couldn't fetch next sequence number from table " . $formconfig['insert_into_table'] . ".";
+            }
+        }
+
+        $sequence++;
+
+        if($formconfig['debugmode']==true) {
+            \Dumper::dump('Get sequence for '.$formname . ' column: '. $column . ' - '. $sequence);
+        }
+
+        return $sequence;
+    }
+
 }

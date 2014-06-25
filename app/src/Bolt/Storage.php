@@ -221,7 +221,8 @@ class Storage
             foreach ($contenttype['taxonomy'] as $taxonomy) {
                 if ($this->app['config']->get('taxonomy/' . $taxonomy . '/options')) {
                     $options = $this->app['config']->get('taxonomy/' . $taxonomy . '/options');
-                    $contentobject->setTaxonomy($taxonomy, array_rand($options), rand(1, 1000));
+                    $key = array_rand($options);
+                    $contentobject->setTaxonomy($taxonomy, $key, $options[$key], rand(1, 1000));
                 }
                 if ($this->app['config']->get('taxonomy/' . $taxonomy . '/behaves_like') == "tags") {
                     $contentobject->setTaxonomy($taxonomy, $this->getSomeRandomTags(5));
@@ -364,7 +365,8 @@ class Storage
         }
     }
 
-    private function makeOrderLimitSql($options) {
+    private function makeOrderLimitSql($options)
+    {
         $sql = '';
         if (isset($options['order'])) {
             $sql .= " ORDER BY " . $options['order'];
@@ -391,7 +393,8 @@ class Storage
      *                       - 'order' (string)
      * @return array
      */
-    public function getChangelog($options) {
+    public function getChangelog($options)
+    {
         $tablename = $this->getTablename('content_changelog');
         $sql = "SELECT log.*, log.title " .
                "    FROM $tablename as log ";
@@ -405,7 +408,8 @@ class Storage
         return $objs;
     }
 
-    public function countChangelog($options) {
+    public function countChangelog($options)
+    {
         $tablename = $this->getTablename('content_changelog');
         $sql = "SELECT COUNT(1) " .
                "    FROM $tablename as log ";
@@ -425,7 +429,8 @@ class Storage
      *                       - 'id' (int), to filter by a specific changelog entry ID
      * @return array
      */
-    public function getChangelogByContentType($contenttype, $options) {
+    public function getChangelogByContentType($contenttype, $options)
+    {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
@@ -455,7 +460,8 @@ class Storage
         return $objs;
     }
 
-    public function countChangelogByContentType($contenttype, $options) {
+    public function countChangelogByContentType($contenttype, $options)
+    {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
@@ -485,7 +491,8 @@ class Storage
      * @param int $id The content-changelog ID
      * @return \Bolt\ChangelogItem|null
      */
-    public function getChangelogEntry($contenttype, $contentid, $id) {
+    public function getChangelogEntry($contenttype, $contentid, $id)
+    {
         return $this->_getChangelogEntry($contenttype, $contentid, $id, '=');
     }
 
@@ -498,7 +505,8 @@ class Storage
      * @param int $id The content-changelog ID
      * @return \Bolt\ChangelogItem|null
      */
-    public function getNextChangelogEntry($contenttype, $contentid, $id) {
+    public function getNextChangelogEntry($contenttype, $contentid, $id)
+    {
         return $this->_getChangelogEntry($contenttype, $contentid, $id, '>');
     }
 
@@ -511,7 +519,8 @@ class Storage
      * @param int $id The content-changelog ID
      * @return \Bolt\ChangelogItem|null
      */
-    public function getPrevChangelogEntry($contenttype, $contentid, $id) {
+    public function getPrevChangelogEntry($contenttype, $contentid, $id)
+    {
         return $this->_getChangelogEntry($contenttype, $contentid, $id, '<');
     }
 
@@ -529,7 +538,8 @@ class Storage
      * @throws \Exception
      * @return \Bolt\ChangelogItem|null
      */
-    private function _getChangelogEntry($contenttype, $contentid, $id, $cmp_op) {
+    private function _getChangelogEntry($contenttype, $contentid, $id, $cmp_op)
+    {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
         }
@@ -544,7 +554,12 @@ class Storage
                 $ordering = " ORDER BY date ";
                 break;
             default:
-                throw new \Exception("Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '$cmd_op')");
+                throw new \Exception(
+                    sprintf(
+                        "Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '%s')",
+                        $cmp_op
+                    )
+                );
         }
         $tablename = $this->getTablename('content_changelog');
         $content_tablename = $this->getTablename($contenttype);
@@ -568,15 +583,13 @@ class Storage
         }
     }
 
-    public function saveContent($content, $contenttype = "")
+    public function saveContent($content, $comment = null)
     {
-
         $contenttype = $content->contenttype;
-
         $fieldvalues = $content->values;
 
         if (empty($contenttype)) {
-            echo "Contenttype is required.";
+            echo 'Contenttype is required.';
 
             return false;
         }
@@ -592,68 +605,72 @@ class Storage
 
         // add the fields for this contenttype,
         foreach ($contenttype['fields'] as $key => $values) {
+            switch ($values['type']) {
 
-            // Set the slug, while we're at it..
-            if ($values['type'] == "slug") {
-                if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
-                    $uses = '';
-                    foreach ($values['uses'] as $usesField) {
-                        $uses .= $fieldvalues[$usesField] . ' ';
+                // Set the slug, while we're at it..
+                case 'slug':
+                    if (!empty($values['uses']) && empty($fieldvalues['slug'])) {
+                        $uses = '';
+                        foreach ($values['uses'] as $usesField) {
+                            $uses .= $fieldvalues[$usesField] . ' ';
+                        }
+                        $fieldvalues['slug'] = makeSlug($uses);
+                    } elseif (!empty($fieldvalues['slug'])) {
+                        $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
+                    } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
+                        $fieldvalues['slug'] = $fieldvalues['id'];
                     }
-                    $fieldvalues['slug'] = makeSlug($uses);
-                } elseif (!empty($fieldvalues['slug'])) {
-                    $fieldvalues['slug'] = makeSlug($fieldvalues['slug']);
-                } elseif (empty($fieldvalues['slug']) && $fieldvalues['id']) {
-                    $fieldvalues['slug'] = $fieldvalues['id'];
-                }
-            }
+                    break;
 
-            if ($values['type'] == "video") {
-                foreach (array('html', 'responsive') as $subkey) {
-                    if (!empty($fieldvalues[$key][$subkey])) {
-                        $fieldvalues[$key][$subkey] = (string)$fieldvalues[$key][$subkey];
+                case 'video':
+                    foreach (array('html', 'responsive') as $subkey) {
+                        if (!empty($fieldvalues[$key][$subkey])) {
+                            $fieldvalues[$key][$subkey] = (string) $fieldvalues[$key][$subkey];
+                        }
                     }
-                }
-                if (!empty($fieldvalues[$key]['url'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                    if (!empty($fieldvalues[$key]['url'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "geolocation") {
-                if (!empty($fieldvalues[$key]['address'])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else {
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'geolocation':
+                    if (!empty($fieldvalues[$key]['address'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "image") {
-                 if (!empty($fieldvalues[$key]['file'])) {
-                     $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                 } else {
-                     $fieldvalues[$key] = "";
-                 }
-            }
+                case 'image':
+                    if (!empty($fieldvalues[$key]['file'])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else {
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if (in_array($values['type'], array("imagelist", "filelist")))  {
-                if (is_array($fieldvalues[$key])) {
-                    $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
-                    // Don't store '[]'
-                    $fieldvalues[$key] = "";
-                }
-            }
+                case 'imagelist':
+                case 'filelist':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                        // Don't store '[]'
+                        $fieldvalues[$key] = '';
+                    }
+                    break;
 
-            if ($values['type'] == "integer") {
-                $fieldvalues[$key] = round($fieldvalues[$key]);
-            }
+                case 'integer':
+                    $fieldvalues[$key] = round($fieldvalues[$key]);
+                    break;
 
-            if ($values['type'] == "select" && is_array($fieldvalues[$key])) {
-                $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                case 'select':
+                    if (is_array($fieldvalues[$key])) {
+                        $fieldvalues[$key] = json_encode($fieldvalues[$key]);
+                    }
+                    break;
             }
-
         }
 
         // Clean up fields, check unneeded columns.
@@ -672,7 +689,8 @@ class Storage
         }
 
         // We need to verify if the slug is unique. If not, we update it.
-        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], isset($fieldvalues['id']) ? $fieldvalues['id'] : null, $contenttype['slug'], false, false);
+        $get_id = isset($fieldvalues['id']) ? $fieldvalues['id'] : null;
+        $fieldvalues['slug'] = $this->getUri($fieldvalues['slug'], $get_id, $contenttype['slug'], false, false);
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
@@ -802,11 +820,19 @@ class Storage
 
     }
 
-
+    /**
+     * Update a single value from content.
+     *
+     * It is called in list of contents.
+     *
+     * @param string $contenttype Content Type to be edited.
+     * @param int    $id          Id of content to be updated.
+     * @param string $field       Field name of content to be changed.
+     * @param mixed  $value       New value to be defined on field.
+     * @return bool Returns true when update is done or false if not.
+     */
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
-
-        $tablename = $this->getTablename($contenttype);
 
         $id = intval($id);
 
@@ -817,18 +843,21 @@ class Storage
             return false;
         }
 
-        // @todo make sure we don't set datecreated
-        // @todo update datechanged
+        $content = $this->getContent("$contenttype/$id");
 
-        $this->logUpdate($contenttype, $id, array($field => $value));
+        $content->setValue($field, $value);
 
-        $query = sprintf("UPDATE %s SET $field = ? WHERE id = ?", $tablename);
-        $stmt = $this->app['db']->prepare($query);
-        $stmt->bindValue(1, $value);
-        $stmt->bindValue(2, $id);
-        $res = $stmt->execute();
+        $comment = __(
+            'The field %field% has been changed to "%newValue%"',
+            array(
+                '%field%'    => $field,
+                '%newValue%' => $value
+            )
+        );
 
-        return $res;
+        $result = $this->saveContent($content, $comment);
+
+        return $result;
 
     }
 
@@ -1903,6 +1932,11 @@ class Storage
      * This code has been split into multiple methods in the spirit of separation of concerns,
      * but the situation is still far from ideal.
      * Where applicable each 'concern' notes the coupling in the local documentation.
+     * @param string $textquery
+     * @param string $parameters
+     * @param array  $pager
+     * @param array  $whereparameters
+     * @return Content
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
@@ -2048,8 +2082,7 @@ class Storage
         if (empty($name)) {
             return false;
         }
-
-        if( strpos($name, 'RAND') !== false ) {
+        if (strpos($name, 'RAND') !== false) {
             $order = $name;
         } elseif ($prefix !== false) {
             $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
@@ -2477,7 +2510,7 @@ class Storage
         )->fetchAll();
 
         foreach ($rows as $key => $row) {
-            $content[$row['content_id']]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['sortorder']);
+            $content[$row['content_id']]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['name'], $row['sortorder']);
         }
 
         foreach ($content as $key => $value) {
@@ -2553,7 +2586,7 @@ class Storage
                 if (isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
                     $name = $configTaxonomies[$taxonomytype]['options'][$slug];
                 } else {
-                    $name = "";
+                    $name = $slug;
                 }
 
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
@@ -2562,7 +2595,7 @@ class Storage
                         'content_id' => $content_id,
                         'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
-                        'slug' => $slug,
+                        'slug' => makeSlug($slug),
                         'name' => $name,
                         'sortorder' => $sortorder
                     );
@@ -2750,7 +2783,8 @@ class Storage
     }
 
 
-    public function getLatestId($contenttypeslug) {
+    public function getLatestId($contenttypeslug)
+    {
 
         $tablename = $this->getTablename($contenttypeslug);
 
@@ -2904,9 +2938,11 @@ class Storage
      * @param int    $contentId Content Id
      * @return array
      */
-    protected function findContent($tablename, $contentId) {
-
-        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentId));
+    protected function findContent($tablename, $contentId)
+    {
+        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array(
+            $contentId
+        ));
         return $oldContent;
     }
 

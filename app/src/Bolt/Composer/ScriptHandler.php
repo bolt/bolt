@@ -34,8 +34,6 @@ class ScriptHandler
         foreach (array('css', 'font', 'img', 'js', 'lib') as $dir) {
             $filesystem->mirror(__DIR__ . '/../../../view/' . $dir, $targetDir . '/view/' . $dir);
         }
-        $filesystem->mirror(__DIR__ . '/../../../classes/upload', $targetDir . '/classes/upload');
-        $filesystem->copy(__DIR__ . '/../../../classes/timthumb.php', $targetDir . '/classes/timthumb.php');
 
         if (!$filesystem->exists($webDir . '/files/')) {
             $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');

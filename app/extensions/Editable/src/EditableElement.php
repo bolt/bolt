@@ -65,7 +65,7 @@ class EditableElement
         }
 
         $content->values[$this->fieldname] = $value;
-        $id = $this->app['storage']->saveContent($content, $this->contenttypeslug);
+        $id = $this->app['storage']->saveContent($content);
         return $id;
     }
 

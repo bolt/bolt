@@ -638,9 +638,29 @@ class Backend implements ControllerProviderInterface
                 $oldStatus = '';
             }
 
+            // Add non successfull control values to request values
+            // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
+            $request_all = $request->request->all();
+
+            foreach ($contenttype['fields'] as $key => $values) {
+                if (!isset($request_all[$key])) {
+                    switch ($values['type']) {
+                        case 'select':
+                            if (isset($values['multiple']) and $values['multiple'] == true) {
+                                $request_all[$key] = array();
+                            }
+                            break;
+
+                        case 'checkbox':
+                            $request_all[$key] = 0;
+                            break;
+                    }
+                }
+            }
+
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
-            $content->setFromPost($request->request->all(), $contenttype);
+            $content->setFromPost($request_all, $contenttype);
             $newStatus = $content['status'];
 
             $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);

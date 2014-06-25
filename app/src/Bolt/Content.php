@@ -429,13 +429,13 @@ class Content implements \ArrayAccess
      * @param $value
      * @param int $sortorder
      */
-    public function setTaxonomy($taxonomytype, $value, $sortorder = 0)
+    public function setTaxonomy($taxonomytype, $slug, $name = '', $sortorder = 0)
     {
 
         // If $value is an array, recurse over it, adding each one by itself.
-        if (is_array($value)) {
-            foreach ($value as $single) {
-                $this->setTaxonomy($taxonomytype, $single, $sortorder);
+        if (is_array($slug)) {
+            foreach ($slug as $single) {
+                $this->setTaxonomy($taxonomytype, $single, '', $sortorder);
             }
 
             return;
@@ -451,20 +451,22 @@ class Content implements \ArrayAccess
         }
 
         // Make the 'key' of the array an absolute link to the taxonomy.
-        $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $value);
-
-        $this->taxonomy[$taxonomytype][$link] = $value;
+        $link = sprintf("%s%s/%s", $this->app['paths']['root'], $taxonomytype, $slug);
 
         // Set the 'name', for displaying the pretty name, if there is any.
-        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$value)) {
-            $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$value);
-        } else {
-            $name = ucfirst($value);
+        if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$slug)) {
+            $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$slug);
+        } elseif (empty($name)) {
+            $name = $slug;
         }
+
+        $this->taxonomy[$taxonomytype][$link] = $name;
+
+
 
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
-            $this->setGroup($value, $name, $taxonomytype, $sortorder);
+            $this->setGroup($slug, $name, $taxonomytype, $sortorder);
         }
 
     }
@@ -918,41 +920,33 @@ class Content implements \ArrayAccess
      * Gets one or more related records.
      *
      */
-    public function related($filtercontenttype = "", $filterid = "")
+    public function related($filtercontenttype = '', $filterid = '')
     {
 
         if (empty($this->relation)) {
-            // nothing to do here.
-            return false;
+            return false; // nothing to do here.
         }
 
         $records = array();
 
         foreach ($this->relation as $contenttype => $ids) {
-
-            if (!empty($filtercontenttype) && ($contenttype!=$filtercontenttype)) {
+            if (!empty($filtercontenttype) && ($contenttype != $filtercontenttype)) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
-
             foreach ($ids as $id) {
-
-                if (!empty($filterid) && ($id!=$filterid)) {
+                if (!empty($filterid) && ($id != $filterid)) {
                     continue; // Skip other ids, if we requested a specific id.
                 }
 
-                $record = $this->app['storage']->getContent($contenttype."/".$id);
+                $record = $this->app['storage']->getContent($contenttype . '/' . $id);
 
                 if (!empty($record)) {
-                    $records[] = $this->app['storage']->getContent($contenttype."/".$id);
+                    $records[] = $record;
                 }
-
             }
         }
-
         return $records;
-
     }
-
 
     /**
      * Gets the correct template to use, based on our cascading template rules.

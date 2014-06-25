@@ -325,7 +325,7 @@ class Extensions
 
         $sessionkey = !empty($user['sessionkey']) ? $user['sessionkey'] : "";
 
-        $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, $callback)), 0, 8);
+        $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, !is_array($callback) ? $callback : get_class($callback[0]) . $callback[1])), 0, 8);
 
         $this->widgetqueue[] = array(
             'type' => $type,
@@ -355,10 +355,11 @@ class Extensions
                 if ($type == $widget['type'] && $location == $widget['location']) {
 
                     $html = sprintf(
-                        "<section><div class='widget' id='widget-%s' data-key='%s'>%s</div>%s</section>",
+                        "<section><div class='widget' id='widget-%s' data-key='%s'%s>%s</div>%s</section>",
                         $widget['key'],
                         $widget['key'],
-                        $this->renderWidget($widget['key']),
+                        !$widget['defer'] ? '' : " data-defer='true'",
+                        $widget['defer'] ? '' : $this->renderWidget($widget['key']),
                         empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
                     );
 

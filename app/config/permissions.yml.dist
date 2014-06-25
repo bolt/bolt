@@ -8,8 +8,9 @@
 # - 'root', the "superuser" role; Bolt will automatically grant all permissions
 #   to this role. Manually adding it to any permission is pointless, because it
 #   implicitly grants every permission anyway.
-# - 'everyone', the "anonymous" role; every user automatically has this role.
-#   Adding the 'everyone' role to any permission will grant it to all users.
+# - 'everyone', the "base" role; every logged-in user automatically has this
+#   role. Adding the 'everyone' role to any permission will grant it to all
+#   users (but not to unauthenticated users).
 # - 'owner': this role is only valid in the context of an individual content
 #   item, and the user who "owns" the item (usually the person who created it)
 #   will be in the 'owner' role.
@@ -126,11 +127,21 @@ contenttype-default:
 
 contenttypes:
 
-# This is an example of how to define Contenttype specific 
-#    kitchensink:                                 # The name of the content type in contenttypes.yml
-#        edit: [ admin, chief-editor ]            # Only the Admin and Chief Editor can work with this Contenttype
-#        create: [ admin, chief-editor ]          
-#        publish: [ admin, chief-editor ]         
-#        depublish: [ admin, chief-editor ]       
-#        delete: [ admin, chief-editor ]          
-#        view: [ developer, admin, chief-editor ] # Roles that can see the area in the admin section
+# This is an example of how to define Contenttype specific permissions
+#
+# contenttypes:
+#    # Keys in this dictionary map to keys in the contenttypes.yml specification.
+#    kitchensink:
+#        # Rules defined here *override* rules defined in contenttype-default,
+#        # but *add* to rules in contenttype-all. This means that permissions
+#        # granted through contenttype-all cannot be revoked here, merely
+#        # amended.
+#
+#        # Only the Admin and Chief Editor are allowed to edit records
+#        edit: [ admin, chief-editor ]
+#        create: [ admin, chief-editor ]
+#        publish: [ admin, chief-editor ]
+#        depublish: [ admin, chief-editor ]
+#        delete: [ admin, chief-editor ]
+#        # Roles that can see the area in the admin section
+#        view: [ developer, admin, chief-editor ]
