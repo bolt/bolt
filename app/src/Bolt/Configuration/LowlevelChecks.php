@@ -8,23 +8,23 @@ namespace Bolt\Configuration;
 
 class LowlevelChecks
 {
-    
+
     public $config;
     public $disableApacheChecks = false;
-    
-    
+
+
     /**
      * The constructor requires a resource manager object to perform checks against.
-     * This should ideally be typehinted to Bolt\Configuration\ResourceManager 
+     * This should ideally be typehinted to Bolt\Configuration\ResourceManager
      *
      * @return void
      **/
-    
+
     public function __construct($config = null)
     {
         $this->config = $config;
     }
-    
+
     /**
      * Checks that the supplied directory has a loadable autoload.php file.
      * This works outside any other config and throws an immediate error if not available.
@@ -68,15 +68,15 @@ class LowlevelChecks
             $this->lowlevelError("The folder <code>" . $this->config->getPath('cache') . "</code> isn't writable. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
         }
-        
+
         /**
          * This check looks for the presence of the .htaccess file inside the web directory.
          * It is here only as a convenience check for users that install the basic version of Bolt.
-         * 
-         * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks(); 
+         *
+         * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks();
          * inside your bootstrap.php file, just before the call to $config->verify().
          **/
-        if(false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
+        if(isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
             if(!is_readable($this->config->getPath('web').'/.htaccess')) {
                 $this->lowlevelError("The file <code>" .
                     htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) .
@@ -84,9 +84,9 @@ class LowlevelChecks
                     "present and readable to the user that the webserver is using.");
             }
         }
-        
-         
-         
+
+
+
         // If the config folder is OK, but the config files are missing, attempt to fix it.
         $this->lowlevelConfigFix('config');
         $this->lowlevelConfigFix('menu');
@@ -145,12 +145,12 @@ class LowlevelChecks
         if(isset($cfg['memory']) && true == $cfg['memory']) {
             return;
         }
-        
+
         $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : "bolt";
         if (getExtension($filename)!="db") {
             $filename .= ".db";
         }
-        
+
 
         // Check if the app/database folder and .db file are present and writable
         if (!is_writable($this->config->getPath('database'))) {
@@ -169,7 +169,7 @@ class LowlevelChecks
         }
 
     }
-    
+
     public function disableApacheChecks()
     {
         $this->disableApacheChecks = true;
