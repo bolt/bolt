@@ -19,12 +19,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.11",
+            'version' => "1.12",
             'required_bolt_version' => "1.6",
             'highest_bolt_version' => "1.6",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2014-06-20",
+            'latest_releasedate' => "2014-06-24",
             'allow_in_user_content' => true,
         );
         return $data;
@@ -170,7 +170,7 @@ class Extension extends \Bolt\BaseExtension
             // Make the keys more sensible.
             $options['choices'] = array();
             foreach ($field['choices'] as $key => $option) {
-                $options['choices'][ safeString($key) ] = $option;
+                $options['choices'][ $key ] = $option;
             }
         }
 
@@ -183,7 +183,7 @@ class Extension extends \Bolt\BaseExtension
 
                 if (is_array($value['choices'])) {
                     foreach ($value['choices'] as $k => $v) {
-                        $choices[safeString($k)] = $v;
+                        $choices[$k] = $v;
                     }
                 }
 
@@ -400,8 +400,8 @@ class Extension extends \Bolt\BaseExtension
             // Save the choice label, not the submitted safe string value.
             if ($formconfig['fields'][$key]['type'] == 'choice' && !empty($formconfig['fields'][$key]['choices'])) {
                 $options = array();
-                foreach ($formconfig['fields'][$key]['choices'] as $option) {
-                    $options[safeString($option)] = $option;
+                foreach ($formconfig['fields'][$key]['choices'] as $key => $option) {
+                    $options[$key] = $option;
                 }
 
                 // For multiple choices, prevent "Illegal offset type" warnings.
@@ -530,6 +530,7 @@ class Extension extends \Bolt\BaseExtension
             'config' => $formconfig));
 
         if($formconfig['debugmode']==true) {
+            \Dumper::dump('Mail html for '.$formname);
             \Dumper::dump($mailhtml);
         }
 
@@ -597,45 +598,61 @@ class Extension extends \Bolt\BaseExtension
 
             // check for other email addresses to be added
             foreach($formconfig['fields'] as $key => $values) {
-                if ($values['type']=="email" && in_array($values['use_as'], array('to_email', 'from_email', 'cc_email', 'bcc_email'))) {
-                    $tmp_email = $data[$key];
+                if (in_array($values['use_as'], array('to_email', 'from_email', 'cc_email', 'bcc_email'))) {
+                    $tmp_email = false;
 
-                    if(isset($values['use_with'])) {
-                        $tmp_name = $data[$values['use_with']];
-                        if(!$tmp_name) {
+                    if($values['type']=="email") {
+                        $tmp_email = $data[$key];
+
+                        if(isset($values['use_with'])) {
+                            $tmp_name = $data[$values['use_with']];
+                            if(!$tmp_name) {
+                                $tmp_name = $tmp_email;
+                            }
+                        }
+                        else {
                             $tmp_name = $tmp_email;
                         }
                     }
-                    else {
-                        $tmp_name = $tmp_email;
+                    elseif($values['type']=="choice") {
+                        $tmp_email = $data[$key];
+                        if(array_key_exists($tmp_email, $formconfig['fields'][$key])) {
+                            $tmp_name = $formconfig['fields'][$key];
+                        }
+                        else {
+                            $tmp_name = $tmp_email;
+                        }
                     }
-                    switch($values['use_as']) {
-                        case 'from_email':
-                            // set the special sender for this form
-                            $message->setFrom(array($tmp_email => $tmp_name));
-                            // add the values to the formconfig in case we want to see this later
-                            if (empty($formconfig['from_email'])) {
-                                $formconfig['from_email'] = $tmp_email;
-                                $formconfig['from_name'] = $tmp_name;
-                            }
-                            break;
-                        case 'to_email':
-                            // add another recipient
-                            $message->addTo($tmp_email, $tmp_name);
-                            // add the values to the formconfig in case we want to see this later
-                            if (empty($formconfig['recipient_email'])) {
-                                $formconfig['recipient_email'] = $tmp_email;
-                                $formconfig['recipient_name'] = $tmp_name;
-                            }
-                            break;
-                        case 'cc_email':
-                            // add another carbon copy recipient
-                            $message->addCc($tmp_email, $tmp_name);
-                            break;
-                        case 'bcc_email':
-                            // add another blind carbon copy recipient
-                            $message->addBcc($tmp_email, $tmp_name);
-                            break;
+
+                    if($tmp_email) {
+                        switch($values['use_as']) {
+                            case 'from_email':
+                                // set the special sender for this form
+                                $message->setFrom(array($tmp_email => $tmp_name));
+                                // add the values to the formconfig in case we want to see this later
+                                if (empty($formconfig['from_email'])) {
+                                    $formconfig['from_email'] = $tmp_email;
+                                    $formconfig['from_name'] = $tmp_name;
+                                }
+                                break;
+                            case 'to_email':
+                                // add another recipient
+                                $message->addTo($tmp_email, $tmp_name);
+                                // add the values to the formconfig in case we want to see this later
+                                if (empty($formconfig['recipient_email'])) {
+                                    $formconfig['recipient_email'] = $tmp_email;
+                                    $formconfig['recipient_name'] = $tmp_name;
+                                }
+                                break;
+                            case 'cc_email':
+                                // add another carbon copy recipient
+                                $message->addCc($tmp_email, $tmp_name);
+                                break;
+                            case 'bcc_email':
+                                // add another blind carbon copy recipient
+                                $message->addBcc($tmp_email, $tmp_name);
+                                break;
+                        }
                     }
                 }
             }
