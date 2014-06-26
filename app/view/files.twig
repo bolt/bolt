@@ -28,7 +28,7 @@
     {% for folder in folders %}
         <tr>
             <td>
-                <a href="{{ path('files', { 'path': folder.newpath }) }}">
+                <a href="{{ path('files', { 'path': folder.newpath, 'namespace':namespace }) }}">
                     <i class="icon-folder-open"></i>
                     <b>{{ folder.foldername }}/</b>
                 </a>
