@@ -122,9 +122,11 @@ class Backend implements ControllerProviderInterface
             ->method('POST')
             ->bind('useraction');
 
-        $ctl->match("/files/{path}", array($this, 'files'))
+        $ctl->match("/files/{namespace}/{path}", array($this, 'files'))
             ->before(array($this, 'before'))
-            ->assert('path', '.+')
+            ->assert('namespace', '.+')
+            ->assert('path', '.*')
+            ->value('namespace', 'files')
             ->bind('files');
 
         $ctl->get("/activitylog", array($this, 'activitylog'))
@@ -1129,15 +1131,15 @@ class Backend implements ControllerProviderInterface
 
     }
 
-    public function files($path, Silex\Application $app, Request $request)
+    public function files($namespace, $path, Silex\Application $app, Request $request)
     {
         $files = array();
         $folders = array();
 
-        $basefolder = BOLT_WEB_DIR . "/";
+        $basefolder = $app['resources']->getPath($namespace);
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder . $path);
-
+        
         if (! $app['filepermissions']->authorized($currentfolder)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
