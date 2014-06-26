@@ -1249,7 +1249,7 @@ class Backend implements ControllerProviderInterface
                     $folders[$entry] = array(
                         'path' => $path,
                         'foldername' => $entry,
-                        'newpath' => $path . "/" . $entry,
+                        'newpath' => ltrim($path . "/" . $entry, "/"),
                         'writable' => is_writable($fullfilename),
                         'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
                     );
