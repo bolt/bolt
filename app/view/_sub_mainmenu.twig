@@ -104,7 +104,7 @@
                         <li><a href="{{ path('files', { 'path': 'theme' }) }}"><i class="icon-hdd"></i> {{ __('View / edit Templates') }}</a></li>
                     {% endif %}
                     {% if isallowed('files:uploads') %}
-                        <li><a href="{{ url('files', { 'namespace': 'files'}) }}"><i class="icon-hdd"></i> {{ __('Uploaded files') }}</a></li>
+                        <li><a href="{{ url('files', { 'namespace': 'files', 'path': ''}) }}"><i class="icon-hdd"></i> {{ __('Uploaded files') }}</a></li>
                     {% endif %}
                     {% if isallowed('translation') %}
                     <li class="divider"></li>
