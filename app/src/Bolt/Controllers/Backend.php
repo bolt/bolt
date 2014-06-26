@@ -1138,7 +1138,7 @@ class Backend implements ControllerProviderInterface
 
         $basefolder = $app['resources']->getPath($namespace);
         $path = stripTrailingSlash(str_replace("..", "", $path));
-        $currentfolder = realpath($basefolder . $path);
+        $currentfolder = realpath($basefolder ."/". $path);
         
         if (! $app['filepermissions']->authorized($currentfolder)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
