@@ -1282,7 +1282,8 @@ class Backend implements ControllerProviderInterface
             'files' => $files,
             'folders' => $folders,
             'pathsegments' => $pathsegments,
-            'form' => $formview
+            'form' => $formview,
+            'namespace' => $namespace
         ));
 
     }
