@@ -2,10 +2,10 @@
 
 {% block form_row %}
     {% spaceless %}
-        <div class="control-group {% if errors|length > 0 %}error{% endif %}">
-            <div class="controls">
-                {{ form_label(form) }}
-                {{ form_widget(form) }}
+        <div class="form-group {% if errors|length > 0 %}has-error{% endif %}">
+            {{ form_label(form, null, {'label_attr': {'class':'col-sm-2 control-label' } }) }}
+            <div class="col-sm-10 col-md-6 col-lg-4">
+                {{ form_widget(form, {'attr' : { 'class' : 'form-control large' } }) }}
                 {{ form_errors(form) }}
             </div>
         </div>
@@ -15,7 +15,7 @@
 {% block form_errors %}
     {% spaceless %}
         {% for error in errors %}
-            <span class="help-inline">{{
+            <span class="help-block">{{
             error.messagePluralization is null
             ? error.messageTemplate|trans(error.messageParameters, 'validators')
             : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
@@ -26,14 +26,14 @@
 
 {% block choice_widget_expanded %}
     {% spaceless %}
-        <fieldset class="checkbox">
+        <div>
             {% for child in form %}
-                <div>
-                    {{ form_widget(child) }}
-                    {{ form_label(child) }}
+                <div class="checkbox">
+                    <label>
+                    {{ form_widget(child) }}{{ child.vars.label -}}
+                    </label>
                 </div>
             {% endfor %}
-        </fieldset>
+        </div>
     {% endspaceless %}
 {% endblock choice_widget_expanded %}
-
