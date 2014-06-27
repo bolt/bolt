@@ -60,6 +60,7 @@ global:
     files:uploads: [ admin, developer, chief-editor ]
     files: [ editor, admin, developer ]
     prefill: [ developer ]
+    profile: [ everyone ] # edit own profile
     settings: [ admin, developer, everyone ]
     translation: [ developer ]
     useraction: [ admin, developer ] # enable/disable/delete
