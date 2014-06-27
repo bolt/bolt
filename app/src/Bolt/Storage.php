@@ -2906,7 +2906,7 @@ class Storage
         } else {
             // For MySQL and Postgres:
             $databasename = $this->app['config']->get('general/database/databasename');
-            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
+            $query = "SELECT count(*) FROM information_schema.tables WHERE (table_schema = '$databasename' OR table_catalog = '$databasename') AND table_name = '$name';";
         }
 
         $res = $this->app['db']->fetchColumn($query);
