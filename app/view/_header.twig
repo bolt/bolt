@@ -39,15 +39,15 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i> <span>{{ user.displayname|trimtext(16) }}</span> <i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="{{ path('useredit', { 'id' : user.id }) }}"><i class="fa fa-gear fa-fw"></i> {{ __('Account Settings') }}</a>
+                <ul class="dropdown-menu dropdown-user" role="menu" >
+                    <li>
+                        <a href="{{ path('profile') }}" role="menuitem" tabindex="-1"><i class="fa fa-gear fa-fw"></i> {{ __('Profile') }}</a>
                     </li>
                     <li class="divider"></li>
-                    {# Logout #}
                     <li>
                         <form action="{{ path('logout') }}" method="POST">
-                            <button class="btn btn-link" type="submit">
-                                <i class="fa fa-signout"></i> {{ __('Logout %name%', {'%name%': user.displayname|trimtext(16)}) }}
+                            <button class="btn btn-link btn-block" type="submit">
+                                <i class="fa fa-sign-out"></i> {{ __('Logout') }}
                             </button>
                         </form>
                     </li>

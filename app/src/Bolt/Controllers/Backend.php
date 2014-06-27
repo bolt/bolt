@@ -113,6 +113,11 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('useredit');
 
+        $ctl->match("/profile", array($this, 'profile'))
+            ->before(array($this, 'before'))
+            ->method('GET|POST')
+            ->bind('profile');
+
         $ctl->match("/roles", array($this, 'roles'))
             ->before(array($this, 'before'))
             ->method('GET')
@@ -1152,6 +1157,104 @@ class Backend implements ControllerProviderInterface
                     return redirect('users');
                 }
 
+            }
+        }
+
+        return $app['render']->render('edituser.twig', array(
+            'form' => $form->createView(),
+            'title' => $title
+        ));
+
+    }
+
+    public function profile(\Bolt\Application $app, Request $request)
+    {
+
+        $user = $app['users']->getCurrentUser();
+        $title = "<strong>" . __('Profile') . "</strong>";
+
+        $enabledoptions = array(
+            1 => __('yes'),
+            0 => __('no')
+        );
+
+        // Start building the form..
+        $form = $app['form.factory']->createBuilder('form', $user)
+            ->add('id', 'hidden')
+            ->add('password', 'password', array(
+                'required' => false,
+                'label' => __('Password')
+            ))
+            ->add('password_confirmation', 'password', array(
+                'required' => false,
+                'label' => __("Password (confirmation)")
+            ))
+            ->add('email', 'text', array(
+                'constraints' => new Assert\Email(),
+                'label' => __('Email')
+            ))
+            ->add('displayname', 'text', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                'label' => __('Display name')
+            ));
+
+        // Make sure the passwords are identical and some other check, with a custom validator..
+        $form->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($app) {
+
+            $form = $event->getForm();
+            $id = $form['id']->getData();
+            $pass1 = $form['password']->getData();
+            $pass2 = $form['password_confirmation']->getData();
+
+            // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
+            // then make sure it's at least 6 characters long.
+            if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
+                // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
+                //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
+                $error = new FormError(__("This value is too short. It should have 6 characters or more."));
+                $form['password']->addError($error);
+            }
+
+            // Passwords must be identical..
+            if ($pass1 != $pass2) {
+                $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
+            }
+
+            // Email addresses must be unique..
+            if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
+                $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
+            }
+
+            // Displaynames must be unique..
+            if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
+                $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
+            }
+
+        });
+
+        /**
+         * @var \Symfony\Component\Form\Form $form
+         */
+        $form = $form->getForm();
+
+        // Check if the form was POST-ed, and valid. If so, store the user.
+        if ($request->getMethod() == "POST") {
+            //$form->bindRequest($request);
+            $form->submit($app['request']->get($form->getName()));
+
+            if ($form->isValid()) {
+
+                $user = $form->getData();
+
+                $res = $app['users']->saveUser($user);
+                $app['log']->add(__("Updated user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+                if ($res) {
+                    $app['session']->getFlashBag()->set('success', __('User %s has been saved.', array('%s' => $user['displayname'])));
+                } else {
+                    $app['session']->getFlashBag()->set('error', __('User %s could not be saved, or nothing was changed.', array('%s' => $user['displayname'])));
+                }
+
+                return redirect('profile');
             }
         }
 
