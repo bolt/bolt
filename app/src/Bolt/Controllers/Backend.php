@@ -124,7 +124,7 @@ class Backend implements ControllerProviderInterface
 
         $ctl->match("/files/{namespace}/{path}", array($this, 'files'))
             ->before(array($this, 'before'))
-            ->assert('namespace', '.+')
+            ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
             ->value('namespace', 'files')
             ->bind('files');
@@ -133,9 +133,11 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('activitylog');
 
-        $ctl->match("/file/edit/{file}", array($this, 'fileedit'))
+        $ctl->match("/file/edit/{namespace}/{file}", array($this, 'fileedit'))
             ->before(array($this, 'before'))
             ->assert('file', '.+')
+            ->assert('namespace', '[^/]+')
+            ->value('namespace', 'files')
             ->method('GET|POST')
             ->bind('fileedit');
 
@@ -1288,16 +1290,22 @@ class Backend implements ControllerProviderInterface
 
     }
 
-    public function fileedit($file, Silex\Application $app, Request $request)
+    public function fileedit($namespace, $file, Silex\Application $app, Request $request)
     {
 
-        if (dirname($file) == "app/config") {
+        if ($namespace == 'app' && dirname($file) == "config") {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
-            // correct BOLT_CONFIG_DIR, which might be 'app/config', but it might be something else.
-            $filename = realpath(BOLT_CONFIG_DIR . "/" . basename($file));
+            // correct dir, which might be 'app/config', but it might be something else.
+            $filename = realpath($app['resources']->getPath('config') . "/" . basename($file));
         } else {
-            // otherwise just realpath it, relative to the 'webroot'.
-            $filename = realpath(BOLT_WEB_DIR . "/" . $file);
+            // otherwise look up the namespace and use that as the base.
+            try {
+                $path = $app['resources']->getPath($namespace);
+                $filename = realpath($path . "/" . $file);
+            } catch (\Exception $e) {
+                $path = $app['resources']->getPath('files');
+                $filename = realpath($path . "/" . $file);
+            }
         }
 
         if (! $app['filepermissions']->authorized($filename)) {
