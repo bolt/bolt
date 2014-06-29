@@ -61,13 +61,13 @@
                         {% if isallowed('files:config') %}
                             <li><a href="{{ path('fileedit', { 'namespace':'app', 'file': 'config/config.yml'}) }}">
                                 <i class="icon-cog"></i> {{ __('Configuration') }}</a></li>
-                            <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
+                            <li><a href="{{ path('fileedit', { 'namespace':'app', 'file': 'config/contenttypes.yml'}) }}">
                                 <i class="icon-hdd"></i> {{ __('Contenttypes') }}</a></li>
-                            <li><a href="{{ path('fileedit', { 'file': 'app/config/taxonomy.yml'}) }}">
+                            <li><a href="{{ path('fileedit', { 'namespace':'app', 'file': 'config/taxonomy.yml'}) }}">
                                 <i class="icon-tags"></i> {{ __('Taxonomy') }}</a></li>
-                            <li><a href="{{ path('fileedit', { 'file': 'app/config/menu.yml'}) }}">
+                            <li><a href="{{ path('fileedit', { 'namespace':'app', 'file': 'config/menu.yml'}) }}">
                                 <i class="icon-list"></i> {{ __('Menu setup') }}</a></li>
-                            <li><a href="{{ path('fileedit', { 'file': 'app/config/routing.yml'}) }}">
+                            <li><a href="{{ path('fileedit', { 'namespace':'app', 'file': 'config/routing.yml'}) }}">
                                 <i class="icon-random"></i> {{ __('Routing setup') }}</a></li>
                         {% endif %}
                         <li class="divider"></li>
