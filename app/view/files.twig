@@ -28,7 +28,7 @@
     {% for folder in folders %}
         <tr>
             <td>
-                <a href="{{ path('files', { 'path': folder.newpath }) }}">
+                <a href="{{ url('files', { 'path': folder.newpath, 'namespace':namespace }) }}">
                     <i class="icon-folder-open"></i>
                     <b>{{ folder.foldername }}/</b>
                 </a>
@@ -119,7 +119,7 @@
                 {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
 
                     {% if file.readable %}
-                        <a href="{{ path('fileedit', { 'file': file.newpath}) }}">
+                        <a href="{{ path('fileedit', { 'file': namespace ~ file.newpath}) }}">
                             <b>{{ file.filename }}</b>
                         </a>
                     {% else %}

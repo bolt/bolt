@@ -122,9 +122,11 @@ class Backend implements ControllerProviderInterface
             ->method('POST')
             ->bind('useraction');
 
-        $ctl->match("/files/{path}", array($this, 'files'))
+        $ctl->match("/files/{namespace}/{path}", array($this, 'files'))
             ->before(array($this, 'before'))
-            ->assert('path', '.+')
+            ->assert('namespace', '.+')
+            ->assert('path', '.*')
+            ->value('namespace', 'files')
             ->bind('files');
 
         $ctl->get("/activitylog", array($this, 'activitylog'))
@@ -1129,15 +1131,15 @@ class Backend implements ControllerProviderInterface
 
     }
 
-    public function files($path, Silex\Application $app, Request $request)
+    public function files($namespace, $path, Silex\Application $app, Request $request)
     {
         $files = array();
         $folders = array();
 
-        $basefolder = BOLT_WEB_DIR . "/";
+        $basefolder = $app['resources']->getPath($namespace);
         $path = stripTrailingSlash(str_replace("..", "", $path));
-        $currentfolder = realpath($basefolder . $path);
-
+        $currentfolder = realpath($basefolder ."/". $path);
+        
         if (! $app['filepermissions']->authorized($currentfolder)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
@@ -1247,7 +1249,7 @@ class Backend implements ControllerProviderInterface
                     $folders[$entry] = array(
                         'path' => $path,
                         'foldername' => $entry,
-                        'newpath' => $path . "/" . $entry,
+                        'newpath' => ltrim($path . "/" . $entry, "/"),
                         'writable' => is_writable($fullfilename),
                         'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
                     );
@@ -1280,7 +1282,8 @@ class Backend implements ControllerProviderInterface
             'files' => $files,
             'folders' => $folders,
             'pathsegments' => $pathsegments,
-            'form' => $formview
+            'form' => $formview,
+            'namespace' => $namespace
         ));
 
     }
