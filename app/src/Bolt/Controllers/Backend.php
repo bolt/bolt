@@ -1232,7 +1232,7 @@ class Backend implements ControllerProviderInterface
                     $files[$entry] = array(
                         'path' => $path,
                         'filename' => $entry,
-                        'newpath' => $path . "/" . $entry,
+                        'newpath' => ltrim($path . "/" . $entry, "/"),
                         'writable' => is_writable($fullfilename),
                         'readable' => is_readable($fullfilename),
                         'type' => getExtension($entry),

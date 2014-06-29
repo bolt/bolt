@@ -119,7 +119,7 @@
                 {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
 
                     {% if file.readable %}
-                        <a href="{{ path('fileedit', { 'file': namespace ~ file.newpath}) }}">
+                        <a href="{{ path('fileedit', { 'namespace':namespace, 'file': file.newpath}) }}">
                             <b>{{ file.filename }}</b>
                         </a>
                     {% else %}
