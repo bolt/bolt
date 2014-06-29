@@ -59,7 +59,7 @@
                             <li><a href="{{ path('users') }}"><i class="icon-group"></i> {{ __('Users') }}</a></li>
                         {% endif %}
                         {% if isallowed('files:config') %}
-                            <li><a href="{{ path('fileedit', { 'file': 'app/config/config.yml'}) }}">
+                            <li><a href="{{ path('fileedit', { 'namespace':'app', 'file': 'config/config.yml'}) }}">
                                 <i class="icon-cog"></i> {{ __('Configuration') }}</a></li>
                             <li><a href="{{ path('fileedit', { 'file': 'app/config/contenttypes.yml'}) }}">
                                 <i class="icon-hdd"></i> {{ __('Contenttypes') }}</a></li>
