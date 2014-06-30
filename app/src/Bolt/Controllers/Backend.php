@@ -382,6 +382,8 @@ class Backend implements ControllerProviderInterface
     public function extend(Silex\Application $app, Request $request)
     {
         
+        $app['twig']->addGlobal('title', __("Extend Bolt"));
+
         return $app['render']->render('extend.twig', array());
 
     }
