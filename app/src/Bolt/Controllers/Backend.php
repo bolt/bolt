@@ -381,9 +381,15 @@ class Backend implements ControllerProviderInterface
      */
     public function extend(Silex\Application $app, Request $request)
     {
-        
-        $app['twig']->addGlobal('title', __("Extend Bolt"));
+        print_r($_SERVER); exit;
+        $output = new \Symfony\Component\Console\Output\BufferedOutput();
 
+        $composer = \evidev\composer\Wrapper::create();
+        $composer->run("update --dry-run", $output);
+        
+        print_r($output); exit;
+
+        $app['twig']->addGlobal('title', __("Extend Bolt"));
         return $app['render']->render('extend.twig', array());
 
     }
