@@ -163,6 +163,10 @@ class Backend implements ControllerProviderInterface
             ->value('tr_locale', $app['config']->get('general/locale'))
             ->method('GET|POST')
             ->bind('translation');
+            
+        $ctl->get("/extend", array($this, 'extend'))
+            ->before(array($this, 'before'))
+            ->bind('extend');
 
         $ctl->get("/omnisearch", array($this, 'omnisearch'))
             ->before(array($this, 'before'))
@@ -370,6 +374,14 @@ class Backend implements ControllerProviderInterface
         );
 
         return $app['render']->render('activity/activity.twig', array('context' => $context));
+    }
+    
+    /**
+     * Show the Bolt extensions manager UI.
+     */
+    public function extend()
+    {
+        
     }
 
     /**
