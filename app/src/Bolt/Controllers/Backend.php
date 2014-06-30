@@ -382,7 +382,9 @@ class Backend implements ControllerProviderInterface
     public function extend(Silex\Application $app, Request $request)
     {
         $packagefile = $app['resources']->getPath('root').'/composer.json';
-        var_dump($packagefile); exit;
+        if(!is_writable($packagefile)) {
+            throw new \RuntimeException("$packagefile is not writable. Please try changing permissions.", 1);  
+        }
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
 
@@ -390,8 +392,8 @@ class Backend implements ControllerProviderInterface
         $code = $composer->run("update --dry-run", $output);
         
         if($code == 0) {
-            $outputText = $output->fetch();
-            echo $outputText;
+            $outputText = explode("\n",$output->fetch());
+            print_r($outputText); exit;
         } 
 
         $app['twig']->addGlobal('title', __("Extend Bolt"));
