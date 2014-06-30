@@ -379,7 +379,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the Bolt extensions manager UI.
      */
-    public function extend()
+    public function extend(Silex\Application $app, Request $request)
     {
         
         return $app['render']->render('extend.twig', array());
