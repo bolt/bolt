@@ -103,7 +103,7 @@
             {% endif %}
             
             {# Extensions #}
-            <li>
+            <li class="{% if active in ['', 'extend'] %}active {% endif %}">
                 <a href="{{ path('extend') }}"><i class="icon-cog"></i> {{ __('Extend') }}</a>
             </li>
 
