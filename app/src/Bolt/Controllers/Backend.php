@@ -382,6 +382,8 @@ class Backend implements ControllerProviderInterface
     public function extend()
     {
         
+        return $app['render']->render('extend.twig', array());
+
     }
 
     /**
