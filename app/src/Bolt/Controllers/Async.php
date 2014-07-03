@@ -558,12 +558,12 @@ class Async implements ControllerProviderInterface
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = BOLT_WEB_DIR
+        $oldPath    = $app['resources']->getPath('files')
                       . DIRECTORY_SEPARATOR
                       . $parentPath
                       . $oldName;
 
-        $newPath    = BOLT_WEB_DIR
+        $newPath    = $app['resources']->getPath('files')
                       . DIRECTORY_SEPARATOR
                       . $parentPath
                       . $newName;
@@ -596,7 +596,7 @@ class Async implements ControllerProviderInterface
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = BOLT_WEB_DIR
+        $completePath = $app['resources']->getPath('files')
                         . DIRECTORY_SEPARATOR
                         . $parentPath
                         . $folderName;
@@ -626,7 +626,7 @@ class Async implements ControllerProviderInterface
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = BOLT_WEB_DIR
+        $completePath = $app['resources']->getPath('files')
                         . DIRECTORY_SEPARATOR
                         . $parentPath
                         . $folderName;
