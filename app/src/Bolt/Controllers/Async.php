@@ -621,12 +621,13 @@ class Async implements ControllerProviderInterface
      *
      * @return Boolean                   Whether the creation was successful
      */
-    public function createfolder(Silex\Application $app, Request $request)
+    public function createfolder(Silex\Application $app, Request $request, $namespace='files')
     {
+        $base = $app['resources']->getPath($namespace);
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $app['resources']->getPath('files')
+        $completePath = $base
                         . DIRECTORY_SEPARATOR
                         . $parentPath
                         . $folderName;
