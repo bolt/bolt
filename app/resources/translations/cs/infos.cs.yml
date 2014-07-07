@@ -1,0 +1,70 @@
+info:
+    upload:
+        image: |
+            Slouží k nahrání fotografie nebo obrázku.
+            Pro nahrání klikněte na tlačítko <em>Nahrát obrázek</em>.
+            Pokud využíváte novější verze prohlížečů Chrome, Firefox apod., jednoduše přetáhněte soubory z vašeho počítače nebo jiného okna prohlížeče.<br/>
+            Můžete také použít obrázky či fotografie již uložené na tomto webu. Pro použití dříve nahranéhio souboru prostě začněte psát název souboru do vstupního pole.
+            Název bude automaticky doplněn.
+        file: |
+            Nahrané soubory mohou být použity v článku nebo jako linky ke stažení. V moderních prohlížečích můžete soubory jednoduše přetáhnout myší nebo využijte tlačítko nahrát soubor. <br />
+            Můžete také použít soubor již uložený na serveru – stačí kliknout na vstupní pole souboru a začít psát – názvy budou automaticky doplněny.
+        filelist: |
+            Pole slouží k nahrání více obrázků včetně popisek. Používáte-li moderní prohlížeč, můžete sem soubory jednoduše přtáhnout myší. Zkuste to!
+        filesmall: |
+            Použijte tlačítko k náhrání souboru. Pokud je již soubor na serveru, začněte jednoduše psát jeho název do vstupního pole. Název bude automaticky doplňován pomocí našeptávače.
+        imagelist: |
+            Umožňuje vkládání více obrázků najednou.  Pokud využíváte aktuální verze prohlížečů Chrome, Firefox apod., jednoduše přetáhněte soubory z vašeho počítače nebo jiného okna prohlížeče.<br/>
+                nebo použjte tlačítko nahrát soubor. <br />
+                Pořadí obrázků můžete změnit přetaženímm myší. Můžete také změnit jejich popis.
+        video: |
+            Slouží k vložení videa na web. Zkopírujte sem adresu videa z YouTube, Vimea či další služby na sdílení videí. <br>
+                  Systém automaticky vloží &amp;lt;embed&amp;gt;-code, se správnou šířkou, výškou a s originálním názvem videa.
+                  Pokud změníte šířku nebo výšku, druhá hodnota se dopočítá automaticky tak, aby byl dodržen formát stran videa.
+    geolocation: |
+        Slouží k určení polohy. Začněte zadáním alespoň přibližné adresy a dále můžete polohu upřesnit posouváním špendlíku na mapě.
+        Odpovídající zeměpisná šířka a délka bude vygenerována pomocí Google Maps API spolu s nejbližší známou adresou (podle Googlu). <br>
+            Marker lze opakovaně posouvat myší, odpovídající údaje budou vyplňovány.
+    markdown: |
+        Markdown je nástroj pro konverzi textu do HTML pro tvůrce obsahu.
+            <p>Umožňuje vám psát jednoduše čitelným, snadno zapamatovatelným formátem,
+            který je posléze převeden do validní struktury HTML.</p>
+            <p><strong>Stručný přehled:</strong><br>
+            # Toto je nadpis H1<br>
+            ## Toto je nadpis H2<br>
+            ###### Toto je nadpis H6</p>
+            <p>Toto je _<em>kurzíva</em>_, toto __<strong>tučné</strong>__, a toto
+            ___<em><strong>oboje najednou</strong></em>___. Můžete také používat znak hvězdička: Toto *<em>je kurzíva</em>*,
+            toto **<strong>je tučňák</strong>**.
+            <p><a href='#'>Odkazy</a> vytvoříte:<br>
+            Nějaká [existujíci adresa](http://example.org/ &amp;quot;Nadpis odkazu&amp;quot;)</p>
+            <p>&nbsp; * Netříděný seznam<br>
+            &nbsp; * Položka 2</p>
+            <p>&nbsp; 1 Číslovaný seznam<br>
+            &nbsp; 2 Položka 2</p>
+    relationships: |
+        Označení dalšího obsahu jako 'související' vytváříte vazbu mezi právě editovaným obsahem a takto označenými záznamy.<br>
+        Na webu lze těchto vazeb využít pro zobrazení 'souvisejících článků', 'čtěte také' nebo k zobrazení, jak obsah figuruje v nějaké struktuře..
+    taxonomy: |
+        Přiřazením taxonomických vlastností editovanému obsahu zajistíte, že bude možné zobrazit různé záznamy dohromady podle těchto vlastností.<br>
+        Typickými příklady jsou Kategorie, Štítky (tagy), Kapitoly, Sekce, Rubriky…<br>
+        Konkrétní řešení záleží na nastavení redakčního systému.
+about:
+    bolt: |
+        <p>Bolt je redakční systém (CMS). Jeho cílem je být rychlý, snadný a příjemný na obsluhu. A to jak pro developery, tak pro uživatele / editory obsahu. <br>
+        Bolt je Open Source a využívá různé Open Source komponenty. Pokud jste vývojář, vaše pomoc při vývoji systému Bolt bude více než vítána.
+        </p>
+    licence: |
+        <p>Redakční systím Bolt, včetně všech jeho částí, je volně k užití v rámci MIT open-source licence. Plné znění licence najde v souboru <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+        </p>
+prefill:
+    short_help: |
+        <p>Označte typy obsahu, které chcet naplnit zkušebním (obsahem.<p>
+        <p>Bolt naplní do databáze pouze ty typy obsahu, které nemají v databázi žádný záznam. A to i v případě, že jsou označeny k vyplnění.</p>
+extension:
+    enable: |
+        <p>Pro aktivování rošíření přesuňte jeho záznam (název) do pole <code>enabled_extensions</code> v souboru
+                <code>config.yml</code>. Musíte použít shodný název rozšíření, jak je pojmenováno ve spodním řádku svého popisu v položce <em>Název</em>.
+                Rozlišují se <em>velká a malá písmena</em>, aby se předešlo problémům v souborovém systému. </p>
+            <p>Příklad:</p>
+            <pre><code>enabled_extensions: [ HelloWorld, GoogleAnalytics ]</code></pre>
