@@ -40,7 +40,9 @@ class CommandRunner
     public function installed()
     {
         $response = $this->execute("show -i");
-        $response = implode("<br>", $response);
+        print_r($response); exit;
+        $response = implode("<br><br>", $response);
+        $response = str_replace("\t","<br>", $response);
         return $response;
         
     }
