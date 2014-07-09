@@ -234,6 +234,7 @@ class Application extends Silex\Application
             ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Controllers\Upload())
+            ->register(new Controllers\Extend())
             ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider());
 
@@ -295,6 +296,9 @@ class Application extends Silex\Application
 
         // Mount the 'upload' controller on /upload.
         $this->mount('/upload', new Controllers\Upload());
+        
+        // Mount the 'extend' controller on /branding/extend.
+        $this->mount($this['config']->get('general/branding/path').'/extend', new Controllers\Extend());
 
         if ($this['config']->get('general/enforce_ssl')) {
             foreach ($this['routes']->getIterator() as $route) {

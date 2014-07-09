@@ -375,31 +375,6 @@ class Backend implements ControllerProviderInterface
 
         return $app['render']->render('activity/activity.twig', array('context' => $context));
     }
-    
-    /**
-     * Show the Bolt extensions manager UI.
-     */
-    public function extend(Silex\Application $app, Request $request)
-    {
-        $packagefile = $app['resources']->getPath('root').'/composer.json';
-        if(!is_writable($packagefile)) {
-            throw new \RuntimeException("$packagefile is not writable. Please try changing permissions.", 1);  
-        }
-        putenv("COMPOSER_HOME=".sys_get_temp_dir());
-        $output = new \Symfony\Component\Console\Output\BufferedOutput();
-
-        $composer = \evidev\composer\Wrapper::create();
-        $code = $composer->run("update --dry-run", $output);
-        
-        if($code == 0) {
-            $outputText = explode("\n",$output->fetch());
-            print_r($outputText); exit;
-        } 
-
-        $app['twig']->addGlobal('title', __("Extend Bolt"));
-        return $app['render']->render('extend.twig', array());
-
-    }
 
     /**
      * Show the Omnisearch results.
