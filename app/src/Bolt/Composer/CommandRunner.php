@@ -37,8 +37,8 @@ class CommandRunner
     protected function execute($command)
     {
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
-        $code = $composer->run($command, $output);
-        if($code == 0) {
+        $responseCode = $this->wrapper->run($command, $output);
+        if($responseCode == 0) {
             $outputText = explode("\n",$output->fetch());
             return $outputText;
         } 
