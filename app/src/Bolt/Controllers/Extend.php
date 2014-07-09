@@ -35,12 +35,23 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
         $app['twig']->addGlobal('title', __("Extend Bolt"));
         
+        $ctr->get("", array($this, 'overview'))
+            ->before(array($this, 'before'))
+            ->bind('overview');
+        
         $ctr->get("/check", array($this, 'check'))
             ->before(array($this, 'before'))
             ->bind('check');
 
         return $ctr;
 
+    }
+    
+    public function overview(Silex\Application $app, Request $request)
+    {
+        //$runner = new CommandRunner($app);
+        return new Response("testing");
+        
     }
 
     public function check(Silex\Application $app, Request $request)
