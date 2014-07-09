@@ -16,7 +16,7 @@ class CommandRunner
         if(!is_writable($packagefile)) {
             $this->messages[] = sprintf(
                 "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
-                array('%s' => $packagefile)
+                $packagefile
             );
         }
         
