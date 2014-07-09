@@ -1,6 +1,15 @@
 {% include '_header.twig' with { 'active':'extend' } %}
 
 
-Temporary content
+{% block extendmessages %}
+    {% if messages %}
+        <div class="alert alert-info">
+            <button class="close" data-dismiss="alert">×</button>
+            {% for message in messages %}
+                {{message}}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
 
 {% include '_footer.twig' %}

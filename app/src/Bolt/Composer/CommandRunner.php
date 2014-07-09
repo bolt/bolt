@@ -7,16 +7,17 @@ class CommandRunner
 {
     
     public $wrapper;
+    public $messages;
     
     public function __construct(Silex\Application $app)
     {
         
         $packagefile = $app['resources']->getPath('root').'/composer.json';
         if(!is_writable($packagefile)) {
-            $app['session']->getFlashBag()->set('info', __(
+            $this->messages[] = sprintf(
                 "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
                 array('%s' => $packagefile)
-            ));
+            );
         }
         
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
