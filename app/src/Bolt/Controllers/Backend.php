@@ -164,9 +164,6 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('translation');
             
-        $ctl->get("/extend", array($this, 'extend'))
-            ->before(array($this, 'before'))
-            ->bind('extend');
 
         $ctl->get("/omnisearch", array($this, 'omnisearch'))
             ->before(array($this, 'before'))
