@@ -1,6 +1,6 @@
 {% include '_header.twig' with { 'active':'extend' } %}
 
-
+<div class='extend-bolt-container'>
 {% block extendmessages %}
     {% if messages %}
         <div class="alert alert-info">
@@ -11,5 +11,32 @@
         </div>
     {% endif %}
 {% endblock %}
+
+<div class="row-fluid">
+    <div class="span8">
+    
+    </div>
+    
+    <aside class="span4">
+        <h4>Installed Packages (includes system dependencies)</h4>
+        <pre class="installed" data-action='installed'>
+            ... Checking installed packages
+        </pre>
+    </aside>
+    
+</div>
+
+</aside>
+
+<script>
+    jQuery(document).ready(function($) {
+        $('.extend-bolt-container').find('[data-action]').each(function(){
+            var target = $(this);
+            $.get('/bolt/extend/'+$(this).data('action'), function(data) {
+                target.html(data);
+            });
+        });
+    });
+</script>
 
 {% include '_footer.twig' %}

@@ -42,6 +42,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get("/check", array($this, 'check'))
             ->before(array($this, 'before'))
             ->bind('check');
+            
+        $ctr->get("/installed", array($this, 'installed'))
+            ->before(array($this, 'before'))
+            ->bind('installed');
 
         return $ctr;
 
@@ -58,6 +62,13 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $runner = new CommandRunner($app);
         return new Response($runner->check());
+        
+    }
+    
+    public function installed(Silex\Application $app, Request $request)
+    {
+        $runner = new CommandRunner($app);
+        return new Response($runner->installed());
         
     }
     

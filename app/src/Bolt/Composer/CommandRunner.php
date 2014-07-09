@@ -37,6 +37,14 @@ class CommandRunner
         
     }
     
+    public function installed()
+    {
+        $response = $this->execute("show -i");
+        $response = implode("<br>", $response);
+        return $response;
+        
+    }
+    
     
     protected function execute($command)
     {
