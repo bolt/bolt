@@ -15,15 +15,12 @@
 <div class="row-fluid">
     <div class="span8">
         <div class='update-check-container hide'>
-            <pre class="update-check console">
-                ... Checking for available updates
-            </pre>
+            <h2>Updates</h2>
+            <pre class="update-check console">... Checking for available updates (this may take up to 60 seconds)</pre>
         </div>
         <section>
             <h2>Installed Packages (includes Bolt dependencies)</h2>
-            <pre class="installed console" data-action='installed'>
-                ... Checking installed packages
-            </pre>
+            <pre class="installed console" data-action='installed'>... Checking installed packages</pre>
         </section>
     </div>
     
@@ -31,7 +28,7 @@
         <h2>Options</h2>
         <section>
         <h4>Check for updates</h4>
-            <a class="btn" data-trigger="check" data-target='update-check'>
+            <a class="btn" data-trigger="check" data-target='update-check' data-show="update-check-container">
                 <i class="icon-refresh"></i> Run update check
             </a>
         </section>
@@ -52,7 +49,8 @@
         
         $('.extend-bolt-container').find('[data-trigger]').each(function(){
             $(this).on('click', function(){
-                var target = $(this).data('target');
+                $("." + $(this).data('show') ).show();
+                var target = $("." + $(this).data('target') );
                 $.get('/bolt/extend/'+$(this).data('trigger'), function(data) {
                     target.html(data);
                 });
