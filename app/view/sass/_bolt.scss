@@ -136,7 +136,7 @@ blockquote.quote cite {
 
     .navbar-collapse .navbar > li > a, .navbar-collapse .dropdown-menu a {
         padding: 5px 12px;
-        color: #E7E7E7 !important;
+        color: #555 !important;
     }
 
     .navbar .navbar-btn {
@@ -199,8 +199,8 @@ blockquote.quote cite {
   margin-right: 0;
 }
 
-.navbar-top-links .dropdown-menu li a {
-  padding: 3px 20px;
+.navbar-top-links .dropdown-menu > li a {
+  color: $dropdown-link-color;
   min-height: 0;
 }
 
