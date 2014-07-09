@@ -50,7 +50,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function overview(Silex\Application $app, Request $request)
     {
         //$runner = new CommandRunner($app);
-        return new Response("testing");
+        return $app['render']->render('extend.twig', array());
         
     }
 
