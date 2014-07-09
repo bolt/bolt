@@ -13,7 +13,10 @@ class CommandRunner
         
         $packagefile = $app['resources']->getPath('root').'/composer.json';
         if(!is_writable($packagefile)) {
-            throw new \RuntimeException("$packagefile is not writable. Please try changing permissions.", 1);  
+            $app['session']->getFlashBag()->set('info', __(
+                "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
+                array('%s' => $packagefile)
+            ));
         }
         
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
