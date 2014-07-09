@@ -17,7 +17,7 @@ class CommandRunner
         }
         
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
-        $$this->wrapper = \evidev\composer\Wrapper::create();
+        $this->wrapper = \evidev\composer\Wrapper::create();
         
     }
     
