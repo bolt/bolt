@@ -14,6 +14,33 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Frontend
 {
+    /**
+     * Perform contenttype-based permission check, aborting with a 403
+     * Forbidden as appropriate.
+     */
+    private static function checkFrontendPermission(Silex\Application $app, $content) {
+        if ($app['config']->get('general/frontend_permission_checks')) {
+            if ($content instanceof \Bolt\Content) {
+                $contenttypeslug = $content->contenttype['slug'];
+                $contentid = $content['id'];
+            }
+            elseif ($content instanceof \Bolt\Contenttype) {
+                $contenttypeslug = $content['slug'];
+                $contentid = null;
+            }
+            else {
+                $contenttypeslug = (string)$content;
+                $contentid = null;
+            }
+            if (!$app['users']->isAllowed(
+                    "frontend",
+                    $contenttypeslug,
+                    $contentid)) {
+                $app->abort(403, "Not allowed.");
+            }
+        }
+    }
+
     public static function before(Request $request, \Bolt\Application $app)
     {
         // Start the 'stopwatch' for the profiler.
@@ -60,12 +87,17 @@ class Frontend
             }
 
             if (is_array($content)) {
-                $first = current($content);
+                $first = $record = current($content);
                 $app['twig']->addGlobal('records', $content);
                 $app['twig']->addGlobal($first->contenttype['slug'], $content);
             } elseif (!empty($content)) {
+                $record = $content;
                 $app['twig']->addGlobal('record', $content);
                 $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
+            }
+
+            if ($record) {
+                self::checkFrontendPermission($app, $record);
             }
 
             $chosen = 'homepage config';
@@ -81,7 +113,6 @@ class Frontend
 
     public static function record(Silex\Application $app, $contenttypeslug, $slug)
     {
-
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         $slug = makeSlug($slug, -1);
@@ -93,6 +124,8 @@ class Frontend
             // And otherwise try getting it by ID
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
         }
+
+        self::checkFrontendPermission($app, $content);
 
         // No content, no page!
         if (!$content) {
@@ -146,6 +179,8 @@ class Frontend
         $content = $app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
+        self::checkFrontendPermission($content);
+
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $content->template();
 
@@ -181,6 +216,7 @@ class Frontend
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
+        self::checkFrontendPermission($contenttype['slug']);
 
         // We do _not_ abort when there's no content. Instead, we handle this in the template:
         // {% for record in records %} .. {% else %} no records! {% endif %}
