@@ -192,8 +192,7 @@ class Permissions
     {
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
-            error_log("Configuration error: $permissionName is not granted to any roles.");
-            return false;
+            throw new \Exception("Configuration error: $permissionName is not granted to any roles.");
         }
         return in_array($roleName, $roles);
     }
