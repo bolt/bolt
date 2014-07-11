@@ -100,8 +100,11 @@
     $(function() {
         $('.sluglocker').bind('click', function() {
            if ($('.sluglocker i').hasClass('icon-lock')) {
-               $('.sluglocker i').removeClass('icon-lock').addClass('icon-unlock');
-               makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{ key }}', false);
+               var unlock = confirm("Are you sure you wish to unlock the slug? This might break existing links to this record.");
+               if (unlock) {
+                   $('.sluglocker i').removeClass('icon-lock').addClass('icon-unlock');
+                   makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{ key }}', false);
+               }
            } else {
                $('.sluglocker i').addClass('icon-lock').removeClass('icon-unlock');
                stopMakeUri({{ field.uses|json_encode|raw }});
