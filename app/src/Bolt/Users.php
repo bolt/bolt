@@ -991,11 +991,11 @@ class Users
      * @param string $what The desired permission, as elaborated upon above.
      * @return bool TRUE if the permission is granted, FALSE if denied.
      */
-    public function isAllowed($what, $contenttype = null, $contentid = null)
+    public function isAllowed($what)
     {
         $user = $this->currentuser;
 
-        return $this->app['permissions']->isAllowed($what, $user, $contenttype, $contentid);
+        return $this->app['permissions']->isAllowed($what, $user);
     }
 
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $contenttype, $contentid = null)

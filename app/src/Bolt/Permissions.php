@@ -290,12 +290,6 @@ class Permissions
      * "contenttype:$contenttype:change-ownership",
      * "contenttype:$contenttype:change-ownership:$id" - Change the ownership
      *                                of the specified content type or item.
-     * Further, permissions can be combined with the special keywords 'and' and
-     * 'or' (case-insensitive), or their symbolic aliases '&' (or '&&') and '|'
-     * (or '||'). To override the default precedence (with 'or' binding tighter
-     * than 'and'), or to make precedence explicit, use parentheses. Ex.:
-     *
-     * "contenttype:$contenttype:edit or contenttype:$contenttype:view"
      *
      * @param string $what The desired permission, as elaborated upon above.
      * @param mixed $user The user to check permissions against.
@@ -308,37 +302,9 @@ class Permissions
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
-        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttype' and contentid '$contentid'");
+        $this->audit("Checking permission '$what' for user '{$user['username']}'");
         $userRoles = $this->getEffectiveRolesForUser($user);
-        $parser = new PermissionParser();
-        $rule = $parser->run($what);
-        return $this->isAllowedRule($rule, $userRoles, $contenttype, $contentid);
-    }
 
-    private function isAllowedRule($rule, $userRoles, $contenttype, $contentid) {
-        switch ($rule['type']) {
-            case PermissionParser::P_SIMPLE:
-                return $this->isAllowedSingle($rule['value'], $userRoles, $contenttype, $contentid);
-            case PermissionParser::P_OR:
-                foreach ($rule['value'] as $subrule) {
-                    if ($this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
-                        return true;
-                    }
-                }
-                return false;
-            case PermissionParser::P_AND:
-                foreach ($rule['value'] as $subrule) {
-                    if (!$this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
-                        return false;
-                    }
-                }
-                return true;
-            default:
-                throw new \Exception("Invalid permission check rule of type " . $rule['type'] . ", expected P_SIMPLE, P_AND or P_OR");
-        }
-    }
-
-    private function isAllowedSingle($what, $userRoles, $contenttype = null, $contentid = null) {
         if ($contenttype) {
             $parts = array(
                         'contenttype',
