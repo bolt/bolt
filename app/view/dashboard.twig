@@ -90,7 +90,9 @@
 
     {{ render(path("dashboardnews")) }}
 
-    {{ render(path("showstack", {'items': 7, 'options': 'full' } )) }}
+    {% if not stackitems() is empty %}
+        {{ render(path("showstack", {'items': 7, 'options': 'full' } )) }}
+    {%  endif %}
 
     {{ widget('dashboard', 'right_first') }}
 

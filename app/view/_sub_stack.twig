@@ -1,99 +1,97 @@
-{% if stack %}
-    {% if options=="full" %}
+{% if options=="full" %}
 
-    <section>
-        <h2><i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}</h2>
+<section>
+    <h2><i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}</h2>
 
-        <div id="protostack">
+    <div id="protostack">
 
-            <div class="stackitem image info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
-                <img src="" width="100" height="100">
-            </div>
-
-            <div class="stackitem other info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
-                <strong>HTML</strong>
-                <small>index.html</small>
-            </div>
-
+        <div class="stackitem image info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+            <img src="" width="100" height="100">
         </div>
 
-        <div id="stackholder">
-            {% for item in stack %}
+        <div class="stackitem other info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+            <strong>HTML</strong>
+            <small>index.html</small>
+        </div>
 
-            <div class="stackitem item-{{ loop.index }} {{ item.type }} info-pop"
-                 data-placement="bottom" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
+    </div>
+
+    <div id="stackholder">
+        {% for item in stack %}
+
+        <div class="stackitem item-{{ loop.index }} {{ item.type }} info-pop"
+             data-placement="bottom" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
+            {% if item.type == "image" %}
+                <img src="{{ item.filepath|thumbnail(100,100) }}" width="100" height="100">
+            {% else %}
+               <strong>{{ item.extension|upper }}</strong>
+               <small>{{ item.basename }}</small>
+            {% endif %}
+        </div>
+        {% else %}
+            <div class="nostackitems">{{ __("There are no items on the Stack, yet.") }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="btn-group">
+        <span class="btn btn-tertiary fileinput-button">
+            <i class="fa fa-upload"></i>
+            <span>{{ __('Upload') }}</span>
+            <input id="fileupload-stack"
+                   type="file"
+                   name="fileupload-stack[]"
+                   data-url="{{ paths.app }}classes/upload/"
+                   accept=".{{ filetypes|join(',.') }}">
+        </span>
+    </div>
+
+    <div class="btn-group" style="margin-left: 0px;">
+        <a href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#selectModal-stack">
+            <i class="fa fa-download"></i>
+            {{ __('Select') }}
+        </a>
+    </div>
+
+    <!-- Modal "select from server"  -->
+    <div class="modal fade" id="selectModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+</section>
+
+{% elseif stack and options=="minimal" %}
+
+    <h2><i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}</h2>
+    <div id="stackholder">
+        {% for item in stack %}
+
+            <div class="stackitem stackitem-wide item-{{ loop.index }} {{ item.type }}">
+                <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">
                 {% if item.type == "image" %}
                     <img src="{{ item.filepath|thumbnail(100,100) }}" width="100" height="100">
                 {% else %}
-                   <strong>{{ item.extension|upper }}</strong>
-                   <small>{{ item.basename }}</small>
+                    <strong>{{ item.extension|upper }}</strong>
+                    <small>{{ item.basename }}</small>
                 {% endif %}
+                </a>
             </div>
-
-            {% endfor %}
-        </div>
-
-        <div class="btn-group">
-            <span class="btn btn-tertiary fileinput-button">
-                <i class="fa fa-upload"></i>
-                <span>{{ __('Upload') }}</span>
-                <input id="fileupload-stack"
-                       type="file"
-                       name="fileupload-stack[]"
-                       data-url="{{ paths.app }}classes/upload/"
-                       accept=".{{ filetypes|join(',.') }}">
-            </span>
-        </div>
-
-        <div class="btn-group" style="margin-left: 0px;">
-            <a href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#selectModal-stack">
-                <i class="fa fa-download"></i>
-                {{ __('Select') }}
-            </a>
-        </div>
-
-        <!-- Modal "select from server"  -->
-        <div class="modal fade" id="selectModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content"></div>
-            </div>
-        </div>
-
-    </section>
-
-    {% elseif options=="minimal" %}
-
-        <h2><i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}</h2>
-        <div id="stackholder">
-            {% for item in stack %}
-
-                <div class="stackitem stackitem-wide item-{{ loop.index }} {{ item.type }}">
-                    <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">
-                    {% if item.type == "image" %}
-                        <img src="{{ item.filepath|thumbnail(100,100) }}" width="100" height="100">
-                    {% else %}
-                        <strong>{{ item.extension|upper }}</strong>
-                        <small>{{ item.basename }}</small>
-                    {% endif %}
-                    </a>
-                </div>
-
-            {% endfor %}
-        </div>
-
-    {% elseif options=="list" %}
-
-        <ul>
-        {% for item in stack %}
-            <li>
-                <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">{{ item.basename }}
-                    <small>({{ item.filesize }}
-                        {%- if item.imagesize %}, {{ item.imagesize }} px{% endif %})</small></a>
-            </li>
 
         {% endfor %}
-        </ul>
+    </div>
 
-    {% endif %}
+{% elseif stack and options=="list" %}
+
+    <ul>
+    {% for item in stack %}
+        <li>
+            <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">{{ item.basename }}
+                <small>({{ item.filesize }}
+                    {%- if item.imagesize %}, {{ item.imagesize }} px{% endif %})</small></a>
+        </li>
+
+    {% endfor %}
+    </ul>
 
 {% endif %}
