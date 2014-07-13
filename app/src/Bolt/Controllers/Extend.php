@@ -20,6 +20,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     
     public function register(Silex\Application $app)
     {
+        $app['extend.site'] = 'http://bolt.rossriley.co.uk/';
         $app['extend.repo'] = 'http://bolt.rossriley.co.uk/list.json';
 
         // This exposes the main upload object as a service
@@ -45,6 +46,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get("/check", array($this, 'check'))
             ->before(array($this, 'before'))
             ->bind('check');
+        
+        $ctr->get("/install", array($this, 'install'))
+            ->before(array($this, 'before'))
+            ->bind('install');
             
         $ctr->get("/installed", array($this, 'installed'))
             ->before(array($this, 'before'))
@@ -56,7 +61,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     
     public function overview(Silex\Application $app, Request $request)
     {
-        return $app['render']->render('extend.twig', array('messages'=>$app['extend.runner']->messages));
+        return $app['render']->render('extend.twig', array(
+            'messages'=>$app['extend.runner']->messages,
+            'site'=>$app['extend.site']
+        ));
         
     }
 
@@ -69,6 +77,14 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function update(Silex\Application $app, Request $request)
     {
         return new Response($app['extend.runner']->update());
+        
+    }
+    
+    public function install(Silex\Application $app, Request $request)
+    {
+        $package = $request->get('package');
+        $version = $request->get('version');
+        return new Response($app['extend.runner']->install($package, $version));
         
     }
     

@@ -8,6 +8,7 @@ class CommandRunner
     
     public $wrapper;
     public $messages;
+    public $lastOutput;
     
     public function __construct(Silex\Application $app, $packageRepo = null)
     {
@@ -23,8 +24,9 @@ class CommandRunner
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
         $this->wrapper = \evidev\composer\Wrapper::create();
         try {
-            $this->available = json_decode((file_get_contents($this->packageRepo)));
-        } catch (Exception $e) {
+            $json = json_decode((file_get_contents($this->packageRepo)));
+            $this->available = $json->packages;
+        } catch (\Exception $e) {
             $this->messages[] = sprintf(
                 "The Bolt extensions Repo at %s is currently unavailable. Please try again shortly.",
                 $this->packageRepo
@@ -43,6 +45,19 @@ class CommandRunner
             return array_slice($response, 2);
         }
         
+    }
+    
+    public function install($package, $version)
+    {
+        $response = $this->execute("require $package $version");
+        if($response) {
+            return $response;
+        } else {
+            $message = "The requested extension version could not be installed. The most likely reason is that the version"."\n";
+            $message.= "requested is not compatible with this version of Bolt."."\n\n"; 
+            $message.= "Check on the extensions site for more information.";
+            return $message;
+        }
     }
     
     public function installed()
@@ -76,7 +91,10 @@ class CommandRunner
         if($responseCode == 0) {
             $outputText = explode("\n",$output->fetch());
             return $outputText;
-        } 
+        } else {
+            $this->lastOutput = $output->fetch();
+            return false;
+        }
     }
     
 }

@@ -14,13 +14,32 @@
 
 <div class="row-fluid">
     <div class="span8">
+        <div class='install-response-container hide'>
+            <h3>Installing package</h3>
+            <pre class="install-response console">... Installing selected package version (this may take up to 60 seconds)</pre>
+        </div>
         <div class='update-check-container hide'>
-            <h2>Updates</h2>
+            <h3>Updates</h3>
             <pre class="update-check console">... Checking for available updates (this may take up to 60 seconds)</pre>
         </div>
         <section>
-            <h2>Installed Packages (includes Bolt dependencies)</h2>
+            <h3>Your Currently Installed Extensions</h3>
             <pre class="installed console" data-action='installed'>... Checking installed packages</pre>
+        </section>
+        <hr />
+        <section>
+            <h3>Install a new Extension</h3>
+            <p>
+                Add a new extension using the form below. You can discover new extensions by visiting 
+                <a href="{{site}}">{{site}}</a>
+            </p>
+            <div class="install-container">
+                
+                    <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
+                    <a class="btn check-package">
+                        <i class="icon-gears"></i> Check Extension
+                    </a> 
+            </div>
         </section>
     </div>
     
@@ -43,6 +62,7 @@
 </aside>
 
 <script>
+    var site = '{{site}}';
     jQuery(document).ready(function($) {
         $('.extend-bolt-container').find('[data-action]').each(function(){
             var target = $(this);
@@ -61,6 +81,44 @@
             });
             
         });
+        
+        $('.check-package').on('click', function(){
+            var ext = $('input[name="check-package"]').val();
+            $.ajax({
+                url: site+'list.json',
+                dataType: 'jsonp',
+                data: {'name': ext},
+            })
+            .success(function(data) {
+                var pack = data.packages[0];
+                var tpl = '';
+                tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
+                tpl+='<label>Select Version To Install</label><select name="package-version">';
+                for(var v in pack.versions) {
+                    tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
+                }
+                tpl +='</select><a class="btn install-package"><i class="icon-gears"></i> Install Extension</a>';
+                $(".check-package").replaceWith(tpl);
+            })
+            .fail(function() {
+                alert('Bolt Extension could not be found. Please check at {{site}} to ensure correct name.')
+            })
+            .always(function() {
+
+            });
+            
+        
+        });
+        
+        $('.install-container').on('click', '.install-package', function(){
+            var package = $('input[name="package-name"]').val();
+            var version = $('select[name="package-version"]').val();
+            $('.install-response-container').show();
+            $.get('/bolt/extend/install', {'package':package,'version':version}, function(data) {
+                $('.install-response-container .console').html(data);
+            });
+        });
+        
     });
 </script>
 
