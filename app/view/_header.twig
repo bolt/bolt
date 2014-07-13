@@ -16,11 +16,7 @@
                 {# <img src="{{ paths.app }}view/img/bolt-icon.svg"> #}
                 Bolt
             </a> 
-            {% if content.link %}
-                <a href="{{ content.link }}" target="_blank" class="navbar-site hidden-xs"><span>{{ __('View on site') }}</span></a>
-            {% else %}
-                <a href="{{ paths.root }}" target="_blank" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
-            {% endif %}        
+            <a href="{{ path('dashboard') }}" target="_blank" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>      
         </div>
         <!-- /.navbar-header -->
 
@@ -33,6 +29,13 @@
                     <span class="form-control-feedback semitransparent"><i class="fa fa-search"></i></span>
                 </div>
             </form>
+
+            <li>
+                <a href="{{ paths.root }}" target="_blank" class="hidden-xs">
+                    <i class="fa fa-external-link-square"></i>
+                    {{ __('View site')}} 
+                </a>
+            </li>
 
             <!-- /.dropdown -->
             <li class="dropdown">
