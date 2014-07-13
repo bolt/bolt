@@ -76,13 +76,13 @@
             {% set title = { icon: 'cogs', label: __('Configuration') } %}
             {% set sub = [
                 { icon: 'group', label: __('Users'), link: path('users'), isallowed: 'fileedit' },
-                { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'file': 'app/config/config.yml'}), isallowed: 'files:config' },
-                { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'file': 'app/config/contenttypes.yml'}), isallowed: 'files:config' },
-                { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'file': 'app/config/taxonomy.yml'}), isallowed: 'files:config' },
-                { icon: 'cog', label: __('Permissions'), link: path('fileedit', { 'file': 'app/config/permissions.yml'}), isallowed: 'files:config' },
+                { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'namespace':'app', 'file': 'config/config.yml'}), isallowed: 'files:config' },
+                { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'namespace':'app', 'file': 'config/contenttypes.yml'}), isallowed: 'files:config' },
+                { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'namespace':'app', 'file': 'config/taxonomy.yml'}), isallowed: 'files:config' },
+                { icon: 'cog', label: __('Permissions'), link: path('fileedit', { 'namespace':'app', 'file': 'config/permissions.yml'}), isallowed: 'files:config' },
                 '-',
-                { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'file': 'app/config/menu.yml'}), isallowed: 'files:config' },
-                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'file': 'app/config/routing.yml'}), isallowed: 'files:config' }
+                { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/menu.yml'}), isallowed: 'files:config' },
+                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/routing.yml'}), isallowed: 'files:config' }
             ] %}
 
             {{ macro.sidebarblock(title, sub) }}
@@ -110,7 +110,7 @@
             {% set title = { icon: 'folder-open', label: __('File Management') } %}
             {% set sub = [
                 { icon: 'desktop', label: __('Extensions'), link: path('files', { 'path': 'theme' }), isallowed: 'files:theme' },
-                { icon: 'folder-open', label: __('Uploaded files'), link: path('files', { 'path': 'files'}), isallowed: 'files:uploads' }
+                { icon: 'folder-open', label: __('Uploaded files'), link: url('files', { 'namespace': 'files', 'path': ''}), isallowed: 'files:uploads' }
             ] %}
 
             {{ macro.sidebarblock(title, sub) }}

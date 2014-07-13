@@ -24,7 +24,7 @@
     <tr><th>{{ __('Folders') }}</th><th>{{ __('Modified') }}</th></tr>
 {% for folder in folders %}
     <tr>
-        <td><a href="{{ path('files', { 'path': folder.newpath }) }}"><i class="fa fa-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
+        <td><a href="{{ url('files', { 'path': folder.newpath, 'namespace':namespace }) }}"><i class="fa fa-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
         <td>
             <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">{{ folder.modified }}</time>
         </td>
@@ -49,7 +49,7 @@
                 {% endif %}
             {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
                 {% if file.readable %}
-                    <a href="{{ path('fileedit', { 'file': file.newpath}) }}"><b>{{ file.filename }}</b> </a>
+                    <a href="{{ path('fileedit', { 'namespace':namespace, 'file': file.newpath}) }}"><b>{{ file.filename }}</b> </a>
                 {% else %}
                     <b>{{ file.filename }}</b>
                 {% endif %}
