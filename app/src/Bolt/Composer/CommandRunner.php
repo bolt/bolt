@@ -9,9 +9,9 @@ class CommandRunner
     public $wrapper;
     public $messages;
     
-    public function __construct(Silex\Application $app)
+    public function __construct(Silex\Application $app, $packageRepo = null)
     {
-        
+        $this->packageRepo = $packageRepo;
         $packagefile = $app['resources']->getPath('root').'/composer.json';
         if(!is_writable($packagefile)) {
             $this->messages[] = sprintf(
@@ -22,6 +22,14 @@ class CommandRunner
         
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
         $this->wrapper = \evidev\composer\Wrapper::create();
+        try {
+            $this->available = json_decode((file_get_contents($this->packageRepo)));
+        } catch (Exception $e) {
+            $this->messages[] = sprintf(
+                "The Bolt extensions Repo at %s is currently unavailable. Please try again shortly.",
+                $this->packageRepo
+            );
+        }
         
     }
     
@@ -39,9 +47,24 @@ class CommandRunner
     
     public function installed()
     {
-        $response = $this->execute("show -i");
-        $response = implode("<br>", $response);
-        return $response;
+        $installed = array();
+        $all = $this->execute("show -i");
+        $available = $this->available;
+        
+        foreach($this->available as $remote) {
+                    
+            foreach($all as $local) {
+                if(strpos($local, $remote->name) !==false ) {
+                    $installed[]=$local;
+                }
+            }
+            
+        }
+        if(!count($installed)) {
+            return "No Bolt extensions installed";
+        } else {
+            return implode("<br>", $installed);
+        }
         
     }
     

@@ -20,11 +20,14 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     
     public function register(Silex\Application $app)
     {
+        $app['extend.repo'] = 'http://bolt.rossriley.co.uk/list.json';
+
         // This exposes the main upload object as a service
-        $app['extend'] = $app->share(function ($app) { 
-            
-            
+        $app['extend.runner'] = $app->share(function ($app) { 
+            $runner = new CommandRunner($app, $app['extend.repo']);
+            return $runner;
         });
+        
         
         
     }
@@ -53,22 +56,25 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     
     public function overview(Silex\Application $app, Request $request)
     {
-        $runner = new CommandRunner($app);
-        return $app['render']->render('extend.twig', array('messages'=>$runner->messages));
+        return $app['render']->render('extend.twig', array('messages'=>$app['extend.runner']->messages));
         
     }
 
     public function check(Silex\Application $app, Request $request)
     {
-        $runner = new CommandRunner($app);
-        return new Response($runner->check());
+        return new Response($app['extend.runner']->check());
+        
+    }
+    
+    public function update(Silex\Application $app, Request $request)
+    {
+        return new Response($app['extend.runner']->update());
         
     }
     
     public function installed(Silex\Application $app, Request $request)
     {
-        $runner = new CommandRunner($app);
-        return new Response($runner->installed());
+        return new Response($app['extend.runner']->installed());
         
     }
     
