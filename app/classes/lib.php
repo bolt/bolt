@@ -56,7 +56,8 @@ function findFiles($term, $extensions = "")
 
 function findFilesHelper($additional, &$files, $term = '', $extensions = array())
 {
-    $basefolder = __DIR__ . '/../../files/';
+    global $app;
+    $basefolder = $app['resources']->getPath('files');
 
     $currentfolder = realpath($basefolder . '/' . $additional);
 

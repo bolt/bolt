@@ -114,8 +114,12 @@ to modify the functionality or appearance:
   - `autofocus` HTML5 autofocus attribute. On page render the input with `autofocus="on"` will be highlighted. Options
     are `autofocus: on` or `autofocus: off`. Only one form element can have the autofocus attribute. It cannot be
     applied if the type is `hidden`.
+  - `expanded: true` Attribute for choice elements, use this in combination with multiple and required to make
+    select boxes, radio groups or checkbox groups
+  - `multiple: true` Attribute for choice elements, use this in combination with expanded and required to make
+    select boxes, radio groups or checkbox groups
   - `autocomplete` HTML5 form attribute that turns the in browser autocomplete function on or off. This is ignored if the
-   input type is set to `hidden`.
+    input type is set to `hidden`.
       * `off`: must explicitly enter a value into this field for every use. the browser does not automatically complete the entry.
       * `on`: The browser can automatically complete the value based on values that the user has entered during previous uses.
   - `pattern` A JavaScript regular expression to check the input field against. This attribute applies to fields with a type
@@ -145,6 +149,25 @@ Remember you can also use the basic options as well.
 
     favorite:
       type: choice
+      multiple: false
+      choices: [ Kittens, Puppies, Penguins, Koala bears, "I don't like animals" ]
+
+**Radio buttons:**
+
+    favorite:
+      type: choice
+      expanded: true
+      required: true
+      multiple: false
+      choices: [ Kittens, Puppies, Penguins, Koala bears, "I don't like animals" ]
+
+**Checkboxes:**
+
+    favorite:
+      type: choice
+      expanded: true
+      required: false
+      multiple: true
       choices: [ Kittens, Puppies, Penguins, Koala bears, "I don't like animals" ]
 
 **Checkbox:**
@@ -168,6 +191,15 @@ To protect your forms from spam-bots, you can enable the ReCaptcha service. This
 numbers from a picture, to prove that they're human. To enable ReCaptcha, simply enable/fill all the <code>recaptcha_</code>
 fields in <code>config.yml</code>. If you don't have a private/public keypair yet, go to
 [this URL](https://www.google.com/recaptcha/admin/create) to create them.
+
+Overriding values
+-----------------
+
+Override values from the template
+
+    {{ simpleform('formname', { 'somefield' : somevalue } ) }}
+
+This will prefill the field named `somefield` with `somevalue`. This is always available but it will be overridden by `$_GET['somefield']` if `allow_override: true` is set for `somefield`.
 
 
 Email input with extra recipient:

@@ -55,7 +55,6 @@ class Controller
             if (!empty($profile->photoURL)) {
                 $this->current_visitor['avatar'] = $profile->photoURL;
             }
-
         }
 
         return $this->current_visitor;
@@ -187,6 +186,33 @@ class Controller
         return new \Twig_Markup($logoutlink, 'UTF-8');
     }
 
+    /**
+     * The rendered profile
+     */
+    public function showvisitorprofile(Silex\Application $app = null)
+    {
+        if (!$app) {
+            $app = $this->app;
+        }
+
+        $recognizedvisitor = $this->checkvisitor($app);
+        if($recognizedvisitor) {
+            $visitor_profile = unserialize($recognizedvisitor['providerdata']);
+
+            $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
+            $template = '_profile.twig';
+            $context = array(
+                           'profile' => $visitor_profile,
+                           'visitor' => $recognizedvisitor
+                       );
+
+            $markup = $this->app['render']->render($template, $context);
+
+            return new \Twig_Markup($markup, 'UTF-8');
+        }
+
+        return false;
+    }
 
     /**
      * Hybrid auth endpoint
@@ -230,7 +256,8 @@ class Controller
         $recognizedvisitor = $this->checkvisitor($app);
 
         if($recognizedvisitor) {
-            $markup = $this->showvisitorprofile() ;
+            $title = $recognizedvisitor['username'];
+            $markup = $this->showvisitorprofile();
         } else {
             // go directly to login page
             $path = '/'.$this->config['basepath'].'/login';

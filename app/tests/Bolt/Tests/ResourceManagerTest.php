@@ -2,7 +2,7 @@
 namespace Bolt\Tests;
 use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Configuration\ComposerResources;
+use Bolt\Configuration\Composer;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -22,35 +22,40 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         
     }
     
+    public function tearDown()
+    {
+        @unlink(TEST_ROOT.'/app/cache/config_cache.php');
+    }
+    
     public function testConstruction()
     {
-        $config = new ResourceManager(__DIR__);
-        $this->assertEquals(\PHPUnit_Framework_Assert::readAttribute($config, 'root'), __DIR__);
+        $config = new ResourceManager(TEST_ROOT);
+        $this->assertEquals(\PHPUnit_Framework_Assert::readAttribute($config, 'root'), TEST_ROOT);
     }
     
     public function testDefaultPaths()
     {
-        $config = new ResourceManager(__DIR__);
-        $this->assertEquals(__DIR__,                    $config->getPath("rootpath"));
-        $this->assertEquals(__DIR__."/app",             $config->getPath("apppath"));
-        $this->assertEquals(__DIR__."/app/extensions",  $config->getPath("extensionspath"));
-        $this->assertEquals(__DIR__."/files",           $config->getPath("filespath"));
-        $this->assertEquals(__DIR__,                    $config->getPath("web"));
-        $this->assertEquals(__DIR__."/app/cache",       $config->getPath("cache"));
-        $this->assertEquals(__DIR__."/app/config",      $config->getPath("config"));
+        $config = new ResourceManager(TEST_ROOT);
+        $this->assertEquals(TEST_ROOT,                    $config->getPath("rootpath"));
+        $this->assertEquals(TEST_ROOT."/app",             $config->getPath("apppath"));
+        $this->assertEquals(TEST_ROOT."/app/extensions",  $config->getPath("extensionspath"));
+        $this->assertEquals(TEST_ROOT."/files",           $config->getPath("filespath"));
+        $this->assertEquals(TEST_ROOT,                    $config->getPath("web"));
+        $this->assertEquals(TEST_ROOT."/app/cache",       $config->getPath("cache"));
+        $this->assertEquals(TEST_ROOT."/app/config",      $config->getPath("config"));
     }
     
     public function testShorAliasedPaths()
     {
-        $config = new ResourceManager(__DIR__);
-        $this->assertEquals(__DIR__,            $config->getPath("root"));
-        $this->assertEquals(__DIR__."/app",     $config->getPath("app"));
-        $this->assertEquals(__DIR__."/files",   $config->getPath("files"));
+        $config = new ResourceManager(TEST_ROOT);
+        $this->assertEquals(TEST_ROOT,            $config->getPath("root"));
+        $this->assertEquals(TEST_ROOT."/app",     $config->getPath("app"));
+        $this->assertEquals(TEST_ROOT."/files",   $config->getPath("files"));
     }
     
     public function testDefaultUrls()
     {
-        $config = new ResourceManager(__DIR__);
+        $config = new ResourceManager(TEST_ROOT);
         $this->assertEquals("/",                $config->getUrl("root"));
         $this->assertEquals("/app/",            $config->getUrl("app"));
         $this->assertEquals("/app/extensions/", $config->getUrl("extensions"));
@@ -61,18 +66,18 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testBoltAppSetup()
     {
-        $config = new ResourceManager(__DIR__);
+        $config = new ResourceManager(TEST_ROOT);
         $app = new Application(array('resources'=>$config));
         $this->assertEquals($config->getPaths(), $app['resources']->getPaths());
         
         // Test that the Application has initialised the resources, injecting in config values.
-        $this->assertContains(__DIR__."/theme",      $config->getPath("theme"));
+        $this->assertContains(TEST_ROOT."/theme",      $config->getPath("theme"));
         $this->assertNotEmpty($config->getUrl("canonical"));
     }
     
     public function testDefaultRequest()
     {
-        $config = new ResourceManager(__DIR__);
+        $config = new ResourceManager(TEST_ROOT);
         $app = new Application(array('resources'=>$config));
         $this->assertEquals("cli",                  $config->getRequest("protocol"));
         $this->assertEquals("bolt.dev",             $config->getRequest("hostname"));
@@ -94,7 +99,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 'SERVER_PROTOCOL'=>'https'
             )  
         );
-        $config = new ResourceManager(__DIR__, $request);
+        $config = new ResourceManager(TEST_ROOT, $request);
         $app = new Application(array('resources'=>$config));
         $this->assertEquals("https",                $config->getRequest("protocol"));
         $this->assertEquals("test.dev",             $config->getRequest("hostname"));
@@ -103,10 +108,13 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testComposerCustomConfig()
     {
-        $config = new ComposerResources(__DIR__);
+        $config = new Composer(TEST_ROOT);
+        $config->setPath('cache', 'app/cache');
+        $config->setPath('database', 'app/database');
+        $config->setPath('config', 'app/config');
         $app = new Application(array('resources'=>$config));
-        $this->assertEquals(__DIR__."/vendor/bolt/bolt/app",            $config->getPath("app"));
-        $this->assertEquals(__DIR__."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
+        $this->assertEquals(TEST_ROOT."/vendor/bolt/bolt/app",            $config->getPath("app"));
+        $this->assertEquals(TEST_ROOT."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
         $this->assertEquals("/bolt-public/",                            $config->getUrl("app"));
     }
     
@@ -125,7 +133,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             )  
         );
                 
-        $config = new ResourceManager(__DIR__, $request);
+        $config = new ResourceManager(TEST_ROOT, $request);
         $app = new Application(array('resources'=>$config));
         $this->assertEquals('/sub/directory/',                  $config->getUrl('root'));
         $this->assertEquals('/sub/directory/app/',              $config->getUrl('app'));
@@ -137,7 +145,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testConfigDrivenUrls()
     {
-        $config = new ResourceManager(__DIR__);
+        $config = new ResourceManager(TEST_ROOT);
         $app = new Application(array('resources'=>$config));
         $this->assertEquals('/bolt/',  $config->getUrl('bolt'));
         $this->assertEquals('/bolt/files/files/', $app['config']->get('general/wysiwyg/filebrowser/imageBrowseUrl'));
@@ -145,7 +153,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     
     public function testConfigDrivenUrlsWithBrandingOverride()
     {
-        $config = new ResourceManager(__DIR__);
+        $config = new ResourceManager(TEST_ROOT);
         $app = new Application(array('resources'=>$config));
         $app['config']->set('general/branding/path', '/custom');
         $config->initialize();
@@ -168,7 +176,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             )  
         );
         
-        $config = new ResourceManager(__DIR__, $request);
+        $config = new ResourceManager(TEST_ROOT, $request);
         $app = new Application(array('resources'=>$config));
         $app['config']->set('general/branding/path', '/custom');
         $config->initialize();

@@ -24,11 +24,11 @@
             {% endif %}
             <div class="left-inner-addon">
                 <i class="icon-info-sign"></i>
-                <input class="me-input" type="text" data-tag="title" value="{{ item.title }}" placeholder="{{ __("title") }}">
+                <input class="me-input" type="text" data-tag="title"{% if item.title is defined %} value="{{ item.title }}"{% endif %} placeholder="{{ __("title") }}">
             </div>
             <div class="left-inner-addon">
                 <i class="icon-eye-open"></i>
-                <input class="me-input" type="text" data-tag="class" value="{{ item.class }}" placeholder="{{ __("css classes") }}">
+                <input class="me-input" type="text" data-tag="class"{% if item.class is defined %} value="{{ item.class }}"{% endif %} placeholder="{{ __("css classes") }}">
             </div>
 
 

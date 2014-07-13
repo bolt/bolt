@@ -1,6 +1,10 @@
 <?php
 // Simple forms Extension for Bolt
 
+/**
+ * TODO: make the email-addresses better key=>value pairs
+ */
+
 namespace SimpleForms;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,12 +23,12 @@ class Extension extends \Bolt\BaseExtension
             'description' => "This extension will allow you to insert simple forms on your site, for users to get in touch, send you a quick note or something like that. To use, configure the required fields in config.yml, and place <code>{{ simpleform('contact') }}</code> in your templates.",
             'author' => "Bob den Otter",
             'link' => "http://bolt.cm",
-            'version' => "1.11",
+            'version' => "1.12",
             'required_bolt_version' => "1.6",
             'highest_bolt_version' => "1.6",
             'type' => "Twig function",
             'first_releasedate' => "2012-10-10",
-            'latest_releasedate' => "2014-06-20",
+            'latest_releasedate' => "2014-06-24",
             'allow_in_user_content' => true,
         );
         return $data;
@@ -85,7 +89,7 @@ class Extension extends \Bolt\BaseExtension
         $this->addTwigFunction('simpleform', 'simpleForm');
     }
 
-    private function buildField($name, $field) {
+    private function buildField($name, $field, $with = array()) {
         $options = array();
         $options['required'] = false;
 
@@ -129,6 +133,16 @@ class Extension extends \Bolt\BaseExtension
             return null;
         }
 
+        if (!empty($field['default'])) {
+            $value = strip_tags($field['default']); // Note Symfony's form also takes care of escaping this.
+            $options['data'] = $value;
+        }
+
+        if (!empty($with[$name])) {
+            $value = strip_tags($with[$name]); // Note Symfony's form also takes care of escaping this.
+            $options['attr']['value'] = $value;
+        }
+
         if (!empty($field['allow_override']) && !empty($_GET[$name])) {
             $value = strip_tags($_GET[$name]); // Note Symfony's form also takes care of escaping this.
             $options['attr']['value'] = $value;
@@ -159,8 +173,8 @@ class Extension extends \Bolt\BaseExtension
         if (!empty($field['choices']) && is_array($field['choices'])) {
             // Make the keys more sensible.
             $options['choices'] = array();
-            foreach ($field['choices'] as $option) {
-                $options['choices'][ safeString($option) ] = $option;
+            foreach ($field['choices'] as $key => $option) {
+                $options['choices'][ $key ] = $option;
             }
         }
 
@@ -173,7 +187,7 @@ class Extension extends \Bolt\BaseExtension
 
                 if (is_array($value['choices'])) {
                     foreach ($value['choices'] as $k => $v) {
-                        $choices[safeString($v)] = $v;
+                        $choices[$k] = $v;
                     }
                 }
 
@@ -227,7 +241,7 @@ class Extension extends \Bolt\BaseExtension
      * @internal param string $name
      * @return string
      */
-    public function simpleForm($formname = "")
+    public function simpleForm($formname = "", $with = array())
     {
         $this->app['twig.loader.filesystem']->addPath(__DIR__);
 
@@ -268,9 +282,12 @@ class Extension extends \Bolt\BaseExtension
         $form = $this->app['form.factory']->createNamedBuilder($formname, 'form', null, array('csrf_protection' => $this->config['csrf']));
 
         foreach ($formconfig['fields'] as $name => $field) {
-            $options = $this->buildField($name, $field);
+            $options = $this->buildField($name, $field, $with);
 
-            $form->add($name, $options['attr']['type'], $options);
+            // only add known fields with options to the form
+            if($options) {
+                $form->add($name, $options['attr']['type'], $options);
+            }
         }
 
         $form = $form->getForm();
@@ -386,15 +403,54 @@ class Extension extends \Bolt\BaseExtension
 
             // Save the choice label, not the submitted safe string value.
             if ($formconfig['fields'][$key]['type'] == 'choice' && !empty($formconfig['fields'][$key]['choices'])) {
-                $options = array();
-                foreach ($formconfig['fields'][$key]['choices'] as $option) {
-                    $options[safeString($option)] = $option;
-                }
+                $field = $formconfig['fields'][$key];
+                $options = $field['choices'];
 
-                // For multiple choices, prevent "Illegal offset type" warnings.
-                if (!is_array($value) && isset($options[$value])) {
+                if(isset($field['use_as']) && in_array($field['use_as'], array('from_email', 'to_email', 'cc_email', 'bcc_email'))) {
+                    // do nothing because this field is be an email field
+                    // $data[$key] = array($options[$value] => $value);
+                    $tmp_email = $value;
+                    $tmp_name = ($options[$value]!=$value)?$options[$value]:$value;
+
+                    switch($field['use_as']) {
+                        case 'from_email':
+                            // set the special sender for this form
+                            // add the values to the formconfig in case we want to see this later
+                            $formconfig['from_email'] = $tmp_email;
+                            $formconfig['from_name'] = $tmp_name;
+                            // \Dumper::dump('Overriding from_email for '.$formname . ' with '. $tmp_name . ' <'. $tmp_email.'>');
+                            break;
+                        case 'to_email':
+                            // add another recipient
+                            // add the values to the formconfig in case we want to see this later
+                            $formconfig['recipient_email'] = $tmp_email;
+                            $formconfig['recipient_name'] = $tmp_name;
+                            // \Dumper::dump('Overriding recipient_email for '.$formname . ' with '. $tmp_name . ' <'. $tmp_email.'>');
+                            break;
+                        case 'cc_email':
+                            // add another carbon copy recipient
+                            $formconfig['recipient_cc_email'] = $tmp_email;
+                            $formconfig['recipient_cc_name'] = $tmp_name;
+                            // \Dumper::dump('Overriding recipient_cc_email for '.$formname . ' with '. $tmp_name . ' <'. $tmp_email.'>');
+                            break;
+                        case 'bcc_email':
+                            // add another blind carbon copy recipient
+                            $formconfig['recipient_bcc_email'] = $tmp_email;
+                            $formconfig['recipient_bcc_name'] = $tmp_name;
+                            // \Dumper::dump('Overriding recipient_bcc_email for '.$formname . ' with '. $tmp_name . ' <'. $tmp_email.'>');
+                            break;
+                    }
+                } elseif(is_array($value)) {
+                    // replace keys with values for display in the email
+                    foreach($value as $k => $v) {
+                        if($options[$v] != $v) {
+                            $data[$key][$k] = $options[$v];
+                        }
+                    }
+                } elseif(isset($options[$value]) && $options[$value] != $value) {
                     $data[$key] = $options[$value];
                 }
+
             }
         }
 
@@ -517,6 +573,7 @@ class Extension extends \Bolt\BaseExtension
             'config' => $formconfig));
 
         if($formconfig['debugmode']==true) {
+            \Dumper::dump('Mail html for '.$formname);
             \Dumper::dump($mailhtml);
         }
 
@@ -544,11 +601,13 @@ class Extension extends \Bolt\BaseExtension
         // set the default recipient for this form
         if (!empty($formconfig['recipient_email'])) {
             $message->setTo(array($formconfig['recipient_email'] => $formconfig['recipient_name']));
+            $this->app['log']->add('Set Recipient for '. $formname . ' to '. $formconfig['recipient_email'], 3);
         }
 
         // set the default sender for this form
         if (!empty($formconfig['from_email'])) {
             $message->setFrom(array($formconfig['from_email'] => $formconfig['from_name']));
+            $this->app['log']->add('Set Sender for '. $formname . ' to '. $formconfig['from_email'], 3);
         }
 
         // add attachments if enabled in config
@@ -584,45 +643,72 @@ class Extension extends \Bolt\BaseExtension
 
             // check for other email addresses to be added
             foreach($formconfig['fields'] as $key => $values) {
-                if ($values['type']=="email" && in_array($values['use_as'], array('to_email', 'from_email', 'cc_email', 'bcc_email'))) {
-                    $tmp_email = $data[$key];
+                if (in_array($values['use_as'], array('to_email', 'from_email', 'cc_email', 'bcc_email'))) {
+                    $tmp_email = false;
 
-                    if(isset($values['use_with'])) {
-                        $tmp_name = $data[$values['use_with']];
-                        if(!$tmp_name) {
+                    if($values['type']=="email") {
+                        $tmp_email = $data[$key];
+
+                        if(isset($values['use_with'])) {
+                            $tmp_name = $data[$values['use_with']];
+                            if(!$tmp_name) {
+                                $tmp_name = $tmp_email;
+                            } else {
+                                $formconfig['recipient_name'] = $tmp_name;
+                            }
+                        }
+                        else {
                             $tmp_name = $tmp_email;
                         }
                     }
-                    else {
-                        $tmp_name = $tmp_email;
+                    elseif($values['type']=="choice") {
+                        $tmp_email = $data[$key];
+                        if(array_key_exists($tmp_email, $formconfig['fields'][$key])) {
+                            $tmp_name = $formconfig['fields'][$key];
+                        }
+                        else {
+                            $tmp_name = $tmp_email;
+                        }
                     }
-                    switch($values['use_as']) {
-                        case 'from_email':
-                            // set the special sender for this form
-                            $message->setFrom(array($tmp_email => $tmp_name));
-                            // add the values to the formconfig in case we want to see this later
-                            if (empty($formconfig['from_email'])) {
-                                $formconfig['from_email'] = $tmp_email;
-                                $formconfig['from_name'] = $tmp_name;
-                            }
-                            break;
-                        case 'to_email':
-                            // add another recipient
-                            $message->addTo($tmp_email, $tmp_name);
-                            // add the values to the formconfig in case we want to see this later
-                            if (empty($formconfig['recipient_email'])) {
-                                $formconfig['recipient_email'] = $tmp_email;
-                                $formconfig['recipient_name'] = $tmp_name;
-                            }
-                            break;
-                        case 'cc_email':
-                            // add another carbon copy recipient
-                            $message->addCc($tmp_email, $tmp_name);
-                            break;
-                        case 'bcc_email':
-                            // add another blind carbon copy recipient
-                            $message->addBcc($tmp_email, $tmp_name);
-                            break;
+
+                    if($tmp_email) {
+                        switch($values['use_as']) {
+                            case 'from_email':
+                                // set the special sender for this form
+                                $message->setFrom(array($tmp_email => $tmp_name));
+                                // add the values to the formconfig in case we want to see this later
+                                if (empty($formconfig['from_email'])) {
+                                    $formconfig['from_email'] = $tmp_email;
+                                    if(!isset($formconfig['from_name'])) {
+                                        $formconfig['from_name'] = $tmp_name;
+                                    }
+                                }
+                                break;
+                            case 'to_email':
+                                // check if recipient name is something useful
+                                // if it is already set somewhere use that
+                                if(!isset($formconfig['recipient_name'])) {
+                                    $formconfig['recipient_name'] = $tmp_name;
+                                } else {
+                                    $tmp_name = $formconfig['recipient_name'];
+                                }
+                                // add another recipient
+
+                                $message->addTo($tmp_email, $tmp_name);
+                                // add the values to the formconfig in case we want to see this later
+                                if (empty($formconfig['recipient_email'])) {
+                                    $formconfig['recipient_email'] = $tmp_email;
+                                }
+                                break;
+                            case 'cc_email':
+                                // add another carbon copy recipient
+                                $message->addCc($tmp_email, $tmp_name);
+                                break;
+                            case 'bcc_email':
+                                // add another blind carbon copy recipient
+                                $message->addBcc($tmp_email, $tmp_name);
+                                break;
+                        }
                     }
                 }
             }

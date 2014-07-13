@@ -57,7 +57,7 @@ class Config
             self::$yamlParser = new Yaml\Parser();
         }
 
-        $filename = $useDefaultConfigPath ? (BOLT_CONFIG_DIR . '/' . $basename) : $basename;
+        $filename = $useDefaultConfigPath ? ($this->app['resources']->getPath('config') . '/' . $basename) : $basename;
 
         if (is_readable($filename)) {
             return self::$yamlParser->parse(file_get_contents($filename) . "\n");
@@ -272,12 +272,12 @@ class Config
             // neither 'singular_name' nor 'singular_slug' is set.
             if (!isset($temp['name']) && !isset($temp['slug'])) {
                 $error = sprintf("In contenttype <code>%s</code>, neither 'name' nor 'slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-                $llc = new \LowlevelChecks();
+                $llc = new Configuration\LowlevelChecks($this->app['resources']);
                 $llc->lowlevelError($error);
             }
             if (!isset($temp['singular_name']) && !isset($temp['singular_slug'])) {
                 $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
-                $llc = new \LowlevelChecks();
+                $llc = new Configuration\LowlevelChecks($this->app['resources']);
                 $llc->lowlevelError($error);
             }
 
@@ -702,7 +702,9 @@ class Config
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path']) ? realpath($configdb["path"])."/".$basename : __DIR__ . '/../../database/' . $basename,
+                'path' => isset($configdb['path']) 
+                            ?   realpath($configdb["path"])."/".$basename 
+                            :   $this->app['resources']->getPath('database') ."/". $basename,
                 'randomfunction' => 'RANDOM()',
                 'memory' => isset($configdb['memory']) ? true : false
             );

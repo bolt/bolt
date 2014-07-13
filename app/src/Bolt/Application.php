@@ -53,7 +53,7 @@ class Application extends Silex\Application
                 'cookie_httponly' => true
             )
         ));
-
+        
         // Disable Silex's built-in native filebased session handler, and fall back to
         // whatever's set in php.ini.
         // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
@@ -118,7 +118,7 @@ class Application extends Silex\Application
                 $error .= "<br><br>Since you're using " . $dboptions['driver'] . ", you should also make sure that the
                 database <code>" . $dboptions['dbname'] . "</code> exists, and the configured user has access to it.";
             }
-            $checker = new \LowlevelChecks();
+            $checker = new Configuration\LowlevelChecks($this['resources']);
             $checker->lowLevelError($error);
         }
 
@@ -413,7 +413,8 @@ class Application extends Silex\Application
                 // Perhaps add a canonical link..
 
                 if ($this['config']->get('general/canonical')) {
-                    $snippet = sprintf('<link rel="canonical" href="%s">', $this['paths']['canonicalurl']);
+                    $snippet = sprintf('<link rel="canonical" href="%s">',
+                        htmlspecialchars($this['paths']['canonicalurl'], ENT_QUOTES));
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 
@@ -421,9 +422,9 @@ class Application extends Silex\Application
                 if ($this['config']->get('general/favicon')) {
                     $snippet = sprintf(
                         '<link rel="shortcut icon" href="//%s%s%s">',
-                        $this['paths']['canonical'],
-                        $this['paths']['theme'],
-                        $this['config']->get('general/favicon')
+                        htmlspecialchars($this['paths']['canonical'], ENT_QUOTES),
+                        htmlspecialchars($this['paths']['theme'], ENT_QUOTES),
+                        htmlspecialchars($this['config']->get('general/favicon'), ENT_QUOTES)
                     );
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }

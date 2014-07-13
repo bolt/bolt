@@ -36,10 +36,10 @@ class FilePermissions
         $this->app = $app;
 
         $this->allowed = array(
-            '#^' . preg_quote(realpath(BOLT_CONFIG_DIR)) . '#',
-            '#^' . preg_quote(realpath(BOLT_PROJECT_ROOT_DIR . "/app/extensions/")) . '.*config\.yml$#',
-            '#^' . preg_quote(realpath(BOLT_PROJECT_ROOT_DIR . "/files")) . '#',
-            '#^' . preg_quote(realpath(BOLT_PROJECT_ROOT_DIR . "/theme")) . '#'
+            '#^' . preg_quote(realpath($app['resources']->getPath('config'))) . '#',
+            '#^' . preg_quote(realpath($app['resources']->getPath('extensions'))) . '.*config\.yml$#',
+            '#^' . preg_quote(realpath($app['resources']->getPath('files'))) . '#',
+            '#^' . preg_quote(realpath($app['resources']->getPath('theme'))) . '#'
         );
 
         $this->blocked = array(

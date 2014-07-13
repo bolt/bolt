@@ -269,9 +269,9 @@ class Storage
     /**
      * Writes a content-changelog entry for a newly-created entry.
      */
-    private function logInsert($contenttype, $contentid, $content)
+    private function logInsert($contenttype, $contentid, $content, $comment = null)
     {
-        $this->writeChangelog('INSERT', $contenttype, $contentid, $content);
+        $this->writeChangelog('INSERT', $contenttype, $contentid, $content, null, $comment);
     }
 
     /**
@@ -279,18 +279,18 @@ class Storage
      * This function must be called *before* the actual update, because it
      * fetches the old content from the database.
      */
-    private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null)
+    private function logUpdate($contenttype, $contentid, $newContent, $oldContent = null, $comment = null)
     {
-        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent, $oldContent);
+        $this->writeChangelog('UPDATE', $contenttype, $contentid, $newContent, $oldContent, $comment);
     }
 
     /**
      * Writes a content-changelog entry for a deleted entry.
      * This function must be called *before* the actual update, because it
      */
-    private function logDelete($contenttype, $contentid, $content)
+    private function logDelete($contenttype, $contentid, $content, $comment = null)
     {
-        $this->writeChangelog('DELETE', $contenttype, $contentid, null, $content);
+        $this->writeChangelog('DELETE', $contenttype, $contentid, null, $content, null, $comment);
     }
 
     /**
@@ -308,9 +308,10 @@ class Storage
      * _before_ running the actual update/delete query; for the 'INSERT'
      * action, this is not necessary, and since you really want to provide
      * an ID, you can only really call the logging function _after_ the update.
+     * @param string $comment Add a comment to save on change log.
      * @throws \Exception
      */
-    private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null)
+    private function writeChangelog($action, $contenttype, $contentid, $newContent = null, $oldContent = null, $comment = null)
     {
         $allowed = array('INSERT', 'UPDATE', 'DELETE');
         if (!in_array($action, $allowed)) {
@@ -360,7 +361,6 @@ class Storage
             }
             $str = json_encode($data);
             $user = $this->app['users']->getCurrentUser();
-            $comment = $this->app['request']->request->get('changelog-comment');
             $entry['title'] = $title;
             $entry['date'] = date('Y-m-d H:i:s');
             $entry['ownerid'] = $user['id'];
@@ -562,7 +562,12 @@ class Storage
                 $ordering = " ORDER BY date ";
                 break;
             default:
-                throw new \Exception("Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '$cmd_op')");
+                throw new \Exception(
+                    sprintf(
+                        "Invalid value for argument 'cmp_op'; must be one of '=', '<', '>' (got '%s')",
+                        $cmp_op
+                    )
+                );
         }
         $tablename = $this->getTablename('content_changelog');
         $content_tablename = $this->getTablename($contenttype);
@@ -586,7 +591,7 @@ class Storage
         }
     }
 
-    public function saveContent($content)
+    public function saveContent($content, $comment = null)
     {
         $contenttype = $content->contenttype;
         $fieldvalues = $content->values;
@@ -697,12 +702,12 @@ class Storage
 
         // Decide whether to insert a new record, or update an existing one.
         if (empty($fieldvalues['id'])) {
-            $id = $this->insertContent($fieldvalues, $contenttype);
+            $id = $this->insertContent($fieldvalues, $contenttype, '', $comment);
             $fieldvalues['id'] = $id;
             $content->setValue('id', $id);
         } else {
             $id = $fieldvalues['id'];
-            $this->updateContent($fieldvalues, $contenttype);
+            $this->updateContent($fieldvalues, $contenttype, $comment);
         }
 
         $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
@@ -762,7 +767,7 @@ class Storage
     }
 
 
-    protected function insertContent($content, $contenttype, $taxonomy = "")
+    protected function insertContent($content, $contenttype, $taxonomy = "", $comment = null)
     {
 
         // Make sure $contenttype is a 'slug'
@@ -786,14 +791,20 @@ class Storage
         }
         $id = $this->app['db']->lastInsertId($seq);
 
-        $this->logInsert($contenttype, $id, $content);
+        $this->logInsert($contenttype, $id, $content, $comment);
 
         return $id;
 
     }
 
 
-    private function updateContent($content, $contenttype)
+    /**
+     * @param array  $content     The content new values.
+     * @param string $contenttype The content type
+     * @param string $comment     Add a comment to save with change.
+     * @return bool
+     */
+    private function updateContent($content, $contenttype, $comment = null)
     {
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
@@ -813,7 +824,7 @@ class Storage
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
         if ($res == true) {
-            $this->logUpdate($contenttype, $content['id'], $content, $oldContent);
+            $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
             return true;
         } else {
             // Attempt to _insert_ it, instead of updating..
@@ -823,11 +834,19 @@ class Storage
 
     }
 
-
+    /**
+     * Update a single value from content.
+     *
+     * It is called in list of contents.
+     *
+     * @param string $contenttype Content Type to be edited.
+     * @param int    $id          Id of content to be updated.
+     * @param string $field       Field name of content to be changed.
+     * @param mixed  $value       New value to be defined on field.
+     * @return bool Returns true when update is done or false if not.
+     */
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
-
-        $tablename = $this->getTablename($contenttype);
 
         $id = intval($id);
 
@@ -838,18 +857,21 @@ class Storage
             return false;
         }
 
-        // @todo make sure we don't set datecreated
-        // @todo update datechanged
+        $content = $this->getContent("$contenttype/$id");
 
-        $this->logUpdate($contenttype, $id, array($field => $value));
+        $content->setValue($field, $value);
 
-        $query = sprintf("UPDATE %s SET $field = ? WHERE id = ?", $tablename);
-        $stmt = $this->app['db']->prepare($query);
-        $stmt->bindValue(1, $value);
-        $stmt->bindValue(2, $id);
-        $res = $stmt->execute();
+        $comment = __(
+            'The field %field% has been changed to "%newValue%"',
+            array(
+                '%field%'    => $field,
+                '%newValue%' => $value
+            )
+        );
 
-        return $res;
+        $result = $this->saveContent($content, $comment);
+
+        return $result;
 
     }
 
@@ -1925,6 +1947,11 @@ class Storage
      * This code has been split into multiple methods in the spirit of separation of concerns,
      * but the situation is still far from ideal.
      * Where applicable each 'concern' notes the coupling in the local documentation.
+     * @param string $textquery
+     * @param string $parameters
+     * @param array  $pager
+     * @param array  $whereparameters
+     * @return Content
      */
     public function getContent($textquery, $parameters = '', &$pager = array(), $whereparameters = array())
     {
@@ -2778,7 +2805,7 @@ class Storage
 
         // Get the current values from the DB..
         $query = sprintf(
-            "SELECT id FROM %s ORDER BY `datecreated` DESC LIMIT 1;",
+            "SELECT id FROM %s ORDER BY datecreated DESC LIMIT 1;",
             $tablename
         );
         $id = $this->app['db']->executeQuery($query)->fetch();
@@ -2879,7 +2906,7 @@ class Storage
         } else {
             // For MySQL and Postgres:
             $databasename = $this->app['config']->get('general/database/databasename');
-            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$databasename' AND table_name = '$name';";
+            $query = "SELECT count(*) FROM information_schema.tables WHERE (table_schema = '$databasename' OR table_catalog = '$databasename') AND table_name = '$name';";
         }
 
         $res = $this->app['db']->fetchColumn($query);

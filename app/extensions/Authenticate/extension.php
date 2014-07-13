@@ -21,12 +21,12 @@ class Extension extends \Bolt\BaseExtension
             'name' => "Authenticate",
             'description' => "An extension to authenticate visitors on your Boltsite",
             'author' => "TwoKings (Lodewijk Evers, Tobias Dammers, Bob den Otter)",
-            'version' => "1.0.1",
+            'version' => "1.0.2",
             'required_bolt_version' => "1.5.0",
             'highest_bolt_version' => "1.5.0",
             'type' => "General",
             'first_releasedate' => "2014-02-11",
-            'latest_releasedate' => "2014-02-21",
+            'latest_releasedate' => "2014-06-24",
         );
 
         return $data;
@@ -67,7 +67,7 @@ class Extension extends \Bolt\BaseExtension
                 $table->addColumn("username", "string", array("length" => 64));
                 $table->addColumn("provider", "string", array("length" => 64));
                 $table->addColumn("providerdata", "text");
-                $table->addColumn("apptoken", "string", array("length" => 64));
+                $table->addColumn("apptoken", "string", array("length" => 64, 'notnull' => false));
                 return $table;
             }
         );

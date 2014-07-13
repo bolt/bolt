@@ -16,9 +16,7 @@ script:
   - ./run-functional-tests
 
 before_script:
-  - wget http://getcomposer.org/composer.phar
-  - php composer.phar self-update
-  - php composer.phar install --prefer-source
+  - composer self-update || true
+  - composer install --prefer-source
   - mkdir -p tests/_log
   - chmod 777 tests/_log
-

@@ -3,18 +3,9 @@
 namespace Bolt\Configuration;
 
 use Bolt\Application;
+use Symfony\Component\HttpFoundation\Request;
 
-
-/**
- * A Class to handle lookups and checks of all paths and resources within a Bolt App.
- *
- * Intended to simplify the ability to override resource location 
- *
- *
- * @author Ross Riley, riley.ross@gmail.com
- *
- */
-class ComposerResources extends ResourceManager
+class Composer extends Standard
 {
 
     /**
@@ -28,6 +19,10 @@ class ComposerResources extends ResourceManager
         $this->setPath("composer", "vendor/bolt/bolt");
         $this->setPath("apppath", $this->getPath('composer')."/app");
         $this->setPath("extensionspath", $this->getPath('app')."/extensions");
+        $this->setPath("cache", $this->root."/cache");
+        $this->setPath("config", $this->root."/config");
+        $this->setPath("database", $this->root."/database");
+
         $this->setUrl("app", "/bolt-public/");
     }
 
@@ -50,7 +45,7 @@ class ComposerResources extends ResourceManager
      **/
     public function setThemePath($generalConfig)
     {
-        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme'] : "";
+        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme']: '';
         $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
         $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("composer"), $theme_path,$theme));
