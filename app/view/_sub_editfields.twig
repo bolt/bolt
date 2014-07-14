@@ -100,7 +100,10 @@
     $(function() {
         $('.sluglocker').bind('click', function() {
             if ($('.sluglocker i').hasClass('icon-lock')) {
-                var unlock = confirm("Are you sure you wish to unlock the slug? This might break existing links to this record.");
+
+                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+                var unlock = ('{{ content.get(key) }}' == '') || confirm("Are you sure you wish to unlock the slug? This might break existing links to this record.");
+
                 if (unlock) {
                     $('.sluglocker i').removeClass('icon-lock').addClass('icon-unlock');
                     makeUri('{{ content.contenttype.slug }}', '{{ content.id }}', {{ field.uses|json_encode|raw }}, '{{ key }}', false);
@@ -119,6 +122,7 @@
                 makeUriAjax(newslug, '{{ content.contenttype.slug }}', '{{ content.id }}', '{{ key }}', false)
             }
         });
+
     {% if content.get(key) is empty  %}
         $('.sluglocker').trigger('click');
     {% endif %}
