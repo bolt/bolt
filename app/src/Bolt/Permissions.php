@@ -38,9 +38,13 @@ class Permissions
 
     private $app;
 
+    // per-request permission cache
+    private $rqcache;
+
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->rqcache = array();
     }
 
     /**
@@ -310,10 +314,28 @@ class Permissions
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
         $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttype' and contentid '$contentid'");
+
+        // First, let's see if we have the check in the per-request cache.
+        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttype . '//' . $contentid;
+        if (isset($this->rqcache[$rqCacheKey])) {
+            return $this->rqcache[$rqCacheKey];
+        }
+
+        $cacheKey = "_permission_rule:$what";
+        if ($this->app['cache']->contains($cacheKey)) {
+            $rule = json_decode($this->app['cache']->fetch($cacheKey), true);
+        }
+        else {
+            $parser = new PermissionParser();
+            $rule = $parser->run($what);
+            $this->app['cache']->save($cacheKey, json_encode($rule));
+        }
         $userRoles = $this->getEffectiveRolesForUser($user);
-        $parser = new PermissionParser();
-        $rule = $parser->run($what);
-        return $this->isAllowedRule($rule, $userRoles, $contenttype, $contentid);
+        $isAllowed = $this->isAllowedRule($rule, $userRoles, $contenttype, $contentid);
+
+        // Cache for the current request
+        $this->rqcache[$rqCacheKey] = $isAllowed;
+        return $isAllowed;
     }
 
     private function isAllowedRule($rule, $userRoles, $contenttype, $contentid) {

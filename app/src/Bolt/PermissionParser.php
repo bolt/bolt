@@ -41,6 +41,7 @@ class PermissionParser {
     }
 
     public static function lex($query) {
+        $originalQuery = $query;
         $branches = array(
             '/^\s+/' => self::T_SPACE,
             '/^\(/' => self::T_OPEN_PARENS,
@@ -51,7 +52,7 @@ class PermissionParser {
             '/^(?:\band\b)/i' => self::T_AND,
             '/^(?:\btrue\b)/i' => self::T_TRUE,
             '/^(?:\bfalse\b)/i' => self::T_FALSE,
-            '/^([a-zA-Z_0-9\-]+(:[a-zA-Z_0-9\-]+)*)/' => self::T_QUERY);
+            '/^([a-zA-Z_0-9\-]+(:[a-zA-Z_0-9\-]+)*:?)/' => self::T_QUERY);
         $tokens = array();
         while (!empty($query)) {
             $token = null;
@@ -74,7 +75,7 @@ class PermissionParser {
                 }
             }
             if ($token === null) {
-                throw new \Exception("Unexpected character in permission query lexer: " . $query[0]);
+                throw new \Exception("Unexpected character '" . $query[0] . "' while parsing query $originalQuery");
             }
 
             if ($token['type'] !== self::T_SPACE) {
