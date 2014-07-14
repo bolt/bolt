@@ -14,10 +14,6 @@
 
 <div class="row-fluid">
     <div class="span8">
-        <div class='install-response-container hide'>
-            <h3>Installing package</h3>
-            <pre class="install-response console">... Installing selected package version (this may take up to 60 seconds)</pre>
-        </div>
         <div class='update-check-container hide'>
             <h3>Updates</h3>
             <pre class="update-check console">... Checking for available updates (this may take up to 60 seconds)</pre>
@@ -39,6 +35,10 @@
                     <a class="btn check-package">
                         <i class="icon-gears"></i> Check Extension
                     </a> 
+            </div>
+            <div class='install-response-container hide'>
+                <h3>Installing package</h3>
+                <pre class="install-response console">Installing selected package version (this may take up to 60 seconds).</pre>
             </div>
         </section>
     </div>
@@ -64,8 +64,24 @@
 <script>
     var site = '{{site}}';
     jQuery(document).ready(function($) {
+        
+        var active_console;
+        var active_interval;
+        
+        $(document).ajaxStart(function() {
+            // show loader on start
+            active_interval = setInterval(function(){
+                active_console.append(".");
+            },1000);
+        }).ajaxSuccess(function() {
+            clearInterval(active_interval);
+        });
+        
+        
+        
         $('.extend-bolt-container').find('[data-action]').each(function(){
             var target = $(this);
+            active_console = target;
             $.get('/bolt/extend/'+$(this).data('action'), function(data) {
                 target.html(data);
             });
@@ -75,6 +91,7 @@
             $(this).on('click', function(){
                 $("." + $(this).data('show') ).show();
                 var target = $("." + $(this).data('target') );
+                active_console = target;
                 $.get('/bolt/extend/'+$(this).data('trigger'), function(data) {
                     target.html(data);
                 });
@@ -84,6 +101,7 @@
         
         $('.check-package').on('click', function(){
             var ext = $('input[name="check-package"]').val();
+            active_console = $(".check-package");
             $.ajax({
                 url: site+'list.json',
                 dataType: 'jsonp',
@@ -114,6 +132,7 @@
             var package = $('input[name="package-name"]').val();
             var version = $('select[name="package-version"]').val();
             $('.install-response-container').show();
+            active_console = $('.install-response-container .console');
             $.get('/bolt/extend/install', {'package':package,'version':version}, function(data) {
                 $('.install-response-container .console').html(data);
             });

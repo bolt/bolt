@@ -50,7 +50,7 @@ class CommandRunner
     public function install($package, $version)
     {
         $response = $this->execute("require $package $version");
-        if($response) {
+        if(false !== $response) {
             return $response;
         } else {
             $message = "The requested extension version could not be installed. The most likely reason is that the version"."\n";
