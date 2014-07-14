@@ -12,7 +12,13 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
     public function testLex($input, $expected)
     {
         $parser = new PermissionParser();
-        $actual = $parser->lex($input);
+        $actual_ = $parser->lex($input);
+        foreach ($actual_ as $a) {
+            $actual[] = array(
+                'type' => $a['type'],
+                'capture' => $a['capture']
+            );
+        }
         $this->assertEquals($expected, $actual);
     }
 
@@ -32,11 +38,82 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                     array('type' => PermissionParser::T_QUERY, 'capture' => 'this:is:also:valid')
                 )
             ),
+            array(
+                "so-is:this:6",
+                array(
+                    array('type' => PermissionParser::T_QUERY, 'capture' => 'so-is:this:6')
+                )
+            ),
+            // Properly end words
+            array(
+                "this)",
+                array(
+                    array('type' => PermissionParser::T_QUERY, 'capture' => 'this'),
+                    array('type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null)
+                )
+            ),
+            array(
+                "this||",
+                array(
+                    array('type' => PermissionParser::T_QUERY, 'capture' => 'this'),
+                    array('type' => PermissionParser::T_OR, 'capture' => null)
+                )
+            ),
             // Do not mistake this for "and"
             array(
                 "andz",
                 array(
                     array('type' => PermissionParser::T_QUERY, 'capture' => 'andz')
+                )
+            ),
+            // Variations of the "true" token
+            array(
+                "true",
+                array(
+                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
+                )
+            ),
+            array(
+                "TRUE",
+                array(
+                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
+                )
+            ),
+            array(
+                "True",
+                array(
+                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
+                )
+            ),
+            array(
+                "trUe",
+                array(
+                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
+                )
+            ),
+            // Variations of the "false" token
+            array(
+                "false",
+                array(
+                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
+                )
+            ),
+            array(
+                "FALSE",
+                array(
+                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
+                )
+            ),
+            array(
+                "False",
+                array(
+                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
+                )
+            ),
+            array(
+                "fAlsE",
+                array(
+                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
                 )
             ),
             // Variations of the "and" token
@@ -150,6 +227,10 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                 array('type' => PermissionParser::P_SIMPLE, 'value' => 'this')
             ),
             // Parentheses around a single query should not make a difference.
+            array(
+                "(this)",
+                array('type' => PermissionParser::P_SIMPLE, 'value' => 'this')
+            ),
             array(
                 "(((this)))",
                 array('type' => PermissionParser::P_SIMPLE, 'value' => 'this')

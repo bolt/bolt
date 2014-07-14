@@ -318,6 +318,10 @@ class Permissions
 
     private function isAllowedRule($rule, $userRoles, $contenttype, $contentid) {
         switch ($rule['type']) {
+            case PermissionParser::P_TRUE:
+                return true;
+            case PermissionParser::P_FALSE:
+                return false;
             case PermissionParser::P_SIMPLE:
                 return $this->isAllowedSingle($rule['value'], $userRoles, $contenttype, $contentid);
             case PermissionParser::P_OR:
@@ -447,6 +451,10 @@ class Permissions
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid = null)
     {
         $perm = $this->getContentStatusTransitionPermission($fromStatus, $toStatus);
+        if ($perm === null) {
+            // Bypass permission check if no actual transition is to happen
+            return true;
+        }
         return $this->isAllowed($perm, $user, $contenttype, $contentid);
     }
 }
