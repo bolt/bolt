@@ -155,6 +155,11 @@ debug_error_level: 6135 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_U
 #debug_error_level: 30719 # equivalent to E_ALL
 debug_enable_whoops: true # change this to false to use PHP's built-in error handling instead of Whoops
 
+# Uncomment to enable permission checks in the frontend.
+# This allows hiding certain content types from regular (unauthenticated
+# visitors) through the permission system; see permissions.yml for details.
+# frontend_permission_checks: true
+
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
 strict_variables: false

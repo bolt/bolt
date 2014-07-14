@@ -38,9 +38,13 @@ class Permissions
 
     private $app;
 
+    // per-request permission cache
+    private $rqcache;
+
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->rqcache = array();
     }
 
     /**
@@ -192,7 +196,8 @@ class Permissions
     {
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
-            throw new \Exception("Configuration error: $permissionName is not granted to any roles.");
+            error_log("Configuration error: $permissionName is not granted to any roles.");
+            return false;
         }
         return in_array($roleName, $roles);
     }
@@ -290,6 +295,12 @@ class Permissions
      * "contenttype:$contenttype:change-ownership",
      * "contenttype:$contenttype:change-ownership:$id" - Change the ownership
      *                                of the specified content type or item.
+     * Further, permissions can be combined with the special keywords 'and' and
+     * 'or' (case-insensitive), or their symbolic aliases '&' (or '&&') and '|'
+     * (or '||'). To override the default precedence (with 'or' binding tighter
+     * than 'and'), or to make precedence explicit, use parentheses. Ex.:
+     *
+     * "contenttype:$contenttype:edit or contenttype:$contenttype:view"
      *
      * @param string $what The desired permission, as elaborated upon above.
      * @param mixed $user The user to check permissions against.
@@ -302,9 +313,59 @@ class Permissions
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
-        $this->audit("Checking permission '$what' for user '{$user['username']}'");
-        $userRoles = $this->getEffectiveRolesForUser($user);
+        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttype' and contentid '$contentid'");
 
+        // First, let's see if we have the check in the per-request cache.
+        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttype . '//' . $contentid;
+        if (isset($this->rqcache[$rqCacheKey])) {
+            return $this->rqcache[$rqCacheKey];
+        }
+
+        $cacheKey = "_permission_rule:$what";
+        if ($this->app['cache']->contains($cacheKey)) {
+            $rule = json_decode($this->app['cache']->fetch($cacheKey), true);
+        }
+        else {
+            $parser = new PermissionParser();
+            $rule = $parser->run($what);
+            $this->app['cache']->save($cacheKey, json_encode($rule));
+        }
+        $userRoles = $this->getEffectiveRolesForUser($user);
+        $isAllowed = $this->isAllowedRule($rule, $userRoles, $contenttype, $contentid);
+
+        // Cache for the current request
+        $this->rqcache[$rqCacheKey] = $isAllowed;
+        return $isAllowed;
+    }
+
+    private function isAllowedRule($rule, $userRoles, $contenttype, $contentid) {
+        switch ($rule['type']) {
+            case PermissionParser::P_TRUE:
+                return true;
+            case PermissionParser::P_FALSE:
+                return false;
+            case PermissionParser::P_SIMPLE:
+                return $this->isAllowedSingle($rule['value'], $userRoles, $contenttype, $contentid);
+            case PermissionParser::P_OR:
+                foreach ($rule['value'] as $subrule) {
+                    if ($this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
+                        return true;
+                    }
+                }
+                return false;
+            case PermissionParser::P_AND:
+                foreach ($rule['value'] as $subrule) {
+                    if (!$this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
+                        return false;
+                    }
+                }
+                return true;
+            default:
+                throw new \Exception("Invalid permission check rule of type " . $rule['type'] . ", expected P_SIMPLE, P_AND or P_OR");
+        }
+    }
+
+    private function isAllowedSingle($what, $userRoles, $contenttype = null, $contentid = null) {
         if ($contenttype) {
             $parts = array(
                         'contenttype',
@@ -422,6 +483,10 @@ class Permissions
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid = null)
     {
         $perm = $this->getContentStatusTransitionPermission($fromStatus, $toStatus);
+        if ($perm === null) {
+            // Bypass permission check if no actual transition is to happen
+            return true;
+        }
         return $this->isAllowed($perm, $user, $contenttype, $contentid);
     }
 }
