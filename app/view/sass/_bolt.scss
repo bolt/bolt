@@ -1,8 +1,14 @@
+html {
+    height: 100%;
+}
 
 body {
     background-color: $sidebarbackground;
     color: $bodytextcolour;
     font-size: 13px;
+    min-height: 100%;
+    overflow: scroll-y;
+    background-color: $basebgcolour;
 }
 
 body.popup {
@@ -418,11 +424,33 @@ input.semitransparent:focus {
 
 @media(min-width:768px) {
 
-  #page-wrapper {
-    position: inherit;
-    margin: 0 0 0 180px;
-    padding: 26px 18px 40px 30px;
-    border-left: 1px solid #e7e7e7;
+  // This part fixes 'equal-height columns' The content column is a faux one by
+  // setting the same background-color for body.
+  #wrapper {
+      min-height: 100%;
+      height:auto !important;
+      overflow : hidden;
+      position: absolute;
+      top: 0;
+
+      #nav {
+          top: 0px;
+          position: absolute;
+          padding-top: 66px;
+          min-height: 100%;
+          height: 100%;
+          & > div {
+              min-height: 100%;
+              height: 100%;
+          }
+      }
+      #page-wrapper {
+          top: -50px;
+          position: relative !important;
+          padding: 66px 18px 40px 30px;
+          margin: 0 0 0 180px;
+          border-left: 1px solid #e7e7e7;
+      }
   }
 
   .navbar-top-links .dropdown-messages,
