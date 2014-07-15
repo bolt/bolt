@@ -1030,9 +1030,9 @@ class Backend implements ControllerProviderInterface
                 $res = $app['users']->saveUser($user);
 
                 if ($user['id']) {
-                    $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
-                } else  {
                     $app['log']->add(__("Updated user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+                } else  {
+                    $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
                 }
 
                 if ($res) {
