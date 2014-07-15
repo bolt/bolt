@@ -1,42 +1,42 @@
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    background-color: $sidebarbackground;
-    color: $bodytextcolour;
-    font-size: 13px;
-    min-height: 100%;
-    overflow: scroll-y;
-    background-color: $basebgcolour;
+  background-color: $sidebarbackground;
+  color: $bodytextcolour;
+  font-size: 13px;
+  min-height: 100%;
+  overflow: scroll-y;
+  background-color: $basebgcolour;
 }
 
 body.popup {
-    padding: 6px 12px 0;
+  padding: 6px 12px 0;
 }
 
 footer  {
-    margin-top: 31px;
-    position: fixed;
-    bottom: 0;
-    border-top: 1px solid #CCC;
-    background-color: #E7E7E7;
-    color: #999;
-    width:100%;
-    padding: 4px 10px;
-    z-index: 10000;
+  margin-top: 31px;
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #CCC;
+  background-color: #E7E7E7;
+  color: #999;
+  width:100%;
+  padding: 4px 10px;
+  z-index: 10000;
 }
 
 .table-changelog-details th {
-    width: 40%;
+  width: 40%;
 }
 
 .table-changelog-details th:first-child {
-    width: 20%;
+  width: 20%;
 }
 
 .table-changelog-details td {
-    vertical-align: top;
+  vertical-align: top;
 }
 
 .js-nav #wrapper{
@@ -427,30 +427,33 @@ input.semitransparent:focus {
   // This part fixes 'equal-height columns' The content column is a faux one by
   // setting the same background-color for body.
   #wrapper {
-      min-height: 100%;
-      height:auto !important;
-      overflow : hidden;
-      position: absolute;
-      top: 0;
+    min-height: 100%;
+    height:auto !important;
+    overflow : hidden;
+    position: absolute;
+    top: 0;
 
-      #nav {
-          top: 0px;
-          position: absolute;
-          padding-top: 66px;
-          min-height: 100%;
-          height: 100%;
-          & > div {
-              min-height: 100%;
-              height: 100%;
-          }
+    #nav {
+      top: 0px;
+      position: absolute;
+      padding-top: 66px;
+      min-height: 100%;
+      height: 100%;
+      & > div {
+        min-height: 100%;
+        height: 100%;
       }
-      #page-wrapper {
-          top: -50px;
-          position: relative !important;
-          padding: 66px 18px 40px 30px;
-          margin: 0 0 0 180px;
-          border-left: 1px solid #e7e7e7;
-      }
+    }
+    #page-wrapper {
+      top: -50px;
+      position: relative !important;
+      padding: 66px 18px 40px 30px;
+      border-left: 1px solid #e7e7e7;
+    }
+  }
+
+  #page-wrapper {
+      margin: 0 0 0 180px;
   }
 
   .navbar-top-links .dropdown-messages,
