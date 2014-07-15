@@ -51,6 +51,7 @@ class CommandRunner
     {
         $response = $this->execute("require $package $version");
         if(false !== $response) {
+            $response = implode("<br>", array_slice($response, 2));
             return $response;
         } else {
             $message = "The requested extension version could not be installed. The most likely reason is that the version"."\n";
@@ -86,6 +87,7 @@ class CommandRunner
     
     protected function execute($command)
     {
+        set_time_limit(0);
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         if($responseCode == 0) {
