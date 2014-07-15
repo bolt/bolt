@@ -1023,9 +1023,14 @@ class Backend implements ControllerProviderInterface
                 if ($firstuser) {
                     $user['roles'] = array(Permissions::ROLE_ROOT);
                 }
-
                 $res = $app['users']->saveUser($user);
-                $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+
+                if ($user['id']) {
+                    $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+                } else  {
+                    $app['log']->add(__("Updated user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
+                }
+
                 if ($res) {
                     $app['session']->getFlashBag()->set('success', __('User %s has been saved.', array('%s' => $user['displayname'])));
                 } else {
