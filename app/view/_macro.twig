@@ -129,13 +129,15 @@
     {% include('_sub_csrf_token.twig') %}
     <button type="submit"
         {% if confirmation_text %}
-            class="btn btn-link confirm" data-confirm="{{confirmation_text}}"
+            class="btn btn-link btn-block confirm" data-confirm="{{confirmation_text}}"
         {%else%}
-            class="btn btn-link"
+            class="btn btn-link btn-block"
         {%endif%}
     >
-        <i class="fa {{ icon }}"></i>
-        {{ __(text) }}
+        <span class="pull-left">
+            <i class="fa {{ icon }}"></i>
+            {{ __(text) }}
+        </span>
     </button>
 </form>
 {% endmacro %}

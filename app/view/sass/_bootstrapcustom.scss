@@ -54,7 +54,7 @@
 // Buttons that behave as a link, and specifically in a dropdown-menu.
 .dropdown-menu .btn-link {
     color: $dropdown-link-color;
-    padding: 1px 14px;
+    padding: 3px 20px;
     display: block;
 }
 
@@ -154,7 +154,6 @@
     outline: 0;
 }
 
-
 .navbar .navbar > li > form > button.btn,
 .navbar .navbar > li > a {
     font-weight: bold;
@@ -173,10 +172,25 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.navbar form {
-    margin: 0 12px 0 0;
-    padding: 0 0 0 0;
-    display: inline;
+.navbar {
+    form {
+        padding: 0 0 0 0;
+        display: inline;
+    }
+
+    & .dropdown button {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        padding: 9px 15px 27px 8px;
+        height: 2.4em;
+        font-weight: normal;
+
+        &:hover {
+            color: #fff;
+            background: #3d5a71; // todo
+        }
+    }
+
 }
 
 .navbar .navbar > li > form > button.btn:hover {
@@ -227,8 +241,10 @@ ul.dropdown-menu li {
     text-align: left;
 }
 
-ul.dropdown-menu li a {
+ul.dropdown-menu li a,
+ul.dropdown-menu li button {
     font-size: 13px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 ul.dropdown-menu li.divider {

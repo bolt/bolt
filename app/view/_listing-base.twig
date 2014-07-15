@@ -129,7 +129,7 @@
                                 {% if content.status != "published" %}
                                     {% if isallowed('publish', content) %}
 
-                                    <li>{{ macro.actionform(content, 'publish', 'fa-star-empty', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
+                                    <li>{{ macro.actionform(content, 'publish', 'fa-star-o', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
                                     {% endif %}
                                 {% else %}
                                     {% if isallowed('depublish', content) %}
