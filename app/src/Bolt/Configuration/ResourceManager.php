@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * A Base Class to handle resource management of paths and urls within a Bolt App.
  *
- * Intended to simplify the ability to override resource location 
+ * Intended to simplify the ability to override resource location
  *
  *
  * @author Ross Riley, riley.ross@gmail.com
@@ -20,15 +20,15 @@ class ResourceManager
     public $app;
     protected $root;
     protected $requestObject;
-    
+
     protected $paths    = array();
     protected $urls     = array();
     protected $request  = array();
-    
+
     public $urlPrefix = "";
-    
+
     protected $verifier = false;
-    
+
 
     /**
      * Constructor initialises on the app root path.
@@ -39,38 +39,38 @@ class ResourceManager
     {
         $this->root = realpath($root);
         $this->requestObject = $request;
-        
+
         if(null !== $verifier) {
             $this->verifier = $verifier;
         }
-        
+
         $this->setUrl("root", "/");
         $this->setPath("rootpath", $this->root);
-        
+
         $this->setUrl("app", "/app/");
         $this->setPath("apppath", $this->root."/app");
-        
+
         $this->setUrl("extensions", "/app/extensions/");
         $this->setPath("extensionspath", $this->root."/app/extensions");
-        
+
         $this->setUrl("files", "/files/");
         $this->setPath("filespath", $this->root."/files");
-        
+
         $this->setUrl("async",  "/async/");
         $this->setUrl("upload", "/upload/");
         $this->setUrl("bolt",   "/bolt/");
-        
+
         $this->setPath("web", $this->root);
         $this->setPath("cache", $this->root."/app/cache");
         $this->setPath("config", $this->root."/app/config");
         $this->setPath("database", $this->root."/app/database");
     }
-    
+
     public function setApp(Application $app)
     {
         $this->app  = $app;
     }
-    
+
 
     public function setPath($name, $value)
     {
@@ -82,25 +82,25 @@ class ResourceManager
             $this->paths[$name."path"] = $value;
         }
     }
-    
+
     public function getPath($name)
     {
         if(array_key_exists($name."path", $this->paths)) {
             return $this->paths[$name."path"];
         }
-        
+
         if(!array_key_exists($name, $this->paths)) {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
-        
+
         return $this->paths[$name];
     }
-    
+
     public function setUrl($name, $value)
     {
         $this->urls[$name] = $value;
     }
-    
+
     public function getUrl($name)
     {
         if(array_key_exists($name."url", $this->urls) && $name !=='root' ) {
@@ -111,12 +111,12 @@ class ResourceManager
         }
         return $this->urlPrefix.$this->urls[$name];
     }
-    
+
     public function setRequest($name, $value)
     {
         $this->request[$name] = $value;
     }
-    
+
     public function getRequest($name)
     {
         if(!array_key_exists($name, $this->request)) {
@@ -149,7 +149,7 @@ class ResourceManager
         } else {
             $protocol = "cli";
         }
-        
+
         if("" !== $request->getBasePath()) {
             $this->setUrl('root',       $request->getBasePath()."/");
             $this->setUrl("app",        $this->getUrl('root')."app/");
@@ -158,37 +158,37 @@ class ResourceManager
             $this->setUrl("async",      $this->getUrl('root')."async/");
             $this->setUrl("upload",     $this->getUrl('root')."upload/");
         }
-        
+
         $this->setRequest("protocol",   $protocol);
         $this->setRequest("hostname",   $request->server->get('HTTP_HOST'));
         $this->setUrl("current",        $request->getPathInfo());
-        $this->setUrl("canonicalurl",   sprintf('%s://%s%s', 
-                                            $this->getRequest("protocol"), 
-                                            $this->getRequest('canonical'), 
+        $this->setUrl("canonicalurl",   sprintf('%s://%s%s',
+                                            $this->getRequest("protocol"),
+                                            $this->getRequest('canonical'),
                                             $this->getUrl('current')
                                         ));
-        $this->setUrl("currenturl",     sprintf('%s://%s%s', 
-                                            $this->getRequest("protocol"), 
-                                            $this->getRequest('hostname'), 
+        $this->setUrl("currenturl",     sprintf('%s://%s%s',
+                                            $this->getRequest("protocol"),
+                                            $this->getRequest('hostname'),
                                             $this->getUrl('current')
                                         ));
         $this->setUrl("hosturl",        sprintf('%s://%s', $this->getRequest("protocol"), $this->getRequest('hostname')));
-        $this->setUrl("rooturl",        sprintf('%s://%s%s', 
-                                            $this->getRequest("protocol"), 
-                                            $this->getRequest('canonical'), 
+        $this->setUrl("rooturl",        sprintf('%s://%s%s',
+                                            $this->getRequest("protocol"),
+                                            $this->getRequest('canonical'),
                                             $this->getUrl("root")
                                         ));
     }
-      
-      
+
+
     /**
      * Takes a Bolt Application and uses it to initialize settings that depend on the application config
      *
      * @return void
-     **/  
+     **/
     public function initializeApp(Application $app)
     {
-        $canonical   = $app['config']->get('general/canonical', "");        
+        $canonical   = $app['config']->get('general/canonical', "");
         $this->setRequest("canonical", $canonical);
     }
 
@@ -196,21 +196,21 @@ class ResourceManager
      * Takes a loaded config array and uses it to initialize settings that depend on it
      *
      * @return void
-     **/  
+     **/
     public function initializeConfig($config)
     {
         if(is_array($config) && isset($config['general'])) {
             $this->setThemePath($config["general"]);
         }
     }
-        
+
     public function initialize()
     {
         $this->initializeApp($this->app);
         $this->initializeRequest($this->requestObject);
         $this->postInitialize();
     }
-    
+
     public function postInitialize()
     {
         $this->setThemePath($this->app['config']->get("general"));
@@ -219,7 +219,7 @@ class ResourceManager
         $this->app['config']->setCkPath();
         $this->verifyDb();
     }
-    
+
     public function compat()
     {
         if(!defined("BOLT_COMPOSER_INSTALLED")) {
@@ -238,51 +238,51 @@ class ResourceManager
             define('BOLT_CONFIG_DIR', $this->getPath('config'));
         }
     }
-    
+
     /**
      *  This currently gets special treatment because of the processing order.
-     *  The theme path is needed before the app has constructed, so this is a shortcut to 
+     *  The theme path is needed before the app has constructed, so this is a shortcut to
      *  allow the Application constructor to pre-provide a theme path.
      *
      * @return void
      **/
     public function setThemePath($generalConfig)
     {
-        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme'] : "";
-        $theme_path  = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: '/theme';
-        $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
+        $theme_dir   = isset($generalConfig['theme']) ? '/' . $generalConfig['theme'] : '';
+        $theme_path  = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
+        $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root') . 'theme';
 
-        $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("rootpath"), $theme_path,$theme));
-        $this->setUrl("theme",      sprintf('%s/%s/',   $theme_url, $theme));
+        $this->setPath('themepath', $this->getPath('rootpath') . $theme_path . $theme_dir);
+        $this->setUrl('theme',      $theme_url . $theme_dir . '/');
     }
-    
-    
+
+
     /**
      * Verifies the configuration to ensure that paths exist and are writable.
      *
      * @return void
-     * @author 
+     * @author
      **/
     public function verify()
     {
         $this->getVerifier()->doChecks();
     }
-    
+
     public function verifyDb()
     {
         $this->getVerifier()->doDatabaseCheck();
     }
-    
+
     public function getVerifier()
     {
         if(!$this->verifier) {
-            $this->verifier = new LowlevelChecks($this);  
+            $this->verifier = new LowlevelChecks($this);
         }
         return $this->verifier;
     }
-    
-    
- 
 
-    
+
+
+
+
 }

@@ -13,6 +13,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new PermissionParser();
         $actual_ = $parser->lex($input);
+        $actual = array();
         foreach ($actual_ as $a) {
             $actual[] = array(
                 'type' => $a['type'],
