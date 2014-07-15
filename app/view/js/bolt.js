@@ -829,19 +829,14 @@ var Sidebar = Backbone.Model.extend({
         if ($('nav.navbar-static-side').is(':visible')) {
 
             // Initialize popovers, used in sidebar menu. 
-            $('nav.navbar-static-side a.menu-pop').popover({
-                trigger: 'hover',
-                delay: { show: 300, hide: 2000 }
+            $('nav.navbar-static-side a.menu-pop').each(function(){
+                var $this = $(this);
+                $this.popover({
+                    trigger: 'hover',
+                    delay: 300,
+                    container: $this
+                });
             });
-
-            // Make sure we have only one open at the same time.
-            $('nav.navbar-static-side').on('show.bs.popover', function () {
-                sidebar.closePopOvers();
-            });        
-
-            $('#page-wrapper').on('touch, click', function () {
-                sidebar.closePopOvers();
-            });        
 
         }
 
