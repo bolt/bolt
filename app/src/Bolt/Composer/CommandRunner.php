@@ -9,15 +9,16 @@ class CommandRunner
     public $wrapper;
     public $messages;
     public $lastOutput;
+    public $packageFile;
     
     public function __construct(Silex\Application $app, $packageRepo = null)
     {
         $this->packageRepo = $packageRepo;
-        $packagefile = $app['resources']->getPath('root').'/composer.json';
-        if(!is_writable($packagefile)) {
+        $this->packageFile = $app['resources']->getPath('root').'/composer.json';
+        if(!is_writable($this->packageFile)) {
             $this->messages[] = sprintf(
                 "The file '%s' is not writable. You will not be able to use this feature without changing the permissions.",
-                $packagefile
+                $this->packageFile
             );
         }
         
@@ -58,6 +59,19 @@ class CommandRunner
             $message.= "requested is not compatible with this version of Bolt."."\n\n"; 
             $message.= "Check on the extensions site for more information.";
             return $message;
+        }
+    }
+    
+    public function uninstall($package)
+    {
+        $json = json_decode(file_get_contents($this->packageFile));
+        unset($json->require->$package);
+        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+        $response = $this->execute("update");
+        if($response) {
+            return implode("<br>",array_slice($response, 2));
+        } else {
+            return "$package could not be uninstalled. Try checking that your composer.json file is writable.";
         }
     }
     

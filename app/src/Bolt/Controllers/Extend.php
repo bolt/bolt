@@ -51,6 +51,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             ->before(array($this, 'before'))
             ->bind('install');
             
+        $ctr->get("/uninstall", array($this, 'uninstall'))
+            ->before(array($this, 'before'))
+            ->bind('uninstall');
+            
         $ctr->get("/installed", array($this, 'installed'))
             ->before(array($this, 'before'))
             ->bind('installed');
@@ -88,11 +92,19 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         
     }
     
+    public function uninstall(Silex\Application $app, Request $request)
+    {
+        $package = $request->get('package');
+        return new Response($app['extend.runner']->uninstall($package));
+        
+    }
+    
     public function installed(Silex\Application $app, Request $request)
     {
         return new Response($app['extend.runner']->installed());
         
     }
+    
     
 
 
