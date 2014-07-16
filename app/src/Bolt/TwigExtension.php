@@ -1272,10 +1272,21 @@ class TwigExtension extends \Twig_Extension
      */
     public function isAllowed($what, $content = null)
     {
-        if ($content) {
-            $what = "contenttype:{$content->contenttype['slug']}:$what:{$content['id']}";
+        $contenttype = null;
+        $contentid = null;
+        if ($content instanceof Content) {
+            // It's a content record
+            $contenttype = $content->contenttype;
+            $contentid = $content['id'];
         }
-        return $this->app['users']->isAllowed($what);
+        elseif (is_array($content)) {
+            // It's a contenttype
+            $contenttype = $content;
+        }
+        elseif (is_string($content)) {
+            $contenttype = $content;
+        }
+        return $this->app['users']->isAllowed($what, $contenttype, $contentid);
     }
 
     /**
