@@ -93,9 +93,9 @@ class CommandRunner
             
         }
         if(!count($installed)) {
-            return "No Bolt extensions installed";
+            return new JsonResponse([]);
         } else {
-            return new JsonResponse(json_encode($installed));
+            return new JsonResponse($installed);
         }
         
     }

@@ -86,11 +86,15 @@
             var target = $(this).find('.installed-list');
             $.get(baseurl+"installed", function(data) {
                 target.show();
-                if(typeof(data)=="string") {
-                    target.html(data).wrapInner('<h4>');
+                if(data.length) {
                     active_console.hide();
+                    for(var e in data) {
+                        ext = data[e];
+                        target.append("<p class='ext-list'><strong class='title'>"+ext.title+"</strong> // "+ext.description+" <a class='btn package-uninstall btn-sm btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></p><hr />");
+                    } 
                 } else {
-                    console.log(data);
+                    target.html("No Bolt Extensions installed.");
+                    active_console.hide();
                 }
             });
         });
