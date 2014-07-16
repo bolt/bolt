@@ -16,11 +16,12 @@
     <div class="span8">
         <div class='update-check-container hide'>
             <h3>Updates</h3>
-            <pre class="update-check console">... Checking for available updates (this may take up to 60 seconds)</pre>
+            <pre class="update-check console">Checking for available updates (this may take up to 60 seconds)..</pre>
         </div>
-        <section>
+        <section class="installed-container">
             <h3>Your Currently Installed Extensions</h3>
-            <pre class="installed console" data-action='installed'>... Checking installed packages</pre>
+            <pre class="installed console" data-action='installed'>Checking installed packages..</pre>
+            <div class="installed-list hide"></div>
         </section>
         <hr />
         <section>
@@ -63,6 +64,7 @@
 
 <script>
     var site = '{{site}}';
+    var baseurl = "/bolt/extend/";
     jQuery(document).ready(function($) {
         
         var active_console;
@@ -79,11 +81,17 @@
         
         
         
-        $('.extend-bolt-container').find('[data-action]').each(function(){
-            var target = $(this);
-            active_console = target;
-            $.get('/bolt/extend/'+$(this).data('action'), function(data) {
-                target.html(data);
+        $('.extend-bolt-container').find('.installed-container').each(function(){
+            active_console = $(this).find(".console");
+            var target = $(this).find('.installed-list');
+            $.get(baseurl+"installed", function(data) {
+                target.show();
+                if(typeof(data)=="string") {
+                    target.html(data).wrapInner('<h4>');
+                    active_console.hide();
+                } else {
+                    console.log(data);
+                }
             });
         });
         
@@ -98,6 +106,7 @@
             });
             
         });
+        
         
         $('.check-package').on('click', function(){
             var ext = $('input[name="check-package"]').val();

@@ -2,6 +2,8 @@
 namespace Bolt\Composer;
 
 use Silex;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class CommandRunner
 {
@@ -69,7 +71,7 @@ class CommandRunner
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
         $response = $this->execute("update");
         if($response) {
-            return implode("<br>",array_slice($response, 2));
+            return "$package successfully removed";
         } else {
             return "$package could not be uninstalled. Try checking that your composer.json file is writable.";
         }
@@ -85,7 +87,7 @@ class CommandRunner
                     
             foreach($all as $local) {
                 if(strpos($local, $remote->name) !==false ) {
-                    $installed[]=$local;
+                    $installed[]=$remote;
                 }
             }
             
@@ -93,7 +95,7 @@ class CommandRunner
         if(!count($installed)) {
             return "No Bolt extensions installed";
         } else {
-            return implode("<br>", $installed);
+            return new JsonResponse(json_encode($installed));
         }
         
     }
