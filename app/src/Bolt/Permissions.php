@@ -385,8 +385,14 @@ class Permissions
                     $contenttype = $parts[1];
                 }
                 if (empty($contenttype)) {
-                    $this->audit("Granting 'overview' globally (hard-coded override)");
-                    return true;
+                    if (in_array(Permissions::ROLE_EVERYONE, $userRoles)) {
+                        $this->audit("Granting 'overview' for everyone (hard-coded override)");
+                        return true;
+                    }
+                    else {
+                        $this->audit("Denying 'overview' for anonymous user (hard-coded override)");
+                        return false;
+                    }
                 } else {
                     $permission = 'view';
                 }
