@@ -1,4 +1,5 @@
 {% include '_header.twig' with { 'active':'content' } %}
+{% from '_editable_record_list.twig' import editable_record_list %}
 
 <div class="row">
 
@@ -11,38 +12,10 @@
 
     <div class="col-md-9">
 
-        {% set lastgroup = "----" %}
-
-        <table class='table table-striped dashboardlisting' data-contenttype="{{ contenttype.slug }}" data-token="{{ token() }}">
-
-            {% for content in multiplecontent %}
-
-                {% set editable = isallowed('edit', content) %}
-                {% include ['custom/listing/'~contenttype.slug~'.twig', '_sub_listing.twig'] with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
-                {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
-                    {% set lastgroup = content.group.name %}
-                {% endif %}
-
-            {% else %}
-                {{ __('No %contenttypes% available.', {'%contenttypes%':contenttype.name}) }}
-            {% endfor %}
-        </table>
-
-        {% if isallowed('edit and delete', contenttype) %}
-        <div class="btn-group">
-            <a href="#" class="btn btn-default deletechosen showifchosen" style="display:none;">
-                <i class="fa fa-trash-o"></i>
-                {{ __('Delete selected %contenttype%',{'%contenttype%': contenttype.name}) }}
-            </a>
-        </div>
-        {% endif %}
-
-        {{ pager() }}
-
+        {{ editable_record_list(contenttype, contenttype, multiplecontent, 'table table-striped') }}
     </div><!-- /span9 -->
 
     <aside class="col-md-3">
-
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-cog fa-fw"></i> {{__('Actions for %contenttypes%',{'%contenttypes%':contenttype.name})}}
