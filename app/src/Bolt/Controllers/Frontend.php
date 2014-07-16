@@ -179,7 +179,7 @@ class Frontend
         $content = $app['storage']->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
-        self::checkFrontendPermission($content);
+        self::checkFrontendPermission($app, $content);
 
         // Then, select which template to use, based on our 'cascading templates rules'
         $template = $content->template();
@@ -216,7 +216,7 @@ class Frontend
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $app['config']->get('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $app['config']->get('general/listing_sort'));
         $content = $app['storage']->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page));
-        self::checkFrontendPermission($contenttype['slug']);
+        self::checkFrontendPermission($app, $contenttype['slug']);
 
         // We do _not_ abort when there's no content. Instead, we handle this in the template:
         // {% for record in records %} .. {% else %} no records! {% endif %}
