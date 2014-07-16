@@ -381,7 +381,7 @@ class Async implements ControllerProviderInterface
         if($path == 'files') {
             $path = '';
         }
-        $currentfolder = realpath($basefolder . $path);
+        $currentfolder = realpath($basefolder ."/". $path);
 
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
