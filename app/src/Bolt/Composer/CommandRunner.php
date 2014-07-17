@@ -52,7 +52,7 @@ class CommandRunner
     
     public function install($package, $version)
     {
-        $response = $this->execute("require $package $version");
+        $response = $this->execute("require $package $version --prefer-dist");
         if(false !== $response) {
             $response = implode("<br>", $response);
             return $response;
@@ -69,7 +69,7 @@ class CommandRunner
         $json = json_decode(file_get_contents($this->packageFile));
         unset($json->require->$package);
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
-        $response = $this->execute("update");
+        $response = $this->execute("update --prefer-dist");
         if($response) {
             return "$package successfully removed";
         } else {
