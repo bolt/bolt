@@ -165,6 +165,16 @@
             });
         });
         
+        $('.installed-container').on('click', '.package-uninstall', function(e){
+            var t = $('.installed-container .console');
+            t.show();
+            active_console = t;
+            $.get($(this).attr("href"), function(data) {
+                $('.installed-container .console').html(data);
+            });
+            e.preventDefault();
+        });
+        
     });
 </script>
 
