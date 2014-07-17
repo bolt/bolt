@@ -209,7 +209,13 @@
             var searchVal = $(this).val();
             if(searchVal.length < 3) return;
             delay(function(){
-               alert("search for"+searchVal); 
+                $.get(
+                    '/path/to/file',
+                    {'name': searchVal}
+                )
+                .done(function(data){
+                    console.log(data);
+                });
             }, 500 );
         });
         
