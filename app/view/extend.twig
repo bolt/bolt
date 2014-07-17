@@ -107,7 +107,7 @@
                         target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td></td><td> <a class='btn package-uninstall btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
                     } 
                 } else {
-                    target.find('.installed-list-items').html("No Bolt Extensions installed.");
+                    target.find('.installed-list-items').html("<td colspan='4'><strong>No Bolt Extensions installed.</strong></td>");
                     active_console.hide();
                 }
             });

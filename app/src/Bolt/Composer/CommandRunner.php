@@ -54,7 +54,7 @@ class CommandRunner
     {
         $response = $this->execute("require $package $version");
         if(false !== $response) {
-            $response = implode("<br>", array_slice($response, 2));
+            $response = implode("<br>", $response);
             return $response;
         } else {
             $message = "The requested extension version could not be installed. The most likely reason is that the version"."\n";
