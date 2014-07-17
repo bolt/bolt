@@ -45,7 +45,7 @@
                 <a href="{{site}}">{{site}}</a>
             </p>
             <div class="install-container">
-                
+                    <div class="auto-search hide"></div>                
                     <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
                     <a class="btn check-package">
                         <i class="icon-gears"></i> Check Extension
@@ -209,12 +209,20 @@
             var searchVal = $(this).val();
             if(searchVal.length < 3) return;
             delay(function(){
-                $.get(
-                    '/path/to/file',
-                    {'name': searchVal}
-                )
-                .done(function(data){
+                $.ajax({
+                    url: site+"list.json",
+                    dataType: 'jsonp',
+                    data: {'name': searchVal}
+                })
+                .success(function(data){
                     console.log(data);
+                    var cont = livesearch.parent().find(".auto-search");
+                    cont.html("").show();
+                    for(var p in data['packages']) {
+                        var t = data['packages'][p];
+                        cont.append("<a class='btn btn-block prefill-package'>"+t.name+"</a>");
+                        
+                    }
                 });
             }, 500 );
         });
