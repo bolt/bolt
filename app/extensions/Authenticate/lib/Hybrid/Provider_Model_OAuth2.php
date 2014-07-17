@@ -1,15 +1,15 @@
 <?php
-/*!
+/**
 * HybridAuth
 * http://hybridauth.sourceforge.net | http://github.com/hybridauth/hybridauth
-* (c) 2009-2012, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
+* (c) 2009-2014, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
 */
 
 /**
  * To implement an OAuth 2 based service provider, Hybrid_Provider_Model_OAuth2
  * can be used to save the hassle of the authentication flow. 
  * 
- * Each class that inherit from Hybrid_Provider_Model_OAuth2 have to implemenent
+ * Each class that inherit from Hybrid_Provider_Model_OAuth2 have to implement
  * at least 2 methods:
  *   Hybrid_Providers_{provider_name}::initialize()     to setup the provider api end-points urls
  *   Hybrid_Providers_{provider_name}::getUserProfile() to grab the user profile
@@ -18,12 +18,16 @@
  * Hybrid/thirdparty/OAuth/OAuth2Client.php
  */
 class Hybrid_Provider_Model_OAuth2 extends Hybrid_Provider_Model
-{
-	// default permissions 
+{ 
+	/**
+	 * default permissions
+	 * @var string
+	 */
 	public $scope = "";
 
 	/**
-	* try to get the error message from provider api
+	* Try to get the error message from provider api
+	* @param Numeric $code
 	*/ 
 	function errorMessageByStatus( $code = null ) { 
 		$http_status_codes = ARRAY(
@@ -107,7 +111,7 @@ class Hybrid_Provider_Model_OAuth2 extends Hybrid_Provider_Model
 			throw new Exception( "Authentication failed! {$this->providerId} returned an error: $error", 5 );
 		}
 
-		// try to authenicate user
+		// try to authenticate user
 		$code = (array_key_exists('code',$_REQUEST))?$_REQUEST['code']:"";
 
 		try{

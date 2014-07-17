@@ -1,8 +1,8 @@
 <?php
-/*!
+/**
 * HybridAuth
 * http://hybridauth.sourceforge.net | http://github.com/hybridauth/hybridauth
-* (c) 2009-2012, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
+* (c) 2009-2014, HybridAuth authors | http://hybridauth.sourceforge.net/licenses.html 
 */
 
 /**
@@ -14,24 +14,45 @@
  */
 class Hybrid_User_Contact
 {
-	/* The Unique contact user ID */
+	/**
+         * The Unique contact user ID
+         * @var Numeric
+         */
 	public $identifier = NULL;
 
-	/* User website, blog, web page */ 
+	/**
+         * User website, blog, web page
+         * @var String
+         */ 
 	public $webSiteURL = NULL;
 
-	/* URL link to profile page on the IDp web site */
+	/**
+         * URL link to profile page on the IDp web site
+         * @var String
+         */
 	public $profileURL = NULL;
 
-	/* URL link to user photo or avatar */
+	/**
+         * URL link to user photo or avatar
+         * @var String
+         */
 	public $photoURL = NULL;
 
-	/* User dispalyName provided by the IDp or a concatenation of first and last name */
-	public $displayName = NULL;
+	/**
+         * User displayName provided by the IDp or a concatenation of first and last name
+         * @var String
+         */
+        public $displayName = NULL;
 
-	/* A short about_me */
+        /**
+         * A short about_me
+         * @var String
+         */
 	public $description = NULL;
 
-	/* User email. Not all of IDp garant access to the user email */
-	public $email = NULL;
+	/**
+         * User email. Not all of IDp grant access to the user email
+         * @var String
+         */
+        public $email = NULL;
 }
