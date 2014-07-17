@@ -79,6 +79,29 @@
 <script>
     var site = '{{site}}';
     var baseurl = "/bolt/extend/";
+    
+    function checkInstalled()
+    {
+        jQuery('.extend-bolt-container').find('.installed-container').each(function(){
+            active_console = jQuery(this).find(".console");
+            var target = jQuery(this).find('.installed-list');
+            jQuery.get(baseurl+"installed", function(data) {
+                target.show();
+                if(data.length) {
+                    active_console.hide();
+                    target.find('.installed-list-items').html('');
+                    for(var e in data) {
+                        ext = data[e];
+                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td></td><td> <a class='btn package-uninstall btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
+                    } 
+                } else {
+                    target.find('.installed-list-items').html("<td colspan='4'><strong>No Bolt Extensions installed.</strong></td>");
+                    active_console.hide();
+                }
+            });
+        });
+    }
+        
     jQuery(document).ready(function($) {
         
         var active_console;
@@ -93,25 +116,8 @@
             clearInterval(active_interval);
         });
         
+        checkInstalled();
         
-        
-        $('.extend-bolt-container').find('.installed-container').each(function(){
-            active_console = $(this).find(".console");
-            var target = $(this).find('.installed-list');
-            $.get(baseurl+"installed", function(data) {
-                target.show();
-                if(data.length) {
-                    active_console.hide();
-                    for(var e in data) {
-                        ext = data[e];
-                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td></td><td> <a class='btn package-uninstall btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
-                    } 
-                } else {
-                    target.find('.installed-list-items').html("<td colspan='4'><strong>No Bolt Extensions installed.</strong></td>");
-                    active_console.hide();
-                }
-            });
-        });
         
         $('.extend-bolt-container').find('[data-trigger]').each(function(){
             $(this).on('click', function(){
@@ -162,15 +168,17 @@
             active_console = $('.install-response-container .console');
             $.get('/bolt/extend/install', {'package':package,'version':version}, function(data) {
                 $('.install-response-container .console').html(data);
+                checkInstalled();
             });
         });
         
         $('.installed-container').on('click', '.package-uninstall', function(e){
-            var t = $('.installed-container .console');
+            var t = $('.installed-container .console').html('Preparing to remove package...');
             t.show();
             active_console = t;
             $.get($(this).attr("href"), function(data) {
                 $('.installed-container .console').html(data);
+                checkInstalled();
             });
             e.preventDefault();
         });
