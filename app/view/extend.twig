@@ -83,6 +83,14 @@
     var active_console;
     var active_interval;
     
+    var delay = (function(){
+        var timer = 0;
+        return function(callback, ms){
+            clearTimeout (timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+    
     function checkInstalled()
     {
         jQuery('.extend-bolt-container').find('.installed-container').each(function(){
@@ -91,7 +99,9 @@
             jQuery.get(baseurl+"installed", function(data) {
                 target.show();
                 if(data.length > 0) {
-                    active_console.hide();
+                    delay(function(){
+                        active_console.hide();
+                    }, 7000)
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
@@ -197,13 +207,7 @@
         
         
         var livesearch = $('input[name="check-package"]');
-        var delay = (function(){
-            var timer = 0;
-            return function(callback, ms){
-                clearTimeout (timer);
-                timer = setTimeout(callback, ms);
-            };
-        })();
+        
         
         livesearch.on('keyup', function(e){
             var searchVal = $(this).val();
@@ -225,6 +229,11 @@
                     }
                 });
             }, 500 );
+        });
+        
+        $('.install-container').on('click', '.prefill-package', function(e){
+            $('input[name="check-package"]').val($(this).text());
+            $(this).parent().hide();
         });
         
     });
