@@ -21,7 +21,21 @@
         <section class="installed-container">
             <h3>Your Currently Installed Extensions</h3>
             <pre class="installed console" data-action='installed'>Checking installed packages..</pre>
-            <div class="installed-list hide"></div>
+            <div class="installed-list hide">
+                <table class="dashboardlisting">
+                    <thead>
+                        <tr>
+                            <th>Extension</th>
+                            <th>Description</th>
+                            <th>Author(s)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="installed-list-items">
+                    
+                    </tbody>
+                </table>
+            </div>
         </section>
         <hr />
         <section>
@@ -90,10 +104,10 @@
                     active_console.hide();
                     for(var e in data) {
                         ext = data[e];
-                        target.append("<p class='ext-list'><strong class='title'>"+ext.title+"</strong> // "+ext.description+" <a class='btn package-uninstall btn-sm btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></p><hr />");
+                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td></td><td> <a class='btn package-uninstall btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
                     } 
                 } else {
-                    target.html("No Bolt Extensions installed.");
+                    target.find('.installed-list-items').html("No Bolt Extensions installed.");
                     active_console.hide();
                 }
             });
