@@ -67,7 +67,7 @@
             </a>
         <h4>Install all updates</h4>
             <a class="btn btn-primary" data-trigger="update" data-target='update-run' data-show="update-run-container">
-                <i class="icon-refresh"></i> Install all Updates
+                <i class="icon-refresh"></i> Run all Updates
             </a>
         </section>
     </aside>
@@ -95,7 +95,7 @@
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td></td><td> <a class='btn package-uninstall btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
+                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td>"+ext.authors+"</td><td> <a class='btn package-uninstall btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
                     } 
                 } else {
                     target.find('.installed-list-items').html("<td colspan='4'><strong>No Bolt Extensions installed.</strong></td>");
@@ -193,6 +193,24 @@
             });
             
             e.preventDefault();
+        });
+        
+        
+        var livesearch = $('input[name="check-package"]');
+        var delay = (function(){
+            var timer = 0;
+            return function(callback, ms){
+                clearTimeout (timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+        
+        livesearch.on('keyup', function(e){
+            var searchVal = $(this).val();
+            if(searchVal.length < 3) return;
+            delay(function(){
+               alert("search for"+searchVal); 
+            }, 500 );
         });
         
     });
