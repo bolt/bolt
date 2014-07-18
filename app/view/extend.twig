@@ -63,11 +63,11 @@
         <h2>Options</h2>
         <section>
         <h4>Check for updates</h4>
-            <a class="btn" data-trigger="check" data-action='update-check' data-show="update-check-container">
+            <a class="btn" data-action='update-check'>
                 <i class="icon-refresh"></i> Run update check
             </a>
         <h4>Install all updates</h4>
-            <a class="btn btn-primary" data-trigger="update" data-action='update-run' data-show="update-run-container">
+            <a class="btn btn-primary" data-action='update-run'>
                 <i class="icon-refresh"></i> Run all Updates
             </a>
         </section>
@@ -84,28 +84,10 @@
     var active_console;
     var active_interval;
     
-    
-    
     jQuery(document).ready(function($) {
         var boltExtendHandler = new BoltExtender();
     });
-    
-    
-        
-    jQuery(document).ready(function($) {
 
-        
-        $('.install-container').on('click', '.install-package', function(e){
-            
-        });
-        
-        
-        $('.install-container').on('click', '.prefill-package', function(e){
-            $('input[name="check-package"]').val($(this).text());
-            $(this).parent().hide();
-        });
-        
-    });
 </script>
 
 {% include '_footer.twig' %}

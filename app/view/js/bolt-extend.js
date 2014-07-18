@@ -51,34 +51,44 @@ var BoltExtender = Object.extend(Object, {
     
     
     updateCheck: function() {
-        this.find('.update-container').show();
-        var target = this.find(".update-output" );
+        var controller = this;
+        
+        controller.find('.update-container').show();
+        var target = controller.find(".update-output" );
         active_console = target;
-        $.get(baseurl+'check', function(data) {
+        jQuery.get(baseurl+'check', function(data) {
             target.html(data);
         });            
     },
     
     updateRun: function() {
-        this.find('.update-container').show();
-        var target = this.find(".update-output" );
+        var controller = this;
+        
+        controller.find('.update-container').show();
+        var target = controller.find(".update-output" );
         active_console = target;
-        $.get(baseurl+'update', function(data) {
+        active_console.html("Running update....");
+        jQuery.get(baseurl+'update', function(data) {
             target.html(data);
+            setTimeout(function(){
+                controller.find('.update-container').hide();
+            },7000);
         });
     },
     
     checkInstalled: function() {
-        this.find('.installed-container').each(function(){
-            active_console = jQuery(this).find(".console");
+        var controller = this;
+        
+        controller.find('.installed-container').each(function(){
+            active_console = controller.find(".installed-container .console");
             var target = jQuery(this).find('.installed-list');
             jQuery.get(baseurl+"installed", function(data) {
                 target.show();
                 if(data.length > 0) {
                     active_console.html(data.length + " installed extension(s).");
-                    delay(function(){
-                        active_console.hide();
-                    }, 7000);
+                    setTimeout(function(){
+                        controller.find(".installed-container .console").hide();
+                    },7000);
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
@@ -92,24 +102,26 @@ var BoltExtender = Object.extend(Object, {
         });
     },
     
-    checkPackage: function() {
+    checkPackage: function(e) {
+        var controller = this;
         var ext = this.find('input[name="check-package"]').val();
         active_console = this.find(".check-package");
-        $.ajax({
+        jQuery.ajax({
             url: site+'list.json',
             dataType: 'jsonp',
             data: {'name': ext},
         })
         .success(function(data) {
             var pack = data.packages[0];
-            var tpl = '';
+            var tpl = '<div class="install-version-container">';
             tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
             tpl+='<label>Select Version To Install</label><select name="package-version">';
             for(var v in pack.versions) {
                 tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
             }
-            tpl +='</select><a data-action="install-package" class="btn install-package"><i class="icon-gears"></i> Install Extension</a>';
-            $(".check-package").replaceWith(tpl);
+            tpl +='</select><a data-action="install-package" class="btn install-package"><i class="icon-gears"></i> Install Extension</a></div>';
+            controller.find(".check-package").hide();
+            controller.find(".check-package").after(tpl);
         })
         .fail(function() {
             alert('Bolt Extension could not be found. Please check at {{site}} to ensure correct name.')
@@ -119,36 +131,45 @@ var BoltExtender = Object.extend(Object, {
     },
     
     install: function(e) {
+        var controller = this;
 
-        var package = this.find('input[name="package-name"]').val();
-        var version = this.find('select[name="package-version"]').val();
-        this.find('.install-response-container').show();
-        active_console = this.find('.install-response-container .console');
-        $.get(
+        var package = controller.find('input[name="package-name"]').val();
+        var version = controller.find('select[name="package-version"]').val();
+        
+        controller.find('.install-response-container').show();
+        active_console = controller.find('.install-response-container .console');
+        jQuery.get(
             baseurl+'install', 
             {'package':package,'version':version}
         ) 
         .done(function(data) {
             active_console.html(data);
-            delay(function(){
-                active_console.hide();
+            
+            setTimeout(function(){
+                controller.find('.install-version-container').hide();
+                controller.find('.install-response-container').hide();
             }, 2000);
-            this.checkInstalled();
+            controller.find(".check-package").show()
+            controller.find('input[name="check-package"]').val('');
+            controller.checkInstalled();
         });
         e.preventDefault();
     },
     
     uninstall: function(e) {
-        console.log(e);
+        var controller = this;
         var t = this.find('.installed-container .console').html('Preparing to remove package...');
         t.show();
         active_console = t;
         jQuery.get(
-            $(this).attr("href")
+            jQuery(e.target).attr("href")
         )
         .done(function(data) {
-            this.find('.installed-container .console').html(data);
-            this.checkInstalled();
+            controller.find('.installed-container .console').html(data);
+            controller.checkInstalled();
+            delay(function(){
+                active_console.hide();
+            }, 2000);
         });
             
         e.preventDefault();
@@ -158,10 +179,10 @@ var BoltExtender = Object.extend(Object, {
         var livesearch = this.find('input[name="check-package"]');   
         
         livesearch.on('keyup', function(e){
-            var searchVal = $(this).val();
+            var searchVal = jQuery(this).val();
             if(searchVal.length < 3) return;
             delay(function(){
-                $.ajax({
+                jQuery.ajax({
                     url: site+"list.json",
                     dataType: 'jsonp',
                     data: {'name': searchVal}
@@ -172,12 +193,17 @@ var BoltExtender = Object.extend(Object, {
                     cont.html("").show();
                     for(var p in data['packages']) {
                         var t = data['packages'][p];
-                        cont.append("<a class='btn btn-block prefill-package'>"+t.name+"</a>");
-                        
+                        cont.append("<a data-action='prefill-package' class='btn btn-block prefill-package'>"+t.name+"</a>");
                     }
                 });
             }, 500 );
         });
+    },
+    
+    prefill: function(e) {
+        var target = jQuery(e.target);
+        this.find('input[name="check-package"]').val( target.text());
+        target.parent().hide();
     },
     
 
@@ -190,12 +216,13 @@ var BoltExtender = Object.extend(Object, {
         
         click: function(e, t){
             var controller = e.data;
-            switch($(e.target).data('action')) {
+            switch(jQuery(e.target).data('action')) {
                 case "update-check"     : controller.updateCheck(); break;
                 case "update-run"       : controller.updateRun(); break;
-                case "check-package"    : controller.checkPackage(); break;
+                case "check-package"    : controller.checkPackage(e.originalEvent); break;
                 case "uninstall-package": controller.uninstall(e.originalEvent); break;
                 case "install-package"  : controller.install(e.originalEvent); break;
+                case "prefill-package"  : controller.prefill(e.originalEvent); break;
             }
         }
 
