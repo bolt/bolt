@@ -57,7 +57,7 @@ class CommandRunner
         if($response[2] === "") {
             return "All packages are up to date";
         } else {
-            $output = "The following operations as ready to run.<br>";
+            $output = "The following operations are available to run...<br>";
             $output .= implode(array_slice($response, 2), "<br>" );
             return $output;
         }

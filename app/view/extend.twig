@@ -1,4 +1,5 @@
 {% include '_header.twig' with { 'active':'extend' } %}
+<script src="{{ paths.app }}view/js/bolt-extend.js"></script>
 
 <div class='extend-bolt-container'>
 {% block extendmessages %}
@@ -14,9 +15,9 @@
 
 <div class="row-fluid">
     <div class="span8">
-        <div class='update-check-container hide'>
+        <div class='update-container hide'>
             <h3>Updates</h3>
-            <pre class="update-check console">Checking for available updates (this may take up to 60 seconds)..</pre>
+            <pre class="update-output console">Checking for available updates (this may take up to 60 seconds)..</pre>
         </div>
         <section class="installed-container">
             <h3>Your Currently Installed Extensions</h3>
@@ -47,7 +48,7 @@
             <div class="install-container">
                     <div class="auto-search hide"></div>                
                     <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
-                    <a class="btn check-package">
+                    <a class="btn check-package" data-action='check-package'>
                         <i class="icon-gears"></i> Check Extension
                     </a> 
             </div>
@@ -62,11 +63,11 @@
         <h2>Options</h2>
         <section>
         <h4>Check for updates</h4>
-            <a class="btn" data-trigger="check" data-target='update-check' data-show="update-check-container">
+            <a class="btn" data-trigger="check" data-action='update-check' data-show="update-check-container">
                 <i class="icon-refresh"></i> Run update check
             </a>
         <h4>Install all updates</h4>
-            <a class="btn btn-primary" data-trigger="update" data-target='update-run' data-show="update-run-container">
+            <a class="btn btn-primary" data-trigger="update" data-action='update-run' data-show="update-run-container">
                 <i class="icon-refresh"></i> Run all Updates
             </a>
         </section>
@@ -78,158 +79,26 @@
 
 <script>
     var site = '{{site}}';
-    var baseurl = "/bolt/extend/";
+    var baseurl = "{{paths.bolt}}extend/";
     
     var active_console;
     var active_interval;
     
-    var delay = (function(){
-        var timer = 0;
-        return function(callback, ms){
-            clearTimeout (timer);
-            timer = setTimeout(callback, ms);
-        };
-    })();
     
-    function checkInstalled()
-    {
-        jQuery('.extend-bolt-container').find('.installed-container').each(function(){
-            active_console = jQuery(this).find(".console");
-            var target = jQuery(this).find('.installed-list');
-            jQuery.get(baseurl+"installed", function(data) {
-                target.show();
-                if(data.length > 0) {
-                    delay(function(){
-                        active_console.hide();
-                    }, 7000)
-                    target.find('.installed-list-items').html('');
-                    for(var e in data) {
-                        ext = data[e];
-                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td>"+ext.authors+"</td><td> <a class='btn package-uninstall btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
-                    } 
-                } else {
-                    target.find('.installed-list-items').html("<td colspan='4'><strong>No Bolt Extensions installed.</strong></td>");
-                    active_console.hide();
-                }
-            });
-        });
-    }
+    
+    jQuery(document).ready(function($) {
+        var boltExtendHandler = new BoltExtender();
+    });
+    
+    
         
     jQuery(document).ready(function($) {
-    
-        
-        $(document).ajaxStart(function() {
-            // show loader on start
-            active_interval = setInterval(function(){
-                active_console.append(".");
-            },1000);
-        }).ajaxSuccess(function() {
-            clearInterval(active_interval);
-        });
-        
-        checkInstalled();
-        
-        
-        $('.extend-bolt-container').find('[data-trigger]').each(function(){
-            $(this).on('click', function(){
-                $("." + $(this).data('show') ).show();
-                var target = $("." + $(this).data('target') );
-                active_console = target;
-                $.get('/bolt/extend/'+$(this).data('trigger'), function(data) {
-                    target.html(data);
-                });
-            });
-            
-        });
-        
-        
-        $('.check-package').on('click', function(e){
-            var ext = $('input[name="check-package"]').val();
-            active_console = $(".check-package");
-            $.ajax({
-                url: site+'list.json',
-                dataType: 'jsonp',
-                data: {'name': ext},
-            })
-            .success(function(data) {
-                var pack = data.packages[0];
-                var tpl = '';
-                tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
-                tpl+='<label>Select Version To Install</label><select name="package-version">';
-                for(var v in pack.versions) {
-                    tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
-                }
-                tpl +='</select><a class="btn install-package"><i class="icon-gears"></i> Install Extension</a>';
-                $(".check-package").replaceWith(tpl);
-            })
-            .fail(function() {
-                alert('Bolt Extension could not be found. Please check at {{site}} to ensure correct name.')
-            })
-            .always(function() {
 
-            });
-            
-            e.preventDefault();
-            
-        
-        });
         
         $('.install-container').on('click', '.install-package', function(e){
-            var package = $('input[name="package-name"]').val();
-            var version = $('select[name="package-version"]').val();
-            $('.install-response-container').show();
-            active_console = $('.install-response-container .console');
-            $.get(
-                '/bolt/extend/install', 
-                {'package':package,'version':version}
-            ) 
-            .done(function(data) {
-                $('.install-response-container .console').html(data);
-                checkInstalled();
-            });
-            e.preventDefault();
-        });
-        
-        $('.installed-container').on('click', '.package-uninstall', function(e){
-            var t = $('.installed-container .console').html('Preparing to remove package...');
-            t.show();
-            active_console = t;
-            $.get(
-                $(this).attr("href")
-            )
-            .done(function(data) {
-                $('.installed-container .console').html(data);
-                checkInstalled();
-            });
             
-            e.preventDefault();
         });
         
-        
-        var livesearch = $('input[name="check-package"]');
-        
-        
-        livesearch.on('keyup', function(e){
-            var searchVal = $(this).val();
-            if(searchVal.length < 3) return;
-            delay(function(){
-                $.ajax({
-                    url: site+"list.json",
-                    dataType: 'jsonp',
-                    data: {'name': searchVal}
-                })
-                .success(function(data){
-                    console.log(data);
-                    var cont = livesearch.parent().find(".auto-search");
-                    cont.html("").show();
-                    for(var p in data['packages']) {
-                        var t = data['packages'][p];
-                        cont.append("<a class='btn btn-block prefill-package'>"+t.name+"</a>");
-                        
-                    }
-                });
-            }, 500 );
-        });
         
         $('.install-container').on('click', '.prefill-package', function(e){
             $('input[name="check-package"]').val($(this).text());
