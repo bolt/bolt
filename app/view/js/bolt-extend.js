@@ -82,7 +82,7 @@ var BoltExtender = Object.extend(Object, {
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td>"+ext.authors+"</td><td> <a action='package-uninstall' class='btn btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
+                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> "+ext.description+"</td><td>"+ext.authors+"</td><td> <a data-action='uninstall-package' class='btn btn-mini btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
                     } 
                 } else {
                     target.find('.installed-list-items').html("<td colspan='4'><strong>No Bolt Extensions installed.</strong></td>");
@@ -108,7 +108,7 @@ var BoltExtender = Object.extend(Object, {
             for(var v in pack.versions) {
                 tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
             }
-            tpl +='</select><a class="btn install-package"><i class="icon-gears"></i> Install Extension</a>';
+            tpl +='</select><a data-action="install-package" class="btn install-package"><i class="icon-gears"></i> Install Extension</a>';
             $(".check-package").replaceWith(tpl);
         })
         .fail(function() {
@@ -119,18 +119,21 @@ var BoltExtender = Object.extend(Object, {
     },
     
     install: function(e) {
-        console.log(e);
-       var package = $('input[name="package-name"]').val();
-        var version = $('select[name="package-version"]').val();
-        $('.install-response-container').show();
-        active_console = $('.install-response-container .console');
+
+        var package = this.find('input[name="package-name"]').val();
+        var version = this.find('select[name="package-version"]').val();
+        this.find('.install-response-container').show();
+        active_console = this.find('.install-response-container .console');
         $.get(
-            '/bolt/extend/install', 
+            baseurl+'install', 
             {'package':package,'version':version}
         ) 
         .done(function(data) {
-            $('.install-response-container .console').html(data);
-            checkInstalled();
+            active_console.html(data);
+            delay(function(){
+                active_console.hide();
+            }, 2000);
+            this.checkInstalled();
         });
         e.preventDefault();
     },
@@ -191,8 +194,8 @@ var BoltExtender = Object.extend(Object, {
                 case "update-check"     : controller.updateCheck(); break;
                 case "update-run"       : controller.updateRun(); break;
                 case "check-package"    : controller.checkPackage(); break;
-                case "package-uninstall": controller.uninstall(e.originalEvent); break;
-                case "package-install"  : controller.install(e.originalEvent); break;
+                case "uninstall-package": controller.uninstall(e.originalEvent); break;
+                case "install-package"  : controller.install(e.originalEvent); break;
             }
         }
 
