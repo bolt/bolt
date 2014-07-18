@@ -47,6 +47,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             ->before(array($this, 'before'))
             ->bind('check');
         
+        $ctr->get("/update", array($this, 'update'))
+            ->before(array($this, 'before'))
+            ->bind('update');
+        
         $ctr->get("/install", array($this, 'install'))
             ->before(array($this, 'before'))
             ->bind('install');
