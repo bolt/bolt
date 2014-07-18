@@ -56,6 +56,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.update-container').show();
         var target = controller.find(".update-output" );
         active_console = target;
+        active_console.html("Searching for available updates...");
         jQuery.get(baseurl+'check', function(data) {
             target.html(data);
         });            

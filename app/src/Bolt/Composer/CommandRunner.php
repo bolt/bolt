@@ -64,6 +64,12 @@ class CommandRunner
         
     }
     
+    public function update()
+    {
+        $response = $this->execute("update -d extensions/");
+        return implode(array_slice($response, 2), "<br>" );
+    }
+    
     public function install($package, $version)
     {
         $response = $this->execute("require $package $version -d extensions/");
