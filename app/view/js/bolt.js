@@ -1141,7 +1141,7 @@ var Folders = Backbone.Model.extend({
      * @param string promptQuestionString Translated version of "What's the new filename?".
      * @param string parentPath Parent path of the folder to create.
      */
-    create: function(promptQuestionString, parentPath, element)
+    create: function(promptQuestionString, namespace, parentPath, element)
     {
         var newFolderName = window.prompt(promptQuestionString);
 
