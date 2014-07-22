@@ -7,6 +7,9 @@
 {% if pathsegments|length > 0 %}
     <p>
         {{ __('Path:') }}
+        <a href="{{ path('files', { 'path': '', 'namespace':namespace }) }}">
+            {{namespace}} /
+        </a>
 
         {% for path, segment in pathsegments %}
 
