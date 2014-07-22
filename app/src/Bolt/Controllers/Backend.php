@@ -1181,12 +1181,16 @@ class Backend implements ControllerProviderInterface
                             $result = $app['upload']->process($fileToProcess);
                             
                             if($result->isValid()) {
-                            
+                        
                                 $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
                                 // Add the file to our stack..
                                 $app['stack']->add($path . "/" . $filename);
-                            }
+                                $result->confirm();
+                            } 
+                            print_r($result);
+                            exit;
+                            
                             
                         } else {
                             $extensionList = array();
