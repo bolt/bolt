@@ -1154,7 +1154,8 @@ var Folders = Backbone.Model.extend({
             type: 'POST',
             data: {
                 'parent':     parentPath,
-                'foldername': newFolderName
+                'foldername': newFolderName,
+                'namespace': namespace
             },
             success: function(result) {
                 document.location.reload();
