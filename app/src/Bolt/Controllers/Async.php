@@ -554,16 +554,18 @@ class Async implements ControllerProviderInterface
      */
     public function renamefolder(Silex\Application $app, Request $request)
     {
+        $namespace = $request->request->get('namespace', 'files');
+
         $parentPath = $request->request->get('parent');
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = $app['resources']->getPath('files')
+        $oldPath    = $app['resources']->getPath($namespace)
                       . DIRECTORY_SEPARATOR
                       . $parentPath
                       . $oldName;
 
-        $newPath    = $app['resources']->getPath('files')
+        $newPath    = $app['resources']->getPath($namespace)
                       . DIRECTORY_SEPARATOR
                       . $parentPath
                       . $newName;
@@ -593,10 +595,13 @@ class Async implements ControllerProviderInterface
      */
     public function removefolder(Silex\Application $app, Request $request)
     {
+        $namespace = $request->request->get('namespace', 'files');
+        
+
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $app['resources']->getPath('files')
+        $completePath = $app['resources']->getPath($namespace)
                         . DIRECTORY_SEPARATOR
                         . $parentPath
                         . $folderName;
