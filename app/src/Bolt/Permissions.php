@@ -101,7 +101,7 @@ class Permissions
             default:
                 $roles = $this->getDefinedRoles();
                 if (isset($roles[$roleName])) {
-                    return $role[$roleName];
+                    return $roles[$roleName];
                 } else {
                     return null;
                 }
