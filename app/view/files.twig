@@ -12,7 +12,7 @@
 
             {% if not loop.first %} / {% endif %}
 
-            <a href="{{ path(namespace, { 'path': path }) }}">
+            <a href="{{ path('files', { 'path': path, 'namespace':namespace }) }}">
                 {{segment}}
             </a>
         {% endfor %}
