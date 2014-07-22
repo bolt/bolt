@@ -1180,7 +1180,7 @@ class Backend implements ControllerProviderInterface
                             
                             $result = $app['upload']->process($fileToProcess);
                             
-                            if($results->isValid()) {
+                            if($result->isValid()) {
                             
                                 $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
