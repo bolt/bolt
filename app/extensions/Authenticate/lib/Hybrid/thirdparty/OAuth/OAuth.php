@@ -1,13 +1,12 @@
 <?php
 // http://oauth.googlecode.com/svn/code/php/OAuth.php
-// rev 1261,	Mar 29, 2011	morten.fangel
-// modified on Dec 29, 2019 to remove OAuth PECL conflict
+// rev 1276,	July 4, 2014
 
 // vim: foldmethod=marker
 
 /* Generic exception class
  */
-class OAuthExceptionPHP extends Exception {
+class OAuthException extends Exception {
   // pass
 }
 
@@ -447,7 +446,7 @@ class OAuthRequest {
     foreach ($this->parameters as $k => $v) {
       if (substr($k, 0, 5) != "oauth") continue;
       if (is_array($v)) {
-        throw new OAuthExceptionPHP('Arrays not supported in headers');
+        throw new OAuthException('Arrays not supported in headers');
       }
       $out .= ($first) ? ' ' : ',';
       $out .= OAuthUtil::urlencode_rfc3986($k) .
@@ -580,7 +579,7 @@ class OAuthServer {
       $version = '1.0';
     }
     if ($version !== $this->version) {
-      throw new OAuthExceptionPHP("OAuth version '$version' not supported");
+      throw new OAuthException("OAuth version '$version' not supported");
     }
     return $version;
   }
@@ -596,12 +595,12 @@ class OAuthServer {
     if (!$signature_method) {
       // According to chapter 7 ("Accessing Protected Ressources") the signature-method
       // parameter is required, and we can't just fallback to PLAINTEXT
-      throw new OAuthExceptionPHP('No signature method parameter. This parameter is required');
+      throw new OAuthException('No signature method parameter. This parameter is required');
     }
 
     if (!in_array($signature_method,
                   array_keys($this->signature_methods))) {
-      throw new OAuthExceptionPHP(
+      throw new OAuthException(
         "Signature method '$signature_method' not supported " .
         "try one of the following: " .
         implode(", ", array_keys($this->signature_methods))
@@ -619,12 +618,12 @@ class OAuthServer {
         : NULL;
 
     if (!$consumer_key) {
-      throw new OAuthExceptionPHP("Invalid consumer key");
+      throw new OAuthException("Invalid consumer key");
     }
 
     $consumer = $this->data_store->lookup_consumer($consumer_key);
     if (!$consumer) {
-      throw new OAuthExceptionPHP("Invalid consumer");
+      throw new OAuthException("Invalid consumer");
     }
 
     return $consumer;
@@ -642,7 +641,7 @@ class OAuthServer {
       $consumer, $token_type, $token_field
     );
     if (!$token) {
-      throw new OAuthExceptionPHP("Invalid $token_type token: $token_field");
+      throw new OAuthException("Invalid $token_type token: $token_field");
     }
     return $token;
   }
@@ -674,7 +673,7 @@ class OAuthServer {
     );
 
     if (!$valid_sig) {
-      throw new OAuthExceptionPHP("Invalid signature");
+      throw new OAuthException("Invalid signature");
     }
   }
 
@@ -683,14 +682,14 @@ class OAuthServer {
    */
   private function check_timestamp($timestamp) {
     if( ! $timestamp )
-      throw new OAuthExceptionPHP(
+      throw new OAuthException(
         'Missing timestamp parameter. The parameter is required'
       );
     
     // verify that timestamp is recentish
     $now = time();
     if (abs($now - $timestamp) > $this->timestamp_threshold) {
-      throw new OAuthExceptionPHP(
+      throw new OAuthException(
         "Expired timestamp, yours $timestamp, ours $now"
       );
     }
@@ -701,7 +700,7 @@ class OAuthServer {
    */
   private function check_nonce($consumer, $token, $nonce, $timestamp) {
     if( ! $nonce )
-      throw new OAuthExceptionPHP(
+      throw new OAuthException(
         'Missing nonce parameter. The parameter is required'
       );
 
@@ -713,7 +712,7 @@ class OAuthServer {
       $timestamp
     );
     if ($found) {
-      throw new OAuthExceptionPHP("Nonce already used: $nonce");
+      throw new OAuthException("Nonce already used: $nonce");
     }
   }
 

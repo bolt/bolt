@@ -46,7 +46,7 @@ class Hybrid_Providers_Live extends Hybrid_Provider_Model_OAuth2
 		$data = $this->api->get( "me" ); 
 
 		if ( ! isset( $data->id ) ){
-			throw new Exception( "User profile request failed! {$this->providerId} returned an invalide response.", 6 );
+			throw new Exception( "User profile request failed! {$this->providerId} returned an invalid response.", 6 );
 		}
 
 		$this->user->profile->identifier    = (property_exists($data,'id'))?$data->id:"";

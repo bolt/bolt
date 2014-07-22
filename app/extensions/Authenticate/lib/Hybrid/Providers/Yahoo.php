@@ -24,7 +24,7 @@ class Hybrid_Providers_Yahoo extends Hybrid_Provider_Model_OAuth1
 		parent::initialize();
 
 		// Provider api end-points
-		$this->api->api_base_url      = 'http://social.yahooapis.com/v1/';
+		$this->api->api_base_url      = 'https://social.yahooapis.com/v1/';
 		$this->api->authorize_url     = 'https://api.login.yahoo.com/oauth/v2/request_auth';
 		$this->api->request_token_url = 'https://api.login.yahoo.com/oauth/v2/get_request_token';
 		$this->api->access_token_url  = 'https://api.login.yahoo.com/oauth/v2/get_token';

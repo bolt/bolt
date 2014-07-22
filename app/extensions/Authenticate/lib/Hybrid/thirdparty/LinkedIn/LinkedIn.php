@@ -2,6 +2,8 @@
 // http://code.google.com/p/simple-linkedinphp/
 // 3.2.0 - November 29, 2011
 // hacked into the code to handel new scope (r_basicprofile+r_emailaddress) - until Paul update linkedinphp library!
+// Facyla note 20131219 : this in fact should not be hacked, as Linkedin lets developpers define the wanted scope 
+//   in Linkedin application settings, when creating the (required) application and API access
 
 /**
  * This file defines the 'LinkedIn' class. This class is designed to be a 
@@ -122,8 +124,8 @@ class LinkedIn {
 	const _URL_ACCESS                  = 'https://api.linkedin.com/uas/oauth/accessToken';
 	const _URL_API                     = 'https://api.linkedin.com';
 	const _URL_AUTH                    = 'https://www.linkedin.com/uas/oauth/authenticate?oauth_token=';
-	// const _URL_REQUEST                 = 'https://api.linkedin.com/uas/oauth/requestToken';
-	const _URL_REQUEST                 = 'https://api.linkedin.com/uas/oauth/requestToken?scope=r_basicprofile+r_emailaddress+rw_nus'; 
+	const _URL_REQUEST                 = 'https://api.linkedin.com/uas/oauth/requestToken';
+	// const _URL_REQUEST                 = 'https://api.linkedin.com/uas/oauth/requestToken?scope=r_basicprofile+r_emailaddress+rw_nus+r_network'; 
 	const _URL_REVOKE                  = 'https://api.linkedin.com/uas/oauth/invalidateToken';
 	
 	// Library version
@@ -441,7 +443,7 @@ class LinkedIn {
 	 *   http://developer.linkedin.com/docs/DOC-1327   
 	 * 
 	 * @param str $cid
-	 *    Company ID you want the producte for.	
+	 *    Company ID you want the product for.
 	 * @param str $options
 	 *    [OPTIONAL] Data retrieval options.
 	 *            	
@@ -670,6 +672,10 @@ class LinkedIn {
       curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
       curl_setopt($handle, CURLOPT_URL, $url);
       curl_setopt($handle, CURLOPT_VERBOSE, FALSE);
+
+      if ( isset ( Hybrid_Auth::$config["proxy"] ) ) {
+      	curl_setopt($handle, CURLOPT_PROXY, Hybrid_Auth::$config["proxy"]);
+      }
       
       // configure the header we are sending to LinkedIn - http://developer.linkedin.com/docs/DOC-1203
       $header = array($oauth_req->to_header(self::_API_OAUTH_REALM));
@@ -696,6 +702,9 @@ class LinkedIn {
       
       // gather the response
       $return_data['linkedin']        = curl_exec($handle);
+      if( $return_data['linkedin'] === FALSE ) {
+          Hybrid_Logger::error( "LinkedIn::fetch(). curl_exec error: ", curl_error($ch) );
+      }
       $return_data['info']            = curl_getinfo($handle);
       $return_data['oauth']['header'] = $oauth_req->to_header(self::_API_OAUTH_REALM);
       $return_data['oauth']['string'] = $oauth_req->base_string;
@@ -2056,10 +2065,10 @@ class LinkedIn {
 	 * 		The group id.
 	 * @param str $xml
 	 * 		The group settings to set. The settings are:
-	 * 		  -<show-group-logo-in-profle>
+	 * 		  -<show-group-logo-in-profile>
 	 * 		  -<contact-email>
 	 * 		  -<email-digest-frequency>
-	 * 		  -<email-annoucements-from-managers>
+	 * 		  -<email-announcements-from-managers>
 	 * 		  -<allow-messages-from-members>
 	 * 		  -<email-for-every-new-post>
 	 * 
@@ -2255,7 +2264,7 @@ class LinkedIn {
         // send request
         $response = $this->fetch('POST', $share_url, $data);
   		} else {
-  		  // data contraints/rules not met, raise an exception
+  		  // data constraints/rules not met, raise an exception
 		    throw new LinkedInException('LinkedIn->share(): sharing data constraints not met; check that you have supplied valid content and combinations of content to share.');
   		}
     } else {
@@ -2601,7 +2610,7 @@ class LinkedIn {
 	public static function xmlToArray($xml) {
 	  // check passed data
     if(!is_string($xml)) {
-	    // bad data possed
+	    // bad data passed
       throw new LinkedInException('LinkedIn->xmlToArray(): bad data passed, $xml must be a non-zero length string.');
 	  }
 	  
