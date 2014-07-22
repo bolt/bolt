@@ -1166,19 +1166,28 @@ class Backend implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
 
-                    // Check if we even have an uploaded file.
-                    if (isset($files['FileUpload'])) {
-
-                        // clean up and validate filename
-                        $originalFilename = $files['FileUpload']->getClientOriginalName();
+                    foreach($files as $fileToProcess) {
+                        
+                        $fileToProcess = array(
+                            'name'=> $fileToProcess->getClientOriginalName(),
+                            'tmp_name' => $fileToProcess->getPathName()
+                        );
+                        
+                        $originalFilename = $fileToProcess['name'];
                         $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
 
                         if ($app['filepermissions']->allowedUpload($filename)) {
-                            $files['FileUpload']->move($currentfolder, $filename);
-                            $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
+                            
+                            $result = $app['upload']->process($fileToProcess);
+                            
+                            if($results->isValid()) {
+                            
+                                $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
-                            // Add the file to our stack..
-                            $app['stack']->add($path . "/" . $filename);
+                                // Add the file to our stack..
+                                $app['stack']->add($path . "/" . $filename);
+                            }
+                            
                         } else {
                             $extensionList = array();
                             foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
