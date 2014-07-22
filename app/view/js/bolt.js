@@ -1174,7 +1174,7 @@ var Folders = Backbone.Model.extend({
      * @param string oldName              Old name of the folder to be renamed.
      * @param string newName              New name of the folder to be renamed.
      */
-    rename: function(promptQuestionString, parentPath, oldFolderName, element)
+    rename: function(promptQuestionString, namespace, parentPath, oldFolderName, element)
     {
         var newFolderName = window.prompt(promptQuestionString);
 
@@ -1186,6 +1186,7 @@ var Folders = Backbone.Model.extend({
             url: asyncpath + 'folder/rename',
             type: 'POST',
             data: {
+                'namespace': namespace,
                 'parent':  parentPath,
                 'oldname': oldFolderName,
                 'newname': newFolderName
@@ -1205,12 +1206,13 @@ var Folders = Backbone.Model.extend({
      * @param string parentPath Parent path of the folder to remove.
      * @param string folderName Name of the folder to remove.
      */
-    remove: function(parentPath, folderName, element)
+    remove: function(namespace, parentPath, folderName, element)
     {
         $.ajax({
             url: asyncpath + 'folder/remove',
             type: 'POST',
             data: {
+                'namespace': namespace,
                 'parent':     parentPath,
                 'foldername': folderName
             },

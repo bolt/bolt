@@ -52,6 +52,7 @@
                         <li>
                             <a href="#"
                                data-action="folders.rename('{{__("Please enter a new folder name")}}',
+                                                           '{{ namespace }}',
                                                            '{{ pathsegments|keys|last }}',
                                                            '{{ folder.foldername }}',
                                                            this);">
@@ -63,7 +64,8 @@
                                class="confirm"
                                data-confirm="{{ __("Do you really want to delete %foldername%?",
                                                     {'%foldername%': folder.foldername }) }}"
-                               data-action="folders.remove('{{ pathsegments|keys|last }}',
+                               data-action="folders.remove( '{{namespace}}',
+                                                            '{{ pathsegments|keys|last }}',
                                                            '{{ folder.foldername }}',
                                                            this);">
 
