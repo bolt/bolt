@@ -1179,7 +1179,7 @@ class Backend implements ControllerProviderInterface
                         if ($app['filepermissions']->allowedUpload($filename)) {
                             
                             $handler = $app['upload'];
-                            $handler->setPrefix($path);
+                            $handler->setPrefix($path."/");
                             $result = $app['upload']->process($fileToProcess);
                             
                             if($result->isValid()) {
@@ -1190,8 +1190,7 @@ class Backend implements ControllerProviderInterface
                                 $app['stack']->add($path . "/" . $filename);
                                 $result->confirm();
                             } 
-                            print_r($result);
-                            exit;
+        
                             
                             
                         } else {
