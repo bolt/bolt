@@ -1,0 +1,63 @@
+{% include '_header.twig' %}
+
+<!-- Main Page Content and Sidebar -->
+
+    <!-- Main Blog Content -->
+    <div class="large-8 columns">
+
+        <article>
+
+            <h2>{{ record.title }}</h2>
+
+            {% if record.image!="" %}
+                <div class="large-4 columns imageholder">
+                    <a href="{{ image(record.image) }}">
+                        <img src="{{ thumbnail(record.image, 400, 260) }}">
+                    </a>
+                </div>
+            {% endif %}
+
+            {# display something introduction-like.. #}
+            {% if record.introduction %}
+            {{ record.introduction }}
+            {% elseif record.teaser %}
+                {{ record.teaser }}
+            {% else %}
+                <p>{{ record.excerpt(1000) }}</p>
+            {% endif %}
+
+            {# if the entry has a video, display it. #}
+            {% if record.video is not empty %}
+                {{ record.video.responsive }}
+            {% endif %}
+
+            {{ record.body }}
+
+            {% include '_recordfooter.twig' with {record: record} %}
+
+            <p class="meta">
+                {% set previous = record.previous('id') %}
+                {% if previous %}
+                    <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
+                {% endif %}
+                -
+                {% set next = record.next('id') %}
+                {% if next %}
+                    <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
+                {% endif %}
+            </p>
+
+        </article>
+
+
+    </div>
+
+    <!-- End Main Content -->
+
+    {% include '_aside.twig' %}
+
+<!-- End Main Content and Sidebar -->
+
+
+
+{% include '_footer.twig' %}
