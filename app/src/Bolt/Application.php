@@ -216,7 +216,7 @@ class Application extends Silex\Application
             ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider());
 
-        $this['paths'] = $this['resources']->getPaths();
+        $this['paths'] = getPaths($this['config']);;
 
         $this['twig']->addGlobal('paths', $this['paths']);
 
