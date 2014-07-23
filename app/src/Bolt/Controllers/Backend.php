@@ -1166,7 +1166,7 @@ class Backend implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
 
-                    foreach($files as $fileToProcess) {
+                    foreach ($files as $fileToProcess) {
 
                         $fileToProcess = array(
                             'name'=> $fileToProcess->getClientOriginalName(),

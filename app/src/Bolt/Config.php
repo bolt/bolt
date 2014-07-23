@@ -348,7 +348,7 @@ class Config
 
             // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
             if (!empty($temp['relations']) && is_array($temp['relations'])) {
-                foreach($temp['relations'] as $key => $relation) {
+                foreach ($temp['relations'] as $key => $relation) {
                     if ($key != makeSlug($key)) {
                         $temp['relations'][makeSlug($key)] = $temp['relations'][$key];
                         unset($temp['relations'][$key]);

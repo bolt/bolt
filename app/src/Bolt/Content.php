@@ -827,7 +827,7 @@ class Content implements \ArrayAccess
     protected function getRouteRequirementParams(array $route)
     {
         $params = array();
-        foreach($route['requirements'] ?: array() as $fieldName => $requirement) {
+        foreach ($route['requirements'] ?: array() as $fieldName => $requirement) {
             if('\d{4}-\d{2}-\d{2}' === $requirement) {
                 // Special case, if we need to have a date
                 $params[$fieldName] = substr($this->values[$fieldName], 0, 10);

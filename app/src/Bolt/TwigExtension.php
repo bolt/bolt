@@ -934,7 +934,7 @@ class TwigExtension extends \Twig_Extension
             $scale,
             safeFilename($filename)
         );
-        
+
         return $path;
     }
 
@@ -1382,7 +1382,7 @@ class TwigExtension extends \Twig_Extension
     public function selectfield($content, $fieldname)
     {
         $retval = array('');
-        foreach($content as $c) {
+        foreach ($content as $c) {
             if (is_array($fieldname)) {
                 $row = array();
                 foreach ($fieldname as $fn) {
