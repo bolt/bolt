@@ -494,7 +494,7 @@ class TwigExtension extends \Twig_Extension
         // Check the primary sorting criterium..
         if ($a_val < $b_val) {
             return !$this->order_ascending;
-        } else if ($a_val > $b_val) {
+        } elseif ($a_val > $b_val) {
             return $this->order_ascending;
         } else {
             // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
@@ -507,7 +507,7 @@ class TwigExtension extends \Twig_Extension
 
             if ($a_val < $b_val) {
                 return !$this->order_ascending_secondary;
-            } else if ($a_val > $b_val) {
+            } elseif ($a_val > $b_val) {
                 return $this->order_ascending_secondary;
             } else {
                 // both criteria are the same. Whatever!

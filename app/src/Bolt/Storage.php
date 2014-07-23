@@ -664,7 +664,7 @@ class Storage
                 case 'filelist':
                     if (is_array($fieldvalues[$key])) {
                         $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                    } elseif (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
                         // Don't store '[]'
                         $fieldvalues[$key] = '';
                     }
@@ -2426,7 +2426,7 @@ class Storage
 
         if (in_array($fieldname, array('datecreated', 'datechanged', 'datepublish', 'datedepublish'))) {
             return "datetime";
-        } else if (isset($contenttype['fields'][$fieldname]['type'])) {
+        } elseif (isset($contenttype['fields'][$fieldname]['type'])) {
             return $contenttype['fields'][$fieldname]['type'];
         } else {
             return false;
