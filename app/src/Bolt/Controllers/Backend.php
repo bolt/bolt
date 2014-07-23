@@ -1236,6 +1236,7 @@ class Backend implements ControllerProviderInterface
         }
         
         $list = $filesystem->listContents($path);
+        print_r($list); exit;
         if(count($list)) {
 
             foreach($list as $entry) {
