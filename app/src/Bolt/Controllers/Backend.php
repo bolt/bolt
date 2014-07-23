@@ -1264,11 +1264,18 @@ class Backend implements ControllerProviderInterface
                         'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
                         'permissions' => $filesystem->getVisibility($entry['path'])
                     );
-
-                    if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
-                        $size = getimagesize($fullfilename);
-                        $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
+                    
+                    /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
+                    if(is_readable($fullfilename)) {
+                        if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
+                            $size = getimagesize($fullfilename);
+                            $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
+                        }
+                        
+                        $files[$entry['path']]['permissions'] = \utilphp\util::full_permissions($fullfilename);
                     }
+
+                    
                 }
 
                 if($entry['type']=='dir') {
@@ -1276,10 +1283,17 @@ class Backend implements ControllerProviderInterface
                         'path' => $entry['dirname'],
                         'foldername' => $entry['basename'],
                         'newpath' => $entry['path'],
-                        'writable' => true,
                         'modified' => date("Y/m/d H:i:s", $entry['timestamp'])
                     );
+                    
+                    /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
+                    if(is_readable($fullfilename)) {
+                        $folders[$entry['path']]['writable'] = true;
+                    }
                 }
+                
+                
+                
 
             }
 
