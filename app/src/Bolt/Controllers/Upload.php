@@ -45,7 +45,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         // Any compatible file handler can be used.
         $app['upload.container'] = $app->share(function ($app) {
             $base = $app['resources']->getPath($app['upload.namespace']);
-            if(!is_writable($base)) {
+            if (!is_writable($base)) {
                 throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
             }
             $container = new Local($base);
@@ -70,7 +70,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $controller = $this;
         $ctr->match("/{namespace}", function (Silex\Application $app, Request $request, $namespace = null) use ($controller) {
 
-            if($namespace === "") {
+            if ($namespace === "") {
                 $namespace = $app['upload.namespace'];
             }
             return new JsonResponse($controller->uploadFile($app, $request, $namespace));
@@ -86,16 +86,16 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
         $app['upload.namespace'] = $namespace;
 
-        if(null === $files) {
+        if (null === $files) {
             $files = $request->files->get($namespace);
         }
 
-        if(!$files) {
+        if (!$files) {
             return array();
         }
         $filesToProcess = array();
         foreach ($files as $file) {
-            if($file instanceof UploadedFile) {
+            if ($file instanceof UploadedFile) {
                 $filesToProcess[] = array(
                     'name'=> $file->getClientOriginalName(),
                     'tmp_name' => $file->getPathName()
@@ -110,9 +110,9 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
         if ($result->isValid()) {
             $result->confirm();
-            if($result instanceof File) {
+            if ($result instanceof File) {
                 $successfulFiles = array($result->name);
-            } elseif($result instanceof Collection) {
+            } elseif ($result instanceof Collection) {
                 foreach ($result as $resultFile) {
                     $successfulFiles[] = array(
                         'url'=>$namespace."/".$resultFile->name,

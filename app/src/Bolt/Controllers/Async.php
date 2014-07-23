@@ -382,7 +382,7 @@ class Async implements ControllerProviderInterface
 
         $basefolder = $app['resources']->getPath('files');
         $path = stripTrailingSlash(str_replace("..", "", $path));
-        if($path == 'files') {
+        if ($path == 'files') {
             $path = '';
         }
         $currentfolder = realpath($basefolder ."/". $path);
@@ -554,7 +554,7 @@ class Async implements ControllerProviderInterface
                 $destPath = substr($destPath, 0, $extensionPos) . "$n" . substr($destPath, $extensionPos);
                 $n = rand(0, 1000);
             }
-            if(copy($filePath, $destPath)) {
+            if (copy($filePath, $destPath)) {
                 return true;
             }
         }

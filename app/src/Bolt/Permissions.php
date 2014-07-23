@@ -321,8 +321,7 @@ class Permissions
         $cacheKey = "_permission_rule:$what";
         if ($this->app['cache']->contains($cacheKey)) {
             $rule = json_decode($this->app['cache']->fetch($cacheKey), true);
-        }
-        else {
+        } else {
             $parser = new PermissionParser();
             $rule = $parser->run($what);
             $this->app['cache']->save($cacheKey, json_encode($rule));
@@ -385,8 +384,7 @@ class Permissions
                     if (in_array(Permissions::ROLE_EVERYONE, $userRoles)) {
                         $this->audit("Granting 'overview' for everyone (hard-coded override)");
                         return true;
-                    }
-                    else {
+                    } else {
                         $this->audit("Denying 'overview' for anonymous user (hard-coded override)");
                         return false;
                     }

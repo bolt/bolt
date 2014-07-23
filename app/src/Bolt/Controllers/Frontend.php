@@ -23,12 +23,10 @@ class Frontend
             if ($content instanceof \Bolt\Content) {
                 $contenttypeslug = $content->contenttype['slug'];
                 $contentid = $content['id'];
-            }
-            elseif ($content instanceof \Bolt\Contenttype) {
+            } elseif ($content instanceof \Bolt\Contenttype) {
                 $contenttypeslug = $content['slug'];
                 $contentid = null;
-            }
-            else {
+            } else {
                 $contenttypeslug = (string)$content;
                 $contentid = null;
             }
@@ -406,7 +404,7 @@ class Frontend
      */
     public static function template(Silex\Application $app, $template) {
         // Add the template extension if it is missing
-        if(!preg_match('/\\.twig$/i', $template)) {
+        if (!preg_match('/\\.twig$/i', $template)) {
             $template .= '.twig';
         }
 
@@ -414,7 +412,7 @@ class Frontend
         $templatePath = realpath($app['paths']['themepath'] . '/' . $template);
 
         // Verify that the resulting template path is located in the theme directory
-        if($themePath !== substr($templatePath, 0, strlen($themePath))) {
+        if ($themePath !== substr($templatePath, 0, strlen($themePath))) {
             throw new \Exception("Invalid template: $template");
         }
 

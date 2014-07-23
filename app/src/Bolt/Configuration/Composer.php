@@ -30,7 +30,7 @@ class Composer extends Standard
 
     public function compat()
     {
-        if(!defined("BOLT_COMPOSER_INSTALLED")) {
+        if (!defined("BOLT_COMPOSER_INSTALLED")) {
             define('BOLT_COMPOSER_INSTALLED', true);
         }
         parent::compat();

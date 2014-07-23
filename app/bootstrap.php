@@ -13,7 +13,7 @@ $checker = new Bolt\Configuration\LowlevelChecks;
 require_once $checker->autoloadCheck(getcwd());
 
 
-if(strpos(__DIR__, "/vendor/") !== false) {
+if (strpos(__DIR__, "/vendor/") !== false) {
     $config = new Bolt\Configuration\Composer(getcwd());
 } else {
     $config = new Bolt\Configuration\Standard(__DIR__."/../");

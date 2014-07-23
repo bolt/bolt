@@ -223,7 +223,7 @@ class Backend implements ControllerProviderInterface
      */
     public function getLogin(Silex\Application $app, Request $request)
     {
-        if(!empty($app['users']->currentuser) && $app['users']->currentuser['enabled']==1) {
+        if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled']==1) {
             return redirect('dashboard', array());
         }
         $app['twig']->addGlobal('title', "Login");
@@ -605,7 +605,7 @@ class Backend implements ControllerProviderInterface
 
         // set the editreferrer in twig if it was not set yet.
         $tmpreferrer = getReferrer($app['request']);
-        if(strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt']))  {
+        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt'])) {
             $app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }
 
@@ -698,7 +698,7 @@ class Backend implements ControllerProviderInterface
                 // No returnto, so we go back to the 'overview' for this contenttype.
                 // check if a pager was set in the referrer - if yes go back there
                 $editreferrer = $app['request']->get('editreferrer');
-                if($editreferrer) {
+                if ($editreferrer) {
                     return simpleredirect($editreferrer);
                 } else {
                     return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
@@ -1031,7 +1031,7 @@ class Backend implements ControllerProviderInterface
 
                 if ($user['id']) {
                     $app['log']->add(__("Updated user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
-                } else  {
+                } else {
                     $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
                 }
 
@@ -1182,7 +1182,7 @@ class Backend implements ControllerProviderInterface
                             $handler->setPrefix($path."/");
                             $result = $app['upload']->process($fileToProcess);
 
-                            if($result->isValid()) {
+                            if ($result->isValid()) {
 
                                 $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 

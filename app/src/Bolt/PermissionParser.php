@@ -188,8 +188,7 @@ class PermissionParser {
                     $token = array('type' => $type);
                     if (isset($matches[1])) {
                         $token['capture'] = $matches[1];
-                    }
-                    else {
+                    } else {
                         $token['capture'] = null;
                     }
                     $token['match'] = $matches[0];
@@ -227,8 +226,7 @@ class PermissionParser {
         if (!in_array($token['type'], $expected)) {
             if (count($expected) === 1) {
                 $expectedStr = self::tokenName($expected[0]);
-            }
-            else {
+            } else {
                 $last = array_pop($expected);
                 $expectedStr = 'one of ' . implode(', ', array_map(array(self, 'tokenName'), $expected)) . ' or ' . self::tokenName($last);
             }
@@ -252,8 +250,7 @@ class PermissionParser {
     public static function parse($tokens) {
         if (empty($tokens)) {
             return array('type' => self::P_TRUE, 'value' => '');
-        }
-        else {
+        } else {
             return self::parseAnd($tokens);
         }
     }
@@ -266,16 +263,14 @@ class PermissionParser {
                 // consume & recurse, then continue looping
                 array_shift($tokens);
                 $parts[] = self::parseOr($tokens);
-            }
-            else {
+            } else {
                 // stop iteration
                 break;
             }
         }
         if (count($parts) > 1) {
             return array('type' => self::P_AND, 'value' => $parts);
-        }
-        else {
+        } else {
             return $parts[0];
         }
     }
@@ -288,16 +283,14 @@ class PermissionParser {
                 // consume & recurse, then continue looping
                 array_shift($tokens);
                 $parts[] = self::parseSimple($tokens);
-            }
-            else {
+            } else {
                 // stop iteration
                 break;
             }
         }
         if (count($parts) > 1) {
             return array('type' => self::P_OR, 'value' => $parts);
-        }
-        else {
+        } else {
             return $parts[0];
         }
     }

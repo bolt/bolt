@@ -351,8 +351,7 @@ class Storage
             }
             if ($newContent) {
                 $content = new Content($this->app, $contenttype, $newContent);
-            }
-            else {
+            } else {
                 $content = new Content($this->app, $contenttype, $oldContent);
             }
             $title = $content->getTitle();
@@ -385,8 +384,7 @@ class Storage
                 $sql .= sprintf(" LIMIT %s, %s ",
                             intval($options['offset']),
                             intval($options['limit']));
-            }
-            else {
+            } else {
                 $sql .= " LIMIT " . intval($options['limit']);
             }
         }
@@ -586,8 +584,7 @@ class Storage
         $row = $this->app['db']->fetchAssoc($sql, $params);
         if (is_array($row)) {
             return new ChangelogItem($this->app, $row);
-        }
-        else {
+        } else {
             return null;
         }
     }

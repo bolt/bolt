@@ -21,7 +21,7 @@ class BoltUrlMatcher implements UrlMatcherInterface
         try {
             return $this->wrapped->match($path);
         } catch (ResourceNotFoundException $notFound) {
-            if('/' === substr($path, -1)) {
+            if ('/' === substr($path, -1)) {
                 $withoutTrailingSlash = substr($path, 0, -1);
 
                 try {

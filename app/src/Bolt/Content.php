@@ -802,7 +802,7 @@ class Content implements \ArrayAccess
 
         list($binding, $route) = $this->getRoute();
 
-        if(!$route) {
+        if (!$route) {
             return null;
         }
 
@@ -828,7 +828,7 @@ class Content implements \ArrayAccess
     {
         $params = array();
         foreach ($route['requirements'] ?: array() as $fieldName => $requirement) {
-            if('\d{4}-\d{2}-\d{2}' === $requirement) {
+            if ('\d{4}-\d{2}-\d{2}' === $requirement) {
                 // Special case, if we need to have a date
                 $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
             } elseif (isset($this->taxonomy[$fieldName])) {
@@ -995,8 +995,7 @@ class Content implements \ArrayAccess
     {
         if (isset($this->contenttype['fields'][$key])) {
             return $this->contenttype['fields'][$key];
-        }
-        else {
+        } else {
             return array('type' => '');
         }
     }

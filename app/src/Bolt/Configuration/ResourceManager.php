@@ -40,7 +40,7 @@ class ResourceManager
         $this->root = realpath($root);
         $this->requestObject = $request;
 
-        if(null !== $verifier) {
+        if (null !== $verifier) {
             $this->verifier = $verifier;
         }
 
@@ -74,22 +74,22 @@ class ResourceManager
 
     public function setPath($name, $value)
     {
-        if(!preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value)) {
+        if (!preg_match("/^(?:\/|\\\\|\w:\\\\|\w:\/).*$/", $value)) {
             $value = $this->root."/".$value;
         }
         $this->paths[$name] = $value;
-        if(strpos($name, "path") === false) {
+        if (strpos($name, "path") === false) {
             $this->paths[$name."path"] = $value;
         }
     }
 
     public function getPath($name)
     {
-        if(array_key_exists($name."path", $this->paths)) {
+        if (array_key_exists($name."path", $this->paths)) {
             return $this->paths[$name."path"];
         }
 
-        if(!array_key_exists($name, $this->paths)) {
+        if (!array_key_exists($name, $this->paths)) {
             throw new \InvalidArgumentException("Requested path $name is not available", 1);
         }
 
@@ -103,10 +103,10 @@ class ResourceManager
 
     public function getUrl($name)
     {
-        if(array_key_exists($name."url", $this->urls) && $name !=='root') {
+        if (array_key_exists($name."url", $this->urls) && $name !=='root') {
             return $this->urls[$name."url"];
         }
-        if(!array_key_exists($name, $this->urls)) {
+        if (!array_key_exists($name, $this->urls)) {
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
         }
         return $this->urlPrefix.$this->urls[$name];
@@ -119,7 +119,7 @@ class ResourceManager
 
     public function getRequest($name)
     {
-        if(!array_key_exists($name, $this->request)) {
+        if (!array_key_exists($name, $this->request)) {
             throw new \InvalidArgumentException("Request componenet $name is not available", 1);
         }
         return $this->request[$name];
@@ -150,7 +150,7 @@ class ResourceManager
             $protocol = "cli";
         }
 
-        if("" !== $request->getBasePath()) {
+        if ("" !== $request->getBasePath()) {
             $this->setUrl('root', $request->getBasePath()."/");
             $this->setUrl("app", $this->getUrl('root')."app/");
             $this->setUrl("extensions", $this->getUrl('app')."extensions/");
@@ -199,7 +199,7 @@ class ResourceManager
      **/
     public function initializeConfig($config)
     {
-        if(is_array($config) && isset($config['general'])) {
+        if (is_array($config) && isset($config['general'])) {
             $this->setThemePath($config["general"]);
         }
     }
@@ -222,19 +222,19 @@ class ResourceManager
 
     public function compat()
     {
-        if(!defined("BOLT_COMPOSER_INSTALLED")) {
+        if (!defined("BOLT_COMPOSER_INSTALLED")) {
             define('BOLT_COMPOSER_INSTALLED', false);
         }
-        if(!defined("BOLT_PROJECT_ROOT_DIR")) {
+        if (!defined("BOLT_PROJECT_ROOT_DIR")) {
             define('BOLT_PROJECT_ROOT_DIR', $this->root);
         }
-        if(!defined('BOLT_WEB_DIR')) {
+        if (!defined('BOLT_WEB_DIR')) {
             define('BOLT_WEB_DIR', $this->getPath('web'));
         }
-        if(!defined('BOLT_CACHE_DIR')) {
+        if (!defined('BOLT_CACHE_DIR')) {
             define('BOLT_CACHE_DIR', $this->getPath('cache'));
         }
-        if(!defined('BOLT_CONFIG_DIR')) {
+        if (!defined('BOLT_CONFIG_DIR')) {
             define('BOLT_CONFIG_DIR', $this->getPath('config'));
         }
     }
@@ -275,7 +275,7 @@ class ResourceManager
 
     public function getVerifier()
     {
-        if(!$this->verifier) {
+        if (!$this->verifier) {
             $this->verifier = new LowlevelChecks($this);
         }
         return $this->verifier;

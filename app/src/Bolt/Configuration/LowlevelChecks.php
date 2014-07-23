@@ -32,7 +32,7 @@ class LowlevelChecks
     public function autoloadCheck($basedir)
     {
         $test = $basedir."/vendor/autoload.php";
-        if(!is_readable($test)) {
+        if (!is_readable($test)) {
             $this->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
                 "you've installed the required components with Composer.");
         }
@@ -76,8 +76,8 @@ class LowlevelChecks
          * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks();
          * inside your bootstrap.php file, just before the call to $config->verify().
          **/
-        if(isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
-            if(!is_readable($this->config->getPath('web').'/.htaccess')) {
+        if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
+            if (!is_readable($this->config->getPath('web').'/.htaccess')) {
                 $this->lowlevelError("The file <code>" .
                     htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) .
                     "/.htaccess</code> doesn't exist. Make sure it's " .
@@ -107,24 +107,24 @@ class LowlevelChecks
     public function doDatabaseCheck()
     {
         $cfg = $this->config->app['config']->get('general/database');
-        if(!isset($cfg['driver'])) {
+        if (!isset($cfg['driver'])) {
             return;
         }
 
-        if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
-            if(empty($cfg['password']) && ($cfg['username']=="root")) {
+        if ($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
+            if (empty($cfg['password']) && ($cfg['username']=="root")) {
                 $this->lowlevelError("There is no <code>password</code> set for the database connection, and you're using user 'root'." .
                     "<br>That must surely be a mistake, right? Bolt will stubbornly refuse to run until you've set a password for 'root'.");
             }
-            if(empty($cfg['databasename'])) {
+            if (empty($cfg['databasename'])) {
                 $this->lowlevelError("There is no <code>databasename</code> set for your database.");
             }
-            if(empty($cfg['username'])) {
+            if (empty($cfg['username'])) {
                 $this->lowlevelError("There is no <code>username</code> set for your database.");
             }
         }
 
-        if($cfg['driver']=='mysql') {
+        if ($cfg['driver']=='mysql') {
             if (!extension_loaded('pdo_mysql')) {
                 $this->lowlevelError("MySQL was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_mysql driver.");
             }
@@ -142,7 +142,7 @@ class LowlevelChecks
             $this->lowlevelError("The selected database type is not supported.");
         }
 
-        if(isset($cfg['memory']) && true == $cfg['memory']) {
+        if (isset($cfg['memory']) && true == $cfg['memory']) {
             return;
         }
 
