@@ -472,9 +472,14 @@ class Async implements ControllerProviderInterface
      */
     public function deletefile(Silex\Application $app, Request $request)
     {
+        $namespace = $request->request->get('namespace', 'files');
         $filename = $request->request->get('filename');
 
-        $filePath = BOLT_WEB_DIR . '/' . $filename;
+        
+        $filePath = $app['resources']->getPath($namespace)
+                    . DIRECTORY_SEPARATOR
+                    . $filename;
+
 
         // TODO: ensure that we are deleting a file inside /files folder
 
