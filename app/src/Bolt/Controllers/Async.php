@@ -503,21 +503,12 @@ class Async implements ControllerProviderInterface
         $namespace = $request->request->get('namespace', 'files');
         $filename = $request->request->get('filename');
 
-
-        $filePath = $app['resources']->getPath($namespace)
-                    . DIRECTORY_SEPARATOR
-                    . $filename;
-
-
-        // TODO: ensure that we are deleting a file inside /files folder
-
-        if (is_file($filePath) && is_readable($filePath)) {
-            @unlink($filePath);
+        $filesystem = $app['filesystem']->getManager($namespace);
+        
+        if ($filesystem->delete($filename)) {
             return true;
-        } else {
-            return false;
-        }
-
+        } 
+        return false;
     }
 
     /**
@@ -568,27 +559,18 @@ class Async implements ControllerProviderInterface
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $oldName;
-
-        $newPath    = $app['resources']->getPath($namespace)
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $newName;
-
-        $fileSystemHelper = new Filesystem;
-
-        try {
-            $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
-        } catch (IOException $exception) {
-
-            /* Thrown if target already exists or renaming failed. */
-            return false;
+        $oldPath    = $parentPath . $oldName;
+        $newPath    = $parentPath. $newName;
+        
+        $filesystem = $app['filesystem']->getManager($namespace);
+        
+        var_dump($oldPath, $newPath); exit;
+        
+        if($filesystem->rename($oldPath, $newpath)) {
+            return true;
         }
-
-        return true;
+        
+        return false;
     }
 
     /**
