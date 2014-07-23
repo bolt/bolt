@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ htmllang() }}"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="{{ htmllang() }}"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="{{ htmllang() }}"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ htmllang() }}"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {# make sure we always display a proper title: The record's title if there is one, appended with the
+       sitename. If there is no title, we append the sitename with the payoff, if there is one. #}
+    <title>
+      {% if record.title is defined %}{{ record.title|striptags }} | {% endif %}
+      {{ app.config.get('general/sitename') }}
+      {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif %}
+    </title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+    {# paths.theme is always a correct path to the current theme. Even if you rename the theme-folder,
+       this will keep working. See the documentation on paths: http://docs.bolt.cm/internals#paths #}
+    <link rel="stylesheet" href="{{ paths.theme }}css/foundation.css">
+    <link rel="stylesheet" href="{{ paths.theme }}css/app.css">
+
+    {#<!-- A variable from the theme's config: {{ theme.foo }} -->#}
+
+</head>
+<body>
+
+{# Note: If you plan to modify this theme, be sure to make a _copy_ first. If you don't,
+   this theme will be overwritten when you update Bolt in the future. Just copy the 'base-2014'
+   folder to a new folder inside the 'theme/' folder, update the 'theme:' setting in
+   config.yml, and you're good to go. Happy tweaking! :-) #}
+
+<div class="row">
+    <header>
+        <nav class="top-bar" data-topbar>
+            <ul class="title-area">
+                <li class="name"><h1><a href="{{ paths.root }}">{{ app.config.get('general/sitename') }}</a></h1></li>
+                <li class="toggle-topbar menu-icon"><a href="#"></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+                <!-- Right Nav Section -->
+                <ul class="right">
+                    {# Include the menu, as defined in config/menu.yml. Note that this theme comes with it's own _sub_menu.twig. If this file wasn't included in the current theme, the default menu template in app/theme_defaults/_sub_menu.twig would be used. #}
+                    {{ menu('main', '_sub_menu.twig') }}
+
+                    {# Include the '_sub_searchbox.twig' template, for the searchbox. If this file wasn't included in the theme, the default searchbox template in app/theme_defaults/_sub_searchbox.twig would be used. #}
+                    {% include '_sub_searchbox.twig' %}
+                </ul>
+            </section>
+        </nav>
+
+        <!-- Header bar -->
+        <div class="headerphoto">
+            <img src="{{ paths.theme }}images/header_3.jpg" alt="" />
+            {# the values in the 'app.config' object are taken directly from the file app/config/config.yml #}
+            <p><span>{{ app.config.get('general/sitename') }}</span>
+                {% if app.config.get('general/payoff') %}
+                    <br><small>{{ app.config.get('general/payoff') }}</small>
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- End header -->
+
+    </header>
+</div>
+
+
+
+<div class="row">
+    <div class="container large-12 columns">
