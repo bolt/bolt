@@ -60,6 +60,10 @@ class Async implements ControllerProviderInterface
         $ctr->post("/deletefile", array($this, 'deletefile'))
             ->before(array($this, 'before'))
             ->bind('deletefile');
+        
+        $ctr->post("/duplicatefile", array($this, 'duplicatefile'))
+            ->before(array($this, 'before'))
+            ->bind('duplicatefile');
 
         $ctr->get("/addstack/{filename}", array($this, 'addstack'))
             ->before(array($this, 'before'))
