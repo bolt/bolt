@@ -1244,15 +1244,16 @@ class Backend implements ControllerProviderInterface
                     continue;
                 }
 
-                $fullfilename = $currentfolder . "/" . $entry['basename'];
+                $fullfilename = $filesystem->getAdapter()->applyPathPrefix($path) . $entry['basename'];
 
-                if (! $app['filepermissions']->authorized(realpath($fullfilename))) {
+
+                if (! $app['filepermissions']->authorized($fullfilename) ) {
                     continue;
                 }
                 
                 if($entry['type']==='file') {
 
-                    $files[$entry] = array(
+                    $files[$entry['path']] = array(
                         'path' => $entry['dirname'],
                         'filename' => $entry['basename'],
                         'newpath' => $entry['path'],
@@ -1266,12 +1267,12 @@ class Backend implements ControllerProviderInterface
 
                     if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
                         $size = getimagesize($fullfilename);
-                        $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
+                        $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                     }
                 }
 
                 if($entry['type']=='dir') {
-                    $folders[$entry] = array(
+                    $folders[$entry['path']] = array(
                         'path' => $entry['dirname'],
                         'foldername' => $entry['basename'],
                         'newpath' => $entry['path'],
