@@ -147,7 +147,7 @@ class Extension extends \Bolt\BaseExtension
             $queryResults = $app['db']->fetchAll( $querySelect );
 
             if (!empty($queryResults)) {
-                $ids      = implode(' || ', \util::array_pluck($queryResults, 'id'));
+                $ids      = implode(' || ', \utilphp\util::array_pluck($queryResults, 'id'));
                 $contents = $app['storage']->getContent($name, array('id' => $ids, 'returnsingle' => false));
                 $results  = array_merge( $results,  $contents );
             }

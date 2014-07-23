@@ -420,7 +420,7 @@ class Async implements ControllerProviderInterface
                         'type' => strtolower(getExtension($entry)),
                         'filesize' => formatFilesize(filesize($fullfilename)),
                         'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
-                        'permissions' => \util::full_permissions($fullfilename)
+                        'permissions' => \utilphp\util::full_permissions($fullfilename)
                     );
 
                     if (in_array(strtolower(getExtension($entry)), array('gif', 'jpg', 'png', 'jpeg'))) {

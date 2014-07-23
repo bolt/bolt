@@ -979,7 +979,7 @@ class Storage
 
         if (!empty($results)) {
 
-            $ids = implode(' || ', \util::array_pluck($results, 'id'));
+            $ids = implode(' || ', \utilphp\util::array_pluck($results, 'id'));
 
             $results = $this->getContent($contenttype, array('id' => $ids, 'returnsingle' => false));
 
@@ -2007,9 +2007,9 @@ class Storage
 
         // Return content
         if ($decoded['return_single']) {
-            if (util::array_first_key($results)) {
+            if (\utilphp\util::array_first_key($results)) {
                 $this->app['stopwatch']->stop('bolt.getcontent');
-                return util::array_first($results);
+                return \utilphp\util::array_first($results);
             }
 
             $msg = sprintf(
@@ -2498,14 +2498,14 @@ class Storage
 
         $tablename = $this->getTablename("taxonomy");
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = \utilphp\util::array_pluck($content, 'id');
 
         if (empty($ids)) {
             return;
         }
 
         // Get the contenttype from first $content
-        $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
+        $contenttype = $content[\utilphp\util::array_first_key($content)]->contenttype['slug'];
 
         $taxonomytypes = $this->app['config']->get('taxonomy');
 
@@ -2647,14 +2647,14 @@ class Storage
 
         $tablename = $this->getTablename("relations");
 
-        $ids = util::array_pluck($content, 'id');
+        $ids = \utilphp\util::array_pluck($content, 'id');
 
         if (empty($ids)) {
             return;
         }
 
         // Get the contenttype from first $content
-        $contenttype = $content[util::array_first_key($content)]->contenttype['slug'];
+        $contenttype = $content[\utilphp\util::array_first_key($content)]->contenttype['slug'];
 
         $query = sprintf(
             "SELECT * FROM %s WHERE from_contenttype=? AND from_id IN (?) ORDER BY id",
@@ -2826,7 +2826,7 @@ class Storage
         $tablename = $this->getTablename($contenttype['slug']);
 
         $id = intval($id);
-        $fulluri = util::str_to_bool($fulluri);
+        $fulluri = \utilphp\util::str_to_bool($fulluri);
 
         $slug = makeSlug($title);
 

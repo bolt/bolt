@@ -161,7 +161,7 @@ class Stack
                 'readable' => is_readable($fullpath),
                 'filesize' => formatFilesize(filesize($fullpath)),
                 'modified' => date("Y/m/d H:i:s", filemtime($fullpath)),
-                'permissions' => \util::full_permissions($fullpath)
+                'permissions' => \utilphp\util::full_permissions($fullpath)
             );
 
             $thisitem['info'] = sprintf(
