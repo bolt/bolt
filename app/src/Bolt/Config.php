@@ -693,7 +693,9 @@ class Config
 
             if(isset($configdb["path"])) {
                 $configpaths = $this->app['resources']->getPaths();
-                if(substr($configdb['path'], 0, 1) !== "/") $configdb["path"] = $configpaths["rootpath"]."/".$configdb["path"];
+                if(substr($configdb['path'], 0, 1) !== "/") {
+                    $configdb["path"] = $configpaths["rootpath"]."/".$configdb["path"];
+                }
             }
 
             $dboptions = array(

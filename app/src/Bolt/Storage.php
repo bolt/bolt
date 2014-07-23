@@ -333,8 +333,9 @@ class Storage
                     $diff = DeepDiff::deep_diff($oldContent, $newContent);
                     foreach ($diff as $item) {
                         list($k, $old, $new) = $item;
-                        if (isset($newContent[$k]))
+                        if (isset($newContent[$k])) {
                             $data[$k] = array($old, $new);
+                        }
                     }
                     break;
                 case 'INSERT':
@@ -1735,8 +1736,9 @@ class Storage
                                 $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
                             }
                         }
-                        if (strlen($orPart) > 2)
+                        if (strlen($orPart) > 2) {
                             $where[] = substr($orPart, 0, -4) . ') ';
+                        }
                     }
 
                     // for all the parameters that are fields
