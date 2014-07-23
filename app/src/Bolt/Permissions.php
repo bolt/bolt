@@ -2,8 +2,6 @@
 
 namespace Bolt;
 
-use Silex;
-
 /**
  * This class implements role-based permissions.
  */
@@ -41,7 +39,7 @@ class Permissions
     // per-request permission cache
     private $rqcache;
 
-    public function __construct(Application $app)
+    public function __construct(\Silex\Application $app)
     {
         $this->app = $app;
         $this->rqcache = array();
@@ -117,7 +115,6 @@ class Permissions
      */
     public function getUserRoles($user, Content $content = null)
     {
-        $allRoles = $this->getDefinedRoles();
         $userRoleNames = $user['roles'];
         if (!is_array($userRoleNames)) {
             throw new \Exception('Expected a user-like array, but the "roles" property is not an array');
@@ -131,7 +128,7 @@ class Permissions
             array_combine(
                 $userRoleNames,
                 array_map(
-                    function ($roleName) use ($app) {
+                    function ($roleName) {
                         return $this->getRole($roleName);
                     },
                     $userRoleNames
@@ -331,31 +328,31 @@ class Permissions
             $this->app['cache']->save($cacheKey, json_encode($rule));
         }
         $userRoles = $this->getEffectiveRolesForUser($user);
-        $isAllowed = $this->isAllowedRule($rule, $userRoles, $contenttype, $contentid);
+        $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid);
 
         // Cache for the current request
         $this->rqcache[$rqCacheKey] = $isAllowed;
         return $isAllowed;
     }
 
-    private function isAllowedRule($rule, $userRoles, $contenttype, $contentid) {
+    private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid) {
         switch ($rule['type']) {
             case PermissionParser::P_TRUE:
                 return true;
             case PermissionParser::P_FALSE:
                 return false;
             case PermissionParser::P_SIMPLE:
-                return $this->isAllowedSingle($rule['value'], $userRoles, $contenttype, $contentid);
+                return $this->isAllowedSingle($rule['value'], $user, $userRoles, $contenttype, $contentid);
             case PermissionParser::P_OR:
                 foreach ($rule['value'] as $subrule) {
-                    if ($this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
+                    if ($this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
                         return true;
                     }
                 }
                 return false;
             case PermissionParser::P_AND:
                 foreach ($rule['value'] as $subrule) {
-                    if (!$this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
+                    if (!$this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
                         return false;
                     }
                 }
@@ -365,7 +362,7 @@ class Permissions
         }
     }
 
-    private function isAllowedSingle($what, $userRoles, $contenttype = null, $contentid = null) {
+    private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null) {
         if ($contenttype) {
             $parts = array(
                         'contenttype',

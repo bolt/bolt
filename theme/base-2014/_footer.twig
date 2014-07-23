@@ -1,0 +1,30 @@
+
+<!-- Footer -->
+        <footer class="large-12 columns">
+            <hr />
+            <div class="large-6 columns">
+                <p>{{ __("This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.",{'%url%':'http://bolt.cm'}) }}
+                </p>
+            </div>
+            <div class="large-6 columns">
+                <ul class="inline-list">
+                    {{ menu() }}
+                </ul>
+            </div>
+        </footer>
+    </div>
+</div>
+
+    <script src="{{ paths.theme }}javascripts/jquery-2.1.0.min.js"></script>
+    <script src="{{ paths.theme }}javascripts/foundation.min.js"></script>
+    <script src="{{ paths.theme }}javascripts/modernizr.js"></script>
+
+    {# Bolt comes with Magnific Popup, as it's used in the backend. We can use it here, or you can
+       just swap it out for the image-viewing script of your choice. Or delete it altogether. #}
+    <script src="{{ paths.app }}view/js/jquery.magnific-popup.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/magnific-popup.css">
+
+    <script src="{{ paths.theme }}javascripts/app.js"></script>
+
+</body>
+</html>

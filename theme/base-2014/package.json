@@ -1,0 +1,10 @@
+{
+  "name": "base-2014",
+  "version": "0.1.0",
+  "devDependencies": {
+    "node-sass": "~0.7.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-sass": "~0.8.0"
+  }
+}
