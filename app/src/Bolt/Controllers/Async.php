@@ -559,18 +559,29 @@ class Async implements ControllerProviderInterface
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
-        $oldPath    = $parentPath . $oldName;
-        $newPath    = $parentPath. $newName;
-        
-        $filesystem = $app['filesystem']->getManager($namespace);
-        
-        var_dump($oldPath, $newPath); exit;
-        
-        if($filesystem->rename($oldPath, $newpath)) {
-            return true;
+        $oldPath    = $app['resources']->getPath($namespace)
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . $oldName;
+
+        $newPath    = $app['resources']->getPath($namespace)
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . $newName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->rename($oldPath,
+                                      $newPath,
+                                      false /* Don't rename if target exists already! */);
+        } catch(IOException $exception) {
+
+            /* Thrown if target already exists or renaming failed. */
+            return false;
         }
-        
-        return false;
+
+        return true;
     }
 
     /**
