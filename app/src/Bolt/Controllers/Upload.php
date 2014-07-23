@@ -16,6 +16,8 @@ use Sirius\Upload\Container\Local;
 use Sirius\Upload\Result\File;
 use Sirius\Upload\Result\Collection;
 
+use Bolt\Filesystem\FlysystemContainer;
+
 
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -48,7 +50,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             if (!is_writable($base)) {
                 throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
             }
-            $container = new Local($base);
+            $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
             return $container;
         });
 
