@@ -627,21 +627,16 @@ class Async implements ControllerProviderInterface
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $base
-                        . DIRECTORY_SEPARATOR
-                        . $parentPath
-                        . $folderName;
+        $newpath = $parentPath . $folderName;
 
-        $fileSystemHelper = new Filesystem;
+        $filesystem = $app['filesystem']->getManager($namespace);
 
-        try {
-            $fileSystemHelper->mkdir($completePath);
-        } catch (IOException $exception) {
-
-            return false;
+        if($filesystem->createDir($newpath)) {
+            return true;
         }
 
-        return true;
+        return false;
+
     }
 
 

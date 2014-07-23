@@ -1146,13 +1146,15 @@ class Backend implements ControllerProviderInterface
         $basefolder = $app['resources']->getPath($namespace);
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder ."/". $path);
-
+        
+        $filesystem = $app['filesystem']->getManager($namespace);
+        
         if (! $app['filepermissions']->authorized($currentfolder)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
         }
 
-        if (is_writable($currentfolder)) {
+        if ($filesystem->has($currentfolder)) {
 
             // Define the "Upload here" form.
             $form = $app['form.factory']
@@ -1232,55 +1234,55 @@ class Backend implements ControllerProviderInterface
                 $pathsegments[$cumulative] = $segment;
             }
         }
+        
+        $list = $filesystem->listContents($path);
+        if(count($list)) {
 
-        if (file_exists($currentfolder)) {
+            foreach($list as $entry) {
 
-            $d = dir($currentfolder);
-
-            while (false !== ($entry = $d->read())) {
-
-                if (in_array($entry, $ignored)) {
+                if (in_array($entry['basename'], $ignored)) {
                     continue;
                 }
 
-                $fullfilename = $currentfolder . "/" . $entry;
+                $fullfilename = $currentfolder . "/" . $entry['basename'];
 
                 if (! $app['filepermissions']->authorized(realpath($fullfilename))) {
                     continue;
                 }
+                
+                if($entry['type']==='file') {
 
-                if (is_file($fullfilename)) {
                     $files[$entry] = array(
-                        'path' => $path,
-                        'filename' => $entry,
-                        'newpath' => ltrim($path . "/" . $entry, "/"),
-                        'writable' => is_writable($fullfilename),
-                        'readable' => is_readable($fullfilename),
-                        'type' => getExtension($entry),
-                        'filesize' => formatFilesize(filesize($fullfilename)),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
-                        'permissions' => \utilphp\util::full_permissions($fullfilename)
+                        'path' => $entry['dirname'],
+                        'filename' => $entry['basename'],
+                        'newpath' => $entry['path'],
+                        'writable' => true,
+                        'readable' => true,
+                        'type' => $entry['extension'],
+                        'filesize' => formatFilesize($entry['size']),
+                        'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
+                        'permissions' => $filesystem->getVisibility($entry['path'])
                     );
 
-                    if (in_array(getExtension($entry), array('gif', 'jpg', 'png', 'jpeg'))) {
+                    if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
                         $size = getimagesize($fullfilename);
                         $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                     }
                 }
 
-                if (is_dir($fullfilename)) {
+                if($entry['type']=='dir') {
                     $folders[$entry] = array(
-                        'path' => $path,
-                        'foldername' => $entry,
-                        'newpath' => ltrim($path . "/" . $entry, "/"),
-                        'writable' => is_writable($fullfilename),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
+                        'path' => $entry['dirname'],
+                        'foldername' => $entry['basename'],
+                        'newpath' => $entry['path'],
+                        'writable' => true,
+                        'modified' => date("Y/m/d H:i:s", $entry['timestamp'])
                     );
                 }
 
             }
 
-            $d->close();
+            
 
         } else {
             $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
