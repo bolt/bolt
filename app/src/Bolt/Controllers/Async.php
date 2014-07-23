@@ -600,21 +600,15 @@ class Async implements ControllerProviderInterface
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $app['resources']->getPath($namespace)
-                        . DIRECTORY_SEPARATOR
-                        . $parentPath
-                        . $folderName;
-
-        $fileSystemHelper = new Filesystem;
-
-        try {
-            $fileSystemHelper->remove($completePath);
-        } catch (IOException $exception) {
-
-            return false;
+        $completePath = $parentPath . $folderName;
+        
+        $filesystem = $app['filesystem']->getManager($namespace);
+        
+        if($filesystem->deleteDir($completePath)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
