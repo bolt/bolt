@@ -77,7 +77,7 @@ class Extension extends \Bolt\BaseExtension
         $contentLength = (int) abs(
             (!empty($this->config[$contenttypeslug]['content_length']) ?
                 $this->config[$contenttypeslug]['content_length'] :
-                $defaultContentLength)
+                0)
         );
 
         // Get our content
