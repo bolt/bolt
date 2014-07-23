@@ -64,8 +64,6 @@ class Extension extends \Bolt\BaseExtension
     function relatedContentByTags($record, $options = array())
     {
 
-        $startTime     = microtime(true);
-
         $app           = $this->app;
         $limit         = isset($options['limit'])  ? $options['limit']  : $this->config['limit'];
         $tablePrefix   = $app['config']->get('general/database/prefix', 'bolt_');
@@ -75,7 +73,6 @@ class Extension extends \Bolt\BaseExtension
 
         // if set, filter contenttypes
         if ($filter) {
-            //\util::var_dump($filter);
             $filterContenttypes = array();
             foreach ($filter as $contenttypeName) {
                 if (isset($contenttypes[$contenttypeName])) {
@@ -149,9 +146,6 @@ class Extension extends \Bolt\BaseExtension
 
             $queryResults = $app['db']->fetchAll( $querySelect );
 
-            //\util::var_dump($querySelect); // print the query
-            //\util::var_dump($queryResults);
-
             if (!empty($queryResults)) {
                 $ids      = implode(' || ', \util::array_pluck($queryResults, 'id'));
                 $contents = $app['storage']->getContent($name, array('id' => $ids, 'returnsingle' => false));
@@ -173,9 +167,6 @@ class Extension extends \Bolt\BaseExtension
 
         // Limit results
         $results = array_slice($results, 0, $limit);
-
-        $totalTime = microtime(true) - $startTime;
-        // \util::var_dump( sprintf('%.03f seconds', $totalTime) );
 
         return $results;
 

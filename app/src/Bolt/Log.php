@@ -83,8 +83,6 @@ class Log
 
         $username = isset($this->user['username']) ? $this->user['username'] : "";
 
-        // echo "<pre>\n" . util::var_dump($this->user, true) . "</pre>\n";
-
         $log = array(
             'username' => $username,
             'level' => $level,
@@ -106,8 +104,6 @@ class Log
             $log['contenttype'] = "";
             $log['content_id'] = 0;
         }
-
-        // echo "<pre>\n" . util::var_dump($log, true) . "</pre>\n";
 
         $this->memorylog[] = $log;
 

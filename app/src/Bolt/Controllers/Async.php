@@ -203,8 +203,6 @@ class Async implements ControllerProviderInterface
     {
         $filename = __DIR__ . "/../../../extensions/" . $extension . "/readme.md";
 
-        //echo "<pre>\n" . \util::var_dump($filename, true) . "</pre>\n";
-
         $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML
@@ -245,7 +243,6 @@ class Async implements ControllerProviderInterface
     {
         $prefix = $app['config']->get('general/database/prefix', "bolt_");
 
-        // \util::var_dump($taxonomytype);
         $query = "select distinct `%staxonomy`.`slug` from `%staxonomy` where `taxonomytype` = ? order by `slug` asc;";
         $query = sprintf($query, $prefix, $prefix);
         $query = $app['db']->executeQuery($query, array($taxonomytype));
@@ -469,8 +466,6 @@ class Async implements ControllerProviderInterface
 
     public function addstack($filename = "", Silex\Application $app)
     {
-
-        // \util::var_dump($filename);
 
         $app['stack']->add($filename);
 

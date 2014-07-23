@@ -201,7 +201,6 @@ class Extensions
 
         $info['enabled'] = $this->isEnabled($namespace);
 
-        // \util::var_dump($info);
         return $info;
 
     }
@@ -701,7 +700,6 @@ class Extensions
         // first, attempt to insert it after the last meta tag, matching indentation..
 
         if (preg_match_all("~^([ \t]*)<meta (.*)~mi", $html, $matches)) {
-            //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
@@ -730,7 +728,6 @@ class Extensions
         // first, attempt to insert it after the last <link> tag, matching indentation..
 
         if (preg_match_all("~^([ \t]*)<link (.*)~mi", $html, $matches)) {
-            //echo "<pre>\n" . util::var_dump($matches, true) . "</pre>\n";
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
             $last = count($matches[0]) - 1;
