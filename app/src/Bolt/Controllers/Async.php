@@ -546,11 +546,11 @@ class Async implements ControllerProviderInterface
 
         if (is_file($filePath) && is_readable($filePath)) {            
             
-            $destpath = $filepath;
+            $destPath = $filePath;
             $n = 1;
-            while(file_exists($destpath)) {
-                $extensionPos = strrpos($destpath, '.');
-                $destpath = substr($destpath, 0, $extensionPos) . "_copy$n" . substr($destpath, $extensionPos);
+            while(file_exists($destPath)) {
+                $extensionPos = strrpos($destPath, '.');
+                $destPath = substr($destPath, 0, $extensionPos) . "_copy$n" . substr($destPath, $extensionPos);
                 $n ++;
             }
             if(copy($filePath, $destPath)) {
