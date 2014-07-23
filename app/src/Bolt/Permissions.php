@@ -328,31 +328,31 @@ class Permissions
             $this->app['cache']->save($cacheKey, json_encode($rule));
         }
         $userRoles = $this->getEffectiveRolesForUser($user);
-        $isAllowed = $this->isAllowedRule($rule, $userRoles, $contenttype, $contentid);
+        $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid);
 
         // Cache for the current request
         $this->rqcache[$rqCacheKey] = $isAllowed;
         return $isAllowed;
     }
 
-    private function isAllowedRule($rule, $userRoles, $contenttype, $contentid) {
+    private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid) {
         switch ($rule['type']) {
             case PermissionParser::P_TRUE:
                 return true;
             case PermissionParser::P_FALSE:
                 return false;
             case PermissionParser::P_SIMPLE:
-                return $this->isAllowedSingle($rule['value'], $userRoles, $contenttype, $contentid);
+                return $this->isAllowedSingle($rule['value'], $user, $userRoles, $contenttype, $contentid);
             case PermissionParser::P_OR:
                 foreach ($rule['value'] as $subrule) {
-                    if ($this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
+                    if ($this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
                         return true;
                     }
                 }
                 return false;
             case PermissionParser::P_AND:
                 foreach ($rule['value'] as $subrule) {
-                    if (!$this->isAllowedRule($subrule, $userRoles, $contenttype, $contentid)) {
+                    if (!$this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
                         return false;
                     }
                 }
@@ -362,7 +362,7 @@ class Permissions
         }
     }
 
-    private function isAllowedSingle($what, $userRoles, $contenttype = null, $contentid = null) {
+    private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null) {
         if ($contenttype) {
             $parts = array(
                         'contenttype',
