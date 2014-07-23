@@ -112,7 +112,7 @@ class LowlevelChecks
         }
 
         if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
-            if(empty($cfg['password']) && ($cfg['username']=="root") ) {
+            if(empty($cfg['password']) && ($cfg['username']=="root")) {
                 $this->lowlevelError("There is no <code>password</code> set for the database connection, and you're using user 'root'." .
                     "<br>That must surely be a mistake, right? Bolt will stubbornly refuse to run until you've set a password for 'root'.");
             }
@@ -194,7 +194,7 @@ class LowlevelChecks
             $message = sprintf("Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
                 htmlspecialchars($name . ".yml", ENT_QUOTES),
-                htmlspecialchars($this->config->getPath('config'),ENT_QUOTES),
+                htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
                 htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
             );
             $this->lowlevelError($message);

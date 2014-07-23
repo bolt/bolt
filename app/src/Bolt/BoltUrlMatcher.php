@@ -10,7 +10,7 @@ use Symfony\Component\Routing\RequestContext;
 class BoltUrlMatcher implements UrlMatcherInterface
 {
     protected $wrapped;
-    
+
     public function __construct(UrlMatcherInterface $wrapped)
     {
         $this->wrapped = $wrapped;
@@ -66,7 +66,7 @@ class BoltUrlMatcher implements UrlMatcherInterface
         }
 
         return array(
-            '_controller' => function($url) { return new RedirectResponse($url, 301); },
+            '_controller' => function ($url) { return new RedirectResponse($url, 301); },
             '_route'      => null,
             'url'         => $url,
         );

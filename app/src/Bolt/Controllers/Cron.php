@@ -89,7 +89,7 @@ class Cron extends Event
                 $this->setLastRun('monthly');
             }
 
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year") ) {
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year")) {
                 $this->notify("Running Cron Yearly Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event);
                 $this->setLastRun('yearly');

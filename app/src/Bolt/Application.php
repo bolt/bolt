@@ -27,7 +27,7 @@ class Application extends Silex\Application
             $this['resources'] = new Configuration\ResourceManager(getcwd());
             $this['resources']->compat();
         }
-        
+
         $this['resources']->setApp($this);
         $this->initConfig();
         $this['resources']->initialize();
@@ -53,7 +53,7 @@ class Application extends Silex\Application
                 'cookie_httponly' => true
             )
         ));
-        
+
         // Disable Silex's built-in native filebased session handler, and fall back to
         // whatever's set in php.ini.
         // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
@@ -247,7 +247,7 @@ class Application extends Silex\Application
         $app = $this;
 
         // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
-        $this['url_matcher'] = $this->share(function() use ($app) {
+        $this['url_matcher'] = $this->share(function () use ($app) {
             return new BoltUrlMatcher(
                 new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
             );
@@ -263,10 +263,10 @@ class Application extends Silex\Application
 
         // Mount the 'async' controllers on /async. Not configurable.
         $this->mount('/async', new Controllers\Async());
-        
+
         // Mount the 'thumbnail' provider on /thumbs.
         $this->mount('/thumbs', new \Bolt\Thumbs\ThumbnailProvider());
-        
+
         // Mount the 'upload' controller on /upload.
         $this->mount('/upload', new Controllers\Upload());
 

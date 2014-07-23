@@ -60,7 +60,7 @@ class Async implements ControllerProviderInterface
         $ctr->post("/deletefile", array($this, 'deletefile'))
             ->before(array($this, 'before'))
             ->bind('deletefile');
-        
+
         $ctr->post("/duplicatefile", array($this, 'duplicatefile'))
             ->before(array($this, 'before'))
             ->bind('duplicatefile');
@@ -495,7 +495,7 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-    
+
     /**
      * Delete a file on the server.
      *
@@ -508,7 +508,7 @@ class Async implements ControllerProviderInterface
         $namespace = $request->request->get('namespace', 'files');
         $filename = $request->request->get('filename');
 
-        
+
         $filePath = $app['resources']->getPath($namespace)
                     . DIRECTORY_SEPARATOR
                     . $filename;
@@ -524,7 +524,7 @@ class Async implements ControllerProviderInterface
         }
 
     }
-    
+
     /**
      * Duplicate a file on the server.
      *
@@ -537,32 +537,32 @@ class Async implements ControllerProviderInterface
         $namespace = $request->request->get('namespace', 'files');
         $filename = $request->request->get('filename');
 
-        
+
         $filePath = $app['resources']->getPath($namespace)
                     . DIRECTORY_SEPARATOR
                     . $filename;
 
 
 
-        if (is_file($filePath) && is_readable($filePath)) {            
-            
+        if (is_file($filePath) && is_readable($filePath)) {
+
             $extensionPos = strrpos($filePath, '.');
             $destPath = substr($filePath, 0, $extensionPos) . "_copy" . substr($filePath, $extensionPos);
             $n = 1;
             while(file_exists($destPath)) {
                 $extensionPos = strrpos($destPath, '.');
                 $destPath = substr($destPath, 0, $extensionPos) . "$n" . substr($destPath, $extensionPos);
-                $n = rand(0,1000);
+                $n = rand(0, 1000);
             }
             if(copy($filePath, $destPath)) {
                 return true;
             }
         }
         return false;
-        
+
 
     }
-    
+
     /**
      * Rename a folder within the files directory tree.
      *
@@ -615,7 +615,7 @@ class Async implements ControllerProviderInterface
     public function removefolder(Silex\Application $app, Request $request)
     {
         $namespace = $request->request->get('namespace', 'files');
-        
+
 
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');

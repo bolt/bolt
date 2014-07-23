@@ -223,7 +223,7 @@ class Backend implements ControllerProviderInterface
      */
     public function getLogin(Silex\Application $app, Request $request)
     {
-        if( !empty($app['users']->currentuser) && $app['users']->currentuser['enabled']==1 ) {
+        if(!empty($app['users']->currentuser) && $app['users']->currentuser['enabled']==1) {
             return redirect('dashboard', array());
         }
         $app['twig']->addGlobal('title', "Login");
@@ -605,7 +605,7 @@ class Backend implements ControllerProviderInterface
 
         // set the editreferrer in twig if it was not set yet.
         $tmpreferrer = getReferrer($app['request']);
-        if(strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt']) )  {
+        if(strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt']))  {
             $app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }
 
@@ -1146,7 +1146,7 @@ class Backend implements ControllerProviderInterface
         $basefolder = $app['resources']->getPath($namespace);
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder ."/". $path);
-        
+
         if (! $app['filepermissions']->authorized($currentfolder)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
@@ -1167,32 +1167,32 @@ class Backend implements ControllerProviderInterface
                     $files = $request->files->get($form->getName());
 
                     foreach($files as $fileToProcess) {
-                        
+
                         $fileToProcess = array(
                             'name'=> $fileToProcess->getClientOriginalName(),
                             'tmp_name' => $fileToProcess->getPathName()
                         );
-                        
+
                         $originalFilename = $fileToProcess['name'];
                         $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
 
                         if ($app['filepermissions']->allowedUpload($filename)) {
-                            
+
                             $handler = $app['upload'];
                             $handler->setPrefix($path."/");
                             $result = $app['upload']->process($fileToProcess);
-                            
+
                             if($result->isValid()) {
-                        
+
                                 $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
                                 // Add the file to our stack..
                                 $app['stack']->add($path . "/" . $filename);
                                 $result->confirm();
-                            } 
-        
-                            
-                            
+                            }
+
+
+
                         } else {
                             $extensionList = array();
                             foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {

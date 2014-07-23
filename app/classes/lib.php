@@ -658,7 +658,7 @@ function redirect($path, $param = array(), $add = '')
     global $app;
 
     // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
-    if (($path == 'login') && ($app['request']->get('_route') !== 'logout') ) {
+    if (($path == 'login') && ($app['request']->get('_route') !== 'logout')) {
 
         $app['session']->set(
             'retreat',
@@ -1284,8 +1284,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         ->notName('*~')
         ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
         ->in(dirname($app['paths']['themepath'])) //
-        ->in($app['paths']['apppath'])
-    ;
+        ->in($app['paths']['apppath']);
     // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
     $re_dq = '/"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"/s';
     $re_sq = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";

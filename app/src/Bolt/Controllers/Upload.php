@@ -22,15 +22,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Upload implements ControllerProviderInterface, ServiceProviderInterface
 {
-    
+
     public $app;
     public $uploaddir;
-    
+
     public function register(Silex\Application $app)
     {
         // This exposes the main upload object as a service
-        $app['upload'] = $app->share(function ($app) { 
-            
+        $app['upload'] = $app->share(function ($app) {
+
             $allowedExensions = $app['config']->get('general/accept_file_types');
             $uploadHandler = new UploadHandler($app['upload.container']);
             $uploadHandler->setPrefix($app['upload.prefix']);
@@ -38,10 +38,10 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
             return $uploadHandler;
         });
-        
-        
+
+
         // This exposes the file container as a configurabole object please refer to:
-        // Sirius\Upload\Container\ContainerInterface 
+        // Sirius\Upload\Container\ContainerInterface
         // Any compatible file handler can be used.
         $app['upload.container'] = $app->share(function ($app) {
             $base = $app['resources']->getPath($app['upload.namespace']);
@@ -51,30 +51,30 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             $container = new Local($base);
             return $container;
         });
-        
+
         // This allows multiple upload locations, all prefixed with a namespace. The default is /files
         // Note, if you want to provide an alternative namespace, you must set a path on the $app['resources']
         // service
         $app['upload.namespace'] = 'files';
-        
+
         // This gets prepended to all file saves, can be reset to "" or add your own closure for more complex ones.
         $app['upload.prefix'] = date('Y-m')."/";
-        
+
         $app['upload.overwrite'] = false;
 
     }
-    
+
     public function connect(Silex\Application $app)
     {
         $ctr = $app['controllers_factory'];
         $controller = $this;
-        $ctr->match( "/{namespace}", function(Silex\Application $app, Request $request, $namespace = null) use($controller){
+        $ctr->match("/{namespace}", function (Silex\Application $app, Request $request, $namespace = null) use ($controller) {
 
             if($namespace === "") {
                 $namespace = $app['upload.namespace'];
             }
             return new JsonResponse($controller->uploadFile($app, $request, $namespace));
-        
+
         })->assert('namespace', '.*');
 
         return $ctr;
@@ -83,16 +83,16 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
     public function uploadFile(Silex\Application $app, Request $request, $namespace, $files = null)
     {
-        
+
         $app['upload.namespace'] = $namespace;
-        
+
         if(null === $files) {
             $files = $request->files->get($namespace);
         }
-        
+
         if(!$files) {
             return array();
-        } 
+        }
         $filesToProcess = array();
         foreach($files as $file) {
             if($file instanceof UploadedFile) {
@@ -103,9 +103,9 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             } else {
                 $filesToProcess[] = $file;
             }
-        } 
-        
-                
+        }
+
+
         $result = $app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
@@ -130,13 +130,13 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     'url'=>$namespace."/".$resultFile->original_name,
                     'name'=>$resultFile->original_name,
                     'error' => $errors[0]->__toString()
-                ); 
+                );
             }
-            
+
             return $errorFiles;
         }
     }
-    
+
 
 
     /**
@@ -156,10 +156,10 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
     }
-    
+
     public function boot(Silex\Application $app)
     {
-        
+
     }
 
 }
