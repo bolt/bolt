@@ -2,8 +2,6 @@
 
 namespace Bolt;
 
-use Silex;
-
 /**
  * This class implements role-based permissions.
  */
@@ -41,7 +39,7 @@ class Permissions
     // per-request permission cache
     private $rqcache;
 
-    public function __construct(Application $app)
+    public function __construct(\Silex\Application $app)
     {
         $this->app = $app;
         $this->rqcache = array();
@@ -117,7 +115,6 @@ class Permissions
      */
     public function getUserRoles($user, Content $content = null)
     {
-        $allRoles = $this->getDefinedRoles();
         $userRoleNames = $user['roles'];
         if (!is_array($userRoleNames)) {
             throw new \Exception('Expected a user-like array, but the "roles" property is not an array');
@@ -131,7 +128,7 @@ class Permissions
             array_combine(
                 $userRoleNames,
                 array_map(
-                    function ($roleName) use ($app) {
+                    function ($roleName) {
                         return $this->getRole($roleName);
                     },
                     $userRoleNames
