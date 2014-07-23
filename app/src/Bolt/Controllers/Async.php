@@ -60,6 +60,10 @@ class Async implements ControllerProviderInterface
         $ctr->post("/deletefile", array($this, 'deletefile'))
             ->before(array($this, 'before'))
             ->bind('deletefile');
+        
+        $ctr->post("/duplicatefile", array($this, 'duplicatefile'))
+            ->before(array($this, 'before'))
+            ->bind('duplicatefile');
 
         $ctr->get("/addstack/{filename}", array($this, 'addstack'))
             ->before(array($this, 'before'))
@@ -463,30 +467,6 @@ class Async implements ControllerProviderInterface
     }
 
 
-     /**
-     * Delete a file on the server.
-     *
-     * @param  Silex\Application $app
-     * @param  Request           $request
-     * @return bool
-     */
-    public function deletefile(Silex\Application $app, Request $request)
-    {
-        $filename = $request->request->get('filename');
-
-        $filePath = BOLT_WEB_DIR . '/' . $filename;
-
-        // TODO: ensure that we are deleting a file inside /files folder
-
-        if (is_file($filePath) && is_readable($filePath)) {
-            @unlink($filePath);
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
     public function addstack($filename = "", Silex\Application $app)
     {
 
@@ -514,6 +494,180 @@ class Async implements ControllerProviderInterface
             'filetypes' => $app['stack']->getFileTypes()
         ));
 
+    }
+    
+    /**
+     * Delete a file on the server.
+     *
+     * @param  Silex\Application $app
+     * @param  Request           $request
+     * @return bool
+     */
+    public function deletefile(Silex\Application $app, Request $request)
+    {
+        $namespace = $request->request->get('namespace', 'files');
+        $filename = $request->request->get('filename');
+
+        
+        $filePath = $app['resources']->getPath($namespace)
+                    . DIRECTORY_SEPARATOR
+                    . $filename;
+
+
+        // TODO: ensure that we are deleting a file inside /files folder
+
+        if (is_file($filePath) && is_readable($filePath)) {
+            @unlink($filePath);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    
+    /**
+     * Duplicate a file on the server.
+     *
+     * @param  Silex\Application $app
+     * @param  Request           $request
+     * @return bool
+     */
+    public function duplicatefile(Silex\Application $app, Request $request)
+    {
+        $namespace = $request->request->get('namespace', 'files');
+        $filename = $request->request->get('filename');
+
+        
+        $filePath = $app['resources']->getPath($namespace)
+                    . DIRECTORY_SEPARATOR
+                    . $filename;
+
+
+
+        if (is_file($filePath) && is_readable($filePath)) {            
+            
+            $extensionPos = strrpos($filePath, '.');
+            $destPath = substr($filePath, 0, $extensionPos) . "_copy" . substr($filePath, $extensionPos);
+            $n = 1;
+            while(file_exists($destPath)) {
+                $extensionPos = strrpos($destPath, '.');
+                $destPath = substr($destPath, 0, $extensionPos) . "$n" . substr($destPath, $extensionPos);
+                $n = rand(0,1000);
+            }
+            if(copy($filePath, $destPath)) {
+                return true;
+            }
+        }
+        return false;
+        
+
+    }
+    
+    /**
+     * Rename a folder within the files directory tree.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request The HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the renaming action was successful
+     */
+    public function renamefolder(Silex\Application $app, Request $request)
+    {
+        $namespace = $request->request->get('namespace', 'files');
+
+        $parentPath = $request->request->get('parent');
+        $oldName    = $request->request->get('oldname');
+        $newName    = $request->request->get('newname');
+
+        $oldPath    = $app['resources']->getPath($namespace)
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . $oldName;
+
+        $newPath    = $app['resources']->getPath($namespace)
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . $newName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->rename($oldPath,
+                                      $newPath,
+                                      false /* Don't rename if target exists already! */);
+        } catch(IOException $exception) {
+
+            /* Thrown if target already exists or renaming failed. */
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Delete a folder recursively if writeable.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request The HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the renaming action was successful
+     */
+    public function removefolder(Silex\Application $app, Request $request)
+    {
+        $namespace = $request->request->get('namespace', 'files');
+        
+
+        $parentPath = $request->request->get('parent');
+        $folderName = $request->request->get('foldername');
+
+        $completePath = $app['resources']->getPath($namespace)
+                        . DIRECTORY_SEPARATOR
+                        . $parentPath
+                        . $folderName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->remove($completePath);
+        } catch(IOException $exception) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Create a new folder.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request he HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the creation was successful
+     */
+    public function createfolder(Silex\Application $app, Request $request)
+    {
+        $namespace = $request->request->get('namespace', 'files');
+        $base = $app['resources']->getPath($namespace);
+
+        $parentPath = $request->request->get('parent');
+        $folderName = $request->request->get('foldername');
+
+        $completePath = $base
+                        . DIRECTORY_SEPARATOR
+                        . $parentPath
+                        . $folderName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->mkdir($completePath);
+        } catch(IOException $exception) {
+
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -544,102 +698,5 @@ class Async implements ControllerProviderInterface
 
     }
 
-    /**
-     * Rename a folder within the files directory tree.
-     *
-     * @param  SilexApplication $app     The Silex Application Container
-     * @param  Request          $request The HTTP Request Object containing the GET Params
-     *
-     * @return Boolean                   Whether the renaming action was successful
-     */
-    public function renamefolder(Silex\Application $app, Request $request)
-    {
-        $parentPath = $request->request->get('parent');
-        $oldName    = $request->request->get('oldname');
-        $newName    = $request->request->get('newname');
 
-        $oldPath    = $app['resources']->getPath('files')
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $oldName;
-
-        $newPath    = $app['resources']->getPath('files')
-                      . DIRECTORY_SEPARATOR
-                      . $parentPath
-                      . $newName;
-
-        $fileSystemHelper = new Filesystem;
-
-        try {
-            $fileSystemHelper->rename($oldPath,
-                                      $newPath,
-                                      false /* Don't rename if target exists already! */);
-        } catch(IOException $exception) {
-
-            /* Thrown if target already exists or renaming failed. */
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Delete a folder recursively if writeable.
-     *
-     * @param  SilexApplication $app     The Silex Application Container
-     * @param  Request          $request The HTTP Request Object containing the GET Params
-     *
-     * @return Boolean                   Whether the renaming action was successful
-     */
-    public function removefolder(Silex\Application $app, Request $request)
-    {
-        $parentPath = $request->request->get('parent');
-        $folderName = $request->request->get('foldername');
-
-        $completePath = $app['resources']->getPath('files')
-                        . DIRECTORY_SEPARATOR
-                        . $parentPath
-                        . $folderName;
-
-        $fileSystemHelper = new Filesystem;
-
-        try {
-            $fileSystemHelper->remove($completePath);
-        } catch(IOException $exception) {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Create a new folder.
-     *
-     * @param  SilexApplication $app     The Silex Application Container
-     * @param  Request          $request he HTTP Request Object containing the GET Params
-     *
-     * @return Boolean                   Whether the creation was successful
-     */
-    public function createfolder(Silex\Application $app, Request $request)
-    {
-        $parentPath = $request->request->get('parent');
-        $folderName = $request->request->get('foldername');
-
-        $completePath = $app['resources']->getPath('files')
-                        . DIRECTORY_SEPARATOR
-                        . $parentPath
-                        . $folderName;
-
-        $fileSystemHelper = new Filesystem;
-
-        try {
-            $fileSystemHelper->mkdir($completePath);
-        } catch(IOException $exception) {
-
-            return false;
-        }
-
-        return true;
-    }
 }

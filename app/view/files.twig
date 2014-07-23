@@ -4,15 +4,18 @@
 
 <h1>{{ __('Files: %path%', { '%path%' : path } ) }}</h1>
 
-{% if pathsegments|length > 1 %}
+{% if pathsegments|length > 0 %}
     <p>
         {{ __('Path:') }}
+        <a href="{{ path('files', { 'path': '', 'namespace':namespace }) }}">
+            {{namespace}} /
+        </a>
 
         {% for path, segment in pathsegments %}
 
             {% if not loop.first %} / {% endif %}
 
-            <a href="{{ path('files', { 'path': path }) }}">
+            <a href="{{ path('files', { 'path': path, 'namespace':namespace }) }}">
                 {{segment}}
             </a>
         {% endfor %}
@@ -52,6 +55,7 @@
                         <li>
                             <a href="#"
                                data-action="folders.rename('{{__("Please enter a new folder name")}}',
+                                                           '{{ namespace }}',
                                                            '{{ pathsegments|keys|last }}',
                                                            '{{ folder.foldername }}',
                                                            this);">
@@ -63,7 +67,8 @@
                                class="confirm"
                                data-confirm="{{ __("Do you really want to delete %foldername%?",
                                                     {'%foldername%': folder.foldername }) }}"
-                               data-action="folders.remove('{{ pathsegments|keys|last }}',
+                               data-action="folders.remove( '{{namespace}}',
+                                                            '{{ pathsegments|keys|last }}',
                                                            '{{ folder.foldername }}',
                                                            this);">
 
@@ -87,6 +92,7 @@
 <p>
     <a href="#"
        data-action="folders.create('{{ __("Please enter a new folder name") }}',
+                                   '{{namespace}}',
                                    '{{ pathsegments|keys|last }}',
                                    this);">
         <i class="icon-plus"></i>
@@ -176,14 +182,14 @@
 
                     <ul class="dropdown-menu pull-right">
                         <li>
-                            <a href="#" data-action="files.deleteFile('{{ file.newpath }}', this);">
+                            <a href="#" data-action="files.deleteFile('{{namespace}}', '{{ file.newpath }}', this);">
                                 <i class="icon-ban-circle"></i>
                                 {{ __('Delete %filename%',
                                       {'%filename%': file.filename }) }}
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-confirm="Not yet implemented. Sorry!" class="confirm">
+                            <a href="#" data-action="files.duplicateFile('{{namespace}}', '{{file.newpath}}')">
                                 <i class="icon-copy"></i>
                                 {{ __('Duplicate %filename%',
                                       {'%filename%': file.filename }) }}

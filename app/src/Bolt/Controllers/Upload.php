@@ -61,6 +61,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $app['upload.prefix'] = date('Y-m')."/";
         
         $app['upload.overwrite'] = false;
+
     }
     
     public function connect(Silex\Application $app)
@@ -72,7 +73,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             if($namespace === "") {
                 $namespace = $app['upload.namespace'];
             }
-            return $controller->uploadFile($app, $request, $namespace);
+            return new JsonResponse($controller->uploadFile($app, $request, $namespace));
         
         })->assert('namespace', '.*');
 
@@ -80,14 +81,17 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
     }
 
-    public function uploadFile(Silex\Application $app, Request $request, $namespace)
+    public function uploadFile(Silex\Application $app, Request $request, $namespace, $files = null)
     {
         
         $app['upload.namespace'] = $namespace;
         
-        $files = $request->files->get($namespace);
+        if(null === $files) {
+            $files = $request->files->get($namespace);
+        }
+        
         if(!$files) {
-            return new JsonResponse(array());
+            return array();
         } 
         $filesToProcess = array();
         foreach($files as $file) {
@@ -116,7 +120,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     );
                 }
             }
-            return new JsonResponse($successfulFiles);
+            return $successfulFiles;
         } else {
             $result->clear();
             $errorFiles = array();
@@ -129,7 +133,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 ); 
             }
             
-            return new JsonResponse($errorFiles);
+            return $errorFiles;
         }
     }
     
