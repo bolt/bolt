@@ -182,7 +182,7 @@
 
                     <ul class="dropdown-menu pull-right">
                         <li>
-                            <a href="#" data-action="files.deleteFile('{{ file.newpath }}', this);">
+                            <a href="#" data-action="files.deleteFile('{{namespace}}', '{{ file.newpath }}', this);">
                                 <i class="icon-ban-circle"></i>
                                 {{ __('Delete %filename%',
                                       {'%filename%': file.filename }) }}

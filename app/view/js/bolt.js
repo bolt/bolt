@@ -631,7 +631,7 @@ var Files = Backbone.Model.extend({
      *
      * @param string filename
      */
-    deleteFile: function(filename, element) {
+    deleteFile: function(namespace, filename, element) {
 
         if(!confirm('Are you sure you want to delete ' + filename + '?')) {
             return;
@@ -640,7 +640,7 @@ var Files = Backbone.Model.extend({
         $.ajax({
             url: asyncpath + 'deletefile',
             type: 'POST',
-            data: { 'filename': filename },
+            data: { 'namespace': namespace, 'filename': filename },
             success: function(result) {
                 console.log('Deleted file ' + filename  + ' from the server');
 
