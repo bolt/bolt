@@ -1108,8 +1108,8 @@ class TwigExtension extends \Twig_Extension
             $name = strtolower($identifier);
             $menu = $menus[$identifier];
         } else {
-            $name = strtolower(util::array_first_key($menus));
-            $menu = util::array_first($menus);
+            $name = strtolower(\utilphp\util::array_first_key($menus));
+            $menu = \utilphp\util::array_first($menus);
         }
 
         // If the menu loaded is null, replace it with an empty array instead of

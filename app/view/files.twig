@@ -10,12 +10,16 @@
 </div>
 
 
-{% if pathsegments|length > 1 %}
-    <p>{{ __('Path:') }}
-    {% for path, segment in pathsegments %}
-    {% if not loop.first %} / {% endif %}
-    <a href="{{ path('files', { 'path': path }) }}">{{segment}}</a>
-    {% endfor %}
+{% if pathsegments|length > 0 %}
+    <p>
+        {{ __('Path:') }}
+        <a href="{{ path('files', { 'path': '', 'namespace':namespace }) }}">
+            {{namespace}} /
+        </a>
+        {% for path, segment in pathsegments %}
+        {% if not loop.first %} / {% endif %}
+        <a href="{{ path('files', { 'path': path, 'namespace':namespace }) }}">{{segment}}</a>
+        {% endfor %}
     </p>
 {% endif %}
 
@@ -92,9 +96,10 @@
                         <li>
                             <a href="#"
                                data-action="folders.rename('{{__("Please enter a new folder name")}}',
-                                                           '{{ pathsegments|keys|last }}',
-                                                           '{{ folder.foldername }}',
-                                                           this);">
+                                                            '{{ namespace }}',
+                                                            '{{ pathsegments|keys|last }}',
+                                                            '{{ folder.foldername }}',
+                                                            this);">
 
                                 <i class="icon-keyboard"></i>
                                 {{ __('Rename %foldername%', { '%foldername%': folder.foldername }) }}
@@ -103,9 +108,10 @@
                                class="confirm"
                                data-confirm="{{ __("Do you really want to delete %foldername%?",
                                                     {'%foldername%': folder.foldername }) }}"
-                               data-action="folders.remove('{{ pathsegments|keys|last }}',
-                                                           '{{ folder.foldername }}',
-                                                           this);">
+                               data-action="folders.remove('{{ namespace }}',
+                                                            '{{ pathsegments|keys|last }}',
+                                                            '{{ folder.foldername }}',
+                                                            this);">
 
                                 <i class="icon-ban-circle"></i>
                                 {{ __('Delete %foldername%', { '%foldername%': folder.foldername }) }}
@@ -126,6 +132,17 @@
 {% endfor %}
 </table>
 {% endif %}
+
+<p>
+    <a href="#"
+       data-action="folders.create('{{ __("Please enter a new folder name") }}',
+                                   '{{namespace}}',
+                                   '{{ pathsegments|keys|last }}',
+                                   this);">
+        <i class="icon-plus"></i>
+        {{ __('Create folder') }}
+    </a>
+</p>
 
 {# only show the "Upload here" form, if the folder is writable. #}
 {% if form != false %}

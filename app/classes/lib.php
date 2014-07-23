@@ -310,19 +310,6 @@ function makeValuepairs($array, $key, $value)
 }
 
 /**
- * Counts the number of white spaces on the beginning of a string.
- *
- * @param string $str
- * @return int Number of white spaces
- */
-function getLeftWhiteSpaceCount($str)
-{
-    $strLenLTrimmed = getStringLength(ltrim($str));
-    $count = getStringLength($str) - $strLenLTrimmed;
-    return $count;
-}
-
-/**
  * Wrapper around trimToHTML for backwards-compatibility
  *
  * @param string $str String to trim
@@ -342,24 +329,6 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
     return trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
 }
 
-/**
- * Convert HTML to plain text, truncate, and ellipsify.
- */
-function trimToText($html, $desiredLength = null, $ellipseStr = "...")
-{
-    $options = array();
-    $options['allowed-tags'] = array(); // remove *all* tags
-    $options['output-format'] = 'text';
-    $maid = new Maid($options);
-    $str = $maid->clean($html);
-    $str = trim($str);
-    $str = preg_replace('/\s+/', ' ', $str);
-    if (strlen($str) <= $desiredLength) {
-        return $str;
-    } else {
-        return substr($str, $desiredLength - strlen($ellipseStr)) . $ellipseStr;
-    }
-}
 
 /**
  * Recursively collect nodes from a DOM tree until the tree is exhausted or the
@@ -550,37 +519,6 @@ function decorateTT($str)
     return $str;
 }
 
-/**
- * Trims the given string to a particular length. Does plain trimming.
- *
- * @param string $str Input string
- * @param int $trimLength Desired length
- * @param bool $nbsp Convert spaces to html entity
- * @param bool $hellip Replace the trimmed part with dots
- * @return array Array with two keys: 'string' and 'length'
- */
-function trimString($str, $trimLength, $nbsp = false, $hellip = true)
-{
-    $strLength = getStringLength($str);
-    if ($strLength > $trimLength) {
-        $str = mb_substr($str, 0, $trimLength, "UTF-8");
-        $resultingLength = $trimLength;
-        if ($hellip) {
-            $str .= '…';
-        }
-    } else {
-        $resultingLength = $strLength;
-    }
-
-    if ($nbsp == true) {
-        $str = str_replace(" ", "&nbsp;", $str);
-    }
-
-    return array(
-        'string' => $str,
-        'length' => $resultingLength,
-    );
-}
 
 /**
  * String length wrapper. Uses mb_strwidth when available. Fallback to strlen.
@@ -790,20 +728,6 @@ function isHtml($html)
     } else {
         return false;
     }
-}
-
-/**
- * Detect whether or not a given string is (likely) HTML. It has a different
- * approach than the isHTML method. It's stricter (it assumes well-balanced
- * tags) but more accurate.
- *
- * @param string $str
- * @return bool True if the string contains any html tags and, with that, is HTML
- */
-function containsHTML($str)
-{
-    preg_match_all("/(<([\w]+)[^>]*>)(.*?)(<\/\\2>)/", $str, $matches, PREG_OFFSET_CAPTURE);
-    return !empty($matches[3]);
 }
 
 
@@ -1019,98 +943,6 @@ function array_merge_recursive_distinct (array &$array1, array &$array2)
     }
 
     return $merged;
-}
-
-/**
- * Checks if the text is a valid email address.
- *
- * Given a chain it returns true if $theAdr conforms to RFC 2822.
- * It does not check the existence of the address.
- * Suppose a mail of the form
- *  <pre>
- *  addr-spec     = local-part "@" domain
- *  local-part    = dot-atom / quoted-string / obs-local-part
- *  dot-atom      = [CFWS] dot-atom-text [CFWS]
- *  dot-atom-text = 1*atext *("." 1*atext)
- *  atext         = ALPHA / DIGIT /    ; Any character except controls,
- *        "!" / "#" / "$" / "%" /      ;  SP, and specials.
- *        "&" / "'" / "*" / "+" /      ;  Used for atoms
- *        "-" / "/" / "=" / "?" /
- *        "^" / "_" / "`" / "{" /
- *        "|" / "}" / "~" / "." /
- * </pre>
- *
- * @param string $theAdr
- * @return boolean
- */
-function isEmail($theAdr)
-{
-    // default
-    $result = false;
-
-    // go ahead
-    if ('' != $theAdr || is_string($theAdr)) {
-        $mail_array = explode('@', $theAdr);
-    }
-
-    if (!is_array($mail_array)) {
-        return false;
-    }
-
-    if (2 == count($mail_array)) {
-        $localpart = $mail_array[0];
-        $domain_array = explode('.', $mail_array[1]);
-    } else {
-        return false;
-    }
-    if (!is_array($domain_array)) {
-        return false;
-    }
-    if (1 == count($domain_array)) {
-        return false;
-    }
-
-    /* relevant info:
-     * $mail_array[0] contains atext
-     * $adr_array  contains parts of address
-     *          and last one must be at least 2 chars
-     */
-
-    $domain_toplevel = array_pop($domain_array);
-    if (is_string($domain_toplevel) && (strlen($domain_toplevel) > 1)) {
-        // put back
-        $domain_array[] = $domain_toplevel;
-        $domain = implode('', $domain_array);
-        // now we have two string to test
-        // $domain and $localpart
-        $domain = preg_replace('/[a-z0-9]/i', '', $domain);
-        $domain = preg_replace('/[-|\_]/', '', $domain);
-        $localpart = preg_replace('/[a-z0-9]/i', '', $localpart);
-        $localpart = preg_replace("#[-.|\!|\#|\$|\%|\&|\'|\*|\+|\/|\=|\? |\^|\_|\`|\{|\||\}|\~]#", '', $localpart);
-        // If there are no characters left in localpart or domain, the email address is valid.
-        if ('' == $domain && '' == $localpart) {
-            $result = true;
-        }
-    }
-
-    return $result;
-}
-
-/**
- * Checks whether the text is an URL or not.
- *
- * @param string $url
- * @return boolean
- */
-function isUrl($url)
-{
-    return (preg_match(
-        "/((ftp|https?):\/\/)?" .
-        "([a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+" .
-        "(com\b|edu\b|biz\b|org\b|gov\b|in(?:t|fo)\b|mil\b|net\b|name\b|museum\b|coop\b|aero\b|" .
-        "[a-z][a-z]\b|[0-9]{1,3})/i",
-        $url
-    ));
 }
 
 function getReferrer(Symfony\Component\HttpFoundation\Request $request)

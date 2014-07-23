@@ -1384,19 +1384,33 @@ class Backend implements ControllerProviderInterface
                 if ($form->isValid()) {
                     $files = $request->files->get($form->getName());
 
-                    // Check if we even have an uploaded file.
-                    if (isset($files['FileUpload'])) {
-
-                        // clean up and validate filename
-                        $originalFilename = $files['FileUpload']->getClientOriginalName();
+                    foreach($files as $fileToProcess) {
+                        
+                        $fileToProcess = array(
+                            'name'=> $fileToProcess->getClientOriginalName(),
+                            'tmp_name' => $fileToProcess->getPathName()
+                        );
+                        
+                        $originalFilename = $fileToProcess['name'];
                         $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
 
                         if ($app['filepermissions']->allowedUpload($filename)) {
-                            $files['FileUpload']->move($currentfolder, $filename);
-                            $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
+                            
+                            $handler = $app['upload'];
+                            $handler->setPrefix($path."/");
+                            $result = $app['upload']->process($fileToProcess);
+                            
+                            if($result->isValid()) {
+                        
+                                $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
 
-                            // Add the file to our stack..
-                            $app['stack']->add($path . "/" . $filename);
+                                // Add the file to our stack..
+                                $app['stack']->add($path . "/" . $filename);
+                                $result->confirm();
+                            } 
+        
+                            
+                            
                         } else {
                             $extensionList = array();
                             foreach ($app['filepermissions']->getAllowedUploadExtensions() as $extension) {
@@ -1461,7 +1475,7 @@ class Backend implements ControllerProviderInterface
                         'type' => getExtension($entry),
                         'filesize' => formatFilesize(filesize($fullfilename)),
                         'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
-                        'permissions' => \util::full_permissions($fullfilename)
+                        'permissions' => \utilphp\util::full_permissions($fullfilename)
                     );
 
                     if (in_array(getExtension($entry), array('gif', 'jpg', 'png', 'jpeg'))) {

@@ -115,8 +115,7 @@ class Visitor
 
     public function load_by_id($visitor_id) {
         $this->visitor = $this->get_one_by(array(array('id', '=', $visitor_id)));
-        // FIXME! - unserialize borkt, als in 'providerdata' een niet wester-europees karakter zit!
-        // \util::var_dump($this->visitor['providerdata']);
+        // FIXME! - unserialize breaks if 'providerdata' contains any non-western-european characters!
         $this->profile = unserialize($this->visitor['providerdata']);
 
         return $this->visitor;

@@ -890,7 +890,7 @@ var Files = Backbone.Model.extend({
      *
      * @param string filename
      */
-    deleteFile: function(filename, element) {
+    deleteFile: function(namespace, filename, element) {
 
         if(!confirm('Are you sure you want to delete ' + filename + '?')) {
             return;
@@ -899,7 +899,7 @@ var Files = Backbone.Model.extend({
         $.ajax({
             url: asyncpath + 'deletefile',
             type: 'POST',
-            data: { 'filename': filename },
+            data: { 'namespace': namespace, 'filename': filename },
             success: function(result) {
                 console.log('Deleted file ' + filename  + ' from the server');
 
@@ -913,6 +913,20 @@ var Files = Backbone.Model.extend({
             },
             error: function() {
                 console.log('Failed to delete the file from the server');
+            }
+        });
+    },
+    
+    duplicateFile: function(namespace, filename) {
+        $.ajax({
+            url: asyncpath + 'duplicatefile',
+            type: 'POST',
+            data: { 'namespace': namespace, 'filename': filename },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong duplicating this file!');
             }
         });
     }
@@ -1408,7 +1422,7 @@ var Folders = Backbone.Model.extend({
      * @param string promptQuestionString Translated version of "What's the new filename?".
      * @param string parentPath Parent path of the folder to create.
      */
-    create: function(promptQuestionString, parentPath, element)
+    create: function(promptQuestionString, namespace, parentPath, element)
     {
         var newFolderName = window.prompt(promptQuestionString);
 
@@ -1421,7 +1435,8 @@ var Folders = Backbone.Model.extend({
             type: 'POST',
             data: {
                 'parent':     parentPath,
-                'foldername': newFolderName
+                'foldername': newFolderName,
+                'namespace': namespace
             },
             success: function(result) {
                 document.location.reload();
@@ -1440,7 +1455,7 @@ var Folders = Backbone.Model.extend({
      * @param string oldName              Old name of the folder to be renamed.
      * @param string newName              New name of the folder to be renamed.
      */
-    rename: function(promptQuestionString, parentPath, oldFolderName, element)
+    rename: function(promptQuestionString, namespace, parentPath, oldFolderName, element)
     {
         var newFolderName = window.prompt(promptQuestionString);
 
@@ -1452,6 +1467,7 @@ var Folders = Backbone.Model.extend({
             url: asyncpath + 'folder/rename',
             type: 'POST',
             data: {
+                'namespace': namespace,
                 'parent':  parentPath,
                 'oldname': oldFolderName,
                 'newname': newFolderName
@@ -1471,12 +1487,13 @@ var Folders = Backbone.Model.extend({
      * @param string parentPath Parent path of the folder to remove.
      * @param string folderName Name of the folder to remove.
      */
-    remove: function(parentPath, folderName, element)
+    remove: function(namespace, parentPath, folderName, element)
     {
         $.ajax({
             url: asyncpath + 'folder/remove',
             type: 'POST',
             data: {
+                'namespace': namespace,
                 'parent':     parentPath,
                 'foldername': folderName
             },

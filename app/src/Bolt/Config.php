@@ -636,9 +636,6 @@ class Config
             ? filemtime($this->app['resources']->getPath('cache') . '/config_cache.php')
             : 0;
 
-        //\util::var_dump($timestamps);
-        //\util::var_dump($cachetimestamp);
-
         if ($cachetimestamp > max($timestamps)) {
             $this->data = loadSerialize($this->app['resources']->getPath('cache') . '/config_cache.php');
 
