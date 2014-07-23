@@ -20,4 +20,3 @@ class IntegrityCheckerProvider implements ServiceProviderInterface
     {
     }
 }
-

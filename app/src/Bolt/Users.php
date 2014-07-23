@@ -155,7 +155,6 @@ class Users
         } else {
             return $this->db->update($this->usertable, $user, array('id' => $user['id']));
         }
-
     }
 
     /**
@@ -177,7 +176,6 @@ class Users
      */
     public function checkValidSession()
     {
-
         if ($this->app['session']->get('user')) {
             $this->currentuser = $this->app['session']->get('user');
             if ($database = $this->getUser($this->currentuser['id'])) {
@@ -222,7 +220,6 @@ class Users
         }
 
         return true;
-
     }
 
     /**
@@ -234,7 +231,6 @@ class Users
      */
     private function getAuthToken($name = "", $salt = "")
     {
-
         if (empty($name)) {
             return false;
         }
@@ -254,7 +250,6 @@ class Users
         $token = md5($seed);
 
         return $token;
-
     }
 
     /**
@@ -262,7 +257,6 @@ class Users
      */
     private function setAuthToken()
     {
-
         $salt = $this->app['randomgenerator']->generateString(12);
         $token = array(
             'username' => $this->currentuser['username'],
@@ -300,7 +294,6 @@ class Users
         } catch (\Doctrine\DBAL\DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
-
     }
 
     /**
@@ -308,7 +301,7 @@ class Users
      *
      * @return string $token
      */
-    function getAntiCSRFToken()
+    public function getAntiCSRFToken()
     {
         $seed = $this->app['request']->cookies->get('bolt_session');
 
@@ -333,7 +326,7 @@ class Users
      * @param string $token
      * @return bool
      */
-    function checkAntiCSRFToken($token = "")
+    public function checkAntiCSRFToken($token = "")
     {
         global $app;
 
@@ -349,7 +342,6 @@ class Users
             return false;
         }
     }
-
 
     public function getActiveSessions()
     {
@@ -374,7 +366,6 @@ class Users
         }
     }
 
-
     /**
      * Remove a user from the database.
      *
@@ -392,7 +383,6 @@ class Users
         } else {
             return $this->db->delete($this->usertable, array('id' => $user['id']));
         }
-
     }
 
     /**
@@ -481,9 +471,7 @@ class Users
 
             return false;
         }
-
     }
-
 
     /**
      * Attempt to login a user via the bolt_authtoken cookie
@@ -492,7 +480,6 @@ class Users
      */
     public function loginAuthtoken()
     {
-
         // If there's no cookie, we can't resume a session from the authtoken.
         if (empty($_COOKIE['bolt_authtoken'])) {
             return false;
@@ -562,22 +549,17 @@ class Users
             );
 
             return false;
-
         }
-
     }
-
 
     public function resetPasswordRequest($username)
     {
-
         $user = $this->getUser($username);
 
         // For safety, this is the message we display, regardless of whether $user exists.
         $this->session->getFlashBag()->set('info', __("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
 
         if (!empty($user)) {
-
             $shadowpassword = $this->app['randomgenerator']->generateString(12);
             $shadowtoken = $this->app['randomgenerator']->generateString(32);
 
@@ -626,24 +608,17 @@ class Users
             } else {
                 $this->app['log']->add("Failed to send password request sent to '" . $user['displayname'] . "'.", 3, '', 'issue');
             }
-
-
         }
-
 
         // Take a nap, to prevent brute-forcing. Zzzzz...
         sleep(1);
 
         return true;
-
     }
-
 
     public function resetPasswordConfirm($token)
     {
-
         $token .= "-" . str_replace(".", "-", $this->remoteIP);
-
         $now = date("Y-m-d H:i:s");
 
         // Let's see if the token is valid, and it's been requested within two hours...
@@ -652,7 +627,6 @@ class Users
         $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
 
         if (!empty($user)) {
-
             // allright, we can reset this user..
             $this->app['session']->getFlashBag()->set('success', __("Password reset successful! You can now log on with the password that was sent to you via email."));
 
@@ -663,16 +637,11 @@ class Users
                 'shadowvalidity' => "0000-00-00 00:00:00"
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
-
         } else {
-
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['log']->add("Somebody tried to reset a password with an invalid token.", 3, '', 'issue');
             $this->app['session']->getFlashBag()->set('error', __("Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address."));
-
-
         }
-
     }
 
     /**
@@ -687,7 +656,6 @@ class Users
      */
     private function throttleUntil($attempts)
     {
-
         if ($attempts < 5) {
             return "0000-00-00 00:00:00";
         } else {
@@ -695,9 +663,7 @@ class Users
 
             return date("Y-m-d H:i:s", strtotime("+$wait seconds"));
         }
-
     }
-
 
     /**
      * Log out the currently logged in user.
@@ -788,7 +754,6 @@ class Users
         }
 
         return $this->users;
-
     }
 
     /**
@@ -816,7 +781,6 @@ class Users
 
         // otherwise..
         return false;
-
     }
 
     /**
@@ -827,7 +791,6 @@ class Users
     public function getCurrentUser()
     {
         return $this->currentuser;
-
     }
 
     /**
@@ -838,9 +801,7 @@ class Users
     public function getCurrentUsername()
     {
         return $this->currentuser['username'];
-
     }
-
 
     /**
      * Enable or disable a user, specified by id.
@@ -860,7 +821,6 @@ class Users
         $user['enabled'] = $enabled;
 
         return $this->saveUser($user);
-
     }
 
     /**
@@ -872,7 +832,6 @@ class Users
      */
     public function hasRole($id, $role)
     {
-
         $user = $this->getUser($id);
 
         if (empty($user)) {
@@ -880,7 +839,6 @@ class Users
         }
 
         return (is_array($user['roles']) && in_array($role, $user['roles']));
-
     }
 
     /**
@@ -892,7 +850,6 @@ class Users
      */
     public function addRole($id, $role)
     {
-
         $user = $this->getUser($id);
 
         if (empty($user) || empty($role)) {
@@ -903,7 +860,6 @@ class Users
         $user['roles'][] = (string) $role;
 
         return $this->saveUser($user);
-
     }
 
     /**
@@ -915,7 +871,6 @@ class Users
      */
     public function removeRole($id, $role)
     {
-
         $user = $this->getUser($id);
 
         if (empty($user) || empty($role)) {
@@ -926,7 +881,6 @@ class Users
         $user['roles'] = array_diff($user['roles'], array((string) $role));
 
         return $this->saveUser($user);
-
     }
 
     /**
@@ -937,7 +891,6 @@ class Users
      */
     public function checkForRoot()
     {
-
         // Don't check for root, if we're not logged in.
         if ($this->getCurrentUsername() == false) {
             return false;
@@ -961,7 +914,6 @@ class Users
 
         // Show a helpful message to the user.
         $this->app['session']->getFlashBag()->set('info', __("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
-
     }
 
     /**

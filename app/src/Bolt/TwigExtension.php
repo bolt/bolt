@@ -117,8 +117,7 @@ class TwigExtension extends \Twig_Extension
     {
         if ($this->safe) {
             return false; // pretend we don't know anything about any files
-        }
-        else {
+        } else {
             return file_exists($fn);
         }
     }
@@ -134,11 +133,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-        if ($this->safe) { return '?'; }
+        if ($this->safe) {
+            return '?';
+        }
         if ($this->app['config']->get('general/debug')) {
             return \Dumper::dump($var, DUMPER_CAPTURE);
-        }
-        else {
+        } else {
             return '';
         }
     }
@@ -153,11 +153,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function printBacktrace($depth = 15)
     {
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
         if ($this->app['config']->get('general/debug')) {
             return \Dumper::backtrace($depth, true);
-        }
-        else {
+        } else {
             return '';
         }
     }
@@ -179,7 +180,6 @@ class TwigExtension extends \Twig_Extension
         return str_replace("_", "-", $locale);
     }
 
-
     /**
      * Returns the date time in a particular format. Takes the locale into
      * account.
@@ -192,7 +192,6 @@ class TwigExtension extends \Twig_Extension
         if (!$dateTime instanceof \DateTime) {
             $dateTime = new \DateTime($dateTime);
         }
-
 
         // Check for Windows to find and replace the %e modifier correctly
         // @see: http://php.net/strftime
@@ -222,7 +221,6 @@ class TwigExtension extends \Twig_Extension
             return strftime($format, $timestamp);
         }
     }
-
 
     /**
      * Create an excerpt for the given content
@@ -273,9 +271,7 @@ class TwigExtension extends \Twig_Extension
         $output = trimText(strip_tags($output), $length);
 
         return $output;
-
     }
-
 
     /**
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
@@ -288,7 +284,9 @@ class TwigExtension extends \Twig_Extension
     {
         // There is absolutely no way anyone could possibly need this in a
         // "safe" context
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         if (preg_match("/ ([a-z0-9_-]+\.yml)/i", $str, $matches)) {
             $path = path('fileedit', array('file' => "app/config/" . $matches[1]));
@@ -297,9 +295,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $str;
-
     }
-
 
 
     /**
@@ -313,7 +309,9 @@ class TwigExtension extends \Twig_Extension
     {
         // This function is vulnerable to path traversal, so blocking it in
         // safe mode for now.
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $fullpath = sprintf("%s/%s", $this->app['paths']['filespath'], $filename);
 
@@ -362,9 +360,7 @@ class TwigExtension extends \Twig_Extension
         $info['square'] = !$info['landscape'] && !$info['portrait'];
 
         return $info;
-
     }
-
 
     /**
      * Return the 'sluggified' version of a string.
@@ -416,7 +412,6 @@ class TwigExtension extends \Twig_Extension
         return $output;
     }
 
-
     /**
      * Formats the given string as Twig in HTML
      *
@@ -461,7 +456,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function order($array, $on, $on_secondary = '')
     {
-
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
 
@@ -476,7 +470,6 @@ class TwigExtension extends \Twig_Extension
         uasort($array, array($this, "orderHelper"));
 
         return $array;
-
     }
 
     /**
@@ -494,7 +487,7 @@ class TwigExtension extends \Twig_Extension
         // Check the primary sorting criterium..
         if ($a_val < $b_val) {
             return !$this->order_ascending;
-        } else if ($a_val > $b_val) {
+        } elseif ($a_val > $b_val) {
             return $this->order_ascending;
         } else {
             // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
@@ -507,7 +500,7 @@ class TwigExtension extends \Twig_Extension
 
             if ($a_val < $b_val) {
                 return !$this->order_ascending_secondary;
-            } else if ($a_val > $b_val) {
+            } elseif ($a_val > $b_val) {
                 return $this->order_ascending_secondary;
             } else {
                 // both criteria are the same. Whatever!
@@ -515,7 +508,6 @@ class TwigExtension extends \Twig_Extension
             }
 
         }
-
     }
 
     /**
@@ -559,7 +551,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
-
         $route_params = $this->app['request']->get('_route_params');
 
         // If passed a string, and it is in the route..
@@ -634,7 +625,6 @@ class TwigExtension extends \Twig_Extension
         return $this->app['users']->getAntiCSRFToken();
     }
 
-
     /**
      * lists templates, optionally filtered by $filter.
      *
@@ -644,12 +634,13 @@ class TwigExtension extends \Twig_Extension
     public function listtemplates($filter = "")
     {
         // No need to list templates in safe mode.
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $files = array();
 
         $foldername = $this->app['paths']['themepath'];
-
 
         $d = dir($foldername);
 
@@ -682,7 +673,6 @@ class TwigExtension extends \Twig_Extension
 
         return $files;
     }
-
 
     /**
      * Lists content of a specific contenttype, specifically for editing
@@ -761,7 +751,6 @@ class TwigExtension extends \Twig_Extension
         return new \Twig_Markup($env->render($template, $context), 'utf-8');
     }
 
-
     /**
      * return the 'max' of two values..
      *
@@ -773,7 +762,6 @@ class TwigExtension extends \Twig_Extension
     {
         return max($a, $b);
     }
-
 
     /**
      * return the 'min' of two values..
@@ -787,7 +775,6 @@ class TwigExtension extends \Twig_Extension
         return min($a, $b);
     }
 
-
     /**
      * return the 'round' of a value..
      *
@@ -798,8 +785,6 @@ class TwigExtension extends \Twig_Extension
     {
         return round($a);
     }
-
-
 
     /**
      * return the 'floor' of a value..
@@ -812,8 +797,6 @@ class TwigExtension extends \Twig_Extension
         return floor($a);
     }
 
-
-
     /**
      * return the 'ceil' of a value..
      *
@@ -824,8 +807,6 @@ class TwigExtension extends \Twig_Extension
     {
         return ceil($a);
     }
-
-
 
     /**
      * Return the requested parameter from $_REQUEST, $_GET or $_POST..
@@ -838,7 +819,9 @@ class TwigExtension extends \Twig_Extension
     public function request($parameter, $from = "", $stripslashes = false)
     {
         // Don't expose request in safe context
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $from = strtoupper($from);
 
@@ -856,7 +839,6 @@ class TwigExtension extends \Twig_Extension
 
         return $res;
     }
-
 
     /**
      *  Switch the debugbar 'on' or 'off'. Note: this has no influence on the
@@ -927,14 +909,15 @@ class TwigExtension extends \Twig_Extension
             $filename = $filename['file'];
         }
 
-        $path = sprintf('%sthumbs/%sx%s%s/%s',
+        $path = sprintf(
+            '%sthumbs/%sx%s%s/%s',
             $this->app['paths']['root'],
             round($width),
             round($height),
             $scale,
             safeFilename($filename)
         );
-        
+
         return $path;
     }
 
@@ -952,7 +935,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function showimage($filename = "", $width = 100, $height = 100, $crop = "")
     {
-
         if (!empty($filename)) {
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
@@ -964,7 +946,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $output;
-
     }
 
     /**
@@ -986,7 +967,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function popup($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
     {
-
         if (!empty($filename)) {
 
             $thumbconf = $this->app['config']->get('general/thumbnails');
@@ -1003,7 +983,11 @@ class TwigExtension extends \Twig_Extension
 
             $output = sprintf(
                 '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s"></a>',
-                $large, $title, $thumbnail, $width, $height
+                $large,
+                $title,
+                $thumbnail,
+                $width,
+                $height
             );
 
         } else {
@@ -1011,7 +995,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $output;
-
     }
 
     /**
@@ -1025,7 +1008,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function image($filename, $width = "", $height = "", $crop = "")
     {
-
         if ($width != "" || $height != "") {
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
@@ -1043,7 +1025,6 @@ class TwigExtension extends \Twig_Extension
         );
 
         return $image;
-
     }
 
     /**
@@ -1057,7 +1038,9 @@ class TwigExtension extends \Twig_Extension
     public function editable($html, $content, $field)
     {
         // Editing content from within content? NOPE NOPE NOPE...
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $contenttype = $content->contenttype['slug'];
 
@@ -1095,12 +1078,14 @@ class TwigExtension extends \Twig_Extension
      * @param  \Twig_Environment $env
      * @param  string $identifier Identifier for a particular menu
      * @param  string $template   The template to use.
-     * @param  array $params     Extra parameters to pass on to the menu template.
+     * @param  array $params      Extra parameters to pass on to the menu template.
      * @return null
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
     {
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $menus = $this->app['config']->get('menu');
 
@@ -1112,8 +1097,7 @@ class TwigExtension extends \Twig_Extension
             $menu = util::array_first($menus);
         }
 
-        // If the menu loaded is null, replace it with an empty array instead of
-        // throwing an error.
+        // If the menu loaded is null, replace it with an empty array instead of throwing an error.
         if (!is_array($menu)) {
             $menu = array();
         }
@@ -1131,7 +1115,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $env->render($template, $twigvars);
-
     }
 
     /**
@@ -1151,9 +1134,7 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $menu;
-
     }
-
 
     /**
      * Updates a menu item to have at least a 'link' key.
@@ -1203,7 +1184,6 @@ class TwigExtension extends \Twig_Extension
 
         return $item;
     }
-
 
     /**
      * Returns a random quote. Just for fun.
@@ -1317,11 +1297,8 @@ class TwigExtension extends \Twig_Extension
      */
     public function safestring($str, $strict = false, $extrachars = "")
     {
-
         return safeString($str, $strict, $extrachars);
-
     }
-
 
     /**
      * Redirect the browser to another page.
@@ -1329,16 +1306,16 @@ class TwigExtension extends \Twig_Extension
     public function redirect($path)
     {
         // Nope! We're not allowing user-supplied content to issue redirects.
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         simpleredirect($path);
 
         $result = $this->app->redirect($path);
 
         return $result;
-
     }
-
 
     /**
      * Return an array with the items on the stack
@@ -1349,13 +1326,10 @@ class TwigExtension extends \Twig_Extension
      */
     public function stackitems($amount = 20, $type = "")
     {
-
         $items = $this->app['stack']->listitems($amount, $type);
 
         return $items;
-
     }
-
 
     /**
      * Return whether or not an item is on the stack, and is stackable in the first place.
@@ -1364,13 +1338,10 @@ class TwigExtension extends \Twig_Extension
      */
     public function stacked($filename)
     {
-
         $stacked = ( $this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename) );
 
         return $stacked;
-
     }
-
 
     /**
      * Return a selected field from a contentset
@@ -1382,28 +1353,25 @@ class TwigExtension extends \Twig_Extension
     public function selectfield($content, $fieldname)
     {
         $retval = array('');
-        foreach($content as $c) {
+        foreach ($content as $c) {
             if (is_array($fieldname)) {
                 $row = array();
                 foreach ($fieldname as $fn) {
-                    if(isset($c->values[$fn])) {
+                    if (isset($c->values[$fn])) {
                         $row[] = $c->values[$fn];
-                    }
-                    else {
+                    } else {
                         $row[] = null;
                     }
                 }
                 $retval[] = $row;
-            }
-            else {
-                if(isset($c->values[$fieldname])) {
+            } else {
+                if (isset($c->values[$fieldname])) {
                     $retval[] = $c->values[$fieldname];
                 }
             }
         }
 
         return $retval;
-
     }
 
     public function isChangelogEnabled()

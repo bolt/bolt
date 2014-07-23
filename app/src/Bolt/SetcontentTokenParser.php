@@ -37,7 +37,6 @@ class SetcontentTokenParser extends \Twig_TokenParser
         $counter = 0;
 
         do {
-
             // where parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'where')) {
                 $this->parser->getStream()->next();
@@ -63,22 +62,28 @@ class SetcontentTokenParser extends \Twig_TokenParser
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'paging') ||
                 $this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'allowpaging')) {
                 $this->parser->getStream()->next();
-                $arguments->addElement(new \Twig_Node_Expression_Constant(true, $lineno),
-                    new \Twig_Node_Expression_Constant('paging', $lineno));
+                $arguments->addElement(
+                    new \Twig_Node_Expression_Constant(true, $lineno),
+                    new \Twig_Node_Expression_Constant('paging', $lineno)
+                );
             }
 
             // printquery  parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'printquery')) {
                 $this->parser->getStream()->next();
-                $arguments->addElement(new \Twig_Node_Expression_Constant(true, $lineno),
-                    new \Twig_Node_Expression_Constant('printquery', $lineno));
+                $arguments->addElement(
+                    new \Twig_Node_Expression_Constant(true, $lineno),
+                    new \Twig_Node_Expression_Constant('printquery', $lineno)
+                );
             }
 
             // returnsingle  parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'returnsingle')) {
                 $this->parser->getStream()->next();
-                $arguments->addElement(new \Twig_Node_Expression_Constant(true, $lineno),
-                    new \Twig_Node_Expression_Constant('returnsingle', $lineno));
+                $arguments->addElement(
+                    new \Twig_Node_Expression_Constant(true, $lineno),
+                    new \Twig_Node_Expression_Constant('returnsingle', $lineno)
+                );
             }
 
             // Make sure we don't get stuck in a loop, if a token can't be parsed..

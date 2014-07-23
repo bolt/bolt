@@ -123,7 +123,8 @@ class Async implements ControllerProviderInterface
             if ($app['config']->get('general/httpProxy')) {
                 $curlOptions['CURLOPT_PROXY'] = $app['config']->get('general/httpProxy/host');
                 $curlOptions['CURLOPT_PROXYTYPE'] = 'CURLPROXY_HTTP';
-                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' . $app['config']->get('general/httpProxy/password');
+                $curlOptions['CURLOPT_PROXYUSERPWD'] = $app['config']->get('general/httpProxy/user') . ':' .
+                    $app['config']->get('general/httpProxy/password');
             }
             $guzzleclient = new \Guzzle\Http\Client($url, array('curl.options' => $curlOptions));
 
@@ -180,7 +181,6 @@ class Async implements ControllerProviderInterface
         $app['debug'] = false;
 
         return $app->json($files);
-
     }
 
     /**
@@ -192,12 +192,11 @@ class Async implements ControllerProviderInterface
         $html = $app['extensions']->renderWidget($key);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
-
     }
 
     public function readme($extension, Silex\Application $app, Request $request)
     {
-        $filename = __DIR__ . "/../../../extensions/" . $extension . "/readme.md";
+        $filename = __DIR__ . '/../../../extensions/' . $extension . '/readme.md';
 
         //echo "<pre>\n" . \util::var_dump($filename, true) . "</pre>\n";
 
@@ -207,7 +206,6 @@ class Async implements ControllerProviderInterface
         $html = \Parsedown::instance()->parse($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
-
     }
 
     public function markdownify(Silex\Application $app, Request $request)
@@ -215,27 +213,28 @@ class Async implements ControllerProviderInterface
         $html = $request->request->get('html');
 
         if (isHtml($html)) {
-
             require_once(__DIR__ . '/../../../classes/markdownify/markdownify_extra.php');
             $markdown = new \Markdownify(false, 80, false);
 
             $output = $markdown->parseString($html);
-
         } else {
             $output = $html;
         }
 
         return $output;
-
     }
 
     public function makeuri(Silex\Application $app, Request $request)
     {
-        $uri = $app['storage']->getUri($request->query->get('title'), $request->query->get('id'), $request->query->get('contenttypeslug'), $request->query->get('fulluri'));
+        $uri = $app['storage']->getUri(
+            $request->query->get('title'),
+            $request->query->get('id'),
+            $request->query->get('contenttypeslug'),
+            $request->query->get('fulluri')
+        );
 
         return $uri;
     }
-
 
     public function tags(Silex\Application $app, $taxonomytype)
     {
@@ -256,7 +255,8 @@ class Async implements ControllerProviderInterface
 
         $limit = $app['request']->get('limit', 20);
 
-        $query = "select `slug` , count(`slug`) as `count` from  `%staxonomy` where `taxonomytype` = ? group by  `slug` order by `count` desc limit %s";
+        $query = "select `slug` , count(`slug`) as `count` from  `%staxonomy` where `taxonomytype` = ? " .
+            "group by  `slug` order by `count` desc limit %s";
         $query = sprintf($query, $prefix, intval($limit));
         $query = $app['db']->executeQuery($query, array($taxonomytype));
 
@@ -275,7 +275,6 @@ class Async implements ControllerProviderInterface
 
         return $app->json($results);
     }
-
 
     /**
      * Latest {contenttype} to show a small listing in the sidebars..
@@ -300,7 +299,10 @@ class Async implements ControllerProviderInterface
         // get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
-        $body = $app['render']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
+        $body = $app['render']->render('_sub_lastmodified.twig', array(
+            'latest' => $latest,
+            'contenttype' => $contenttype
+        ));
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -337,13 +339,13 @@ class Async implements ControllerProviderInterface
      * @param  Request           $request
      * @return mixed
      */
-    public function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request)
+    public function filebrowser($contenttype, Silex\Application $app, Request $request)
     {
         foreach ($app['storage']->getContentTypes() as $contenttype) {
 
             $records = $app['storage']->getContent($contenttype, array('published' => true));
 
-            foreach ($records as $key => $record) {
+            foreach ($records as $record) {
                 $results[$contenttype][] = array(
                     'title' => $record->gettitle(),
                     'id' => $record->id,
@@ -357,7 +359,6 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-
 
     /**
      * List browse on the server, so we can insert them in the file input.
@@ -377,20 +378,20 @@ class Async implements ControllerProviderInterface
         $key = $app['request']->get('key');
 
         $basefolder = $app['resources']->getPath('files');
-        $path = stripTrailingSlash(str_replace("..", "", $path));
-        if($path == 'files') {
+        $path = stripTrailingSlash(str_replace('..', '', $path));
+        if ($path == 'files') {
             $path = '';
         }
-        $currentfolder = realpath($basefolder ."/". $path);
+        $currentfolder = realpath($basefolder .'/'. $path);
 
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+        $ignored = array('.', '..', '.DS_Store', '.gitignore', '.htaccess');
 
         // Get the pathsegments, so we can show the path..
         $pathsegments = array();
-        $cumulative = "";
+        $cumulative = '';
         if (!empty($path)) {
-            foreach (explode("/", $path) as $segment) {
-                $cumulative .= $segment . "/";
+            foreach (explode('/', $path) as $segment) {
+                $cumulative .= $segment . '/';
                 $pathsegments[$cumulative] = $segment;
             }
         }
@@ -443,7 +444,8 @@ class Async implements ControllerProviderInterface
             $d->close();
 
         } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $msg = __("Folder '%s' could not be found, or is not readable.", array('%s' => $path));
+            $app['session']->getFlashBag()->set('error', $msg);
         }
 
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
@@ -461,7 +463,6 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-
 
      /**
      * Delete a file on the server.
@@ -487,18 +488,14 @@ class Async implements ControllerProviderInterface
 
     }
 
-    public function addstack($filename = "", Silex\Application $app)
+    public function addstack($filename, Silex\Application $app)
     {
-
         // \util::var_dump($filename);
 
         $app['stack']->add($filename);
 
         return true;
-
     }
-
-
 
     public function showstack(Silex\Application $app)
     {
@@ -516,8 +513,6 @@ class Async implements ControllerProviderInterface
 
     }
 
-
-
     /**
      * Middleware function to do some tasks that should be done for all aynchronous
      * requests.
@@ -531,12 +526,12 @@ class Async implements ControllerProviderInterface
         // when it's embedded on a page using {{ render() }}
         // @todo Is this still needed?
         if (empty($app['end'])) {
-            $app['end'] = "asynchronous";
+            $app['end'] = 'asynchronous';
         }
 
         // If there's no active session, don't do anything..
         if (!$app['users']->isValidSession()) {
-            $app->abort(404, "You must be logged in to use this.");
+            $app->abort(404, 'You must be logged in to use this.');
         }
 
         // Stop the 'stopwatch' for the profiler.
@@ -571,12 +566,13 @@ class Async implements ControllerProviderInterface
         $fileSystemHelper = new Filesystem;
 
         try {
-            $fileSystemHelper->rename($oldPath,
-                                      $newPath,
-                                      false /* Don't rename if target exists already! */);
-        } catch(IOException $exception) {
-
-            /* Thrown if target already exists or renaming failed. */
+            $fileSystemHelper->rename(
+                $oldPath,
+                $newPath,
+                false // Don't rename if target exists already!
+            );
+        } catch (IOException $exception) {
+            // Thrown if target already exists or renaming failed.
             return false;
         }
 
@@ -605,8 +601,7 @@ class Async implements ControllerProviderInterface
 
         try {
             $fileSystemHelper->remove($completePath);
-        } catch(IOException $exception) {
-
+        } catch (IOException $exception) {
             return false;
         }
 
@@ -635,8 +630,7 @@ class Async implements ControllerProviderInterface
 
         try {
             $fileSystemHelper->mkdir($completePath);
-        } catch(IOException $exception) {
-
+        } catch (IOException $exception) {
             return false;
         }
 

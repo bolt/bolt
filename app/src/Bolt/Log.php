@@ -13,7 +13,6 @@ use Doctrine\DBAL\Connection as DoctrineConn;
  **/
 class Log
 {
-
     private $app;
     private $user;
     private $prefix;
@@ -24,7 +23,6 @@ class Log
 
     public function __construct(Silex\Application $app)
     {
-
         $this->app = $app;
         $this->user = $app['session']->get('user');
 
@@ -41,13 +39,11 @@ class Log
 
         $this->memorylog = array();
         $this->values = array();
-
     }
 
     public function setRoute($route)
     {
         $this->route = $route;
-
     }
 
     public function errorhandler($message, $filename, $line)
@@ -63,7 +59,6 @@ class Log
         );
 
         $this->memorylog[] = $log;
-
     }
 
     public function add($message, $level = 1, $content = false, $code = '')
@@ -117,7 +112,6 @@ class Log
         } catch (\Exception $e) {
             // Nothing..
         }
-
     }
 
     public function getMemorylog()
@@ -138,7 +132,9 @@ class Log
             "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC",
             $this->tablename
         );
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page-1) * $amount));
+        $query = $this->app['db']
+            ->getDatabasePlatform()
+            ->modifyLimitQuery($query, intval($amount), intval(($page-1) * $amount));
 
         $params = array(
             $codes, $minlevel
@@ -212,7 +208,6 @@ class Log
 
     }
 
-
     public function trim()
     {
         $query = sprintf(
@@ -269,6 +264,5 @@ class Log
         // @todo: handle postgres (and other non mysql) database syntax
 
         $this->app['db']->executeQuery($query);
-
     }
 }

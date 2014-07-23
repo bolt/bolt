@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Render
 {
-
     /**
      * Set up the object.
      *
@@ -28,12 +27,7 @@ class Render
     {
         $this->app = $app;
         $this->safe = $safe;
-        if ($safe) {
-            $this->twigKey = 'safe_twig';
-        }
-        else {
-            $this->twigKey = 'twig';
-        }
+        $this->twigKey = $safe ? 'safe_twig' : 'twig';
     }
 
     /**
@@ -46,7 +40,6 @@ class Render
      */
     public function render($template, $vars = array())
     {
-
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
 
@@ -56,7 +49,6 @@ class Render
         $this->app['stopwatch']->stop('bolt.render');
 
         return $html;
-
     }
 
     /**
@@ -72,7 +64,6 @@ class Render
         $this->cacheRequest($html);
 
         return $html;
-
     }
 
     /**
@@ -177,6 +168,5 @@ class Render
 
         // All's well!
         return true;
-
     }
 }

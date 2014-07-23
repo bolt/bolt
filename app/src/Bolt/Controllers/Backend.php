@@ -223,7 +223,7 @@ class Backend implements ControllerProviderInterface
      */
     public function getLogin(Silex\Application $app, Request $request)
     {
-        if( !empty($app['users']->currentuser) && $app['users']->currentuser['enabled']==1 ) {
+        if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled'] == 1) {
             return redirect('dashboard', array());
         }
         $app['twig']->addGlobal('title', "Login");
@@ -452,9 +452,7 @@ class Backend implements ControllerProviderInterface
         // @todo Do we need pager here?
         //$app['pager'] = $pager; // $pager is not defined, so no
 
-        $title = sprintf("<strong>%s</strong> » %s",
-                    __('Overview'),
-                    htmlencode($contenttype['name']));
+        $title = sprintf("<strong>%s</strong> » %s", __('Overview'), htmlencode($contenttype['name']));
         $app['twig']->addGlobal('title', $title);
 
         return $app['render']->render(
@@ -605,7 +603,7 @@ class Backend implements ControllerProviderInterface
 
         // set the editreferrer in twig if it was not set yet.
         $tmpreferrer = getReferrer($app['request']);
-        if(strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt']) )  {
+        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer == $app['paths']['bolt'])) {
             $app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }
 
@@ -698,7 +696,7 @@ class Backend implements ControllerProviderInterface
                 // No returnto, so we go back to the 'overview' for this contenttype.
                 // check if a pager was set in the referrer - if yes go back there
                 $editreferrer = $app['request']->get('editreferrer');
-                if($editreferrer) {
+                if ($editreferrer) {
                     return simpleredirect($editreferrer);
                 } else {
                     return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
@@ -724,9 +722,11 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $title = sprintf("<strong>%s</strong> » %s",
+            $title = sprintf(
+                "<strong>%s</strong> » %s",
                 __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])),
-                htmlencode($content->getTitle()));
+                htmlencode($content->getTitle())
+            );
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             // Check if we're allowed to create content..
@@ -1031,7 +1031,7 @@ class Backend implements ControllerProviderInterface
 
                 if ($user['id']) {
                     $app['log']->add(__("Updated user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
-                } else  {
+                } else {
                     $app['log']->add(__("Added user '%s'.", array('%s' => $user['displayname'])), 3, '', 'user');
                 }
 
@@ -1146,7 +1146,7 @@ class Backend implements ControllerProviderInterface
         $basefolder = $app['resources']->getPath($namespace);
         $path = stripTrailingSlash(str_replace("..", "", $path));
         $currentfolder = realpath($basefolder ."/". $path);
-        
+
         if (! $app['filepermissions']->authorized($currentfolder)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
@@ -1185,9 +1185,11 @@ class Backend implements ControllerProviderInterface
                                 $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
                             }
                             $extensionList = implode(' ', $extensionList);
-                            $app['session']->getFlashBag()->set('error',
+                            $app['session']->getFlashBag()->set(
+                                'error',
                                 __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
-                                . $extensionList);
+                                . $extensionList
+                            );
                         }
 
                     }
