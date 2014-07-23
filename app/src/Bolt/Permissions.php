@@ -2,14 +2,11 @@
 
 namespace Bolt;
 
-use Silex;
-
 /**
  * This class implements role-based permissions.
  */
 class Permissions
 {
-
     /**
      * Anonymous user: this role is automatically assigned to everyone,
      * including "non-users" (not logged in)
@@ -72,7 +69,11 @@ class Permissions
     public function getDefinedRoles()
     {
         $roles = $this->app['config']->get('permissions/roles');
-        $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => __('Built-in superuser role, automatically grants all permissions'), 'builtin' => true);
+        $roles[self::ROLE_ROOT] = array(
+            'label' => 'Root',
+            'description' => __('Built-in superuser role, automatically grants all permissions'),
+            'builtin' => true
+        );
         return $roles;
     }
 
@@ -90,13 +91,25 @@ class Permissions
     {
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
-                return array('label' => __('Anonymous'), 'description' => __('Built-in role, automatically granted at all times, even if no user is logged in'), 'builtin' => true);
+                return array(
+                    'label' => __('Anonymous'),
+                    'description' => __('Built-in role, automatically granted at all times, even if no user is logged in'),
+                    'builtin' => true
+                );
 
             case self::ROLE_EVERYONE:
-                return array('label' => __('Everybody'), 'description' => __('Built-in role, automatically granted to every registered user'), 'builtin' => true);
+                return array(
+                    'label' => __('Everybody'),
+                    'description' => __('Built-in role, automatically granted to every registered user'),
+                    'builtin' => true
+                );
 
             case self::ROLE_OWNER:
-                return array('label' => __('Owner'), 'description' => __('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'), 'builtin' => true);
+                return array(
+                    'label' => __('Owner'),
+                    'description' => __('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'),
+                    'builtin' => true
+                );
 
             default:
                 $roles = $this->getDefinedRoles();
@@ -234,7 +247,8 @@ class Permissions
         // Here's how it works:
         // - if a permission is granted through 'contenttype-all', it is effectively granted
         // - if a permission is granted through 'contenttypes/$contenttype', it is effectively granted
-        // - if 'contenttypes/$contenttype/$permissionName' is not set, *and* the permission is granted through 'contenttype-default', it is effectively granted
+        // - if 'contenttypes/$contenttype/$permissionName' is not set, *and* the permission is granted
+        //   through 'contenttype-default', it is effectively granted
         // - otherwise, the permission is denied
         $overrideRoles = $this->app['config']->get("permissions/contenttype-all/$permissionName");
         if (!is_array($overrideRoles)) {
@@ -324,8 +338,7 @@ class Permissions
         $cacheKey = "_permission_rule:$what";
         if ($this->app['cache']->contains($cacheKey)) {
             $rule = json_decode($this->app['cache']->fetch($cacheKey), true);
-        }
-        else {
+        } else {
             $parser = new PermissionParser();
             $rule = $parser->run($what);
             $this->app['cache']->save($cacheKey, json_encode($rule));
@@ -338,7 +351,8 @@ class Permissions
         return $isAllowed;
     }
 
-    private function isAllowedRule($rule, $userRoles, $contenttype, $contentid) {
+    private function isAllowedRule($rule, $userRoles, $contenttype, $contentid)
+    {
         switch ($rule['type']) {
             case PermissionParser::P_TRUE:
                 return true;
@@ -365,14 +379,15 @@ class Permissions
         }
     }
 
-    private function isAllowedSingle($what, $userRoles, $contenttype = null, $contentid = null) {
+    private function isAllowedSingle($what, $userRoles, $contenttype = null, $contentid = null)
+    {
         if ($contenttype) {
             $parts = array(
-                        'contenttype',
-                        $contenttype,
-                        $what,
-                        $contentid,
-                        );
+                'contenttype',
+                $contenttype,
+                $what,
+                $contentid,
+            );
         } else {
             $parts = explode(':', $what);
         }
@@ -388,8 +403,7 @@ class Permissions
                     if (in_array(Permissions::ROLE_EVERYONE, $userRoles)) {
                         $this->audit("Granting 'overview' for everyone (hard-coded override)");
                         return true;
-                    }
-                    else {
+                    } else {
                         $this->audit("Denying 'overview' for anonymous user (hard-coded override)");
                         return false;
                     }
@@ -418,7 +432,8 @@ class Permissions
                 if (!empty($contentid)) {
                     $content = $this->app['storage']->getContent("$contenttype/$contentid");
                     if (intval($content['ownerid']) &&
-                        (intval($content['ownerid']) === intval($user['id']))) {
+                        intval($content['ownerid']) === intval($user['id'])
+                    ) {
                         $userRoles[] = Permissions::ROLE_OWNER;
                     }
                 }

@@ -1,7 +1,7 @@
 <?php
+
 namespace Bolt;
 
-use Bolt;
 use Symfony\Component\EventDispatcher\Event;
 
 /**

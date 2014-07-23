@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 class TwigDataCollector extends DataCollector
 {
     private $app;
-
     protected $data;
 
     /**
@@ -168,7 +167,6 @@ class TwigDataCollector extends DataCollector
     {
         return $this->data['templatechosen'];
     }
-
 
     /**
      * Getter for templateerror

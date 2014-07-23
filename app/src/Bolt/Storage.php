@@ -7,7 +7,6 @@ use Bolt;
 use Bolt\Content;
 use util;
 use Doctrine\DBAL\Connection as DoctrineConn;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
 class Storage
@@ -43,7 +42,6 @@ class Storage
         }
 
         $this->tables = array();
-
     }
 
     /**
@@ -79,7 +77,6 @@ class Storage
         }
 
         return $content;
-
     }
 
     /**
@@ -94,7 +91,6 @@ class Storage
      */
     public function preFill($contenttypes = array())
     {
-
         $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
 
         $output = "";
@@ -126,7 +122,6 @@ class Storage
         $output .= "<br>\n\n" . __('Done!');
 
         return $output;
-
     }
 
     /**
@@ -139,7 +134,6 @@ class Storage
      */
     private function preFillSingle($key, $contenttype)
     {
-
         $content = array();
         $title = "";
 
@@ -205,7 +199,7 @@ class Storage
                     $content[$field] = date('Y-m-d', time() - rand(-365 * 24 * 60 * 60, 365 * 24 * 60 * 60));
                     break;
                 case 'checkbox':
-                    $content[$field] = rand(0,1);
+                    $content[$field] = rand(0, 1);
                     break;
                 case 'float':
                 case 'number': // number is deprecated..
@@ -213,7 +207,6 @@ class Storage
                     $content[$field] = rand(-1000, 1000) + (rand(0, 1000) / 1000);
                     break;
             }
-
         }
 
         $contentobject = $this->getContentObject($contenttype);
@@ -234,16 +227,16 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = __("Added to <tt>%key%</tt> '%title%'",
-                array('%key%' => $key, '%title%' => $contentobject->getTitle())) . "<br>\n";
+        $output = __(
+            "Added to <tt>%key%</tt> '%title%'",
+            array('%key%' => $key, '%title%' => $contentobject->getTitle())
+        ) . "<br>\n";
 
         return $output;
-
     }
 
     private function getSomeRandomTags($num = 5)
     {
-
         $tags = array("action", "adult", "adventure", "alpha", "animals", "animation", "anime", "architecture", "art",
             "astronomy", "baby", "batshitinsane", "biography", "biology", "book", "books", "business", "business",
             "camera", "cars", "cats", "cinema", "classic", "comedy", "comics", "computers", "cookbook", "cooking",
@@ -333,8 +326,9 @@ class Storage
                     $diff = DeepDiff::deep_diff($oldContent, $newContent);
                     foreach ($diff as $item) {
                         list($k, $old, $new) = $item;
-                        if (isset($newContent[$k]))
+                        if (isset($newContent[$k])) {
                             $data[$k] = array($old, $new);
+                        }
                     }
                     break;
                 case 'INSERT':
@@ -350,8 +344,7 @@ class Storage
             }
             if ($newContent) {
                 $content = new Content($this->app, $contenttype, $newContent);
-            }
-            else {
+            } else {
                 $content = new Content($this->app, $contenttype, $oldContent);
             }
             $title = $content->getTitle();
@@ -377,16 +370,17 @@ class Storage
     {
         $sql = '';
         if (isset($options['order'])) {
-            $sql .= " ORDER BY " . $options['order'];
+            $sql .= ' ORDER BY ' . $options['order'];
         }
         if (isset($options['limit'])) {
             if (isset($options['offset'])) {
-                $sql .= sprintf(" LIMIT %s, %s ",
-                            intval($options['offset']),
-                            intval($options['limit']));
-            }
-            else {
-                $sql .= " LIMIT " . intval($options['limit']);
+                $sql .= sprintf(
+                    ' LIMIT %s, %s ',
+                    intval($options['offset']),
+                    intval($options['limit'])
+                );
+            } else {
+                $sql .= ' LIMIT ' . intval($options['limit']);
             }
         }
         return $sql;
@@ -585,8 +579,7 @@ class Storage
         $row = $this->app['db']->fetchAssoc($sql, $params);
         if (is_array($row)) {
             return new ChangelogItem($this->app, $row);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -663,7 +656,7 @@ class Storage
                 case 'filelist':
                     if (is_array($fieldvalues[$key])) {
                         $fieldvalues[$key] = json_encode($fieldvalues[$key]);
-                    } else if (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
+                    } elseif (!empty($fieldvalues[$key]) && strlen($fieldvalues[$key]) < 3) {
                         // Don't store '[]'
                         $fieldvalues[$key] = '';
                     }
@@ -693,7 +686,6 @@ class Storage
                 // unset columns we don't need to store..
                 unset($fieldvalues[$key]);
             }
-
         }
 
         // We need to verify if the slug is unique. If not, we update it.
@@ -719,16 +711,12 @@ class Storage
         }
 
         return $id;
-
     }
-
 
     public function deleteContent($contenttype, $id)
     {
-
         if (empty($contenttype)) {
             echo "Contenttype is required.";
-
             return false;
         }
 
@@ -763,13 +751,10 @@ class Storage
         }
 
         return $res;
-
     }
-
 
     protected function insertContent($content, $contenttype, $taxonomy = "", $comment = null)
     {
-
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
@@ -794,9 +779,7 @@ class Storage
         $this->logInsert($contenttype, $id, $content, $comment);
 
         return $id;
-
     }
-
 
     /**
      * @param array  $content     The content new values.
@@ -847,7 +830,6 @@ class Storage
      */
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
-
         $id = intval($id);
 
         if (!$this->isValidColumn($field, $contenttype)) {
@@ -872,19 +854,16 @@ class Storage
         $result = $this->saveContent($content, $comment);
 
         return $result;
-
     }
 
     public function getEmptyContent($contenttypeslug)
     {
-
         $content = $this->getContentObject($contenttypeslug);
 
         // don't use 'undefined contenttype' as title/name
         $content->setValues(array('name' => '', 'title' => ''));
 
         return $content;
-
     }
 
     /**
@@ -1075,7 +1054,6 @@ class Storage
             $results = array_merge($results, $sub_results);
         }
 
-
         // Sort the results
         usort($results, array($this, 'compareSearchWeights'));
 
@@ -1153,8 +1131,6 @@ class Storage
             if (!empty($filter_where)) {
                 $where[] = "(" . implode(" OR ", $filter_where) . ")";
             }
-
-
         }
 
         // @todo This is preparation for stage 2..
@@ -1236,7 +1212,6 @@ class Storage
      */
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
-
         $tablename = $this->getTablename("taxonomy");
 
         $slug = makeSlug($name);
@@ -1293,7 +1268,6 @@ class Storage
         $this->app['storage']->setPager($taxonomytype['slug'] . "/" . $slug, $pager);
 
         return $content;
-
     }
 
     /**
@@ -1313,7 +1287,6 @@ class Storage
         $now = date('Y-m-d H:i:s', time());
 
         try {
-
             // Check if there are any records that need publishing..
             $query = "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < :now";
             $stmt = $this->app['db']->prepare($query);
@@ -1327,15 +1300,11 @@ class Storage
                 $stmt->bindValue("now", $now);
                 $stmt->execute();
             }
-
         } catch (\Doctrine\DBAL\DBALException $e) {
-
             // Oops. Couldn't execute the queries.
-
         }
 
     }
-
 
     /**
      * Check (and update) any records that need to be updated from "published" to "held".
@@ -1368,11 +1337,8 @@ class Storage
                 $stmt->bindValue("now", $now);
                 $stmt->execute();
             }
-
         } catch (\Doctrine\DBAL\DBALException $e) {
-
             // Oops. Couldn't execute the queries.
-
         }
 
     }
@@ -1535,7 +1501,6 @@ class Storage
             $decoded['return_single'] = $meta_parameters['returnsingle'];
             unset($meta_parameters['returnsingle']);
         }
-
     }
 
     /**
@@ -1621,7 +1586,6 @@ class Storage
         }
 
         return $order;
-
     }
 
     /**
@@ -1709,7 +1673,8 @@ class Storage
                         $filter_where = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
                             if (in_array($fieldconfig['type'], array('text', 'textarea', 'html', 'markdown'))) {
-                                $filter_where[] = sprintf('%s.%s LIKE %s',
+                                $filter_where[] = sprintf(
+                                    '%s.%s LIKE %s',
                                     $tablename,
                                     $name,
                                     $this->app['db']->quote('%' . $value . '%')
@@ -1735,8 +1700,9 @@ class Storage
                                 $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
                             }
                         }
-                        if (strlen($orPart) > 2)
+                        if (strlen($orPart) > 2) {
                             $where[] = substr($orPart, 0, -4) . ') ';
+                        }
                     }
 
                     // for all the parameters that are fields
@@ -1761,7 +1727,8 @@ class Storage
                         }
 
                         // Set the extra '$where', with subselect for taxonomies..
-                        $where[] = sprintf('%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
+                        $where[] = sprintf(
+                            '%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
                             $this->app['db']->quoteIdentifier('id'),
                             $notin,
                             $this->getTablename('taxonomy'),
@@ -1889,7 +1856,8 @@ class Storage
         $total_results = false;
         $results = false;
         foreach ($decoded['queries'] as $query) {
-            $statement = sprintf('SELECT %s.* %s %s %s',
+            $statement = sprintf(
+                'SELECT %s.* %s %s %s',
                 $query['tablename'],
                 $query['from'],
                 $query['where'],
@@ -1899,7 +1867,8 @@ class Storage
             if ($decoded['self_paginated'] === true) {
                 // self pagination requires an extra query to return the actual number of results
                 if ($decoded['return_single'] === false) {
-                    $count_statement = sprintf('SELECT COUNT(*) as count %s %s',
+                    $count_statement = sprintf(
+                        'SELECT COUNT(*) as count %s %s',
                         $query['from'],
                         $query['where']
                     );
@@ -1982,7 +1951,8 @@ class Storage
         // Run the actual queries
         list($results, $total_results) = call_user_func(
             $decoded['queries_callback'],
-            $decoded, $parameters
+            $decoded,
+            $parameters
         );
 
         // Perform post hydration ordering
@@ -2110,7 +2080,6 @@ class Storage
         }
 
         return $order;
-
     }
 
     /**
@@ -2141,8 +2110,6 @@ class Storage
 
         return array($fieldname, (strtoupper($sort) == 'ASC'));
     }
-
-
 
     /**
      * Helper function for sorting Records of content that have a Grouping.
@@ -2197,7 +2164,6 @@ class Storage
      */
     private function parseWhereParameter($key, $value, $fieldtype = false)
     {
-
         $value = trim($value);
 
         // check if we need to split..
@@ -2261,7 +2227,6 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-
         $contenttypeslug = makeSlug($contenttypeslug);
 
         // Return false if empty, can't find it..
@@ -2290,7 +2255,6 @@ class Storage
         } else {
             return false;
         }
-
     }
 
     /**
@@ -2301,7 +2265,6 @@ class Storage
      */
     public function getTaxonomyType($taxonomyslug)
     {
-
         $taxonomyslug = makeSlug($taxonomyslug);
 
         // Return false if empty, can't find it..
@@ -2326,7 +2289,6 @@ class Storage
         } else {
             return false;
         }
-
     }
 
     /**
@@ -2337,7 +2299,6 @@ class Storage
     public function getContentTypes()
     {
         return array_keys($this->app['config']->get('contenttypes'));
-
     }
 
     /**
@@ -2358,9 +2319,7 @@ class Storage
         }
 
         return implode("|", $slugs);
-
     }
-
 
     /**
      * Get a value to use in 'assert() with the available taxonomytypes
@@ -2370,7 +2329,6 @@ class Storage
      */
     public function getTaxonomyTypeAssert($includesingular = false)
     {
-
         $taxonomytypes = $this->app['config']->get('taxonomy');
 
         // No taxonomies, nothing to assert. The route _DOES_ expect a string, so
@@ -2388,7 +2346,6 @@ class Storage
         }
 
         return implode("|", $slugs);
-
     }
 
     /**
@@ -2399,7 +2356,6 @@ class Storage
      */
     public function getContentTypeFields($contenttypeslug)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
 
         if (empty($contenttype['fields'])) {
@@ -2407,7 +2363,6 @@ class Storage
         } else {
             return array_keys($contenttype['fields']);
         }
-
     }
 
     /**
@@ -2419,21 +2374,16 @@ class Storage
      */
     public function getContentTypeFieldType($contenttypeslug, $fieldname)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
 
         if (in_array($fieldname, array('datecreated', 'datechanged', 'datepublish', 'datedepublish'))) {
             return "datetime";
-        } else if (isset($contenttype['fields'][$fieldname]['type'])) {
+        } elseif (isset($contenttype['fields'][$fieldname]['type'])) {
             return $contenttype['fields'][$fieldname]['type'];
         } else {
             return false;
         }
-
     }
-
-
-
 
     /**
      * Check if a given contenttype has a grouping, and if it does, return it.
@@ -2443,7 +2393,6 @@ class Storage
      */
     public function getContentTypeGrouping($contenttypeslug)
     {
-
         $grouping = false;
         $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
         foreach ($taxonomy as $taxokey => $taxo) {
@@ -2454,7 +2403,6 @@ class Storage
         }
 
         return $grouping;
-
     }
 
     /**
@@ -2465,7 +2413,6 @@ class Storage
      */
     public function getContentTypeTaxonomy($contenttypeslug)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
 
         if (empty($contenttype['taxonomy'])) {
@@ -2483,7 +2430,6 @@ class Storage
 
             return $taxonomy;
         }
-
     }
 
     /**
@@ -2495,7 +2441,6 @@ class Storage
      */
     protected function getTaxonomy($content)
     {
-
         $tablename = $this->getTablename("taxonomy");
 
         $ids = util::array_pluck($content, 'id');
@@ -2531,7 +2476,6 @@ class Storage
         foreach ($content as $key => $value) {
             $content[$key]->sortTaxonomy();
         }
-
     }
 
     /**
@@ -2543,7 +2487,6 @@ class Storage
      */
     protected function updateTaxonomy($contenttype, $content_id, $taxonomy)
     {
-
         $tablename = $this->getTablename("taxonomy");
         $configTaxonomies = $this->app['config']->get('taxonomy');
 
@@ -2631,7 +2574,6 @@ class Storage
             }
 
         }
-
     }
 
 
@@ -2644,7 +2586,6 @@ class Storage
      */
     protected function getRelation($content)
     {
-
         $tablename = $this->getTablename("relations");
 
         $ids = util::array_pluck($content, 'id');
@@ -2680,7 +2621,6 @@ class Storage
         foreach ($rows as $row) {
             $content[$row['to_id']]->setRelation($row['from_contenttype'], $row['from_id']);
         }
-
     }
 
     /**
@@ -2725,7 +2665,6 @@ class Storage
      */
     protected function updateRelation($contenttype, $content_id, $relation)
     {
-
         $tablename = $this->getTablename("relations");
 
         // Get the current values from the DB..
@@ -2794,13 +2733,11 @@ class Storage
 
             }
         }
-
     }
 
 
     public function getLatestId($contenttypeslug)
     {
-
         $tablename = $this->getTablename($contenttypeslug);
 
         // Get the current values from the DB..
@@ -2815,13 +2752,11 @@ class Storage
         } else {
             return false;
         }
-
     }
 
 
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
         $tablename = $this->getTablename($contenttype['slug']);
 
@@ -2881,7 +2816,6 @@ class Storage
         }
 
         return $uri;
-
     }
 
     /**
@@ -2918,7 +2852,6 @@ class Storage
         $this->tables[$name] = true;
 
         return true;
-
     }
 
     /**
@@ -2934,9 +2867,7 @@ class Storage
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
-
     }
-
 
     protected function hasRecords($tablename)
     {

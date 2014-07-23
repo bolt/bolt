@@ -658,7 +658,7 @@ function redirect($path, $param = array(), $add = '')
     global $app;
 
     // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
-    if (($path == 'login') && ($app['request']->get('_route') !== 'logout') ) {
+    if (($path == 'login') && ($app['request']->get('_route') !== 'logout')) {
 
         $app['session']->set(
             'retreat',
@@ -1283,7 +1283,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         ->name('*.php')
         ->notName('*~')
         ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
-        ->in(dirname($app['paths']['themepath'])) //
+        ->in(dirname($app['paths']['themepath']))
         ->in($app['paths']['apppath'])
     ;
     // regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
@@ -1361,7 +1361,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
     }
 
     // Add fields name|label for contenttype (forms)
-    foreach ($ctypes as $ckey => $contenttype) {
+    foreach ($ctypes as $contenttype) {
         foreach ($contenttype['fields'] as $fkey => $field) {
             if (isset($field['label'])) {
                 $t = $field['label'];
@@ -1388,7 +1388,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
     }
 
     // Add name + singular_name for taxonomies
-    foreach ($app['config']->get('taxonomy') as $txkey => $value) {
+    foreach ($app['config']->get('taxonomy') as $value) {
         foreach (array('name', 'singular_name') as $key) {
             $t = $value[$key];
             if (!in_array($t, $strings)) {
@@ -1424,7 +1424,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         'not_translated' => array(),
     );
 
-    foreach ($strings as $idx => $key) {
+    foreach ($strings as $key) {
         $key = stripslashes($key);
         $raw_key = $key;
         $key = Escaper::escapeWithDoubleQuotes($key);
@@ -1462,7 +1462,8 @@ function gatherTranslatableStrings($locale = null, $translated = array())
  * Leniently decode a serialized compound data structure, detecting whether
  * it's dealing with JSON-encoded data or a PHP-serialized string.
  */
-function smart_unserialize($str, $assoc = true) {
+function smart_unserialize($str, $assoc = true)
+{
     if ($str[0] === '{' || $str[0] === '[') {
         $data = json_decode($str, $assoc);
         if ($data !== false) {

@@ -10,7 +10,6 @@ namespace Bolt;
  **/
 class YamlUpdater
 {
-
     /**
      * Denotes if the file is changed.
      * @var bool
@@ -136,7 +135,6 @@ class YamlUpdater
      */
     public function change($key, $value)
     {
-
         $match = $this->get($key);
 
         // Not found.
@@ -150,7 +148,6 @@ class YamlUpdater
 
         // print_r($match);
         return $this->save();
-
     }
 
     /**
@@ -173,9 +170,7 @@ class YamlUpdater
         }
 
         return $value;
-
     }
-
 
     /**
      * Verify if the modified yaml is still a valid .yml file, and if we
@@ -207,6 +202,5 @@ class YamlUpdater
         } else {
             return false;
         }
-
     }
 }
