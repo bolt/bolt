@@ -5,18 +5,16 @@
 
         <h1><strong>{{ __('About Bolt') }}</strong></h1>
 
-        <h2>Bolt {{ bolt_version }}<small>{% if bolt_name is defined %} - {{bolt_name}}{% endif %}</small></h2>
+        <h2>Bolt {{ bolt_version }}<small>{% if bolt_name is defined %} - {{ bolt_name }}{% endif %}</small></h2>
 
-        {{ app.translator.trans('about.bolt',{},'infos')|raw }}
+        {{ app.translator.trans('about.bolt', {}, 'infos')|raw }}
 
-        {{ app.translator.trans('about.licence',{'%paths_app%':paths.app},'infos')|raw }}
-
+        {{ app.translator.trans('about.licence', {'%paths_app%': paths.app}, 'infos')|raw }}
 
         <p>
             <a href="https://github.com/bolt/bolt" class="btn btn-info" target="_blank"><i class="icon-github-alt"></i> {{ __('Bolt on Github') }}</a>
             <a href="https://github.com/bolt/bolt-docs" class="btn btn-info" target="_blank"><i class="icon-github-alt"></i> {{ __('Bolt documentation on Github') }}</a>
         </p>
-
 
         <h2>{{ __('Used Libraries / Components') }}</h2>
 
@@ -28,10 +26,8 @@
             <li>The <a href="http://www.doctrine-project.org">Doctrine DBAL</a> for database access and abstraction.</li>
             <li><a href="http://twig.sensiolabs.org/">Twig, flexible, fast, and secure template engine</a>.</li>
             <li>Various other PHP libraries, like: <a href="http://www.openwall.com/phpass/">Phpass</a>,
-                <a href="http://filp.github.io/whoops/">Whoops!</a>,
-                <a href="http://brandonwamboldt.github.com/utilphp/">Util.php</a>,
-                <a href="http://guzzlephp.org/">Guzzle</a> and
-                <a href="http://www.binarymoon.co.uk/projects/timthumb/">Timthumb</a>
+                <a href="http://filp.github.io/whoops/">Whoops!</a> and
+                <a href="http://guzzlephp.org/">Guzzle</a>
             </li>
             <li><a href="http://twitter.github.com/bootstrap">Twitter Bootstrap</a> and
                 <a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a></li>
@@ -39,7 +35,7 @@
             <li>jQuery plugins, like:
                 <a href="http://blueimp.github.com/jQuery-File-Upload/">jQuery File Upload</a>,
                 <a href="http://ivaynberg.github.com/select2/">Select2</a>,
-                <a href="http://fancyapps.com/">Fancybox</a>.
+                <a href="http://dimsemenov.com/plugins/magnific-popup/">Magnific Popup</a>.
             </li>
             <li><a href="http://codemirror.net/">Codemirror</a> for in-browser editing of text-files and templates.</li>
             <li><a href="http://ckeditor.com/">CKEditor</a> for the clean HTML5 Wysywig editor areas.</li>
