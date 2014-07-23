@@ -658,7 +658,7 @@ var Files = Backbone.Model.extend({
         });
     },
     
-    duplicateFile: function() {
+    duplicateFile: function(namespace, filename) {
         $.ajax({
             url: asyncpath + 'duplicatefile',
             type: 'POST',
