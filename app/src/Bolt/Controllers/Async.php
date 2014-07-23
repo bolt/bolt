@@ -539,7 +539,7 @@ class Async implements ControllerProviderInterface
         $n = 1;
         
         while($filesystem->has($destination)) {
-            $extensionPos = strrpos($destPath, '.');
+            $extensionPos = strrpos($destination, '.');
             $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
             $n = rand(0,1000);
         }
