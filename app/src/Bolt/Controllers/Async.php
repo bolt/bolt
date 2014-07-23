@@ -531,28 +531,22 @@ class Async implements ControllerProviderInterface
     {
         $namespace = $request->request->get('namespace', 'files');
         $filename = $request->request->get('filename');
+        
+        $filesystem = $app['filesystem']->getManager($namespace);
 
-
-        $filePath = $app['resources']->getPath($namespace)
-                    . DIRECTORY_SEPARATOR
-                    . $filename;
-
-
-
-        if (is_file($filePath) && is_readable($filePath)) {
-
-            $extensionPos = strrpos($filePath, '.');
-            $destPath = substr($filePath, 0, $extensionPos) . "_copy" . substr($filePath, $extensionPos);
-            $n = 1;
-            while (file_exists($destPath)) {
-                $extensionPos = strrpos($destPath, '.');
-                $destPath = substr($destPath, 0, $extensionPos) . "$n" . substr($destPath, $extensionPos);
-                $n = rand(0, 1000);
-            }
-            if (copy($filePath, $destPath)) {
-                return true;
-            }
+        $extensionPos = strrpos($filename, '.');
+        $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
+        $n = 1;
+        
+        while($filesystem->has($destination)) {
+            $extensionPos = strrpos($destPath, '.');
+            $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
+            $n = rand(0,1000);
         }
+        if($filesystem->copy($filename, $destination)) {
+            return true;
+        }
+            
         return false;
 
 
