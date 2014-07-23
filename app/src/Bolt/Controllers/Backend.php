@@ -1178,6 +1178,8 @@ class Backend implements ControllerProviderInterface
 
                         if ($app['filepermissions']->allowedUpload($filename)) {
                             
+                            $handler = $app['upload'];
+                            $handler->setPrefix($path);
                             $result = $app['upload']->process($fileToProcess);
                             
                             if($result->isValid()) {
