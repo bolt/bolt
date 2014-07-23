@@ -656,6 +656,20 @@ var Files = Backbone.Model.extend({
                 console.log('Failed to delete the file from the server');
             }
         });
+    },
+    
+    duplicateFile: function() {
+        $.ajax({
+            url: asyncpath + 'duplicatefile',
+            type: 'POST',
+            data: { 'namespace': namespace, 'filename': filename },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong duplicating this file!');
+            }
+        });
     }
 
 });

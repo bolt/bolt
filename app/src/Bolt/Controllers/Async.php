@@ -463,35 +463,6 @@ class Async implements ControllerProviderInterface
     }
 
 
-     /**
-     * Delete a file on the server.
-     *
-     * @param  Silex\Application $app
-     * @param  Request           $request
-     * @return bool
-     */
-    public function deletefile(Silex\Application $app, Request $request)
-    {
-        $namespace = $request->request->get('namespace', 'files');
-        $filename = $request->request->get('filename');
-
-        
-        $filePath = $app['resources']->getPath($namespace)
-                    . DIRECTORY_SEPARATOR
-                    . $filename;
-
-
-        // TODO: ensure that we are deleting a file inside /files folder
-
-        if (is_file($filePath) && is_readable($filePath)) {
-            @unlink($filePath);
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
     public function addstack($filename = "", Silex\Application $app)
     {
 
@@ -520,35 +491,73 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-
-
-
+    
     /**
-     * Middleware function to do some tasks that should be done for all aynchronous
-     * requests.
+     * Delete a file on the server.
+     *
+     * @param  Silex\Application $app
+     * @param  Request           $request
+     * @return bool
      */
-    public function before(Request $request, Silex\Application $app)
+    public function deletefile(Silex\Application $app, Request $request)
     {
-        // Start the 'stopwatch' for the profiler.
-        $app['stopwatch']->start('bolt.async.before');
+        $namespace = $request->request->get('namespace', 'files');
+        $filename = $request->request->get('filename');
 
-        // Only set which endpoint it is, if it's not already set. Which it is, in cases like
-        // when it's embedded on a page using {{ render() }}
-        // @todo Is this still needed?
-        if (empty($app['end'])) {
-            $app['end'] = "asynchronous";
+        
+        $filePath = $app['resources']->getPath($namespace)
+                    . DIRECTORY_SEPARATOR
+                    . $filename;
+
+
+        // TODO: ensure that we are deleting a file inside /files folder
+
+        if (is_file($filePath) && is_readable($filePath)) {
+            @unlink($filePath);
+            return true;
+        } else {
+            return false;
         }
-
-        // If there's no active session, don't do anything..
-        if (!$app['users']->isValidSession()) {
-            $app->abort(404, "You must be logged in to use this.");
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $app['stopwatch']->stop('bolt.async.before');
 
     }
+    
+    /**
+     * Duplicate a file on the server.
+     *
+     * @param  Silex\Application $app
+     * @param  Request           $request
+     * @return bool
+     */
+    public function duplicatefile(Silex\Application $app, Request $request)
+    {
+        $namespace = $request->request->get('namespace', 'files');
+        $filename = $request->request->get('filename');
 
+        
+        $filePath = $app['resources']->getPath($namespace)
+                    . DIRECTORY_SEPARATOR
+                    . $filename;
+
+
+
+        if (is_file($filePath) && is_readable($filePath)) {            
+            
+            $destpath = $filepath;
+            $n = 1;
+            while(file_exists($destpath)) {
+                $extensionPos = strrpos($destpath, '.');
+                $destpath = substr($destpath, 0, $extensionPos) . "_copy$n" . substr($destpath, $extensionPos);
+                $n ++;
+            }
+            if(copy($filePath, $destPath)) {
+                return true;
+            }
+        }
+        return false;
+        
+
+    }
+    
     /**
      * Rename a folder within the files directory tree.
      *
@@ -655,4 +664,34 @@ class Async implements ControllerProviderInterface
 
         return true;
     }
+
+
+
+    /**
+     * Middleware function to do some tasks that should be done for all aynchronous
+     * requests.
+     */
+    public function before(Request $request, Silex\Application $app)
+    {
+        // Start the 'stopwatch' for the profiler.
+        $app['stopwatch']->start('bolt.async.before');
+
+        // Only set which endpoint it is, if it's not already set. Which it is, in cases like
+        // when it's embedded on a page using {{ render() }}
+        // @todo Is this still needed?
+        if (empty($app['end'])) {
+            $app['end'] = "asynchronous";
+        }
+
+        // If there's no active session, don't do anything..
+        if (!$app['users']->isValidSession()) {
+            $app->abort(404, "You must be logged in to use this.");
+        }
+
+        // Stop the 'stopwatch' for the profiler.
+        $app['stopwatch']->stop('bolt.async.before');
+
+    }
+
+
 }
