@@ -41,7 +41,7 @@ class BrowsePlugin implements PluginInterface
             $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);
 
 
-            if (! $app['filepermissions']->authorized($fullfilename) ) {
+            if (! $app['filepermissions']->authorized($namespace.$entry['path']) ) {
                 continue;
             }
                 
