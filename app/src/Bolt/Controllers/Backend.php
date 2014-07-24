@@ -1142,19 +1142,28 @@ class Backend implements ControllerProviderInterface
     {
         $files = array();
         $folders = array();
-
-        $basefolder = $app['resources']->getPath($namespace);
-        $path = stripTrailingSlash(str_replace("..", "", $path));
-        $currentfolder = realpath($basefolder ."/". $path);
         
         $filesystem = $app['filesystem']->getManager($namespace);
+        $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
+
         
-        if (! $app['filepermissions']->authorized($currentfolder)) {
+        if (! $app['filepermissions']->authorized($fullPath)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
         }
+        
+        try {
+           $list = $filesystem->listContents($path);
+           $validFolder = true;
+        } catch (\Exception $e) {
+            $list = array();
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
+            $formview = false;
+            $validFolder = false;
 
-        if ($filesystem->has($currentfolder)) {
+        }
+
+        if($validFolder) {
 
             // Define the "Upload here" form.
             $form = $app['form.factory']
@@ -1217,32 +1226,9 @@ class Backend implements ControllerProviderInterface
 
             $formview = $form->createView();
 
-        } else {
-            // Folder not writable, don't show an upload.
-            $formview = false;
         }
-
-
+        
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
-
-        // Get the pathsegments, so we can show the path..
-        $pathsegments = array();
-        $cumulative = "";
-        if (!empty($path)) {
-            foreach (explode("/", $path) as $segment) {
-                $cumulative .= $segment . "/";
-                $pathsegments[$cumulative] = $segment;
-            }
-        }
-        
-        try {
-           $list = $filesystem->listContents($path); 
-        } catch (\Exception $e) {
-            $list = array();
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
-        }
-        
-
 
         foreach($list as $entry) {
 
@@ -1296,15 +1282,9 @@ class Backend implements ControllerProviderInterface
                 if(is_readable($fullfilename)) {
                     $folders[$entry['path']]['writable'] = true;
                 }
-            }
-                
-                
-                
+            }                  
 
         }
-
-            
-
         
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
 
@@ -1318,6 +1298,16 @@ class Backend implements ControllerProviderInterface
             $twig = 'files.twig';
         } else {
             $twig = 'files_ck.twig';
+        }
+        
+        // Get the pathsegments, so we can show the path as breadcrumb navigation..
+        $pathsegments = array();
+        $cumulative = "";
+        if (!empty($path)) {
+            foreach (explode("/", $path) as $segment) {
+                $cumulative .= $segment . "/";
+                $pathsegments[$cumulative] = $segment;
+            }
         }
 
         return $app['render']->render($twig, array(
