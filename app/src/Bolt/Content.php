@@ -36,7 +36,7 @@ class Content implements \ArrayAccess
                     // add support for taxonomy default value when options is set
                     $default_value = $this->app['config']->get('taxonomy/'.$taxonomytype.'/default');
                     $options = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options');
-                    if (     isset( $options ) &&
+                    if (isset($options) &&
                             isset($default_value) &&
                             array_search($default_value, array_keys($options)) !== false ) {
                             $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
@@ -655,7 +655,8 @@ class Content implements \ArrayAccess
 
     }
 
-    public function getTemplateContext() {
+    public function getTemplateContext()
+    {
         return array(
             'record' => $this,
             $this->contenttype['singular_slug'] => $this // Make sure we can also access it as {{ page.title }} for pages, etc.
@@ -802,7 +803,7 @@ class Content implements \ArrayAccess
 
         list($binding, $route) = $this->getRoute();
 
-        if(!$route) {
+        if (!$route) {
             return null;
         }
 
@@ -827,8 +828,8 @@ class Content implements \ArrayAccess
     protected function getRouteRequirementParams(array $route)
     {
         $params = array();
-        foreach($route['requirements'] ?: array() as $fieldName => $requirement) {
-            if('\d{4}-\d{2}-\d{2}' === $requirement) {
+        foreach ($route['requirements'] ?: array() as $fieldName => $requirement) {
+            if ('\d{4}-\d{2}-\d{2}' === $requirement) {
                 // Special case, if we need to have a date
                 $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
             } elseif (isset($this->taxonomy[$fieldName])) {
@@ -995,8 +996,7 @@ class Content implements \ArrayAccess
     {
         if (isset($this->contenttype['fields'][$key])) {
             return $this->contenttype['fields'][$key];
-        }
-        else {
+        } else {
             return array('type' => '');
         }
     }
@@ -1006,7 +1006,8 @@ class Content implements \ArrayAccess
      * @param $key
      * @return string
      */
-    public function fieldtype($key) {
+    public function fieldtype($key)
+    {
         $field = $this->fieldinfo($key);
         return $field['type'];
     }
@@ -1033,7 +1034,7 @@ class Content implements \ArrayAccess
         }
 
         $excerpt = str_replace(">", "> ", implode(" ", $excerpt));
-        $excerpt = trimText(strip_tags($excerpt), $length) ;
+        $excerpt = trimText(strip_tags($excerpt), $length);
 
         return new \Twig_Markup($excerpt, 'UTF-8');
 

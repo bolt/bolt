@@ -4,7 +4,7 @@ namespace Bolt;
 
 /**
  * Use to check if an access to a file is allowed.
- * 
+ *
  * @author Benjamin Georgeault <benjamin@wedgesama.fr>
  */
 class FilePermissions
@@ -51,7 +51,7 @@ class FilePermissions
 
     /**
      * Check if you can do something with the given file or directory.
-     * 
+     *
      * @param $filename
      * @return boolean
      */
@@ -84,7 +84,8 @@ class FilePermissions
     /**
      * Checks if a given file is acceptable for upload.
      */
-    public function allowedUpload($originalFilename) {
+    public function allowedUpload($originalFilename)
+    {
         // no UNIX-hidden files
         if ($originalFilename[0] === '.') {
             return false;
@@ -95,8 +96,8 @@ class FilePermissions
         return (in_array($extension, $allowedExtensions));
     }
 
-    public function getAllowedUploadExtensions() {
+    public function getAllowedUploadExtensions()
+    {
         return $this->app['config']->get('general/accept_file_types');
     }
-    
 }

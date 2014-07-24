@@ -117,8 +117,7 @@ class TwigExtension extends \Twig_Extension
     {
         if ($this->safe) {
             return false; // pretend we don't know anything about any files
-        }
-        else {
+        } else {
             return file_exists($fn);
         }
     }
@@ -134,11 +133,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function printDump($var)
     {
-        if ($this->safe) { return '?'; }
+        if ($this->safe) {
+            return '?';
+        }
         if ($this->app['config']->get('general/debug')) {
             return \Dumper::dump($var, DUMPER_CAPTURE);
-        }
-        else {
+        } else {
             return '';
         }
     }
@@ -153,11 +153,12 @@ class TwigExtension extends \Twig_Extension
      */
     public function printBacktrace($depth = 15)
     {
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
         if ($this->app['config']->get('general/debug')) {
             return \Dumper::backtrace($depth, true);
-        }
-        else {
+        } else {
             return '';
         }
     }
@@ -288,7 +289,9 @@ class TwigExtension extends \Twig_Extension
     {
         // There is absolutely no way anyone could possibly need this in a
         // "safe" context
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         if (preg_match("/ ([a-z0-9_-]+\.yml)/i", $str, $matches)) {
             $path = path('fileedit', array('file' => "app/config/" . $matches[1]));
@@ -313,7 +316,9 @@ class TwigExtension extends \Twig_Extension
     {
         // This function is vulnerable to path traversal, so blocking it in
         // safe mode for now.
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $fullpath = sprintf("%s/%s", $this->app['paths']['filespath'], $filename);
 
@@ -494,7 +499,7 @@ class TwigExtension extends \Twig_Extension
         // Check the primary sorting criterium..
         if ($a_val < $b_val) {
             return !$this->order_ascending;
-        } else if ($a_val > $b_val) {
+        } elseif ($a_val > $b_val) {
             return $this->order_ascending;
         } else {
             // Primary criterium is the same. Use the secondary criterium, if it is set. Otherwise return 0.
@@ -507,7 +512,7 @@ class TwigExtension extends \Twig_Extension
 
             if ($a_val < $b_val) {
                 return !$this->order_ascending_secondary;
-            } else if ($a_val > $b_val) {
+            } elseif ($a_val > $b_val) {
                 return $this->order_ascending_secondary;
             } else {
                 // both criteria are the same. Whatever!
@@ -644,7 +649,9 @@ class TwigExtension extends \Twig_Extension
     public function listtemplates($filter = "")
     {
         // No need to list templates in safe mode.
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $files = array();
 
@@ -838,7 +845,9 @@ class TwigExtension extends \Twig_Extension
     public function request($parameter, $from = "", $stripslashes = false)
     {
         // Don't expose request in safe context
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $from = strtoupper($from);
 
@@ -927,14 +936,15 @@ class TwigExtension extends \Twig_Extension
             $filename = $filename['file'];
         }
 
-        $path = sprintf('%sthumbs/%sx%s%s/%s',
+        $path = sprintf(
+            '%sthumbs/%sx%s%s/%s',
             $this->app['paths']['root'],
             round($width),
             round($height),
             $scale,
             safeFilename($filename)
         );
-        
+
         return $path;
     }
 
@@ -1003,7 +1013,11 @@ class TwigExtension extends \Twig_Extension
 
             $output = sprintf(
                 '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s"></a>',
-                $large, $title, $thumbnail, $width, $height
+                $large,
+                $title,
+                $thumbnail,
+                $width,
+                $height
             );
 
         } else {
@@ -1057,7 +1071,9 @@ class TwigExtension extends \Twig_Extension
     public function editable($html, $content, $field)
     {
         // Editing content from within content? NOPE NOPE NOPE...
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $contenttype = $content->contenttype['slug'];
 
@@ -1100,7 +1116,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array())
     {
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         $menus = $this->app['config']->get('menu');
 
@@ -1329,7 +1347,9 @@ class TwigExtension extends \Twig_Extension
     public function redirect($path)
     {
         // Nope! We're not allowing user-supplied content to issue redirects.
-        if ($this->safe) { return null; }
+        if ($this->safe) {
+            return null;
+        }
 
         simpleredirect($path);
 
@@ -1382,21 +1402,19 @@ class TwigExtension extends \Twig_Extension
     public function selectfield($content, $fieldname)
     {
         $retval = array('');
-        foreach($content as $c) {
+        foreach ($content as $c) {
             if (is_array($fieldname)) {
                 $row = array();
                 foreach ($fieldname as $fn) {
-                    if(isset($c->values[$fn])) {
+                    if (isset($c->values[$fn])) {
                         $row[] = $c->values[$fn];
-                    }
-                    else {
+                    } else {
                         $row[] = null;
                     }
                 }
                 $retval[] = $row;
-            }
-            else {
-                if(isset($c->values[$fieldname])) {
+            } else {
+                if (isset($c->values[$fieldname])) {
                     $retval[] = $c->values[$fieldname];
                 }
             }
