@@ -1238,7 +1238,8 @@ class Backend implements ControllerProviderInterface
         try {
            $list = $filesystem->listContents($path); 
         } catch (\Exception $e) {
-           $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
+            $list = array();
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
         }
         
 
