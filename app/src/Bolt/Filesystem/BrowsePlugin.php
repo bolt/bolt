@@ -37,7 +37,7 @@ class BrowsePlugin implements PluginInterface
                 continue;
             }
 
-            $fullfilename = $filesystem->getAdapter()->applyPathPrefix($entry['path']);
+            $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);
 
 
             if (! $app['filepermissions']->authorized($fullfilename) ) {
@@ -55,7 +55,7 @@ class BrowsePlugin implements PluginInterface
                     'type' => $entry['extension'],
                     'filesize' => formatFilesize($entry['size']),
                     'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
-                    'permissions' => $filesystem->getVisibility($entry['path'])
+                    'permissions' => $this->filesystem->getVisibility($entry['path'])
                 );
                 
                 /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
