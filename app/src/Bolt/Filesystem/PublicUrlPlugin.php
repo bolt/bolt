@@ -11,6 +11,11 @@ class PublicUrlPlugin implements PluginInterface
 {
     
     public $filesystem;
+    
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
  
     public function getMethod()
@@ -25,7 +30,7 @@ class PublicUrlPlugin implements PluginInterface
     }
     
     
-    public function handle(Application $app, $path)
+    public function handle($path)
     {
         
         var_dump(get_class($this->filesystem->adapter)); exit;
