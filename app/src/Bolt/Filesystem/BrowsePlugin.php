@@ -79,12 +79,15 @@ class BrowsePlugin implements PluginInterface
                     'path' => $entry['dirname'],
                     'foldername' => $entry['basename'],
                     'newpath' => $entry['path'],
-                    'modified' => date("Y/m/d H:i:s", $entry['timestamp'])
+                    'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
+                    'writable' => true
                 );
                 
                 /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
                 if(is_readable($fullfilename)) {
-                    $folders[$entry['path']]['writable'] = true;
+                    if(!is_writable($fullfilename)) {
+                        $folders[$entry['path']]['writable'] = false;
+                    }
                 }
             }                  
 
