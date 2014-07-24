@@ -33,7 +33,8 @@ class Manager
             $manager = $this->managers['default'];
         }
         
-        $manager->addPlugin(new FilesystemSearch);
+        $manager->addPlugin(new SearchPlugin);
+        $manager->addPlugin(new BrowsePlugin);
         return $manager;
     }
     
