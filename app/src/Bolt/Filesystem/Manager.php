@@ -19,10 +19,22 @@ class Manager
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->managers['default'] = new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) );
-        //$this->managers['default']->addPlugin(new PublicUrlPlugin('files'));
-        
+        $this->managers['default'] = new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) );        
         $this->managers['config'] = new Filesystem( new FilesystemAdapter($app['resources']->getPath('config')) );
+        $this->initManagers();
+    }
+    
+    public function initManagers()
+    {
+        foreach($this->managers as $namespace=>$manager) {
+            $manager->addPlugin(new SearchPlugin);
+            $manager->addPlugin(new BrowsePlugin);
+            if($namespace == 'default') {
+                $manager->addPlugin(new PublicUrlPlugin('files'));
+            } else {
+                $manager->addPlugin(new PublicUrlPlugin($namespace));
+            }
+        }
     }
     
     
@@ -34,8 +46,6 @@ class Manager
             $manager = $this->managers['default'];
         }
         
-        $manager->addPlugin(new SearchPlugin);
-        $manager->addPlugin(new BrowsePlugin);
         return $manager;
     }
     
