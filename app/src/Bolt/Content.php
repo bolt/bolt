@@ -655,7 +655,8 @@ class Content implements \ArrayAccess
 
     }
 
-    public function getTemplateContext() {
+    public function getTemplateContext()
+    {
         return array(
             'record' => $this,
             $this->contenttype['singular_slug'] => $this // Make sure we can also access it as {{ page.title }} for pages, etc.
@@ -1005,7 +1006,8 @@ class Content implements \ArrayAccess
      * @param $key
      * @return string
      */
-    public function fieldtype($key) {
+    public function fieldtype($key)
+    {
         $field = $this->fieldinfo($key);
         return $field['type'];
     }

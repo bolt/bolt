@@ -6,12 +6,16 @@ use \Exception;
 /**
  * Signals an error in the lexer.
  */
-class PermissionLexerException extends Exception {}
+class PermissionLexerException extends Exception
+{
+}
 
 /**
  * Signals an error in the parser.
  */
-class PermissionParserException extends Exception {}
+class PermissionParserException extends Exception
+{
+}
 
 /**
  * Lexer and parser for permission query syntax.
@@ -34,7 +38,8 @@ class PermissionParserException extends Exception {}
  *            concatenating the 'match' values for all the output tokens should
  *            yield back the original input.
  */
-class PermissionParser {
+class PermissionParser
+{
     // Token types:
     /**
      * Dummy type to signal lexer errors.
@@ -84,18 +89,29 @@ class PermissionParser {
     /**
      * Get the symbolic name of a lexer token type.
      */
-    public static function tokenName($tokenType) {
+    public static function tokenName($tokenType)
+    {
         switch ($tokenType) {
-            case self::T_UNDEFINED: return 'T_UNDEFINED';
-            case self::T_OPEN_PARENS: return 'T_OPEN_PARENS';
-            case self::T_CLOSE_PARENS: return 'T_CLOSE_PARENS';
-            case self::T_OR: return 'T_OR';
-            case self::T_AND: return 'T_AND';
-            case self::T_QUERY: return 'T_QUERY';
-            case self::T_SPACE: return 'T_SPACE';
-            case self::T_TRUE: return 'T_TRUE';
-            case self::T_FALSE: return 'T_FALSE';
-            default: return '"' . (string)$tokenType . '"';
+            case self::T_UNDEFINED:
+                return 'T_UNDEFINED';
+            case self::T_OPEN_PARENS:
+                return 'T_OPEN_PARENS';
+            case self::T_CLOSE_PARENS:
+                return 'T_CLOSE_PARENS';
+            case self::T_OR:
+                return 'T_OR';
+            case self::T_AND:
+                return 'T_AND';
+            case self::T_QUERY:
+                return 'T_QUERY';
+            case self::T_SPACE:
+                return 'T_SPACE';
+            case self::T_TRUE:
+                return 'T_TRUE';
+            case self::T_FALSE:
+                return 'T_FALSE';
+            default:
+                return '"' . (string)$tokenType . '"';
         }
     }
 
@@ -133,14 +149,16 @@ class PermissionParser {
      * @return array A parse tree.
      * @throw Exception Parser or lexer errors are thrown as
      */
-    public static function run($what) {
+    public static function run($what)
+    {
         return self::parse(self::lex($what));
     }
 
     /**
      * Lexes the given $query into lexer tokens.
      */
-    public static function lex($query) {
+    public static function lex($query)
+    {
         $originalQuery = $query;
 
         // A branch is defined as a regular expression to match, mapped onto
@@ -222,7 +240,8 @@ class PermissionParser {
      * @param array $token A lexer token, associative array.
      * @throw PermissionParserException
      */
-    private static function expect($expected, $token) {
+    private static function expect($expected, $token)
+    {
         if (!in_array($token['type'], $expected)) {
             if (count($expected) === 1) {
                 $expectedStr = self::tokenName($expected[0]);
@@ -247,7 +266,8 @@ class PermissionParser {
      * @return array A nested associative array representing the resulting
      *               parse tree.
      */
-    public static function parse($tokens) {
+    public static function parse($tokens)
+    {
         if (empty($tokens)) {
             return array('type' => self::P_TRUE, 'value' => '');
         } else {
@@ -255,7 +275,8 @@ class PermissionParser {
         }
     }
 
-    private static function parseAnd(&$tokens) {
+    private static function parseAnd(&$tokens)
+    {
         $parts = array(self::parseOr($tokens));
         while (!empty($tokens)) {
             $nextToken = reset($tokens);
@@ -275,7 +296,8 @@ class PermissionParser {
         }
     }
 
-    private static function parseOr(&$tokens) {
+    private static function parseOr(&$tokens)
+    {
         $parts = array(self::parseSimple($tokens));
         while (!empty($tokens)) {
             $nextToken = reset($tokens);
@@ -295,7 +317,8 @@ class PermissionParser {
         }
     }
 
-    private static function parseSimple(&$tokens) {
+    private static function parseSimple(&$tokens)
+    {
         $token = array_shift($tokens);
         switch ($token['type']) {
             case self::T_OPEN_PARENS:
@@ -309,5 +332,4 @@ class PermissionParser {
                 self::expect(array(self::T_OPEN_PARENS, self::T_QUERY), $token);
         }
     }
-
 }

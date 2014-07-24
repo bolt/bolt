@@ -267,9 +267,4 @@ class ResourceManager
         }
         return $this->verifier;
     }
-
-
-
-
-
 }

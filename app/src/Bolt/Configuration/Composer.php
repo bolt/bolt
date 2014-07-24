@@ -51,7 +51,4 @@ class Composer extends Standard
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("composer"), $theme_path, $theme));
         $this->setUrl("theme", sprintf('%s/%s/', $theme_url, $theme));
     }
-
-
-
 }

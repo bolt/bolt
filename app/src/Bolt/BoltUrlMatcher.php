@@ -51,12 +51,18 @@ class BoltUrlMatcher implements UrlMatcherInterface
     /**
      * @see Symfony\Component\Routing\RequestContextAwareInterface::setContext()
      */
-    public function setContext(RequestContext $context) { $this->wrapped->setContext($context); }
+    public function setContext(RequestContext $context)
+    {
+        $this->wrapped->setContext($context);
+    }
 
     /**
      * @see Symfony\Component\Routing\RequestContextAwareInterface::getContext()
      */
-    public function getContext() { return $this->wrapped->getContext(); }
+    public function getContext()
+    {
+        return $this->wrapped->getContext();
+    }
 
     protected function redirect($path)
     {
@@ -68,7 +74,9 @@ class BoltUrlMatcher implements UrlMatcherInterface
         }
 
         return array(
-            '_controller' => function ($url) { return new RedirectResponse($url, 301); },
+            '_controller' => function ($url) {
+                return new RedirectResponse($url, 301);
+            },
             '_route'      => null,
             'url'         => $url,
         );

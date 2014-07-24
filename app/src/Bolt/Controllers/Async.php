@@ -695,6 +695,4 @@ class Async implements ControllerProviderInterface
         $app['stopwatch']->stop('bolt.async.before');
 
     }
-
-
 }

@@ -18,7 +18,8 @@ class Frontend
      * Perform contenttype-based permission check, aborting with a 403
      * Forbidden as appropriate.
      */
-    private static function checkFrontendPermission(Silex\Application $app, $content) {
+    private static function checkFrontendPermission(Silex\Application $app, $content)
+    {
         if ($app['config']->get('general/frontend_permission_checks')) {
             if ($content instanceof \Bolt\Content) {
                 $contenttypeslug = $content->contenttype['slug'];
@@ -399,7 +400,8 @@ class Frontend
      * Renders the specified template from the current theme in response to a request without
      * loading any content.
      */
-    public static function template(Silex\Application $app, $template) {
+    public static function template(Silex\Application $app, $template)
+    {
         // Add the template extension if it is missing
         if (!preg_match('/\\.twig$/i', $template)) {
             $template .= '.twig';
@@ -415,5 +417,4 @@ class Frontend
 
         return $app['render']->render(substr($templatePath, strlen($themePath)));
     }
-
 }

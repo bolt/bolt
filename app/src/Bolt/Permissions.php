@@ -334,7 +334,8 @@ class Permissions
         return $isAllowed;
     }
 
-    private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid) {
+    private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid)
+    {
         switch ($rule['type']) {
             case PermissionParser::P_TRUE:
                 return true;
@@ -361,7 +362,8 @@ class Permissions
         }
     }
 
-    private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null) {
+    private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null)
+    {
         if ($contenttype) {
             $parts = array(
                         'contenttype',

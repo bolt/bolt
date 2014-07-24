@@ -1461,7 +1461,8 @@ function gatherTranslatableStrings($locale = null, $translated = array())
  * Leniently decode a serialized compound data structure, detecting whether
  * it's dealing with JSON-encoded data or a PHP-serialized string.
  */
-function smart_unserialize($str, $assoc = true) {
+function smart_unserialize($str, $assoc = true)
+{
     if ($str[0] === '{' || $str[0] === '[') {
         $data = json_decode($str, $assoc);
         if ($data !== false) {

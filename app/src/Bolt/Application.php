@@ -238,7 +238,8 @@ class Application extends Silex\Application
         // @todo: make a provider for the Integrity checker and Random generator..
     }
 
-    public function initExtensions() {
+    public function initExtensions()
+    {
         $this['extensions']->initialize();
     }
 
