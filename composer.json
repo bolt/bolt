@@ -16,7 +16,7 @@
         "hautelook/phpass": "dev-master",
         "ircmaxell/random-lib": "dev-master",
         "jbroadway/urlify": "1.0.0-stable",
-        "league/flysystem": "~0.5",
+        "league/flysystem": "0.4.*",
         "php": ">=5.3.3",
         "rossriley/upload": "~1.2",
         "silex/silex": "1.*",
