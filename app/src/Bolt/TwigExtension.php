@@ -936,7 +936,8 @@ class TwigExtension extends \Twig_Extension
             $filename = $filename['file'];
         }
 
-        $path = sprintf('%sthumbs/%sx%s%s/%s',
+        $path = sprintf(
+            '%sthumbs/%sx%s%s/%s',
             $this->app['paths']['root'],
             round($width),
             round($height),
@@ -1012,7 +1013,11 @@ class TwigExtension extends \Twig_Extension
 
             $output = sprintf(
                 '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s"></a>',
-                $large, $title, $thumbnail, $width, $height
+                $large,
+                $title,
+                $thumbnail,
+                $width,
+                $height
             );
 
         } else {

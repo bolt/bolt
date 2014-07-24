@@ -452,9 +452,7 @@ class Backend implements ControllerProviderInterface
         // @todo Do we need pager here?
         //$app['pager'] = $pager; // $pager is not defined, so no
 
-        $title = sprintf("<strong>%s</strong> » %s",
-                    __('Overview'),
-                    htmlencode($contenttype['name']));
+        $title = sprintf("<strong>%s</strong> » %s", __('Overview'), htmlencode($contenttype['name']));
         $app['twig']->addGlobal('title', $title);
 
         return $app['render']->render(
@@ -724,9 +722,11 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $title = sprintf("<strong>%s</strong> » %s",
+            $title = sprintf(
+                "<strong>%s</strong> » %s",
                 __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])),
-                htmlencode($content->getTitle()));
+                htmlencode($content->getTitle())
+            );
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             // Check if we're allowed to create content..
@@ -1199,9 +1199,11 @@ class Backend implements ControllerProviderInterface
                                 $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
                             }
                             $extensionList = implode(' ', $extensionList);
-                            $app['session']->getFlashBag()->set('error',
+                            $app['session']->getFlashBag()->set(
+                                'error',
                                 __("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following: ", array('%file%' => $filename))
-                                . $extensionList);
+                                . $extensionList
+                            );
                         }
 
                     }

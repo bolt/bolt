@@ -16,8 +16,7 @@ class CronRunner extends BaseCommand
             ->setName('cron')
             ->setDescription('Cron virtual daemon')
             ->addOption('single', null, InputOption::VALUE_NONE, 'If set, tell Bolt cron to run a single task')
-            ->addArgument('name', InputArgument::OPTIONAL, 'Name of task to run'
-            );
+            ->addArgument('name', InputArgument::OPTIONAL, 'Name of task to run');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

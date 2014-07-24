@@ -331,9 +331,10 @@ class IntegrityChecker
         $schema = new Schema();
 
         return array_merge(
-                $this->getBoltTablesSchema($schema),
-                $this->getContentTypeTablesSchema($schema),
-                $this->getExtensionTablesSchema($schema));
+            $this->getBoltTablesSchema($schema),
+            $this->getContentTypeTablesSchema($schema),
+            $this->getExtensionTablesSchema($schema)
+        );
     }
 
     /**

@@ -234,8 +234,10 @@ class Storage
 
         $this->saveContent($contentobject);
 
-        $output = __("Added to <tt>%key%</tt> '%title%'",
-                array('%key%' => $key, '%title%' => $contentobject->getTitle())) . "<br>\n";
+        $output = __(
+            "Added to <tt>%key%</tt> '%title%'",
+            array('%key%' => $key, '%title%' => $contentobject->getTitle())
+        ) . "<br>\n";
 
         return $output;
 
@@ -381,9 +383,7 @@ class Storage
         }
         if (isset($options['limit'])) {
             if (isset($options['offset'])) {
-                $sql .= sprintf(" LIMIT %s, %s ",
-                            intval($options['offset']),
-                            intval($options['limit']));
+                $sql .= sprintf(" LIMIT %s, %s ", intval($options['offset']), intval($options['limit']));
             } else {
                 $sql .= " LIMIT " . intval($options['limit']);
             }
@@ -1707,7 +1707,8 @@ class Storage
                         $filter_where = array();
                         foreach ($contenttype['fields'] as $name => $fieldconfig) {
                             if (in_array($fieldconfig['type'], array('text', 'textarea', 'html', 'markdown'))) {
-                                $filter_where[] = sprintf('%s.%s LIKE %s',
+                                $filter_where[] = sprintf(
+                                    '%s.%s LIKE %s',
                                     $tablename,
                                     $name,
                                     $this->app['db']->quote('%' . $value . '%')
@@ -1760,7 +1761,8 @@ class Storage
                         }
 
                         // Set the extra '$where', with subselect for taxonomies..
-                        $where[] = sprintf('%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
+                        $where[] = sprintf(
+                            '%s %s IN (SELECT content_id AS id FROM %s where %s AND ( %s OR %s ) AND %s)',
                             $this->app['db']->quoteIdentifier('id'),
                             $notin,
                             $this->getTablename('taxonomy'),
@@ -1888,7 +1890,8 @@ class Storage
         $total_results = false;
         $results = false;
         foreach ($decoded['queries'] as $query) {
-            $statement = sprintf('SELECT %s.* %s %s %s',
+            $statement = sprintf(
+                'SELECT %s.* %s %s %s',
                 $query['tablename'],
                 $query['from'],
                 $query['where'],
@@ -1898,7 +1901,8 @@ class Storage
             if ($decoded['self_paginated'] === true) {
                 // self pagination requires an extra query to return the actual number of results
                 if ($decoded['return_single'] === false) {
-                    $count_statement = sprintf('SELECT COUNT(*) as count %s %s',
+                    $count_statement = sprintf(
+                        'SELECT COUNT(*) as count %s %s',
                         $query['from'],
                         $query['where']
                     );
@@ -1981,7 +1985,8 @@ class Storage
         // Run the actual queries
         list($results, $total_results) = call_user_func(
             $decoded['queries_callback'],
-            $decoded, $parameters
+            $decoded,
+            $parameters
         );
 
         // Perform post hydration ordering

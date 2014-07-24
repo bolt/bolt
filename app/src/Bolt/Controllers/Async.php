@@ -592,9 +592,7 @@ class Async implements ControllerProviderInterface
         $fileSystemHelper = new Filesystem;
 
         try {
-            $fileSystemHelper->rename($oldPath,
-                                      $newPath,
-                                      false /* Don't rename if target exists already! */);
+            $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
         } catch(IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */

@@ -412,8 +412,10 @@ class Application extends Silex\Application
                 // Perhaps add a canonical link..
 
                 if ($this['config']->get('general/canonical')) {
-                    $snippet = sprintf('<link rel="canonical" href="%s">',
-                        htmlspecialchars($this['paths']['canonicalurl'], ENT_QUOTES));
+                    $snippet = sprintf(
+                        '<link rel="canonical" href="%s">',
+                        htmlspecialchars($this['paths']['canonicalurl'], ENT_QUOTES)
+                    );
                     $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
                 }
 

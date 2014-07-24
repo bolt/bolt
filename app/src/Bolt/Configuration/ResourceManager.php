@@ -162,24 +162,11 @@ class ResourceManager
         $this->setRequest("protocol", $protocol);
         $this->setRequest("hostname", $request->server->get('HTTP_HOST'));
         $this->setUrl("current", $request->getPathInfo());
-        $this->setUrl("canonicalurl", sprintf('%s://%s%s',
-                                            $this->getRequest("protocol"),
-                                            $this->getRequest('canonical'),
-                                            $this->getUrl('current')
-                                        ));
-        $this->setUrl("currenturl", sprintf('%s://%s%s',
-                                            $this->getRequest("protocol"),
-                                            $this->getRequest('hostname'),
-                                            $this->getUrl('current')
-                                        ));
+        $this->setUrl("canonicalurl", sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('canonical'), $this->getUrl('current')));
+        $this->setUrl("currenturl", sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('hostname'), $this->getUrl('current')));
         $this->setUrl("hosturl", sprintf('%s://%s', $this->getRequest("protocol"), $this->getRequest('hostname')));
-        $this->setUrl("rooturl", sprintf('%s://%s%s',
-                                            $this->getRequest("protocol"),
-                                            $this->getRequest('canonical'),
-                                            $this->getUrl("root")
-                                        ));
+        $this->setUrl("rooturl", sprintf('%s://%s%s', $this->getRequest("protocol"), $this->getRequest('canonical'), $this->getUrl("root")));
     }
-
 
     /**
      * Takes a Bolt Application and uses it to initialize settings that depend on the application config
