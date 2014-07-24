@@ -27,13 +27,18 @@ class Manager
     public function initManagers()
     {
         foreach($this->managers as $namespace=>$manager) {
-            $manager->addPlugin(new SearchPlugin);
-            $manager->addPlugin(new BrowsePlugin);
-            if($namespace == 'default') {
-                $manager->addPlugin(new PublicUrlPlugin('files'));
-            } else {
-                $manager->addPlugin(new PublicUrlPlugin($namespace));
-            }
+            $this->initManager($namespace, $manager);
+        }
+    }
+    
+    public function initManager($namespace, $manager)
+    {
+        $manager->addPlugin(new SearchPlugin);
+        $manager->addPlugin(new BrowsePlugin);
+        if($namespace == 'default') {
+            $manager->addPlugin(new PublicUrlPlugin('files'));
+        } else {
+            $manager->addPlugin(new PublicUrlPlugin($namespace));
         }
     }
     
@@ -52,6 +57,7 @@ class Manager
     public function setManager($namespace, $manager)
     {
         $this->managers[$namespace] = $manager;
+        $this->initManager($namespace, $manager);
     }
     
     
