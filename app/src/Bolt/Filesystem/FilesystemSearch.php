@@ -23,15 +23,18 @@ class FilesystemSearch implements PluginInterface
     }
     
     
-    public function handle($term, $extensions = array())
+    public function handle($term, $extensions = 'jpg,jpeg,gif,png')
     {
         $allFiles = $this->filesystem->listContents('', true);
         $files = array();
         foreach($allFiles as $file) {
-           if(strpos($file['path'], $term) !== false) {
-            $files[] = $file['path'];
-           } 
+            if(strpos($file['path'], $term) !== false) {
+                if(in_array($file['extension'], $extensions)) {
+                    $files[] = $file['path'];
+                }
+            } 
         }
+        return $files;
     }
     
 }

@@ -176,12 +176,7 @@ class Async implements ControllerProviderInterface
         $filesystem = $app['filesystem']->getManager('files');
 
         $extensions = $request->query->get('ext');
-        if (empty($extensions)) {
-            $extensions = 'jpg,jpeg,gif,png';
-        }
-
         $files = $filesystem->search($term, $extensions);
-
 
         $app['debug'] = false;
 
