@@ -57,11 +57,16 @@ class BrowsePlugin implements PluginInterface
                     'type' => $entry['extension'],
                     'filesize' => formatFilesize($entry['size']),
                     'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
-                    'permissions' => $this->filesystem->getVisibility($entry['path']),
+                    'permissions' => 'public',
                     'url' => $this->filesystem->url($app, $entry['path'])
                 );
                 
                 /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
+                try {
+                   $files[$entry['path']] = $this->filesystem->getVisibility($entry['path']);
+                } catch (\Exception $e) {
+                    
+                }
                 if(is_readable($fullfilename)) {
                     if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
                         $size = getimagesize($fullfilename);
