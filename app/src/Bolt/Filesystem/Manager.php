@@ -5,28 +5,28 @@ namespace Bolt\Filesystem;
 use Silex\Application;
 use League\Flysystem\Adapter\Local as FilesystemAdapter;
 use League\Flysystem\Filesystem;
+use League\Flysystem\MountManager;
 
 /**
 * 
 */
-class Manager
+class Manager extends MountManager
 {
     
     
     public $app;
-    public $managers = array();
     
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->managers['default'] = new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) );        
-        $this->managers['config'] = new Filesystem( new FilesystemAdapter($app['resources']->getPath('config')) );
+        $this->mountFilesystem('default', new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) ));
+        $this->mountFilesystem('config', new Filesystem( new FilesystemAdapter($app['resources']->getPath('config')) ));
         $this->initManagers();
     }
     
     public function initManagers()
     {
-        foreach($this->managers as $namespace=>$manager) {
+        foreach($this->filesystems as $namespace=>$manager) {
             $this->initManager($namespace, $manager);
         }
     }
@@ -35,28 +35,23 @@ class Manager
     {
         $manager->addPlugin(new SearchPlugin);
         $manager->addPlugin(new BrowsePlugin);
-        if($namespace == 'default') {
-            $manager->addPlugin(new PublicUrlPlugin('files'));
-        } else {
-            $manager->addPlugin(new PublicUrlPlugin($namespace));
-        }
+        $manager->addPlugin(new PublicUrlPlugin);
     }
     
     
     public function getManager($namespace = null)
     {
-        if(isset($this->managers[$namespace])) {
-            $manager = $this->managers[$namespace];
+        if(isset($this->filesystems[$namespace])) {
+            return $this->getFilesystem($namespace);
         } else {
-            $manager = $this->managers['default'];
+            return $this->getFilesystem('default');
         }
         
-        return $manager;
     }
     
     public function setManager($namespace, $manager)
     {
-        $this->managers[$namespace] = $manager;
+        $this->mountFilesystem($namespace, $manager);
         $this->initManager($namespace, $manager);
     }
     

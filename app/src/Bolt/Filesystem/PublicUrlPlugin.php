@@ -11,12 +11,6 @@ class PublicUrlPlugin implements PluginInterface
 {
     
     public $filesystem;
-    public $urlName;
-    
-    public function __construct($urlName)
-    {
-        $this->urlName = $urlName;
-    }
 
  
     public function getMethod()
@@ -33,8 +27,12 @@ class PublicUrlPlugin implements PluginInterface
     
     public function handle(Application $app, $path)
     {
-        $prefix = $app['resources']->getUrl($this->urlName);
-        return $prefix.$path;
+        
+        var_dump(get_class($this->filesystem->adapter)); exit;
+        switch(get_class($this->filesystem->adapter)) {
+            
+        }
+        
     }
     
 }
