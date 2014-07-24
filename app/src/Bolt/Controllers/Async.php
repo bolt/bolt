@@ -593,7 +593,7 @@ class Async implements ControllerProviderInterface
 
         try {
             $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
-        } catch(IOException $exception) {
+        } catch (IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */
             return false;
@@ -627,7 +627,7 @@ class Async implements ControllerProviderInterface
 
         try {
             $fileSystemHelper->remove($completePath);
-        } catch(IOException $exception) {
+        } catch (IOException $exception) {
 
             return false;
         }
@@ -660,7 +660,7 @@ class Async implements ControllerProviderInterface
 
         try {
             $fileSystemHelper->mkdir($completePath);
-        } catch(IOException $exception) {
+        } catch (IOException $exception) {
 
             return false;
         }
