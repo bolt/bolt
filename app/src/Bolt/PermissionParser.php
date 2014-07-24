@@ -1,6 +1,7 @@
 <?php
 
 namespace Bolt;
+
 use \Exception;
 
 /**

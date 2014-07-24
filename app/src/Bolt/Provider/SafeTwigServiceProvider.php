@@ -20,4 +20,3 @@ class SafeTwigServiceProvider implements ServiceProviderInterface
     {
     }
 }
-

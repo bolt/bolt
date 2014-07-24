@@ -25,4 +25,3 @@ class CronServiceProvider implements ServiceProviderInterface
     {
     }
 }
-

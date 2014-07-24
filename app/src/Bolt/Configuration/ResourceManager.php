@@ -5,7 +5,6 @@ namespace Bolt\Configuration;
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-
 /**
  * A Base Class to handle resource management of paths and urls within a Bolt App.
  *

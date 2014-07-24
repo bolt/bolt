@@ -12,6 +12,4 @@ use Bolt\Application;
 
 class Standard extends ResourceManager
 {
-
-
 }
