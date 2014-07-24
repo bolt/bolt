@@ -20,6 +20,7 @@ class Manager
     {
         $this->app = $app;
         $this->managers['default'] = new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) );
+        $this->managers['default']->addPlugin(new PublicUrlPlugin('files'));
         
         $this->managers['config'] = new Filesystem( new FilesystemAdapter($app['resources']->getPath('config')) );
     }
