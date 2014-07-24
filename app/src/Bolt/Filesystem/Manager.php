@@ -28,9 +28,13 @@ class Manager
     public function getManager($namespace = null)
     {
         if(isset($this->managers[$namespace])) {
-            return $this->managers[$namespace];
+            $manager = $this->managers[$namespace];
+        } else {
+            $manager = $this->managers['default'];
         }
-        return $this->managers['default'];
+        
+        $manager->addPlugin(new FilesystemSearch);
+        return $manager;
     }
     
     public function setManager($namespace, $manager)

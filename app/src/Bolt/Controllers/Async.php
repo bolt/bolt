@@ -173,13 +173,15 @@ class Async implements ControllerProviderInterface
     public function filesautocomplete(Silex\Application $app, Request $request)
     {
         $term = $request->get('term');
+        $filesystem = $app['filesystem']->getManager('files');
 
         $extensions = $request->query->get('ext');
         if (empty($extensions)) {
             $extensions = 'jpg,jpeg,gif,png';
         }
 
-        $files = findFiles($term, $extensions);
+        $files = $filesystem->search($term, $extensions);
+
 
         $app['debug'] = false;
 
