@@ -1235,75 +1235,76 @@ class Backend implements ControllerProviderInterface
             }
         }
         
-        $list = $filesystem->listContents($path);
-        print_r($list); exit;
-        if(count($list)) {
-
-            foreach($list as $entry) {
-
-                if (in_array($entry['basename'], $ignored)) {
-                    continue;
-                }
-
-                $fullfilename = $filesystem->getAdapter()->applyPathPrefix($path) . $entry['basename'];
+        try {
+           $list = $filesystem->listContents($path); 
+        } catch (\Exception $e) {
+           $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
+        }
+        
 
 
-                if (! $app['filepermissions']->authorized($fullfilename) ) {
-                    continue;
-                }
-                
-                if($entry['type']==='file') {
+        foreach($list as $entry) {
 
-                    $files[$entry['path']] = array(
-                        'path' => $entry['dirname'],
-                        'filename' => $entry['basename'],
-                        'newpath' => $entry['path'],
-                        'writable' => true,
-                        'readable' => true,
-                        'type' => $entry['extension'],
-                        'filesize' => formatFilesize($entry['size']),
-                        'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
-                        'permissions' => $filesystem->getVisibility($entry['path'])
-                    );
-                    
-                    /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
-                    if(is_readable($fullfilename)) {
-                        if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
-                            $size = getimagesize($fullfilename);
-                            $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
-                        }
-                        
-                        $files[$entry['path']]['permissions'] = \utilphp\util::full_permissions($fullfilename);
-                    }
-
-                    
-                }
-
-                if($entry['type']=='dir') {
-                    $folders[$entry['path']] = array(
-                        'path' => $entry['dirname'],
-                        'foldername' => $entry['basename'],
-                        'newpath' => $entry['path'],
-                        'modified' => date("Y/m/d H:i:s", $entry['timestamp'])
-                    );
-                    
-                    /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
-                    if(is_readable($fullfilename)) {
-                        $folders[$entry['path']]['writable'] = true;
-                    }
-                }
-                
-                
-                
-
+            if (in_array($entry['basename'], $ignored)) {
+                continue;
             }
+
+            $fullfilename = $filesystem->getAdapter()->applyPathPrefix($path) . $entry['basename'];
+
+
+            if (! $app['filepermissions']->authorized($fullfilename) ) {
+                continue;
+            }
+                
+            if($entry['type']==='file') {
+
+                $files[$entry['path']] = array(
+                    'path' => $entry['dirname'],
+                    'filename' => $entry['basename'],
+                    'newpath' => $entry['path'],
+                    'writable' => true,
+                    'readable' => true,
+                    'type' => $entry['extension'],
+                    'filesize' => formatFilesize($entry['size']),
+                    'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
+                    'permissions' => $filesystem->getVisibility($entry['path'])
+                );
+                
+                /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
+                if(is_readable($fullfilename)) {
+                    if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
+                        $size = getimagesize($fullfilename);
+                        $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
+                    }
+                    
+                    $files[$entry['path']]['permissions'] = \utilphp\util::full_permissions($fullfilename);
+                }
+
+                
+            }
+
+            if($entry['type']=='dir') {
+                $folders[$entry['path']] = array(
+                    'path' => $entry['dirname'],
+                    'foldername' => $entry['basename'],
+                    'newpath' => $entry['path'],
+                    'modified' => date("Y/m/d H:i:s", $entry['timestamp'])
+                );
+                
+                /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
+                if(is_readable($fullfilename)) {
+                    $folders[$entry['path']]['writable'] = true;
+                }
+            }
+                
+                
+                
+
+        }
 
             
 
-        } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
-        }
-
+        
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
 
         // Make sure the files and folders are sorted properly.
