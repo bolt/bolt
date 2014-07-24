@@ -1142,7 +1142,7 @@ class Backend implements ControllerProviderInterface
     {
         
         $filesystem = $app['filesystem']->getManager($namespace);
-        $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
+        $fullPath = $filesystem->getAdapter()->prefix($path);
 
         
         if (! $app['filepermissions']->authorized($fullPath)) {
