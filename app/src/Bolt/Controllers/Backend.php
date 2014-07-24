@@ -1250,7 +1250,7 @@ class Backend implements ControllerProviderInterface
                 continue;
             }
 
-            $fullfilename = $filesystem->getAdapter()->applyPathPrefix($path) . $entry['basename'];
+            $fullfilename = $filesystem->getAdapter()->applyPathPrefix($entry['path']);
 
 
             if (! $app['filepermissions']->authorized($fullfilename) ) {
