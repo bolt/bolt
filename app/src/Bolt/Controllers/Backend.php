@@ -127,7 +127,7 @@ class Backend implements ControllerProviderInterface
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
             ->value('namespace', 'files')
-            ->value('path', null)
+            ->value('path', '')
             ->bind('files');
 
         $ctl->get("/activitylog", array($this, 'activitylog'))
