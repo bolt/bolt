@@ -23,7 +23,7 @@ class FilesystemSearch implements PluginInterface
     }
     
     
-    public function search($term, $extensions = array())
+    public function handle($term, $extensions = array())
     {
         $allFiles = $this->filesystem->listContents('', true);
         $files = array();
