@@ -25,6 +25,7 @@ class FilesystemSearch implements PluginInterface
     
     public function handle($term, $extensions = 'jpg,jpeg,gif,png')
     {
+        $extensions = explode(",", $extensions);
         $allFiles = $this->filesystem->listContents('', true);
         $files = array();
         foreach($allFiles as $file) {
