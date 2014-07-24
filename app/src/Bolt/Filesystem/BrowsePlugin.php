@@ -26,7 +26,8 @@ class BrowsePlugin implements PluginInterface
     
     public function handle($path, Application $app)
     {
-        
+        $files = array();
+        $folders = array();
         $list = $this->filesystem->listContents($path);
         
         $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
@@ -86,6 +87,9 @@ class BrowsePlugin implements PluginInterface
             }                  
 
         }
+        
+        return array($files, $folders);
+        
     }
     
 }
