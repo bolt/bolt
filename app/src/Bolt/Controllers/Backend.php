@@ -1230,10 +1230,7 @@ class Backend implements ControllerProviderInterface
         
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
 
-        // Make sure the files and folders are sorted properly.
-        ksort($files);
-        ksort($folders);
-
+    
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file..
         if (!$request->query->has('CKEditor')) {

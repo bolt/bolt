@@ -88,6 +88,9 @@ class BrowsePlugin implements PluginInterface
 
         }
         
+        ksort($files);
+        ksort($folders);
+        
         return array($files, $folders);
         
     }

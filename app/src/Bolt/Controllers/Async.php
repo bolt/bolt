@@ -367,21 +367,13 @@ class Async implements ControllerProviderInterface
      */
     public function browse($path, Silex\Application $app, Request $request)
     {
-        $files = array();
-        $folders = array();
+        
+        $filesystem = $app['filesystem']->getManager();
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
         $key = $app['request']->get('key');
 
-        $basefolder = $app['resources']->getPath('files');
-        $path = stripTrailingSlash(str_replace("..", "", $path));
-        if ($path == 'files') {
-            $path = '';
-        }
-        $currentfolder = realpath($basefolder ."/". $path);
-
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
         // Get the pathsegments, so we can show the path..
         $pathsegments = array();
@@ -393,62 +385,19 @@ class Async implements ControllerProviderInterface
             }
         }
 
-        if (file_exists($currentfolder)) {
-
-            $d = dir($currentfolder);
-
-            while (false !== ($entry = $d->read())) {
-
-                if (in_array($entry, $ignored)) {
-                    continue;
-                }
-
-                $fullfilename = $currentfolder . "/" . $entry;
-
-                if (is_file($fullfilename)) {
-                    $relativepath = str_replace("files/", "", ($path . "/" . $entry));
-                    $files[$entry] = array(
-                        'path' => $path,
-                        'filename' => $entry,
-                        'newpath' => $path . "/" . $entry,
-                        'relativepath' => $relativepath,
-                        'writable' => is_writable($fullfilename),
-                        'readable' => is_readable($fullfilename),
-                        'type' => strtolower(getExtension($entry)),
-                        'filesize' => formatFilesize(filesize($fullfilename)),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
-                        'permissions' => \utilphp\util::full_permissions($fullfilename)
-                    );
-
-                    if (in_array(strtolower(getExtension($entry)), array('gif', 'jpg', 'png', 'jpeg'))) {
-                        $size = getimagesize($fullfilename);
-                        $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
-                    }
-                }
-
-                if (is_dir($fullfilename)) {
-                    $folders[$entry] = array(
-                        'path' => $path,
-                        'foldername' => $entry,
-                        'newpath' => $path . "/" . $entry,
-                        'writable' => is_writable($fullfilename),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
-                    );
-                }
-
-            }
-
-            $d->close();
-
-        } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+        try {
+            $list = $filesystem->listContents($path);
+            $validFolder = true;
+        } catch (\Exception $e) {
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
+            $validFolder = false;
         }
 
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
 
-        // Make sure the files and folders are sorted properly.
-        ksort($files);
-        ksort($folders);
+
+        list($files, $folders) = $filesystem->browse($path, $app);
+
 
         return $app['render']->render('files_async.twig', array(
             'path' => $path,
