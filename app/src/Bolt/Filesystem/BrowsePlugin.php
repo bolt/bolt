@@ -51,6 +51,7 @@ class BrowsePlugin implements PluginInterface
                     'path' => $entry['dirname'],
                     'filename' => $entry['basename'],
                     'newpath' => $entry['path'],
+                    'relativepath' => $entry['path'],
                     'writable' => true,
                     'readable' => true,
                     'type' => $entry['extension'],
