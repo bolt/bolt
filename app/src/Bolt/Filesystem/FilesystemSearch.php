@@ -28,14 +28,20 @@ class FilesystemSearch implements PluginInterface
         $extensions = explode(",", $extensions);
         $allFiles = $this->filesystem->listContents('', true);
         $files = array();
-        foreach($allFiles as $file) {
-            if(strpos($file['path'], $term) !== false) {
-                if(in_array($file['extension'], $extensions)) {
+        foreach ($allFiles as $file) {
+            
+            if (strpos($file['path'], $term) !== false) {
+                
+                if (in_array($file['extension'], $extensions)) {
                     $files[] = $file['path'];
                 }
-            } 
+                
+            }
+             
         }
+        
         return $files;
+        
     }
     
 }
