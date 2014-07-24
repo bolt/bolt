@@ -549,7 +549,7 @@ class Async implements ControllerProviderInterface
             $extensionPos = strrpos($filePath, '.');
             $destPath = substr($filePath, 0, $extensionPos) . "_copy" . substr($filePath, $extensionPos);
             $n = 1;
-            while(file_exists($destPath)) {
+            while (file_exists($destPath)) {
                 $extensionPos = strrpos($destPath, '.');
                 $destPath = substr($destPath, 0, $extensionPos) . "$n" . substr($destPath, $extensionPos);
                 $n = rand(0, 1000);
