@@ -33,8 +33,8 @@ class PublicUrlPlugin implements PluginInterface
     public function handle($path)
     {
         
-        var_dump(get_class($this->filesystem->adapter)); exit;
-        switch(get_class($this->filesystem->adapter)) {
+        var_dump(get_class($this->filesystem->getAdapter())); exit;
+        switch(get_class($this->filesystem->getAdapter())) {
             
         }
         
