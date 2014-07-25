@@ -35,7 +35,7 @@ class Manager extends MountManager
     {
         $manager->addPlugin(new SearchPlugin);
         $manager->addPlugin(new BrowsePlugin);
-        $manager->addPlugin(new PublicUrlPlugin($this->app));
+        $manager->addPlugin(new PublicUrlPlugin($this->app, $namespace));
     }
     
     
