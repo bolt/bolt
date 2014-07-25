@@ -58,6 +58,10 @@ class Async implements ControllerProviderInterface
             ->assert('path', '.+')
             ->bind('asyncbrowse');
 
+        $ctr->post("/renamefile", array($this, 'renamefile'))
+            ->before(array($this, 'before'))
+            ->bind('renamefile');
+
         $ctr->post("/deletefile", array($this, 'deletefile'))
             ->before(array($this, 'before'))
             ->bind('deletefile');
@@ -511,6 +515,48 @@ class Async implements ControllerProviderInterface
 
     }
     
+    /**
+     * Rename a file within the files directory tree.
+     *
+     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Request          $request The HTTP Request Object containing the GET Params
+     *
+     * @return Boolean                   Whether the renaming action was successful
+     */
+    public function renamefile(Silex\Application $app, Request $request)
+    {
+        $namespace  = $request->request->get('namespace', 'files');
+        $parentPath = $request->request->get('parent');
+        $oldName    = $request->request->get('oldname');
+        $newName    = $request->request->get('newname');
+
+        $oldPath    = $app['resources']->getPath($namespace)
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . DIRECTORY_SEPARATOR
+                      . $oldName;
+
+        $newPath    = $app['resources']->getPath($namespace)
+                      . DIRECTORY_SEPARATOR
+                      . $parentPath
+                      . DIRECTORY_SEPARATOR
+                      . $newName;
+
+        $fileSystemHelper = new Filesystem;
+
+        try {
+            $fileSystemHelper->rename($oldPath,
+                                      $newPath,
+                                      false /* Don't rename if target exists already! */);
+        } catch(IOException $exception) {
+
+            /* Thrown if target already exists or renaming failed. */
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Delete a file on the server.
      *

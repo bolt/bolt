@@ -886,6 +886,41 @@ var Files = Backbone.Model.extend({
     },
 
     /**
+     * Rename a file.
+     *
+     * @param string promptQuestionString Translated version of "Which file to rename?".
+     * @param string namespace            The namespace.
+     * @param string parentPath           Parent path of the folder to rename.
+     * @param string oldName              Old name of the file to be renamed.
+     * @param object element              The object that calls this function, usually of type HTMLAnchorElement)
+     */
+    renameFile: function(promptQuestionString, namespace, parentPath, oldName, element)
+    {
+        var newName = window.prompt(promptQuestionString, oldName);
+
+        if (!newName.length) {
+            return;
+        }
+
+        $.ajax({
+            url: asyncpath + 'renamefile',
+            type: 'POST',
+            data: {
+                'namespace': namespace,
+                'parent':  parentPath,
+                'oldname': oldName,
+                'newname': newName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this file!');
+            }
+        });
+    },
+
+    /**
      * Delete a file from the server.
      *
      * @param string filename
@@ -1457,7 +1492,7 @@ var Folders = Backbone.Model.extend({
      */
     rename: function(promptQuestionString, namespace, parentPath, oldFolderName, element)
     {
-        var newFolderName = window.prompt(promptQuestionString);
+        var newFolderName = window.prompt(promptQuestionString, oldFolderName);
 
         if (!newFolderName.length) {
             return;
@@ -1482,7 +1517,7 @@ var Folders = Backbone.Model.extend({
     },
 
     /**
-     * Rename a folder.
+     * Remove a folder.
      *
      * @param string parentPath Parent path of the folder to remove.
      * @param string folderName Name of the folder to remove.
