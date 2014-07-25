@@ -61,6 +61,13 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
         $config = new Config\ResourceManager(TEST_ROOT);
         $bolt = new Application(array('resources'=>$config));
         
+        $bolt['config']->set('general/database', array(
+            'driver'=>'sqlite',
+            'databasename'=>'test',
+            'username'=>'test', 
+            'memory'=>true
+        ));
+        
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', __DIR__."/files");
         $bolt->initialize();
