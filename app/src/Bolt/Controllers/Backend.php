@@ -1229,7 +1229,7 @@ class Backend implements ControllerProviderInterface
         
         list($files, $folders) = $filesystem->browse($path, $app);
         
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
+        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $namespace."/".$path)));
 
     
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
