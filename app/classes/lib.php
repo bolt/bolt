@@ -742,9 +742,6 @@ function getPaths($original = array())
         $original['twig']->addGlobal('paths', $paths);
     }
 
-    echo "<pre>";
-    var_dump($paths);
-
     return $paths;
 }
 
