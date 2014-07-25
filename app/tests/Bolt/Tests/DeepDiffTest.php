@@ -12,7 +12,7 @@ class DeepDiffTest extends \PHPUnit_Framework_TestCase
     public function testDeepDiff($a, $b, $expected)
     {
         $actual = DeepDiff::deep_diff($a, $b);
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function deepDiffProvider()
