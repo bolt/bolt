@@ -100,7 +100,7 @@
     {# Show stuff! #}
     {% if allowedany %}
         <li {% if wide %}class="menu-pop-wide"{% endif %}>
-            <a href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" class="menu-pop" data-html="true" data-title="" data-content="{% spaceless %}{% for item in popoveritems %}
+            <a href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" data-action="sidebar.showSidebarItems('{{name}}')" class="menu-pop" data-html="true" data-title="" data-content="{% spaceless %}{% for item in popoveritems %}
                 {% if item == "-" %}
                     <hr>
                 {% elseif isallowed(item.isallowed|default('dashboard')) %}
@@ -152,7 +152,7 @@
 
 {% macro stackbutton(file) %}
     {% if not stacked(file.newpath) %}
-        <a href="#" class="btn btn-mini" data-action="stack.addToStack('{{file.newpath}}', this);">
+        <a href="#" class="btn btn-default btn-mini" data-action="stack.addToStack('{{file.newpath}}', this);">
             <i class="fa fa-paperclip"></i>
             {{ __('Place on stack') }}
         </a>

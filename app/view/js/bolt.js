@@ -334,12 +334,17 @@ function initActions() {
     $('button, input[type=button], a').off('click.action');
 
     // Bind the click events, with the 'action' namespace.
-    $('button, input[type=button], a').on('click.action', function(e){
+    $('[data-action]').on('click.action', function(e){
         var action = $(this).data('action');
         if (typeof(action) != "undefined" && (action != "") ) {
             eval(action);
+            e.stopPropagation();
             e.preventDefault();
         }
+    })
+    // Prevent propagation to parent's click handler from anchor in popover.
+    .on('click.popover', '.popover', function(e){
+        e.stopPropagation();
     });
 
 }
@@ -850,7 +855,7 @@ var Sidebar = Backbone.Model.extend({
         $('.nav li.sub').removeClass('visible-xs');
         $('.nav li.sub-'+name).addClass('visible-xs');
         // Check if the class is actually visible. If not, we're not on mobile, and we should just
-        // redirect to the first link, to prevent confusion. 
+        // redirect to the first link, to prevent confusion.
         if ($('html').hasClass('no-touch')) {
             window.location.href = $('.nav li.sub-'+name).find('a').first().attr('href');
         }
@@ -883,6 +888,41 @@ var Files = Backbone.Model.extend({
     },
 
     initialize: function() {
+    },
+
+    /**
+     * Rename a file.
+     *
+     * @param string promptQuestionString Translated version of "Which file to rename?".
+     * @param string namespace            The namespace.
+     * @param string parentPath           Parent path of the folder to rename.
+     * @param string oldName              Old name of the file to be renamed.
+     * @param object element              The object that calls this function, usually of type HTMLAnchorElement)
+     */
+    renameFile: function(promptQuestionString, namespace, parentPath, oldName, element)
+    {
+        var newName = window.prompt(promptQuestionString, oldName);
+
+        if (!newName.length) {
+            return;
+        }
+
+        $.ajax({
+            url: asyncpath + 'renamefile',
+            type: 'POST',
+            data: {
+                'namespace': namespace,
+                'parent':  parentPath,
+                'oldname': oldName,
+                'newname': newName
+            },
+            success: function(result) {
+                document.location.reload();
+            },
+            error: function() {
+                console.log('Something went wrong renaming this file!');
+            }
+        });
     },
 
     /**
@@ -1457,7 +1497,7 @@ var Folders = Backbone.Model.extend({
      */
     rename: function(promptQuestionString, namespace, parentPath, oldFolderName, element)
     {
-        var newFolderName = window.prompt(promptQuestionString);
+        var newFolderName = window.prompt(promptQuestionString, oldFolderName);
 
         if (!newFolderName.length) {
             return;
@@ -1482,7 +1522,7 @@ var Folders = Backbone.Model.extend({
     },
 
     /**
-     * Rename a folder.
+     * Remove a folder.
      *
      * @param string parentPath Parent path of the folder to remove.
      * @param string folderName Name of the folder to remove.
