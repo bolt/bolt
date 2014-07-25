@@ -12,7 +12,7 @@
     <p>{{ __('Path:') }}
         {% for path, segment in pathsegments %}
             {% if not loop.first %} / {% endif %}
-            <a href="{{ path('files', { 'path': path, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">{{segment}}</a>
+            <a href="{{ path('files', { 'path': path, 'namespace': namespace, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">{{segment}}</a>
         {% endfor %}
     </p>
 {% endif %}
