@@ -12,11 +12,17 @@ class PublicUrlPlugin implements PluginInterface
     
     public $filesystem;
     public $namespace;
+    public $handlers = array();
     
     public function __construct(Application $app, $namespace)
     {
         $this->app = $app;
-        $this->namespace = $namespace;
+        if($namespace == "default") {
+            $this->namespace = 'files';
+        } else {
+            $this->namespace = $namespace;
+        }
+        
     }
 
  
@@ -36,9 +42,6 @@ class PublicUrlPlugin implements PluginInterface
     {
         
         switch($this->adapterType()) {
-            case "dropbox":
-                return $this->getDropboxUrl($path);
-                break;
             default: 
                 return $this->getLocalUrl($path);
         }
@@ -51,11 +54,6 @@ class PublicUrlPlugin implements PluginInterface
         return $prefix.$path;
     }
     
-    public function getDropboxUrl($path)
-    {
-        $link = $this->filesystem->getAdapter()->getClient()->createTemporaryDirectLink();
-        return $link;
-    }
     
     protected function adapterType()
     {
