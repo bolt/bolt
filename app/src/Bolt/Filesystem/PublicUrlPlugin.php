@@ -59,7 +59,7 @@ class PublicUrlPlugin implements PluginInterface
     
     protected function adapterType()
     {
-        $reflect = new ReflectionClass($this->filesystem->getAdapter());
+        $reflect = new \ReflectionClass($this->filesystem->getAdapter());
         return strtolower($reflect->getShortName());
     }
     
