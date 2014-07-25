@@ -53,7 +53,7 @@ class PublicUrlPlugin implements PluginInterface
     
     public function getDropboxUrl($path)
     {
-        $link = $this->filesystem->getClient()->createTemporaryDirectLink();
+        $link = $this->filesystem->getAdapter()->getClient()->createTemporaryDirectLink();
         return $link;
     }
     
