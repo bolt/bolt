@@ -39,7 +39,7 @@
                     ] %}
                     {% setcontent records = slug limit 4 %}
                     {% for record in records %}
-                        {% set sub = sub|merge([{ icon: 'file-text-o', label: record.excerpt(80, true), link: path('editcontent', { 'contenttypeslug': slug, 'id': record.id }) }]) %}
+                        {% set sub = sub|merge([{ icon: contenttype.icon_singular|default('file-text-o'), label: record.excerpt(80, true), link: path('editcontent', { 'contenttypeslug': slug, 'id': record.id }) }]) %}
                     {% endfor %}
 
                     {{ macro.sidebarblock(title, sub, '', true) }}
@@ -76,10 +76,10 @@
             {% set title = { icon: 'cogs', label: __('Configuration') } %}
             {% set sub = [
                 { icon: 'group', label: __('Users'), link: path('users'), isallowed: 'fileedit' },
-                { icon: 'cog', label: __('Configuration'), link: path('fileedit', { 'namespace':'app', 'file': 'config/config.yml'}), isallowed: 'files:config' },
+                { icon: 'cog', label: __('Main configuration'), link: path('fileedit', { 'namespace':'app', 'file': 'config/config.yml'}), isallowed: 'files:config' },
                 { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'namespace':'app', 'file': 'config/contenttypes.yml'}), isallowed: 'files:config' },
                 { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'namespace':'app', 'file': 'config/taxonomy.yml'}), isallowed: 'files:config' },
-                { icon: 'cog', label: __('Permissions'), link: path('fileedit', { 'namespace':'app', 'file': 'config/permissions.yml'}), isallowed: 'files:config' },
+                { icon: 'sliders', label: __('Permissions'), link: path('fileedit', { 'namespace':'app', 'file': 'config/permissions.yml'}), isallowed: 'files:config' },
                 '-',
                 { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/menu.yml'}), isallowed: 'files:config' },
                 { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/routing.yml'}), isallowed: 'files:config' }
@@ -96,10 +96,10 @@
                 {{ macro.sidebarblock(title, sub) }}
             {% endif %}
 
-            {% set title = { icon: 'cogs', label: __('Maintenance') } %}
+            {% set title = { icon: 'wrench', label: __('Maintenance') } %}
             {% set sub = [
                 { icon: 'briefcase', label: __('Extensions'), link: path('extensions'), isallowed: 'extensions' },
-                { icon: 'wrench', label: __('Check database'), link: path('dbcheck'), isallowed: 'dbupdate' },
+                { icon: 'database', label: __('Check database'), link: path('dbcheck'), isallowed: 'dbupdate' },
                 { icon: 'magic', label: __('Clear the cache'), link: path('clearcache'), isallowed: 'clearcache' },
                 { icon: 'file', label: __('Activity log'), link: path('activitylog'), isallowed: 'activitylog' }
 

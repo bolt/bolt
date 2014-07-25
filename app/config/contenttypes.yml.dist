@@ -164,6 +164,8 @@ kitchensink:
     show_on_dashboard: true
     default_status: publish
     searchable: false
+    icon: cubes
+    icon_singular: cube
 
 
 # possible field types:
