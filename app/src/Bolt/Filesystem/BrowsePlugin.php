@@ -48,7 +48,7 @@ class BrowsePlugin implements PluginInterface
                     'newpath' => $entry['path'],
                     'relativepath' => $entry['path'],
                     'writable' => true,
-                    'readable' => true,
+                    'readable' => false,
                     'type' => $entry['extension'],
                     'filesize' => formatFilesize($entry['size']),
                     'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
@@ -63,6 +63,8 @@ class BrowsePlugin implements PluginInterface
                     
                 }
                 if(is_readable($fullfilename)) {
+                    $files[$entry['path']]['readable'] = true;
+
                     if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
                         $size = getimagesize($fullfilename);
                         $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
