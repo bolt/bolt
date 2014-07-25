@@ -124,7 +124,11 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             }
             return $successfulFiles;
         } else {
-            $result->clear();
+            try {
+                $result->clear();
+            } catch (\Exception $e) {
+                
+            }
             $errorFiles = array();
             foreach ($result as $resultFile) {
                 $errors = $resultFile->getMessages();
