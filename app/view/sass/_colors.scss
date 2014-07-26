@@ -73,3 +73,5 @@ $pagination-color: lighten(desaturate($boltblue, 35), 6);
 $pagination-active-bg: lighten(desaturate($boltblue, 35), 6);
 $pagination-active-border: lighten(desaturate($boltblue, 35), 3);
 
+// Line-heights for headings. Also influences margin at top and bottom of headings.
+$headings-line-height: 1.5;
