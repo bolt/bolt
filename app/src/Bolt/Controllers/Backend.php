@@ -127,6 +127,7 @@ class Backend implements ControllerProviderInterface
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
             ->value('namespace', 'files')
+            ->value('path', '')
             ->bind('files');
 
         $ctl->get("/activitylog", array($this, 'activitylog'))
@@ -1140,19 +1141,28 @@ class Backend implements ControllerProviderInterface
 
     public function files($namespace, $path, Silex\Application $app, Request $request)
     {
-        $files = array();
-        $folders = array();
+        
+        $filesystem = $app['filesystem']->getManager($namespace);
+        $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
-        $basefolder = $app['resources']->getPath($namespace);
-        $path = stripTrailingSlash(str_replace("..", "", $path));
-        $currentfolder = realpath($basefolder ."/". $path);
-
-        if (! $app['filepermissions']->authorized($currentfolder)) {
+        
+        if (! $app['filepermissions']->authorized($fullPath)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
         }
+        
+        try {
+           $list = $filesystem->listContents($path);
+           $validFolder = true;
+        } catch (\Exception $e) {
+            $list = array();
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
+            $formview = false;
+            $validFolder = false;
 
-        if (is_writable($currentfolder)) {
+        }
+
+        if($validFolder) {
 
             // Define the "Upload here" form.
             $form = $app['form.factory']
@@ -1215,15 +1225,22 @@ class Backend implements ControllerProviderInterface
 
             $formview = $form->createView();
 
-        } else {
-            // Folder not writable, don't show an upload.
-            $formview = false;
         }
+        
+        list($files, $folders) = $filesystem->browse($path, $app);
+        
+        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $namespace."/".$path)));
 
-
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
-
-        // Get the pathsegments, so we can show the path..
+    
+        // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
+        // from CKeditor to insert a file..
+        if (!$request->query->has('CKEditor')) {
+            $twig = 'files.twig';
+        } else {
+            $twig = 'files_ck.twig';
+        }
+        
+        // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
         $cumulative = "";
         if (!empty($path)) {
@@ -1231,73 +1248,6 @@ class Backend implements ControllerProviderInterface
                 $cumulative .= $segment . "/";
                 $pathsegments[$cumulative] = $segment;
             }
-        }
-
-        if (file_exists($currentfolder)) {
-
-            $d = dir($currentfolder);
-
-            while (false !== ($entry = $d->read())) {
-
-                if (in_array($entry, $ignored)) {
-                    continue;
-                }
-
-                $fullfilename = $currentfolder . "/" . $entry;
-
-                if (! $app['filepermissions']->authorized(realpath($fullfilename))) {
-                    continue;
-                }
-
-                if (is_file($fullfilename)) {
-                    $files[$entry] = array(
-                        'path' => $path,
-                        'filename' => $entry,
-                        'newpath' => ltrim($path . "/" . $entry, "/"),
-                        'writable' => is_writable($fullfilename),
-                        'readable' => is_readable($fullfilename),
-                        'type' => getExtension($entry),
-                        'filesize' => formatFilesize(filesize($fullfilename)),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
-                        'permissions' => \utilphp\util::full_permissions($fullfilename)
-                    );
-
-                    if (in_array(getExtension($entry), array('gif', 'jpg', 'png', 'jpeg'))) {
-                        $size = getimagesize($fullfilename);
-                        $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
-                    }
-                }
-
-                if (is_dir($fullfilename)) {
-                    $folders[$entry] = array(
-                        'path' => $path,
-                        'foldername' => $entry,
-                        'newpath' => ltrim($path . "/" . $entry, "/"),
-                        'writable' => is_writable($fullfilename),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
-                    );
-                }
-
-            }
-
-            $d->close();
-
-        } else {
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
-        }
-
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
-
-        // Make sure the files and folders are sorted properly.
-        ksort($files);
-        ksort($folders);
-
-        // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
-        // from CKeditor to insert a file..
-        if (!$request->query->has('CKEditor')) {
-            $twig = 'files.twig';
-        } else {
-            $twig = 'files_ck.twig';
         }
 
         return $app['render']->render($twig, array(

@@ -223,6 +223,7 @@ class Application extends Silex\Application
             ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Controllers\Upload())
+            ->register(new Provider\FilesystemProvider())
             ->register(new Thumbs\ThumbnailProvider());
 
         $this['paths'] = $this['resources']->getPaths();
