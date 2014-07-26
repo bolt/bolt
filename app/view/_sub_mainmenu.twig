@@ -82,23 +82,9 @@
                 { icon: 'sliders', label: __('Permissions'), link: path('fileedit', { 'namespace':'app', 'file': 'config/permissions.yml'}), isallowed: 'files:config' },
                 '-',
                 { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/menu.yml'}), isallowed: 'files:config' },
-                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/routing.yml'}), isallowed: 'files:config' }
-            ] %}
-
-            {{ macro.sidebarblock(title, sub) }}
-
-            {% if app.extensions.hasMenuoptions %}
-                {% set title = { icon: 'cogs', label: __('Extensions') } %}
-                {% set sub = [] %}
-                {% for extension in app.extensions.getMenuoptions %}
-                    {% set sub = sub|merge([{ icon: extension.icon|default('icon-expand'), label: extension.label, link: extension.path }]) %}
-                {% endfor %}
-                {{ macro.sidebarblock(title, sub) }}
-            {% endif %}
-
-            {% set title = { icon: 'wrench', label: __('Maintenance') } %}
-            {% set sub = [
-                { icon: 'briefcase', label: __('Extensions'), link: path('extensions'), isallowed: 'extensions' },
+                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/routing.yml'}), isallowed: 'files:config' },
+                '-',
+                { icon: 'briefcase', label: __('Configure Extensions'), link: path('extensions'), isallowed: 'extensions' },
                 { icon: 'database', label: __('Check database'), link: path('dbcheck'), isallowed: 'dbupdate' },
                 { icon: 'magic', label: __('Clear the cache'), link: path('clearcache'), isallowed: 'clearcache' },
                 { icon: 'file', label: __('Activity log'), link: path('activitylog'), isallowed: 'activitylog' }
@@ -106,6 +92,15 @@
             ] %}
 
             {{ macro.sidebarblock(title, sub) }}
+
+            {% if app.extensions.hasMenuoptions %}
+                {% set title = { icon: 'briefcase', label: __('Extensions') } %}
+                {% set sub = [] %}
+                {% for extension in app.extensions.getMenuoptions %}
+                    {% set sub = sub|merge([{ icon: extension.icon|default('icon-expand'), label: extension.label, link: extension.path }]) %}
+                {% endfor %}
+                {{ macro.sidebarblock(title, sub) }}
+            {% endif %}
 
             {% set title = { icon: 'folder-open', label: __('File Management') } %}
             {% set sub = [
