@@ -326,6 +326,7 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
     } else {
         $ellipseStr = '';
     }
+
     return trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
 }
 
@@ -359,6 +360,7 @@ function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remaini
     if (strlen($node->textContent) <= $remainingLength) {
         $remainingLength -= strlen($node->textContent);
         $parentNode->appendChild($parentNode->ownerDocument->importNode($node, true));
+
         return;
     }
     // OK, so we need to descend into this node.
@@ -371,6 +373,7 @@ function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remaini
         }
         $parentNode->appendChild($newNode);
         $remainingLength = 0;
+
         return;
     }
     // It's not a text node, so we'll shallow-clone the current node and then
@@ -502,6 +505,7 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     // Restore previous libxml settings
     libxml_disable_entity_loader($prevEntityLoaderDisabled);
     libxml_use_internal_errors($prevInternalErrors);
+
     return $result;
 }
 
@@ -516,6 +520,7 @@ function decorateTT($str)
 {
     $str = htmlspecialchars($str, ENT_QUOTES);
     $str = preg_replace('/`([^`]*)`/', '<tt>\\1</tt>', $str);
+
     return $str;
 }
 
@@ -783,6 +788,7 @@ function loadSerialize($filename, $silent = false)
     if (substr($serialized_data, 0, 5) === 'json:') {
         $serialized_data = substr($serialized_data, 5);
         $data = json_decode($serialized_data, true);
+
         return $data;
     }
 
@@ -894,6 +900,7 @@ function str_replace_first($search, $replace, $subject)
     if ($pos !== false) {
         $subject = substr_replace($subject, $replace, $pos, strlen($search));
     }
+
     return $subject;
 }
 
@@ -969,6 +976,7 @@ function htmlencode_params($params)
     foreach ($params as $key => $val) {
         $result[$key] = htmlencode($val);
     }
+
     return $result;
 }
 
@@ -1103,6 +1111,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
                 $stypes[] = str_replace('%contenttype%', $ctype['singular_name'], $txt);
             }
         }
+
         return $stypes;
     };
 
@@ -1235,8 +1244,10 @@ function gatherTranslatableStrings($locale = null, $translated = array())
             if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
                 return $translated[$key];
             }
+
             return '';
         }
+
         return $trans;
     };
 
@@ -1302,5 +1313,6 @@ function smart_unserialize($str, $assoc = true)
         }
     }
     $data = unserialize($str);
+
     return $data;
 }

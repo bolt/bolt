@@ -60,6 +60,7 @@ class Frontend
             if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['config']->get('general/maintenance_template');
                 $body = $app['render']->render($template);
+
                 return new Response($body, 503);
             }
         }

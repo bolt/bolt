@@ -15,6 +15,7 @@ class FilePermissionsServiceProvider implements ServiceProviderInterface
     {
         $app['filepermissions'] = $app->share(function ($app) {
             $filepermissions = new FilePermissions($app);
+
             return $filepermissions;
         });
     }

@@ -57,6 +57,7 @@ abstract class AdapterPlugin implements PluginInterface
     protected function adapterType()
     {
         $reflect = new \ReflectionClass($this->filesystem->getAdapter());
+
         return $reflect->getShortName();
     }
 

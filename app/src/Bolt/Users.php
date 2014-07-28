@@ -185,11 +185,13 @@ class Users
             } else {
                 // User doesn't exist anymore
                 $this->logout();
+
                 return false;
             }
             if (!$this->currentuser['enabled']) {
                 // user has been disabled since logging in
                 $this->logout();
+
                 return false;
             }
         } else {
@@ -212,6 +214,7 @@ class Users
         // Check if user is _still_ allowed to log on..
         if (!$this->isAllowed('login') || !$this->currentuser['enabled']) {
             $this->logout();
+
             return false;
         }
 

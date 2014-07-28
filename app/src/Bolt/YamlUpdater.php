@@ -55,6 +55,7 @@ class YamlUpdater
         $this->lines = count($this->file);
 
         $this->changed = false;
+
         return true;
     }
 

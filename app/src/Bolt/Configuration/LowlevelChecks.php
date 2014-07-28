@@ -38,6 +38,7 @@ class LowlevelChecks
                 "you've installed the required components with Composer."
             );
         }
+
         return $test;
     }
 
@@ -138,11 +139,13 @@ class LowlevelChecks
             if (!extension_loaded('pdo_mysql')) {
                 $this->lowlevelError("MySQL was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_mysql driver.");
             }
+
             return;
         } elseif ($cfg['driver']=='postgres') {
             if (!extension_loaded('pdo_pgsql')) {
                 $this->lowlevelError("Postgres was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_pgsql driver.");
             }
+
             return;
         } elseif ($cfg['driver']=='sqlite') {
             if (!extension_loaded('pdo_sqlite')) {

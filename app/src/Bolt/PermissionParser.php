@@ -230,6 +230,7 @@ class PermissionParser
                 $tokens[] = $token;
             }
         }
+
         return $tokens;
     }
 
@@ -326,6 +327,7 @@ class PermissionParser
                 $query = self::parseAnd($tokens);
                 $token = array_shift($tokens);
                 self::expect(array(self::T_CLOSE_PARENS), $token);
+
                 return $query;
             case self::T_QUERY:
                 return array('type' => self::P_SIMPLE, 'value' => $token['capture']);

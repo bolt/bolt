@@ -38,6 +38,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             $uploadHandler->setPrefix($app['upload.prefix']);
             $uploadHandler->setOverwrite($app['upload.overwrite']);
             $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
+
             return $uploadHandler;
         });
 
@@ -51,6 +52,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
             }
             $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
+
             return $container;
         });
 
@@ -75,6 +77,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             if ($namespace === "") {
                 $namespace = $app['upload.namespace'];
             }
+
             return new JsonResponse($controller->uploadFile($app, $request, $namespace));
 
         })->assert('namespace', '.*');
@@ -122,12 +125,13 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     );
                 }
             }
+
             return $successfulFiles;
         } else {
             try {
                 $result->clear();
             } catch (\Exception $e) {
-                
+
             }
             $errorFiles = array();
             foreach ($result as $resultFile) {

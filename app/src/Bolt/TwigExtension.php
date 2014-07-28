@@ -1286,14 +1286,13 @@ class TwigExtension extends \Twig_Extension
             // It's a content record
             $contenttype = $content->contenttype;
             $contentid = $content['id'];
-        }
-        elseif (is_array($content)) {
+        } elseif (is_array($content)) {
             // It's a contenttype
             $contenttype = $content;
-        }
-        elseif (is_string($content)) {
+        } elseif (is_string($content)) {
             $contenttype = $content;
         }
+
         return $this->app['users']->isAllowed($what, $contenttype, $contentid);
     }
 

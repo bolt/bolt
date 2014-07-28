@@ -15,6 +15,7 @@ class FilesystemProvider implements ServiceProviderInterface
     {
         $app['filesystem'] = $app->share(function ($app) {
             $manager = new Manager($app);
+
             return $manager;
         });
     }

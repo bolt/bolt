@@ -255,6 +255,7 @@ class Async implements ControllerProviderInterface
         $query = $app['db']->executeQuery($query, array($taxonomytype));
 
         $results = $query->fetchAll();
+
         return $app->json($results);
     }
 
@@ -276,6 +277,7 @@ class Async implements ControllerProviderInterface
             if ($a['slug'] == $b['slug']) {
                 return 0;
             }
+
             return ($a['slug'] < $b['slug']) ? -1 : 1;
 
         });
@@ -323,6 +325,7 @@ class Async implements ControllerProviderInterface
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
         $body = $app['render']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
+
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -348,6 +351,7 @@ class Async implements ControllerProviderInterface
             'filtered' => $isFiltered,
             );
         $body = $app['render']->render('_sub_lastmodified.twig', $renderVars);
+
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -518,6 +522,7 @@ class Async implements ControllerProviderInterface
         if ($filesystem->delete($filename)) {
             return true;
         }
+
         return false;
     }
 

@@ -93,6 +93,7 @@ class FilePermissions
         // only whitelisted extensions
         $extension = strtolower(getExtension($originalFilename));
         $allowedExtensions = $this->getAllowedUploadExtensions();
+
         return (in_array($extension, $allowedExtensions));
     }
 

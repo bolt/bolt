@@ -625,8 +625,8 @@ class Content implements \ArrayAccess
     {
         // Quickly verify that we actually need to parse the snippet!
         if ($allowtwig && preg_match('/[{][{%#]/', $snippet)) {
-
             $snippet = html_entity_decode($snippet, ENT_QUOTES, 'UTF-8');
+
             return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
         }
 
@@ -745,6 +745,7 @@ class Content implements \ArrayAccess
                 if (is_array($this->values[ $key ])) {
                     return $this->values[ $key ]['file'];
                 }
+
                 return $this->values[ $key ];
             }
         }
@@ -813,6 +814,7 @@ class Content implements \ArrayAccess
                 $params[$fieldName] = null;
             }
         }
+
         return $params;
     }
 
@@ -914,6 +916,7 @@ class Content implements \ArrayAccess
                 }
             }
         }
+
         return $records;
     }
 
@@ -975,6 +978,7 @@ class Content implements \ArrayAccess
     public function fieldtype($key)
     {
         $field = $this->fieldinfo($key);
+
         return $field['type'];
     }
 
@@ -1135,6 +1139,7 @@ class Content implements \ArrayAccess
                 }
             }
         }
+
         return $taxonomies;
     }
 

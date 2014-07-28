@@ -12,6 +12,7 @@ class SafeTwigServiceProvider implements ServiceProviderInterface
     {
         $app['safe_twig'] = $app->share(function ($app) {
             $loader = new \Twig_Loader_String();
+
             return new \Twig_Environment($loader);
         });
     }

@@ -383,6 +383,7 @@ class Storage
                 $sql .= " LIMIT " . intval($options['limit']);
             }
         }
+
         return $sql;
     }
 
@@ -407,6 +408,7 @@ class Storage
         foreach ($rows as $row) {
             $objs[] = new ChangelogItem($this->app, $row);
         }
+
         return $objs;
     }
 
@@ -415,6 +417,7 @@ class Storage
         $tablename = $this->getTablename('content_changelog');
         $sql = "SELECT COUNT(1) " .
                "    FROM $tablename as log ";
+
         return $this->app['db']->fetchColumn($sql, array());
     }
 
@@ -459,6 +462,7 @@ class Storage
         foreach ($rows as $row) {
             $objs[] = new ChangelogItem($this->app, $row);
         }
+
         return $objs;
     }
 
@@ -814,10 +818,12 @@ class Storage
 
         if ($res == true) {
             $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
+
             return true;
         } else {
             // Attempt to _insert_ it, instead of updating..
             $content['datecreated'] = $datecreated;
+
             return $this->app['db']->insert($tablename, $content);
         }
     }
@@ -1951,6 +1957,7 @@ class Storage
         if ($decoded === false) {
             $this->app['log']->add("Storage: No valid query '$textquery'");
             $this->app['stopwatch']->stop('bolt.getcontent');
+
             return false;
         }
 
@@ -1959,6 +1966,7 @@ class Storage
         // Run checks and some actions (@todo put these somewhere else?)
         if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
             $this->app['stopwatch']->stop('bolt.getcontent');
+
             return false;
         }
 
@@ -1993,6 +2001,7 @@ class Storage
         if ($decoded['return_single']) {
             if (\utilphp\util::array_first_key($results)) {
                 $this->app['stopwatch']->stop('bolt.getcontent');
+
                 return \utilphp\util::array_first($results);
             }
 
@@ -2002,6 +2011,7 @@ class Storage
             );
             $this->app['log']->add($msg);
             $this->app['stopwatch']->stop('bolt.getcontent');
+
             return false;
         }
 
@@ -2019,6 +2029,7 @@ class Storage
         $this->app['twig']->addGlobal('pager', $this->getPager());
 
         $this->app['stopwatch']->stop('bolt.getcontent');
+
         return $results;
     }
 
@@ -2908,6 +2919,7 @@ class Storage
         $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array(
             $contentId
         ));
+
         return $oldContent;
     }
 

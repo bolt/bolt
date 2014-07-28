@@ -71,6 +71,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         if (BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml')) {
             $configfile = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
         }
+
         return $configfile;
     }
 
@@ -425,6 +426,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             return true;
         } else {
             simpleredirect($this->app['config']->get('general/branding/path'));
+
             return false;
         }
     }

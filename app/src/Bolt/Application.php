@@ -468,6 +468,7 @@ class Application extends Silex\Application
             if ($user['userlevel'] < 2) {
                 $template = $this['config']->get('general/maintenance_template');
                 $body = $this['render']->render($template);
+
                 return new Response($body, 503);
             }
         }

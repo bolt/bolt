@@ -395,6 +395,7 @@ class Config
                         array('%contenttype%' => $key, '%field%' => $fieldname)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
+
                     return;
                 }
 
@@ -408,6 +409,7 @@ class Config
                                 array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
                             );
                             $this->app['session']->getFlashBag()->set('error', $error);
+
                             return;
                         }
                     }
@@ -464,6 +466,7 @@ class Config
                 array('%link%' => path('dbcheck'))
             );
             $this->app['session']->getFlashBag()->set('error', $msg);
+
             return;
         }
 
@@ -476,6 +479,7 @@ class Config
                     array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
                 );
                 $this->app['session']->getFlashBag()->set('error', $error);
+
                 return;
             }
         }
@@ -489,6 +493,7 @@ class Config
                         array('%slug%' => $slug)
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
+
                     return;
                 }
             }

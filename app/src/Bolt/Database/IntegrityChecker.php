@@ -96,6 +96,7 @@ class IntegrityChecker
     {
         // compare app/cache/dbcheck-ts vs. current timestamp
         $validityTS = intval(@file_get_contents(self::getValidityTimestampFilename()));
+
         return ($validityTS >= time() - self::INTEGRITY_CHECK_INTERVAL);
     }
 
@@ -359,6 +360,7 @@ class IntegrityChecker
                 $tables[] = $table;
             }
         }
+
         return $tables;
     }
 

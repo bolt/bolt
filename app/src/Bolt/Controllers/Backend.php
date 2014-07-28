@@ -214,8 +214,10 @@ class Backend implements ControllerProviderInterface
                     $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
                     $retreat = $app['session']->get('retreat');
                     $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
+
                     return redirect($redirect['route'], $redirect['params']);
                 }
+
                 return $this->getLogin($app, $request);
 
             case 'reset':
@@ -225,8 +227,10 @@ class Backend implements ControllerProviderInterface
                     $app['users']->session->getFlashBag()->set('error', __("Please provide a username", array()));
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
+
                     return redirect('login');
                 }
+
                 return $this->getLogin($app, $request);
 
             default:
@@ -244,6 +248,7 @@ class Backend implements ControllerProviderInterface
             return redirect('dashboard', array());
         }
         $app['twig']->addGlobal('title', "Login");
+
         return $app['render']->render('login.twig');
     }
 
@@ -629,6 +634,8 @@ class Backend implements ControllerProviderInterface
             'pagecount' => $pagecount,
             'currentpage' => $page,
             );
+
+
         return $app['render']->render('changeloglist.twig', $renderVars);
     }
 
@@ -649,6 +656,7 @@ class Backend implements ControllerProviderInterface
             'prevEntry' => $prev,
             'content' => $content,
             );
+
         return $app['render']->render('changelogdetails.twig', $renderVars);
     }
 
@@ -898,6 +906,7 @@ class Backend implements ControllerProviderInterface
         );
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->set('error', __('No such action for content.'));
+
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
         $newStatus = $actionStatuses[$action];
@@ -905,6 +914,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
 
@@ -973,6 +983,7 @@ class Backend implements ControllerProviderInterface
             }
         }
         $globalPermissions = $app['permissions']->getGlobalRoles();
+
         return $app['twig']->render(
             'roles.twig',
             array(
@@ -1278,6 +1289,7 @@ class Backend implements ControllerProviderInterface
     {
         if (!$app['users']->checkAntiCSRFToken()) {
             $app['session']->getFlashBag()->set('info', __("An error occurred."));
+
             return redirect('users');
         }
         $user = $app['users']->getUser($id);
@@ -1427,6 +1439,7 @@ class Backend implements ControllerProviderInterface
                 } else {
                     $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));
                 }
+
                 return redirect('files', array('path' => $path));
             }
 
@@ -1745,6 +1758,7 @@ class Backend implements ControllerProviderInterface
         // we let the user stay, because they need to set up the first user.
         if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
             $app['twig']->addGlobal('frontend', false);
+
             return;
         }
 
@@ -1753,6 +1767,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+
             return redirect('useredit', array('id' => ""));
         }
 

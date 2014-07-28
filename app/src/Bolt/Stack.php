@@ -60,6 +60,7 @@ class Stack
 
         array_unshift($this->items, $filename);
         $this->persist();
+
         return true;
     }
 

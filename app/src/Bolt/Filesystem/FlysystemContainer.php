@@ -43,6 +43,7 @@ class FlysystemContainer implements ContainerInterface
         if ( true === $this->filesystem->putStream($destination, $stream)) {
             return $destination;
         }
+
         return false;
     }
 
