@@ -108,7 +108,6 @@ class Stack
         $ext = getExtension($filename);
 
         return in_array($ext, $this->getFileTypes());
-
     }
 
     /**
@@ -192,7 +191,6 @@ class Stack
         $list = array_slice($list, 0, $count);
 
         return $list;
-
     }
 
     /**

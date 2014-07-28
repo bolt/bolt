@@ -67,8 +67,6 @@ class Frontend
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.frontend.before');
-
-
     }
 
     public static function homepage(Silex\Application $app)
@@ -163,7 +161,6 @@ class Frontend
 
         // Render the template and return.
         return $app['render']->render($template);
-
     }
 
 

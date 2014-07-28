@@ -43,7 +43,6 @@ class Storage
         }
 
         $this->tables = array();
-
     }
 
     /**
@@ -79,7 +78,6 @@ class Storage
         }
 
         return $content;
-
     }
 
     /**
@@ -716,7 +714,6 @@ class Storage
         }
 
         return $id;
-
     }
 
 
@@ -2340,7 +2337,6 @@ class Storage
     public function getContentTypes()
     {
         return array_keys($this->app['config']->get('contenttypes'));
-
     }
 
     /**
@@ -2778,7 +2774,6 @@ class Storage
 
             }
         }
-
     }
 
 
@@ -2862,7 +2857,6 @@ class Storage
         }
 
         return $uri;
-
     }
 
     /**

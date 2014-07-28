@@ -47,7 +47,6 @@ class Manager extends MountManager
         } else {
             return $this->getFilesystem('default');
         }
-
     }
 
     public function setManager($namespace, $manager)

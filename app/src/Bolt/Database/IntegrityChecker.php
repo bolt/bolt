@@ -82,7 +82,6 @@ class IntegrityChecker
             );
             die($message);
         }
-
     }
 
     public static function markValid()
@@ -123,7 +122,6 @@ class IntegrityChecker
         }
 
         return $this->tables;
-
     }
 
     /**
@@ -141,7 +139,6 @@ class IntegrityChecker
         }
 
         return true;
-
     }
 
     /**

@@ -91,7 +91,6 @@ class Extensions
         } else {
             $this->addjquery = false;
         }
-
     }
 
     /**
@@ -129,7 +128,6 @@ class Extensions
         $dir->close();
 
         $this->enabled = array_intersect($list, $folders);
-
     }
 
     /**
@@ -200,7 +198,6 @@ class Extensions
         $info['enabled'] = $this->isEnabled($namespace);
 
         return $info;
-
     }
 
     /**

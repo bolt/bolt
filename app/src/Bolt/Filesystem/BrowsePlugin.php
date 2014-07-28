@@ -62,7 +62,7 @@ class BrowsePlugin implements PluginInterface
 
                 /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
                 try {
-                   $files[$entry['path']]['permissions'] = $this->filesystem->getVisibility($entry['path']);
+                    $files[$entry['path']]['permissions'] = $this->filesystem->getVisibility($entry['path']);
                 } catch (\Exception $e) {
 
                 }
@@ -103,6 +103,5 @@ class BrowsePlugin implements PluginInterface
         ksort($folders);
 
         return array($files, $folders);
-
     }
 }

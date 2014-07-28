@@ -70,7 +70,6 @@ class Users
             'activitylog' => self::ADMIN,
             'fileedit' => self::ADMIN
         );
-
     }
 
     /**
@@ -155,7 +154,6 @@ class Users
         } else {
             return $this->db->update($this->usertable, $user, array('id' => $user['id']));
         }
-
     }
 
     /**

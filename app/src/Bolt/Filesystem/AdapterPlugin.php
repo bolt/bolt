@@ -21,12 +21,10 @@ abstract class AdapterPlugin implements PluginInterface
         } else {
             $this->namespace = $namespace;
         }
-
     }
 
     public function getMethod()
     {
-
     }
 
 

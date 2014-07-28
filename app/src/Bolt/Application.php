@@ -152,7 +152,6 @@ class Application extends Silex\Application
 
     public function initRendering()
     {
-
         // Should we cache or not?
         if ($this['config']->get('general/caching/templates')) {
             $cache = $this['resources']->getPath('cache');
@@ -207,7 +206,6 @@ class Application extends Silex\Application
 
     public function initProviders()
     {
-
         // Make sure we keep our current locale..
         $currentlocale = $this['locale'];
 

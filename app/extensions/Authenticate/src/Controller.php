@@ -32,7 +32,7 @@ class Controller
     /**
      * Check who the visitor is
      */
-    public function checkvisitor(Silex\Application $app = null) 
+    public function checkvisitor(Silex\Application $app = null)
     {
 
         // In case we're calling statically, we need to have $app
@@ -48,8 +48,8 @@ class Controller
         if ($this->current_visitor) {
             // Set the Apptoken
             $this->current_visitor['apptoken'] = $visitor->check_app_token();
-    
-            // Guess the 'avatar' image from the present data. 
+
+            // Guess the 'avatar' image from the present data.
             $profile = unserialize($this->current_visitor['providerdata']);
 
             if (!empty($profile->photoURL)) {
@@ -223,7 +223,6 @@ class Controller
     {
         $this->load_hybrid_auth();
         \Hybrid_Endpoint::process();
-
     }
 
 
@@ -313,9 +312,9 @@ class Controller
     }
 
     /**
-     * Simple function to format the HTML for a button. 
+     * Simple function to format the HTML for a button.
      */
-    private function formatButton($link, $label) 
+    private function formatButton($link, $label)
     {
         $button = $this->config['button_markup'];
 
@@ -323,7 +322,6 @@ class Controller
         $button = str_replace("%label%", $label, $button);
 
         return $button;
-
     }
 
 }

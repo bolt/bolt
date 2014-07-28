@@ -34,7 +34,6 @@ class DatabaseProfilerServiceProvider implements ServiceProviderInterface
                 return new DebugStack();
             }
         );
-
     }
 
     public function boot(Application $app)

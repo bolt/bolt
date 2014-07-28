@@ -74,7 +74,6 @@ class Cache extends FilesystemCache
         $this->clearCacheHelper($path, '', $result);
 
         return $result;
-
     }
 
     /**

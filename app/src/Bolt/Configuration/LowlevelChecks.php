@@ -184,7 +184,6 @@ class LowlevelChecks
                 "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file."
             );
         }
-
     }
 
     public function disableApacheChecks()
@@ -217,7 +216,6 @@ class LowlevelChecks
             );
             $this->lowlevelError($message);
         }
-
     }
 
 

@@ -274,7 +274,6 @@ class TwigExtension extends \Twig_Extension
         $output = trimText(strip_tags($output), $length);
 
         return $output;
-
     }
 
 
@@ -300,7 +299,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $str;
-
     }
 
 
@@ -367,7 +365,6 @@ class TwigExtension extends \Twig_Extension
         $info['square'] = !$info['landscape'] && !$info['portrait'];
 
         return $info;
-
     }
 
 
@@ -519,7 +516,6 @@ class TwigExtension extends \Twig_Extension
             }
 
         }
-
     }
 
     /**
@@ -1139,7 +1135,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $env->render($template, $twigvars);
-
     }
 
     /**
@@ -1159,7 +1154,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $menu;
-
     }
 
 
@@ -1354,7 +1348,6 @@ class TwigExtension extends \Twig_Extension
         $result = $this->app->redirect($path);
 
         return $result;
-
     }
 
 
@@ -1415,7 +1408,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $retval;
-
     }
 
     public function isChangelogEnabled()

@@ -43,7 +43,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->functionlist = array();
         $this->filterlist = array();
         $this->snippetlist = array();
-
     }
 
     /**
@@ -119,7 +118,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         // Nope. No config.
         return false;
-
     }
 
     public function getName()
@@ -315,7 +313,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
         }
-
     }
 
     /**

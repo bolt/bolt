@@ -69,7 +69,6 @@ class Render
         $this->cacheRequest($html);
 
         return $html;
-
     }
 
     /**
@@ -127,7 +126,6 @@ class Render
 
         // in seconds.
         return intval($duration) * 60;
-
     }
 
     /**
@@ -174,6 +172,5 @@ class Render
 
         // All's well!
         return true;
-
     }
 }

@@ -16,7 +16,6 @@ class Extensions extends BaseCommand
             ->setDescription('Lists all installed extensions, and whether they\'re enabled or disabled.');
             //->addArgument('name', InputArgument::OPTIONAL, 'Who do you want to greet?')
             //->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

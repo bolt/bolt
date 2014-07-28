@@ -67,7 +67,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $app['upload.prefix'] = date('Y-m')."/";
 
         $app['upload.overwrite'] = false;
-
     }
 
     public function connect(Silex\Application $app)
@@ -90,7 +89,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
     public function uploadFile(Silex\Application $app, Request $request, $namespace, $files = null)
     {
-
         $app['upload.namespace'] = $namespace;
 
         if (null === $files) {
@@ -171,6 +169,5 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
     public function boot(Silex\Application $app)
     {
-
     }
 }

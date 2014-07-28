@@ -81,7 +81,6 @@ class YamlUpdater
         } else {
             return false;
         }
-
     }
 
     /**
@@ -170,7 +169,6 @@ class YamlUpdater
         }
 
         return $value;
-
     }
 
 
@@ -204,6 +202,5 @@ class YamlUpdater
         } else {
             return false;
         }
-
     }
 }

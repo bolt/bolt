@@ -105,7 +105,6 @@ class Async implements ControllerProviderInterface
             ->bind('createfolder');
 
         return $ctr;
-
     }
 
     /**
@@ -164,7 +163,6 @@ class Async implements ControllerProviderInterface
         $body = $app['render']->render('dashboard-news.twig', array('news' => $news));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
     }
 
     /**
@@ -177,7 +175,6 @@ class Async implements ControllerProviderInterface
         $body = $app['render']->render('dashboard-activity.twig', array('activity' => $activity));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
     }
 
     public function filesautocomplete(Silex\Application $app, Request $request)
@@ -191,7 +188,6 @@ class Async implements ControllerProviderInterface
         $app['debug'] = false;
 
         return $app->json($files);
-
     }
 
     /**
@@ -203,7 +199,6 @@ class Async implements ControllerProviderInterface
         $html = $app['extensions']->renderWidget($key);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
-
     }
 
     public function readme($extension, Silex\Application $app, Request $request)
@@ -216,7 +211,6 @@ class Async implements ControllerProviderInterface
         $html = \Parsedown::instance()->parse($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
-
     }
 
     public function markdownify(Silex\Application $app, Request $request)
@@ -235,7 +229,6 @@ class Async implements ControllerProviderInterface
         }
 
         return $output;
-
     }
 
     public function makeuri(Silex\Application $app, Request $request)
