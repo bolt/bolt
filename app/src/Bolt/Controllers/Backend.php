@@ -1369,7 +1369,7 @@ class Backend implements ControllerProviderInterface
 
         }
 
-        if($validFolder) {
+        if ($validFolder) {
 
             // Define the "Upload here" form.
             $form = $app['form.factory']

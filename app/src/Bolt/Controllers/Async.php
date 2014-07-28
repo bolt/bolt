@@ -539,12 +539,12 @@ class Async implements ControllerProviderInterface
         $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
         $n = 1;
 
-        while($filesystem->has($destination)) {
+        while ($filesystem->has($destination)) {
             $extensionPos = strrpos($destination, '.');
             $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
             $n = rand(0,1000);
         }
-        if($filesystem->copy($filename, $destination)) {
+        if ($filesystem->copy($filename, $destination)) {
             return true;
         }
 
@@ -585,7 +585,7 @@ class Async implements ControllerProviderInterface
             $fileSystemHelper->rename($oldPath,
                                       $newPath,
                                       false /* Don't rename if target exists already! */);
-        } catch(IOException $exception) {
+        } catch (IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */
             return false;
@@ -614,7 +614,7 @@ class Async implements ControllerProviderInterface
 
         $filesystem = $app['filesystem']->getManager($namespace);
 
-        if($filesystem->deleteDir($completePath)) {
+        if ($filesystem->deleteDir($completePath)) {
             return true;
         }
 
@@ -641,7 +641,7 @@ class Async implements ControllerProviderInterface
 
         $filesystem = $app['filesystem']->getManager($namespace);
 
-        if($filesystem->createDir($newpath)) {
+        if ($filesystem->createDir($newpath)) {
             return true;
         }
 
