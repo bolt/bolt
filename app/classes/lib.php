@@ -870,13 +870,12 @@ function saveSerialize($filename, &$data)
         }
     } else {
         // todo: handle errors better.
-        print(
+        print
             'Error opening file<br/><br/>' .
             'The file <b>' . $filename . '</b> could not be opened for writing! <br /><br />' .
             'Try logging in with your ftp-client and check to see if it is chmodded to be readable by the ' .
             'webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
-            'Current path: ' . getcwd() . '.'
-        );
+            'Current path: ' . getcwd() . '.';
         debug_print_backtrace();
         die();
     }

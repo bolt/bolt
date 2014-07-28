@@ -225,7 +225,7 @@ class Async implements ControllerProviderInterface
 
         if (isHtml($html)) {
 
-            require_once(__DIR__ . '/../../../classes/markdownify/markdownify_extra.php');
+            require_once __DIR__ . '/../../../classes/markdownify/markdownify_extra.php';
             $markdown = new \Markdownify(false, 80, false);
 
             $output = $markdown->parseString($html);

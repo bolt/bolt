@@ -180,7 +180,7 @@ class Extensions
             return array();
         }
 
-        include_once($filename);
+        include_once $filename;
 
         if (!class_exists($namespace . '\Extension')) {
             // No class Extensionname\Extension, skip it!
@@ -224,7 +224,7 @@ class Extensions
             $filename = $this->basefolder . "/" . $extensionKey . "/extension.php";
 
             if (is_readable($filename)) {
-                include_once($filename);
+                include_once $filename;
 
                 $classname = '\\' . $extensionKey . '\\Extension';
 
