@@ -30,7 +30,7 @@ class ExtensionsDisable extends BaseCommand
 
         foreach ($extensions as $key => $extension) {
             if ($extension['enabled']) {
-                if (strtolower($key)==strtolower($name)) {
+                if (strtolower($key) == strtolower($name)) {
                     $lines[] = "<info>Disabling <options=bold>$key</options=bold>.</info>";
                     $update = true;
                 } else {

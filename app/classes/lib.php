@@ -183,10 +183,10 @@ function stripTrailingSlash($path)
  */
 function formatFilesize($size)
 {
-    if ($size > 1024*1024) {
-        return sprintf("%0.2f mb", ($size/1024/1024));
+    if ($size > 1024 * 1024) {
+        return sprintf("%0.2f mb", ($size / 1024 / 1024));
     } elseif ($size > 1024) {
-        return sprintf("%0.2f kb", ($size/1024));
+        return sprintf("%0.2f kb", ($size / 1024));
     } else {
         return $size." b";
     }
@@ -200,11 +200,11 @@ function formatFilesize($size)
  */
 function getExtension($filename)
 {
-    $pos=strrpos($filename, '.');
+    $pos = strrpos($filename, '.');
     if ($pos === false) {
         return '';
     } else {
-        $ext = substr($filename, $pos+1);
+        $ext = substr($filename, $pos + 1);
 
         return $ext;
     }
@@ -1007,7 +1007,7 @@ function __()
     } else {
         $fn = 'transChoice';
     }
-    $tr_args=null;
+    $tr_args = null;
     if ($fn == 'trans' && $num_args > 1) {
         $tr_args = $args[1];
     } elseif ($fn == 'transChoice' && $num_args > 2) {
@@ -1141,8 +1141,8 @@ function gatherTranslatableStrings($locale = null, $translated = array())
                 //print_r($matches[1]);
                 foreach ($matches[1] as $t) {
                     $nstr++;
-                    if (!in_array($t, $strings) && strlen($t)>1) {
-                        $strings[]=$t;
+                    if (!in_array($t, $strings) && strlen($t) > 1) {
+                        $strings[] = $t;
                         sort($strings);
                     }
                 }
@@ -1168,7 +1168,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         if ($isPhp($file)) {
             $tokens = token_get_all($s);
             $num_tokens = count($tokens);
-            for ($x=0; $x < $num_tokens; $x++) {
+            for ($x = 0; $x < $num_tokens; $x++) {
                 $token = $tokens[$x];
                 if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
                     $token = $tokens[++$x];

@@ -420,7 +420,7 @@ class Application extends Silex\Application
                 }
             );
         } else {
-            error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
         }
 
         $this->after(array($this, 'afterHandler'));

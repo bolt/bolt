@@ -327,13 +327,13 @@ class TwigExtension extends \Twig_Extension
         }
 
         $types = array(
-            0=>'unknown',
-            1=>'gif',
-            2=>'jpeg',
-            3=>'png',
-            4=>'swf',
-            5=>'psd',
-            6=>'bmp'
+            0 => 'unknown',
+            1 => 'gif',
+            2 => 'jpeg',
+            3 => 'png',
+            4 => 'swf',
+            5 => 'psd',
+            6 => 'bmp'
         );
 
         // Get the dimensions of the image
@@ -587,9 +587,7 @@ class TwigExtension extends \Twig_Extension
         $requestedUri    = explode('?', $this->app['request']->getRequestUri());
 
         $entrancePageUrl = $this->app['config']->get('general/homepage');
-        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/')
-                            ? '/' . $entrancePageUrl
-                            : $entrancePageUrl;
+        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/') ? '/' . $entrancePageUrl : $entrancePageUrl;
 
         // check against Request Uri
         if ($requestedUri[0] == $linkToCheck) {

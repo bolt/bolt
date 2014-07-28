@@ -964,10 +964,10 @@ class Storage
         $where = array_merge($where, $filter_where);
 
         // Build SQL query
-        $select  = sprintf('SELECT   %s.id', $table);
+        $select = sprintf('SELECT   %s.id', $table);
         $select .= ' FROM ' . $table;
         $select .= ' LEFT JOIN ' . $taxonomytable;
-        $select .=  sprintf(' ON %s.id = %s.content_id', $table, $taxonomytable);
+        $select .= sprintf(' ON %s.id = %s.content_id', $table, $taxonomytable);
         $select .= ' WHERE ' . implode(' AND ', $where);
 
         // Run Query
@@ -999,7 +999,7 @@ class Storage
             return -1;
         }
         if ($a->getSearchResultWeight() < $b->getSearchResultWeight()) {
-            return +1;
+            return 1;
         }
         if ($a['datepublish'] > $b['datepublish']) {
             // later is more important
@@ -1007,7 +1007,7 @@ class Storage
         }
         if ($a['datepublish'] < $b['datepublish']) {
             // earlier is less important
-            return +1;
+            return 1;
         }
 
         return strcasecmp($a['title'], $b['title']);
@@ -1732,7 +1732,7 @@ class Storage
                                 in_array($keyParts[$i], Content::getBaseColumns()) ) {
                                 $rkey = $tablename . '.' . $keyParts[$i];
                                 $fieldtype = $this->getContentTypeFieldType($contenttype['slug'], $keyParts[$i]);
-                                $orPart.= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
+                                $orPart .= ' (' . $this->parseWhereParameter($rkey, $valParts[$i], $keyParts[$i], $fieldtype) . ') OR ';
                             }
                         }
                         if (strlen($orPart) > 2) {

@@ -44,7 +44,7 @@ class BrowsePlugin implements PluginInterface
                 continue;
             }
 
-            if ($entry['type']==='file') {
+            if ($entry['type'] === 'file') {
 
                 $files[$entry['path']] = array(
                     'path' => $entry['dirname'],
@@ -80,7 +80,7 @@ class BrowsePlugin implements PluginInterface
 
             }
 
-            if ($entry['type']=='dir') {
+            if ($entry['type'] == 'dir') {
                 $folders[$entry['path']] = array(
                     'path' => $entry['dirname'],
                     'foldername' => $entry['basename'],

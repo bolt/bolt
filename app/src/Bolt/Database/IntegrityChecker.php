@@ -47,7 +47,7 @@ class IntegrityChecker
         $this->prefix = $this->app['config']->get('general/database/prefix', "bolt_");
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
-        if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
+        if ($this->prefix[strlen($this->prefix) - 1] != "_") {
             $this->prefix .= "_";
         }
 
@@ -499,7 +499,7 @@ class IntegrityChecker
         $contentChangelogTable->addColumn("diff", "text", array());
 
         // message to create a story of revisions
-        $contentChangelogTable->addColumn("comment", "string", array('length'=> 150, "default" => ""));
+        $contentChangelogTable->addColumn("comment", "string", array('length' => 150, "default" => ""));
         $tables[] = $contentChangelogTable;
 
         $cronTable = $schema->createTable($this->prefix."cron");

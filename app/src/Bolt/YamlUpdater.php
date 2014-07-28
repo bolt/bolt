@@ -98,9 +98,9 @@ class YamlUpdater
             return false;
         }
 
-        $needle = substr("                                      ", 0, 2*$indent) . $keypart.":";
+        $needle = substr("                                      ", 0, 2 * $indent) . $keypart.":";
 
-        if (strpos($this->file[$this->pointer], $needle)===0) {
+        if (strpos($this->file[$this->pointer], $needle) === 0) {
             return $this->pointer;
         } else {
             $this->pointer++;

@@ -33,7 +33,7 @@ class ExtensionsEnable extends BaseCommand
                 $enabled[] = $key;
             }
 
-            if (strtolower($key)==strtolower($name)) {
+            if (strtolower($key) == strtolower($name)) {
                 if (!in_array($key, $enabled)) {
                     $lines[] = "<info>Enabling <options=bold>$key</options=bold>.</info>";
                     $update = true;

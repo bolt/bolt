@@ -151,7 +151,7 @@ class Content implements \ArrayAccess
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
             if (in_array($this->fieldtype($key), $serialized_field_types)) {
-                if (!empty($value) && is_string($value) && (substr($value, 0, 2)=="a:" || $value[0] === '[' || $value[0] === '{')) {
+                if (!empty($value) && is_string($value) && (substr($value, 0, 2) == "a:" || $value[0] === '[' || $value[0] === '{')) {
                     $unserdata = @smart_unserialize($value);
                     if ($unserdata !== false) {
                         $this->values[$key] = $unserdata;
@@ -159,7 +159,7 @@ class Content implements \ArrayAccess
                 }
             }
 
-            if ($this->fieldtype($key)=="video" && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
+            if ($this->fieldtype($key) == "video" && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
 
                 $video = $this->values[$key];
 
@@ -190,8 +190,8 @@ class Content implements \ArrayAccess
             }
 
             // Make sure 'date' and 'datetime' don't end in " :00".
-            if ($this->fieldtype($key)=="datetime") {
-                if (strpos($this->values[$key], ":")===false) {
+            if ($this->fieldtype($key) == "datetime") {
+                if (strpos($this->values[$key], ":") === false) {
                     $this->values[$key] = trim($this->values[$key]) . " 00:00:00";
                 }
                 $this->values[$key] = str_replace(" :00", " 00:00", $this->values[$key]);
@@ -203,7 +203,7 @@ class Content implements \ArrayAccess
     public function setValue($key, $value)
     {
         // Check if the value need to be unserialized..
-        if (is_string($value) && substr($value, 0, 2)=="a:") {
+        if (is_string($value) && substr($value, 0, 2) == "a:") {
             $unserdata = @smart_unserialize($value);
             if ($unserdata !== false) {
                 $value = $unserdata;
@@ -331,7 +331,7 @@ class Content implements \ArrayAccess
                     continue;
                 }
 
-                if (substr($key, 0, 11)!="fileupload-") {
+                if (substr($key, 0, 11) != "fileupload-") {
                     $this->app['log']->add("Upload: skipped an upload that wasn't for Content. - " . $filename, 2);
                     continue;
                 }
@@ -718,7 +718,7 @@ class Content implements \ArrayAccess
         // Otherwise, grab the first field of type 'text', and assume that's the title.
         if (!empty($this->contenttype['fields'])) {
             foreach ($this->contenttype['fields'] as $key => $field) {
-                if ($field['type']=='text') {
+                if ($field['type'] == 'text') {
                     return $key;
                 }
             }
@@ -742,7 +742,7 @@ class Content implements \ArrayAccess
 
         // Grab the first field of type 'image', and return that.
         foreach ($this->contenttype['fields'] as $key => $field) {
-            if ($field['type']=='image') {
+            if ($field['type'] == 'image') {
                 // After v1.5.1 we store image data as an array
                 if (is_array($this->values[ $key ])) {
                     return $this->values[ $key ]['file'];
@@ -951,7 +951,7 @@ class Content implements \ArrayAccess
         }
 
         foreach ($this->contenttype['fields'] as $name => $field) {
-            if ($field['type']=="templateselect" && !empty($this->values[$name])) {
+            if ($field['type'] == "templateselect" && !empty($this->values[$name])) {
                 $template = $this->values[$name];
                 $chosen = 'record';
             }
@@ -1075,16 +1075,16 @@ class Content implements \ArrayAccess
 
         if ($low_subject == $complete) {
             // a complete match is 100% of the maximum
-            return round((100/100) * $max);
+            return round((100 / 100) * $max);
         }
         if (strstr($low_subject, $complete)) {
             // when the whole query is found somewhere is 70% of the maximum
-            return round((70/100) * $max);
+            return round((70 / 100) * $max);
         }
 
         $word_matches = 0;
         $cnt_words    = count($words);
-        for ($i=0; $i < $cnt_words; $i++) {
+        for ($i = 0; $i < $cnt_words; $i++) {
             if (strstr($low_subject, $words[$i])) {
                 $word_matches++;
             }
@@ -1092,7 +1092,7 @@ class Content implements \ArrayAccess
         if ($word_matches > 0) {
             // marcel: word matches are maximum of 50% of the maximum per word
             // xiao: made (100/100) instead of (50/100).
-            return round(($word_matches/$cnt_words) * (100/100) * $max);
+            return round(($word_matches / $cnt_words) * (100 / 100) * $max);
         }
 
         return 0;

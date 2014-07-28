@@ -631,17 +631,19 @@ class Config
            it shouldn't trigger an update for the cache, while the others should.
         */
         $timestamps = array(
-            file_exists(BOLT_CONFIG_DIR . '/config.yml')       ? filemtime(BOLT_CONFIG_DIR . '/config.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/taxonomy.yml')     ? filemtime(BOLT_CONFIG_DIR . '/taxonomy.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/config.yml') ? filemtime(BOLT_CONFIG_DIR . '/config.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/taxonomy.yml') ? filemtime(BOLT_CONFIG_DIR . '/taxonomy.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/contenttypes.yml') ? filemtime(BOLT_CONFIG_DIR . '/contenttypes.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/menu.yml')         ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/routing.yml')      ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
-            file_exists(BOLT_CONFIG_DIR . '/permissions.yml')  ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/menu.yml') ? filemtime(BOLT_CONFIG_DIR . '/menu.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/routing.yml') ? filemtime(BOLT_CONFIG_DIR . '/routing.yml') : 10000000000,
+            file_exists(BOLT_CONFIG_DIR . '/permissions.yml') ? filemtime(BOLT_CONFIG_DIR . '/permissions.yml') : 10000000000,
             file_exists(BOLT_CONFIG_DIR . '/config_local.yml') ? filemtime(BOLT_CONFIG_DIR . '/config_local.yml') : 0,
         );
-        $cachetimestamp = file_exists($this->app['resources']->getPath('cache') . '/config_cache.php')
-            ? filemtime($this->app['resources']->getPath('cache') . '/config_cache.php')
-            : 0;
+        if (file_exists($this->app['resources']->getPath('cache') . '/config_cache.php')) {
+            $cachetimestamp = filemtime($this->app['resources']->getPath('cache') . '/config_cache.php');
+        } else {
+            $cachetimestamp = 0;
+        }
 
         if ($cachetimestamp > max($timestamps)) {
             $this->data = loadSerialize($this->app['resources']->getPath('cache') . '/config_cache.php');
@@ -708,9 +710,7 @@ class Config
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path'])
-                            ?   realpath($configdb["path"])."/".$basename
-                            :   $this->app['resources']->getPath('database') ."/". $basename,
+                'path' => isset($configdb['path']) ? realpath($configdb["path"])."/".$basename : $this->app['resources']->getPath('database') ."/". $basename,
                 'randomfunction' => 'RANDOM()',
                 'memory' => isset($configdb['memory']) ? true : false
             );
@@ -741,9 +741,7 @@ class Config
                 'randomfunction' => $randomfunction
             );
 
-            $dboptions['charset'] = isset($configdb['charset'])
-                ? $configdb['charset']
-                : 'utf8';
+            $dboptions['charset'] = isset($configdb['charset']) ? $configdb['charset'] : 'utf8';
         }
 
         switch ($dboptions['driver']) {

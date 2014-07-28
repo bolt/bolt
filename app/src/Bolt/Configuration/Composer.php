@@ -45,9 +45,9 @@ class Composer extends Standard
      **/
     public function setThemePath($generalConfig)
     {
-        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme']: '';
-        $theme_path  = isset($generalConfig['theme_path']) ?$generalConfig['theme_path']: '/theme';
-        $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path']: $this->getUrl('root').'theme';
+        $theme       = isset($generalConfig['theme']) ? $generalConfig['theme'] : '';
+        $theme_path  = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
+        $theme_url   = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root').'theme';
         $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("composer"), $theme_path, $theme));
         $this->setUrl("theme", sprintf('%s/%s/', $theme_url, $theme));
     }

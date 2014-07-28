@@ -91,7 +91,7 @@ class Render
                 // otherwise a proxy/cache might keep the cache twice as long in the worst case
                 // scenario, and now it's only 50% max, but likely less
                 $headers = array(
-                    'Cache-Control' => 's-maxage=' . ($this->cacheDuration()/2),
+                    'Cache-Control' => 's-maxage=' . ($this->cacheDuration() / 2),
                 );
                 $result = new Response($result, 200, $headers);
             }

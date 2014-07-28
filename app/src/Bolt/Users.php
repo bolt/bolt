@@ -102,7 +102,7 @@ class Users
             }
         }
 
-        if (!empty($user['password']) && $user['password']!="**dontchange**") {
+        if (!empty($user['password']) && $user['password'] != "**dontchange**") {
             $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
@@ -116,7 +116,7 @@ class Users
             $user['lastseen'] = "1900-01-01";
         }
 
-        if (empty($user['enabled']) && $user['enabled']!== 0) {
+        if (empty($user['enabled']) && $user['enabled'] !== 0) {
             $user['enabled'] = 1;
         }
 
@@ -248,7 +248,7 @@ class Users
             $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
+            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
         }
 
         $token = md5($seed);
@@ -316,7 +316,7 @@ class Users
             $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
+            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
         }
 
         $token = substr(md5($seed), 0, 8);
@@ -546,7 +546,7 @@ class Users
             setcookie(
                 'bolt_authtoken',
                 '',
-                time() -1,
+                time() - 1,
                 '/',
                 $this->app['config']->get('general/cookies_domain'),
                 $this->app['config']->get('general/cookies_https_only'),
@@ -708,7 +708,7 @@ class Users
         setcookie(
             'bolt_authtoken',
             '',
-            time() -1,
+            time() - 1,
             '/',
             $this->app['config']->get('general/cookies_domain'),
             $this->app['config']->get('general/cookies_https_only'),
@@ -791,7 +791,7 @@ class Users
 
         if (is_numeric($id)) {
             foreach ($this->users as $user) {
-                if ($user['id']==$id) {
+                if ($user['id'] == $id) {
                     return $user;
                 }
             }

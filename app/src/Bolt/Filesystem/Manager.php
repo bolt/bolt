@@ -26,7 +26,7 @@ class Manager extends MountManager
 
     public function initManagers()
     {
-        foreach ($this->filesystems as $namespace=>$manager) {
+        foreach ($this->filesystems as $namespace => $manager) {
             $this->initManager($namespace, $manager);
         }
     }

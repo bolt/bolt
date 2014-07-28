@@ -30,7 +30,7 @@ class Log
         $this->prefix = $app['config']->get('general/database/prefix', "bolt_");
 
         // Make sure prefix ends in '_'. Prefixes without '_' are lame..
-        if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
+        if ($this->prefix[strlen($this->prefix) - 1] != "_") {
             $this->prefix .= "_";
         }
 
@@ -65,7 +65,7 @@ class Log
     public function add($message, $level = 1, $content = false, $code = '')
     {
         // If debug is not enabled, don't log anything below lvl3.
-        if ($this->app['debug']==false && $level<3) {
+        if ($this->app['debug'] == false && $level < 3) {
             return;
         }
 
@@ -121,14 +121,14 @@ class Log
 
         $page = $this->app['request']->query->get('page');
         if (empty($page)) {
-            $page=1;
+            $page = 1;
         }
 
         $query = sprintf(
             "SELECT * FROM %s WHERE code IN (?) OR (level >= ?) ORDER BY date DESC",
             $this->tablename
         );
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page-1) * $amount));
+        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, intval($amount), intval(($page - 1) * $amount));
 
         $params = array(
             $codes, $minlevel
@@ -155,8 +155,8 @@ class Log
             'count' => $rowcount['count'],
             'totalpages' => ceil($rowcount['count'] / $amount),
             'current' => $page,
-            'showing_from' => ($page-1)*$amount + 1,
-            'showing_to' => ($page-1)*$amount + count($rows)
+            'showing_from' => ($page - 1) * $amount + 1,
+            'showing_to' => ($page - 1) * $amount + count($rows)
         );
 
         $this->app['storage']->setPager('activity', $pager);

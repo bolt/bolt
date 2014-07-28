@@ -104,7 +104,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         foreach ($files as $file) {
             if ($file instanceof UploadedFile) {
                 $filesToProcess[] = array(
-                    'name'=> $file->getClientOriginalName(),
+                    'name' => $file->getClientOriginalName(),
                     'tmp_name' => $file->getPathName()
                 );
             } else {
@@ -122,8 +122,8 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             } elseif ($result instanceof Collection) {
                 foreach ($result as $resultFile) {
                     $successfulFiles[] = array(
-                        'url'=>$namespace."/".$resultFile->name,
-                        'name'=>$resultFile->name
+                        'url' => $namespace."/".$resultFile->name,
+                        'name' => $resultFile->name
                     );
                 }
             }
@@ -139,8 +139,8 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             foreach ($result as $resultFile) {
                 $errors = $resultFile->getMessages();
                 $errorFiles[] = array(
-                    'url'=>$namespace."/".$resultFile->original_name,
-                    'name'=>$resultFile->original_name,
+                    'url' => $namespace."/".$resultFile->original_name,
+                    'name' => $resultFile->original_name,
                     'error' => $errors[0]->__toString()
                 );
             }

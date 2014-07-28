@@ -102,7 +102,7 @@ class ResourceManager
 
     public function getUrl($name)
     {
-        if (array_key_exists($name."url", $this->urls) && $name !=='root') {
+        if (array_key_exists($name."url", $this->urls) && $name !== 'root') {
             return $this->urls[$name."url"];
         }
         if (!array_key_exists($name, $this->urls)) {
