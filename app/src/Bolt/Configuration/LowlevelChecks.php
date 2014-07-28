@@ -46,7 +46,6 @@ class LowlevelChecks
      */
     public function doChecks()
     {
-
         if (get_magic_quotes_gpc()) {
             $this->lowlevelError(
                 "Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
@@ -106,7 +105,6 @@ class LowlevelChecks
         $this->lowlevelConfigFix('permissions');
 
         // $this->lowlevelError("Done");
-
     }
 
     /**
@@ -230,7 +228,6 @@ class LowlevelChecks
      */
     public function lowlevelError($message)
     {
-
         $html = <<< EOM
 <!DOCTYPE html>
 <html lang="en">
@@ -286,6 +283,5 @@ EOM;
         echo $html;
 
         die();
-
     }
 }

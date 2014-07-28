@@ -94,7 +94,6 @@ class Storage
      */
     public function preFill($contenttypes = array())
     {
-
         $this->guzzleclient = new \Guzzle\Service\Client('http://loripsum.net/api/');
 
         $output = "";
@@ -126,7 +125,6 @@ class Storage
         $output .= "<br>\n\n" . __('Done!');
 
         return $output;
-
     }
 
     /**
@@ -139,7 +137,6 @@ class Storage
      */
     private function preFillSingle($key, $contenttype)
     {
-
         $content = array();
         $title = "";
 
@@ -240,12 +237,10 @@ class Storage
         ) . "<br>\n";
 
         return $output;
-
     }
 
     private function getSomeRandomTags($num = 5)
     {
-
         $tags = array("action", "adult", "adventure", "alpha", "animals", "animation", "anime", "architecture", "art",
             "astronomy", "baby", "batshitinsane", "biography", "biology", "book", "books", "business", "business",
             "camera", "cars", "cats", "cinema", "classic", "comedy", "comics", "computers", "cookbook", "cooking",
@@ -723,7 +718,6 @@ class Storage
 
     public function deleteContent($contenttype, $id)
     {
-
         if (empty($contenttype)) {
             echo "Contenttype is required.";
 
@@ -761,13 +755,11 @@ class Storage
         }
 
         return $res;
-
     }
 
 
     protected function insertContent($content, $contenttype, $taxonomy = "", $comment = null)
     {
-
         // Make sure $contenttype is a 'slug'
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
@@ -792,7 +784,6 @@ class Storage
         $this->logInsert($contenttype, $id, $content, $comment);
 
         return $id;
-
     }
 
 
@@ -829,7 +820,6 @@ class Storage
             $content['datecreated'] = $datecreated;
             return $this->app['db']->insert($tablename, $content);
         }
-
     }
 
     /**
@@ -845,7 +835,6 @@ class Storage
      */
     public function updateSingleValue($contenttype, $id, $field, $value)
     {
-
         $id = intval($id);
 
         if (!$this->isValidColumn($field, $contenttype)) {
@@ -870,19 +859,16 @@ class Storage
         $result = $this->saveContent($content, $comment);
 
         return $result;
-
     }
 
     public function getEmptyContent($contenttypeslug)
     {
-
         $content = $this->getContentObject($contenttypeslug);
 
         // don't use 'undefined contenttype' as title/name
         $content->setValues(array('name' => '', 'title' => ''));
 
         return $content;
-
     }
 
     /**
@@ -1234,7 +1220,6 @@ class Storage
      */
     public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
     {
-
         $tablename = $this->getTablename("taxonomy");
 
         $slug = makeSlug($name);
@@ -1291,7 +1276,6 @@ class Storage
         $this->app['storage']->setPager($taxonomytype['slug'] . "/" . $slug, $pager);
 
         return $content;
-
     }
 
     /**
@@ -1331,7 +1315,6 @@ class Storage
             // Oops. Couldn't execute the queries.
 
         }
-
     }
 
 
@@ -1372,7 +1355,6 @@ class Storage
             // Oops. Couldn't execute the queries.
 
         }
-
     }
 
     /**
@@ -1533,7 +1515,6 @@ class Storage
             $decoded['return_single'] = $meta_parameters['returnsingle'];
             unset($meta_parameters['returnsingle']);
         }
-
     }
 
     /**
@@ -1619,7 +1600,6 @@ class Storage
         }
 
         return $order;
-
     }
 
     /**
@@ -2070,7 +2050,6 @@ class Storage
         }
 
         return false;
-
     }
 
     /**
@@ -2114,7 +2093,6 @@ class Storage
         }
 
         return $order;
-
     }
 
     /**
@@ -2201,7 +2179,6 @@ class Storage
      */
     private function parseWhereParameter($key, $value, $fieldtype = false)
     {
-
         $value = trim($value);
 
         // check if we need to split..
@@ -2265,7 +2242,6 @@ class Storage
      */
     public function getContentType($contenttypeslug)
     {
-
         $contenttypeslug = makeSlug($contenttypeslug);
 
         // Return false if empty, can't find it..
@@ -2294,7 +2270,6 @@ class Storage
         } else {
             return false;
         }
-
     }
 
     /**
@@ -2305,7 +2280,6 @@ class Storage
      */
     public function getTaxonomyType($taxonomyslug)
     {
-
         $taxonomyslug = makeSlug($taxonomyslug);
 
         // Return false if empty, can't find it..
@@ -2330,7 +2304,6 @@ class Storage
         } else {
             return false;
         }
-
     }
 
     /**
@@ -2352,7 +2325,6 @@ class Storage
      */
     public function getContentTypeAssert($includesingular = false)
     {
-
         $slugs = array();
         foreach ($this->app['config']->get('contenttypes') as $type) {
             $slugs[] = $type['slug'];
@@ -2362,7 +2334,6 @@ class Storage
         }
 
         return implode("|", $slugs);
-
     }
 
 
@@ -2374,7 +2345,6 @@ class Storage
      */
     public function getTaxonomyTypeAssert($includesingular = false)
     {
-
         $taxonomytypes = $this->app['config']->get('taxonomy');
 
         // No taxonomies, nothing to assert. The route _DOES_ expect a string, so
@@ -2392,7 +2362,6 @@ class Storage
         }
 
         return implode("|", $slugs);
-
     }
 
     /**
@@ -2403,7 +2372,6 @@ class Storage
      */
     public function getContentTypeFields($contenttypeslug)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
 
         if (empty($contenttype['fields'])) {
@@ -2411,7 +2379,6 @@ class Storage
         } else {
             return array_keys($contenttype['fields']);
         }
-
     }
 
     /**
@@ -2423,7 +2390,6 @@ class Storage
      */
     public function getContentTypeFieldType($contenttypeslug, $fieldname)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
 
         if (in_array($fieldname, array('datecreated', 'datechanged', 'datepublish', 'datedepublish'))) {
@@ -2433,7 +2399,6 @@ class Storage
         } else {
             return false;
         }
-
     }
 
 
@@ -2447,7 +2412,6 @@ class Storage
      */
     public function getContentTypeGrouping($contenttypeslug)
     {
-
         $grouping = false;
         $taxonomy = $this->getContentTypeTaxonomy($contenttypeslug);
         foreach ($taxonomy as $taxokey => $taxo) {
@@ -2458,7 +2422,6 @@ class Storage
         }
 
         return $grouping;
-
     }
 
     /**
@@ -2469,7 +2432,6 @@ class Storage
      */
     public function getContentTypeTaxonomy($contenttypeslug)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
 
         if (empty($contenttype['taxonomy'])) {
@@ -2487,7 +2449,6 @@ class Storage
 
             return $taxonomy;
         }
-
     }
 
     /**
@@ -2499,7 +2460,6 @@ class Storage
      */
     protected function getTaxonomy($content)
     {
-
         $tablename = $this->getTablename("taxonomy");
 
         $ids = \utilphp\util::array_pluck($content, 'id');
@@ -2535,7 +2495,6 @@ class Storage
         foreach ($content as $key => $value) {
             $content[$key]->sortTaxonomy();
         }
-
     }
 
     /**
@@ -2547,7 +2506,6 @@ class Storage
      */
     protected function updateTaxonomy($contenttype, $content_id, $taxonomy)
     {
-
         $tablename = $this->getTablename("taxonomy");
         $configTaxonomies = $this->app['config']->get('taxonomy');
 
@@ -2635,7 +2593,6 @@ class Storage
             }
 
         }
-
     }
 
 
@@ -2648,7 +2605,6 @@ class Storage
      */
     protected function getRelation($content)
     {
-
         $tablename = $this->getTablename("relations");
 
         $ids = \utilphp\util::array_pluck($content, 'id');
@@ -2684,7 +2640,6 @@ class Storage
         foreach ($rows as $row) {
             $content[$row['to_id']]->setRelation($row['from_contenttype'], $row['from_id']);
         }
-
     }
 
     /**
@@ -2729,7 +2684,6 @@ class Storage
      */
     protected function updateRelation($contenttype, $content_id, $relation)
     {
-
         $tablename = $this->getTablename("relations");
 
         // Get the current values from the DB..
@@ -2804,7 +2758,6 @@ class Storage
 
     public function getLatestId($contenttypeslug)
     {
-
         $tablename = $this->getTablename($contenttypeslug);
 
         // Get the current values from the DB..
@@ -2819,13 +2772,11 @@ class Storage
         } else {
             return false;
         }
-
     }
 
 
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true)
     {
-
         $contenttype = $this->getContentType($contenttypeslug);
         $tablename = $this->getTablename($contenttype['slug']);
 
@@ -2922,7 +2873,6 @@ class Storage
         $this->tables[$name] = true;
 
         return true;
-
     }
 
     /**
@@ -2933,22 +2883,18 @@ class Storage
      */
     protected function getTablename($name)
     {
-
         $name = str_replace("-", "_", makeSlug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
-
     }
 
 
     protected function hasRecords($tablename)
     {
-
         $count = $this->app['db']->fetchColumn('SELECT COUNT(id) FROM ' . $tablename);
 
         return intval($count) > 0;
-
     }
 
     /**

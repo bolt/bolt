@@ -86,7 +86,6 @@ class Cache extends FilesystemCache
      */
     private function clearCacheHelper($startFolder, $additional, &$result)
     {
-
         $currentfolder = realpath($startFolder . "/" . $additional);
 
         if (!file_exists($currentfolder)) {
@@ -129,6 +128,5 @@ class Cache extends FilesystemCache
         }
 
         $dir->close();
-
     }
 }

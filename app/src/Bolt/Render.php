@@ -45,7 +45,6 @@ class Render
      */
     public function render($template, $vars = array())
     {
-
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
 
@@ -55,7 +54,6 @@ class Render
         $this->app['stopwatch']->stop('bolt.render');
 
         return $html;
-
     }
 
     /**

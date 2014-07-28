@@ -19,7 +19,6 @@ class Content implements \ArrayAccess
 
     public function __construct(Silex\Application $app, $contenttype = "", $values = "")
     {
-
         $this->app = $app;
 
         if (!empty($contenttype)) {
@@ -77,7 +76,6 @@ class Content implements \ArrayAccess
             $this->setValues($values);
 
         }
-
     }
 
     /**
@@ -95,12 +93,10 @@ class Content implements \ArrayAccess
                 'datedepublish',
                 'ownerid',
                 'status');
-
     }
 
     public function setValues(Array $values)
     {
-
         // Since Bolt 1.4, we use 'ownerid' instead of 'username' in the DB tables. If we get an array that has an
         // empty 'ownerid', attempt to set it from the 'username'. In $this->setValue the user will be set, regardless
         // of ownerid is an 'id' or a 'username'.
@@ -202,12 +198,10 @@ class Content implements \ArrayAccess
             }
 
         }
-
     }
 
     public function setValue($key, $value)
     {
-
         // Check if the value need to be unserialized..
         if (is_string($value) && substr($value, 0, 2)=="a:") {
             $unserdata = @smart_unserialize($value);
@@ -245,12 +239,10 @@ class Content implements \ArrayAccess
         }
 
         $this->values[$key] = $value;
-
     }
 
     public function setFromPost($values, $contenttype)
     {
-
         $values = cleanPostedData($values);
 
         if (!$this->id) {
@@ -371,7 +363,6 @@ class Content implements \ArrayAccess
         }
 
         $this->setValues($values);
-
     }
 
     /**
@@ -413,13 +404,11 @@ class Content implements \ArrayAccess
 
     public function setContenttype($contenttype)
     {
-
         if (is_string($contenttype)) {
             $contenttype = $this->app['storage']->getContenttype($contenttype);
         }
 
         $this->contenttype = $contenttype;
-
     }
 
     /**
@@ -431,7 +420,6 @@ class Content implements \ArrayAccess
      */
     public function setTaxonomy($taxonomytype, $slug, $name = '', $sortorder = 0)
     {
-
         // If $value is an array, recurse over it, adding each one by itself.
         if (is_array($slug)) {
             foreach ($slug as $single) {
@@ -462,13 +450,10 @@ class Content implements \ArrayAccess
 
         $this->taxonomy[$taxonomytype][$link] = $name;
 
-
-
         // If it's a "grouping" type, set $this->group.
         if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
             $this->setGroup($slug, $name, $taxonomytype, $sortorder);
         }
-
     }
 
     /**
@@ -500,13 +485,11 @@ class Content implements \ArrayAccess
             }
             $this->taxonomy[$type] = $new;
         }
-
     }
 
 
     public function setRelation($contenttype, $id)
     {
-
         if (!empty($this->relation[$contenttype])) {
             $ids = $this->relation[$contenttype];
         } else {
@@ -517,7 +500,6 @@ class Content implements \ArrayAccess
         sort($ids);
 
         $this->relation[$contenttype] = array_unique($ids);
-
     }
 
 
@@ -528,7 +510,6 @@ class Content implements \ArrayAccess
         } else {
             return false;
         }
-
     }
 
     /**
@@ -562,7 +543,6 @@ class Content implements \ArrayAccess
         } else {
             $this->group['index'] = 2147483647; // Max for 32 bit int.
         }
-
     }
 
     /**
@@ -643,7 +623,6 @@ class Content implements \ArrayAccess
      */
     public function preParse($snippet, $allowtwig)
     {
-
         // Quickly verify that we actually need to parse the snippet!
         if ($allowtwig && preg_match('/[{][{%#]/', $snippet)) {
 
@@ -652,7 +631,6 @@ class Content implements \ArrayAccess
         }
 
         return $snippet;
-
     }
 
     public function getTemplateContext()
@@ -688,7 +666,6 @@ class Content implements \ArrayAccess
      */
     public function get($name)
     {
-
         // For fields that are stored as arrays, like 'video'
         if (strpos($name, ".") > 0) {
             list ($name, $attr) = explode(".", $name);
@@ -709,14 +686,12 @@ class Content implements \ArrayAccess
      */
     public function getTitle()
     {
-
         if ($column = $this->getTitleColumnName()) {
             return $this->values[$column];
         }
 
         // nope, no title was found..
         return "(untitled)";
-
     }
 
     /**
@@ -724,7 +699,6 @@ class Content implements \ArrayAccess
      */
     public function getTitleColumnName()
     {
-
         // Sets the names of some 'common' names for the 'title' column.
         $names = array('title', 'name', 'caption', 'subject');
 
@@ -750,7 +724,6 @@ class Content implements \ArrayAccess
 
         // nope, no title was found..
         return false;
-
     }
 
 
@@ -760,7 +733,6 @@ class Content implements \ArrayAccess
      */
     public function getImage()
     {
-
         // No fields, no image.
         if (empty($this->contenttype['fields'])) {
             return "";
@@ -779,7 +751,6 @@ class Content implements \ArrayAccess
 
         // otherwise, no image.
         return "";
-
     }
 
     /**
@@ -892,7 +863,6 @@ class Content implements \ArrayAccess
         $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
 
         return $previous;
-
     }
 
     /**
@@ -912,7 +882,6 @@ class Content implements \ArrayAccess
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
 
         return $next;
-
     }
 
 
@@ -923,7 +892,6 @@ class Content implements \ArrayAccess
      */
     public function related($filtercontenttype = '', $filterid = '')
     {
-
         if (empty($this->relation)) {
             return false; // nothing to do here.
         }
@@ -955,7 +923,6 @@ class Content implements \ArrayAccess
      */
     public function template()
     {
-
         $template = $this->app['config']->get('general/record_template');
         $chosen = 'config';
 
@@ -983,7 +950,6 @@ class Content implements \ArrayAccess
         $this->app['log']->setValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
 
         return $template;
-
     }
 
     /**
@@ -1047,7 +1013,6 @@ class Content implements \ArrayAccess
         }
 
         return new \Twig_Markup($excerpt, 'UTF-8');
-
     }
 
     /**

@@ -150,7 +150,6 @@ class IntegrityChecker
      */
     public function checkTablesIntegrity()
     {
-
         $messages = array();
 
         $currentTables = $this->getTableObjects();
@@ -247,7 +246,6 @@ class IntegrityChecker
      */
     public function repairTables()
     {
-
         // When repairing tables we want to start with an empty flashbag. Otherwise we get another
         // 'repair your DB'-notice, right after we're done repairing.
         $this->app['session']->getFlashBag()->clear();
@@ -294,7 +292,6 @@ class IntegrityChecker
         }
 
         return $output;
-
     }
 
     /**
@@ -631,11 +628,9 @@ class IntegrityChecker
      */
     protected function getTablename($name)
     {
-
         $name = str_replace("-", "_", makeSlug($name));
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
-
     }
 }

@@ -176,7 +176,6 @@ class Backend implements ControllerProviderInterface
      */
     public function dashboard(\Bolt\Application $app)
     {
-
         $limit = $app['config']->get('general/recordsperdashboardwidget');
 
         $total = 0;
@@ -201,7 +200,6 @@ class Backend implements ControllerProviderInterface
         $app['twig']->addGlobal('title', __("Dashboard"));
 
         return $app['render']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
-
     }
 
 
@@ -254,13 +252,11 @@ class Backend implements ControllerProviderInterface
      */
     public function logout(Silex\Application $app)
     {
-
         $app['log']->add("Logout", 3, '', 'logout');
 
         $app['users']->logout();
 
         return redirect('login');
-
     }
 
 
@@ -274,11 +270,9 @@ class Backend implements ControllerProviderInterface
      */
     public function resetpassword(Silex\Application $app, Request $request)
     {
-
         $app['users']->resetPasswordConfirm($request->get('token'));
 
         return redirect('login');
-
     }
 
 
@@ -287,7 +281,6 @@ class Backend implements ControllerProviderInterface
      */
     public function dbcheck(\Bolt\Application $app)
     {
-
         $output = $app['integritychecker']->checkTablesIntegrity();
 
         $app['twig']->addGlobal('title', __("Database check / update"));
@@ -296,7 +289,6 @@ class Backend implements ControllerProviderInterface
             'required_modifications' => $output,
             'active' => "settings"
         ));
-
     }
 
     /**
@@ -304,7 +296,6 @@ class Backend implements ControllerProviderInterface
      */
     public function dbupdate(Silex\Application $app)
     {
-
         $output = $app['integritychecker']->repairTables();
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
@@ -334,7 +325,6 @@ class Backend implements ControllerProviderInterface
             'modifications' => $output,
             'active' => "settings"
         ));
-
     }
 
 
@@ -343,7 +333,6 @@ class Backend implements ControllerProviderInterface
      */
     public function clearcache(Silex\Application $app)
     {
-
         $result = $app['cache']->clearCache();
 
         $output = __("Deleted %s files from cache.", array('%s' => $result['successfiles']));
@@ -363,7 +352,6 @@ class Backend implements ControllerProviderInterface
             'content' => $content,
             'active' => "settings"
         ));
-
     }
 
 
@@ -372,7 +360,6 @@ class Backend implements ControllerProviderInterface
      */
     public function activitylog(Silex\Application $app)
     {
-
         $title = __('Activity log');
 
         $action = $app['request']->query->get('action');
@@ -392,7 +379,6 @@ class Backend implements ControllerProviderInterface
         $activity = $app['log']->getActivity(16);
 
         return $app['render']->render('activity.twig', array('title' => $title, 'activity' => $activity));
-
     }
 
     /**
@@ -418,7 +404,6 @@ class Backend implements ControllerProviderInterface
      */
     public function prefill(Silex\Application $app, Request $request)
     {
-
         $choices = array();
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
             $choices[$key] = __('%contenttypes%', array('%contenttypes%' => $cttype['name']));
@@ -448,7 +433,6 @@ class Backend implements ControllerProviderInterface
             'contenttypes' => $choices,
             'form' => $form->createView()
         ));
-
     }
 
 
@@ -457,7 +441,6 @@ class Backend implements ControllerProviderInterface
      */
     public function overview(Silex\Application $app, $contenttypeslug)
     {
-
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
@@ -495,7 +478,6 @@ class Backend implements ControllerProviderInterface
             'overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
         );
-
     }
 
     /**
@@ -872,7 +854,6 @@ class Backend implements ControllerProviderInterface
             'allowedStatuses' => $allowedStatuses,
             'contentowner' => $contentowner,
         ));
-
     }
 
     /**
@@ -971,7 +952,6 @@ class Backend implements ControllerProviderInterface
      */
     public function users(Silex\Application $app)
     {
-
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
@@ -979,7 +959,6 @@ class Backend implements ControllerProviderInterface
             'users.twig',
             array('users' => $users, 'sessions' => $sessions)
         );
-
     }
 
     public function roles(\Bolt\Application $app)
@@ -1290,7 +1269,6 @@ class Backend implements ControllerProviderInterface
             'form' => $form->createView(),
             'title' => $title
         ));
-
     }
 
     /**
@@ -1347,7 +1325,6 @@ class Backend implements ControllerProviderInterface
         }
 
         return redirect('users');
-
     }
 
     /**
@@ -1356,7 +1333,6 @@ class Backend implements ControllerProviderInterface
     public function about(Silex\Application $app)
     {
         return $app['render']->render('about.twig');
-
     }
 
     /**
@@ -1364,33 +1340,30 @@ class Backend implements ControllerProviderInterface
      */
     public function extensions(Silex\Application $app)
     {
-
         $title = "Extensions";
 
         $extensions = $app['extensions']->getInfo();
 
         return $app['render']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
-
     }
 
     public function files($namespace, $path, Silex\Application $app, Request $request)
     {
-        
         $filesystem = $app['filesystem']->getManager($namespace);
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
-        
+
         if (! $app['filepermissions']->authorized($fullPath)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
         }
-        
+
         try {
            $list = $filesystem->listContents($path);
            $validFolder = true;
         } catch (\Exception $e) {
             $list = array();
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
 
@@ -1460,12 +1433,12 @@ class Backend implements ControllerProviderInterface
             $formview = $form->createView();
 
         }
-        
+
         list($files, $folders) = $filesystem->browse($path, $app);
-        
+
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $namespace."/".$path)));
 
-    
+
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file..
         if (!$request->query->has('CKEditor')) {
@@ -1473,7 +1446,7 @@ class Backend implements ControllerProviderInterface
         } else {
             $twig = 'files_ck.twig';
         }
-        
+
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
         $cumulative = "";
@@ -1492,12 +1465,10 @@ class Backend implements ControllerProviderInterface
             'form' => $formview,
             'namespace' => $namespace
         ));
-
     }
 
     public function fileedit($namespace, $file, Silex\Application $app, Request $request)
     {
-
         if ($namespace == 'app' && dirname($file) == "config") {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
             // correct dir, which might be 'app/config', but it might be something else.
@@ -1607,7 +1578,6 @@ class Backend implements ControllerProviderInterface
             'pathsegments' => $pathsegments,
             'writeallowed' => $writeallowed
         ));
-
     }
 
     /**
@@ -1615,7 +1585,6 @@ class Backend implements ControllerProviderInterface
      */
     public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
     {
-
         $short_locale = substr($tr_locale, 0, 2);
         $type = 'yml';
         $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
@@ -1756,7 +1725,6 @@ class Backend implements ControllerProviderInterface
             'filetype' => $type,
             'writeallowed' => $writeallowed
         ));
-
     }
 
     /**

@@ -454,7 +454,6 @@ class TwigExtension extends \Twig_Extension
     public function ucfirst($str)
     {
         return ucfirst($str);
-
     }
 
     /**
@@ -466,7 +465,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function order($array, $on, $on_secondary = '')
     {
-
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
 
@@ -481,7 +479,6 @@ class TwigExtension extends \Twig_Extension
         uasort($array, array($this, "orderHelper"));
 
         return $array;
-
     }
 
     /**
@@ -564,7 +561,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
-
         $route_params = $this->app['request']->get('_route_params');
 
         // If passed a string, and it is in the route..
@@ -962,7 +958,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function showimage($filename = "", $width = 100, $height = 100, $crop = "")
     {
-
         if (!empty($filename)) {
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
@@ -974,7 +969,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $output;
-
     }
 
     /**
@@ -996,7 +990,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function popup($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
     {
-
         if (!empty($filename)) {
 
             $thumbconf = $this->app['config']->get('general/thumbnails');
@@ -1025,7 +1018,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $output;
-
     }
 
     /**
@@ -1039,7 +1031,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function image($filename, $width = "", $height = "", $crop = "")
     {
-
         if ($width != "" || $height != "") {
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
@@ -1057,7 +1048,6 @@ class TwigExtension extends \Twig_Extension
         );
 
         return $image;
-
     }
 
     /**
@@ -1346,9 +1336,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function safestring($str, $strict = false, $extrachars = "")
     {
-
         return safeString($str, $strict, $extrachars);
-
     }
 
 
@@ -1380,11 +1368,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function stackitems($amount = 20, $type = "")
     {
-
         $items = $this->app['stack']->listitems($amount, $type);
 
         return $items;
-
     }
 
 
@@ -1395,11 +1381,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function stacked($filename)
     {
-
         $stacked = ( $this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename) );
 
         return $stacked;
-
     }
 
 

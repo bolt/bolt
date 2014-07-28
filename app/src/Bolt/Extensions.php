@@ -140,7 +140,6 @@ class Extensions
      */
     public function getInfo()
     {
-
         $dir = dir($this->basefolder);
 
         $info = array();
@@ -161,7 +160,6 @@ class Extensions
         ksort($info);
 
         return $info;
-
     }
 
     /**
@@ -283,7 +281,6 @@ class Extensions
      */
     public function addCss($filename, $late = false)
     {
-
         $html = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
 
         if ($late) {
@@ -291,7 +288,6 @@ class Extensions
         } else {
             $this->insertSnippet(SnippetLocation::BEFORE_CSS, $html);
         }
-
     }
 
     /**
@@ -302,7 +298,6 @@ class Extensions
      */
     public function addJavascript($filename, $late = false)
     {
-
         $html = sprintf('<script src="%s"></script>', $filename);
 
         if ($late) {
@@ -310,7 +305,6 @@ class Extensions
         } else {
             $this->insertSnippet(SnippetLocation::AFTER_JS, $html);
         }
-
     }
 
     /**
@@ -319,7 +313,6 @@ class Extensions
      */
     public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = "", $defer = true, $cacheduration = 180, $extraparameters = "")
     {
-
         $user = $this->app['session']->get('user');
 
         $sessionkey = !empty($user['sessionkey']) ? $user['sessionkey'] : "";
@@ -337,7 +330,6 @@ class Extensions
             'extraparameters' => $extraparameters,
             'key' => $key
         );
-
     }
 
     /**
@@ -376,7 +368,6 @@ class Extensions
      */
     public function renderWidget($key)
     {
-
         foreach ($this->widgetqueue as $widget) {
             if ($key == $widget['key']) {
 
@@ -411,7 +402,6 @@ class Extensions
      */
     public function getSnippets($extensionname)
     {
-
         $snippets = $this->initialized[$extensionname]->getSnippets();
 
         if (!empty($snippets)) {
@@ -424,7 +414,6 @@ class Extensions
                 $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
             }
         }
-
     }
 
     /**
@@ -432,7 +421,6 @@ class Extensions
      */
     public function insertSnippet($location, $callback, $extensionname = "core", $extraparameters = "")
     {
-
         $key = md5($extensionname . $callback . $location);
 
         // http://php.net/manual/en/function.func-get-args.php
@@ -443,8 +431,6 @@ class Extensions
             'extension' => $extensionname,
             'extraparameters' => $extraparameters
         );
-
-
     }
 
     /**
@@ -457,7 +443,6 @@ class Extensions
 
     public function processSnippetQueue($html)
     {
-
         // First, gather all html <!-- comments -->, because they shouldn't be
         // considered for replacements. We use a callback, so we can fill our
         // $this->matchedcomments array
@@ -529,7 +514,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
     /**
@@ -543,7 +527,6 @@ class Extensions
      */
     public function insertStartOfHead($tag, $html)
     {
-
         // first, attempt to insert it after the <head> tag, matching indentation..
 
         if (preg_match("~^([ \t]*)<head(.*)~mi", $html, $matches)) {
@@ -560,7 +543,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
 
@@ -575,9 +557,7 @@ class Extensions
      */
     public function insertStartOfBody($tag, $html)
     {
-
         // first, attempt to insert it after the <body> tag, matching indentation..
-
         if (preg_match("~^([ \t]*)<body(.*)~mi", $html, $matches)) {
 
             // Try to insert it after <body>
@@ -592,7 +572,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
     /**
@@ -606,9 +585,7 @@ class Extensions
      */
     public function insertEndOfHead($tag, $html)
     {
-
         // first, attempt to insert it before the </head> tag, matching indentation..
-
         if (preg_match("~^([ \t]*)</head~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
@@ -623,7 +600,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
     /**
@@ -636,9 +612,7 @@ class Extensions
      */
     public function insertEndOfBody($tag, $html)
     {
-
         // first, attempt to insert it before the </body> tag, matching indentation..
-
         if (preg_match("~^([ \t]*)</body~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
@@ -653,7 +627,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
     /**
@@ -666,9 +639,7 @@ class Extensions
      */
     public function insertEndOfHtml($tag, $html)
     {
-
         // first, attempt to insert it before the </body> tag, matching indentation..
-
         if (preg_match("~^([ \t]*)</html~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
@@ -683,7 +654,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
 
@@ -696,9 +666,7 @@ class Extensions
      */
     public function insertAfterMeta($tag, $html)
     {
-
         // first, attempt to insert it after the last meta tag, matching indentation..
-
         if (preg_match_all("~^([ \t]*)<meta (.*)~mi", $html, $matches)) {
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
@@ -711,7 +679,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
 
@@ -724,9 +691,7 @@ class Extensions
      */
     public function insertAfterCss($tag, $html)
     {
-
         // first, attempt to insert it after the last <link> tag, matching indentation..
-
         if (preg_match_all("~^([ \t]*)<link (.*)~mi", $html, $matches)) {
 
             // matches[0] has some elements, the last index is -1, because zero indexed.
@@ -739,7 +704,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
 
@@ -752,9 +716,7 @@ class Extensions
      */
     public function insertBeforeCss($tag, $html)
     {
-
         // first, attempt to insert it after the <body> tag, matching indentation..
-
         if (preg_match("~^([ \t]*)<link(.*)~mi", $html, $matches)) {
 
             // Try to insert it before the match
@@ -769,7 +731,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
     /**
@@ -781,9 +742,7 @@ class Extensions
      */
     public function insertBeforeJS($tag, $html)
     {
-
         // first, attempt to insert it after the <body> tag, matching indentation..
-
         if (preg_match("~^([ \t]*)<script(.*)~mi", $html, $matches)) {
 
             // Try to insert it before the match
@@ -798,7 +757,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
     /**
@@ -813,7 +771,6 @@ class Extensions
      */
     public function insertAfterJs($tag, $html, $insidehead = true)
     {
-
         // Set $context: only the part until </head>, or entire document.
         if ($insidehead) {
             $pos = strpos($html, "</head>");
@@ -838,7 +795,6 @@ class Extensions
         }
 
         return $html;
-
     }
 
     /**
@@ -849,7 +805,6 @@ class Extensions
      */
     private function insertJquery($html)
     {
-
         // check if jquery is not yet present. Some of the patterns that 'match' are:
         // jquery.js
         // jquery.min.js
@@ -931,6 +886,5 @@ class Extensions
         $this->matchedcomments["/" . $key . "/"] = $c[0];
 
         return $key;
-
     }
 }

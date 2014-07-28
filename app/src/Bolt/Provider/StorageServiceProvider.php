@@ -10,7 +10,6 @@ class StorageServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-
         $app['storage'] = $app->share(function ($app) {
 
             $storage = new Storage($app);
@@ -18,7 +17,6 @@ class StorageServiceProvider implements ServiceProviderInterface
             return $storage;
 
         });
-
     }
 
     public function boot(Application $app)

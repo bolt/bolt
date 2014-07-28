@@ -10,7 +10,6 @@ class ConfigServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-
         $app['config'] = $app->share(function ($app) {
 
             $config = new Config($app);
@@ -18,7 +17,6 @@ class ConfigServiceProvider implements ServiceProviderInterface
             return $config;
 
         });
-
     }
 
     public function boot(Application $app)

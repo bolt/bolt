@@ -24,7 +24,6 @@ class Log
 
     public function __construct(Silex\Application $app)
     {
-
         $this->app = $app;
         $this->user = $app['session']->get('user');
 
@@ -41,13 +40,11 @@ class Log
 
         $this->memorylog = array();
         $this->values = array();
-
     }
 
     public function setRoute($route)
     {
         $this->route = $route;
-
     }
 
     public function errorhandler($message, $filename, $line)
@@ -63,12 +60,10 @@ class Log
         );
 
         $this->memorylog[] = $log;
-
     }
 
     public function add($message, $level = 1, $content = false, $code = '')
     {
-
         // If debug is not enabled, don't log anything below lvl3.
         if ($this->app['debug']==false && $level<3) {
             return;
@@ -113,7 +108,6 @@ class Log
         } catch (\Exception $e) {
             // Nothing..
         }
-
     }
 
     public function getMemorylog()
@@ -205,7 +199,6 @@ class Log
     public function getValues()
     {
         return $this->values;
-
     }
 
 
@@ -237,7 +230,6 @@ class Log
             array(date('Y-m-d H:i:s', strtotime('-7 day'))),
             array(\PDO::PARAM_STR)
         );
-
     }
 
     public function clear()
@@ -265,6 +257,5 @@ class Log
         // @todo: handle postgres (and other non mysql) database syntax
 
         $this->app['db']->executeQuery($query);
-
     }
 }

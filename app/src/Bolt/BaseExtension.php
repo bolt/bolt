@@ -144,7 +144,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function getInfo()
     {
-
         if (file_exists($this->basepath . "/readme.md")) {
             $this->info['readme'] = $this->basepath . "/readme.md";
         } else {
@@ -177,7 +176,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function init()
     {
-
     }
 
     /**
@@ -196,7 +194,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     public function getFunctions()
     {
         return $this->functionlist;
-
     }
 
     /**
@@ -207,9 +204,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addTwigFunction($name, $callback, $options = array())
     {
-
         $this->functionlist[] = new \Twig_SimpleFunction($name, array($this, $callback), $options);
-
     }
 
     /**
@@ -219,7 +214,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     public function getFilters()
     {
         return $this->filterlist;
-
     }
 
     /**
@@ -230,9 +224,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addTwigFilter($name, $callback, $options = array())
     {
-
         $this->filterlist[] = new \Twig_SimpleFilter($name, array($this, $callback), $options);
-
     }
 
     /**
@@ -291,7 +283,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addJavascript($filename, $late = false)
     {
-
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
@@ -303,7 +294,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             // Nope, can't add the CSS..
             $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
         }
-
     }
 
     /**
@@ -375,13 +365,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function parseSnippet($callback, $var1 = "", $var2 = "", $var3 = "")
     {
-
         if (method_exists($this, $callback)) {
             return call_user_func(array($this, $callback), $var1, $var2, $var3);
         } else {
             return false;
         }
-
     }
 
     /**
@@ -453,12 +441,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function parseWidget($callback, $var1 = "", $var2 = "", $var3 = "")
     {
-
         if (method_exists($this, $callback)) {
             return call_user_func(array($this, $callback), $var1, $var2, $var3);
         } else {
             return false;
         }
-
     }
 }

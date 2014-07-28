@@ -579,7 +579,6 @@ class Config
 
     private function setTwigPath()
     {
-
         $themepath = $this->app['resources']->getPath("theme");
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
@@ -664,7 +663,6 @@ class Config
 
     private function saveCache()
     {
-
         // Store the version number along with the config.
         $this->data['version'] = $this->app->getVersion();
 

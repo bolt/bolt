@@ -115,7 +115,6 @@ class YamlUpdater
      */
     private function parseline($line)
     {
-
         preg_match_all('/(\s*)([a-z0-9_-]+):(\s)?(.*)/', $this->file[$line], $match);
 
         return array(
@@ -124,7 +123,6 @@ class YamlUpdater
             'key' => $match[2][0],
             'value' => $match[4][0]
         );
-
     }
 
     /**
@@ -136,7 +134,6 @@ class YamlUpdater
      */
     public function change($key, $value)
     {
-
         $match = $this->get($key);
 
         // Not found.
@@ -150,7 +147,6 @@ class YamlUpdater
 
         // print_r($match);
         return $this->save();
-
     }
 
     /**

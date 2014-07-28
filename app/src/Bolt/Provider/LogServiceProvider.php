@@ -10,7 +10,6 @@ class LogServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-
         $app['log'] = $app->share(function ($app) {
 
             $log = new Log($app);
@@ -18,7 +17,6 @@ class LogServiceProvider implements ServiceProviderInterface
             return $log;
 
         });
-
     }
 
     public function boot(Application $app)

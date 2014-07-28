@@ -19,7 +19,6 @@ class UserRoleRemove extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $username = $input->getArgument('username');
         $role = $input->getArgument('role');
 
@@ -35,6 +34,5 @@ class UserRoleRemove extends BaseCommand
                 $output->writeln($msg);
             }
         }
-
     }
 }

@@ -10,7 +10,6 @@ class StackServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-
         $app['stack'] = $app->share(function ($app) {
 
             $stack = new Stack($app);
@@ -18,7 +17,6 @@ class StackServiceProvider implements ServiceProviderInterface
             return $stack;
 
         });
-
     }
 
     public function boot(Application $app)
