@@ -4,7 +4,6 @@ namespace Bolt\Filesystem;
 
 use Bolt\TwigExtension;
 
-
 class ThumbnailUrlPlugin extends AdapterPlugin
 {
 

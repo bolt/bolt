@@ -4,7 +4,6 @@ namespace Bolt\Filesystem;
 use League\Flysystem\Filesystem;
 use Sirius\Upload\Container\ContainerInterface;
 
-
 class FlysystemContainer implements ContainerInterface
 {
     public $filesystem;

@@ -6,7 +6,6 @@ use League\Flysystem\PluginInterface;
 use League\Flysystem\FilesystemInterface;
 use Bolt\Application;
 
-
 class PublicUrlPlugin extends AdapterPlugin
 {
 
