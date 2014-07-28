@@ -105,5 +105,4 @@ class BrowsePlugin implements PluginInterface
         return array($files, $folders);
 
     }
-
 }

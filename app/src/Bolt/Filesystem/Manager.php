@@ -55,10 +55,4 @@ class Manager extends MountManager
         $this->mountFilesystem($namespace, $manager);
         $this->initManager($namespace, $manager);
     }
-
-
-
-
-
-
 }

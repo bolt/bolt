@@ -22,9 +22,4 @@ class PublicUrlPlugin extends AdapterPlugin
 
         return $prefix.$path;
     }
-
-
-
-
-
 }

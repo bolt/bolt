@@ -20,9 +20,4 @@ class ThumbnailUrlPlugin extends AdapterPlugin
 
         return $twigHelper->thumbnail($path, $width, $height, $type);
     }
-
-
-
-
-
 }

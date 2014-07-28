@@ -58,8 +58,4 @@ abstract class AdapterPlugin implements PluginInterface
 
         return $reflect->getShortName();
     }
-
-
-
-
 }

@@ -45,5 +45,4 @@ class FlysystemContainer implements ContainerInterface
 
         return false;
     }
-
 }

@@ -43,5 +43,4 @@ class SearchPlugin implements PluginInterface
         return $files;
 
     }
-
 }
