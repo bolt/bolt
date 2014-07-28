@@ -884,12 +884,18 @@ class Storage
     {
         $words = preg_split('|[\r\n\t ]+|', trim($q));
 
-        $words = array_map(function ($word) {
-            return mb_strtolower($word, "UTF-8");
-        }, $words);
-        $words = array_filter($words, function ($word) {
-            return strlen($word) >= 2;
-        });
+        $words = array_map(
+            function ($word) {
+                return mb_strtolower($word, "UTF-8");
+            },
+            $words
+        );
+        $words = array_filter(
+            $words,
+            function ($word) {
+                return strlen($word) >= 2;
+            }
+        );
 
         return array(
             'valid' => count($words) > 0,
@@ -1035,16 +1041,22 @@ class Storage
         // By default we only search through searchable contenttypes
         if (is_null($contenttypes)) {
             $contenttypes = array_keys($app_ct);
-            $contenttypes = array_filter($contenttypes, function ($ct) use ($app_ct) {
-                if (isset($app_ct[$ct]['searchable']) && ($app_ct[$ct]['searchable'] == false)) {
-                    return false;
-                }
+            $contenttypes = array_filter(
+                $contenttypes,
+                function ($ct) use ($app_ct) {
+                    if (isset($app_ct[$ct]['searchable']) && ($app_ct[$ct]['searchable'] == false)) {
+                        return false;
+                    }
 
-                return true;
-            });
-            $contenttypes = array_map(function ($ct) use ($app_ct) {
-                return $app_ct[$ct]['slug'];
-            }, $contenttypes);
+                    return true;
+                }
+            );
+            $contenttypes = array_map(
+                function ($ct) use ($app_ct) {
+                    return $app_ct[$ct]['slug'];
+                },
+                $contenttypes
+            );
         }
 
         // Build our search results array
@@ -1423,11 +1435,14 @@ class Storage
 
         $app_ct = $this->app['config']->get('contenttypes');
         $instance = $this;
-        $contenttypes = array_map(function ($name) use ($app_ct, $instance) {
-            $ct = $instance->getContentType($name);
+        $contenttypes = array_map(
+            function ($name) use ($app_ct, $instance) {
+                $ct = $instance->getContentType($name);
 
-            return $ct['slug'];
-        }, $contenttypes);
+                return $ct['slug'];
+            },
+            $contenttypes
+        );
 
         return $contenttypes;
     }
@@ -2916,9 +2931,7 @@ class Storage
      */
     protected function findContent($tablename, $contentId)
     {
-        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array(
-            $contentId
-        ));
+        $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", array($contentId));
 
         return $oldContent;
     }

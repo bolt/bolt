@@ -10,13 +10,13 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['extensions'] = $app->share(function ($app) {
+        $app['extensions'] = $app->share(
+            function ($app) {
+                $extensions = new Extensions($app);
 
-            $extensions = new Extensions($app);
-
-            return $extensions;
-
-        });
+                return $extensions;
+            }
+        );
     }
 
     public function boot(Application $app)

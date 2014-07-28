@@ -590,13 +590,16 @@ class Users
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
             // Compile the email with the shadow password and reset link..
-            $mailhtml = $this->app['render']->render('mail/passwordreset.twig', array(
-                'user' => $user,
-                'shadowpassword' => $shadowpassword,
-                'shadowtoken' => $shadowtoken,
-                'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
-                'shadowlink' => $shadowlink
-            ));
+            $mailhtml = $this->app['render']->render(
+                'mail/passwordreset.twig',
+                array(
+                    'user' => $user,
+                    'shadowpassword' => $shadowpassword,
+                    'shadowtoken' => $shadowtoken,
+                    'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
+                    'shadowlink' => $shadowlink
+                )
+            );
 
             // echo $mailhtml;
 

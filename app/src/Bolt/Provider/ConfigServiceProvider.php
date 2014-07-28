@@ -10,13 +10,13 @@ class ConfigServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['config'] = $app->share(function ($app) {
+        $app['config'] = $app->share(
+            function ($app) {
+                $config = new Config($app);
 
-            $config = new Config($app);
-
-            return $config;
-
-        });
+                return $config;
+            }
+        );
     }
 
     public function boot(Application $app)

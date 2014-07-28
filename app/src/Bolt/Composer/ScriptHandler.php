@@ -42,10 +42,13 @@ class ScriptHandler
 
     protected static function getOptions($event)
     {
-        $options = array_merge(array(
-            'bolt-web-dir' => 'web',
-            'bolt-dir-mode' => 0777
-        ), $event->getComposer()->getPackage()->getExtra());
+        $options = array_merge(
+            array(
+                'bolt-web-dir' => 'web',
+                'bolt-dir-mode' => 0777
+            ),
+            $event->getComposer()->getPackage()->getExtra()
+        );
 
         return $options;
     }

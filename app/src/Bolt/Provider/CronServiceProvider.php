@@ -10,13 +10,13 @@ class CronServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['cron'] = $app->share(function ($app) {
+        $app['cron'] = $app->share(
+            function ($app) {
+                $cron = new Cron($app);
 
-            $cron = new Cron($app);
-
-            return $cron;
-
-        });
+                return $cron;
+            }
+        );
     }
 
     public function boot(Application $app)

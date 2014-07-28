@@ -611,10 +611,13 @@ class Config
         $this->paths = $this->app['resources']->getPaths();
 
         // Make sure the paths for CKeditor config are always set correctly..
-        $this->set('general/wysiwyg/ck/contentsCss', array(
-            $this->paths['app'] . 'view/lib/ckeditor/contents.css',
-            $this->paths['app'] . 'view/css/ckeditor.css'
-        ));
+        $this->set(
+            'general/wysiwyg/ck/contentsCss',
+            array(
+                $this->paths['app'] . 'view/lib/ckeditor/contents.css',
+                $this->paths['app'] . 'view/css/ckeditor.css'
+            )
+        );
         $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'filebrowser/');
         $this->set(
             'general/wysiwyg/filebrowser/imageBrowseUrl',

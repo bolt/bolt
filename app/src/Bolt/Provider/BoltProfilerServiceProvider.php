@@ -23,11 +23,16 @@ class BoltProfilerServiceProvider implements ServiceProviderInterface
 
         $app['data_collector.templates'] = $templates;
 
-        $app['data_collectors'] = array_merge($app['data_collectors'], array(
-            'bolt' => $app->share(function ($app) {
-                return new BoltDataCollector($app);
-            }),
-        ));
+        $app['data_collectors'] = array_merge(
+            $app['data_collectors'],
+            array(
+                'bolt' => $app->share(
+                    function ($app) {
+                        return new BoltDataCollector($app);
+                    }
+                ),
+            )
+        );
     }
 
     public function boot(Application $app)

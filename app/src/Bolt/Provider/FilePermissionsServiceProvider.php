@@ -13,11 +13,13 @@ class FilePermissionsServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['filepermissions'] = $app->share(function ($app) {
-            $filepermissions = new FilePermissions($app);
+        $app['filepermissions'] = $app->share(
+            function ($app) {
+                $filepermissions = new FilePermissions($app);
 
-            return $filepermissions;
-        });
+                return $filepermissions;
+            }
+        );
     }
 
     public function boot(Application $app)

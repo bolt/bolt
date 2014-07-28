@@ -290,10 +290,13 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['render']->render('dbcheck.twig', array(
-            'required_modifications' => $output,
-            'active' => "settings"
-        ));
+        return $app['render']->render(
+            'dbcheck.twig',
+            array(
+                'required_modifications' => $output,
+                'active' => "settings"
+            )
+        );
     }
 
     /**
@@ -326,10 +329,13 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['render']->render('dbcheck.twig', array(
-            'modifications' => $output,
-            'active' => "settings"
-        ));
+        return $app['render']->render(
+            'dbcheck.twig',
+            array(
+                'modifications' => $output,
+                'active' => "settings"
+            )
+        );
     }
 
 
@@ -353,10 +359,13 @@ class Backend implements ControllerProviderInterface
 
         $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
 
-        return $app['render']->render('base.twig', array(
-            'content' => $content,
-            'active' => "settings"
-        ));
+        return $app['render']->render(
+            'base.twig',
+            array(
+                'content' => $content,
+                'active' => "settings"
+            )
+        );
     }
 
 
@@ -433,11 +442,14 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
-        return $app['render']->render('base.twig', array(
-            'content' => '',
-            'contenttypes' => $choices,
-            'form' => $form->createView()
-        ));
+        return $app['render']->render(
+            'base.twig',
+            array(
+                'content' => '',
+                'contenttypes' => $choices,
+                'form' => $form->createView()
+            )
+        );
     }
 
 
@@ -856,12 +868,15 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
-        return $app['render']->render('editcontent.twig', array(
-            'contenttype' => $contenttype,
-            'content' => $content,
-            'allowedStatuses' => $allowedStatuses,
-            'contentowner' => $contentowner,
-        ));
+        return $app['render']->render(
+            'editcontent.twig',
+            array(
+                'contenttype' => $contenttype,
+                'content' => $content,
+                'allowedStatuses' => $allowedStatuses,
+                'contentowner' => $contentowner,
+            )
+        );
     }
 
     /**
@@ -1069,70 +1084,85 @@ class Backend implements ControllerProviderInterface
         // If we're adding the first user, add them as 'developer' by default, so don't
         // show them here..
         if (!$firstuser) {
-            $form->add('enabled', 'choice', array(
+            $form->add(
+                'enabled',
+                'choice',
+                array(
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
                     'label' => __("User is enabled"),
-                ))
-                ->add('roles', 'choice', array(
+                )
+            )->add(
+                'roles',
+                'choice',
+                array(
                     'choices' => $roles,
                     'expanded' => true,
                     'multiple' => true,
                     'label' => __("Assigned roles"),
-                ));
+                )
+            );
         }
 
         // If we're adding a new user, these fields will be hidden.
         if (!empty($id)) {
-            $form->add('lastseen', 'text', array(
+            $form->add(
+                'lastseen',
+                'text',
+                array(
                     'disabled' => true,
                     'label' => __('Last seen')
-                ))
-                ->add('lastip', 'text', array(
+                )
+            )->add(
+                'lastip',
+                'text',
+                array(
                     'disabled' => true,
                     'label' => __('Last IP')
-                ));
+                )
+            );
         }
 
         // Make sure the passwords are identical and some other check, with a custom validator..
-        $form->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($app) {
+        $form->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($app) {
+                $form = $event->getForm();
+                $id = $form['id']->getData();
+                $pass1 = $form['password']->getData();
+                $pass2 = $form['password_confirmation']->getData();
 
-            $form = $event->getForm();
-            $id = $form['id']->getData();
-            $pass1 = $form['password']->getData();
-            $pass2 = $form['password_confirmation']->getData();
+                // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
+                // then make sure it's at least 6 characters long.
+                if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
+                    // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
+                    //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
+                    $error = new FormError(__("This value is too short. It should have 6 characters or more."));
+                    $form['password']->addError($error);
+                }
 
-            // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
-            // then make sure it's at least 6 characters long.
-            if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
-                //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
-                $error = new FormError(__("This value is too short. It should have 6 characters or more."));
-                $form['password']->addError($error);
+                // Passwords must be identical..
+                if ($pass1 != $pass2) {
+                    $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
+                }
+
+                // Usernames must be unique..
+                if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
+                    $form['username']->addError(new FormError(__('This username is already in use. Choose another username.')));
+                }
+
+                // Email addresses must be unique..
+                if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
+                    $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
+                }
+
+                // Displaynames must be unique..
+                if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
+                    $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
+                }
             }
-
-            // Passwords must be identical..
-            if ($pass1 != $pass2) {
-                $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
-            }
-
-            // Usernames must be unique..
-            if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
-                $form['username']->addError(new FormError(__('This username is already in use. Choose another username.')));
-            }
-
-            // Email addresses must be unique..
-            if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
-            }
-
-            // Displaynames must be unique..
-            if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
-            }
-
-        });
+        );
 
         /**
          * @var \Symfony\Component\Form\Form $form
@@ -1276,10 +1306,13 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('edituser.twig', array(
-            'form' => $form->createView(),
-            'title' => $title
-        ));
+        return $app['render']->render(
+            'edituser.twig',
+            array(
+                'form' => $form->createView(),
+                'title' => $title
+            )
+        );
     }
 
     /**
@@ -1470,14 +1503,17 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render($twig, array(
-            'path' => $path,
-            'files' => $files,
-            'folders' => $folders,
-            'pathsegments' => $pathsegments,
-            'form' => $formview,
-            'namespace' => $namespace
-        ));
+        return $app['render']->render(
+            $twig,
+            array(
+                'path' => $path,
+                'files' => $files,
+                'folders' => $folders,
+                'pathsegments' => $pathsegments,
+                'form' => $formview,
+                'namespace' => $namespace
+            )
+        );
     }
 
     public function fileedit($namespace, $file, Silex\Application $app, Request $request)
@@ -1521,10 +1557,13 @@ class Backend implements ControllerProviderInterface
         }
 
         if (!is_writable($filename)) {
-            $app['session']->getFlashBag()->set('info', __(
-                "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                array('%s' => $file)
-            ));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __(
+                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                    array('%s' => $file)
+                )
+            );
             $writeallowed = false;
             $title = sprintf("<strong>%s</strong> » %s", __('View file'), basename($file));
         } else {
@@ -1583,14 +1622,17 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('editconfig.twig', array(
-            'form' => $form->createView(),
-            'title' => $title,
-            'filetype' => $type,
-            'file' => $file,
-            'pathsegments' => $pathsegments,
-            'writeallowed' => $writeallowed
-        ));
+        return $app['render']->render(
+            'editconfig.twig',
+            array(
+                'form' => $form->createView(),
+                'title' => $title,
+                'filetype' => $type,
+                'file' => $file,
+                'pathsegments' => $pathsegments,
+                'writeallowed' => $writeallowed
+            )
+        );
     }
 
     /**
@@ -1667,20 +1709,26 @@ class Backend implements ControllerProviderInterface
         }
         // maybe no translations yet
         if (!file_exists($filename) && !is_writable(dirname($filename))) {
-            $app['session']->getFlashBag()->set('info', __(
-                "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
-                array('%s' => $file)
-            ));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __(
+                    "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
+                    array('%s' => $file)
+                )
+            );
             $writeallowed = false;
             $title = __("View translations file '%s'.", array('%s' => $file));
         } elseif (file_exists($filename) && !is_readable($filename)) {
             $error = __("The translations file '%s' is not readable.", array('%s' => $file));
             $app->abort(404, $error);
         } elseif (!is_writable($filename)) {
-            $app['session']->getFlashBag()->set('warning', __(
-                "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                array('%s' => $file)
-            ));
+            $app['session']->getFlashBag()->set(
+                'warning',
+                __(
+                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                    array('%s' => $file)
+                )
+            );
             $writeallowed = false;
             $title = __("View file '%s'.", array('%s' => $file));
         } else {
@@ -1732,12 +1780,15 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('editlocale.twig', array(
-            'form' => $form->createView(),
-            'title' => $title,
-            'filetype' => $type,
-            'writeallowed' => $writeallowed
-        ));
+        return $app['render']->render(
+            'editlocale.twig',
+            array(
+                'form' => $form->createView(),
+                'title' => $title,
+                'filetype' => $type,
+                'writeallowed' => $writeallowed
+            )
+        );
     }
 
     /**

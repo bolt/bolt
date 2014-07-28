@@ -272,16 +272,16 @@ class Async implements ControllerProviderInterface
 
         $results = $query->fetchAll();
 
-        usort($results, function ($a, $b) {
+        usort(
+            $results,
+            function ($a, $b) {
+                if ($a['slug'] == $b['slug']) {
+                    return 0;
+                }
 
-            if ($a['slug'] == $b['slug']) {
-                return 0;
+                return ($a['slug'] < $b['slug']) ? -1 : 1;
             }
-
-            return ($a['slug'] < $b['slug']) ? -1 : 1;
-
-        });
-
+        );
 
         return $app->json($results);
     }
@@ -378,10 +378,10 @@ class Async implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('filebrowser.twig', array(
-            'results' => $results
-        ));
-
+        return $app['render']->render(
+            'filebrowser.twig',
+            array('results' => $results)
+        );
     }
 
 
@@ -424,15 +424,17 @@ class Async implements ControllerProviderInterface
 
         list($files, $folders) = $filesystem->browse($path, $app);
 
-        return $app['render']->render('files_async.twig', array(
-            'namespace' => $namespace,
-            'path' => $path,
-            'files' => $files,
-            'folders' => $folders,
-            'pathsegments' => $pathsegments,
-            'key' => $key
-        ));
-
+        return $app['render']->render(
+            'files_async.twig',
+            array(
+                'namespace' => $namespace,
+                'path' => $path,
+                'files' => $files,
+                'folders' => $folders,
+                'pathsegments' => $pathsegments,
+                'key' => $key
+            )
+        );
     }
 
 
@@ -455,11 +457,14 @@ class Async implements ControllerProviderInterface
 
         $stack = $app['stack']->listitems($count);
 
-        return $app['render']->render('_sub_stack.twig', array(
-            'stack' => $stack,
-            'options' => $options,
-            'filetypes' => $app['stack']->getFileTypes()
-        ));
+        return $app['render']->render(
+            '_sub_stack.twig',
+            array(
+                'stack' => $stack,
+                'options' => $options,
+                'filetypes' => $app['stack']->getFileTypes()
+            )
+        );
 
     }
 
@@ -587,9 +592,11 @@ class Async implements ControllerProviderInterface
         $fileSystemHelper = new Filesystem;
 
         try {
-            $fileSystemHelper->rename($oldPath,
-                                      $newPath,
-                                      false /* Don't rename if target exists already! */);
+            $fileSystemHelper->rename(
+                $oldPath,
+                $newPath,
+                false /* Don't rename if target exists already! */
+            );
         } catch (IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */

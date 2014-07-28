@@ -10,13 +10,13 @@ class UsersServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['users'] = $app->share(function ($app) {
+        $app['users'] = $app->share(
+            function ($app) {
+                $users = new Users($app);
 
-            $users = new Users($app);
-
-            return $users;
-
-        });
+                return $users;
+            }
+        );
     }
 
     public function boot(Application $app)
