@@ -395,7 +395,6 @@ class Async implements ControllerProviderInterface
      */
     public function browse($namespace, $path, Silex\Application $app, Request $request)
     {
-
         $filesystem = $app['filesystem']->getManager($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
@@ -440,18 +439,15 @@ class Async implements ControllerProviderInterface
 
     public function addstack($filename = "", Silex\Application $app)
     {
-
         $app['stack']->add($filename);
 
         return true;
-
     }
 
 
 
     public function showstack(Silex\Application $app)
     {
-
         $count = $app['request']->get('items', 10);
         $options = $app['request']->get('options', false);
 
@@ -465,7 +461,6 @@ class Async implements ControllerProviderInterface
                 'filetypes' => $app['stack']->getFileTypes()
             )
         );
-
     }
 
     /**
@@ -559,8 +554,6 @@ class Async implements ControllerProviderInterface
         }
 
         return false;
-
-
     }
 
     /**
@@ -658,7 +651,6 @@ class Async implements ControllerProviderInterface
         }
 
         return false;
-
     }
 
 
@@ -686,6 +678,5 @@ class Async implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.async.before');
-
     }
 }

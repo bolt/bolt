@@ -39,7 +39,6 @@ abstract class AdapterPlugin implements PluginInterface
 
     public function handle($path)
     {
-
         $method = "get".$this->adapterType().ucfirst($this->getMethod());
 
         if (method_exists($this, $method)) {
