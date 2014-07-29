@@ -120,12 +120,14 @@
 
             {{ macro.sidebarblock(title, sub) }}
             
-            {% set title = { icon: 'cog', label: __('Extend'), link: path('extend') } %}
-            {% set sub = [] %}
-            {{ macro.sidebarblock(title, sub) }}
-
-
             {% endif %}
+            
+            {# Link to Dashboard  #}
+            <li class="{% if active in ['', 'extend'] %}active {% endif %}">
+                <a href="{{ path('extend') }}"><i class="fa fa-cog"></i>{{ __('Extend') }}</a>
+            </li>
+
+            <hr class="sidebar">
 
             <hr class="sidebar">
 
