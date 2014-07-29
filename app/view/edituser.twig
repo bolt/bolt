@@ -9,11 +9,13 @@
 </p>
 {% endif %}
 
-<form action="#" method="post" class="form-inline" autocomplete="off">
+<form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
     {{ form_widget(form) }}
 
-    <input type="submit" value="{{ __('Save') }}" name="submit" class="btn btn-primary" />
+    <input type="submit" value="{{ __('Save user') }}" name="submit" class="btn btn-primary" />
 </form>
+
+<br> 
 
 {% if note is not empty %}
 <p class="alert alert-info" style="max-width: 550px;">
