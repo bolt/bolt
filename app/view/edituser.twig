@@ -3,10 +3,24 @@
 
 <h1>{{ title|raw }}</h1>
 
+{% if description is not empty %}
+<p style="max-width: 500px;">
+	{{ description }}
+</p>
+{% endif %}
+
 <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
     {{ form_widget(form) }}
 
-    <input type="submit" value="{{ __('Save') }}" name="submit" class="btn btn-primary" />
+    <input type="submit" value="{{ __('Save user') }}" name="submit" class="btn btn-primary" />
 </form>
+
+<br> 
+
+{% if note is not empty %}
+<p class="alert alert-info" style="max-width: 550px;">
+	<strong>{{ __("Note:") }}</strong> {{ note|raw }}
+</p>
+{% endif %}
 
 {% include '_footer.twig' %}
