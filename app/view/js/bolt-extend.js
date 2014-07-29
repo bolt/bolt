@@ -116,7 +116,7 @@ var BoltExtender = Object.extend(Object, {
             var pack = data.packages[0];
             var tpl = '<div class="install-version-container row">';
             tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
-            tpl+='<div class="col-md-6"><label>Select Version To Install</label></div><div class="col-md-6"><select name="package-version" class="form-control">';
+            tpl+='<div class="col-md-12"><label>Select Version To Install</label></div><div class="col-md-6"><select name="package-version" class="form-control">';
             for(var v in pack.versions) {
                 tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
             }
