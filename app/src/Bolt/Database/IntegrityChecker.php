@@ -37,7 +37,7 @@ class IntegrityChecker
 
     const INTEGRITY_CHECK_INTERVAL = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
-    
+
     public static $integrityCachePath;
 
     public function __construct(\Bolt\Application $app)
@@ -61,7 +61,7 @@ class IntegrityChecker
         $this->tables = null;
 
         $this->extension_table_generators = array();
-        
+
         self::$integrityCachePath = $this->app['resources']->getPath('cache');
     }
 
@@ -331,9 +331,10 @@ class IntegrityChecker
         $schema = new Schema();
 
         return array_merge(
-                $this->getBoltTablesSchema($schema),
-                $this->getContentTypeTablesSchema($schema),
-                $this->getExtensionTablesSchema($schema));
+            $this->getBoltTablesSchema($schema),
+            $this->getContentTypeTablesSchema($schema),
+            $this->getExtensionTablesSchema($schema)
+        );
     }
 
     /**
@@ -357,8 +358,7 @@ class IntegrityChecker
                 foreach ($table as $t) {
                     $tables[] = $t;
                 }
-            }
-            else {
+            } else {
                 $tables[] = $table;
             }
         }

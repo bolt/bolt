@@ -30,8 +30,7 @@ class Render
         $this->safe = $safe;
         if ($safe) {
             $this->twigKey = 'safe_twig';
-        }
-        else {
+        } else {
             $this->twigKey = 'twig';
         }
     }

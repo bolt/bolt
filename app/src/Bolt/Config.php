@@ -167,7 +167,7 @@ class Config
         $config['theme'] = $this->parseConfigYaml($themeConfigFile, array(), false);
 
         // @todo: If no config files can be found, get them from bolt.cm/files/default/
-        
+
         $this->paths = $this->app['resources']->getPaths();
         $this->setDefaults();
 
@@ -312,7 +312,7 @@ class Config
                 if ($temp['fields'][$key]['type'] == 'file' || $temp['fields'][$key]['type'] == 'filelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'), 
+                            array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'),
                             $config['general']['accept_file_types']
                         );
                     }
@@ -326,7 +326,7 @@ class Config
                 if ($temp['fields'][$key]['type'] == 'image' || $temp['fields'][$key]['type'] == 'imagelist') {
                     if (empty($temp['fields'][$key]['extensions'])) {
                         $temp['fields'][$key]['extensions'] = array_intersect(
-                            array('gif', 'jpg', 'jpeg', 'png'), 
+                            array('gif', 'jpg', 'jpeg', 'png'),
                             $config['general']['accept_file_types']
                         );
                     }
@@ -351,7 +351,7 @@ class Config
 
             // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
             if (!empty($temp['relations']) && is_array($temp['relations'])) {
-                foreach($temp['relations'] as $key => $relation) {
+                foreach ($temp['relations'] as $key => $relation) {
                     if ($key != makeSlug($key)) {
                         $temp['relations'][makeSlug($key)] = $temp['relations'][$key];
                         unset($temp['relations'][$key]);
@@ -611,7 +611,7 @@ class Config
             $this->paths['app'] . 'view/lib/ckeditor/contents.css',
             $this->paths['app'] . 'view/css/ckeditor.css'
         ));
-        $this->set('general/wysiwyg/filebrowser/browseUrl',     $this->app['resources']->getUrl('async') . 'filebrowser/');
+        $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'filebrowser/');
         $this->set(
             'general/wysiwyg/filebrowser/imageBrowseUrl',
             $this->app['resources']->getUrl('bolt')  . 'files' . '/files/'
@@ -649,7 +649,7 @@ class Config
             if (!isset($this->data['version']) || ($this->data['version'] != $this->app->getVersion())) {
                 return false;
             }
-            
+
             // Trigger the config loaded event on the resource manager
             $this->app['resources']->initializeConfig($this->data);
 
@@ -693,15 +693,17 @@ class Config
                 $basename .= '.db';
             }
 
-            if(isset($configdb["path"])) {
+            if (isset($configdb["path"])) {
                 $configpaths = $this->app['resources']->getPaths();
-                if(substr($configdb['path'],0,1) !== "/") $configdb["path"] = $configpaths["rootpath"]."/".$configdb["path"];
+                if (substr($configdb['path'], 0, 1) !== "/") {
+                    $configdb["path"] = $configpaths["rootpath"]."/".$configdb["path"];
+                }
             }
 
             $dboptions = array(
                 'driver' => 'pdo_sqlite',
-                'path' => isset($configdb['path']) 
-                            ?   realpath($configdb["path"])."/".$basename 
+                'path' => isset($configdb['path'])
+                            ?   realpath($configdb["path"])."/".$basename
                             :   $this->app['resources']->getPath('database') ."/". $basename,
                 'randomfunction' => 'RANDOM()',
                 'memory' => isset($configdb['memory']) ? true : false

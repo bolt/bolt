@@ -65,7 +65,7 @@ class Async implements ControllerProviderInterface
         $ctr->post("/deletefile", array($this, 'deletefile'))
             ->before(array($this, 'before'))
             ->bind('deletefile');
-        
+
         $ctr->post("/duplicatefile", array($this, 'duplicatefile'))
             ->before(array($this, 'before'))
             ->bind('duplicatefile');
@@ -181,13 +181,10 @@ class Async implements ControllerProviderInterface
     public function filesautocomplete(Silex\Application $app, Request $request)
     {
         $term = $request->get('term');
+        $filesystem = $app['filesystem']->getManager('files');
 
         $extensions = $request->query->get('ext');
-        if (empty($extensions)) {
-            $extensions = 'jpg,jpeg,gif,png';
-        }
-
-        $files = findFiles($term, $extensions);
+        $files = $filesystem->search($term, $extensions);
 
         $app['debug'] = false;
 
@@ -392,22 +389,12 @@ class Async implements ControllerProviderInterface
      */
     public function browse($path, Silex\Application $app, Request $request)
     {
-        $files = array();
-        $folders = array();
+
+        $filesystem = $app['filesystem']->getManager();
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
         $key = $app['request']->get('key');
-
-        $basefolder = $app['resources']->getPath('files');
-
-        $path = stripTrailingSlash(str_replace("..", "", $path));
-        if($path == 'files') {
-            $path = '';
-        }
-        $currentfolder = realpath($basefolder ."/". $path);
-
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
 
         // Get the pathsegments, so we can show the path..
         $pathsegments = array();
@@ -419,63 +406,17 @@ class Async implements ControllerProviderInterface
             }
         }
 
-        if (file_exists($currentfolder)) {
-
-            $d = dir($currentfolder);
-
-            while (false !== ($entry = $d->read())) {
-
-                if (in_array($entry, $ignored)) {
-                    continue;
-                }
-
-                $fullfilename = $currentfolder . "/" . $entry;
-
-                if (is_file($fullfilename)) {
-                    $relativepath = str_replace("files/", "", ($path . "/" . $entry));
-                    $relativepath = trim($relativepath, "/");
-                    $files[$entry] = array(
-                        'path' => $path,
-                        'filename' => $entry,
-                        'newpath' => $path . "/" . $entry,
-                        'relativepath' => $relativepath,
-                        'writable' => is_writable($fullfilename),
-                        'readable' => is_readable($fullfilename),
-                        'type' => strtolower(getExtension($entry)),
-                        'filesize' => formatFilesize(filesize($fullfilename)),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename)),
-                        'permissions' => \utilphp\util::full_permissions($fullfilename)
-                    );
-
-                    if (in_array(strtolower(getExtension($entry)), array('gif', 'jpg', 'png', 'jpeg'))) {
-                        $size = getimagesize($fullfilename);
-                        $files[$entry]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
-                    }
-                }
-
-                if (is_dir($fullfilename)) {
-                    $folders[$entry] = array(
-                        'path' => $path,
-                        'foldername' => $entry,
-                        'newpath' => $path . "/" . $entry,
-                        'writable' => is_writable($fullfilename),
-                        'modified' => date("Y/m/d H:i:s", filemtime($fullfilename))
-                    );
-                }
-
-            }
-
-            $d->close();
-
-        } else {
+        try {
+            $list = $filesystem->listContents($path);
+            $validFolder = true;
+        } catch (\Exception $e) {
             $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $validFolder = false;
         }
 
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $path)));
 
-        // Make sure the files and folders are sorted properly.
-        ksort($files);
-        ksort($folders);
+        list($files, $folders) = $filesystem->browse($path, $app);
 
         return $app['render']->render('files_async.twig', array(
             'path' => $path,
@@ -514,7 +455,7 @@ class Async implements ControllerProviderInterface
         ));
 
     }
-    
+
     /**
      * Rename a file within the files directory tree.
      *
@@ -569,23 +510,14 @@ class Async implements ControllerProviderInterface
         $namespace = $request->request->get('namespace', 'files');
         $filename = $request->request->get('filename');
 
-        
-        $filePath = $app['resources']->getPath($namespace)
-                    . DIRECTORY_SEPARATOR
-                    . $filename;
+        $filesystem = $app['filesystem']->getManager($namespace);
 
-
-        // TODO: ensure that we are deleting a file inside /files folder
-
-        if (is_file($filePath) && is_readable($filePath)) {
-            @unlink($filePath);
+        if ($filesystem->delete($filename)) {
             return true;
-        } else {
-            return false;
         }
-
+        return false;
     }
-    
+
     /**
      * Duplicate a file on the server.
      *
@@ -598,32 +530,26 @@ class Async implements ControllerProviderInterface
         $namespace = $request->request->get('namespace', 'files');
         $filename = $request->request->get('filename');
 
-        
-        $filePath = $app['resources']->getPath($namespace)
-                    . DIRECTORY_SEPARATOR
-                    . $filename;
+        $filesystem = $app['filesystem']->getManager($namespace);
 
+        $extensionPos = strrpos($filename, '.');
+        $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
+        $n = 1;
 
-
-        if (is_file($filePath) && is_readable($filePath)) {            
-            
-            $extensionPos = strrpos($filePath, '.');
-            $destPath = substr($filePath, 0, $extensionPos) . "_copy" . substr($filePath, $extensionPos);
-            $n = 1;
-            while(file_exists($destPath)) {
-                $extensionPos = strrpos($destPath, '.');
-                $destPath = substr($destPath, 0, $extensionPos) . "$n" . substr($destPath, $extensionPos);
-                $n = rand(0,1000);
-            }
-            if(copy($filePath, $destPath)) {
-                return true;
-            }
+        while($filesystem->has($destination)) {
+            $extensionPos = strrpos($destination, '.');
+            $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
+            $n = rand(0,1000);
         }
+        if($filesystem->copy($filename, $destination)) {
+            return true;
+        }
+
         return false;
-        
+
 
     }
-    
+
     /**
      * Rename a folder within the files directory tree.
      *
@@ -676,26 +602,20 @@ class Async implements ControllerProviderInterface
     public function removefolder(Silex\Application $app, Request $request)
     {
         $namespace = $request->request->get('namespace', 'files');
-        
+
 
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $app['resources']->getPath($namespace)
-                        . DIRECTORY_SEPARATOR
-                        . $parentPath
-                        . $folderName;
+        $completePath = $parentPath . $folderName;
 
-        $fileSystemHelper = new Filesystem;
+        $filesystem = $app['filesystem']->getManager($namespace);
 
-        try {
-            $fileSystemHelper->remove($completePath);
-        } catch(IOException $exception) {
-
-            return false;
+        if($filesystem->deleteDir($completePath)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -714,21 +634,16 @@ class Async implements ControllerProviderInterface
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
 
-        $completePath = $base
-                        . DIRECTORY_SEPARATOR
-                        . $parentPath
-                        . $folderName;
+        $newpath = $parentPath . $folderName;
 
-        $fileSystemHelper = new Filesystem;
+        $filesystem = $app['filesystem']->getManager($namespace);
 
-        try {
-            $fileSystemHelper->mkdir($completePath);
-        } catch(IOException $exception) {
-
-            return false;
+        if($filesystem->createDir($newpath)) {
+            return true;
         }
 
-        return true;
+        return false;
+
     }
 
 
@@ -758,6 +673,4 @@ class Async implements ControllerProviderInterface
         $app['stopwatch']->stop('bolt.async.before');
 
     }
-
-
 }

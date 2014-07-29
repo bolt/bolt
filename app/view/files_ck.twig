@@ -8,12 +8,23 @@
 
 <h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
 
-{% if pathsegments|length > 1 %}
+{% if pathsegments|length > 0 %}
     <p>{{ __('Path:') }}
+        <a href="{{
+            path('files', {
+                    'path': '',
+                    'namespace':namespace,
+                    'CKEditor': app.request.query.get('CKEditor'),
+                    'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'),
+                    'langCode': app.request.query.get('langCode')
+            })
+        }}">{{namespace}} / </a>
+
         {% for path, segment in pathsegments %}
             {% if not loop.first %} / {% endif %}
-            <a href="{{ path('files', { 'path': path, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">{{segment}}</a>
+            <a href="{{ path('files', { 'path': path, 'namespace': namespace, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">{{segment}}</a>
         {% endfor %}
+
     </p>
 {% endif %}
 
@@ -22,7 +33,12 @@
         <tr><th>{{ __('Folders') }}</th><th>{{ __('Modified') }}</th></tr>
 {% for folder in folders %}
             <tr>
-                <td><a href="{{ path('files', { 'path': folder.newpath, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}"><i class="fa fa-folder-open"></i> <b>{{ folder.foldername }}/</b></a></td>
+                <td>
+                    <a href="{{ path('files', { 'path': folder.newpath, 'namespace':namespace, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">
+                        <i class="icon-folder-open"></i>
+                        <b>{{ folder.foldername }}/</b>
+                    </a>
+                </td>
                 <td>
                     <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">{{ folder.modified }}</time>
                 </td>
@@ -40,7 +56,7 @@
                 <tr>
                     <td>
                         {% if file.readable %}
-                            <a class="filebrowserCallbackLink" href="{{ app.paths.root }}{{ file.newpath }}">
+                            <a class="filebrowserCallbackLink" href="{{ file.url }}">
                                 <b>{{ file.filename|trimtext(40) }}</b>
                             </a>
                         {% else %}

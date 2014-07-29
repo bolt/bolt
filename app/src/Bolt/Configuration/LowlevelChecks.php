@@ -32,9 +32,11 @@ class LowlevelChecks
     public function autoloadCheck($basedir)
     {
         $test = $basedir."/vendor/autoload.php";
-        if(!is_readable($test)) {
-            $this->lowlevelError("The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
-                "you've installed the required components with Composer.");
+        if (!is_readable($test)) {
+            $this->lowlevelError(
+                "The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
+                "you've installed the required components with Composer."
+            );
         }
         return $test;
     }
@@ -46,27 +48,34 @@ class LowlevelChecks
     {
 
         if (get_magic_quotes_gpc()) {
-            $this->lowlevelError("Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
+            $this->lowlevelError(
+                "Bolt requires 'Magic Quotes' to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the ".
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that magic_quotes are <u>DEPRECATED</u>. Seriously. <br><br>" .
                 "If you can't change it in the server-settings, or your admin won't do it for you, try adding this line to your " .
                 "`.htaccess`-file: <pre>php_value magic_quotes_gpc off</pre>"
-                );
+            );
         }
 
         if (ini_get('safe_mode')) {
-            $this->lowlevelError("Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
+            $this->lowlevelError(
+                "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
                 "<a href='http://php.net/manual/en/features.safe-mode.php'>this page</a>, and point out the ".
-                "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously.");
+                "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously."
+            );
         }
 
         // Check if the cache dir is present and writable
         if (!is_dir($this->config->getPath('cache'))) {
-            $this->lowlevelError("The folder <code>" . $this->config->getPath('cache') . "</code> doesn't exist. Make sure it's " .
-                "present and writable to the user that the webserver is using.");
+            $this->lowlevelError(
+                "The folder <code>" . $this->config->getPath('cache') . "</code> doesn't exist. Make sure it's " .
+                "present and writable to the user that the webserver is using."
+            );
         } elseif (!is_writable($this->config->getPath('cache'))) {
-            $this->lowlevelError("The folder <code>" . $this->config->getPath('cache') . "</code> isn't writable. Make sure it's " .
-                "present and writable to the user that the webserver is using.");
+            $this->lowlevelError(
+                "The folder <code>" . $this->config->getPath('cache') . "</code> isn't writable. Make sure it's " .
+                "present and writable to the user that the webserver is using."
+            );
         }
 
         /**
@@ -76,12 +85,13 @@ class LowlevelChecks
          * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks();
          * inside your bootstrap.php file, just before the call to $config->verify().
          **/
-        if(isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
-            if(!is_readable($this->config->getPath('web').'/.htaccess')) {
-                $this->lowlevelError("The file <code>" .
-                    htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) .
-                    "/.htaccess</code> doesn't exist. Make sure it's " .
-                    "present and readable to the user that the webserver is using.");
+        if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
+            if (!is_readable($this->config->getPath('web').'/.htaccess')) {
+                $this->lowlevelError(
+                    "The file <code>" . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . "/.htaccess".
+                    "</code> doesn't exist. Make sure it's present and readable to the user that the " .
+                    "webserver is using."
+                );
             }
         }
 
@@ -107,24 +117,26 @@ class LowlevelChecks
     public function doDatabaseCheck()
     {
         $cfg = $this->config->app['config']->get('general/database');
-        if(!isset($cfg['driver'])) {
+        if (!isset($cfg['driver'])) {
             return;
         }
 
-        if($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
-            if(empty($cfg['password']) && ($cfg['username']=="root") ) {
-                $this->lowlevelError("There is no <code>password</code> set for the database connection, and you're using user 'root'." .
-                    "<br>That must surely be a mistake, right? Bolt will stubbornly refuse to run until you've set a password for 'root'.");
+        if ($cfg['driver']=='mysql' || $cfg['driver']=='postgres') {
+            if (empty($cfg['password']) && ($cfg['username']=="root")) {
+                $this->lowlevelError(
+                    "There is no <code>password</code> set for the database connection, and you're using user 'root'." .
+                    "<br>That must surely be a mistake, right? Bolt will stubbornly refuse to run until you've set a password for 'root'."
+                );
             }
-            if(empty($cfg['databasename'])) {
+            if (empty($cfg['databasename'])) {
                 $this->lowlevelError("There is no <code>databasename</code> set for your database.");
             }
-            if(empty($cfg['username'])) {
+            if (empty($cfg['username'])) {
                 $this->lowlevelError("There is no <code>username</code> set for your database.");
             }
         }
 
-        if($cfg['driver']=='mysql') {
+        if ($cfg['driver']=='mysql') {
             if (!extension_loaded('pdo_mysql')) {
                 $this->lowlevelError("MySQL was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_mysql driver.");
             }
@@ -142,7 +154,7 @@ class LowlevelChecks
             $this->lowlevelError("The selected database type is not supported.");
         }
 
-        if(isset($cfg['memory']) && true == $cfg['memory']) {
+        if (isset($cfg['memory']) && true == $cfg['memory']) {
             return;
         }
 
@@ -154,18 +166,22 @@ class LowlevelChecks
 
         // Check if the app/database folder and .db file are present and writable
         if (!is_writable($this->config->getPath('database'))) {
-            $this->lowlevelError("The folder <code>".
+            $this->lowlevelError(
+                "The folder <code>".
                 $this->config->getPath('database') .
                 "</code> doesn't exist or it is not writable. Make sure it's " .
-                "present and writable to the user that the webserver is using.");
+                "present and writable to the user that the webserver is using."
+            );
         }
 
         // If the .db file is present, make sure it is writable
         if (file_exists($this->config->getPath('database')."/".$filename) && !is_writable($this->config->getPath('database')."/".$filename)) {
-            $this->lowlevelError("The database file <code>app/database/" .
+            $this->lowlevelError(
+                "The database file <code>app/database/" .
                 htmlspecialchars($filename, ENT_QUOTES) .
                 "</code> isn't writable. Make sure it's " .
-                "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file.");
+                "present and writable to the user that the webserver is using. If the file doesn't exist, make sure the folder is writable and Bolt will create the file."
+            );
         }
 
     }
@@ -191,10 +207,11 @@ class LowlevelChecks
         }
 
         if (!@copy($distname, $ymlname)) {
-            $message = sprintf("Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
+            $message = sprintf(
+                "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
                 <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
                 htmlspecialchars($name . ".yml", ENT_QUOTES),
-                htmlspecialchars($this->config->getPath('config'),ENT_QUOTES),
+                htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
                 htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
             );
             $this->lowlevelError($message);
@@ -271,5 +288,4 @@ EOM;
         die();
 
     }
-
 }

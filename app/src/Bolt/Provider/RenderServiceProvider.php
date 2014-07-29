@@ -19,8 +19,7 @@ class RenderServiceProvider implements ServiceProviderInterface
             $app['render'] = $app->share(function ($app) {
                 return new Render($app);
             });
-        }
-        else {
+        } else {
             $app['safe_render'] = $app->share(function ($app) {
                 return new Render($app, true);
             });

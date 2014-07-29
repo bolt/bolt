@@ -18,24 +18,20 @@ class Frontend
      * Perform contenttype-based permission check, aborting with a 403
      * Forbidden as appropriate.
      */
-    private static function checkFrontendPermission(Silex\Application $app, $content) {
+    private static function checkFrontendPermission(Silex\Application $app, $content)
+    {
         if ($app['config']->get('general/frontend_permission_checks')) {
             if ($content instanceof \Bolt\Content) {
                 $contenttypeslug = $content->contenttype['slug'];
                 $contentid = $content['id'];
-            }
-            elseif ($content instanceof \Bolt\Contenttype) {
+            } elseif ($content instanceof \Bolt\Contenttype) {
                 $contenttypeslug = $content['slug'];
                 $contentid = null;
-            }
-            else {
+            } else {
                 $contenttypeslug = (string)$content;
                 $contentid = null;
             }
-            if (!$app['users']->isAllowed(
-                    "frontend",
-                    $contenttypeslug,
-                    $contentid)) {
+            if (!$app['users']->isAllowed("frontend", $contenttypeslug, $contentid)) {
                 $app->abort(403, "Not allowed.");
             }
         }
@@ -313,7 +309,7 @@ class Frontend
 
         $name = $slug;
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
-        foreach($content as $record) {
+        foreach ($content as $record) {
             $flat = \Util::array_flatten($record->taxonomy);
             $key = $app['paths']['root'] . $taxonomytype['slug'] . '/' . $slug;
             if (isset($flat[$key])) {
@@ -404,19 +400,21 @@ class Frontend
      * Renders the specified template from the current theme in response to a request without
      * loading any content.
      */
-    public static function template(Silex\Application $app, $template) {
-      // Add the template extension if it is missing
-      if(!preg_match('/\\.twig$/i', $template))
-        $template .= '.twig';
+    public static function template(Silex\Application $app, $template)
+    {
+        // Add the template extension if it is missing
+        if (!preg_match('/\\.twig$/i', $template)) {
+            $template .= '.twig';
+        }
 
-      $themePath    = realpath($app['paths']['themepath'] . '/');
-      $templatePath = realpath($app['paths']['themepath'] . '/' . $template);
+        $themePath    = realpath($app['paths']['themepath'] . '/');
+        $templatePath = realpath($app['paths']['themepath'] . '/' . $template);
 
-      // Verify that the resulting template path is located in the theme directory
-      if($themePath !== substr($templatePath, 0, strlen($themePath)))
-        throw new \Exception("Invalid template: $template");
+        // Verify that the resulting template path is located in the theme directory
+        if ($themePath !== substr($templatePath, 0, strlen($themePath))) {
+            throw new \Exception("Invalid template: $template");
+        }
 
-      return $app['render']->render(substr($templatePath, strlen($themePath)));
+        return $app['render']->render(substr($templatePath, strlen($themePath)));
     }
-
 }

@@ -219,5 +219,4 @@ class Stack
     {
         return array_merge($this->imagetypes, $this->documenttypes);
     }
-
 }

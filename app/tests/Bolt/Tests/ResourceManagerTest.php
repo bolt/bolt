@@ -44,7 +44,29 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(TEST_ROOT."/app/cache",       $config->getPath("cache"));
         $this->assertEquals(TEST_ROOT."/app/config",      $config->getPath("config"));
     }
-    
+
+    /**
+     * @dataProvider exceptionGetPathProvider
+     * @expectedException InvalidArgumentException
+     */
+    public function testExceptionGetPath($path)
+    {
+        $config = new ResourceManager(TEST_ROOT);
+        $config->getPath($path);
+    }
+
+    public function exceptionGetPathProvider()
+    {
+        return array(
+            array(
+                ''
+            ),
+            array(
+                'FAKE_PATH'
+            ),
+        );
+    }
+
     public function testShorAliasedPaths()
     {
         $config = new ResourceManager(TEST_ROOT);
@@ -64,6 +86,28 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("/files/",          $config->getUrl("files"));
     }
     
+    /**
+     * @dataProvider exceptionGetUrlProvider
+     * @expectedException InvalidArgumentException
+     */
+    public function testExceptionGetUrl($url)
+    {
+        $config = new ResourceManager(TEST_ROOT);
+        $config->getUrl($url);
+    }
+
+    public function exceptionGetUrlProvider()
+    {
+        return array(
+            array(
+                ''
+            ),
+            array(
+                'FAKE_URL'
+            ),
+        );
+    }
+
     public function testBoltAppSetup()
     {
         $config = new ResourceManager(TEST_ROOT);
@@ -84,6 +128,29 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("cli://bolt.dev/bolt",  $config->getUrl("canonical"));
         $this->assertEquals("cli://bolt.dev",       $config->getUrl("host"));
         $this->assertEquals("cli://bolt.dev/",      $config->getUrl("rooturl"));
+        $this->assertEquals("cli://bolt.dev/",      $config->getUrl("rooturl"));
+    }
+
+    /**
+     * @dataProvider exceptionGetRequest
+     * @expectedException InvalidArgumentException
+     */
+    public function testExceptionGetRequest($request)
+    {
+        $config = new ResourceManager(TEST_ROOT);
+        $config->getRequest($request);
+    }
+
+    public function exceptionGetRequest()
+    {
+        return array(
+            array(
+                ''
+            ),
+            array(
+                'FAKE_REQUEST'
+            ),
+        );
     }
     
     public function testCustomRequest()

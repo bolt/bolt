@@ -9,7 +9,7 @@
     <div class="modal-body">
 
 
-{% if pathsegments|length > 1 %}
+{% if pathsegments|length > 0 %}
     <p>{{ __('Path:') }}
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
