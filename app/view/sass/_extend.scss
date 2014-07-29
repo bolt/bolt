@@ -8,13 +8,14 @@
     }
     .auto-search {
         position:absolute;
-        top:20px;
+        top:28px;
         background-color: #f1f2f7;
         border-radius: 2px;
         box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
         
         .btn {
             border-radius:0;
+            margin-top:0;
         }
     }
 }
