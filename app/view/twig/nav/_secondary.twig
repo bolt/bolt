@@ -121,7 +121,8 @@
             {{ macro.sidebarblock(title, sub) }}
             
             {% set title = { icon: 'cog', label: __('Extend'), link: path('extend') } %}
-            {{ macro.sidebarblock(title) }}
+            {% set sub = [] %}
+            {{ macro.sidebarblock(title, sub) }}
 
 
             {% endif %}
