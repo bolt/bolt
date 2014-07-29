@@ -16,20 +16,20 @@
 <div class="row">
     <div class="col-md-8">
         <div class='update-container hide-block'>
-            <h3>Updates</h3>
-            <pre class="update-output console">Checking for available updates (this may take up to 60 seconds)..</pre>
+            <h3>{{ __('Updates') }}</h3>
+            <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)')}}..</pre>
         </div>
         <section class="installed-container">
-            <h3>Your Currently Installed Extensions</h3>
-            <pre class="installed console" data-action='installed'>Checking installed packages..</pre>
+            <h3>{{ __('Your Currently Installed Extensions') }}</h3>
+            <pre class="installed console" data-action='installed'>{{ __('Checking installed packages')}}..</pre>
             <div class="installed-list hide-block">
                 <table class="dashboardlisting table">
                     <thead>
                         <tr>
-                            <th>Extension</th>
-                            <th>Description</th>
-                            <th>Author(s)</th>
-                            <th>Actions</th>
+                            <th>{{ __('Extension') }}</th>
+                            <th>{{ __('Description') }}</th>
+                            <th>{{ __('Author(s)') }}</th>
+                            <th>{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="installed-list-items">
@@ -40,21 +40,22 @@
         </section>
         <hr />
         <section>
-            <h3>Install a new Extension</h3>
+            <h3>{{ __('Install a new Extension') }}</h3>
             <p>
-                Add a new extension using the form below. You can discover new extensions by visiting 
+                {{ __('Add a new extension using the form below.') }}
+                {{ __('You can discover new extensions by visiting') }} 
                 <a href="{{site}}">{{site}}</a>
             </p>
             <div class="install-container">
                     <div class="auto-search hide-block"></div>                
                     <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
                     <a class="btn btn-tertiary check-package" data-action='check-package'>
-                        <i class="icon-gears"></i> Check Extension
+                        <i class="icon-gears"></i> {{ __('Check Extension') }}
                     </a> 
             </div>
             <div class='install-response-container hide-block'>
-                <h3>Installing package</h3>
-                <pre class="install-response console">Installing selected package version (this may take up to 60 seconds).</pre>
+                <h3>{{ __('Installing package') }}</h3>
+                <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
             </div>
         </section>
     </div>
@@ -62,13 +63,13 @@
     <aside class="col-md-4">
         <h2>Options</h2>
         <section>
-        <h4>Check for updates</h4>
+        <h4>{{ __('Check for updates') }}</h4>
             <a class="btn btn-tertiary" data-action='update-check'>
-                <i class="icon-refresh"></i> Run update check
+                <i class="icon-refresh"></i> {{ __('Run update check') }}
             </a>
-        <h4>Install all updates</h4>
+        <h4>{{ __('Install all updates') }}</h4>
             <a class="btn btn-primary" data-action='update-run'>
-                <i class="icon-refresh"></i> Run all Updates
+                <i class="icon-refresh"></i> {{ __('Run all Updates') }}
             </a>
         </section>
     </aside>
