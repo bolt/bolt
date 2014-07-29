@@ -41,7 +41,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         
         $ctr->get("", array($this, 'overview'))
             ->before(array($this, 'before'))
-            ->bind('overview');
+            ->bind('extend');
         
         $ctr->get("/check", array($this, 'check'))
             ->before(array($this, 'before'))
