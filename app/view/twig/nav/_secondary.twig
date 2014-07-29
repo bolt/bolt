@@ -122,12 +122,17 @@
             
             {% endif %}
             
-            {# Link to Dashboard  #}
+            <hr class="sidebar">
+            {# Link to Extend Bolt  #}
             <li class="{% if active in ['', 'extend'] %}active {% endif %}">
-                <a href="{{ path('extend') }}"><i class="fa fa-cog"></i>{{ __('Extend') }}</a>
+                <a href="{{ path('extend') }}">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-cog"></i>{{ __('Extend') }}
+                    </span>
+                </a>
             </li>
 
-            <hr class="sidebar">
 
             <hr class="sidebar">
 
