@@ -120,8 +120,8 @@
 
             {{ macro.sidebarblock(title, sub) }}
             
-            {% set title = { icon: 'cog', label: __('Extend') } %}
-            {{ macro.sidebarblock(title, sub) }}
+            {% set title = { icon: 'cog', label: __('Extend'), link: url('extend') } %}
+            {{ macro.sidebarblock(title) }}
 
 
             {% endif %}
