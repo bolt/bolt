@@ -884,10 +884,13 @@ class Backend implements ControllerProviderInterface
         if (!empty($id)) {
             $user = $app['users']->getUser($id);
             $title = "<strong>" . __('Edit user') . "</strong> » " . htmlencode($user['displayname']);
+            $description = __('Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password.');
         } else {
             $user = $app['users']->getEmptyUser();
             $title = "<strong>" . __('Create a new user') . "</strong>";
+            $description = __('Create a new user, using the form below. The password field is required.');
         }
+        $note = "";
 
         $enabledoptions = array(
             1 => __('yes'),
@@ -906,6 +909,16 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->getUsers()) {
             $firstuser = true;
             $title = __('Create the first user');
+            $description = __('There are no users present in the system. Please create the first user, which will be granted root privileges.');
+            
+            // Add a note, if we're setting up the first user using SQLite..
+            $dbdriver = $app['config']->get('general/database/driver');
+            if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
+                $note = __('You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, ' .
+                    'edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set up the database tables for you. '.
+                    'Be sure to reload this page before continuing.');
+            }
+
             // If we get here, chances are we don't have the tables set up, yet.
             $app['integritychecker']->repairTables();
             // Grant 'root' to first user by default
@@ -1045,11 +1058,14 @@ class Backend implements ControllerProviderInterface
                 }
 
             }
+
         }
 
         return $app['render']->render('edituser.twig', array(
             'form' => $form->createView(),
-            'title' => $title
+            'title' => $title, 
+            'note' => $note,
+            'description' => $description
         ));
 
     }
