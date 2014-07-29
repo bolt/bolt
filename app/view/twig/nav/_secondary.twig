@@ -102,17 +102,7 @@
                 {{ macro.sidebarblock(title, sub) }}
             {% endif %}
             
-            {# Extensions #}
-            <li class="{% if active in ['', 'extend'] %}active {% endif %}">
-                <a href="{{ paths.bolt }}extend"><i class="icon-cog"></i> {{ __('Extend') }}</a>
-            </li>
-
-            <li class="divider-vertical"></li>
-            <li>
-                <a href="{{ paths.root }}" target="_blank"><i class="icon-external-link"></i> {{ __('View site') }}</a>
-            </li>
             
-            <li class="divider-vertical"></li>
             {% set title = { icon: 'folder-open', label: __('File Management') } %}
             {% set sub = [
                 { icon: 'desktop', label: __('View / edit Templates'), link: url('files', { 'namespace': 'theme', 'path': ''}), isallowed: 'files:theme' },
@@ -129,6 +119,10 @@
             ] %}
 
             {{ macro.sidebarblock(title, sub) }}
+            
+            {% set title = { icon: 'cog', label: __('Extend') } %}
+            {{ macro.sidebarblock(title, sub) }}
+
 
             {% endif %}
 
