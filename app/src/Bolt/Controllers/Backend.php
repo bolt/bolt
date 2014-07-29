@@ -1065,7 +1065,7 @@ class Backend implements ControllerProviderInterface
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => __("Password (confirmation)")
+                'label' => __("Password (confirm)")
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
