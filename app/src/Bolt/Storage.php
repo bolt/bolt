@@ -2790,7 +2790,7 @@ class Storage
 
         // Get the current values from the DB..
         $query = sprintf(
-            "SELECT id FROM %s ORDER BY `datecreated` DESC LIMIT 1;",
+            "SELECT id FROM %s ORDER BY datecreated DESC LIMIT 1;",
             $tablename
         );
         $id = $this->app['db']->executeQuery($query)->fetch();

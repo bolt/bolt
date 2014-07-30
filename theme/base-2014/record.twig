@@ -1,0 +1,118 @@
+{% include '_header.twig' %}
+
+<!-- Main Page Content and Sidebar -->
+
+    <!-- Main Blog Content -->
+    <div class="large-8 columns" role="content">
+
+        <article>
+
+            <h2>{{ record.title }}</h2>
+
+            {% if record.subtitle %}
+                <h3>{{ record.subtitle }}</h3>
+            {% endif %}
+
+            {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid'] %}
+
+                {% if record.fieldtype(key) == "image" and value != "" %}
+
+                    {% if record.image!="" %}
+                        <div class="large-4 imageholder">
+                            <a href="{{ image(value) }}">
+                                <img src="{{ thumbnail(value, 640, 480) }}">
+                            </a>
+                        </div>
+                    {% endif %}
+
+
+                {% elseif record.fieldtype(key) == "imagelist" and value != "" %}
+
+                    {# We do something tricky here: we need to get value of the list in the proper
+                       way, so the value in actually returned as a list. Using {{ record.key }}
+                       won't work, because there is no value 'key'. In your own templates you
+                       will be able to use {{ record.yourfieldname }}. #}
+
+                    {% set list = attribute(record, key) %}
+
+                    {% for item in list %}
+                        <a href="{{ image(item.filename) }}">
+                            <img src="{{ thumbnail(item.filename, 100,100) }}" alt="{{ item.title }}" title="{{ item.title }}">
+                        </a>
+                    {% endfor %}
+
+                {% elseif record.fieldtype(key) == "video" and value.responsive is defined %}
+
+                    {{ value.responsive }}
+
+                {% elseif record.fieldtype(key) == "geolocation" and value.latitude is defined %}
+
+                    <div class='imageholder-wide'>
+                        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
+                    </div>
+                    <p>{{ value.formatted_address }}</p>
+
+                {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
+
+                    {{ attribute(record, key) }}
+
+                {% elseif record.fieldtype(key) == "select" %}
+
+                    {# special case for 'select' fields.. If it's a multiple select, the value is an array. #}
+                    <p><strong>{{ key }}: </strong>
+                        {{ attribute(record, key)|join(", ") }}
+                    </p>
+
+                {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" %}
+
+                    <p><strong>{{ key }}: </strong>
+                        {{ attribute(record, key) }}
+                    </p>
+
+                {%  endif %}
+
+            {% endfor %}
+
+            {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
+            {{ print(record) }}
+            #}
+
+            {% include '_recordfooter.twig' with {record: record} %}
+
+            <p class="meta">
+                {% set previous = record.previous('id') %}
+                {% if previous %}
+                    <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
+                {% endif %}
+                -
+                {% set next = record.next('id') %}
+                {% if next %}
+                    <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
+                {% endif %}
+            </p>
+
+            {% set relatedrecords = record.related() %}
+            {% if relatedrecords is not empty %}
+                <p class="meta">{{ __('Related content:') }}
+                <ul>
+                    {% for related in relatedrecords %}
+                        <li><a href="{{ related.link }}">{{ related.title }}</a></li>
+                    {%  endfor %}
+                </ul>
+                </p>
+            {% endif %}
+
+        </article>
+
+
+    </div>
+
+    <!-- End Main Content -->
+
+    {% include '_aside.twig' %}
+
+    <!-- End Main Content and Sidebar -->
+
+
+
+    {% include '_footer.twig' %}
