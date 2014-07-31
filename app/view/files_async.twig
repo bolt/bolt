@@ -3,7 +3,7 @@
 {% if pathsegments|length > 0 %}
     
     {{ __('Path:') }}
-    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'namespace': namespace, 'path': path, 'key': key }) }}');" class="folder">
+    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'namespace': namespace, 'key': key }) }}');" class="folder">
         {{namespace}} /
     </a>
     
