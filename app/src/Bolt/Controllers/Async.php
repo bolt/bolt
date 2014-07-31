@@ -402,6 +402,7 @@ class Async implements ControllerProviderInterface
 
 
         return $app['render']->render('files_async.twig', array(
+            'namespace' => $namespace,
             'path' => $path,
             'files' => $files,
             'folders' => $folders,
