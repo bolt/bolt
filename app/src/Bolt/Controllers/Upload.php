@@ -87,7 +87,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     } else {
                         $namespace = $app['upload.namespace'];
                     }
-                    $prefix = $parts[0];
+                    $prefix = rtrim($parts[0],"/")."/";
                     return array($namespace, $prefix);
                 };
                 
