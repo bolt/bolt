@@ -92,8 +92,15 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                 
 
                 if (is_array($handler)) {
-                    /* @todo implement support for multiple handlers  */
-                    list($namespace, $prefix) = $parser($handler[0]); 
+                    $response = false;
+                    foreach($handler as $destination) {
+                        list($namespace, $prefix) = $parser($destination);
+                        $res = $controller->uploadFile($app, $request, $namespace);
+                        if(!$response) {
+                            $response = $res;
+                        }
+                    }
+                    return JsonResponse($response);
                 } else {
                     list($namespace, $prefix) = $parser($handler);
                 }
