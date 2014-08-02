@@ -74,7 +74,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         $ctr = $app['controllers_factory'];
         $controller = $this;
-        $ctr->match("/", function (Silex\Application $app, Request $request) use ($controller) {
+        $ctr->match("/{namespace}", function (Silex\Application $app, Request $request) use ($controller) {
 
 
             if ($handler = $request->get('handler')) {
@@ -102,6 +102,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             return new JsonResponse($controller->uploadFile($app, $request, $namespace));
 
         })
+        ->value('namespace', 'files')
         ->bind('upload');
 
         return $ctr;
