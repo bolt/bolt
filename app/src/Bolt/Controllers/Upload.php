@@ -101,11 +101,12 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
                     foreach($handler as $copy) {
                         list($namespace, $prefix) = $parser($copy);
-                        $app['upload.namespace']=$namespace;
-                        $app['upload.prefix'] = $prefix;
                         
                         $manager = $app['filesystem'];
-                        $manager->put($prefix."://".$result['name'], $manager->read($original.'://'.$result['name']));
+                        $manager->put(
+                            $namespace."://".$prefix.basename($result['name']), 
+                            $manager->read($original.'://'.$result['name'])
+                        );
                         
                         
                     }
