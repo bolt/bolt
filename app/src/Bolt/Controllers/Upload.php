@@ -100,7 +100,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                             $response = $res;
                         }
                     }
-                    return JsonResponse($response);
+                    return new JsonResponse($response);
                 } else {
                     list($namespace, $prefix) = $parser($handler);
                 }
