@@ -95,6 +95,8 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     $response = false;
                     foreach($handler as $destination) {
                         list($namespace, $prefix) = $parser($destination);
+                        $app['upload.namespace']=$namespace;
+                        $app['upload.prefix'] = $prefix;
                         $res = $controller->uploadFile($app, $request, $namespace);
                         if(!$response) {
                             $response = $res;
