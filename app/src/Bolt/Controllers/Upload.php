@@ -10,6 +10,7 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Yaml\Parser;
 
 use Sirius\Upload\Handler as UploadHandler;
 use Sirius\Upload\Container\Local;
@@ -73,14 +74,35 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         $ctr = $app['controllers_factory'];
         $controller = $this;
-        $ctr->match("/", function (Silex\Application $app, Request $request, $namespace = null) use ($controller) {
+        $ctr->match("/", function (Silex\Application $app, Request $request) use ($controller) {
 
-            if ($namespace === "") {
+
+            if ($handler = $request->get('handler')) {
+                $yamlparser = new Parser();
+                $handler = $yamlparser->parse($handler);
+                if (is_array($handler)) {
+                    
+                } else {
+                    $parts = explode("://",$handler);
+                    if (count($parts)==2) {
+                        $namespace = $parts[0];
+                        array_shift($parts);
+                    } else {
+                        $namespace = $app['upload.namespace'];
+                    }
+                    
+                    $app['upload.prefix'] = $parts[0];
+                    
+                }
+            } else {
                 $namespace = $app['upload.namespace'];
             }
+            
+            
             return new JsonResponse($controller->uploadFile($app, $request, $namespace));
 
-        })->bind('upload');
+        })
+        ->bind('upload');
 
         return $ctr;
     }
