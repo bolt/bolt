@@ -5,9 +5,10 @@
 
         <h1>
             {{ title|raw }}
-            <span>{% if pager is defined and pager.totalpages > 1 %}
-                {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
-            {%endif %}</span>
+            {% set pager_ct = pager[contenttype.slug]|default %}
+            {% if pager_ct and pager_ct.totalpages > 1 %}
+                <span>{{ __('Showing') }} {{ pager_ct.showing_from }} - {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}</span>
+            {%endif %}
         </h1>
 
         {% set lastgroup = "----" %}
