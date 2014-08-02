@@ -78,22 +78,28 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
 
             if ($handler = $request->get('handler')) {
-                $yamlparser = new Parser();
-                $handler = $yamlparser->parse($handler);
-                if (is_array($handler)) {
-                    
-                } else {
-                    $parts = explode("://",$handler);
+                
+                $parser = function($setting) use ($app) {
+                    $parts = explode("://",$setting);
                     if (count($parts)==2) {
                         $namespace = $parts[0];
                         array_shift($parts);
                     } else {
                         $namespace = $app['upload.namespace'];
                     }
-                    
-                    $app['upload.prefix'] = $parts[0];
-                    
+                    $prefix = $parts[0];
+                    return array($namespace, $prefix);
+                };
+                
+
+                if (is_array($handler)) {
+                    /* @todo implement support for multiple handlers  */
+                    list($namespace, $prefix) = $parser($handler[0]); 
+                } else {
+                    list($namespace, $prefix) = $parser($handler);
                 }
+                $app['upload.namespace']=$namespace;
+                $app['upload.prefix'] = $prefix;
             } else {
                 $namespace = $app['upload.namespace'];
             }
