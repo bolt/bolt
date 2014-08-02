@@ -96,19 +96,20 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                     $app['upload.namespace']=$namespace;
                     $app['upload.prefix'] = $prefix;
                     $result = $controller->uploadFile($app, $request, $namespace);
+
                     array_shift($handler);
                     $original = $namespace;
-
-                    foreach($handler as $copy) {
-                        list($namespace, $prefix) = $parser($copy);
-                        
-                        $manager = $app['filesystem'];
-                        $manager->put(
-                            $namespace."://".$prefix.basename($result['name']), 
-                            $manager->read($original.'://'.$result['name'])
-                        );
-                        
-                        
+                    
+                    if(count($result)) {
+                        $result = $result[0];
+                        foreach($handler as $copy) {
+                            list($namespace, $prefix) = $parser($copy);
+                            $manager = $app['filesystem'];
+                            $manager->put(
+                                $namespace."://".$prefix.basename($result['name']), 
+                                $manager->read($original.'://'.$result['name'])
+                            );                            
+                        }
                     }
                     return new JsonResponse($response);
                 } else {
