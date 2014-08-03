@@ -10,10 +10,11 @@ class IntegrityCheckerProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['integritychecker'] = $app->share(function ($app) {
-            return new IntegrityChecker($app);
-        });
-
+        $app['integritychecker'] = $app->share(
+            function ($app) {
+                return new IntegrityChecker($app);
+            }
+        );
     }
 
     public function boot(Application $app)

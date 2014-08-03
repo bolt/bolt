@@ -4,7 +4,6 @@ namespace Bolt\Filesystem;
 use League\Flysystem\Filesystem;
 use Sirius\Upload\Container\ContainerInterface;
 
-
 class FlysystemContainer implements ContainerInterface
 {
     public $filesystem;
@@ -40,10 +39,10 @@ class FlysystemContainer implements ContainerInterface
     public function moveUploadedFile($localFile, $destination)
     {
         $stream = fopen($localFile, "r+");
-        if( true === $this->filesystem->putStream($destination, $stream)) {
+        if (true === $this->filesystem->putStream($destination, $stream)) {
             return $destination;
         }
+
         return false;
     }
-
 }

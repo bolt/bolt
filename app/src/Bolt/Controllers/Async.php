@@ -105,7 +105,6 @@ class Async implements ControllerProviderInterface
             ->bind('createfolder');
 
         return $ctr;
-
     }
 
     /**
@@ -164,7 +163,6 @@ class Async implements ControllerProviderInterface
         $body = $app['render']->render('dashboard-news.twig', array('news' => $news));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
     }
 
     /**
@@ -177,7 +175,6 @@ class Async implements ControllerProviderInterface
         $body = $app['render']->render('dashboard-activity.twig', array('activity' => $activity));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
-
     }
 
     public function filesautocomplete(Silex\Application $app, Request $request)
@@ -191,7 +188,6 @@ class Async implements ControllerProviderInterface
         $app['debug'] = false;
 
         return $app->json($files);
-
     }
 
     /**
@@ -203,7 +199,6 @@ class Async implements ControllerProviderInterface
         $html = $app['extensions']->renderWidget($key);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
-
     }
 
     public function readme($extension, Silex\Application $app, Request $request)
@@ -216,7 +211,6 @@ class Async implements ControllerProviderInterface
         $html = \Parsedown::instance()->parse($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
-
     }
 
     public function markdownify(Silex\Application $app, Request $request)
@@ -225,7 +219,7 @@ class Async implements ControllerProviderInterface
 
         if (isHtml($html)) {
 
-            require_once(__DIR__ . '/../../../classes/markdownify/markdownify_extra.php');
+            require_once __DIR__ . '/../../../classes/markdownify/markdownify_extra.php';
             $markdown = new \Markdownify(false, 80, false);
 
             $output = $markdown->parseString($html);
@@ -235,7 +229,6 @@ class Async implements ControllerProviderInterface
         }
 
         return $output;
-
     }
 
     public function makeuri(Silex\Application $app, Request $request)
@@ -255,6 +248,7 @@ class Async implements ControllerProviderInterface
         $query = $app['db']->executeQuery($query, array($taxonomytype));
 
         $results = $query->fetchAll();
+
         return $app->json($results);
     }
 
@@ -271,15 +265,16 @@ class Async implements ControllerProviderInterface
 
         $results = $query->fetchAll();
 
-        usort($results, function ($a, $b) {
+        usort(
+            $results,
+            function ($a, $b) {
+                if ($a['slug'] == $b['slug']) {
+                    return 0;
+                }
 
-            if ($a['slug'] == $b['slug']) {
-                return 0;
+                return ($a['slug'] < $b['slug']) ? -1 : 1;
             }
-            return ($a['slug'] < $b['slug']) ? -1 : 1;
-
-        });
-
+        );
 
         return $app->json($results);
     }
@@ -323,6 +318,7 @@ class Async implements ControllerProviderInterface
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
         $body = $app['render']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
+
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -348,6 +344,7 @@ class Async implements ControllerProviderInterface
             'filtered' => $isFiltered,
             );
         $body = $app['render']->render('_sub_lastmodified.twig', $renderVars);
+
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
 
@@ -374,10 +371,10 @@ class Async implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('filebrowser.twig', array(
-            'results' => $results
-        ));
-
+        return $app['render']->render(
+            'filebrowser.twig',
+            array('results' => $results)
+        );
     }
 
 
@@ -391,7 +388,6 @@ class Async implements ControllerProviderInterface
      */
     public function browse($namespace, $path, Silex\Application $app, Request $request)
     {
-
         $filesystem = $app['filesystem']->getManager($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
@@ -420,43 +416,44 @@ class Async implements ControllerProviderInterface
 
         list($files, $folders) = $filesystem->browse($path, $app);
 
-        return $app['render']->render('files_async.twig', array(
-            'namespace' => $namespace,
-            'path' => $path,
-            'files' => $files,
-            'folders' => $folders,
-            'pathsegments' => $pathsegments,
-            'key' => $key
-        ));
-
+        return $app['render']->render(
+            'files_async.twig',
+            array(
+                'namespace' => $namespace,
+                'path' => $path,
+                'files' => $files,
+                'folders' => $folders,
+                'pathsegments' => $pathsegments,
+                'key' => $key
+            )
+        );
     }
 
 
     public function addstack($filename = "", Silex\Application $app)
     {
-
         $app['stack']->add($filename);
 
         return true;
-
     }
 
 
 
     public function showstack(Silex\Application $app)
     {
-
         $count = $app['request']->get('items', 10);
         $options = $app['request']->get('options', false);
 
         $stack = $app['stack']->listitems($count);
 
-        return $app['render']->render('_sub_stack.twig', array(
-            'stack' => $stack,
-            'options' => $options,
-            'filetypes' => $app['stack']->getFileTypes()
-        ));
-
+        return $app['render']->render(
+            '_sub_stack.twig',
+            array(
+                'stack' => $stack,
+                'options' => $options,
+                'filetypes' => $app['stack']->getFileTypes()
+            )
+        );
     }
 
     /**
@@ -518,6 +515,7 @@ class Async implements ControllerProviderInterface
         if ($filesystem->delete($filename)) {
             return true;
         }
+
         return false;
     }
 
@@ -539,18 +537,16 @@ class Async implements ControllerProviderInterface
         $destination = substr($filename, 0, $extensionPos) . "_copy" . substr($filename, $extensionPos);
         $n = 1;
 
-        while($filesystem->has($destination)) {
+        while ($filesystem->has($destination)) {
             $extensionPos = strrpos($destination, '.');
             $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
-            $n = rand(0,1000);
+            $n = rand(0, 1000);
         }
-        if($filesystem->copy($filename, $destination)) {
+        if ($filesystem->copy($filename, $destination)) {
             return true;
         }
 
         return false;
-
-
     }
 
     /**
@@ -582,10 +578,12 @@ class Async implements ControllerProviderInterface
         $fileSystemHelper = new Filesystem;
 
         try {
-            $fileSystemHelper->rename($oldPath,
-                                      $newPath,
-                                      false /* Don't rename if target exists already! */);
-        } catch(IOException $exception) {
+            $fileSystemHelper->rename(
+                $oldPath,
+                $newPath,
+                false /* Don't rename if target exists already! */
+            );
+        } catch (IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */
             return false;
@@ -614,7 +612,7 @@ class Async implements ControllerProviderInterface
 
         $filesystem = $app['filesystem']->getManager($namespace);
 
-        if($filesystem->deleteDir($completePath)) {
+        if ($filesystem->deleteDir($completePath)) {
             return true;
         }
 
@@ -641,12 +639,11 @@ class Async implements ControllerProviderInterface
 
         $filesystem = $app['filesystem']->getManager($namespace);
 
-        if($filesystem->createDir($newpath)) {
+        if ($filesystem->createDir($newpath)) {
             return true;
         }
 
         return false;
-
     }
 
 
@@ -674,6 +671,5 @@ class Async implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.async.before');
-
     }
 }

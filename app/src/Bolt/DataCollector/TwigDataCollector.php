@@ -101,7 +101,6 @@ class TwigDataCollector extends DataCollector
             'templatechosen' => $this->app['log']->getValue('templatechosen'),
             'templateerror' => $this->app['log']->getValue('templateerror')
         );
-
     }
 
     /**

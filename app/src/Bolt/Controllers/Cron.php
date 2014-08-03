@@ -131,7 +131,7 @@ class Cron extends Event
     {
         $this->prefix = $this->app['config']->get('general/database/prefix', "bolt_");
 
-        if ($this->prefix[ strlen($this->prefix)-1 ] != "_") {
+        if ($this->prefix[strlen($this->prefix) - 1] != "_") {
             $this->prefix .= "_";
         }
 

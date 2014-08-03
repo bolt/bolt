@@ -55,6 +55,7 @@ class YamlUpdater
         $this->lines = count($this->file);
 
         $this->changed = false;
+
         return true;
     }
 
@@ -80,7 +81,6 @@ class YamlUpdater
         } else {
             return false;
         }
-
     }
 
     /**
@@ -97,9 +97,9 @@ class YamlUpdater
             return false;
         }
 
-        $needle = substr("                                      ", 0, 2*$indent) . $keypart.":";
+        $needle = substr("                                      ", 0, 2 * $indent) . $keypart.":";
 
-        if (strpos($this->file[$this->pointer], $needle)===0) {
+        if (strpos($this->file[$this->pointer], $needle) === 0) {
             return $this->pointer;
         } else {
             $this->pointer++;
@@ -115,7 +115,6 @@ class YamlUpdater
      */
     private function parseline($line)
     {
-
         preg_match_all('/(\s*)([a-z0-9_-]+):(\s)?(.*)/', $this->file[$line], $match);
 
         return array(
@@ -124,7 +123,6 @@ class YamlUpdater
             'key' => $match[2][0],
             'value' => $match[4][0]
         );
-
     }
 
     /**
@@ -136,7 +134,6 @@ class YamlUpdater
      */
     public function change($key, $value)
     {
-
         $match = $this->get($key);
 
         // Not found.
@@ -150,7 +147,6 @@ class YamlUpdater
 
         // print_r($match);
         return $this->save();
-
     }
 
     /**
@@ -173,7 +169,6 @@ class YamlUpdater
         }
 
         return $value;
-
     }
 
 
@@ -207,6 +202,5 @@ class YamlUpdater
         } else {
             return false;
         }
-
     }
 }

@@ -13,10 +13,13 @@ class FilesystemProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['filesystem'] = $app->share(function ($app) {
-            $manager = new Manager($app);
-            return $manager;
-        });
+        $app['filesystem'] = $app->share(
+            function ($app) {
+                $manager = new Manager($app);
+
+                return $manager;
+            }
+        );
     }
 
     public function boot(Application $app)

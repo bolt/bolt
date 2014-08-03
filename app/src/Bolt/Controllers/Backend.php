@@ -176,7 +176,6 @@ class Backend implements ControllerProviderInterface
      */
     public function dashboard(\Bolt\Application $app)
     {
-
         $limit = $app['config']->get('general/recordsperdashboardwidget');
 
         $total = 0;
@@ -201,7 +200,6 @@ class Backend implements ControllerProviderInterface
         $app['twig']->addGlobal('title', __("Dashboard"));
 
         return $app['render']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
-
     }
 
 
@@ -216,8 +214,10 @@ class Backend implements ControllerProviderInterface
                     $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
                     $retreat = $app['session']->get('retreat');
                     $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
+
                     return redirect($redirect['route'], $redirect['params']);
                 }
+
                 return $this->getLogin($app, $request);
 
             case 'reset':
@@ -227,8 +227,10 @@ class Backend implements ControllerProviderInterface
                     $app['users']->session->getFlashBag()->set('error', __("Please provide a username", array()));
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
+
                     return redirect('login');
                 }
+
                 return $this->getLogin($app, $request);
 
             default:
@@ -242,10 +244,11 @@ class Backend implements ControllerProviderInterface
      */
     public function getLogin(Silex\Application $app, Request $request)
     {
-        if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled']==1) {
+        if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled'] == 1) {
             return redirect('dashboard', array());
         }
         $app['twig']->addGlobal('title', "Login");
+
         return $app['render']->render('login.twig');
     }
 
@@ -254,13 +257,11 @@ class Backend implements ControllerProviderInterface
      */
     public function logout(Silex\Application $app)
     {
-
         $app['log']->add("Logout", 3, '', 'logout');
 
         $app['users']->logout();
 
         return redirect('login');
-
     }
 
 
@@ -274,11 +275,9 @@ class Backend implements ControllerProviderInterface
      */
     public function resetpassword(Silex\Application $app, Request $request)
     {
-
         $app['users']->resetPasswordConfirm($request->get('token'));
 
         return redirect('login');
-
     }
 
 
@@ -287,16 +286,17 @@ class Backend implements ControllerProviderInterface
      */
     public function dbcheck(\Bolt\Application $app)
     {
-
         $output = $app['integritychecker']->checkTablesIntegrity();
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['render']->render('dbcheck.twig', array(
-            'required_modifications' => $output,
-            'active' => "settings"
-        ));
-
+        return $app['render']->render(
+            'dbcheck.twig',
+            array(
+                'required_modifications' => $output,
+                'active' => "settings"
+            )
+        );
     }
 
     /**
@@ -304,7 +304,6 @@ class Backend implements ControllerProviderInterface
      */
     public function dbupdate(Silex\Application $app)
     {
-
         $output = $app['integritychecker']->repairTables();
 
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
@@ -330,11 +329,13 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __("Database check / update"));
 
-        return $app['render']->render('dbcheck.twig', array(
-            'modifications' => $output,
-            'active' => "settings"
-        ));
-
+        return $app['render']->render(
+            'dbcheck.twig',
+            array(
+                'modifications' => $output,
+                'active' => "settings"
+            )
+        );
     }
 
 
@@ -343,7 +344,6 @@ class Backend implements ControllerProviderInterface
      */
     public function clearcache(Silex\Application $app)
     {
-
         $result = $app['cache']->clearCache();
 
         $output = __("Deleted %s files from cache.", array('%s' => $result['successfiles']));
@@ -359,11 +359,13 @@ class Backend implements ControllerProviderInterface
 
         $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
 
-        return $app['render']->render('base.twig', array(
-            'content' => $content,
-            'active' => "settings"
-        ));
-
+        return $app['render']->render(
+            'base.twig',
+            array(
+                'content' => $content,
+                'active' => "settings"
+            )
+        );
     }
 
 
@@ -372,7 +374,6 @@ class Backend implements ControllerProviderInterface
      */
     public function activitylog(Silex\Application $app)
     {
-
         $title = __('Activity log');
 
         $action = $app['request']->query->get('action');
@@ -392,7 +393,6 @@ class Backend implements ControllerProviderInterface
         $activity = $app['log']->getActivity(16);
 
         return $app['render']->render('activity.twig', array('title' => $title, 'activity' => $activity));
-
     }
 
     /**
@@ -418,7 +418,6 @@ class Backend implements ControllerProviderInterface
      */
     public function prefill(Silex\Application $app, Request $request)
     {
-
         $choices = array();
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
             $choices[$key] = __('%contenttypes%', array('%contenttypes%' => $cttype['name']));
@@ -443,12 +442,14 @@ class Backend implements ControllerProviderInterface
 
         $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
 
-        return $app['render']->render('base.twig', array(
-            'content' => '',
-            'contenttypes' => $choices,
-            'form' => $form->createView()
-        ));
-
+        return $app['render']->render(
+            'base.twig',
+            array(
+                'content' => '',
+                'contenttypes' => $choices,
+                'form' => $form->createView()
+            )
+        );
     }
 
 
@@ -457,7 +458,6 @@ class Backend implements ControllerProviderInterface
      */
     public function overview(Silex\Application $app, $contenttypeslug)
     {
-
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
@@ -495,7 +495,6 @@ class Backend implements ControllerProviderInterface
             'overview.twig',
             array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
         );
-
     }
 
     /**
@@ -647,6 +646,8 @@ class Backend implements ControllerProviderInterface
             'pagecount' => $pagecount,
             'currentpage' => $page,
             );
+
+
         return $app['render']->render('changeloglist.twig', $renderVars);
     }
 
@@ -667,6 +668,7 @@ class Backend implements ControllerProviderInterface
             'prevEntry' => $prev,
             'content' => $content,
             );
+
         return $app['render']->render('changelogdetails.twig', $renderVars);
     }
 
@@ -866,13 +868,15 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
-        return $app['render']->render('editcontent.twig', array(
-            'contenttype' => $contenttype,
-            'content' => $content,
-            'allowedStatuses' => $allowedStatuses,
-            'contentowner' => $contentowner,
-        ));
-
+        return $app['render']->render(
+            'editcontent.twig',
+            array(
+                'contenttype' => $contenttype,
+                'content' => $content,
+                'allowedStatuses' => $allowedStatuses,
+                'contentowner' => $contentowner,
+            )
+        );
     }
 
     /**
@@ -917,6 +921,7 @@ class Backend implements ControllerProviderInterface
         );
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->set('error', __('No such action for content.'));
+
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
         $newStatus = $actionStatuses[$action];
@@ -924,6 +929,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
+
             return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
         }
 
@@ -971,7 +977,6 @@ class Backend implements ControllerProviderInterface
      */
     public function users(Silex\Application $app)
     {
-
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
@@ -979,7 +984,6 @@ class Backend implements ControllerProviderInterface
             'users.twig',
             array('users' => $users, 'sessions' => $sessions)
         );
-
     }
 
     public function roles(\Bolt\Application $app)
@@ -994,6 +998,7 @@ class Backend implements ControllerProviderInterface
             }
         }
         $globalPermissions = $app['permissions']->getGlobalRoles();
+
         return $app['twig']->render(
             'roles.twig',
             array(
@@ -1079,70 +1084,85 @@ class Backend implements ControllerProviderInterface
         // If we're adding the first user, add them as 'developer' by default, so don't
         // show them here..
         if (!$firstuser) {
-            $form->add('enabled', 'choice', array(
+            $form->add(
+                'enabled',
+                'choice',
+                array(
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
                     'label' => __("User is enabled"),
-                ))
-                ->add('roles', 'choice', array(
+                )
+            )->add(
+                'roles',
+                'choice',
+                array(
                     'choices' => $roles,
                     'expanded' => true,
                     'multiple' => true,
                     'label' => __("Assigned roles"),
-                ));
+                )
+            );
         }
 
         // If we're adding a new user, these fields will be hidden.
         if (!empty($id)) {
-            $form->add('lastseen', 'text', array(
+            $form->add(
+                'lastseen',
+                'text',
+                array(
                     'disabled' => true,
                     'label' => __('Last seen')
-                ))
-                ->add('lastip', 'text', array(
+                )
+            )->add(
+                'lastip',
+                'text',
+                array(
                     'disabled' => true,
                     'label' => __('Last IP')
-                ));
+                )
+            );
         }
 
         // Make sure the passwords are identical and some other check, with a custom validator..
-        $form->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($app) {
+        $form->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($app) {
+                $form = $event->getForm();
+                $id = $form['id']->getData();
+                $pass1 = $form['password']->getData();
+                $pass2 = $form['password_confirmation']->getData();
 
-            $form = $event->getForm();
-            $id = $form['id']->getData();
-            $pass1 = $form['password']->getData();
-            $pass2 = $form['password_confirmation']->getData();
+                // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
+                // then make sure it's at least 6 characters long.
+                if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
+                    // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
+                    //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
+                    $error = new FormError(__("This value is too short. It should have 6 characters or more."));
+                    $form['password']->addError($error);
+                }
 
-            // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
-            // then make sure it's at least 6 characters long.
-            if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
-                //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
-                $error = new FormError(__("This value is too short. It should have 6 characters or more."));
-                $form['password']->addError($error);
+                // Passwords must be identical..
+                if ($pass1 != $pass2) {
+                    $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
+                }
+
+                // Usernames must be unique..
+                if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
+                    $form['username']->addError(new FormError(__('This username is already in use. Choose another username.')));
+                }
+
+                // Email addresses must be unique..
+                if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
+                    $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
+                }
+
+                // Displaynames must be unique..
+                if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
+                    $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
+                }
             }
-
-            // Passwords must be identical..
-            if ($pass1 != $pass2) {
-                $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
-            }
-
-            // Usernames must be unique..
-            if (!$app['users']->checkAvailability('username', $form['username']->getData(), $id)) {
-                $form['username']->addError(new FormError(__('This username is already in use. Choose another username.')));
-            }
-
-            // Email addresses must be unique..
-            if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
-            }
-
-            // Displaynames must be unique..
-            if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
-            }
-
-        });
+        );
 
         /**
          * @var \Symfony\Component\Form\Form $form
@@ -1286,11 +1306,13 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('edituser.twig', array(
-            'form' => $form->createView(),
-            'title' => $title
-        ));
-
+        return $app['render']->render(
+            'edituser.twig',
+            array(
+                'form' => $form->createView(),
+                'title' => $title
+            )
+        );
     }
 
     /**
@@ -1300,6 +1322,7 @@ class Backend implements ControllerProviderInterface
     {
         if (!$app['users']->checkAntiCSRFToken()) {
             $app['session']->getFlashBag()->set('info', __("An error occurred."));
+
             return redirect('users');
         }
         $user = $app['users']->getUser($id);
@@ -1347,7 +1370,6 @@ class Backend implements ControllerProviderInterface
         }
 
         return redirect('users');
-
     }
 
     /**
@@ -1356,7 +1378,6 @@ class Backend implements ControllerProviderInterface
     public function about(Silex\Application $app)
     {
         return $app['render']->render('about.twig');
-
     }
 
     /**
@@ -1364,39 +1385,36 @@ class Backend implements ControllerProviderInterface
      */
     public function extensions(Silex\Application $app)
     {
-
         $title = "Extensions";
 
         $extensions = $app['extensions']->getInfo();
 
         return $app['render']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
-
     }
 
     public function files($namespace, $path, Silex\Application $app, Request $request)
     {
-        
         $filesystem = $app['filesystem']->getManager($namespace);
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
-        
+
         if (! $app['filepermissions']->authorized($fullPath)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
         }
-        
+
         try {
-           $list = $filesystem->listContents($path);
-           $validFolder = true;
+            $list = $filesystem->listContents($path);
+            $validFolder = true;
         } catch (\Exception $e) {
             $list = array();
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path))); 
+            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
 
         }
 
-        if($validFolder) {
+        if ($validFolder) {
 
             // Define the "Upload here" form.
             $form = $app['form.factory']
@@ -1413,7 +1431,7 @@ class Backend implements ControllerProviderInterface
                     foreach ($files as $fileToProcess) {
 
                         $fileToProcess = array(
-                            'name'=> $fileToProcess->getClientOriginalName(),
+                            'name' => $fileToProcess->getClientOriginalName(),
                             'tmp_name' => $fileToProcess->getPathName()
                         );
 
@@ -1454,18 +1472,19 @@ class Backend implements ControllerProviderInterface
                 } else {
                     $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));
                 }
+
                 return redirect('files', array('path' => $path));
             }
 
             $formview = $form->createView();
 
         }
-        
+
         list($files, $folders) = $filesystem->browse($path, $app);
-        
+
         $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $namespace."/".$path)));
 
-    
+
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file..
         if (!$request->query->has('CKEditor')) {
@@ -1473,7 +1492,7 @@ class Backend implements ControllerProviderInterface
         } else {
             $twig = 'files_ck.twig';
         }
-        
+
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
         $cumulative = "";
@@ -1484,20 +1503,21 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render($twig, array(
-            'path' => $path,
-            'files' => $files,
-            'folders' => $folders,
-            'pathsegments' => $pathsegments,
-            'form' => $formview,
-            'namespace' => $namespace
-        ));
-
+        return $app['render']->render(
+            $twig,
+            array(
+                'path' => $path,
+                'files' => $files,
+                'folders' => $folders,
+                'pathsegments' => $pathsegments,
+                'form' => $formview,
+                'namespace' => $namespace
+            )
+        );
     }
 
     public function fileedit($namespace, $file, Silex\Application $app, Request $request)
     {
-
         if ($namespace == 'app' && dirname($file) == "config") {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the
             // correct dir, which might be 'app/config', but it might be something else.
@@ -1537,10 +1557,13 @@ class Backend implements ControllerProviderInterface
         }
 
         if (!is_writable($filename)) {
-            $app['session']->getFlashBag()->set('info', __(
-                "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                array('%s' => $file)
-            ));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __(
+                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                    array('%s' => $file)
+                )
+            );
             $writeallowed = false;
             $title = sprintf("<strong>%s</strong> » %s", __('View file'), basename($file));
         } else {
@@ -1599,15 +1622,17 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('editconfig.twig', array(
-            'form' => $form->createView(),
-            'title' => $title,
-            'filetype' => $type,
-            'file' => $file,
-            'pathsegments' => $pathsegments,
-            'writeallowed' => $writeallowed
-        ));
-
+        return $app['render']->render(
+            'editconfig.twig',
+            array(
+                'form' => $form->createView(),
+                'title' => $title,
+                'filetype' => $type,
+                'file' => $file,
+                'pathsegments' => $pathsegments,
+                'writeallowed' => $writeallowed
+            )
+        );
     }
 
     /**
@@ -1615,7 +1640,6 @@ class Backend implements ControllerProviderInterface
      */
     public function translation($domain, $tr_locale, Silex\Application $app, Request $request)
     {
-
         $short_locale = substr($tr_locale, 0, 2);
         $type = 'yml';
         $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
@@ -1685,20 +1709,26 @@ class Backend implements ControllerProviderInterface
         }
         // maybe no translations yet
         if (!file_exists($filename) && !is_writable(dirname($filename))) {
-            $app['session']->getFlashBag()->set('info', __(
-                "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
-                array('%s' => $file)
-            ));
+            $app['session']->getFlashBag()->set(
+                'info',
+                __(
+                    "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.",
+                    array('%s' => $file)
+                )
+            );
             $writeallowed = false;
             $title = __("View translations file '%s'.", array('%s' => $file));
         } elseif (file_exists($filename) && !is_readable($filename)) {
             $error = __("The translations file '%s' is not readable.", array('%s' => $file));
             $app->abort(404, $error);
         } elseif (!is_writable($filename)) {
-            $app['session']->getFlashBag()->set('warning', __(
-                "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                array('%s' => $file)
-            ));
+            $app['session']->getFlashBag()->set(
+                'warning',
+                __(
+                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
+                    array('%s' => $file)
+                )
+            );
             $writeallowed = false;
             $title = __("View file '%s'.", array('%s' => $file));
         } else {
@@ -1750,13 +1780,15 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render('editlocale.twig', array(
-            'form' => $form->createView(),
-            'title' => $title,
-            'filetype' => $type,
-            'writeallowed' => $writeallowed
-        ));
-
+        return $app['render']->render(
+            'editlocale.twig',
+            array(
+                'form' => $form->createView(),
+                'title' => $title,
+                'filetype' => $type,
+                'writeallowed' => $writeallowed
+            )
+        );
     }
 
     /**
@@ -1777,6 +1809,7 @@ class Backend implements ControllerProviderInterface
         // we let the user stay, because they need to set up the first user.
         if ($app['integritychecker']->checkUserTableIntegrity() && !$app['users']->getUsers() && $route == 'useredit') {
             $app['twig']->addGlobal('frontend', false);
+
             return;
         }
 
@@ -1785,6 +1818,7 @@ class Backend implements ControllerProviderInterface
         if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['integritychecker']->repairTables();
             $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+
             return redirect('useredit', array('id' => ""));
         }
 

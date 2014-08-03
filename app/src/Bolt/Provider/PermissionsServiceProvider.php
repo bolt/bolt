@@ -10,15 +10,13 @@ class PermissionsServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $app['permissions'] = $app->share(
+            function ($app) {
+                $permissions = new Permissions($app);
 
-        $app['permissions'] = $app->share(function ($app) {
-
-            $permissions = new Permissions($app);
-
-            return $permissions;
-
-        });
-
+                return $permissions;
+            }
+        );
     }
 
     public function boot(Application $app)

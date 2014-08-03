@@ -19,7 +19,6 @@ class UserRoleAdd extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $username = $input->getArgument('username');
         $role = $input->getArgument('role');
 
@@ -35,6 +34,5 @@ class UserRoleAdd extends BaseCommand
                 $output->writeln($msg);
             }
         }
-
     }
 }

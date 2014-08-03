@@ -60,14 +60,13 @@ class Frontend
             if (!$app['users']->isAllowed('maintenance-mode')) {
                 $template = $app['config']->get('general/maintenance_template');
                 $body = $app['render']->render($template);
+
                 return new Response($body, 503);
             }
         }
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.frontend.before');
-
-
     }
 
     public static function homepage(Silex\Application $app)
@@ -162,13 +161,11 @@ class Frontend
 
         // Render the template and return.
         return $app['render']->render($template);
-
     }
 
 
     public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
-
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // First, get the preview from Post.
@@ -199,12 +196,10 @@ class Frontend
         $app['twig']->addGlobal($contenttype['singular_slug'], $content);
 
         return $app['render']->render($template);
-
     }
 
     public static function listing(Silex\Application $app, $contenttypeslug)
     {
-
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
         // First, get some content
@@ -258,12 +253,10 @@ class Frontend
         $app['twig']->addGlobal('contenttype', $contenttype['name']);
 
         return $app['render']->render($template);
-
     }
 
     public static function taxonomy(Silex\Application $app, $taxonomytype, $slug)
     {
-
         // First, get some content
         $page = $app['request']->query->get('page', 1);
         $amount = $app['config']->get('general/listing_records');
@@ -327,7 +320,6 @@ class Frontend
         $app['twig']->addGlobal('taxonomytype', $taxonomyslug);
 
         return $app['render']->render($template);
-
     }
 
     public static function search(Request $request, Silex\Application $app)

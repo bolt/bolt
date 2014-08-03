@@ -59,7 +59,6 @@ class BoltDataCollector extends DataCollector
             $this->data['editlink'] = $this->app['editlink'];
             $this->data['edittitle'] = $this->app['edittitle'];
         }
-
     }
 
     /**

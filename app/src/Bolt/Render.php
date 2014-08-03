@@ -45,7 +45,6 @@ class Render
      */
     public function render($template, $vars = array())
     {
-
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.render', 'template');
 
@@ -55,7 +54,6 @@ class Render
         $this->app['stopwatch']->stop('bolt.render');
 
         return $html;
-
     }
 
     /**
@@ -71,7 +69,6 @@ class Render
         $this->cacheRequest($html);
 
         return $html;
-
     }
 
     /**
@@ -93,7 +90,7 @@ class Render
                 // otherwise a proxy/cache might keep the cache twice as long in the worst case
                 // scenario, and now it's only 50% max, but likely less
                 $headers = array(
-                    'Cache-Control' => 's-maxage=' . ($this->cacheDuration()/2),
+                    'Cache-Control' => 's-maxage=' . ($this->cacheDuration() / 2),
                 );
                 $result = new Response($result, 200, $headers);
             }
@@ -129,7 +126,6 @@ class Render
 
         // in seconds.
         return intval($duration) * 60;
-
     }
 
     /**
@@ -176,6 +172,5 @@ class Render
 
         // All's well!
         return true;
-
     }
 }

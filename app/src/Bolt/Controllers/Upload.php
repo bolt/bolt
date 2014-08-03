@@ -31,28 +31,32 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     public function register(Silex\Application $app)
     {
         // This exposes the main upload object as a service
-        $app['upload'] = $app->share(function ($app) {
+        $app['upload'] = $app->share(
+            function ($app) {
+                $allowedExensions = $app['config']->get('general/accept_file_types');
+                $uploadHandler = new UploadHandler($app['upload.container']);
+                $uploadHandler->setPrefix($app['upload.prefix']);
+                $uploadHandler->setOverwrite($app['upload.overwrite']);
+                $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
 
-            $allowedExensions = $app['config']->get('general/accept_file_types');
-            $uploadHandler = new UploadHandler($app['upload.container']);
-            $uploadHandler->setPrefix($app['upload.prefix']);
-            $uploadHandler->setOverwrite($app['upload.overwrite']);
-            $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
-            return $uploadHandler;
-        });
-
+                return $uploadHandler;
+            }
+        );
 
         // This exposes the file container as a configurabole object please refer to:
         // Sirius\Upload\Container\ContainerInterface
         // Any compatible file handler can be used.
-        $app['upload.container'] = $app->share(function ($app) {
-            $base = $app['resources']->getPath($app['upload.namespace']);
-            if (!is_writable($base)) {
-                throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
+        $app['upload.container'] = $app->share(
+            function ($app) {
+                $base = $app['resources']->getPath($app['upload.namespace']);
+                if (!is_writable($base)) {
+                    throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
+                }
+                $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
+
+                return $container;
             }
-            $container = new FlysystemContainer($app['filesystem']->getManager($app['upload.namespace']));
-            return $container;
-        });
+        );
 
         // This allows multiple upload locations, all prefixed with a namespace. The default is /files
         // Note, if you want to provide an alternative namespace, you must set a path on the $app['resources']
@@ -63,29 +67,28 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $app['upload.prefix'] = date('Y-m')."/";
 
         $app['upload.overwrite'] = false;
-
     }
 
     public function connect(Silex\Application $app)
     {
         $ctr = $app['controllers_factory'];
         $controller = $this;
-        $ctr->match("/{namespace}", function (Silex\Application $app, Request $request, $namespace = null) use ($controller) {
+        $ctr->match(
+            "/{namespace}",
+            function (Silex\Application $app, Request $request, $namespace = null) use ($controller) {
+                if ($namespace === "") {
+                    $namespace = $app['upload.namespace'];
+                }
 
-            if ($namespace === "") {
-                $namespace = $app['upload.namespace'];
+                return new JsonResponse($controller->uploadFile($app, $request, $namespace));
             }
-            return new JsonResponse($controller->uploadFile($app, $request, $namespace));
-
-        })->assert('namespace', '.*');
+        )->assert('namespace', '.*');
 
         return $ctr;
-
     }
 
     public function uploadFile(Silex\Application $app, Request $request, $namespace, $files = null)
     {
-
         $app['upload.namespace'] = $namespace;
 
         if (null === $files) {
@@ -99,7 +102,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         foreach ($files as $file) {
             if ($file instanceof UploadedFile) {
                 $filesToProcess[] = array(
-                    'name'=> $file->getClientOriginalName(),
+                    'name' => $file->getClientOriginalName(),
                     'tmp_name' => $file->getPathName()
                 );
             } else {
@@ -117,24 +120,25 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             } elseif ($result instanceof Collection) {
                 foreach ($result as $resultFile) {
                     $successfulFiles[] = array(
-                        'url'=>$namespace."/".$resultFile->name,
-                        'name'=>$resultFile->name
+                        'url' => $namespace."/".$resultFile->name,
+                        'name' => $resultFile->name
                     );
                 }
             }
+
             return $successfulFiles;
         } else {
             try {
                 $result->clear();
             } catch (\Exception $e) {
-                
+
             }
             $errorFiles = array();
             foreach ($result as $resultFile) {
                 $errors = $resultFile->getMessages();
                 $errorFiles[] = array(
-                    'url'=>$namespace."/".$resultFile->original_name,
-                    'name'=>$resultFile->original_name,
+                    'url' => $namespace."/".$resultFile->original_name,
+                    'name' => $resultFile->original_name,
                     'error' => $errors[0]->__toString()
                 );
             }
@@ -165,6 +169,5 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
     public function boot(Silex\Application $app)
     {
-
     }
 }

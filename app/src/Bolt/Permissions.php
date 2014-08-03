@@ -71,6 +71,7 @@ class Permissions
     {
         $roles = $this->app['config']->get('permissions/roles');
         $roles[self::ROLE_ROOT] = array('label' => 'Root', 'description' => __('Built-in superuser role, automatically grants all permissions'), 'builtin' => true);
+
         return $roles;
     }
 
@@ -124,6 +125,7 @@ class Permissions
             $userRoleNames[] = self::ROLE_OWNER;
         }
         $userRoleNames[] = self::ROLE_OWNER;
+
         return
             array_combine(
                 $userRoleNames,
@@ -156,6 +158,7 @@ class Permissions
                     ($contenttype ? "for $contenttype " : "") .
                     "to root user"
                 );
+
                 return true;
         }
         foreach ($roleNames as $roleName) {
@@ -165,6 +168,7 @@ class Permissions
                     ($contenttype ? "for $contenttype " : "") .
                     "based on role $roleName"
                 );
+
                 return true;
             }
         }
@@ -173,6 +177,7 @@ class Permissions
             ($contenttype ? "for $contenttype" : "") .
             "; available roles: " . implode(', ', $roleNames)
         );
+
         return false;
     }
 
@@ -194,14 +199,17 @@ class Permissions
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
             error_log("Configuration error: $permissionName is not granted to any roles.");
+
             return false;
         }
+
         return in_array($roleName, $roles);
     }
 
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
     {
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
+
         return in_array($roleName, $roles);
     }
 
@@ -245,6 +253,7 @@ class Permissions
             $contenttypeRoles = array();
         }
         $effectiveRoles = array_unique(array_merge($overrideRoles, $contenttypeRoles));
+
         return $effectiveRoles;
     }
 
@@ -266,6 +275,7 @@ class Permissions
             $userRoles = array();
         }
         $userRoles[] = Permissions::ROLE_ANONYMOUS;
+
         return $userRoles;
     }
 
@@ -331,6 +341,7 @@ class Permissions
 
         // Cache for the current request
         $this->rqcache[$rqCacheKey] = $isAllowed;
+
         return $isAllowed;
     }
 
@@ -349,6 +360,7 @@ class Permissions
                         return true;
                     }
                 }
+
                 return false;
             case PermissionParser::P_AND:
                 foreach ($rule['value'] as $subrule) {
@@ -356,6 +368,7 @@ class Permissions
                         return false;
                     }
                 }
+
                 return true;
             default:
                 throw new \Exception("Invalid permission check rule of type " . $rule['type'] . ", expected P_SIMPLE, P_AND or P_OR");
@@ -385,9 +398,11 @@ class Permissions
                 if (empty($contenttype)) {
                     if (in_array(Permissions::ROLE_EVERYONE, $userRoles)) {
                         $this->audit("Granting 'overview' for everyone (hard-coded override)");
+
                         return true;
                     } else {
                         $this->audit("Denying 'overview' for anonymous user (hard-coded override)");
+
                         return false;
                     }
                 } else {
@@ -442,6 +457,7 @@ class Permissions
                 // Backend/deletecontent(), respectively, because transitions
                 // are governed by a set of separate permissions.
                 $this->audit("Granting '{$parts[0]}' (hard-coded override)");
+
                 return true;
 
             default:
@@ -490,6 +506,7 @@ class Permissions
             // Bypass permission check if no actual transition is to happen
             return true;
         }
+
         return $this->isAllowed($perm, $user, $contenttype, $contentid);
     }
 }

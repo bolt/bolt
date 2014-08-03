@@ -22,7 +22,7 @@ $config->compat();
 
 
 // Create the 'Bolt application'
-$app = new Bolt\Application(array('resources'=>$config));
+$app = new Bolt\Application(array('resources' => $config));
 
 
 // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..

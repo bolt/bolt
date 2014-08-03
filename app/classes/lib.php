@@ -183,10 +183,10 @@ function stripTrailingSlash($path)
  */
 function formatFilesize($size)
 {
-    if ($size > 1024*1024) {
-        return sprintf("%0.2f mb", ($size/1024/1024));
+    if ($size > 1024 * 1024) {
+        return sprintf("%0.2f mb", ($size / 1024 / 1024));
     } elseif ($size > 1024) {
-        return sprintf("%0.2f kb", ($size/1024));
+        return sprintf("%0.2f kb", ($size / 1024));
     } else {
         return $size." b";
     }
@@ -200,11 +200,11 @@ function formatFilesize($size)
  */
 function getExtension($filename)
 {
-    $pos=strrpos($filename, '.');
+    $pos = strrpos($filename, '.');
     if ($pos === false) {
         return '';
     } else {
-        $ext = substr($filename, $pos+1);
+        $ext = substr($filename, $pos + 1);
 
         return $ext;
     }
@@ -326,6 +326,7 @@ function trimText($str, $desiredLength, $nbsp = false, $hellip = true, $striptag
     } else {
         $ellipseStr = '';
     }
+
     return trimToHTML($str, $desiredLength, $ellipseStr, $striptags, $nbsp);
 }
 
@@ -359,6 +360,7 @@ function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remaini
     if (strlen($node->textContent) <= $remainingLength) {
         $remainingLength -= strlen($node->textContent);
         $parentNode->appendChild($parentNode->ownerDocument->importNode($node, true));
+
         return;
     }
     // OK, so we need to descend into this node.
@@ -371,6 +373,7 @@ function _collectNodesUpToLength(\DOMNode $node, \DOMNode $parentNode, &$remaini
         }
         $parentNode->appendChild($newNode);
         $remainingLength = 0;
+
         return;
     }
     // It's not a text node, so we'll shallow-clone the current node and then
@@ -502,6 +505,7 @@ function trimToHTML($html, $desiredLength = null, $ellipseStr = "…", $stripTag
     // Restore previous libxml settings
     libxml_disable_entity_loader($prevEntityLoaderDisabled);
     libxml_use_internal_errors($prevInternalErrors);
+
     return $result;
 }
 
@@ -516,6 +520,7 @@ function decorateTT($str)
 {
     $str = htmlspecialchars($str, ENT_QUOTES);
     $str = preg_replace('/`([^`]*)`/', '<tt>\\1</tt>', $str);
+
     return $str;
 }
 
@@ -783,6 +788,7 @@ function loadSerialize($filename, $silent = false)
     if (substr($serialized_data, 0, 5) === 'json:') {
         $serialized_data = substr($serialized_data, 5);
         $data = json_decode($serialized_data, true);
+
         return $data;
     }
 
@@ -864,13 +870,12 @@ function saveSerialize($filename, &$data)
         }
     } else {
         // todo: handle errors better.
-        print(
+        print
             'Error opening file<br/><br/>' .
             'The file <b>' . $filename . '</b> could not be opened for writing! <br /><br />' .
             'Try logging in with your ftp-client and check to see if it is chmodded to be readable by the ' .
             'webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
-            'Current path: ' . getcwd() . '.'
-        );
+            'Current path: ' . getcwd() . '.';
         debug_print_backtrace();
         die();
     }
@@ -894,6 +899,7 @@ function str_replace_first($search, $replace, $subject)
     if ($pos !== false) {
         $subject = substr_replace($subject, $replace, $pos, strlen($search));
     }
+
     return $subject;
 }
 
@@ -969,6 +975,7 @@ function htmlencode_params($params)
     foreach ($params as $key => $val) {
         $result[$key] = htmlencode($val);
     }
+
     return $result;
 }
 
@@ -999,7 +1006,7 @@ function __()
     } else {
         $fn = 'transChoice';
     }
-    $tr_args=null;
+    $tr_args = null;
     if ($fn == 'trans' && $num_args > 1) {
         $tr_args = $args[1];
     } elseif ($fn == 'transChoice' && $num_args > 2) {
@@ -1103,6 +1110,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
                 $stypes[] = str_replace('%contenttype%', $ctype['singular_name'], $txt);
             }
         }
+
         return $stypes;
     };
 
@@ -1132,8 +1140,8 @@ function gatherTranslatableStrings($locale = null, $translated = array())
                 //print_r($matches[1]);
                 foreach ($matches[1] as $t) {
                     $nstr++;
-                    if (!in_array($t, $strings) && strlen($t)>1) {
-                        $strings[]=$t;
+                    if (!in_array($t, $strings) && strlen($t) > 1) {
+                        $strings[] = $t;
                         sort($strings);
                     }
                 }
@@ -1159,7 +1167,7 @@ function gatherTranslatableStrings($locale = null, $translated = array())
         if ($isPhp($file)) {
             $tokens = token_get_all($s);
             $num_tokens = count($tokens);
-            for ($x=0; $x < $num_tokens; $x++) {
+            for ($x = 0; $x < $num_tokens; $x++) {
                 $token = $tokens[$x];
                 if (is_array($token) && $token[0] == T_STRING && $token[1] == '__') {
                     $token = $tokens[++$x];
@@ -1235,8 +1243,10 @@ function gatherTranslatableStrings($locale = null, $translated = array())
             if (is_array($translated) && array_key_exists($key, $translated) && !empty($translated[$key])) {
                 return $translated[$key];
             }
+
             return '';
         }
+
         return $trans;
     };
 
@@ -1302,5 +1312,6 @@ function smart_unserialize($str, $assoc = true)
         }
     }
     $data = unserialize($str);
+
     return $data;
 }

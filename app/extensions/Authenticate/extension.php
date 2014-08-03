@@ -110,7 +110,6 @@ class Extension extends \Bolt\BaseExtension
                 ->bind($binding);
         }
         $this->app->mount("/{$basepath}", $visitors_routes);
-
     }
 
 }

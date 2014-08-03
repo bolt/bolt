@@ -10,15 +10,13 @@ class LogServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $app['log'] = $app->share(
+            function ($app) {
+                $log = new Log($app);
 
-        $app['log'] = $app->share(function ($app) {
-
-            $log = new Log($app);
-
-            return $log;
-
-        });
-
+                return $log;
+            }
+        );
     }
 
     public function boot(Application $app)

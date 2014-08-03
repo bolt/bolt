@@ -10,7 +10,6 @@ class BoltProfilerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-
         // Set the 'bolt' toolbar item as the first one, and overriding the 'Symfony' one.
         // Note: we use this workaround, because setting $app['data_collector.templates'][0]
         // does not work.
@@ -24,17 +23,19 @@ class BoltProfilerServiceProvider implements ServiceProviderInterface
 
         $app['data_collector.templates'] = $templates;
 
-        $app['data_collectors'] = array_merge($app['data_collectors'], array(
-            'bolt' => $app->share(function ($app) {
-                return new BoltDataCollector($app);
-            }),
-        ));
-
-
+        $app['data_collectors'] = array_merge(
+            $app['data_collectors'],
+            array(
+                'bolt' => $app->share(
+                    function ($app) {
+                        return new BoltDataCollector($app);
+                    }
+                ),
+            )
+        );
     }
 
     public function boot(Application $app)
     {
-
     }
 }

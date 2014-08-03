@@ -274,7 +274,6 @@ class TwigExtension extends \Twig_Extension
         $output = trimText(strip_tags($output), $length);
 
         return $output;
-
     }
 
 
@@ -300,7 +299,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $str;
-
     }
 
 
@@ -327,13 +325,13 @@ class TwigExtension extends \Twig_Extension
         }
 
         $types = array(
-            0=>'unknown',
-            1=>'gif',
-            2=>'jpeg',
-            3=>'png',
-            4=>'swf',
-            5=>'psd',
-            6=>'bmp'
+            0 => 'unknown',
+            1 => 'gif',
+            2 => 'jpeg',
+            3 => 'png',
+            4 => 'swf',
+            5 => 'psd',
+            6 => 'bmp'
         );
 
         // Get the dimensions of the image
@@ -367,7 +365,6 @@ class TwigExtension extends \Twig_Extension
         $info['square'] = !$info['landscape'] && !$info['portrait'];
 
         return $info;
-
     }
 
 
@@ -411,11 +408,13 @@ class TwigExtension extends \Twig_Extension
         $output = \Parsedown::instance()->parse($content);
 
         // Sanitize/clean the HTML.
-        $maid = new \Maid\Maid(array(
-            'output-format' => 'html',
-            'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
-            'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
-        ));
+        $maid = new \Maid\Maid(
+            array(
+                'output-format' => 'html',
+                'allowed-tags' => array('html', 'head', 'body', 'section', 'div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'menu', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'),
+                'allowed-attribs' => array('id', 'class', 'name', 'value', 'href', 'src')
+            )
+        );
         $output = $maid->clean($output);
 
         return $output;
@@ -454,7 +453,6 @@ class TwigExtension extends \Twig_Extension
     public function ucfirst($str)
     {
         return ucfirst($str);
-
     }
 
     /**
@@ -466,7 +464,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function order($array, $on, $on_secondary = '')
     {
-
         // Set the 'order_on' and 'order_ascending', taking into account things like '-datepublish'.
         list($this->order_on, $this->order_ascending) = $this->app['storage']->getSortOrder($on);
 
@@ -481,7 +478,6 @@ class TwigExtension extends \Twig_Extension
         uasort($array, array($this, "orderHelper"));
 
         return $array;
-
     }
 
     /**
@@ -520,7 +516,6 @@ class TwigExtension extends \Twig_Extension
             }
 
         }
-
     }
 
     /**
@@ -564,7 +559,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function current($content)
     {
-
         $route_params = $this->app['request']->get('_route_params');
 
         // If passed a string, and it is in the route..
@@ -589,9 +583,7 @@ class TwigExtension extends \Twig_Extension
         $requestedUri    = explode('?', $this->app['request']->getRequestUri());
 
         $entrancePageUrl = $this->app['config']->get('general/homepage');
-        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/')
-                            ? '/' . $entrancePageUrl
-                            : $entrancePageUrl;
+        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/') ? '/' . $entrancePageUrl : $entrancePageUrl;
 
         // check against Request Uri
         if ($requestedUri[0] == $linkToCheck) {
@@ -962,7 +954,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function showimage($filename = "", $width = 100, $height = 100, $crop = "")
     {
-
         if (!empty($filename)) {
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
@@ -974,7 +965,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $output;
-
     }
 
     /**
@@ -996,7 +986,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function popup($filename = "", $width = 100, $height = 100, $crop = "", $title = "")
     {
-
         if (!empty($filename)) {
 
             $thumbconf = $this->app['config']->get('general/thumbnails');
@@ -1025,7 +1014,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $output;
-
     }
 
     /**
@@ -1039,7 +1027,6 @@ class TwigExtension extends \Twig_Extension
      */
     public function image($filename, $width = "", $height = "", $crop = "")
     {
-
         if ($width != "" || $height != "") {
             // You don't want the image, you just want a thumbnail.
             return $this->thumbnail($filename, $width, $height, $crop);
@@ -1057,7 +1044,6 @@ class TwigExtension extends \Twig_Extension
         );
 
         return $image;
-
     }
 
     /**
@@ -1149,7 +1135,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $env->render($template, $twigvars);
-
     }
 
     /**
@@ -1169,7 +1154,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $menu;
-
     }
 
 
@@ -1296,14 +1280,13 @@ class TwigExtension extends \Twig_Extension
             // It's a content record
             $contenttype = $content->contenttype;
             $contentid = $content['id'];
-        }
-        elseif (is_array($content)) {
+        } elseif (is_array($content)) {
             // It's a contenttype
             $contenttype = $content;
-        }
-        elseif (is_string($content)) {
+        } elseif (is_string($content)) {
             $contenttype = $content;
         }
+
         return $this->app['users']->isAllowed($what, $contenttype, $contentid);
     }
 
@@ -1346,9 +1329,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function safestring($str, $strict = false, $extrachars = "")
     {
-
         return safeString($str, $strict, $extrachars);
-
     }
 
 
@@ -1367,7 +1348,6 @@ class TwigExtension extends \Twig_Extension
         $result = $this->app->redirect($path);
 
         return $result;
-
     }
 
 
@@ -1380,11 +1360,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function stackitems($amount = 20, $type = "")
     {
-
         $items = $this->app['stack']->listitems($amount, $type);
 
         return $items;
-
     }
 
 
@@ -1395,11 +1373,9 @@ class TwigExtension extends \Twig_Extension
      */
     public function stacked($filename)
     {
-
         $stacked = ( $this->app['stack']->isOnStack($filename) || !$this->app['stack']->isStackable($filename) );
 
         return $stacked;
-
     }
 
 
@@ -1432,7 +1408,6 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $retval;
-
     }
 
     public function isChangelogEnabled()

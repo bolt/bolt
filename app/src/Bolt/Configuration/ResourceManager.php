@@ -102,12 +102,13 @@ class ResourceManager
 
     public function getUrl($name)
     {
-        if (array_key_exists($name."url", $this->urls) && $name !=='root') {
+        if (array_key_exists($name."url", $this->urls) && $name !== 'root') {
             return $this->urls[$name."url"];
         }
         if (!array_key_exists($name, $this->urls)) {
             throw new \InvalidArgumentException("Requested url $name is not available", 1);
         }
+
         return $this->urlPrefix.$this->urls[$name];
     }
 
@@ -121,6 +122,7 @@ class ResourceManager
         if (!array_key_exists($name, $this->request)) {
             throw new \InvalidArgumentException("Request componenet $name is not available", 1);
         }
+
         return $this->request[$name];
     }
 
@@ -264,6 +266,7 @@ class ResourceManager
         if (!$this->verifier) {
             $this->verifier = new LowlevelChecks($this);
         }
+
         return $this->verifier;
     }
 }

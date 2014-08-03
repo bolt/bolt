@@ -60,6 +60,7 @@ class Stack
 
         array_unshift($this->items, $filename);
         $this->persist();
+
         return true;
     }
 
@@ -107,7 +108,6 @@ class Stack
         $ext = getExtension($filename);
 
         return in_array($ext, $this->getFileTypes());
-
     }
 
     /**
@@ -191,7 +191,6 @@ class Stack
         $list = array_slice($list, 0, $count);
 
         return $list;
-
     }
 
     /**
@@ -200,7 +199,6 @@ class Stack
      */
     public function persist()
     {
-
         $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
         $ser = json_encode($this->items);
 
@@ -209,7 +207,6 @@ class Stack
         $currentuser = $this->app['users']->getCurrentUser();
         $currentuser['stack'] = $ser;
         $this->app['users']->saveUser($currentuser);
-
     }
 
     /**

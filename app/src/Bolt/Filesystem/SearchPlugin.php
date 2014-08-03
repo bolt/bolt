@@ -7,10 +7,10 @@ use League\Flysystem\FilesystemInterface;
 
 class SearchPlugin implements PluginInterface
 {
-    
+
     public $filesystem;
 
- 
+
     public function getMethod()
     {
         return 'search';
@@ -21,27 +21,25 @@ class SearchPlugin implements PluginInterface
     {
         $this->filesystem = $filesystem;
     }
-    
-    
+
+
     public function handle($term, $extensions = 'jpg,jpeg,gif,png')
     {
         $extensions = explode(",", $extensions);
         $allFiles = $this->filesystem->listContents('', true);
         $files = array();
         foreach ($allFiles as $file) {
-            
+
             if (strpos($file['path'], $term) !== false) {
-                
+
                 if (in_array($file['extension'], $extensions)) {
                     $files[] = $file['path'];
                 }
-                
+
             }
-             
+
         }
-        
+
         return $files;
-        
     }
-    
 }

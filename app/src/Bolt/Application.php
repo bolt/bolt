@@ -46,13 +46,16 @@ class Application extends Silex\Application
     private function initConfig()
     {
         $this->register(new Provider\ConfigServiceProvider());
-        $this->register(new Silex\Provider\SessionServiceProvider(), array(
-            'session.storage.options' => array(
-                'name'            => 'bolt_session',
-                'cookie_secure'   => $this['config']->get('general/cookies_https_only'),
-                'cookie_httponly' => true
+        $this->register(
+            new Silex\Provider\SessionServiceProvider(),
+            array(
+                'session.storage.options' => array(
+                    'name'            => 'bolt_session',
+                    'cookie_secure'   => $this['config']->get('general/cookies_https_only'),
+                    'cookie_httponly' => true
+                )
             )
-        ));
+        );
 
         // Disable Silex's built-in native filebased session handler, and fall back to
         // whatever's set in php.ini.
@@ -104,9 +107,12 @@ class Application extends Silex\Application
     {
         $dboptions = $this['config']->getDBOptions();
 
-        $this->register(new Silex\Provider\DoctrineServiceProvider(), array(
-            'db.options' => $dboptions
-        ));
+        $this->register(
+            new Silex\Provider\DoctrineServiceProvider(),
+            array(
+                'db.options' => $dboptions
+            )
+        );
 
         // Do a dummy query, to check for a proper connection to the database.
         try {
@@ -136,14 +142,16 @@ class Application extends Silex\Application
             $this['db']->query("SET CHARACTER_SET_CONNECTION = 'utf8';");
         }
 
-        $this->register(new Silex\Provider\HttpCacheServiceProvider(), array(
-            'http_cache.cache_dir' => $this['resources']->getPath('cache'),
-        ));
+        $this->register(
+            new Silex\Provider\HttpCacheServiceProvider(),
+            array(
+                'http_cache.cache_dir' => $this['resources']->getPath('cache'),
+            )
+        );
     }
 
     public function initRendering()
     {
-
         // Should we cache or not?
         if ($this['config']->get('general/caching/templates')) {
             $cache = $this['resources']->getPath('cache');
@@ -151,15 +159,18 @@ class Application extends Silex\Application
             $cache = false;
         }
 
-        $this->register(new Silex\Provider\TwigServiceProvider(), array(
-            'twig.path'    => $this['config']->get('twigpath'),
-            'twig.options' => array(
-                'debug'            => true,
-                'cache'            => $cache,
-                'strict_variables' => $this['config']->get('general/strict_variables'),
-                'autoescape'       => true,
+        $this->register(
+            new Silex\Provider\TwigServiceProvider(),
+            array(
+                'twig.path'    => $this['config']->get('twigpath'),
+                'twig.options' => array(
+                    'debug'            => true,
+                    'cache'            => $cache,
+                    'strict_variables' => $this['config']->get('general/strict_variables'),
+                    'autoescape'       => true,
+                )
             )
-        ));
+        );
 
         $this->register(new Provider\RenderServiceProvider());
         $this->register(new Provider\RenderServiceProvider(true));
@@ -195,7 +206,6 @@ class Application extends Silex\Application
 
     public function initProviders()
     {
-
         // Make sure we keep our current locale..
         $currentlocale = $this['locale'];
 
@@ -242,9 +252,11 @@ class Application extends Silex\Application
         $this['twig']->addTokenParser(new SetcontentTokenParser());
 
         // Initialize stopwatch even if debug is not enabled.
-        $this['stopwatch'] = $this->share(function () {
-            return new Stopwatch\Stopwatch();
-        });
+        $this['stopwatch'] = $this->share(
+            function () {
+                return new Stopwatch\Stopwatch();
+            }
+        );
 
         // @todo: make a provider for the Integrity checker and Random generator..
     }
@@ -259,11 +271,13 @@ class Application extends Silex\Application
         $app = $this;
 
         // Wire up our custom url matcher to replace the default Silex\RedirectableUrlMatcher
-        $this['url_matcher'] = $this->share(function () use ($app) {
-            return new BoltUrlMatcher(
-                new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
-            );
-        });
+        $this['url_matcher'] = $this->share(
+            function () use ($app) {
+                return new BoltUrlMatcher(
+                    new \Symfony\Component\Routing\Matcher\UrlMatcher($app['routes'], $app['request_context'])
+                );
+            }
+        );
 
         $request = Request::createFromGlobals();
         if ($proxies = $this['config']->get('general/trustProxies')) {
@@ -297,13 +311,15 @@ class Application extends Silex\Application
      */
     public function initConsoleApplication()
     {
-        $this['console'] = $this->share(function (Application $app) {
-            $console = new ConsoleApplication();
-            $console->setName('Bolt console tool - Nut');
-            $console->setVersion($app->getVersion());
+        $this['console'] = $this->share(
+            function (Application $app) {
+                $console = new ConsoleApplication();
+                $console->setName('Bolt console tool - Nut');
+                $console->setVersion($app->getVersion());
 
-            return $console;
-        });
+                return $console;
+            }
+        );
     }
 
     public function BeforeHandler(Request $request)
@@ -368,10 +384,13 @@ class Application extends Silex\Application
             $this->register(new Silex\Provider\ServiceControllerServiceProvider);
 
             // Register the Silex/Symfony web debug toolbar.
-            $this->register(new Silex\Provider\WebProfilerServiceProvider(), array(
-                'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
-                'profiler.mount_prefix' => '/_profiler', // this is the default
-            ));
+            $this->register(
+                new Silex\Provider\WebProfilerServiceProvider(),
+                array(
+                    'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
+                    'profiler.mount_prefix' => '/_profiler', // this is the default
+                )
+            );
 
             // Register the toolbar item for our Database query log.
             $this->register(new Provider\DatabaseProfilerServiceProvider());
@@ -391,13 +410,15 @@ class Application extends Silex\Application
             // PHP 5.3 does not allow 'use ($this)' in closures.
             $app = $this;
 
-            $this->after(function () use ($app) {
-                foreach (hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
-                    $app['twig.logger']->collectTemplateData($template);
+            $this->after(
+                function () use ($app) {
+                    foreach (hackislyParseRegexTemplates($app['twig.loader.filesystem']) as $template) {
+                        $app['twig.logger']->collectTemplateData($template);
+                    }
                 }
-            });
+            );
         } else {
-            error_reporting(E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED);
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
         }
 
         $this->after(array($this, 'afterHandler'));
@@ -468,6 +489,7 @@ class Application extends Silex\Application
             if ($user['userlevel'] < 2) {
                 $template = $this['config']->get('general/maintenance_template');
                 $body = $this['render']->render($template);
+
                 return new Response($body, 503);
             }
         }

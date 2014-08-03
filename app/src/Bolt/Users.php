@@ -70,7 +70,6 @@ class Users
             'activitylog' => self::ADMIN,
             'fileedit' => self::ADMIN
         );
-
     }
 
     /**
@@ -102,7 +101,7 @@ class Users
             }
         }
 
-        if (!empty($user['password']) && $user['password']!="**dontchange**") {
+        if (!empty($user['password']) && $user['password'] != "**dontchange**") {
             $hasher = new \Hautelook\Phpass\PasswordHash($this->hash_strength, true);
             $user['password'] = $hasher->HashPassword($user['password']);
         } else {
@@ -116,7 +115,7 @@ class Users
             $user['lastseen'] = "1900-01-01";
         }
 
-        if (empty($user['enabled']) && $user['enabled']!== 0) {
+        if (empty($user['enabled']) && $user['enabled'] !== 0) {
             $user['enabled'] = 1;
         }
 
@@ -155,7 +154,6 @@ class Users
         } else {
             return $this->db->update($this->usertable, $user, array('id' => $user['id']));
         }
-
     }
 
     /**
@@ -177,7 +175,6 @@ class Users
      */
     public function checkValidSession()
     {
-
         if ($this->app['session']->get('user')) {
             $this->currentuser = $this->app['session']->get('user');
             if ($database = $this->getUser($this->currentuser['id'])) {
@@ -186,11 +183,13 @@ class Users
             } else {
                 // User doesn't exist anymore
                 $this->logout();
+
                 return false;
             }
             if (!$this->currentuser['enabled']) {
                 // user has been disabled since logging in
                 $this->logout();
+
                 return false;
             }
         } else {
@@ -213,6 +212,7 @@ class Users
         // Check if user is _still_ allowed to log on..
         if (!$this->isAllowed('login') || !$this->currentuser['enabled']) {
             $this->logout();
+
             return false;
         }
 
@@ -222,7 +222,6 @@ class Users
         }
 
         return true;
-
     }
 
     /**
@@ -234,7 +233,6 @@ class Users
      */
     private function getAuthToken($name = "", $salt = "")
     {
-
         if (empty($name)) {
             return false;
         }
@@ -248,13 +246,12 @@ class Users
             $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
+            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
         }
 
         $token = md5($seed);
 
         return $token;
-
     }
 
     /**
@@ -262,7 +259,6 @@ class Users
      */
     private function setAuthToken()
     {
-
         $salt = $this->app['randomgenerator']->generateString(12);
         $token = array(
             'username' => $this->currentuser['username'],
@@ -300,7 +296,6 @@ class Users
         } catch (\Doctrine\DBAL\DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
-
     }
 
     /**
@@ -319,7 +314,7 @@ class Users
             $seed .= "-". $_SERVER['HTTP_USER_AGENT'];
         }
         if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: $_SERVER['SERVER_NAME']);
+            $seed .= "-". (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']);
         }
 
         $token = substr(md5($seed), 0, 8);
@@ -353,14 +348,12 @@ class Users
 
     public function getActiveSessions()
     {
-
         $this->deleteExpiredSessions();
 
         $query = "SELECT * FROM " . $this->authtokentable;
         $sessions = $this->db->fetchAll($query);
 
         return $sessions;
-
     }
 
     private function deleteExpiredSessions()
@@ -392,7 +385,6 @@ class Users
         } else {
             return $this->db->delete($this->usertable, array('id' => $user['id']));
         }
-
     }
 
     /**
@@ -481,7 +473,6 @@ class Users
 
             return false;
         }
-
     }
 
 
@@ -492,7 +483,6 @@ class Users
      */
     public function loginAuthtoken()
     {
-
         // If there's no cookie, we can't resume a session from the authtoken.
         if (empty($_COOKIE['bolt_authtoken'])) {
             return false;
@@ -554,7 +544,7 @@ class Users
             setcookie(
                 'bolt_authtoken',
                 '',
-                time() -1,
+                time() - 1,
                 '/',
                 $this->app['config']->get('general/cookies_domain'),
                 $this->app['config']->get('general/cookies_https_only'),
@@ -564,13 +554,11 @@ class Users
             return false;
 
         }
-
     }
 
 
     public function resetPasswordRequest($username)
     {
-
         $user = $this->getUser($username);
 
         // For safety, this is the message we display, regardless of whether $user exists.
@@ -600,13 +588,16 @@ class Users
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
 
             // Compile the email with the shadow password and reset link..
-            $mailhtml = $this->app['render']->render('mail/passwordreset.twig', array(
-                'user' => $user,
-                'shadowpassword' => $shadowpassword,
-                'shadowtoken' => $shadowtoken,
-                'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
-                'shadowlink' => $shadowlink
-            ));
+            $mailhtml = $this->app['render']->render(
+                'mail/passwordreset.twig',
+                array(
+                    'user' => $user,
+                    'shadowpassword' => $shadowpassword,
+                    'shadowtoken' => $shadowtoken,
+                    'shadowvalidity' => date("Y-m-d H:i:s", strtotime("+2 hours")),
+                    'shadowlink' => $shadowlink
+                )
+            );
 
             // echo $mailhtml;
 
@@ -635,13 +626,11 @@ class Users
         sleep(1);
 
         return true;
-
     }
 
 
     public function resetPasswordConfirm($token)
     {
-
         $token .= "-" . str_replace(".", "-", $this->remoteIP);
 
         $now = date("Y-m-d H:i:s");
@@ -672,7 +661,6 @@ class Users
 
 
         }
-
     }
 
     /**
@@ -687,7 +675,6 @@ class Users
      */
     private function throttleUntil($attempts)
     {
-
         if ($attempts < 5) {
             return "0000-00-00 00:00:00";
         } else {
@@ -695,7 +682,6 @@ class Users
 
             return date("Y-m-d H:i:s", strtotime("+$wait seconds"));
         }
-
     }
 
 
@@ -720,7 +706,7 @@ class Users
         setcookie(
             'bolt_authtoken',
             '',
-            time() -1,
+            time() - 1,
             '/',
             $this->app['config']->get('general/cookies_domain'),
             $this->app['config']->get('general/cookies_https_only'),
@@ -788,7 +774,6 @@ class Users
         }
 
         return $this->users;
-
     }
 
     /**
@@ -804,7 +789,7 @@ class Users
 
         if (is_numeric($id)) {
             foreach ($this->users as $user) {
-                if ($user['id']==$id) {
+                if ($user['id'] == $id) {
                     return $user;
                 }
             }
@@ -816,7 +801,6 @@ class Users
 
         // otherwise..
         return false;
-
     }
 
     /**
@@ -827,7 +811,6 @@ class Users
     public function getCurrentUser()
     {
         return $this->currentuser;
-
     }
 
     /**
@@ -838,7 +821,6 @@ class Users
     public function getCurrentUsername()
     {
         return $this->currentuser['username'];
-
     }
 
 
@@ -860,7 +842,6 @@ class Users
         $user['enabled'] = $enabled;
 
         return $this->saveUser($user);
-
     }
 
     /**
@@ -872,7 +853,6 @@ class Users
      */
     public function hasRole($id, $role)
     {
-
         $user = $this->getUser($id);
 
         if (empty($user)) {
@@ -880,7 +860,6 @@ class Users
         }
 
         return (is_array($user['roles']) && in_array($role, $user['roles']));
-
     }
 
     /**
@@ -892,7 +871,6 @@ class Users
      */
     public function addRole($id, $role)
     {
-
         $user = $this->getUser($id);
 
         if (empty($user) || empty($role)) {
@@ -903,7 +881,6 @@ class Users
         $user['roles'][] = (string) $role;
 
         return $this->saveUser($user);
-
     }
 
     /**
@@ -915,7 +892,6 @@ class Users
      */
     public function removeRole($id, $role)
     {
-
         $user = $this->getUser($id);
 
         if (empty($user) || empty($role)) {
@@ -926,7 +902,6 @@ class Users
         $user['roles'] = array_diff($user['roles'], array((string) $role));
 
         return $this->saveUser($user);
-
     }
 
     /**
@@ -937,7 +912,6 @@ class Users
      */
     public function checkForRoot()
     {
-
         // Don't check for root, if we're not logged in.
         if ($this->getCurrentUsername() == false) {
             return false;
@@ -961,7 +935,6 @@ class Users
 
         // Show a helpful message to the user.
         $this->app['session']->getFlashBag()->set('info', __("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
-
     }
 
     /**

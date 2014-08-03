@@ -34,6 +34,5 @@ class SetcontentNode extends \Twig_Node
         }
 
         $compiler->raw(" );\n");
-
     }
 }

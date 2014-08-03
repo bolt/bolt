@@ -61,10 +61,10 @@ class DatabaseDataCollector extends DataCollector
         $return = array();
         foreach ($queries as $query) {
             // Skip "PRAGMA .." and similar queries by SQLITE.
-            if ((strpos($query['sql'], "PRAGMA ")===0)
-                || (strpos($query['sql'], "SELECT DISTINCT k.`CONSTRAINT_NAME`")===0)
-                || (strpos($query['sql'], "SELECT TABLE_NAME AS `Table`")===0)
-                || (strpos($query['sql'], "SELECT COLUMN_NAME AS Field")===0)
+            if ((strpos($query['sql'], "PRAGMA ") === 0)
+                || (strpos($query['sql'], "SELECT DISTINCT k.`CONSTRAINT_NAME`") === 0)
+                || (strpos($query['sql'], "SELECT TABLE_NAME AS `Table`") === 0)
+                || (strpos($query['sql'], "SELECT COLUMN_NAME AS Field") === 0)
             ) {
                 continue;
             }
