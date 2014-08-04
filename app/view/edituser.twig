@@ -6,7 +6,7 @@
 
 <h1>{{ title|raw }}</h1>
 
-{% if description is not empty %}
+{% if description|default() is not empty %}
 <p style="max-width: 500px;">
 	{{ description }}
 </p>
@@ -20,7 +20,7 @@
 
 <br>
 
-{% if note is not empty %}
+{% if note|default() is not empty %}
 <p class="alert alert-info" style="max-width: 550px;">
 	<strong>{{ __("Note:") }}</strong> {{ note|raw }}
 </p>
