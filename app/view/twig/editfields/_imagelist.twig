@@ -2,8 +2,8 @@
 
 {% set option = {
     extensions:  field.extensions|default([]),
-    label:  field.label|default(''),
-    handler:     field.upload
+    label:       field.label|default(''),
+    handler:     field.upload|default('')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -28,7 +28,7 @@
         <div class="modal-dialog">
             <div class="modal-content"></div>
         </div>
-    </div>    
+    </div>
 {% endmacro %}
 
 

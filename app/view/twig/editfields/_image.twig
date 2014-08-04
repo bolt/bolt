@@ -5,7 +5,7 @@
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
     attrib:     (field.attrib is defined) ? (field.attrib is iterable ?: {0: field.attrib}) : false,
-    handler:     field.upload
+    handler:     field.upload|default('')
 }%}
 {# attrib[title] #}
 
@@ -103,7 +103,7 @@
         <div class="modal-dialog">
             <div class="modal-content"></div>
         </div>
-    </div>    
+    </div>
 {% endmacro %}
 
 {#=== FIELDSET =======================================================================================================#}
