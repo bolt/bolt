@@ -73,16 +73,60 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         $ctr = $app['controllers_factory'];
         $controller = $this;
-        $ctr->match(
-            "/{namespace}",
-            function (Silex\Application $app, Request $request, $namespace = null) use ($controller) {
-                if ($namespace === "") {
-                    $namespace = $app['upload.namespace'];
-                }
+        $ctr->match("/{namespace}", function (Silex\Application $app, Request $request) use ($controller) {
 
-                return new JsonResponse($controller->uploadFile($app, $request, $namespace));
+
+            if ($handler = $request->get('handler')) {
+                
+                $parser = function($setting) use ($app) {
+                    $parts = explode("://",$setting);
+                    if (count($parts)==2) {
+                        $namespace = $parts[0];
+                        array_shift($parts);
+                    } else {
+                        $namespace = $app['upload.namespace'];
+                    }
+                    $prefix = rtrim($parts[0],"/")."/";
+                    return array($namespace, $prefix);
+                };
+                
+
+                if (is_array($handler)) {
+                    list($namespace, $prefix) = $parser($handler[0]);
+                    $app['upload.namespace']=$namespace;
+                    $app['upload.prefix'] = $prefix;
+                    $result = $controller->uploadFile($app, $request, $namespace);
+
+                    array_shift($handler);
+                    $original = $namespace;
+                    
+                    if(count($result)) {
+                        $result = $result[0];
+                        foreach($handler as $copy) {
+                            list($namespace, $prefix) = $parser($copy);
+                            $manager = $app['filesystem'];
+                            $manager->put(
+                                $namespace."://".$prefix.basename($result['name']), 
+                                $manager->read($original.'://'.$result['name'])
+                            );                            
+                        }
+                    }
+                    return new JsonResponse($response);
+                } else {
+                    list($namespace, $prefix) = $parser($handler);
+                }
+                $app['upload.namespace']=$namespace;
+                $app['upload.prefix'] = $prefix;
+            } else {
+                $namespace = $app['upload.namespace'];
             }
-        )->assert('namespace', '.*');
+            
+            
+            return new JsonResponse($controller->uploadFile($app, $request, $namespace));
+
+        })
+        ->value('namespace', 'files')
+        ->bind('upload');
 
         return $ctr;
     }

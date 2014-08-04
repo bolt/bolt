@@ -5,6 +5,7 @@
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
     attrib:     (field.attrib is defined) ? (field.attrib is iterable ?: {0: field.attrib}) : false,
+    handler:     field.upload
 }%}
 {# attrib[title] #}
 
@@ -56,12 +57,12 @@
     {% endif %}
 {% endmacro %}
 
-{% macro buttons(key, paths) %}
+{% macro buttons(key, paths, option) %}
     {# The fileinput-button span is used to style the file input field as button #}
         <span class="btn btn-secondary fileinput-button">
             <i class="fa fa-upload"></i>
             <span>{{ __('Upload image') }}</span>
-            <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ paths.upload }}">
+            <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ url('upload',{'handler':option.handler}) }}">
         </span>
 
         <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal" style="margin: auto 4px auto 8px;">
@@ -114,7 +115,7 @@
             {{ block.imagepath(labelkey, option, image, attr_inp) }}
             {{ block.attributes(key, option) }}
             <div style="margin-bottom: 10px; margin-top: 10px">
-                {{ block.buttons(key, paths) }}
+                {{ block.buttons(key, paths, option) }}
                 {{ block.stack(key, stackitems(7, 'image')) }}
             </div>
             {{ block.progress(key) }}

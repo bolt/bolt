@@ -19,8 +19,9 @@ class Manager extends MountManager
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->mountFilesystem('default', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
-        $this->mountFilesystem('config', new Filesystem(new FilesystemAdapter($app['resources']->getPath('config'))));
+        $this->mountFilesystem('default', new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) ));
+        $this->mountFilesystem('files', new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) ));
+        $this->mountFilesystem('config', new Filesystem( new FilesystemAdapter($app['resources']->getPath('config')) ));
         $this->initManagers();
     }
 

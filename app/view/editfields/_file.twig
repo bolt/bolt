@@ -4,6 +4,7 @@
     class:       field.class|default(''),
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
+    handler:     field.upload
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -21,7 +22,7 @@
 
 {% set attr_upload = {
     accept:    option.extensions ? '.'~option.extensions|join(',.') : '',
-    data_url:  paths.upload,
+    data_url:  url('upload',{'handler':option.handler}),
     id:        'fileupload-'~key,
     name:      'fileupload-'~key~'[]',
     type:      'file',
