@@ -3,12 +3,10 @@ html {
 }
 
 body {
-  background-color: $sidebarbackground;
   color: $bodytextcolour;
   font-size: 13px;
   min-height: 100%;
   overflow: scroll-y;
-  background-color: $basebgcolour;
 }
 
 body.popup {
