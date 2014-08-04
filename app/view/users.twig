@@ -1,4 +1,6 @@
-{% include '_header.twig' with { 'active':'settings' } %}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
 
 <div class="row">
 
@@ -167,4 +169,4 @@
     });
 </script>
 
-{% include '_footer.twig' %}
+{% endblock pmain %}

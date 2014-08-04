@@ -16,7 +16,7 @@
             </li>
 
             {# Link to Dashboard  #}
-            <li class="{% if active in ['', 'dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
+            <li class="{% if page_active in ['Standard', 'Dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-dashboard fa-stack-1x fa-inverse" style="color: #333;"></i>

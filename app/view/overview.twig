@@ -1,4 +1,7 @@
-{% include '_header.twig' with { 'active':'content' } %}
+{% extends "_page.twig" %}
+{% block ptype 'Content' %}
+{% block pmain %}
+
 {% from '_editable_record_list.twig' import editable_record_list %}
 
 <div class="row">
@@ -46,5 +49,4 @@
     </aside>
 </div>
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

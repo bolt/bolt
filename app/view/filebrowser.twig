@@ -1,9 +1,11 @@
-{% include '_header_basic.twig' with { 'class': 'popup' } %}
+{% extends "_page.twig" %}
+{% block ptype 'Popup' %}
+{% block pfull %}
 
 <div class="row">
 
     <div class="col-lg-12">
-        <h1 class="page-header">{{ __('Please choose the record you want to link to:' }}</h1>
+        <h1 class="page-header">{{ __('Please choose the record you want to link to:') }}</h1>
     </div>
 
 </div>
@@ -49,40 +51,36 @@
 
 <a href="" class="btn btn-default btn-danger filebrowserCloseLink">{{ __('Cancel') }}</a>
 
-<script type='text/javascript'>
+{% endblock pfull %}
 
+{% block pscrpt %}
+<script>
+    $(function() {
 
-$(function() {
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
 
-    $('#myTab a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    })
+        var getUrlParam = function( paramName ) {
+            var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
+            var match = window.location.search.match(reParam) ;
 
-    var getUrlParam = function( paramName ) {
-        var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
-        var match = window.location.search.match(reParam) ;
+            return ( match && match.length > 1 ) ? match[ 1 ] : null ;
+        };
+        var funcNum = getUrlParam('CKEditorFuncNum');
 
-        return ( match && match.length > 1 ) ? match[ 1 ] : null ;
-    };
-    var funcNum = getUrlParam('CKEditorFuncNum');
+        $('a.filebrowserCallbackLink').bind('click', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+            window.close();
+        });
 
-    $('a.filebrowserCallbackLink').bind('click', function(e) {
-        e.preventDefault();
-        var url = $(this).attr('href');
-        window.opener.CKEDITOR.tools.callFunction(funcNum, url);
-        window.close();
+        $('a.filebrowserCloseLink').bind('click', function() {
+            window.close();
+        })
+
     });
-
-    $('a.filebrowserCloseLink').bind('click', function() {
-        window.close();
-    })
-
-});
-
-
 </script>
-
-
-
-{% include "_footer.twig" %}
+{% endblock pscrpt %}

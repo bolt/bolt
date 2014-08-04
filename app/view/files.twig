@@ -1,4 +1,7 @@
-{% include '_header.twig' with { 'active':'settings' } %}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
+
 {% import '_macro.twig' as macro %}
 
 <div class="row">
@@ -249,5 +252,4 @@
     <p><i class="fa fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
 {% endif %}
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

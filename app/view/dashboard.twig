@@ -1,11 +1,13 @@
-{% include '_header.twig' %}
+{% extends "_page.twig" %}
+{% block ptype 'Dashboard' %}
+{% block pmain %}
 
 <div class="row">
 
     <div class="col-md-8">
 
         <h1 class="page-header">{{ __('Dashboard') }}</h1>
-        
+
 {%  if suggestloripsum %}
 
     <div class="alert alert-info">
@@ -104,5 +106,4 @@
     </aside><!-- /span4 -->
 </div>
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

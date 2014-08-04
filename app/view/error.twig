@@ -1,4 +1,6 @@
-{% include '_header.twig' %}
+{% extends "_page.twig" %}
+{% block ptype 'Standard' %}
+{% block pmain %}
 
 <h1>
     {{ __('Bolt - Fatal error.') }}
@@ -24,4 +26,4 @@
     {%  endfor %}
 {% endif %}
 
-{% include '_footer.twig' %}
+{% endblock pmain %}

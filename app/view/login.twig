@@ -1,4 +1,6 @@
-{% include '_header_basic.twig' with { 'class': 'login'} %}
+{% extends "_page.twig" %}
+{% block ptype 'Login' %}
+{% block pfull %}
 
 <div class="view-site">
     <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
@@ -65,16 +67,4 @@
 
 </div>
 
-
-<script type="text/javascript">
-    var path = "{{ paths.bolt }}"; var asyncpath = "{{ paths.async }}"; var apppath = "{{ paths.app }}";
-</script>
-
-{# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml.  #}
-{% if app.config.get('general/grunt/livereload') %}
-<script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
-{% endif %}</html>
-
-</body>
-
-</html>
+{% endblock pfull %}

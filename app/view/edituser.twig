@@ -1,4 +1,7 @@
-{% include '_header.twig' with { 'active':'settings' } %}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
+
 {% form_theme form 'form_bolt_layout.twig' %}
 
 <h1>{{ title|raw }}</h1>
@@ -15,7 +18,7 @@
     <input type="submit" value="{{ __('Save user') }}" name="submit" class="btn btn-primary" />
 </form>
 
-<br> 
+<br>
 
 {% if note is not empty %}
 <p class="alert alert-info" style="max-width: 550px;">
@@ -23,4 +26,4 @@
 </p>
 {% endif %}
 
-{% include '_footer.twig' %}
+{% endblock pmain %}

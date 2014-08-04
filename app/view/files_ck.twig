@@ -1,4 +1,6 @@
-{% include '_header_basic.twig' with { 'class': 'popup' } %}
+{% extends "_page.twig" %}
+{% block ptype 'Popup' %}
+{% block pfull %}
 
 {# Only show the stack on the topmost level. #}
 {% if path == "files" %}
@@ -77,9 +79,10 @@
     </table>
 {% endif %}
 
+{% endblock pfull %}
 
-<script type='text/javascript'>
-
+{% block pscrpt %}
+<script>
     $(function() {
 
         var getUrlParam = function( paramName ) {
@@ -98,7 +101,5 @@
         });
 
     });
-
 </script>
-
-{% include '_footer.twig' %}
+{% endblock pscrpt %}
