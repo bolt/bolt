@@ -1397,11 +1397,13 @@ class Storage
         }
 
         // oof!
+        // @todo: What the fuck did @marcelfw mean when he wrote this? Either refactor, or provide sensible commenting
         if (!empty($meta_parameters['paging']) && $this->app->raw('request') instanceof Request) {
             $meta_parameters['page'] = $this->app['request']->get('page', $meta_parameters['page']);
         }
 
         // oof, part deux!
+        // @todo: What the fuck did @marcelfw mean when he wrote this? Either refactor, or provide sensible commenting
         if ((isset($meta_parameters['order']) && $meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
             $meta_parameters['order'] = $this->app['request']->get('order', false);
         }
@@ -2027,16 +2029,19 @@ class Storage
             return false;
         }
 
-        // Set up the $pager array with relevant values..
-        $pager_name = $decoded['contenttypes'][0];
-        $pager = array(
-            'for' => $pager_name,
-            'count' => $total_results,
-            'totalpages' => ceil($total_results / $decoded['parameters']['limit']),
-            'current' => $decoded['parameters']['page'],
-            'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
-            'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
-        );
+        // Set up the $pager array with relevant values, but only if we requested paging. 
+        if ($decoded['parameters']['paging']) {
+            $pager_name = $decoded['contenttypes'][0];
+            $pager = array(
+                'for' => $pager_name,
+                'count' => $total_results,
+                'totalpages' => ceil($total_results / $decoded['parameters']['limit']),
+                'current' => $decoded['parameters']['page'],
+                'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
+                'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
+            );
+        }
+
         $this->setPager($pager_name, $pager);
         $this->app['twig']->addGlobal('pager', $this->getPager());
 
