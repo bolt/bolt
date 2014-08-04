@@ -247,7 +247,10 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
                 <p>
                     {{ __("Current (saved) status:") }}
                     <a href="#statusselect" data-action="$('#statusselect').focus();" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
-                        <strong>{{ status_names[content.status]|default(__("None")) }}</strong>
+                        <strong>
+                            <i class="fa fa-circle status-{{ content.status|default(__("none")) }}"></i>
+                            {{ status_names[content.status]|default(__("None")) }}
+                        </strong>
                     </a>
                 </p>
 
@@ -324,7 +327,10 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
                         $('p.lastsaved').find('time').attr('title', moment().format());
                         updateMoments();
 
-                        $('a#lastsavedstatus strong').text( $("#statusselect option:selected").text() );
+                        $('a#lastsavedstatus strong').html( 
+                            '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +  
+                            $("#statusselect option:selected").text() 
+                        );
 
                     })
                     .fail(function(){

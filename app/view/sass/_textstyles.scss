@@ -79,6 +79,18 @@ h1 span {
     color: #666;
 }
 
+.status-timed {
+    color: #008CBA;
+}
+
+.status-published {
+    color: #43AC6A;
+}
+
+.status-held , 
+.status-draft {
+    color: #F04124;
+}
 
 aside {
     margin-top: 15px;
