@@ -52,9 +52,11 @@ class Async implements ControllerProviderInterface
             ->assert('contenttype', '.*')
             ->bind('contenttype');
 
-        $ctr->get("/browse/{path}", array($this, 'browse'))
+        $ctr->get("/browse/{namespace}/{path}", array($this, 'browse'))
             ->before(array($this, 'before'))
-            ->assert('path', '.+')
+            ->assert('path', '.*')
+            ->value('namespace', 'files')
+            ->value('path', '')
             ->bind('asyncbrowse');
 
         $ctr->post("/deletefile", array($this, 'deletefile'))
@@ -365,10 +367,10 @@ class Async implements ControllerProviderInterface
      * @param  Request           $request
      * @return mixed
      */
-    public function browse($path, Silex\Application $app, Request $request)
+    public function browse($namespace, $path, Silex\Application $app, Request $request)
     {
-        
-        $filesystem = $app['filesystem']->getManager();
+
+        $filesystem = $app['filesystem']->getManager($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
@@ -400,6 +402,7 @@ class Async implements ControllerProviderInterface
 
 
         return $app['render']->render('files_async.twig', array(
+            'namespace' => $namespace,
             'path' => $path,
             'files' => $files,
             'folders' => $folders,

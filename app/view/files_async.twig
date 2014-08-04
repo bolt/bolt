@@ -1,10 +1,15 @@
 <h1>{{ __('Files: %path%',{'%path%':path}) }}</h1>
 
 {% if pathsegments|length > 0 %}
-    <p>{{ __('Path:') }}
+    
+    {{ __('Path:') }}
+    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'namespace': namespace, 'key': key }) }}');" class="folder">
+        {{namespace}} /
+    </a>
+    
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
-    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': path, 'key': key }) }}');" class="folder">{{segment}}</a>
+    <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'namespace': namespace, 'path': path, 'key': key }) }}');" class="folder">{{ segment|default('…') }}</a>
     {% endfor %}
     </p>
 {% endif %}
@@ -15,7 +20,7 @@
 {% for folder in folders %}
     <tr>
         <td>
-            <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'path': folder.newpath, 'key': key }) }}');" class="folder">
+            <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'namespace': namespace, 'path': folder.newpath, 'key': key }) }}');" class="folder">
                 <i class="icon-folder-open"></i> <b>{{ folder.foldername }}/</b>
             </a>
         </td>
