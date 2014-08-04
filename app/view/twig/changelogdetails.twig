@@ -1,5 +1,8 @@
 {% import '_sub_changelogdetails.twig' as changelogdetails %}
-{% include '_header.twig' %}
+
+{% extends "_page.twig" %}
+{% block ptype 'Standard' %}
+{% block pmain %}
 
 {% macro pager(leftLink, centerLink, rightLink) %}
         <div class="pagination pagination-centered">
@@ -42,6 +45,4 @@
     </div>
 </div>
 
-{% include '_footer.twig' %}
-
-
+{% endblock pmain %}

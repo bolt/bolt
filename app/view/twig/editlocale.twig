@@ -1,4 +1,7 @@
-{% include '_header.twig' with { 'active':'settings' } %}
+{# Page: SidebarMenu > Translations > Messages | Long messages | Contentypes #}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
 
 <div class="row">
 
@@ -41,4 +44,4 @@
     </script>
 {% endif %}
 
-{% include '_footer.twig' %}
+{% endblock pmain %}

@@ -1,4 +1,8 @@
-{% include '_header.twig' with { 'active':'content' } %}
+{# Page: SidebarMenu > Content ... > Edit #}
+{% extends "_page.twig" %}
+{% block ptype 'Content' %}
+{% block pmain %}
+
 {% import '_macro.twig' as macro %}
 
 <div class="row">
@@ -127,12 +131,12 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
 </label>
 
 
-                {% endif %}                   
+                {% endif %}
             </div>
         </div>
 
 
-     
+
 
         <div class="form-group">
             <div class="col-sm-12">
@@ -364,5 +368,4 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
     </aside>
 </div>
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

@@ -1,4 +1,7 @@
-{% include '_header.twig' with { 'active':'settings' } %}
+{# Page: SidebarMenu > Configuration > Configure Extensions #}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
 
 <div class="row">
 
@@ -79,5 +82,4 @@
         </div>
     </div>
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

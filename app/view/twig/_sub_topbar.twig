@@ -1,0 +1,55 @@
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="{{ path('dashboard') }}">
+        {# <img src="{{ paths.app }}view/img/bolt-icon.svg"> #}
+        Bolt
+    </a>
+    <a href="{{ path('dashboard') }}" target="_blank" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
+</div>
+
+
+<ul class="nav navbar-top-links navbar-right">
+
+    {# one omnisearch here, for "small and up", the other in the side-navbar #}
+    <form class="navbar-form hidden-xs" role="search">
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control semitransparent omnisearch" placeholder="Omnisearch…">
+            <span class="form-control-feedback semitransparent"><i class="fa fa-search"></i></span>
+        </div>
+    </form>
+
+    <li>
+        <a href="{{ paths.root }}" target="_blank" class="hidden-xs">
+            <i class="fa fa-fw fa-external-link-square"></i>
+            {{ __('View site')}}
+        </a>
+    </li>
+
+    <!-- /.dropdown -->
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-fw fa-user"></i> <span>{{ user.displayname|trimtext(16) }}</span> <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user" role="menu" >
+            <li>
+                <a href="{{ path('profile') }}" role="menuitem" tabindex="-1"><i class="fa fa-fw fa-gear"></i> {{ __('Profile') }}</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <form action="{{ path('logout') }}" method="POST">
+                    <button class="btn btn-link btn-block" type="submit">
+                        <span class="pull-left"><i class="fa fa-fw fa-sign-out"></i> {{ __('Logout') }}</span>
+                    </button>
+                </form>
+            </li>
+        </ul>
+        <!-- /.dropdown-user -->
+    </li>
+    <!-- /.dropdown -->
+</ul>
+<!-- /.navbar-top-links -->

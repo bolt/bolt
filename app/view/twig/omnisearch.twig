@@ -1,4 +1,7 @@
-{% include '_header.twig' %}
+{# Page: TopbarMenu | SidebarMenu > Omnisearch #}
+{% extends "_page.twig" %}
+{% block ptype 'Standard' %}
+{% block pmain %}
 
 <div class="row">
 
@@ -16,7 +19,7 @@
                 </div>
             </div>
         </form>
-       
+
         {% set hasResults = false %}
         {% if results %}
 
@@ -91,5 +94,4 @@
     </aside><!-- /span4 -->
 </div>
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

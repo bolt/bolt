@@ -1,4 +1,7 @@
-{% include '_header.twig' with { 'active':'settings' } %}
+{# Page: SidebarMenu > Configuration > Main configuration #}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
 
 <div class="col-lg-12">
     <h1 class="page-header">{{ title|raw }}</h1>
@@ -81,4 +84,4 @@
     </script>
 {% endif %}
 
-{% include '_footer.twig' %}
+{% endblock pmain %}

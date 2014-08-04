@@ -590,7 +590,7 @@ class Config
         if ($end == 'frontend' && file_exists($themepath)) {
             $twigpath = array($themepath);
         } else {
-            $twigpath = array(realpath(__DIR__ . '/../../view'));
+            $twigpath = array(realpath(__DIR__ . '/../../view/twig'));
         }
 
         // If the template path doesn't exist, attempt to set a Flash error on the dashboard.

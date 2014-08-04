@@ -2,20 +2,20 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Remote file for Bootstrap Modal</title>  
+  <title>Remote file for Bootstrap Modal</title>
 </head>
 <body>
-        
+
     <div class="modal-body">
 
 
 {% if pathsegments|length > 0 %}
-    
+
     {{ __('Path:') }}
     <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'namespace': namespace, 'key': key }) }}');" class="folder">
         {{namespace}} /
     </a>
-    
+
     {% for path, segment in pathsegments %}
     {% if not loop.first %} / {% endif %}
     <a href="#" data-action="stack.changeFolder('{{ key }}', '{{ path('asyncbrowse', { 'namespace': namespace, 'path': path, 'key': key }) }}');" class="folder">{{ segment|default('…') }}</a>
@@ -68,10 +68,10 @@
 {% endfor %}
 </table>
 {% endif %}
-    </div>        
+    </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-    </div>          
+    </div>
 </body>
 <script type="text/javascript">
     $(function() {

@@ -1,4 +1,8 @@
-{% include '_header.twig' with { 'active':'content' } %}
+{# Page: SidebarMenu > Content ... > Edit ^ View related content #}
+{% extends "_page.twig" %}
+{% block ptype 'Content' %}
+{% block pmain %}
+
 {% from '_editable_record_list.twig' import editable_record_list %}
 
 <div class="row">
@@ -18,9 +22,9 @@
                 <div class="btn-group">
                     {% for slug, gcontenttype in app.config.get('contenttypes') %}
 
-                        {% if gcontenttype.relations.pages  %}
+                        {% if gcontenttype.relations.pages is defined %}
                             {# set default subcontenttype #}
-                            {% if subcontenttype.slug is null and defaultsubcontenttype is null %}
+                            {% if subcontenttype.slug|default is empty and defaultsubcontenttype|default is empty %}
                                 {% set defaultsubcontenttype = slug %}
                                 {% set subcontenttype = app.config.get('contenttypes')[defaultsubcontenttype] %}
                             {% endif %}
@@ -74,5 +78,4 @@
     </aside>
 </div>
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

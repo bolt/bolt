@@ -1,5 +1,4 @@
 {% import '_sub_changelogdetails.twig' as changelogdetails %}
-{% include '_header.twig' %}
 
 {% macro pager(currentpage, pagecount) %}
         <div class="pagination pagination-centered">
@@ -27,6 +26,10 @@
 
 {% from _self import pager %}
 
+{% extends "_page.twig" %}
+{% block ptype 'Standard' %}
+{% block pmain %}
+
 <div class="row">
     <div class="col-md-9">
         <h1><strong>{{ __('Change Log') }}</strong> » {{ title }}</h1>
@@ -47,5 +50,4 @@
     </div>
 </div>
 
-{% include '_footer.twig' %}
-
+{% endblock pmain %}

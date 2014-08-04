@@ -1,4 +1,6 @@
-{% include '_header.twig' %}
+{% extends "_page.twig" %}
+{% block ptype 'Standard' %}
+{% block pmain %}
 
 <div class="row">
     <div class="col-md-8">
@@ -39,5 +41,4 @@
     </div>
 </div>
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}

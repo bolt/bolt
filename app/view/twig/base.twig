@@ -1,4 +1,6 @@
-{% include '_header.twig' %}
+{% extends "_page.twig" %}
+{% block ptype 'Standard' %}
+{% block pmain %}
 
 <div class="row">
 
@@ -52,5 +54,4 @@
     </form>
     {% endif %}
 
-
-{% include '_footer.twig' %}
+{% endblock pmain %}
