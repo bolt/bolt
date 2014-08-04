@@ -551,7 +551,7 @@ function bindFileUpload(key) {
             done: function (e, data) {
                 $.each(data.result, function (index, file) {
                     if (file.error == undefined) {
-                        var filename = decodeURI(file.url).replace("/?files/", "");
+                        var filename = decodeURI(file.url).replace("files/", "");
                         $('#field-' + key).val(filename);
                         $('#thumbnail-' + key).html("<img src='" + path + "../thumbs/120x120c/"+encodeURI(filename) +"' width='120' height='120'>");
                         window.setTimeout(function(){ $('#progress-' + key).fadeOut('slow'); }, 1500);
@@ -1224,7 +1224,7 @@ var FilelistHolder = Backbone.View.extend({
                 dropZone: $holder,
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
-                        var filename = decodeURI(file.url).replace("/?files/", "");
+                        var filename = decodeURI(file.url).replace("files/", "");
                         $this.add(filename, filename);
                     });
                 }
@@ -1374,7 +1374,7 @@ var ImagelistHolder = Backbone.View.extend({
                 dropZone: $holder,
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
-                        var filename = decodeURI(file.url).replace("/?files/", "");
+                        var filename = decodeURI(file.url).replace("files/", "");
                         $this.add(filename, filename);
                     });
                 }
