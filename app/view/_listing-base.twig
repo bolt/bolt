@@ -81,20 +81,20 @@
                 {% if not compact %}
                     {% block listing_meta %}
                         <td class='username hidden-xs'>
-                            <i class="fa fa-user"></i>
-                                {% if content.user.displayname is defined %}
-                                    {{ content.user.displayname|trimtext(15) }}
-                                {% else %}
-                                    <s>user {{ content.values.ownerid }} </s>
-                                {% endif %}<br>
-                            {% if content.status=="timed" %}
-                                <i class="fa fa-time"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
+                            <i class="fa fa-user fa-fw"></i>
+                            {% if content.user.displayname is defined %}
+                                {{ content.user.displayname|trimtext(15) }}
                             {% else %}
-                                <i class="fa fa-calendar"></i> {{ content.datepublish|date('d/m/Y') }}<br>
+                                <s>user {{ content.values.ownerid }} </s>
+                            {% endif %}<br>
+                            {% if content.status=="timed" %}
+                                <i class="fa fa-clock-o status-timed fa-fw"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
+                            {% else %}
+                                <i class="fa fa-circle status-{{ content.status }} fa-fw"></i> {{ content.datepublish|date('d/m/Y') }}<br>
                             {% endif %}
 
                             {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
-                                <span class="sorthandle"><i class="fa fa-sort"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
+                                <span class="sorthandle"><i class="fa fa-sort fa-fw"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
                             {% endif %}
                         </td>
                     {% endblock %}
@@ -129,12 +129,12 @@
                                 {% if content.status != "published" %}
                                     {% if isallowed('publish', content) %}
 
-                                    <li>{{ macro.actionform(content, 'publish', 'fa-star-o', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
+                                    <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
                                     {% endif %}
                                 {% else %}
                                     {% if isallowed('depublish', content) %}
-                                    <li>{{ macro.actionform(content, 'held', 'fa-star', __("Change status to 'held'")) }}</li>
-                                    <li>{{ macro.actionform(content, 'draft', 'fa-pencil', __("Change status to 'draft'")) }}</li>
+                                    <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
+                                    <li>{{ macro.actionform(content, 'draft', 'fa-pencildraft', __("Change status to 'draft'")) }}</li>
 
                                     {% endif %}
                                 {% endif %}

@@ -74,9 +74,9 @@
 .dashboardlisting tr.dim td.listthumb,
 .dashboardlisting tr.dim td.username
 {
-    opacity: 0.6;
-    -webkit-filter: grayscale(0.2);
-    filter: grayscale(0.2);
+    opacity: 0.8;
+    -webkit-filter: grayscale(0.5);
+    filter: grayscale(0.5);
 }
 
 .dashboardlisting tr.dim img {
@@ -131,6 +131,19 @@
 
 .dashboardlisting td.excerpt.large span {
     height: 54px;
+}
+
+.dashboardlisting .status-timed {
+    color: #008CBA;
+}
+
+.dashboardlisting .status-published {
+    color: #43AC6A;
+}
+
+.dashboardlisting .status-held , 
+.dashboardlisting .status-draft {
+    color: #F04124;
 }
 
 @media (max-width: 767px) {
