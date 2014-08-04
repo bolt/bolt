@@ -424,7 +424,6 @@ class Backend implements ControllerProviderInterface
         }
         $form = $app['form.factory']->createBuilder('form')
             ->add('contenttypes', 'choice', array(
-                'label' => '**ignored, see base.twig**',
                 'choices' => $choices,
                 'multiple' => true,
                 'expanded' => true,
