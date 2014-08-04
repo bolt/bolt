@@ -1,0 +1,46 @@
+{# Page: SidebarMenu > Configuration > Check database > Records with... #}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{ __('Fill the database with Dummy Content') }}</h1>
+        </div>
+    </div>
+
+    <form method="post" id="prefill" class="form-horizontal">
+        <div id="form">
+            <div class="control-group">
+                <div class="info">
+                    {{ app.translator.trans('prefill.short_help',{},'infos')|raw }}
+                </div>
+                <div id="form_contenttypes">
+                    {% for key,ctype in contenttypes %}
+                    <label><input type="checkbox" id="form_contenttypes_{{ loop.index0 }}" name="form[contenttypes][]" value="{{ key }}" />{{ ctype }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {{ form_widget(form._token) }}
+
+        <button type="button" class="btn" id="check-all"><i class="fa fa-check"></i> {{ __('Select all') }}</button>
+        <button type="button" class="btn" id="uncheck-all" ><i class="fa fa-check-empty"></i> {{ __('Deselect all') }}</button> &nbsp;
+        <button type="submit" class="btn btn-primary" ><i class="fa fa-wrench"></i> {{ __('Prefill database') }}</button>
+    </form>
+
+{% endblock pmain %}
+
+{% block pscrpt %}
+    <script>
+        $(function() {
+            $('#check-all').on('click', function() {
+                // because jQuery is being retarded. See: http://stackoverflow.com/questions/5907645/jquery-chrome-and-checkboxes-strange-behavior
+                $("#form_contenttypes :checkbox").removeAttr('checked').trigger('click')
+            });
+            $('#uncheck-all').on('click', function() {
+                $("#form_contenttypes :checkbox").removeAttr('checked');
+            });
+        });
+    </script>
+{% endblock pscrpt %}

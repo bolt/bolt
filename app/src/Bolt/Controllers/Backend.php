@@ -288,15 +288,7 @@ class Backend implements ControllerProviderInterface
     {
         $output = $app['integritychecker']->checkTablesIntegrity();
 
-        $app['twig']->addGlobal('title', __("Database check / update"));
-
-        return $app['render']->render(
-            'dbcheck.twig',
-            array(
-                'required_modifications' => $output,
-                'active' => "settings"
-            )
-        );
+        return $app['render']->render('dbcheck.twig', array('required_modifications' => $output));
     }
 
     /**
@@ -327,15 +319,7 @@ class Backend implements ControllerProviderInterface
     {
         $output = json_decode($request->get('messages'));
 
-        $app['twig']->addGlobal('title', __("Database check / update"));
-
-        return $app['render']->render(
-            'dbcheck.twig',
-            array(
-                'modifications' => $output,
-                'active' => "settings"
-            )
-        );
+        return $app['render']->render('dbcheck.twig', array('modifications' => $output));
     }
 
 
@@ -355,17 +339,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('success', $output);
         }
 
-        $app['twig']->addGlobal('title', __("Clear the cache"));
-
-        $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
-
-        return $app['render']->render(
-            'base.twig',
-            array(
-                'content' => $content,
-                'active' => "settings"
-            )
-        );
+        return $app['render']->render('clearcache.twig');
     }
 
 
@@ -422,7 +396,8 @@ class Backend implements ControllerProviderInterface
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
             $choices[$key] = __('%contenttypes%', array('%contenttypes%' => $cttype['name']));
         }
-        $form = $app['form.factory']->createBuilder('form')
+        $form = $app['form.factory']
+            ->createBuilder('form')
             ->add('contenttypes', 'choice', array(
                 'label' => '**ignored, see base.twig**',
                 'choices' => $choices,
@@ -440,12 +415,9 @@ class Backend implements ControllerProviderInterface
             return redirect('prefill');
         }
 
-        $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
-
         return $app['render']->render(
-            'base.twig',
+            'prefill.twig',
             array(
-                'content' => '',
                 'contenttypes' => $choices,
                 'form' => $form->createView()
             )
@@ -1040,7 +1012,7 @@ class Backend implements ControllerProviderInterface
             $firstuser = true;
             $title = __('Create the first user');
             $description = __('There are no users present in the system. Please create the first user, which will be granted root privileges.');
-            
+
             // Add a note, if we're setting up the first user using SQLite..
             $dbdriver = $app['config']->get('general/database/driver');
             if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
@@ -1208,7 +1180,7 @@ class Backend implements ControllerProviderInterface
 
         return $app['render']->render('edituser.twig', array(
             'form' => $form->createView(),
-            'title' => $title, 
+            'title' => $title,
             'note' => $note,
             'description' => $description
         ));
