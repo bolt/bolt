@@ -243,9 +243,8 @@ class Backend implements ControllerProviderInterface
         if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled'] == 1) {
             return redirect('dashboard', array());
         }
-        $app['twig']->addGlobal('title', "Login");
 
-        return $app['render']->render('login.twig');
+        return $app['render']->render('login/login.twig');
     }
 
     /**
