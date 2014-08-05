@@ -70,7 +70,7 @@ jQuery(function($) {
     $('span.info-pop').popover({
         trigger: 'hover',
         delay: { show: 500, hide: 200 }
-    }); 
+    });
 
 
     // When hiding modal dialogs with a 'remote', remove the data, to make sure
@@ -224,7 +224,7 @@ jQuery(function($) {
             dataType: 'json',
             data: function (term, page) {
                 return {
-                    q: term,
+                    q: term
                 };
             },
             results: function (data, page) {
@@ -833,7 +833,7 @@ var Sidebar = Backbone.Model.extend({
         // Do this, only if the sidebar is visible. (not when in small-responsive view)
         if ($('nav.navbar-static-side').is(':visible')) {
 
-            // Initialize popovers, used in sidebar menu. 
+            // Initialize popovers, used in sidebar menu.
             $('nav.navbar-static-side a.menu-pop').each(function(){
                 var $this = $(this);
                 $this.popover({
@@ -956,7 +956,7 @@ var Files = Backbone.Model.extend({
             }
         });
     },
-    
+
     duplicateFile: function(namespace, filename) {
         $.ajax({
             url: asyncpath + 'duplicatefile',
