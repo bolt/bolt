@@ -3,7 +3,7 @@
 {% block ptype 'Standard' %}
 {% block pmain %}
 
-{% import '_sub_changelogdetails.twig' as changelogdetails %}
+{% from '_macro/_changelog_details.twig' import changelog_details %}
 
 {% if context.prev_entry %}
     {% set left_link = path(
@@ -62,7 +62,7 @@
             </ul>
         </div>
 
-        {{ changelogdetails.changelogdetails(context.entry) }}
+        {{ changelog_details(context.entry) }}
     </div>
 </div>
 

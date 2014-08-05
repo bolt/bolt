@@ -3,7 +3,7 @@
 {% block ptype 'Standard' %}
 {% block pmain %}
 
-{% from '_sub_changelogdetails.twig' import changelogdetails %}
+{% from '_macro/_changelog_details.twig' import changelog_details %}
 {% from 'changeloglist/_macros.twig' import changelog_pager %}
 
 <div class="row">
@@ -14,7 +14,7 @@
 
         <div class="changelog-list">
             {% for entry in context.entries %}
-                {{ changelogdetails(entry) }}
+                {{ changelog_details(entry) }}
             {% endfor %}
         </div>
 
