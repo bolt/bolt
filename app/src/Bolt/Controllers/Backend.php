@@ -1593,17 +1593,16 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            'editconfig.twig',
-            array(
-                'form' => $form->createView(),
-                'title' => $title,
-                'filetype' => $type,
-                'file' => $file,
-                'pathsegments' => $pathsegments,
-                'writeallowed' => $writeallowed
-            )
+        $context = array(
+            'title' => $title,
+            'form' => $form->createView(),
+            'filetype' => $type,
+            'file' => $file,
+            'pathsegments' => $pathsegments,
+            'write_allowed' => $writeallowed
         );
+
+        return $app['render']->render('editfile/editfile.twig', array('context' => $context));
     }
 
     /**
