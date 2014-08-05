@@ -65,9 +65,9 @@ class CommandRunner
         
     }
     
-    public function update()
+    public function update($package)
     {
-        $response = $this->execute("update -d extensions/");
+        $response = $this->execute("update $package -d extensions/");
         return implode(array_slice($response, 2), "<br>" );
     }
     

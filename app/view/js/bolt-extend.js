@@ -61,7 +61,7 @@ var BoltExtender = Object.extend(Object, {
             console.log(data);
             for(var e in data) {
                 ext = data[e];
-                target.append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-danger' href='"+baseurl+"update?package="+ext.name+"'>Install Update</a></td></tr>");
+                target.append("<tr><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-danger' href='"+baseurl+"update?package="+ext+"'>Install Update</a></td></tr>");
             }
 
         });            
