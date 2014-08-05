@@ -58,12 +58,16 @@ var BoltExtender = Object.extend(Object, {
         active_console = target;
         active_console.html("Searching for available updates...");
         jQuery.get(baseurl+'check', function(data) {
-            for(var e in data) {
-                ext = data[e];
-                target.append("<tr><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-danger' href='"+baseurl+"update?package="+ext+"'>Install Update</a></td></tr>");
+            if(data.length > 0) {
+                for(var e in data) {
+                    ext = data[e];
+                    target.append("<tr><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-danger' href='"+baseurl+"update?package="+ext+"'>Install Update</a></td></tr>");
+                }
+                active_console.hide();
+                target.show();
+            } else {
+                active_console.html("Everything is up to date!");
             }
-            active_console.hide();
-            target.show();
         });            
     },
     
