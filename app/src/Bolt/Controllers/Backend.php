@@ -1750,15 +1750,14 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            'editlocale.twig',
-            array(
-                'form' => $form->createView(),
-                'title' => $title,
-                'filetype' => $type,
-                'writeallowed' => $writeallowed
-            )
+        $context = array(
+            'form' => $form->createView(),
+            'title' => $title,
+            'filetype' => $type,
+            'write_allowed' => $writeallowed
         );
+
+        return $app['render']->render('editlocale/editlocale.twig', array('context' => $context));
     }
 
     /**
