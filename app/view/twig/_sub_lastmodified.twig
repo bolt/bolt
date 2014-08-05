@@ -13,12 +13,7 @@
         <ul>
             {% if changelog is defined %}
                 {% for index, entry in changelog %}
-                    <li
-                        {%- if isChangelogEnabled() %}
-                            class="info-pop" data-html="true" data-content="{{ entry.comment|default(__('None')) }}" 
-                            data-placement="left" data-original-title="{{ __('Comment') }}"
-                        {% endif -%}
-                    >
+                    <li>
                         {% if filtered is defined and filtered %}
                             {% set title = contenttype.singular_name %}
                         {% else %}
