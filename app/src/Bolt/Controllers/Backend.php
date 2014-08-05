@@ -282,9 +282,12 @@ class Backend implements ControllerProviderInterface
      */
     public function dbcheck(\Bolt\Application $app)
     {
-        $output = $app['integritychecker']->checkTablesIntegrity();
+        $context = array(
+            'modifications_made' => null,
+            'modifications_required' => $app['integritychecker']->checkTablesIntegrity(),
+        );
 
-        return $app['render']->render('dbcheck.twig', array('required_modifications' => $output));
+        return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
     }
 
     /**
@@ -313,9 +316,12 @@ class Backend implements ControllerProviderInterface
 
     public function dbupdate_result(Silex\Application $app, Request $request)
     {
-        $output = json_decode($request->get('messages'));
+        $context = array(
+            'modifications_made' => json_decode($request->get('messages')),
+            'modifications_required' => null,
+        );
 
-        return $app['render']->render('dbcheck.twig', array('modifications' => $output));
+        return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
     }
 
 
