@@ -46,7 +46,7 @@ class Manager extends MountManager
         if (isset($this->filesystems[$namespace])) {
             return $this->getFilesystem($namespace);
         } else {
-            return $this->getFilesystem('default');
+            return $this->getFilesystem('files');
         }
     }
 
@@ -55,4 +55,17 @@ class Manager extends MountManager
         $this->mountFilesystem($namespace, $manager);
         $this->initManager($namespace, $manager);
     }
+    
+    /**
+     * By default we forward anything called on this class to the default manager
+     *
+     * @return void
+     **/
+    public function __call($method, array $args)
+    {
+        $callback = array($this->getManager(), $method);
+        return call_user_func_array($callback, $args);
+    }
 }
+
+
