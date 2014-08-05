@@ -317,7 +317,7 @@ class Async implements ControllerProviderInterface
         // get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
-        $body = $app['render']->render('_sub_lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
+        $body = $app['render']->render('components/lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -343,7 +343,7 @@ class Async implements ControllerProviderInterface
             'contentid' => $contentid,
             'filtered' => $isFiltered,
             );
-        $body = $app['render']->render('_sub_lastmodified.twig', $renderVars);
+        $body = $app['render']->render('components/lastmodified.twig', $renderVars);
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
