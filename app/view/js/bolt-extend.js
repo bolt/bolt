@@ -60,10 +60,9 @@ var BoltExtender = Object.extend(Object, {
         
         controller.find('.update-container').show();
         var target = controller.find(".update-list-items");
-        active_console = target;
+        active_console = controller.find('.update-output');
         active_console.html(controller.messages['updating']);
         jQuery.get(baseurl+'check', function(data) {
-            console.log(data.length);
             if(data.length > 0) {
                 for(var e in data) {
                     var ext = data[e];
