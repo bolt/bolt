@@ -19,6 +19,19 @@
             <div class='update-container hide-block'>
                 <h3>{{ __('Updates') }}</h3>
                 <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)')}}..</pre>
+                <div class="update-list hide-block">
+                    <table class="dashboardlisting table">
+                        <thead>
+                            <tr>
+                                <th>{{ __('Extension') }}</th>
+                                <th>{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="installed-list-items">
+                        
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <section class="installed-container">
                 <h3>{{ __('Your Currently Installed Extensions') }}</h3>

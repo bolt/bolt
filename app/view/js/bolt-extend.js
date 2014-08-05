@@ -54,11 +54,16 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
         
         controller.find('.update-container').show();
-        var target = controller.find(".update-output" );
+        var target = controller.find(".update-list-items" );
         active_console = target;
         active_console.html("Searching for available updates...");
         jQuery.get(baseurl+'check', function(data) {
-            target.html(data);
+            console.log(data);
+            for(var e in data) {
+                ext = data[e];
+                target.append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-danger' href='"+baseurl+"update?package="+ext.name+"'>Install Update</a></td></tr>");
+            }
+
         });            
     },
     

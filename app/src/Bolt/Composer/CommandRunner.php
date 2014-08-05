@@ -53,14 +53,15 @@ class CommandRunner
     
     public function check()
     {
-        $response = $this->execute("update --dry-run -d extensions/");
-        if($response[2] === "") {
-            return "All packages are up to date";
-        } else {
-            $output = "The following operations are available to run...<br>";
-            $output .= implode(array_slice($response, 2), "<br>" );
-            return $output;
+        $updates = array();
+        $packages = array_filter($this->execute("show -i -N -d extensions/"));
+        foreach($packages as $package) {
+            $response = array_filter(array_slice($this->execute('update --dry-run '.$package),2));
+            if(count($response)) {
+                $updates[] = $package; 
+            }
         }
+        return json_encode($updates);
         
     }
     
