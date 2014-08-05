@@ -78,7 +78,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
 
     public function check(Silex\Application $app, Request $request)
     {
-        return new Response($app['extend.runner']->check());
+        return new JsonResponse($app['extend.runner']->check());
         
     }
     

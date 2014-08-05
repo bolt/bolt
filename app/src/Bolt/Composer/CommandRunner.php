@@ -61,7 +61,7 @@ class CommandRunner
                 $updates[] = $package; 
             }
         }
-        return json_encode($updates);
+        return $updates;
         
     }
     
