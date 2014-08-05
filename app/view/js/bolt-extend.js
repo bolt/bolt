@@ -91,6 +91,24 @@ var BoltExtender = Object.extend(Object, {
         });
     },
     
+    updatePackage: function(e) {
+        var controller = this;
+        var t = this.find('.update-output').html(controller.messages['updating']);
+        t.show();
+        active_console = t;
+        jQuery.get(
+            jQuery(e.target).attr("href")
+        )
+        .done(function(data) {
+            controller.find('.update-output').html(data);
+            delay(function(){
+                active_console.hide();
+            }, 2000);
+        });
+            
+        e.preventDefault();
+    },
+    
     checkInstalled: function() {
         var controller = this;
         
@@ -237,6 +255,7 @@ var BoltExtender = Object.extend(Object, {
             switch(jQuery(e.target).data('action')) {
                 case "update-check"     : controller.updateCheck(); break;
                 case "update-run"       : controller.updateRun(); break;
+                case "update"           : controller.updatePackage(e.originalEvent); break;
                 case "check-package"    : controller.checkPackage(e.originalEvent); break;
                 case "uninstall-package": controller.uninstall(e.originalEvent); break;
                 case "install-package"  : controller.install(e.originalEvent); break;
