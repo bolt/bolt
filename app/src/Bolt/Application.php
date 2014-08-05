@@ -494,23 +494,15 @@ class Application extends Silex\Application
             }
         }
 
-        $paths = $this['resources']->getPaths();
+        $message = $exception->getMessage();
 
-        $twigvars = array();
-
-        $twigvars['class'] = get_class($exception);
-        $twigvars['message'] = $exception->getMessage();
-        $twigvars['code'] = $exception->getCode();
-        $twigvars['paths'] = $paths;
-
-        $this['log']->add($twigvars['message'], 2, '', 'abort');
+        $this['log']->add($message, 2, '', 'abort');
 
         $end = $this['config']->getWhichEnd();
 
         $trace = $exception->getTrace();
 
         foreach ($trace as $key => $value) {
-
             if (!empty($value['file']) && strpos($value['file'], '/vendor/') > 0) {
                 unset($trace[$key]['args']);
             }
@@ -520,9 +512,6 @@ class Application extends Silex\Application
                 $trace[$key]['file'] = str_replace(BOLT_PROJECT_ROOT_DIR, '[root]', $trace[$key]['file']);
             }
         }
-
-        $twigvars['trace'] = $trace;
-        $twigvars['title'] = 'An error has occurred!';
 
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
             if ($exception->getStatusCode() == 403) {
@@ -538,10 +527,17 @@ class Application extends Silex\Application
                 return $this['render']->render($template, $content->getTemplateContext());
             }
 
-            $twigvars['message'] = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
+            $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
         }
 
-        return $this['render']->render('error.twig', $twigvars);
+        $context = array(
+            'class' => get_class($exception),
+            'message' => $message,
+            'code' => $exception->getCode(),
+            'trace' => $trace,
+        );
+
+        return $this['render']->render('error/error.twig', array('context' => $context));
     }
 
     /**
