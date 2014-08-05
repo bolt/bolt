@@ -371,10 +371,11 @@ class Async implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            'filebrowser.twig',
-            array('results' => $results)
+        $context = array(
+            'results' => $results,
         );
+
+        return $app['render']->render('filebrowser/filebrowser.twig', array('context' => $context));
     }
 
 

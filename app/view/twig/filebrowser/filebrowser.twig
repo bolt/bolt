@@ -1,0 +1,53 @@
+{# Page: NavSecondary > Content ... > Edit > CkEditor > Link > Browse Server #}
+{% extends '_page.twig' %}
+{% block ptype 'Popup' %}
+{% block pfull %}
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <h1 class="page-header">{{ __('Please choose the record you want to link to:') }}</h1>
+
+        {% include 'filebrowser/_navigation.twig' %}
+
+        {% include 'filebrowser/_content.twig' %}
+
+        <hr>
+
+        <a href="" class="btn btn-default btn-danger filebrowserCloseLink">{{ __('Cancel') }}</a>
+
+    </div>
+</div>
+
+{% endblock pfull %}
+
+
+{% block pscrpt %}
+    <script>
+        $(function() {
+            $('#myTab a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            })
+
+            var getUrlParam = function( paramName ) {
+                var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
+                var match = window.location.search.match(reParam) ;
+
+                return ( match && match.length > 1 ) ? match[ 1 ] : null ;
+            };
+            var funcNum = getUrlParam('CKEditorFuncNum');
+
+            $('a.filebrowserCallbackLink').bind('click', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+                window.close();
+            });
+
+            $('a.filebrowserCloseLink').bind('click', function() {
+                window.close();
+            })
+        });
+    </script>
+{% endblock pscrpt %}
