@@ -255,7 +255,7 @@ var BoltExtender = Object.extend(Object, {
             switch(jQuery(e.target).data('action')) {
                 case "update-check"     : controller.updateCheck(); break;
                 case "update-run"       : controller.updateRun(); break;
-                case "update"           : controller.updatePackage(e.originalEvent); break;
+                case "update-package"   : controller.updatePackage(e.originalEvent); break;
                 case "check-package"    : controller.checkPackage(e.originalEvent); break;
                 case "uninstall-package": controller.uninstall(e.originalEvent); break;
                 case "install-package"  : controller.install(e.originalEvent); break;
