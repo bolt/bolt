@@ -103,7 +103,8 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('floor', array($this, 'floor')),
             new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
             new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo')),
-            new \Twig_SimpleFilter('selectfield', array($this, 'selectfield'))
+            new \Twig_SimpleFilter('selectfield', array($this, 'selectfield')),
+            new \Twig_SimpleFilter('shuffle', array($this, 'shuffle'))
         );
     }
 
@@ -1408,6 +1409,21 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $retval;
+    }
+
+    /**
+     * Randomly shuffle the contents of a passed array
+     *
+     * @param array $array
+     * @return array
+     */
+    public function shuffle($array)
+    {
+        if (is_array($array)) {
+            shuffle($array);
+        }
+
+        return $array;
     }
 
     public function isChangelogEnabled()
