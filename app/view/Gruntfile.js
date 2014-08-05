@@ -11,9 +11,9 @@ module.exports = function(grunt) {
                 options: {
                     spawn: false,
                     livereload: true
-                },
-            } 
-        },        
+                }
+            }
+        },
 
         sass: {
             dist: {
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
                 files: {
                     'css/bolt.css': 'sass/app.scss'
                 }
-            }, 
+            }
 
         },
 
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         //         dest: 'js/bootstrap-concat.js',
         //     },
         //     bolt: {
-        //         // TODO: configure this. 
+        //         // TODO: configure this.
         //         //src: ['src/main.js', 'src/extras.js'],
         //         //dest: 'dist/with_extras.js',
         //     },
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
                     ]
                 }
             }
-        } 
+        }
 
     });
 
