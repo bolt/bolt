@@ -1,4 +1,6 @@
-{% include '_header.twig' with { 'active':'settings' } %}
+{% extends "_page.twig" %}
+{% block ptype 'Settings' %}
+{% block pmain %}
 
 {% macro display_menu_item(item) %}
     <li class="dd-item dd3-item" {{ _self.invoke_data_attributes(item) }}>
@@ -247,4 +249,5 @@
         <button class="btn" data-dismiss="modal" aria-hidden="true">{{ __("Close") }}</button>
     </div>
 </div>
-{% include '_footer.twig' %}
+
+{% endblock pmain %}

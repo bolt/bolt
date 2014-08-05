@@ -190,16 +190,12 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        // If there's nothing in the DB, suggest to create some dummy content.
-        if ($total == 0) {
-            $suggestloripsum = true;
-        } else {
-            $suggestloripsum = false;
-        }
+        $context = array(
+            'ctx_latest' => $latest,
+            'ctx_suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
+        );
 
-        $app['twig']->addGlobal('title', __("Dashboard"));
-
-        return $app['render']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
+        return $app['render']->render('dashboard/dashboard.twig', $context);
     }
 
 
@@ -288,15 +284,7 @@ class Backend implements ControllerProviderInterface
     {
         $output = $app['integritychecker']->checkTablesIntegrity();
 
-        $app['twig']->addGlobal('title', __("Database check / update"));
-
-        return $app['render']->render(
-            'dbcheck.twig',
-            array(
-                'required_modifications' => $output,
-                'active' => "settings"
-            )
-        );
+        return $app['render']->render('dbcheck.twig', array('required_modifications' => $output));
     }
 
     /**
@@ -327,15 +315,7 @@ class Backend implements ControllerProviderInterface
     {
         $output = json_decode($request->get('messages'));
 
-        $app['twig']->addGlobal('title', __("Database check / update"));
-
-        return $app['render']->render(
-            'dbcheck.twig',
-            array(
-                'modifications' => $output,
-                'active' => "settings"
-            )
-        );
+        return $app['render']->render('dbcheck.twig', array('modifications' => $output));
     }
 
 
@@ -355,17 +335,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('success', $output);
         }
 
-        $app['twig']->addGlobal('title', __("Clear the cache"));
-
-        $content = "<p><a href='" . path('clearcache') . "' class='btn btn-primary'>" . __("Clear cache again") . "</a></p>";
-
-        return $app['render']->render(
-            'base.twig',
-            array(
-                'content' => $content,
-                'active' => "settings"
-            )
-        );
+        return $app['render']->render('clearcache.twig');
     }
 
 
@@ -374,8 +344,6 @@ class Backend implements ControllerProviderInterface
      */
     public function activitylog(Silex\Application $app)
     {
-        $title = __('Activity log');
-
         $action = $app['request']->query->get('action');
 
         if ($action == "clear") {
@@ -392,7 +360,11 @@ class Backend implements ControllerProviderInterface
 
         $activity = $app['log']->getActivity(16);
 
-        return $app['render']->render('activity.twig', array('title' => $title, 'activity' => $activity));
+        $context = array(
+            'ctx_activity' => $activity
+        );
+
+        return $app['render']->render('activity/activity.twig', $context);
     }
 
     /**
@@ -422,7 +394,8 @@ class Backend implements ControllerProviderInterface
         foreach ($app['config']->get('contenttypes') as $key => $cttype) {
             $choices[$key] = __('%contenttypes%', array('%contenttypes%' => $cttype['name']));
         }
-        $form = $app['form.factory']->createBuilder('form')
+        $form = $app['form.factory']
+            ->createBuilder('form')
             ->add('contenttypes', 'choice', array(
                 'choices' => $choices,
                 'multiple' => true,
@@ -439,12 +412,9 @@ class Backend implements ControllerProviderInterface
             return redirect('prefill');
         }
 
-        $app['twig']->addGlobal('title', __('Fill the database with Dummy Content'));
-
         return $app['render']->render(
-            'base.twig',
+            'prefill.twig',
             array(
-                'content' => '',
                 'contenttypes' => $choices,
                 'form' => $form->createView()
             )
@@ -867,15 +837,14 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
-        return $app['render']->render(
-            'editcontent.twig',
-            array(
-                'contenttype' => $contenttype,
-                'content' => $content,
-                'allowedStatuses' => $allowedStatuses,
-                'contentowner' => $contentowner,
-            )
+        $context = array(
+            'ctx_contenttype' => $contenttype,
+            'ctx_content' => $content,
+            'ctx_allowedStatuses' => $allowedStatuses,
+            'ctx_contentowner' => $contentowner,
         );
+
+        return $app['render']->render('editcontent/editcontent.twig', $context);
     }
 
     /**
@@ -1039,7 +1008,7 @@ class Backend implements ControllerProviderInterface
             $firstuser = true;
             $title = __('Create the first user');
             $description = __('There are no users present in the system. Please create the first user, which will be granted root privileges.');
-            
+
             // Add a note, if we're setting up the first user using SQLite..
             $dbdriver = $app['config']->get('general/database/driver');
             if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
@@ -1207,7 +1176,7 @@ class Backend implements ControllerProviderInterface
 
         return $app['render']->render('edituser.twig', array(
             'form' => $form->createView(),
-            'title' => $title, 
+            'title' => $title,
             'note' => $note,
             'description' => $description
         ));
@@ -1376,7 +1345,7 @@ class Backend implements ControllerProviderInterface
      */
     public function about(Silex\Application $app)
     {
-        return $app['render']->render('about.twig');
+        return $app['render']->render('about/about.twig');
     }
 
     /**

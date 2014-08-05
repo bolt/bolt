@@ -1,8 +1,9 @@
-{% import '_sub_changelogdetails.twig' as changelogdetails %}
-
+{# Page: NavSecondary > Content ... > Recent modifications > view #}
 {% extends "_page.twig" %}
 {% block ptype 'Standard' %}
 {% block pmain %}
+
+{% import '_sub_changelogdetails.twig' as changelogdetails %}
 
 {% macro pager(leftLink, centerLink, rightLink) %}
         <div class="pagination pagination-centered">

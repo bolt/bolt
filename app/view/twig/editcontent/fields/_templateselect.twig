@@ -1,0 +1,42 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    class:   field.class|default(''),
+    filter:  field.filter|default({}),
+    label:   field.label|default(''),
+}%}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set attr_select = {
+    class:    option.class,
+    name_id:  key,
+}%}
+
+{% set attr_default = {
+    value:  '',
+}%}
+
+{% set attr_divider = {
+    disabled:  true,
+    value:     '',
+}%}
+
+{#=== FIELDSET =======================================================================================================#}
+
+<fieldset class="templateselect">
+
+    <label class="col-sm-3 control-label">{{ labelkey }}</label>
+    <div class="col-sm-9">
+        <select{{ macro.attr(attr_select) }}>
+            <option{{ macro.attr(attr_default) }}>{{ __('(default template)') }}</option>
+            <option{{ macro.attr(attr_divider) }}>-----------</option>
+            {% for filename, name in listtemplates(option.filter) %}
+                <option{{ macro.attr({value: filename, selected: (ctx_content.get(key) == filename)}) }}>
+                    {{- name -}}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+</fieldset>

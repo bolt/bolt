@@ -1,0 +1,38 @@
+{# Page: NavSecondary > Dashboard #}
+{% extends "_page.twig" %}
+{% block ptype 'Dashboard' %}
+{% block pmain %}
+
+<div class="row">
+
+    <div class="col-md-8">
+
+        <h1 class="page-header">{{ __('Dashboard') }}</h1>
+
+        {% if ctx_suggestloripsum %}
+            {% include 'dashboard/_suggestloripsum.twig' %}
+        {% endif %}
+
+        <div class="quicklinks">
+            {% if app.config.get('contenttypes')|length() > 3 %}
+                {% include 'dashboard/_quicklinks-dropdown.twig' %}
+            {% else %}
+                {% include 'dashboard/_quicklinks-buttons.twig' %}
+            {% endif %}
+        </div>
+
+        {% for contenttype, multiplecontent in ctx_latest %}
+            {% if multiplecontent %}
+                {% include 'dashboard/_recently_edited.twig' %}
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <aside class="col-md-4">
+        {% include 'dashboard/_aside.twig' %}
+    </aside>
+
+</div>
+
+{% endblock pmain %}

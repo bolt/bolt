@@ -1,0 +1,44 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    class:  field.class|default(''),
+    label:  field.label|default(''),
+}%}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set attr_date = {
+    class:  option.class~' datepicker',
+    id:     key~'-date',
+    name:   key~'-dateformatted',
+    type:   'text',
+    value:  (ctx_content.get(key) and (ctx_content.get(key) > '0001-01-01 00:00:00') ? ctx_content.get(key)|date('l, d F Y') : ''),
+}%}
+
+{% set attr_hidden = {
+    name_id:  key,
+    type:     'hidden',
+    value:    ctx_content.get(key)|date('Y-m-d H:i:s'),
+}%}
+
+{#=== FIELDSET =======================================================================================================#}
+
+<fieldset class="date">
+    <label class="col-sm-3 control-label">{{ labelkey }}</label>
+    <div class="col-sm-9">
+        <input{{ macro.attr(attr_date) }}>
+        <input{{ macro.attr(attr_hidden) }}>
+    </div>
+
+</fieldset>
+
+{#=== SCRIPT =========================================================================================================#}
+
+<script>
+    $(function() {
+        $('#{{key}}-date').on('change.bolt', function(){
+            var date = $('#{{key}}-date').datepicker( "getDate" );
+            $('#{{ key }}').val($.datepicker.formatDate('yy-mm-dd', date));
+        }).trigger('change.bolt');
+    });
+</script>
