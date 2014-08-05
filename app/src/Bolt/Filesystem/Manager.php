@@ -61,10 +61,10 @@ class Manager extends MountManager
      *
      * @return void
      **/
-    public function __call($method, array $args)
+    public function __call($method, $arguments)
     {
         $callback = array($this->getManager(), $method);
-        return call_user_func_array($callback, $args);
+        return call_user_func_array($callback, $arguments);
     }
 }
 
