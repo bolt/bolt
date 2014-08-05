@@ -1,0 +1,31 @@
+{# Page: NavSecondary > Content ... > Recent modifications > Full list #}
+{% extends '_page.twig' %}
+{% block ptype 'Standard' %}
+{% block pmain %}
+
+{% from '_sub_changelogdetails.twig' import changelogdetails %}
+{% from 'changeloglist/_macros.twig' import changelog_pager %}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h1><strong>{{ __('Change Log') }}</strong> » {{ context.title }}</h1>
+
+        {{ changelog_pager(context.currentpage, context.pagecount) }}
+
+        <div class="changelog-list">
+            {% for entry in context.entries %}
+                {{ changelogdetails(entry) }}
+            {% endfor %}
+        </div>
+
+        {{ changelog_pager(context.currentpage, context.pagecount) }}
+
+        {% if context.contenttype %}
+            <a href="{{ path('editcontent', {'contenttypeslug': context.contenttype, 'id': context.content.id}) }}">
+                {{ __('back to editing') }}
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock pmain %}

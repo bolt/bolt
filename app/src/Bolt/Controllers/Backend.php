@@ -557,7 +557,8 @@ class Backend implements ControllerProviderInterface
             // This is easy:
             $title = __('All content types');
             $logEntries = $app['storage']->getChangelog($options);
-            $itemcount = $app['storage']->countChangelog($options);
+            // @todo: Unused in template. Leave it in for now
+            //$itemcount = $app['storage']->countChangelog($options);
         } else {
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $app['storage']->getContentType($contenttype);
@@ -567,7 +568,8 @@ class Backend implements ControllerProviderInterface
             }
             // Getting a slice of data and the total count
             $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
-            $itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
+            // @todo: Unused in template. Leave it in for now
+            //$itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
 
             // The page title we're sending to the template depends on a few
             // things: if no contentid is given, we'll use the plural form
@@ -600,24 +602,19 @@ class Backend implements ControllerProviderInterface
         // now.
         // Note that if either $limit or $pagecount is empty, the template will
         // skip rendering the pager.
-        if ($limit) {
-            $pagecount = ceil($itemcount / $limit);
-        } else {
-            $pagecount = null;
-        }
+        $pagecount = $limit ? ceil($itemcount / $limit) : null;
 
-        $renderVars = array(
+        $context = array(
             'contenttype' => $contenttype,
             'entries' => $logEntries,
             'content' => $content,
             'title' => $title,
-            'itemcount' => $itemcount,
-            'pagecount' => $pagecount,
             'currentpage' => $page,
-            );
+            'pagecount' => $pagecount,
+            //'itemcount' => $itemcount,
+        );
 
-
-        return $app['render']->render('changeloglist.twig', $renderVars);
+        return $app['render']->render('changeloglist/changeloglist.twig', array('context' => $context));
     }
 
     public function changelogDetails($contenttype, $contentid, $id, Silex\Application $app, Request $request)
@@ -629,7 +626,7 @@ class Backend implements ControllerProviderInterface
         }
         $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $app['storage']->getNextChangelogEntry($contenttype, $contentid, $id);
-        // Unused in template. Leave it in for now
+        // @todo: Unused in template. Leave it in for now
         //$content = $app['storage']->getContent($contenttype, array('id' => $contentid));
 
         $context = array(
