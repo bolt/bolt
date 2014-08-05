@@ -12,13 +12,13 @@
     id:     key~'-date',
     name:   key~'-dateformatted',
     type:   'text',
-    value:  (content.get(key) and (content.get(key) > '0001-01-01 00:00:00') ? content.get(key)|date('l, d F Y') : ''),
+    value:  (ctx_content.get(key) and (ctx_content.get(key) > '0001-01-01 00:00:00') ? ctx_content.get(key)|date('l, d F Y') : ''),
 }%}
 
 {% set attr_hidden = {
     name_id:  key,
     type:     'hidden',
-    value:    content.get(key)|date('Y-m-d H:i:s'),
+    value:    ctx_content.get(key)|date('Y-m-d H:i:s'),
 }%}
 
 {#=== FIELDSET =======================================================================================================#}

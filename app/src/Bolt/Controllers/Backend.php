@@ -190,16 +190,12 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        // If there's nothing in the DB, suggest to create some dummy content.
-        if ($total == 0) {
-            $suggestloripsum = true;
-        } else {
-            $suggestloripsum = false;
-        }
+        $context = array(
+            'ctx_latest' => $latest,
+            'ctx_suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
+        );
 
-        $app['twig']->addGlobal('title', __("Dashboard"));
-
-        return $app['render']->render('dashboard.twig', array('latest' => $latest, 'suggestloripsum' => $suggestloripsum));
+        return $app['render']->render('dashboard/dashboard.twig', $context);
     }
 
 
@@ -840,15 +836,14 @@ class Backend implements ControllerProviderInterface
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
-        return $app['render']->render(
-            'editcontent.twig',
-            array(
-                'contenttype' => $contenttype,
-                'content' => $content,
-                'allowedStatuses' => $allowedStatuses,
-                'contentowner' => $contentowner,
-            )
+        $context = array(
+            'ctx_contenttype' => $contenttype,
+            'ctx_content' => $content,
+            'ctx_allowedStatuses' => $allowedStatuses,
+            'ctx_contentowner' => $contentowner,
         );
+
+        return $app['render']->render('editcontent/editcontent.twig', $context);
     }
 
     /**

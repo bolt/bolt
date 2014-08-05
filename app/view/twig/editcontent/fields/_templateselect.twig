@@ -32,7 +32,7 @@
             <option{{ macro.attr(attr_default) }}>{{ __('(default template)') }}</option>
             <option{{ macro.attr(attr_divider) }}>-----------</option>
             {% for filename, name in listtemplates(option.filter) %}
-                <option{{ macro.attr({value: filename, selected: (content.get(key) == filename)}) }}>
+                <option{{ macro.attr({value: filename, selected: (ctx_content.get(key) == filename)}) }}>
                     {{- name -}}
                 </option>
             {% endfor %}

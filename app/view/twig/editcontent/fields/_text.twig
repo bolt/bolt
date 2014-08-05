@@ -7,31 +7,40 @@
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),
     title:        field.title|default(''),
+    variant:      field.variant|default(''),
 }%}
+{# variant[inline] #}
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_number = {
-    class:        option.class~' narrow',
+{% set attr_text = {
+    class:        option.class,
     name_id:      key,
-    pattern:      option.pattern,
+    pattern:      (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
+    maxlength:    255,
     placeholder:  option.placeholder,
     required:     option.required,
-    step:         (field.type == 'integer') ? '1' : '0.00000001',
-    min:         (field.type == 'integer') ? '-2147483647' : '',
-    max:         (field.type == 'integer') ? '2147483647' : '',
     title:        option.title,
-    type:         'number',
-    value:        0 + content.get(key),
+    type:         (option.pattern in ['url', 'email']) ?: 'text',
+    value:        ctx_content.get(key),
 }%}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="float-integer">
+<fieldset class="text">
+    {% if option.variant == 'inline' %}
 
-    <label class="col-sm-3 control-label">{{ labelkey }}</label>
-    <div class="col-sm-9">
-        <input{{ macro.attr(attr_number) }}>
-    </div>
+        <label class="col-sm-3 control-label">{{ labelkey }}</label>
+        <div class="col-sm-9">
+            <input{{ macro.attr(attr_text) }}>
+        </div>
 
+    {% else %}
+
+        <div class="col-sm-12">
+            <label class="control-label">{{ labelkey }}</label>
+            <input{{ macro.attr(attr_text) }}>
+        </div>
+
+    {% endif %}
 </fieldset>

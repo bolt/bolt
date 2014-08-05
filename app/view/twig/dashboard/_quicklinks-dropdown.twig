@@ -1,0 +1,18 @@
+<div class="btn-group">
+    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+        {{ __('Add …') }}
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+    {% for contenttypeslug, contenttype in app.config.get('contenttypes') %}
+        {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') %}
+            <li>
+                <a href="{{ path('editcontent', { 'contenttypeslug': contenttypeslug, 'id': '' }) }}">
+                    <i class="fa fa-plus"></i>
+                    {{ __('New %contenttype%', {'%contenttype%': contenttype.singular_name}) }}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</div>

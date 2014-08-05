@@ -6,7 +6,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set video = content.get(key) %}
+{% set video = ctx_content.get(key) %}
 
 {% set videotitle = (video.title is defined) ? video.title|trimtext(18)~' by '~video.authorname|trimtext(18) %}
 

@@ -1,0 +1,202 @@
+{# Page: NavSecondary > Content ... > Edit #}
+{% extends "_page.twig" %}
+{% block ptype 'Content' %}
+{% block pmain %}
+
+{% import '_macro.twig' as macro %}
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <h1 class="page-header">{{ title|raw }}</h1>
+    </div>
+
+    <div class="col-md-8">
+
+    <form method="post" id="editcontent" enctype="multipart/form-data" class="form-horizontal" role="form">
+        {% include '_sub/_csrf_token.twig' %}
+
+        {% include 'editcontent/_fields.twig' %}
+
+        <hr>
+
+        {% include 'editcontent/_relations.twig' %}
+
+        {% include 'editcontent/_taxonomies.twig' %}
+
+        <h3>
+            {{ __('Meta information') }}
+        </h3>
+
+        <input type="hidden" name="editreferrer" id="editreferrer" value="{{ editreferrer|default('') }}">
+
+        <div class="form-group">
+            {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
+            <div class="col-sm-8">
+                <input type='text' readonly=readonly name='id' value='{{ ctx_content.id }}' class="form-control narrow">
+            </div>
+        </div>
+
+        <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
+
+        {% set can_publish = isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':publish:' ~ ctx_content.id) %}
+
+        <div class="form-group">
+            {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
+            <div class="col-sm-8">
+                <input type="text" name="datepublish-dateformatted" id="datepublish-date"
+                       {% if not can_publish %}disabled="disabled"{%endif%}
+                       value='{{ ctx_content.datepublish|localdate('%A')|capitalize ~ ctx_content.datepublish|date(', d') ~ ctx_content.datepublish|localdate(' %B') ~ ctx_content.datepublish|date(' Y') }}' class='form-control datepicker'>
+                <input type="text" name="datepublish-timeformatted" id="datepublish-time"
+                       {% if not can_publish %}disabled="disabled"{%endif%}
+                       value='{{ ctx_content.datepublish|date('H:i') }}' class='form-control timepicker'>
+                <input type="hidden" name="datepublish" id="datepublish" value="{{ ctx_content.datepublish }}">
+            </div>
+        </div>
+
+        {% if isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':publish:' ~ ctx_content.id) %}
+        <script>
+            $('#datepublish-date, #datepublish-time').on('change', function(){
+                var date = $('#datepublish-date').datepicker("getDate");
+                var time = $('#datepublish-time').val() + ":00";
+                if(time == ":00") time = "00:00:00";
+                $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+            });
+        </script>
+        {% endif %}
+
+        {% set can_depublish = isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':depublish:' ~ ctx_content.id) %}
+
+        <div class="form-group">
+            {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
+            <div class="col-sm-8">
+                <input type="text" name="datedepublish-dateformatted" id="datedepublish-date"
+                       {% if not can_depublish %}disabled="disabled"{%endif%}
+                       value='{% if ctx_content.datedepublish > '1970-01-01 01:01:01' %}{{ ctx_content.datedepublish|localdate('%A')|capitalize ~ ctx_content.datedepublish|date(', d') ~ ctx_content.datedepublish|localdate(' %B') ~ ctx_content.datedepublish|date(' Y') }}{% endif %}' class='form-control datepicker'>
+                <input type="text" name="datedepublish-timeformatted" id="datedepublish-time"
+                       {% if not can_depublish %}disabled="disabled"{%endif%}
+                       value='{% if ctx_content.datedepublish > '1970-01-01 01:01:01' %}{{ ctx_content.datedepublish|date('H:i') }}{% endif %}' class='form-control timepicker'>
+                <input type="hidden" name="datedepublish" id="datedepublish" value="{{ ctx_content.datedepublish }}">
+            </div>
+        </div>
+
+        {% if isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':depublish:' ~ ctx_content.id) %}
+        <script>
+            $('#datedepublish-date, #datedepublish-time').on('change', function(){
+                var date = $('#datedepublish-date').datepicker("getDate");
+                var time = $('#datedepublish-time').val() + ":00";
+                $('#datedepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
+            });
+        </script>
+        {% endif %}
+
+        {% if ctx_content.datecreated > '1970-01-01 01:01:01' %}
+        <p>{{ __('This %contenttype% was created', {'%contenttype%': ctx_contenttype.singular_name}) }}
+            <time class="moment" datetime="{{ ctx_content.datecreated|date("c") }}" title="{{ ctx_content.datecreated }}">{{ ctx_content.datecreated }}</time>
+            {{ __('and edited') }}
+            <time class="moment" datetime="{{ ctx_content.datechanged|date("c") }}" title="{{ ctx_content.datechanged }}">{{ ctx_content.datechanged }}</time>.
+            {% endif %}</p>
+
+        <div class="form-group">
+            {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
+            <div class="col-sm-8">
+                <select name="status" id="statusselect" {% if ctx_allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
+                    {% set status_names = { "published": "Published", "held": "Not published", "timed": "Timed publish", "draft": "Draft" } %}
+                    {% for status in ctx_allowedStatuses %}
+                        <option value="{{status}}" {% if ctx_content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ macro.label(__('Owner:'), '', 'col-sm-4 control-label') }}
+            <div class="col-sm-8">
+                <select name="ownerid" {% if not isallowed("contenttype:" ~ ctx_contenttype.slug ~ ":change-owner:" ~ ctx_content.id) %}disabled="disabled"{% endif %} class="form-control narrow">
+                    {% for user in users %}
+                        <option value="{{ user.id }}" {% if ctx_contentowner and user.id == ctx_contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ macro.label(__('Add a comment:'), '', 'col-sm-4 control-label') }}
+            <div class="col-sm-8">
+                {% if isChangelogEnabled() %}
+<input type="text" name="changelog-comment" id="changelog-comment" class="form-control"
+{% if not isallowed("contenttype:" ~ ctx_contenttype.slug ~ ":change-owner:" ~ ctx_content.id) %}disabled="disabled"{% endif %}
+placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.') }}"
+/>
+</label>
+
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="savecontinuebutton">
+                        <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': ctx_contenttype.singular_name}) }}
+                    </button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <button type="submit" class="btn btn-link" id="savebutton">
+                                <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+                            </button>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-link" id="savenewbutton">
+                                <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="previewbutton">
+                        <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+                    </button>
+                    {% if ctx_content.status == "published" and ctx_content.link is defined %}
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ ctx_content.link }}" target="_blank">
+                                    <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
+                            </a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <p style="margin-top: 12px;">
+                    {% if ctx_content.id != 0 %}
+                    {{ __('Saved on:') }} <strong>{{ ctx_content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(ctx_content.datechanged) }})</small></p>
+                {% else %}
+                    {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': ctx_contenttype.singular_name}) }}
+                {% endif %}
+                </p>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    </div><!-- /span9 -->
+
+    <aside class="col-md-4 hidden-xs">
+        {% include 'editcontent/_aside.twig' %}
+    </aside>
+</div>
+
+{% endblock pmain %}

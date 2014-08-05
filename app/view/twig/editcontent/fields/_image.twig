@@ -15,7 +15,7 @@
 {% set preview_h = 120 %}
 
 {# Convert from old stored image format that is used until re-saved #}
-{% set image = (content.get(key) is iterable) ? content.get(key) : {'file': content.get(key)} %}
+{% set image = (ctx_content.get(key) is iterable) ? ctx_content.get(key) : {'file': ctx_content.get(key)} %}
 
 {# Note: jQuery file-upload expects types separated by a '|', unlike the HTML spec. #}
 {% set attr_inp = {
@@ -124,7 +124,7 @@
 
         <div class="col-sm-3">
             <div class="imageholder" id="thumbnail-{{ key }}">
-                {% if content.get(key) != '' %}
+                {% if ctx_content.get(key) != '' %}
                     {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
                 {% else %}
                     {% set preview_path = app.paths.app~'view/img/default_empty.png' %}

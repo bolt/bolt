@@ -1,0 +1,28 @@
+{# No Javascript #}
+<noscript>
+    <section>
+        <h2>{{ __("Javascript disabled") }}</h2>
+        <p>{{ __("Javascript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable Javascript in your browser.") }}</p>
+    </section>
+</noscript>
+
+{# News #}
+{{ render(path("dashboardnews")) }}
+
+{# Stack #}
+{% if not stackitems() is empty %}
+    {{ render(path("showstack", {'items': 7, 'options': 'full' } )) }}
+{%  endif %}
+
+{# Dashboard Widget #}
+{{ widget('dashboard', 'right_first') }}
+
+{# Latest Activity #}
+<div id="latestactivity">
+    {{ render(path("latestactivity")) }}
+</div>
+
+{# ? #}
+<div id="latesttemp" style="display:none; visibility: hidden;">
+    <!-- intentionally left blank -->
+</div>

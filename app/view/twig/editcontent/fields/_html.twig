@@ -22,7 +22,7 @@
 
     <div class="col-sm-12">
         <label class="control-label">{{ labelkey }}</label>
-        <textarea{{ macro.attr(attr_html) }}>{{ content.get(key)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_html) }}>{{ ctx_content.get(key)|default('') }}</textarea>
     </div>
 
 </fieldset>
