@@ -101,8 +101,11 @@
     var active_interval;
     
     jQuery(document).ready(function($) {
-        var boltExtendHandler = new BoltExtender();
+        var boltExt = new BoltExtender();
+        boltExt.setMessage('extError',{{__('Bolt Extension could not be found. Please check at {{site}} to ensure correct name.'))}};
     });
+    
+    var packageError = {{__('')}}
 
 </script>
 

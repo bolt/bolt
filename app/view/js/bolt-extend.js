@@ -26,6 +26,7 @@ var delay = (function(){
 var BoltExtender = Object.extend(Object, {
 
     selector: ".extend-bolt-container",
+    messages:  {},
 
     constructor: function(){
         jQuery(this.selector).on("change", this, this.events.change);
@@ -47,6 +48,10 @@ var BoltExtender = Object.extend(Object, {
     
     find: function(selector) {
         return jQuery(this.selector).find(selector);
+    },
+    
+    setMessage: function(key, value) {
+        this.messages[key]=value;
     },
     
     
@@ -122,6 +127,9 @@ var BoltExtender = Object.extend(Object, {
             data: {'name': ext},
         })
         .success(function(data) {
+            if(data.packages.length <1) {
+                return alert(controller.messages['extError']);
+            }
             var pack = data.packages[0];
             var tpl = '<div class="install-version-container row">';
             tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
@@ -134,7 +142,7 @@ var BoltExtender = Object.extend(Object, {
             controller.find(".check-package").after(tpl);
         })
         .fail(function() {
-            alert('Bolt Extension could not be found. Please check at {{site}} to ensure correct name.')
+            alert(controller.messages['extError']);
         });
         
         e.preventDefault();  
