@@ -2030,7 +2030,7 @@ class Storage
         }
 
         // Set up the $pager array with relevant values, but only if we requested paging. 
-        if ($decoded['parameters']['paging']) {
+        if (isset($decoded['parameters']['paging'])) {
             $pager_name = $decoded['contenttypes'][0];
             $pager = array(
                 'for' => $pager_name,
@@ -2040,6 +2040,8 @@ class Storage
                 'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
                 'showing_to' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
             );
+            $this->setPager($pager_name, $pager);
+            $this->app['twig']->addGlobal('pager', $this->getPager());
         }
 
         $this->setPager($pager_name, $pager);
