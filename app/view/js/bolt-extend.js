@@ -61,7 +61,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.update-container').show();
         var target = controller.find(".update-list-items" );
         active_console = target;
-        active_console.html("Searching for available updates...");
+        active_console.html(controller.messages['updating']);
         jQuery.get(baseurl+'check', function(data) {
             if(data.length > 0) {
                 for(var e in data) {
@@ -176,7 +176,7 @@ var BoltExtender = Object.extend(Object, {
     
     uninstall: function(e) {
         var controller = this;
-        var t = this.find('.installed-container .console').html('Preparing to remove package...');
+        var t = this.find('.installed-container .console').html(controller.messages['removing']);
         t.show();
         active_console = t;
         jQuery.get(
