@@ -1,5 +1,5 @@
 
-{% if ctx_content.relation is not empty or ctx_contenttype.relations is defined %}
+{% if context.content.relation is not empty or context.contenttype.relations is defined %}
 
     <h3>
         {{ __('Relationships') }}
@@ -10,12 +10,12 @@
 {% endif %}
 
 {# relationships for this record #}
-{% if ctx_contenttype.relations is defined %}
+{% if context.contenttype.relations is defined %}
 
 <div class="form-group">
     <fieldset>
 
-    {% for relcontenttype, relation in ctx_contenttype.relations %}
+    {% for relcontenttype, relation in context.contenttype.relations %}
 
         {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
         {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
@@ -29,7 +29,7 @@
             <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' style="width: 100%;" data-placeholder="(none)">
                 <option value="0">(none)</option>
             {% endif %}
-                {% for item in listcontent(relcontenttype, relation, ctx_content) %}
+                {% for item in listcontent(relcontenttype, relation, context.content) %}
                     {% if relcontenttype==app.request.get('relation') and item.id==app.request.get('relationid') %}
                         {%  set selectedbyrelation = true %}
                     {% else %}
@@ -57,10 +57,10 @@
 {% endif %}
 
 {# output 'incoming' relations #}
-{% if ctx_content.relation is not empty or ctx_contenttype.relations is defined %}
+{% if context.content.relation is not empty or context.contenttype.relations is defined %}
 
-    {% for reltype, ids in ctx_content.relation %}
-        {% if ctx_contenttype.relations[reltype] is not defined %}
+    {% for reltype, ids in context.content.relation %}
+        {% if context.contenttype.relations[reltype] is not defined %}
             <p>{{ __('This record is related to:') }}</p>
             <table class="table table-striped dashboardlisting">
             {% for id in ids %}
@@ -76,7 +76,7 @@
 
 {% endif %}
 
-{% if ctx_content.relation is not empty or ctx_contenttype.relations is defined %}
+{% if context.content.relation is not empty or context.contenttype.relations is defined %}
 
     <hr>
 

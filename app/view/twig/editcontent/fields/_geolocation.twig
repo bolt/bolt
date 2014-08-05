@@ -6,7 +6,7 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set geolocation = ctx_content.get(key) %}
+{% set geolocation = context.content.get(key) %}
 
 {% set attr_lat = {
     class:  'form-control pull-left',

@@ -22,7 +22,7 @@
     required:     option.required,
     title:        option.title,
     type:         (option.pattern in ['url', 'email']) ?: 'text',
-    value:        ctx_content.get(key),
+    value:        context.content.get(key),
 }%}
 
 {#=== FIELDSET =======================================================================================================#}

@@ -1,13 +1,13 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-cog fa-fw"></i> {{ __('Actions for this %contenttype%',{'%contenttype%': ctx_contenttype.singular_name}) }}
+        <i class="fa fa-cog fa-fw"></i> {{ __('Actions for this %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
     </div>
 
     <div class="panel-body">
 
         <div class="btn-group">
             <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton">
-                <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': ctx_contenttype.singular_name}) }}
+                <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
             </button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
@@ -29,16 +29,16 @@
 
         <div class="btn-group">
             <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
-                    <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+                <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
             </button>
-            {% if ctx_content.status == "published" and ctx_content.link is defined %}
+            {% if context.content.status == "published" and context.content.link is defined %}
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
                     <li>
-                        <a href="{{ ctx_content.link }}" target="_blank">
+                        <a href="{{ context.content.link }}" target="_blank">
                             <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
                         </a>
                     </li>
@@ -50,17 +50,17 @@
             {{ __("Current (saved) status:") }}
             <a href="#statusselect" data-action="$('#statusselect').focus();" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
                 <strong>
-                    <i class="fa fa-circle status-{{ ctx_content.status|default(__("none")) }}"></i>
-                    {{ status_names[ctx_content.status]|default(__("None")) }}
+                    <i class="fa fa-circle status-{{ context.content.status|default(__("none")) }}"></i>
+                    {{ status_names[context.content.status]|default(__("None")) }}
                 </strong>
             </a>
         </p>
 
         <p class="lastsaved">
-            {% if ctx_content.id != 0 %}
-            {{ __('Saved on:') }} <strong>{{ ctx_content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(ctx_content.datechanged) }})</small></p>
+            {% if context.content.id != 0 %}
+            {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
         {% else %}
-            {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': ctx_contenttype.singular_name}) }}
+            {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': context.contenttype.singular_name}) }}
         {% endif %}
         </p>
     </div>
@@ -99,7 +99,7 @@
         $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function(e){
             e.preventDefault();
 
-            var newrecord = {% if ctx_content.id != 0 %}false{% else %}true{% endif %};
+            var newrecord = {% if context.content.id != 0 %}false{% else %}true{% endif %};
 
             // Disable the buttons, to indicate stuff is being done.
             $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
@@ -122,8 +122,8 @@
 
                 $.post("", $( "#editcontent" ).serialize() )
                     .done(function(data) {
-                        // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': ctx_contenttype.singular_name}) }}";
-                        $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(ctx_content.datechanged) }})</small></p>');
+                        // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': context.contenttype.singular_name}) }}";
+                        $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>');
                         $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
                         $('p.lastsaved').find('time').attr('datetime', moment().format());
                         $('p.lastsaved').find('time').attr('title', moment().format());
@@ -136,7 +136,7 @@
 
                     })
                     .fail(function(){
-                        $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': ctx_contenttype.singular_name }) }}');
+                        $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': context.contenttype.singular_name }) }}');
                     })
                     .always(function(){
                         // Re-enable buttons
@@ -150,7 +150,7 @@
         $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
 
             e.preventDefault();
-            var newaction = "{{ paths.root }}" + "preview" + "/{{ ctx_contenttype.singular_slug }}";
+            var newaction = "{{ paths.root }}" + "preview" + "/{{ context.contenttype.singular_slug }}";
             $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
             $('#editcontent').attr('action', '').attr('target', "_self");
 
@@ -159,6 +159,6 @@
     });
 </script>
 
-{{ render(path("lastmodified", {"contenttypeslug": ctx_contenttype.slug, "contentid": ctx_content.id} )) }}
+{{ render(path("lastmodified", {"contenttypeslug": context.contenttype.slug, "contentid": context.content.id} )) }}
 
 {{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}

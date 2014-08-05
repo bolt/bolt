@@ -22,7 +22,7 @@
 
 <table class="table table-striped dashboardlisting">
     <tbody>
-    {% for log in ctx_activity %}
+    {% for log in context.activity %}
         <tr>
             <td>
                 № {{ log.id }}<br>Lvl {{ log.level }}

@@ -11,7 +11,7 @@
 
     <div class="col-md-8">
 
-        {% if ctx_suggestloripsum %}
+        {% if context.suggestloripsum %}
             {% include 'dashboard/_suggestloripsum.twig' %}
         {% endif %}
 
@@ -23,7 +23,7 @@
             {% endif %}
         </div>
 
-        {% for contenttype, multiplecontent in ctx_latest %}
+        {% for contenttype, multiplecontent in context.latest %}
             {% if multiplecontent %}
                 {% include 'dashboard/_recently_edited.twig' %}
             {% endif %}

@@ -191,11 +191,11 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'ctx_latest' => $latest,
-            'ctx_suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
+            'latest' => $latest,
+            'suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
         );
 
-        return $app['render']->render('dashboard/dashboard.twig', $context);
+        return $app['render']->render('dashboard/dashboard.twig', array('context' => $context));
     }
 
 
@@ -361,10 +361,10 @@ class Backend implements ControllerProviderInterface
         $activity = $app['log']->getActivity(16);
 
         $context = array(
-            'ctx_activity' => $activity
+            'activity' => $activity
         );
 
-        return $app['render']->render('activity/activity.twig', $context);
+        return $app['render']->render('activity/activity.twig', array('context' => $context));
     }
 
     /**
@@ -812,8 +812,6 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        $app['twig']->addGlobal('title', $title);
-
         $duplicate = $app['request']->query->get('duplicate');
         if (!empty($duplicate)) {
             $content->setValue('id', "");
@@ -828,23 +826,23 @@ class Backend implements ControllerProviderInterface
         }
 
         // Set the users and the current owner of this content.
-        // For brand-new items, the creator becomes the owner.
-        // For existing items, we'll just keep the current owner.
         if (empty($id)) {
-            // A new one!
+            // For brand-new items, the creator becomes the owner.
             $contentowner = $app['users']->getCurrentUser();
         } else {
+            // For existing items, we'll just keep the current owner.
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
         $context = array(
-            'ctx_contenttype' => $contenttype,
-            'ctx_content' => $content,
-            'ctx_allowedStatuses' => $allowedStatuses,
-            'ctx_contentowner' => $contentowner,
+            'title' => $title,
+            'contenttype' => $contenttype,
+            'content' => $content,
+            'allowed_status' => $allowedStatuses,
+            'contentowner' => $contentowner,
         );
 
-        return $app['render']->render('editcontent/editcontent.twig', $context);
+        return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));
     }
 
     /**
