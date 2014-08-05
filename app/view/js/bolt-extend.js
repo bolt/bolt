@@ -63,6 +63,7 @@ var BoltExtender = Object.extend(Object, {
         active_console = target;
         active_console.html(controller.messages['updating']);
         jQuery.get(baseurl+'check', function(data) {
+            console.log(data.length);
             if(data.length > 0) {
                 for(var e in data) {
                     ext = data[e];
@@ -71,7 +72,7 @@ var BoltExtender = Object.extend(Object, {
                 active_console.hide();
                 target.show();
             } else {
-                active_console.html("Everything is up to date!");
+                active_console.html(controller.messages['updated']);
             }
         });            
     },
