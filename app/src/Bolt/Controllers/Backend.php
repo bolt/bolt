@@ -1177,12 +1177,14 @@ class Backend implements ControllerProviderInterface
 
         }
 
-        return $app['render']->render('edituser.twig', array(
+        $context = array(
             'form' => $form->createView(),
             'title' => $title,
             'note' => $note,
-            'description' => $description
-        ));
+            'description' => $description,
+        );
+
+        return $app['render']->render('edituser/edituser.twig', array('context' => $context));
 
     }
 
@@ -1277,13 +1279,14 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            'edituser.twig',
-            array(
-                'form' => $form->createView(),
-                'title' => $title
-            )
+        $context = array(
+            'form' => $form->createView(),
+            'title' => $title,
+            'note' => '',
+            'description' => '',
         );
+
+        return $app['render']->render('edituser.twig', array('context' => $context));
     }
 
     /**
