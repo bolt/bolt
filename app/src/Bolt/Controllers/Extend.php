@@ -69,7 +69,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     
     public function overview(Silex\Application $app, Request $request)
     {
-        return $app['render']->render('extend.twig', array(
+        return $app['render']->render('extend/extend.twig', array(
             'messages'=>$app['extend.runner']->messages,
             'site'=>$app['extend.site']
         ));
