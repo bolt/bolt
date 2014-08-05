@@ -335,7 +335,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('success', $output);
         }
 
-        return $app['render']->render('clearcache.twig');
+        return $app['render']->render('clearcache/clearcache.twig');
     }
 
 
