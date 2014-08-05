@@ -377,8 +377,6 @@ class Backend implements ControllerProviderInterface
      */
     public function omnisearch(Silex\Application $app)
     {
-
-        $title = __('Omnisearch');
         $query = $app['request']->query->get('q', '');
         $results = array();
 
@@ -386,8 +384,12 @@ class Backend implements ControllerProviderInterface
             $results = $app['omnisearch']->query( $query, true );
         }
 
-        return $app['render']->render('omnisearch.twig', array('title' => $title, 'query' => $query, 'results' => $results));
+        $context = array(
+            'query' => $query,
+            'results' => $results
+        );
 
+        return $app['render']->render('omnisearch/omnisearch.twig', array('context' => $context));
     }
 
     /**
