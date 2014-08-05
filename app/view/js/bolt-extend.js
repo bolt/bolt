@@ -66,7 +66,7 @@ var BoltExtender = Object.extend(Object, {
             if(data.length > 0) {
                 for(var e in data) {
                     var ext = data[e];
-                    target.append("<tr><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-warning' href='"+baseurl+"update?package="+ext+"'>Install Update</a></td></tr>");
+                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-warning' data-package='"+ext+"'>Install Update</a></td></tr>");
                 }
                 active_console.hide();
                 controller.find('.update-list').show();
@@ -94,13 +94,15 @@ var BoltExtender = Object.extend(Object, {
     updatePackage: function(e) {
         var controller = this;
         var t = this.find('.update-output').html(controller.messages['updating']);
+        var packageToUpdate = jQuery(e.target).data("package");
         t.show();
         active_console = t;
         jQuery.get(
-            jQuery(e.target).attr("href")
+            baseurl+'update?package='+packageToUpdate
         )
-        .done(function(data) {
+        .success(function(data) {
             controller.find('.update-output').html(data);
+            controller.find('.update-list-items tr[data-package="'+packageToUpdate+'"]').remove();
             delay(function(){
                 active_console.hide();
             }, 2000);
