@@ -951,10 +951,12 @@ class Backend implements ControllerProviderInterface
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
-        return $app['render']->render(
-            'users.twig',
-            array('users' => $users, 'sessions' => $sessions)
+        $context = array(
+            'users' => $users,
+            'sessions' => $sessions
         );
+
+        return $app['render']->render('users/users.twig', array('context' => $context));
     }
 
     public function roles(\Bolt\Application $app)
