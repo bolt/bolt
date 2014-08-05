@@ -972,13 +972,12 @@ class Backend implements ControllerProviderInterface
         }
         $globalPermissions = $app['permissions']->getGlobalRoles();
 
-        return $app['twig']->render(
-            'roles.twig',
-            array(
-                'effectivePermissions' => $effectivePermissions,
-                'globalPermissions' => $globalPermissions,
-            )
+        $context = array(
+            'effective_permissions' => $effectivePermissions,
+            'global_permissions' => $globalPermissions,
         );
+
+        return $app['twig']->render('roles/roles.twig', array('context' => $context));
     }
 
     public function useredit($id, \Bolt\Application $app, Request $request)
