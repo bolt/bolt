@@ -629,16 +629,18 @@ class Backend implements ControllerProviderInterface
         }
         $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $app['storage']->getNextChangelogEntry($contenttype, $contentid, $id);
-        $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
-        $renderVars = array(
+        // Unused in template. Leave it in for now
+        //$content = $app['storage']->getContent($contenttype, array('id' => $contentid));
+
+        $context = array(
             'contenttype' => $contenttype,
             'entry' => $entry,
-            'nextEntry' => $next,
-            'prevEntry' => $prev,
-            'content' => $content,
-            );
+            'next_entry' => $next,
+            'prev_entry' => $prev,
+            //'content' => $content,
+        );
 
-        return $app['render']->render('changelogdetails.twig', $renderVars);
+        return $app['render']->render('changelogdetails/changelogdetails.twig', array('context' => $context));
     }
 
     /**
