@@ -30,7 +30,7 @@ class SearchPlugin implements PluginInterface
         $files = array();
         foreach ($allFiles as $file) {
 
-            if (strpos($file['path'], $term) !== false) {
+            if ($term == "*" || strpos($file['path'], $term) !== false) {
 
                 if (in_array($file['extension'], $extensions)) {
                     $files[] = $file['path'];
