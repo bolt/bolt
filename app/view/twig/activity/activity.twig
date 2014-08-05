@@ -6,7 +6,7 @@
 <div class="row">
 
     <div class="col-lg-12">
-        <h1 class="page-header">{{ title }}</h1>
+        <h1 class="page-header">{{ __('Activity log') }}</h1>
     </div>
 
 </div>
@@ -22,24 +22,23 @@
 
 <table class="table table-striped dashboardlisting">
     <tbody>
-    {% for log in activity %}
-    <tr>
-        <td>
-            № {{ log.id }}<br>Lvl {{ log.level }}
-        </td>
-        <td>
-            <b>{{ log.message }} / {{ log.code }}</b> <br>
-            {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
-        </td>
-        <td>
-        {{ log.username }} <br>
-            {{ log.ip }}
-        </td>
-        <td>
-            <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
-        </td>
-    </tr>
-
+    {% for log in ctx_activity %}
+        <tr>
+            <td>
+                № {{ log.id }}<br>Lvl {{ log.level }}
+            </td>
+            <td>
+                <b>{{ log.message }} / {{ log.code }}</b> <br>
+                {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
+            </td>
+            <td>
+                {{ log.username }} <br>
+                {{ log.ip }}
+            </td>
+            <td>
+                <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
+            </td>
+        </tr>
     {% endfor %}
     </tbody>
 

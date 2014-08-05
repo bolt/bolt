@@ -344,8 +344,6 @@ class Backend implements ControllerProviderInterface
      */
     public function activitylog(Silex\Application $app)
     {
-        $title = __('Activity log');
-
         $action = $app['request']->query->get('action');
 
         if ($action == "clear") {
@@ -362,7 +360,11 @@ class Backend implements ControllerProviderInterface
 
         $activity = $app['log']->getActivity(16);
 
-        return $app['render']->render('activity.twig', array('title' => $title, 'activity' => $activity));
+        $context = array(
+            'ctx_activity' => $activity
+        );
+
+        return $app['render']->render('activity/activity.twig', $context);
     }
 
     /**
