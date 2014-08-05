@@ -1359,11 +1359,11 @@ class Backend implements ControllerProviderInterface
      */
     public function extensions(Silex\Application $app)
     {
-        $title = "Extensions";
+        $context = array(
+            'extensions' => $app['extensions']->getInfo(),
+        );
 
-        $extensions = $app['extensions']->getInfo();
-
-        return $app['render']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
+        return $app['render']->render('extensions/extensions.twig', array('context' => $context));
     }
 
     public function files($namespace, $path, Silex\Application $app, Request $request)

@@ -1,0 +1,39 @@
+{# Page: NavSecondary > Configuration > Configure Extensions #}
+{% extends '_page.twig' %}
+{% block ptype 'Settings' %}
+{% block pmain %}
+
+    {% from 'extensions/_list.twig' import list %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">{{ __('Extensions') }}</h1>
+            <h2>{{ __('Enabling extensions:') }}</h2>
+            <div>{{ app.translator.trans('extension.enable', {}, 'infos')|raw }}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ list(context, true) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ list(context, false) }}
+        </div>
+    </div>
+
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>&nbsp;</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock pmain %}
