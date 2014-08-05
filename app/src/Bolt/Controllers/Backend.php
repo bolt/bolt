@@ -1344,7 +1344,7 @@ class Backend implements ControllerProviderInterface
      */
     public function about(Silex\Application $app)
     {
-        return $app['render']->render('about.twig');
+        return $app['render']->render('about/about.twig');
     }
 
     /**
