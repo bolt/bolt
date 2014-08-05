@@ -417,13 +417,12 @@ class Backend implements ControllerProviderInterface
             return redirect('prefill');
         }
 
-        return $app['render']->render(
-            'prefill.twig',
-            array(
-                'contenttypes' => $choices,
-                'form' => $form->createView()
-            )
+        $context = array(
+            'contenttypes' => $choices,
+            'form' => $form->createView(),
         );
+
+        return $app['render']->render('prefill/prefill.twig', array('context' => $context));
     }
 
 
