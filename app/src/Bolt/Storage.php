@@ -97,7 +97,7 @@ class Storage
         $output = "";
 
         // get a list of images..
-        $this->images = $this->app['filesystem']->search('', 'jpg,jpeg,png');
+        $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
 
         $empty_only = empty($contenttypes);
 
