@@ -47,7 +47,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             ->before(array($this, 'before'))
             ->bind('check');
         
-        $ctr->get("/update/{package}", array($this, 'update'))
+        $ctr->get("/update", array($this, 'update'))
             ->before(array($this, 'before'))
             ->bind('update');
         
@@ -82,8 +82,9 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         
     }
     
-    public function update($package, Silex\Application $app, Request $request)
+    public function update(Silex\Application $app, Request $request)
     {
+        $package = $request->get('package');
         return new Response($app['extend.runner']->update($package));
         
     }
