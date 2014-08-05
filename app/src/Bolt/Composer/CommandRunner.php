@@ -58,7 +58,9 @@ class CommandRunner
         foreach($packages as $package) {
             $response = array_filter(array_slice($this->execute('update --dry-run '.$package),2));
             if(count($response)) {
-                print_r($response); exit;
+                if ($response[0]=="Nothing to install or update") {
+                    return $updates;
+                }
                 $updates[] = $package; 
             }
         }
