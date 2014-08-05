@@ -9,7 +9,7 @@ class CommandRunner
 {
     
     public $wrapper;
-    public $messages;
+    public $messages = array();
     public $lastOutput;
     public $packageFile;
     
