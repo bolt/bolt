@@ -120,7 +120,7 @@ class LowlevelChecks
             return;
         }
 
-        if ($cfg['driver'] == 'mysql' || $cfg['driver'] == 'postgres') {
+        if ($cfg['driver'] == 'mysql' || $cfg['driver'] == 'postgres' || $cfg['driver'] == 'postgresql') {
             if (empty($cfg['password']) && ($cfg['username'] == "root")) {
                 $this->lowlevelError(
                     "There is no <code>password</code> set for the database connection, and you're using user 'root'." .
@@ -141,7 +141,7 @@ class LowlevelChecks
             }
 
             return;
-        } elseif ($cfg['driver'] == 'postgres') {
+        } elseif ($cfg['driver'] == 'postgres' || $cfg['driver']=='postgresql') {
             if (!extension_loaded('pdo_pgsql')) {
                 $this->lowlevelError("Postgres was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_pgsql driver.");
             }
