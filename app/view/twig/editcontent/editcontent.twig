@@ -178,7 +178,7 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
                     {% endif %}
                 </div>
 
-                <p style="margin-top: 12px;">
+                <p class="lastsaved" style="margin-top: 12px;">
                     {% if ctx_content.id != 0 %}
                     {{ __('Saved on:') }} <strong>{{ ctx_content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(ctx_content.datechanged) }})</small></p>
                 {% else %}
