@@ -67,16 +67,13 @@ jQuery(function($) {
     }
 
     // Initialize "info" popovers, used in 'edit content'.
-    $('span.info-pop').popover({
-        trigger: 'hover',
-        delay: { show: 500, hide: 200 }
-    });
-
-
-    // When hiding modal dialogs with a 'remote', remove the data, to make sure
-    // other modal dialogs are forced to retrieve the content again.
-    $('body').on('hidden', '.modal', function () {
-        $(this).removeData('modal');
+    $('nav.navbar-static-side a.menu-pop').each(function(){
+        var $this = $(this);
+        $this.popover({
+            trigger: 'hover',
+            delay: { show: 300, hide: 400 },
+            container: $this,
+        });
     });
 
     // Render any deferred widgets, if any.
