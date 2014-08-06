@@ -1,0 +1,24 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-primary" id="sidebarsavecontinuebutton">
+        <i class="fa fa-flag"></i> {{  __('Save %contenttype%', {'%contenttype%': context.contenttype.singular_name}) }}
+    </button>
+
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+
+    <ul class="dropdown-menu" role="menu">
+        <li>
+            <button type="submit" class="btn btn-link" id="sidebarsavebutton">
+                <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+            </button>
+        </li>
+
+        <li>
+            <button type="submit" class="btn btn-link" id="sidebarsavenewbutton">
+                <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+            </button>
+        </li>
+    </ul>
+</div>

@@ -200,3 +200,97 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
 </div>
 
 {% endblock pmain %}
+
+{% block pscrpt %}
+
+    {% import '_macro.twig' as macro %}
+
+    <script>
+        $(function() {
+
+            // Save the page..
+            $('#sidebarsavebutton').bind('click', function(e){
+                alert('huhu');
+                $('#savebutton').trigger('click');
+            });
+
+            $('#savebutton').bind('click', function(e){
+                // Reset the changes to the form.
+                $('form').watchChanges();
+            });
+
+            // Handle "save and new".
+            $('#sidebarsavenewbutton, #savenewbutton').bind('click', function(e){
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // Do a regular post, and expect to be redirected back to the "new record" page.
+                var newaction = "?returnto=new";
+                $('#editcontent').attr('action', newaction).submit();
+            });
+
+            // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular
+            // post which returns to this page. The latter happens if the record doesn't exist yet, so it doesn't
+            // have an id yet.
+            $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function(e){
+                e.preventDefault();
+
+                var newrecord = {% if context.content.id != 0 %}false{% else %}true{% endif %};
+
+                // Disable the buttons, to indicate stuff is being done.
+                $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+
+                $('p.lastsaved').text('{{ __("Saving…") }}');
+
+                if (newrecord) {
+
+                    // Reset the changes to the form.
+                    $('form').watchChanges();
+
+                    // New record. Do a regular post, and expect to be redirected back to this page.
+                    var newaction = "?returnto=" + $(this).attr('id');
+                    $('#editcontent').attr('action', newaction).submit();
+                } else {
+                    // Existing record. Do an 'ajaxy' post to update the record.
+
+                    // Reset the changes to the form.
+                    $('form').watchChanges();
+
+                    $.post("", $( "#editcontent" ).serialize() )
+                        .done(function(data) {
+                            // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': context.contenttype.singular_name}) }}";
+                            $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>');
+                            $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
+                            $('p.lastsaved').find('time').attr('datetime', moment().format());
+                            $('p.lastsaved').find('time').attr('title', moment().format());
+                            updateMoments();
+
+                            $('a#lastsavedstatus strong').html(
+                                '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
+                                $("#statusselect option:selected").text()
+                            );
+
+                        })
+                        .fail(function(){
+                            $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': context.contenttype.singular_name }) }}');
+                        })
+                        .always(function(){
+                            // Re-enable buttons
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                        });
+                }
+
+            });
+
+            // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+            $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
+                e.preventDefault();
+                var newaction = "{{ paths.root }}" + "preview" + "/{{ context.contenttype.singular_slug }}";
+                $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
+                $('#editcontent').attr('action', '').attr('target', "_self");
+            });
+
+        });
+    </script>
+
+{% endblock pscrpt %}

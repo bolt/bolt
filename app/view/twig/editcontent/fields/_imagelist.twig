@@ -18,6 +18,12 @@
     type:      'file',
 }%}
 
+{% if context.content.get(key) is defined %}
+    {% set list_json = context.content.get(key)|json_encode() %}
+{% else %}
+    {% set list_json = '' %}
+{% endif %}
+
 {#=== BLOCKS =========================================================================================================#}
 
 {% import _self as block %}
@@ -80,7 +86,7 @@
 
         </div>
 
-        <textarea name="{{ key }}" id="{{ key }}" class="hide">{% if context.content.get(key) is defined %}{{ context.content.get(key) }}{% endif %}</textarea>
+        <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
         {{ block.serverselect(key) }}
 
@@ -92,7 +98,7 @@
 
 <script>
     $(function() {
-        if(typeof imagelist == "undefined") {
+        if (typeof imagelist == "undefined") {
             imagelist = [];
         }
         imagelist['{{ key }}'] = new ImagelistHolder({id: '{{ key }}'});
