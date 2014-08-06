@@ -173,6 +173,9 @@
 }
 
 .navbar {
+
+    min-height: 54px;
+
     form {
         padding: 0 0 0 0;
         display: inline;
@@ -223,6 +226,7 @@
 }
 
 .navbar-header {
+    margin-top: 2px;
     float: left;
 }
 
