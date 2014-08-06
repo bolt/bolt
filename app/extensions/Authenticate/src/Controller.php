@@ -85,7 +85,7 @@ class Controller
             exit;
         }
 
-        $provider = \utilphp\util::get_var('provider', false);
+        $provider = isset($_GET['provider']) ? $_GET['provider'] : false;
 
         if($provider) {
             $this->load_hybrid_auth();
