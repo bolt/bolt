@@ -80,7 +80,7 @@
 
         </div>
 
-        <textarea name="{{ key }}" id="{{ key }}" class="hide">{% if ctx_content.get(key) is defined %}{{ ctx_content.get(key) }}{% endif %}</textarea>
+        <textarea name="{{ key }}" id="{{ key }}" class="hide">{% if ctx_content.get(key) is defined %}{{ ctx_content.get(key)|json_encode() }}{% endif %}</textarea>
 
         {{ block.serverselect(key) }}
 
