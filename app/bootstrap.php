@@ -9,7 +9,7 @@ mb_http_output('UTF-8');
 //$installedViaComposer = file_exists($rootDirectory . DIRECTORY_SEPARATOR . 'composer.lock');
 
 // We assume that if '/vendor/'. is in the path, it's installed via composer. Needs confirmation..
-$installedViaComposer = (strpos("/vendor/", __DIR__) !== false);
+$installedViaComposer = (strpos(__DIR__, "/vendor/") !== false);
 
 defined('BOLT_COMPOSER_INSTALLED') or define('BOLT_COMPOSER_INSTALLED', $installedViaComposer);
 
