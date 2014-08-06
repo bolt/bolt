@@ -2,10 +2,6 @@
  * Dashboard specific stuff
  */
 
-.quicklinks {
-    margin: 16px 0;
-}
-
 .morelink {
     font-size: 12px;
     font-weight: normal;
@@ -19,6 +15,7 @@
     box-shadow:  0px 1px 0px -2px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
     width: 100%;
+    padding: 1px;
 }
 
 .dashboardlisting th {
@@ -51,6 +48,7 @@
     font-weight: bold;
     color: #888;
     padding: 0px 5px;
+    border: 0px solid #FFF;
 }
 
 .dashboardlisting tr.grouping h3.first {
