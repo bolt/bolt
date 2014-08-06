@@ -41,7 +41,7 @@
     <p class="filetypes">{{ __("Allowed filetypes are:") }} <code>{{ option.extensions|join('</code>, <code>')|raw }}</code>.</p>
 {% endmacro %}
 
-{% macro attributes(key, option) %}
+{% macro attributes(key, option, image) %}
     {% if option.attrib %}
         {# We are only interested in the 'title' attribute right now, but this will allow easy extension #}
         {% for attrib in option.attrib %}
@@ -115,7 +115,7 @@
     <div class="dropzone clearfix" id="dropzone-{{ key }}">
         <div class="col-sm-9">
             {{ block.imagepath(labelkey, option, image, attr_inp) }}
-            {{ block.attributes(key, option) }}
+            {{ block.attributes(key, option, image) }}
             <div style="margin-bottom: 10px; margin-top: 10px">
                 {{ block.buttons(key, paths, option) }}
                 {{ block.stack(key, stackitems(7, 'image')) }}
