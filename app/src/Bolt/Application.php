@@ -525,7 +525,11 @@ class Application extends Silex\Application
         $twigvars['title'] = 'An error has occurred!';
 
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
-            $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
+            if ($exception->getStatusCode() == 403) {
+                $content = $this['storage']->getContent($this['config']->get('general/access_denied'), array('returnsingle' => true));
+            } else {
+                $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
+            }
 
             // Then, select which template to use, based on our 'cascading templates rules'
             if ($content instanceof \Bolt\Content && !empty($content->id)) {

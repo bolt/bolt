@@ -53,6 +53,10 @@ homepage_template: index.twig
 # Note: If you are logged on, and debug is set to 'true', you will NOT see the 404 page!!
 notfound: page/not-found
 
+# The default content for the 403 'access denied' page.
+# Only valid when frontend_permission_checks is set to true
+#access_denied: page/not-logged-in
+
 # The default template and amount of records to use for listing-pages on the site.
 # Can be overridden for each contenttype, and for each record, if it has a
 # 'templateselect' field.
