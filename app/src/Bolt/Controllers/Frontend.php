@@ -303,7 +303,7 @@ class Frontend
         $name = $slug;
         // Look in taxonomies in 'content', to get a display value for '$slug', perhaps.
         foreach ($content as $record) {
-            $flat = \Util::array_flatten($record->taxonomy);
+            $flat = \utilphp\util::array_flatten($record->taxonomy);
             $key = $app['paths']['root'] . $taxonomytype['slug'] . '/' . $slug;
             if (isset($flat[$key])) {
                 $name = $flat[$key];
