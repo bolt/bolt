@@ -1,17 +1,12 @@
-<div class="btn-toolbar semi-block align-left" style="margin-bottom:25px;">
+{% set href = path('relatedto', {'contenttypeslug': context.contenttype.slug, 'id': context.id}) %}
+{{ href }}
+
+<div class="btn-toolbar semi-block align-left" style="margin-bottom:25px; border-bottom: 1px solid #eee; width:100%">
     <div class="btn-group">
-        {% for slug, gcontenttype in app.config.get('contenttypes') %}
-            {% if gcontenttype.relations.pages is defined %}
-                {% if gcontenttype.slug == local_subcontenttype.slug %}
-                    {% set class = 'btn active' %}
-                {% else %}
-                    {% set class = 'btn' %}
-                {% endif %}
-                {% set href = path('relatedto', { 'contenttypeslug': context.contenttype.slug, 'id': context.id }) %}
-                <a class="{{ class }}" href="{{ href }}?show={{ gcontenttype.slug }}">
-                    {{ gcontenttype.name }}
-                </a>
-            {% endif %}
+        {% for slug, relation in context.relations %}
+            <a class="btn{{ relation.active ? ' active' : '' }}" href="{{ href }}?show={{ slug }}">
+                {{ relation.name }}
+            </a>
         {% endfor %}
     </div>
 </div>
