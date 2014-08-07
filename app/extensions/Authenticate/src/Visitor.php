@@ -46,7 +46,7 @@ class Visitor
             return false;
         }
         $this->visitor = $visitor_raw;
-        $this->profile = unserialize($this->visitor['providerdata']);
+        $this->profile = $this->visitor['providerdata'];
         return $this->visitor;
     }
 
@@ -115,7 +115,16 @@ class Visitor
             $stmt = $this->get_stmt_by($filters);
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch(\Exception $e) {
-            $result = null;
+            return null;
+        }
+
+        if (isset($result['providerdata'])) {
+            // Catch old PHP serialized data
+            if (\utilphp\util::is_serialized($result['providerdata'])) {
+                $result['providerdata'] = unserialize($result['providerdata']);
+            } else {
+                $result['providerdata'] = json_decode($result['providerdata']);
+            }
         }
 
         return $result;
@@ -124,8 +133,7 @@ class Visitor
     public function load_by_id($visitor_id)
     {
         $this->visitor = $this->get_one_by(array(array('id', '=', $visitor_id)));
-        // FIXME! - unserialize breaks if 'providerdata' contains any non-western-european characters!
-        $this->profile = unserialize($this->visitor['providerdata']);
+        $this->profile = $this->visitor['providerdata'];
 
         return $this->visitor;
     }
@@ -133,12 +141,12 @@ class Visitor
     // save new visitor
     public function save()
     {
-        $serialized = serialize($this->profile);
+        $json = json_encode($this->profile);
         // id is set to autoincrement, so let the DB handle it
         $content = array(
             'username' => $this->profile->displayName,
             'provider' => $this->provider,
-            'providerdata' => $serialized
+            'providerdata' => $json
         );
         $res = $this->db->insert($this->get_table_name(), $content);
         $id = $this->db->lastInsertId();
@@ -148,11 +156,11 @@ class Visitor
     // update existing visitor
     public function update()
     {
-        $serialized = serialize($this->profile);
+        $json = json_encode($this->profile);
         $content = array(
             'username' => $this->visitor['username'],
             'provider' => $this->provider,
-            'providerdata' => $serialized
+            'providerdata' => $json
         );
         return $this->db->update($this->get_table_name(), $content, array('id' => $this->visitor['id']));
     }

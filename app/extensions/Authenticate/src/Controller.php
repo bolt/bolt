@@ -50,7 +50,7 @@ class Controller
             $this->current_visitor['apptoken'] = $visitor->check_app_token();
 
             // Guess the 'avatar' image from the present data.
-            $profile = unserialize($this->current_visitor['providerdata']);
+            $profile = $this->current_visitor['providerdata'];
 
             if (!empty($profile->photoURL)) {
                 $this->current_visitor['avatar'] = $profile->photoURL;
@@ -195,7 +195,7 @@ class Controller
 
         $recognizedvisitor = $this->checkvisitor($app);
         if($recognizedvisitor) {
-            $visitor_profile = unserialize($recognizedvisitor['providerdata']);
+            $visitor_profile = $recognizedvisitor['providerdata'];
 
             $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
             $template = '_profile.twig';
