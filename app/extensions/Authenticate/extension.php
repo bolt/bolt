@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class Extension extends \Bolt\BaseExtension
+class extension extends \Bolt\BaseExtension
 {
-    function info()
+    public function info()
     {
         $data = array(
             'name' => "Authenticate",
@@ -39,7 +39,7 @@ class Extension extends \Bolt\BaseExtension
      * Checks if a visitor is known, and loads the associated visitor
      * Also handles the routing for login, logout and view
      */
-    function initialize()
+    public function initialize()
     {
         if (empty($this->config['basepath'])) {
             $this->config['basepath'] = "visitors";
