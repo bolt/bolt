@@ -74,8 +74,8 @@ class Session
         return $token;
     }
 
-	// load visitor session
-	public function load($token = null)
+    // load visitor session
+    public function load($token = null)
     {
         if($token) {
             $sql = "SELECT * from " . $this->prefix ."visitors_sessions WHERE sessiontoken = :token";
@@ -88,10 +88,10 @@ class Session
         } else {
            return false;
         }
-	}
+    }
 
-	// update existing visitor session
-	public function update($token = null)
+    // update existing visitor session
+    public function update($token = null)
     {
         if($token) {
             $tablename =  $this->prefix ."visitors_sessions";
@@ -101,10 +101,10 @@ class Session
             );
             return $this->db->update($tablename, $content, array('sessiontoken' => $token));
         }
-	}
+    }
 
-	// destroy visitor session (logout)
-	public function clear($token = null)
+    // destroy visitor session (logout)
+    public function clear($token = null)
     {
         if($token) {
             // delete current session from storage
@@ -113,10 +113,10 @@ class Session
             // reset session token
             $this->session->set('visitortoken', null);
         }
-	}
+    }
 
-	// destroy all visitor sessions
-	public function clear_all($visitor_id = null)
+    // destroy all visitor sessions
+    public function clear_all($visitor_id = null)
     {
         if($visitor_id) {
             // delete all visitor sessions from storage
@@ -125,7 +125,7 @@ class Session
             // reset session token
             $this->session->set('visitortoken', null);
         }
-	}
+    }
 
     // destroy all old sessions
     public function clear_old()
@@ -138,8 +138,8 @@ class Session
         $stmt->execute();
     }
 
-	// create new session token - should be reasonably unique
-	public function token($key = null)
+    // create new session token - should be reasonably unique
+    public function token($key = null)
     {
         if(!$key) {
             $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_SERVER["REQUEST_TIME"];
@@ -147,6 +147,6 @@ class Session
             $seed = $_SERVER['REMOTE_ADDR'] . $key . $_SERVER["REQUEST_TIME"];
         }
         return md5($seed);
-	}
+    }
 
 }
