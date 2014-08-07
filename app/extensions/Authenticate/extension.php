@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class extension extends \Bolt\BaseExtension
+class Extension extends \Bolt\BaseExtension
 {
     public function info()
     {
