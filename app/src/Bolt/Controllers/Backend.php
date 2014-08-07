@@ -1025,7 +1025,7 @@ class Backend implements ControllerProviderInterface
         // a user that's allowed to log on.
         if (!$app['users']->getUsers()) {
             $firstuser = true;
-            $title = __('Create the first user');
+            $title = '';
             $description = __('There are no users present in the system. Please create the first user, which will be granted root privileges.');
 
             // Add a note, if we're setting up the first user using SQLite..
@@ -1193,6 +1193,7 @@ class Backend implements ControllerProviderInterface
 
         }
 
+        $template = $firstuser ? 'firstuser/firstuser.twig' : 'edituser/edituser.twig';
         $context = array(
             'form' => $form->createView(),
             'title' => $title,
@@ -1200,8 +1201,7 @@ class Backend implements ControllerProviderInterface
             'description' => $description,
         );
 
-        return $app['render']->render('edituser/edituser.twig', array('context' => $context));
-
+        return $app['render']->render($template, array('context' => $context));
     }
 
     public function profile(\Bolt\Application $app, Request $request)
