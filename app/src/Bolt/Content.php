@@ -1054,26 +1054,31 @@ class Content implements \ArrayAccess
      */
     public function rss_safe($field = '', $excerptLength = 0)
     {
-        if (array_key_exists($field, $this->values)) {
-            if ($this->fieldtype($field) == 'html') {
-                $value = $this->values[$field];
+        // Make sure we have an array of fields. Even if it's only one.
+        if (!is_array($fields)) {
+            $fields = explode(",", $fields);
+        }
+        $fields = array_map('trim', $fields);
+
+        $result = "";
+
+        foreach ($fields as $field) {
+            if (array_key_exists($field, $this->values)) {
+
                 // Completely remove style and script blocks
                 $maid = new \Maid\Maid(array(
                     'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
                     'output-format' => 'html'
                 ));
-                $result = $maid->clean($value);
-                if ($excerptLength > 0) {
-                    $result = trimText($result, $excerptLength, false, true, false);
-                }
-
-                return '<![CDATA[ ' . $result . ' ]]>';
-            } else {
-                return $this->values[$field];
+                $result .= $maid->clean($this->values[$field]);
             }
         }
 
-        return "";
+        if ($excerptLength > 0) {
+            $result .= trimText($result, $excerptLength, false, true, false);
+        }
+
+        return '<![CDATA[ ' . $result . ' ]]>';
     }
 
     /**

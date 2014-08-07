@@ -28,13 +28,13 @@
 {% endfor %}
 {% endif %}
 
-{% if content_length == 0 %}
-                <description>{{ record.rss_safe('body')|raw }}</description>
-{% else %}
                 <description>
-                        {{ record.rss_safe('body', content_length)|raw }}
+                {% if content_length == 0 %}
+                    {{ record.rss_safe('teaser, body')|raw }}
+                {% else %}
+                    {{ record.rss_safe('teaser, body', content_length)|raw }}
+                {% endif %}
                 </description>
-{% endif %}
             </item>
 
 {% endfor %}
