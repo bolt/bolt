@@ -10,7 +10,7 @@ use Silex;
  */
 class Visitor
 {
-    var $visitor;
+    public $visitor;
     private $provider;
     private $profile;
     private $db;
@@ -30,15 +30,18 @@ class Visitor
         }
     }
 
-    public function setProvider($provider) {
+    public function setProvider($provider)
+    {
         $this->provider = $provider;
     }
 
-    public function setProfile($profile) {
+    public function setProfile($profile)
+    {
         $this->profile = $profile;
     }
 
-    private function loadVisitor($visitor_raw) {
+    private function loadVisitor($visitor_raw)
+    {
         if (!$visitor_raw) {
             return false;
         }
@@ -47,7 +50,8 @@ class Visitor
         return $this->visitor;
     }
 
-    public function checkByAppToken($username, $apptoken) {
+    public function checkByAppToken($username, $apptoken)
+    {
         $visitor_raw = $this->get_one_by(array(
                             array('username', '=', $username),
                         ));
@@ -60,7 +64,8 @@ class Visitor
         return $this->loadVisitor($visitor_raw);
     }
 
-    public function checkExisting() {
+    public function checkExisting()
+    {
         if (!$this->profile->displayName) {
             return false;
         }
@@ -72,11 +77,13 @@ class Visitor
         return $this->loadVisitor($visitor_raw);
     }
 
-    public function get_table_name() {
+    public function get_table_name()
+    {
         return $this->prefix . "visitors";
     }
 
-    private function get_stmt_by($filters) {
+    private function get_stmt_by($filters)
+    {
         $where = array();
         $params = array();
         foreach ($filters as $filter) {
@@ -96,24 +103,26 @@ class Visitor
         return $stmt;
     }
 
-    private function get_by($filters) {
+    private function get_by($filters)
+    {
         $stmt = $this->get_stmt_by($filters);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    private function get_one_by($filters) {
-
+    private function get_one_by($filters)
+    {
         try {
             $stmt = $this->get_stmt_by($filters);
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch(\Exception $e) {
             $result = null;
         }
-        
+
         return $result;
     }
 
-    public function load_by_id($visitor_id) {
+    public function load_by_id($visitor_id)
+    {
         $this->visitor = $this->get_one_by(array(array('id', '=', $visitor_id)));
         // FIXME! - unserialize breaks if 'providerdata' contains any non-western-european characters!
         $this->profile = unserialize($this->visitor['providerdata']);
@@ -122,7 +131,8 @@ class Visitor
     }
 
     // save new visitor
-    public function save() {
+    public function save()
+    {
         $serialized = serialize($this->profile);
         // id is set to autoincrement, so let the DB handle it
         $content = array(
@@ -136,7 +146,8 @@ class Visitor
     }
 
     // update existing visitor
-    public function update() {
+    public function update()
+    {
         $serialized = serialize($this->profile);
         $content = array(
             'username' => $this->visitor['username'],
@@ -146,7 +157,8 @@ class Visitor
         return $this->db->update($this->get_table_name(), $content, array('id' => $this->visitor['id']));
     }
 
-    public static function generate_token() {
+    public static function generate_token()
+    {
         // We'll avoid characters that look too much alike, specifically
         // O and 0, 1 and I.
         $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -160,14 +172,16 @@ class Visitor
         return $str;
     }
 
-    public function reset_app_token() {
+    public function reset_app_token()
+    {
         $token = self::generate_token();
         $content = array('apptoken' => $token);
         return $this->db->update($this->get_table_name(), $content, array('id' => $this->visitor['id']));
         return $token;
     }
 
-    public function check_app_token() {
+    public function check_app_token()
+    {
         error_log("check_app_token");
         if (!$this->visitor) {
             error_log("no visitor");
@@ -183,7 +197,8 @@ class Visitor
 
     // delete visitor
     // TODO: fix this if needed
-    public function delete($visitor_id = null) {
+    public function delete($visitor_id = null)
+    {
         //$this->db->delete($this->visitor);
     }
 
