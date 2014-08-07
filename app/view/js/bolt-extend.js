@@ -243,6 +243,7 @@ var BoltExtender = Object.extend(Object, {
     
     prefill: function(e) {
         var target = jQuery(e.target);
+        console.log(target.text());
         this.find('input[name="check-package"]').val( target.text());
         target.parent().hide();
     },
