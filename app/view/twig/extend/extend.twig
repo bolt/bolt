@@ -79,14 +79,18 @@
                 <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
                 <div class="panel-body">
                         <p><strong>{{ __('Check for updates') }}</strong></p>
-                        <a class="btn btn-tertiary" data-action='update-check'>
-                            <i class="fa fa-refresh"></i> {{ __('Run update check') }}
-                        </a>
+                        <div class="btn-group">
+                            <a class="btn btn-tertiary" data-action='update-check'>
+                                <i class="fa fa-refresh"></i> {{ __('Run update check') }}
+                            </a>
+                        </div>
                         <p>{{__("This won't install anything, just show you available updates")}}</p>
                         <p><strong>{{ __('Install all updates') }}</strong></p>
-                        <a class="btn btn-primary" data-action='update-run'>
-                            <i class="fa fa-refresh"></i> {{ __('Run all Updates') }}
-                        </a>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" data-action='update-run'>
+                                <i class="fa fa-refresh"></i> {{ __('Run all Updates') }}
+                            </a>
+                        </div>
                         <p>{{__("This will install all available updates")}}</p>
                 </div>
             </div>
