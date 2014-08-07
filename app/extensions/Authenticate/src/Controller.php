@@ -96,8 +96,7 @@ class Controller
                 // get the type early - because we might need to enable it
                 if (isset($this->config['providers'][$provider]['type'])) {
                     $providertype = $this->config['providers'][$provider]['type'];
-                }
-                else {
+                } else {
                     $providertype = $provider;
                 }
 
@@ -143,8 +142,7 @@ class Controller
                     return redirect('homepage');
                 }
 
-            }
-            catch( Exception $e ){
+            } catch(Exception $e) {
                 echo "Error: please try again!";
                 echo "Original error message: " . $e->getMessage();
             }
@@ -248,7 +246,8 @@ class Controller
      *
      * View the current visitor
      */
-    public function view(Silex\Application $app, Request $request) {
+    public function view(Silex\Application $app, Request $request)
+    {
         $markup = '';
 
         // login the visitor
@@ -325,4 +324,3 @@ class Controller
     }
 
 }
-
