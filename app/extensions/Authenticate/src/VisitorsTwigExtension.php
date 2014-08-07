@@ -42,14 +42,28 @@ class VisitorsTwigExtension extends \Twig_Extension
         );
     }
 
-    public function checkvisitor() { 
-        return $this->controller->checkvisitor(); 
+    public function checkvisitor()
+    {
+        return $this->controller->checkvisitor();
     }
-    public function showvisitorlogin() { return $this->controller->showvisitorlogin(); }
-    public function showvisitorlogout($label = "Logout") {
-        return $this->controller->showvisitorlogout($label); 
-    }
-    public function showvisitorprofile() { return $this->controller->showvisitorprofile(); }
-    public function settingslist() { return $this->controller->settingsList(); }
-}
 
+    public function showvisitorlogin()
+    {
+        return $this->controller->showvisitorlogin();
+    }
+
+    public function showvisitorlogout($label = "Logout")
+    {
+        return $this->controller->showvisitorlogout($label);
+    }
+
+    public function showvisitorprofile()
+    {
+        return $this->controller->showvisitorprofile();
+    }
+
+    public function settingslist()
+    {
+        return $this->controller->settingsList();
+    }
+}
