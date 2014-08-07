@@ -234,7 +234,7 @@ var BoltExtender = Object.extend(Object, {
                         cont.append("<a data-action='prefill-package' class='btn btn-block btn-tertiary prefill-package'>"+t.name+"</a>");
                     }
                     livesearch.on('blur', function(){
-                       cont.html("").hide(); 
+                       cont.fadeOut(); 
                     });
                 });
             }, 500 );
