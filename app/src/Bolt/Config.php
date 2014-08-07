@@ -48,16 +48,30 @@ class Config
     /**
      * @param  string $basename
      * @param  array  $default
-     * @param  bool  $useDefaultConfigPath
+     * @param  mixed $defaultConfigPath TRUE: use default config path; FALSE:
+     *    just use the raw basename; string: use the given string as config
+     *    file path
      * @return array
      */
-    private function parseConfigYaml($basename, $default = array(), $useDefaultConfigPath = true)
+    private function parseConfigYaml($basename, $default = array(), $defaultConfigPath = true)
     {
         if (!self::$yamlParser) {
             self::$yamlParser = new Yaml\Parser();
         }
 
-        $filename = $useDefaultConfigPath ? ($this->app['resources']->getPath('config') . '/' . $basename) : $basename;
+        if (is_string($defaultConfigPath)) {
+            $prefix = preg_replace('/\/+$/', '', $defaultConfigPath) . '/';
+        }
+        else {
+            if ($defaultConfigPath) {
+                $prefix = $this->app['resources']->getPath('config') . '/';
+            }
+            else {
+                $prefix = '';
+            }
+        }
+
+        $filename = $prefix . $basename;
 
         if (is_readable($filename)) {
             return self::$yamlParser->parse(file_get_contents($filename) . "\n");

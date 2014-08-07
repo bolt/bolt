@@ -13,6 +13,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     protected $filterlist;
     protected $snippetlist;
 
+    private $configLoaded;
+
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -37,8 +39,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         $this->setBasepath();
 
-        // Don't get config just yet. Let 'Extensions' handle this when activating.
+        // Don't load config just yet. Let 'Extensions' handle this when
+        // activating, just clear the "configLoaded" flag to tell the
+        // lazy-loading mechanism to do its thing.
         // $this->getConfig();
+        $this->configLoaded = false;
 
         $this->functionlist = array();
         $this->filterlist = array();
@@ -51,7 +56,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @see http://stackoverflow.com/questions/11117637/getting-current-working-directory-of-an-extended-class-in-php
      *
      */
-    public function setBasepath()
+    private function setBasepath()
     {
         $reflection = new \ReflectionClass($this);
         $this->basepath = dirname($reflection->getFileName());
@@ -59,65 +64,90 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Get location of config file
+     * Get location of config files
      *
-     * @return string
+     * @return array
      */
-    public function getConfigFile()
+    private function getConfigFiles()
     {
-        $configfile = $this->basepath . '/config.yml';
+        $configfiles = array();
 
-        if (BOLT_COMPOSER_INSTALLED && file_exists(BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml')) {
-            $configfile = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
+        $configfiles[] = $this->basepath . '/config.yml';
+        $configfiles[] = $this->basepath . '/config_local.yml';
+
+        if (BOLT_COMPOSER_INSTALLED) {
+            $configfiles[] = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
+            $configfiles[] = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '_local.yml';
         }
 
-        return $configfile;
+        return $configfiles;
     }
 
     /**
-     * Get the config file. If it doesn't exist, attempt to fall back to config.yml.dist,
-     * and rename it to config.yml.
+     * Override this to provide a default configuration, which will be used
+     * in the absence of a config.yml file.
+     * @return array
+     */
+    protected function getDefaultConfig() {
+        return array();
+    }
+
+    /**
+     * Load the configuration files, creating missing files as needed based on
+     * the .dist default.
      *
      * @return array
      */
     public function getConfig()
     {
-        $configfile = $this->getConfigFile();
-        $configdistfile = $this->basepath . '/config.yml.dist';
-
-        // If it's readable, we're cool
-        if (is_readable($configfile)) {
-            $yamlparser = new \Symfony\Component\Yaml\Parser();
-            $this->config = $yamlparser->parse(file_get_contents($configfile) . "\n");
-
+        if ($this->configLoaded) {
             return $this->config;
         }
 
+        $this->config = $this->getDefaultConfig();
+        foreach ($this->getConfigFiles() as $filename) {
+            echo "$filename<br>";
+            $this->loadConfigFile($filename);
+        }
+        $this->configLoaded = true;
+        var_dump($this->config);
+        die();
+        return $this->config;
+    }
+
+    private function loadConfigFile($configfile)
+    {
+        $configdistfile = "$configfile.dist";
+        $yamlparser = new \Symfony\Component\Yaml\Parser();
+
+        // If it's readable, we're cool
+        if (is_readable($configfile)) {
+            $new_config = $yamlparser->parse(file_get_contents($configfile) . "\n");
+            $this->config = array_merge($this->config, $new_config);
+        }
         // Otherwise, check if there's a config.yml.dist
-        if (is_readable($configdistfile)) {
-            $yamlparser = new \Symfony\Component\Yaml\Parser();
-            $this->config = $yamlparser->parse(file_get_contents($configdistfile) . "\n");
+        elseif (is_readable($configdistfile)) {
+            $new_config = $yamlparser->parse(file_get_contents($configdistfile) . "\n");
 
             // If config.yml.dist exists, attempt to copy it to config.yml.
             if (copy($configdistfile, $configfile)) {
                 // Success!
                 $this->app['log']->add(
-                    "Copied 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .$this->namespace . "/config.yml'.",
+                    "Copied $configfistfile to $configfile",
                     2
                 );
-            } else {
+                $this->config = array_merge($this->config, $new_config);
+            }
+            else {
                 // Failure!!
-                $message = "Couldn't copy 'extensions/" . $this->namespace . "/config.yml.dist' to 'extensions/" .
-                    $this->namespace . "/config.yml': File is not writable. Create the file manually, or make the folder writable.";
+                $configdir = dirname($configfile);
+                $message = "Couldn't copy $configfistfile to $configfile: " .
+                    "File is not writable. Create the file manually, or make " .
+                    " the $configdir directory writable.";
                 $this->app['log']->add($message, 3);
                 $this->app['session']->getFlashBag()->set('error', $message);
             }
-
-            return $this->config;
         }
-
-        // Nope. No config.
-        return false;
     }
 
     public function getName()
@@ -149,17 +179,12 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->info['readme'] = false;
         }
 
-        $configFile = $this->getConfigFile();
-        if (file_exists($configFile)) {
-            if (BOLT_COMPOSER_INSTALLED && strpos($configFile, BOLT_CONFIG_DIR) === 0) {
-                $this->info['config'] = "app/config/" . $this->namespace . ".yml";
-            } else {
-                $this->info['config'] = "app/extensions/" . $this->namespace . "/config.yml";
-            }
-            if (is_writable($configFile)) {
-                $this->info['config_writable'] = true;
-            } else {
-                $this->info['config_writable'] = false;
+        foreach ($this->getConfigFiles() as $configFile) {
+            if (file_exists($configFile)) {
+                $this->info['config'][] = array(
+                    'file' => $configFile,
+                    'writable' => is_writable($configFile)
+                );
             }
         }
 
