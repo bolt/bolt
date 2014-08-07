@@ -4,6 +4,7 @@ namespace Bolt\Database;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -54,7 +55,8 @@ class IntegrityChecker
         // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
         $this->checktimer = 3600;
 
-        if ($this->app['db']->getDatabasePlatform() instanceof SqlitePlatform) {
+        $platform = $this->app['db']->getDatabasePlatform();
+        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
             $this->textDefault = '';
         }
 
