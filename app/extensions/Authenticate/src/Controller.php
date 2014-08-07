@@ -253,7 +253,7 @@ class Controller
         // login the visitor
         $recognizedvisitor = $this->checkvisitor($app);
 
-        if($recognizedvisitor) {
+        if ($recognizedvisitor) {
             $title = $recognizedvisitor['username'];
             $markup = $this->showvisitorprofile();
         } else {
