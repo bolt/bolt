@@ -106,12 +106,9 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         $this->config = $this->getDefaultConfig();
         foreach ($this->getConfigFiles() as $filename) {
-            echo "$filename<br>";
             $this->loadConfigFile($filename);
         }
         $this->configLoaded = true;
-        var_dump($this->config);
-        die();
         return $this->config;
     }
 
