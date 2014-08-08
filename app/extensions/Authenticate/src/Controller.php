@@ -103,8 +103,14 @@ class Controller
         $recognizedvisitor = $this->checkvisitor($app);
         if($recognizedvisitor) {
             // already logged in - show the account
-            return redirect('homepage');
-            exit;
+            $returnpage = $app['request']->headers->get('referer');
+            $returnpage = str_replace($app['paths']['hosturl'], '', $returnpage);
+            if($returnpage) {
+                simpleredirect($returnpage);
+                exit;
+            } else {
+                return redirect('homepage');
+            }
         }
 
         $provider = isset($_GET['provider']) ? $_GET['provider'] : false;
@@ -160,8 +166,15 @@ class Controller
 
                     $session = new Session($app);
                     $token = $session->login($known_visitor['id']);
+                    $returnpage = $app['request']->headers->get('referer');
+                    $returnpage = str_replace($app['paths']['hosturl'], '', $returnpage);
 
-                    return redirect('homepage');
+                    if($returnpage) {
+                        simpleredirect($returnpage);
+                        exit;
+                    } else {
+                       return redirect('homepage');
+                    }
                 }
 
             } catch(Exception $e) {
@@ -260,11 +273,20 @@ class Controller
         if (!$app) {
             $app = $this->app;
         }
+
+        $returnpage = $app['request']->headers->get('referer');
+        $returnpage = str_replace($app['paths']['hosturl'], '', $returnpage);
+
         $token = $app['session']->get('visitortoken');
         $session = new Session($app);
         $session->clear($token);
 
-        return redirect('homepage');
+        if($returnpage) {
+            simpleredirect($returnpage);
+            exit;
+        } else {
+           return redirect('homepage');
+        }
     }
 
     /**
