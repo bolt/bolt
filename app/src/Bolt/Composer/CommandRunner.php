@@ -88,6 +88,12 @@ class CommandRunner
         }
     }
     
+    public function installAll()
+    {
+        $response = $this->execute("install -d extensions/");
+        return implode($response, "<br>" );
+    }
+    
     public function uninstall($package)
     {
         $json = json_decode(file_get_contents($this->packageFile));

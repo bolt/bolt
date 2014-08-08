@@ -112,6 +112,12 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         
     }
     
+    public function installAll(Silex\Application $app, Request $request)
+    {
+        return new Response($app['extend.runner']->installAll());
+        
+    }
+    
     
 
 
