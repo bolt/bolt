@@ -91,7 +91,7 @@ class CommandRunner
     public function installAll()
     {
         $response = $this->execute("install -d extensions/");
-        return implode($response, "<br>" );
+        return implode(array_slice($response, 2), "<br>" );
     }
     
     public function uninstall($package)
