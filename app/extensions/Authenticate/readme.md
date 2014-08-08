@@ -127,3 +127,42 @@ Show the full profile
     {% if knownvisitor() %}
         {{ showvisitorprofile() }}
     {% endif %}
+
+Frontend Access Control
+=======================
+
+This extension can also leverage Bolt's frontend role persmission model to control access to contenttypes and their listing pages.
+
+Site's config.yml
+-----------------
+
+Turn on frontend permission checking
+
+    frontend_permission_checks: true
+
+Site's permissions.yml
+----------------------
+
+First, create a role to be used
+    roles:
+        [...]
+        social:
+            description: Social Media login access
+            label: Social Media Login
+
+Secondly set up the permissions for the desired contenttype(s) to have the 'frontend' paramter set to the role created above.
+
+    contenttypes:
+        mycontenttype:
+            edit: [ editor ]
+            create: [ editor ]
+            change-ownership: [ owner ]
+            view: [ anonymous ]
+            frontend: [ social ]
+
+Authenticate config.yml
+-----------------------
+
+Set the 'role' paramter, e.g.
+
+    role: social

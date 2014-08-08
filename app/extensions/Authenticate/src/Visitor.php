@@ -10,7 +10,7 @@ use Silex;
  */
 class Visitor
 {
-    var $visitor;
+    public $visitor;
     private $provider;
     private $profile;
     private $db;
@@ -30,15 +30,18 @@ class Visitor
         }
     }
 
-    public function setProvider($provider) {
+    public function setProvider($provider)
+    {
         $this->provider = $provider;
     }
 
-    public function setProfile($profile) {
+    public function setProfile($profile)
+    {
         $this->profile = $profile;
     }
 
-    private function loadVisitor($visitor_raw) {
+    private function loadVisitor($visitor_raw)
+    {
         if (!$visitor_raw) {
             return false;
         }
@@ -47,10 +50,12 @@ class Visitor
         return $this->visitor;
     }
 
-    public function checkByAppToken($username, $apptoken) {
-        $visitor_raw = $this->get_one_by(array(
-                            array('username', '=', $username),
-                        ));
+    public function checkByAppToken($username, $apptoken)
+    {
+        $visitor_raw = $this->get_visitor_record(
+            array(
+                array('username', '=', $username),
+            ));
         if (!$visitor_raw) {
             return false;
         }
@@ -60,11 +65,12 @@ class Visitor
         return $this->loadVisitor($visitor_raw);
     }
 
-    public function checkExisting() {
+    public function checkExisting()
+    {
         if (!$this->profile->displayName) {
             return false;
         }
-        $visitor_raw = $this->get_one_by(
+        $visitor_raw = $this->get_visitor_record(
             array(
                 array('username', '=', $this->profile->displayName),
                 array('provider', '=', $this->provider),
@@ -72,64 +78,61 @@ class Visitor
         return $this->loadVisitor($visitor_raw);
     }
 
-    public function get_table_name() {
+    public function get_table_name()
+    {
         return $this->prefix . "visitors";
     }
 
-    private function get_stmt_by($filters) {
+    private function get_visitor_record($filters)
+    {
+        $query = "SELECT * FROM " . $this->get_table_name();
         $where = array();
-        $params = array();
+        $map = array();
+
+        // Separate filters and their paramters
         foreach ($filters as $filter) {
             list($column, $operator, $value) = $filter;
             $where[] = "$column $operator :$column";
-            $params[$column] = $value;
+            $map[":$column"] = $value;
         }
-        $sql = "SELECT * FROM " . $this->get_table_name();
+
+        // Add query manipulation parameters
         if (!empty($where)) {
-            $sql .= " WHERE " . implode(" AND ", $where);
+            $query .= " WHERE " . implode(" AND ", $where);
         }
-        $stmt = $this->db->prepare($sql);
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+
+        $result = $this->db->fetchAll($query, $map);
+        $result = array_shift($result);
+
+        if (isset($result['providerdata'])) {
+            // Catch old PHP serialized data
+            if ($this->is_serialized($result['providerdata'])) {
+                $result['providerdata'] = unserialize($result['providerdata']);
+            } else {
+                $result['providerdata'] = json_decode($result['providerdata']);
+            }
         }
-        $stmt->execute();
-        return $stmt;
-    }
 
-    private function get_by($filters) {
-        $stmt = $this->get_stmt_by($filters);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    private function get_one_by($filters) {
-
-        try {
-            $stmt = $this->get_stmt_by($filters);
-            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        } catch(\Exception $e) {
-            $result = null;
-        }
-        
         return $result;
     }
 
-    public function load_by_id($visitor_id) {
-        $this->visitor = $this->get_one_by(array(array('id', '=', $visitor_id)));
-        // FIXME! - unserialize borkt, als in 'providerdata' een niet wester-europees karakter zit!
-        // \util::var_dump($this->visitor['providerdata']);
-        $this->profile = unserialize($this->visitor['providerdata']);
+    public function load_by_id($visitor_id)
+    {
+        $this->visitor = $this->get_visitor_record(array(array('id', '=', $visitor_id)));
+        $this->profile = $this->visitor['providerdata'];
 
         return $this->visitor;
     }
 
     // save new visitor
-    public function save() {
-        $serialized = serialize($this->profile);
+    public function save()
+    {
+        $json = json_encode($this->profile);
         // id is set to autoincrement, so let the DB handle it
         $content = array(
             'username' => $this->profile->displayName,
             'provider' => $this->provider,
-            'providerdata' => $serialized
+            'providerdata' => $json
         );
         $res = $this->db->insert($this->get_table_name(), $content);
         $id = $this->db->lastInsertId();
@@ -137,17 +140,19 @@ class Visitor
     }
 
     // update existing visitor
-    public function update() {
-        $serialized = serialize($this->profile);
+    public function update()
+    {
+        $json = json_encode($this->profile);
         $content = array(
             'username' => $this->visitor['username'],
             'provider' => $this->provider,
-            'providerdata' => $serialized
+            'providerdata' => $json
         );
         return $this->db->update($this->get_table_name(), $content, array('id' => $this->visitor['id']));
     }
 
-    public static function generate_token() {
+    public static function generate_token()
+    {
         // We'll avoid characters that look too much alike, specifically
         // O and 0, 1 and I.
         $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -161,14 +166,16 @@ class Visitor
         return $str;
     }
 
-    public function reset_app_token() {
+    public function reset_app_token()
+    {
         $token = self::generate_token();
         $content = array('apptoken' => $token);
         return $this->db->update($this->get_table_name(), $content, array('id' => $this->visitor['id']));
         return $token;
     }
 
-    public function check_app_token() {
+    public function check_app_token()
+    {
         error_log("check_app_token");
         if (!$this->visitor) {
             error_log("no visitor");
@@ -184,8 +191,67 @@ class Visitor
 
     // delete visitor
     // TODO: fix this if needed
-    public function delete($visitor_id = null) {
+    public function delete($visitor_id = null)
+    {
         //$this->db->delete($this->visitor);
+    }
+	
+	
+    /**
+     * Check value to find if it was serialized.
+     *
+     * If $data is not an string, then returned value will always be false.
+     * Serialized data is always a string.
+     *
+     * @param  mixed $data Value to check to see if was serialized
+     * @return boolean
+     */
+    public static function is_serialized( $data )
+    {
+        // If it isn't a string, it isn't serialized
+        if ( ! is_string( $data ) ) {
+            return FALSE;
+        }
+
+        $data = trim( $data );
+
+        if ( 'N;' == $data ) {
+            return TRUE;
+        }
+
+        $length = strlen( $data );
+
+        if ( $length < 4 ) {
+            return FALSE;
+        }
+
+        if ( ':' !== $data[1] ) {
+            return FALSE;
+        }
+
+        $lastc = $data[$length - 1];
+
+        if ( ';' !== $lastc && '}' !== $lastc ) {
+            return FALSE;
+        }
+
+        $token = $data[0];
+
+        switch ( $token ) {
+            case 's' :
+                if ( '"' !== $data[$length-2] ) {
+                    return FALSE;
+                }
+            case 'a' :
+            case 'O' :
+                return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
+            case 'b' :
+            case 'i' :
+            case 'd' :
+                return (bool) preg_match( "/^{$token}:[0-9.E-]+;\$/", $data );
+        }
+
+        return FALSE;
     }
 
 }
