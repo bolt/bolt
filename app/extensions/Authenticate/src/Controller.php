@@ -135,15 +135,15 @@ class Controller
 
                 // initialize the authentication with the modified config
                 $hybridauth = new \Hybrid_Auth($this->config);
-
+                $provideroptions = array();
                 if($providertype=='OpenID' && !empty($this->config['providers'][$provider]['openid_identifier'])) {
                     // try to authenticate with the selected OpenID provider
                     $providerurl = $this->config['providers'][$provider]['openid_identifier'];
-                    $adapter = $hybridauth->authenticate( $providertype, array("openid_identifier" => $providerurl));
-                } else {
-                    // try to authenticate with the selected provider
-                    $adapter = $hybridauth->authenticate( $providertype );
+                    $provideroptions["openid_identifier"] = $providerurl;
                 }
+                // try to authenticate with the selected provider
+                $adapter = $hybridauth->authenticate($providertype, $provideroptions);
+
                 // then grab the user profile
                 $user_profile = $adapter->getUserProfile();
 
