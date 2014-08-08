@@ -51,7 +51,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
         if (! isset($this->config['template']['buttons']) || empty($this->config['template']['buttons'])) {
-            $this->config['template']['buttons'] = "_button.twig";
+            $this->config['template']['buttons'] = "_buttons.twig";
         }
 
         # apparently "A set of identifiers that identify a setting in the listing". Ok, whatever, HybridAuth.
