@@ -52,9 +52,10 @@ class Visitor
 
     public function checkByAppToken($username, $apptoken)
     {
-        $visitor_raw = $this->get_one_by(array(
-                            array('username', '=', $username),
-                        ));
+        $visitor_raw = $this->get_visitor_record(
+            array(
+                array('username', '=', $username),
+            ));
         if (!$visitor_raw) {
             return false;
         }
@@ -69,7 +70,7 @@ class Visitor
         if (!$this->profile->displayName) {
             return false;
         }
-        $visitor_raw = $this->get_one_by(
+        $visitor_raw = $this->get_visitor_record(
             array(
                 array('username', '=', $this->profile->displayName),
                 array('provider', '=', $this->provider),
@@ -82,35 +83,26 @@ class Visitor
         return $this->prefix . "visitors";
     }
 
-    private function get_stmt_by($filters)
+    private function get_visitor_record($filters)
     {
+        $query = "SELECT * FROM " . $this->get_table_name();
         $where = array();
-        $params = array();
+        $map = array();
+
+        // Separate filters and their paramters
         foreach ($filters as $filter) {
             list($column, $operator, $value) = $filter;
             $where[] = "$column $operator :$column";
-            $params[$column] = $value;
+            $map[":$column"] = $value;
         }
-        $sql = "SELECT * FROM " . $this->get_table_name();
-        if (!empty($where)) {
-            $sql .= " WHERE " . implode(" AND ", $where);
-        }
-        $stmt = $this->db->prepare($sql);
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
-        $stmt->execute();
-        return $stmt;
-    }
 
-    private function get_one_by($filters)
-    {
-        try {
-            $stmt = $this->get_stmt_by($filters);
-            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        } catch(\Exception $e) {
-            return null;
+        // Add query manipulation parameters
+        if (!empty($where)) {
+            $query .= " WHERE " . implode(" AND ", $where);
         }
+
+        $result = $this->db->fetchAll($query, $map);
+        $result = array_shift($result);
 
         if (isset($result['providerdata'])) {
             // Catch old PHP serialized data
@@ -126,7 +118,7 @@ class Visitor
 
     public function load_by_id($visitor_id)
     {
-        $this->visitor = $this->get_one_by(array(array('id', '=', $visitor_id)));
+        $this->visitor = $this->get_visitor_record(array(array('id', '=', $visitor_id)));
         $this->profile = $this->visitor['providerdata'];
 
         return $this->visitor;
