@@ -120,7 +120,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         // If it's readable, we're cool
         if (is_readable($configfile)) {
             $new_config = $yamlparser->parse(file_get_contents($configfile) . "\n");
-            $this->config = array_merge($this->config, $new_config);
+
+            // Don't error on empty config files
+            if (is_array($new_config)) {
+                $this->config = array_merge($this->config, $new_config);
+            }
         }
         // Otherwise, check if there's a config.yml.dist
         elseif (is_readable($configdistfile)) {
