@@ -198,7 +198,7 @@ class Controller
             $visitor_profile = $recognizedvisitor['providerdata'];
 
             $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
-            $template = '_profile.twig';
+            $template = $this->config['template']['profile'];
             $context = array(
                            'profile' => $visitor_profile,
                            'visitor' => $recognizedvisitor

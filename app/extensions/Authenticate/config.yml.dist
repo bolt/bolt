@@ -48,4 +48,6 @@ debug_mode: false
 
 button_markup: "<a class='button' style='padding: 3px 6px; margin-bottom: 4px;' href='%link%'>%label%</a>"
 
-
+# Templates (relative to assets/ directory)
+template:
+    profile: _profile.twig

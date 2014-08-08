@@ -46,6 +46,10 @@ class Extension extends \Bolt\BaseExtension
         }
         $basepath = $this->config['basepath'];
 
+        if (! isset($this->config['template']['profile']) || empty($this->config['template']['profile'])) {
+            $this->config['template']['profile'] = "_profile.twig";
+        }
+
         # apparently "A set of identifiers that identify a setting in the listing". Ok, whatever, HybridAuth.
         $this->config['identifier'] = "key";
 
