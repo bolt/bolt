@@ -272,7 +272,6 @@ class Controller
         \Hybrid_Endpoint::process();
     }
 
-
     /**
      * Logout visitor page
      *
