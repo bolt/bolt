@@ -733,7 +733,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $class
      * @return string            The rendered pager HTML
      */
-    public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = 'components/pager.twig', $class = '')
+    public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
         if ($this->app['storage']->isEmptyPager()) {
             // nothing to page..
