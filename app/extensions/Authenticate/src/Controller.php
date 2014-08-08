@@ -55,11 +55,33 @@ class Controller
             if (!empty($profile->photoURL)) {
                 $this->current_visitor['avatar'] = $profile->photoURL;
             }
+
+            // Add frontend role if set up
+            if (isset($this->config['role'])) {
+                $this->setvisitorrole();
+            }
         }
 
         return $this->current_visitor;
     }
 
+    /**
+     * Set configured frontend role.  Should match one from permissions.yml
+     */
+    private function setvisitorrole() {
+        // Safe-guard against the 'root' role being applied
+        if ($this->config['role'] == 'root') {
+            return;
+        }
+
+        if (empty($this->app['users']->currentuser)) {
+            $this->app['users']->currentuser = array('roles' => array(
+                $this->config['role'],
+                'everyone'));
+        } else {
+            array_push($this->app['users']->currentuser['roles'], $this->config['role']);
+        }
+    }
 
     private function load_hybrid_auth()
     {

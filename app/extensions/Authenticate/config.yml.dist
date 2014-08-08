@@ -50,3 +50,9 @@ debug_mode: false
 template:
     profile: _profile.twig
     buttons: _buttons.twig
+
+# Frontend role to assign to logged in visitor. 
+#
+# Is only relevant when 'frontend_permission_checks' is set to true in config.yml
+# and the role exists in permissions.yml
+#role: social
