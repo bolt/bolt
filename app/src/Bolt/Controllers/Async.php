@@ -446,14 +446,27 @@ class Async implements ControllerProviderInterface
 
         $stack = $app['stack']->listitems($count);
 
-        return $app['render']->render(
-            '_sub_stack.twig',
-            array(
-                'stack' => $stack,
-                'options' => $options,
-                'filetypes' => $app['stack']->getFileTypes()
-            )
+        $context = array(
+            'stack' => $stack,
+            'filetypes' => $app['stack']->getFileTypes()
         );
+
+        switch ($options) {
+            case 'minimal':
+                $twig = 'components/stack-minimal.twig';
+                break;
+
+            case 'list':
+                $twig = 'components/stack-list.twig';
+                break;
+
+            case 'full':
+            default:
+                $twig = 'components/stack-full.twig';
+                break;
+        }
+
+        return $app['render']->render($twig, array('context' => $context));
     }
 
     /**

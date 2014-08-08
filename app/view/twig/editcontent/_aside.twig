@@ -1,3 +1,5 @@
+{% import '_macro/_panels.twig' as panels %}
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-cog fa-fw"></i> {{ __('Actions for this %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
@@ -15,4 +17,4 @@
 
 {{ render(path("lastmodified", {"contenttypeslug": context.contenttype.slug, "contentid": context.content.id} )) }}
 
-{{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}
+{{ panels.stack(5) }}

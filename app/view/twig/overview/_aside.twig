@@ -1,11 +1,13 @@
+{% import '_macro/_panels.twig' as panels %}
+
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-cog fa-fw"></i> {{__('Actions for %contenttypes%',{'%contenttypes%': context.contenttype.name})}}
+        <i class="fa fa-cog fa-fw"></i> {{__('Actions for %contenttypes%', {'%contenttypes%': context.contenttype.name})}}
     </div>
 
     <div class="panel-body">
         <a class="btn btn-primary" href="{{ path('editcontent', { 'contenttypeslug': context.contenttype.slug, 'id': '' }) }}">
-            <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
+            <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': context.contenttype.singular_name}) }}
         </a>
         {% if request('filter') or request('order') %}
             <a class="btn btn-tertiary" href="?">{{ __('Clear sort/filter') }}</a>
@@ -21,4 +23,4 @@
 
 {{ render(path('lastmodified', {'contenttypeslug': context.contenttype.slug} )) }}
 
-{{ render(path('showstack', {'items': 5, 'options': 'full' } )) }}
+{{ panels.stack(7) }}

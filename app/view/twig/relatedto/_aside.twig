@@ -1,16 +1,18 @@
+{% import '_macro/_panels.twig' as panels %}
+
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-cog fa-fw"></i> {{__('Actions for %contenttypes%',{'%contenttypes%': context.show_contenttype.name})}}
+        <i class="fa fa-cog fa-fw"></i> {{__('Actions for %contenttypes%', {'%contenttypes%': context.show_contenttype.name})}}
     </div>
 
     <div class="panel-body">
         <a class="btn btn-default" href="{{ path('editcontent', { 'contenttypeslug': context.show_contenttype.slug, 'id': '', 'relation': context.contenttype.slug, 'relationid': context.id }) }}">
-            <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': context.show_contenttype.singular_name}) }}
+            <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': context.show_contenttype.singular_name}) }}
         </a>
 
         {% if isallowed('edit', context.contenttype) %}
             <a class="btn btn-default" href="{{ path('editcontent', { 'contenttypeslug': context.contenttype.slug, 'id': context.id }) }}">
-                <i class="fa fa-edit"></i> {{ __('Edit %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
+                <i class="fa fa-edit"></i> {{ __('Edit %contenttype%', {'%contenttype%': context.contenttype.singular_name}) }}
             </a>
         {% endif %}
 
@@ -29,6 +31,6 @@
     </div>
 </div>
 
-{{ render(path("lastmodified", {"contenttypeslug": context.show_contenttype.slug} )) }}
+{{ render(path('lastmodified', {'contenttypeslug': context.show_contenttype.slug} )) }}
 
-{{ render(path("showstack", {'items': 5, 'options': 'full' } )) }}
+{{ panels.stack(5) }}

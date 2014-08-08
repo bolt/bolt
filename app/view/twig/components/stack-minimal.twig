@@ -1,0 +1,18 @@
+<h2>
+    <i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}
+</h2>
+
+<div id="stackholder">
+    {% for item in context.stack %}
+        <div class="stackitem stackitem-wide item-{{ loop.index }} {{ item.type }}">
+            <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">
+                {% if item.type == 'image' %}
+                    <img src="{{ item.filepath|thumbnail(100,100) }}" width="100" height="100">
+                {% else %}
+                    <strong>{{ item.extension|upper }}</strong>
+                    <small>{{ item.basename }}</small>
+                {% endif %}
+            </a>
+        </div>
+    {% endfor %}
+</div>
