@@ -94,7 +94,7 @@ class Session
     public function update($token = null)
     {
         if($token) {
-            $tablename =  $this->prefix ."visitors_sessions";
+            $tablename =  $this->prefix . "visitors_sessions";
             $content = array(
                 'visitor_id' =>  $visitor_id,
                 'lastseen' => date('Y-m-d H:i:s', $_SERVER["REQUEST_TIME"])
@@ -131,7 +131,7 @@ class Session
     public function clear_old()
     {
         // delete all old sessions from storage
-        $sql = "DELETE FROM " . $this->prefix ."visitors_sessions WHERE lastseen <= :toooldtime";
+        $sql = "DELETE FROM " . $this->prefix . "visitors_sessions WHERE lastseen <= :toooldtime";
         $stmt = $this->db->prepare($sql);
         $days14 = date('Y-m-d H:i:s', ($_SERVER["REQUEST_TIME"] - (60*60*24*14)));
         $stmt->bindValue("toooldtime", $days14); // 14 days ago
