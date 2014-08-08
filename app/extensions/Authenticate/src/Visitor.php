@@ -103,12 +103,6 @@ class Visitor
         return $stmt;
     }
 
-    private function get_by($filters)
-    {
-        $stmt = $this->get_stmt_by($filters);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
     private function get_one_by($filters)
     {
         try {
