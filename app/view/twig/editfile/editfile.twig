@@ -1,0 +1,93 @@
+{# Page: NavSecondary > Configuration > Main configuration | Contenttypes | Taxonomy | ... #}
+{% extends '_page.twig' %}
+{% block ptype 'Settings' %}
+{% block pmain %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">{{ context.title|raw }}</h1>
+
+            {% if context.pathsegments|length > 1 %}
+                <p>{{ __('Path:') }}
+                    {% for path, segment in context.pathsegments %}
+                        {% if not loop.first %} / {% endif %}
+                        <a href="{{ path('files', {'path': path}) }}">{{ segment }}</a>
+                    {% endfor %}
+                </p>
+            {% endif %}
+
+            <form action="" method="post" class="form-inline" autocomplete="off">
+                {{ form_widget(context.form._token) }}
+
+                <div>
+                    <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%; min-height: 350px;">{{ context.form.vars.value.contents }}</textarea>
+                </div>
+
+                <div>
+                    <button type="submit" id="saveeditfile" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %}>
+                        <i class="fa fa-flag"></i> {{ __('Save') }}
+                    </button>
+                    <a class="btn confirm" style="margin-left: 24px;"
+                       data-confirm="{{ __("Are you sure you wish to revert? Your changes will be lost, if you don't save them.") }}"
+                       href="{{ path('fileedit', { 'file': context.file }) }}"
+                    >
+                        <i class="fa fa-undo"></i> {{ __('Revert changes') }}
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if not ismobileclient() %}
+        {% if context.filetype in ['twig', 'html', 'htm'] %}
+            {% set codemirror = ['xml', 'javascript', 'css', 'htmlmixed'] %}
+        {% elseif context.filetype == "php" %}
+            {% set codemirror = ['matchbrackets', 'javascript', 'css', 'htmlmixed', 'clike', 'php'] %}
+        {% elseif context.filetype == "yml" %}
+            {% set codemirror = ['yaml'] %}
+        {% elseif context.filetype == "md" %}
+            {% set codemirror = ['markdown'] %}
+        {% elseif context.filetype in ['css', 'less'] %}
+            {% set codemirror = 'css' %}
+        {% elseif context.filetype == "js" %}
+            {% set codemirror = ['javascript'] %}
+        {% else %}
+            {% set codemirror = [] %}
+        {% endif %}
+
+        {% set readonly = context.write_allowed ? 'false' : 'true' %}
+
+        {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
+        <link rel="stylesheet" href="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/css/codemirror.min.css">
+        <script src="{{ paths.app }}view/lib/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
+        {% for file in codemirror %}
+            <script src="{{ paths.app }}view/lib/codemirror/{{ file }}.js"></script>
+        {% endfor %}
+
+        <script>
+            $(function() {
+                $('#saveeditfile').bind('click', function(e){
+                    // Re-set the handler for checking changes to the form..
+                    window.onbeforeunload = null;
+                });
+
+                var editor = CodeMirror.fromTextArea(document.getElementById("form_contents"), {
+                    lineNumbers: true,
+                    autofocus: true,
+                    tabSize: 4,
+                    indentUnit: 4,
+                    indentWithTabs: false,
+                    readOnly: {{ readonly }}
+                });
+
+                var newheight = $(window).height() - 312;
+                if (newheight < 200) {
+                    newheight = 200;
+                }
+
+                editor.setSize(null, newheight);
+            });
+        </script>
+    {% endif %}
+
+{% endblock pmain %}

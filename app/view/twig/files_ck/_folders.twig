@@ -1,0 +1,24 @@
+<table class="dashboardlisting">
+    <thead>
+        <tr>
+            <th>{{ __('Folders') }}</th>
+            <th>{{ __('Modified') }}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for folder in context.folders %}
+            <tr>
+                <td>
+                    <a href="{{ path('files', { 'path': folder.newpath, 'namespace': context.namespace, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">
+                        <i class="icon-folder-open"></i>
+                        <b>{{ folder.foldername }}/</b>
+                    </a>
+                </td>
+                <td>
+                    <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">{{ folder.modified }}</time>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

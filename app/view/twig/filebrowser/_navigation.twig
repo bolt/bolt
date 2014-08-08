@@ -1,0 +1,17 @@
+<ul class="navbar navbar-tabs" id="myTab">
+
+    <li class="active">
+        <a href="#stacktab" data-toggle="tab">
+            {{ __('Stack') }}
+        </a>
+    </li>
+
+    {% for contenttype, records in context.results %}
+        <li>
+            <a href="#{{ contenttype }}" data-toggle="tab">
+                {{ app.config.get('contenttypes')[ contenttype ].name }}
+            </a>
+        </li>
+    {% endfor %}
+
+</ul>

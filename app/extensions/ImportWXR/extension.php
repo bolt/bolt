@@ -125,7 +125,7 @@ class Extension extends \Bolt\BaseExtension
 
         unset($res);
 
-        return $this->app['render']->render('old_extensions.twig', array(
+        return $this->app['render']->render('old_extensions/old_extensions.twig', array(
             'title' => "Import WXR (PivotX / Wordpress XML)",
             'content' => $output
         ));

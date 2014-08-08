@@ -1,0 +1,57 @@
+{# Page: NavSecondary > Content ... > Edit > CkEditor > Image > Browse Server #}
+{% extends '_page.twig' %}
+{% block ptype 'Popup' %}
+{% block pfull %}
+
+    {% from '_macro/_files_path.twig' import files_path %}
+
+    {# Only show the stack on the topmost level. #}
+    {% if context.path == "files" %}
+        {# Show the stack with the latest items. #}
+        {{ render(path("showstack", {'items': 7, 'options': 'minimal' } )) }}
+    {% endif %}
+
+    <h1>{{ __('Files') }}</h1>
+
+    {{ files_path(context.pathsegments, context.namespace, {
+        'path': '',
+        'namespace': context.namespace,
+        'CKEditor': app.request.query.get('CKEditor'),
+        'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'),
+        'langCode': app.request.query.get('langCode')
+    }) }}
+
+    {% if context.folders|length > 0 %}
+        {% include 'files_ck/_folders.twig' %}
+    {% endif %}
+
+    {% if context.files|length > 0 %}
+            {% include 'files_ck/_files.twig' %}
+    {% endif %}
+
+{% endblock pfull %}
+
+{% block pscrpt %}
+
+    <script>
+        $(function() {
+
+            var getUrlParam = function( paramName ) {
+                var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
+                var match = window.location.search.match(reParam) ;
+
+                return ( match && match.length > 1 ) ? match[ 1 ] : null ;
+            };
+            var funcNum = getUrlParam('CKEditorFuncNum');
+
+            $('a.filebrowserCallbackLink').bind('click', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+                window.close();
+            });
+
+        });
+    </script>
+
+{% endblock pscrpt %}

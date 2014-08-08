@@ -1,0 +1,11 @@
+{% set href = path('relatedto', {'contenttypeslug': context.contenttype.slug, 'id': context.id}) %}
+
+<div class="btn-toolbar semi-block align-left" style="margin-bottom:25px; border-bottom: 1px solid #eee; width:100%">
+    <div class="btn-group">
+        {% for slug, relation in context.relations %}
+            <a class="btn{{ relation.active ? ' active' : '' }}" href="{{ href }}?show={{ slug }}">
+                {{ relation.name }}
+            </a>
+        {% endfor %}
+    </div>
+</div>

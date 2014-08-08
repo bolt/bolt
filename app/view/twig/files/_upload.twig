@@ -1,0 +1,17 @@
+<hr />
+<form action="" method="post" {{ form_enctype(context.form) }}>
+    <fieldset>
+        {{ form_widget(context.form) }}
+        <button type="submit" class="btn btn-primary btn-default" style="margin-top: 4px;">
+            <i class="fa fa-upload"></i>
+            <span>{{ __('Upload file') }}</span>
+        </button>
+        {{ macro.typepopover() }}
+    </fieldset>
+</form>
+
+<script type="text/javascript">
+    $(function() {
+        $('input[type=file]').bootstrapFileInput();
+    });
+</script>

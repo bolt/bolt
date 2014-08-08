@@ -8,7 +8,7 @@
 <div class="row">
 
     <div class="col-lg-12">
-        <h1 class="page-header">{{ title|raw }}</h1>
+        <h1 class="page-header">{{ context.title|raw }}</h1>
     </div>
 
     <div class="col-md-8">
@@ -33,28 +33,28 @@
         <div class="form-group">
             {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
             <div class="col-sm-8">
-                <input type='text' readonly=readonly name='id' value='{{ ctx_content.id }}' class="form-control narrow">
+                <input type='text' readonly=readonly name='id' value='{{ context.content.id }}' class="form-control narrow">
             </div>
         </div>
 
         <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
 
-        {% set can_publish = isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':publish:' ~ ctx_content.id) %}
+        {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 
         <div class="form-group">
             {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
             <div class="col-sm-8">
                 <input type="text" name="datepublish-dateformatted" id="datepublish-date"
                        {% if not can_publish %}disabled="disabled"{%endif%}
-                       value='{{ ctx_content.datepublish|localdate('%A')|capitalize ~ ctx_content.datepublish|date(', d') ~ ctx_content.datepublish|localdate(' %B') ~ ctx_content.datepublish|date(' Y') }}' class='form-control datepicker'>
+                       value='{{ context.content.datepublish|localdate('%A')|capitalize ~ context.content.datepublish|date(', d') ~ context.content.datepublish|localdate(' %B') ~ context.content.datepublish|date(' Y') }}' class='form-control datepicker'>
                 <input type="text" name="datepublish-timeformatted" id="datepublish-time"
                        {% if not can_publish %}disabled="disabled"{%endif%}
-                       value='{{ ctx_content.datepublish|date('H:i') }}' class='form-control timepicker'>
-                <input type="hidden" name="datepublish" id="datepublish" value="{{ ctx_content.datepublish }}">
+                       value='{{ context.content.datepublish|date('H:i') }}' class='form-control timepicker'>
+                <input type="hidden" name="datepublish" id="datepublish" value="{{ context.content.datepublish }}">
             </div>
         </div>
 
-        {% if isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':publish:' ~ ctx_content.id) %}
+        {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
         <script>
             $('#datepublish-date, #datepublish-time').on('change', function(){
                 var date = $('#datepublish-date').datepicker("getDate");
@@ -65,22 +65,22 @@
         </script>
         {% endif %}
 
-        {% set can_depublish = isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':depublish:' ~ ctx_content.id) %}
+        {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
         <div class="form-group">
             {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
             <div class="col-sm-8">
                 <input type="text" name="datedepublish-dateformatted" id="datedepublish-date"
                        {% if not can_depublish %}disabled="disabled"{%endif%}
-                       value='{% if ctx_content.datedepublish > '1970-01-01 01:01:01' %}{{ ctx_content.datedepublish|localdate('%A')|capitalize ~ ctx_content.datedepublish|date(', d') ~ ctx_content.datedepublish|localdate(' %B') ~ ctx_content.datedepublish|date(' Y') }}{% endif %}' class='form-control datepicker'>
+                       value='{% if context.content.datedepublish > '1970-01-01 01:01:01' %}{{ context.content.datedepublish|localdate('%A')|capitalize ~ context.content.datedepublish|date(', d') ~ context.content.datedepublish|localdate(' %B') ~ context.content.datedepublish|date(' Y') }}{% endif %}' class='form-control datepicker'>
                 <input type="text" name="datedepublish-timeformatted" id="datedepublish-time"
                        {% if not can_depublish %}disabled="disabled"{%endif%}
-                       value='{% if ctx_content.datedepublish > '1970-01-01 01:01:01' %}{{ ctx_content.datedepublish|date('H:i') }}{% endif %}' class='form-control timepicker'>
-                <input type="hidden" name="datedepublish" id="datedepublish" value="{{ ctx_content.datedepublish }}">
+                       value='{% if context.content.datedepublish > '1970-01-01 01:01:01' %}{{ context.content.datedepublish|date('H:i') }}{% endif %}' class='form-control timepicker'>
+                <input type="hidden" name="datedepublish" id="datedepublish" value="{{ context.content.datedepublish }}">
             </div>
         </div>
 
-        {% if isallowed('contenttype:' ~ ctx_contenttype.slug ~ ':depublish:' ~ ctx_content.id) %}
+        {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
         <script>
             $('#datedepublish-date, #datedepublish-time').on('change', function(){
                 var date = $('#datedepublish-date').datepicker("getDate");
@@ -90,20 +90,20 @@
         </script>
         {% endif %}
 
-        {% if ctx_content.datecreated > '1970-01-01 01:01:01' %}
-        <p>{{ __('This %contenttype% was created', {'%contenttype%': ctx_contenttype.singular_name}) }}
-            <time class="moment" datetime="{{ ctx_content.datecreated|date("c") }}" title="{{ ctx_content.datecreated }}">{{ ctx_content.datecreated }}</time>
+        {% if context.content.datecreated > '1970-01-01 01:01:01' %}
+        <p>{{ __('This %contenttype% was created', {'%contenttype%': context.contenttype.singular_name}) }}
+            <time class="moment" datetime="{{ context.content.datecreated|date("c") }}" title="{{ context.content.datecreated }}">{{ context.content.datecreated }}</time>
             {{ __('and edited') }}
-            <time class="moment" datetime="{{ ctx_content.datechanged|date("c") }}" title="{{ ctx_content.datechanged }}">{{ ctx_content.datechanged }}</time>.
+            <time class="moment" datetime="{{ context.content.datechanged|date("c") }}" title="{{ context.content.datechanged }}">{{ context.content.datechanged }}</time>.
             {% endif %}</p>
 
         <div class="form-group">
             {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
             <div class="col-sm-8">
-                <select name="status" id="statusselect" {% if ctx_allowedStatuses|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
+                <select name="status" id="statusselect" {% if context.allowed_status|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
                     {% set status_names = { "published": "Published", "held": "Not published", "timed": "Timed publish", "draft": "Draft" } %}
-                    {% for status in ctx_allowedStatuses %}
-                        <option value="{{status}}" {% if ctx_content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
+                    {% for status in context.allowed_status %}
+                        <option value="{{status}}" {% if context.content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -112,9 +112,9 @@
         <div class="form-group">
             {{ macro.label(__('Owner:'), '', 'col-sm-4 control-label') }}
             <div class="col-sm-8">
-                <select name="ownerid" {% if not isallowed("contenttype:" ~ ctx_contenttype.slug ~ ":change-owner:" ~ ctx_content.id) %}disabled="disabled"{% endif %} class="form-control narrow">
+                <select name="ownerid" {% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %} class="form-control narrow">
                     {% for user in users %}
-                        <option value="{{ user.id }}" {% if ctx_contentowner and user.id == ctx_contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
+                        <option value="{{ user.id }}" {% if context.contentowner and user.id == context.contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -125,7 +125,7 @@
             <div class="col-sm-8">
                 {% if isChangelogEnabled() %}
 <input type="text" name="changelog-comment" id="changelog-comment" class="form-control"
-{% if not isallowed("contenttype:" ~ ctx_contenttype.slug ~ ":change-owner:" ~ ctx_content.id) %}disabled="disabled"{% endif %}
+{% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %}
 placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.') }}"
 />
 </label>
@@ -139,7 +139,7 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                        <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': ctx_contenttype.singular_name}) }}
+                        <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
                     </button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -163,14 +163,14 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
                     <button type="button" class="btn btn-default" id="previewbutton">
                         <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
                     </button>
-                    {% if ctx_content.status == "published" and ctx_content.link is defined %}
+                    {% if context.content.status == "published" and context.content.link is defined %}
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="{{ ctx_content.link }}" target="_blank">
+                                <a href="{{ context.content.link }}" target="_blank">
                                     <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
                             </a>
                             </li>
@@ -179,10 +179,10 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
                 </div>
 
                 <p class="lastsaved" style="margin-top: 12px;">
-                    {% if ctx_content.id != 0 %}
-                    {{ __('Saved on:') }} <strong>{{ ctx_content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(ctx_content.datechanged) }})</small></p>
+                    {% if context.content.id != 0 %}
+                    {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
                 {% else %}
-                    {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': ctx_contenttype.singular_name}) }}
+                    {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': context.contenttype.singular_name}) }}
                 {% endif %}
                 </p>
 
@@ -200,3 +200,96 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
 </div>
 
 {% endblock pmain %}
+
+{% block pscrpt %}
+
+    {% import '_macro.twig' as macro %}
+
+    <script>
+        $(function() {
+
+            // Save the page..
+            $('#sidebarsavebutton').bind('click', function(e){
+                $('#savebutton').trigger('click');
+            });
+
+            $('#savebutton').bind('click', function(e){
+                // Reset the changes to the form.
+                $('form').watchChanges();
+            });
+
+            // Handle "save and new".
+            $('#sidebarsavenewbutton, #savenewbutton').bind('click', function(e){
+                // Reset the changes to the form.
+                $('form').watchChanges();
+
+                // Do a regular post, and expect to be redirected back to the "new record" page.
+                var newaction = "?returnto=new";
+                $('#editcontent').attr('action', newaction).submit();
+            });
+
+            // Clicking the 'save & continue' button either triggers an 'ajaxy' post, or a regular
+            // post which returns to this page. The latter happens if the record doesn't exist yet, so it doesn't
+            // have an id yet.
+            $('#sidebarsavecontinuebutton, #savecontinuebutton').bind('click', function(e){
+                e.preventDefault();
+
+                var newrecord = {% if context.content.id != 0 %}false{% else %}true{% endif %};
+
+                // Disable the buttons, to indicate stuff is being done.
+                $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+
+                $('p.lastsaved').text('{{ __("Saving…") }}');
+
+                if (newrecord) {
+
+                    // Reset the changes to the form.
+                    $('form').watchChanges();
+
+                    // New record. Do a regular post, and expect to be redirected back to this page.
+                    var newaction = "?returnto=" + $(this).attr('id');
+                    $('#editcontent').attr('action', newaction).submit();
+                } else {
+                    // Existing record. Do an 'ajaxy' post to update the record.
+
+                    // Reset the changes to the form.
+                    $('form').watchChanges();
+
+                    $.post("", $( "#editcontent" ).serialize() )
+                        .done(function(data) {
+                            // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': context.contenttype.singular_name}) }}";
+                            $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>');
+                            $('p.lastsaved').find('strong').text(moment().format('MMM D, HH:mm'));
+                            $('p.lastsaved').find('time').attr('datetime', moment().format());
+                            $('p.lastsaved').find('time').attr('title', moment().format());
+                            updateMoments();
+
+                            $('a#lastsavedstatus strong').html(
+                                '<i class="fa fa-circle status-' + $("#statusselect option:selected").val() + '"></i> ' +
+                                $("#statusselect option:selected").text()
+                            );
+
+                        })
+                        .fail(function(){
+                            $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': context.contenttype.singular_name }) }}');
+                        })
+                        .always(function(){
+                            // Re-enable buttons
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
+                        });
+                }
+
+            });
+
+            // To preview the page, we set the target of the form to a new URL, and open it in a new window.
+            $('#previewbutton, #sidebarpreviewbutton').bind('click', function(e){
+                e.preventDefault();
+                var newaction = "{{ paths.root }}" + "preview" + "/{{ context.contenttype.singular_slug }}";
+                $('#editcontent').attr('action', newaction).attr('target', "_blank").submit();
+                $('#editcontent').attr('action', '').attr('target', "_self");
+            });
+
+        });
+    </script>
+
+{% endblock pscrpt %}

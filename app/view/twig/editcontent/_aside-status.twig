@@ -1,0 +1,18 @@
+<p>
+    {{ __("Current (saved) status:") }}
+    <a href="#statusselect" data-action="$('#statusselect').focus();" id="lastsavedstatus" title="{{ __("Click to change current status.") }}">
+        <strong>
+            <i class="fa fa-circle status-{{ context.content.status|default(__("none")) }}"></i>
+            {{ status_names[context.content.status]|default(__("None")) }}
+        </strong>
+    </a>
+</p>
+
+<p class="lastsaved">
+    {% if context.content.id != 0 %}
+    {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong>
+    <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
+{% else %}
+    {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': context.contenttype.singular_name}) }}
+{% endif %}
+</p>

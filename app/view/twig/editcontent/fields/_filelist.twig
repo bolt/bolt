@@ -18,6 +18,12 @@
     type:      'file',
 }%}
 
+{% if context.content.get(key) is defined %}
+    {% set list_json = context.content.get(key)|json_encode() %}
+{% else %}
+    {% set list_json = '' %}
+{% endif %}
+
 {#=== BLOCKS =========================================================================================================#}
 
 {% import _self as block %}
@@ -78,7 +84,7 @@
 
         </div>
 
-        <textarea name="{{ key }}" id="{{ key }}" class="hide">{% if ctx_content.get(key) is defined %}{{ ctx_content.get(key)|json_encode() }}{% endif %}</textarea>
+        <textarea name="{{ key }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
     </div>
 
@@ -90,7 +96,7 @@
 
 <script type="text/javascript">
     $(function() {
-        if(typeof filelist == "undefined") {
+        if (typeof filelist == "undefined") {
             filelist = [];
         }
         filelist['{{ key }}'] = new FilelistHolder({id: '{{ key }}'});

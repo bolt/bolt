@@ -8,7 +8,7 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set attr_checkbox = {
-    checked:  ctx_content.get(key),
+    checked:  context.content.get(key),
     class:    option.class,
     name_id:  key,
     type:     'checkbox',

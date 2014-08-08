@@ -44,7 +44,7 @@
                     {% set is_array = (value is iterable and (value | length) > 1) %}
                     {% set attr_opt = {
                         value:     (is_array ? value[0] : value),
-                        selected:  (is_array ? (value[0] in ctx_content.get(key)) : (value in ctx_content.get(key))),
+                        selected:  (is_array ? (value[0] in context.content.get(key)) : (value in context.content.get(key))),
                     }%}
 
                     <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
@@ -71,7 +71,7 @@
                     {% set is_array = (value is iterable and (value | length) > 1) %}
                     {% set attr_opt = {
                         value:     (is_array ? value[0] : value),
-                        selected:  (ctx_content.get(key) == (is_array ? value[0] : value)),
+                        selected:  (context.content.get(key) == (is_array ? value[0] : value)),
                     }%}
 
                     <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>

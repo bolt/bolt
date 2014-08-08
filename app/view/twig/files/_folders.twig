@@ -1,0 +1,70 @@
+<table class="dashboardlisting">
+    <thead>
+        <tr>
+            <th>{{ __('Folders') }}</th>
+            <th colspan="2">{{ __('Modified') }}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for folder in context.folders %}
+            <tr>
+                <td>
+                    <a href="{{ url('files', {'path': folder.newpath, 'namespace': context.namespace}) }}">
+                        <i class="fa fa-folder-open-o"></i>
+                        <b>{{ folder.foldername }}/</b>
+                    </a>
+                </td>
+                <td>
+                    <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">
+                        {{ folder.modified }}
+                    </time>
+                </td>
+                <td class="actions">
+                    <div class="btn-group">
+                    {% if folder.writable %}
+
+                        <a class="btn dropdown-toggle btn-default btn-mini" data-toggle="dropdown">
+                            <i class="fa fa-info-circle"></i>
+                            {{ __('Options') }}
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#"
+                                   data-action="folders.rename('{{__("Please enter a new folder name")}}',
+                                                               '{{ context.namespace }}',
+                                                               '{{ context.pathsegments|keys|last }}',
+                                                               '{{ folder.foldername }}',
+                                                               this);">
+
+                                    <i class="fa fa-keyboard-o"></i>
+                                    {{ __('Rename %foldername%', { '%foldername%': folder.foldername }) }}
+                                </a>
+                                <a href="#"
+                                   class="confirm"
+                                   data-confirm="{{ __("Do you really want to delete %foldername%?",
+                                                        {'%foldername%': folder.foldername }) }}"
+                                   data-action="folders.remove('{{ context.namespace }}',
+                                                               '{{ context.pathsegments|keys|last }}',
+                                                               '{{ folder.foldername }}',
+                                                               this);">
+
+                                    <i class="fa fa-ban"></i>
+                                    {{ __('Delete %foldername%', { '%foldername%': folder.foldername }) }}
+                                </a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <a class="btn btn-default btn-mini">
+                            <i class="fa fa-exclamation-circle"></i>
+                            {{ __('Folder permissions insufficient') }}
+                        </a>
+                    {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

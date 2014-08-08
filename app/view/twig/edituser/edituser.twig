@@ -1,0 +1,27 @@
+{# Page: NavPrimary > Username ^ Profile || NavSecondary > Configuration > Users > Edit #}
+{% extends '_page.twig' %}
+{% block ptype 'Settings' %}
+{% block pmain %}
+
+    {% form_theme context.form 'form_bolt_layout.twig' %}
+
+    <h1>{{ context.title|raw }}</h1>
+
+    {% if context.description is not empty %}
+        <p style="max-width: 500px;">{{ context.description }}</p>
+    {% endif %}
+
+    <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
+        {{ form_widget(context.form) }}
+        <input type="submit" value="{{ __('Save user') }}" name="submit" class="btn btn-primary">
+    </form>
+
+    <br>
+
+    {% if context.note is not empty %}
+        <p class="alert alert-info" style="max-width: 550px;">
+            <strong>{{ __("Note:") }}</strong> {{ context.note|raw }}
+        </p>
+    {% endif %}
+
+{% endblock pmain %}

@@ -191,11 +191,11 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'ctx_latest' => $latest,
-            'ctx_suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
+            'latest' => $latest,
+            'suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
         );
 
-        return $app['render']->render('dashboard/dashboard.twig', $context);
+        return $app['render']->render('dashboard/dashboard.twig', array('context' => $context));
     }
 
 
@@ -243,9 +243,8 @@ class Backend implements ControllerProviderInterface
         if (!empty($app['users']->currentuser) && $app['users']->currentuser['enabled'] == 1) {
             return redirect('dashboard', array());
         }
-        $app['twig']->addGlobal('title', "Login");
 
-        return $app['render']->render('login.twig');
+        return $app['render']->render('login/login.twig');
     }
 
     /**
@@ -282,9 +281,12 @@ class Backend implements ControllerProviderInterface
      */
     public function dbcheck(\Bolt\Application $app)
     {
-        $output = $app['integritychecker']->checkTablesIntegrity();
+        $context = array(
+            'modifications_made' => null,
+            'modifications_required' => $app['integritychecker']->checkTablesIntegrity(),
+        );
 
-        return $app['render']->render('dbcheck.twig', array('required_modifications' => $output));
+        return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
     }
 
     /**
@@ -313,9 +315,12 @@ class Backend implements ControllerProviderInterface
 
     public function dbupdate_result(Silex\Application $app, Request $request)
     {
-        $output = json_decode($request->get('messages'));
+        $context = array(
+            'modifications_made' => json_decode($request->get('messages')),
+            'modifications_required' => null,
+        );
 
-        return $app['render']->render('dbcheck.twig', array('modifications' => $output));
+        return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
     }
 
 
@@ -335,7 +340,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('success', $output);
         }
 
-        return $app['render']->render('clearcache.twig');
+        return $app['render']->render('clearcache/clearcache.twig');
     }
 
 
@@ -361,10 +366,10 @@ class Backend implements ControllerProviderInterface
         $activity = $app['log']->getActivity(16);
 
         $context = array(
-            'ctx_activity' => $activity
+            'activity' => $activity
         );
 
-        return $app['render']->render('activity/activity.twig', $context);
+        return $app['render']->render('activity/activity.twig', array('context' => $context));
     }
 
     /**
@@ -372,8 +377,6 @@ class Backend implements ControllerProviderInterface
      */
     public function omnisearch(Silex\Application $app)
     {
-
-        $title = __('Omnisearch');
         $query = $app['request']->query->get('q', '');
         $results = array();
 
@@ -381,8 +384,12 @@ class Backend implements ControllerProviderInterface
             $results = $app['omnisearch']->query( $query, true );
         }
 
-        return $app['render']->render('omnisearch.twig', array('title' => $title, 'query' => $query, 'results' => $results));
+        $context = array(
+            'query' => $query,
+            'results' => $results
+        );
 
+        return $app['render']->render('omnisearch/omnisearch.twig', array('context' => $context));
     }
 
     /**
@@ -412,13 +419,12 @@ class Backend implements ControllerProviderInterface
             return redirect('prefill');
         }
 
-        return $app['render']->render(
-            'prefill.twig',
-            array(
-                'contenttypes' => $choices,
-                'form' => $form->createView()
-            )
+        $context = array(
+            'contenttypes' => $choices,
+            'form' => $form->createView(),
         );
+
+        return $app['render']->render('prefill/prefill.twig', array('context' => $context));
     }
 
 
@@ -460,10 +466,12 @@ class Backend implements ControllerProviderInterface
         $title = sprintf("<strong>%s</strong> » %s", __('Overview'), htmlencode($contenttype['name']));
         $app['twig']->addGlobal('title', $title);
 
-        return $app['render']->render(
-            'overview.twig',
-            array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
+        $context = array(
+            'contenttype' => $contenttype,
+            'multiplecontent' => $multiplecontent,
         );
+
+        return $app['render']->render('overview/overview.twig', array('context' => $context));
     }
 
     /**
@@ -471,50 +479,65 @@ class Backend implements ControllerProviderInterface
      */
     public function relatedto($contenttypeslug, $id, Silex\Application $app, Request $request)
     {
-        // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
-        // for Editors.
+        // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
 
             return redirect('dashboard');
         }
 
-        // Get Contenttype config from $contenttypeslug
+        $show_contenttype = null;
+
+        // Get contenttype config from $contenttypeslug
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        // Get Contenttype config from GET param ?show=pages
-        $subcontenttype = $app['storage']->getContentType($request->get('show')?$request->get('show'):'');
+        // Get relations
+        if (isset($contenttype['relations'])) {
+            $relations = $contenttype['relations'];
 
-        $order = $app['request']->query->get('order', '');
-        $filter = $app['request']->query->get('filter');
+            // Which related contenttype is to be shown?
+            // If non is selected or selection does not exist, take the first one
+            $show_slug = $request->get('show') ? $request->get('show') : null;
+            if (!isset($relations[$show_slug])) {
+                reset($relations);
+                $show_slug = key($relations);
+            }
 
-        // Set the amount of items to show per page.
-        if (!empty($contenttype['recordsperpage'])) {
-            $limit = $contenttype['recordsperpage'];
+            foreach (array_keys($relations) as $relatedslug) {
+                $relatedtype = $app['storage']->getContentType($relatedslug);
+                if ($relatedtype['slug'] == $show_slug) {
+                    $show_contenttype = $relatedtype;
+                }
+                $relations[$relatedslug] = array(
+                    'name' => __($relatedtype['name']),
+                    'active' => ($relatedtype['slug'] == $show_slug),
+                );
+            }
         } else {
-            $limit = $app['config']->get('general/recordsperpage');
+            $relations = null;
         }
 
-        // @todo: Get related Content from current Entry an return it as $multiplecontent
-        /*
-        $multiplecontent = $app['storage']->getRelation($subcontenttype['slug']);
+        // TODO: Set the amount of items to show per page.
+        //if (empty($contenttype['recordsperpage'])) {
+        //    $limit = $app['config']->get('general/recordsperpage');
+        //} else {
+        //    $limit = $contenttype['recordsperpage'];
+        //}
 
-        $multiplecontent = $app['storage']->getContent($subcontenttype['slug'],
-            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter));
-        */
+        $content = $app['storage']->getContent($contenttypeslug, array('id' => $id));
+        $related_content = $content->related($show_contenttype['slug']);
 
-        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
-
-        // @todo Do we need pager here?
-        $app['pager'] = $pager;
-
-        $title = sprintf("%s » %s » %s", __('Related content'), __($contenttype['singular_name']) , $content['title']);
-        $app['twig']->addGlobal('title', $title);
-
-        return $app['twig']->render('relatedto.twig',
-            array('contenttype' => $contenttype, 'content' => $content, 'id' => $id, 'subcontenttype' => $subcontenttype)
+        $context = array(
+            'id' => $id,
+            'name' => __($contenttype['singular_name']),
+            'title' => $content['title'],
+            'contenttype' => $contenttype,
+            'relations' => $relations,
+            'show_contenttype' => $show_contenttype,
+            'related_content' => $related_content,
         );
 
+        return $app['twig']->render('relatedto/relatedto.twig', array('context' => $context));
     }
 
     public function changelogList($contenttype, $contentid, Silex\Application $app, Request $request)
@@ -557,7 +580,8 @@ class Backend implements ControllerProviderInterface
             // This is easy:
             $title = __('All content types');
             $logEntries = $app['storage']->getChangelog($options);
-            $itemcount = $app['storage']->countChangelog($options);
+            // @todo: Unused in template. Leave it in for now
+            //$itemcount = $app['storage']->countChangelog($options);
         } else {
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $app['storage']->getContentType($contenttype);
@@ -567,7 +591,8 @@ class Backend implements ControllerProviderInterface
             }
             // Getting a slice of data and the total count
             $logEntries = $app['storage']->getChangelogByContentType($contenttype, $options);
-            $itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
+            // @todo: Unused in template. Leave it in for now
+            //$itemcount = $app['storage']->countChangelogByContentType($contenttype, $options);
 
             // The page title we're sending to the template depends on a few
             // things: if no contentid is given, we'll use the plural form
@@ -600,24 +625,19 @@ class Backend implements ControllerProviderInterface
         // now.
         // Note that if either $limit or $pagecount is empty, the template will
         // skip rendering the pager.
-        if ($limit) {
-            $pagecount = ceil($itemcount / $limit);
-        } else {
-            $pagecount = null;
-        }
+        $pagecount = $limit ? ceil($itemcount / $limit) : null;
 
-        $renderVars = array(
+        $context = array(
             'contenttype' => $contenttype,
             'entries' => $logEntries,
             'content' => $content,
             'title' => $title,
-            'itemcount' => $itemcount,
-            'pagecount' => $pagecount,
             'currentpage' => $page,
-            );
+            'pagecount' => $pagecount,
+            //'itemcount' => $itemcount,
+        );
 
-
-        return $app['render']->render('changeloglist.twig', $renderVars);
+        return $app['render']->render('changeloglist/changeloglist.twig', array('context' => $context));
     }
 
     public function changelogDetails($contenttype, $contentid, $id, Silex\Application $app, Request $request)
@@ -629,16 +649,18 @@ class Backend implements ControllerProviderInterface
         }
         $prev = $app['storage']->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $app['storage']->getNextChangelogEntry($contenttype, $contentid, $id);
-        $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
-        $renderVars = array(
+        // @todo: Unused in template. Leave it in for now
+        //$content = $app['storage']->getContent($contenttype, array('id' => $contentid));
+
+        $context = array(
             'contenttype' => $contenttype,
             'entry' => $entry,
-            'nextEntry' => $next,
-            'prevEntry' => $prev,
-            'content' => $content,
-            );
+            'next_entry' => $next,
+            'prev_entry' => $prev,
+            //'content' => $content,
+        );
 
-        return $app['render']->render('changelogdetails.twig', $renderVars);
+        return $app['render']->render('changelogdetails/changelogdetails.twig', array('context' => $context));
     }
 
     /**
@@ -812,8 +834,6 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        $app['twig']->addGlobal('title', $title);
-
         $duplicate = $app['request']->query->get('duplicate');
         if (!empty($duplicate)) {
             $content->setValue('id', "");
@@ -828,23 +848,23 @@ class Backend implements ControllerProviderInterface
         }
 
         // Set the users and the current owner of this content.
-        // For brand-new items, the creator becomes the owner.
-        // For existing items, we'll just keep the current owner.
         if (empty($id)) {
-            // A new one!
+            // For brand-new items, the creator becomes the owner.
             $contentowner = $app['users']->getCurrentUser();
         } else {
+            // For existing items, we'll just keep the current owner.
             $contentowner = $app['users']->getUser($content['ownerid']);
         }
 
         $context = array(
-            'ctx_contenttype' => $contenttype,
-            'ctx_content' => $content,
-            'ctx_allowedStatuses' => $allowedStatuses,
-            'ctx_contentowner' => $contentowner,
+            'title' => $title,
+            'contenttype' => $contenttype,
+            'content' => $content,
+            'allowed_status' => $allowedStatuses,
+            'contentowner' => $contentowner,
         );
 
-        return $app['render']->render('editcontent/editcontent.twig', $context);
+        return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));
     }
 
     /**
@@ -948,10 +968,12 @@ class Backend implements ControllerProviderInterface
         $users = $app['users']->getUsers();
         $sessions = $app['users']->getActiveSessions();
 
-        return $app['render']->render(
-            'users.twig',
-            array('users' => $users, 'sessions' => $sessions)
+        $context = array(
+            'users' => $users,
+            'sessions' => $sessions
         );
+
+        return $app['render']->render('users/users.twig', array('context' => $context));
     }
 
     public function roles(\Bolt\Application $app)
@@ -967,13 +989,12 @@ class Backend implements ControllerProviderInterface
         }
         $globalPermissions = $app['permissions']->getGlobalRoles();
 
-        return $app['twig']->render(
-            'roles.twig',
-            array(
-                'effectivePermissions' => $effectivePermissions,
-                'globalPermissions' => $globalPermissions,
-            )
+        $context = array(
+            'effective_permissions' => $effectivePermissions,
+            'global_permissions' => $globalPermissions,
         );
+
+        return $app['twig']->render('roles/roles.twig', array('context' => $context));
     }
 
     public function useredit($id, \Bolt\Application $app, Request $request)
@@ -1006,7 +1027,7 @@ class Backend implements ControllerProviderInterface
         // a user that's allowed to log on.
         if (!$app['users']->getUsers()) {
             $firstuser = true;
-            $title = __('Create the first user');
+            $title = '';
             $description = __('There are no users present in the system. Please create the first user, which will be granted root privileges.');
 
             // Add a note, if we're setting up the first user using SQLite..
@@ -1174,13 +1195,15 @@ class Backend implements ControllerProviderInterface
 
         }
 
-        return $app['render']->render('edituser.twig', array(
+        $template = $firstuser ? 'firstuser/firstuser.twig' : 'edituser/edituser.twig';
+        $context = array(
             'form' => $form->createView(),
             'title' => $title,
             'note' => $note,
-            'description' => $description
-        ));
+            'description' => $description,
+        );
 
+        return $app['render']->render($template, array('context' => $context));
     }
 
     public function profile(\Bolt\Application $app, Request $request)
@@ -1274,13 +1297,14 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            'edituser.twig',
-            array(
-                'form' => $form->createView(),
-                'title' => $title
-            )
+        $context = array(
+            'form' => $form->createView(),
+            'title' => $title,
+            'note' => '',
+            'description' => '',
         );
+
+        return $app['render']->render('edituser.twig', array('context' => $context));
     }
 
     /**
@@ -1353,11 +1377,11 @@ class Backend implements ControllerProviderInterface
      */
     public function extensions(Silex\Application $app)
     {
-        $title = "Extensions";
+        $context = array(
+            'extensions' => $app['extensions']->getInfo(),
+        );
 
-        $extensions = $app['extensions']->getInfo();
-
-        return $app['render']->render('extensions.twig', array('extensions' => $extensions, 'title' => $title));
+        return $app['render']->render('extensions/extensions.twig', array('context' => $context));
     }
 
     public function files($namespace, $path, Silex\Application $app, Request $request)
@@ -1366,7 +1390,7 @@ class Backend implements ControllerProviderInterface
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
 
-        if (! $app['filepermissions']->authorized($fullPath)) {
+        if (!$app['filepermissions']->authorized($fullPath)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
         }
@@ -1379,11 +1403,9 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
-
         }
 
         if ($validFolder) {
-
             // Define the "Upload here" form.
             $form = $app['form.factory']
                 ->createBuilder('form')
@@ -1450,17 +1472,6 @@ class Backend implements ControllerProviderInterface
 
         list($files, $folders) = $filesystem->browse($path, $app);
 
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $namespace."/".$path)));
-
-
-        // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
-        // from CKeditor to insert a file..
-        if (!$request->query->has('CKEditor')) {
-            $twig = 'files.twig';
-        } else {
-            $twig = 'files_ck.twig';
-        }
-
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
         $cumulative = "";
@@ -1471,17 +1482,24 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            $twig,
-            array(
-                'path' => $path,
-                'files' => $files,
-                'folders' => $folders,
-                'pathsegments' => $pathsegments,
-                'form' => $formview,
-                'namespace' => $namespace
-            )
+        // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
+        // from CKeditor to insert a file..
+        if (!$request->query->has('CKEditor')) {
+            $twig = 'files/files.twig';
+        } else {
+            $twig = 'files_ck/files_ck.twig';
+        }
+
+        $context = array(
+            'path' => $path,
+            'files' => $files,
+            'folders' => $folders,
+            'pathsegments' => $pathsegments,
+            'form' => $formview,
+            'namespace' => $namespace,
         );
+
+        return $app['render']->render($twig, array('context' => $context));
     }
 
     public function fileedit($namespace, $file, Silex\Application $app, Request $request)
@@ -1590,17 +1608,16 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            'editconfig.twig',
-            array(
-                'form' => $form->createView(),
-                'title' => $title,
-                'filetype' => $type,
-                'file' => $file,
-                'pathsegments' => $pathsegments,
-                'writeallowed' => $writeallowed
-            )
+        $context = array(
+            'title' => $title,
+            'form' => $form->createView(),
+            'filetype' => $type,
+            'file' => $file,
+            'pathsegments' => $pathsegments,
+            'write_allowed' => $writeallowed
         );
+
+        return $app['render']->render('editfile/editfile.twig', array('context' => $context));
     }
 
     /**
@@ -1748,15 +1765,14 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            'editlocale.twig',
-            array(
-                'form' => $form->createView(),
-                'title' => $title,
-                'filetype' => $type,
-                'writeallowed' => $writeallowed
-            )
+        $context = array(
+            'form' => $form->createView(),
+            'title' => $title,
+            'filetype' => $type,
+            'write_allowed' => $writeallowed
         );
+
+        return $app['render']->render('editlocale/editlocale.twig', array('context' => $context));
     }
 
     /**

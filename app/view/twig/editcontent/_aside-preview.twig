@@ -1,0 +1,20 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
+        <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+    </button>
+
+    {% if context.content.status == "published" and context.content.link is defined %}
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+
+        <ul class="dropdown-menu pull-right" role="menu">
+            <li>
+                <a href="{{ context.content.link }}" target="_blank">
+                    <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+</div>

@@ -1,0 +1,46 @@
+{# Page: ??? #}
+{% extends '_page.twig' %}
+{% block ptype 'Standard' %}
+{% block pmain %}
+
+    <div class="row">
+        <div class="col-md-8">
+
+            <h1><strong>{{ __('Global Permissions') }}</strong></h1>
+
+            {% for permissionName, roles in context.global_permissions %}
+                <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 7em">
+                    <dt>{{ permissionName }}:</dt>
+                    <dt style="font-weight: normal">
+                        <ul>
+                            {% for role in roles %}
+                                <li>{{ role }}</li>
+                            {% endfor %}
+                        </ul>
+                    </dt>
+                </dl>
+            {% endfor %}
+
+            <h1><strong>{{ __('Content Type Permissions') }}</strong></h1>
+
+            {% for contenttype, permissions in context.effective_permissions %}
+                <div>
+                    <h3>{{ contenttype }}</h3>
+                    {% for permissionName, roles in permissions %}
+                        <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 7em">
+                            <dt>{{ permissionName }}:</dt>
+                            <dt style="font-weight: normal">
+                                <ul>
+                                    {% for role in roles %}
+                                        <li>{{ role }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </dt>
+                        </dl>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock pmain %}
