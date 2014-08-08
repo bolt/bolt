@@ -320,17 +320,4 @@ class Controller
         return $this->json($app, $request, array('status' => 'OK'), 200);
     }
 
-    /**
-     * Simple function to format the HTML for a button.
-     */
-    private function formatButton($link, $label)
-    {
-        $button = $this->config['button_markup'];
-
-        $button = str_replace("%link%", $this->app['paths']['root'] . $link, $button);
-        $button = str_replace("%label%", $label, $button);
-
-        return $button;
-    }
-
 }
