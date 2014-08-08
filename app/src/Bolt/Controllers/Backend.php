@@ -466,10 +466,12 @@ class Backend implements ControllerProviderInterface
         $title = sprintf("<strong>%s</strong> » %s", __('Overview'), htmlencode($contenttype['name']));
         $app['twig']->addGlobal('title', $title);
 
-        return $app['render']->render(
-            'overview.twig',
-            array('contenttype' => $contenttype, 'multiplecontent' => $multiplecontent)
+        $context = array(
+            'contenttype' => $contenttype,
+            'multiplecontent' => $multiplecontent,
         );
+
+        return $app['render']->render('overview/overview.twig', array('context' => $context));
     }
 
     /**

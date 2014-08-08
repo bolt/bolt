@@ -1,0 +1,28 @@
+{# Page: NavSecondary > Content ... > #}
+{% extends "_page.twig" %}
+{% block ptype 'Content' %}
+{% block pmain %}
+
+{% from '_editable_record_list.twig' import editable_record_list as list %}
+
+<div class="row">
+
+    <div class="col-sx-12">
+        <h1 class="page-header">{{ title|raw }}
+            {% set pager_ct = pager[context.contenttype.slug]|default %}
+            {% if pager_ct and pager_ct.totalpages > 1 %}
+                <span>{{ __('Showing') }} {{ pager_ct.showing_from }} - {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}</span>
+            {%endif %}
+        </h1>
+    </div>
+
+    <div class="col-md-9">
+        {{ list(context.contenttype, context.contenttype, context.multiplecontent, 'table table-striped') }}
+    </div>
+
+    <aside class="col-md-3">
+        {% include 'dashboard/_aside.twig' %}
+    </aside>
+</div>
+
+{% endblock pmain %}
