@@ -417,17 +417,16 @@ class Async implements ControllerProviderInterface
 
         list($files, $folders) = $filesystem->browse($path, $app);
 
-        return $app['render']->render(
-            'files_async.twig',
-            array(
-                'namespace' => $namespace,
-                'path' => $path,
-                'files' => $files,
-                'folders' => $folders,
-                'pathsegments' => $pathsegments,
-                'key' => $key
-            )
+        $context = array(
+            'namespace' => $namespace,
+            //'path' => $path, Unused?!
+            'files' => $files,
+            'folders' => $folders,
+            'pathsegments' => $pathsegments,
+            'key' => $key
         );
+
+        return $app['render']->render('files_async/files_async.twig', array('context' => $context));
     }
 
 
