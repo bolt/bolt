@@ -50,16 +50,38 @@ class Controller
             $this->current_visitor['apptoken'] = $visitor->check_app_token();
 
             // Guess the 'avatar' image from the present data.
-            $profile = unserialize($this->current_visitor['providerdata']);
+            $profile = $this->current_visitor['providerdata'];
 
             if (!empty($profile->photoURL)) {
                 $this->current_visitor['avatar'] = $profile->photoURL;
+            }
+
+            // Add frontend role if set up
+            if (isset($this->config['role'])) {
+                $this->setvisitorrole();
             }
         }
 
         return $this->current_visitor;
     }
 
+    /**
+     * Set configured frontend role.  Should match one from permissions.yml
+     */
+    private function setvisitorrole() {
+        // Safe-guard against the 'root' role being applied
+        if ($this->config['role'] == 'root') {
+            return;
+        }
+
+        if (empty($this->app['users']->currentuser)) {
+            $this->app['users']->currentuser = array('roles' => array(
+                $this->config['role'],
+                'everyone'));
+        } else {
+            array_push($this->app['users']->currentuser['roles'], $this->config['role']);
+        }
+    }
 
     private function load_hybrid_auth()
     {
@@ -96,8 +118,7 @@ class Controller
                 // get the type early - because we might need to enable it
                 if (isset($this->config['providers'][$provider]['type'])) {
                     $providertype = $this->config['providers'][$provider]['type'];
-                }
-                else {
+                } else {
                     $providertype = $provider;
                 }
 
@@ -143,8 +164,7 @@ class Controller
                     return redirect('homepage');
                 }
 
-            }
-            catch( Exception $e ){
+            } catch(Exception $e) {
                 echo "Error: please try again!";
                 echo "Original error message: " . $e->getMessage();
             }
@@ -161,17 +181,19 @@ class Controller
      */
     public function showvisitorlogin(Silex\Application $app = null)
     {
-
-        $buttons = array();
+        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
+        $template = $this->config['template']['buttons'];
 
         foreach($this->config['providers'] as $provider => $values) {
-            if($values['enabled']==true) {
-                $label = !empty($values['label'])?$values['label']:$provider;
-                $buttons[] = $this->formatButton($this->config['basepath'].'/login?provider='. $provider, $label);
+            if($values['enabled'] == true) {
+                $context = array(
+                               'label' => !empty($values['label']) ? $values['label'] : $provider,
+                               'link' => $this->app['paths']['root'] . $this->config['basepath'].'/login?provider='. $provider
+                           );
+
+                $markup .= $this->app['render']->render($template, $context);
             }
         }
-
-        $markup = join("\n", $buttons);
 
         return new \Twig_Markup($markup, 'UTF-8');
     }
@@ -181,9 +203,17 @@ class Controller
      */
     public function showvisitorlogout($label = "Logout")
     {
-        $logoutlink = $this->formatButton($this->config['basepath'].'/logout', $label);
+        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
+        $template = $this->config['template']['buttons'];
 
-        return new \Twig_Markup($logoutlink, 'UTF-8');
+        $context = array(
+                        'label' => $label,
+                        'link' => $this->app['paths']['root'] . $this->config['basepath'].'/logout'
+                    );
+
+        $markup = $this->app['render']->render($template, $context);
+
+        return new \Twig_Markup($markup, 'UTF-8');
     }
 
     /**
@@ -197,10 +227,10 @@ class Controller
 
         $recognizedvisitor = $this->checkvisitor($app);
         if($recognizedvisitor) {
-            $visitor_profile = unserialize($recognizedvisitor['providerdata']);
+            $visitor_profile = $recognizedvisitor['providerdata'];
 
             $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
-            $template = '_profile.twig';
+            $template = $this->config['template']['profile'];
             $context = array(
                            'profile' => $visitor_profile,
                            'visitor' => $recognizedvisitor
@@ -248,13 +278,14 @@ class Controller
      *
      * View the current visitor
      */
-    public function view(Silex\Application $app, Request $request) {
+    public function view(Silex\Application $app, Request $request)
+    {
         $markup = '';
 
         // login the visitor
         $recognizedvisitor = $this->checkvisitor($app);
 
-        if($recognizedvisitor) {
+        if ($recognizedvisitor) {
             $title = $recognizedvisitor['username'];
             $markup = $this->showvisitorprofile();
         } else {
@@ -311,18 +342,4 @@ class Controller
         return $this->json($app, $request, array('status' => 'OK'), 200);
     }
 
-    /**
-     * Simple function to format the HTML for a button.
-     */
-    private function formatButton($link, $label)
-    {
-        $button = $this->config['button_markup'];
-
-        $button = str_replace("%link%", $this->app['paths']['root'] . $link, $button);
-        $button = str_replace("%label%", $label, $button);
-
-        return $button;
-    }
-
 }
-

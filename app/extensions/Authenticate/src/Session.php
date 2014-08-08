@@ -74,37 +74,37 @@ class Session
         return $token;
     }
 
-	// load visitor session
-	public function load($token = null)
+    // load visitor session
+    public function load($token = null)
     {
         if($token) {
-            $sql = "SELECT * from " . $this->prefix ."visitors_sessions WHERE sessiontoken = :token";
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindValue("token", $token);
-            $stmt->execute();
+            $table = $this->prefix . 'visitors_sessions';
+            $query = "SELECT * from $table WHERE sessiontoken = :token";
+            $map = array(':token' => $token);
 
-            $all = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $all = $this->db->fetchAll($query, $map);
+
             return array_shift($all);
         } else {
            return false;
         }
-	}
+    }
 
-	// update existing visitor session
-	public function update($token = null)
+    // update existing visitor session
+    public function update($token = null)
     {
         if($token) {
-            $tablename =  $this->prefix ."visitors_sessions";
+            $tablename =  $this->prefix . "visitors_sessions";
             $content = array(
                 'visitor_id' =>  $visitor_id,
                 'lastseen' => date('Y-m-d H:i:s', $_SERVER["REQUEST_TIME"])
             );
             return $this->db->update($tablename, $content, array('sessiontoken' => $token));
         }
-	}
+    }
 
-	// destroy visitor session (logout)
-	public function clear($token = null)
+    // destroy visitor session (logout)
+    public function clear($token = null)
     {
         if($token) {
             // delete current session from storage
@@ -113,10 +113,10 @@ class Session
             // reset session token
             $this->session->set('visitortoken', null);
         }
-	}
+    }
 
-	// destroy all visitor sessions
-	public function clear_all($visitor_id = null)
+    // destroy all visitor sessions
+    public function clear_all($visitor_id = null)
     {
         if($visitor_id) {
             // delete all visitor sessions from storage
@@ -125,21 +125,21 @@ class Session
             // reset session token
             $this->session->set('visitortoken', null);
         }
-	}
+    }
 
     // destroy all old sessions
     public function clear_old()
     {
         // delete all old sessions from storage
-        $sql = "DELETE FROM " . $this->prefix ."visitors_sessions WHERE lastseen <= :toooldtime";
+        $sql = "DELETE FROM " . $this->prefix . "visitors_sessions WHERE lastseen <= :toooldtime";
         $stmt = $this->db->prepare($sql);
         $days14 = date('Y-m-d H:i:s', ($_SERVER["REQUEST_TIME"] - (60*60*24*14)));
         $stmt->bindValue("toooldtime", $days14); // 14 days ago
         $stmt->execute();
     }
 
-	// create new session token - should be reasonably unique
-	public function token($key = null)
+    // create new session token - should be reasonably unique
+    public function token($key = null)
     {
         if(!$key) {
             $seed = $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $_SERVER["REQUEST_TIME"];
@@ -147,6 +147,6 @@ class Session
             $seed = $_SERVER['REMOTE_ADDR'] . $key . $_SERVER["REQUEST_TIME"];
         }
         return md5($seed);
-	}
+    }
 
 }
