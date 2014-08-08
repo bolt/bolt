@@ -59,14 +59,6 @@
     margin-bottom: 0px;
 }
 
-.dashboardlisting tr:first-child {
-    border-top: 1px solid #E7E7E7;
-}
-
-.dashboardlisting tr:nth-child(odd) {
-    background-color: #F3F3ED; /* #F2F2EC; */
-}
-
 .dashboardlisting tr.dim td.id,
 .dashboardlisting tr.dim td.excerpt,
 .dashboardlisting tr.dim td.listthumb,
@@ -83,7 +75,7 @@
 }
 
 .dashboardlisting td {
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: 1px solid $table-border-color;
     font-size: 13px;
 }
 

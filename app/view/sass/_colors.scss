@@ -9,7 +9,7 @@ $boltblue: #204460;
 $boltbluedarker: darken($boltblue, 5);
 $boltbluelighter: lighten($boltblue, 5);
 
-$basebgcolour: #FDFDF5;
+$basebgcolour: #FDFDF9;
 $bodytextcolour: #333;
 
 $linkmain: lighten(saturate($boltblue, 100), 4);
@@ -64,7 +64,12 @@ $dropdown-link-hover-bg: #E8E8E8;
 
 // Sidebar panel headings.
 $panel-default-heading-bg: #DDD; 
-$panel-default-border: #BBB;
+$panel-default-border: #E2E2E2;
+$panel-border-radius: 0;
+
+// Table border color: mostly used for the contenttype 'overviews'
+$table-border-color: #CCC;
+$table-bg-accent: #F6F6F9;
 
 // Width of the gutter in the grid. Bit wider than default, because whitespace is free.
 $grid-gutter-width: 40px;
