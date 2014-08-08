@@ -78,12 +78,12 @@ class Session
     public function load($token = null)
     {
         if($token) {
-            $sql = "SELECT * from " . $this->prefix ."visitors_sessions WHERE sessiontoken = :token";
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindValue("token", $token);
-            $stmt->execute();
+            $table = $this->prefix . 'visitors_sessions';
+            $query = "SELECT * from $table WHERE sessiontoken = :token";
+            $map = array(':token' => $token);
 
-            $all = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $all = $this->db->fetchAll($query, $map);
+
             return array_shift($all);
         } else {
            return false;
