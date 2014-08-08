@@ -10,8 +10,11 @@
                            type="button" data-toggle="modal" >{{ __('View Readme') }}</a>
                     {% endif %}
                     {% if extension.config is defined %}
-                        <a href="{{ path('fileedit', { 'file': extension.config } ) }}" class="btn btn-default btn-xs"
-                               type="button">{% if extension.config_writable %}{{ __('Edit Config') }}{% else %}{{ __('View Config') }}{% endif %}</a>
+                        {% for cnf in extension.config %}
+                            <a href="{{ path('fileedit', { 'file': cnf.file }) }}" class="btn btn-default btn-xs" type="button">
+                                {% if cnf.writable %}{{ __('Edit Config') }}{% else %}{{ __('View Config') }}{% endif %}
+                            </a>
+                        {% endfor %}
                     {% endif %}
                 </div>
             </h3>
