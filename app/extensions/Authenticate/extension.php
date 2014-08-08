@@ -50,6 +50,10 @@ class Extension extends \Bolt\BaseExtension
             $this->config['template']['profile'] = "_profile.twig";
         }
 
+        if (! isset($this->config['template']['buttons']) || empty($this->config['template']['buttons'])) {
+            $this->config['template']['buttons'] = "_buttons.twig";
+        }
+
         # apparently "A set of identifiers that identify a setting in the listing". Ok, whatever, HybridAuth.
         $this->config['identifier'] = "key";
 

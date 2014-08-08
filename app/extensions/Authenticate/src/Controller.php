@@ -159,17 +159,19 @@ class Controller
      */
     public function showvisitorlogin(Silex\Application $app = null)
     {
-
-        $buttons = array();
+        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
+        $template = $this->config['template']['buttons'];
 
         foreach($this->config['providers'] as $provider => $values) {
-            if($values['enabled']==true) {
-                $label = !empty($values['label'])?$values['label']:$provider;
-                $buttons[] = $this->formatButton($this->config['basepath'].'/login?provider='. $provider, $label);
+            if($values['enabled'] == true) {
+                $context = array(
+                               'label' => !empty($values['label']) ? $values['label'] : $provider,
+                               'link' => $this->app['paths']['root'] . $this->config['basepath'].'/login?provider='. $provider
+                           );
+
+                $markup .= $this->app['render']->render($template, $context);
             }
         }
-
-        $markup = join("\n", $buttons);
 
         return new \Twig_Markup($markup, 'UTF-8');
     }
@@ -179,9 +181,17 @@ class Controller
      */
     public function showvisitorlogout($label = "Logout")
     {
-        $logoutlink = $this->formatButton($this->config['basepath'].'/logout', $label);
+        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
+        $template = $this->config['template']['buttons'];
 
-        return new \Twig_Markup($logoutlink, 'UTF-8');
+        $context = array(
+                        'label' => $label,
+                        'link' => $this->app['paths']['root'] . $this->config['basepath'].'/logout'
+                    );
+
+        $markup = $this->app['render']->render($template, $context);
+
+        return new \Twig_Markup($markup, 'UTF-8');
     }
 
     /**
