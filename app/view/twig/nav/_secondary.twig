@@ -124,7 +124,7 @@
             
             <hr class="sidebar">
             {# Link to Extend Bolt  #}
-            <li class="{% if active in ['', 'extend'] %}active {% endif %}">
+            <li class="{% if page_active in ['extend'] %}active {% endif %}">
                 <a href="{{ path('extend') }}">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
