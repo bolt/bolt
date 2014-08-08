@@ -1390,7 +1390,7 @@ class Backend implements ControllerProviderInterface
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
 
-        if (! $app['filepermissions']->authorized($fullPath)) {
+        if (!$app['filepermissions']->authorized($fullPath)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
         }
@@ -1403,11 +1403,9 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
-
         }
 
         if ($validFolder) {
-
             // Define the "Upload here" form.
             $form = $app['form.factory']
                 ->createBuilder('form')
@@ -1474,17 +1472,6 @@ class Backend implements ControllerProviderInterface
 
         list($files, $folders) = $filesystem->browse($path, $app);
 
-        $app['twig']->addGlobal('title', __("Files in %s", array('%s' => $namespace."/".$path)));
-
-
-        // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
-        // from CKeditor to insert a file..
-        if (!$request->query->has('CKEditor')) {
-            $twig = 'files.twig';
-        } else {
-            $twig = 'files_ck.twig';
-        }
-
         // Get the pathsegments, so we can show the path as breadcrumb navigation..
         $pathsegments = array();
         $cumulative = "";
@@ -1495,17 +1482,24 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return $app['render']->render(
-            $twig,
-            array(
-                'path' => $path,
-                'files' => $files,
-                'folders' => $folders,
-                'pathsegments' => $pathsegments,
-                'form' => $formview,
-                'namespace' => $namespace
-            )
+        // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
+        // from CKeditor to insert a file..
+        if (!$request->query->has('CKEditor')) {
+            $twig = 'files/files.twig';
+        } else {
+            $twig = 'files_ck/files_ck.twig';
+        }
+
+        $context = array(
+            'path' => $path,
+            'files' => $files,
+            'folders' => $folders,
+            'pathsegments' => $pathsegments,
+            'form' => $formview,
+            'namespace' => $namespace,
         );
+
+        return $app['render']->render($twig, array('context' => $context));
     }
 
     public function fileedit($namespace, $file, Silex\Application $app, Request $request)

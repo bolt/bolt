@@ -1,0 +1,37 @@
+<table class="dashboardlisting">
+    <thead>
+        <tr>
+            <th>{{ __('Files') }}</th>
+            <th>{{ __('Filesize') }}</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for file in context.files %}
+            {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
+                <tr>
+                    <td>
+                        {% if file.readable %}
+                            <a class="filebrowserCallbackLink" href="{{ file.url }}">
+                                <b>{{ file.filename|trimtext(40) }}</b>
+                            </a>
+                        {% else %}
+                            <b>{{ file.filename|trimtext(40) }} </b><i class="fa fa-lock"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ file.filesize }}.</td>
+                    <td>{% if file.imagesize is defined %}{{ file.imagesize }} {{ __('px.') }}{% endif %}</td>
+                    <td class='listthumb'>
+                        {{file.newpath|showimage(54, 40, 'c')}}
+                    </td>
+                    <td>
+                        <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-mini magnifig" title="Image: {{ file.filename }}">{{ __('Preview') }}</a>
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
