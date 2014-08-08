@@ -181,19 +181,19 @@ class Controller
      */
     public function showvisitorlogin(Silex\Application $app = null)
     {
-        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
-        $template = $this->config['template']['buttons'];
+
+        $buttons = array();
 
         foreach($this->config['providers'] as $provider => $values) {
-            if($values['enabled'] == true) {
-                $context = array(
-                               'label' => !empty($values['label']) ? $values['label'] : $provider,
-                               'link' => $this->app['paths']['root'] . $this->config['basepath'].'/login?provider='. $provider
-                           );
-
-                $markup .= $this->app['render']->render($template, $context);
+            if($values['enabled']==true) {
+                $label = !empty($values['label'])?$values['label']:$provider;
+                $buttons[] = $this->formatButton(
+                    $this->app['paths']['root'] . $this->config['basepath']. '/login?provider='. $provider,
+                    $label);
             }
         }
+
+        $markup = join("\n", $buttons);
 
         return new \Twig_Markup($markup, 'UTF-8');
     }
@@ -203,17 +203,11 @@ class Controller
      */
     public function showvisitorlogout($label = "Logout")
     {
-        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
-        $template = $this->config['template']['buttons'];
+        $logoutlink = $this->formatButton(
+            $this->app['paths']['root'] . $this->config['basepath'].'/logout',
+            $label);
 
-        $context = array(
-                        'label' => $label,
-                        'link' => $this->app['paths']['root'] . $this->config['basepath'].'/logout'
-                    );
-
-        $markup = $this->app['render']->render($template, $context);
-
-        return new \Twig_Markup($markup, 'UTF-8');
+        return new \Twig_Markup($logoutlink, 'UTF-8');
     }
 
     /**
@@ -342,4 +336,21 @@ class Controller
         return $this->json($app, $request, array('status' => 'OK'), 200);
     }
 
+    /**
+     * Simple function to format the HTML for a button. 
+     */
+    private function formatButton($link, $label) 
+    {
+        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
+        $template = $this->config['template']['button'];
+        $context = array(
+                       'link' => $link,
+                       'label' => $label,
+                       'class' => strtolower(safeString($label))
+                   );
+
+        $markup = $this->app['render']->render($template, $context);
+
+        return new \Twig_Markup($markup, 'UTF-8');
+    }
 }
