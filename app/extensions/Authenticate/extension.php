@@ -21,12 +21,12 @@ class Extension extends \Bolt\BaseExtension
             'name' => "Authenticate",
             'description' => "An extension to authenticate visitors on your Boltsite",
             'author' => "TwoKings (Lodewijk Evers, Tobias Dammers, Bob den Otter)",
-            'version' => "1.0.3",
+            'version' => "1.0.4",
             'required_bolt_version' => "1.5.0",
             'highest_bolt_version' => "1.6.10",
             'type' => "General",
             'first_releasedate' => "2014-02-11",
-            'latest_releasedate' => "2014-08-7",
+            'latest_releasedate' => "2014-08-8",
         );
 
         return $data;
@@ -51,7 +51,7 @@ class Extension extends \Bolt\BaseExtension
         }
 
         if (! isset($this->config['template']['buttons']) || empty($this->config['template']['buttons'])) {
-            $this->config['template']['buttons'] = "_buttons.twig";
+            $this->config['template']['button'] = "_button.twig";
         }
 
         # apparently "A set of identifiers that identify a setting in the listing". Ok, whatever, HybridAuth.

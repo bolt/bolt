@@ -103,8 +103,14 @@ class Controller
         $recognizedvisitor = $this->checkvisitor($app);
         if($recognizedvisitor) {
             // already logged in - show the account
-            return redirect('homepage');
-            exit;
+            $returnpage = $app['request']->headers->get('referer');
+            $returnpage = str_replace($app['paths']['hosturl'], '', $returnpage);
+            if($returnpage) {
+                simpleredirect($returnpage);
+                exit;
+            } else {
+                return redirect('homepage');
+            }
         }
 
         $provider = isset($_GET['provider']) ? $_GET['provider'] : false;
@@ -129,15 +135,15 @@ class Controller
 
                 // initialize the authentication with the modified config
                 $hybridauth = new \Hybrid_Auth($this->config);
-
+                $provideroptions = array();
                 if($providertype=='OpenID' && !empty($this->config['providers'][$provider]['openid_identifier'])) {
                     // try to authenticate with the selected OpenID provider
                     $providerurl = $this->config['providers'][$provider]['openid_identifier'];
-                    $adapter = $hybridauth->authenticate( $providertype, array("openid_identifier" => $providerurl));
-                } else {
-                    // try to authenticate with the selected provider
-                    $adapter = $hybridauth->authenticate( $providertype );
+                    $provideroptions["openid_identifier"] = $providerurl;
                 }
+                // try to authenticate with the selected provider
+                $adapter = $hybridauth->authenticate($providertype, $provideroptions);
+
                 // then grab the user profile
                 $user_profile = $adapter->getUserProfile();
 
@@ -160,8 +166,15 @@ class Controller
 
                     $session = new Session($app);
                     $token = $session->login($known_visitor['id']);
+                    $returnpage = $app['request']->headers->get('referer');
+                    $returnpage = str_replace($app['paths']['hosturl'], '', $returnpage);
 
-                    return redirect('homepage');
+                    if($returnpage) {
+                        simpleredirect($returnpage);
+                        exit;
+                    } else {
+                       return redirect('homepage');
+                    }
                 }
 
             } catch(Exception $e) {
@@ -181,19 +194,19 @@ class Controller
      */
     public function showvisitorlogin(Silex\Application $app = null)
     {
-        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
-        $template = $this->config['template']['buttons'];
+
+        $buttons = array();
 
         foreach($this->config['providers'] as $provider => $values) {
-            if($values['enabled'] == true) {
-                $context = array(
-                               'label' => !empty($values['label']) ? $values['label'] : $provider,
-                               'link' => $this->app['paths']['root'] . $this->config['basepath'].'/login?provider='. $provider
-                           );
-
-                $markup .= $this->app['render']->render($template, $context);
+            if($values['enabled']==true) {
+                $label = !empty($values['label'])?$values['label']:$provider;
+                $buttons[] = $this->formatButton(
+                    $this->app['paths']['root'] . $this->config['basepath']. '/login?provider='. $provider,
+                    $label);
             }
         }
+
+        $markup = join("\n", $buttons);
 
         return new \Twig_Markup($markup, 'UTF-8');
     }
@@ -203,17 +216,11 @@ class Controller
      */
     public function showvisitorlogout($label = "Logout")
     {
-        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__) . "/assets");
-        $template = $this->config['template']['buttons'];
+        $logoutlink = $this->formatButton(
+            $this->app['paths']['root'] . $this->config['basepath'].'/logout',
+            $label);
 
-        $context = array(
-                        'label' => $label,
-                        'link' => $this->app['paths']['root'] . $this->config['basepath'].'/logout'
-                    );
-
-        $markup = $this->app['render']->render($template, $context);
-
-        return new \Twig_Markup($markup, 'UTF-8');
+        return new \Twig_Markup($logoutlink, 'UTF-8');
     }
 
     /**
@@ -245,6 +252,16 @@ class Controller
     }
 
     /**
+     * [settingslist description]
+     * @param  [type] $app [description]
+     * @return [type]      [description]
+     */
+    public function settingslist(Silex\Application $app = null)
+    {
+        return $this->showvisitorprofile($app);
+    }
+
+    /**
      * Hybrid auth endpoint
      *
      * This endpoint passes all login requests to hybridauth
@@ -254,7 +271,6 @@ class Controller
         $this->load_hybrid_auth();
         \Hybrid_Endpoint::process();
     }
-
 
     /**
      * Logout visitor page
@@ -266,11 +282,20 @@ class Controller
         if (!$app) {
             $app = $this->app;
         }
+
+        $returnpage = $app['request']->headers->get('referer');
+        $returnpage = str_replace($app['paths']['hosturl'], '', $returnpage);
+
         $token = $app['session']->get('visitortoken');
         $session = new Session($app);
         $session->clear($token);
 
-        return redirect('homepage');
+        if($returnpage) {
+            simpleredirect($returnpage);
+            exit;
+        } else {
+           return redirect('homepage');
+        }
     }
 
     /**
@@ -342,4 +367,21 @@ class Controller
         return $this->json($app, $request, array('status' => 'OK'), 200);
     }
 
+    /**
+     * Simple function to format the HTML for a button. 
+     */
+    private function formatButton($link, $label) 
+    {
+        $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
+        $template = $this->config['template']['button'];
+        $context = array(
+                       'link' => $link,
+                       'label' => $label,
+                       'class' => strtolower(safeString($label))
+                   );
+
+        $markup = $this->app['render']->render($template, $context);
+
+        return new \Twig_Markup($markup, 'UTF-8');
+    }
 }

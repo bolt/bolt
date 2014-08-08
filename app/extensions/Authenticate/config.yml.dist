@@ -49,7 +49,7 @@ debug_mode: false
 # Templates (relative to assets/ directory)
 template:
     profile: _profile.twig
-    buttons: _buttons.twig
+    buttons: _button.twig
 
 # Frontend role to assign to logged in visitor. 
 #
