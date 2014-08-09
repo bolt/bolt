@@ -82,7 +82,6 @@ class Extensions
     {
         $this->app = $app;
         $this->basefolder = $app['resources']->getPath('extensions');
-        $this->autoload();
         $this->matchedcomments = array();
 
         if ($app['config']->get('general/add_jquery')) {
@@ -97,7 +96,7 @@ class Extensions
      *
      * @return void
      **/
-    public function autoload()
+    public function autoload($app)
     {
         $loader = new \Composer\Autoload\ClassLoader();
         $map = require $this->basefolder . '/vendor/composer/autoload_psr4.php';
@@ -110,8 +109,7 @@ class Extensions
         if (is_readable($filepath)) {
             $files = include($filepath);
             foreach($files as $file) {
-                $app = $this->app;
-                include_once($file);
+                include($file);
             }
         }
         
@@ -159,6 +157,7 @@ class Extensions
      */
     public function initialize()
     {
+        $this->autoload($this->app); 
         ksort($this->enabled);
         foreach ($this->enabled as $name=>$extension) {
 
