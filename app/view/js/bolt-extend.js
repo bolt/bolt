@@ -194,6 +194,7 @@ var BoltExtender = Object.extend(Object, {
         
         controller.find('.install-response-container').show();
         active_console = controller.find('.install-response-container .console');
+        active_console.html(controller.messages['installing']);
         jQuery.get(
             baseurl+'install', 
             {'package':package,'version':version}
