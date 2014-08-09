@@ -82,6 +82,7 @@ class Extensions
     {
         $this->app = $app;
         $this->basefolder = $app['resources']->getPath('extensions');
+        //$this->autoload();
         $this->matchedcomments = array();
 
         if ($app['config']->get('general/add_jquery')) {
@@ -90,13 +91,37 @@ class Extensions
             $this->addjquery = false;
         }
     }
+    
+    /**
+     * Autoloads all registered extension files with an instance of the app
+     *
+     * @return void
+     **/
+    public function autoload()
+    {
+        $loader = new \Composer\Autoload\ClassLoader();
+        $map = require $this->basefolder . '/vendor/composer/autoload_psr4.php';
+        foreach ($map as $namespace => $path) {
+            $loader->setPsr4($namespace, $path);
+        }
+        $loader->register();        
+        
+        $filepath = $this->basefolder."/vendor/composer/autoload_files.php";
+        if (is_readable($filepath)) {
+            $files = include($filepath);
+            foreach($files as $file) {
+                $app = $this->app;
+                include_once($file);
+            }
+        }
+        
+    }
 
     
     /**
      * Extension register method. Allows any extension to register itself onto the enabled stack.
      *
      * @return void
-     * @author 
      **/
     public function register(BaseExtensionInterface $extension)
     {
