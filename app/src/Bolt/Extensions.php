@@ -134,6 +134,7 @@ class Extensions
      */
     public function initialize()
     {
+        ksort($this->enabled);
         foreach ($this->enabled as $name=>$extension) {
 
 
