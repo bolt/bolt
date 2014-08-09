@@ -172,7 +172,7 @@ class Async implements ControllerProviderInterface
     {
         $activity = $app['log']->getActivity(8, 3);
 
-        $body = $app['render']->render('components/dashboard-activity.twig', array('activity' => $activity));
+        $body = $app['render']->render('components/panel-activity.twig', array('activity' => $activity));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
