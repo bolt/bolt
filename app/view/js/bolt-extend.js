@@ -123,7 +123,7 @@ var BoltExtender = Object.extend(Object, {
         active_console.html(controller.messages['installAll']);
         jQuery.get(baseurl+'installAll', function(data) {
             target.html(data);
-            setTimeout(function(){
+            delay(function(){
                 controller.find('.update-container').hide();
             },7000);
         });
@@ -285,7 +285,7 @@ var BoltExtender = Object.extend(Object, {
                 case "uninstall-package": controller.uninstall(e.originalEvent); break;
                 case "install-package"  : controller.install(e.originalEvent); break;
                 case "prefill-package"  : controller.prefill(e.originalEvent); break;
-                case "install-run"      : controller.installRun(); break;
+                case "install-run"      : controller.installRun(e.originalEvent); break;
             }
         }
 

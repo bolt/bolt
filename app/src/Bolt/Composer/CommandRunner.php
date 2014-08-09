@@ -161,7 +161,8 @@ class CommandRunner
             "Generating autoload files\n",
             "Loading composer repositories with package information\n",
             "Updating dependencies (including require-dev)\n",
-            "Installing dependencies (including require-dev)\n"
+            "Installing dependencies (including require-dev)\n",
+            "Installing dependencies (including require-dev) from lock file\n"
         );
         return str_replace($clean, array(), $output);
         
