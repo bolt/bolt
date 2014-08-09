@@ -159,7 +159,6 @@ class CommandRunner
             "Loading composer repositories with package information\n",
             "Updating dependencies (including require-dev)\n"
         );
-        return $output;
         return str_replace($clean, array(), $output);
         
     }
