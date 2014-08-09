@@ -21,6 +21,6 @@
     </div>
 </div>
 
-{{ render(path('lastmodified', {'contenttypeslug': context.contenttype.slug} )) }}
+{{ panels.lastmodified(context.contenttype.slug) }}
 
 {{ panels.stack(7) }}

@@ -9,3 +9,19 @@
         {{ render(path('showstack', {'items': item|default(10)} )) }}
     {% endif %}
 {% endmacro %}
+
+
+{##
+ # Renders a last modified panel
+ #
+ # @param string contenttype_slug
+ # @param mixed  content_id (default: false)
+ #}
+{% macro lastmodified(contenttype_slug, content_id) %}
+    {% if content_id|default(false) or stackitems() is not empty %}
+        {{ render(path('lastmodified', {'contenttypeslug': contenttype_slug})) }}
+    {% else %}
+        {{ render(path("lastmodified", {"contenttypeslug": contenttype_slug, "contentid": content_id})) }}
+    {% endif %}
+{% endmacro %}
+
