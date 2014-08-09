@@ -82,7 +82,7 @@ class Extensions
     {
         $this->app = $app;
         $this->basefolder = $app['resources']->getPath('extensions');
-        //$this->autoload();
+        $this->autoload();
         $this->matchedcomments = array();
 
         if ($app['config']->get('general/add_jquery')) {

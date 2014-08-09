@@ -56,7 +56,7 @@ class CommandRunner
         $updates = array();
         $packages = array_filter($this->execute("show -i -N -d extensions/"));
         foreach($packages as $package) {
-            $response = array_filter(array_slice($this->execute('update --dry-run '.$package),2));
+            $response = $this->execute('update --dry-run '.$package);
             if(count($response)) {
                 if ($response[0]=="Nothing to install or update") {
                     return $updates;

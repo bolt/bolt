@@ -106,7 +106,7 @@ var BoltExtender = Object.extend(Object, {
             delay(function(){
                 active_console.hide();
             }, 2000);
-            if(controller.find('.update-list-items tr').length <1) {
+            if(controller.find('.update-list-items tbody tr').length <1) {
                 controller.find('.update-container').hide();
             }
         });
