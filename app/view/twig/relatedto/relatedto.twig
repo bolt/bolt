@@ -24,13 +24,15 @@
 
     {% if context.show_contenttype %}
         <div class="col-md-9">
-                {% include 'relatedto/_toolbar.twig' %}
-                {# TODO: add order #}
-                {{ list(context.contenttype, context.show_contenttype, context.related_content, '') }}
+            {% include 'relatedto/_toolbar.twig' %}
+            {# TODO: add order #}
+            {{ list(context.contenttype, context.show_contenttype, context.related_content, '') }}
         </div>
 
         <aside class="col-md-3">
-            {% include 'relatedto/_aside.twig' %}
+            {% include 'relatedto/_actions.twig' %}
+            {{ panels.lastmodified(context.show_contenttype.slug) }}
+            {{ panels.stack(5) }}
         </aside>
 
     {% else %}

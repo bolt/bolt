@@ -1,0 +1,39 @@
+{##
+ # Sidebar-Panel: Displays actions for contenttype
+ #}
+{% extends '_base/_panel.twig' %}
+
+{% block panel_class 'panel-actions' %}
+
+{% block panel_icon 'fa-cog' %}
+
+{% block panel_head __('Actions for %contenttypes%', {'%contenttypes%': context.show_contenttype.name}) %}
+
+{% block panel_body %}
+
+    {% import '_macro/_panels.twig' as panels %}
+
+    <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.show_contenttype.slug, 'id': '', 'relation': context.contenttype.slug, 'relationid': context.id }) }}">
+        <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': context.show_contenttype.singular_name}) }}
+    </a>
+
+    {% if isallowed('edit', context.contenttype) %}
+        <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': context.id }) }}">
+            <i class="fa fa-edit"></i> {{ __('Edit %contenttype%', {'%contenttype%': context.contenttype.singular_name}) }}
+        </a>
+    {% endif %}
+
+    {# TODO: add filtering
+    {% if request('filter') or request('order') %}
+        <a class="btn" href="?">{{ __('Clear sort/filter') }}</a>
+    {% endif %}
+
+    <form class="form-inline" style="margin-top:15px;">
+        <input type="hidden" value="{{ request('show', '', true) }}" name="show">
+        <input type="text" class="form-control" value="{{ request('filter', '', true) }}" name="filter" style="width: 110px;" placeholder="{{ __('Filtering') }}">
+        <button type="submit" class="btn">{{ __('Filter') }}</button>
+        {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
+    </form>
+    #}
+
+{% endblock panel_body %}
