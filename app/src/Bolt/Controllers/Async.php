@@ -160,7 +160,7 @@ class Async implements ControllerProviderInterface
             $app['log']->add("News: get from cache..", 1);
         }
 
-        $body = $app['render']->render('components/dashboard-news.twig', array('news' => $news));
+        $body = $app['render']->render('components/panel-news.twig', array('news' => $news));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
