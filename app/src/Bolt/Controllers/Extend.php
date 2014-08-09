@@ -37,7 +37,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         $ctr = $app['controllers_factory'];
 
-        $app['twig']->addGlobal('title', __("Extend Bolt"));
+        $app['twig']->addGlobal('title', $app['translator']->trans("Extend Bolt"));
         
         $ctr->get("", array($this, 'overview'))
             ->before(array($this, 'before'))
