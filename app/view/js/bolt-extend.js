@@ -171,15 +171,16 @@ var BoltExtender = Object.extend(Object, {
                 return alert(controller.messages['extError']);
             }
             var pack = data.packages[0];
-            var tpl = '<div class="install-version-container row">';
+            var tpl = '<tr>';
             tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
-            tpl+='<div class="col-md-12"><label>Select Version To Install</label></div><div class="col-md-6"><select name="package-version" class="form-control">';
+            tpl+='<td>'+pack.title+'<br>'+pack.name+'</td><td><select name="package-version" class="form-control">';
             for(var v in pack.versions) {
                 tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
             }
-            tpl +='</select></div><div class="col-md-6"><a data-action="install-package" class="btn btn-success install-package"><i class="icon-gears"></i> Install Extension</a></div></div>';
+            tpl +='</select></td><td></td><td><a data-action="install-package" class="btn btn-success install-package"><i class="icon-gears"></i> Install Extension</a></td></tr>';
             controller.find(".check-package").hide();
-            controller.find(".check-package").after(tpl);
+            controller.find(".installed-version-item").html(tpl);
+            controller.find(".install-version-container").show();
         })
         .fail(function() {
             alert(controller.messages['extError']);
