@@ -21,14 +21,15 @@
 
         {% include 'users/_sessions.twig' %}
 
-
-    </div><!-- /span9 -->
+    </div>
 
     <aside class="col-md-3">
         {% include 'users/_aside.twig' %}
     </aside>
 </div>
+{% endblock pmain %}
 
+{% block pscrpt %}
     {# parsing the useragents into something more readable. #}
     <script type="text/javascript" src="{{ paths.app }}view/js/ua-parser.min.js"></script>
     <script>
@@ -43,5 +44,4 @@
 
         });
     </script>
-
-{% endblock pmain %}
+{% endblock pscrpt %}

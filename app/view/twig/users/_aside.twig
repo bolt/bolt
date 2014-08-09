@@ -1,12 +1,4 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <i class="fa fa-cog fa-fw"></i> {{ __('Actions for Users') }}
-    </div>
-
-    <div class="panel-body">
-        <a class="btn btn-primary" href="{{ path('useredit', { 'id' : '' }) }}">{{ __('New user') }}</a>
-    </div>
-</div>
+{% include 'users/_panel-actions-users.twig' %}
 
 <div id="latestactivity">
     {{ render(path("latestactivity")) }}
