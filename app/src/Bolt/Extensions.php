@@ -109,7 +109,9 @@ class Extensions
         if (is_readable($filepath)) {
             $files = include($filepath);
             foreach($files as $file) {
-                include($file);
+                if(is_readable($file)) {
+                    include($file);
+                }
             }
         }
         
