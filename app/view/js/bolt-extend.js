@@ -120,7 +120,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.update-container').show();
         var target = controller.find(".update-output" );
         active_console = target;
-        active_console.html("Running install of all packages....");
+        active_console.html(controller.messages['installAll']);
         jQuery.get(baseurl+'installAll', function(data) {
             target.html(data);
             setTimeout(function(){
@@ -139,7 +139,7 @@ var BoltExtender = Object.extend(Object, {
                 target.show();
                 if(data.length > 0) {
                     active_console.html(data.length + " installed extension(s).");
-                    setTimeout(function(){
+                    delay(function(){
                         controller.find(".installed-container .console").hide();
                     },7000);
                     target.find('.installed-list-items').html('');
