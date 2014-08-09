@@ -56,7 +56,7 @@ class CommandRunner
         $updates = array();
         $packages = array_filter($this->execute("show -i -N -d extensions/"));
         foreach($packages as $package) {
-            $response = array_filter(array_slice($this->execute('update --dry-run '.$package),2));
+            $response = array_filter($this->execute('update --dry-run '.$package));
             if(count($response)) {
                 if ($response[0]=="Nothing to install or update") {
                     return $updates;
@@ -143,6 +143,20 @@ class CommandRunner
             $this->lastOutput = $output->fetch();
             return false;
         }
+    }
+    
+    /**
+     * Output Cleaner:
+     * Takes the console output and filters out messages that we don't want to pass on to the user
+     *
+     * @return void
+     **/
+    public function cleaner()
+    {
+        $clean = array(
+            "Generating autoload files"
+        );
+    
     }
     
 }
