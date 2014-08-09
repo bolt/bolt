@@ -137,8 +137,9 @@ class CommandRunner
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         if($responseCode == 0) {
-            $outputText = explode("\n",$output->fetch());
-            return $outputText;
+            $outputText = $output->fetch();
+            $outputText = $this->clean($outputText);
+            return explode("\n",$outputText);
         } else {
             $this->lastOutput = $output->fetch();
             return false;
@@ -151,12 +152,16 @@ class CommandRunner
      *
      * @return void
      **/
-    public function cleaner()
+    public function clean($output)
     {
         $clean = array(
-            "Generating autoload files"
+            "Generating autoload files\n",
+            "Loading composer repositories with package information\n",
+            "Updating dependencies (including require-dev)\n"
         );
-    
+        
+        return str_replace($clean, array(), $output);
+        
     }
     
 }
