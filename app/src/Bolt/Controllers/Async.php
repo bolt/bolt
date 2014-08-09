@@ -462,7 +462,7 @@ class Async implements ControllerProviderInterface
 
             case 'full':
             default:
-                $twig = 'components/stack-full.twig';
+                $twig = 'components/panel-stack.twig';
                 break;
         }
 
