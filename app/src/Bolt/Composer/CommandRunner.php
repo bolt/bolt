@@ -12,16 +12,18 @@ class CommandRunner
     public $messages = array();
     public $lastOutput;
     public $packageFile;
+    public $basedir;
     
     public function __construct(Silex\Application $app, $packageRepo = null)
     {
+        $this->basedir = $app['resources']->getPath('extensions');
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';        
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
         $this->wrapper = \evidev\composer\Wrapper::create();
         
         if(!is_file($this->packageFile)) {
-            $this->execute("init -d extensions/");
+            $this->execute("init");
         }
         if(is_file($this->packageFile) && !is_writable($this->packageFile)) {
             $this->messages[] = sprintf(
@@ -30,7 +32,7 @@ class CommandRunner
             );
         }
         
-        $this->execute("config repositories.bolt composer ".$app['extend.site']."satis/ -d extensions/");
+        $this->execute("config repositories.bolt composer ".$app['extend.site']."satis/");
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
         $basePackage = "bolt/bolt";
@@ -54,7 +56,7 @@ class CommandRunner
     public function check()
     {
         $updates = array();
-        $packages = array_filter($this->execute("show -i -N -d extensions/"));
+        $packages = array_filter($this->execute("show -i -N"));
         foreach($packages as $package) {
             $response = $this->execute('update --dry-run '.$package);
             if(count($response)) {
@@ -70,13 +72,13 @@ class CommandRunner
     
     public function update($package)
     {
-        $response = $this->execute("update $package -d extensions/");
-        return implode($response, "<br>" );
+        $response = $this->execute("update $package");
+        return implode(array_slice($response, 2), "<br>" );
     }
     
     public function install($package, $version)
     {
-        $response = $this->execute("require $package $version -d extensions/");
+        $response = $this->execute("require $package $version");
         if(false !== $response) {
             $response = implode("<br>", $response);
             return $response;
@@ -90,7 +92,7 @@ class CommandRunner
     
     public function installAll()
     {
-        $response = $this->execute("install -d extensions/");
+        $response = $this->execute("install");
         return implode($response, "<br>" );
     }
     
@@ -99,7 +101,7 @@ class CommandRunner
         $json = json_decode(file_get_contents($this->packageFile));
         unset($json->require->$package);
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
-        $response = $this->execute("update --prefer-dist -d extensions/");
+        $response = $this->execute("update --prefer-dist");
         if($response) {
             return "$package successfully removed";
         } else {
@@ -110,7 +112,7 @@ class CommandRunner
     public function installed()
     {
         $installed = array();
-        $all = $this->execute("show -i -d extensions/");
+        $all = $this->execute("show -i");
         $available = $this->available;
         
         foreach($this->available as $remote) {
@@ -134,6 +136,7 @@ class CommandRunner
     protected function execute($command)
     {
         set_time_limit(0);
+        $command .= " -d ".$this->basedir;
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         if($responseCode == 0) {
