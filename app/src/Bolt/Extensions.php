@@ -102,7 +102,7 @@ class Extensions
         
         $mapfile = $this->basefolder . '/vendor/composer/autoload_psr4.php';
         if(is_readable($mapfile)) {
-            require_once($mapfile); 
+            $map = require_once($mapfile); 
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
