@@ -114,7 +114,7 @@ var BoltExtender = Object.extend(Object, {
         e.preventDefault();
     },
     
-    installRun: function() {
+    installRun: function(e) {
         var controller = this;
         
         controller.find('.update-container').show();
@@ -127,6 +127,8 @@ var BoltExtender = Object.extend(Object, {
                 controller.find('.update-container').hide();
             },7000);
         });
+        e.stopPropagation();
+        e.preventDefault();
     },
     
     checkInstalled: function() {
