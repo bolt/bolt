@@ -99,11 +99,15 @@ class Extensions
     public function autoload($app)
     {
         $loader = new \Composer\Autoload\ClassLoader();
-        $map = require $this->basefolder . '/vendor/composer/autoload_psr4.php';
-        foreach ($map as $namespace => $path) {
-            $loader->setPsr4($namespace, $path);
-        }
-        $loader->register();        
+        
+        $mapfile = $this->basefolder . '/vendor/composer/autoload_psr4.php';
+        if(is_readable($mapfile)) {
+            require_once($mapfile); 
+            foreach ($map as $namespace => $path) {
+                $loader->setPsr4($namespace, $path);
+            }
+            $loader->register();
+        }        
         
         $filepath = $this->basefolder."/vendor/composer/autoload_files.php";
         if (is_readable($filepath)) {
