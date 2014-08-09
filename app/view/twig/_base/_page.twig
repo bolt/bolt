@@ -1,8 +1,11 @@
-{#  BLOCKS: ptype:  allowed names: Standard, Dashboard, Settings, Content, Login, Popup
-            pmain:  content with navigation
-            pfull:  full window content without navigation
-            pscrpt: script added after the body tag (script tags needed!)
-#}
+{##
+ # Standard HTML page template
+ #
+ # BLOCKS: ptype:  allowed names: Standard, Dashboard, Settings, Content, Login, Popup
+ #         pmain:  content with navigation
+ #         pfull:  full window content without navigation
+ #         pscrpt: script added after the body tag (script tags needed!)
+ #}
 {%- spaceless %}
 
 {% set page_active = block('ptype') %}
