@@ -1,0 +1,69 @@
+{##
+ # Sidebar-Panel: Displays the files located on the stack
+ # (Usage Example: Dashboards sidebar)
+ #}
+{% extends '_base/_panel.twig' %}
+
+{% block panel_class 'panel-stack' %}
+
+{% block panel_icon 'fa-paperclip' %}
+
+{% block panel_head __('Files on the stack') %}
+
+{% block panel_body %}
+    <div id="stackholder">
+        {% for item in context.stack %}
+            <div class="stackitem item-{{ loop.index }} {{ item.type }} info-pop"
+                 data-placement="bottom" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
+                {% if item.type == 'image' %}
+                    <img src="{{ item.filepath|thumbnail(100,100) }}" width="100" height="100">
+                {% else %}
+                   <strong>{{ item.extension|upper }}</strong>
+                   <small>{{ item.basename }}</small>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="nostackitems">{{ __('There are no items on the Stack, yet.') }}</div>
+        {% endfor %}
+    </div>
+
+    <div style="text-align:center; margin-top: 12px;">
+        <div class="btn-group" style="display: inline-block; margin: 0;">
+            <span class="btn btn-tertiary fileinput-button">
+                <i class="fa fa-upload"></i>
+                <span>{{ __('Upload') }}</span>
+                <input id="fileupload-stack"
+                       type="file"
+                       name="fileupload-stack[]"
+                       data-url="{{ paths.upload }}"
+                       accept=".{{ context.filetypes|join(',.') }}">
+            </span>
+        </div>
+
+        <div class="btn-group" style="margin: 0; display: inline-block;">
+            <a href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#selectModal-stack">
+                <i class="fa fa-download"></i>
+                {{ __('Select') }}
+            </a>
+        </div>
+    </div>
+
+    <div id="protostack">
+        <div class="stackitem image info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+            <img src="" width="100" height="100">
+        </div>
+
+        <div class="stackitem other info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+            <strong>HTML</strong>
+            <small>index.html</small>
+        </div>
+    </div>
+
+    {# Modal "select from server" #}
+    <div class="modal fade" id="selectModal-stack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+{% endblock panel_body %}

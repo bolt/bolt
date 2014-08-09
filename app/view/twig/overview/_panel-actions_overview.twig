@@ -1,11 +1,18 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <i class="fa fa-cog fa-fw"></i> {{__('Actions for %contenttypes%',{'%contenttypes%': context.contenttype.name})}}
-    </div>
+{##
+ # Sidebar-Panel: Displays actions for contenttype
+ #}
+{% extends '_base/_panel.twig' %}
 
+{% block panel_class 'panel-news' %}
+
+{% block panel_icon 'fa-cog' %}
+
+{% block panel_head __('Actions for %contenttypes%', {'%contenttypes%': context.contenttype.name}) %}
+
+{% block panel_body %}
     <div class="panel-body">
-        <a class="btn btn-primary" href="{{ path('editcontent', { 'contenttypeslug': context.contenttype.slug, 'id': '' }) }}">
-            <i class="fa fa-plus"></i> {{ __('New %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
+        <a class="btn btn-primary" href="{{ path('editcontent', {'contenttypeslug': context.contenttype.slug, 'id': ''}) }}">
+            <i class="fa fa-plus"></i> {{ __('New %contenttype%', {'%contenttype%': context.contenttype.singular_name}) }}
         </a>
         {% if request('filter') or request('order') %}
             <a class="btn btn-tertiary" href="?">{{ __('Clear sort/filter') }}</a>
@@ -17,8 +24,4 @@
             {% if request('filter') %}<p><a href="?">{{ __('Clear filter') }}</a></p>{% endif %}
         </form>
     </div>
-</div>
-
-{{ render(path('lastmodified', {'contenttypeslug': context.contenttype.slug} )) }}
-
-{{ render(path('showstack', {'items': 5, 'options': 'full' } )) }}
+{% endblock panel_body %}

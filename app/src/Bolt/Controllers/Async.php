@@ -160,7 +160,7 @@ class Async implements ControllerProviderInterface
             $app['log']->add("News: get from cache..", 1);
         }
 
-        $body = $app['render']->render('components/dashboard-news.twig', array('news' => $news));
+        $body = $app['render']->render('components/panel-news.twig', array('news' => $news));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
@@ -172,7 +172,7 @@ class Async implements ControllerProviderInterface
     {
         $activity = $app['log']->getActivity(8, 3);
 
-        $body = $app['render']->render('components/dashboard-activity.twig', array('activity' => $activity));
+        $body = $app['render']->render('components/panel-activity.twig', array('activity' => $activity));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=3600, public'));
     }
@@ -317,7 +317,12 @@ class Async implements ControllerProviderInterface
         // get the 'latest' from the requested contenttype.
         $latest = $app['storage']->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC'));
 
-        $body = $app['render']->render('components/lastmodified.twig', array('latest' => $latest, 'contenttype' => $contenttype));
+        $context = array(
+            'latest' => $latest,
+            'contenttype' => $contenttype
+        );
+
+        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -337,13 +342,14 @@ class Async implements ControllerProviderInterface
         }
         $changelog = $app['storage']->getChangelogByContentType($contenttype['slug'], $options);
 
-        $renderVars = array(
+        $context = array(
             'changelog' => $changelog,
             'contenttype' => $contenttype,
             'contentid' => $contentid,
             'filtered' => $isFiltered,
-            );
-        $body = $app['render']->render('components/lastmodified.twig', $renderVars);
+        );
+
+        $body = $app['render']->render('components/panel-lastmodified.twig', array('context' => $context));
 
         return new Response($body, 200, array('Cache-Control' => 's-maxage=60, public'));
     }
@@ -446,14 +452,27 @@ class Async implements ControllerProviderInterface
 
         $stack = $app['stack']->listitems($count);
 
-        return $app['render']->render(
-            '_sub_stack.twig',
-            array(
-                'stack' => $stack,
-                'options' => $options,
-                'filetypes' => $app['stack']->getFileTypes()
-            )
+        $context = array(
+            'stack' => $stack,
+            'filetypes' => $app['stack']->getFileTypes()
         );
+
+        switch ($options) {
+            case 'minimal':
+                $twig = 'components/stack-minimal.twig';
+                break;
+
+            case 'list':
+                $twig = 'components/stack-list.twig';
+                break;
+
+            case 'full':
+            default:
+                $twig = 'components/panel-stack.twig';
+                break;
+        }
+
+        return $app['render']->render($twig, array('context' => $context));
     }
 
     /**

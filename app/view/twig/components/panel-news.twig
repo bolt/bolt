@@ -1,0 +1,15 @@
+{##
+ # Sidebar-Panel: Displays the latest news on Bolt
+ # (Usage Example: Dashboards sidebar)
+ #}
+{% extends (news.title is defined) ? '_base/_panel.twig' : '_base/_nothing.twig' %}
+
+{% block panel_class 'panel-news' %}
+
+{% block panel_icon 'fa-bullhorn' %}
+
+{% block panel_head news.title %}
+
+{% block panel_body %}
+    {{ news.teaser|raw }}
+{% endblock panel_body %}
