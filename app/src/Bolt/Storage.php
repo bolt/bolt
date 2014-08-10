@@ -9,6 +9,7 @@ use util;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
+use Finder\Pager;
 
 class Storage
 {
@@ -2029,7 +2030,7 @@ class Storage
             return false;
         }
 
-        // Set up the $pager array with relevant values, but only if we requested paging. 
+        // Set up the $pager array with relevant values, but only if we requested paging.
         if (isset($decoded['parameters']['paging'])) {
             $pager_name = $decoded['contenttypes'][0];
             $pager = array(
@@ -2956,11 +2957,11 @@ class Storage
     /**
      * Setter for pager storage element
      * @param string $name
-     * @param array $pager
+     * @param array|Pager $pager
      */
     public function setPager($name, $pager)
     {
-        static::$pager[$name] = $pager;
+        static::$pager[$name] = ($pager instanceof Pager) ? $pager : new Pager($pager, $this->app);
 
         return $this;
     }
