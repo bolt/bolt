@@ -368,9 +368,9 @@ class Controller
     }
 
     /**
-     * Simple function to format the HTML for a button. 
+     * Simple function to format the HTML for a button.
      */
-    private function formatButton($link, $label) 
+    private function formatButton($link, $label)
     {
         $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
         $template = $this->config['template']['button'];
