@@ -1,0 +1,9 @@
+{##
+ # Renders a backend pager
+ #
+ # @param string  pagerName (default: '')
+ # @param int     surr (default: 4)
+ #}
+{% macro pager(pager, pagerName, surr) %}
+    {{ pager(pagerName|default(''), surr|default(4), 'backend') }}
+{% endmacro %}
