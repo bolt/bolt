@@ -81,9 +81,7 @@ class Extensions
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->basefolder = realpath(__DIR__ . "/../../extensions/");
-        $this->ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
-        $this->enabledExtensions();
+        $this->basefolder = $app['resources']->getPath('extensions');
         $this->matchedcomments = array();
 
         if ($app['config']->get('general/add_jquery')) {
@@ -92,42 +90,47 @@ class Extensions
             $this->addjquery = false;
         }
     }
-
+    
     /**
-     * Defines the extensions which are enabled through the configuration and
-     * are actually present in the extensions folder.
-     */
-    public function enabledExtensions()
+     * Autoloads all registered extension files with an instance of the app
+     *
+     * @return void
+     **/
+    public function autoload($app)
     {
-        $list = $this->app['config']->get('general/enabled_extensions');
-
-        // No activated extensions, nothing to do here.
-        if (!is_array($list)) {
-            $this->enabled = array();
-
-            return;
-        }
-
-        $folders = array();
-
-        $dir = dir($this->basefolder);
-
-        // Make a list of extensions, actually present..
-        while (false !== ($foldername = $dir->read())) {
-
-            if (in_array($foldername, $this->ignored) || substr($foldername, 0, 2) == "._") {
-                continue;
+        $loader = new \Composer\Autoload\ClassLoader();
+        
+        $mapfile = $this->basefolder . '/vendor/composer/autoload_psr4.php';
+        if(is_readable($mapfile)) {
+            $map = require_once($mapfile); 
+            foreach ($map as $namespace => $path) {
+                $loader->setPsr4($namespace, $path);
             }
-
-            if (is_dir($this->basefolder . "/" . $foldername) && is_readable($this->basefolder . "/" . $foldername . "/extension.php")) {
-                $folders[] = $foldername;
+            $loader->register();
+        }        
+        
+        $filepath = $this->basefolder."/vendor/composer/autoload_files.php";
+        if (is_readable($filepath)) {
+            $files = include($filepath);
+            foreach($files as $file) {
+                if(is_readable($file)) {
+                    include($file);
+                }
             }
-
         }
+        
+    }
 
-        $dir->close();
-
-        $this->enabled = array_intersect($list, $folders);
+    
+    /**
+     * Extension register method. Allows any extension to register itself onto the enabled stack.
+     *
+     * @return void
+     **/
+    public function register(BaseExtensionInterface $extension)
+    {
+        $name = $extension->getName();
+        $this->enabled[$name] = $extension;
     }
 
     /**
@@ -138,67 +141,10 @@ class Extensions
      */
     public function getInfo()
     {
-        $dir = dir($this->basefolder);
-
-        $info = array();
-
-        while (false !== ($entry = $dir->read())) {
-
-            if (in_array($entry, $this->ignored) || substr($entry, 0, 2) == "._") {
-                continue;
-            }
-
-            if (is_dir($this->basefolder . "/" . $entry)) {
-                $info[$entry] = $this->infoHelper($this->basefolder . "/" . $entry);
-            }
-
-        }
-        $dir->close();
-
-        ksort($info);
-
-        return $info;
+        return array();
     }
 
-    /**
-     * Get the 'information' for an extension, whether it's active or not.
-     *
-     * @param $path
-     * @return array
-     */
-    private function infoHelper($path)
-    {
-        $filename = $path . "/extension.php";
-        $namespace = basename($path);
 
-        if (!is_readable($filename)) {
-            // No extension.php in the folder, skip it!
-            $this->app['log']->add("Couldn't initialize $namespace: 'extension.php' doesn't exist", 3);
-
-            return array();
-        }
-
-        include_once $filename;
-
-        if (!class_exists($namespace . '\Extension')) {
-            // No class Extensionname\Extension, skip it!
-            $this->app['log']->add("Couldn't initialize $namespace: Class '$namespace\\Extension' doesn't exist", 3);
-
-            return array();
-        }
-
-        $classname = '\\' . $namespace . '\\Extension';
-        /**
-         * @var \Bolt\BaseExtension $extension
-         */
-        $extension = new $classname($this->app);
-
-        $info = $extension->getInfo();
-
-        $info['enabled'] = $this->isEnabled($namespace);
-
-        return $info;
-    }
 
     /**
      * Check if an extension is enabled, case sensitive.
@@ -217,37 +163,24 @@ class Extensions
      */
     public function initialize()
     {
-        foreach ($this->enabled as $extensionKey) {
-            $filename = $this->basefolder . "/" . $extensionKey . "/extension.php";
+        $this->autoload($this->app); 
+        ksort($this->enabled);
+        foreach ($this->enabled as $name=>$extension) {
 
-            if (is_readable($filename)) {
-                include_once $filename;
 
-                $classname = '\\' . $extensionKey . '\\Extension';
+            $this->initialized[$name] = $extension;
 
-                if (!class_exists($classname)) {
-                    $this->app['log']->add("Couldn't initialize $extensionKey: Class '$classname' doesn't exist", 3);
+            $extension->getConfig();
+            $extension->initialize();
 
-                    return;
-                }
+            // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
+            $this->getSnippets($name);
 
-                $extension = new $classname($this->app);
-                $this->initialized[$extensionKey] = $extension;
-
-                if ($extension instanceof BaseExtensionInterface) {
-                    $extension->getConfig();
-                    $extension->initialize();
-
-                    // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
-                    $this->getSnippets($extensionKey);
-
-                    if ($extension instanceof \Twig_Extension) {
-                        $info = $extension->info();
-                        $this->app['twig']->addExtension($extension);
-                        if (!empty($info['allow_in_user_content'])) {
-                            $this->app['safe_twig']->addExtension($extension);
-                        }
-                    }
+            if ($extension instanceof \Twig_Extension) {
+                $info = $extension->info();
+                $this->app['twig']->addExtension($extension);
+                if (!empty($info['allow_in_user_content'])) {
+                    $this->app['safe_twig']->addExtension($extension);
                 }
             }
         }

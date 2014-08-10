@@ -37,7 +37,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(TEST_ROOT);
         $this->assertEquals(TEST_ROOT,                    $config->getPath("rootpath"));
         $this->assertEquals(TEST_ROOT."/app",             $config->getPath("apppath"));
-        $this->assertEquals(TEST_ROOT."/app/extensions",  $config->getPath("extensionspath"));
+        $this->assertEquals(TEST_ROOT."/extensions",      $config->getPath("extensions"));
         $this->assertEquals(TEST_ROOT."/files",           $config->getPath("filespath"));
         $this->assertEquals(TEST_ROOT,                    $config->getPath("web"));
         $this->assertEquals(TEST_ROOT."/app/cache",       $config->getPath("cache"));
@@ -79,7 +79,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config = new ResourceManager(TEST_ROOT);
         $this->assertEquals("/",                $config->getUrl("root"));
         $this->assertEquals("/app/",            $config->getUrl("app"));
-        $this->assertEquals("/app/extensions/", $config->getUrl("extensions"));
+        $this->assertEquals("/extensions/",     $config->getUrl("extensions"));
         $this->assertEquals("/async/",          $config->getUrl("async"));
         $this->assertEquals("/bolt/",           $config->getUrl("bolt"));
         $this->assertEquals("/files/",          $config->getUrl("files"));

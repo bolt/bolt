@@ -101,7 +101,8 @@
                 {% endfor %}
                 {{ macro.sidebarblock(title, sub) }}
             {% endif %}
-
+            
+            
             {% set title = { icon: 'folder-open', label: __('File Management') } %}
             {% set sub = [
                 { icon: 'desktop', label: __('View / edit Templates'), link: url('files', { 'namespace': 'theme', 'path': ''}), isallowed: 'files:theme' },
@@ -118,8 +119,21 @@
             ] %}
 
             {{ macro.sidebarblock(title, sub) }}
-
+            
             {% endif %}
+            
+            <hr class="sidebar">
+            {# Link to Extend Bolt  #}
+            <li class="{% if page_active in ['Extend'] %}active {% endif %}">
+                <a href="{{ path('extend') }}">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-cog fa-stack-1x fa-inverse" style="color: #333;"></i>
+                    </span>
+                    {{ __('Extend Bolt') }}
+                </a>
+            </li>
+
 
             <hr class="sidebar">
 
