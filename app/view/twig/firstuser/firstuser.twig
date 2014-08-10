@@ -1,6 +1,7 @@
 {# Page: Create the first User #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Login' %}
+{% block page_title __('Create the first user') %}
 {% block pfull %}
 
     {% form_theme context.form 'form_bolt_layout.twig' %}
@@ -16,11 +17,13 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{__('Create the first user')}}</h3>
+                    <h3 class="panel-title">{{ __('Create the first user') }}</h3>
                 </div>
                 <div class="panel-body">
 
-                    <p>{{ context.description }}</p>
+                    <p>
+                        {{ __('There are no users present in the system. Please create the first user, which will be granted root privileges.') }}
+                    </p>
 
                     <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
                         {{ form_widget(context.form) }}

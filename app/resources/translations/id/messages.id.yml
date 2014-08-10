@@ -110,7 +110,6 @@
 "Username or password not correct. Please check your input.":  #
 "View %contenttypes%":  #
 "View / edit Templates":  #
-"View translations file '%s'.":  #
 "You do not have the right privileges to create a new record.":  #
 "You do not have the right privileges to edit that record.":  #
 "You do not have the right privileges to view that page.":  #
@@ -201,7 +200,6 @@
 "Duplicate %filename%": "Gandakan %filename%"
 "Edit %contenttype%": "Ubah %contenttype%"
 "Edit file": "Ubah berkas"
-"Edit translations file '%s'.": "Ubah berkas terjemahan '%s'."
 "Edit user": "Ubah pengguna"
 "Edit": "Ubah"
 "Email": "Surel"

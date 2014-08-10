@@ -1,31 +1,33 @@
 {# Page: NavSecondary > Content ... > #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Content' %}
+{% block page_title %}
+    {{ __('Overview') }} » <i> {{ context.contenttype.name }}</i>
+{% endblock page_title %}
 {% block pmain %}
 
-{% from '_editable_record_list.twig' import editable_record_list as list %}
-{% import '_macro/_panels.twig' as panels %}
+    {% from '_editable_record_list.twig' import editable_record_list as list %}
+    {% import '_macro/_panels.twig' as panels %}
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">{{ block('page_title') }}</i>
+                {% set pager_ct = pager[context.contenttype.slug]|default %}
+                {% if pager_ct and pager_ct.totalpages > 1 %}
+                    <span>{{ __('Showing') }} {{ pager_ct.showing_from }} - {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}</span>
+                {% endif %}
+            </h1>
+        </div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <h1 class="page-header">{{ title|raw }}
-            {% set pager_ct = pager[context.contenttype.slug]|default %}
-            {% if pager_ct and pager_ct.totalpages > 1 %}
-                <span>{{ __('Showing') }} {{ pager_ct.showing_from }} - {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}</span>
-            {%endif %}
-        </h1>
+        <div class="col-md-9">
+            {{ list(context.contenttype, context.contenttype, context.multiplecontent, 'table table-striped') }}
+        </div>
+
+        <aside class="col-md-3">
+            {% include 'overview/_panel-actions_overview.twig' %}
+            {{ panels.lastmodified(context.contenttype.slug) }}
+            {{ panels.stack(7) }}
+        </aside>
     </div>
-
-    <div class="col-md-9">
-        {{ list(context.contenttype, context.contenttype, context.multiplecontent, 'table table-striped') }}
-    </div>
-
-    <aside class="col-md-3">
-        {% include 'overview/_panel-actions_overview.twig' %}
-        {{ panels.lastmodified(context.contenttype.slug) }}
-        {{ panels.stack(7) }}
-    </aside>
-</div>
 
 {% endblock pmain %}

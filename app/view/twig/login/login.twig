@@ -1,6 +1,7 @@
 {# Page: Login #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Login' %}
+{% block page_title __("Sign in to Bolt") %}
 {% block pfull %}
 
     <div class="view-site">
@@ -16,7 +17,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ __("Sign in to Bolt") }}</h3>
+                    <h3 class="panel-title">{{ block('page_title') }}</h3>
                 </div>
                 <div class="panel-body">
 

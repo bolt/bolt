@@ -1,12 +1,13 @@
 {# Page: Footer > About #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Standard' %}
+{% block page_title __('About Bolt') %}
 {% block pmain %}
 
 <div class="row">
     <div class="col-md-9">
 
-        <h1><strong>{{ __('About Bolt') }}</strong></h1>
+        <h1 class="page-header">{{ block('page_title') }}</h1>
 
         <h2>Bolt {{ bolt_version }}<small>{% if bolt_name is defined %} - {{ bolt_name }}{% endif %}</small></h2>
 

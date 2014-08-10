@@ -163,7 +163,7 @@ class Backend implements ControllerProviderInterface
             ->value('tr_locale', $app['config']->get('general/locale'))
             ->method('GET|POST')
             ->bind('translation');
-            
+
 
         $ctl->get("/omnisearch", array($this, 'omnisearch'))
             ->before(array($this, 'before'))
@@ -463,9 +463,6 @@ class Backend implements ControllerProviderInterface
 
         // @todo Do we need pager here?
         //$app['pager'] = $pager; // $pager is not defined, so no
-
-        $title = sprintf("<strong>%s</strong> » %s", __('Overview'), htmlencode($contenttype['name']));
-        $app['twig']->addGlobal('title', $title);
 
         $context = array(
             'contenttype' => $contenttype,
@@ -806,12 +803,6 @@ class Backend implements ControllerProviderInterface
 
                 return redirect('dashboard');
             }
-
-            $title = sprintf(
-                "<strong>%s</strong> » %s",
-                __('Edit %contenttype%', array('%contenttype%' => $contenttype['singular_name'])),
-                htmlencode($content->getTitle())
-            );
             $app['log']->add("Edit content", 1, $content, 'edit');
         } else {
             // Check if we're allowed to create content..
@@ -822,7 +813,6 @@ class Backend implements ControllerProviderInterface
             }
 
             $content = $app['storage']->getEmptyContent($contenttype['slug']);
-            $title = sprintf("<strong>%s</strong>", __('New %contenttype%', array('%contenttype%' => $contenttype['singular_name'])));
             $app['log']->add("New content", 1, $content, 'edit');
         }
 
@@ -858,7 +848,6 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
-            'title' => $title,
             'contenttype' => $contenttype,
             'content' => $content,
             'allowed_status' => $allowedStatuses,
@@ -1001,16 +990,8 @@ class Backend implements ControllerProviderInterface
     public function useredit($id, \Bolt\Application $app, Request $request)
     {
         // Get the user we want to edit (if any)
-        if (!empty($id)) {
-            $user = $app['users']->getUser($id);
-            $title = "<strong>" . __('Edit user') . "</strong> » " . htmlencode($user['displayname']);
-            $description = __('Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password.');
-        } else {
-            $user = $app['users']->getEmptyUser();
-            $title = "<strong>" . __('Create a new user') . "</strong>";
-            $description = __('Create a new user, using the form below. The password field is required.');
-        }
-        $note = "";
+        $user = empty($id) ? $app['users']->getEmptyUser() : $app['users']->getUser($id);
+        $note = '';
 
         $enabledoptions = array(
             1 => __('yes'),
@@ -1028,8 +1009,6 @@ class Backend implements ControllerProviderInterface
         // a user that's allowed to log on.
         if (!$app['users']->getUsers()) {
             $firstuser = true;
-            $title = '';
-            $description = __('There are no users present in the system. Please create the first user, which will be granted root privileges.');
 
             // Add a note, if we're setting up the first user using SQLite..
             $dbdriver = $app['config']->get('general/database/driver');
@@ -1199,9 +1178,8 @@ class Backend implements ControllerProviderInterface
         $template = $firstuser ? 'firstuser/firstuser.twig' : 'edituser/edituser.twig';
         $context = array(
             'form' => $form->createView(),
-            'title' => $title,
             'note' => $note,
-            'description' => $description,
+            'displayname' => $user['displayname'],
         );
 
         return $app['render']->render($template, array('context' => $context));
@@ -1552,10 +1530,8 @@ class Backend implements ControllerProviderInterface
                 )
             );
             $writeallowed = false;
-            $title = sprintf("<strong>%s</strong> » %s", __('View file'), basename($file));
         } else {
             $writeallowed = true;
-            $title = sprintf("<strong>%s</strong> » %s", __('Edit file'), basename($file));
         }
 
         $data['contents'] = file_get_contents($filename);
@@ -1587,7 +1563,6 @@ class Backend implements ControllerProviderInterface
                         $ok = false;
                         $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved: ", array('%s' => $file)) . $e->getMessage());
                     }
-
                 }
 
                 if ($ok) {
@@ -1602,18 +1577,16 @@ class Backend implements ControllerProviderInterface
                         $app['session']->getFlashBag()->set('error', __("File '%s' could not be saved, for some reason.", array('%s' => $file)));
                     }
                 }
-
                 // If we reach this point, the form will be shown again, with the error
                 // in the input, so the user can try again.
-
             }
         }
 
         $context = array(
-            'title' => $title,
             'form' => $form->createView(),
             'filetype' => $type,
             'file' => $file,
+            'basename' => basename($file),
             'pathsegments' => $pathsegments,
             'write_allowed' => $writeallowed
         );
@@ -1703,7 +1676,6 @@ class Backend implements ControllerProviderInterface
                 )
             );
             $writeallowed = false;
-            $title = __("View translations file '%s'.", array('%s' => $file));
         } elseif (file_exists($filename) && !is_readable($filename)) {
             $error = __("The translations file '%s' is not readable.", array('%s' => $file));
             $app->abort(404, $error);
@@ -1716,10 +1688,8 @@ class Backend implements ControllerProviderInterface
                 )
             );
             $writeallowed = false;
-            $title = __("View file '%s'.", array('%s' => $file));
         } else {
             $writeallowed = true;
-            $title = __("Edit translations file '%s'.", array('%s' => $file));
         }
 
         $data['contents'] = $content;
@@ -1768,9 +1738,9 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'form' => $form->createView(),
-            'title' => $title,
+            'basename' => basename($file),
             'filetype' => $type,
-            'write_allowed' => $writeallowed
+            'write_allowed' => $writeallowed,
         );
 
         return $app['render']->render('editlocale/editlocale.twig', array('context' => $context));
