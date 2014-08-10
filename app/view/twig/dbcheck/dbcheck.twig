@@ -1,11 +1,12 @@
 {# Page: NavSecondary > Configuration > Check database #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Settings' %}
+{% block page_title __("Database check / update") %}
 {% block pmain %}
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="page-header">{{ __("Database check / update") }}</h1>
+            <h1 class="page-header">{{ block('page_title') }}</h1>
         </div>
     </div>
 

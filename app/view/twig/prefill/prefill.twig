@@ -1,11 +1,12 @@
 {# Page: NavSecondary > Configuration > Check database > Records with... #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Settings' %}
+{% block page_title __('Fill the database with Dummy Content') %}
 {% block pmain %}
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="page-header">{{ __('Fill the database with Dummy Content') }}</h1>
+            <h1 class="page-header">{{ block('page_title') }}</h1>
 
             <form method="post" id="prefill" class="form-horizontal">
                 <div id="form">

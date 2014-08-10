@@ -1,8 +1,9 @@
 {##
  # Standard HTML page template
  #
- # BLOCKS: ptype:  allowed names: Standard, Dashboard, Settings, Content, Login, Popup
+ # Blocks: ptype:  allowed names: Standard, Dashboard, Settings, Content, Login, Popup
  #         pmain:  content with navigation
+ #         page_title:  used as html title
  #         pfull:  full window content without navigation
  #         pscrpt: script added after the body tag (script tags needed!)
  #}
@@ -30,10 +31,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>
-        {{ app.config.get('general/branding/name') }}
-        {% if title is defined %}- {{ title|striptags }}{% endif %}
-    </title>
+    <title>{{ block('page_title')|striptags|trim }} – {{ app.config.get('general/branding/name') }}</title>
 
     <script src="{{ paths.app }}view/js/jquery-1.11.1.min.js"></script>
     <script src="{{ paths.app }}view/js/underscore-min.js"></script>

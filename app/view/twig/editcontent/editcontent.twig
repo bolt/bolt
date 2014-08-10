@@ -1,6 +1,14 @@
 {# Page: NavSecondary > Content ... > Edit #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Content' %}
+{% block page_title %}
+    {% set contenttype = {'%contenttype%': context.contenttype.singular_name} %}
+    {% if context.content.title %}
+        {{ __('Edit %contenttype%', contenttype) }} » <i>{{context.content.title}}</i>
+    {% else %}
+        {{ __('New %contenttype%', contenttype) }}
+    {% endif %}
+{% endblock page_title %}
 {% block pmain %}
 
 {% import '_macro.twig' as macro %}
@@ -8,7 +16,7 @@
 <div class="row">
 
     <div class="col-lg-12">
-        <h1 class="page-header">{{ context.title|raw }}</h1>
+        <h1 class="page-header">{{ block('page_title') }}</h1>
     </div>
 
     <div class="col-md-8">

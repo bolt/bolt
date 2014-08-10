@@ -1,12 +1,19 @@
 {# Page: NavSecondary > Configuration > Main configuration | Contenttypes | Taxonomy | ... #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Settings' %}
+{% block page_title %}
+    {{ context.write_allowed ? __('Edit file') : __('View file') }} » <i>{{ context.basename }}</i>
+{% endblock page_title %}
 {% block pmain %}
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="page-header">{{ context.title|raw }}</h1>
+            <h1 class="page-header">{{ block('page_title') }}</h1>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-xs-12">
             {% if context.pathsegments|length > 1 %}
                 <p>{{ __('Path:') }}
                     {% for path, segment in context.pathsegments %}

@@ -1,13 +1,14 @@
 {# Page: NavPrimary | NavSecondary > Omnisearch #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Standard' %}
+{% block page_title__('Omnisearch') %}
 {% block pmain %}
 
     <div class="row">
 
         <div class="col-md-8">
 
-            <h1 class="page-header">{{ __('Omnisearch') }}</h1>
+            <h1 class="page-header">{{ block('page_title') }}</h1>
 
             <form action="" method="get">
                 <div class="form-group">
