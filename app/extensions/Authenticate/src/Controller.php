@@ -252,6 +252,17 @@ class Controller
     }
 
     /**
+     * Get an existing visitor profile by ID
+     *
+     * @param integer $visitor_id
+     */
+    public function getvisitorprofile($visitor_id)
+    {
+        $visitor = new Visitor($this->app);
+        return $visitor->load_by_id($visitor_id);
+    }
+
+    /**
      * [settingslist description]
      * @param  [type] $app [description]
      * @return [type]      [description]
