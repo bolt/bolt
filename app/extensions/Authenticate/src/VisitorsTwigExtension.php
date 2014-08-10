@@ -63,9 +63,9 @@ class VisitorsTwigExtension extends \Twig_Extension
         return $this->controller->showvisitorprofile();
     }
 
-    public function getvisitorprofile($id)
+    public function getvisitorprofile($visitor_id)
     {
-        return $this->controller->getvisitorprofile($id);
+        return $this->controller->getvisitorprofile($visitor_id);
     }
 
     public function settingslist()
