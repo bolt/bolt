@@ -9,7 +9,6 @@ use util;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
-use Finder\Pager;
 
 class Storage
 {
@@ -1281,7 +1280,7 @@ class Storage
         // Set up the $pager array with relevant values..
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
         $pager = array(
-            'for' => $taxonomytype['slug'] . "/" . $slug,
+            'for' => $taxonomytype['slug'] . "." . $slug,
             'count' => $rowcount['count'],
             'totalpages' => ceil($rowcount['count'] / $limit),
             'current' => $page,
@@ -1289,7 +1288,7 @@ class Storage
             'showing_to' => ($page - 1) * $limit + count($taxorows)
         );
 
-        $this->app['storage']->setPager($taxonomytype['slug'] . "/" . $slug, $pager);
+        $this->app['storage']->setPager($taxonomytype['slug'] . "." . $slug, $pager);
 
         return $content;
     }
@@ -1393,19 +1392,8 @@ class Storage
             }
         }
 
-        if (!isset($meta_parameters['page'])) {
-            $meta_parameters['page'] = 1;
-        }
-
-        // oof!
-        // @todo: What the fuck did @marcelfw mean when he wrote this? Either refactor, or provide sensible commenting
-        if (!empty($meta_parameters['paging']) && $this->app->raw('request') instanceof Request) {
-            $meta_parameters['page'] = $this->app['request']->get('page', $meta_parameters['page']);
-        }
-
-        // oof, part deux!
-        // @todo: What the fuck did @marcelfw mean when he wrote this? Either refactor, or provide sensible commenting
-        if ((isset($meta_parameters['order']) && $meta_parameters['order'] == false) && ($this->app->raw('request') instanceof Request)) {
+        // if was no 'order' in $in_parameters try to find 'order' parm in req url
+        if ($meta_parameters['order'] === false) {
             $meta_parameters['order'] = $this->app['request']->get('order', false);
         }
 
@@ -1661,6 +1649,10 @@ class Storage
 
         $this->parseTextQuery($textquery, $decoded, $meta_parameters, $ctype_parameters);
 
+        // $decoded['contettypes'] gotten here
+        // get page nr. from url if has
+        $meta_parameters['page'] = $this->decodePageParameter($decoded['contenttypes'][0], $this->app['request']);
+
         $this->prepareDecodedQueryForUse($decoded, $meta_parameters, $ctype_parameters);
 
         $decoded['parameters'] = $meta_parameters;
@@ -1801,6 +1793,19 @@ class Storage
         }
 
         return $decoded;
+    }
+
+    /**
+     * Decodes contextual page number from current request url if found
+     *
+     * @param string $context Pager id/name in url which value we find
+     * @return mixed Page number in context
+     */
+    protected function decodePageParameter($context = '')
+    {
+        $param = Pager::makeParameterId($context);
+        $page = ($this->app['request']->query) ? $this->app['request']->query->get($param, 1) : 1;
+        return $page;
     }
 
     /**
@@ -2045,7 +2050,7 @@ class Storage
             $this->app['twig']->addGlobal('pager', $this->getPager());
         }
 
-        
+
 
         $this->app['stopwatch']->stop('bolt.getcontent');
 
@@ -2602,11 +2607,11 @@ class Storage
                     if (array_search($slug, $configTaxonomies[$taxonomytype]['options'])) {
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
-                        // make sure it's at least a slug-like value. 
+                        // make sure it's at least a slug-like value.
                         $slug = makeSlug($slug);
                     }
 
-                }                
+                }
 
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
                     // Insert it!

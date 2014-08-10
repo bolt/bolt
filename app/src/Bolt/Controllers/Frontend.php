@@ -374,7 +374,7 @@ class Frontend
             'current' => $page,
             'showing_from' => $offset + 1,
             'showing_to' => $offset + count($result['results']),
-            'link' => '/search?q=' . rawurlencode($q) . '&page='
+            'link' => '/search?q=' . rawurlencode($q) . '&page_search='
         );
 
         $app['storage']->setPager('search', $pager);
