@@ -50,7 +50,7 @@ class Extension extends \Bolt\BaseExtension
             $this->config['template']['profile'] = "_profile.twig";
         }
 
-        if (! isset($this->config['template']['buttons']) || empty($this->config['template']['buttons'])) {
+        if (! isset($this->config['template']['button']) || empty($this->config['template']['button'])) {
             $this->config['template']['button'] = "_button.twig";
         }
 
