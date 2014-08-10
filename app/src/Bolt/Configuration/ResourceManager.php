@@ -49,8 +49,8 @@ class ResourceManager
         $this->setUrl("app", "/app/");
         $this->setPath("apppath", $this->root."/app");
 
-        $this->setUrl("extensions", "/app/extensions/");
-        $this->setPath("extensionspath", $this->root."/app/extensions");
+        $this->setUrl("extensions", "/extensions/");
+        $this->setPath("extensionspath", $this->root."/extensions");
 
         $this->setUrl("files", "/files/");
         $this->setPath("filespath", $this->root."/files");

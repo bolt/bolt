@@ -2044,8 +2044,7 @@ class Storage
             $this->app['twig']->addGlobal('pager', $this->getPager());
         }
 
-        $this->setPager($pager_name, $pager);
-        $this->app['twig']->addGlobal('pager', $this->getPager());
+        
 
         $this->app['stopwatch']->stop('bolt.getcontent');
 

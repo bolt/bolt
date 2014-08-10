@@ -163,6 +163,7 @@ class Backend implements ControllerProviderInterface
             ->value('tr_locale', $app['config']->get('general/locale'))
             ->method('GET|POST')
             ->bind('translation');
+            
 
         $ctl->get("/omnisearch", array($this, 'omnisearch'))
             ->before(array($this, 'before'))

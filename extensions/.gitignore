@@ -1,0 +1,4 @@
+# Ignore everything in this directory, except this file.
+# see: http://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository
+!.gitignore
+!.composer.lock
