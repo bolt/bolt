@@ -2594,13 +2594,26 @@ class Storage
                     $name = $slug;
                 }
 
+                // Make sure the slug is also set correctly
+                if (!isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
+
+                    // Assume we passed a value, instead of a slug. Turn it back into a proper slug
+                    if (array_search($slug, $configTaxonomies[$taxonomytype]['options'])) {
+                        $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
+                    } else {
+                        // make sure it's at least a slug-like value. 
+                        $slug = makeSlug($slug);
+                    }
+
+                }                
+
                 if ((!in_array($slug, $currentvalues) || ($currentsortorder != $sortorder)) && (!empty($slug))) {
                     // Insert it!
                     $row = array(
                         'content_id' => $content_id,
                         'contenttype' => $contenttypeslug,
                         'taxonomytype' => $taxonomytype,
-                        'slug' => makeSlug($slug),
+                        'slug' => $slug,
                         'name' => $name,
                         'sortorder' => $sortorder
                     );
