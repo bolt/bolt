@@ -1,0 +1,26 @@
+{
+  "name": "base-2014-dev",
+  "version": "1.0.0",
+  "homepage": "https://github.com/bolt/base-2014",
+  "authors": [
+    "bobdenotter <bob@twokings.nl>"
+  ],
+  "description": "Base 2014 theme for Bolt",
+  "main": "index.twig",
+  "keywords": [
+    "twig",
+    "theme",
+    "bolt"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.2.2"
+  }
+}

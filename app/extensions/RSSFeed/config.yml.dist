@@ -31,7 +31,7 @@
 #    enabled: true
 #    feed_records: 10
 #    feed_template: rss.twig
-#    content_length: 250
+#    content_length: 0
 #    content_types: [entries, pages]
 
 # Contenttype specific RSS Examples
@@ -46,4 +46,4 @@
 #    enabled: false
 #    feed_records: 1
 #    feed_template: rss.twig
-#    content_length: 200
+#    content_length: 400

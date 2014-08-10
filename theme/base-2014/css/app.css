@@ -1,0 +1,217 @@
+body {
+    background-color: #F8F8F8;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, th, td {
+    font-size: 16px;
+}
+
+
+h1 {
+    font-weight: normal;
+    font-size: 40px;
+    font-family: 'Open Sans', serif;
+}
+
+
+h2 {
+    font-weight: normal;
+    font-size: 34px;
+    font-family: 'Open Sans', serif;
+}
+
+
+h3 {
+    font-weight: normal;
+    font-size: 28px;
+    font-family: 'Open Sans', serif;
+}
+
+
+h4 {
+    font-size: 24px;
+    font-family: 'Open Sans', serif;
+}
+
+h5 {
+    font-size: 20px;
+    font-family: 'Open Sans', serif;
+}
+
+
+h6 {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.5em;
+}
+
+
+a {
+    color: #284F76;
+}
+
+a:hover {
+    color: #4D9C9A;
+    text-decoration: underline;
+}
+
+p, ul, ol {
+    margin: 0 0 1em 0;
+}
+
+ul {
+    margin-left: 17px;
+}
+
+ol {
+    margin-left: 20px;
+}
+
+
+pre {
+    padding: 4px 0;
+    overflow-y: auto;
+    overflow-x: scroll;
+}
+
+aside {
+    margin-top: 20px;
+}
+
+aside p {
+    font-size: 14px;
+}
+
+.container {
+    padding-top: 20px;
+    margin: 0 auto 20px;
+    border: 1px solid #EEE;
+    background-color: #FFF;
+}
+
+.top-bar h1 {
+    font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+}
+.top-bar h5 {
+    font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+}
+
+.top-bar a:hover {
+    text-decoration: none;
+}
+
+.headerphoto {
+    position: relative;
+    margin-bottom: 30px;
+    text-align: right;
+}
+
+.headerphoto p {
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #FFF;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    font-size: 48px;
+    line-height: 48px;
+    font-family: 'Open Sans', serif;
+    padding: 0 12px 12px 0;
+    font-weight: bold;
+}
+.headerphoto small {
+    font-size: 28px;
+    color: #DDD;
+    font-family: 'Open Sans', serif;
+    font-weight: normal;
+    margin-right: 14px;
+}
+
+div.imageholder {
+    background-color: #FFF;
+    border: 1px solid #BBBBBB;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    float: right;
+    margin: 0 0 5px 5px;
+}
+
+footer ul.dropdown {
+    display: none;
+}
+
+/* "bolt_widget" is the default container for widgets in Bolt. */
+.bolt_widget {
+    background: #f2f2f2;
+    border: solid 1px #e6e6e6;
+    margin-bottom: 8px;
+    padding: 6px;
+}
+
+.pagination a:hover {
+    text-decoration: none;
+}
+
+/* Styles for 'responsive video embeds' --------------------------------  */
+
+.embeddedContent {
+    margin: 0 0 1em 0;
+}
+
+.embeddedContent iframe {
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Styles for 'max-width 479px' -----------------------------------------  */
+@media only screen and (max-width: 479px) {
+
+    .headerphoto {
+        margin-bottom: 0px;
+    }
+
+    .headerphoto span {
+        display: none;
+    }
+    .headerphoto small {
+        display: block;
+        font-size: 22px;
+        color: #FFF;
+        line-height: 26px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+
+    h2 {
+        font-size: 28px;
+    }
+
+
+    h3 {
+        font-size: 24px;
+    }
+
+
+    h4 {
+        font-size: 20px;
+    }
+
+    h5 {
+        font-size: 18px;
+        font-family: 'Open Sans', serif;
+    }
+
+
+    h6 {
+        font-size: 15px;
+    }
+
+    div.imageholder {
+        float: none;
+        margin: 0 -17px 10px -17px;
+    }
+
+}

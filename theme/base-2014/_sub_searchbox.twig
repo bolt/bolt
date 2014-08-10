@@ -1,0 +1,13 @@
+<li class="divider"></li>
+<li class="has-form">
+	<form method="get" action="{{ paths.root }}search" id="searchform" enctype="text/plain">
+  		<div class="row collapse">
+    		<div class="large-8 small-9 columns">
+        		<input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __("Search…") }}" name="search">
+        	</div>
+        	<div class="large-4 small-3 columns">
+		     	<button type="submit" class="alert button expand">Search</button>
+		    </div>
+  		</div>
+  </form>
+</li>

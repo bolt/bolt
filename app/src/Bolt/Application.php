@@ -16,7 +16,7 @@ class Application extends Silex\Application
 {
     public function __construct(array $values = array())
     {
-        $values['bolt_version'] = '1.6.7';
+        $values['bolt_version'] = '1.6.10';
         $values['bolt_name'] = '';
 
         parent::__construct($values);
@@ -188,6 +188,10 @@ class Application extends Silex\Application
 
     public function initProviders()
     {
+
+        // Make sure we keep our current locale..
+        $currentlocale = $this['locale'];
+
         // Setup Swiftmailer, with optional SMTP settings. If no settings are provided in config.yml, mail() is used.
         $this->register(new Silex\Provider\SwiftmailerServiceProvider());
         if ($this['config']->get('general/mailoptions')) {
@@ -212,8 +216,13 @@ class Application extends Silex\Application
             ->register(new Provider\SafeTwigServiceProvider())
             ->register(new Provider\FilePermissionsServiceProvider());
 
-        $this['paths'] = getPaths($this['config']);
+        $this['paths'] = getPaths($this['config']);;
+
         $this['twig']->addGlobal('paths', $this['paths']);
+
+        // For some obscure reason, and under suspicious circumstances $app['locale'] might become 'null'.
+        // Re-set it here, just to be sure. See https://github.com/bolt/bolt/issues/1405
+        $this['locale'] = $currentlocale;
 
         // Add the Bolt Twig functions, filters and tags.
         $this['twig']->addExtension(new TwigExtension($this));
