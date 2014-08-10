@@ -498,7 +498,7 @@ class IntegrityChecker
         $contentChangelogTable->addColumn("diff", "text", array());
 
         // message to create a story of revisions
-        $contentChangelogTable->addColumn("comment", "string", array('length' => 150, "default" => ""));
+        $contentChangelogTable->addColumn("comment", "string", array('length' => 150, "default" => "", "notnull" => false));
         $tables[] = $contentChangelogTable;
 
         $cronTable = $schema->createTable($this->prefix."cron");
