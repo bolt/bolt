@@ -441,6 +441,11 @@ class Content implements \ArrayAccess
             return;
         }
 
+        // Only add a taxonomy, if the taxonomytype is actually set in the contenttype
+        if (!in_array($taxonomytype, $this->contenttype['taxonomy'])) {
+            return false;
+        }
+
         // Make sure sortorder is set correctly;
         if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/has_sortorder') == false) {
             $sortorder = false;
