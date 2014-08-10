@@ -45,9 +45,10 @@ class CommandRunner
             $this->available = $json->packages;
         } catch (\Exception $e) {
             $this->messages[] = sprintf(
-                "The Bolt extensions Repo at %s is currently unavailable. Please try again shortly.",
+                $app['translator']->trans("The Bolt extensions Repo at %s is currently unavailable. Check your connection and try again shortly."),
                 $this->packageRepo
             );
+            $this->available = array();
         }
         
     }
@@ -55,25 +56,37 @@ class CommandRunner
     
     public function check()
     {
+
+        $json = json_decode(file_get_contents($this->packageFile));
+        $packages = $json->require;
+        foreach($packages as $package=>$version) {
+            $installed[$package] = $this->execute("show -N -i $package $version");
+            
+        }
+        
         $updates = array();
-        $packages = array_filter($this->execute("show -i -N"));
-        foreach($packages as $package) {
-            $response = $this->execute('update --dry-run '.$package);
-            if(count($response)) {
-                if ($response[0]=="Nothing to install or update") {
-                    return $updates;
+        $installs = array();
+        foreach($installed as $package=>$packageInfo) {
+
+            if(is_array($packageInfo)) {
+                $response = $this->execute('update --dry-run '.$package);
+                foreach($response as $resp) {
+                    if (strpos($resp, $package) !== false) {
+                       $updates[] = $package; 
+                    }
                 }
-                $updates[] = $package; 
+            } else {
+                $installs[] = $package;
             }
         }
-        return $updates;
+        return array('updates'=>$updates, 'installs'=>$installs);
         
     }
     
     public function update($package)
     {
         $response = $this->execute("update $package");
-        return implode(array_slice($response, 2), "<br>" );
+        return implode($response, "<br>" );
     }
     
     public function install($package, $version)
@@ -112,18 +125,16 @@ class CommandRunner
     public function installed()
     {
         $installed = array();
-        $all = $this->execute("show -i");
-        $available = $this->available;
         
-        foreach($this->available as $remote) {
-                    
-            foreach($all as $local) {
-                if(strpos($local, $remote->name) !==false ) {
-                    $installed[]=$remote;
-                }
-            }
+        $json = json_decode(file_get_contents($this->packageFile));
+        $packages = $json->require;
+        
+        foreach($packages as $package=>$version) {
+            $check = $this->execute("show -N -i $package $version");
+            $installed[] = $this->showCleanup((array)$check, $package);
             
         }
+                
         if(!count($installed)) {
             return new JsonResponse([]);
         } else {
@@ -136,13 +147,13 @@ class CommandRunner
     protected function execute($command)
     {
         set_time_limit(0);
-        $command .= " -d ".$this->basedir;
+        $command .= " -d ".$this->basedir." --no-ansi";
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
         if($responseCode == 0) {
             $outputText = $output->fetch();
             $outputText = $this->clean($outputText);
-            return explode("\n",$outputText);
+            return array_filter(explode("\n",$outputText));
         } else {
             $this->lastOutput = $output->fetch();
             return false;
@@ -167,5 +178,25 @@ class CommandRunner
         return str_replace($clean, array(), $output);
         
     }
+    
+    
+    protected function showCleanup($output, $name)
+    {
+        $pack = array();
+        foreach($output as $item) {
+            if(strpos($item, " : ") !== false) {
+                $split = explode(" : ", $item);
+                $split[0] = str_replace('.', '', $split[0]);
+                $pack[trim($split[0])]=trim($split[1]);
+            }
+        }
+        if (count($pack)<1) {
+           $pack['name'] = $name;
+           $pack['type'] = "unknown";
+           $pack['descrip'] = 'Not yet installed';
+        }
+        return $pack;
+    }
+    
     
 }

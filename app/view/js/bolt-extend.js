@@ -63,10 +63,14 @@ var BoltExtender = Object.extend(Object, {
         active_console = controller.find('.update-output');
         active_console.html(controller.messages['updating']);
         jQuery.get(baseurl+'check', function(data) {
-            if(data.length > 0) {
-                for(var e in data) {
-                    var ext = data[e];
-                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-warning' data-package='"+ext+"'>Install Update</a></td></tr>");
+            if(data.updates.length > 0 || data.installs.length >0) {
+                for(var e in data.installs) {
+                    var ext = data.installs[e];
+                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-warning' data-package='"+ext+"'>Install New Package</a></td></tr>");
+                }
+                for(var e in data.updates) {
+                    var ext = data.updates[e];
+                    target.append("<tr data-package='"+ext+"'><td class='ext-list'><strong class='title'>"+ext+"</strong></td><td> <a data-action='update-package' class='btn btn-sm btn-tertiary' data-package='"+ext+"'>Install Package Update</a></td></tr>");
                 }
                 active_console.hide();
                 controller.find('.update-list').show();
@@ -105,10 +109,11 @@ var BoltExtender = Object.extend(Object, {
             controller.find('.update-list-items tr[data-package="'+packageToUpdate+'"]').remove();
             delay(function(){
                 active_console.hide();
-            }, 2000);
+            }, 4000);
             if(controller.find('.update-list-items tbody tr').length <1) {
                 controller.find('.update-container').hide();
             }
+            controller.checkInstalled();
         });
             
         e.preventDefault();
@@ -147,7 +152,7 @@ var BoltExtender = Object.extend(Object, {
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext.title+"</strong></td><td>"+ext.type+"</td><td> "+ext.description+"</td><td>"+ext.authors+"</td><td> <a data-action='uninstall-package' class='btn btn-sm btn-danger' href='"+baseurl+"uninstall?package="+ext.name+"'>Uninstall</a></td></tr>");
+                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext["name"]+"</strong></td><td>"+ext["type"]+"</td><td> "+ext["descrip"]+"</td><td> <a data-action='uninstall-package' class='btn btn-sm btn-danger' href='"+baseurl+"uninstall?package="+ext["name"]+"'>Uninstall</a></td></tr>");
                     } 
                 } else {
                     target.find('.installed-list-items').html("<tr><td colspan='4'><strong>No Bolt Extensions installed.</strong></td></tr>");
