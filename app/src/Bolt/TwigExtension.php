@@ -749,9 +749,6 @@ class TwigExtension extends \Twig_Extension
             'surr' => $surr, # TODO: rename to amountsurroundin, surroundamount, ...?
             'class' => $class,
         );
-        if (isset($thisPager['link'])) {
-            $context['link'] = $thisPager['link'];
-        }
 
         /* Little hack to avoid doubling this function and having context without breaking frontend */
         if ($template == 'backend') {
