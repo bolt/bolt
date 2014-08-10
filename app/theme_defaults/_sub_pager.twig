@@ -1,21 +1,4 @@
-
-{% if "filter" in app.request.query.all|keys %}
-    {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
-{% else %}
-    {% set filter = "" %}
-{% endif %}
-
-{% if "order" in app.request.query.all|keys %}
-    {% set order = "order=" ~ app.request.query.all.order ~ "&" %}
-{% else %}
-    {% set order = "" %}
-{% endif %}
-
-{% if pager.link is defined %}
-    {% set link = pager.link %}
-{% else %}
-    {% set link = "?" ~ filter ~ order ~ "page=" %}
-{% endif %}
+{% set link = pager.makelink() %}
 
 {% if pager.totalpages > 1 %}
 <div class="pagination pagination-centered {{class}}">

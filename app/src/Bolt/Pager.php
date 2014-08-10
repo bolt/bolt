@@ -1,7 +1,8 @@
 <?php
-namespace Finder;
+namespace Bolt;
 
 use Bolt\Application;
+
 class Pager extends \ArrayObject
 {
 
@@ -23,21 +24,47 @@ class Pager extends \ArrayObject
 
     public function __construct($array, Application $app)
     {
-        parent::__construct($array);
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $value = new static($value);
+            }
+            $this->$key = $value;
+        }
+
         $this->app = $app;
     }
 
+    /**
+     * Used for calling from template to build up right paginated URL link
+     *
+     * @return string
+     */
     public function makelink()
     {
-        $pageid = $this->for . '_page';
-        $parameters = $this->ext->app['request']->query->all();
+        /*
+         * If link set directly that forces using it rather than build
+         */
+        if ($this->link) {
+            return $this->link;
+        }
+
+        $pageid = static::makeParameterId($this->for);
+        $parameters = $this->app['request']->query->all();
         if (array_key_exists($pageid, $parameters)) {
             unset($parameters[$pageid]);
         }
-        array_walk($parameters, function(&$item, $key) {
+        array_walk($parameters, function (&$item, $key)
+        {
             $item = "$key=$item";
         });
-        $link = '?' . implode('&', $parameters) . '&' . $pageid . '=';
+        $parameters[] = $pageid . '=';
+        $link = '?' . implode('&', $parameters);
         return $link;
+    }
+
+    public static function makeParameterId($suffix)
+    {
+        $suffix = ($suffix !== '') ? '_' . $suffix : '';
+        return 'page' . $suffix;
     }
 }
