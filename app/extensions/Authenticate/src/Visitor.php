@@ -121,6 +121,11 @@ class Visitor
         $this->visitor = $this->get_visitor_record(array(array('id', '=', $visitor_id)));
         $this->profile = $this->visitor['providerdata'];
 
+        // Make email address easy to access
+        if (!empty($this->profile->email)) {
+            $this->visitor['email'] = $this->profile->email;
+        }
+
         // Guess the 'avatar' image from the present data.
         if (!empty($this->profile->photoURL)) {
             $this->visitor['avatar'] = $this->profile->photoURL;
