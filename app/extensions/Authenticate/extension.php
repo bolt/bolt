@@ -15,18 +15,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class Extension extends \Bolt\BaseExtension
 {
-    function info()
+    public function info()
     {
         $data = array(
             'name' => "Authenticate",
             'description' => "An extension to authenticate visitors on your Boltsite",
             'author' => "TwoKings (Lodewijk Evers, Tobias Dammers, Bob den Otter)",
-            'version' => "1.0.2",
+            'version' => "1.0.4",
             'required_bolt_version' => "1.5.0",
-            'highest_bolt_version' => "1.5.0",
+            'highest_bolt_version' => "1.6.10",
             'type' => "General",
             'first_releasedate' => "2014-02-11",
-            'latest_releasedate' => "2014-06-24",
+            'latest_releasedate' => "2014-08-8",
         );
 
         return $data;
@@ -39,19 +39,27 @@ class Extension extends \Bolt\BaseExtension
      * Checks if a visitor is known, and loads the associated visitor
      * Also handles the routing for login, logout and view
      */
-    function initialize()
+    public function initialize()
     {
         if (empty($this->config['basepath'])) {
             $this->config['basepath'] = "visitors";
         }
         $basepath = $this->config['basepath'];
 
+        if (! isset($this->config['template']['profile']) || empty($this->config['template']['profile'])) {
+            $this->config['template']['profile'] = "_profile.twig";
+        }
+
+        if (! isset($this->config['template']['buttons']) || empty($this->config['template']['buttons'])) {
+            $this->config['template']['button'] = "_button.twig";
+        }
+
         # apparently "A set of identifiers that identify a setting in the listing". Ok, whatever, HybridAuth.
         $this->config['identifier'] = "key";
 
         // If debug is set, also set the path for the debug log.
         if ($this->config['debug_mode']) {
-            $this->config['debug_file'] = BOLT_CACHE_DIR . "/authenticate.log";
+            $this->config['debug_file'] = $this->app['resources']->getPath('cache') . "/authenticate.log";
             @touch($this->config['debug_file']);
         }
 
@@ -110,7 +118,6 @@ class Extension extends \Bolt\BaseExtension
                 ->bind($binding);
         }
         $this->app->mount("/{$basepath}", $visitors_routes);
-
     }
 
 }
