@@ -494,12 +494,10 @@ class IntegrityChecker
 
         // a plain-text summary of the differences between the old and the new version
         $contentChangelogTable->addColumn("diff", "text", array());
-<<<<<<< HEAD
-=======
 
         // message to create a story of revisions
         $contentChangelogTable->addColumn("comment", "string", array('length' => 150, "default" => "", "notnull" => false));
->>>>>>> 9a70747... Allow column comment to be "empty". fixes #1469
+
         $tables[] = $contentChangelogTable;
 
         $cronTable = $schema->createTable($this->prefix."cron");
