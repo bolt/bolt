@@ -737,25 +737,26 @@ class TwigExtension extends \Twig_Extension
     {
         if ($this->app['storage']->isEmptyPager()) {
             // nothing to page..
-            return "";
+            return '';
         }
 
         $pager = &$this->app['storage']->getPager();
 
-        if (!empty($pagerName)) {
-            $thisPager = $pager[$pagerName];
-        } else {
-            $thisPager = array_pop($pager);
-        }
+        $thisPager = empty($pagerName) ? array_pop($pager) : $pager[$pagerName];
 
         $context = array(
             'pager' => $thisPager,
-            'surr' => $surr,
-            'class' => $class
+            'surr' => $surr, # TODO: rename to amountsurroundin, surroundamount, ...?
+            'class' => $class,
         );
-
         if (isset($thisPager['link'])) {
             $context['link'] = $thisPager['link'];
+        }
+
+        /* Little hack to avoid doubling this function and having context without breaking frontend */
+        if ($template == 'backend') {
+            $context = array('context' => $context);
+            $template = 'components/pager.twig';
         }
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');

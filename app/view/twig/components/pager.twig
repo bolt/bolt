@@ -17,47 +17,47 @@
 {% set link = '?' ~ filter ~ order ~ 'page=' %}
 
 {% if pager.totalpages|default(0) > 1 %}
-    <div class="{{ class }}" style="text-align: center">
-        <ul class="pagination pagination-centered {{ class }}">
-            {# Showing {{ pager.for }} {{ pager.showing_from }} - {{ pager.showing_to }} of {{  pager.count }} #}
+    <div style="text-align: center">
+        <ul class="pagination pagination-centered">
+            {# Showing {{ context.pager.for }} {{ context.pager.showing_from }} - {{ context.pager.showing_to }} of {{  context.pager.count }} #}
             <li><span>{{ __('Showing %pager_for% %from% - %to% of %count%', {
-                    '%pager_for%': pager.for,
-                    '%from%': pager.showing_from,
-                    '%to%': pager.showing_to,
-                    '%count%': pager.count})
+                    '%pager_for%': context.pager.for,
+                    '%from%': context.pager.showing_from,
+                    '%to%': context.pager.showing_to,
+                    '%count%': context.pager.count})
                 }}</span>
             </li>
 
             {# 'first' and 'prev' #}
-            {% if pager.current > 1 and class!="narrow" %}
-                <li><a href="{{link}}{{pager.current-1}}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
+            {% if context.pager.current > 1 %}
+                <li><a href="{{link}}{{context.pager.current-1}}"><i class="fa fa-angle-left" style="font-weight: bold;"></i></a></li>
             {% endif %}
 
-            {% if pager.current > surr+1 %}
+            {% if context.pager.current > context.surr+1 %}
                 <li><a href="{{link}}{{1}}"><i class="fa fa-double-angle-left" style="font-weight: bold;"></i> 1</a></li>
             {% endif %}
 
-            {# start with '...' if there are more than surr+1 before currentpage. #}
-            {% if pager.current > surr+2 %}
+            {# start with '...' if there are more than context.surr+1 before currentpage. #}
+            {% if context.pager.current > context.surr + 2 %}
                 <li class="disabled"><a href="#">...</a></li>
             {% endif %}
 
-            {% for i in max(1, pager.current-surr)..min(pager.current+surr, pager.totalpages) %}
-                <li {% if i == pager.current %}class='active'{%endif%}><a href="{{link}}{{i}}">{{i}}</a></li>
+            {% for i in max(1, context.pager.current - context.surr) .. min(context.pager.current + context.surr, context.pager.totalpages) %}
+                <li {% if i == context.pager.current %}class='active'{%endif%}><a href="{{ link }}{{ i }}">{{ i }}</a></li>
             {% endfor %}
 
-            {# end with '...' if there are more than surr+1 after currentpage. #}
-            {% if pager.current < (pager.totalpages - surr - 1) %}
+            {# end with '...' if there are more than context.surr+1 after currentpage. #}
+            {% if context.pager.current < (context.pager.totalpages - context.surr - 1) %}
                 <li class="disabled"><a href="#">...</a></li>
             {% endif %}
 
             {# 'next' and 'last' #}
-            {% if pager.current < pager.totalpages-surr %}
-                <li><a href="{{link}}{{pager.totalpages}}">{{pager.totalpages}} <i class="fa fa-double-angle-right" style="font-weight: bold;"></i></a></li>
+            {% if context.pager.current < context.pager.totalpages - context.surr %}
+                <li><a href="{{ link }}{{ context.pager.totalpages }}">{{ context.pager.totalpages }} <i class="fa fa-double-angle-right" style="font-weight: bold;"></i></a></li>
             {% endif %}
 
-            {% if pager.current < pager.totalpages and class != 'narrow' %}
-                <li><a href="{{link}}{{pager.current+1}}"><i class="fa fa-angle-right" style="font-weight: bold;"></i></a></li>
+            {% if context.pager.current < context.pager.totalpages %}
+                <li><a href="{{ link }}{{ context.pager.current + 1 }}"><i class="fa fa-angle-right" style="font-weight: bold;"></i></a></li>
             {% endif %}
         </ul>
     </div>

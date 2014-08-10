@@ -29,6 +29,7 @@
 </div>
 {% endif %}
 
+{% from '_macro/_pager.twig' import pager %}
 {{ pager(contenttype.slug) }}
 
 {% endmacro %}
