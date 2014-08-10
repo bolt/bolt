@@ -49,13 +49,6 @@ class Controller
             // Set the Apptoken
             $this->current_visitor['apptoken'] = $visitor->check_app_token();
 
-            // Guess the 'avatar' image from the present data.
-            $profile = $this->current_visitor['providerdata'];
-
-            if (!empty($profile->photoURL)) {
-                $this->current_visitor['avatar'] = $profile->photoURL;
-            }
-
             // Add frontend role if set up
             if (isset($this->config['role'])) {
                 $this->setvisitorrole();

@@ -121,6 +121,11 @@ class Visitor
         $this->visitor = $this->get_visitor_record(array(array('id', '=', $visitor_id)));
         $this->profile = $this->visitor['providerdata'];
 
+        // Guess the 'avatar' image from the present data.
+        if (!empty($this->profile->photoURL)) {
+            $this->visitor['avatar'] = $this->profile->photoURL;
+        }
+
         return $this->visitor;
     }
 
