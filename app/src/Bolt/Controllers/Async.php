@@ -649,7 +649,8 @@ class Async implements ControllerProviderInterface
     public function createfolder(Silex\Application $app, Request $request)
     {
         $namespace = $request->request->get('namespace', 'files');
-        $base = $app['resources']->getPath($namespace);
+        // FIXME seems it never used
+        // $base = $app['resources']->getPath($namespace);
 
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');

@@ -83,6 +83,8 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
+        // FIXME Remove or fix.
+        // @see label sortcontent
         $ctl->get("/content/sortcontent/{contenttypeslug}", array($this, 'sortcontent'))
             ->before(array($this, 'before'))
             ->bind('sortcontent');
@@ -923,6 +925,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Change sorting (called by ajax request).
      */
+    // FIXME Who knows what is this for? Anyway it is not working.
+    // @label sortcontent
     public function sortcontent(Silex\Application $app, $contenttypeslug, Request $request)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug); // maybe needed in UpdateQuery?
@@ -997,10 +1001,10 @@ class Backend implements ControllerProviderInterface
             1 => __('yes'),
             0 => __('no')
         );
-        $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
+
         $allRoles = $app['permissions']->getDefinedRoles($app);
         $roles = array();
-        $userRoles = isset($user['roles']) ? $user['roles'] : array();
+
         foreach ($allRoles as $roleName => $role) {
             $roles[$roleName] = $role['label'];
         }
@@ -1191,11 +1195,11 @@ class Backend implements ControllerProviderInterface
         $user = $app['users']->getCurrentUser();
         $title = "<strong>" . __('Profile') . "</strong>";
 
-        $enabledoptions = array(
+/*         $enabledoptions = array(
             1 => __('yes'),
             0 => __('no')
         );
-
+ */
         // Start building the form..
         $form = $app['form.factory']->createBuilder('form', $user)
             ->add('id', 'hidden')
@@ -1282,7 +1286,7 @@ class Backend implements ControllerProviderInterface
             'note' => '',
             'description' => '',
         );
-
+        // FIXME: change to edituser/edituser.twig
         return $app['render']->render('edituser.twig', array('context' => $context));
     }
 

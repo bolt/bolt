@@ -7,21 +7,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CommandRunner
 {
-    
+
     public $wrapper;
     public $messages = array();
     public $lastOutput;
     public $packageFile;
     public $basedir;
-    
+
     public function __construct(Silex\Application $app, $packageRepo = null)
     {
         $this->basedir = $app['resources']->getPath('extensions');
         $this->packageRepo = $packageRepo;
-        $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';        
+        $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';
         putenv("COMPOSER_HOME=".sys_get_temp_dir());
         $this->wrapper = \evidev\composer\Wrapper::create();
-        
+
         if(!is_file($this->packageFile)) {
             $this->execute("init");
         }
@@ -31,7 +31,7 @@ class CommandRunner
                 $this->packageFile
             );
         }
-        
+
         $this->execute("config repositories.bolt composer ".$app['extend.site']."satis/");
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
@@ -49,10 +49,10 @@ class CommandRunner
                 $this->packageRepo
             );
         }
-        
+
     }
-    
-    
+
+
     public function check()
     {
         $updates = array();
@@ -63,19 +63,19 @@ class CommandRunner
                 if ($response[0]=="Nothing to install or update") {
                     return $updates;
                 }
-                $updates[] = $package; 
+                $updates[] = $package;
             }
         }
         return $updates;
-        
+
     }
-    
+
     public function update($package)
     {
         $response = $this->execute("update $package");
         return implode(array_slice($response, 2), "<br>" );
     }
-    
+
     public function install($package, $version)
     {
         $response = $this->execute("require $package $version");
@@ -84,18 +84,18 @@ class CommandRunner
             return $response;
         } else {
             $message = "The requested extension version could not be installed. The most likely reason is that the version"."\n";
-            $message.= "requested is not compatible with this version of Bolt."."\n\n"; 
+            $message.= "requested is not compatible with this version of Bolt."."\n\n";
             $message.= "Check on the extensions site for more information.";
             return $message;
         }
     }
-    
+
     public function installAll()
     {
         $response = $this->execute("install");
         return implode($response, "<br>" );
     }
-    
+
     public function uninstall($package)
     {
         $json = json_decode(file_get_contents($this->packageFile));
@@ -108,31 +108,30 @@ class CommandRunner
             return "$package could not be uninstalled. Try checking that your composer.json file is writable.";
         }
     }
-    
+
     public function installed()
     {
         $installed = array();
         $all = $this->execute("show -i");
-        $available = $this->available;
-        
+
         foreach($this->available as $remote) {
-                    
+
             foreach($all as $local) {
                 if(strpos($local, $remote->name) !==false ) {
                     $installed[]=$remote;
                 }
             }
-            
+
         }
         if(!count($installed)) {
             return new JsonResponse([]);
         } else {
             return new JsonResponse($installed);
         }
-        
+
     }
-    
-    
+
+
     protected function execute($command)
     {
         set_time_limit(0);
@@ -148,7 +147,7 @@ class CommandRunner
             return false;
         }
     }
-    
+
     /**
      * Output Cleaner:
      * Takes the console output and filters out messages that we don't want to pass on to the user
@@ -165,7 +164,7 @@ class CommandRunner
             "Installing dependencies (including require-dev) from lock file\n"
         );
         return str_replace($clean, array(), $output);
-        
+
     }
-    
+
 }
