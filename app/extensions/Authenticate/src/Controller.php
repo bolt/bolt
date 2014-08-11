@@ -55,7 +55,6 @@ class Controller
             if (!empty($profile->photoURL)) {
                 $this->current_visitor['avatar'] = $profile->photoURL;
             }
-
             // Add frontend role if set up
             if (isset($this->config['role'])) {
                 $this->setvisitorrole();
