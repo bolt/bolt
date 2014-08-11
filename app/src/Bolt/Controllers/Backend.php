@@ -1286,8 +1286,8 @@ class Backend implements ControllerProviderInterface
             'note' => '',
             'description' => '',
         );
-        // FIXME: change to edituser/edituser.twig
-        return $app['render']->render('edituser.twig', array('context' => $context));
+
+        return $app['render']->render('edituser/edituser.twig', array('context' => $context));
     }
 
     /**
