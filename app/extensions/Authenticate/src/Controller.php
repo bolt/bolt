@@ -256,16 +256,6 @@ class Controller
     }
 
     /**
-     * [settingslist description]
-     * @param  [type] $app [description]
-     * @return [type]      [description]
-     */
-    public function settingslist(Silex\Application $app = null)
-    {
-        return $this->showvisitorprofile($app);
-    }
-
-    /**
      * Hybrid auth endpoint
      *
      * This endpoint passes all login requests to hybridauth
