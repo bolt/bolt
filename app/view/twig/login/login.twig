@@ -1,8 +1,8 @@
 {# Page: Login #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Login' %}
+{% block page_type 'Login' %}
 {% block page_title __("Sign in to Bolt") %}
-{% block pfull %}
+{% block page_full %}
 
     <div class="view-site">
         <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
@@ -68,4 +68,4 @@
 
     </div>
 
-{% endblock pfull %}
+{% endblock page_full %}

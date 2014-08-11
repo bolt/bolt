@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Configuration > Configure Extensions #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Settings' %}
+{% block page_type 'Settings' %}
 {% block page_title __('Extensions') %}
-{% block pmain %}
+{% block page_main %}
 
     {% from 'extensions/_list.twig' import list %}
 
@@ -37,4 +37,4 @@
         </div>
     </div>
 
-{% endblock pmain %}
+{% endblock page_main %}

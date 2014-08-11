@@ -1,8 +1,8 @@
 {# Page: thrown application errors #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Standard' %}
+{% block page_type 'Standard' %}
 {% block page_title __('Fatal error') %}
-{% block pmain %}
+{% block page_main %}
 
 <h1>
     {{ block('page_title') }}
@@ -29,4 +29,4 @@
     {%  endfor %}
 {% endif %}
 
-{% endblock pmain %}
+{% endblock page_main %}

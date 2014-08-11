@@ -1,0 +1,64 @@
+{% set sub = [
+    {
+        icon: 'group',
+        label: __('Users'),
+        link: path('users'),
+        isallowed: 'fileedit'
+    }, {
+        icon: 'cog',
+        label: __('Main configuration'),
+        link: path('fileedit', {'namespace': 'app', 'file': 'config/config.yml'}),
+        isallowed: 'files:config'
+    }, {
+        icon: 'hdd-o',
+        label: __('Contenttypes'),
+        link: path('fileedit', {'namespace': 'app', 'file': 'config/contenttypes.yml'}),
+        isallowed: 'files:config'
+    }, {
+        icon: 'tags',
+        label: __('Taxonomy'),
+        link: path('fileedit', {'namespace': 'app', 'file': 'config/taxonomy.yml'}),
+        isallowed: 'files:config'
+    }, {
+        icon: 'sliders',
+        label: __('Permissions'),
+        link: path('fileedit', {'namespace': 'app', 'file': 'config/permissions.yml'}),
+        isallowed: 'files:config'
+    },
+    '-',
+    {
+        icon: 'list',
+        label: __('Menu setup'),
+        link: path('fileedit', {'namespace': 'app', 'file': 'config/menu.yml'}),
+        isallowed: 'files:config'
+    }, {
+        icon: 'random',
+        label: __('Routing setup'),
+        link: path('fileedit', {'namespace': 'app', 'file': 'config/routing.yml'}),
+        isallowed: 'files:config'
+    },
+    '-',
+    {
+        icon: 'briefcase',
+        label: __('Configure Extensions'),
+        link: path('extensions'),
+        isallowed: 'extensions'
+    }, {
+        icon: 'database',
+        label: __('Check database'),
+        link: path('dbcheck'),
+        isallowed: 'dbupdate'
+    }, {
+        icon: 'magic',
+        label: __('Clear the cache'),
+        link: path('clearcache'),
+        isallowed: 'clearcache'
+    }, {
+        icon: 'file',
+        label: __('Activity log'),
+        link: path('activitylog'),
+        isallowed: 'activitylog'
+    }
+] %}
+
+{{ nav.submenu('cogs', __('Configuration'), sub) }}

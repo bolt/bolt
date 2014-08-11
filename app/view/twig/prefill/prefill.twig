@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Configuration > Check database > Records with... #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Settings' %}
+{% block page_type 'Settings' %}
 {% block page_title __('Fill the database with Dummy Content') %}
-{% block pmain %}
+{% block page_main %}
 
     <div class="row">
         <div class="col-xs-12">
@@ -36,9 +36,9 @@
         </div>
     </div>
 
-{% endblock pmain %}
+{% endblock page_main %}
 
-{% block pscrpt %}
+{% block page_script %}
     <script>
         $(function() {
             $('#check-all').on('click', function() {
@@ -50,4 +50,4 @@
             });
         });
     </script>
-{% endblock pscrpt %}
+{% endblock page_script %}

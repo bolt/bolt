@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Configuration > Users #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Settings' %}
+{% block page_type 'Settings' %}
 {% block page_title __('All users') %}
-{% block pmain %}
+{% block page_main %}
 
 <div class="row">
 
@@ -28,9 +28,9 @@
         {% include 'users/_aside.twig' %}
     </aside>
 </div>
-{% endblock pmain %}
+{% endblock page_main %}
 
-{% block pscrpt %}
+{% block page_script %}
     {# parsing the useragents into something more readable. #}
     <script type="text/javascript" src="{{ paths.app }}view/js/ua-parser.min.js"></script>
     <script>
@@ -45,4 +45,4 @@
 
         });
     </script>
-{% endblock pscrpt %}
+{% endblock page_script %}

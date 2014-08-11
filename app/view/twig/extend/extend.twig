@@ -1,7 +1,7 @@
 {% extends "_base/_page.twig" %}
-{% block ptype 'Extend' %}
+{% block page_type 'Extend' %}
 {% block page_title __("Extend Bolt") %}
-{% block pmain %}
+{% block page_main %}
 
 
 <script src="{{ paths.app }}view/js/bolt-extend.js"></script>
@@ -48,7 +48,6 @@
                                 <th>{{ __('Extension') }}</th>
                                 <th>{{ __('Type') }}</th>
                                 <th>{{ __('Description') }}</th>
-                                <th>{{ __('Author(s)') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
                         </thead>
@@ -121,7 +120,7 @@
                                 <i class="fa fa-download"></i> {{ __('Install all Packages') }}
                             </a>
                         </div>
-                        <p>{{__("This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if some of your extension files have been deleted.")}}</p>
+                        <p>{{__("This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.")}}</p>
                 </div>
             </div>
         </aside>
@@ -151,4 +150,4 @@
 
 </script>
 
-{% endblock pmain %}
+{% endblock page_main %}

@@ -1,8 +1,8 @@
 {# Page: Create the first User #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Login' %}
+{% block page_type 'Login' %}
 {% block page_title __('Create the first user') %}
-{% block pfull %}
+{% block page_full %}
 
     {% form_theme context.form 'form_bolt_layout.twig' %}
 
@@ -43,4 +43,4 @@
 
     </div>
 
-{% endblock pfull %}
+{% endblock page_full %}

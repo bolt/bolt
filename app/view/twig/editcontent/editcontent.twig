@@ -1,15 +1,15 @@
 {# Page: NavSecondary > Content ... > Edit #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Content' %}
+{% block page_type 'Content' %}
 {% block page_title %}
     {% set contenttype = {'%contenttype%': context.contenttype.singular_name} %}
-    {% if context.content.title %}
+    {% if context.content.title is not empty %}
         {{ __('Edit %contenttype%', contenttype) }} » <i>{{context.content.title}}</i>
     {% else %}
         {{ __('New %contenttype%', contenttype) }}
     {% endif %}
 {% endblock page_title %}
-{% block pmain %}
+{% block page_main %}
 
 {% import '_macro.twig' as macro %}
 
@@ -207,9 +207,9 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
     </aside>
 </div>
 
-{% endblock pmain %}
+{% endblock page_main %}
 
-{% block pscrpt %}
+{% block page_script %}
 
     {% import '_macro.twig' as macro %}
 
@@ -300,4 +300,4 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
         });
     </script>
 
-{% endblock pscrpt %}
+{% endblock page_script %}

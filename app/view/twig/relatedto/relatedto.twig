@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Content ... > Edit ^ View related content #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Content' %}
+{% block page_type 'Content' %}
 {% block page_title __('Related content') %}
-{% block pmain %}
+{% block page_main %}
 
 {% from '_editable_record_list.twig' import editable_record_list as list %}
 
@@ -45,4 +45,4 @@
     {% endif %}
 </div>
 
-{% endblock pmain %}
+{% endblock page_main %}

@@ -1,10 +1,10 @@
 {# Page: NavSecondary > Content ... > #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Content' %}
+{% block page_type 'Content' %}
 {% block page_title %}
     {{ __('Overview') }} » <i> {{ context.contenttype.name }}</i>
 {% endblock page_title %}
-{% block pmain %}
+{% block page_main %}
 
     {% from '_editable_record_list.twig' import editable_record_list as list %}
     {% import '_macro/_panels.twig' as panels %}
@@ -30,4 +30,4 @@
         </aside>
     </div>
 
-{% endblock pmain %}
+{% endblock page_main %}
