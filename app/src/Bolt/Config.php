@@ -61,12 +61,10 @@ class Config
 
         if (is_string($defaultConfigPath)) {
             $prefix = preg_replace('/\/+$/', '', $defaultConfigPath) . '/';
-        }
-        else {
+        } else {
             if ($defaultConfigPath) {
                 $prefix = $this->app['resources']->getPath('config') . '/';
-            }
-            else {
+            } else {
                 $prefix = '';
             }
         }

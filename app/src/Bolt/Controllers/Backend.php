@@ -1034,7 +1034,7 @@ class Backend implements ControllerProviderInterface
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => __("Password (confirm)")
+                'label' => __('Password (confirm)')
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
@@ -1055,7 +1055,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
-                    'label' => __("User is enabled"),
+                    'label' => __('User is enabled'),
                 )
             )->add(
                 'roles',
@@ -1064,7 +1064,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $roles,
                     'expanded' => true,
                     'multiple' => true,
-                    'label' => __("Assigned roles"),
+                    'label' => __('Assigned roles'),
                 )
             );
         }
@@ -1102,7 +1102,7 @@ class Backend implements ControllerProviderInterface
                 if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
                     // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
                     //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
-                    $error = new FormError(__("This value is too short. It should have 6 characters or more."));
+                    $error = new FormError(__('This value is too short. It should have 6 characters or more.'));
                     $form['password']->addError($error);
                 }
 
@@ -1134,7 +1134,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() == 'POST') {
             //$form->bindRequest($request);
             $form->submit($app['request']->get($form->getName()));
 
@@ -1183,7 +1183,7 @@ class Backend implements ControllerProviderInterface
     public function profile(\Bolt\Application $app, Request $request)
     {
         $user = $app['users']->getCurrentUser();
-        $title = "<strong>" . __('Profile') . "</strong>";
+        $title = '<strong>' . __('Profile') . '</strong>';
 
         $enabledoptions = array(
             1 => __('yes'),
@@ -1225,7 +1225,7 @@ class Backend implements ControllerProviderInterface
                     // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
                     // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
                     // characters or more.", array('{{ limit }}' => 6), 2);
-                    $error = new FormError(__("This value is too short. It should have 6 characters or more."));
+                    $error = new FormError(__('This value is too short. It should have 6 characters or more.'));
                     $form['password']->addError($error);
                 }
 
@@ -1252,7 +1252,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() == 'POST') {
             //$form->bindRequest($request);
             $form->submit($app['request']->get($form->getName()));
 
@@ -1288,14 +1288,14 @@ class Backend implements ControllerProviderInterface
     public function useraction(Silex\Application $app, $action, $id)
     {
         if (!$app['users']->checkAntiCSRFToken()) {
-            $app['session']->getFlashBag()->set('info', __("An error occurred."));
+            $app['session']->getFlashBag()->set('info', __('An error occurred.'));
 
             return redirect('users');
         }
         $user = $app['users']->getUser($id);
 
         if (!$user) {
-            $app['session']->getFlashBag()->set('error', "No such user.");
+            $app['session']->getFlashBag()->set('error', 'No such user.');
 
             return redirect('users');
         }
@@ -1600,16 +1600,16 @@ class Backend implements ControllerProviderInterface
         $short_locale = substr($tr_locale, 0, 2);
         $type = 'yml';
         $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
-        $filename = realpath(__DIR__ . "/../../../..") . "/$file";
+        $filename = realpath(__DIR__ . '/../../../..') . '/' . $file;
 
-        $app['log']->add("Editing translation: $file", $app['debug'] ? 1 : 3);
+        $app['log']->add('Editing translation: ' . $file, $app['debug'] ? 1 : 3);
 
         if ($domain == 'infos') {
             // no gathering here : if the file doesn't exist yet, we load a
             // copy from the locale_fallback version (en)
             if (!file_exists($filename) || filesize($filename) < 10) {
                 $srcfile = "app/resources/translations/en/$domain.en.$type";
-                $srcfilename = realpath(__DIR__ . "/../../../..") . "/$srcfile";
+                $srcfilename = realpath(__DIR__ . '/../../../..') . '/'.$srcfile;
                 $content = file_get_contents($srcfilename);
             } else {
                 $content = file_get_contents($filename);
@@ -1699,7 +1699,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the file.
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() == 'POST') {
             $form->bind($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -1710,7 +1710,7 @@ class Backend implements ControllerProviderInterface
                 $ok = true;
 
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == "yml") {
+                if ($type == 'yml') {
                     //$yamlparser = new \Symfony\Component\Yaml\Parser();
                     try {
                         //$ok = $yamlparser->parse($contents);
@@ -1770,7 +1770,7 @@ class Backend implements ControllerProviderInterface
         // the DB, and let's add a new user.
         if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['integritychecker']->repairTables();
-            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+            $app['session']->getFlashBag()->set('info', __('There are no users in the database. Please create the first user.'));
 
             return redirect('useredit', array('id' => ""));
         }
@@ -1780,11 +1780,11 @@ class Backend implements ControllerProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->set('info', __("Please log on."));
+            $app['session']->getFlashBag()->set('info', __('Please log on.'));
 
             return redirect('login');
         } elseif (!$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->set('error', __("You do not have the right privileges to view that page."));
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to view that page.'));
 
             return redirect('dashboard');
         }

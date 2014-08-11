@@ -303,7 +303,7 @@ class Users
      *
      * @return string $token
      */
-    function getAntiCSRFToken()
+    public function getAntiCSRFToken()
     {
         $seed = $this->app['request']->cookies->get('bolt_session');
 
@@ -328,7 +328,7 @@ class Users
      * @param string $token
      * @return bool
      */
-    function checkAntiCSRFToken($token = "")
+    public function checkAntiCSRFToken($token = '')
     {
         global $app;
 
@@ -344,7 +344,6 @@ class Users
             return false;
         }
     }
-
 
     public function getActiveSessions()
     {
@@ -366,7 +365,6 @@ class Users
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
     }
-
 
     /**
      * Remove a user from the database.
@@ -475,7 +473,6 @@ class Users
         }
     }
 
-
     /**
      * Attempt to login a user via the bolt_authtoken cookie
      *
@@ -556,7 +553,6 @@ class Users
         }
     }
 
-
     public function resetPasswordRequest($username)
     {
         $user = $this->getUser($username);
@@ -628,7 +624,6 @@ class Users
         return true;
     }
 
-
     public function resetPasswordConfirm($token)
     {
         $token .= "-" . str_replace(".", "-", $this->remoteIP);
@@ -683,7 +678,6 @@ class Users
             return date("Y-m-d H:i:s", strtotime("+$wait seconds"));
         }
     }
-
 
     /**
      * Log out the currently logged in user.
@@ -822,7 +816,6 @@ class Users
     {
         return $this->currentuser['username'];
     }
-
 
     /**
      * Enable or disable a user, specified by id.
@@ -1008,7 +1001,8 @@ class Users
         foreach ($this->users as $user) {
             if (($this->canonicalizeFieldValue($fieldname, $user[$fieldname]) ===
                  $this->canonicalizeFieldValue($fieldname, $value)) &&
-                ($user['id'] != $currentid)) {
+                ($user['id'] != $currentid)
+            ) {
                 return false;
             }
         }

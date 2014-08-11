@@ -88,7 +88,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * in the absence of a config.yml file.
      * @return array
      */
-    protected function getDefaultConfig() {
+    protected function getDefaultConfig()
+    {
         return array();
     }
 
@@ -109,6 +110,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->loadConfigFile($filename);
         }
         $this->configLoaded = true;
+
         return $this->config;
     }
 
@@ -117,17 +119,16 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $configdistfile = "$configfile.dist";
         $yamlparser = new \Symfony\Component\Yaml\Parser();
 
-        // If it's readable, we're cool
         if (is_readable($configfile)) {
+            // If it's readable, we're cool
             $new_config = $yamlparser->parse(file_get_contents($configfile) . "\n");
 
             // Don't error on empty config files
             if (is_array($new_config)) {
                 $this->config = array_merge($this->config, $new_config);
             }
-        }
-        // Otherwise, check if there's a config.yml.dist
-        elseif (is_readable($configdistfile)) {
+        } elseif (is_readable($configdistfile)) {
+            // Otherwise, check if there's a config.yml.dist
             $new_config = $yamlparser->parse(file_get_contents($configdistfile) . "\n");
 
             // If config.yml.dist exists, attempt to copy it to config.yml.
@@ -138,8 +139,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                     2
                 );
                 $this->config = array_merge($this->config, $new_config);
-            }
-            else {
+            } else {
                 // Failure!!
                 $configdir = dirname($configfile);
                 $message = "Couldn't copy $configfistfile to $configfile: " .
@@ -377,7 +377,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         return $this->app['extensions']->getMenuOption();
     }
 
-
     /**
      * Parse a snippet, an pass on the generated HTML to the caller (Extensions)
      *
@@ -415,7 +414,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->app['extensions']->insertWidget($type, $location, $callback, $this->namespace, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
     }
 
-
     /**
      * Deprecated function to Insert a Widget (for instance, on the dashboard). Use addWidget() instead.
      */
@@ -436,7 +434,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         return $this->requireUserPermission($permission);
     }
 
-
     /**
      * Check if a user is logged in, and has the proper required permission. If
      * not, we redirect the user to the dashboard.
@@ -454,7 +451,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         }
     }
 
-
     /**
      * Parse a widget, an pass on the generated HTML to the caller (Extensions)
      *
@@ -464,7 +460,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @param  string      $var3
      * @return bool|string
      */
-    public function parseWidget($callback, $var1 = "", $var2 = "", $var3 = "")
+    public function parseWidget($callback, $var1 = '', $var2 = '', $var3 = '')
     {
         if (method_exists($this, $callback)) {
             return call_user_func(array($this, $callback), $var1, $var2, $var3);

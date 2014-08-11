@@ -53,18 +53,22 @@ class Pager extends \ArrayObject
         if (array_key_exists($pageid, $parameters)) {
             unset($parameters[$pageid]);
         }
-        array_walk($parameters, function (&$item, $key)
-        {
-            $item = "$key=$item";
-        });
+        array_walk(
+            $parameters,
+            function (&$item, $key) {
+                $item = "$key=$item";
+            }
+        );
         $parameters[] = $pageid . '=';
         $link = '?' . implode('&', $parameters);
+
         return $link;
     }
 
     public static function makeParameterId($suffix)
     {
         $suffix = ($suffix !== '') ? '_' . $suffix : '';
+
         return 'page' . $suffix;
     }
 }
