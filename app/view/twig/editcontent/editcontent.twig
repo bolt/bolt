@@ -3,7 +3,7 @@
 {% block ptype 'Content' %}
 {% block page_title %}
     {% set contenttype = {'%contenttype%': context.contenttype.singular_name} %}
-    {% if context.content.title %}
+    {% if context.content.title is not empty %}
         {{ __('Edit %contenttype%', contenttype) }} » <i>{{context.content.title}}</i>
     {% else %}
         {{ __('New %contenttype%', contenttype) }}
