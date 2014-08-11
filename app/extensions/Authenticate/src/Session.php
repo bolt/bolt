@@ -91,7 +91,7 @@ class Session
     }
 
     // update existing visitor session
-    public function update($token = null)
+    public function update($token = null, $visitor_id)
     {
         if($token) {
             $tablename =  $this->prefix . "visitors_sessions";
