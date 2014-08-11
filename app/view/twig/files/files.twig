@@ -1,8 +1,8 @@
 {# Page: NavSecondary > File Management > Uploaded files #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Settings' %}
+{% block page_type 'Settings' %}
 {% block page_title __('Files') %}
-{% block pmain %}
+{% block page_main %}
 
 {% import '_macro.twig' as macro %}
 {% from '_macro/_files_path.twig' import files_path %}
@@ -46,4 +46,4 @@
     </div>
 </div>
 
-{% endblock pmain %}
+{% endblock page_main %}

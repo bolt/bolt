@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Content ... > Edit > CkEditor > Image > Browse Server #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Popup' %}
+{% block page_type 'Popup' %}
 {% block page_title __('Files') %}
-{% block pfull %}
+{% block page_full %}
 
     {% from '_macro/_files_path.twig' import files_path %}
 
@@ -30,9 +30,9 @@
             {% include 'files_ck/_files.twig' %}
     {% endif %}
 
-{% endblock pfull %}
+{% endblock page_full %}
 
-{% block pscrpt %}
+{% block page_script %}
 
     <script>
         $(function() {
@@ -55,4 +55,4 @@
         });
     </script>
 
-{% endblock pscrpt %}
+{% endblock page_script %}

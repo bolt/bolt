@@ -1,152 +1,48 @@
-{% import '_macro.twig' as macro %}
+{% import 'nav/_macros.twig' as nav %}
 
 <div class="sidebar-collapse">
     <ul class="nav" id="side-menu">
         {% if app.session.get('user') is not null %}
 
-            {# one omnisearch here, for "extra small", the other in the header-navbar #}
-            <li class="sidebar-search">
-                <form class="navbar-form visible-xs" role="search">
-                    <div class="form-group has-feedback">
-                        <label class="control-label" for="inputSuccess4">Omnisearch</label>
-                        <input type="text" class="form-control omnisearch" placeholder="Omnisearch…" >
-                        <span class="form-control-feedback"><i class="fa fa-search"></i></span>
-                    </div>
-                </form>
-            </li>
+            {# Omnisearch: one here for "extra small", the other in the header-navbar #}
+            {% include 'nav/_secondary-search.twig' %}
 
-            {# Link to Dashboard  #}
-            <li class="{% if page_active in ['Standard', 'Dashboard'] %}active {% endif %}"><a href="{{ path('dashboard') }}">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-dashboard fa-stack-1x fa-inverse" style="color: #333;"></i>
-                </span>
-                {{ __('Dashboard') }}</a>
-            </li>
+            {# Dashboard #}
+            {{ nav.link('dashboard', __('Dashboard'), 'dashboard', page_active in ['Standard', 'Dashboard']) }}
 
-            <hr class="sidebar">
+            {{ nav.divider() }}
 
-            <span class='heading'>{{ __('Content') }}</span>
+            {# Contenttypes #}
+            {{ nav.heading(__('Content')) }}
+            {% include 'nav/_secondary-content.twig' %}
 
-            {# Menu with Contenttypes where show_in_menu is set true #}
-            {% for slug, contenttype in app.config.get('contenttypes') %}
-                {% if isallowed('contenttype:' ~ slug) and contenttype.show_in_menu %}
-                    {% set title = { icon: contenttype.icon|default('files-o'), label: contenttype.name } %}
-                    {% set sub = [
-                    { icon: contenttype.icon|default('files-o'), label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}), link: path('overview', { 'contenttypeslug': slug }) },
-                    { icon: 'plus', label: __('New %contenttype%',{'%contenttype%': contenttype.singular_name}), link: path('editcontent', { 'contenttypeslug': slug, 'id': '' }), isallowed: 'contenttype:' ~ slug ~ ':create' },
-                    '-',
-                    ] %}
-                    {% setcontent records = slug limit 4 %}
-                    {% for record in records %}
-                        {% set sub = sub|merge([{ icon: contenttype.icon_singular|default('file-text-o'), label: record.excerpt(80, true), link: path('editcontent', { 'contenttypeslug': slug, 'id': record.id }) }]) %}
-                    {% endfor %}
-
-                    {{ macro.sidebarblock(title, sub, '', true) }}
-
-                {% endif %}
-            {% endfor %}
-
-            {# Menu with Contenttypes where show_in_menu is set false #}
-            {% set title = { icon: contenttype.icon|default('th-list'), label: __('Other contenttypes') } %}
-            {% set sub = [] %}
-            {% for slug, contenttype in app.config.get('contenttypes') %}
-
-
-                {% if isallowed('contenttype:' ~ slug) and not contenttype.show_in_menu %}
-
-                    {% set sub = sub|merge([
-                    { icon: contenttype.icon|default('th-list'), label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}), link: path('overview', { 'contenttypeslug': slug }) },
-                    { icon: 'plus', label: __('New %contenttype%',{'%contenttype%': contenttype.singular_name}), link: path('editcontent', { 'contenttypeslug': slug, 'id': '' }), isallowed: 'contenttype:' ~ slug ~ ':create' },
-                    '-',
-                    ]) %}
-
-                {% endif %}
-
-            {% endfor %}
-            {{ macro.sidebarblock(title, sub) }}
-
-            {# Menu with all settings #}
+            {# Settings #}
             {% if isallowed('settings') %}
 
-            <hr class="sidebar">
+                {{ nav.divider() }}
 
-            <span class='heading'>{{ __('Settings') }}</span>
+                {{ nav.heading(__('Settings')) }}
 
-            {% set title = { icon: 'cogs', label: __('Configuration') } %}
-            {% set sub = [
-                { icon: 'group', label: __('Users'), link: path('users'), isallowed: 'fileedit' },
-                { icon: 'cog', label: __('Main configuration'), link: path('fileedit', { 'namespace':'app', 'file': 'config/config.yml'}), isallowed: 'files:config' },
-                { icon: 'hdd-o', label: __('Contenttypes'), link: path('fileedit', { 'namespace':'app', 'file': 'config/contenttypes.yml'}), isallowed: 'files:config' },
-                { icon: 'tags', label: __('Taxonomy'), link: path('fileedit', { 'namespace':'app', 'file': 'config/taxonomy.yml'}), isallowed: 'files:config' },
-                { icon: 'sliders', label: __('Permissions'), link: path('fileedit', { 'namespace':'app', 'file': 'config/permissions.yml'}), isallowed: 'files:config' },
-                '-',
-                { icon: 'list', label: __('Menu setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/menu.yml'}), isallowed: 'files:config' },
-                { icon: 'random', label: __('Routing setup'), link: path('fileedit', { 'namespace':'app', 'file': 'config/routing.yml'}), isallowed: 'files:config' },
-                '-',
-                { icon: 'briefcase', label: __('Configure Extensions'), link: path('extensions'), isallowed: 'extensions' },
-                { icon: 'database', label: __('Check database'), link: path('dbcheck'), isallowed: 'dbupdate' },
-                { icon: 'magic', label: __('Clear the cache'), link: path('clearcache'), isallowed: 'clearcache' },
-                { icon: 'file', label: __('Activity log'), link: path('activitylog'), isallowed: 'activitylog' }
+                {% include 'nav/_secondary-configuration.twig' %}
 
-            ] %}
+                {% if app.extensions.hasMenuoptions %}
+                    {% include 'nav/_secondary-menuoptions.twig' %}
+                {% endif %}
 
-            {{ macro.sidebarblock(title, sub) }}
+                {% include 'nav/_secondary-filemanagement.twig' %}
 
-            {% if app.extensions.hasMenuoptions %}
-                {% set title = { icon: 'briefcase', label: __('Extensions') } %}
-                {% set sub = [] %}
-                {% for extension in app.extensions.getMenuoptions %}
-                    {% set sub = sub|merge([{ icon: extension.icon|default('icon-expand'), label: extension.label, link: extension.path }]) %}
-                {% endfor %}
-                {{ macro.sidebarblock(title, sub) }}
+                {% include 'nav/_secondary-translations.twig' %}
+
             {% endif %}
-            
-            
-            {% set title = { icon: 'folder-open', label: __('File Management') } %}
-            {% set sub = [
-                { icon: 'desktop', label: __('View / edit Templates'), link: url('files', { 'namespace': 'theme', 'path': ''}), isallowed: 'files:theme' },
-                { icon: 'folder-open', label: __('Uploaded files'), link: url('files', { 'namespace': 'files', 'path': ''}), isallowed: 'files:uploads' }
-            ] %}
 
-            {{ macro.sidebarblock(title, sub) }}
+            {{ nav.divider() }}
 
-            {% set title = { icon: 'flag', label: __('Translations') } %}
-            {% set sub = [
-                { icon: 'flag', label: __('Messages'), link: path('translation', { 'domain': 'messages' }), isallowed: 'translation' },
-                { icon: 'flag', label: __('Long messages'), link: path('translation', { 'domain': 'infos' }), isallowed: 'translation' },
-                { icon: 'flag', label: __('Contenttypes'), link: path('translation', { 'domain': 'contenttypes' }), isallowed: 'translation' }
-            ] %}
-
-            {{ macro.sidebarblock(title, sub) }}
-            
-            {% endif %}
-            
-            <hr class="sidebar">
             {# Link to Extend Bolt  #}
-            <li class="{% if page_active in ['Extend'] %}active {% endif %}">
-                <a href="{{ path('extend') }}">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-cog fa-stack-1x fa-inverse" style="color: #333;"></i>
-                    </span>
-                    {{ __('Extend Bolt') }}
-                </a>
-            </li>
+            {{ nav.link('cog', __('Extend Bolt'), 'extend', page_active in ['Extend']) }}
 
+            {{ nav.divider() }}
 
-            <hr class="sidebar">
-
-            <li class="">
-                <a href="#" data-action="sidebar.collapse()" id="sidebar-collapse">
-                    <i class="fa fa-compress"></i> {{ __('Collapse sidebar') }}
-                </a>
-            </li>
-            <li class="">
-                <a href="#" data-action="sidebar.expand()" id="sidebar-expand">
-                    <i class="fa fa-expand"></i> {{ __('Expand sidebar') }}
-                </a>
-            </li>
+            {{ nav.collapse() }}
 
         {% else %}
 
@@ -161,6 +57,5 @@
             </li>
         {% endif %}
     </ul>
-    <!-- /#side-menu -->
+
 </div>
-<!-- /.sidebar-collapse -->

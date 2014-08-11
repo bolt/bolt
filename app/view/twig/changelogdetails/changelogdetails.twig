@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Content ... > Recent modifications > view #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Standard' %}
+{% block page_type 'Standard' %}
 {% block page_title __('Change Log') ~ ': ' ~ context.entry.title %}
-{% block pmain %}
+{% block page_main %}
 
 {% from '_macro/_changelog_details.twig' import changelog_details %}
 
@@ -67,4 +67,4 @@
     </div>
 </div>
 
-{% endblock pmain %}
+{% endblock page_main %}

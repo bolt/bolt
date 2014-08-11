@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Content ... > Edit > CkEditor > Link > Browse Server #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Popup' %}
+{% block page_type 'Popup' %}
 {% block page_title __('Files') %}
-{% block pfull %}
+{% block page_full %}
 
 <div class="row">
     <div class="col-xs-12">
@@ -20,10 +20,10 @@
     </div>
 </div>
 
-{% endblock pfull %}
+{% endblock page_full %}
 
 
-{% block pscrpt %}
+{% block page_script %}
     <script>
         $(function() {
             $('#myTab a').click(function (e) {
@@ -51,4 +51,4 @@
             })
         });
     </script>
-{% endblock pscrpt %}
+{% endblock page_script %}

@@ -1,6 +1,6 @@
 {# Page: NavPrimary > Username ^ Profile || NavSecondary > Configuration > Users > Edit #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Settings' %}
+{% block page_type 'Settings' %}
 {% block page_title %}
     {% if context.displayname %}
         {{ __('Edit user') }} » <i>{{ context.displayname }}</i>
@@ -8,7 +8,7 @@
         {{ __('Create a new user') }}
     {% endif %}
 {% endblock page_title %}
-{% block pmain %}
+{% block page_main %}
 
     {% form_theme context.form 'form_bolt_layout.twig' %}
 
@@ -35,4 +35,4 @@
         </div>
     </div>
 
-{% endblock pmain %}
+{% endblock page_main %}

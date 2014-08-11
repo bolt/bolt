@@ -1,0 +1,20 @@
+{% set sub = [
+    {
+        icon: 'flag',
+        label: __('Messages'),
+        link: path('translation', {'domain': 'messages'}),
+        isallowed: 'translation'
+    }, {
+        icon: 'flag',
+        label: __('Long messages'),
+        link: path('translation', {'domain': 'infos'}),
+        isallowed: 'translation'
+    }, {
+        icon: 'flag',
+        label: __('Contenttypes'),
+        link: path('translation', {'domain': 'contenttypes'}),
+        isallowed: 'translation'
+    }
+] %}
+
+{{ nav.submenu('flag', __('Translations'), sub) }}

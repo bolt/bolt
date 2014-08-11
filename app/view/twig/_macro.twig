@@ -83,46 +83,6 @@
     {% endspaceless %}
 {% endmacro %}
 
-{# Sidebar-menu blocks with links, popover (for desktop) and touch-to-show (for mobile) #}
-{% macro sidebarblock(title, popoveritems, subitems, wide) %}
-
-    {% if subitems is empty %}{% set subitems = popoveritems %}{% endif %}
-    {% set name = title.label|slug()|lower() %}
-
-    {# only display the 'root' option, if any of the subitems are allowed to be shown. #}
-    {% set allowedany = false %}
-    {% for item in subitems %}
-        {% if item != "-" and isallowed(item.isallowed|default('dashboard')) %}
-            {% set allowedany = true %}
-        {% endif %}
-    {% endfor %}
-
-    {# Show stuff! #}
-    {% if allowedany %}
-        <li {% if wide %}class="menu-pop-wide"{% endif %}>
-            <a href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" data-action="sidebar.showSidebarItems('{{name}}')" class="menu-pop" data-html="true" data-title="" data-content="{% spaceless %}{% for item in popoveritems %}
-                {% if item == "-" %}
-                    <hr>
-                {% elseif isallowed(item.isallowed|default('dashboard')) %}
-                    <a href='{{item.link}}'><i class='fa fa-{{item.icon}} fa-fw'></i> {{item.label}}</a>
-                {% endif %}
-            {% endfor %}{% endspaceless %}">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-{{title.icon}} fa-stack-1x fa-inverse" style="color: #333;"></i>
-                </span>
-                {{ title.label }}
-            </a>
-        </li>
-        {% for item in popoveritems %}
-            {% if item != "-" and isallowed(item.isallowed|default('dashboard')) %}
-                <li class="sub sub-{{name}}"><a href='{{item.link}}'><i class='fa fa-{{item.icon}} fa-fw'></i> {{item.label}}</a></li>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-{% endmacro %}
-
 {% macro actionform(content, action, icon, text, confirmation_text) %}
 <form action="{{ path('contentaction', { 'action': action, 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}"
       method="POST">
