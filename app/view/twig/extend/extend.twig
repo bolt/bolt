@@ -1,5 +1,6 @@
 {% extends "_base/_page.twig" %}
 {% block ptype 'Extend' %}
+{% block page_title __("Extend Bolt") %}
 {% block pmain %}
 
 
@@ -17,7 +18,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">{{__("Extend Bolt")}}</h1>
+            <h1 class="page-header">{{ block('page_title') }}</h1>
         </div>
         <div class="col-md-8">
             <div class='update-container hide-block'>
@@ -32,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody class="update-list-items">
-                        
+
                         </tbody>
                     </table>
                 </div>
@@ -52,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody class="installed-list-items">
-                        
+
                         </tbody>
                     </table>
                 </div>
@@ -62,15 +63,15 @@
                 <h3>{{ __('Install a new Extension') }}</h3>
                 <p>
                     {{ __('Add a new extension using the form below.') }}
-                    {{ __('You can discover new extensions by visiting') }} 
+                    {{ __('You can discover new extensions by visiting') }}
                     <a href="{{site}}">{{site}}</a>
                 </p>
                 <div class="install-container">
-                        <div class="auto-search hide-block"></div>                
+                        <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
                         <a class="btn btn-tertiary check-package" data-action='check-package'>
                             <i class="icon-gears"></i> {{ __('Check Extension') }}
-                        </a> 
+                        </a>
                 </div>
                 <div class="install-version-container hide-block">
                     <hr>
@@ -84,7 +85,7 @@
                             </tr>
                         </thead>
                         <tbody class="installed-version-item">
-                        
+
                         </tbody>
                     </table>
                 </div>
@@ -94,7 +95,7 @@
                 </div>
             </section>
         </div>
-        
+
         <aside class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
@@ -124,7 +125,7 @@
                 </div>
             </div>
         </aside>
-        
+
     </div>
 
 
@@ -133,10 +134,10 @@
 <script>
     var site = '{{site}}';
     var baseurl = "{{paths.bolt}}extend/";
-    
+
     var active_console;
     var active_interval;
-    
+
     jQuery(document).ready(function($) {
         var boltExt = new BoltExtender();
         boltExt.setMessage('extError', '{{__('Bolt Extension could not be found. Please check at '~site~' to ensure correct name.')}}' );
@@ -146,7 +147,7 @@
         boltExt.setMessage('installing', '{{__('Preparing to install package...')}}');
         boltExt.setMessage('installAll', '{{__('Running install of all packages...')}}');
     });
-    
+
 
 </script>
 

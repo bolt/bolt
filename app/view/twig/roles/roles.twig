@@ -1,12 +1,13 @@
-{# Page: ??? #}
+{# Page: Perhaps unused??? #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Standard' %}
+{% block page_title __('Global Permissions') %}
 {% block pmain %}
 
     <div class="row">
         <div class="col-md-8">
 
-            <h1><strong>{{ __('Global Permissions') }}</strong></h1>
+            <h1><strong>{{ block('page_title') }}</strong></h1>
 
             {% for permissionName, roles in context.global_permissions %}
                 <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 7em">

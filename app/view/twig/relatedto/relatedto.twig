@@ -1,6 +1,7 @@
 {# Page: NavSecondary > Content ... > Edit ^ View related content #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Content' %}
+{% block page_title __('Related content') %}
 {% block pmain %}
 
 {% from '_editable_record_list.twig' import editable_record_list as list %}
@@ -10,7 +11,7 @@
 
     <div class="col-xs-12">
         <h1 class="page-header">
-            {{ __('Related content') }}<br>
+            {{ block('page_title') }}<br>
             <small><strong>{{ context.name }}</strong> » {{ context.title }}</small>
             {# TODO: add pager
             {% if pager is defined and pager.totalpages > 1 %}

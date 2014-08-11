@@ -49,13 +49,6 @@ class Controller
             // Set the Apptoken
             $this->current_visitor['apptoken'] = $visitor->check_app_token();
 
-            // Guess the 'avatar' image from the present data.
-            $profile = $this->current_visitor['providerdata'];
-
-            if (!empty($profile->photoURL)) {
-                $this->current_visitor['avatar'] = $profile->photoURL;
-            }
-
             // Add frontend role if set up
             if (isset($this->config['role'])) {
                 $this->setvisitorrole();
@@ -252,6 +245,17 @@ class Controller
     }
 
     /**
+     * Get an existing visitor profile by ID
+     *
+     * @param integer $visitor_id
+     */
+    public function getvisitorprofile($visitor_id)
+    {
+        $visitor = new Visitor($this->app);
+        return $visitor->load_by_id($visitor_id);
+    }
+
+    /**
      * [settingslist description]
      * @param  [type] $app [description]
      * @return [type]      [description]
@@ -368,9 +372,9 @@ class Controller
     }
 
     /**
-     * Simple function to format the HTML for a button. 
+     * Simple function to format the HTML for a button.
      */
-    private function formatButton($link, $label) 
+    private function formatButton($link, $label)
     {
         $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
         $template = $this->config['template']['button'];

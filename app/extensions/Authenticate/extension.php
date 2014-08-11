@@ -21,12 +21,12 @@ class Extension extends \Bolt\BaseExtension
             'name' => "Authenticate",
             'description' => "An extension to authenticate visitors on your Boltsite",
             'author' => "TwoKings (Lodewijk Evers, Tobias Dammers, Bob den Otter)",
-            'version' => "1.0.4",
+            'version' => "1.0.5",
             'required_bolt_version' => "1.5.0",
             'highest_bolt_version' => "1.6.10",
             'type' => "General",
             'first_releasedate' => "2014-02-11",
-            'latest_releasedate' => "2014-08-8",
+            'latest_releasedate' => "2014-08-10",
         );
 
         return $data;
@@ -50,7 +50,7 @@ class Extension extends \Bolt\BaseExtension
             $this->config['template']['profile'] = "_profile.twig";
         }
 
-        if (! isset($this->config['template']['buttons']) || empty($this->config['template']['buttons'])) {
+        if (! isset($this->config['template']['button']) || empty($this->config['template']['button'])) {
             $this->config['template']['button'] = "_button.twig";
         }
 

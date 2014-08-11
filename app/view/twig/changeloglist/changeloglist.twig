@@ -1,6 +1,7 @@
 {# Page: NavSecondary > Content ... > Recent modifications > Full list #}
 {% extends '_base/_page.twig' %}
 {% block ptype 'Standard' %}
+{% block page_title __('Change Log') ~ ': ' ~ context.title %}
 {% block pmain %}
 
 {% from '_macro/_changelog_details.twig' import changelog_details %}
@@ -8,7 +9,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h1><strong>{{ __('Change Log') }}</strong> » {{ context.title }}</h1>
+        <h1>{{ __('Change Log') }} » <i>{{ context.title }}</i></h1>
 
         {{ changelog_pager(context.currentpage, context.pagecount) }}
 
