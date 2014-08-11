@@ -101,16 +101,20 @@ class Visitor
             $query .= " WHERE " . implode(" AND ", $where);
         }
 
-        $result = $this->db->fetchAll($query, $map);
-        $result = array_shift($result);
+        try {
+            $result = $this->db->fetchAll($query, $map);
+            $result = array_shift($result);
 
-        if (isset($result['providerdata'])) {
-            // Catch old PHP serialized data
-            if ($this->is_serialized($result['providerdata'])) {
-                $result['providerdata'] = unserialize($result['providerdata']);
-            } else {
-                $result['providerdata'] = json_decode($result['providerdata']);
+            if (isset($result['providerdata'])) {
+                // Catch old PHP serialized data
+                if ($this->is_serialized($result['providerdata'])) {
+                    $result['providerdata'] = unserialize($result['providerdata']);
+                } else {
+                    $result['providerdata'] = json_decode($result['providerdata']);
+                }
             }
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            $result = null;
         }
 
         return $result;
