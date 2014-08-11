@@ -83,11 +83,12 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
-        // FIXME Remove or fix.
-        // @see label sortcontent
+        /* FIXME Temporarily commented out until decide whether it needed
+
         $ctl->get("/content/sortcontent/{contenttypeslug}", array($this, 'sortcontent'))
             ->before(array($this, 'before'))
             ->bind('sortcontent');
+        */
 
         $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
             ->before(array($this, 'before'))
@@ -925,8 +926,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Change sorting (called by ajax request).
      */
-    // FIXME Who knows what is this for? Anyway it is not working.
-    // @label sortcontent
+    // FIXME Is it necessary along with its router entry above?
+    /*
     public function sortcontent(Silex\Application $app, $contenttypeslug, Request $request)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug); // maybe needed in UpdateQuery?
@@ -951,8 +952,7 @@ class Backend implements ControllerProviderInterface
             return false;
         }
     }
-
-
+    */
 
     /**
      * Show a list of all available users.
@@ -1286,7 +1286,7 @@ class Backend implements ControllerProviderInterface
             'note' => '',
             'description' => '',
         );
-
+        // @todo: template says 'Create new user' no matter if just modifying currently
         return $app['render']->render('edituser/edituser.twig', array('context' => $context));
     }
 
