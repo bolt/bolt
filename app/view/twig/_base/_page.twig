@@ -1,15 +1,15 @@
 {##
  # Standard HTML page template
  #
- # Blocks: ptype:  allowed names: Standard, Dashboard, Settings, Content, Login, Popup
- #         pmain:  content with navigation
+ # Blocks: page_type:  allowed names: Standard, Dashboard, Settings, Content, Login, Popup
+ #         page_main:  content with navigation
  #         page_title:  used as html title
- #         pfull:  full window content without navigation
- #         pscrpt: script added after the body tag (script tags needed!)
+ #         page_full:  full window content without navigation
+ #         page_script: script added after the body tag (script tags needed!)
  #}
 {%- spaceless %}
 
-{% set page_active = block('ptype') %}
+{% set page_active = block('page_type') %}
 
 {% set page_locale = app.locale|default('en') %}
 
@@ -85,7 +85,7 @@
 <body class="{{ page_bodyclass }}{% if app.request.cookies.get('sidebar') %} collapsed-sidebar{% endif %}">
 
     {% if page_nonavi %}
-        {% block pfull %}[BLOCK PFULL]{% endblock pfull %}
+        {% block page_full %}[BLOCK PAGE_FULL]{% endblock page_full %}
     {% else %}
         <div id="wrapper">
             <nav class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation" style="margin-bottom: 0">
@@ -98,7 +98,7 @@
 
             <div id="page-wrapper">
                 {% include '_messages.twig' %}
-                {% block pmain %}[BLOCK PMAIN]{% endblock pmain %}
+                {% block page_main %}[BLOCK PAGE_MAIN]{% endblock page_main %}
             </div>
         </div>
 
@@ -135,7 +135,7 @@
        };
     {% endif %}
 </script>
-{% block pscrpt %}{% endblock pscrpt %}
+{% block page_script %}{% endblock page_script %}
 
 {# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml.  #}
 {% if app.config.get('general/grunt/livereload') %}

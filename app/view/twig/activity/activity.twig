@@ -1,8 +1,8 @@
 {# Page: NavSecondary > Dashboard > Latest activity > more activity #}
 {% extends '_base/_page.twig' %}
-{% block ptype 'Settings' %}
+{% block page_type 'Settings' %}
 {% block page_title __('Activity log') %}
-{% block pmain %}
+{% block page_main %}
 
 <div class="row">
 
@@ -48,4 +48,4 @@
 {% from '_macro/_pager.twig' import pager %}
 {{ pager() }}
 
-{% endblock pmain %}
+{% endblock page_main %}
