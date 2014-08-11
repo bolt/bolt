@@ -21,12 +21,12 @@ class Extension extends \Bolt\BaseExtension
             'name' => "Authenticate",
             'description' => "An extension to authenticate visitors on your Boltsite",
             'author' => "TwoKings (Lodewijk Evers, Tobias Dammers, Bob den Otter)",
-            'version' => "1.0.4",
+            'version' => "1.0.5",
             'required_bolt_version' => "1.5.0",
             'highest_bolt_version' => "1.6.10",
             'type' => "General",
             'first_releasedate' => "2014-02-11",
-            'latest_releasedate' => "2014-08-8",
+            'latest_releasedate' => "2014-08-10",
         );
 
         return $data;

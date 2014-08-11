@@ -38,6 +38,7 @@ class VisitorsTwigExtension extends \Twig_Extension
             'showvisitorlogin' =>  new \Twig_Function_Method($this, 'showvisitorlogin'),
             'showvisitorlogout' =>  new \Twig_Function_Method($this, 'showvisitorlogout'),
             'showvisitorprofile' =>  new \Twig_Function_Method($this, 'showvisitorprofile'),
+            'getvisitorprofile' =>  new \Twig_Function_Method($this, 'getvisitorprofile'),
             'settingslist' => new \Twig_Function_Method($this, 'settingslist'),
         );
     }
@@ -60,6 +61,11 @@ class VisitorsTwigExtension extends \Twig_Extension
     public function showvisitorprofile()
     {
         return $this->controller->showvisitorprofile();
+    }
+
+    public function getvisitorprofile($visitor_id)
+    {
+        return $this->controller->getvisitorprofile($visitor_id);
     }
 
     public function settingslist()
