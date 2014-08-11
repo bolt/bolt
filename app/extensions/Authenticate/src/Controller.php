@@ -34,17 +34,22 @@ class Controller
      */
     public function checkvisitor(Silex\Application $app = null)
     {
-
         // In case we're calling statically, we need to have $app
         if (!$app) {
             $app = $this->app;
         }
 
-        $session = new Session($app);
+        // Get client 'visitortoken' if exists
         $token = $app['session']->get('visitortoken');
+
+        // Retrieve visitor session from our session table, if exists
+        $session = new Session($app);
         $current = $session->load($token);
+
+        // Get the visitors' session from our visitor table
         $visitor = new Visitor($app);
         $this->current_visitor = $visitor->load_by_id($current['visitor_id']);
+
         if ($this->current_visitor) {
             // Set the Apptoken
             $this->current_visitor['apptoken'] = $visitor->check_app_token();
@@ -227,12 +232,10 @@ class Controller
 
         $recognizedvisitor = $this->checkvisitor($app);
         if($recognizedvisitor) {
-            $visitor_profile = $recognizedvisitor['providerdata'];
-
             $this->app['twig.loader.filesystem']->addPath(dirname(__DIR__)."/assets");
             $template = $this->config['template']['profile'];
             $context = array(
-                           'profile' => $visitor_profile,
+                           'profile' => $recognizedvisitor['providerdata'],
                            'visitor' => $recognizedvisitor
                        );
 
