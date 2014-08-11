@@ -82,9 +82,9 @@ class Session
             $query = "SELECT * from $table WHERE sessiontoken = :token";
             $map = array(':token' => $token);
 
-            $all = $this->db->fetchAll($query, $map);
+            $all = $this->db->fetchAssoc($query, $map);
 
-            return array_shift($all);
+            return $all;
         } else {
            return false;
         }
