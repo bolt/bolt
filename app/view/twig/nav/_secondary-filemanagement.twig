@@ -1,0 +1,15 @@
+{% set sub = [
+    {
+        icon: 'desktop',
+        label: __('View / edit Templates'),
+        link: url('files', {'namespace': 'theme', 'path': ''}),
+        isallowed: 'files:theme'
+    }, {
+        icon: 'folder-open',
+        label: __('Uploaded files'),
+        link: url('files', {'namespace': 'files', 'path': ''}),
+        isallowed: 'files:uploads'
+    }
+] %}
+
+{{ nav.submenu('folder-open', __('File Management'), sub) }}

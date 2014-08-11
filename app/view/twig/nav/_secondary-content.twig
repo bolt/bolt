@@ -1,0 +1,44 @@
+{% set sub_hide = [] %}
+
+{% for slug, contenttype in app.config.get('contenttypes') %}
+    {% if isallowed('contenttype:' ~ slug) %}
+        {% set sub_view = {
+            icon: contenttype.icon|default(contenttype.show_in_menu ? 'files-o' : 'th-list'),
+            label: __('View %contenttypes%', {'%contenttypes%': contenttype.name}),
+            link: path('overview', { 'contenttypeslug': slug })
+        } %}
+        {% set sub_new = {
+            icon: 'plus',
+            label: __('New %contenttype%', {'%contenttype%': contenttype.singular_name}),
+            link: path('editcontent', {'contenttypeslug': slug, 'id': ''}),
+            isallowed: 'contenttype:' ~ slug ~ ':create'
+        } %}
+        {% set sub = [sub_view, sub_new, '-'] %}
+
+        {# Contenttypes, where show_in_menu is set true #}
+        {% if contenttype.show_in_menu %}
+
+            {% setcontent records = slug limit 4 %}
+            {% for record in records %}
+                {% set sub = sub|merge([
+                    {
+                        icon: contenttype.icon_singular|default('file-text-o'),
+                        label: record.excerpt(80, true),
+                        link: path('editcontent', {'contenttypeslug': slug, 'id': record.id})
+                    }
+                ]) %}
+            {% endfor %}
+
+            {% set active = (page_active == 'Content' and context.contenttype.slug|default == slug) %}
+            {{ nav.submenu(contenttype.icon|default('files-o'), contenttype.name, sub, '', true, active) }}
+
+        {# Contenttypes, where show_in_menu is set false #}
+        {% else %}
+
+            {% set sub_hide = sub_hide|merge(sub) %}
+
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{{ nav.submenu(contenttype.icon|default('th-list'), __('Other contenttypes'), sub_hide) }}
