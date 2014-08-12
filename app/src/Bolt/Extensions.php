@@ -132,16 +132,6 @@ class Extensions
         $this->enabled[$name] = $this->app['extensions.'.$name];
     }
 
-    /**
-     * Get an array of information about each of the present extensions, and
-     * whether they're enabled or not.
-     *
-     * @return array
-     */
-    public function getInfo()
-    {
-        return array();
-    }
 
     /**
      * Check if an extension is enabled, case sensitive.
