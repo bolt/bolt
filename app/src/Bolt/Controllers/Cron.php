@@ -3,6 +3,7 @@
 namespace Bolt\Controllers;
 
 use Silex;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Bolt\CronEvent;
 use Bolt\CronEvents;
@@ -37,7 +38,7 @@ class Cron extends Event
 
     public $lastruns = array();
 
-    public function __construct(Silex\Application $app, $output = false)
+    public function __construct(Silex\Application $app, OutputInterface $output = null)
     {
         $this->app = $app;
         $this->output = $output;

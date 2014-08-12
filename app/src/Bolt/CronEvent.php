@@ -18,7 +18,7 @@ class CronEvent extends Event
     /**
      *
      */
-    public function __construct(Application $app, $output = false)
+    public function __construct(Application $app, OutputInterface $output = null)
     {
         $this->app = $app;
         $this->output = $output;
