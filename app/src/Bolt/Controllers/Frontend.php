@@ -24,9 +24,6 @@ class Frontend
             if ($content instanceof \Bolt\Content) {
                 $contenttypeslug = $content->contenttype['slug'];
                 $contentid = $content['id'];
-            } elseif ($content instanceof \Bolt\Contenttype) {
-                $contenttypeslug = $content['slug'];
-                $contentid = null;
             } else {
                 $contenttypeslug = (string)$content;
                 $contentid = null;
