@@ -128,7 +128,8 @@ class Extensions
     public function register(BaseExtensionInterface $extension)
     {
         $name = $extension->getName();
-        $this->enabled[$name] = $extension;
+        $this->app['extensions.'.$name] = $extension;
+        $this->enabled[$name] = $this->app['extensions.'.$name];
     }
 
     /**
@@ -159,9 +160,10 @@ class Extensions
      */
     public function initialize()
     {
-        $this->autoload($this->app);
-        ksort($this->enabled);
-        foreach ($this->enabled as $name => $extension) {
+        $this->autoload($this->app); 
+        foreach ($this->enabled as $name=>$extension) {
+
+
             $this->initialized[$name] = $extension;
 
             $extension->getConfig();
