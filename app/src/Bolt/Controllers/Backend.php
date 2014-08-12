@@ -17,6 +17,7 @@ class Backend implements ControllerProviderInterface
 {
     public function connect(Silex\Application $app)
     {
+        /** @var $ctl \Silex\ControllerCollection */
         $ctl = $app['controllers_factory'];
 
         $ctl->get('', array($this, 'dashboard'))
@@ -83,9 +84,12 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
+        /* FIXME Temporarily commented out until decide whether it needed
+
         $ctl->get('/content/sortcontent/{contenttypeslug}', array($this, 'sortcontent'))
             ->before(array($this, 'before'))
             ->bind('sortcontent');
+        */
 
         $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentaction'))
             ->before(array($this, 'before'))
@@ -230,7 +234,7 @@ class Backend implements ControllerProviderInterface
 
             default:
                 // Let's not disclose any internal information.
-                return $app->abort(400, 'Invalid request');
+                $app->abort(400, 'Invalid request');
         }
     }
 
@@ -615,6 +619,7 @@ class Backend implements ControllerProviderInterface
         // now.
         // Note that if either $limit or $pagecount is empty, the template will
         // skip rendering the pager.
+        // FIXME $itemcount is currently undefined so causes error
         $pagecount = $limit ? ceil($itemcount / $limit) : null;
 
         $context = array(
@@ -772,7 +777,7 @@ class Backend implements ControllerProviderInterface
                 // check if a pager was set in the referrer - if yes go back there
                 $editreferrer = $app['request']->get('editreferrer');
                 if ($editreferrer) {
-                    return simpleredirect($editreferrer);
+                    simpleredirect($editreferrer);
                 } else {
                     return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
                 }
@@ -916,6 +921,8 @@ class Backend implements ControllerProviderInterface
     /**
      * Change sorting (called by ajax request).
      */
+    // FIXME Is it necessary along with its router entry above?
+    /*
     public function sortcontent(Silex\Application $app, $contenttypeslug, Request $request)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug); // maybe needed in UpdateQuery?
@@ -942,6 +949,7 @@ class Backend implements ControllerProviderInterface
             return false;
         }
     }
+    */
 
     /**
      * Show a list of all available users.
@@ -990,10 +998,10 @@ class Backend implements ControllerProviderInterface
             1 => __('yes'),
             0 => __('no')
         );
-        $contenttypes = makeValuepairs($app['config']->get('contenttypes'), 'slug', 'name');
+
         $allRoles = $app['permissions']->getDefinedRoles($app);
         $roles = array();
-        $userRoles = isset($user['roles']) ? $user['roles'] : array();
+
         foreach ($allRoles as $roleName => $role) {
             $roles[$roleName] = $role['label'];
         }
@@ -1185,11 +1193,11 @@ class Backend implements ControllerProviderInterface
         $user = $app['users']->getCurrentUser();
         $title = '<strong>' . __('Profile') . '</strong>';
 
-        $enabledoptions = array(
+/*         $enabledoptions = array(
             1 => __('yes'),
             0 => __('no')
         );
-
+ */
         // Start building the form..
         $form = $app['form.factory']->createBuilder('form', $user)
             ->add('id', 'hidden')
@@ -1278,8 +1286,8 @@ class Backend implements ControllerProviderInterface
             'note' => '',
             'description' => '',
         );
-
-        return $app['render']->render('edituser.twig', array('context' => $context));
+        // @todo: template says 'Create new user' no matter if just modifying currently
+        return $app['render']->render('edituser/edituser.twig', array('context' => $context));
     }
 
     /**

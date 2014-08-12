@@ -7,7 +7,7 @@ use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Finder\Finder;
+
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
@@ -15,6 +15,7 @@ class Async implements ControllerProviderInterface
 {
     public function connect(Silex\Application $app)
     {
+        /** @var $ctr \Silex\ControllerCollection */
         $ctr = $app['controllers_factory'];
 
         $ctr->get("/dashboardnews", array($this, 'dashboardnews'))
@@ -385,9 +386,10 @@ class Async implements ControllerProviderInterface
     /**
      * List browse on the server, so we can insert them in the file input.
      *
+     * @param $namespace
      * @param $path
      * @param  Silex\Application $app
-     * @param  Request           $request
+     * @param  Request $request
      * @return mixed
      */
     public function browse($namespace, $path, Silex\Application $app, Request $request)
@@ -472,7 +474,7 @@ class Async implements ControllerProviderInterface
     /**
      * Rename a file within the files directory tree.
      *
-     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Silex\Application $app     The Silex Application Container
      * @param  Request          $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean                   Whether the renaming action was successful
@@ -563,7 +565,7 @@ class Async implements ControllerProviderInterface
     /**
      * Rename a folder within the files directory tree.
      *
-     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Silex\Application $app     The Silex Application Container
      * @param  Request          $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean                   Whether the renaming action was successful
@@ -606,7 +608,7 @@ class Async implements ControllerProviderInterface
     /**
      * Delete a folder recursively if writeable.
      *
-     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Silex\Application $app     The Silex Application Container
      * @param  Request          $request The HTTP Request Object containing the GET Params
      *
      * @return Boolean                   Whether the renaming action was successful
@@ -633,7 +635,7 @@ class Async implements ControllerProviderInterface
     /**
      * Create a new folder.
      *
-     * @param  SilexApplication $app     The Silex Application Container
+     * @param  Silex\Application $app     The Silex Application Container
      * @param  Request          $request he HTTP Request Object containing the GET Params
      *
      * @return Boolean                   Whether the creation was successful
@@ -641,7 +643,8 @@ class Async implements ControllerProviderInterface
     public function createfolder(Silex\Application $app, Request $request)
     {
         $namespace = $request->request->get('namespace', 'files');
-        $base = $app['resources']->getPath($namespace);
+        // FIXME seems it never used
+        // $base = $app['resources']->getPath($namespace);
 
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
