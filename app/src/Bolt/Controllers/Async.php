@@ -37,10 +37,6 @@ class Async implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('widget');
 
-        $ctr->post("/markdownify", array($this, 'markdownify'))
-            ->before(array($this, 'before'))
-            ->bind('markdownify');
-
         $ctr->get("/makeuri", array($this, 'makeuri'))
             ->before(array($this, 'before'));
 
@@ -212,24 +208,6 @@ class Async implements ControllerProviderInterface
         $html = \Parsedown::instance()->parse($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
-    }
-
-    public function markdownify(Silex\Application $app, Request $request)
-    {
-        $html = $request->request->get('html');
-
-        if (isHtml($html)) {
-
-            require_once __DIR__ . '/../../../classes/markdownify/markdownify_extra.php';
-            $markdown = new \Markdownify(false, 80, false);
-
-            $output = $markdown->parseString($html);
-
-        } else {
-            $output = $html;
-        }
-
-        return $output;
     }
 
     public function makeuri(Silex\Application $app, Request $request)

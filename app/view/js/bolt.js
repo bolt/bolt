@@ -782,29 +782,6 @@ function updateGeoCoords(key) {
 };
 
 
-
-function bindMarkdown(key) {
-// return pasted.replace(/\d+/,"XXX"); }
-    $('#'+key).catchpaste( function( pasted, options ) {
-
-        $.ajax({
-            url: asyncpath + 'markdownify',
-            type: 'POST',
-            data: { html: pasted },
-            success: function(data) {
-                $('#'+key).val(data);
-            },
-            error: function() {
-                console.log('failed to get an URI');
-                $('#'+key).val(pasted);
-            }
-        });
-        return "";
-
-    });
-
-}
-
 /**
  * Backbone object for collapsable sidebar.
  */
