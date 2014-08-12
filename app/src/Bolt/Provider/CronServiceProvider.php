@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Cron;
+use Bolt\Controllers\Cron;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
