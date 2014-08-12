@@ -226,6 +226,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $name
      * @param string $callback
+     * @param array $options
      */
     public function addTwigFunction($name, $callback, $options = array())
     {
@@ -246,6 +247,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $name
      * @param string $callback
+     * @param array $options
      */
     public function addTwigFilter($name, $callback, $options = array())
     {
@@ -305,6 +307,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * Add a javascript file to the rendered HTML.
      *
      * @param string $filename
+     * @param bool $late
      */
     public function addJavascript($filename, $late = false)
     {
@@ -325,6 +328,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * Add a CSS file to the rendered HTML.
      *
      * @param string $filename
+     * @param bool $late
      */
     public function addCSS($filename, $late = false)
     {
@@ -428,6 +432,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * @see: requireUserRole()
      *
      * @param string $permission
+     * @return bool
      */
     public function requireUserLevel($permission = 'dashboard')
     {
@@ -439,6 +444,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * not, we redirect the user to the dashboard.
      *
      * @param string $permission
+     * @return bool True if permission allowed
      */
     public function requireUserPermission($permission = 'dashboard')
     {
