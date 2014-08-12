@@ -43,6 +43,7 @@ class Routing implements ControllerProviderInterface
      */
     private function addRoutes(Silex\Application $app, array $routes)
     {
+        /** @var $ctr Silex\ControllerCollection */
         $ctr = $app['controllers_factory'];
 
         foreach ($routes as $binding => $routeconfig) {
