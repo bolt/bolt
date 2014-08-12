@@ -9,7 +9,7 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Comparator;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
@@ -156,7 +156,8 @@ class IntegrityChecker
 
         $comparator = new Comparator();
 
-        $baseTables = $this->getBoltTablesNames();
+        // FIXME Unnecessary I think
+        // $baseTables = $this->getBoltTablesNames();
 
         $tables = $this->getTablesSchema();
 
@@ -259,7 +260,8 @@ class IntegrityChecker
 
         $comparator = new Comparator();
 
-        $baseTables = $this->getBoltTablesNames();
+        // FIXME Unnecessary I think
+        // $baseTables = $this->getBoltTablesNames();
         $tables = $this->getTablesSchema();
 
         /** @var $table Table */
@@ -300,6 +302,7 @@ class IntegrityChecker
      * @param  TableDiff $diff
      * @return TableDiff
      */
+    // FIXME Does it do something?
     protected function cleanupTableDiff(TableDiff $diff)
     {
         $baseTables = $this->getBoltTablesNames();
@@ -606,7 +609,8 @@ class IntegrityChecker
                         // These are the default columns. Don't try to add these.
                         break;
                     default:
-                        $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
+                        // FIXME is it used for debug or what?
+                        // $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
                 }
 
                 if (isset($values['index']) && $values['index'] == 'true') {
