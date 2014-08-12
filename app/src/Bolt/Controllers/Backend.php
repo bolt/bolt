@@ -17,6 +17,7 @@ class Backend implements ControllerProviderInterface
 {
     public function connect(Silex\Application $app)
     {
+        /** @var $ctl \Silex\ControllerCollection */
         $ctl = $app['controllers_factory'];
 
         $ctl->get('', array($this, 'dashboard'))
@@ -230,7 +231,7 @@ class Backend implements ControllerProviderInterface
 
             default:
                 // Let's not disclose any internal information.
-                return $app->abort(400, 'Invalid request');
+                $app->abort(400, 'Invalid request');
         }
     }
 
@@ -615,6 +616,7 @@ class Backend implements ControllerProviderInterface
         // now.
         // Note that if either $limit or $pagecount is empty, the template will
         // skip rendering the pager.
+        // FIXME $itemcount is currently undefined so causes error
         $pagecount = $limit ? ceil($itemcount / $limit) : null;
 
         $context = array(
@@ -772,7 +774,7 @@ class Backend implements ControllerProviderInterface
                 // check if a pager was set in the referrer - if yes go back there
                 $editreferrer = $app['request']->get('editreferrer');
                 if ($editreferrer) {
-                    return simpleredirect($editreferrer);
+                    simpleredirect($editreferrer);
                 } else {
                     return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
                 }
