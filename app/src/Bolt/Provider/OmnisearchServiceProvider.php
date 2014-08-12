@@ -10,14 +10,13 @@ class OmnisearchServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $app['omnisearch'] = $app->share(
+            function ($app) {
+                $omnisearch = new Omnisearch($app);
 
-        $app['omnisearch'] = $app->share(function ($app) {
-
-            $omnisearch = new Omnisearch($app);
-
-            return $omnisearch;
-
-        });
+                return $omnisearch;
+            }
+        );
 
     }
 

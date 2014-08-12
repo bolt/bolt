@@ -414,6 +414,7 @@ class Permissions
                 list ($_, $contenttype) = $parts;
                 if (empty($contenttype)) {
                     $this->audit("Granting 'relatedto' globally (hard-coded override)");
+
                     return true;
                 } else {
                     $permission = 'view';

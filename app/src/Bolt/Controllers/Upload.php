@@ -64,7 +64,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         $app['upload.namespace'] = 'files';
 
         // This gets prepended to all file saves, can be reset to "" or add your own closure for more complex ones.
-        $app['upload.prefix'] = date('Y-m')."/";
+        $app['upload.prefix'] = date('Y-m').'/';
 
         $app['upload.overwrite'] = false;
     }
@@ -73,60 +73,58 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         $ctr = $app['controllers_factory'];
         $controller = $this;
-        $ctr->match("/{namespace}", function (Silex\Application $app, Request $request) use ($controller) {
-
-
+        $func = function (Silex\Application $app, Request $request) use ($controller) {
             if ($handler = $request->get('handler')) {
-                
-                $parser = function($setting) use ($app) {
-                    $parts = explode("://",$setting);
-                    if (count($parts)==2) {
+
+                $parser = function ($setting) use ($app) {
+                    $parts = explode('://', $setting);
+                    if (count($parts) == 2) {
                         $namespace = $parts[0];
                         array_shift($parts);
                     } else {
                         $namespace = $app['upload.namespace'];
                     }
-                    $prefix = rtrim($parts[0],"/")."/";
+                    $prefix = rtrim($parts[0], '/').'/';
+
                     return array($namespace, $prefix);
                 };
-                
 
                 if (is_array($handler)) {
                     list($namespace, $prefix) = $parser($handler[0]);
-                    $app['upload.namespace']=$namespace;
+                    $app['upload.namespace'] = $namespace;
                     $app['upload.prefix'] = $prefix;
                     $result = $controller->uploadFile($app, $request, $namespace);
 
                     array_shift($handler);
                     $original = $namespace;
-                    
-                    if(count($result)) {
+
+                    if (count($result)) {
                         $result = $result[0];
-                        foreach($handler as $copy) {
+                        foreach ($handler as $copy) {
                             list($namespace, $prefix) = $parser($copy);
                             $manager = $app['filesystem'];
                             $manager->put(
-                                $namespace."://".$prefix.basename($result['name']), 
+                                $namespace.'://'.$prefix.basename($result['name']),
                                 $manager->read($original.'://'.$result['name'])
-                            );                            
+                            );
                         }
                     }
+
                     return new JsonResponse($response);
                 } else {
                     list($namespace, $prefix) = $parser($handler);
                 }
-                $app['upload.namespace']=$namespace;
+                $app['upload.namespace'] = $namespace;
                 $app['upload.prefix'] = $prefix;
             } else {
                 $namespace = $app['upload.namespace'];
             }
-            
-            
-            return new JsonResponse($controller->uploadFile($app, $request, $namespace));
 
-        })
-        ->value('namespace', 'files')
-        ->bind('upload');
+            return new JsonResponse($controller->uploadFile($app, $request, $namespace));
+        };
+        $ctr->match('/{namespace}', $func)
+            ->value('namespace', 'files')
+            ->bind('upload');
 
         return $ctr;
     }

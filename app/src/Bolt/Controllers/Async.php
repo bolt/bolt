@@ -282,18 +282,16 @@ class Async implements ControllerProviderInterface
 
     public function omnisearch(Silex\Application $app)
     {
-
         $query = $app['request']->get('q', '');
 
         if (strlen($query) < 3) {
             return $app->json(array());
         }
 
-        $options = $app['omnisearch']->query( $query );
-        return $app->json( $options );
+        $options = $app['omnisearch']->query($query);
 
+        return $app->json($options);
     }
-
 
     /**
      * Latest {contenttype} to show a small listing in the sidebars..
@@ -385,7 +383,6 @@ class Async implements ControllerProviderInterface
         return $app['render']->render('filebrowser/filebrowser.twig', array('context' => $context));
     }
 
-
     /**
      * List browse on the server, so we can insert them in the file input.
      *
@@ -437,15 +434,12 @@ class Async implements ControllerProviderInterface
         return $app['render']->render('files_async/files_async.twig', array('context' => $context));
     }
 
-
     public function addstack($filename = "", Silex\Application $app)
     {
         $app['stack']->add($filename);
 
         return true;
     }
-
-
 
     public function showstack(Silex\Application $app)
     {
@@ -507,10 +501,8 @@ class Async implements ControllerProviderInterface
         $fileSystemHelper = new Filesystem;
 
         try {
-            $fileSystemHelper->rename($oldPath,
-                                      $newPath,
-                                      false /* Don't rename if target exists already! */);
-        } catch(IOException $exception) {
+            $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
+        } catch (IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */
             return false;

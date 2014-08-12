@@ -12,16 +12,14 @@ use League\Flysystem\MountManager;
 */
 class Manager extends MountManager
 {
-
-
     public $app;
 
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->mountFilesystem('default', new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) ));
-        $this->mountFilesystem('files', new Filesystem( new FilesystemAdapter($app['resources']->getPath('files')) ));
-        $this->mountFilesystem('config', new Filesystem( new FilesystemAdapter($app['resources']->getPath('config')) ));
+        $this->mountFilesystem('default', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
+        $this->mountFilesystem('files', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
+        $this->mountFilesystem('config', new Filesystem(new FilesystemAdapter($app['resources']->getPath('config'))));
         $this->initManagers();
     }
 
@@ -40,7 +38,6 @@ class Manager extends MountManager
         $manager->addPlugin(new ThumbnailUrlPlugin($this->app, $namespace));
     }
 
-
     public function getManager($namespace = null)
     {
         if (isset($this->filesystems[$namespace])) {
@@ -55,7 +52,7 @@ class Manager extends MountManager
         $this->mountFilesystem($namespace, $manager);
         $this->initManager($namespace, $manager);
     }
-    
+
     /**
      * By default we forward anything called on this class to the default manager
      *
@@ -64,8 +61,7 @@ class Manager extends MountManager
     public function __call($method, $arguments)
     {
         $callback = array($this->getManager(), $method);
+
         return call_user_func_array($callback, $arguments);
     }
 }
-
-

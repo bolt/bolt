@@ -82,16 +82,16 @@ class Session
             $query = "SELECT * from $table WHERE sessiontoken = :token";
             $map = array(':token' => $token);
 
-            $all = $this->db->fetchAll($query, $map);
+            $all = $this->db->fetchAssoc($query, $map);
 
-            return array_shift($all);
+            return $all;
         } else {
            return false;
         }
     }
 
     // update existing visitor session
-    public function update($token = null)
+    public function update($token = null, $visitor_id)
     {
         if($token) {
             $tablename =  $this->prefix . "visitors_sessions";

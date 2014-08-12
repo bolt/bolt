@@ -716,7 +716,6 @@ class Storage
         return $id;
     }
 
-
     public function deleteContent($contenttype, $id)
     {
         if (empty($contenttype)) {
@@ -758,7 +757,6 @@ class Storage
         return $res;
     }
 
-
     protected function insertContent($content, $contenttype, $taxonomy = "", $comment = null)
     {
         // Make sure $contenttype is a 'slug'
@@ -786,7 +784,6 @@ class Storage
 
         return $id;
     }
-
 
     /**
      * @param array  $content     The content new values.
@@ -1332,7 +1329,6 @@ class Storage
         }
     }
 
-
     /**
      * Check (and update) any records that need to be updated from "published" to "held".
      *
@@ -1805,6 +1801,7 @@ class Storage
     {
         $param = Pager::makeParameterId($context);
         $page = ($this->app['request']->query) ? $this->app['request']->query->get($param, 1) : 1;
+
         return $page;
     }
 
@@ -2159,8 +2156,6 @@ class Storage
         return array($fieldname, (strtoupper($sort) == 'ASC'));
     }
 
-
-
     /**
      * Helper function for sorting Records of content that have a Grouping.
      *
@@ -2268,7 +2263,6 @@ class Storage
         return $parameter;
     }
 
-
     /**
      * Get the contenttype as an array, based on the given $contenttypeslug
      *
@@ -2370,7 +2364,6 @@ class Storage
         return implode("|", $slugs);
     }
 
-
     /**
      * Get a value to use in 'assert() with the available taxonomytypes
      *
@@ -2434,9 +2427,6 @@ class Storage
             return false;
         }
     }
-
-
-
 
     /**
      * Check if a given contenttype has a grouping, and if it does, return it.
@@ -2604,7 +2594,8 @@ class Storage
                 if (!isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
 
                     // Assume we passed a value, instead of a slug. Turn it back into a proper slug
-                    if (array_search($slug, $configTaxonomies[$taxonomytype]['options'])) {
+                    if (is_array($configTaxonomies[$taxonomytype]['options']) && 
+                        array_search($slug, $configTaxonomies[$taxonomytype]['options']) ) {
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
                         // make sure it's at least a slug-like value.
@@ -2641,7 +2632,6 @@ class Storage
 
         }
     }
-
 
     /**
      * Get the relations for one or more units of content, return the array with the taxonomy attached.
@@ -2801,7 +2791,6 @@ class Storage
         }
     }
 
-
     public function getLatestId($contenttypeslug)
     {
         $tablename = $this->getTablename($contenttypeslug);
@@ -2819,7 +2808,6 @@ class Storage
             return false;
         }
     }
-
 
     public function getUri($title, $id = 0, $contenttypeslug = "", $fulluri = true, $allowempty = true)
     {
@@ -2933,7 +2921,6 @@ class Storage
 
         return $tablename;
     }
-
 
     protected function hasRecords($tablename)
     {
