@@ -3,11 +3,7 @@
 namespace Bolt\Controllers;
 
 use Silex;
-use Doctrine\DBAL\Connection as DoctrineConn;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Bolt\CronEvent;
 use Bolt\CronEvents;
 
@@ -27,6 +23,7 @@ use Bolt\CronEvents;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  *
+ * @property \Bolt\Application $app
  **/
 class Cron extends Event
 {
@@ -106,9 +103,9 @@ class Cron extends Event
 
         if (empty($hour)) {
             $this->threshold = strtotime("03:00");
-        } elseif (is_numeric($conf)) {
+        } elseif (is_numeric($hour)) {
             $this->threshold = strtotime($hour . ":00");
-        } elseif (is_string($conf)) {
+        } elseif (is_string($hour)) {
             $this->threshold = strtotime($hour);
         }
     }
@@ -190,6 +187,6 @@ class Cron extends Event
         );
 
         // Write to db
-        $db = $this->app['db']->executeUpdate($query, $map);
+        $this->app['db']->executeUpdate($query, $map);
     }
 }
