@@ -8,10 +8,8 @@ namespace Bolt\Configuration;
 
 class LowlevelChecks
 {
-
     public $config;
     public $disableApacheChecks = false;
-
 
     /**
      * The constructor requires a resource manager object to perform checks against.
@@ -19,7 +17,6 @@ class LowlevelChecks
      *
      * @return void
      **/
-
     public function __construct($config = null)
     {
         $this->config = $config;
@@ -95,8 +92,6 @@ class LowlevelChecks
             }
         }
 
-
-
         // If the config folder is OK, but the config files are missing, attempt to fix it.
         $this->lowlevelConfigFix('config');
         $this->lowlevelConfigFix('menu');
@@ -141,7 +136,7 @@ class LowlevelChecks
             }
 
             return;
-        } elseif ($cfg['driver'] == 'postgres' || $cfg['driver']=='postgresql') {
+        } elseif ($cfg['driver'] == 'postgres' || $cfg['driver'] == 'postgresql') {
             if (!extension_loaded('pdo_pgsql')) {
                 $this->lowlevelError("Postgres was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_pgsql driver.");
             }
@@ -152,18 +147,17 @@ class LowlevelChecks
                 $this->lowlevelError("SQLite was selected as the database type, but the driver does not exist or is not loaded. Please install the pdo_sqlite driver.");
             }
         } else {
-            $this->lowlevelError("The selected database type is not supported.");
+            $this->lowlevelError('The selected database type is not supported.');
         }
 
         if (isset($cfg['memory']) && true == $cfg['memory']) {
             return;
         }
 
-        $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : "bolt";
-        if (getExtension($filename) != "db") {
-            $filename .= ".db";
+        $filename = isset($cfg['databasename']) ? basename($cfg['databasename']) : 'bolt';
+        if (getExtension($filename) != 'db') {
+            $filename .= '.db';
         }
-
 
         // Check if the app/database folder and .db file are present and writable
         if (!is_writable($this->config->getPath('database'))) {
@@ -217,7 +211,6 @@ class LowlevelChecks
             $this->lowlevelError($message);
         }
     }
-
 
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
@@ -273,7 +266,7 @@ class LowlevelChecks
 </html>
 EOM;
 
-        $html = str_replace("%error%", $message, $html);
+        $html = str_replace('%error%', $message, $html);
 
         // TODO: Information disclosure vulnerability. A misconfigured system
         // will give an attacker detailed information about the state of the

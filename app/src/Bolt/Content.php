@@ -17,7 +17,7 @@ class Content implements \ArrayAccess
     // The last time we weight a searchresult
     private $last_weight = 0;
 
-    public function __construct(Silex\Application $app, $contenttype = "", $values = "")
+    public function __construct(Silex\Application $app, $contenttype = '', $values = '')
     {
         $this->app = $app;
 
@@ -85,14 +85,15 @@ class Content implements \ArrayAccess
     public static function getBaseColumns()
     {
         return array(
-                'id',
-                'slug',
-                'datecreated',
-                'datechanged',
-                'datepublish',
-                'datedepublish',
-                'ownerid',
-                'status');
+            'id',
+            'slug',
+            'datecreated',
+            'datechanged',
+            'datepublish',
+            'datedepublish',
+            'ownerid',
+            'status'
+        );
     }
 
     public function setValues(Array $values)
@@ -147,7 +148,8 @@ class Content implements \ArrayAccess
             'video',
             'select',
             'templateselect',
-            'checkbox');
+            'checkbox'
+        );
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
             if (in_array($this->fieldtype($key), $serialized_field_types)) {
@@ -319,19 +321,19 @@ class Content implements \ArrayAccess
                 }
 
                 $filename = sprintf(
-                    "%s/files/%s/%s",
+                    '%s/files/%s/%s',
                     $this->app['paths']['rootpath'],
-                    date("Y-m"),
-                    safeString($file['name'][0], false, "[]{}()")
+                    date('Y-m'),
+                    safeString($file['name'][0], false, '[]{}()')
                 );
-                $basename = sprintf("/%s/%s", date("Y-m"), safeString($file['name'][0], false, "[]{}()"));
+                $basename = sprintf('/%s/%s', date('Y-m'), safeString($file['name'][0], false, "[]{}()"));
 
                 if ($file['error'][0] != UPLOAD_ERR_OK) {
-                    $this->app['log']->add("Upload: Error occured during upload: " . $file['error'][0] ." - " . $filename, 2);
+                    $this->app['log']->add('Upload: Error occured during upload: ' . $file['error'][0] . ' - ' . $filename, 2);
                     continue;
                 }
 
-                if (substr($key, 0, 11) != "fileupload-") {
+                if (substr($key, 0, 11) != 'fileupload-') {
                     $this->app['log']->add("Upload: skipped an upload that wasn't for Content. - " . $filename, 2);
                     continue;
                 }
@@ -382,7 +384,6 @@ class Content implements \ArrayAccess
         );
     }
 
-
     /**
      * "upcount" callback helper function
      * Taken from jQuery file upload..
@@ -399,8 +400,6 @@ class Content implements \ArrayAccess
 
         return ' ('.$index.')'.$ext;
     }
-
-
 
     public function setContenttype($contenttype)
     {
@@ -492,7 +491,6 @@ class Content implements \ArrayAccess
         }
     }
 
-
     public function setRelation($contenttype, $id)
     {
         if (!empty($this->relation[$contenttype])) {
@@ -506,7 +504,6 @@ class Content implements \ArrayAccess
 
         $this->relation[$contenttype] = array_unique($ids);
     }
-
 
     public function getTaxonomyType($type)
     {
@@ -733,8 +730,6 @@ class Content implements \ArrayAccess
         return false;
     }
 
-
-
     /**
      * Get the first image in the content ..
      */
@@ -900,8 +895,6 @@ class Content implements \ArrayAccess
         return $next;
     }
 
-
-
     /**
      * Gets one or more related records.
      *
@@ -943,14 +936,14 @@ class Content implements \ArrayAccess
         $template = $this->app['config']->get('general/record_template');
         $chosen = 'config';
 
-        $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['singular_slug'] . ".twig";
+        $templatefile = $this->app['paths']['themepath'] . '/' . $this->contenttype['singular_slug'] . '.twig';
         if (is_readable($templatefile)) {
             $template = $this->contenttype['singular_slug'] . ".twig";
             $chosen = 'singular_slug';
         }
 
         if (isset($this->contenttype['record_template'])) {
-            $templatefile = $this->app['paths']['themepath'] . "/" . $this->contenttype['record_template'];
+            $templatefile = $this->app['paths']['themepath'] . '/' . $this->contenttype['record_template'];
             if (file_exists($templatefile)) {
                 $template = $this->contenttype['record_template'];
                 $chosen = 'contenttype';
@@ -958,7 +951,7 @@ class Content implements \ArrayAccess
         }
 
         foreach ($this->contenttype['fields'] as $name => $field) {
-            if ($field['type'] == "templateselect" && !empty($this->values[$name])) {
+            if ($field['type'] == 'templateselect' && !empty($this->values[$name])) {
                 $template = $this->values[$name];
                 $chosen = 'record';
             }
@@ -1005,7 +998,6 @@ class Content implements \ArrayAccess
      */
     public function excerpt($length = 200, $includetitle = false)
     {
-
         if ($includetitle) {
             $title = $this->getTitle();
             $length = $length - strlen($title);
@@ -1017,17 +1009,17 @@ class Content implements \ArrayAccess
             foreach ($this->contenttype['fields'] as $key => $field) {
                 if (in_array($field['type'], array('text', 'html', 'textarea', 'markdown'))
                     && isset($this->values[$key])
-                    && !in_array($key, array("title", "name")) ) {
+                    && !in_array($key, array('title', 'name')) ) {
                     $excerpt[] = $this->values[$key];
                 }
             }
         }
 
-        $excerpt = str_replace(">", "> ", implode(" ", $excerpt));
+        $excerpt = str_replace('>', '> ', implode(' ', $excerpt));
         $excerpt = trimText(strip_tags($excerpt), $length);
 
         if (!empty($title)) {
-            $excerpt = sprintf("<b>%s</b> %s", $title, $excerpt);
+            $excerpt = sprintf('<b>%s</b> %s', $title, $excerpt);
         }
 
         return new \Twig_Markup($excerpt, 'UTF-8');
@@ -1045,20 +1037,22 @@ class Content implements \ArrayAccess
     {
         // Make sure we have an array of fields. Even if it's only one.
         if (!is_array($fields)) {
-            $fields = explode(",", $fields);
+            $fields = explode(',', $fields);
         }
         $fields = array_map('trim', $fields);
 
-        $result = "";
+        $result = '';
 
         foreach ($fields as $field) {
             if (array_key_exists($field, $this->values)) {
 
                 // Completely remove style and script blocks
-                $maid = new \Maid\Maid(array(
-                    'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
-                    'output-format' => 'html'
-                ));
+                $maid = new \Maid\Maid(
+                    array(
+                        'allowed-tags' => array('a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'),
+                        'output-format' => 'html'
+                    )
+                );
                 $result .= $maid->clean($this->values[$field]);
             }
         }

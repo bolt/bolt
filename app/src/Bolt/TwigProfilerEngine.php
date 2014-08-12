@@ -3,7 +3,6 @@
 namespace Bolt;
 
 use Symfony\Bridge\Twig\TwigEngine;
-
 use Bolt\DataCollector\TwigDataCollector;
 
 class TwigProfilerEngine extends TwigEngine

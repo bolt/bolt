@@ -90,7 +90,7 @@ class Extensions
             $this->addjquery = false;
         }
     }
-    
+
     /**
      * Autoloads all registered extension files with an instance of the app
      *
@@ -99,29 +99,27 @@ class Extensions
     public function autoload($app)
     {
         $loader = new \Composer\Autoload\ClassLoader();
-        
+
         $mapfile = $this->basefolder . '/vendor/composer/autoload_psr4.php';
-        if(is_readable($mapfile)) {
-            $map = require_once($mapfile); 
+        if (is_readable($mapfile)) {
+            $map = require_once $mapfile;
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
             $loader->register();
-        }        
-        
-        $filepath = $this->basefolder."/vendor/composer/autoload_files.php";
+        }
+
+        $filepath = $this->basefolder.'/vendor/composer/autoload_files.php';
         if (is_readable($filepath)) {
-            $files = include($filepath);
-            foreach($files as $file) {
-                if(is_readable($file)) {
-                    include($file);
+            $files = include $filepath;
+            foreach ($files as $file) {
+                if (is_readable($file)) {
+                    include $file;
                 }
             }
         }
-        
     }
 
-    
     /**
      * Extension register method. Allows any extension to register itself onto the enabled stack.
      *
@@ -144,8 +142,6 @@ class Extensions
         return array();
     }
 
-
-
     /**
      * Check if an extension is enabled, case sensitive.
      *
@@ -163,11 +159,9 @@ class Extensions
      */
     public function initialize()
     {
-        $this->autoload($this->app); 
+        $this->autoload($this->app);
         ksort($this->enabled);
-        foreach ($this->enabled as $name=>$extension) {
-
-
+        foreach ($this->enabled as $name => $extension) {
             $this->initialized[$name] = $extension;
 
             $extension->getConfig();
@@ -241,11 +235,11 @@ class Extensions
      * Insert a widget. And by 'insert' we actually mean 'add it to the queue,
      * to be processed later'.
      */
-    public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = "", $defer = true, $cacheduration = 180, $extraparameters = "")
+    public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = '', $defer = true, $cacheduration = 180, $extraparameters = "")
     {
         $user = $this->app['session']->get('user');
 
-        $sessionkey = !empty($user['sessionkey']) ? $user['sessionkey'] : "";
+        $sessionkey = !empty($user['sessionkey']) ? $user['sessionkey'] : '';
 
         $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, !is_array($callback) ? $callback : get_class($callback[0]) . $callback[1])), 0, 8);
 
@@ -339,7 +333,7 @@ class Extensions
                 // Make sure 'snippet[2]' is the correct name.
                 $snippet[2] = $extensionname;
                 if (!isset($snippet[3])) {
-                    $snippet[3] = "";
+                    $snippet[3] = '';
                 }
                 $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
             }
@@ -349,7 +343,7 @@ class Extensions
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      */
-    public function insertSnippet($location, $callback, $extensionname = "core", $extraparameters = "")
+    public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = '')
     {
         $key = md5($extensionname . $callback . $location);
 
@@ -475,7 +469,6 @@ class Extensions
         return $html;
     }
 
-
     /**
      *
      * Helper function to insert some HTML into thestart of the head section of
@@ -586,7 +579,6 @@ class Extensions
         return $html;
     }
 
-
     /**
      * Helper function to insert some HTML into the head section of an HTML page.
      *
@@ -635,7 +627,6 @@ class Extensions
 
         return $html;
     }
-
 
     /**
      * Helper function to insert some HTML before the first CSS include in the page.
@@ -752,7 +743,6 @@ class Extensions
             return $html;
         }
     }
-
 
     /**
      * Add a menu option to the 'settings' menu. Note that the item is only added if the current user

@@ -19,124 +19,124 @@ class Backend implements ControllerProviderInterface
     {
         $ctl = $app['controllers_factory'];
 
-        $ctl->get("", array($this, 'dashboard'))
+        $ctl->get('', array($this, 'dashboard'))
             ->before(array($this, 'before'))
             ->bind('dashboard');
 
-        $ctl->match("/login", array($this, 'getLogin'))
+        $ctl->match('/login', array($this, 'getLogin'))
             ->method('GET')
             ->before(array($this, 'before'))
             ->bind('login');
 
-        $ctl->match("/login", array($this, 'postLogin'))
+        $ctl->match('/login', array($this, 'postLogin'))
             ->method('POST')
             ->before(array($this, 'before'))
             ->bind('postLogin');
 
-        $ctl->get("/logout", array($this, 'logout'))
+        $ctl->get('/logout', array($this, 'logout'))
             ->method('POST')
             ->bind('logout');
 
-        $ctl->match("/resetpassword", array($this, 'resetpassword'))
+        $ctl->match('/resetpassword', array($this, 'resetpassword'))
             ->bind('resetpassword')
             ->method('GET');
 
-        $ctl->get("/dbcheck", array($this, 'dbcheck'))
+        $ctl->get('/dbcheck', array($this, 'dbcheck'))
             ->before(array($this, 'before'))
             ->bind('dbcheck');
 
-        $ctl->get("/dbupdate", array($this, 'dbupdate'))
+        $ctl->get('/dbupdate', array($this, 'dbupdate'))
             ->method('POST')
             ->before(array($this, 'before'))
             ->bind('dbupdate');
 
-        $ctl->get("/dbupdate_result", array($this, 'dbupdate_result'))
+        $ctl->get('/dbupdate_result', array($this, 'dbupdate_result'))
             ->method('GET')
             ->before(array($this, 'before'))
             ->bind('dbupdate_result');
 
-        $ctl->get("/clearcache", array($this, 'clearcache'))
+        $ctl->get('/clearcache', array($this, 'clearcache'))
             ->before(array($this, 'before'))
             ->bind('clearcache');
 
-        $ctl->match("/prefill", array($this, 'prefill'))
+        $ctl->match('/prefill', array($this, 'prefill'))
             ->before(array($this, 'before'))
             ->method('GET|POST')
             ->bind('prefill');
 
-        $ctl->get("/overview/{contenttypeslug}", array($this, 'overview'))
+        $ctl->get('/overview/{contenttypeslug}', array($this, 'overview'))
             ->before(array($this, 'before'))
             ->bind('overview');
 
-        $ctl->get("/relatedto/{contenttypeslug}/{id}", array($this, 'relatedto'))
+        $ctl->get('/relatedto/{contenttypeslug}/{id}', array($this, 'relatedto'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->bind('relatedto');
 
-        $ctl->match("/editcontent/{contenttypeslug}/{id}", array($this, 'editcontent'))
+        $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editcontent'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->method('GET|POST')
             ->bind('editcontent');
 
-        $ctl->get("/content/deletecontent/{contenttypeslug}/{id}", array($this, 'deletecontent'))
+        $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deletecontent'))
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
-        $ctl->get("/content/sortcontent/{contenttypeslug}", array($this, 'sortcontent'))
+        $ctl->get('/content/sortcontent/{contenttypeslug}', array($this, 'sortcontent'))
             ->before(array($this, 'before'))
             ->bind('sortcontent');
 
-        $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
+        $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentaction'))
             ->before(array($this, 'before'))
             ->method('POST')
             ->bind('contentaction');
 
-        $ctl->get("/changelog/{contenttype}/{contentid}", array($this, 'changelogList'))
+        $ctl->get('/changelog/{contenttype}/{contentid}', array($this, 'changelogList'))
             ->before(array($this, 'before'))
             ->value('contentid', '0')
             ->value('contenttype', '')
             ->bind('changeloglist');
 
-        $ctl->get("/changelog/{contenttype}/{contentid}/{id}", array($this, 'changelogDetails'))
+        $ctl->get('/changelog/{contenttype}/{contentid}/{id}', array($this, 'changelogDetails'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->bind('changelogdetails');
 
-        $ctl->get("/users", array($this, 'users'))
+        $ctl->get('/users', array($this, 'users'))
             ->before(array($this, 'before'))
             ->bind('users');
 
-        $ctl->match("/users/edit/{id}", array($this, 'useredit'))
+        $ctl->match('/users/edit/{id}', array($this, 'useredit'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->method('GET|POST')
             ->bind('useredit');
 
-        $ctl->match("/profile", array($this, 'profile'))
+        $ctl->match('/profile', array($this, 'profile'))
             ->before(array($this, 'before'))
             ->method('GET|POST')
             ->bind('profile');
 
-        $ctl->match("/roles", array($this, 'roles'))
+        $ctl->match('/roles', array($this, 'roles'))
             ->before(array($this, 'before'))
             ->method('GET')
             ->bind('roles');
 
-        $ctl->get("/about", array($this, 'about'))
+        $ctl->get('/about', array($this, 'about'))
             ->before(array($this, 'before'))
             ->bind('about');
 
-        $ctl->get("/extensions", array($this, 'extensions'))
+        $ctl->get('/extensions', array($this, 'extensions'))
             ->before(array($this, 'before'))
             ->bind('extensions');
 
-        $ctl->get("/user/{action}/{id}", array($this, 'useraction'))
+        $ctl->get('/user/{action}/{id}', array($this, 'useraction'))
             ->before(array($this, 'before'))
             ->method('POST')
             ->bind('useraction');
 
-        $ctl->match("/files/{namespace}/{path}", array($this, 'files'))
+        $ctl->match('/files/{namespace}/{path}', array($this, 'files'))
             ->before(array($this, 'before'))
             ->assert('namespace', '[^/]+')
             ->assert('path', '.*')
@@ -144,11 +144,11 @@ class Backend implements ControllerProviderInterface
             ->value('path', '')
             ->bind('files');
 
-        $ctl->get("/activitylog", array($this, 'activitylog'))
+        $ctl->get('/activitylog', array($this, 'activitylog'))
             ->before(array($this, 'before'))
             ->bind('activitylog');
 
-        $ctl->match("/file/edit/{namespace}/{file}", array($this, 'fileedit'))
+        $ctl->match('/file/edit/{namespace}/{file}', array($this, 'fileedit'))
             ->before(array($this, 'before'))
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
@@ -156,7 +156,7 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('fileedit');
 
-        $ctl->match("/tr/{domain}/{tr_locale}", array($this, 'translation'))
+        $ctl->match('/tr/{domain}/{tr_locale}', array($this, 'translation'))
             ->before(array($this, 'before'))
             ->assert('domain', 'messages|contenttypes|infos')
             ->value('domain', 'messages')
@@ -164,8 +164,7 @@ class Backend implements ControllerProviderInterface
             ->method('GET|POST')
             ->bind('translation');
 
-
-        $ctl->get("/omnisearch", array($this, 'omnisearch'))
+        $ctl->get('/omnisearch', array($this, 'omnisearch'))
             ->before(array($this, 'before'))
             ->bind('omnisearch');
 
@@ -199,7 +198,6 @@ class Backend implements ControllerProviderInterface
         return $app['render']->render('dashboard/dashboard.twig', array('context' => $context));
     }
 
-
     public function postLogin(Silex\Application $app, Request $request)
     {
         switch ($request->get('action')) {
@@ -208,7 +206,7 @@ class Backend implements ControllerProviderInterface
                 $result = $app['users']->login($request->get('username'), $request->get('password'));
 
                 if ($result) {
-                    $app['log']->add("Login " . $request->get('username'), 3, '', 'login');
+                    $app['log']->add('Login ' . $request->get('username'), 3, '', 'login');
                     $retreat = $app['session']->get('retreat');
                     $redirect = !empty($retreat) && is_array($retreat) ? $retreat : array('route' => 'dashboard', 'params' => array());
 
@@ -221,7 +219,7 @@ class Backend implements ControllerProviderInterface
                 // Send a password request mail, if username exists.
                 $username = trim($request->get('username'));
                 if (empty($username)) {
-                    $app['users']->session->getFlashBag()->set('error', __("Please provide a username", array()));
+                    $app['users']->session->getFlashBag()->set('error', __('Please provide a username', array()));
                 } else {
                     $app['users']->resetPasswordRequest($request->get('username'));
 
@@ -253,13 +251,12 @@ class Backend implements ControllerProviderInterface
      */
     public function logout(Silex\Application $app)
     {
-        $app['log']->add("Logout", 3, '', 'logout');
+        $app['log']->add('Logout', 3, '', 'logout');
 
         $app['users']->logout();
 
         return redirect('login');
     }
-
 
     /**
      * Reset the password. This controller is normally only reached when the user
@@ -275,7 +272,6 @@ class Backend implements ControllerProviderInterface
 
         return redirect('login');
     }
-
 
     /**
      * Check the database for missing tables and columns. Does not do actual repairs
@@ -300,15 +296,15 @@ class Backend implements ControllerProviderInterface
         // If 'return=edit' is passed, we should return to the edit screen. We do redirect twice, yes,
         // but that's because the newly saved contenttype.yml needs to be re-read.
         $return = $app['request']->query->get('return');
-        if ($return == "edit") {
+        if ($return == 'edit') {
             if (empty($output)) {
-                $content = __("Your database is already up to date.");
+                $content = __('Your database is already up to date.');
             } else {
-                $content = __("Your database is now up to date.");
+                $content = __('Your database is now up to date.');
             }
             $app['session']->getFlashBag()->set('success', $content);
 
-            return redirect('fileedit', array('file' => "app/config/contenttypes.yml"));
+            return redirect('fileedit', array('file' => 'app/config/contenttypes.yml'));
         } else {
             return redirect('dbupdate_result', array('messages' => json_encode($output)));
         }
@@ -323,7 +319,6 @@ class Backend implements ControllerProviderInterface
 
         return $app['render']->render('dbcheck/dbcheck.twig', array('context' => $context));
     }
-
 
     /**
      * Clear the cache.
@@ -344,7 +339,6 @@ class Backend implements ControllerProviderInterface
         return $app['render']->render('clearcache/clearcache.twig');
     }
 
-
     /**
      * Show the activity-log.
      */
@@ -352,12 +346,12 @@ class Backend implements ControllerProviderInterface
     {
         $action = $app['request']->query->get('action');
 
-        if ($action == "clear") {
+        if ($action == 'clear') {
             $app['log']->clear();
             $app['session']->getFlashBag()->set('success', __('The activitylog has been cleared.'));
 
             return redirect('activitylog');
-        } elseif ($action == "trim") {
+        } elseif ($action == 'trim') {
             $app['log']->trim();
             $app['session']->getFlashBag()->set('success', __('The activitylog has been trimmed.'));
 
@@ -382,7 +376,7 @@ class Backend implements ControllerProviderInterface
         $results = array();
 
         if (strlen($query) >= 3) {
-            $results = $app['omnisearch']->query( $query, true );
+            $results = $app['omnisearch']->query($query, true);
         }
 
         $context = array(
@@ -411,7 +405,7 @@ class Backend implements ControllerProviderInterface
             ))
             ->getForm();
 
-        if (($request->getMethod() == "POST") || ($request->get('force') == 1)) {
+        if (($request->getMethod() == 'POST') || ($request->get('force') == 1)) {
             $form->bind($request);
             $ctypes = $form->get('contenttypes')->getData();
             $content = $app['storage']->preFill($ctypes);
@@ -427,7 +421,6 @@ class Backend implements ControllerProviderInterface
 
         return $app['render']->render('prefill/prefill.twig', array('context' => $context));
     }
-
 
     /**
      * Check the database, create tables, add missing/new columns to tables
@@ -454,7 +447,6 @@ class Backend implements ControllerProviderInterface
         } else {
             $limit = $app['config']->get('general/recordsperpage');
         }
-
 
         $multiplecontent = $app['storage']->getContent(
             $contenttype['slug'],
@@ -770,6 +762,7 @@ class Backend implements ControllerProviderInterface
                     } else {
                         // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
                         $id = $app['storage']->getLatestId($contenttype['slug']);
+
                         return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
                     }
 
@@ -929,8 +922,8 @@ class Backend implements ControllerProviderInterface
         $groupingtaxonomy = $app['storage']->getContentTypeGrouping($contenttypeslug); // maybe needed in UpdateQuery?
 
         $sortingarray = $request->get('item');
-        foreach($sortingarray as $sortorder => $id){
-            $content = $app['storage']->getContent($contenttypeslug . "/" . $id);
+        foreach ($sortingarray as $sortorder => $id) {
+            $content = $app['storage']->getContent($contenttypeslug . '/' . $id);
             $group = $content->group[slug]; // maybe needed in UpdateQuery?
 
             // @todo UpdateQuery for new sortorders
@@ -940,15 +933,15 @@ class Backend implements ControllerProviderInterface
         }
 
         if ($changedContent) {
-            $app['session']->getFlashBag()->set('info', __("Sortorder has been changed"));
+            $app['session']->getFlashBag()->set('info', __('Sortorder has been changed'));
+
             return true;
         } else {
-            $app['session']->getFlashBag()->set('error', __("Sortorder could not be changed."));
+            $app['session']->getFlashBag()->set('error', __('Sortorder could not be changed.'));
+
             return false;
         }
     }
-
-
 
     /**
      * Show a list of all available users.
@@ -1013,9 +1006,11 @@ class Backend implements ControllerProviderInterface
             // Add a note, if we're setting up the first user using SQLite..
             $dbdriver = $app['config']->get('general/database/driver');
             if ($dbdriver == 'sqlite' || $dbdriver == 'pdo_sqlite') {
-                $note = __('You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, ' .
-                    'edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set up the database tables for you. '.
-                    'Be sure to reload this page before continuing.');
+                $note = __(
+                    'You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL ' .
+                    'instead, edit the configuration file at <tt>\'app/config/config.yml\'</tt> and Bolt will set '.
+                    'up the database tables for you. Be sure to reload this page before continuing.'
+                );
             }
 
             // If we get here, chances are we don't have the tables set up, yet.
@@ -1039,7 +1034,7 @@ class Backend implements ControllerProviderInterface
             ))
             ->add('password_confirmation', 'password', array(
                 'required' => false,
-                'label' => __("Password (confirm)")
+                'label' => __('Password (confirm)')
             ))
             ->add('email', 'text', array(
                 'constraints' => new Assert\Email(),
@@ -1060,7 +1055,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $enabledoptions,
                     'expanded' => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
-                    'label' => __("User is enabled"),
+                    'label' => __('User is enabled'),
                 )
             )->add(
                 'roles',
@@ -1069,7 +1064,7 @@ class Backend implements ControllerProviderInterface
                     'choices' => $roles,
                     'expanded' => true,
                     'multiple' => true,
-                    'label' => __("Assigned roles"),
+                    'label' => __('Assigned roles'),
                 )
             );
         }
@@ -1107,7 +1102,7 @@ class Backend implements ControllerProviderInterface
                 if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
                     // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
                     //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
-                    $error = new FormError(__("This value is too short. It should have 6 characters or more."));
+                    $error = new FormError(__('This value is too short. It should have 6 characters or more.'));
                     $form['password']->addError($error);
                 }
 
@@ -1139,7 +1134,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() == 'POST') {
             //$form->bindRequest($request);
             $form->submit($app['request']->get($form->getName()));
 
@@ -1187,9 +1182,8 @@ class Backend implements ControllerProviderInterface
 
     public function profile(\Bolt\Application $app, Request $request)
     {
-
         $user = $app['users']->getCurrentUser();
-        $title = "<strong>" . __('Profile') . "</strong>";
+        $title = '<strong>' . __('Profile') . '</strong>';
 
         $enabledoptions = array(
             1 => __('yes'),
@@ -1216,39 +1210,41 @@ class Backend implements ControllerProviderInterface
                 'label' => __('Display name')
             ));
 
-        // Make sure the passwords are identical and some other check, with a custom validator..
-        $form->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($app) {
+        // Make sure the passwords are identical and some other check, with a custom validator.
+        $form->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($app) {
+                $form = $event->getForm();
+                $id = $form['id']->getData();
+                $pass1 = $form['password']->getData();
+                $pass2 = $form['password_confirmation']->getData();
 
-            $form = $event->getForm();
-            $id = $form['id']->getData();
-            $pass1 = $form['password']->getData();
-            $pass2 = $form['password_confirmation']->getData();
+                // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
+                // then make sure it's at least 6 characters long.
+                if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
+                    // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
+                    // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
+                    // characters or more.", array('{{ limit }}' => 6), 2);
+                    $error = new FormError(__('This value is too short. It should have 6 characters or more.'));
+                    $form['password']->addError($error);
+                }
 
-            // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
-            // then make sure it's at least 6 characters long.
-            if ((empty($id) || !empty($pass1)) && strlen($pass1) < 6) {
-                // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative translation thingy.
-                //$error = new FormError("This value is too short. It should have {{ limit }} characters or more.", array('{{ limit }}' => 6), 2);
-                $error = new FormError(__("This value is too short. It should have 6 characters or more."));
-                $form['password']->addError($error);
+                // Passwords must be identical.
+                if ($pass1 != $pass2) {
+                    $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
+                }
+
+                // Email addresses must be unique..
+                if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
+                    $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
+                }
+
+                // Displaynames must be unique..
+                if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
+                    $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
+                }
             }
-
-            // Passwords must be identical..
-            if ($pass1 != $pass2) {
-                $form['password_confirmation']->addError(new FormError(__('Passwords must match.')));
-            }
-
-            // Email addresses must be unique..
-            if (!$app['users']->checkAvailability('email', $form['email']->getData(), $id)) {
-                $form['email']->addError(new FormError(__('This email address is already in use. Choose another email address.')));
-            }
-
-            // Displaynames must be unique..
-            if (!$app['users']->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
-                $form['displayname']->addError(new FormError(__('This displayname is already in use. Choose another displayname.')));
-            }
-
-        });
+        );
 
         /**
          * @var \Symfony\Component\Form\Form $form
@@ -1256,7 +1252,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() == 'POST') {
             //$form->bindRequest($request);
             $form->submit($app['request']->get($form->getName()));
 
@@ -1292,14 +1288,14 @@ class Backend implements ControllerProviderInterface
     public function useraction(Silex\Application $app, $action, $id)
     {
         if (!$app['users']->checkAntiCSRFToken()) {
-            $app['session']->getFlashBag()->set('info', __("An error occurred."));
+            $app['session']->getFlashBag()->set('info', __('An error occurred.'));
 
             return redirect('users');
         }
         $user = $app['users']->getUser($id);
 
         if (!$user) {
-            $app['session']->getFlashBag()->set('error', "No such user.");
+            $app['session']->getFlashBag()->set('error', 'No such user.');
 
             return redirect('users');
         }
@@ -1368,7 +1364,6 @@ class Backend implements ControllerProviderInterface
         $filesystem = $app['filesystem']->getManager($namespace);
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
-
         if (!$app['filepermissions']->authorized($fullPath)) {
             $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
             $app->abort(403, $error);
@@ -1415,14 +1410,15 @@ class Backend implements ControllerProviderInterface
 
                             if ($result->isValid()) {
 
-                                $app['session']->getFlashBag()->set('info', __("File '%file%' was uploaded successfully.", array('%file%' => $filename)));
+                                $app['session']->getFlashBag()->set(
+                                    'info',
+                                    __("File '%file%' was uploaded successfully.", array('%file%' => $filename))
+                                );
 
                                 // Add the file to our stack..
                                 $app['stack']->add($path . "/" . $filename);
                                 $result->confirm();
                             }
-
-
 
                         } else {
                             $extensionList = array();
@@ -1439,14 +1435,16 @@ class Backend implements ControllerProviderInterface
 
                     }
                 } else {
-                    $app['session']->getFlashBag()->set('error', __("File '%file%' could not be uploaded.", array('%file%' => $filename)));
+                    $app['session']->getFlashBag()->set(
+                        'error',
+                        __("File '%file%' could not be uploaded.", array('%file%' => $filename))
+                    );
                 }
 
                 return redirect('files', array('path' => $path));
             }
 
             $formview = $form->createView();
-
         }
 
         list($files, $folders) = $filesystem->browse($path, $app);
@@ -1602,16 +1600,16 @@ class Backend implements ControllerProviderInterface
         $short_locale = substr($tr_locale, 0, 2);
         $type = 'yml';
         $file = "app/resources/translations/$short_locale/$domain.$short_locale.$type";
-        $filename = realpath(__DIR__ . "/../../../..") . "/$file";
+        $filename = realpath(__DIR__ . '/../../../..') . '/' . $file;
 
-        $app['log']->add("Editing translation: $file", $app['debug'] ? 1 : 3);
+        $app['log']->add('Editing translation: ' . $file, $app['debug'] ? 1 : 3);
 
         if ($domain == 'infos') {
             // no gathering here : if the file doesn't exist yet, we load a
             // copy from the locale_fallback version (en)
             if (!file_exists($filename) || filesize($filename) < 10) {
                 $srcfile = "app/resources/translations/en/$domain.en.$type";
-                $srcfilename = realpath(__DIR__ . "/../../../..") . "/$srcfile";
+                $srcfilename = realpath(__DIR__ . '/../../../..') . '/'.$srcfile;
                 $content = file_get_contents($srcfilename);
             } else {
                 $content = file_get_contents($filename);
@@ -1701,7 +1699,7 @@ class Backend implements ControllerProviderInterface
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the file.
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() == 'POST') {
             $form->bind($app['request']->get($form->getName()));
 
             if ($form->isValid()) {
@@ -1712,7 +1710,7 @@ class Backend implements ControllerProviderInterface
                 $ok = true;
 
                 // Before trying to save a yaml file, check if it's valid.
-                if ($type == "yml") {
+                if ($type == 'yml') {
                     //$yamlparser = new \Symfony\Component\Yaml\Parser();
                     try {
                         //$ok = $yamlparser->parse($contents);
@@ -1772,7 +1770,7 @@ class Backend implements ControllerProviderInterface
         // the DB, and let's add a new user.
         if (!$app['integritychecker']->checkUserTableIntegrity() || !$app['users']->getUsers()) {
             $app['integritychecker']->repairTables();
-            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+            $app['session']->getFlashBag()->set('info', __('There are no users in the database. Please create the first user.'));
 
             return redirect('useredit', array('id' => ""));
         }
@@ -1782,11 +1780,11 @@ class Backend implements ControllerProviderInterface
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         if (!$app['users']->isValidSession() && !$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->set('info', __("Please log on."));
+            $app['session']->getFlashBag()->set('info', __('Please log on.'));
 
             return redirect('login');
         } elseif (!$app['users']->isAllowed($route)) {
-            $app['session']->getFlashBag()->set('error', __("You do not have the right privileges to view that page."));
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to view that page.'));
 
             return redirect('dashboard');
         }

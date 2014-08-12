@@ -16,7 +16,7 @@ abstract class AdapterPlugin implements PluginInterface
     public function __construct(Application $app, $namespace = 'files')
     {
         $this->app = $app;
-        if ($namespace == "default") {
+        if ($namespace == 'default') {
             $this->namespace = 'files';
         } else {
             $this->namespace = $namespace;

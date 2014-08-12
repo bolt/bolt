@@ -201,7 +201,6 @@ class Log
         return $this->values;
     }
 
-
     public function trim()
     {
         $query = sprintf(

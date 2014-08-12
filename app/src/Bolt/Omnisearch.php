@@ -81,13 +81,15 @@ class Omnisearch
                 $viewKeywords[] = $viewContenttype;
                 $viewKeywords[] = 'View '.$pluralname;
 
-                $this->register(array(                  
-                    'keywords' => $viewKeywords,
-                    'label' => $viewContenttype,
-                    'description' => '',
-                    'priority' => self::OMNISEARCH_CONTENTTYPE,
-                    'path' => $this->backend.'overview/'.$slug
-                ));
+                $this->register(
+                    array(
+                        'keywords' => $viewKeywords,
+                        'label' => $viewContenttype,
+                        'description' => '',
+                        'priority' => self::OMNISEARCH_CONTENTTYPE,
+                        'path' => $this->backend.'overview/'.$slug
+                    )
+                );
             }
 
             if ($this->showNewContenttype) {
@@ -95,104 +97,122 @@ class Omnisearch
                 $newKeywords[]  = $newContenttype;
                 $newKeywords[]  = 'New '.$singularname;
 
-                $this->register(array(
-                    'keywords' => $newKeywords,
-                    'label' => $newContenttype,
-                    'description' => '',
-                    'priority' => self::OMNISEARCH_CONTENTTYPE,
-                    'path' => $this->backend.'editcontent/'.$slug
-                ));
+                $this->register(
+                    array(
+                        'keywords' => $newKeywords,
+                        'label' => $newContenttype,
+                        'description' => '',
+                        'priority' => self::OMNISEARCH_CONTENTTYPE,
+                        'path' => $this->backend.'editcontent/'.$slug
+                    )
+                );
             }
         }
     }
 
     private function initMenuitems()
     {
-
-        // -- Configuration -- //
-
+        // Configuration
         if ($this->showConfiguration) {
-            $this->register(array(
-                'keywords' => array('Configuration'),
-                'label' => __('Configuration'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM,
-                'path' => $this->backend.'file/edit/app/config/config.yml',
-            ));
-            $this->register(array(
-                'keywords' => array('Users', 'Configuration'),
-                'label' => __('Configuration').' » '.__('Users'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 1,
-                'path' => $this->backend.'users',
-            ));
-            $this->register(array(
-                'keywords' => array('Contenttypes', 'Configuration'),
-                'label' => __('Configuration').' » '.__('Contenttypes'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 2,
-                'path' => $this->backend.'file/edit/app/config/contenttypes.yml',
-            ));
-            $this->register(array(
-                'keywords' => array('Taxonomy', 'Configuration'),
-                'label' =>__('Configuration').' » '. __('Taxonomy'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 3,
-                'path' => $this->backend.'file/edit/app/config/taxonomy.yml',
-            ));
-            $this->register(array(
-                'keywords' => array('Menu setup', 'Configuration'),
-                'label' => __('Configuration').' » '.__('Menu setup'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 4,
-                'path' => $this->backend.'file/edit/app/config/menu.yml',
-            ));
-            $this->register(array(
-                'keywords' => array('Routing setup', 'Configuration'),
-                'label' => __('Configuration').' » '.__('Routing setup'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 5,
-                'path' => $this->backend.'file/edit/app/config/routing.yml',
-            ));
+            $this->register(
+                array(
+                    'keywords' => array('Configuration'),
+                    'label' => __('Configuration'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM,
+                    'path' => $this->backend . 'file/edit/app/config/config.yml',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Users', 'Configuration'),
+                    'label' => __('Configuration') . ' » ' . __('Users'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 1,
+                    'path' => $this->backend . 'users',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Contenttypes', 'Configuration'),
+                    'label' => __('Configuration') . ' » ' . __('Contenttypes'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 2,
+                    'path' => $this->backend . 'file/edit/app/config/contenttypes.yml',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Taxonomy', 'Configuration'),
+                    'label' => __('Configuration') . ' » ' . __('Taxonomy'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 3,
+                    'path' => $this->backend . 'file/edit/app/config/taxonomy.yml',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Menu setup', 'Configuration'),
+                    'label' => __('Configuration') . ' » ' . __('Menu setup'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 4,
+                    'path' => $this->backend . 'file/edit/app/config/menu.yml',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Routing setup', 'Configuration'),
+                    'label' => __('Configuration') . ' » ' . __('Routing setup'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 5,
+                    'path' => $this->backend . 'file/edit/app/config/routing.yml',
+                )
+            );
         }
 
-        // -- Maintenance -- //
+        // Maintenance
         if ($this->showMaintenance) {
-            $this->register(array(
-                'keywords' => array('Extensions', 'Maintenance'),
-                'label' => __('Maintenance').' » '.__('Extensions'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 6,
-                'path' => $this->backend.'extensions',
-            ));
-            $this->register(array(
-                'keywords' => array('Check database', 'Maintenance'),
-                'label' => __('Maintenance').' » '.__('Check database'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 7,
-                'path' => $this->backend.'dbcheck',
-            ));
-            $this->register(array(
-                'keywords' => array('Clear the cache', 'Maintenance'),
-                'label' => __('Maintenance').' » '.__('Clear the cache'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 8,
-                'path' => $this->backend.'clearcache',
-            ));
-            $this->register(array(
-                'keywords' => array('Activity log', 'Maintenance'),
-                'label' => __('Maintenance').' » '.__('Activity log'),
-                'description' => '',
-                'priority' => self::OMNISEARCH_MENUITEM - 9,
-                'path' => $this->backend.'activitylog',
-            ));
+            $this->register(
+                array(
+                    'keywords' => array('Extensions', 'Maintenance'),
+                    'label' => __('Maintenance') . ' » ' . __('Extensions'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 6,
+                    'path' => $this->backend . 'extensions',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Check database', 'Maintenance'),
+                    'label' => __('Maintenance') . ' » ' . __('Check database'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 7,
+                    'path' => $this->backend . 'dbcheck',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Clear the cache', 'Maintenance'),
+                    'label' => __('Maintenance') . ' » ' . __('Clear the cache'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 8,
+                    'path' => $this->backend . 'clearcache',
+                )
+            );
+            $this->register(
+                array(
+                    'keywords' => array('Activity log', 'Maintenance'),
+                    'label' => __('Maintenance') . ' » ' . __('Activity log'),
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_MENUITEM - 9,
+                    'path' => $this->backend . 'activitylog',
+                )
+            );
         }
-
     }
 
     private function initExtensions()
     {
-
         if (!$this->showExtensions) {
             return;
         }
@@ -201,23 +221,23 @@ class Omnisearch
         if ($extensionsmenu) {
             $index = 0;
             foreach ($extensionsmenu as $extension) {
-                $this->register(array(
-                    'keywords' => array($extension['label'], 'Extensions'),
-                    'label' => __('Extensions').' » '.$extension['label'],
-                    'description' => '',
-                    'priority' => self::OMNISEARCH_EXTENSION - $index,
-                    'path' => $this->backend.$extension['path'],
-                ));
+                $this->register(
+                    array(
+                        'keywords' => array($extension['label'], 'Extensions'),
+                        'label' => __('Extensions') . ' » ' . $extension['label'],
+                        'description' => '',
+                        'priority' => self::OMNISEARCH_EXTENSION - $index,
+                        'path' => $this->backend . $extension['path'],
+                    )
+                );
 
                 $index--;
             }
         }
-
     }
 
     public function register($options)
     {
-
         // options
         // $options['label'];       // label shown in the search results
         // $options['description']; // currently unused
@@ -237,7 +257,6 @@ class Omnisearch
 
     public function query($query, $withRecord = false)
     {
-
         $options = array();
 
         $this->find('/theme', $query, '*.twig', $query, -10); // find in file contents
@@ -245,7 +264,7 @@ class Omnisearch
         $this->search($query, $withRecord);
 
         foreach ($this->data as $item) {
-            $matches   = $this->matches($item['path'], $query );
+            $matches = $this->matches($item['path'], $query);
 
             if (!$matches) {
                 foreach ($item['keywords'] as $keyword) {
@@ -277,10 +296,17 @@ class Omnisearch
         usort($options, array($this, 'compareOptions'));
 
         return $options;
-
     }
 
-    // find in files
+    /**
+     * Find in files
+     *
+     * @param string $folder
+     * @param type $query
+     * @param string $name
+     * @param type $contains
+     * @param int $priority
+     */
     private function find($folder = '/theme', $query, $name = '*.twig', $contains = false, $priority = 0)
     {
         if (!$this->showFiles) {
@@ -305,21 +331,26 @@ class Omnisearch
             $relativePathname = $file->getRelativePathname();
             $filename         = $file->getFilename();
 
-            $this->register(array(
-                'label' => sprintf("%s » <span>%s</span>", __('Edit file'), $filename),
-                'path'  => $this->backend.'file/edit/theme/'.$relativePathname,
-                'description' => '',
-                'priority' => self::OMNISEARCH_FILE + $priority,
-                'keywords' => array('Edit file', $filename, $query)
-            ));
+            $this->register(
+                array(
+                    'label' => sprintf("%s » <span>%s</span>", __('Edit file'), $filename),
+                    'path' => $this->backend . 'file/edit/theme/' . $relativePathname,
+                    'description' => '',
+                    'priority' => self::OMNISEARCH_FILE + $priority,
+                    'keywords' => array('Edit file', $filename, $query)
+                )
+            );
         }
-
     }
 
-    // search in database
+    /**
+     * Search in database
+     *
+     * @param type $query
+     * @param bool $withRecord
+     */
     private function search($query, $withRecord = false)
     {
-
         if (!$this->showRecords) {
             return;
         }
@@ -357,7 +388,12 @@ class Omnisearch
         return stripos($sentence, $word) !== false;
     }
 
-    // OmnisearchOption implements Comparable
+    /**
+     * OmnisearchOption implements Comparable
+     *
+     * @param type $a
+     * @param type $b
+     */
     private function compareOptions($a, $b)
     {
         $comparison = $b['priority'] - $a['priority'];
@@ -368,5 +404,4 @@ class Omnisearch
 
         return $comparison;
     }
-
 }

@@ -131,7 +131,6 @@ class TwigExtension extends \Twig_Extension
         }
     }
 
-
     /**
      * Output pretty-printed arrays / objects.
      *
@@ -189,7 +188,6 @@ class TwigExtension extends \Twig_Extension
         return str_replace("_", "-", $locale);
     }
 
-
     /**
      * Returns the date time in a particular format. Takes the locale into
      * account.
@@ -232,7 +230,6 @@ class TwigExtension extends \Twig_Extension
             return strftime($format, $timestamp);
         }
     }
-
 
     /**
      * Create an excerpt for the given content
@@ -285,7 +282,6 @@ class TwigExtension extends \Twig_Extension
         return $output;
     }
 
-
     /**
      * Create a link to edit a .yml file, if a filename is detected in the string. Mostly
      * for use in Flashbag messages, to allow easy editing.
@@ -309,8 +305,6 @@ class TwigExtension extends \Twig_Extension
 
         return $str;
     }
-
-
 
     /**
      * Get an array with the dimensions of an image, together with its
@@ -376,7 +370,6 @@ class TwigExtension extends \Twig_Extension
         return $info;
     }
 
-
     /**
      * Return the 'sluggified' version of a string.
      *
@@ -428,7 +421,6 @@ class TwigExtension extends \Twig_Extension
 
         return $output;
     }
-
 
     /**
      * Formats the given string as Twig in HTML
@@ -640,7 +632,6 @@ class TwigExtension extends \Twig_Extension
         return $this->app['users']->getAntiCSRFToken();
     }
 
-
     /**
      * lists templates, optionally filtered by $filter.
      *
@@ -690,7 +681,6 @@ class TwigExtension extends \Twig_Extension
 
         return $files;
     }
-
 
     /**
      * Lists content of a specific contenttype, specifically for editing
@@ -767,7 +757,6 @@ class TwigExtension extends \Twig_Extension
         return new \Twig_Markup($env->render($template, $context), 'utf-8');
     }
 
-
     /**
      * return the 'max' of two values..
      *
@@ -779,7 +768,6 @@ class TwigExtension extends \Twig_Extension
     {
         return max($a, $b);
     }
-
 
     /**
      * return the 'min' of two values..
@@ -793,7 +781,6 @@ class TwigExtension extends \Twig_Extension
         return min($a, $b);
     }
 
-
     /**
      * return the 'round' of a value..
      *
@@ -804,8 +791,6 @@ class TwigExtension extends \Twig_Extension
     {
         return round($a);
     }
-
-
 
     /**
      * return the 'floor' of a value..
@@ -818,8 +803,6 @@ class TwigExtension extends \Twig_Extension
         return floor($a);
     }
 
-
-
     /**
      * return the 'ceil' of a value..
      *
@@ -830,8 +813,6 @@ class TwigExtension extends \Twig_Extension
     {
         return ceil($a);
     }
-
-
 
     /**
      * Return the requested parameter from $_REQUEST, $_GET or $_POST..
@@ -864,7 +845,6 @@ class TwigExtension extends \Twig_Extension
 
         return $res;
     }
-
 
     /**
      *  Switch the debugbar 'on' or 'off'. Note: this has no influence on the
@@ -1163,7 +1143,6 @@ class TwigExtension extends \Twig_Extension
         return $menu;
     }
 
-
     /**
      * Updates a menu item to have at least a 'link' key.
      *
@@ -1212,7 +1191,6 @@ class TwigExtension extends \Twig_Extension
 
         return $item;
     }
-
 
     /**
      * Returns a random quote. Just for fun.
@@ -1339,7 +1317,6 @@ class TwigExtension extends \Twig_Extension
         return safeString($str, $strict, $extrachars);
     }
 
-
     /**
      * Redirect the browser to another page.
      */
@@ -1357,7 +1334,6 @@ class TwigExtension extends \Twig_Extension
         return $result;
     }
 
-
     /**
      * Return an array with the items on the stack
      *
@@ -1372,7 +1348,6 @@ class TwigExtension extends \Twig_Extension
         return $items;
     }
 
-
     /**
      * Return whether or not an item is on the stack, and is stackable in the first place.
      *
@@ -1384,7 +1359,6 @@ class TwigExtension extends \Twig_Extension
 
         return $stacked;
     }
-
 
     /**
      * Return a selected field from a contentset

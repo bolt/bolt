@@ -31,7 +31,6 @@ class StorageEvent extends Event
      */
     private $content = null;
 
-
     /**
      * Instantiate generic Storage Event
      *
