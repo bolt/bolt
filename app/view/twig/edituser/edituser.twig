@@ -2,9 +2,11 @@
 {% extends '_base/_page.twig' %}
 {% block page_type 'Settings' %}
 {% block page_title %}
-    {% if context.displayname %}
+    {% if context.kind == 'edit' %}
         {{ __('Edit user') }} » <i>{{ context.displayname }}</i>
-    {% else %}
+    {% elseif context.kind == 'profile' %}
+        {{ __('Profile') }} » <i>{{ context.displayname }}</i>
+    {% elseif context.kind == 'create' %}
         {{ __('Create a new user') }}
     {% endif %}
 {% endblock page_title %}
@@ -20,13 +22,15 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <p style="max-width: 500px;">
-                {% if context.displayname %}
-                    {{ __('Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password.') }}</i>
-                {% else %}
-                    {{ __('Create a new user, using the form below. The password field is required.') }}
-                {% endif %}
-            </p>
+            {% if context.kind != 'profile' %}
+                <p style="max-width: 500px;">
+                    {% if context.kind == 'edit' %}
+                        {{ __('Edit an existing user, using the form below. Leave the password fields empty, unless you wish to change the password.') }}</i>
+                    {% elseif context.kind == 'create' %}
+                        {{ __('Create a new user, using the form below. The password field is required.') }}
+                    {% endif %}
+                </p>
+            {% endif %}
 
             <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
                 {{ form_widget(context.form) }}
