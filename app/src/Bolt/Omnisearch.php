@@ -259,8 +259,8 @@ class Omnisearch
     {
         $options = array();
 
-        $this->find('/theme', $query, '*.twig', $query, -10); // find in file contents
-        $this->find('/theme', $query, '*'.$query.'*.twig', false, 10); // find in filenames, '/'.preg_quote($query).'.*\.twig$/i';
+        $this->find($query, '/theme', '*.twig', $query, -10); // find in file contents
+        $this->find($query, '/theme', '*'.$query.'*.twig', false, 10); // find in filenames, '/'.preg_quote($query).'.*\.twig$/i';
         $this->search($query, $withRecord);
 
         foreach ($this->data as $item) {
@@ -301,13 +301,13 @@ class Omnisearch
     /**
      * Find in files
      *
-     * @param string $folder
      * @param type $query
+     * @param string $folder
      * @param string $name
      * @param type $contains
      * @param int $priority
      */
-    private function find($folder = '/theme', $query, $name = '*.twig', $contains = false, $priority = 0)
+    private function find($query, $folder = '/theme', $name = '*.twig', $contains = false, $priority = 0)
     {
         if (!$this->showFiles) {
             return;
