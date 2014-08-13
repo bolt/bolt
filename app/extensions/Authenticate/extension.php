@@ -50,7 +50,7 @@ class Extension extends \Bolt\BaseExtension
             $this->config['template']['profile'] = "_profile.twig";
         }
 
-        if (! isset($this->config['template']['buttons']) || empty($this->config['template']['buttons'])) {
+        if (! isset($this->config['template']['button']) || empty($this->config['template']['button'])) {
             $this->config['template']['button'] = "_button.twig";
         }
 
@@ -96,11 +96,11 @@ class Extension extends \Bolt\BaseExtension
         );
 
         $this->controller = new Controller($this->app, $this->config);
-        $recognizedvisitor = $this->controller->checkvisitor($this->app);
+
 
         // define twig functions and vars
         $this->app['twig']->addExtension(new VisitorsTwigExtension($this->controller));
-        $this->app['twig']->addGlobal('visitor', $recognizedvisitor);
+
 
         $routes = array(
             array('', 'view', 'visitorsroot'),

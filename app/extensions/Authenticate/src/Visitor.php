@@ -46,7 +46,14 @@ class Visitor
             return false;
         }
         $this->visitor = $visitor_raw;
-        $this->profile = unserialize($this->visitor['providerdata']);
+
+        if(is_object($this->visitor['providerdata'])) {
+            $this->profile = $this->visitor['providerdata'];
+        } elseif ($this->is_serialized($this->visitor['providerdata'])) {
+            $this->profile = unserialize($this->visitor['providerdata']);
+        } else {
+            $this->profile = json_decode($this->visitor['providerdata']);
+        }
         return $this->visitor;
     }
 
@@ -101,16 +108,22 @@ class Visitor
             $query .= " WHERE " . implode(" AND ", $where);
         }
 
-        $result = $this->db->fetchAll($query, $map);
-        $result = array_shift($result);
+        try {
+            $result = $this->db->fetchAll($query, $map);
+            $result = array_shift($result);
 
-        if (isset($result['providerdata'])) {
-            // Catch old PHP serialized data
-            if ($this->is_serialized($result['providerdata'])) {
-                $result['providerdata'] = unserialize($result['providerdata']);
-            } else {
-                $result['providerdata'] = json_decode($result['providerdata']);
+            if (isset($result['providerdata'])) {
+                // Catch old PHP serialized data
+                if(!is_object($result['providerdata'])) {
+                    if($this->is_serialized($result['providerdata'])) {
+                        $result['providerdata'] = unserialize($result['providerdata']);
+                    } else {
+                        $result['providerdata'] = json_decode($result['providerdata']);
+                    }
+                }
             }
+        } catch (\Doctrine\DBAL\DBALException $e) {
+            $result = null;
         }
 
         return $result;

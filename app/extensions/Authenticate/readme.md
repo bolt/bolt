@@ -113,8 +113,9 @@ Template example
 
 If you want to use this in a template, you can use the following code:
 
-    {% if knownvisitor() %}
-        <p>Hello, {{ visitor.username }}.</p>
+    {% set profile = knownvisitor() %}
+    {% if profile %}
+        <p>Hello, {{ profile.username }}.</p>
         {{ showvisitorlogout() }}
     {% else %}
         {{ showvisitorlogin() }}
