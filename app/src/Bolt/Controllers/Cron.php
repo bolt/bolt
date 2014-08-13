@@ -143,9 +143,9 @@ class Cron extends Event
     {
         foreach ($this->intervals as $interval => $date) {
             $query =
-                "SELECT `lastrun` " .
-                "FROM `{$this->tablename}` " .
-                "WHERE `interval` = '{$interval}' " .
+                "SELECT lastrun " .
+                "FROM {$this->tablename} " .
+                "WHERE interval = '{$interval}' " .
                 "ORDER BY lastrun DESC " .
                 "LIMIT 1 ";
 
@@ -171,13 +171,13 @@ class Cron extends Event
     {
         // Get appropriate query string
         if ($this->insert[$interval] === true) {
-            $query = "INSERT INTO `{$this->tablename}` " .
-            "(`interval`, `lastrun`) " .
+            $query = "INSERT INTO {$this->tablename} " .
+            "(interval, lastrun) " .
             "VALUES (:interval, :lastrun)";
         } else {
-            $query = "UPDATE `{$this->tablename}` " .
-            "SET `lastrun` = :lastrun, `lastrun` = :lastrun " .
-            "WHERE `interval` = :interval ";
+            $query = "UPDATE {$this->tablename} " .
+            "SET lastrun = :lastrun, lastrun = :lastrun " .
+            "WHERE interval = :interval ";
         }
 
         // Define the mapping
