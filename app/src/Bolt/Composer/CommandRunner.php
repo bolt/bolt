@@ -22,7 +22,7 @@ class CommandRunner
         $this->wrapper = \evidev\composer\Wrapper::create();
 
         if (!is_file($this->packageFile)) {
-            $this->execute("init");
+            $this->execute('init');
         }
         if (is_file($this->packageFile) && !is_writable($this->packageFile)) {
             $this->messages[] = sprintf(
@@ -31,13 +31,13 @@ class CommandRunner
             );
         }
 
-        $this->execute("config repositories.bolt composer ".$app['extend.site']."satis/");
+        $this->execute('config repositories.bolt composer '.$app['extend.site'].'satis/');
         $json = json_decode(file_get_contents($this->packageFile));
         $json->repositories->packagist = false;
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass;
-        $json->provide->$basePackage = $app['bolt_version'].".*";
-        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+        $json->provide->$basePackage = $app['bolt_version'].'.*';
+        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         try {
             $json = json_decode((file_get_contents($this->packageRepo)));
@@ -132,7 +132,7 @@ class CommandRunner
 
         foreach ($packages as $package => $version) {
             $check = $this->execute("show -N -i $package $version");
-            $installed[] = $this->showCleanup((array)$check, $package);
+            $installed[] = $this->showCleanup((array) $check, $package);
         }
 
         if (!count($installed)) {
