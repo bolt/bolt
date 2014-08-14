@@ -4,10 +4,7 @@ namespace Bolt;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Bolt;
-use Bolt\Content;
-use util;
 use Doctrine\DBAL\Connection as DoctrineConn;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 
 class Storage
@@ -1058,7 +1055,8 @@ class Storage
         foreach ($contenttypes as $contenttype) {
             $ctconfig = $this->getContentType($contenttype);
 
-            $table = $this->getTablename($contenttype);
+            // FIXME remainder of something, remove next rev.
+            // $table = $this->getTablename($contenttype);
             $fields = $ctconfig['fields'];
             $filter = null;
 
@@ -2512,7 +2510,7 @@ class Storage
             array(DoctrineConn::PARAM_INT_ARRAY, \PDO::PARAM_STR, DoctrineConn::PARAM_STR_ARRAY)
         )->fetchAll();
 
-        foreach ($rows as $key => $row) {
+        foreach ($rows as $row) {
             $content[$row['content_id']]->setTaxonomy($row['taxonomytype'], $row['slug'], $row['name'], $row['sortorder']);
         }
 
