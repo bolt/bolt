@@ -147,6 +147,7 @@ class PermissionParser
 
     /**
      * Lexes and parses the specified query string $what.
+     * @param $what
      * @return array A parse tree.
      * @throw Exception Parser or lexer errors are thrown as
      */
@@ -240,7 +241,7 @@ class PermissionParser
      *
      * @param array $expected List of token types (T_XXXX constants).
      * @param array $token A lexer token, associative array.
-     * @throw PermissionParserException
+     * @throws PermissionParserException
      */
     private static function expect($expected, $token)
     {
