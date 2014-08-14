@@ -71,7 +71,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
             new \Twig_SimpleFunction('imageinfo', array($this, 'imageinfo')),
             new \Twig_SimpleFunction('file_exists', array($this, 'file_exists')),
-            new \Twig_SimpleFunction('isChangelogEnabled', array($this, 'isChangelogEnabled'))  
+            new \Twig_SimpleFunction('isChangelogEnabled', array($this, 'isChangelogEnabled'))
         );
     }
 
@@ -107,17 +107,17 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
             new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo')),
             new \Twig_SimpleFilter('selectfield', array($this, 'selectfield')),
-            new \Twig_SimpleFilter('shuffle', array($this, 'shuffle')), 
+            new \Twig_SimpleFilter('shuffle', array($this, 'shuffle')),
             new \Twig_SimpleFilter('json_decode', array($this, 'json_decode'))
         );
     }
-    
+
     public function getTests()
     {
         return array(
             new \Twig_SimpleTest('json', array($this, 'test_json'))
         );
-    }    
+    }
 
     /**
      * Check if a file exists.
@@ -354,7 +354,7 @@ class TwigExtension extends \Twig_Extension
         $info = array(
             'width' => $imagesize[0],
             'height' => $imagesize[1],
-            'type' => $types[ $imagesize[2] ],
+            'type' => $types[$imagesize[2]],
             'mime' => $imagesize['mime'],
             'aspectratio' => $ar,
             'filename' => $filename,
@@ -751,7 +751,7 @@ class TwigExtension extends \Twig_Extension
 
         $context = array(
             'pager' => $thisPager,
-            'surr' => $surr, # TODO: rename to amountsurroundin, surroundamount, ...?
+            'surr' => $surr, // TODO: rename to amountsurroundin, surroundamount, ...?
             'class' => $class,
         );
 
@@ -1426,7 +1426,7 @@ class TwigExtension extends \Twig_Extension
      * @param string   $string   The string to test.
      * @return array The JSON decoded arra
      */
-    public function test_json($string) 
+    public function test_json($string)
     {
         json_decode($string);
 
@@ -1436,12 +1436,12 @@ class TwigExtension extends \Twig_Extension
 
     /**
      * JSON decodes a variable. Twig has a built-in json_encode filter, but no built-in
-     * function to JSON decode a string. This functionality remedies that. 
+     * function to JSON decode a string. This functionality remedies that.
      *
      * @param string   $string   The string to decode.
      * @return array The JSON decoded array
      */
-    public function json_decode($string) 
+    public function json_decode($string)
     {
         return json_decode($string);
     }
