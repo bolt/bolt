@@ -2,7 +2,6 @@
 
 namespace Bolt;
 
-use util;
 use Silex;
 
 /**
@@ -10,6 +9,10 @@ use Silex;
  */
 class TwigExtension extends \Twig_Extension
 {
+    public $order_on;
+    public $order_ascending;
+    public $order_ascending_secondary;
+    public $order_on_secondary;
     /**
      * @var \Silex\Application
      */
@@ -156,7 +159,8 @@ class TwigExtension extends \Twig_Extension
      *
      * @see \Dumper::backtrace
      *
-     * @param  mixed $var
+     * @param int $depth
+     * @internal param mixed $var
      * @return string
      */
     public function printBacktrace($depth = 15)
@@ -433,7 +437,9 @@ class TwigExtension extends \Twig_Extension
      * template that has a filename that doesn't exist will be rendered as literal string. This
      * _really_ messes up the 'cascading rendering' of our theme templates.
      *
-     * @param  string $content
+     * @param $snippet
+     * @param array $extravars
+     * @internal param string $content
      * @return string Twig output
      */
     public function twig($snippet, $extravars = array())
@@ -461,6 +467,7 @@ class TwigExtension extends \Twig_Extension
      *
      * @param  array $array
      * @param  string $on
+     * @param string $on_secondary
      * @return array
      */
     public function order($array, $on, $on_secondary = '')
@@ -1352,6 +1359,7 @@ class TwigExtension extends \Twig_Extension
      * Return whether or not an item is on the stack, and is stackable in the first place.
      *
      * @param $filename string filename
+     * @return bool
      */
     public function stacked($filename)
     {
@@ -1364,8 +1372,9 @@ class TwigExtension extends \Twig_Extension
      * Return a selected field from a contentset
      *
      * @param array $content A Bolt record array
-     * @param mixed fieldname Name of field (string), or array of names of
+     * @param mixed $fieldname Name of field (string), or array of names of
      *                        fields, to return from each record
+     * @return array
      */
     public function selectfield($content, $fieldname)
     {
