@@ -507,8 +507,8 @@ class IntegrityChecker
         $cronTable = $schema->createTable($this->prefix."cron");
         $cronTable->addColumn("id", "integer", array('autoincrement' => true));
         $cronTable->setPrimaryKey(array("id"));
-        $cronTable->addColumn("interval", "string", array("length" => 16));
-        $cronTable->addIndex(array('interval'));
+        $cronTable->addColumn("interim", "string", array("length" => 16));
+        $cronTable->addIndex(array('interim'));
         $cronTable->addColumn("lastrun", "datetime");
         $tables[] = $cronTable;
 

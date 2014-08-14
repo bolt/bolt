@@ -30,7 +30,7 @@ class Cron extends Event
 {
     private $app;
     private $output;
-    private $intervals;
+    private $interims;
     private $insert;
     private $prefix;
     private $tablename;
@@ -43,7 +43,7 @@ class Cron extends Event
         $this->app = $app;
         $this->output = $output;
         $this->runtime = date("Y-m-d H:i:s", time());
-        $this->intervals = array('hourly' => 0, 'daily' => 0, 'weekly' => 0, 'monthly' => 0, 'yearly' => 0);
+        $this->interims = array('hourly' => 0, 'daily' => 0, 'weekly' => 0, 'monthly' => 0, 'yearly' => 0);
         $this->setTableName();
 
         // Get schedules
@@ -61,7 +61,7 @@ class Cron extends Event
         $event = new CronEvent($this->app, $this->output);
 
         // Process event listeners
-        if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_HOURLY) && $this->intervals['hourly'] < strtotime("-1 hour")) {
+        if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_HOURLY) && $this->interims['hourly'] < strtotime("-1 hour")) {
             $this->notify("Running Cron Hourly Jobs");
             $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $event);
             $this->setLastRun('hourly');
@@ -69,25 +69,25 @@ class Cron extends Event
 
         // Only check the running of these if we've passed our threshold hour today
         if (time() > $this->threshold) {
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->intervals['daily'] < strtotime("-1 day")) {
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->interims['daily'] < strtotime("-1 day")) {
                 $this->notify("Running Cron Daily Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event);
                 $this->setLastRun('daily');
             }
 
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->intervals['weekly'] < strtotime("-1 week")) {
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->interims['weekly'] < strtotime("-1 week")) {
                 $this->notify("Running Cron Weekly Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event);
                 $this->setLastRun('weekly');
             }
 
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->intervals['monthly'] < strtotime("-1 month")) {
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->interims['monthly'] < strtotime("-1 month")) {
                 $this->notify("Running Cron Monthly Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event);
                 $this->setLastRun('monthly');
             }
 
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->intervals['yearly'] < strtotime("-1 year")) {
+            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->interims['yearly'] < strtotime("-1 year")) {
                 $this->notify("Running Cron Yearly Jobs");
                 $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event);
                 $this->setLastRun('yearly');
@@ -138,52 +138,52 @@ class Cron extends Event
 
 
     /**
-     * Query table for last run time of each interval
+     * Query table for last run time of each interim
      */
     private function getLastRun()
     {
-        foreach ($this->intervals as $interval => $date) {
+        foreach ($this->interims as $interim => $date) {
             $query =
                 "SELECT lastrun " .
                 "FROM {$this->tablename} " .
-                "WHERE interval = '{$interval}' " .
+                "WHERE interim = '{$interim}' " .
                 "ORDER BY lastrun DESC " .
                 "LIMIT 1 ";
 
             $result = $this->app['db']->fetchAll($query);
 
-            // If we get an empty result for the interval, set it to the current
+            // If we get an empty result for the interim, set it to the current
             // run time and notify the update method to do an INSERT rather than
             // an UPDATE.
             if (empty($result)) {
-                $this->insert[$interval] = true;
+                $this->insert[$interim] = true;
             } else {
-                $this->intervals[$interval] = strtotime($result[0]['lastrun']);
-                $this->insert[$interval] = false;
+                $this->interims[$interim] = strtotime($result[0]['lastrun']);
+                $this->insert[$interim] = false;
             }
         }
     }
 
 
     /**
-     * Update table for last run time of each interval
+     * Update table for last run time of each interim
      */
-    private function setLastRun($interval)
+    private function setLastRun($interim)
     {
         // Get appropriate query string
-        if ($this->insert[$interval] === true) {
+        if ($this->insert[$interim] === true) {
             $query = "INSERT INTO {$this->tablename} " .
-            "(interval, lastrun) " .
-            "VALUES (:interval, :lastrun)";
+            "(interim, lastrun) " .
+            "VALUES (:interim, :lastrun)";
         } else {
             $query = "UPDATE {$this->tablename} " .
             "SET lastrun = :lastrun, lastrun = :lastrun " .
-            "WHERE interval = :interval ";
+            "WHERE interim = :interim ";
         }
 
         // Define the mapping
         $map = array(
-            ':interval'  => $interval,
+            ':interim'  => $interim,
             ':lastrun'   => $this->runtime,
         );
 
