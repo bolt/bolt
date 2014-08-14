@@ -36,8 +36,8 @@ class CommandRunner
         $json->repositories->packagist = false;
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass;
-        $json->provide->$basePackage = "1.7.*";
-        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $json->provide->$basePackage = $app['bolt_version'].".*";
+        file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
 
         try {
             $json = json_decode((file_get_contents($this->packageRepo)));
@@ -56,6 +56,7 @@ class CommandRunner
     {
         $json = json_decode(file_get_contents($this->packageFile));
         $packages = $json->require;
+        $installed = array();
         foreach ($packages as $package => $version) {
             $installed[$package] = $this->execute("show -N -i $package $version");
         }
