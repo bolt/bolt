@@ -1,9 +1,7 @@
 <?php
 namespace Bolt;
 
-use Bolt\CronEvents;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -18,7 +16,7 @@ class CronEvent extends Event
     /**
      *
      */
-    public function __construct(Application $app, $output = false)
+    public function __construct(Application $app, OutputInterface $output = null)
     {
         $this->app = $app;
         $this->output = $output;

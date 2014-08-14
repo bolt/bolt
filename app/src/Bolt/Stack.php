@@ -83,6 +83,7 @@ class Stack
      * Check if a given filename is present on the stack.
      *
      * @param string $filename
+     * @return bool
      */
     public function isOnStack($filename)
     {
@@ -102,6 +103,7 @@ class Stack
      * Check if a given filename is stackable.
      *
      * @param string $filename
+     * @return bool
      */
     public function isStackable($filename)
     {

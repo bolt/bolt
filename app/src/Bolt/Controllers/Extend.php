@@ -15,7 +15,6 @@ use Bolt\Composer\CommandRunner;
 
 class Extend implements ControllerProviderInterface, ServiceProviderInterface
 {
-    public $app;
 
     public function register(Silex\Application $app)
     {

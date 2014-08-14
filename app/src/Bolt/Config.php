@@ -256,6 +256,7 @@ class Config
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($config['taxonomy'][$key]['options']) && is_array($config['taxonomy'][$key]['options'])) {
                 $options = array();
+                // FIXME using $value variable seems bad idea because of outer loop uses too
                 foreach ($config['taxonomy'][$key]['options'] as $optionkey => $value) {
                     if (is_numeric($optionkey)) {
                         $optionkey = makeSlug($value); // was: strtolower(safeString($value));
@@ -316,7 +317,7 @@ class Config
             $temp['fields'] = array();
 
             foreach ($tempfields as $key => $value) {
-                // Fix name 'keys' for fields
+                // FIXME Fix name 'keys' for fields
                 $key = str_replace('-', '_', strtolower(safeString($key, true)));
                 $temp['fields'][$key] = $value;
 
@@ -363,6 +364,7 @@ class Config
 
             // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
             if (!empty($temp['relations']) && is_array($temp['relations'])) {
+                // FIXME using variable $key seems a bad idea while outer loop uses the same
                 foreach ($temp['relations'] as $key => $relation) {
                     if ($key != makeSlug($key)) {
                         $temp['relations'][makeSlug($key)] = $temp['relations'][$key];

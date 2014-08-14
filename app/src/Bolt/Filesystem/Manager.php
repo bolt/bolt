@@ -2,7 +2,7 @@
 
 namespace Bolt\Filesystem;
 
-use Silex\Application;
+use Bolt\Application;
 use League\Flysystem\Adapter\Local as FilesystemAdapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;

@@ -30,7 +30,7 @@ class DatabaseProfilerServiceProvider implements ServiceProviderInterface
         );
 
         $app['db.logger'] = $app->share(
-            function ($app) {
+            function () {
                 return new DebugStack();
             }
         );

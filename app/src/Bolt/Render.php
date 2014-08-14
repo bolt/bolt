@@ -19,10 +19,14 @@ use Symfony\Component\HttpFoundation\Response;
 class Render
 {
 
+    public $app;
+    public $safe;
+
     /**
      * Set up the object.
      *
-     * @param Silex\Application $app
+     * @param \Bolt\Application|\Silex\Application $app
+     * @param bool $safe
      */
     public function __construct(Application $app, $safe = false)
     {

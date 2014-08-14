@@ -302,9 +302,9 @@ class Omnisearch
      * Find in files
      *
      * @param string $folder
-     * @param type $query
+     * @param string $query
      * @param string $name
-     * @param type $contains
+     * @param bool|string $contains
      * @param int $priority
      */
     private function find($folder = '/theme', $query, $name = '*.twig', $contains = false, $priority = 0)
@@ -346,7 +346,7 @@ class Omnisearch
     /**
      * Search in database
      *
-     * @param type $query
+     * @param string $query
      * @param bool $withRecord
      */
     private function search($query, $withRecord = false)
@@ -391,8 +391,9 @@ class Omnisearch
     /**
      * OmnisearchOption implements Comparable
      *
-     * @param type $a
-     * @param type $b
+     * @param array $a
+     * @param array $b
+     * @return int
      */
     private function compareOptions($a, $b)
     {

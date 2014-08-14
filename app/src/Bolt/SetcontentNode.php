@@ -4,7 +4,7 @@ namespace Bolt;
 
 class SetcontentNode extends \Twig_Node
 {
-    public function __construct($name, $contenttype, $arguments, $wherearguments, $lineno, $tag = null)
+    public function __construct($name, $contenttype, \Twig_Node_Expression_Array $arguments, $wherearguments, $lineno, $tag = null)
     {
         parent::__construct(
             array('wherearguments' => $wherearguments),

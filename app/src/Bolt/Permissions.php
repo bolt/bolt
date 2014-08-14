@@ -112,6 +112,7 @@ class Permissions
      * "owner" role is added if appropriate.
      * @param array $user An array as returned by Users::getUser()
      * @param Content $content An optional Content object to check ownership
+     * @throws \Exception
      * @return array An associative array of roles for the given user
      */
     public function getUserRoles($user, Content $content = null)
@@ -474,6 +475,9 @@ class Permissions
      * Gets the required permission for transitioning any content item from
      * one status to another. An empty status value indicates a non-existant
      * item (create/delete).
+     * @param $fromStatus
+     * @param $toStatus
+     * @throws \Exception
      * @return mixed The name of the required permission suffix (e.g.
      *               'publish'), or NULL if no permission is required.
      */
