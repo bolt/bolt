@@ -750,16 +750,16 @@ class Content implements \ArrayAccess
         foreach ($this->contenttype['fields'] as $key => $field) {
             if ($field['type'] == 'image') {
                 // After v1.5.1 we store image data as an array
-                if (is_array($this->values[ $key ])) {
-                    return $this->values[ $key ]['file'];
+                if (is_array($this->values[$key])) {
+                    return $this->values[$key]['file'];
                 }
 
-                return $this->values[ $key ];
+                return $this->values[$key];
             }
         }
 
         // otherwise, no image.
-        return "";
+        return '';
     }
 
     /**
@@ -767,7 +767,7 @@ class Content implements \ArrayAccess
      */
     public function getReference()
     {
-        $reference = $this->contenttype['singular_slug'] . "/" . $this->values['slug'];
+        $reference = $this->contenttype['singular_slug'] . '/' . $this->values['slug'];
 
         return $reference;
     }
@@ -866,7 +866,7 @@ class Content implements \ArrayAccess
     /**
      * Get the previous record. ('previous' is defined as 'latest one published before this one')
      */
-    public function previous($field = "datepublish", $where = array())
+    public function previous($field = 'datepublish', $where = array())
     {
         $field = safeString($field);
 
@@ -885,7 +885,7 @@ class Content implements \ArrayAccess
     /**
      * Get the next record. ('next' is defined as 'first one published after this one')
      */
-    public function next($field = "datepublish", $where = array())
+    public function next($field = 'datepublish', $where = array())
     {
         $field = safeString($field);
 
@@ -1118,7 +1118,7 @@ class Content implements \ArrayAccess
     {
         // This could be more configurable
         // (see also Storage->searchSingleContentType)
-        $searchable_types = array( 'text', 'textarea', 'html', 'markdown' );
+        $searchable_types = array('text', 'textarea', 'html', 'markdown');
 
         $fields = array();
 
