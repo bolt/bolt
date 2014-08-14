@@ -96,11 +96,11 @@ class Extension extends \Bolt\BaseExtension
         );
 
         $this->controller = new Controller($this->app, $this->config);
-
+        $recognizedvisitor = $this->controller->checkvisitor($this->app);
 
         // define twig functions and vars
         $this->app['twig']->addExtension(new VisitorsTwigExtension($this->controller));
-
+        $this->app['twig']->addGlobal('visitor', $recognizedvisitor);
 
         $routes = array(
             array('', 'view', 'visitorsroot'),
