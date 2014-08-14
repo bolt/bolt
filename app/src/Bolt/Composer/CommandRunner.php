@@ -55,13 +55,14 @@ class CommandRunner
     {
         $json = json_decode(file_get_contents($this->packageFile));
         $packages = $json->require;
+        $installed = array();
         foreach ($packages as $package => $version) {
             $installed[$package] = $this->execute("show -N -i $package $version");
         }
 
         $updates = array();
         $installs = array();
-        foreach ($installs as $package => $packageInfo) {
+        foreach ($installed as $package => $packageInfo) {
 
             if (is_array($packageInfo)) {
                 $response = $this->execute('update --dry-run '.$package);
