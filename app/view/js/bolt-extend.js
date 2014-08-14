@@ -213,7 +213,7 @@ var BoltExtender = Object.extend(Object, {
             setTimeout(function(){
                 controller.find('.install-version-container').hide();
                 controller.find('.install-response-container').hide();
-            }, 2000);
+            }, 7000);
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
