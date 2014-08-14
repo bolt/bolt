@@ -31,6 +31,7 @@ Twitter
   - Create an app.
   - Get the API key and secret from the 'API Keys'-tab.
   - Use the 'Client ID' and 'Client Secret' in your config
+  - The "Callback URL" should look like: http://example.org/visitors/endpoint
 
 Facebook
 --------
