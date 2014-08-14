@@ -67,6 +67,9 @@ class CommandRunner
 
             if (is_array($packageInfo)) {
                 $response = $this->execute('update --dry-run '.$package);
+                if (!$response) {
+                    continue;
+                }
                 foreach ($response as $resp) {
                     if (strpos($resp, $package) !== false) {
                         $updates[] = $package;
