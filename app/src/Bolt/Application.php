@@ -296,7 +296,7 @@ class Application extends Silex\Application
 
         // Mount the 'upload' controller on /upload.
         $this->mount('/upload', new Controllers\Upload());
-        
+
         // Mount the 'extend' controller on /branding/extend.
         $this->mount($this['config']->get('general/branding/path').'/extend', new Controllers\Extend());
 
