@@ -1,8 +1,6 @@
 <?php
 namespace Bolt;
 
-use Bolt\Application;
-
 class Pager extends \ArrayObject
 {
 
@@ -26,7 +24,7 @@ class Pager extends \ArrayObject
     {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $value = new static($value);
+                $value = new static($value, $app);
             }
             $this->$key = $value;
         }
