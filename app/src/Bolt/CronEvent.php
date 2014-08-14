@@ -1,9 +1,7 @@
 <?php
 namespace Bolt;
 
-use Bolt\CronEvents;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
