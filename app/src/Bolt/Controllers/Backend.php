@@ -441,7 +441,7 @@ class Backend implements ControllerProviderInterface
 
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
-        $order = $app['request']->query->get('order', $contenttype['sort']);
+        $order = $app['request']->query->get('order', false);
         $page = $app['request']->query->get('page');
         $filter = $app['request']->query->get('filter');
 
