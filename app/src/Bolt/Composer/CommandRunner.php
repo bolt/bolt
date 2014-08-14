@@ -61,7 +61,7 @@ class CommandRunner
 
         $updates = array();
         $installs = array();
-        foreach ($installed as $package => $packageInfo) {
+        foreach ($installs as $package => $packageInfo) {
 
             if (is_array($packageInfo)) {
                 $response = $this->execute('update --dry-run '.$package);
