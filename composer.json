@@ -4,12 +4,12 @@
     "homepage": "http://bolt.cm",
     "keywords": ["CMS", "Silex", "PHP", "Symfony"],
     "license": "MIT",
-    
+
     "repositories": [{
         "type": "vcs",
         "url": "http://github.com/rossriley/flysystem"
     }],
-    
+
     "require": {
         "bolt/dumper": ">=0.7",
         "bolt/thumbs": "1.7.*@dev",
@@ -48,7 +48,7 @@
         "phpunit/dbunit": "1.2.3",
         "phpmd/phpmd": "1.5.0",
         "sebastian/phpcpd": "1.4.3",
-        "squizlabs/php_codesniffer": "1.4.6",
+        "squizlabs/php_codesniffer": "1.5.*",
         "codeception/codeception": "*"
     },
     "minimum-stability": "beta",
