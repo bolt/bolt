@@ -38,7 +38,8 @@ class Content implements \ArrayAccess
                     if (isset($options) &&
                             isset($default_value) &&
                             array_search($default_value, array_keys($options)) !== false ) {
-                            $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
+                            // FIXME it is a remainder of something, remove next revision if really is
+                            // $name = $this->app['config']->get('taxonomy/'.$taxonomytype.'/options/'.$default_value);
                             $this->setTaxonomy($taxonomytype, $default_value);
                             $this->sortTaxonomy();
                     }
@@ -414,8 +415,10 @@ class Content implements \ArrayAccess
      * Set a taxonomy for the current object.
      *
      * @param $taxonomytype
-     * @param $value
+     * @param $slug
+     * @param string $name
      * @param int $sortorder
+     * @return bool
      */
     public function setTaxonomy($taxonomytype, $slug, $name = '', $sortorder = 0)
     {
@@ -425,7 +428,7 @@ class Content implements \ArrayAccess
                 $this->setTaxonomy($taxonomytype, $single, '', $sortorder);
             }
 
-            return;
+            return true;
         }
 
         // Only add a taxonomy, if the taxonomytype is actually set in the contenttype
@@ -458,6 +461,8 @@ class Content implements \ArrayAccess
         if ($this->app['config']->get('taxonomy/'.$taxonomytype.'/behaves_like') == "grouping") {
             $this->setGroup($slug, $name, $taxonomytype, $sortorder);
         }
+
+        return true;
     }
 
     /**
@@ -623,6 +628,7 @@ class Content implements \ArrayAccess
      * If passed snippet contains Twig tags, parse the string as Twig, and return the results
      *
      * @param  string $snippet
+     * @param $allowtwig
      * @return string
      */
     public function preParse($snippet, $allowtwig)
@@ -837,7 +843,7 @@ class Content implements \ArrayAccess
 
         // First, try to find a custom route that's applicable
         foreach ($allroutes as $binding => $route) {
-            if ($this->isApplicableRoute($binding, $route)) {
+            if ($this->isApplicableRoute($route)) {
                 return array($binding, $route);
             }
         }
@@ -850,7 +856,7 @@ class Content implements \ArrayAccess
         return null;
     }
 
-    protected function isApplicableRoute($binding, array $route)
+    protected function isApplicableRoute(array $route)
     {
         return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
         (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug']) ||
@@ -993,7 +999,8 @@ class Content implements \ArrayAccess
      *
      * Create an excerpt for the content.
      *
-     * @param  int    $length
+     * @param  int $length
+     * @param bool $includetitle
      * @return string
      */
     public function excerpt($length = 200, $includetitle = false)
@@ -1033,7 +1040,7 @@ class Content implements \ArrayAccess
      * @param  int    $excerptLength Number of chars of the excerpt
      * @return string RSS safe string
      */
-    public function rss_safe($field = '', $excerptLength = 0)
+    public function rss_safe($fields = '', $excerptLength = 0)
     {
         // Make sure we have an array of fields. Even if it's only one.
         if (!is_array($fields)) {
@@ -1121,8 +1128,7 @@ class Content implements \ArrayAccess
             }
         }
 
-        foreach ($this->contenttype['fields'] as $key => $config) {
-            $weight = 0;
+        foreach ($this->contenttype['fields'] as $config) {
 
             if ($config['type'] == 'slug') {
                 foreach ($config['uses'] as $ptr_field) {
