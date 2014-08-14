@@ -251,8 +251,7 @@ class Omnisearch
             $options['keywords'][] = __($keyword);
         }
 
-        $this->data[ $options['path'] ] = $options;
-
+        $this->data[$options['path']] = $options;
     }
 
     public function query($query, $withRecord = false)
