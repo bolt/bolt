@@ -2134,12 +2134,8 @@ class Storage
      * @param  string $name
      * @return string
      */
-    public function getSortOrder($name)
+    public function getSortOrder($name = "-datepublish")
     {
-        // If we don't get a string, we can't determine a sortorder.
-        if (!is_string($name)) {
-            return false;
-        }
 
         $parts = explode(' ', $name);
         $fieldname = $parts[0];
@@ -2178,19 +2174,21 @@ class Storage
                 }
             }
 
-            // Same group, so we sort on contenttype['sort']
-            list($second_sort, $order) = $this->getSortOrder($a->contenttype['sort']);
+            if (!empty($a->contenttype['sort'])) {
+                // Same group, so we sort on contenttype['sort']
+                list($second_sort, $order) = $this->getSortOrder($a->contenttype['sort']);
 
-            $vala = strtolower($a->values[$second_sort]);
-            $valb = strtolower($b->values[$second_sort]);
+                $vala = strtolower($a->values[$second_sort]);
+                $valb = strtolower($b->values[$second_sort]);
 
-            if ($vala == $valb) {
-                return 0;
-            } else {
-                $result = ($vala < $valb) ? -1 : 1;
-                // if $order is false, the 'getSortOrder' indicated that we used something like '-id'.
-                // So, perhaps we need to inverse the result.
-                return $order ? $result : -$result;
+                if ($vala == $valb) {
+                    return 0;
+                } else {
+                    $result = ($vala < $valb) ? -1 : 1;
+                    // if $order is false, the 'getSortOrder' indicated that we used something like '-id'.
+                    // So, perhaps we need to inverse the result.
+                    return $order ? $result : -$result;
+                }
             }
         }
         // Otherwise, sort based on the group. Or, more specifically, on the index of
