@@ -270,11 +270,13 @@ input.semitransparent:focus {
 }
 
 .nav > li {
+
   a {
     color: $sidebarlink;
     padding: 9px 15px 27px 8px;
     height: 2.4em;
     font-weight: normal;
+    outline: 0;
   }
 
   .fa-stack {
