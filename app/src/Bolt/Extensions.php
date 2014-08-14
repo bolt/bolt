@@ -3,7 +3,6 @@
 namespace Bolt;
 
 use Bolt;
-use util;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\BaseExtensionInterface;
 
