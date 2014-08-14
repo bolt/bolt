@@ -105,6 +105,12 @@ class Extensions
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
+
+            $mapfile = $this->basefolder . '/vendor/composer/autoload_classmap.php';
+            if (is_readable($mapfile)) {
+                $map = require_once $mapfile;
+                $loader->addClassMap($map);
+            }
             $loader->register();
         }
 
