@@ -1,11 +1,11 @@
-{% extends '_listing-base.twig' %}
+{% extends '_base/_listing.twig' %}
 
 {% block listing_columns %}{{ parent() }}{% endblock %}
 
 {% block listing_header %}{{ parent() }}{% endblock %}
 
 {% block listing_id %}
-<td class='id hidden-xs'>{{ content.contenttype.singular_name }} № {{content.id}}</td>
+<td class="id hidden-xs">{{ content.contenttype.singular_name }} № {{content.id}}</td>
 {% endblock %}
 
 {% block listing_content %}{{ parent() }}{% endblock %}
