@@ -1,65 +1,65 @@
 
 {% if context.content.relation is not empty or context.contenttype.relations is defined %}
 
-{# only if we have NO grouping tabs. #}
-{% if context.contenttype.groups is empty %}
-<hr>
-{% endif %}
+    {# only if we have NO grouping tabs. #}
+    {% if context.contenttype.groups|default is empty %}
+        <hr>
+    {% endif %}
 
-<div class="mixfield" data-mix="taxonomy">
+    <div class="mixfield" data-mix="taxonomy">
 
-    <h3>
-        {{ __('Relationships') }}
-        <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
-            data-content="{{ app.translator.trans('info.relationships',{},'infos') }}">{{ __('Info') }}</span>
-    </h3>
+        <h3>
+            {{ __('Relationships') }}
+            <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
+                data-content="{{ app.translator.trans('info.relationships', {}, 'infos') }}">{{ __('Info') }}</span>
+        </h3>
 
 {% endif %}
 
 {# relationships for this record #}
 {% if context.contenttype.relations is defined %}
 
-<div class="form-group">
-    <fieldset>
+    <div class="form-group">
+        <fieldset>
 
-    {% for relcontenttype, relation in context.contenttype.relations %}
+        {% for relcontenttype, relation in context.contenttype.relations %}
 
-        {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
-        {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
+            {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
+            {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
 
-        {{ macro.label(relation.label, relcontenttype|ucfirst, 'col-sm-3 control-label', 'relation-' ~ relcontenttype) }}
-        <div class="col-sm-9">
+            {{ macro.label(relation.label, relcontenttype|ucfirst, 'col-sm-3 control-label', 'relation-' ~ relcontenttype) }}
+            <div class="col-sm-9">
 
-            {% if relation.multiple is defined and relation.multiple == 1 %}
-            <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple  style="width: 100%;" data-placeholder="(none)">
-            {% else %}
-            <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' style="width: 100%;" data-placeholder="(none)">
-                <option value="0">(none)</option>
-            {% endif %}
-                {% for item in listcontent(relcontenttype, relation, context.content) %}
-                    {% if relcontenttype==app.request.get('relation') and item.id==app.request.get('relationid') %}
-                        {%  set selectedbyrelation = true %}
-                    {% else %}
-                        {%  set selectedbyrelation = false %}
-                    {% endif %}
-                    <option value="{{ item.id }}" {% if item.selected or selectedbyrelation %}selected{% endif %}>
-                        {{ format|twig({'item': item}) }}
-                    </option>
-                {% endfor %}
+                {% if relation.multiple is defined and relation.multiple == 1 %}
+                <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' multiple  style="width: 100%;" data-placeholder="(none)">
+                {% else %}
+                <select name='relation[{{relcontenttype}}][]' id='relation-{{relcontenttype}}' class='wide' style="width: 100%;" data-placeholder="(none)">
+                    <option value="0">(none)</option>
+                {% endif %}
+                    {% for item in listcontent(relcontenttype, relation, context.content) %}
+                        {% if relcontenttype==app.request.get('relation') and item.id==app.request.get('relationid') %}
+                            {%  set selectedbyrelation = true %}
+                        {% else %}
+                            {%  set selectedbyrelation = false %}
+                        {% endif %}
+                        <option value="{{ item.id }}" {% if item.selected or selectedbyrelation %}selected{% endif %}>
+                            {{ format|twig({'item': item}) }}
+                        </option>
+                    {% endfor %}
 
-            </select>
+                </select>
 
-            <script>
-                $('#relation-{{relcontenttype}}').select2({
-                    placeholder: "(none)",
-                    allowClear: true
-                });
-            </script>
+                <script>
+                    $('#relation-{{relcontenttype}}').select2({
+                        placeholder: "(none)",
+                        allowClear: true
+                    });
+                </script>
 
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
 
-</div>
+    </div>
 
 {% endif %}
 
@@ -85,8 +85,7 @@
 
 {% if context.content.relation is not empty or context.contenttype.relations is defined %}
 
-    <hr>
-
-</div>
+        <hr>
+    </div>
 
 {% endif %}

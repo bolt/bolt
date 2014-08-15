@@ -1,114 +1,113 @@
 {# Page: NavSecondary > Content ... > Edit #}
+
+{% import '_macro/_macro.twig' as macro %}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Content' %}
+
 {% block page_title %}
     {% set contenttype = {'%contenttype%': context.contenttype.singular_name} %}
     {% if context.content.title is not empty %}
-        {{ __('Edit %contenttype%', contenttype) }} » <i>{{context.content.title}}</i>
+        {{ __('Edit %contenttype%', contenttype) }}
     {% else %}
         {{ __('New %contenttype%', contenttype) }}
     {% endif %}
 {% endblock page_title %}
+
+{% block page_subtitle context.content.title|default('') %}
+
 {% block page_main %}
 
-{% import '_macro/_macro.twig' as macro %}
+    <div class="row">
+        <div class="col-md-8">
 
-<div class="row">
+            {# only if we have grouping tabs. #}
+            {% if context.contenttype.groups|default is not empty %}
+                <ul class="nav nav-tabs" id="filtertabs">
+                    {% for groups in context.contenttype.groups %}
+                        <li><a class="filter" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
+                    {% endfor %}
+                    <li><a class="filter" data-filter="taxonomy">{{ __('Taxonomy') }}</a></li>
+                    <li><a class="filter" data-filter="meta">{{ __('Meta') }}</a></li>
+                </ul>
+            {% endif %}
 
-    <div class="col-xs-12">
-        <h1 class="page-header">{{ block('page_title') }}</h1>
-    </div>
-</div>
+            <form method="post" id="editcontent" enctype="multipart/form-data" class="form-horizontal" role="form">
+                {% include '_sub/_csrf_token.twig' %}
 
-<div class="row">
-    <div class="col-md-8">
+                {% include 'editcontent/_fields.twig' %}
 
-    {# only if we have grouping tabs. #}
-    {% if context.contenttype.groups is not empty %}
-    <ul class="nav nav-tabs" id="filtertabs">
-        {% for groups in context.contenttype.groups %}
-            <li><a class="filter" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
-        {% endfor %}
-        <li><a class="filter" data-filter="taxonomy">{{ __('Taxonomy') }}</a></li>
-        <li><a class="filter" data-filter="meta">{{ __('Meta') }}</a></li>
-    </ul>
-    {% endif %}
+                {% include 'editcontent/_relations.twig' %}
 
-    <form method="post" id="editcontent" enctype="multipart/form-data" class="form-horizontal" role="form">
-        {% include '_sub/_csrf_token.twig' %}
+                {% include 'editcontent/_taxonomies.twig' %}
 
-        {% include 'editcontent/_fields.twig' %}
+                {% include 'editcontent/_meta.twig' %}
 
-        {% include 'editcontent/_relations.twig' %}
+                <div class="form-group">
+                    <div class="col-sm-12">
 
-        {% include 'editcontent/_taxonomies.twig' %}
-
-        {% include 'editcontent/_meta.twig' %}
-
-        <div class="form-group">
-            <div class="col-sm-12">
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" id="savecontinuebutton">
-                        <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
-                    </button>
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <button type="submit" class="btn btn-link" id="savebutton">
-                                <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" id="savecontinuebutton">
+                                <i class="fa fa-flag"></i> {{  __('Save %contenttype%',{'%contenttype%': context.contenttype.singular_name}) }}
                             </button>
-                        </li>
-                        <li>
-                            <button type="submit" class="btn btn-link" id="savenewbutton">
-                                <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
                             </button>
-                        </li>
-                    </ul>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <button type="submit" class="btn btn-link" id="savebutton">
+                                        <i class="fa fa-flag"></i> {{ __('Save & return to overview') }}
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="submit" class="btn btn-link" id="savenewbutton">
+                                        <i class="fa fa-flag"></i> {{ __('Save & create new record') }}
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="previewbutton">
+                                <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
+                            </button>
+                            {% if context.content.status == "published" and context.content.link is defined %}
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{ context.content.link }}" target="_blank">
+                                            <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
+                                    </a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <p class="lastsaved" style="margin-top: 12px;">
+                            {% if context.content.id != 0 %}
+                                {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
+                            {% else %}
+                                {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': context.contenttype.singular_name}) }}
+                            {% endif %}
+                        </p>
+
+                    </div>
+
                 </div>
 
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="previewbutton">
-                        <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
-                    </button>
-                    {% if context.content.status == "published" and context.content.link is defined %}
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="{{ context.content.link }}" target="_blank">
-                                    <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
-                            </a>
-                            </li>
-                        </ul>
-                    {% endif %}
-                </div>
-
-                <p class="lastsaved" style="margin-top: 12px;">
-                    {% if context.content.id != 0 %}
-                    {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
-                {% else %}
-                    {{ __('This %contenttype% has not been saved yet.', {'%contenttype%': context.contenttype.singular_name}) }}
-                {% endif %}
-                </p>
-
-            </div>
+            </form>
 
         </div>
 
-    </form>
-
-    </div><!-- /span9 -->
-
-    <aside class="col-md-4 hidden-xs">
-        {% include 'editcontent/_aside.twig' %}
-    </aside>
-</div>
+        <aside class="col-md-4 hidden-xs">
+            {% include 'editcontent/_aside.twig' %}
+        </aside>
+    </div>
 
 {% endblock page_main %}
 
@@ -201,26 +200,26 @@
             });
 
             {# only if we have grouping tabs. #}
-            {% if context.contenttype.groups is not empty %}
-            // Filter for tabs
-            var allf = $('.mixfield');
-            allf.hide();
-            // Click function
-            $( ".filter" ).click(function() { 
-                var customType = $( this ).data('filter');
-                allf
-                    .hide()
-                    .filter(function () {
-                        return $(this).data('mix') === customType;
-                    })
-                    .show();
-                $( '#filtertabs li' ).removeClass( "active" );
-                $( this ).parent().attr('class', 'active')
-            });
+            {% if context.contenttype.groups|default is not empty %}
+                // Filter for tabs
+                var allf = $('.mixfield');
+                allf.hide();
+                // Click function
+                $( ".filter" ).click(function() {
+                    var customType = $( this ).data('filter');
+                    allf
+                        .hide()
+                        .filter(function () {
+                            return $(this).data('mix') === customType;
+                        })
+                        .show();
+                    $( '#filtertabs li' ).removeClass( "active" );
+                    $( this ).parent().attr('class', 'active')
+                });
 
-            $( document ).ready(function() {
-                $( '#filtertabs li a:first' ).trigger('click');
-            });
+                $( document ).ready(function() {
+                    $( '#filtertabs li a:first' ).trigger('click');
+                });
             {% endif %}
 
         });

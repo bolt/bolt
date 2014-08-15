@@ -10,7 +10,7 @@
         {% if deletable %}
             {% set any_deletable = true %}
         {% endif %}
-        {% include ['custom/listing/' ~ contenttype.slug ~ '.twig', '_sub/_listing.twig'] with { 'excerptlength': 380, 'thumbsize': 80, 'compact': false } %}
+        {% include ['custom/listing/' ~ contenttype.slug ~ '.twig', '_sub/_listing.twig'] with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
         {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
             {% set lastgroup = content.group.name %}
         {% endif %}
@@ -21,12 +21,12 @@
 </table>
 
 {% if any_deletable %}
-<div class="btn-group">
-    <a href="#" class="btn btn-default deletechosen showifchosen" style="display:none;">
-        <i class="fa fa-trash-o"></i>
-        {{ __('Delete selected %contenttype%',{'%contenttype%': contenttype.name}) }}
-    </a>
-</div>
+    <div class="btn-group">
+        <a href="#" class="btn btn-default deletechosen showifchosen" style="display:none;">
+            <i class="fa fa-trash-o"></i>
+            {{ __('Delete selected %contenttype%', {'%contenttype%': contenttype.name}) }}
+        </a>
+    </div>
 {% endif %}
 
 {% from '_macro/_pager.twig' import pager %}

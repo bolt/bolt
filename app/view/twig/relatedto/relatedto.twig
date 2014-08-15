@@ -1,26 +1,31 @@
 {# Page: NavSecondary > Content ... > Edit ^ View related content #}
-{% extends '_base/_page.twig' %}
-{% block page_type 'Content' %}
-{% block page_title __('Related content') %}
-{% block page_main %}
 
 {% from '_sub/_editable_record_list.twig' import editable_record_list as list %}
+{% import '_macro/_panels.twig' as panels %}
 
+{% extends '_base/_page.twig' %}
+
+{% block page_type 'Content' %}
+
+{% block page_title __('Related content') %}
+
+{% block page_subtitle context.name ~ ' › '~ context.title %}
+
+{% block page_main %}
+
+    {# TODO: add pager
     <div class="row">
         <div class="col-xs-12">
             <h1 class="page-header">
-                {{ block('page_title') }}<br>
-                <small><strong>{{ context.name }}</strong> » {{ context.title }}</small>
-                {# TODO: add pager
                 {% if pager is defined and pager.totalpages > 1 %}
                     <span>
                     {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
                     </span>
                 {% endif %}
-                #}
             </h1>
         </div>
     </div>
+                #}
 
     <div class="row">
         <div class="col-xs-12">
