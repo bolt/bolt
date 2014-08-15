@@ -1,6 +1,8 @@
 
 {% if content.relation is not empty or contenttype.relations is defined %}
 
+<div class="mixfield" data-mix="more">
+
     <h3>
         {{ __('Relationships') }}
         <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
@@ -79,5 +81,7 @@
 {% if content.relation is not empty or contenttype.relations is defined %}
 
     <hr>
+
+</div>
 
 {% endif %}

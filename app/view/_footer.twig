@@ -38,3 +38,26 @@
 {% if app.config.get('general/grunt/livereload') %}
     <script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
 {% endif %}</html>
+
+{% if contenttype.groups %}
+<script type="text/javascript">
+//filter fot tabs
+var allf = $('.mixfield');
+allf.hide();
+// Click function
+$( ".filter" ).click(function() { 
+    var customType = $( this ).data('filter');
+    allf
+        .hide()
+        .filter(function () {
+            return $(this).data('mix') === customType;
+        })
+        .show();
+        $( '#filtertabs li' ).removeClass( "active" );
+        $( this ).parent().attr('class', 'active')
+});
+ $( document ).ready(function() {
+$( '#filtertabs li a:first' ).trigger('click');
+ });
+</script>
+{% endif %}

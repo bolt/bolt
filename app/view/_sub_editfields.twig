@@ -1,7 +1,7 @@
 {% import '_macro.twig' as macro %}
 
 {% for key, field in contenttype.fields %}
-
+<div class="mixfield" data-mix="{% if field.group %}{{field.group}}{% else %}main{% endif %}">
     <div class="form-group">
 
     {# --------------- prefix --------------- #}
@@ -64,6 +64,6 @@
     {% if field.separator is defined and field.separator == true %}
         <hr>
     {% endif %}
-
-
+</div>
 {% endfor %}
+

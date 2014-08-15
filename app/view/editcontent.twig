@@ -8,17 +8,28 @@
     </div>
 
     <div class="col-md-8">
-
+{% if contenttype.groups %}
+<ul class="nav nav-tabs" id="filtertabs">
+    {% for groups in contenttype.groups %}
+      <li><a class="filter" href="#" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
+	{% endfor %}
+	 <li><a class="filter" href="#" data-filter="more">{{ __('More') }}</a></li>
+</ul>
+{% endif %}
     <form method="post" id="editcontent" enctype="multipart/form-data" class="form-horizontal" role="form">
         {% include '_sub_csrf_token.twig' %}
 
         {% include '_sub_editfields.twig' %}
 
+{% if contenttype.groups is not defined %}
         <hr>
+{% endif %}
 
         {% include '_sub_editrelations.twig' %}
 
         {% include '_sub_edittaxonomies.twig' %}
+
+        <div class="mixfield" data-mix="more">  
 
         <h3>
             {{ __('Meta information') }}
@@ -32,6 +43,7 @@
                 <input type='text' readonly=readonly name='id' value='{{ content.id }}' class="form-control narrow">
             </div>
         </div>
+
 
         <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
 
@@ -130,9 +142,10 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
                 {% endif %}                   
             </div>
         </div>
+    </div>
 
 
-     
+     <hr>
 
         <div class="form-group">
             <div class="col-sm-12">
