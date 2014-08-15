@@ -1445,5 +1445,4 @@ class TwigExtension extends \Twig_Extension
     {
         return json_decode($string);
     }
-
 }
