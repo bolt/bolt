@@ -71,10 +71,10 @@
             <p>{{ __('This record is related to:') }}</p>
             <table class="table table-striped dashboardlisting">
             {% for id in ids %}
-                {% setcontent record = reltype~"/"~id %}
+                {% setcontent record = reltype~'/'~id %}
                 {% if record %}
                     {% set editable = isallowed('edit', record) %}
-                    {% include ['_sub_listing.twig'] with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'content': record } %}
+                    {% include ['_sub/_listing.twig'] with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'content': record } %}
                 {% endif %}
             {% endfor %}
             </table>
