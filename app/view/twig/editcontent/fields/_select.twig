@@ -47,7 +47,7 @@
                         selected:  (is_array ? (value[0] in context.content.get(key)) : (value in context.content.get(key))),
                     }%}
 
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
+                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value|join(' / ') : value }}</option>
                 {% endfor %}
             </select>
 
@@ -74,7 +74,7 @@
                         selected:  (context.content.get(key) == (is_array ? value[0] : value)),
                     }%}
 
-                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[1] : value }}</option>
+                    <option{{ macro.attr(attr_opt) }}>{{ is_array ? value|join(' / ') : value }}</option>
                 {% endfor %}
             </select>
         </div>
