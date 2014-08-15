@@ -1,18 +1,14 @@
 {# Page: NavSecondary > Dashboard > Latest activity > more activity #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Settings' %}
+
 {% block page_title __('Activity log') %}
+
 {% block page_main %}
 
     {% from '_macro/_pager.twig' import pager %}
-
-    <div class="row">
-
-        <div class="col-xs-12">
-            <h1 class="page-header">{{ block('page_title') }}</h1>
-        </div>
-
-    </div>
 
     <div class="row">
         <div class="col-xs-12">
@@ -47,13 +43,11 @@
                     </tr>
                 {% endfor %}
                 </tbody>
-
             </table>
 
             {{ pager() }}
 
         </div>
-
     </div>
 
 {% endblock page_main %}

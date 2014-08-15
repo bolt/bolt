@@ -1,9 +1,13 @@
 {# Page: NavSecondary > Content ... > #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Content' %}
+
 {% block page_title %}
     {{ __('Overview') }} » <i> {{ context.contenttype.name }}</i>
 {% endblock page_title %}
+
 {% block page_main %}
 
     {% from '_sub/_editable_record_list.twig' import editable_record_list as list %}

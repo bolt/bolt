@@ -1,20 +1,18 @@
 {# DEPRECATED! Don't use! - Just in here for compatibility und should be refactored out #}
 {# Page: ImportWXR Extension #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Standard' %}
+
 {% block page_title title %}
+
 {% block page_main %}
 
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 class="page-header">{{ block('page_title') }}</h1>
-        </div>
-    </div>
-
-{% block content %}
-    {% autoescape false %}
-        {{ content }}
-    {% endautoescape %}
-{% endblock %}
+    {% block content %}
+        {% autoescape false %}
+            {{ content }}
+        {% endautoescape %}
+    {% endblock %}
 
 {% endblock page_main %}

@@ -1,16 +1,14 @@
 {# Page: NavSecondary > Configuration > Main configuration | Contenttypes | Taxonomy | ... #}
-{% extends '_base/_page.twig' %}
-{% block page_type 'Settings' %}
-{% block page_title %}
-    {{ context.write_allowed ? __('Edit file') : __('View file') }} » <i>{{ context.basename }}</i>
-{% endblock page_title %}
-{% block page_main %}
 
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 class="page-header">{{ block('page_title') }}</h1>
-        </div>
-    </div>
+{% extends '_base/_page.twig' %}
+
+{% block page_type 'Settings' %}
+
+{% block page_title context.write_allowed ? __('Edit file') : __('View file') %}
+
+{% block page_subtitle context.basename %}
+
+{% block page_main %}
 
     <div class="row">
         <div class="col-xs-12">

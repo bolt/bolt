@@ -1,16 +1,20 @@
-{# Page: NavSecondary > Content ... > Recent modifications > Full list #}
-{% extends '_base/_page.twig' %}
-{% block page_type 'Standard' %}
-{% block page_title __('Change Log') ~ ': ' ~ context.title %}
-{% block page_main %}
+{# Page: NavSecondary > Content > View … > Recent modifications > Full list #}
 
-    {% from '_macro/_changelog_details.twig' import changelog_details %}
-    {% from 'changeloglist/_macros.twig' import changelog_pager %}
+{% from '_macro/_changelog_details.twig' import changelog_details %}
+{% from 'changeloglist/_macros.twig' import changelog_pager %}
+
+{% extends '_base/_page.twig' %}
+
+{% block page_type 'Standard' %}
+
+{% block page_title __('Change Log') %}
+
+{% block page_subtitle context.title %}
+
+{% block page_main %}
 
     <div class="row">
         <div class="col-xs-12">
-            <h1>{{ __('Change Log') }} » <i>{{ context.title }}</i></h1>
-
             {{ changelog_pager(context.currentpage, context.pagecount) }}
 
             <div class="changelog-list">
