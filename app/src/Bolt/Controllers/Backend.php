@@ -131,10 +131,6 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('about');
 
-        $ctl->get('/extensions', array($this, 'extensions'))
-            ->before(array($this, 'before'))
-            ->bind('extensions');
-
         $ctl->get('/user/{action}/{id}', array($this, 'useraction'))
             ->before(array($this, 'before'))
             ->method('POST')
@@ -1353,18 +1349,6 @@ class Backend implements ControllerProviderInterface
     public function about(Silex\Application $app)
     {
         return $app['render']->render('about/about.twig');
-    }
-
-    /**
-     * Show a list of all available extensions.
-     */
-    public function extensions(Silex\Application $app)
-    {
-        $context = array(
-            'extensions' => $app['extensions']->getInfo(),
-        );
-
-        return $app['render']->render('extensions/extensions.twig', array('context' => $context));
     }
 
     public function files($namespace, $path, Silex\Application $app, Request $request)
