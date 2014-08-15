@@ -4,48 +4,56 @@
 {% block page_title __('Activity log') %}
 {% block page_main %}
 
-<div class="row">
+    {% from '_macro/_pager.twig' import pager %}
 
-    <div class="col-lg-12">
-        <h1 class="page-header">{{ block('page_title') }}</h1>
+    <div class="row">
+
+        <div class="col-xs-12">
+            <h1 class="page-header">{{ block('page_title') }}</h1>
+        </div>
+
     </div>
 
-</div>
+    <div class="row">
+        <div class="col-xs-12">
 
-<div class="btn-group" style='padding-bottom: 12px'>
-    <a class="btn btn-default" href="{{ path('activitylog', { 'action': 'trim' }) }}">
-        <i class="fa fa-trash-o"></i> {{ __('Trim Activitylog') }}
-    </a>
-    <a class="btn btn-default confirm" href="{{ path('activitylog', { 'action': 'clear' }) }}" data-confirm="Are you sure you want to clear the activity logs?">
-        <i class="fa fa-trash-o"></i> {{ __('Clear Activitylog') }}
-    </a>
-</div>
+            <div class="btn-group" style="padding-bottom: 12px">
+                <a class="btn btn-default" href="{{ path('activitylog', { 'action': 'trim' }) }}">
+                    <i class="fa fa-trash-o"></i> {{ __('Trim Activitylog') }}
+                </a>
+                <a class="btn btn-default confirm" href="{{ path('activitylog', { 'action': 'clear' }) }}" data-confirm="Are you sure you want to clear the activity logs?">
+                    <i class="fa fa-trash-o"></i> {{ __('Clear Activitylog') }}
+                </a>
+            </div>
 
-<table class="table table-striped dashboardlisting">
-    <tbody>
-    {% for log in context.activity %}
-        <tr>
-            <td>
-                № {{ log.id }}<br>Lvl {{ log.level }}
-            </td>
-            <td>
-                <b>{{ log.message }} / {{ log.code }}</b> <br>
-                {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
-            </td>
-            <td>
-                {{ log.username }} <br>
-                {{ log.ip }}
-            </td>
-            <td>
-                <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
+            <table class="table table-striped dashboardlisting">
+                <tbody>
+                {% for log in context.activity %}
+                    <tr>
+                        <td>
+                            № {{ log.id }}<br>Lvl {{ log.level }}
+                        </td>
+                        <td>
+                            <b>{{ log.message }} / {{ log.code }}</b> <br>
+                            {{ __('in:') }} {{ log.file }}::{{ log.line }} ({{ log.route }})
+                        </td>
+                        <td>
+                            {{ log.username }} <br>
+                            {{ log.ip }}
+                        </td>
+                        <td>
+                            <time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
 
-</table>
+            </table>
 
-{% from '_macro/_pager.twig' import pager %}
-{{ pager() }}
+            {{ pager() }}
+
+        </div>
+
+    </div>
 
 {% endblock page_main %}

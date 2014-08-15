@@ -3,151 +3,153 @@
 {% block page_title __("Extend Bolt") %}
 {% block page_main %}
 
+    <script src="{{ paths.app }}view/js/bolt-extend.js"></script>
 
-<script src="{{ paths.app }}view/js/bolt-extend.js"></script>
-
-<div class='extend-bolt-container'>
-    {% if messages %}
-        <div class="alert alert-info">
-            <button class="close" data-dismiss="alert">×</button>
-            {% for message in messages %}
-                {{message}}
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{{ block('page_title') }}</h1>
-        </div>
-        <div class="col-md-8">
-            <div class='update-container hide-block'>
-                <h3>{{ __('Updates') }}</h3>
-                <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)')}}..</pre>
-                <div class="update-list hide-block">
-                    <table class="dashboardlisting table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('Extension') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="update-list-items">
-
-                        </tbody>
-                    </table>
-                </div>
+    <div class="extend-bolt-container">
+        {% if messages %}
+            <div class="alert alert-info">
+                <button class="close" data-dismiss="alert">×</button>
+                {% for message in messages %}
+                    {{message}}
+                {% endfor %}
             </div>
-            <section class="installed-container">
-                <h3>{{ __('Your Currently Installed Extensions') }}</h3>
-                <pre class="installed console" data-action='installed'>{{ __('Checking installed packages')}}..</pre>
-                <div class="installed-list hide-block">
-                    <table class="dashboardlisting table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('Extension') }}</th>
-                                <th>{{ __('Type') }}</th>
-                                <th>{{ __('Description') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="installed-list-items">
+        {% endif %}
 
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            <hr />
-            <section>
-                <h3>{{ __('Install a new Extension') }}</h3>
-                <p>
-                    {{ __('Add a new extension using the form below.') }}
-                    {{ __('You can discover new extensions by visiting') }}
-                    <a href="{{site}}">{{site}}</a>
-                </p>
-                <div class="install-container">
-                        <div class="auto-search hide-block"></div>
-                        <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
-                        <a class="btn btn-tertiary check-package" data-action='check-package'>
-                            <i class="icon-gears"></i> {{ __('Check Extension') }}
-                        </a>
-                </div>
-                <div class="install-version-container hide-block">
-                    <hr>
-                    <table class="dashboardlisting table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('Extension') }}</th>
-                                <th>{{ __('Select version') }}</th>
-                                <th>{{ __('Bolt Compatibility') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="installed-version-item">
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class='install-response-container hide-block'>
-                    <h3>{{ __('Installing package') }}</h3>
-                    <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
-                </div>
-            </section>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{ block('page_title') }}</h1>
+            </div>
         </div>
 
-        <aside class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
-                <div class="panel-body">
-                        <p><strong>{{ __('Check for updates') }}</strong></p>
-                        <div class="btn-group">
-                            <a class="btn btn-tertiary" data-action='update-check'>
-                                <i class="fa fa-refresh"></i> {{ __('Run update check') }}
-                            </a>
-                        </div>
-                        <p>{{__("This won't install anything, just show you available updates")}}</p>
-                        <hr>
-                        <p><strong>{{ __('Install all updates') }}</strong></p>
-                        <div class="btn-group">
-                            <a class="btn btn-primary" data-action='update-run'>
-                                <i class="fa fa-refresh"></i> {{ __('Run all Updates') }}
-                            </a>
-                        </div>
-                        <p>{{__("This will install all available updates.")}}</p>
-                        <hr>
-                        <div class="btn-group">
-                            <a class="btn btn-primary" data-action='install-run'>
-                                <i class="fa fa-download"></i> {{ __('Install all Packages') }}
-                            </a>
-                        </div>
-                        <p>{{__("This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.")}}</p>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="update-container hide-block">
+                    <h3>{{ __('Updates') }}</h3>
+                    <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)')}}..</pre>
+                    <div class="update-list hide-block">
+                        <table class="dashboardlisting table">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Extension') }}</th>
+                                    <th>{{ __('Actions') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="update-list-items">
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <section class="installed-container">
+                    <h3>{{ __('Your Currently Installed Extensions') }}</h3>
+                    <pre class="installed console" data-action="installed">{{ __('Checking installed packages')}}..</pre>
+                    <div class="installed-list hide-block">
+                        <table class="dashboardlisting table">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Extension') }}</th>
+                                    <th>{{ __('Type') }}</th>
+                                    <th>{{ __('Description') }}</th>
+                                    <th>{{ __('Actions') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="installed-list-items">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <hr />
+                <section>
+                    <h3>{{ __('Install a new Extension') }}</h3>
+                    <p>
+                        {{ __('Add a new extension using the form below.') }}
+                        {{ __('You can discover new extensions by visiting') }}
+                        <a href="{{site}}">{{site}}</a>
+                    </p>
+                    <div class="install-container">
+                            <div class="auto-search hide-block"></div>
+                            <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
+                            <a class="btn btn-tertiary check-package" data-action="check-package">
+                                <i class="icon-gears"></i> {{ __('Check Extension') }}
+                            </a>
+                    </div>
+                    <div class="install-version-container hide-block">
+                        <hr>
+                        <table class="dashboardlisting table">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Extension') }}</th>
+                                    <th>{{ __('Select version') }}</th>
+                                    <th>{{ __('Bolt Compatibility') }}</th>
+                                    <th>{{ __('Actions') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="installed-version-item">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="install-response-container hide-block">
+                        <h3>{{ __('Installing package') }}</h3>
+                        <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
+                    </div>
+                </section>
             </div>
-        </aside>
+
+            <aside class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
+                    <div class="panel-body">
+                            <p><strong>{{ __('Check for updates') }}</strong></p>
+                            <div class="btn-group">
+                                <a class="btn btn-tertiary" data-action="update-check">
+                                    <i class="fa fa-refresh"></i> {{ __('Run update check') }}
+                                </a>
+                            </div>
+                            <p>{{__("This won't install anything, just show you available updates")}}</p>
+                            <hr>
+                            <p><strong>{{ __('Install all updates') }}</strong></p>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" data-action="update-run">
+                                    <i class="fa fa-refresh"></i> {{ __('Run all Updates') }}
+                                </a>
+                            </div>
+                            <p>{{__("This will install all available updates.")}}</p>
+                            <hr>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" data-action="install-run">
+                                    <i class="fa fa-download"></i> {{ __('Install all Packages') }}
+                                </a>
+                            </div>
+                            <p>{{__("This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.")}}</p>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+
 
     </div>
 
+    <script>
+        var site = '{{site}}';
+        var baseurl = "{{paths.bolt}}extend/";
 
-</div>
+        var active_console;
+        var active_interval;
 
-<script>
-    var site = '{{site}}';
-    var baseurl = "{{paths.bolt}}extend/";
-
-    var active_console;
-    var active_interval;
-
-    jQuery(document).ready(function($) {
-        var boltExt = new BoltExtender();
-        boltExt.setMessage('extError', '{{__('Bolt Extension could not be found. Please check at '~site~' to ensure correct name.')}}' );
-        boltExt.setMessage('removing', '{{__('Preparing to remove package...')}}');
-        boltExt.setMessage('updating', '{{__('Searching for available updates...')}}');
-        boltExt.setMessage('updated', '{{__('Everything is up to date!')}}');
-        boltExt.setMessage('installing', '{{__('Preparing to install package...')}}');
-        boltExt.setMessage('installAll', '{{__('Running install of all packages...')}}');
-    });
+        jQuery(document).ready(function($) {
+            var boltExt = new BoltExtender();
+            boltExt.setMessage('extError', '{{__('Bolt Extension could not be found. Please check at '~site~' to ensure correct name.')}}' );
+            boltExt.setMessage('removing', '{{__('Preparing to remove package...')}}');
+            boltExt.setMessage('updating', '{{__('Searching for available updates...')}}');
+            boltExt.setMessage('updated', '{{__('Everything is up to date!')}}');
+            boltExt.setMessage('installing', '{{__('Preparing to install package...')}}');
+            boltExt.setMessage('installAll', '{{__('Running install of all packages...')}}');
+        });
 
 
-</script>
+    </script>
 
 {% endblock page_main %}

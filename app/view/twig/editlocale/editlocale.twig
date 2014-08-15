@@ -12,16 +12,20 @@
         </div>
     </div>
 
-    <form action="" method="post" class="form-inline" autocomplete="off">
-        <div>
-            <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ context.form.vars.value.contents }}</textarea>
+    <div class="row">
+        <div class="col-xs-12">
+            <form action="" method="post" class="form-inline" autocomplete="off">
+                <div>
+                    <textarea id="form_contents" name="form[contents]" required="required" class="CodeMirror-scroll" style="width: 98%">{{ context.form.vars.value.contents }}</textarea>
+                </div>
+                {% if context.write_allowed %}
+                    {{ form_widget(context.form._token) }}
+                    <br>
+                    <input type="submit" name="submit" value="{{ __('Save') }}" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %} />
+                {% endif %}
+            </form>
         </div>
-        {% if context.write_allowed %}
-            {{ form_widget(context.form._token) }}
-            <br>
-            <input type="submit" name="submit" value="{{ __('Save') }}" class="btn btn-primary" {% if not context.write_allowed %}disabled{% endif %} />
-        {% endif %}
-    </form>
+    </div>
 
     {% if not ismobileclient() %}
         {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}

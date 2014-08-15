@@ -4,30 +4,32 @@
 {% block page_title __('All users') %}
 {% block page_main %}
 
-<div class="row">
-
-    <div class="col-xs-12">
-        <h1 class="page-header">{{ block('page_title') }}</h1>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">{{ block('page_title') }}</h1>
+        </div>
     </div>
 
-    <div class="col-md-9">
+    <div class="row">
+        <div class="col-md-9">
 
-        {% include 'users/_userlist.twig' %}
+            {% include 'users/_userlist.twig' %}
 
-        <h2><strong>{{ __('Roles and Permissions') }}</strong></h2>
+            <h2><strong>{{ __('Roles and Permissions') }}</strong></h2>
 
-        {% include 'users/_roles-permissons.twig' %}
+            {% include 'users/_roles-permissons.twig' %}
 
-        <h2><strong>{{ __('Current sessions') }}</strong></h2>
+            <h2><strong>{{ __('Current sessions') }}</strong></h2>
 
-        {% include 'users/_sessions.twig' %}
+            {% include 'users/_sessions.twig' %}
 
+        </div>
+
+        <aside class="col-md-3">
+            {% include 'users/_aside.twig' %}
+        </aside>
     </div>
 
-    <aside class="col-md-3">
-        {% include 'users/_aside.twig' %}
-    </aside>
-</div>
 {% endblock page_main %}
 
 {% block page_script %}

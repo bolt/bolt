@@ -6,42 +6,44 @@
 
 {% from '_sub/_editable_record_list.twig' import editable_record_list as list %}
 
-<div class="row">
-
-    <div class="col-xs-12">
-        <h1 class="page-header">
-            {{ block('page_title') }}<br>
-            <small><strong>{{ context.name }}</strong> » {{ context.title }}</small>
-            {# TODO: add pager
-            {% if pager is defined and pager.totalpages > 1 %}
-                <span>
-                {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
-                </span>
-            {% endif %}
-            #}
-        </h1>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">
+                {{ block('page_title') }}<br>
+                <small><strong>{{ context.name }}</strong> » {{ context.title }}</small>
+                {# TODO: add pager
+                {% if pager is defined and pager.totalpages > 1 %}
+                    <span>
+                    {{ __('Showing') }} {{ pager.showing_from }} - {{ pager.showing_to }} {{ __('of') }} {{ pager.count }}
+                    </span>
+                {% endif %}
+                #}
+            </h1>
+        </div>
     </div>
 
-    {% if context.show_contenttype %}
-        <div class="col-md-9">
-            {% include 'relatedto/_toolbar.twig' %}
-            {# TODO: add order #}
-            {{ list(context.contenttype, context.show_contenttype, context.related_content, '') }}
-        </div>
-
-        <aside class="col-md-3">
-            {% include 'relatedto/_panel-actions_relatedto.twig' %}
-            {{ panels.lastmodified(context.show_contenttype.slug) }}
-            {{ panels.stack(5) }}
-        </aside>
-
-    {% else %}
-
+    <div class="row">
         <div class="col-xs-12">
-            {{ __('No relations found!') }}
-        </div>
+        {% if context.show_contenttype %}
+            <div class="col-md-9">
+                {% include 'relatedto/_toolbar.twig' %}
+                {# TODO: add order #}
+                {{ list(context.contenttype, context.show_contenttype, context.related_content, '') }}
+            </div>
 
-    {% endif %}
-</div>
+            <aside class="col-md-3">
+                {% include 'relatedto/_panel-actions_relatedto.twig' %}
+                {{ panels.lastmodified(context.show_contenttype.slug) }}
+                {{ panels.stack(5) }}
+            </aside>
+
+        {% else %}
+
+            <div class="col-xs-12">
+                {{ __('No relations found!') }}
+            </div>
+
+        {% endif %}
+    </div>
 
 {% endblock page_main %}

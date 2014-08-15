@@ -4,67 +4,67 @@
 {% block page_title __('Change Log') ~ ': ' ~ context.entry.title %}
 {% block page_main %}
 
-{% from '_macro/_changelog_details.twig' import changelog_details %}
+    {% from '_macro/_changelog_details.twig' import changelog_details %}
 
-{% if context.prev_entry %}
-    {% set left_link = path(
+    {% if context.prev_entry %}
+        {% set left_link = path(
+                'changelogdetails',
+                {'contenttype': context.contenttype, 'contentid': context.entry.contentid, 'id': context.prev_entry.id}
+           )
+        %}
+    {% else %}
+        {% set left_link = false %}
+    {% endif %}
+
+    {% set centerLink = path(
+            'changeloglist',
+            {'contenttype': context.contenttype, 'contentid': context.entry.contentid}
+       )
+    %}
+
+    {% if context.next_entry %}
+        {% set right_link = path(
             'changelogdetails',
-            {'contenttype': context.contenttype, 'contentid': context.entry.contentid, 'id': context.prev_entry.id}
-       )
-    %}
-{% else %}
-    {% set left_link = false %}
-{% endif %}
-
-{% set centerLink = path(
-        'changeloglist',
-        {'contenttype': context.contenttype, 'contentid': context.entry.contentid}
-   )
-%}
-
-{% if context.next_entry %}
-    {% set right_link = path(
-        'changelogdetails',
-        {'contenttype': context.contenttype, 'contentid': context.entry.contentid, 'id': context.next_entry.id}
-       )
-    %}
-{% else %}
-    {% set right_link = false %}
-{% endif %}
+            {'contenttype': context.contenttype, 'contentid': context.entry.contentid, 'id': context.next_entry.id}
+           )
+        %}
+    {% else %}
+        {% set right_link = false %}
+    {% endif %}
 
 
-<div class="row">
-    <div class="col-xs-12">
-        <h1>{{ __('Change Log') }} » <i>{{ context.entry.title }}</i></h1>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>{{ __('Change Log') }} » <i>{{ context.entry.title }}</i></h1>
 
-        <div class="pagination pagination-centered">
-            <ul>
-                <li>
-                    {% if left_link %}
-                        <a href="{{ left_link }}"><i style="font-weight: bold" class="fa fa-angle-left"></i></a>
-                    {% else %}
-                        <span><i style="font-weight: bold" class="fa fa-angle-left"></i></span>
-                    {% endif %}
-                </li>
-                <li>
-                    {% if centerLink %}
-                        <a href="{{ centerLink }}">{{ __('show all') }}</a>
-                    {% else %}
-                        <span>{{ __('show all') }}</span>
-                    {% endif %}
-                </li>
-                <li>
-                    {% if right_link %}
-                        <a href="{{ right_link }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a>
-                    {% else %}
-                        <span><i style="font-weight: bold" class="fa fa-angle-right"></i></span>
-                    {% endif %}
-                </li>
-            </ul>
+            <div class="pagination pagination-centered">
+                <ul>
+                    <li>
+                        {% if left_link %}
+                            <a href="{{ left_link }}"><i style="font-weight: bold" class="fa fa-angle-left"></i></a>
+                        {% else %}
+                            <span><i style="font-weight: bold" class="fa fa-angle-left"></i></span>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if centerLink %}
+                            <a href="{{ centerLink }}">{{ __('show all') }}</a>
+                        {% else %}
+                            <span>{{ __('show all') }}</span>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if right_link %}
+                            <a href="{{ right_link }}"><i style="font-weight: bold" class="fa fa-angle-right"></i></a>
+                        {% else %}
+                            <span><i style="font-weight: bold" class="fa fa-angle-right"></i></span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+
+            {{ changelog_details(context.entry) }}
         </div>
-
-        {{ changelog_details(context.entry) }}
     </div>
-</div>
 
 {% endblock page_main %}

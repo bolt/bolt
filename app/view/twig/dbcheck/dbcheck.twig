@@ -10,46 +10,50 @@
         </div>
     </div>
 
-    {% if context.modifications_made %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if context.modifications_made %}
 
-        <h4>{{ __('Modifications made to the database:') }}</h4>
+                <h4>{{ __('Modifications made to the database:') }}</h4>
 
-        <ul>
-            {% for item in context.modifications_made %}
-                <li>{{ item|tt }}</li>
-            {% endfor %}
-        </ul>
+                <ul>
+                    {% for item in context.modifications_made %}
+                        <li>{{ item|tt }}</li>
+                    {% endfor %}
+                </ul>
 
-        <p>{{ __('Your database is now up to date.') }}</p>
+                <p>{{ __('Your database is now up to date.') }}</p>
 
-        <form action="{{ path('dbcheck') }}" method="get">
-            <p><button type="submit" class="btn btn-default btn-primary">{{ __('Check again') }}</button></p>
-        </form>
+                <form action="{{ path('dbcheck') }}" method="get">
+                    <p><button type="submit" class="btn btn-default btn-primary">{{ __('Check again') }}</button></p>
+                </form>
 
-    {% elseif context.modifications_required %}
+            {% elseif context.modifications_required %}
 
-        <h4>{{ __('Modifications needed:') }}</h4>
+                <h4>{{ __('Modifications needed:') }}</h4>
 
-        <ul>
-            {% for item in context.modifications_required %}
-                <li>{{ item|tt }}</li>
-            {% endfor %}
-        </ul>
+                <ul>
+                    {% for item in context.modifications_required %}
+                        <li>{{ item|tt }}</li>
+                    {% endfor %}
+                </ul>
 
-        <form action="{{ path('dbupdate') }}" method="post">
-            <p><button type="submit" class="btn btn-default btn-primary">{{ __('Update the database') }}</button></p>
-        </form>
+                <form action="{{ path('dbupdate') }}" method="post">
+                    <p><button type="submit" class="btn btn-default btn-primary">{{ __('Update the database') }}</button></p>
+                </form>
 
-    {% else %}
+            {% else %}
 
-        <p>{{ __("Your database is already up to date.") }}</p>
-        {% if isallowed('prefill') %}
-            <p class="well">
-                <b>{{ __('Tip:') }}</b>
-                {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
-            </p>
-        {% endif %}
+                <p>{{ __("Your database is already up to date.") }}</p>
+                {% if isallowed('prefill') %}
+                    <p class="well">
+                        <b>{{ __('Tip:') }}</b>
+                        {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
+                    </p>
+                {% endif %}
 
-    {% endif %}
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock page_main %}
