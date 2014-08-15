@@ -1,201 +1,221 @@
 <?xml version="1.0"?>
 <ruleset name="Bolt">
-	<description>The coding standard for Bolt CMS – Work in progress</description>
+    <description>The coding standard for Bolt CMS – Work in progress</description>
 
-	<!-- Start with only Bolt's own files, perhaps later this restriction could be lowered -->
-	<exclude-pattern>/tests/*</exclude-pattern>
-	<exclude-pattern>/files/*</exclude-pattern>
-	<exclude-pattern>/theme/*</exclude-pattern>
-	<exclude-pattern>/app/extensions/*</exclude-pattern>
-	<!-- Exclude third party stuff -->
-	<exclude-pattern>/vendor/*</exclude-pattern>
-	<exclude-pattern>/app/classes/markdownify/*</exclude-pattern>
-	<exclude-pattern>/app/extensions/Authenticate/lib/Hybrid/*</exclude-pattern>
-	<exclude-pattern>/app/extensions/GoogleAnalytics/gapi/*</exclude-pattern>
-	<exclude-pattern>/app/extensions/ImportWXR/src/*</exclude-pattern>
-	<exclude-pattern>/app/extensions/SimpleForms/recaptcha-php-1.11/*</exclude-pattern>
-	<!-- Sofar Check only php files -->
-	<exclude-pattern>*.js</exclude-pattern>
-	<exclude-pattern>*.css</exclude-pattern>
+    <!-- Start with only Bolt's own files, perhaps later this restriction could be lowered -->
+    <exclude-pattern>/tests/*</exclude-pattern>
+    <exclude-pattern>/files/*</exclude-pattern>
+    <exclude-pattern>/theme/*</exclude-pattern>
+    <exclude-pattern>/app/extensions/*</exclude-pattern>
+    <!-- Exclude third party stuff -->
+    <exclude-pattern>/vendor/*</exclude-pattern>
+    <exclude-pattern>/app/classes/markdownify/*</exclude-pattern>
+    <exclude-pattern>/app/extensions/Authenticate/lib/Hybrid/*</exclude-pattern>
+    <exclude-pattern>/app/extensions/GoogleAnalytics/gapi/*</exclude-pattern>
+    <exclude-pattern>/app/extensions/ImportWXR/src/*</exclude-pattern>
+    <exclude-pattern>/app/extensions/SimpleForms/recaptcha-php-1.11/*</exclude-pattern>
+    <!-- Sofar Check only php files -->
+    <exclude-pattern>*.js</exclude-pattern>
+    <exclude-pattern>*.css</exclude-pattern>
 
-	<!-- ##### Symfony2 ############################################################################################ -->
+    <!-- Include the whole PSR-2 standard -->
+    <rule ref="PSR2">
+        <!-- We use: Bolt.Functions.FunctionCallSignature -->
+        <exclude name="PEAR.Functions.FunctionCallSignature"/>
+        <!-- Not now -->
+        <exclude name="Generic.Files.LineLength"/>
+    </rule>
 
-	<!-- Include Symfony2 standard:
+    <!-- ##### Symfony2 ############################################################################################ -->
 
-		Generic:
-		- Generic.ControlStructures.InlineControlStructure
-		  (Control Structures should use braces.)
+    <rule ref="../../vendor/m6web/symfony2-coding-standard/Symfony2">
+        <!-- We use: Bolt.Functions.FunctionCallSignature -->
+        <exclude name="PEAR.Functions.FunctionCallSignature"/>
+        <!-- Not now -->
+        <exclude name="Symfony2.Commenting.ClassComment"/>
+        <exclude name="Symfony2.Commenting.FunctionComment"/>
+        <exclude name="Zend.NamingConventions.ValidVariableName"/>
 
-		- Generic.Files.LineEndings
-		  (Unix-style endlines are preferred)
+        <!--
 
-		- Generic.Formatting.SpaceAfterCast
-		  (Exactly one space is allowed after a cast.)
+        Generic:
+        - Generic.ControlStructures.InlineControlStructure
+          (Control Structures should use braces.)
 
-		- Generic.Functions.CallTimePassByReference
-		  (Call-time pass-by-reference is not allowed. It should be declared in the function definition.)
+        - Generic.Files.LineEndings
+          (Unix-style endlines are preferred)
 
-		- Generic.Functions.FunctionCallArgumentSpacing
-		  (Function arguments should have one space after a comma, and single spaces surrounding the equals sign for
-		  default values.)
+        - Generic.Formatting.SpaceAfterCast
+          (Exactly one space is allowed after a cast.)
 
-		- Generic.Functions.OpeningFunctionBraceBsdAllman
-		  (The function brace is on the line following the function declaration and is indented to the same column as
-		  the start of the function declaration.)
+        - Generic.Functions.CallTimePassByReference
+          (Call-time pass-by-reference is not allowed. It should be declared in the function definition.)
 
-		- Generic.NamingConventions.UpperCaseConstantName
-		  (Constants should always be all-uppercase, with underscores to separate words.)
+        - Generic.Functions.FunctionCallArgumentSpacing
+          (Function arguments should have one space after a comma, and single spaces surrounding the equals sign for
+          default values.)
 
-		- Generic.PHP.DisallowShortOpenTag
-		  (Always use <?php ?> to delimit PHP code, not the <? ?> shorthand.)
+        - Generic.Functions.OpeningFunctionBraceBsdAllman
+          (The function brace is on the line following the function declaration and is indented to the same column as
+          the start of the function declaration.)
 
-		- Generic.PHP.LowerCaseConstant
-		  (The "true", "false" and "null" constants must always be lowercase.)
+        - Generic.NamingConventions.UpperCaseConstantName
+          (Constants should always be all-uppercase, with underscores to separate words.)
 
-		- Generic.WhiteSpace.DisallowTabIndent
-		  (Spaces should be used for indentation instead of tabs.)
+        - Generic.PHP.DisallowShortOpenTag
+          (Always use <?php ?> to delimit PHP code, not the <? ?> shorthand.)
 
-		PEAR:
-		- PEAR.Classes.ClassDeclaration
-		  (The opening brace of a class must be on the line after the definition by itself.)
+        - Generic.PHP.LowerCaseConstant
+          (The "true", "false" and "null" constants must always be lowercase.)
 
-		- PEAR.Commenting.InlineComment
-		  (Perl-style # comments are not allowed.)
+        - Generic.WhiteSpace.DisallowTabIndent
+          (Spaces should be used for indentation instead of tabs.)
 
-		- PEAR.Functions.FunctionCallSignature
-		  (Functions should be called with no spaces between the function name, the opening parenthesis, and the first
-		  parameter; and no space between the last parameter, the closing parenthesis, and the semicolon.)
+        PEAR:
+        - PEAR.Classes.ClassDeclaration
+          (The opening brace of a class must be on the line after the definition by itself.)
 
-		- PEAR.Functions.ValidDefaultValue
-		  (Arguments with default values go at the end of the argument list.)
+        - PEAR.Commenting.InlineComment
+          (Perl-style # comments are not allowed.)
 
-		- PEAR.WhiteSpace.ScopeClosingBrace
-		  (Closing braces should be indented at the same level as the beginning of the scope.)
+        - PEAR.Functions.ValidDefaultValue
+          (Arguments with default values go at the end of the argument list.)
 
-		Squiz:
-		- Squiz.Arrays.ArrayBracketSpacing
-		  (No spaces around square brackets.)
+        - PEAR.WhiteSpace.ScopeClosingBrace
+          (Closing braces should be indented at the same level as the beginning of the scope.)
 
-		- Squiz.ControlStructures.ControlSignature
-		  (Verifies that control statements conform to their coding standards.)
+        Squiz:
+        - Squiz.Arrays.ArrayBracketSpacing
+          (No spaces around square brackets.)
 
-		- Squiz.ControlStructures.ForEachLoopDeclaration
-		  (There should be a space between each condition of foreach loops.)
+        - Squiz.ControlStructures.ControlSignature
+          (Verifies that control statements conform to their coding standards.)
 
-		- Squiz.ControlStructures.ForLoopDeclaration
-		  (There should be a space between each condition of for loops.)
+        - Squiz.ControlStructures.ForEachLoopDeclaration
+          (There should be a space between each condition of foreach loops.)
 
-		- Squiz.ControlStructures.LowercaseDeclaration
-		  (All control structure keywords are lowercase.)
+        - Squiz.ControlStructures.ForLoopDeclaration
+          (There should be a space between each condition of for loops.)
 
-		- Squiz.Functions.GlobalFunction
-		  (No functions outside of classes.)
+        - Squiz.ControlStructures.LowercaseDeclaration
+          (All control structure keywords are lowercase.)
 
-		- Squiz.PHP.LowercasePHPFunctions
-		  (All calls to inbuilt PHP functions have to be lowercase.)
+        - Squiz.Functions.GlobalFunction
+          (No functions outside of classes.)
 
-		- Squiz.Scope.MemberVarScope
-		  (Verifies that class members have scope modifiers.)
+        - Squiz.PHP.LowercasePHPFunctions
+          (All calls to inbuilt PHP functions have to be lowercase.)
 
-		Symfony2:
-		- Symfony2.Classes.MultipleClassesOneFile
-		  (Define one class per file)
+        - Squiz.Scope.MemberVarScope
+          (Verifies that class members have scope modifiers.)
 
-		- Symfony2.Commenting.ClassComment
-		  (A doc comment should exists. Blank newline after short description, between the long and short description
-		  and between the long description and tags. Order and indentation of the tags must be ok. Required and optional
-		  tags must be there and the format of their content must be ok.)
+        Symfony2:
+        - Symfony2.Classes.MultipleClassesOneFile
+          (Define one class per file)
 
-		- Symfony2.Commenting.FunctionComment
-		  (There should be a @return tag if a return statement exists inside the method.)
+        - Symfony2.Commenting.ClassComment
+          (A doc comment should exists. Blank newline after short description, between the long and short description
+          and between the long description and tags. Order and indentation of the tags must be ok. Required and optional
+          tags must be there and the format of their content must be ok.)
 
-		- Symfony2.Formatting.BlankLineBeforeReturn
-		  (Add a blank line before return statements, unless the return is alone inside a statement-group.)
+        - Symfony2.Commenting.FunctionComment
+          (There should be a @return tag if a return statement exists inside the method.)
 
-		- Symfony2.NamingConventions.InterfaceSuffix
-		  (Interface names should be suffixed with "Interface".)
+        - Symfony2.Formatting.BlankLineBeforeReturn
+          (Add a blank line before return statements, unless the return is alone inside a statement-group.)
 
-		- Symfony2.Scope.MethodScope
-		  (Class members should have scope modifiers.)
+        - Symfony2.NamingConventions.InterfaceSuffix
+          (Interface names should be suffixed with "Interface".)
 
-		- Symfony2.WhiteSpace.DiscourageFitzinator
-		  (No trailing whitespace in a file)
+        - Symfony2.Scope.MethodScope
+          (Class members should have scope modifiers.)
 
-		Zend:
-		- Zend.Files.ClosingTag
-		  (Files should not have closing php tags.)
+        - Symfony2.WhiteSpace.DiscourageFitzinator
+          (No trailing whitespace in a file)
 
-		- Zend.NamingConventions.ValidVariableName
-		  (Variable names should be camelCased with the first letter lowercase. Private and protected member variables
-		  should begin with an underscore)
+        Zend:
+        - Zend.Files.ClosingTag
+          (Files should not have closing php tags.)
 
-	-->
-	<rule ref="../../vendor/m6web/symfony2-coding-standard/Symfony2">
-		<exclude name="Symfony2.Commenting.ClassComment"/>
-		<exclude name="Symfony2.Commenting.FunctionComment"/>
-		<exclude name="Zend.NamingConventions.ValidVariableName"/>
-	</rule>
+        - Zend.NamingConventions.ValidVariableName
+          (Variable names should be camelCased with the first letter lowercase. Private and protected member variables
+          should begin with an underscore)
 
-	<!-- ##### WHITESPACE ########################################################################################## -->
+        -->
+    </rule>
 
-	<!-- All language constructs must contain a single space between themselves and their content. -->
-	<rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
 
-	<!-- Verifies that operators have valid spacing surrounding them. -->
-	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+    <!-- ##### BOLT ################################################################################################ -->
 
-	<!-- Checks the separation between methods in a class or interface. -->
-	<rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+    <!-- Allow indented fluent interface -->
+    <rule ref="Bolt.Functions.FunctionCallSignature"/>
 
-	<!-- Ensure there is no whitespace before a semicolon ";". -->
-	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+    <!-- Abstract class names should be suffixed with "Abstract" -->
+    <rule ref="Bolt.NamingConventions.AbstractPrefix"/>
 
-	<!-- Ensure there is no whitespace before a ObjectOperator "->". -->
-	<!-- Does not work for concatenated operators!
-	<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>-->
+    <!-- Trait names should be suffixed with "Trait" -->
+    <rule ref="Bolt.NamingConventions.TraitSuffix"/>
 
-	<!-- Verifies that operators have valid spacing surrounding them. -->
-	<rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
+    <!-- ##### WHITESPACE ########################################################################################## -->
 
-	<!-- ##### PHP ################################################################################################# -->
+    <!-- All language constructs must contain a single space between themselves and their content. -->
+    <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
 
-	<!-- Discourages the use of deprecated functions that are kept in PHP for compatibility. -->
-	<rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <!-- Verifies that operators have valid spacing surrounding them. -->
+    <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
 
-	<!-- Discourages the use of alias functions that are kept in PHP for compatibility. -->
-	<rule ref="Generic.PHP.ForbiddenFunctions">
-		<properties>
-			<property name="error" value="false"/>
-		</properties>
-	</rule>
+    <!-- Checks the separation between methods in a class or interface. -->
+    <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
 
-	<!-- Throws an error or warning when any code prefixed with an asperand is encountered. -->
-	<rule ref="Generic.PHP.NoSilencedErrors">
-		<properties>
-			<property name="error" value="false"/>
-		</properties>
-	</rule>
+    <!-- Ensure there is no whitespace before a semicolon ";". -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
 
-	<!-- Warns about code that can never been executed. -->
-	<rule ref="Squiz.PHP.NonExecutableCode"/>
+    <!-- Ensure there is no whitespace before a ObjectOperator "->". -->
+    <!-- Does not work for concatenated operators!
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>-->
 
-	<!-- ##### SCOPE ############################################################################################### -->
+    <!-- Verifies that operators have valid spacing surrounding them. -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
 
-	<!-- Checks for usage of "$this" in static methods, which will cause runtime errors. -->
-	<rule ref="Squiz.Scope.StaticThisUsage"/>
+    <!-- ##### PHP ################################################################################################# -->
 
-	<!-- ##### OTHERS ############################################################################################## -->
+    <!-- Discourages the use of deprecated functions that are kept in PHP for compatibility. -->
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
 
-	<!-- Checks that two strings are not concatenated together; suggests using one string instead. -->
-	<!-- <rule ref="Generic.Strings.UnnecessaryStringConcat"/> -->
+    <!-- Discourages the use of alias functions that are kept in PHP for compatibility. -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="error" value="false"/>
+        </properties>
+    </rule>
 
-	<!-- Makes sure that any use of Double Quotes ("") are warranted. -->
-	<!-- <rule ref="Squiz.Strings.DoubleQuoteUsage"/> -->
+    <!-- Throws an error or warning when any code prefixed with an asperand is encountered. -->
+    <rule ref="Generic.PHP.NoSilencedErrors">
+        <properties>
+            <property name="error" value="false"/>
+        </properties>
+    </rule>
 
-	<!-- Checks the separation between methods in a class or interface. -->
-	<!--<rule ref="Squiz.WhiteSpace.FunctionSpacing"/>-->
+    <!-- Warns about code that can never been executed. -->
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
 
-	<!-- Checks the separation between methods in a class or interface. -->
-	<!--<rule ref="Generic.Files.LineLength"/>-->
+    <!-- ##### SCOPE ############################################################################################### -->
+
+    <!-- Checks for usage of "$this" in static methods, which will cause runtime errors. -->
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+
+    <!-- ##### OTHERS ############################################################################################## -->
+
+    <!-- Checks that two strings are not concatenated together; suggests using one string instead. -->
+    <!-- <rule ref="Generic.Strings.UnnecessaryStringConcat"/> -->
+
+    <!-- Makes sure that any use of Double Quotes ("") are warranted. -->
+    <!-- <rule ref="Squiz.Strings.DoubleQuoteUsage"/> -->
+
+    <!-- Checks the separation between methods in a class or interface. -->
+    <!--<rule ref="Squiz.WhiteSpace.FunctionSpacing"/>-->
+
+    <!-- Checks the separation between methods in a class or interface. -->
+    <!--<rule ref="Generic.Files.LineLength"/>-->
 
 </ruleset>
