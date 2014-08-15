@@ -2575,6 +2575,14 @@ class Storage
                 // If it's like 'desktop#10', split it into value and sortorder..
                 list($slug, $sortorder) = explode('#', $slug . "#");
 
+                // @todo clean up and/or refactor
+                // If you save this content via anything other than the Bolt
+                // backend (see Content->setFromPost), then taxonomies that
+                // behave like groupings, will have their sortorders reset to 0.
+                if ($configTaxonomies[$taxonomytype]['behaves_like'] == 'grouping' && empty($sortorder) && $sortorder !== '0') {
+                    $sortorder = $currentsortorder;
+                }
+
                 if (empty($sortorder)) {
                     $sortorder = 0;
                 }
@@ -2610,6 +2618,7 @@ class Storage
                         'name' => $name,
                         'sortorder' => $sortorder
                     );
+
                     $this->app['db']->insert($tablename, $row);
                 }
 
@@ -2620,8 +2629,9 @@ class Storage
 
                 // Make it look like 'desktop#10'
                 $valuewithorder = $slug . "#" . $currentsortorder;
+                $slugkey = '/'.$configTaxonomies[$taxonomytype]['slug'].'/'.$slug;
 
-                if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs)) {
+                if (!in_array($slug, $newslugs) && !in_array($valuewithorder, $newslugs) && !array_key_exists($slugkey, $newslugs)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
