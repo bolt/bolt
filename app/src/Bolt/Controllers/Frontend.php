@@ -25,11 +25,11 @@ class Frontend
                 $contenttypeslug = $content->contenttype['slug'];
                 $contentid = $content['id'];
             } else {
-                $contenttypeslug = (string)$content;
+                $contenttypeslug = (string) $content;
                 $contentid = null;
             }
-            if (!$app['users']->isAllowed("frontend", $contenttypeslug, $contentid)) {
-                $app->abort(403, "Not allowed.");
+            if (!$app['users']->isAllowed('frontend', $contenttypeslug, $contentid)) {
+                $app->abort(403, 'Not allowed.');
             }
         }
     }
@@ -43,9 +43,9 @@ class Frontend
         // the DB, and let's add a new user.
         if (!$app['users']->getUsers()) {
             //!$app['storage']->getIntegrityChecker()->checkUserTableIntegrity() ||
-            $app['session']->getFlashBag()->set('info', __("There are no users in the database. Please create the first user."));
+            $app['session']->getFlashBag()->set('info', __('There are no users in the database. Please create the first user.'));
 
-            return redirect('useredit', array('id' => ""));
+            return redirect('useredit', array('id' => ''));
         }
 
         $app['debugbar'] = true;
@@ -123,8 +123,8 @@ class Frontend
         if (!$content) {
             // There's one special edge-case we check for: if the request is for the backend, without trailing
             // slash and it is intercepted by custom routing, we forward the client to that location.
-            if ($slug == trim($app['config']->get('general/branding/path'), "/")) {
-                simpleredirect($app['config']->get('general/branding/path') . "/");
+            if ($slug == trim($app['config']->get('general/branding/path'), '/')) {
+                simpleredirect($app['config']->get('general/branding/path') . '/');
             }
             $app->abort(404, "Page $contenttypeslug/$slug not found.");
         }
@@ -215,15 +215,15 @@ class Frontend
         // Then, select which template to use, based on our 'cascading templates rules'
         if (!empty($contenttype['listing_template'])) {
             $template = $contenttype['listing_template'];
-            $chosen = "contenttype";
+            $chosen = 'contenttype';
         } else {
-            $filename = $app['paths']['themepath'] . "/" . $contenttype['slug'] . ".twig";
+            $filename = $app['paths']['themepath'] . '/' . $contenttype['slug'] . '.twig';
             if (file_exists($filename) && is_readable($filename)) {
-                $template = $contenttype['slug'] . ".twig";
-                $chosen = "slug";
+                $template = $contenttype['slug'] . '.twig';
+                $chosen = 'slug';
             } else {
                 $template = $app['config']->get('general/listing_template');
-                $chosen = "config";
+                $chosen = 'config';
 
             }
         }
@@ -273,7 +273,7 @@ class Frontend
             $app->abort(404, "Content for '$taxonomyslug/$slug' not found.");
         }
 
-        $chosen = "taxonomy";
+        $chosen = 'taxonomy';
 
         // Set the template based on the (optional) setting in taxonomy.yml, or fall back to default listing template
         if ($app['config']->get('taxonomy/' . $taxonomyslug . '/listing_template')) {

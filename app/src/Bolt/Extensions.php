@@ -155,8 +155,8 @@ class Extensions
      */
     public function initialize()
     {
-        $this->autoload($this->app); 
-        foreach ($this->enabled as $name=>$extension) {
+        $this->autoload($this->app);
+        foreach ($this->enabled as $name => $extension) {
 
 
             $this->initialized[$name] = $extension;

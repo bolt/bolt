@@ -86,7 +86,8 @@ class StorageEvent extends Event
         $this->content = $content;
 
         $content_type = $content->contenttype;
-        if (is_array($content_type)) {      // (weird stuff)
+        // TODO: weird stuff
+        if (is_array($content_type)) {
             $content_type = $content_type['slug'];
         }
 

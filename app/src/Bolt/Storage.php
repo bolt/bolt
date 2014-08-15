@@ -1098,7 +1098,7 @@ class Storage
 
             $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters, $pager);
             foreach ($contentTypeSearchResults as $searchresult) {
-                $result [] = $searchresult;
+                $result[] = $searchresult;
             }
         }
 
@@ -2119,7 +2119,7 @@ class Storage
         }
 
         if (! $asc) {
-            $order .= " DESC";
+            $order .= ' DESC';
         }
 
         return $order;
@@ -2132,9 +2132,8 @@ class Storage
      * @param  string $name
      * @return string
      */
-    public function getSortOrder($name = "-datepublish")
+    public function getSortOrder($name = '-datepublish')
     {
-
         $parts = explode(' ', $name);
         $fieldname = $parts[0];
         $sort = 'ASC';
@@ -2142,7 +2141,7 @@ class Storage
             $sort = $parts[1];
         }
 
-        if ($fieldname[0] == "-") {
+        if ($fieldname[0] == '-') {
             $fieldname = substr($fieldname, 1);
             $sort = 'DESC';
         }
@@ -2590,7 +2589,7 @@ class Storage
                 if (!isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
 
                     // Assume we passed a value, instead of a slug. Turn it back into a proper slug
-                    if (is_array($configTaxonomies[$taxonomytype]['options']) && 
+                    if (is_array($configTaxonomies[$taxonomytype]['options']) &&
                         array_search($slug, $configTaxonomies[$taxonomytype]['options']) ) {
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {

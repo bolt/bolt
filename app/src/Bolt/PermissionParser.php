@@ -112,7 +112,7 @@ class PermissionParser
             case self::T_FALSE:
                 return 'T_FALSE';
             default:
-                return '"' . (string)$tokenType . '"';
+                return '"' . (string) $tokenType . '"';
         }
     }
 
