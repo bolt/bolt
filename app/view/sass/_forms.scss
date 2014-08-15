@@ -312,14 +312,27 @@ fieldset.checkbox div {
     opacity: 0.5;
 }
 
-#filtertabs a {
-    color: #777;
-}
+#filtertabs {
 
-#filtertabs a:hover {
-    color: #FFF;
-}
+    margin-bottom: 16px;
 
-#filtertabs li.active a, #filtertabs li.active a:hover {
-    color: #333;
+    a {
+        color: #777;
+        font-size: 115%;
+        background-color: $nav-tabs-bg; 
+        border-top: 1px solid $nav-tabs-border-color;
+        border-left: 1px solid $nav-tabs-border-color;
+        border-right: 1px solid $nav-tabs-border-color;
+        cursor: pointer;
+    }
+
+    a:hover {
+        color: #555;
+    }
+
+    li.active a, li.active a:hover {
+        color: #555;
+        background-color: $basebgcolour;    
+    }
+
 }

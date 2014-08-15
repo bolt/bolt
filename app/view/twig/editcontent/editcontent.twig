@@ -25,9 +25,10 @@
     {% if context.contenttype.groups is not empty %}
     <ul class="nav nav-tabs" id="filtertabs">
         {% for groups in context.contenttype.groups %}
-            <li><a class="filter" href="#" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
+            <li><a class="filter" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
         {% endfor %}
-        <li><a class="filter" href="#" data-filter="more">{{ __('More') }}</a></li>
+        <li><a class="filter" data-filter="taxonomy">{{ __('Taxonomy') }}</a></li>
+        <li><a class="filter" data-filter="meta">{{ __('Meta') }}</a></li>
     </ul>
     {% endif %}
 
@@ -40,115 +41,7 @@
 
         {% include 'editcontent/_taxonomies.twig' %}
 
-        <h3>
-            {{ __('Meta information') }}
-        </h3>
-
-        <input type="hidden" name="editreferrer" id="editreferrer" value="{{ editreferrer|default('') }}">
-
-        <div class="form-group">
-            {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
-            <div class="col-sm-8">
-                <input type='text' readonly=readonly name='id' value='{{ context.content.id }}' class="form-control narrow">
-            </div>
-        </div>
-
-        <input type="hidden" name="editreferrer" id="editreferrer"{% if editreferrer is defined %} value="{{ editreferrer }}"{% endif %}>
-
-        {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
-
-        <div class="form-group">
-            {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
-            <div class="col-sm-8">
-                <input type="text" name="datepublish-dateformatted" id="datepublish-date"
-                       {% if not can_publish %}disabled="disabled"{%endif%}
-                       value='{{ context.content.datepublish|localdate('%A')|capitalize ~ context.content.datepublish|date(', d') ~ context.content.datepublish|localdate(' %B') ~ context.content.datepublish|date(' Y') }}' class='form-control datepicker'>
-                <input type="text" name="datepublish-timeformatted" id="datepublish-time"
-                       {% if not can_publish %}disabled="disabled"{%endif%}
-                       value='{{ context.content.datepublish|date('H:i') }}' class='form-control timepicker'>
-                <input type="hidden" name="datepublish" id="datepublish" value="{{ context.content.datepublish }}">
-            </div>
-        </div>
-
-        {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
-        <script>
-            $('#datepublish-date, #datepublish-time').on('change', function(){
-                var date = $('#datepublish-date').datepicker("getDate");
-                var time = $('#datepublish-time').val() + ":00";
-                if(time == ":00") time = "00:00:00";
-                $('#datepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
-            });
-        </script>
-        {% endif %}
-
-        {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
-
-        <div class="form-group">
-            {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
-            <div class="col-sm-8">
-                <input type="text" name="datedepublish-dateformatted" id="datedepublish-date"
-                       {% if not can_depublish %}disabled="disabled"{%endif%}
-                       value='{% if context.content.datedepublish > '1970-01-01 01:01:01' %}{{ context.content.datedepublish|localdate('%A')|capitalize ~ context.content.datedepublish|date(', d') ~ context.content.datedepublish|localdate(' %B') ~ context.content.datedepublish|date(' Y') }}{% endif %}' class='form-control datepicker'>
-                <input type="text" name="datedepublish-timeformatted" id="datedepublish-time"
-                       {% if not can_depublish %}disabled="disabled"{%endif%}
-                       value='{% if context.content.datedepublish > '1970-01-01 01:01:01' %}{{ context.content.datedepublish|date('H:i') }}{% endif %}' class='form-control timepicker'>
-                <input type="hidden" name="datedepublish" id="datedepublish" value="{{ context.content.datedepublish }}">
-            </div>
-        </div>
-
-        {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
-        <script>
-            $('#datedepublish-date, #datedepublish-time').on('change', function(){
-                var date = $('#datedepublish-date').datepicker("getDate");
-                var time = $('#datedepublish-time').val() + ":00";
-                $('#datedepublish').val($.datepicker.formatDate('yy-mm-dd', date)+" "+time);
-            });
-        </script>
-        {% endif %}
-
-        {% if context.content.datecreated > '1970-01-01 01:01:01' %}
-        <p>{{ __('This %contenttype% was created', {'%contenttype%': context.contenttype.singular_name}) }}
-            <time class="moment" datetime="{{ context.content.datecreated|date("c") }}" title="{{ context.content.datecreated }}">{{ context.content.datecreated }}</time>
-            {{ __('and edited') }}
-            <time class="moment" datetime="{{ context.content.datechanged|date("c") }}" title="{{ context.content.datechanged }}">{{ context.content.datechanged }}</time>.
-            {% endif %}</p>
-
-        <div class="form-group">
-            {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
-            <div class="col-sm-8">
-                <select name="status" id="statusselect" {% if context.allowed_status|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
-                    {% set status_names = { "published": "Published", "held": "Not published", "timed": "Timed publish", "draft": "Draft" } %}
-                    {% for status in context.allowed_status %}
-                        <option value="{{status}}" {% if context.content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ macro.label(__('Owner:'), '', 'col-sm-4 control-label') }}
-            <div class="col-sm-8">
-                <select name="ownerid" {% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %} class="form-control narrow">
-                    {% for user in users %}
-                        <option value="{{ user.id }}" {% if context.contentowner and user.id == context.contentowner.id %}selected="selected"{% endif %}>{{user.displayname}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ macro.label(__('Add a comment:'), '', 'col-sm-4 control-label') }}
-            <div class="col-sm-8">
-                {% if isChangelogEnabled() %}
-<input type="text" name="changelog-comment" id="changelog-comment" class="form-control"
-{% if not isallowed("contenttype:" ~ context.contenttype.slug ~ ":change-owner:" ~ context.content.id) %}disabled="disabled"{% endif %}
-placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.') }}"
-/>
-</label>
-
-                {% endif %}
-            </div>
-        </div>
+        {% include 'editcontent/_meta.twig' %}
 
         <div class="form-group">
             <div class="col-sm-12">
@@ -214,9 +107,6 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
         {% include 'editcontent/_aside.twig' %}
     </aside>
 </div>
-<hr>
-    contentttype {{ dump(context.contenttype) }}
-</hr>
 
 {% endblock page_main %}
 
