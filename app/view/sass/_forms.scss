@@ -311,3 +311,15 @@ fieldset.checkbox div {
     visibility: visible !important;
     opacity: 0.5;
 }
+
+#filtertabs a {
+    color: #777;
+}
+
+#filtertabs a:hover {
+    color: #FFF;
+}
+
+#filtertabs li.active a, #filtertabs li.active a:hover {
+    color: #333;
+}

@@ -2,6 +2,8 @@
 {# taxonomies for the contenttype that this record is part of. #}
 {% if context.contenttype.taxonomy is defined %}
 
+<div class="mixfield" data-mix="more">
+
     <h3>
         {{ __('Taxonomy') }}
         <span class="label info-pop" data-html="true" data-title="{{ __('Taxonomy') }}"
@@ -145,4 +147,7 @@
 </div>
 {% endfor %}
 <hr>
+
+</div>
+
 {% endif %}

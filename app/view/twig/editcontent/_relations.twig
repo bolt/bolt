@@ -1,6 +1,13 @@
 
 {% if context.content.relation is not empty or context.contenttype.relations is defined %}
 
+{# only if we have NO grouping tabs. #}
+{% if context.contenttype.groups is empty %}
+<hr>
+{% endif %}
+
+<div class="mixfield" data-mix="more">
+
     <h3>
         {{ __('Relationships') }}
         <span class="label info-pop" data-html="true" data-title="{{ __('Relationships') }}"
@@ -79,5 +86,7 @@
 {% if context.content.relation is not empty or context.contenttype.relations is defined %}
 
     <hr>
+
+</div>
 
 {% endif %}

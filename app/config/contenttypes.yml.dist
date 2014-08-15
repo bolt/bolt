@@ -20,19 +20,26 @@ entries:
         title:
             type: text
             class: large
+            group: basic
         slug:
             type: slug
             uses: title
+            group: basic
         image:
             type: image
+            group: media
+            separator: true
         teaser:
             type: html
             height: 150px
+            group: basic
         video:
             type: video
+            group: media
         body:
             type: html
             height: 300px
+            group: basic
     relations:
         pages:
           multiple: false
@@ -45,6 +52,7 @@ entries:
     default_status: publish
     sort: datepublish DESC
     recordsperpage: 10
+    groups: [ basic, media ]
 
 # Pages can be used for the more 'static' pages on your site. Things like
 # 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'

@@ -21,12 +21,20 @@
 
     <div class="col-md-8">
 
+    {# only if we have grouping tabs. #}
+    {% if context.contenttype.groups is not empty %}
+    <ul class="nav nav-tabs" id="filtertabs">
+        {% for groups in context.contenttype.groups %}
+            <li><a class="filter" href="#" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
+        {% endfor %}
+        <li><a class="filter" href="#" data-filter="more">{{ __('More') }}</a></li>
+    </ul>
+    {% endif %}
+
     <form method="post" id="editcontent" enctype="multipart/form-data" class="form-horizontal" role="form">
         {% include '_sub/_csrf_token.twig' %}
 
         {% include 'editcontent/_fields.twig' %}
-
-        <hr>
 
         {% include 'editcontent/_relations.twig' %}
 
@@ -206,6 +214,9 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
         {% include 'editcontent/_aside.twig' %}
     </aside>
 </div>
+<hr>
+    contentttype {{ dump(context.contenttype) }}
+</hr>
 
 {% endblock page_main %}
 
@@ -297,7 +308,32 @@ placeholder="{{ __('Add a brief, optional comment to describe what\'s changed.')
                 $('#editcontent').attr('action', '').attr('target', "_self");
             });
 
+            {# only if we have grouping tabs. #}
+            {% if context.contenttype.groups is not empty %}
+            // Filter for tabs
+            var allf = $('.mixfield');
+            allf.hide();
+            // Click function
+            $( ".filter" ).click(function() { 
+                var customType = $( this ).data('filter');
+                allf
+                    .hide()
+                    .filter(function () {
+                        return $(this).data('mix') === customType;
+                    })
+                    .show();
+                $( '#filtertabs li' ).removeClass( "active" );
+                $( this ).parent().attr('class', 'active')
+            });
+
+            $( document ).ready(function() {
+                $( '#filtertabs li a:first' ).trigger('click');
+            });
+            {% endif %}
+
         });
+
+
     </script>
 
 {% endblock page_script %}
