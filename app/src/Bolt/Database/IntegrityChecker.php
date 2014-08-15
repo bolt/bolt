@@ -118,7 +118,7 @@ class IntegrityChecker
 
         foreach ($sm->listTables() as $table) {
             if (strpos($table->getName(), $this->prefix) === 0) {
-                $this->tables[ $table->getName() ] = $table;
+                $this->tables[$table->getName()] = $table;
                 // $output[] = "Found table <tt>" . $table->getName() . "</tt>.";
             }
         }
@@ -136,7 +136,7 @@ class IntegrityChecker
         $tables = $this->getTableObjects();
 
         // Check the users table..
-        if (!isset($tables[$this->prefix."users"])) {
+        if (!isset($tables[$this->prefix.'users'])) {
             return false;
         }
 
@@ -166,7 +166,7 @@ class IntegrityChecker
             // Create the users table..
             if (!isset($currentTables[$table->getName()])) {
 
-                $messages[] = "Table `" . $table->getName() . "` is not present.";
+                $messages[] = 'Table `' . $table->getName() . '` is not present.';
 
             } else {
 
@@ -177,16 +177,16 @@ class IntegrityChecker
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
-                        $msg = "Table `" . $table->getName() . "` is not the correct schema: ";
+                        $msg = 'Table `' . $table->getName() . '` is not the correct schema: ';
                         $msgParts = array();
                         // No check on foreign keys yet because we don't use them
                         /** @var $col Column */
                         foreach ($diff->addedColumns as $col) {
-                            $msgParts[] = "missing column `" . $col->getName() . "`";
+                            $msgParts[] = 'missing column `' . $col->getName() . '`';
                         }
                         /** @var $index Index */
                         foreach ($diff->addedIndexes as $index) {
-                            $msgParts[] = "missing index on `" . implode(', ', $index->getUnquotedColumns()) . "`";
+                            $msgParts[] = 'missing index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
                         }
                         ///** @var $fk ForeignKeyConstraint */
                         //foreach ($diff->addedForeignKeys as $fk) {
@@ -194,21 +194,21 @@ class IntegrityChecker
                         //}
                         /** @var $col ColumnDiff */
                         foreach ($diff->changedColumns as $col) {
-                            $msgParts[] = "invalid column `" . $col->oldColumnName . "`";
+                            $msgParts[] = 'invalid column `' . $col->oldColumnName . '`';
                         }
                         /** @var $index Index */
                         foreach ($diff->changedIndexes as $index) {
-                            $msgParts[] = "invalid index on `" . implode(', ', $index->getUnquotedColumns()) . "`";
+                            $msgParts[] = 'invalid index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
                         }
                         ///** @var $fk ForeignKeyConstraint */
                         //foreach ($diff->changedForeignKeys as $fk) {
                         //    $msgParts[] = "invalid foreign key " . $fk->getName() . "`";
                         //}
                         foreach ($diff->removedColumns as $colName => $val) {
-                            $msgParts[] = "removed column `" . $colName . "`";
+                            $msgParts[] = 'removed column `' . $colName . '`';
                         }
                         foreach ($diff->removedIndexes as $indexName => $val) {
-                            $msgParts[] = "removed index `" . $indexName . "`";
+                            $msgParts[] = 'removed index `' . $indexName . '`';
                         }
                         //foreach ($diff->removedForeignKeys as $fkName => $val) {
                         //    $msgParts[] = "removed foreign key `" . $fkName . "`";
@@ -276,7 +276,7 @@ class IntegrityChecker
                     $this->app['db']->query($query);
                 }
 
-                $output[] = "Created table `" . $table->getName() . "`.";
+                $output[] = 'Created table `' . $table->getName() . '`.';
 
             } else {
 
@@ -287,7 +287,7 @@ class IntegrityChecker
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $schemaManager->alterTable($diff);
-                        $output[] = "Updated `" . $table->getName() . "` table to match current schema.";
+                        $output[] = 'Updated `' . $table->getName() . '` table to match current schema.';
                     }
                 }
             }
@@ -388,39 +388,39 @@ class IntegrityChecker
     {
         $tables = array();
 
-        $authtokenTable = $schema->createTable($this->prefix."authtoken");
-        $authtokenTable->addColumn("id", "integer", array('autoincrement' => true));
-        $authtokenTable->setPrimaryKey(array("id"));
+        $authtokenTable = $schema->createTable($this->prefix.'authtoken');
+        $authtokenTable->addColumn('id', 'integer', array('autoincrement' => true));
+        $authtokenTable->setPrimaryKey(array('id'));
         // TODO: addColumn("userid"...), phase out referencing users by username
-        $authtokenTable->addColumn("username", "string", array("length" => 32, "default" => ""));
+        $authtokenTable->addColumn('username', 'string', array('length' => 32, 'default' => ''));
         $authtokenTable->addIndex(array('username'));
-        $authtokenTable->addColumn("token", "string", array("length" => 128));
-        $authtokenTable->addColumn("salt", "string", array("length" => 128));
-        $authtokenTable->addColumn("lastseen", "datetime", array("default" => "1900-01-01 00:00:00"));
-        $authtokenTable->addColumn("ip", "string", array("length" => 32, "default" => ""));
-        $authtokenTable->addColumn("useragent", "string", array("length" => 128, "default" => ""));
-        $authtokenTable->addColumn("validity", "datetime", array("default" => "1900-01-01 00:00:00"));
+        $authtokenTable->addColumn('token', 'string', array('length' => 128));
+        $authtokenTable->addColumn('salt', 'string', array('length' => 128));
+        $authtokenTable->addColumn('lastseen', 'datetime', array('default' => '1900-01-01 00:00:00'));
+        $authtokenTable->addColumn('ip', 'string', array('length' => 32, 'default' => ''));
+        $authtokenTable->addColumn('useragent', 'string', array('length' => 128, 'default' => ''));
+        $authtokenTable->addColumn('validity', 'datetime', array('default' => '1900-01-01 00:00:00'));
         $tables[] = $authtokenTable;
 
-        $usersTable = $schema->createTable($this->prefix."users");
-        $usersTable->addColumn("id", "integer", array('autoincrement' => true));
-        $usersTable->setPrimaryKey(array("id"));
-        $usersTable->addColumn("username", "string", array("length" => 32));
+        $usersTable = $schema->createTable($this->prefix.'users');
+        $usersTable->addColumn('id', 'integer', array('autoincrement' => true));
+        $usersTable->setPrimaryKey(array('id'));
+        $usersTable->addColumn('username', 'string', array('length' => 32));
         $usersTable->addIndex(array('username'));
-        $usersTable->addColumn("password", "string", array("length" => 128));
-        $usersTable->addColumn("email", "string", array("length" => 128));
-        $usersTable->addColumn("lastseen", "datetime");
-        $usersTable->addColumn("lastip", "string", array("length" => 32, "default" => ""));
-        $usersTable->addColumn("displayname", "string", array("length" => 32));
-        $usersTable->addColumn("stack", "string", array("length" => 1024, "default" => ""));
-        $usersTable->addColumn("enabled", "boolean");
+        $usersTable->addColumn('password', 'string', array('length' => 128));
+        $usersTable->addColumn('email', 'string', array('length' => 128));
+        $usersTable->addColumn('lastseen', 'datetime');
+        $usersTable->addColumn('lastip', 'string', array('length' => 32, 'default' => ''));
+        $usersTable->addColumn('displayname', 'string', array('length' => 32));
+        $usersTable->addColumn('stack', 'string', array('length' => 1024, 'default' => ''));
+        $usersTable->addColumn('enabled', 'boolean');
         $usersTable->addIndex(array('enabled'));
-        $usersTable->addColumn("shadowpassword", "string", array("length" => 128, "default" => ""));
-        $usersTable->addColumn("shadowtoken", "string", array("length" => 128, "default" => ""));
-        $usersTable->addColumn("shadowvalidity", "datetime", array("default" => "1900-01-01 00:00:00"));
-        $usersTable->addColumn("failedlogins", "integer", array("default" => 0));
-        $usersTable->addColumn("throttleduntil", "datetime", array("default" => "1900-01-01 00:00:00"));
-        $usersTable->addColumn("roles", "string", array("length" => 1024, "default" => ""));
+        $usersTable->addColumn('shadowpassword', 'string', array('length' => 128, 'default' => ''));
+        $usersTable->addColumn('shadowtoken', 'string', array('length' => 128, 'default' => ''));
+        $usersTable->addColumn('shadowvalidity', 'datetime', array('default' => '1900-01-01 00:00:00'));
+        $usersTable->addColumn('failedlogins', 'integer', array('default' => 0));
+        $usersTable->addColumn('throttleduntil', 'datetime', array('default' => '1900-01-01 00:00:00'));
+        $usersTable->addColumn('roles', 'string', array('length' => 1024, 'default' => ''));
         $tables[] = $usersTable;
 
         $taxonomyTable = $schema->createTable($this->prefix."taxonomy");
@@ -508,8 +508,8 @@ class IntegrityChecker
         $cronTable->addColumn("id", "integer", array('autoincrement' => true));
         $cronTable->setPrimaryKey(array("id"));
         // Note: we're keeping the 'interval' column around for backwards compatibility. We do not use
-        // it anymore, but removing it breaks Doctrine's migration. 
-        // @todo: Remove this column, without the migration choking on the reserved word 'interval'. 
+        // it anymore, but removing it breaks Doctrine's migration.
+        // @todo: Remove this column, without the migration choking on the reserved word 'interval'.
         $cronTable->addColumn("interval", "string", array("length" => 16));
         $cronTable->addColumn("interim", "string", array("length" => 16));
         $cronTable->addIndex(array('interim'));
