@@ -1180,6 +1180,7 @@ class Backend implements ControllerProviderInterface
 
         $template = $firstuser ? 'firstuser/firstuser.twig' : 'edituser/edituser.twig';
         $context = array(
+            'kind' => empty($id) ? 'create' : 'edit',
             'form' => $form->createView(),
             'note' => $note,
             'displayname' => $user['displayname'],
@@ -1191,7 +1192,6 @@ class Backend implements ControllerProviderInterface
     public function profile(\Bolt\Application $app, Request $request)
     {
         $user = $app['users']->getCurrentUser();
-        $title = '<strong>' . __('Profile') . '</strong>';
 
 /*         $enabledoptions = array(
             1 => __('yes'),
@@ -1281,12 +1281,12 @@ class Backend implements ControllerProviderInterface
         }
 
         $context = array(
+            'kind' => 'profile',
             'form' => $form->createView(),
-            'title' => $title,
             'note' => '',
-            'description' => '',
+            'displayname' => $user['displayname'],
         );
-        // @todo: template says 'Create new user' no matter if just modifying currently
+
         return $app['render']->render('edituser/edituser.twig', array('context' => $context));
     }
 

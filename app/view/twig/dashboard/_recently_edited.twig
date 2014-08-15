@@ -10,7 +10,7 @@
 <table class="table table-striped dashboardlisting">
     {% for content in multiplecontent %}
         {% set editable = isallowed('edit', content) %}
-        {% include ['custom/listing/'~content.contenttype.slug~'.twig', '_sub_listing.twig']
+        {% include ['custom/listing/'~content.contenttype.slug~'.twig', '_sub/_listing.twig']
             with { 'excerptlength': 280, 'thumbsize': 54, 'compact': true } %}
     {% endfor %}
 </table>

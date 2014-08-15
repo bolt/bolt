@@ -1,24 +1,29 @@
 {# Page: NavSecondary > Content ... > #}
-{% extends '_base/_page.twig' %}
-{% block page_type 'Content' %}
-{% block page_title %}
-    {{ __('Overview') }} » <i> {{ context.contenttype.name }}</i>
-{% endblock page_title %}
-{% block page_main %}
 
-    {% from '_editable_record_list.twig' import editable_record_list as list %}
-    {% import '_macro/_panels.twig' as panels %}
+{% from '_sub/_editable_record_list.twig' import editable_record_list as list %}
+{% import '_macro/_panels.twig' as panels %}
+
+{% extends '_base/_page.twig' %}
+
+{% block page_type 'Content' %}
+
+{% block page_title __('Overview') %}
+
+{% block page_subtitle context.contenttype.name %}
+
+{% block page_main %}
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="page-header">{{ block('page_title') }}</i>
                 {% set pager_ct = pager[context.contenttype.slug]|default %}
                 {% if pager_ct and pager_ct.totalpages > 1 %}
                     <span>{{ __('Showing') }} {{ pager_ct.showing_from }} - {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}</span>
                 {% endif %}
             </h1>
         </div>
+    </div>
 
+    <div class="row">
         <div class="col-md-9">
             {{ list(context.contenttype, context.contenttype, context.multiplecontent, 'table table-striped') }}
         </div>

@@ -1,0 +1,192 @@
+{% import '_macro/_macro.twig' as macro %}
+
+{# If we have 'grouping', print the row with the groupname. #}
+{% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) and request('order') == '' %}
+    {% if not loop.first %}</tbody>{% endif %}
+    <tbody {% if isallowed('edit', contenttype) %}class="sortable"{% endif %}>
+    <tr class="grouping">
+        <th colspan="{% block listing_columns %}6{% endblock %}">
+            <h3 {% if loop.first %}class="first"{% endif %}>
+                {% if content.group.name  %}
+                    {{ content.group.name }}
+                {% else %}
+                    {{ __('(no group)') }}
+                {% endif %}
+            </h3>
+        </th>
+    </tr>
+{% endif %}
+
+{# print the header for the first row. #}
+{% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup) and request('order') == '') %}
+    {% set lastgroup = content.group.name|default %}
+    {% if "filter" in app.request.query.all|keys %}
+        {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
+    {% else %}
+        {% set filter = "" %}
+    {% endif %}
+
+    {% set link = "?" ~ filter ~ "order=" %}
+    <tr>
+        {% block listing_header %}
+        {% if not compact and editable %}<th class="check hidden-xs">
+            <input type="checkbox" name="checkRow" title="{{ __('Select all') }}" />
+            <input type="hidden" id="baseurl" value="{{ paths['hosturl'] }}{{ paths['bolt'] }}"></th>{% endif %}
+
+        <th class="hidden-xs"><a href='{{link}}{% if request('order')=="id" %}-{%endif%}id'>#</a></th>
+
+        <th style="width:80%"><a href='{{link}}{% if request('order')==content.TitleColumnName() %}-{%endif%}{{content.TitleColumnName()}}'>
+            {{ __('Title') }} / {{ __('Excerpt') }}</a></th>
+
+        <th>&nbsp;</th>
+
+        <th class='username hidden-xs'><a href='{{link}}{% if request('order')=="datecreated" %}-{%endif%}datecreated'>{{ __('Meta') }}</a></th>
+
+        <th><a href='?'>{{ __('Actions') }}</a></th>
+        {% endblock %}
+    </tr>
+{% endif %}
+
+<tr {% if content.status!='published' %}class="dim"{% endif %} id="item_{{content.id}}">
+    {% block listing_id %}
+
+        {% if not compact and editable %}<td class='check hidden-xs'>{% if isallowed('delete', contenttype) %}<input type="checkbox" name="checkRow" />{% endif %}</td>{% endif %}
+        <td class='id hidden-xs'>№ {{content.id}}</td>
+
+    {% endblock %}
+
+    {% block listing_content %}
+        <td class='excerpt {% if not compact %}large{% endif %}'><span>
+            <strong class="visible-xs">№ {{content.id}}. </strong>
+            <strong>
+                {% if editable %}
+                    <a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}" title="Slug: {{ content.slug }}">
+                        {{content.getTitle}}
+                    </a>
+                {% else %}
+                     <strong>
+                        {{content.getTitle}}
+                    </strong>
+                 {% endif %}
+            </strong>
+            {{ content.excerpt(excerptlength) }}
+                        </span></td>
+        <td class='listthumb'>
+            {% if content.getImage is not empty %}
+                {{content.getImage|popup(thumbsize, thumbsize*0.75, 'c')}}
+            {% endif %}
+        </td>
+    {% endblock %}
+
+    {% if not compact %}
+        {% block listing_meta %}
+            <td class='username hidden-xs'>
+                <i class="fa fa-user fa-fw"></i>
+                {% if content.user.displayname is defined %}
+                    {{ content.user.displayname|trimtext(15) }}
+                {% else %}
+                    <s>user {{ content.values.ownerid }} </s>
+                {% endif %}<br>
+                {% if content.status=="timed" %}
+                    <i class="fa fa-clock-o status-timed fa-fw"></i> <time class="moment" datetime="{{ content.datepublish|date("c") }}" title="{{ content.datepublish }}">{{ content.datepublish }}</time><br>
+                {% else %}
+                    <i class="fa fa-circle status-{{ content.status }} fa-fw"></i> {{ content.datepublish|date('d/m/Y') }}<br>
+                {% endif %}
+
+                {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
+                    <span class="sorthandle"><i class="fa fa-sort fa-fw"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
+                {% endif %}
+            </td>
+        {% endblock %}
+    {% endif %}
+
+    {% block listing_actions %}
+        <td class='actions'>
+            <div class="btn-group">
+                {% if editable %}
+                <a class="btn btn-default btn-xs" href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
+                    <i class="fa fa-edit"></i> {{ __('Edit') }}
+                </a>
+                {% endif %}
+                <button class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+
+                    <i class="fa fa-info-sign"></i>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right">
+                {% if content.status == "published" and content.link is defined %}
+                    <li>
+                        <a href="{{ content.link }}" target="_blank">
+                            <i class="fa fa-external-link-square"></i> {{ __('View on site') }}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if content.relation  %}
+                    <li>
+                        <a href="{{ path('relatedto', { 'contenttypeslug': content.contenttype.slug, 'id': content.id }) }}">
+                            <i class="fa fa-link"></i> {{  __('View related content') }}
+                        </a>
+                    </li>
+                {% endif %}
+
+
+                {% from _self import actionform %}
+                {% if editable %}
+                    {% if content.status != 'published' %}
+                        {% if isallowed('publish', content) %}
+
+                        <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('Publish %contenttype%',{'%contenttype%':content.contenttype.singular_name})) }}</li>
+                        {% endif %}
+                    {% else %}
+                        {% if isallowed('depublish', content) %}
+                        <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
+                        <li>{{ macro.actionform(content, 'draft', 'fa-pencildraft', __("Change status to 'draft'")) }}</li>
+
+                        {% endif %}
+                    {% endif %}
+                    {% if isallowed('create', content) %}
+                    <li><a href="{{ path('editcontent', { 'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1 }) }}">
+                        <i class="fa fa-copy"></i> {{ __('Duplicate %contenttype%', {'%contenttype%': content.contenttype.singular_name}) }}</a></li>
+                    {% endif %}
+                    {% if isallowed('delete', content) %}
+                    <li>{{ macro.actionform(content, 'delete',
+                                          'fa-trash-o',
+                                          __('Delete %contenttype%',{'%contenttype%':content.contenttype.singular_name}),
+                                          "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
+                    </li>
+
+                    {% endif %}
+                    <li class="divider"></li>
+                {% endif %}
+                    <li><a class="nolink">{{__('Author:') }} <strong><i class="fa fa-user"></i>
+                        {% if content.user.displayname is defined %}
+                            {{ content.user.displayname|trimtext(15) }}
+                        {% else %}
+                            <s>user {{ content.values.ownerid }} </s>
+                        {% endif %}</strong></a></li>
+                    <li><a class="nolink">{{ __('Current status:') }}
+                        <strong>{{ content.status }}</strong></a></li>
+                    <li><a class="nolink">{{ __('Slug:') }}
+                        <code title="{{ content.slug }}">{{ content.slug|trimtext(24) }}</code></a></li>
+                    <li><a class="nolink">{{ __('Created on:') }}
+                        <i class="fa fa-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</a></li>
+                    <li><a class="nolink">{{ __('Published on:') }}
+                        <i class="fa fa-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</a></li>
+                    <li><a class="nolink">{{ __('Last edited on:') }}
+                        <i class="fa fa-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</a></li>
+                    {% for taxonomyslug, values in content.taxonomy %}
+                        {% if values|length > 1 %}
+                            <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
+                                <i class="fa fa-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
+                        {% else %}
+                            <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
+                                <i class="fa fa-tag"></i> {{ values|first|trimtext(24) }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </td>
+    {% endblock %}
+
+</tr>

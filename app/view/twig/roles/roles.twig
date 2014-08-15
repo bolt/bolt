@@ -1,14 +1,15 @@
 {# Page: Perhaps unused??? #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Standard' %}
+
 {% block page_title __('Global Permissions') %}
+
 {% block page_main %}
 
     <div class="row">
-        <div class="col-md-8">
-
-            <h1><strong>{{ block('page_title') }}</strong></h1>
-
+        <div class="col-xs-12">
             {% for permissionName, roles in context.global_permissions %}
                 <dl style="display: inline-block; vertical-align: top; margin-right: 2em; width: 7em">
                     <dt>{{ permissionName }}:</dt>
@@ -21,9 +22,17 @@
                     </dt>
                 </dl>
             {% endfor %}
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-xs-12">
             <h1><strong>{{ __('Content Type Permissions') }}</strong></h1>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-xs-12">
             {% for contenttype, permissions in context.effective_permissions %}
                 <div>
                     <h3>{{ contenttype }}</h3>

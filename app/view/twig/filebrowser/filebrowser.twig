@@ -1,27 +1,33 @@
 {# Page: NavSecondary > Content ... > Edit > CkEditor > Link > Browse Server #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Popup' %}
+
 {% block page_title __('Files') %}
+
 {% block page_full %}
 
-<div class="row">
-    <div class="col-xs-12">
-
-        <h1 class="page-header">{{ __('Please choose the record you want to link to:') }}</h1>
-
-        {% include 'filebrowser/_navigation.twig' %}
-
-        {% include 'filebrowser/_content.twig' %}
-
-        <hr>
-
-        <a href="" class="btn btn-default btn-danger filebrowserCloseLink">{{ __('Cancel') }}</a>
-
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">{{ __('Please choose the record you want to link to:') }}</h1>
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            {% include 'filebrowser/_navigation.twig' %}
+
+            {% include 'filebrowser/_content.twig' %}
+
+            <hr>
+
+            <a href="" class="btn btn-default btn-danger filebrowserCloseLink">{{ __('Cancel') }}</a>
+
+        </div>
+    </div>
 
 {% endblock page_full %}
-
 
 {% block page_script %}
     <script>

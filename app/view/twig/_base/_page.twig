@@ -1,11 +1,12 @@
 {##
  # Standard HTML page template
  #
- # Blocks: page_type:  allowed names: Standard, Dashboard, Settings, Content, Login, Popup
- #         page_main:  content with navigation
- #         page_title:  used as html title
- #         page_full:  full window content without navigation
- #         page_script: script added after the body tag (script tags needed!)
+ # Blocks: page_type:     allowed names: Standard, Dashboard, Settings, Content, Login, Popup
+ #         page_main:     content with navigation
+ #         page_title:    used as html title
+ #         page_subtitle: used as html title (optional)
+ #         page_full:     full window content without navigation
+ #         page_script:   script added after the body tag (script tags needed!)
  #}
 {%- spaceless %}
 
@@ -23,6 +24,12 @@
     {% set page_bodyclass = '' %}
 {% endif %}
 
+{% if block('page_subtitle') is empty %}
+    {% set page_title = block('page_title') %}
+{% else %}
+    {% set page_title = block('page_title') ~ ' » ' ~ block('page_subtitle') %}
+{% endif %}
+
 {% endspaceless -%}
 
 <!DOCTYPE html>
@@ -31,7 +38,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>{{ block('page_title')|striptags|trim }} – {{ app.config.get('general/branding/name') }}</title>
+    <title>{{ page_title|striptags|trim }} – {{ app.config.get('general/branding/name') }}</title>
 
     <script src="{{ paths.app }}view/js/jquery-1.11.1.min.js"></script>
     <script src="{{ paths.app }}view/js/underscore-min.js"></script>
@@ -97,7 +104,21 @@
             </nav>
 
             <div id="page-wrapper">
-                {% include '_messages.twig' %}
+                {% include '_sub/_messages.twig' %}
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1 class="page-header">
+                            {% if block('page_subtitle') is empty %}
+                                <strong>{{ block('page_title') }}</strong>
+                            {% else %}
+                                <strong>{{ block('page_title') }} »</strong>
+                                <i style="font-style: normal;">{{ block('page_subtitle') }}</i>
+                            {% endif %}
+                        </h1>
+                    </div>
+                </div>
+
                 {% block page_main %}[BLOCK PAGE_MAIN]{% endblock page_main %}
             </div>
         </div>

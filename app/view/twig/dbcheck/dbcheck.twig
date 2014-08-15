@@ -1,55 +1,57 @@
 {# Page: NavSecondary > Configuration > Check database #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Settings' %}
+
 {% block page_title __("Database check / update") %}
+
 {% block page_main %}
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="page-header">{{ block('page_title') }}</h1>
+            {% if context.modifications_made %}
+
+                <h4>{{ __('Modifications made to the database:') }}</h4>
+
+                <ul>
+                    {% for item in context.modifications_made %}
+                        <li>{{ item|tt }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>{{ __('Your database is now up to date.') }}</p>
+
+                <form action="{{ path('dbcheck') }}" method="get">
+                    <p><button type="submit" class="btn btn-default btn-primary">{{ __('Check again') }}</button></p>
+                </form>
+
+            {% elseif context.modifications_required %}
+
+                <h4>{{ __('Modifications needed:') }}</h4>
+
+                <ul>
+                    {% for item in context.modifications_required %}
+                        <li>{{ item|tt }}</li>
+                    {% endfor %}
+                </ul>
+
+                <form action="{{ path('dbupdate') }}" method="post">
+                    <p><button type="submit" class="btn btn-default btn-primary">{{ __('Update the database') }}</button></p>
+                </form>
+
+            {% else %}
+
+                <p>{{ __("Your database is already up to date.") }}</p>
+                {% if isallowed('prefill') %}
+                    <p class="well">
+                        <b>{{ __('Tip:') }}</b>
+                        {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
+                    </p>
+                {% endif %}
+
+            {% endif %}
         </div>
     </div>
-
-    {% if context.modifications_made %}
-
-        <h4>{{ __('Modifications made to the database:') }}</h4>
-
-        <ul>
-            {% for item in context.modifications_made %}
-                <li>{{ item|tt }}</li>
-            {% endfor %}
-        </ul>
-
-        <p>{{ __('Your database is now up to date.') }}</p>
-
-        <form action="{{ path('dbcheck') }}" method="get">
-            <p><button type="submit" class="btn btn-default btn-primary">{{ __('Check again') }}</button></p>
-        </form>
-
-    {% elseif context.modifications_required %}
-
-        <h4>{{ __('Modifications needed:') }}</h4>
-
-        <ul>
-            {% for item in context.modifications_required %}
-                <li>{{ item|tt }}</li>
-            {% endfor %}
-        </ul>
-
-        <form action="{{ path('dbupdate') }}" method="post">
-            <p><button type="submit" class="btn btn-default btn-primary">{{ __('Update the database') }}</button></p>
-        </form>
-
-    {% else %}
-
-        <p>{{ __("Your database is already up to date.") }}</p>
-        {% if isallowed('prefill') %}
-            <p class="well">
-                <b>{{ __('Tip:') }}</b>
-                {{ __('Add some sample <a href=\'%url%\' class=\'btn btn-small\'>Records with Loripsum text</a>', { '%url%' : path('prefill')}) }}
-            </p>
-        {% endif %}
-
-    {% endif %}
 
 {% endblock page_main %}

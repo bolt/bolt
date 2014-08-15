@@ -1,49 +1,48 @@
 {# Page: NavSecondary > File Management > Uploaded files #}
-{% extends '_base/_page.twig' %}
-{% block page_type 'Settings' %}
-{% block page_title __('Files') %}
-{% block page_main %}
 
-{% import '_macro.twig' as macro %}
+{% import '_macro/_macro.twig' as macro %}
 {% from '_macro/_files_path.twig' import files_path %}
 
-<div class="row">
-    <div class="col-lg-12">
+{% extends '_base/_page.twig' %}
 
-        <h1 class="page-header">{{ block('page_title') }}</h1>
+{% block page_type 'Settings' %}
 
-        {{ files_path(context.pathsegments, context.namespace, {
-            'path': '',
-            'namespace': context.namespace,
-        }) }}
+{% block page_title __('Files') %}
 
-        {% if context.folders|length > 0 %}
-            {% include 'files/_folders.twig' %}
-        {% endif %}
+{% block page_main %}
 
-        <p>
-            <a href="#"
-               data-action="folders.create('{{ __("Please enter a new folder name") }}',
-                                           '{{ context.namespace }}',
-                                           '{{ context.pathsegments|keys|last }}',
-                                           this);">
-                <i class="fa fa-plus"></i>
-                {{ __('Create folder') }}
-            </a>
-        </p>
+    <div class="row">
+        <div class="col-xs-12">
 
-        {% if context.files|length > 0 %}
-            {% include 'files/_files.twig' %}
-        {% endif %}
+            {{ files_path(context.pathsegments, context.namespace, {'path': '','namespace': context.namespace}) }}
 
-        {# only show the "Upload here" form, if the folder is writable. #}
-        {% if context.form != false %}
-            {% include 'files/_upload.twig' %}
-        {% else %}
-            <p><i class="fa fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
-        {% endif %}
+            {% if context.folders|length > 0 %}
+                {% include 'files/_folders.twig' %}
+            {% endif %}
 
+            <p>
+                <a href="#"
+                   data-action="folders.create('{{ __("Please enter a new folder name") }}',
+                                               '{{ context.namespace }}',
+                                               '{{ context.pathsegments|keys|last }}',
+                                               this);">
+                    <i class="fa fa-plus"></i>
+                    {{ __('Create folder') }}
+                </a>
+            </p>
+
+            {% if context.files|length > 0 %}
+                {% include 'files/_files.twig' %}
+            {% endif %}
+
+            {# only show the "Upload here" form, if the folder is writable. #}
+            {% if context.form != false %}
+                {% include 'files/_upload.twig' %}
+            {% else %}
+                <p><i class="fa fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
+            {% endif %}
+
+        </div>
     </div>
-</div>
 
 {% endblock page_main %}

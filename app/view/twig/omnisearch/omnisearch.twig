@@ -1,15 +1,15 @@
 {# Page: NavPrimary | NavSecondary > Omnisearch #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Standard' %}
-{% block page_title__('Omnisearch') %}
+
+{% block page_title __('Omnisearch') %}
+
 {% block page_main %}
 
     <div class="row">
-
         <div class="col-md-8">
-
-            <h1 class="page-header">{{ block('page_title') }}</h1>
-
             <form action="" method="get">
                 <div class="form-group">
                     <div class="input-group">
@@ -56,7 +56,7 @@
 
         <aside class="col-md-4">
             {% include 'omnisearch/_aside.twig' %}
-        </aside><!-- /span4 -->
+        </aside>
 
     </div>
 

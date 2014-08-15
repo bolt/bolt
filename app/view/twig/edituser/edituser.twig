@@ -1,24 +1,28 @@
 {# Page: NavPrimary > Username ^ Profile || NavSecondary > Configuration > Users > Edit #}
+
 {% extends '_base/_page.twig' %}
+
 {% block page_type 'Settings' %}
+
 {% block page_title %}
     {% if context.kind == 'edit' %}
-        {{ __('Edit user') }} » <i>{{ context.displayname }}</i>
+        {{ __('Edit user') }}
     {% elseif context.kind == 'profile' %}
-        {{ __('Profile') }} » <i>{{ context.displayname }}</i>
+        {{ __('Profile') }}
     {% elseif context.kind == 'create' %}
         {{ __('Create a new user') }}
     {% endif %}
 {% endblock page_title %}
+
+{% block page_subtitle %}
+    {% if context.kind == 'edit' or context.kind == 'profile' %}
+        {{ context.displayname }}
+    {% endif %}
+{% endblock page_subtitle %}
+
 {% block page_main %}
 
     {% form_theme context.form 'form_bolt_layout.twig' %}
-
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 class="page-header">{{ block('page_title') }}</h1>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-xs-12">
