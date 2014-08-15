@@ -2135,6 +2135,11 @@ class Storage
     public function getSortOrder($name = "-datepublish")
     {
 
+        // If we don't get a string, we can't determine a sortorder.
+        if (!is_string($name)) {
+            return false;
+        }
+
         $parts = explode(' ', $name);
         $fieldname = $parts[0];
         $sort = 'ASC';
