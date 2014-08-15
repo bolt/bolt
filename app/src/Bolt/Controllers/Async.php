@@ -277,7 +277,7 @@ class Async implements ControllerProviderInterface
     public function lastmodified(Silex\Application $app, $contenttypeslug, $contentid = null)
     {
         // Let's find out how we should determine what the latest changes were:
-        $contentLogEnabled = (bool)$app['config']->get('general/changelog/enabled');
+        $contentLogEnabled = (bool) $app['config']->get('general/changelog/enabled');
 
         if ($contentLogEnabled) {
             return $this->lastmodifiedByContentLog($app, $contenttypeslug, $contentid);
