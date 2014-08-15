@@ -24,10 +24,7 @@
 "Content Type Permissions":  #
 "Could not save %contenttype%.":  #
 "Details are shown above. The importer will now try again with a different parser...":  #
-"Disabled extensions":  #
 "Display name":  #
-"Edit Config":  #
-"Enabling extensions:":  #
 "Files on the stack":  #
 "Filtering:":  #
 "Full list...":  #
@@ -59,7 +56,6 @@
 "Recently edited %contenttypes%":  #
 "Related content:":  #
 "Relationships":  #
-"Released:":  #
 "Remove from menu":  "Hapus dari menu"
 "Roles and Permissions":  #
 "Save & return to overview":  #
@@ -204,7 +200,6 @@
 "Edit": "Ubah"
 "Email": "Surel"
 "Enable %username%": "Aktfikan %username%"
-"Enabled extensions": "Ekstensi aktif"
 "Everybody": "Semua"
 "Excerpt": "Ringkasan"
 "Extensions": "Ekstensi"
@@ -258,12 +253,9 @@
 "Meta": "Meta"
 "Modified": "Dimodifikasi"
 "More %contenttypes% »": "%contenttypes% lainnya »"
-"Name:": "Nama"
 "New %contenttype%": "%contenttype% baru"
 "New user": "Pengguna baru"
 "No %contenttypes% available.": "Tidak ada %contenttypes%"
-"No disabled extensions.": "Tidak ada ekstensi nonaktif."
-"No enabled extensions.": "Tidak ada ekstensi aktif."
 "No latest %contenttype%": "Tidak ada %contenttype terakhir"
 "No recent %contenttype%.": "Tidak ada %contenttype terbaru"
 "Not published": "Tidak diterbitkan"
@@ -324,7 +316,6 @@
 "Tag": "Tag"
 "Tags": "Tag-tag"
 "Taxonomy": "Taksonomi"
-"Tested in Bolt": "Dites pada Bolt"
 "Thanks": "Terima Kasih"
 "That user does not exist.": "Pengguna tidak ada"
 "The activitylog has been cleared.": "Log Aktifitas telah dibersikan."
@@ -355,7 +346,6 @@
 "User is enabled": "Pengguna diaktfikan"
 "Username": "Nama Pengguna"
 "Users": "Pengguna-pengguna"
-"Version": "Versi"
 "Version:": "Versi:"
 "View Config": "Lihat Konfigurasi"
 "View Readme": "Lihat Readme"
@@ -375,7 +365,6 @@
 "http://": "http://"
 "in:": "di:"
 "label": "label"
-"latest update:": "modifikasi terakhir:"
 "line": "baris"
 "more activity": "Aktifitas lainnya"
 "new value": "nilai baru"
