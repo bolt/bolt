@@ -339,7 +339,7 @@ class Async implements ControllerProviderInterface
      * @param  Request           $request
      * @return mixed
      */
-    public function filebrowser($contenttype = 'pages', Silex\Application $app, Request $request)
+    public function filebrowser($contenttype, Silex\Application $app, Request $request)
     {
         foreach ($app['storage']->getContentTypes() as $contenttype) {
 
@@ -412,7 +412,7 @@ class Async implements ControllerProviderInterface
         return $app['render']->render('files_async/files_async.twig', array('context' => $context));
     }
 
-    public function addstack($filename = "", Silex\Application $app)
+    public function addstack($filename, Silex\Application $app)
     {
         $app['stack']->add($filename);
 
