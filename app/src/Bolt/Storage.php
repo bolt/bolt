@@ -2603,7 +2603,8 @@ class Storage
                 if (!isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
 
                     // Assume we passed a value, instead of a slug. Turn it back into a proper slug
-                    if (is_array($configTaxonomies[$taxonomytype]['options']) &&
+                    if (isset($configTaxonomies[$taxonomytype]['options']) &&
+                        is_array($configTaxonomies[$taxonomytype]['options']) &&
                         array_search($slug, $configTaxonomies[$taxonomytype]['options']) ) {
                         $slug = array_search($slug, $configTaxonomies[$taxonomytype]['options']);
                     } else {
