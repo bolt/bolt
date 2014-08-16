@@ -182,15 +182,15 @@ var BoltExtender = Object.extend(Object, {
             for(var v in devpacks) {
                 version = devpacks[v];
                 var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
-                tpl = tpl+'<td><a href="#" data-action="install-package" class="btn btn-success btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">'
-                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></td></tr>';
+                tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">'
+                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
                 controller.find('.dev-version-container .installed-version-item').append(tpl);
             }
             for(var v in stablepacks) {
                 version = stablepacks[v];
                 var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
-                tpl = tpl+'<td><a href="#" data-action="install-package" class="btn btn-success btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
-                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></td></tr>';
+                tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
+                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
                 controller.find('.stable-version-container .installed-version-item').append(tpl);
             }
             
@@ -211,8 +211,9 @@ var BoltExtender = Object.extend(Object, {
         var version = jQuery(e.target).data("version");
         
         controller.find('.install-response-container').show();
+        controller.find('.install-version-container').hide();
         active_console = controller.find('.install-response-container .console');
-        active_console.html(controller.messages['installing']);
+        controller.find("#installModal .loader .message").html(controller.messages['installing']);
         jQuery.get(
             baseurl+'install', 
             {'package':package,'version':version}
@@ -221,7 +222,7 @@ var BoltExtender = Object.extend(Object, {
             active_console.html(data);
             
             setTimeout(function(){
-                controller.find('.install-version-container').hide();
+                
                 controller.find('.install-response-container').hide();
             }, 7000);
             controller.find(".check-package").show()

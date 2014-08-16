@@ -7,13 +7,17 @@
     <div class="row">
         <div class="col-md-12">
         
-            <div class="loader"><i class="fa fa-spin fa-circle-o-notch"></i> Checking available versions...</div>
+            <div class="loader">
+                <i class="fa fa-spin fa-circle-o-notch"></i><span class="message">Checking available versions...</span>
+            </div>
+            
+            <div class='install-response-container hide-block'>
+                <h3>{{ __('Installing package') }}</h3>
+                <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
+            </div>
             
             <div class="install-version-container hide-block">
-                <div class='install-response-container hide-block'>
-                    <h3>{{ __('Installing package') }}</h3>
-                    <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
-                </div>
+                
                 <div class="stable-version-container">
                     <h3>{{__("Stable Versions")}}</h3>
                     <p>{{__('The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.')}}</p>
