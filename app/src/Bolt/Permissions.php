@@ -440,6 +440,10 @@ class Permissions
                 // won't see a lot of traffic here, so it's probably
                 // forgivable.
                 if (!empty($contentid)) {
+                    // $contenttype must be a string, not an array.
+                    if (is_array($contenttype)) {
+                        $contenttype = $contenttype['slug'];
+                    }
                     $content = $this->app['storage']->getContent("$contenttype/$contentid");
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {
