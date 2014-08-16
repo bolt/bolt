@@ -111,7 +111,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         } catch (\Exception $e) {
             
         }
-        print_r($versions); exit;
         return new JsonResponse($versions);
         
     }
