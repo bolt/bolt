@@ -115,6 +115,16 @@
                                 <strong>{{ block('page_title') }} »</strong>
                                 <i style="font-style: normal;">{{ block('page_subtitle') }}</i>
                             {% endif %}
+
+                            {# optional "showing 1-X of Y" for overview pages. #}
+                            {% set pager_ct = pager[context.contenttype.slug] %}
+                            {% if pager_ct and pager_ct.totalpages > 1 %}
+                                <span>
+                                    {{ __('Showing') }} {{ pager_ct.showing_from }} - 
+                                    {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}
+                                </span>
+                            {% endif %}
+
                         </h1>
                     </div>
                 </div>
