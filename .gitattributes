@@ -1,0 +1,4 @@
+# Default behavior (commit LF, checkout system-dependent) for text files, in
+# case people don't have core.autocrlf set.
+
+* text=auto
