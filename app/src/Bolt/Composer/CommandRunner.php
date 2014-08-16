@@ -132,7 +132,7 @@ class CommandRunner
 
         foreach ($packages as $package => $version) {
             $check = $this->execute("show -N -i $package $version");
-            $installed[] = $this->showCleanup((array) $check, $package);
+            $installed[] = $this->showCleanup((array) $check, $package, $version);
         }
 
         if (!count($installed)) {
@@ -179,7 +179,7 @@ class CommandRunner
         return str_replace($clean, array(), $output);
     }
 
-    protected function showCleanup($output, $name)
+    protected function showCleanup($output, $name, $version)
     {
         $pack = array();
         foreach ($output as $item) {
@@ -187,10 +187,12 @@ class CommandRunner
                 $split = explode(' : ', $item);
                 $split[0] = str_replace('.', '', $split[0]);
                 $pack[trim($split[0])] = trim($split[1]);
+                $pack['version'] = $version;
             }
         }
         if (count($pack) < 1) {
             $pack['name'] = $name;
+            $pack['version'] = 'unknown';
             $pack['type'] = 'unknown';
             $pack['descrip'] = 'Not yet installed';
         }
