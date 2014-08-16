@@ -2,3 +2,21 @@
 # case people don't have core.autocrlf set.
 
 * text=auto
+
+
+# Explicitly declare text files we want to always be normalized and converted
+# to native line endings on checkout.
+
+# (Match dotfiles)
+.* text
+*.css text
+*.dist text
+*.html text
+*.js text
+*.json text
+*.md text
+*.php text
+*.scss text
+*.txt text
+*.twig text
+*.yml text
