@@ -173,19 +173,20 @@ var BoltExtender = Object.extend(Object, {
 
             for(var v in devpacks) {
                 version = devpacks[v];
-                tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
                 tpl += '<a data-action="install-package" class="btn btn-success install-package" data-package="'+version.name+'" data-version="'+version.version+'">'
                 tpl += '<i class="icon-gears"></i> Install This Version</a></td></tr>';
                 controller.find('.dev-version-container .installed-version-item').append(tpl);
             }
             for(var v in stablepacks) {
                 version = stablepacks[v];
-                tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
-                tpl += '<a data-action="install-package" class="btn btn-success install-package" data-package="'+version.name+'" data-version="'+version.version+'">'
-                tpl += '<i class="icon-gears"></i> Install This Version</a></td></tr>';
+                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                tpl +='<td><a data-action="install-package" class="btn btn-success install-package" data-package="'+version.name+'" data-version="'+version.version+'">';
+                tpl +='<i class="icon-gears"></i> Install This Version</a></td></tr>';
                 controller.find('.stable-version-container .installed-version-item').append(tpl);
             }
             controller.find(".install-version-container").show();
+            controller.find(".install-version-container .loader").hide();
         });
         
             
