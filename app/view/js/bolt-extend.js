@@ -195,7 +195,7 @@ var BoltExtender = Object.extend(Object, {
             }
             
             controller.find(".install-version-container").show();
-            controller.find(".install-version-container .loader").hide();
+            controller.find("#installModal .loader").hide();
         });
         
             
