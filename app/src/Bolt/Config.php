@@ -316,6 +316,10 @@ class Config
             $tempfields = $temp['fields'];
             $temp['fields'] = array();
 
+            // Set a default group and groups array.
+            $currentgroup = false;
+            $temp['groups'] = array();
+
             foreach ($tempfields as $key => $value) {
                 // FIXME Fix name 'keys' for fields
                 $key = str_replace('-', '_', strtolower(safeString($key, true)));
@@ -348,6 +352,17 @@ class Config
                         $temp['fields'][$key]['extensions'] = array($temp['fields'][$key]['extensions']);
                     }
                 }
+
+                // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn 
+                // them into tabs while rendering. This also makes sure that once you started with a group,
+                // all others have a group too. 
+                if (!empty($temp['fields'][$key]['group'])) {
+                    $currentgroup = $temp['fields'][$key]['group'];
+                    $temp['groups'][] = $currentgroup;
+                } else {
+                    $temp['fields'][$key]['group'] = $currentgroup;
+                }
+
             }
 
             // Make sure the 'uses' of the slug is an array.
@@ -371,6 +386,13 @@ class Config
                         unset($temp['relations'][$key]);
                     }
                 }
+            }
+
+            // Make sure the 'groups' has unique elements, if there are any.
+            if (!empty($temp['groups'])) {
+                $temp['groups'] = array_unique($temp['groups']);
+            } else {
+                unset($temp['groups']);
             }
 
             $config['contenttypes'][$temp['slug']] = $temp;
