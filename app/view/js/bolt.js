@@ -71,7 +71,7 @@ jQuery(function($) {
         var $this = $(this);
         $this.popover({
             trigger: 'hover',
-            delay: { show: 300, hide: 400 },
+            delay: { show: 600, hide: 700 },
             container: $this,
         });
     });
