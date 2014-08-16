@@ -88,7 +88,7 @@ class Frontend
                 $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
             }
 
-            if ($record) {
+            if (!empty($record)) {
                 self::checkFrontendPermission($app, $record);
             }
 
