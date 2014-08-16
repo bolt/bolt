@@ -1,0 +1,43 @@
+{% extends "_base/_page.twig" %}
+{% block page_type 'Popup' %}
+{% block page_title __("Install New Package") %}
+{% block page_full %}
+<script src="{{ paths.app }}view/js/bolt-extend.js"></script>
+
+
+<div class='extend-bolt-container'>
+    {% if messages %}
+        <div class="alert alert-info">
+            <button class="close" data-dismiss="alert">×</button>
+            {% for message in messages %}
+                {{message}}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{ block('page_title') }}</h1>
+        </div>
+        <div class="col-md-8">
+            
+            
+            
+        </div>
+
+        <aside class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
+                <div class="panel-body">
+                        
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+
+</div>
+
+
+{% endblock page_full %}
