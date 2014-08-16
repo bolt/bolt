@@ -71,37 +71,19 @@
                 <div class="install-container">
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
-                        <a class="btn btn-tertiary check-package" data-action='check-package' data-toggle="modal" data-target="#installModal" href="installPackage">
+                        <a class="btn btn-tertiary check-package" data-action='check-package' data-toggle="modal" data-target="#installModal">
                             <i class="icon-gears"></i> {{ __('Browse Versions') }}
                         </a>
  
                         <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
+                                    {% include 'extend/install-package.twig' %}                                
                                 </div>
                             </div>
                         </div>
                 </div>
-                <div class="install-version-container hide-block">
-                    <hr>
-                    <table class="dashboardlisting table">
-                        <thead>
-                            <tr>
-                                <th>{{ __('Extension') }}</th>
-                                <th>{{ __('Select version') }}</th>
-                                <th>{{ __('Bolt Compatibility') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="installed-version-item">
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="install-response-container hide-block">
-                    <h3>{{ __('Installing package') }}</h3>
-                    <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
-                </div>
+                
             </section>
         </div>
 
