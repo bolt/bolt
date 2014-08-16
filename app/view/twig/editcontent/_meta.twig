@@ -78,7 +78,6 @@
             {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
             <div class="col-sm-8">
                 <select name="status" id="statusselect" {% if context.allowed_status|length <= 1 %}disabled="disabled"{% endif %} class="form-control narrow">
-                    {% set status_names = { "published": "Published", "held": "Not published", "timed": "Timed publish", "draft": "Draft" } %}
                     {% for status in context.allowed_status %}
                         <option value="{{status}}" {% if context.content.status == status %}selected{% endif %}>{{ status_names[status] }}</option>
                     {% endfor %}
