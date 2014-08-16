@@ -206,9 +206,9 @@ var BoltExtender = Object.extend(Object, {
     
     install: function(e) {
         var controller = this;
-
-        var package = controller.find('input[name="package-name"]').val();
-        var version = controller.find('select[name="package-version"]').val();
+        
+        var package = jQuery(e.target).data("package");
+        var version = jQuery(e.target).data("version");
         
         controller.find('.install-response-container').show();
         active_console = controller.find('.install-response-container .console');
