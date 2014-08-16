@@ -101,8 +101,19 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     public function installInfo(Silex\Application $app, Request $request)
     {
         $package = $request->get('package');
-        $info = file_get_contents($app['extend.site']."info.json?package=".$package);
-        print_r($info); exit;
+        $versions = array();
+        try {
+            $url = $app['extend.site']."info.json?package=".$package."&bolt=".$app['bolt_version'];
+            $info = json_decode(file_get_contents($url));
+            foreach($info->version as $version) {
+                $versions[$version->stability][]=$version;
+            }
+        } catch (\Exception $e) {
+            
+        }
+        print_r($versions); exit;
+        return new JsonResponse($versions);
+        
     }
 
     public function check(Silex\Application $app, Request $request)
