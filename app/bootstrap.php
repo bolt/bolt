@@ -5,7 +5,7 @@ mb_http_output('UTF-8');
 
 // First, do some low level checks, like whether autoload is present, the cache
 // folder is writable, etc.
-require_once __DIR__ . '/classes/lib.php';
+require_once __DIR__ . '/lib.php';
 require_once __DIR__ . '/src/Bolt/Configuration/LowlevelChecks.php';
 
 $checker = new Bolt\Configuration\LowlevelChecks;
