@@ -71,9 +71,16 @@
                 <div class="install-container">
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
-                        <a class="btn btn-tertiary check-package" data-action="check-package">
-                            <i class="icon-gears"></i> {{ __('Check Extension') }}
+                        <a class="btn btn-tertiary check-package" data-action='check-package' data-toggle="modal" data-target="#installModal" href="installPackage">
+                            <i class="icon-gears"></i> {{ __('Browse Versions') }}
                         </a>
+ 
+                        <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div class="install-version-container hide-block">
                     <hr>
