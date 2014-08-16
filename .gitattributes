@@ -3,7 +3,10 @@
 #
 # Note: If you are on Windows and wish to checkout as LF instead of CRLF
 # (e.g., you are sharing the working directory with a Unix machine), create
-# a new file at "X:\<bolt-path>\.git\info\attributes" containing "* text=lf"
+# a new file at "X:\<bolt-path>\.git\info\attributes" containing:
+#
+#   * text=lf -crlf
+#
 
 * text=auto
 
