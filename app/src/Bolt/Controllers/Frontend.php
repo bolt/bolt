@@ -68,6 +68,10 @@ class Frontend
                 $app['twig']->addGlobal($content->contenttype['singular_slug'], $content);
             }
 
+            if (!empty($record)) {
+                self::checkFrontendPermission($app, $record);
+            }
+
             $chosen = 'homepage config';
         } else {
             $template = 'index.twig';
