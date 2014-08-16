@@ -170,21 +170,30 @@ var BoltExtender = Object.extend(Object, {
             
             var devpacks = data['dev'];
             var stablepacks = data['stable'];
+            
+            if(devpacks.length > 0) {
+              controller.find('.dev-version-container .installed-version-item').html("");  
+            }
+            
+            if(stablepacks.length > 0) {
+              controller.find('.stable-version-container .installed-version-item').html("");  
+            }
 
             for(var v in devpacks) {
                 version = devpacks[v];
                 var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
-                tpl = tpl+'<td><a href="#" data-action="install-package" class="btn btn-success install-package" data-package="'+version.name+'" data-version="'+version.version+'">'
+                tpl = tpl+'<td><a href="#" data-action="install-package" class="btn btn-success btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">'
                 tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></td></tr>';
                 controller.find('.dev-version-container .installed-version-item').append(tpl);
             }
             for(var v in stablepacks) {
                 version = stablepacks[v];
                 var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
-                tpl = tpl+'<td><a href="#" data-action="install-package" class="btn btn-success install-package" data-package="'+version.name+'" data-version="'+version.version+'">';
+                tpl = tpl+'<td><a href="#" data-action="install-package" class="btn btn-success btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
                 tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></td></tr>';
                 controller.find('.stable-version-container .installed-version-item').append(tpl);
             }
+            
             controller.find(".install-version-container").show();
             controller.find(".install-version-container .loader").hide();
         });
