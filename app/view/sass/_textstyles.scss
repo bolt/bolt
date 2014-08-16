@@ -80,14 +80,17 @@ h1 span {
 }
 
 .status-timed {
-    color: #008CBA;
+    color: #0066FF;
 }
 
 .status-published {
     color: #43AC6A;
 }
 
-.status-held , 
-.status-draft {
+.status-held {
     color: #F04124;
+}
+
+.status-draft {
+    color: #99F;
 }

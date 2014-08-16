@@ -140,7 +140,7 @@
                     {% else %}
                         {% if isallowed('depublish', content) %}
                         <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
-                        <li>{{ macro.actionform(content, 'draft', 'fa-pencildraft', __("Change status to 'draft'")) }}</li>
+                        <li>{{ macro.actionform(content, 'draft', 'fa-circle status-draft', __("Change status to 'draft'")) }}</li>
 
                         {% endif %}
                     {% endif %}
