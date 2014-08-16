@@ -64,6 +64,14 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get('/installAll', array($this, 'installAll'))
             ->before(array($this, 'before'))
             ->bind('installAll');
+        
+        $ctr->get('/installPackage', array($this, 'installPackage'))
+            ->before(array($this, 'before'))
+            ->bind('installPackage');
+            
+        $ctr->get('/installInfo', array($this, 'installInfo'))
+            ->before(array($this, 'before'))
+            ->bind('installInfo');
 
         return $ctr;
     }
@@ -77,6 +85,24 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                 'site' => $app['extend.site']
             )
         );
+    }
+    
+    public function installPackage(Silex\Application $app, Request $request)
+    {
+        return $app['render']->render(
+            'extend/install-package.twig',
+            array(
+                'messages' => $app['extend.runner']->messages,
+                'site' => $app['extend.site']
+            )
+        );
+    }
+    
+    public function installInfo(Silex\Application $app, Request $request)
+    {
+        $package = $request->get('package');
+        $info = file_get_contents($app['extend.site']."info.json?package=".$package);
+        print_r($info); exit;
     }
 
     public function check(Silex\Application $app, Request $request)
