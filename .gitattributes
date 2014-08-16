@@ -1,0 +1,29 @@
+# Default behavior (commit LF, checkout system-dependent) for text files, in
+# case people don't have core.autocrlf set.
+#
+# Note: If you are on Windows and wish to checkout as LF instead of CRLF
+# (e.g., you are sharing the working directory with a Unix machine), create
+# a new file at "X:\<bolt-path>\.git\info\attributes" containing:
+#
+#   * text=lf -crlf
+#
+
+* text=auto
+
+
+# Explicitly declare text files we want to always be normalized and converted
+# to native line endings on checkout.
+
+# (Match dotfiles)
+.* text
+*.css text
+*.dist text
+*.html text
+*.js text
+*.json text
+*.md text
+*.php text
+*.scss text
+*.txt text
+*.twig text
+*.yml text
