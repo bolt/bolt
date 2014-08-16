@@ -10,13 +10,16 @@
             <div class="loader"><i class="fa fa-spin fa-circle-o-notch"></i> Checking available versions...</div>
             
             <div class="install-version-container hide-block">
-                    <hr>
+                <div class='install-response-container hide-block'>
+                    <h3>{{ __('Installing package') }}</h3>
+                    <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
+                </div>
+                <div class="stable-version-container">
                     <table class="dashboardlisting table">
                         <thead>
                             <tr>
                                 <th>{{ __('Extension') }}</th>
-                                <th>{{ __('Select version') }}</th>
-                                <th>{{ __('Bolt Compatibility') }}</th>
+                                <th>{{ __('Version') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
                         </thead>
@@ -25,10 +28,23 @@
                         </tbody>
                     </table>
                 </div>
-                <div class='install-response-container hide-block'>
-                    <h3>{{ __('Installing package') }}</h3>
-                    <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
+                
+                <div class="dev-version-container">
+                    <table class="dashboardlisting table">
+                        <thead>
+                            <tr>
+                                <th>{{ __('Extension') }}</th>
+                                <th>{{ __('Version') }}</th>
+                                <th>{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="installed-version-item">
+
+                        </tbody>
+                    </table>
                 </div>
+                
+            </div>
             
         </div>
 

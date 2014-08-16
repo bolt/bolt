@@ -167,23 +167,28 @@ var BoltExtender = Object.extend(Object, {
         var ext = this.find('input[name="check-package"]').val();
         active_console = this.find(".check-package");
         jQuery.get(baseurl+'installInfo?package='+ext, function(data) {
-           console.log(data); 
+            
+            var devpacks = data['dev'];
+            var stablepacks = data['stable'];
+
+            for(var v in devpacks) {
+                version = devpacks[v];
+                tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                tpl += '<a data-action="install-package" class="btn btn-success install-package" data-package="'+version.name+'" data-version="'+version.version+'">'
+                tpl += '<i class="icon-gears"></i> Install This Version</a></td></tr>';
+                controller.find('.dev-version-container .installed-version-item').append(tpl);
+            }
+            for(var v in stablepacks) {
+                version = stablepacks[v];
+                tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                tpl += '<a data-action="install-package" class="btn btn-success install-package" data-package="'+version.name+'" data-version="'+version.version+'">'
+                tpl += '<i class="icon-gears"></i> Install This Version</a></td></tr>';
+                controller.find('.stable-version-container .installed-version-item').append(tpl);
+            }
+            controller.find(".install-version-container").show();
         });
         
-            // if(data.packages.length <1) {
-            //     return alert(controller.messages['extError']);
-            // }
-            // var pack = data.packages[0];
-            // var tpl = '<tr>';
-            // tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
-            // tpl+='<td>'+pack.title+'<br>'+pack.name+'</td><td><select name="package-version" class="form-control">';
-            // for(var v in pack.versions) {
-            //     tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
-            // }
-            // tpl +='</select></td><td></td><td><a data-action="install-package" class="btn btn-success install-package"><i class="icon-gears"></i> Install Extension</a></td></tr>';
-            // controller.find(".check-package").hide();
-            // controller.find(".installed-version-item").html(tpl);
-            // controller.find(".install-version-container").show();
+            
         
         
         e.preventDefault();  
