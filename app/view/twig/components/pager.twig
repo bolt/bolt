@@ -16,7 +16,7 @@
 
 {% set link = '?' ~ filter ~ order ~ 'page=' %}
 
-{% if pager.totalpages|default(0) > 1 %}
+{% if context.pager.totalpages|default(0) > 1 %}
     <div style="text-align: center">
         <ul class="pagination pagination-centered">
             {# Showing {{ context.pager.for }} {{ context.pager.showing_from }} - {{ context.pager.showing_to }} of {{  context.pager.count }} #}
