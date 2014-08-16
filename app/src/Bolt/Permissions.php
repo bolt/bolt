@@ -321,6 +321,11 @@ class Permissions
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
+        // $contenttype must be a string, not an array.
+        if (is_array($contenttype)) {
+            $contenttype = $contenttype['slug'];
+        }
+
         $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttype' and contentid '$contentid'");
 
         // First, let's see if we have the check in the per-request cache.
