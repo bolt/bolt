@@ -864,16 +864,21 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the previous record. ('previous' is defined as 'latest one published before this one')
+     * Get the previous record. In this case 'next' is defined as 'latest one published before 
+     * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
+     * the column to sort on. 
      */
     public function previous($field = 'datepublish', $where = array())
     {
-        $field = safeString($field);
+        list ($field, $asc) = $this->app['storage']->getSortOrder($field);
+
+        $operator = $asc ? '<' : '>';
+        $order = $asc ? ' DESC' : ' ASC';
 
         $params = array(
-            $field => '>'.$this->values[$field],
+            $field => $operator .$this->values[$field],
             'limit' => 1,
-            'order' => $field . ' ASC',
+            'order' => $field . $order,
             'returnsingle' => true
         );
 
@@ -883,17 +888,22 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the next record. ('next' is defined as 'first one published after this one')
+     * Get the next record. In this case 'next' is defined as 'first one published after 
+     * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
+     * the column to sort on. 
      */
     public function next($field = 'datepublish', $where = array())
     {
-        $field = safeString($field);
+        list ($field, $asc) = $this->app['storage']->getSortOrder($field);
+
+        $operator = $asc ? '>' : '<';
+        $order = $asc ? ' ASC' : ' DESC';
 
         $params = array(
-            $field => '<'.$this->values[$field],
+            $field => $operator .$this->values[$field],
             'limit' => 1,
-            'order' => $field . ' DESC',
-            'returnsingle' => true
+            'order' => $field . $order,
+            'returnsingle' => true    
         );
 
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
