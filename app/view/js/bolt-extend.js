@@ -264,18 +264,18 @@ var BoltExtender = Object.extend(Object, {
     },
     
     generateTheme: function(e) {
-        alert("TEST1");
         var controller = this;
         var theme = jQuery(e.target).data("theme");
-        var name  = controller.find('#theme-name');
-        alert("TEST2");
+        var themename  = controller.find('#theme-name');
+        alert(themename);
         jQuery.get(
             baseurl+'generateTheme', 
-            {'theme':theme,'name':name}
+            {'theme':theme,'name':themename}
         )
         .done(function(data) {
-            
+            console.log(data);
         });
+        e.preventDefault();
     },
     
     uninstall: function(e) {
