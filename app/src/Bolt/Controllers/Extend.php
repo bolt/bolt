@@ -185,15 +185,17 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         }
         
         $source = $app['resources']->getPath('extensions').'/vendor/'.$theme;
-        $destination = $app['resources']->getPath('theme').'/'.$newName;
+        $destination = $app['resources']->getPath('themebase').'/'.$newName;
         if (is_dir($source)) {
-            $filesystem = new Filesystem;
-            $filesystem->mkdir($destination);
-            $filesystem->mirror($source, $destination);
-            
-            if (is_dir($destination)) {
+            try {
+                $filesystem = new Filesystem;
+                $filesystem->mkdir($destination);
+                $filesystem->mirror($source, $destination);
                 return new Response($destination);
+            } catch (\Exception $e) {
+               return new Response(''); 
             }
+            
         }
         
         return new Response('');
