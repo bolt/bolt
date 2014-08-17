@@ -238,6 +238,7 @@ class LowlevelChecks
         a {color: #08C;text-decoration: none;}
         ul, ol {padding: 0px;margin: 0px 0px 10px 25px;}
         hr{margin:20px 0;border:0;border-top:1px solid #eeeeee;border-bottom:1px solid #ffffff;}
+        .hide{display:none;}
     </style>
 </head>
 <body style="padding: 20px;">
@@ -255,8 +256,8 @@ class LowlevelChecks
     out. Be sure to include the exact error message you're getting!</p>
 
     <ul>
-        <li><a href="http://docs.bolt.cm/installation">Bolt documentation - Setup</a></li>
-        <li><a href="http://forum.pivotx.net/viewforum.php?f=16">Bolt discussion forum</a></li>
+        <li><a href="http://docs.bolt.cm/installation"><span class="hide"> * http://docs.bolt.cm/installation - </span>Bolt documentation - Setup</a></li>
+        <li><a href="http://stackoverflow.com/questions/tagged/bolt-cms"><span class="hide"> * http://stackoverflow.com/questions/tagged/bolt-cms - </span>Bolt questions on Stack Overflow</a></li>
     </ul>
 
     </div>
@@ -266,7 +267,7 @@ class LowlevelChecks
 </html>
 EOM;
 
-        $html = str_replace('%error%', $message, $html);
+        $output = str_replace('%error%', $message, $html);
 
         // TODO: Information disclosure vulnerability. A misconfigured system
         // will give an attacker detailed information about the state of the
@@ -274,7 +275,16 @@ EOM;
         // Suggested solution: in the config file, provide a whitelist of hosts
         // that may access the self-configuration functionality, and only
         // expose the information to hosts on the whitelist.
-        echo $html;
+
+        // Determine if we're on the Command line. If so, don't output HTML.
+        if (php_sapi_name() == 'cli') {
+            $output = preg_replace('/<title>.*<\/title>/smi', "", $output); 
+            $output = preg_replace('/<style>.*<\/style>/smi', "", $output); 
+            $output = strip_tags($output);
+            $output = preg_replace('/(\n+)(\s+)/smi', "\n", $output);
+        }
+
+        echo $output;
 
         die();
     }
