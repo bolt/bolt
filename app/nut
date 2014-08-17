@@ -3,7 +3,7 @@
 
 use Symfony\Component\Console\Application;
 
-require_once __DIR__ . '/bootstrap.php';
+$app = require_once __DIR__ . '/load.php';
 
 /** @var Application $application retrieve the Console Application from the Bolt application in the bootstrap */
 $application = $app['console'];
@@ -23,9 +23,8 @@ $application->add(new Bolt\Nut\ExtensionsEnable($app));
 $application->add(new Bolt\Nut\ExtensionsDisable($app));
 $application->add(new Bolt\Nut\UserRoleAdd($app));
 $application->add(new Bolt\Nut\UserRoleRemove($app));
-//$application->add(new Bolt\Nut\ExtensionsInstall($app)); 
+//$application->add(new Bolt\Nut\ExtensionsInstall($app));
 //$application->add(new Bolt\Nut\ExtensionsUpdate($app));
 //$application->add(new Bolt\Nut\ExtensionsUninstall($app));
 
 $application->run();
-
