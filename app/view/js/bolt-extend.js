@@ -224,7 +224,7 @@ var BoltExtender = Object.extend(Object, {
             setTimeout(function(){
                 controller.find('.install-response-container').hide();
                 controller.postInstall(package, version);
-            }, 5000);
+            }, 2000);
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
@@ -249,6 +249,7 @@ var BoltExtender = Object.extend(Object, {
     },
     
     extensionPostInstall: function(extension) {
+        this.find('.extension-postinstall .ext-link').attr("href", extension.source);
         this.find('.extension-postinstall').show();
     },
     
