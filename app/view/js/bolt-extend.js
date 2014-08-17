@@ -222,14 +222,38 @@ var BoltExtender = Object.extend(Object, {
             active_console.html(data);
             
             setTimeout(function(){
-                
                 controller.find('.install-response-container').hide();
-            }, 7000);
+                controller.postInstall(package, version);
+            }, 5000);
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
         });
         e.preventDefault();
+    },
+    
+    postInstall: function(package, version) {
+        var controller = this;
+        jQuery.get(
+            baseurl+'packageInfo', 
+            {'package':package,'version':version}
+        )
+        .done(function(data) {
+            if(data['type']=='bolt-extension') {
+                controller.extensionPostInstall(data);
+            }
+            if(data['type']=='bolt-theme') {
+                controller.themePostInstall(data);
+            }
+        });
+    },
+    
+    extensionPostInstall: function(extension) {
+        this.find('.extension-postinstall').show();
+    },
+    
+    themePostInstall: function(extension) {
+        this.find('.theme-postinstall').show();
     },
     
     uninstall: function(e) {

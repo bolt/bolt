@@ -82,6 +82,12 @@ class CommandRunner
 
         return array('updates' => $updates, 'installs' => $installs);
     }
+    
+    public function info($package, $version)
+    {
+        $check = $this->execute("show -N -i $package $version");
+        return $this->showCleanup( (array)$check, $package, $version);
+    }
 
     public function update($package)
     {

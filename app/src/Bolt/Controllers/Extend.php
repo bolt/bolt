@@ -72,6 +72,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get('/installInfo', array($this, 'installInfo'))
             ->before(array($this, 'before'))
             ->bind('installInfo');
+        
+        $ctr->get('/packageInfo', array($this, 'packageInfo'))
+            ->before(array($this, 'before'))
+            ->bind('packageInfo');
 
         return $ctr;
     }
@@ -113,6 +117,13 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         }
         return new JsonResponse($versions);
         
+    }
+    
+    public function packageInfo(Silex\Application $app, Request $request)
+    {
+        $package = $request->get('package');
+        $version = $request->get('version');
+        return new JsonResponse($app['extend.runner']->info($package, $version));
     }
 
     public function check(Silex\Application $app, Request $request)
