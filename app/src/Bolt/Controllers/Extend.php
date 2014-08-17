@@ -184,7 +184,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             $newName = basename($theme);
         }
         
-        $source = $app['resources']->getPath('extensions').'/extensions/vendor/'.$theme;
+        $source = $app['resources']->getPath('extensions').'/vendor/'.$theme;
         $destination = $app['resources']->getPath('theme').'/'.$newName;
         if (is_dir($source)) {
             $filesystem = new Filesystem;
