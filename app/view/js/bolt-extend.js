@@ -166,57 +166,119 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
         var ext = this.find('input[name="check-package"]').val();
         active_console = this.find(".check-package");
-        jQuery.ajax({
-            url: site+'list.json',
-            dataType: 'jsonp',
-            data: {'name': ext},
-        })
-        .success(function(data) {
-            if(data.packages.length <1) {
-                return alert(controller.messages['extError']);
+        jQuery.get(baseurl+'installInfo?package='+ext, function(data) {
+            
+            var devpacks = data['dev'];
+            var stablepacks = data['stable'];
+            
+            if(devpacks.length > 0) {
+              controller.find('.dev-version-container .installed-version-item').html("");  
             }
-            var pack = data.packages[0];
-            var tpl = '<tr>';
-            tpl+='<input type="hidden" name="package-name" value="'+pack.name+'">'
-            tpl+='<td>'+pack.title+'<br>'+pack.name+'</td><td><select name="package-version" class="form-control">';
-            for(var v in pack.versions) {
-                tpl+='<option value="'+pack.versions[v]+'">'+pack.versions[v]+'</option>'
+            
+            if(stablepacks.length > 0) {
+              controller.find('.stable-version-container .installed-version-item').html("");  
             }
-            tpl +='</select></td><td></td><td><a data-action="install-package" class="btn btn-success install-package"><i class="icon-gears"></i> Install Extension</a></td></tr>';
-            controller.find(".check-package").hide();
-            controller.find(".installed-version-item").html(tpl);
+
+            for(var v in devpacks) {
+                version = devpacks[v];
+                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">'
+                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
+                controller.find('.dev-version-container .installed-version-item').append(tpl);
+            }
+            for(var v in stablepacks) {
+                version = stablepacks[v];
+                var tpl = '<tr><td>'+version.name+'</td><td>'+version.version+'</td>';
+                tpl = tpl+'<td><div class="btn-group"><a href="#" data-action="install-package" class="btn btn-primary btn-sm" data-package="'+version.name+'" data-version="'+version.version+'">';
+                tpl = tpl+'<i class="icon-gears"></i> Install This Version</a></div></td></tr>';
+                controller.find('.stable-version-container .installed-version-item').append(tpl);
+            }
+            
             controller.find(".install-version-container").show();
-        })
-        .fail(function() {
-            alert(controller.messages['extError']);
+            controller.find("#installModal .loader").hide();
         });
+        
+            
+        
         
         e.preventDefault();  
     },
     
     install: function(e) {
         var controller = this;
-
-        var package = controller.find('input[name="package-name"]').val();
-        var version = controller.find('select[name="package-version"]').val();
+        
+        var package = jQuery(e.target).data("package");
+        var version = jQuery(e.target).data("version");
         
         controller.find('.install-response-container').show();
+        controller.find('.install-version-container').hide();
         active_console = controller.find('.install-response-container .console');
-        active_console.html(controller.messages['installing']);
+        controller.find("#installModal .loader .message").html(controller.messages['installing']);
         jQuery.get(
             baseurl+'install', 
             {'package':package,'version':version}
         ) 
         .done(function(data) {
             active_console.html(data);
-            
+            controller.postInstall(package, version);
             setTimeout(function(){
-                controller.find('.install-version-container').hide();
                 controller.find('.install-response-container').hide();
-            }, 2000);
+            }, 5000);
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
+        });
+        e.preventDefault();
+    },
+    
+    postInstall: function(package, version) {
+        var controller = this;
+        jQuery.get(
+            baseurl+'packageInfo', 
+            {'package':package,'version':version}
+        )
+        .done(function(data) {
+            if(data['type']=='bolt-extension') {
+                controller.extensionPostInstall(data);
+            }
+            if(data['type']=='bolt-theme') {
+                controller.themePostInstall(data);
+            }
+        });
+    },
+    
+    extensionPostInstall: function(extension) {
+        var controller = this;
+        jQuery('#installModal').on('hide.bs.modal', function (e) {
+            controller.find('.extension-postinstall').hide();
+            controller.find("#installModal .loader").show();
+        });
+        controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
+        controller.find('.extension-postinstall').show();
+    },
+    
+    themePostInstall: function(extension) {
+        var controller = this;
+        controller.find('.theme-postinstall').show();
+        controller.find('.theme-postinstall .theme-generator').data("theme",extension['name']);
+        jQuery('#installModal').on('hide.bs.modal', function (e) {
+            controller.find('.theme-postinstall').hide();
+            controller.find("#installModal .loader").show();
+        });
+    },
+    
+    generateTheme: function(e) {
+        var controller = this;
+        var trigger = jQuery(e.target);
+        var theme = trigger.data("theme");
+        var themename  = controller.find('#theme-name').val();
+        jQuery.get(
+            baseurl+'generateTheme', 
+            {'theme':theme,'name':themename}
+        )
+        .done(function(data) {
+            controller.find('.theme-generate-response').html("<p>"+data+"</p>").show();
+            controller.find('.theme-generation-container').hide();
         });
         e.preventDefault();
     },
@@ -294,6 +356,7 @@ var BoltExtender = Object.extend(Object, {
                 case "install-package"  : controller.install(e.originalEvent); break;
                 case "prefill-package"  : controller.prefill(e.originalEvent); break;
                 case "install-run"      : controller.installRun(e.originalEvent); break;
+                case "generate-theme"   : controller.generateTheme(e.originalEvent); break;
             }
         }
 

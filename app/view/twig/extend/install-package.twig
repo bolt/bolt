@@ -1,0 +1,97 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">{{__('Installing Package')}}</h4>
+</div>
+<div class="modal-body">
+
+    <div class="row">
+        <div class="col-md-12">
+        
+            <div class="loader">
+                <i class="fa fa-spin fa-circle-o-notch"></i> <span class="message">Checking available versions...</span>
+            </div>
+            
+            <div class='install-response-container hide-block'>
+                <h3>{{ __('Installing package') }}</h3>
+                <pre class="install-response console">{{ __('Installing selected package version 
+(this may take up to 60 seconds).') }}</pre>
+            </div>
+            
+            <div class="install-version-container hide-block">
+                
+                <div class="stable-version-container">
+                    <h3>{{__("Stable Versions")}}</h3>
+                    <p>{{__('The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using.')}}</p>
+                    <table class="dashboardlisting table">
+                        <thead>
+                            <tr>
+                                <th>{{ __('Extension') }}</th>
+                                <th>{{ __('Version') }}</th>
+                                <th>{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="installed-version-item">
+                        <tr><td colspan="3"><strong>{{__('No Stable Versions Available')}}</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="dev-version-container">
+                    <h3>{{__("Unstable Test Versions")}}</h3>
+                    <p>{{__('The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems.')}}</p>
+                    <table class="dashboardlisting table">
+                        <thead>
+                            <tr>
+                                <th>{{ __('Extension') }}</th>
+                                <th>{{ __('Version') }}</th>
+                                <th>{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="installed-version-item">
+                            <tr><td colspan="3"><strong>{{__('No Test Versions Available')}}</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+            
+            <div class="theme-postinstall hide-block">
+                <div class="theme-generation-container">
+                    <h4>{{__('Theme Installation Complete')}}</h4> 
+                    <p>
+                        {{__('Before you can start using the theme on your site we need to make a copy to your theme folder.')}}
+                        {{__('If you would like to give the theme an alternative name you can add one here.')}}
+                    </p>
+                
+                    <fieldset>
+                        <input type='text' id='theme-name' placeholder="Optionally change theme name">
+                        <a href="#" class="theme-generator btn btn-primary" data-action="generate-theme" data-theme="">Generate Theme</a>
+                    </fieldset>
+                </div>
+                <div class='theme-generate-response alert alert-info hide-block'></div>
+                <div class="modal-footer">
+                    <a href="#" class="ext-link btn btn-primary" target="_blank">{{__('More info / Help')}}</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            
+            <div class="extension-postinstall hide-block">
+                <h4>{{__('Installation Complete')}}</h4> 
+                <p>
+                    
+                    {{__('You can now start using the installed extension, documentation and implementation instructions can be found using the link below.')}}
+                </p>
+                <div class="modal-footer">
+                    <a href="#" class="ext-link btn btn-primary" target="_blank">{{__('More info / Help')}}</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            
+        </div>
+
+        
+
+    </div>
+
+
+</div>

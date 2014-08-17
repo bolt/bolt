@@ -67,6 +67,9 @@ class CommandRunner
 
             if (is_array($packageInfo)) {
                 $response = $this->execute('update --dry-run '.$package);
+                if (!$response) {
+                    continue;
+                }
                 foreach ($response as $resp) {
                     if (strpos($resp, $package) !== false) {
                         $updates[] = $package;
@@ -78,6 +81,12 @@ class CommandRunner
         }
 
         return array('updates' => $updates, 'installs' => $installs);
+    }
+    
+    public function info($package, $version)
+    {
+        $check = $this->execute("show -N -i $package $version");
+        return $this->showCleanup( (array)$check, $package, $version);
     }
 
     public function update($package)
@@ -174,6 +183,8 @@ class CommandRunner
             "Updating dependencies (including require-dev)\n",
             "Installing dependencies (including require-dev)\n",
             "Installing dependencies (including require-dev) from lock file\n",
+            "./composer.json has been updated\n",
+            "Writing lock file\n"
         );
 
         return str_replace($clean, array(), $output);
