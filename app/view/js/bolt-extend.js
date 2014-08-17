@@ -265,9 +265,9 @@ var BoltExtender = Object.extend(Object, {
     
     generateTheme: function(e) {
         var controller = this;
-        var theme = jQuery(e.target).data("theme");
-        var themename  = controller.find('#theme-name');
-        alert(themename);
+        var trigger = jQuery(e.target);
+        var theme = trigger.data("theme");
+        var themename  = controller.find('#theme-name').val();
         jQuery.get(
             baseurl+'generateTheme', 
             {'theme':theme,'name':themename}
