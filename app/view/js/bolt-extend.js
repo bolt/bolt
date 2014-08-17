@@ -252,7 +252,7 @@ var BoltExtender = Object.extend(Object, {
         jQuery('#installModal').on('hide.bs.modal', function (e) {
             controller.find('.extension-postinstall').hide();
             controller.find("#installModal .loader").show();
-        })
+        });
         controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
         controller.find('.extension-postinstall').show();
     },
@@ -261,6 +261,10 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
         controller.find('.theme-postinstall').show();
         controller.find('.theme-postinstall .theme-generator').data("theme",extension['name']);
+        jQuery('#installModal').on('hide.bs.modal', function (e) {
+            controller.find('.theme-postinstall').hide();
+            controller.find("#installModal .loader").show();
+        });
     },
     
     generateTheme: function(e) {
@@ -273,7 +277,8 @@ var BoltExtender = Object.extend(Object, {
             {'theme':theme,'name':themename}
         )
         .done(function(data) {
-            console.log(data);
+            controller.find('.theme-generate-response').html("<p>"+data+"</p>").show();
+            controller.find('.theme-generation-container').hide();
         });
         e.preventDefault();
     },

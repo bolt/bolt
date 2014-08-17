@@ -56,16 +56,19 @@
             </div>
             
             <div class="theme-postinstall hide-block">
-                <h4>{{__('Theme Installation Complete')}}</h4> 
-                <p>
-                    {{__('Before you can start using the theme on your site we need to make a copy to your theme folder.')}}
-                    {{__('If you would like to give the theme an alternative name you can add one here.')}}
-                </p>
                 <div class="theme-generation-container">
-                    <input type='text' id='theme-name' placeholder="Optionally change theme name">
-                    <a href="#" class="theme-generator btn btn-primary" data-action="generate-theme" data-theme="">Generate Theme</a>
+                    <h4>{{__('Theme Installation Complete')}}</h4> 
+                    <p>
+                        {{__('Before you can start using the theme on your site we need to make a copy to your theme folder.')}}
+                        {{__('If you would like to give the theme an alternative name you can add one here.')}}
+                    </p>
+                
+                    <fieldset>
+                        <input type='text' id='theme-name' placeholder="Optionally change theme name">
+                        <a href="#" class="theme-generator btn btn-primary" data-action="generate-theme" data-theme="">Generate Theme</a>
+                    </fieldset>
                 </div>
-                <div class='theme-generate-response'></div>
+                <div class='theme-generate-response alert alert-info hide-block'></div>
                 <div class="modal-footer">
                     <a href="#" class="ext-link btn btn-primary" target="_blank">{{__('More info / Help')}}</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

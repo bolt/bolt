@@ -183,6 +183,8 @@ class CommandRunner
             "Updating dependencies (including require-dev)\n",
             "Installing dependencies (including require-dev)\n",
             "Installing dependencies (including require-dev) from lock file\n",
+            "./composer.json has been updated\n",
+            "Writing lock file\n"
         );
 
         return str_replace($clean, array(), $output);
