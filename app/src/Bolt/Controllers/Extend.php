@@ -189,8 +189,13 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         if (is_dir($source)) {
             $filesystem = new Filesystem;
             $filesystem->mirror($source, $destination);
+            
+            if (is_dir($destination)) {
+                return new Response($destination);
+            }
         }
         
+        return new Response('');
     }
     
 
