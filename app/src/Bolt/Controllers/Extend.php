@@ -175,7 +175,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     }
     
     
-    public function generateTheme(Silex\Application $app, Request $request)
+   public function generateTheme(Silex\Application $app, Request $request)
     {
         $theme = $request->get('theme');
         $newName = $request->get('name');
@@ -191,14 +191,11 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
                 $filesystem = new Filesystem;
                 $filesystem->mkdir($destination);
                 $filesystem->mirror($source, $destination);
-                return new Response($destination);
+                return new Response($app['translator']->trans('Theme successfully generated. You can now edit it directly from your theme folder.'));
             } catch (\Exception $e) {
-               return new Response(''); 
-            }
-            
-        }
-        
-        return new Response('');
+               return new Response($app['translator']->trans('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.')); 
+            }   
+        }        
     }
     
 
