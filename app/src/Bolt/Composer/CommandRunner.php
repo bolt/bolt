@@ -36,7 +36,7 @@ class CommandRunner
         $json->repositories->packagist = false;
         $basePackage = "bolt/bolt";
         $json->provide = new \stdClass;
-        $json->provide->$basePackage = $app['bolt_version'].'.*';
+        $json->provide->$basePackage = $app['bolt_version'];
         file_put_contents($this->packageFile, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         try {
