@@ -220,11 +220,10 @@ var BoltExtender = Object.extend(Object, {
         ) 
         .done(function(data) {
             active_console.html(data);
-            
+            controller.postInstall(package, version);
             setTimeout(function(){
                 controller.find('.install-response-container').hide();
-                controller.postInstall(package, version);
-            }, 2000);
+            }, 5000);
             controller.find(".check-package").show()
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
@@ -249,8 +248,12 @@ var BoltExtender = Object.extend(Object, {
     },
     
     extensionPostInstall: function(extension) {
-        this.find('.extension-postinstall .ext-link').attr("href", extension.source);
-        this.find('.extension-postinstall').show();
+        var controller = this;
+        jQuery('#installModal').on('hide.bs.modal', function (e) {
+            controller.find('.extension-postinstall').hide();
+        })
+        controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
+        controller.find('.extension-postinstall').show();
     },
     
     themePostInstall: function(extension) {
