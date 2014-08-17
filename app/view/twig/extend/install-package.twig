@@ -13,7 +13,8 @@
             
             <div class='install-response-container hide-block'>
                 <h3>{{ __('Installing package') }}</h3>
-                <pre class="install-response console">{{ __('Installing selected package version (this may take up to 60 seconds).') }}</pre>
+                <pre class="install-response console">{{ __('Installing selected package version 
+                (this may take up to 60 seconds).') }}</pre>
             </div>
             
             <div class="install-version-container hide-block">
@@ -61,11 +62,13 @@
             <div class="extension-postinstall hide-block">
                 <p>
                     <strong>{{__('Installation Complete')}}</strong> 
-                    {{__('You can now start using the installed extension, documentation and implementation instructions can be found using the link below.')}} <a href="#" class="ext-link btn btn-primary">Visit the extension site.</a>
+                    {{__('You can now start using the installed extension, documentation and implementation instructions can be found using the link below.')}}
                 </p>
-                <p>
+                <hr>
+                <div class="modal-footer">
+                    <a href="#" class="ext-link btn btn-primary">{{__('More info / Help')}}</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </p>
+                </div>
             </div>
             
         </div>
