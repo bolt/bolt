@@ -61,8 +61,10 @@
                     {{__('Before you can start using the theme on your site we need to make a copy to your theme folder.')}}
                     {{__('If you would like to give the theme an alternative name you can add one here.')}}
                 </p>
-                <input type='text' id='theme-name' placeholder="Optionally change theme name">
-                <a href="#" class="theme-generator btn btn-primary" data-action="generate-theme" data-theme="">Generate Theme</a>
+                <div class="theme-generation-container">
+                    <input type='text' id='theme-name' placeholder="Optionally change theme name">
+                    <a href="#" class="theme-generator btn btn-primary" data-action="generate-theme" data-theme="">Generate Theme</a>
+                </div>
                 <div class='theme-generate-response'></div>
                 <div class="modal-footer">
                     <a href="#" class="ext-link btn btn-primary" target="_blank">{{__('More info / Help')}}</a>
