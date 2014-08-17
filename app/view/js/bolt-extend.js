@@ -251,13 +251,29 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
         jQuery('#installModal').on('hide.bs.modal', function (e) {
             controller.find('.extension-postinstall').hide();
+            controller.find("#installModal .loader").show();
         })
         controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
         controller.find('.extension-postinstall').show();
     },
     
     themePostInstall: function(extension) {
-        this.find('.theme-postinstall').show();
+        var controller = this;
+        controller.find('.theme-postinstall').show();
+        controller.find('.theme-postinstall .theme-generator').data("theme",extension['name']);
+    },
+    
+    generateTheme: function(e) {
+        var controller = this;
+        var theme = jQuery(e.target).data("theme");
+        var name  = controller.find('#theme-name');
+        jQuery.get(
+            baseurl+'generateTheme', 
+            {'theme':theme,'name':name}
+        )
+        .done(function(data) {
+            
+        });
     },
     
     uninstall: function(e) {
@@ -333,6 +349,7 @@ var BoltExtender = Object.extend(Object, {
                 case "install-package"  : controller.install(e.originalEvent); break;
                 case "prefill-package"  : controller.prefill(e.originalEvent); break;
                 case "install-run"      : controller.installRun(e.originalEvent); break;
+                case "generate-theme"   : controller.generateTheme(e.originalEvent); break;
             }
         }
 

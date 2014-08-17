@@ -10,6 +10,7 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Filesystem\Filesystem;
 
 use Bolt\Composer\CommandRunner;
 
@@ -76,6 +77,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get('/packageInfo', array($this, 'packageInfo'))
             ->before(array($this, 'before'))
             ->bind('packageInfo');
+            
+        $ctr->get('/generateTheme', array($this, 'generateTheme'))
+            ->before(array($this, 'before'))
+            ->bind('generateTheme');
 
         return $ctr;
     }
@@ -168,6 +173,23 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         return new Response($app['extend.runner']->installAll());
     }
+    
+    
+    public function generateTheme(Silex\Application $app, Request $request)
+    {
+        $theme = $request->get('theme');
+        $newName = $request->get('name');
+
+        if (! $newName) {
+            $newName = basename($theme);
+        }
+        
+        $filesystem = new Filesystem;
+        $source = $app['resources']->getPath('extensions').'/extensions/vendor/'.$theme;
+        $destination = $app['resources']->getPath('theme').'/'.$newName;
+        $filesystem->mirror($source, $destination);
+    }
+    
 
     /**
      * Middleware function to check whether a user is logged on.

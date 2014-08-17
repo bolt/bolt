@@ -56,7 +56,18 @@
             </div>
             
             <div class="theme-postinstall hide-block">
-                
+                <h4>{{__('Theme Installation Complete')}}</h4> 
+                <p>
+                    {{__('Before you can start using the theme on your site we need to make a copy to your theme folder.')}}
+                    {{__('If you would like to give the theme an alternative name you can add one here.')}}
+                </p>
+                <input type='text' id='theme-name' placeholder="Optionally change theme name">
+                <button class="theme-generator btn-primary" data-action="generate-theme" data-theme="">Generate Theme</button>
+                <div class='theme-generate-response'></div>
+                <div class="modal-footer">
+                    <a href="#" class="ext-link btn btn-primary" target="_blank">{{__('More info / Help')}}</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
             
             <div class="extension-postinstall hide-block">
@@ -66,7 +77,7 @@
                     {{__('You can now start using the installed extension, documentation and implementation instructions can be found using the link below.')}}
                 </p>
                 <div class="modal-footer">
-                    <a href="#" class="ext-link btn btn-primary" target="_black">{{__('More info / Help')}}</a>
+                    <a href="#" class="ext-link btn btn-primary" target="_blank">{{__('More info / Help')}}</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
