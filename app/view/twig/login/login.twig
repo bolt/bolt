@@ -5,7 +5,7 @@
 {% block page_full %}
 
     <div class="view-site">
-        <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
+        <a href="{{ paths.root }}" target="_blank"><i class="fa fa-fw fa-external-link-square"></i> {{ __('View site') }}</a>
     </div>
 
     <div class="row">
@@ -25,18 +25,18 @@
 
                         <label class="control-label">{{ __('Username') }}</label>
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
                             <input class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
                         </div>
 
                         <div class="password-group">
                             <label class="control-label">
                                 {{ __('Password') }} &nbsp;
-                                <span class="togglepass show-password"><i class="fa fa-eye"></i> {{ __('Show') }}</span>
-                                <span class="togglepass hide-password"><i class="fa fa-eye-slash"></i> {{ __('Hide') }}</span>
+                                <span class="togglepass show-password"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</span>
+                                <span class="togglepass hide-password"><i class="fa fa-fw fa-eye-slash"></i> {{ __('Hide') }}</span>
                             </label>
                             <div class="input-group" >
-                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
                                 <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
 
                             </div>
