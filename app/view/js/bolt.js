@@ -972,8 +972,11 @@ var ImagelistHolder = Backbone.View.extend({
         this.list.sort();
 
         var $list = $('#imagelist-'+this.id+' .list');
+        var index = 0;
+
         $list.html('');
         _.each(this.list.models, function(image){
+            image.set('id', index++);
             var html = "<div data-id='" + image.get('id') + "' class='ui-state-default'>" +
                 "<img src='" + path + "../thumbs/60x40/" + image.get('filename') + "' width=60 height=40><input type='text' value='" +
                 _.escape(image.get('title'))  + "'><a href='#'><i class='icon-remove'></i></a></div>";
