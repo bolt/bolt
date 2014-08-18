@@ -135,14 +135,14 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             if (copy($configdistfile, $configfile)) {
                 // Success!
                 $this->app['log']->add(
-                    "Copied $configfistfile to $configfile",
+                    "Copied $configdistfile to $configfile",
                     2
                 );
                 $this->config = array_merge($this->config, $new_config);
             } else {
                 // Failure!!
                 $configdir = dirname($configfile);
-                $message = "Couldn't copy $configfistfile to $configfile: " .
+                $message = "Couldn't copy $configdistfile to $configfile: " .
                     "File is not writable. Create the file manually, or make " .
                     " the $configdir directory writable.";
                 $this->app['log']->add($message, 3);
