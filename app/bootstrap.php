@@ -1,16 +1,14 @@
 <?php
+namespace Bolt;
 
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(
   function () {
-      mb_internal_encoding('UTF-8');
-      mb_http_output('UTF-8');
+      $dirSep = DIRECTORY_SEPARATOR;
 
-      defined('BOLT_PROJECT_ROOT_DIR') or define('BOLT_PROJECT_ROOT_DIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..'));
-
-      // Ensure load.php was called right before bootstrap.php
+      // First ensure load.php was called right before bootstrap.php
       $includes     = get_included_files();
-      $loaderPath   = __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
+      $loaderPath   = __DIR__ . $dirSep . 'load.php';
       $includeCount = count($includes);
       // Should be at least 3 includes at this point:
       //   <load-invoker>.php (usually entry point), load.php, bootstrap.php
@@ -20,24 +18,49 @@ return call_user_func(
           throw new \RuntimeException('Include load.php, not bootstrap.php');
       }
 
-      // First, do some low level checks, like whether autoload is present, the cache
-      // folder is writable, etc.
+
+      // Bootstrap:
+
+      // TODO: Phase out lib.php
       require_once __DIR__ . '/lib.php';
-      require_once __DIR__ . '/src/Bolt/Configuration/LowlevelChecks.php';
 
-      $checker = new Bolt\Configuration\LowlevelChecks;
-      require_once $checker->autoloadCheck(BOLT_PROJECT_ROOT_DIR);
+      // Use UTF-8 for all multi-byte functions
+      mb_internal_encoding('UTF-8');
+      mb_http_output('UTF-8');
 
-      if (strpos(__DIR__, '/vendor/') !== false) {
-          $config = new Bolt\Configuration\Composer(BOLT_PROJECT_ROOT_DIR);
-      } else {
-          $config = new Bolt\Configuration\Standard(BOLT_PROJECT_ROOT_DIR);
+      // Resolve Bolt-root
+      $boltRootPath = realpath(__DIR__ . $dirSep . '..');
+
+      // Look for the autoloader in known positions relative to the Bolt-root,
+      //  and autodetect an appropriate configuration class based on this
+      //  information. (autoload.php path maps to a configuration class)
+      $autodetectionMappings = array(
+        $boltRootPath . $dirSep . 'vendor' . $dirSep . 'autoload.php'              => 'Standard',
+        $boltRootPath . $dirSep . '..' . $dirSep . '..' . $dirSep . 'autoload.php' => 'Composer',
+      );
+
+      foreach ($autodetectionMappings as $autoloadPath => $configType) {
+          if (file_exists($autoloadPath)) {
+              require_once $autoloadPath;
+              $configClass = '\\Bolt\\Configuration\\' . $configType;
+              $config      = new $configClass($boltRootPath);
+              break;
+          }
       }
+
+      // None of the mappings matched, error
+      if (!isset($config)) {
+          throw new \RuntimeException(
+            'Configuration autodetection failed because the autoloader could not be located.'
+          );
+      }
+
+      /** @var $config Configuration\ResourceManager */
       $config->verify();
       $config->compat();
 
       // Create the 'Bolt application'
-      $app = new Bolt\Application(array('resources' => $config));
+      $app = new Application(array('resources' => $config));
 
       // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
       $app->initialize();
