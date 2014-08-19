@@ -53,6 +53,12 @@ jQuery(function($) {
         }, 100);
     });
 
+    // Initialize popovers.
+    $('.info-pop').popover({
+        trigger: 'hover',
+        delay: { show: 500, hide: 200 }
+    });
+    
     // Add Date and Timepickers..
     $(".datepicker").datepicker({ dateFormat: "DD, d MM yy" });
 
