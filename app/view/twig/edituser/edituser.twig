@@ -1,8 +1,8 @@
 {# Page: NavPrimary > Username ^ Profile || NavSecondary > Configuration > Users > Edit #}
 
-{% extends '_base/_page.twig' %}
+{% extends '_base/_page-nav.twig' %}
 
-{% block page_type 'Settings' %}
+{% block page_nav 'Settings/Configuration' %}
 
 {% block page_title %}
     {% if context.kind == 'edit' %}

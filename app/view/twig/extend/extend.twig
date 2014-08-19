@@ -1,10 +1,10 @@
 {# Page: NavSecondary > Extend Bolt #}
 
-{% extends "_base/_page.twig" %}
+{% extends "_base/_page-nav.twig" %}
 
-{% block page_type 'Extend' %}
+{% block page_nav 'ExtendBolt' %}
 
-{% block page_title __("Extend Bolt") %}
+{% block page_title __('Extend Bolt') %}
 
 {% block page_main %}
 
@@ -25,7 +25,7 @@
         <div class="col-md-8">
             <div class="update-container hide-block">
                 <h3>{{ __('Updates') }}</h3>
-                <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)')}}..</pre>
+                <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)') }}..</pre>
                 <div class="update-list hide-block">
                     <table class="dashboardlisting table">
                         <thead>
@@ -74,16 +74,16 @@
                         <a class="btn btn-tertiary check-package" data-action='check-package' data-toggle="modal" data-target="#installModal">
                             <i class="icon-gears"></i> {{ __('Browse Versions') }}
                         </a>
- 
+
                         <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    {% include 'extend/install-package.twig' %}                                
+                                    {% include 'extend/install-package.twig' %}
                                 </div>
                             </div>
                         </div>
                 </div>
-                
+
             </section>
         </div>
 

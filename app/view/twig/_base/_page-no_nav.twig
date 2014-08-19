@@ -1,0 +1,48 @@
+{##
+ # HTML page template for pages without navigation
+ #
+ # Blocks: page_main:     content
+ #         page_title:    used as html title
+ #         page_subtitle: used as html title (optional)
+ #         page_script:   script added after the body tag (script tags needed!)
+ #}
+{% extends '_base/_page.twig' %}
+
+{% set page_bodyclass = 'login' %}
+
+{% set page_hasnav = false %}
+
+{% set page_nav = '' %}
+
+{% block page_plain %}
+
+    <div class="view-site">
+        <a href="{{ paths.root }}" target="_blank"><i class="fa fa-fw fa-external-link-square"></i> {{ __('View site') }}</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+
+            <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ block('page_title') }}</h3>
+                </div>
+
+                <div class="panel-body">
+                    {% if app.session.flashBag.keys()|length() %}
+                        {% include '_sub/_messages.twig' %}
+                    {% endif %}
+                    {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
+                </div>
+            </div>
+
+            {% if context.randomquote|default(false) %}
+                <blockquote class="quote">{{ randomquote() }}</blockquote>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock page_plain %}

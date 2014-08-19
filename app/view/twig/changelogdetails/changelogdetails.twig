@@ -5,7 +5,7 @@
 {% if context.prev_entry %}
     {% set left_link = path(
             'changelogdetails',
-            {'contenttype': context.contenttype, 'contentid': context.entry.contentid, 'id': context.prev_entry.id}
+            {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.prev_entry.id}
        )
     %}
 {% else %}
@@ -14,23 +14,23 @@
 
 {% set centerLink = path(
         'changeloglist',
-        {'contenttype': context.contenttype, 'contentid': context.entry.contentid}
+        {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid}
    )
 %}
 
 {% if context.next_entry %}
     {% set right_link = path(
         'changelogdetails',
-        {'contenttype': context.contenttype, 'contentid': context.entry.contentid, 'id': context.next_entry.id}
+        {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.next_entry.id}
        )
     %}
 {% else %}
     {% set right_link = false %}
 {% endif %}
 
-{% extends '_base/_page.twig' %}
+{% extends '_base/_page-nav.twig' %}
 
-{% block page_type 'Standard' %}
+{% block page_nav 'Content/*' %}
 
 {% block page_title __('Change Log') %}
 

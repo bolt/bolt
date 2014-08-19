@@ -1,45 +1,36 @@
 
-{% if app.session.flashBag.keys()|length() %}
-
-<div class="row">
-    <div class="col-md-8">
-
-    {% if app.session.flashBag.has('info') %}
-        <div class="alert alert-info">
-            <button class="close" data-dismiss="alert">×</button>
-            {% for msg in app.session.flashBag.get('info') %}
-                {{ msg|ymllink }}
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if app.session.flashBag.has('error') %}
-        <div class="alert alert-danger">
-            <button class="close" data-dismiss="alert">×</button>
-            {% for msg in app.session.flashBag.get('error') %}
-                {{ msg|ymllink }}
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if app.session.flashBag.has('warning') %}
-        <div class="alert alert-warning">
-            <button class="close" data-dismiss="alert">×</button>
-            {% for msg in app.session.flashBag.get('warning') %}
-                {{ msg|ymllink }}
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if app.session.flashBag.has('success') %}
-        <div class="alert alert-success">
-            <button class="close" data-dismiss="alert">×</button>
-            {% for msg in app.session.flashBag.get('success') %}
-                {{ msg|ymllink }}
-            {% endfor %}
-        </div>
-    {% endif %}
-
+{% if app.session.flashBag.has('info') %}
+    <div class="alert alert-info">
+        <button class="close" data-dismiss="alert">×</button>
+        {% for msg in app.session.flashBag.get('info') %}
+            {{ msg|ymllink }}
+        {% endfor %}
     </div>
-</div>
+{% endif %}
+
+{% if app.session.flashBag.has('error') %}
+    <div class="alert alert-danger">
+        <button class="close" data-dismiss="alert">×</button>
+        {% for msg in app.session.flashBag.get('error') %}
+            {{ msg|ymllink }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if app.session.flashBag.has('warning') %}
+    <div class="alert alert-warning">
+        <button class="close" data-dismiss="alert">×</button>
+        {% for msg in app.session.flashBag.get('warning') %}
+            {{ msg|ymllink }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if app.session.flashBag.has('success') %}
+    <div class="alert alert-success">
+        <button class="close" data-dismiss="alert">×</button>
+        {% for msg in app.session.flashBag.get('success') %}
+            {{ msg|ymllink }}
+        {% endfor %}
+    </div>
 {% endif %}

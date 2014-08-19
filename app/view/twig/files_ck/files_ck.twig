@@ -1,12 +1,10 @@
 {# Page: NavSecondary > Content ... > Edit > CkEditor > Image > Browse Server #}
 
-{% extends '_base/_page.twig' %}
-
-{% block page_type 'Popup' %}
+{% extends '_base/_page-popup.twig' %}
 
 {% block page_title __('Files') %}
 
-{% block page_full %}
+{% block page_main %}
 
     {% from '_macro/_files_path.twig' import files_path %}
 
@@ -34,7 +32,7 @@
             {% include 'files_ck/_files.twig' %}
     {% endif %}
 
-{% endblock page_full %}
+{% endblock page_main %}
 
 {% block page_script %}
 

@@ -38,9 +38,9 @@
                 {% endif %}
                     {% for item in listcontent(relcontenttype, relation, context.content) %}
                         {% if relcontenttype==app.request.get('relation') and item.id==app.request.get('relationid') %}
-                            {%  set selectedbyrelation = true %}
+                            {% set selectedbyrelation = true %}
                         {% else %}
-                            {%  set selectedbyrelation = false %}
+                            {% set selectedbyrelation = false %}
                         {% endif %}
                         <option value="{{ item.id }}" {% if item.selected or selectedbyrelation %}selected{% endif %}>
                             {{ format|twig({'item': item}) }}

@@ -22,7 +22,7 @@
                 {% set userlink = __('unknown') %}
             {% endif %}
             <li>
-                {%  if log.code == 'save content' %}
+                {% if log.code == 'save content' %}
                     {% if app.config.get('contenttypes')[log.contenttype] is defined %}
                         {% set contenttype = app.config.get('contenttypes')[log.contenttype] %}
                         {% set contenttype_display_name = contenttype.singular_name %}
@@ -34,22 +34,22 @@
 
                     {{ __('Saved') }} {{ contenttype_display_name }}
                     "<strong>{{ content_display_name }}</strong>" {{ __('by') }} <em>{{ userlink }}</em>
-                {%  elseif log.code == 'login' %}
+                {% elseif log.code == 'login' %}
                     <em>{{ userlink }}</em> {{ __('logged in') }}
-                {%  elseif log.code == 'logout' %}
+                {% elseif log.code == 'logout' %}
                     <em>{{ userlink }}</em> {{ __('logged out') }}
-                {%  elseif log.code == 'fixme' %}
+                {% elseif log.code == 'fixme' %}
                     <b>{{ __('Fixme:') }}</b> {{ log.message }}
-                {%  elseif log.code == 'user' %}
+                {% elseif log.code == 'user' %}
                     <b>{{ log.message }}</b> {{ __('by') }} {{ userlink }}
-                {%  else %}
+                {% else %}
                     {{ log.message }}
-                {%  endif %}
+                {% endif %}
                 <small>
                     (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)
                 </small>
             </li>
-        {%  endfor %}
+        {% endfor %}
     </ul>
 
     <p><a href="{{ path('activitylog') }}" class="btn btn-default btn-block">{{ __('more activity') }} »</a></p>

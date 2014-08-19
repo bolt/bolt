@@ -20,11 +20,11 @@
  # @param string  icon
  # @param string  label (default: slug())
  # @param array   popoveritems
- # @param array   subitems
- # @param bool    wide
  # @param bool    active
+ # @param bool    wide
+ # @param array   subitems
  #}
-{% macro submenu(icon, label, popoveritems, subitems, wide, active) %}
+{% macro submenu(icon, label, popoveritems, active, wide, subitems) %}
 
     {% if subitems is empty %}
         {% set subitems = popoveritems %}
