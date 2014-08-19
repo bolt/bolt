@@ -1,0 +1,79 @@
+{##
+ # HTML page template for pages with navigation
+ #
+ # Blocks: page_nav:      Navigation path, like: "Dashboard", "Settings/Configuration", "Content/*", ...
+ #         page_main:     content
+ #         page_title:    used as html title
+ #         page_subtitle: used as html title (optional)
+ #         page_script:   script added after the body tag (script tags needed!)
+ #}
+{% extends '_base/_page.twig' %}
+
+{% set page_bodyclass = '' %}
+
+{% set page_hasnav = true %}
+
+{% set page_nav = block('page_nav')|default('NO NAV') %}
+
+{% block page_plain %}
+
+    <div id="wrapper">
+        <nav class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation" style="margin-bottom: 0">
+            {% include 'nav/_primary.twig' %}
+        </nav>
+
+        <nav class="navbar-default navbar-static-side" role="navigation" id="nav">
+            {% include 'nav/_secondary.twig' %}
+        </nav>
+
+        <div id="page-wrapper">
+            {% if app.session.flashBag.keys()|length() %}
+                <div class="row">
+                    <div class="col-md-8">
+                        {% include '_sub/_messages.twig' %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="page-header">
+                        {% if block('page_subtitle') is empty %}
+                            <strong>{{ block('page_title') }}</strong>
+                        {% else %}
+                            <strong>{{ block('page_title') }} »</strong>
+                            <i style="font-style: normal;">{{ block('page_subtitle') }}</i>
+                        {% endif %}
+
+                        {# optional "showing 1-X of Y" for overview pages. #}
+                        {% if pager is defined %}
+                            {% set pager_ct = pager[context.contenttype.slug] %}
+                            {% if pager_ct and pager_ct.totalpages > 1 %}
+                                <span>
+                                    {{ __('Showing') }} {{ pager_ct.showing_from }} -
+                                    {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}
+                                </span>
+                            {% endif %}
+                        {% endif %}
+
+                    </h1>
+                </div>
+            </div>
+
+            {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
+        </div>
+    </div>
+
+    <footer id="bolt-footer" class="hidden-xs">
+        {% if app.config.get('general/branding/provided_by/0') %}
+            {{ __("Provided by:") }}
+            <a href="mailto:{{ app.config.get('general/branding/provided_by/0') }}">
+                {{ app.config.get('general/branding/provided_by/1') }}
+            </a> -
+        {% endif %}
+        <i class="fa fa-cog"></i> <b>Bolt {{ bolt_version }}</b>: {{ __('Sophisticated, lightweight & simple CMS') }} -
+        <i class="fa fa-heart"></i > <a href="{{ path('about') }}">{{ __('About') }}</a> &ndash;
+        <i class="fa fa-external-link-square"></i> <a href="http://bolt.cm" target="_blank">Bolt.cm</a>
+    </footer>
+
+{% endblock page_plain %}

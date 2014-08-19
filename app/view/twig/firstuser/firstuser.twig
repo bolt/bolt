@@ -1,50 +1,26 @@
 {# Page: Create the first User #}
 
-{% extends '_base/_page.twig' %}
-
-{% block page_type 'Login' %}
+{% extends '_base/_page-no_nav.twig' %}
 
 {% block page_title __('Create the first user') %}
 
-{% block page_full %}
+{% block page_main %}
 
     {% form_theme context.form 'form_bolt_layout.twig' %}
 
-    <div class="view-site">
-        <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
-    </div>
+    <p>
+        {{ __('There are no users present in the system. Please create the first user, which will be granted root privileges.') }}
+    </p>
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
+        {{ form_widget(context.form) }}
+        <input type="submit" value="{{ __('Save user') }}" name="submit" class="btn btn-primary">
+    </form>
 
-            <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
+    {% if context.note is not empty %}
+        <p class="alert alert-info" style="max-width: 550px; margin-top:10px;">
+            <strong>{{ __('Note:') }}</strong> {{ context.note|raw }}
+        </p>
+    {% endif %}
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ __('Create the first user') }}</h3>
-                </div>
-                <div class="panel-body">
-
-                    <p>
-                        {{ __('There are no users present in the system. Please create the first user, which will be granted root privileges.') }}
-                    </p>
-
-                    <form action="#" method="post" class="form-horizontal" role="form" autocomplete="off">
-                        {{ form_widget(context.form) }}
-                        <input type="submit" value="{{ __('Save user') }}" name="submit" class="btn btn-primary">
-                    </form>
-
-                    {% if context.note is not empty %}
-                        <p class="alert alert-info" style="max-width: 550px; margin-top:10px;">
-                            <strong>{{ __("Note:") }}</strong> {{ context.note|raw }}
-                        </p>
-                    {% endif %}
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-{% endblock page_full %}
+{% endblock page_main %}

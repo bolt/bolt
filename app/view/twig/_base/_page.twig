@@ -1,28 +1,17 @@
 {##
  # Standard HTML page template
  #
- # Blocks: page_type:     allowed names: Standard, Dashboard, Settings, Content, Login, Popup
- #         page_main:     content with navigation
+ # Dont't use, use "_page-<nav|no_nav|popup>.twig" instead!
+ #
+ # Blocks: page_nav:      Navigation path, like: "Dashboard", "Settings/Configuration", "Content/*", ...
+ #         page_main:     content
  #         page_title:    used as html title
  #         page_subtitle: used as html title (optional)
- #         page_full:     full window content without navigation
  #         page_script:   script added after the body tag (script tags needed!)
  #}
 {%- spaceless %}
 
-{% set page_active = block('page_type') %}
-
 {% set page_locale = app.locale|default('en') %}
-
-{% set page_nonavi = page_active in ['Login', 'Popup'] %}
-
-{% if page_active == 'Login' %}
-    {% set page_bodyclass = 'login' %}
-{% elseif page_active == 'Popup' %}
-    {% set page_bodyclass = 'popup' %}
-{% else %}
-    {% set page_bodyclass = '' %}
-{% endif %}
 
 {% if block('page_subtitle') is empty %}
     {% set page_title = block('page_title') %}
@@ -90,87 +79,30 @@
 </head>
 
 <body class="{{ page_bodyclass }}{% if app.request.cookies.get('sidebar') %} collapsed-sidebar{% endif %}">
-
-    {% if page_nonavi %}
-        {% block page_full %}[BLOCK PAGE_FULL]{% endblock page_full %}
-    {% else %}
-        <div id="wrapper">
-            <nav class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation" style="margin-bottom: 0">
-                {% include 'nav/_primary.twig' %}
-            </nav>
-
-            <nav class="navbar-default navbar-static-side" role="navigation" id="nav">
-                {% include 'nav/_secondary.twig' %}
-            </nav>
-
-            <div id="page-wrapper">
-                {% include '_sub/_messages.twig' %}
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h1 class="page-header">
-                            {% if block('page_subtitle') is empty %}
-                                <strong>{{ block('page_title') }}</strong>
-                            {% else %}
-                                <strong>{{ block('page_title') }} »</strong>
-                                <i style="font-style: normal;">{{ block('page_subtitle') }}</i>
-                            {% endif %}
-
-                            {# optional "showing 1-X of Y" for overview pages. #}
-                            {% if pager is defined %}
-                                {% set pager_ct = pager[context.contenttype.slug] %}
-                                {% if pager_ct and pager_ct.totalpages > 1 %}
-                                    <span>
-                                        {{ __('Showing') }} {{ pager_ct.showing_from }} -
-                                        {{ pager_ct.showing_to }} {{ __('of') }} {{ pager_ct.count }}
-                                    </span>
-                                {% endif %}
-                            {% endif %}
-
-                        </h1>
-                    </div>
-                </div>
-
-                {% block page_main %}[BLOCK PAGE_MAIN]{% endblock page_main %}
-            </div>
-        </div>
-
-        <footer id="bolt-footer" class="hidden-xs">
-            {% if app.config.get('general/branding/provided_by/0') %}
-                {{ __("Provided by:") }}
-                <a href="mailto:{{ app.config.get('general/branding/provided_by/0') }}">
-                    {{ app.config.get('general/branding/provided_by/1') }}
-                </a> -
-            {% endif %}
-            <i class="fa fa-cog"></i> <b>Bolt {{ bolt_version }}</b>: {{ __('Sophisticated, lightweight & simple CMS') }} -
-            <i class="fa fa-heart"></i > <a href="{{ path('about') }}">{{ __('About') }}</a> &ndash;
-            <i class="fa fa-external-link-square"></i> <a href="http://bolt.cm" target="_blank">Bolt.cm</a>
-        </footer>
-    {% endif %}
-
+    {% block page_plain %}{% endblock page_plain %}
 </body>
 
 <script>
     var path = "{{ paths.bolt }}";
     var asyncpath = "{{ paths.async }}";
     var apppath = "{{ paths.app }}";
-    {% if page_active not in ['Login', 'Popup'] %}
-    var wysiwyg = {
-       images: {{ 0 + config.get('general/wysiwyg/images') }},
-       tables: {{ 0 + config.get('general/wysiwyg/tables') }},
-       anchor: {{ 0 + config.get('general/wysiwyg/anchor') }},
-       fontcolor: {{ 0 + config.get('general/wysiwyg/fontcolor') }},
-       align: {{ 0 + config.get('general/wysiwyg/align') }},
-       subsuper: {{ 0 + config.get('general/wysiwyg/subsuper') }},
-       embed: {{ 0 + config.get('general/wysiwyg/embed') }},
-       {%  if config.get('general/wysiwyg/ck') is iterable %}ck: {{ config.get('general/wysiwyg/ck')|json_encode()|raw }},{% endif %}
-       {%  if config.get('general/wysiwyg/filebrowser') is iterable %}filebrowser: {{ config.get('general/wysiwyg/filebrowser')|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
-       };
+    {% if page_hasnav %}
+        var wysiwyg = {
+           images: {{ 0 + config.get('general/wysiwyg/images') }},
+           tables: {{ 0 + config.get('general/wysiwyg/tables') }},
+           anchor: {{ 0 + config.get('general/wysiwyg/anchor') }},
+           fontcolor: {{ 0 + config.get('general/wysiwyg/fontcolor') }},
+           align: {{ 0 + config.get('general/wysiwyg/align') }},
+           subsuper: {{ 0 + config.get('general/wysiwyg/subsuper') }},
+           embed: {{ 0 + config.get('general/wysiwyg/embed') }},
+           {% if config.get('general/wysiwyg/ck') is iterable %}ck: {{ config.get('general/wysiwyg/ck')|json_encode()|raw }},{% endif %}
+           {% if config.get('general/wysiwyg/filebrowser') is iterable %}filebrowser: {{ config.get('general/wysiwyg/filebrowser')|json_encode()|raw }}{% else %}filebrowser: false{% endif %}
+           };
     {% endif %}
 </script>
 {% block page_script %}{% endblock page_script %}
 
-{# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml.  #}
+{# Add the Grunt livereload script, if Grunt livereload is enabled in config.yml. #}
 {% if app.config.get('general/grunt/livereload') %}
     <script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
 {% endif %}

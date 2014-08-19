@@ -1,71 +1,45 @@
 {# Page: Login #}
-{% extends '_base/_page.twig' %}
-{% block page_type 'Login' %}
-{% block page_title __("Sign in to Bolt") %}
-{% block page_full %}
+{% extends '_base/_page-no_nav.twig' %}
 
-    <div class="view-site">
-        <a href="{{ paths.root }}" target="_blank"><i class="fa fa-fw fa-external-link-square"></i> {{ __('View site') }}</a>
-    </div>
+{% block page_title __('Sign in to Bolt') %}
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+{% block page_main %}
 
-            <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
+    <form method="post" class="form-horizontal" role="form">
 
-            {% include '_sub/_messages.twig' %}
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ block('page_title') }}</h3>
-                </div>
-                <div class="panel-body">
-
-                    <form method="post" class="form-horizontal" role="form">
-
-                        <label class="control-label">{{ __('Username') }}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                            <input class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
-                        </div>
-
-                        <div class="password-group">
-                            <label class="control-label">
-                                {{ __('Password') }} &nbsp;
-                                <span class="togglepass show-password"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</span>
-                                <span class="togglepass hide-password"><i class="fa fa-fw fa-eye-slash"></i> {{ __('Hide') }}</span>
-                            </label>
-                            <div class="input-group" >
-                                <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
-                                <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
-
-                            </div>
-                        </div>
-
-                        <br>
-                        <p class="login-group">
-                            <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
-                            <button type="button" class="btn btn-link login-forgot"> {{ __('I forgot my password…') }}</button>
-                        </p>
-                        <p style="display: none;" class="reset-group">
-                            <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
-                            <button type="button" class="btn btn-link login-remembered"> {{ __('Back to login') }}</button>
-                        </p>
-
-                        <p class='cookie-notice alert alert-danger'>
-                            {{ __("Note: Cookies are required to log on to Bolt. Please allow cookies.")}}
-                        </p>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-            <blockquote class='quote'>{{ randomquote() }}</blockquote>
-
+        <label class="control-label">{{ __('Username') }}</label>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+            <input class="form-control" type="text" autofocus="true" name="username" placeholder="{{ __('Your username') }} …" {% if username is defined %}value="{{username}}"{%endif%}>
         </div>
 
-    </div>
+        <div class="password-group">
+            <label class="control-label">
+                {{ __('Password') }} &nbsp;
+                <span class="togglepass show-password"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</span>
+                <span class="togglepass hide-password"><i class="fa fa-fw fa-eye-slash"></i> {{ __('Hide') }}</span>
+            </label>
+            <div class="input-group" >
+                <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
+                <input class="form-control" type="password" name="password" placeholder="{{ __('Your password') }} …">
 
-{% endblock page_full %}
+            </div>
+        </div>
+
+        <br>
+        <p class="login-group">
+            <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('Log on') }}</button>
+            <button type="button" class="btn btn-link login-forgot"> {{ __('I forgot my password…') }}</button>
+        </p>
+        <p style="display: none;" class="reset-group">
+            <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('Reset my password') }}</button>
+            <button type="button" class="btn btn-link login-remembered"> {{ __('Back to login') }}</button>
+        </p>
+
+        <p class="cookie-notice alert alert-danger">
+            {{ __('Note: Cookies are required to log on to Bolt. Please allow cookies.') }}
+        </p>
+
+    </form>
+
+{% endblock page_main %}

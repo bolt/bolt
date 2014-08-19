@@ -243,7 +243,11 @@ class Backend implements ControllerProviderInterface
             return redirect('dashboard', array());
         }
 
-        return $app['render']->render('login/login.twig');
+        $context = array(
+            'randomquote' => true,
+        );
+
+        return $app['render']->render('login/login.twig', array('context' => $context));
     }
 
     /**
@@ -619,7 +623,7 @@ class Backend implements ControllerProviderInterface
         $pagecount = $limit ? ceil($itemcount / $limit) : null;
 
         $context = array(
-            'contenttype' => $contenttype,
+            'contenttype' => array('slug' => $contenttype),
             'entries' => $logEntries,
             'content' => $content,
             'title' => $title,
@@ -644,7 +648,7 @@ class Backend implements ControllerProviderInterface
         //$content = $app['storage']->getContent($contenttype, array('id' => $contentid));
 
         $context = array(
-            'contenttype' => $contenttype,
+            'contenttype' => array('slug' => $contenttype),
             'entry' => $entry,
             'next_entry' => $next,
             'prev_entry' => $prev,

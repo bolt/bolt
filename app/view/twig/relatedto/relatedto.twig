@@ -3,9 +3,9 @@
 {% from '_sub/_editable_record_list.twig' import editable_record_list as list %}
 {% import '_macro/_panels.twig' as panels %}
 
-{% extends '_base/_page.twig' %}
+{% extends '_base/_page-nav.twig' %}
 
-{% block page_type 'Content' %}
+{% block page_nav 'Content/*' %}
 
 {% block page_title __('Related content') %}
 

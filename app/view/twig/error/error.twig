@@ -1,32 +1,29 @@
 {# Page: thrown application errors #}
-{% extends '_base/_page.twig' %}
-{% block page_type 'Standard' %}
+{% extends '_base/_page-no_nav.twig' %}
+
 {% block page_title __('Fatal error') %}
+
 {% block page_main %}
 
-<h1>
-    {{ block('page_title') }}
-</h1>
+    <ul>
+        <li>{{ __('Class:') }} {{ context.class }}</li>
+        <li>{{ __('Message:') }} {{ context.message }}</li>
+        <li>{{ __('Code:') }} {{ context.code }}</li>
+    </ul>
 
-<ul>
-    <li>{{ __('Class:') }} {{ context.class }}</li>
-    <li>{{ __('Message:') }} {{ context.message }}</li>
-    <li>{{ __('Code:') }} {{ context.code }}</li>
-</ul>
-
-{# @TODO: This perhaps is better checked in the ErrorHandler and an empty trace array would be delivered #}
-{% if app.config.get('general/debug') and app.session.get('user') is not null %}
-    {% for i in context.trace %}
-        {% if i.line is defined and i.class is defined %}
-            <p>
-                <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
-                <em>{{ i.file }}, {{ __('line') }} {{ i.line }}</em>
-                {%  if i.args is defined %}
-                    {{ print(i.args) }}
-                {%  endif %}
-            </p>
-        {%  endif %}
-    {%  endfor %}
-{% endif %}
+    {# @TODO: This perhaps is better checked in the ErrorHandler and an empty trace array would be delivered #}
+    {% if app.config.get('general/debug') and app.session.get('user') is not null %}
+        {% for i in context.trace %}
+            {% if i.line is defined and i.class is defined %}
+                <p>
+                    <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
+                    <em>{{ i.file }}, {{ __('line') }} {{ i.line }}</em>
+                    {% if i.args is defined %}
+                        {{ print(i.args) }}
+                    {% endif %}
+                </p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
 {% endblock page_main %}

@@ -8,7 +8,7 @@
             {% include 'nav/_secondary-search.twig' %}
 
             {# Dashboard #}
-            {{ nav.link('dashboard', __('Dashboard'), 'dashboard', page_active in ['Standard', 'Dashboard']) }}
+            {{ nav.link('dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
             {{ nav.divider() }}
 
@@ -37,8 +37,8 @@
 
             {{ nav.divider() }}
 
-            {# Link to Extend Bolt  #}
-            {{ nav.link('cog', __('Extend Bolt'), 'extend', page_active in ['Extend']) }}
+            {# Link to Extend Bolt #}
+            {{ nav.link('cog', __('Extend Bolt'), 'extend', (page_nav == 'ExtendBolt')) }}
 
             {{ nav.divider() }}
 
