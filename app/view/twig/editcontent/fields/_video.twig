@@ -136,16 +136,20 @@
     </div>
 
     {# Modal video preview #}
-    <div class="modal hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-body">
-            {% if video.html is defined %}
-                {{ video.html }}
-            {% else %}
-                <p>{{ __('No video url is set, no video to show.') }}</p>
-            {% endif %}
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {% if video.html is defined %}
+                        {{ video.html }}
+                    {% else %}
+                        <p>{{ __('No video url is set, no video to show.') }}</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('Close') }}</button>
+                </div>
+            </div>
         </div>
     </div>
 
