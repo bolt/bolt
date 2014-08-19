@@ -82,6 +82,35 @@ jQuery(function($) {
         });
     });
 
+    /**
+     * Smarter dropdowns/dropups based on viewport height.
+     * Based on: https://github.com/twbs/bootstrap/issues/3637#issuecomment-9850709
+     */
+    $('[data-toggle="dropdown"]').each(function(index, item){
+        $(item).parent().on('show.bs.dropdown', function(e){
+            var button = e.relatedTarget;
+            var self = $(this).find('[data-toggle="dropdown"]');
+            var menu = self.next('.dropdown-menu');
+            var mousey = event.y + 20;
+            var menuHeight = menu.height();
+
+            // Distance of element from the bottom of viewport
+            var menuVisY = $(window).height() - (mousey + menuHeight);
+
+            // The size of the Symfony Profiler Bar is 37px.
+            var profilerHeight = 37;
+
+            // The whole menu must fit when trying to 'dropup', but always
+            // prefer to 'dropdown' (= default).
+            if ((mousey - menuHeight) > 20 && menuVisY < profilerHeight) {
+                menu.css({
+                    'top': 'auto',
+                    'bottom': '100%',
+                });
+            }
+        })
+    });
+
     // Render any deferred widgets, if any.
     $('div.widget').each(function() {
 
