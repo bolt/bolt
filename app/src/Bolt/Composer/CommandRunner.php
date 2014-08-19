@@ -153,7 +153,15 @@ class CommandRunner
 
     protected function execute($command)
     {
+        // Try to prevent time-outs.
         set_time_limit(0);
+
+        // Tentative fix for the issue on OSX, where the response would be this: 
+        // [Symfony\Component\Process\Exception\RuntimeException]
+        // The process has been signaled with signal "5".
+        // @see https://github.com/composer/composer/issues/2146#issuecomment-35478940
+        putenv("DYLD_LIBRARY_PATH=''");
+
         $command .= ' -d '.$this->basedir.' --no-ansi';
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
