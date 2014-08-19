@@ -14,6 +14,9 @@ class CommandRunner
 
     public function __construct(Silex\Application $app, $packageRepo = null)
     {
+        // Needed (for now) to log errors to the bolt_log table. 
+        $this->app = $app;
+
         $this->basedir = $app['resources']->getPath('extensions');
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';
@@ -165,13 +168,19 @@ class CommandRunner
         $command .= ' -d '.$this->basedir.' --no-ansi';
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $responseCode = $this->wrapper->run($command, $output);
+        $this->app['log']->add($command, 2, '', 'composer');
         if ($responseCode == 0) {
             $outputText = $output->fetch();
             $outputText = $this->clean($outputText);
 
+            $this->app['log']->add($outputText, 2, '', 'composer-success');
+
             return array_filter(explode("\n", $outputText));
         } else {
             $this->lastOutput = $output->fetch();
+            $outputText = $this->clean($this->lastOutput);
+
+            $this->app['log']->add($this->lastOutput, 2, '', 'composer-fail');
 
             return false;
         }
