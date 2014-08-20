@@ -14,7 +14,7 @@ class CommandRunner
 
     public function __construct(Silex\Application $app, $packageRepo = null)
     {
-        // Needed (for now) to log errors to the bolt_log table. 
+        // Needed (for now) to log errors to the bolt_log table.
         $this->app = $app;
 
         $this->basedir = $app['resources']->getPath('extensions');
@@ -85,7 +85,7 @@ class CommandRunner
 
         return array('updates' => $updates, 'installs' => $installs);
     }
-    
+
     public function info($package, $version)
     {
         $check = $this->execute("show -N -i $package $version");
@@ -96,16 +96,20 @@ class CommandRunner
     {
         $response = $this->execute("update $package");
 
-        return implode($response, '<br>');
+        if (false !== $response) {
+            return implode($response, '<br>');
+        } else {
+            $message = 'There was an error updating.';
+
+            return $message;
+        }
     }
 
     public function install($package, $version)
     {
         $response = $this->execute("require $package $version");
         if (false !== $response) {
-            $response = implode('<br>', $response);
-
-            return $response;
+            return implode('<br>', $response);
         } else {
             $message = 'The requested extension version could not be installed. The most likely reason is that the version'."\n".
                 'requested is not compatible with this version of Bolt.'."\n\n".
@@ -119,7 +123,13 @@ class CommandRunner
     {
         $response = $this->execute('install');
 
-        return implode($response, '<br>');
+        if (false !== $response) {
+            return implode($response, '<br>');
+        } else {
+            $message = 'There was an error during install.';
+
+            return $message;
+        }
     }
 
     public function uninstall($package)
@@ -159,7 +169,7 @@ class CommandRunner
         // Try to prevent time-outs.
         set_time_limit(0);
 
-        // Tentative fix for the issue on OSX, where the response would be this: 
+        // Tentative fix for the issue on OSX, where the response would be this:
         // [Symfony\Component\Process\Exception\RuntimeException]
         // The process has been signaled with signal "5".
         // @see https://github.com/composer/composer/issues/2146#issuecomment-35478940
