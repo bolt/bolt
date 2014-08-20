@@ -196,8 +196,17 @@ class LowlevelChecks
         $distname = realpath(__DIR__."/../../../config/$name.yml.dist");
         $ymlname = realpath($this->config->getPath('config')."/") . "/$name.yml";
 
-        if (file_exists($ymlname)) {
+        if (file_exists($ymlname) && is_readable($ymlname)) {
             return; // Okidoki..
+        }
+        
+        if(file_exists($ymlname) && !is_readable($ymlname)) {
+            $error = sprintf(
+                "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the webserver is using.",
+                htmlspecialchars($name . ".yml", ENT_QUOTES),
+                htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
+            );
+            $this->lowlevelError($error);
         }
 
         if (!@copy($distname, $ymlname)) {
