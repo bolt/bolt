@@ -2,7 +2,9 @@
  # Sidebar-menu divider
  #}
 {% macro divider() %}
-    <hr class="sidebar">
+    <li>
+        <hr class="sidebar">
+    </li>
 {% endmacro %}
 
 
@@ -10,7 +12,9 @@
  # Sidebar-menu heading
  #}
 {% macro heading(title) %}
-    <span class="heading">{{ title }}</span>
+    <li>
+        <span class="heading">{{ title }}</span>
+    </li>
 {% endmacro %}
 
 
