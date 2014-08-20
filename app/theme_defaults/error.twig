@@ -3,7 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <title>{{ __('Bolt - Fatal error.') }}</title>
-    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/css/bootstrap.min.css" />
+    <style>
+        body{font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;font-size:14px;line-height:20px;margin:0px;}
+        h1 {font-size: 38.5px;line-height: 40px;margin: 10px 0px;}
+        p{margin: 0px 0px 10px;}
+        strong{font-weight:bold;}
+        code, pre {padding: 0px 3px 2px;font-family: Monaco,Menlo,Consolas,"Courier New",monospace;font-size: 12px;color: #333;border-radius: 3px;}
+        code {padding: 2px 4px;color: #D14;background-color: #F7F7F9;border: 1px solid #E1E1E8;white-space: nowrap;}
+        a {color: #08C;text-decoration: none;}
+        ul, ol {padding: 0px;margin: 0px 0px 10px 25px;}
+        hr{margin:20px 0;border:0;border-top:1px solid #eeeeee;border-bottom:1px solid #ffffff;}
+        .hide{display:none;}
+    </style>
 </head>
 <body style="padding: 20px;">
 
@@ -12,23 +23,24 @@
     <h1>{{ __('Bolt - Fatal error.') }}</h1>
 
     <ul>
-        <li>{{ __('Class:') }} {{ class }}</li>
-        <li>{{ __('Message:') }} {{ message }}</li>
-        <li>{{ __('Code:') }} {{ code }}</li>
+        <li>{{ __('Class:') }} {{ context.class }}</li>
+        <li>{{ __('Message:') }} <strong>{{ context.message }}</strong></li>
+        <li>{{ __('Code:') }} {{ context.code }}</li>
     </ul>
-    
+
+    {# @TODO: This perhaps is better checked in the ErrorHandler and an empty trace array would be delivered #}
     {% if app.config.get('general/debug') and app.session.get('user') is not null %}
-        {% for i in trace %}
+        {% for i in context.trace %}
             {% if i.line is defined and i.class is defined %}
                 <p>
                     <strong>{{ i.class }}{{ i.type }}{{ i.function }}()</strong><br>
-                    <em>{{ i.file }}, line {{ i.line }}</em>
-                    {%  if i.args is defined %}
+                    <em>{{ i.file }}, {{ __('line') }} {{ i.line }}</em>
+                    {% if i.args is defined %}
                         {{ print(i.args) }}
-                    {%  endif %}
+                    {% endif %}
                 </p>
-            {%  endif %}
-        {%  endfor %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
 
     </div>

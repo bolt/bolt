@@ -541,7 +541,8 @@ class Application extends Silex\Application
             'trace' => $trace,
         );
 
-        return $this['render']->render('error/error.twig', array('context' => $context));
+        // Note: This uses the template from app/theme_defaults. Not app/view/twig.
+        return $this['render']->render('error.twig', array('context' => $context));
     }
 
     /**
