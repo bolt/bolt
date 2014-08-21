@@ -18,7 +18,7 @@ class Composer extends Standard
         parent::__construct($root, $request);
         $this->setPath("composer", "vendor/bolt/bolt");
         $this->setPath("apppath", $this->getPath('composer')."/app");
-        $this->setPath("extensionspath", $this->getPath('app')."/extensions");
+        $this->setPath("extensionspath", $this->root."/extensions");
         $this->setPath("cache", $this->root."/cache");
         $this->setPath("config", $this->root."/config");
         $this->setPath("database", $this->root."/database");

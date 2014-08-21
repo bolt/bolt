@@ -74,6 +74,19 @@ class LowlevelChecks
                 "present and writable to the user that the webserver is using."
             );
         }
+        
+        // Check if there is a writable extension path
+        if (!is_dir($this->config->getPath('extensions'))) {
+            $this->lowlevelError(
+                "The folder <code>" . $this->config->getPath('extensions') . "</code> doesn't exist. Make sure it's " .
+                "present and writable to the user that the webserver is using."
+            );
+        } elseif (!is_writable($this->config->getPath('extensions'))) {
+            $this->lowlevelError(
+                "The folder <code>" . $this->config->getPath('extensions') . "</code> isn't writable. Make sure it's " .
+                "present and writable to the user that the webserver is using."
+            );
+        }
 
         /**
          * This check looks for the presence of the .htaccess file inside the web directory.
