@@ -27,13 +27,6 @@
         </nav>
 
         <div id="page-wrapper">
-            {% if app.session.flashBag.keys()|length() %}
-                <div class="row">
-                    <div class="col-md-8">
-                        {% include '_sub/_messages.twig' %}
-                    </div>
-                </div>
-            {% endif %}
 
             <div class="row">
                 <div class="col-xs-12">
@@ -59,6 +52,14 @@
                     </h1>
                 </div>
             </div>
+
+            {% if app.session.flashBag.keys()|length() %}
+                <div class="row">
+                    <div class="col-md-8">
+                        {% include '_sub/_messages.twig' %}
+                    </div>
+                </div>
+            {% endif %}
 
             {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
         </div>
