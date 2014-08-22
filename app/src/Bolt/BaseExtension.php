@@ -314,7 +314,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addJavascript($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename, $late);
+            $this->app['extensions']->addJavascript($this->getUrl('extensions') . "/" . $this->namespace . "/" . $filename, $late);
         } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
             $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late);
@@ -335,7 +335,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         // check if the file exists.
         if (file_exists($this->basepath . "/" . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addCss($this->app['paths']['app'] . "extensions/" . $this->namespace . "/" . $filename, $late);
+            $this->app['extensions']->addCss($this->getUrl('extensions') . "/" . $this->namespace . "/" . $filename, $late);
         } elseif (file_exists($this->app['paths']['themepath'] . "/" . $filename)) {
             // file is located relative to the theme path.
             $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late);
