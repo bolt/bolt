@@ -58,7 +58,7 @@ jQuery(function($) {
         trigger: 'hover',
         delay: { show: 500, hide: 200 }
     });
-    
+
     // Add Date and Timepickers..
     $(".datepicker").datepicker({ dateFormat: "DD, d MM yy" });
 
@@ -91,7 +91,7 @@ jQuery(function($) {
             var button = e.relatedTarget;
             var self = $(this).find('[data-toggle="dropdown"]');
             var menu = self.next('.dropdown-menu');
-            var mousey = event.y + 20;
+            var mousey = 0;
             var menuHeight = menu.height();
 
             // Distance of element from the bottom of viewport
