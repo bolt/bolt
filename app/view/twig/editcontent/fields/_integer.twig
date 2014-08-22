@@ -6,6 +6,7 @@
     pattern:      field.pattern|default(''),
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),
+    readonly:     field.readonly|default(false),
     title:        field.title|default(''),
 }%}
 
@@ -17,6 +18,7 @@
     pattern:      option.pattern,
     placeholder:  option.placeholder,
     required:     option.required,
+    readonly:     option.readonly,
     step:         '1',
     min:          '-2147483647',
     max:          '2147483647',
