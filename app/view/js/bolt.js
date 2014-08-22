@@ -78,7 +78,7 @@ jQuery(function($) {
         $this.popover({
             trigger: 'hover',
             delay: { show: 600, hide: 700 },
-            container: $this,
+            container: $this
         });
     });
 
@@ -86,12 +86,21 @@ jQuery(function($) {
      * Smarter dropdowns/dropups based on viewport height.
      * Based on: https://github.com/twbs/bootstrap/issues/3637#issuecomment-9850709
      */
-    $('[data-toggle="dropdown"]').each(function(index, item){
+    $('[data-toggle="dropdown"]').each(function(index, item) {
+        var mouseEvt;
+        if (typeof event == 'undefined') {
+            $(item).parent().click(function(e) {
+                mouseEvt = e;
+            });
+        }
+        else {
+            mouseEvt = event;
+        }
         $(item).parent().on('show.bs.dropdown', function(e){
             var button = e.relatedTarget;
             var self = $(this).find('[data-toggle="dropdown"]');
             var menu = self.next('.dropdown-menu');
-            var mousey = 0;
+            var mousey = mouseEvt.pageY + 20;
             var menuHeight = menu.height();
 
             // Distance of element from the bottom of viewport
@@ -105,7 +114,7 @@ jQuery(function($) {
             if ((mousey - menuHeight) > 20 && menuVisY < profilerHeight) {
                 menu.css({
                     'top': 'auto',
-                    'bottom': '100%',
+                    'bottom': '100%'
                 });
             }
         })
