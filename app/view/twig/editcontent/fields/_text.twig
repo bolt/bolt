@@ -6,6 +6,7 @@
     pattern:      field.pattern|default(''),
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),
+    readonly:     field.readonly|default(false),
     title:        field.title|default(''),
     variant:      field.variant|default(''),
 }%}
@@ -20,6 +21,7 @@
     maxlength:    255,
     placeholder:  option.placeholder,
     required:     option.required,
+    readonly:     option.readonly,
     title:        option.title,
     type:         (option.pattern in ['url', 'email']) ?: 'text',
     value:        context.content.get(key),
