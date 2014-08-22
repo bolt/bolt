@@ -74,6 +74,19 @@ class LowlevelChecks
                 "present and writable to the user that the webserver is using."
             );
         }
+        
+        // Check if there is a writable extension path
+        if (!is_dir($this->config->getPath('extensions'))) {
+            $this->lowlevelError(
+                "The folder <code>" . $this->config->getPath('extensions') . "</code> doesn't exist. Make sure it's " .
+                "present and writable to the user that the webserver is using."
+            );
+        } elseif (!is_writable($this->config->getPath('extensions'))) {
+            $this->lowlevelError(
+                "The folder <code>" . $this->config->getPath('extensions') . "</code> isn't writable. Make sure it's " .
+                "present and writable to the user that the webserver is using."
+            );
+        }
 
         /**
          * This check looks for the presence of the .htaccess file inside the web directory.
@@ -196,8 +209,17 @@ class LowlevelChecks
         $distname = realpath(__DIR__."/../../../config/$name.yml.dist");
         $ymlname = realpath($this->config->getPath('config')."/") . "/$name.yml";
 
-        if (file_exists($ymlname)) {
+        if (file_exists($ymlname) && is_readable($ymlname)) {
             return; // Okidoki..
+        }
+        
+        if(file_exists($ymlname) && !is_readable($ymlname)) {
+            $error = sprintf(
+                "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the webserver is using.",
+                htmlspecialchars($name . ".yml", ENT_QUOTES),
+                htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
+            );
+            $this->lowlevelError($error);
         }
 
         if (!@copy($distname, $ymlname)) {

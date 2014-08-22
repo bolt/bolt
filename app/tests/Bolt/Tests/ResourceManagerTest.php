@@ -179,9 +179,9 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $config->setPath('database', 'app/database');
         $config->setPath('config', 'app/config');
         $app = new Application(array('resources'=>$config));
-        $this->assertEquals(TEST_ROOT."/vendor/bolt/bolt/app",            $config->getPath("app"));
-        $this->assertEquals(TEST_ROOT."/vendor/bolt/bolt/app/extensions", $config->getPath("extensions"));
-        $this->assertEquals("/bolt-public/",                            $config->getUrl("app"));
+        $this->assertEquals(TEST_ROOT."/vendor/bolt/bolt/app",  $config->getPath("app"));
+        $this->assertEquals(TEST_ROOT."/extensions",            $config->getPath("extensions"));
+        $this->assertEquals("/bolt-public/",                    $config->getUrl("app"));
     }
 
     public function testNonRootDirectory()
