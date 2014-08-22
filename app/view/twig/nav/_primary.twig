@@ -9,7 +9,7 @@
         {# <img src="{{ paths.app }}view/img/bolt-icon.svg"> #}
         Bolt
     </a>
-    <a href="{{ path('dashboard') }}" target="_blank" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
+    <a href="{{ path('dashboard') }}" class="navbar-site hidden-xs"><span>{% if app.config.get('general/sitename') %}{{ app.config.get('general/sitename') }}{% else %}Site{% endif %}</span></a>
 </div>
 
 
