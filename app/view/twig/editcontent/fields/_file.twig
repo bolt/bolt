@@ -4,7 +4,8 @@
     class:       field.class|default(''),
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
-    handler:     field.upload|default('')
+    handler:     field.upload|default(''),
+    info:        field.info|default('info.upload.file')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -34,7 +35,7 @@
 
     <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
 
-        <label class="control-label">{{ macro.infopop(labelkey, 'info.upload.file') }}</label>
+        <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <input{{ macro.attr(attr_filepath) }}><br>
 
         <div style="margin-bottom: 10px; margin-top: 10px;">

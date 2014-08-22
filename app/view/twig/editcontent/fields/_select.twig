@@ -5,6 +5,7 @@
     label:     field.label|default(''),
     multiple:  (field.multiple is defined and field.multiple),
     values:    field.values|default([]),
+    info:      field.info|default('')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -36,7 +37,7 @@
 
     <fieldset class="multiselect">
 
-        <label class="col-sm-3 control-label">{{ labelkey }}</label>
+        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <div class="col-sm-9">
             <select{{ macro.attr(attr_select) }}>
                 {% for value in values %}
@@ -63,7 +64,7 @@
 
     <fieldset class="select">
 
-        <label class="col-sm-3 control-label">{{ labelkey }}</label>
+        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <div class="col-sm-9">
             <select{{ macro.attr(attr_select) }}>
                 {% for value in values %}

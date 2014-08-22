@@ -3,6 +3,7 @@
 {% set option = {
     class:  field.class|default(''),
     label:  field.label|default(''),
+    info:   field.info|default('')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -20,7 +21,7 @@
 {# fieldset.checkbox already used: -> chkbox #}
 <fieldset class="chkbox">
 
-    <label class="col-sm-3 control-label">{{ labelkey }}</label>
+    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
 
         <input{{ macro.attr(attr_checkbox) }}>

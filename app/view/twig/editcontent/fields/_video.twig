@@ -2,6 +2,7 @@
 
 {% set option = {
     label:  field.label|default(''),
+    info:   field.info|default('info.upload.video'),
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -81,7 +82,7 @@
 
     <div class="col-sm-8">
 
-        <label class="control-label">{{ macro.infopop(labelkey, 'info.upload.video', '(<span id="video-'~key~'-text">'~videotitle|e~'</span>)') }}</label>
+        <label class="control-label">{{ macro.infopop(labelkey, option.info, '(<span id="video-'~key~'-text">'~videotitle|e~'</span>)') }}</label>
 
         <div class="form-group">
             <div class="col-sm-2">

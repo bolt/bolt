@@ -5,6 +5,7 @@
     height:    field.height|default(''),
     label:     field.label|default(''),
     required:  field.required|default(false),
+    info:      field.info|default('')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -21,7 +22,7 @@
 <fieldset class="textarea">
 
     <div class="col-sm-12">
-        <label class="control-label">{{ labelkey }}</label>
+        <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(key)|default('') }}</textarea>
     </div>
 

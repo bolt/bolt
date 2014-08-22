@@ -3,7 +3,8 @@
 {% set option = {
     extensions:  field.extensions|default([]),
     label:       field.label|default(''),
-    handler:     field.upload|default('')
+    handler:     field.upload|default(''),
+    info:        field.info|default('info.upload.filelist')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -45,7 +46,7 @@
     <div class="imagelistholder dropzone" id="imagelist-{{ key }}">
 
         <div class="col-sm-12">
-            <label class="control-label">{{ macro.infopop(labelkey, 'info.upload.filelist') }}</label>
+            <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
         </div>
 
         <div class="col-sm-9">

@@ -5,6 +5,7 @@
     height:    field.height|default(''),
     label:     field.label|default(''),
     required:  field.required|default(false),
+    info:      field.info|default('info.markdown')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -26,7 +27,7 @@
 <fieldset class="markdown">
 
     <div class="col-sm-12">
-        <label class="control-label">{{ macro.infopop(labelkey, 'info.markdown') }}</label>
+        <label class="control-label">{{ macro.infopop(labelkey, field.info) }}</label>
         <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(key)|default('') }}</textarea>
         <textarea{{ macro.attr(attr_catchpaste) }}></textarea>
     </div>

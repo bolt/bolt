@@ -4,6 +4,7 @@
     class:   field.class|default(''),
     filter:  field.filter|default({}),
     label:   field.label|default(''),
+    info:    field.info|default('')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -26,7 +27,7 @@
 
 <fieldset class="templateselect">
 
-    <label class="col-sm-3 control-label">{{ labelkey }}</label>
+    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
         <select{{ macro.attr(attr_select) }}>
             <option{{ macro.attr(attr_default) }}>{{ __('(default template)') }}</option>
