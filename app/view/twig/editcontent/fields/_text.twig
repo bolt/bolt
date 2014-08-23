@@ -9,6 +9,7 @@
     readonly:     field.readonly|default(false),
     title:        field.title|default(''),
     variant:      field.variant|default(''),
+    info:         field.info|default('')
 }%}
 {# variant[inline] #}
 
@@ -32,7 +33,7 @@
 <fieldset class="text">
     {% if option.variant == 'inline' %}
 
-        <label class="col-sm-3 control-label">{{ labelkey }}</label>
+        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <div class="col-sm-9">
             <input{{ macro.attr(attr_text) }}>
         </div>
@@ -40,7 +41,7 @@
     {% else %}
 
         <div class="col-sm-12">
-            <label class="control-label">{{ labelkey }}</label>
+            <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
             <input{{ macro.attr(attr_text) }}>
         </div>
 
