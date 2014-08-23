@@ -322,7 +322,7 @@ class Storage
             }
             switch ($action) {
                 case 'UPDATE':
-                    $diff = DeepDiff::deep_diff($oldContent, $newContent);
+                    $diff = DeepDiff::diff($oldContent, $newContent);
                     foreach ($diff as $item) {
                         list($k, $old, $new) = $item;
                         if (isset($newContent[$k])) {
@@ -494,7 +494,7 @@ class Storage
      */
     public function getChangelogEntry($contenttype, $contentid, $id)
     {
-        return $this->_getChangelogEntry($contenttype, $contentid, $id, '=');
+        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '=');
     }
 
     /**
@@ -508,7 +508,7 @@ class Storage
      */
     public function getNextChangelogEntry($contenttype, $contentid, $id)
     {
-        return $this->_getChangelogEntry($contenttype, $contentid, $id, '>');
+        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '>');
     }
 
     /**
@@ -522,7 +522,7 @@ class Storage
      */
     public function getPrevChangelogEntry($contenttype, $contentid, $id)
     {
-        return $this->_getChangelogEntry($contenttype, $contentid, $id, '<');
+        return $this->getOrderedChangelogEntry($contenttype, $contentid, $id, '<');
     }
 
     /**
@@ -539,7 +539,7 @@ class Storage
      * @throws \Exception
      * @return \Bolt\ChangelogItem|null
      */
-    private function _getChangelogEntry($contenttype, $contentid, $id, $cmp_op)
+    private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmp_op)
     {
         if (is_array($contenttype)) {
             $contenttype = $contenttype['slug'];
