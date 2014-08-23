@@ -1,0 +1,315 @@
+
+/*
+ * We have 4 states of the secondary navigation:
+ * Small mode: (triggered by menu-'hamburger' ):
+ * - Hidden (#navpage-wrapper.nav-secondary-opened not set)
+ * - Shown (#navpage-wrapper.nav-secondary-opened set)
+ * Large mode (triggered by expand/collapse button):
+ * - Expanded (#navpage-wrapper.nav-secondary-collapsed not set)
+ * - Collapsed (#navpage-wrapper.nav-secondary-collapsed set)
+ */
+
+/**** MODE: Hidden ****/
+
+#navpage-secondary {
+    visibility: visible;
+    display: block;
+    z-index: 10;
+    position: absolute;
+    width: $nav-secondary-small-width;
+    height: 100%;
+    left: -$nav-secondary-small-width;
+    transition: left 0.3s, width 0.3s;
+    box-shadow: -5px 0 0 rgba(0, 0, 0, 0.2) inset;
+    background: $sidebarbackground;
+    color: $sidebartextcolour;
+    font-size: 120%;
+    //overflow-y: auto;
+
+    ul.submenu {
+        @include hide();
+        font-size: 90%;
+        background: lighten($sidebarbackground, 10);
+
+        &.show {
+            @include show();
+        }
+
+        & > li.subdivider {
+            border-top: 1px dashed lighten($sidebarbackground, 20);
+        }
+
+        a {
+            padding: $nav-secondary-v-padding $nav-secondary-h-padding $nav-secondary-v-padding ($nav-secondary-h-padding + $nav-secondary-indent);
+            text-indent: -$nav-secondary-indent;
+            color: $sidebarlink;
+            font-weight: normal;
+
+            i {
+                width: $nav-secondary-icon-size;
+                margin-right: $nav-secondary-icon-margin;
+                text-indent: 0;
+            }
+        }
+    }
+}
+
+/**** MODE: Shown ****/
+
+.nav-secondary-opened {
+
+    #navpage-secondary {
+        left: 0;
+    }
+}
+
+/**** MODE: Expanded ****/
+
+@include in-large-mode() {
+
+    #navpage-secondary {
+        width: $nav-secondary-large-width;
+        left: 0;
+        position: absolute;
+        font-size: 100%;
+
+        & > ul {
+            width: $nav-secondary-large-width;
+        }
+    }
+}
+
+/**** MODE: Collapsed ****/
+
+@include in-large-mode() {
+
+    #navpage-wrapper.nav-secondary-collapsed {
+
+        #navpage-secondary {
+            width: $nav-secondary-collapsed-width;
+            overflow: hidden;
+            box-shadow: -5px 0px 0px rgba(0, 0, 0, 0.2) inset;
+            color: $sidebartextcolourcollapsed;
+
+            .nav > li {
+                a {
+                    color: $sidebartextcolourcollapsed;
+                }
+            }
+        }
+
+        #navpage-secondary:hover {
+            width: $nav-secondary-large-width;
+            overflow: visible;
+            box-shadow: 8px 0px 0px rgba(0, 0, 0, 0.2);
+            color: $sidebartextcolour;
+
+            .nav > li {
+                a {
+                    color: $sidebarlink;
+                }
+            }
+
+        }
+    }
+}
+
+/* --------------- */
+
+#navpage-secondary .nav > li {
+    & > a,
+    & > form,
+    & > em {
+        padding: $nav-secondary-v-padding $nav-secondary-h-padding $nav-secondary-v-padding ($nav-secondary-h-padding + $nav-secondary-indent);
+        color: $sidebarlink;
+        display: block;
+        text-indent: -$nav-secondary-indent;
+        line-height: 100%;
+        font-weight: normal;
+    }
+
+    a.menu-pop:before {
+        display: inline-block;
+        font-family: fontawesome;
+        float: right;
+        content: "\f0da";
+        text-indent: 0;
+        font-size: 120%;
+        padding-left: 4px;
+        margin-top: 2px;
+        color: darken($sidebarlink, 50);
+        line-height: initial;
+    }
+
+    &:hover > a {
+        color: $sidebarlinkhover;
+        background: lighten($sidebarbackgroundhover, 5);
+    }
+
+    & > em {
+        font-weight: bold;
+        font-style: normal;
+        color: $sidebarbackgroundactive;
+        color: lighten($sidebarbackgroundactive, 20);
+
+        kbd {
+            background: none;
+            color: lighten($sidebarbackgroundactive, 20);
+        }
+    }
+
+    &.active {
+        background-color: $sidebarbackgroundactive;
+        border-top: 1px solid darken($sidebarbackgroundactive, 8);
+        border-bottom: 1px solid darken($sidebarbackgroundactive, 8);
+        color: #fff;
+    }
+
+    &.divider {
+        @include nav-secondary-divider();
+    }
+
+    &.search {
+        border-bottom: 1px solid lighten($sidebarbackground, 8);
+        padding-bottom: $nav-secondary-divider-margin;
+
+        form {
+            margin: 0;
+            border: none;
+        }
+
+        .form-group {
+            vertical-align: middle;
+            display: inline-block;
+            width: ($nav-secondary-small-width - (2 * $nav-secondary-h-padding) - $nav-secondary-indent - 4px);
+            text-indent: 0;
+            margin: 0;
+        }
+
+        .select2-container {
+            padding: 4px 8px;
+        }
+
+        kbd {
+            background: none;
+            color: $sidebarlink;
+        }
+
+        @include in-large-mode() {
+            @include hide();
+        }
+    }
+
+    kbd {
+        padding: 2px;
+        display: inline-block;
+        background: $sidebarlink;
+        border-radius: 5px;
+        font-size: 14px;
+        width: $nav-secondary-icon-size;
+        height: $nav-secondary-icon-size;
+        display: inline-block;
+        margin-right: $nav-secondary-icon-margin;
+        text-indent: 0;
+        color: #333;
+        line-height: initial;
+
+        i {
+            display: inline-block;
+            width: 1.28571429em;
+            height: 1.28571429em;
+            text-align: center;
+        }
+    }
+
+    .popover.right {
+        margin-left: -8px;
+    }
+
+    .popover-content {
+        z-index: 20;
+        color: #444;
+        padding: 3px;
+        overflow: hidden;
+        text-indent: 0;
+
+        a {
+            $indent: 32px;
+
+            display: block;
+            padding: 4px 6px 4px 4px;
+            background: transparent;
+            color: $dropdown-link-color;
+            font-size: 100%;
+            text-indent: -$indent;
+            padding-left: $indent;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            i {
+                width: $indent;
+                text-indent: 0;
+            }
+        }
+
+        a:hover {
+            color: $dropdown-link-hover-color;
+            background-color: $dropdown-link-hover-bg;
+            text-decoration: none;
+        }
+
+        hr {
+            margin: 4px 0;
+            padding: 0 8px;
+        }
+    }
+}
+
+.arrow {
+    float: right;
+}
+
+.fa.arrow:before {
+    content: "\f104";
+}
+
+.active > a > .fa.arrow:before {
+    content: "\f107";
+}
+
+/**** Collapse/expand buttons ****/
+
+/* Never show mall mode */
+
+.nav-secondary-collapse,
+.nav-secondary-expand {
+    @include nav-secondary-divider();
+    @include hide();
+
+    kbd {
+        background: none !important;
+        color: $sidebarlink !important;
+    }
+}
+
+@include in-large-mode() {
+
+    .nav-secondary-collapse {
+        @include show();
+    }
+
+    .nav-secondary-expand {
+        @include hide();
+    }
+
+    .nav-secondary-collapsed {
+
+        .nav-secondary-collapse {
+            @include hide();
+        }
+
+        .nav-secondary-expand {
+            @include show();
+        }
+    }
+}

@@ -54,7 +54,13 @@
 
         <!-- Header bar -->
         <div class="headerphoto">
-            <img src="{{ paths.theme }}images/header_3.jpg" alt="" />
+            
+            {# You can either hardcode the filename for the header, or take a value from the current 
+               content in 'record', or - as we do in this example - take a random one from the list 
+               in the /theme/base-2014/config.yml file. #}
+            {% set headerimage = paths.theme ~ 'images/' ~ random(theme.headerimage) %}
+            <img src="{{ headerimage }} " alt="" />
+
             {# the values in the 'app.config' object are taken directly from the file app/config/config.yml #}
             <p><span>{{ app.config.get('general/sitename') }}</span>
                 {% if app.config.get('general/payoff') %}

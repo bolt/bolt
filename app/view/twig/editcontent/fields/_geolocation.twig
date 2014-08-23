@@ -2,6 +2,7 @@
 
 {% set option = {
     label:  field.label|default(''),
+    info:   field.info|default('info.geolocation')
 }%}
 
 {#=== INIT ===========================================================================================================#}
@@ -48,7 +49,7 @@
 
     <div class="col-sm-8">
 
-        <label class="control-label">{{ macro.infopop(labelkey, 'info.geolocation') }}</label>
+        <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
         <div class="form-group">
 

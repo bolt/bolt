@@ -1,6 +1,6 @@
 {
   "name": "base-2014-dev",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/bolt/base-2014",
   "authors": [
     "bobdenotter <bob@twokings.nl>"
@@ -21,6 +21,6 @@
     "tests"
   ],
   "dependencies": {
-    "foundation": "~5.2.2"
+    "foundation": "~5.4"
   }
 }
