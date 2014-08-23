@@ -850,6 +850,7 @@ class Backend implements ControllerProviderInterface
             'content' => $content,
             'allowed_status' => $allowedStatuses,
             'contentowner' => $contentowner,
+            'fields' => $app['config']->fields
         );
 
         return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));

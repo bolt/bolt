@@ -15,44 +15,13 @@
 
         {# --------------- fields --------------- #}
         {% set labelkey = field.label ?: key|ucfirst %}
-
-        {% if field.type == "text" %}
-            {% include 'editcontent/fields/_text.twig' %}
-        {% elseif field.type == "integer" %}
-            {% include 'editcontent/fields/_integer.twig' %}
-        {% elseif field.type in ["float", "number"] %}
-            {% include 'editcontent/fields/_float.twig' %}
-        {% elseif field.type  == "checkbox" %}
-            {% include 'editcontent/fields/_checkbox.twig' %}
-        {% elseif field.type == "slug" %}
-            {% include 'editcontent/fields/_slug.twig' %}
-        {% elseif field.type == "select" %}
-            {% include 'editcontent/fields/_select.twig' %}
-        {% elseif field.type == "templateselect" %}
-            {% include 'editcontent/fields/_templateselect.twig' %}
-        {% elseif field.type == "image" %}
-            {% include 'editcontent/fields/_image.twig' %}
-        {% elseif field.type == "file" %}
-            {% include 'editcontent/fields/_file.twig' %}
-        {% elseif field.type == "imagelist" %}
-            {% include 'editcontent/fields/_imagelist.twig' %}
-        {% elseif field.type == "filelist" %}
-            {% include 'editcontent/fields/_filelist.twig' %}
-        {% elseif field.type == "video" %}
-            {% include 'editcontent/fields/_video.twig' %}
-        {% elseif field.type == "geolocation" %}
-            {% include 'editcontent/fields/_geolocation.twig' %}
-        {% elseif field.type == "html" %}
-            {% include 'editcontent/fields/_html.twig' %}
-        {% elseif field.type == "textarea" %}
-            {% include 'editcontent/fields/_textarea.twig' %}
-        {% elseif field.type == "markdown" %}
-            {% include 'editcontent/fields/_markdown.twig' %}
-        {% elseif field.type == "date" %}
-            {% include 'editcontent/fields/_date.twig' %}
-        {% elseif field.type == "datetime" %}
-            {% include 'editcontent/fields/_datetime.twig' %}
-        {% endif %}
+        
+        
+        {% for fieldtype in fields %}
+            {% if field.type == fieldtype.name %}
+                {% include fieldtype.template %}
+            {% endif %}
+        {% endfor %}
 
         {# ---------------postfix & divider --------------- #}
 

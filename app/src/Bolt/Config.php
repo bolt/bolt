@@ -23,6 +23,8 @@ class Config
         'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'html',
         'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
     );
+    
+    public $fields = array();
 
     static private $yamlParser;
 
@@ -43,6 +45,7 @@ class Config
 
         $this->setTwigPath();
         $this->setCKPath();
+        $this->fields = new Field\Manager();
     }
 
     /**
@@ -471,10 +474,11 @@ class Config
                 }
 
                 // Make sure the 'type' is in the list of allowed types
-                if (!isset($field['type']) || !in_array($field['type'], $this->defaultFieldTypes)) {
+                if (!isset($field['type']) || !$this->fields->has($field['type']) ) {
                     $error = __(
                         "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper fieldtype. Please edit contenttypes.yml, and correct this.",
-                        array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' => $field['type'])
+                        array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' =>
+                         $field['type'])
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
                 }
