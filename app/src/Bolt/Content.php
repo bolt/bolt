@@ -1053,7 +1053,9 @@ class Content implements \ArrayAccess
      * @param  int    $excerptLength Number of chars of the excerpt
      * @return string RSS safe string
      */
+    // @codingStandardsIgnoreStart
     public function rss_safe($fields = '', $excerptLength = 0)
+    // @codingStandardsIgnoreEnd
     {
         // Make sure we have an array of fields. Even if it's only one.
         if (!is_array($fields)) {
@@ -1083,6 +1085,7 @@ class Content implements \ArrayAccess
 
         return '<![CDATA[ ' . $result . ' ]]>';
     }
+
 
     /**
      * Weight a text part relative to some other part
