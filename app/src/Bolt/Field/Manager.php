@@ -26,6 +26,7 @@ class Manager
             } else {
                 $field = new Base($default, 'editcontent/fields/_'.$default.".twig");
             }
+            $this->addField($field);
         }
     }
     
