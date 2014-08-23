@@ -88,7 +88,11 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
                     return array($namespace, $prefix);
                 };
-
+                
+                
+                // This block hanles the more advanced functionality where multiple upload
+                // handlers are provided. Only the first one is returned as a result, the result
+                // of this first upload is then attempted to copy to the remaining handlers.
                 if (is_array($handler)) {
                     list($namespace, $prefix) = $parser($handler[0]);
                     $app['upload.namespace'] = $namespace;
@@ -110,7 +114,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
                         }
                     }
 
-                    return new JsonResponse($response);
+                    return new JsonResponse($result);
                 } else {
                     list($namespace, $prefix) = $parser($handler);
                 }
