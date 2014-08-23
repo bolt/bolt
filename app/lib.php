@@ -3,6 +3,7 @@
 use Maid\Maid;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
+use Bolt\Configuration\ResourceManager;
 
 /**
  * Clean posted data. Convert tabs to spaces (primarily for yaml) and
@@ -511,7 +512,7 @@ function hackislyParseRegexTemplates($obj)
  */
 function path($path, $param = array(), $add = '')
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     if (!empty($add) && $add[0] != "?") {
         $add = "?" . $add;
@@ -534,7 +535,7 @@ function path($path, $param = array(), $add = '')
  */
 function redirect($path, $param = array(), $add = '')
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
     if (($path == 'login') && ($app['request']->get('_route') !== 'logout')) {
@@ -889,7 +890,7 @@ function htmlencode_params($params)
  */
 function __()
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     $num_args = func_num_args();
     if (0 == $num_args) {
@@ -983,7 +984,7 @@ function __()
  */
 function gatherTranslatableStrings($locale = null, $translated = array())
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     $isPhp = function ($fname) {
         return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'php';

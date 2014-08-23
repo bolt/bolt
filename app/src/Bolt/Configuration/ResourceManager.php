@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 class ResourceManager
 {
     public $app;
+    protected static $_app;
+
     protected $root;
     protected $requestObject;
 
@@ -68,7 +70,7 @@ class ResourceManager
 
     public function setApp(Application $app)
     {
-        $this->app  = $app;
+        static::$_app = $this->app  = $app;
     }
 
 
@@ -267,7 +269,15 @@ class ResourceManager
         if (!$this->verifier) {
             $this->verifier = new LowlevelChecks($this);
         }
-
         return $this->verifier;
+    }
+
+    public static function getApp()
+    {
+        if (! static::$_app) {
+            $message = sprintf("Application doesn't initialized yet so the container can't be accessed here: <code>%s</code>", htmlspecialchars(debug_backtrace(), ENT_QUOTES));
+            throw new LowlevelException($message);
+        }
+        return static::$_app;
     }
 }
