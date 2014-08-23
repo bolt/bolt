@@ -6,7 +6,8 @@ $nav-secondary-large-width: 180px;
 
 $nav-secondary-h-padding: 8px;
 $nav-secondary-v-padding: 8px;
-$nav-secondary-divider-margin: 20px;
+$nav-secondary-divider-margin: 14px;
+$nav-secondary-divider-padding: 6px;
 $nav-secondary-icon-size: 22px;
 $nav-secondary-icon-margin: 8px;
 $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin);
@@ -30,6 +31,7 @@ $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-inden
 
 @mixin nav-secondary-divider() {
     border-top: 1px solid lighten($sidebarbackground, 8);
+    padding-top: $nav-secondary-divider-padding;
     margin-top: $nav-secondary-divider-margin;
 }
 

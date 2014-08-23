@@ -1,10 +1,10 @@
 {##
  # Sidebar-menu heading
  #}
-{% macro heading(icon, title) %}
+{% macro heading(title) %}
     {% from _self import label %}
     <li class="divider">
-        <em>{{ label(icon, title) }}</em>
+        <em>{{ label('', title) }}</em>
     </li>
 {% endmacro %}
 
@@ -114,5 +114,8 @@
  # Sidebar-menu label
  #}
 {% macro label(icon, label) %}
-    <kbd><i class="fa fa-{{ icon }}"></i></kbd>{{ label }}
+    {% if icon is not empty %}
+        <kbd><i class="fa fa-{{ icon }}"></i></kbd>
+    {% endif %}        
+    {{ label }}
 {% endmacro %}
