@@ -671,7 +671,6 @@ function isHtml($html)
     }
 }
 
-
 /**
  * Loads a serialized file, unserializes it, and returns it.
  *
@@ -679,30 +678,15 @@ function isHtml($html)
  * false is returned.
  *
  * @param string $filename
- * @param boolean $silent Set to true if you want an visible error.
+ * @param boolean $silent
+ *            Set to true if you want an visible error.
  * @return mixed
  */
 function loadSerialize($filename, $silent = false)
 {
     $filename = fixpath($filename);
 
-    if (!is_readable($filename)) {
-
-        // If we're setting up PivotX, we can't set the paths before we initialise
-        // the configuration and vice-versa. So, we just bail out if the paths aren't
-        // set yet.
-        if (empty($PIVOTX['paths']['pivotx_path'])) {
-            return;
-        }
-
-        if (is_readable($PIVOTX['paths']['pivotx_path'].$filename)) {
-            $filename = $PIVOTX['paths']['pivotx_path'].$filename;
-        } else {
-            $filename = "../".$filename;
-        }
-    }
-
-    if (!is_readable($filename)) {
+    if (! is_readable($filename)) {
 
         if ($silent) {
             return false;
@@ -718,34 +702,12 @@ function loadSerialize($filename, $silent = false)
     }
 
     $serialized_data = trim(implode("", file($filename)));
-    $serialized_data = str_replace("<?php /* bolt */ die(); ?".">", "", $serialized_data);
+    $serialized_data = str_replace("<?php /* bolt */ die(); ?" . ">", "", $serialized_data);
 
-    // new-style JSON-encoded data; detect automatically
-    if (substr($serialized_data, 0, 5) === 'json:') {
-        $serialized_data = substr($serialized_data, 5);
-        $data = json_decode($serialized_data, true);
+    $serialized_data = substr($serialized_data, 5);
+    $data = json_decode($serialized_data, true);
 
-        return $data;
-    }
-
-    // old-style serialized data; to be phased out, but leaving intact for
-    // backwards-compatibility
-    @$data = unserialize($serialized_data);
-    if (is_array($data)) {
-        return $data;
-    } else {
-        $temp_serialized_data = preg_replace("/\r\n/", "\n", $serialized_data);
-        if (@$data = unserialize($temp_serialized_data)) {
-            return $data;
-        } else {
-            $temp_serialized_data = preg_replace("/\n/", "\r\n", $serialized_data);
-            if (@$data = unserialize($temp_serialized_data)) {
-                return $data;
-            } else {
-                return false;
-            }
-        }
-    }
+    return $data;
 }
 
 
