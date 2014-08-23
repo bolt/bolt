@@ -67,7 +67,7 @@
     <script src="{{ paths.app }}view/js/modernizr.custom.2.8.2.js"></script>
     <script src="{{ paths.app }}view/js/bolt.js"></script>
 
-    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection" type="text/css">
 
@@ -78,9 +78,8 @@
     <link rel="apple-touch-icon" sizes="144x144" href="{% if app.config.get('general/branding/apple-touch-icon-144x144') %}{{ app.config.get('general/branding/apple-touch-icon-144x144') }}{% else %}{{ paths.app }}view/img/apple-touch-icon-144x144.png{% endif %}">
 </head>
 
-<body class="{{ page_bodyclass }}{% if app.request.cookies.get('sidebar') %} collapsed-sidebar{% endif %}">
+<body{% if page_bodyclass %} class="{{ page_bodyclass }}"{% endif %}>
     {% block page_plain %}{% endblock page_plain %}
-</body>
 
 <script>
     var path = "{{ paths.bolt }}";
@@ -106,4 +105,6 @@
 {% if app.config.get('general/grunt/livereload') %}
     <script src="{{ paths.hosturl }}:{{ app.config.get('general/grunt/livereloadport') }}/livereload.js"></script>
 {% endif %}
+
+</body>
 </html>
