@@ -1,19 +1,10 @@
 {##
- # Sidebar-menu divider
- #}
-{% macro divider() %}
-    <li>
-        <hr class="sidebar">
-    </li>
-{% endmacro %}
-
-
-{##
  # Sidebar-menu heading
  #}
-{% macro heading(title) %}
-    <li>
-        <span class="heading">{{ title }}</span>
+{% macro heading(icon, title) %}
+    {% from _self import label %}
+    <li class="divider">
+        <em>{{ label(icon, title) }}</em>
     </li>
 {% endmacro %}
 
@@ -29,6 +20,8 @@
  # @param array   subitems
  #}
 {% macro submenu(icon, label, popoveritems, active, wide, subitems) %}
+
+    {% from _self import label %}
 
     {% if subitems is empty %}
         {% set subitems = popoveritems %}
@@ -58,24 +51,26 @@
                         {% if item == '-' %}
                             <hr>
                         {% elseif isallowed(item.isallowed|default('dashboard')) %}
-                            <a href='{{ item.link }}'><i class='fa fa-{{ item.icon }} fa-fw'></i> {{ item.label }}</a>
+                            <a href='{{ item.link }}'><i class='fa fa-fw fa-{{ item.icon }}'> </i>{{ item.label }}</a>
                         {% endif %}
                     {% endfor %}
                 {% endspaceless %}">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-{{ icon }} fa-stack-1x fa-inverse" style="color: #333;"></i>
-                </span>
-                {{ label }}
+                {{ label(icon, label) }}
             </a>
+            <ul class="nav submenu submenu-{{ name }}">
+                {% set divider = false %}
+                {% for item in popoveritems %}
+                    {% if item == '-' %}
+                        {% set divider = true %}
+                    {% elseif isallowed(item.isallowed|default('dashboard')) %}
+                        <li{% if divider %} class="subdivider"{% endif %}>
+                            <a href="{{ item.link }}"><i class="fa fa-{{ item.icon }} fa-fw"> </i>{{ item.label }}</a>
+                        </li>
+                        {% set divider = false %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
         </li>
-        {% for item in popoveritems %}
-            {% if item != '-' and isallowed(item.isallowed|default('dashboard')) %}
-                <li class="sub sub-{{ name }}">
-                    <a href="{{ item.link }}"><i class="fa fa-{{ item.icon }} fa-fw"></i> {{ item.label }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
     {% endif %}
 
 {% endmacro %}
@@ -85,15 +80,16 @@
  # Sidebar-menu collapse/expand
  #}
 {% macro collapse() %}
-    <li>
-        <a href="#" data-action="sidebar.collapse()" id="sidebar-collapse">
-            <i class="fa fa-compress"></i> {{ __('Collapse sidebar') }}
+    {% from _self import label %}
+
+    <li class="nav-secondary-collapse">
+        <a href="#" data-action="sidebar.collapse()">
+            {{ label('compress', __('Collapse sidebar')) }}
         </a>
     </li>
-
-    <li>
-        <a href="#" data-action="sidebar.expand()" id="sidebar-expand">
-            <i class="fa fa-expand"></i> {{ __('Expand sidebar') }}
+    <li class="nav-secondary-expand">
+        <a href="#" data-action="sidebar.expand()">
+            {{ label('expand', __('Expand sidebar')) }}
         </a>
     </li>
 {% endmacro %}
@@ -102,14 +98,21 @@
 {##
  # Sidebar-menu link
  #}
-{% macro link(icon, label, pathname, active) %}
-    <li class="{% if active %}active {% endif %}">
-        <a href="{{ path(pathname) }}">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-{{ icon }} fa-stack-1x fa-inverse" style="color: #333;"></i>
-            </span>
-            {{ label }}
-        </a>
+{% macro link(icon, label, pathname, active, divider) %}
+    {% from _self import label %}
+    {% set class = '' %}
+    {% if active %}{% set class = class ~ ' active' %}{% endif %}
+    {% if divider %}{% set class = class ~ ' divider' %}{% endif %}
+
+    <li{% if class %} class="{{ class|trim }}" {% endif %}>
+        <a href="{{ path(pathname) }}">{{ label(icon, label) }}</a>
     </li>
+{% endmacro %}
+
+
+{##
+ # Sidebar-menu label
+ #}
+{% macro label(icon, label) %}
+    <kbd><i class="fa fa-{{ icon }}"></i></kbd>{{ label }}
 {% endmacro %}

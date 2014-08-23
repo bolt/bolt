@@ -73,7 +73,7 @@ jQuery(function($) {
     }
 
     // Initialize "info" popovers, used in 'edit content'.
-    $('nav.navbar-static-side a.menu-pop').each(function(){
+    $('#navpage-secondary a.menu-pop').each(function(){
         var $this = $(this);
         $this.popover({
             trigger: 'hover',
@@ -304,53 +304,6 @@ jQuery(function($) {
     stack = new Stack();
 
     sidebar = new Sidebar();
-
-    /*!
-     *
-     *  Offcanvas / Copyright (c) David Bushell | http://dbushell.com/
-     *
-     */
-    window.App = (function()
-    {
-
-        var _init = false, app = { };
-
-        app.init = function()
-        {
-            if (_init) {
-                return;
-            }
-            _init = true;
-
-            var nav_open = false,
-                $inner = $('#inner-wrap');
-
-            $('button.navbar-toggle').on('click', function()
-            {
-                if (!nav_open) {
-                    //$inner.animate({ left: '70%' }, 500);
-                    nav_open = true;
-                    console.log('open..');
-                    $('html').addClass('js-nav');
-                    return false;
-                }else{
-                    // $inner.animate({ left: '0' }, 500);
-                    nav_open = false;
-                    console.log('sluit..');
-                    $('html').removeClass('js-nav');
-                    return false;
-                }
-            });
-
-            $(document.documentElement).addClass('js-ready');
-        };
-
-        return app;
-
-    })();
-
-    window.App.init();
-
 });
 
 /**
@@ -835,24 +788,10 @@ var Sidebar = Backbone.Model.extend({
     },
 
     initialize: function() {
-
-        // Make sure the sidebar is the full height of the page.
-
-        height1 = $('div#page-wrapper').height();
-        height2 = 50; // $('div#page-wrapper').height();
-
-        //$('.navbar-static-side').css('min-height', $('div#page-wrapper').css('height')  );
-        $('.navbar-static-side').css('min-height', Math.max(height1, height2) );
-
-        //window.setTimeout(function(){
-        //    $('.navbar-static-side').css('min-height', Math.max(height1, height2) );
-        //}, 1000);
-
         // Do this, only if the sidebar is visible. (not when in small-responsive view)
-        if ($('nav.navbar-static-side').is(':visible')) {
-
+        if ($('#navpage-secondary').is(':visible')) {
             // Initialize popovers, used in sidebar menu.
-            $('nav.navbar-static-side a.menu-pop').each(function(){
+            $('#navpage-secondary a.menu-pop').each(function(){
                 var $this = $(this);
                 $this.popover({
                     trigger: 'hover',
@@ -862,7 +801,6 @@ var Sidebar = Backbone.Model.extend({
             });
 
         }
-
     },
 
     /**
@@ -870,29 +808,53 @@ var Sidebar = Backbone.Model.extend({
      */
     showSidebarItems: function(name) {
         sidebar.closePopOvers();
-        $('.nav li.sub').removeClass('visible-xs');
-        $('.nav li.sub-'+name).addClass('visible-xs');
         // Check if the class is actually visible. If not, we're not on mobile, and we should just
         // redirect to the first link, to prevent confusion.
         if ($('html').hasClass('no-touch')) {
             window.location.href = $('.nav li.sub-'+name).find('a').first().attr('href');
+        } else {
+            if ($('#navpage-secondary .submenu-'+name).hasClass('show')) {
+                $('#navpage-secondary .submenu-'+name).removeClass('show');
+            } else {
+                $('#navpage-secondary .submenu').removeClass('show');
+                $('#navpage-secondary .submenu-'+name).addClass('show');
+            }
         }
     },
 
     collapse: function() {
+        console.log('sidebar::collapse()');
         sidebar.closePopOvers();
-        $('body').addClass('collapsed-sidebar');
+        $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
         $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
     },
 
     expand: function() {
+        console.log('sidebar::expand()');
         sidebar.closePopOvers();
-        $('body').removeClass('collapsed-sidebar');
+        $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened');
         $.removeCookie('sidebar', { path: '/' });
     },
 
+    toogle: function() {
+        // Set the top position of the secondary navigation
+        //var primary = $('#navpage-primary');
+        //var bottom = primary.position().top + primary.height();
+
+        //$('#navpage-secondary').css('top', bottom);
+
+        // Show/hide navigation
+        console.log('sidebar::toogle()');
+        var wrapper = $('#navpage-wrapper');
+        if (wrapper.hasClass('nav-secondary-opened')) {
+            wrapper.removeClass('nav-secondary-opened nav-secondary-collapsed');
+        } else {
+            wrapper.removeClass('nav-secondary-collapsed').addClass('nav-secondary-opened');
+        }
+    },
+
     closePopOvers: function() {
-        $('nav.navbar-static-side a.menu-pop').popover('hide');
+        $('#navpage-secondary a.menu-pop').popover('hide');
     }
 
 })

@@ -17,17 +17,16 @@
 
 {% block page_plain %}
 
-    <div id="wrapper">
-        <nav class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation" style="margin-bottom: 0">
+    <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed"{% endif %}>
+        <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation">
             {% include 'nav/_primary.twig' %}
         </nav>
 
-        <nav class="navbar-default navbar-static-side" role="navigation" id="nav">
+        <nav id="navpage-secondary" class="navbar-default navbar-static-side" role="navigation">
             {% include 'nav/_secondary.twig' %}
         </nav>
 
-        <div id="page-wrapper">
-
+        <div id="navpage-content" class="container-fluid">
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="page-header">

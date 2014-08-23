@@ -1,5 +1,5 @@
 <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+    <button type="button" class="navbar-toggle" data-action="sidebar.toogle()">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -15,13 +15,15 @@
 
 <ul class="nav navbar-top-links navbar-right">
 
-    {# one omnisearch here, for "small and up", the other in the side-navbar #}
-    <form class="navbar-form hidden-xs" role="search">
-        <div class="form-group has-feedback">
-            <input type="text" class="form-control semitransparent omnisearch" placeholder="Omnisearch…">
-            <span class="form-control-feedback semitransparent"><i class="fa fa-search"></i></span>
-        </div>
-    </form>
+    <li>
+        {# one omnisearch here, for "small and up", the other in the side-navbar #}
+        <form class="navbar-form hidden-xs" role="search">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control semitransparent omnisearch" placeholder="Omnisearch…">
+                <span class="form-control-feedback semitransparent"><i class="fa fa-search"></i></span>
+            </div>
+        </form>
+    </li>
 
     <li>
         <a href="{{ paths.root }}" target="_blank" class="hidden-xs">
@@ -30,7 +32,6 @@
         </a>
     </li>
 
-    <!-- /.dropdown -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-fw fa-user"></i> <span>{{ user.displayname|trimtext(16) }}</span> <i class="fa fa-caret-down"></i>
@@ -39,7 +40,6 @@
             <li>
                 <a href="{{ path('profile') }}" role="menuitem" tabindex="-1"><i class="fa fa-fw fa-gear"></i> {{ __('Profile') }}</a>
             </li>
-            <li class="divider"></li>
             <li>
                 <form action="{{ path('logout') }}" method="POST">
                     <button class="btn btn-link btn-block" type="submit">
@@ -48,8 +48,6 @@
                 </form>
             </li>
         </ul>
-        <!-- /.dropdown-user -->
     </li>
-    <!-- /.dropdown -->
+
 </ul>
-<!-- /.navbar-top-links -->

@@ -1,0 +1,31 @@
+/**** MODE: Hidden + Shown ****/
+
+#navpage-content {
+    padding-top: 16px;
+    padding-bottom: 8px;
+    transition: left 0.3s;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+/**** MODE: Expanded ****/
+
+@include in-large-mode() {
+
+    #navpage-content {
+        left: $nav-secondary-large-width;
+    }
+
+}
+
+/**** MODE: Collapsed ****/
+
+@include in-large-mode() {
+    #navpage-wrapper.nav-secondary-collapsed {
+
+        #navpage-content {
+            left: $nav-secondary-collapsed-width;
+        }
+    }
+}

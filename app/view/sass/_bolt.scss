@@ -37,21 +37,6 @@ footer  {
   vertical-align: top;
 }
 
-.js-nav #wrapper{
-  z-index: 1;
-  position: absolute;
-  left: 280px;
-  top: 0;
-}
-
-.js-nav #nav {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: -280px;
-  height: 100%;
-}
-
 /**
  * Extensions screen
  */
@@ -113,65 +98,12 @@ blockquote.quote cite {
 
 }
 
-
-
-@media (max-width: 979px) {
-
-    .navbar-inner {
-        min-height: 50px;
-    }
-
-    .navbar-inner ul.dropdown-menu li {
-        float: left;
-        padding: 0;
-    }
-
-    .navbar-collapse .navbar > li {
-        clear: both;
-    }
-
-    .navbar-collapse.collapse {
-        margin-left: 8px;
-    }
-
-    .navbar-collapse .navbar .navbar-header {
-        padding: 5px 12px 5px 24px;
-    }
-
-    .navbar-collapse .navbar > li > a, .navbar-collapse .dropdown-menu a {
-        padding: 5px 12px;
-        color: #555 !important;
-    }
-
-    .navbar .navbar-btn {
-        margin-top: 14px !important;
-    }
-
-}
-
-
-
-
 /**
  *
  * TODO: Everything below is copy/pasted from bolt.css, and needs to be reworked into the correct locations.
  *
  */
 
-
-/* Wrappers */
-
-/* ------------------------------- */
-
-#wrapper {
-  width: 100%;
-}
-
-#page-wrapper {
-  padding: 16px 6px 0;
-  min-height: 568px;
-  background-color: $basebgcolour;
-}
 
 /* Login Page */
 

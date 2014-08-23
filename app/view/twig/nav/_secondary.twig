@@ -1,61 +1,50 @@
 {% import 'nav/_macros.twig' as nav %}
 
-<div class="sidebar-collapse">
-    <ul class="nav" id="side-menu">
-        {% if app.session.get('user') is not null %}
+<ul class="nav">
+    {% if app.session.get('user') is not null %}
 
-            {# Omnisearch: one here for "extra small", the other in the header-navbar #}
-            {% include 'nav/_secondary-search.twig' %}
+        {# Omnisearch: one here for "extra small", the other in the header-navbar #}
+        {% include 'nav/_secondary-search.twig' %}
 
-            {# Dashboard #}
-            {{ nav.link('dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
+        {# Dashboard #}
+        {{ nav.link('dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 
-            {{ nav.divider() }}
+        {# Contenttypes #}
+        {{ nav.heading('files-o', __('Content')) }}
+        {% include 'nav/_secondary-content.twig' %}
 
-            {# Contenttypes #}
-            {{ nav.heading(__('Content')) }}
-            {% include 'nav/_secondary-content.twig' %}
+        {# Settings #}
+        {% if isallowed('settings') %}
 
-            {# Settings #}
-            {% if isallowed('settings') %}
+            {{ nav.heading('cog', __('Settings')) }}
 
-                {{ nav.divider() }}
+            {% include 'nav/_secondary-configuration.twig' %}
 
-                {{ nav.heading(__('Settings')) }}
-
-                {% include 'nav/_secondary-configuration.twig' %}
-
-                {% if app.extensions.hasMenuoptions %}
-                    {% include 'nav/_secondary-menuoptions.twig' %}
-                {% endif %}
-
-                {% include 'nav/_secondary-filemanagement.twig' %}
-
-                {% include 'nav/_secondary-translations.twig' %}
-
+            {% if app.extensions.hasMenuoptions %}
+                {% include 'nav/_secondary-menuoptions.twig' %}
             {% endif %}
 
-            {{ nav.divider() }}
+            {% include 'nav/_secondary-filemanagement.twig' %}
 
-            {# Link to Extend Bolt #}
-            {{ nav.link('cog', __('Extend Bolt'), 'extend', (page_nav == 'ExtendBolt')) }}
+            {% include 'nav/_secondary-translations.twig' %}
 
-            {{ nav.divider() }}
-
-            {{ nav.collapse() }}
-
-        {% else %}
-
-            {# View site #}
-            <li>
-                <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
-            </li>
-
-            {# Login #}
-            <li>
-                <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('Login') }}</a>
-            </li>
         {% endif %}
-    </ul>
 
-</div>
+        {# Link to Extend Bolt #}
+        {{ nav.link('cog', __('Extend Bolt'), 'extend', (page_nav == 'ExtendBolt'), true) }}
+
+        {{ nav.collapse() }}
+
+    {% else %}
+
+        {# View site #}
+        <li>
+            <a href="{{ paths.root }}" target="_blank"><i class="fa fa-external-link-square"></i> {{ __('View site') }}</a>
+        </li>
+
+        {# Login #}
+        <li>
+            <a href="{{ path('login') }}"><i class="fa fa-signin"></i> {{ __('Login') }}</a>
+        </li>
+    {% endif %}
+</ul>
