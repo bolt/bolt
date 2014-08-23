@@ -24,7 +24,7 @@ class Config
         'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
     );
     
-    public $fields = array();
+    public $fields;
 
     static private $yamlParser;
 
