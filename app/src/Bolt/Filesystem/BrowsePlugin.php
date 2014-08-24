@@ -44,6 +44,10 @@ class BrowsePlugin implements PluginInterface
                 continue;
             }
 
+            if (!isset($entry['extension'])) {
+                $entry['extension'] = "xxx";
+            }
+
             if ($entry['type'] === 'file') {
 
                 $files[$entry['path']] = array(
@@ -53,7 +57,7 @@ class BrowsePlugin implements PluginInterface
                     'relativepath' => $entry['path'],
                     'writable' => true,
                     'readable' => false,
-                    'type' => $entry['extension'],
+                    'type' => isset($entry['extension']) ? $entry['extension'] : '',
                     'filesize' => formatFilesize($entry['size']),
                     'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
                     'permissions' => 'public',
