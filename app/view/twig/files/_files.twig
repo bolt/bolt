@@ -56,15 +56,15 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                <td>
+                <td style="min-width: 90px;">
                     {{ file.filesize }}.
                 </td>
-                <td>
+                <td style="min-width: 100px;">
                     {% if file.imagesize is defined %}
                         {{ file.imagesize }} px.
                     {% endif %}
                 </td>
-                <td>
+                <td style="min-width: 140px;">
                     <time class="moment"
                           datetime="{{ file.modified|date("c") }}"
                           title="{{ file.modified }}">
@@ -76,13 +76,13 @@
                         {{ file.newpath|showimage(54, 40, 'c') }}
                     {% endif %}
                 </td>
-                <td class='actions'>
+                <td class='actions' style="min-width: 196px;">
 
                     <div class="btn-group">
 
                         {{ macro.stackbutton(file) }}
 
-                        <a class="btn dropdown-toggle btn-default btn-mini" data-toggle="dropdown">
+                        <a class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown">
                             <i class="fa fa-info-circle"></i>
                             {{ __('Options') }}
                             <span class="caret"></span>

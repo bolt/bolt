@@ -24,7 +24,7 @@
                     <div class="btn-group">
                     {% if folder.writable %}
 
-                        <a class="btn dropdown-toggle btn-default btn-mini" data-toggle="dropdown">
+                        <a class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown">
                             <i class="fa fa-info-circle"></i>
                             {{ __('Options') }}
                             <span class="caret"></span>
@@ -57,7 +57,7 @@
                             </li>
                         </ul>
                     {% else %}
-                        <a class="btn btn-default btn-mini">
+                        <a class="btn btn-default btn-sm">
                             <i class="fa fa-exclamation-circle"></i>
                             {{ __('Folder permissions insufficient') }}
                         </a>
