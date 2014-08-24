@@ -264,9 +264,7 @@ class Application extends Silex\Application
 
     public function initExtensions()
     {
-        if (!isset($this['extensions.disabled'])) {
-            $this['extensions']->initialize();
-        }
+        $this['extensions']->initialize();
     }
 
     public function initMountpoints()
@@ -364,10 +362,6 @@ class Application extends Silex\Application
 
             // Short-circuit the request, return the HTML/response. YOLO.
             return $response;
-        }
-        
-        if ($request->get('_route') == 'repair') {
-            $this['extensions.disabled'] = true;
         }
 
         // Sanity checks for doubles in in contenttypes.
