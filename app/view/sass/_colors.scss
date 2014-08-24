@@ -82,6 +82,6 @@ $pagination-active-border: lighten(desaturate($boltblue, 35), 3);
 // Line-heights for headings. Also influences margin at top and bottom of headings.
 $headings-line-height: 1.5;
 
-$nav-tabs-border-color: $btn-tertiary-bg, ;
+$nav-tabs-border-color: $btn-tertiary-bg;
 $nav-tabs-active-link-hover-border-color: $nav-tabs-border-color;
 $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
