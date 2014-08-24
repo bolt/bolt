@@ -17,7 +17,7 @@
         {% set labelkey = field.label ?: key|ucfirst %}
         
         
-        {% for fieldtype in fields %}
+        {% for fieldtype in context.fields %}
             {% if field.type == fieldtype.name %}
                 {% include fieldtype.template %}
             {% endif %}
