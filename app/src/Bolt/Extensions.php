@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\BaseExtensionInterface;
+use Bolt\Configuration\LowlevelException;
 
 class Extensions
 {
