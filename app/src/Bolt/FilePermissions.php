@@ -39,7 +39,7 @@ class FilePermissions
             '#^' . preg_quote(realpath($app['resources']->getPath('config'))) . '#',
             '#^' . preg_quote(realpath($app['resources']->getPath('extensions'))) . '.*config\.yml$#',
             '#^' . preg_quote(realpath($app['resources']->getPath('files'))) . '#',
-            '#^' . preg_quote(realpath($app['resources']->getPath('theme'))) . '#'
+            '#^' . preg_quote(realpath($app['resources']->getPath('themebase'))) . '#'
         );
 
         $this->blocked = array(

@@ -1362,7 +1362,7 @@ class Backend implements ControllerProviderInterface
         $fullPath = $filesystem->getAdapter()->applyPathPrefix($path);
 
         if (!$app['filepermissions']->authorized($fullPath)) {
-            $error = __("Display the file or directory '%s' is forbidden.", array('%s' => $path));
+            $error = __("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
             $app->abort(403, $error);
         }
 
@@ -1371,7 +1371,7 @@ class Backend implements ControllerProviderInterface
             $validFolder = true;
         } catch (\Exception $e) {
             $list = array();
-            $app['session']->getFlashBag()->set('error', __("Folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $app['session']->getFlashBag()->set('error', __("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
         }
@@ -1485,6 +1485,10 @@ class Backend implements ControllerProviderInterface
         } else {
             // otherwise look up the namespace and use that as the base.
             try {
+                // Catch-22: If namespace is 'theme', we actually want to have 'themebase'.
+                if ($namespace == "theme") {
+                    $namespace = "themebase";
+                }
                 $path = $app['resources']->getPath($namespace);
                 $filename = realpath($path . "/" . $file);
             } catch (\Exception $e) {
@@ -1494,7 +1498,7 @@ class Backend implements ControllerProviderInterface
         }
 
         if (! $app['filepermissions']->authorized($filename)) {
-            $error = __("Edit the file '%s' is forbidden.", array('%s' => $file));
+            $error = __("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
             $app->abort(403, $error);
         }
 

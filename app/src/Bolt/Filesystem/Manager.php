@@ -20,7 +20,7 @@ class Manager extends MountManager
         $this->mountFilesystem('default', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
         $this->mountFilesystem('files', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
         $this->mountFilesystem('config', new Filesystem(new FilesystemAdapter($app['resources']->getPath('config'))));
-        $this->mountFilesystem('theme', new Filesystem(new FilesystemAdapter($app['resources']->getPath('theme'))));        
+        $this->mountFilesystem('theme', new Filesystem(new FilesystemAdapter($app['resources']->getPath('themebase'))));
         $this->initManagers();
     }
 
