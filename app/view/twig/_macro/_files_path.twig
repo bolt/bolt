@@ -2,11 +2,11 @@
     {% set namespace_path = path('files', pathopts) %}
     <p>
         {{ __('Path:') }}
-        <a href="{{ namespace_path }}">{{ namespace }}</a> /
+        <a href="{{ namespace_path }}">{{ namespace }}</a>
 
         {% for path, segment in pathsegments %}
-            {% if not loop.first %} / {% endif %}
-            <a href="{{ path('files', pathopts) }}">{{ segment }}</a>
+            /
+            <a href="{{ path('files', { 'path': path, 'namespace': namespace }) }}">{{ segment }}</a>
         {% endfor %}
     </p>
 {% endmacro %}
