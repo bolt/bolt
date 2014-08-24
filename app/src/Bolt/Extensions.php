@@ -124,7 +124,7 @@ class Extensions
                     }
                 } catch (\Exception $e) {
                     $path = str_replace($app['resources']->getPath('extensions'), '', $file);
-                    $app->redirect($app["url_generator"]->generate("repair", array('package'=>$path)));
+                    $app->redirect($app["url_generator"]->generate("repair", array('path'=>$path)));
                 }
                 
             }
@@ -163,12 +163,17 @@ class Extensions
     {
         $this->autoload($this->app);
         foreach ($this->enabled as $name => $extension) {
+            
+            try {
+                $extension->getConfig();
+                $extension->initialize();
+                $this->initialized[$name] = $extension;
+            } catch (\Exception $e) {
+                $path = str_replace($app['resources']->getPath('extensions'), '', $file);
+                $app->redirect($app["url_generator"]->generate("repair", array('package'=>$name)));
+            }
 
-
-            $this->initialized[$name] = $extension;
-
-            $extension->getConfig();
-            $extension->initialize();
+            
 
             // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
             $this->getSnippets($name);
