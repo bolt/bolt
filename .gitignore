@@ -4,6 +4,7 @@ app/config/*.yml
 app/database/*
 *config.yml
 files/*
+extensions/*
 thumbs/
 vendor/
 
