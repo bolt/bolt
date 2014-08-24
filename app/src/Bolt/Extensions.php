@@ -119,12 +119,23 @@ class Extensions
             $files = include $filepath;
             foreach ($files as $file) {
                 try {
+                    $current = str_replace($app['resources']->getPath('extensions'), '', $file);
+                    ob_start(function() use($current){
+                        $error=error_get_last();
+                        if ($error['type'] == 1) {
+            
+                            $message = $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
+                            if ($current) {
+                                $message .= $this->app['translator']->trans(" Try removing the package that was initialized here: ".$current);
+                            }
+                            return $message;
+                        }
+                    });
                     if (is_readable($file)) {
-                        include $file;
+                        require $file;
                     }
                 } catch (\Exception $e) {
-                    $path = str_replace($app['resources']->getPath('extensions'), '', $file);
-                    $app->redirect($app["url_generator"]->generate("repair", array('path'=>$path)));
+                    $app->redirect($app["url_generator"]->generate("repair", array('path'=>$current)));
                 }
                 
             }
