@@ -44,11 +44,17 @@ class BrowsePlugin implements PluginInterface
                 continue;
             }
 
-            if (!isset($entry['extension'])) {
-                $entry['extension'] = "xxx";
-            }
-
             if ($entry['type'] === 'file') {
+
+                $url = $this->filesystem->url($entry['path']);
+
+                // Ugh, for some reason the foldername for the theme is included twice. Why?
+                // For now we 'fix' this with an ugly hack, replacing it. :-/
+                // TODO: dig into Filesystem and figure out why this happens.
+                $pathsegments = explode('/', $entry['path']);
+                if (!empty($pathsegments[0])) {
+                    $url = str_replace('/' . $pathsegments[0] . '/' . $pathsegments[0] . '/', '/' . $pathsegments[0] . '/', $url);
+                }
 
                 $files[$entry['path']] = array(
                     'path' => $entry['dirname'],
@@ -61,7 +67,7 @@ class BrowsePlugin implements PluginInterface
                     'filesize' => formatFilesize($entry['size']),
                     'modified' => date("Y/m/d H:i:s", $entry['timestamp']),
                     'permissions' => 'public',
-                    'url' => $this->filesystem->url($entry['path'])
+                    'url' => $url
                 );
 
                 /***** Extra checks for files that can be resolved via PHP urlopen functions *****/
