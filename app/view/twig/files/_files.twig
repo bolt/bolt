@@ -13,6 +13,8 @@
                 <td>
                     {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
 
+                        <i class="fa fa-fw fa-file-image-o"></i>
+
                         {% if file.readable %}
                             <a href="{{file.newpath|thumbnail(1000, 1000, 'r') }}"
                                class='magnific'
@@ -24,7 +26,9 @@
                             <i class="fa fa-lock"></i>
                         {% endif %}
 
-                    {% elseif file.type in ['twig', 'txt', 'html', 'md', 'htm', 'css', 'less', 'js', 'yml'] %}
+                    {% elseif file.type in ['twig', 'txt', 'html', 'md', 'markdown', 'json', 'htm', 'scss', 'css', 'less', 'js', 'yml'] %}
+
+                        <i class="fa fa-fw fa-file-code-o"></i>
 
                         {% if file.readable %}
                             <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.newpath}) }}">
@@ -40,8 +44,10 @@
 
                     {% else %}
 
+                        <i class="fa fa-fw fa-link"></i>
+
                         {% if file.readable %}
-                            <a href="/{{ file.newpath }}" target="_blank">
+                            <a href="{{ file.url }}" target="_blank">
                                 <b>{{ file.filename }}</b>
                             </a>
                         {% else %}

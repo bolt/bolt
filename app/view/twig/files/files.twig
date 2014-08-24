@@ -8,11 +8,13 @@
 {% block page_nav 'Settings/FileManagement' %}
 
 {% block page_title __('Files') %}
+{% block page_subtitle context.namespace ~ '/' ~ context.pathsegments|keys|last %}
 
 {% block page_main %}
 
     <div class="row">
         <div class="col-xs-12">
+            {{ dump(context.pathsegments) }}
 
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
@@ -21,12 +23,12 @@
             {% endif %}
 
             <p>
-                <a href="#"
+                <a href="#" class="btn btn-default"
                    data-action="folders.create('{{ __("Please enter a new folder name") }}',
                                                '{{ context.namespace }}',
                                                '{{ context.pathsegments|keys|last }}',
                                                this);">
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-fw fa-plus"></i>
                     {{ __('Create folder') }}
                 </a>
             </p>
@@ -39,7 +41,7 @@
             {% if context.form != false %}
                 {% include 'files/_upload.twig' %}
             {% else %}
-                <p><i class="fa fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
+                <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
             {% endif %}
 
         </div>

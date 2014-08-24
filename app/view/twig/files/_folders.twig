@@ -10,8 +10,8 @@
         {% for folder in context.folders %}
             <tr>
                 <td>
+                    <i class="fa fa-fw fa-folder-open-o"></i>
                     <a href="{{ url('files', {'path': folder.newpath, 'namespace': context.namespace}) }}">
-                        <i class="fa fa-folder-open-o"></i>
                         <b>{{ folder.foldername }}/</b>
                     </a>
                 </td>
