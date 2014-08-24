@@ -17,9 +17,10 @@
     z-index: 10;
     position: absolute;
     width: $nav-secondary-small-width;
+    padding-top: $nav-secondary-top-padding;
     height: 100%;
     left: -$nav-secondary-small-width;
-    transition: left 0.3s, width 0.3s;
+    transition: left 0.1s, width 0.1s;
     box-shadow: -5px 0 0 rgba(0, 0, 0, 0.2) inset;
     background: $sidebarbackground;
     color: $sidebartextcolour;

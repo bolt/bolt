@@ -4,14 +4,15 @@ $nav-primary-min-height: 50px;
 $nav-secondary-small-width: 280px;
 $nav-secondary-large-width: 180px;
 
+$nav-secondary-top-padding: 16px;
 $nav-secondary-h-padding: 8px;
 $nav-secondary-v-padding: 8px;
 $nav-secondary-divider-margin: 14px;
 $nav-secondary-divider-padding: 6px;
-$nav-secondary-icon-size: 22px;
+$nav-secondary-icon-size: 24px;
 $nav-secondary-icon-margin: 8px;
 $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin);
-$nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent);
+$nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 20);
 
 @mixin in-large-mode() {
     @media (min-width: $nav-secondary-breakpoint) {
