@@ -127,7 +127,7 @@ class Extensions
                             $html = LowlevelException::$html;
                             $message = $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
                             if ($current) {
-                                $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions/".$current);
+                                $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions".$current);
                             }
                             return str_replace('%error%', $message, $html);
                         }
