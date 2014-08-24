@@ -432,7 +432,7 @@ class Content implements \ArrayAccess
         }
 
         // Only add a taxonomy, if the taxonomytype is actually set in the contenttype
-        if (!in_array($taxonomytype, $this->contenttype['taxonomy'])) {
+        if (!isset($this->contenttype['taxonomy']) || !in_array($taxonomytype, $this->contenttype['taxonomy'])) {
             return false;
         }
 
