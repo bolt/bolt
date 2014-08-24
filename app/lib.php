@@ -702,6 +702,9 @@ function loadSerialize($filename, $silent = false)
         renderErrorpage(__("File is not readable!"), $message);
     }
 
+    $serialized_data = trim(implode("", file($filename)));
+    $serialized_data = str_replace("<?php /* bolt */ die(); ?" . ">", "", $serialized_data);
+
     // new-style JSON-encoded data; detect automatically
     if (substr($serialized_data, 0, 5) === 'json:') {
         $serialized_data = substr($serialized_data, 5);
