@@ -264,7 +264,7 @@ class Application extends Silex\Application
 
     public function initExtensions()
     {
-        if (true !== $this['extensions.disabled']) {
+        if (!isset($this['extensions.disabled'])) {
             $this['extensions']->initialize();
         }
     }
