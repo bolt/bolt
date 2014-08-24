@@ -811,7 +811,7 @@ var Sidebar = Backbone.Model.extend({
         // Check if the class is actually visible. If not, we're not on mobile, and we should just
         // redirect to the first link, to prevent confusion.
         if ($('html').hasClass('no-touch')) {
-            window.location.href = $('.nav li.sub-'+name).find('a').first().attr('href');
+            window.location.href = $('#navpage-secondary .submenu-'+name).find('a').first().attr('href');
         } else {
             if ($('#navpage-secondary .submenu-'+name).hasClass('show')) {
                 $('#navpage-secondary .submenu-'+name).removeClass('show');
