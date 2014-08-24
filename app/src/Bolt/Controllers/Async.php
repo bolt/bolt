@@ -424,10 +424,8 @@ class Async implements ControllerProviderInterface
         $count = $app['request']->get('items', 10);
         $options = $app['request']->get('options', false);
 
-        $stack = $app['stack']->listitems($count);
-
         $context = array(
-            'stack' => $stack,
+            'stack' => $app['stack']->listitems($count),
             'filetypes' => $app['stack']->getFileTypes()
         );
 

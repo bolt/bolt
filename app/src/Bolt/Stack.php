@@ -127,8 +127,9 @@ class Stack
             $typefilter = array_map("trim", explode(",", $typefilter));
         }
 
-        // Our basepath for all uploaded files.
+        // Our basepaths for all files that can be on the stack: 'files' and 'theme'.
         $filespath = $this->app['paths']['filespath'];
+        $themepath = $this->app['paths']['themebasepath'];
 
         $items = $this->items;
         $list = array();
@@ -148,9 +149,16 @@ class Stack
                 continue;
             }
 
-            // Skip it, if it isn't readable or doesn't exist.
-            $fullpath = str_replace("files/files/", "files/", $filespath . "/" . $item);
-            if (!is_readable($fullpath)) {
+            // Figure out the full path, based on the two possible locations. 
+            $fullpath = '';
+            if (is_readable(str_replace("files/files/", "files/", $filespath . "/" . $item))) {
+                $fullpath = str_replace("files/files/", "files/", $filespath . "/" . $item);
+            } else if (is_readable($themepath . "/" . $item)){
+                $fullpath = $themepath . "/" . $item;
+            }
+
+            // No dice! skip this one. 
+            if (empty($fullpath)) {
                 continue;
             }
 
