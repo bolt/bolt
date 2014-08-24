@@ -3,18 +3,8 @@ namespace Bolt\Configuration;
 
 class LowlevelException extends \Exception
 {
-
-    /**
-     * Print a 'low level' error page, and quit. The user has to fix something.
-     *
-     * Security caveat: the message is inserted into the page unescaped, so
-     * make sure that it contains valid HTML with proper encoding applied.
-     *
-     * @param string $message
-     */
-    public function __construct($message, $code=null, $previous=null)
-    {
-        $html = <<< EOM
+    
+    public static $html = <<< EOM
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,6 +48,18 @@ class LowlevelException extends \Exception
 </body>
 </html>
 EOM;
+
+    /**
+     * Print a 'low level' error page, and quit. The user has to fix something.
+     *
+     * Security caveat: the message is inserted into the page unescaped, so
+     * make sure that it contains valid HTML with proper encoding applied.
+     *
+     * @param string $message
+     */
+    public function __construct($message, $code=null, $previous=null)
+    {
+        $html = self::$html;
         $output = str_replace('%error%', $message, $html);
 
         // TODO: Information disclosure vulnerability. A misconfigured system

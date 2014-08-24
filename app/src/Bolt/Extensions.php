@@ -123,12 +123,12 @@ class Extensions
                     ob_start(function() use($current){
                         $error=error_get_last();
                         if ($error['type'] == 1) {
-            
+                            $html = LowlevelException::$html;
                             $message = $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
                             if ($current) {
                                 $message .= $this->app['translator']->trans(" Try removing the package that was initialized here: ".$current);
                             }
-                            return $message;
+                            return str_replace('%error%', $message, $html);
                         }
                     });
                     if (is_readable($file)) {
