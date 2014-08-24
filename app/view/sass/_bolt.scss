@@ -234,3 +234,19 @@ table.dataTable thead .sorting:after {
 .omnisearchlisting tbody tr td a span {
   font-weight: normal;
 }
+
+
+form#filescreenuploader {
+
+  div {
+    float: left;
+    margin-right: 6px;
+    display: inline;
+  }
+
+  a.file-input-wrapper {
+    margin-left: 12px;
+  }
+
+}
+

@@ -1,8 +1,7 @@
-<hr />
-<form action="" method="post" {{ form_enctype(context.form) }}>
+<form action="" method="post" id="filescreenuploader" {{ form_enctype(context.form) }}>
     <fieldset>
         {{ form_widget(context.form) }}
-        <button type="submit" class="btn btn-primary btn-default" style="margin-top: 4px;">
+        <button type="submit" class="btn btn-secondary">
             <i class="fa fa-fw fa-upload"></i>
             <span>{{ __('Upload file') }}</span>
         </button>
@@ -12,6 +11,6 @@
 
 <script type="text/javascript">
     $(function() {
-        $('input[type=file]').bootstrapFileInput();
+        $('input[type=file]').addClass('btn-secondary').bootstrapFileInput();
     });
 </script>
