@@ -330,16 +330,14 @@ class Users
      */
     public function checkAntiCSRFToken($token = '')
     {
-        global $app;
-
         if (empty($token)) {
-            $token = $app['request']->get('token');
+            $token = $this->app['request']->get('token');
         }
 
         if ($token === $this->getAntiCSRFToken()) {
             return true;
         } else {
-            $app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
+            $this->app['session']->getFlashBag()->set('error', "The security token was incorrect. Please try again.");
 
             return false;
         }

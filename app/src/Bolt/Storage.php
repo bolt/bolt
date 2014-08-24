@@ -1055,8 +1055,6 @@ class Storage
         foreach ($contenttypes as $contenttype) {
             $ctconfig = $this->getContentType($contenttype);
 
-            // FIXME remainder of something, remove next rev.
-            // $table = $this->getTablename($contenttype);
             $fields = $ctconfig['fields'];
             $filter = null;
 
@@ -2953,10 +2951,6 @@ class Storage
 
         return $oldContent;
     }
-
-    /*
-     * This is for replacing Pager objects stored in $_GLOBAL that is indecency...
-     */
 
     /**
      * Setter for pager storage element

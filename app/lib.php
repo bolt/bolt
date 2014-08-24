@@ -3,6 +3,7 @@
 use Maid\Maid;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Escaper;
+use Bolt\Configuration\ResourceManager;
 
 /**
  * Clean posted data. Convert tabs to spaces (primarily for yaml) and
@@ -511,7 +512,7 @@ function hackislyParseRegexTemplates($obj)
  */
 function path($path, $param = array(), $add = '')
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     if (!empty($add) && $add[0] != "?") {
         $add = "?" . $add;
@@ -534,7 +535,7 @@ function path($path, $param = array(), $add = '')
  */
 function redirect($path, $param = array(), $add = '')
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     // Only set the 'retreat' when redirecting to 'login' but not FROM logout.
     if (($path == 'login') && ($app['request']->get('_route') !== 'logout')) {
@@ -671,7 +672,6 @@ function isHtml($html)
     }
 }
 
-
 /**
  * Loads a serialized file, unserializes it, and returns it.
  *
@@ -679,30 +679,15 @@ function isHtml($html)
  * false is returned.
  *
  * @param string $filename
- * @param boolean $silent Set to true if you want an visible error.
+ * @param boolean $silent
+ *            Set to true if you want an visible error.
  * @return mixed
  */
 function loadSerialize($filename, $silent = false)
 {
     $filename = fixpath($filename);
 
-    if (!is_readable($filename)) {
-
-        // If we're setting up PivotX, we can't set the paths before we initialise
-        // the configuration and vice-versa. So, we just bail out if the paths aren't
-        // set yet.
-        if (empty($PIVOTX['paths']['pivotx_path'])) {
-            return;
-        }
-
-        if (is_readable($PIVOTX['paths']['pivotx_path'].$filename)) {
-            $filename = $PIVOTX['paths']['pivotx_path'].$filename;
-        } else {
-            $filename = "../".$filename;
-        }
-    }
-
-    if (!is_readable($filename)) {
+    if (! is_readable($filename)) {
 
         if ($silent) {
             return false;
@@ -718,34 +703,12 @@ function loadSerialize($filename, $silent = false)
     }
 
     $serialized_data = trim(implode("", file($filename)));
-    $serialized_data = str_replace("<?php /* bolt */ die(); ?".">", "", $serialized_data);
+    $serialized_data = str_replace("<?php /* bolt */ die(); ?" . ">", "", $serialized_data);
 
-    // new-style JSON-encoded data; detect automatically
-    if (substr($serialized_data, 0, 5) === 'json:') {
-        $serialized_data = substr($serialized_data, 5);
-        $data = json_decode($serialized_data, true);
+    $serialized_data = substr($serialized_data, 5);
+    $data = json_decode($serialized_data, true);
 
-        return $data;
-    }
-
-    // old-style serialized data; to be phased out, but leaving intact for
-    // backwards-compatibility
-    @$data = unserialize($serialized_data);
-    if (is_array($data)) {
-        return $data;
-    } else {
-        $temp_serialized_data = preg_replace("/\r\n/", "\n", $serialized_data);
-        if (@$data = unserialize($temp_serialized_data)) {
-            return $data;
-        } else {
-            $temp_serialized_data = preg_replace("/\n/", "\r\n", $serialized_data);
-            if (@$data = unserialize($temp_serialized_data)) {
-                return $data;
-            } else {
-                return false;
-            }
-        }
-    }
+    return $data;
 }
 
 
@@ -927,7 +890,7 @@ function htmlencode_params($params)
  */
 function __()
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     $num_args = func_num_args();
     if (0 == $num_args) {
@@ -1021,7 +984,7 @@ function __()
  */
 function gatherTranslatableStrings($locale = null, $translated = array())
 {
-    global $app;
+    $app = ResourceManager::getApp();
 
     $isPhp = function ($fname) {
         return pathinfo(strtolower($fname), PATHINFO_EXTENSION) == 'php';

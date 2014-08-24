@@ -4,7 +4,6 @@ namespace Bolt;
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(
   function () {
-      global $app;
 
       $dirSep = DIRECTORY_SEPARATOR;
 
