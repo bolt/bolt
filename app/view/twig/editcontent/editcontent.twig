@@ -30,7 +30,9 @@
                     {% for groups in context.contenttype.groups %}
                         <li><a class="filter" data-filter="{{ groups }}">{{ __(groups|capitalize) }}</a></li>
                     {% endfor %}
-                    <li><a class="filter" data-filter="taxonomy">{{ __('Taxonomy') }}</a></li>
+                    {% if context.contenttype.relations is defined or context.contenttype.taxonomy is defined %}
+                        <li><a class="filter" data-filter="taxonomy">{{ __('Taxonomy') }}</a></li>
+                    {% endif %}
                     <li><a class="filter" data-filter="meta">{{ __('Meta') }}</a></li>
                 </ul>
             {% endif %}
