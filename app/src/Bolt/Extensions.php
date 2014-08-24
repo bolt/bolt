@@ -118,9 +118,15 @@ class Extensions
         if (is_readable($filepath)) {
             $files = include $filepath;
             foreach ($files as $file) {
-                if (is_readable($file)) {
-                    include $file;
+                try {
+                    if (is_readable($file)) {
+                        include $file;
+                    }
+                } catch (\Exception $e) {
+                    $path = str_replace($app['resources']->getPath('extensions'), '', $file);
+                    $app->redirect($app["url_generator"]->generate("repair", array('package'=>$path)));
                 }
+                
             }
         }
     }

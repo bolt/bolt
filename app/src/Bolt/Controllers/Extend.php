@@ -41,6 +41,10 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get('', array($this, 'overview'))
             ->before(array($this, 'before'))
             ->bind('extend');
+            
+        $ctr->get('/repair', array($this, 'repair'))
+            ->before(array($this, 'before'))
+            ->bind('repair');
 
         $ctr->get('/check', array($this, 'check'))
             ->before(array($this, 'before'))
@@ -91,6 +95,16 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             'extend/extend.twig',
             array(
                 'messages' => $app['extend.runner']->messages,
+                'site' => $app['extend.site']
+            )
+        );
+    }
+    
+    public function repair(Silex\Application $app, Request $request)
+    {
+        return $app['render']->render(
+            'extend/repair.twig',
+            array(
                 'site' => $app['extend.site']
             )
         );
