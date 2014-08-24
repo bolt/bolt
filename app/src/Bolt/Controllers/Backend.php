@@ -38,25 +38,25 @@ class Backend implements ControllerProviderInterface
             ->method('POST')
             ->bind('logout');
 
-        $ctl->match('/resetpassword', array($this, 'resetpassword'))
+        $ctl->match('/resetpassword', array($this, 'resetPassword'))
             ->bind('resetpassword')
             ->method('GET');
 
-        $ctl->get('/dbcheck', array($this, 'dbcheck'))
+        $ctl->get('/dbcheck', array($this, 'dbCheck'))
             ->before(array($this, 'before'))
             ->bind('dbcheck');
 
-        $ctl->get('/dbupdate', array($this, 'dbupdate'))
+        $ctl->get('/dbupdate', array($this, 'dbUpdate'))
             ->method('POST')
             ->before(array($this, 'before'))
             ->bind('dbupdate');
 
-        $ctl->get('/dbupdate_result', array($this, 'dbupdate_result'))
+        $ctl->get('/dbupdate_result', array($this, 'dbUpdateResult'))
             ->method('GET')
             ->before(array($this, 'before'))
             ->bind('dbupdate_result');
 
-        $ctl->get('/clearcache', array($this, 'clearcache'))
+        $ctl->get('/clearcache', array($this, 'clearCache'))
             ->before(array($this, 'before'))
             ->bind('clearcache');
 
@@ -69,18 +69,18 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('overview');
 
-        $ctl->get('/relatedto/{contenttypeslug}/{id}', array($this, 'relatedto'))
+        $ctl->get('/relatedto/{contenttypeslug}/{id}', array($this, 'relatedTo'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->bind('relatedto');
 
-        $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editcontent'))
+        $ctl->match('/editcontent/{contenttypeslug}/{id}', array($this, 'editContent'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->method('GET|POST')
             ->bind('editcontent');
 
-        $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deletecontent'))
+        $ctl->get('/content/deletecontent/{contenttypeslug}/{id}', array($this, 'deleteContent'))
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
@@ -91,7 +91,7 @@ class Backend implements ControllerProviderInterface
             ->bind('sortcontent');
         */
 
-        $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentaction'))
+        $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
             ->before(array($this, 'before'))
             ->method('POST')
             ->bind('contentaction');
@@ -111,7 +111,7 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('users');
 
-        $ctl->match('/users/edit/{id}', array($this, 'useredit'))
+        $ctl->match('/users/edit/{id}', array($this, 'userEdit'))
             ->before(array($this, 'before'))
             ->assert('id', '\d*')
             ->method('GET|POST')
@@ -131,7 +131,7 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('about');
 
-        $ctl->get('/user/{action}/{id}', array($this, 'useraction'))
+        $ctl->get('/user/{action}/{id}', array($this, 'userAction'))
             ->before(array($this, 'before'))
             ->method('POST')
             ->bind('useraction');
@@ -144,11 +144,11 @@ class Backend implements ControllerProviderInterface
             ->value('path', '')
             ->bind('files');
 
-        $ctl->get('/activitylog', array($this, 'activitylog'))
+        $ctl->get('/activitylog', array($this, 'activityLog'))
             ->before(array($this, 'before'))
             ->bind('activitylog');
 
-        $ctl->match('/file/edit/{namespace}/{file}', array($this, 'fileedit'))
+        $ctl->match('/file/edit/{namespace}/{file}', array($this, 'fileEdit'))
             ->before(array($this, 'before'))
             ->assert('file', '.+')
             ->assert('namespace', '[^/]+')
@@ -270,7 +270,7 @@ class Backend implements ControllerProviderInterface
      * @param Request $request
      * @return string
      */
-    public function resetpassword(Silex\Application $app, Request $request)
+    public function resetPassword(Silex\Application $app, Request $request)
     {
         $app['users']->resetPasswordConfirm($request->get('token'));
 
@@ -280,7 +280,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database for missing tables and columns. Does not do actual repairs
      */
-    public function dbcheck(\Bolt\Application $app)
+    public function dbCheck(\Bolt\Application $app)
     {
         $context = array(
             'modifications_made' => null,
@@ -293,7 +293,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Check the database, create tables, add missing/new columns to tables
      */
-    public function dbupdate(Silex\Application $app)
+    public function dbUpdate(Silex\Application $app)
     {
         $output = $app['integritychecker']->repairTables();
 
@@ -314,7 +314,7 @@ class Backend implements ControllerProviderInterface
         }
     }
 
-    public function dbupdate_result(Silex\Application $app, Request $request)
+    public function dbUpdateResult(Silex\Application $app, Request $request)
     {
         $context = array(
             'modifications_made' => json_decode($request->get('messages')),
@@ -327,7 +327,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Clear the cache.
      */
-    public function clearcache(Silex\Application $app)
+    public function clearCache(Silex\Application $app)
     {
         $result = $app['cache']->clearCache();
 
@@ -346,7 +346,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Show the activity-log.
      */
-    public function activitylog(Silex\Application $app)
+    public function activityLog(Silex\Application $app)
     {
         $action = $app['request']->query->get('action');
 
@@ -471,7 +471,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Get related Entries @todo
      */
-    public function relatedto($contenttypeslug, $id, Silex\Application $app, Request $request)
+    public function relatedTo($contenttypeslug, $id, Silex\Application $app, Request $request)
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
         if (!$app['users']->isAllowed('contenttype:' . $contenttypeslug)) {
@@ -661,7 +661,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Edit a unit of content, or create a new one.
      */
-    public function editcontent($contenttypeslug, $id, Silex\Application $app, Request $request)
+    public function editContent($contenttypeslug, $id, Silex\Application $app, Request $request)
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
@@ -858,7 +858,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Deletes a content item.
      */
-    public function deletecontent(Silex\Application $app, $contenttypeslug, $id)
+    public function deleteContent(Silex\Application $app, $contenttypeslug, $id)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -879,10 +879,10 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on content.
      */
-    public function contentaction(Silex\Application $app, $action, $contenttypeslug, $id)
+    public function contentAction(Silex\Application $app, $action, $contenttypeslug, $id)
     {
         if ($action === 'delete') {
-            return $this->deletecontent($app, $contenttypeslug, $id);
+            return $this->deleteContent($app, $contenttypeslug, $id);
         }
         $contenttype = $app['storage']->getContentType($contenttypeslug);
 
@@ -988,7 +988,7 @@ class Backend implements ControllerProviderInterface
         return $app['twig']->render('roles/roles.twig', array('context' => $context));
     }
 
-    public function useredit($id, \Bolt\Application $app, Request $request)
+    public function userEdit($id, \Bolt\Application $app, Request $request)
     {
         // Get the user we want to edit (if any)
         $user = empty($id) ? $app['users']->getEmptyUser() : $app['users']->getUser($id);
@@ -1293,7 +1293,7 @@ class Backend implements ControllerProviderInterface
     /**
      * Perform actions on users.
      */
-    public function useraction(Silex\Application $app, $action, $id)
+    public function userAction(Silex\Application $app, $action, $id)
     {
         if (!$app['users']->checkAntiCSRFToken()) {
             $app['session']->getFlashBag()->set('info', __('An error occurred.'));
@@ -1475,7 +1475,7 @@ class Backend implements ControllerProviderInterface
         return $app['render']->render($twig, array('context' => $context));
     }
 
-    public function fileedit($namespace, $file, Silex\Application $app, Request $request)
+    public function fileEdit($namespace, $file, Silex\Application $app, Request $request)
     {
         if ($namespace == 'app' && dirname($file) == "config") {
             // Special case: If requesting one of the major config files, like contenttypes.yml, set the path to the

@@ -91,13 +91,13 @@ class Application extends Silex\Application
         $this->initExtensions();
 
         // Initialise the global 'before' handler.
-        $this->before(array($this, 'BeforeHandler'));
+        $this->before(array($this, 'beforeHandler'));
 
         // Initialise the global 'after' handlers.
         $this->initAfterHandler();
 
         // Initialise the 'error' handler.
-        $this->error(array($this, 'ErrorHandler'));
+        $this->error(array($this, 'errorHandler'));
     }
 
     /**
@@ -326,7 +326,7 @@ class Application extends Silex\Application
         );
     }
 
-    public function BeforeHandler(Request $request)
+    public function beforeHandler(Request $request)
     {
         // Start the 'stopwatch' for the profiler.
         $this['stopwatch']->start('bolt.app.before');
@@ -484,7 +484,7 @@ class Application extends Silex\Application
      * @param \Exception $exception
      * @return Response
      */
-    public function ErrorHandler(\Exception $exception)
+    public function errorHandler(\Exception $exception)
     {
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
         // @see /app/src/Bolt/Controllers/Frontend.php, Frontend::before()

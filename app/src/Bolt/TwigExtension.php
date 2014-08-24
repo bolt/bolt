@@ -45,32 +45,32 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('current', array($this, 'current')),
             new \Twig_SimpleFunction('token', array($this, 'token')),
-            new \Twig_SimpleFunction('listtemplates', array($this, 'listtemplates')),
-            new \Twig_SimpleFunction('listcontent', array($this, 'listcontent')),
-            new \Twig_SimpleFunction('htmllang', array($this, 'htmllang')),
+            new \Twig_SimpleFunction('listtemplates', array($this, 'listTemplates')),
+            new \Twig_SimpleFunction('listcontent', array($this, 'listContent')),
+            new \Twig_SimpleFunction('htmllang', array($this, 'htmlLang')),
             new \Twig_SimpleFunction('pager', array($this, 'pager'), array('needs_environment' => true)),
             new \Twig_SimpleFunction('max', array($this, 'max')),
             new \Twig_SimpleFunction('min', array($this, 'min')),
             new \Twig_SimpleFunction('request', array($this, 'request')),
-            new \Twig_SimpleFunction('debugbar', array($this, 'debugbar')),
+            new \Twig_SimpleFunction('debugbar', array($this, 'debugBar')),
             new \Twig_SimpleFunction('ismobileclient', array($this, 'isMobileClient')),
             new \Twig_SimpleFunction('menu', array($this, 'menu'), array('needs_environment' => true, 'is_safe' => array('html'))),
-            new \Twig_SimpleFunction('randomquote', array($this, 'randomquote'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('randomquote', array($this, 'randomQuote'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('widget', array($this, 'widget')),
             new \Twig_SimpleFunction('isallowed', array($this, 'isAllowed')),
             new \Twig_SimpleFunction('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFunction('image', array($this, 'image')),
-            new \Twig_SimpleFunction('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
             new \Twig_SimpleFunction('popup', array($this, 'popup'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('first', array($this, 'first')),
             new \Twig_SimpleFunction('last', array($this, 'last')),
             new \Twig_SimpleFunction('__', array($this, 'trans'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('redirect', array($this, 'redirect'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('stackitems', array($this, 'stackitems')),
+            new \Twig_SimpleFunction('stackitems', array($this, 'stackItems')),
             new \Twig_SimpleFunction('stacked', array($this, 'stacked')),
-            new \Twig_SimpleFunction('imageinfo', array($this, 'imageinfo')),
-            new \Twig_SimpleFunction('file_exists', array($this, 'file_exists')),
+            new \Twig_SimpleFunction('imageinfo', array($this, 'imageInfo')),
+            new \Twig_SimpleFunction('file_exists', array($this, 'fileExists')),
             new \Twig_SimpleFunction('isChangelogEnabled', array($this, 'isChangelogEnabled'))
         );
     }
@@ -79,8 +79,8 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('localdate', array($this, 'localedatetime'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('localedatetime', array($this, 'localedatetime'), array('is_safe' => array('html'))), // Deprecated
+            new \Twig_SimpleFilter('localdate', array($this, 'localeDateTime'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('localedatetime', array($this, 'localeDateTime'), array('is_safe' => array('html'))), // Deprecated
             new \Twig_SimpleFilter('rot13', array($this, 'rot13Filter')),
             new \Twig_SimpleFilter('trimtext', array($this, 'trim'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('markdown', array($this, 'markdown'), array('is_safe' => array('html'))),
@@ -93,7 +93,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('current', array($this, 'current')),
             new \Twig_SimpleFilter('thumbnail', array($this, 'thumbnail')),
             new \Twig_SimpleFilter('image', array($this, 'image')),
-            new \Twig_SimpleFilter('showimage', array($this, 'showimage'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('showimage', array($this, 'showImage'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('fancybox', array($this, 'popup'), array('is_safe' => array('html'))), // "Fancybox" is deprecated.
             new \Twig_SimpleFilter('popup', array($this, 'popup'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('editable', array($this, 'editable'), array('is_safe' => array('html'))),
@@ -101,21 +101,21 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('first', array($this, 'first')),
             new \Twig_SimpleFilter('last', array($this, 'last')),
             new \Twig_SimpleFilter('__', array($this, 'trans'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('safestring', array($this, 'safestring'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('safestring', array($this, 'safeString'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('round', array($this, 'round')),
             new \Twig_SimpleFilter('floor', array($this, 'floor')),
             new \Twig_SimpleFilter('ceil', array($this, 'ceil')),
-            new \Twig_SimpleFilter('imageinfo', array($this, 'imageinfo')),
-            new \Twig_SimpleFilter('selectfield', array($this, 'selectfield')),
+            new \Twig_SimpleFilter('imageinfo', array($this, 'imageInfo')),
+            new \Twig_SimpleFilter('selectfield', array($this, 'selectField')),
             new \Twig_SimpleFilter('shuffle', array($this, 'shuffle')),
-            new \Twig_SimpleFilter('json_decode', array($this, 'json_decode'))
+            new \Twig_SimpleFilter('json_decode', array($this, 'jsonDecode'))
         );
     }
 
     public function getTests()
     {
         return array(
-            new \Twig_SimpleTest('json', array($this, 'test_json'))
+            new \Twig_SimpleTest('json', array($this, 'testJson'))
         );
     }
 
@@ -125,7 +125,7 @@ class TwigExtension extends \Twig_Extension
      * @param string $fn
      * @return bool
      */
-    public function file_exists($fn)
+    public function fileExists($fn)
     {
         if ($this->safe) {
             return false; // pretend we don't know anything about any files
@@ -181,7 +181,7 @@ class TwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function htmllang()
+    public function htmlLang()
     {
         $locale = $this->app['config']->get('general/locale');
         if ($locale == "") {
@@ -199,7 +199,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $format
      * @return string           Formatted date and time
      */
-    public function localedatetime($dateTime, $format = "%B %e, %Y %H:%M")
+    public function localeDateTime($dateTime, $format = "%B %e, %Y %H:%M")
     {
         if (!$dateTime instanceof \DateTime) {
             $dateTime = new \DateTime($dateTime);
@@ -317,7 +317,7 @@ class TwigExtension extends \Twig_Extension
      * @param string $filename
      * @return array Specifics
      */
-    public function imageinfo($filename)
+    public function imageInfo($filename)
     {
         // This function is vulnerable to path traversal, so blocking it in
         // safe mode for now.
@@ -645,7 +645,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $filter
      * @return array  Sorted and possibly filtered templates
      */
-    public function listtemplates($filter = "")
+    public function listTemplates($filter = "")
     {
         // No need to list templates in safe mode.
         if ($this->safe) {
@@ -698,7 +698,7 @@ class TwigExtension extends \Twig_Extension
      * @param  \Bolt\Content $content
      * @return string
      */
-    public function listcontent($contenttype, $relationoptions, $content)
+    public function listContent($contenttype, $relationoptions, $content)
     {
         // Just the relations for the current record, and just the current $contenttype.
         $current = isset($content->relation[$contenttype]) ? $content->relation[$contenttype] : null;
@@ -860,7 +860,7 @@ class TwigExtension extends \Twig_Extension
      *
      * @param boolean $value
      */
-    public function debugbar($value)
+    public function debugBar($value)
     {
         // @todo Should we enforce boolean values by using a === comparator?
         // Make sure it's actually true or false;
@@ -946,7 +946,7 @@ class TwigExtension extends \Twig_Extension
      * @param  string $crop     Crop image string identifier
      * @return string HTML output
      */
-    public function showimage($filename = "", $width = 100, $height = 100, $crop = "")
+    public function showImage($filename = "", $width = 100, $height = 100, $crop = "")
     {
         if (!empty($filename)) {
 
@@ -1204,7 +1204,7 @@ class TwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function randomquote()
+    public function randomQuote()
     {
         $quotes = array(
             "Complexity is your enemy. Any fool can make something complicated. It is hard to make something simple.#Richard Branson",
@@ -1319,7 +1319,7 @@ class TwigExtension extends \Twig_Extension
      * @param string $extrachars
      * @return string
      */
-    public function safestring($str, $strict = false, $extrachars = "")
+    public function safeString($str, $strict = false, $extrachars = "")
     {
         return safeString($str, $strict, $extrachars);
     }
@@ -1348,7 +1348,7 @@ class TwigExtension extends \Twig_Extension
      * @param string $type type
      * @return array An array of items
      */
-    public function stackitems($amount = 20, $type = "")
+    public function stackItems($amount = 20, $type = "")
     {
         $items = $this->app['stack']->listitems($amount, $type);
 
@@ -1376,7 +1376,7 @@ class TwigExtension extends \Twig_Extension
      *                        fields, to return from each record
      * @return array
      */
-    public function selectfield($content, $fieldname)
+    public function selectField($content, $fieldname)
     {
         $retval = array('');
         foreach ($content as $c) {
@@ -1424,9 +1424,9 @@ class TwigExtension extends \Twig_Extension
      * Test whether a passed string contains valid JSON.
      *
      * @param string   $string   The string to test.
-     * @return array The JSON decoded arra
+     * @return array The JSON decoded array
      */
-    public function test_json($string)
+    public function testJson($string)
     {
         json_decode($string);
 
@@ -1441,7 +1441,7 @@ class TwigExtension extends \Twig_Extension
      * @param string   $string   The string to decode.
      * @return array The JSON decoded array
      */
-    public function json_decode($string)
+    public function jsonDecode($string)
     {
         return json_decode($string);
     }

@@ -4,8 +4,7 @@ namespace Bolt;
 
 class DeepDiff
 {
-
-    public static function deep_diff($a, $b)
+    public static function diff($a, $b)
     {
         if (empty($a)) {
             $a = array();

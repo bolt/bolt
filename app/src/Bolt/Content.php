@@ -1046,11 +1046,16 @@ class Content implements \ArrayAccess
      * Creates RSS safe content. Wraps it in CDATA tags, strips style and
      * scripts out. Can optionally also return a (cleaned) excerpt.
      *
-     * @param  string $field         The field to clean up
+     * Note: To conform to the template style, this method name is not following PSR-1:
+     *    {{ record.rss_safe() }}
+     *
+     * @param  string $fields        Comma separated list of fields to clean up
      * @param  int    $excerptLength Number of chars of the excerpt
      * @return string RSS safe string
      */
+    // @codingStandardsIgnoreStart
     public function rss_safe($fields = '', $excerptLength = 0)
+    // @codingStandardsIgnoreEnd
     {
         // Make sure we have an array of fields. Even if it's only one.
         if (!is_array($fields)) {
@@ -1080,6 +1085,7 @@ class Content implements \ArrayAccess
 
         return '<![CDATA[ ' . $result . ' ]]>';
     }
+
 
     /**
      * Weight a text part relative to some other part
