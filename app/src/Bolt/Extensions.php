@@ -121,7 +121,7 @@ class Extensions
             foreach ($files as $file) {
                 try {
                     $current = str_replace($app['resources']->getPath('extensions'), '', $file);
-                    ob_start(function() use($current){
+                    ob_start(function($buffer) use($current){
                         $error=error_get_last();
                         if ($error['type'] == 1) {
                             $html = LowlevelException::$html;
@@ -131,6 +131,7 @@ class Extensions
                             }
                             return str_replace('%error%', $message, $html);
                         }
+                        return $buffer;
                     });
                     if (is_readable($file)) {
                         require $file;
