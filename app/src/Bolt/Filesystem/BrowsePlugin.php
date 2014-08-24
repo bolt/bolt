@@ -79,7 +79,7 @@ class BrowsePlugin implements PluginInterface
                 if (is_readable($fullfilename)) {
                     $files[$entry['path']]['readable'] = true;
 
-                    if (in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
+                    if (!empty($entry['extension']) && in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
                         $size = getimagesize($fullfilename);
                         $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                     }
