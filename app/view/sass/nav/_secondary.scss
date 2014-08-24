@@ -240,7 +240,7 @@
             display: block;
             padding: 4px 6px 4px 4px;
             background: transparent;
-            color: $dropdown-link-color;
+            color: $dropdown-link-color !important;
             font-size: 100%;
             text-indent: -$indent;
             padding-left: $indent;
@@ -254,7 +254,7 @@
         }
 
         a:hover {
-            color: $dropdown-link-hover-color;
+            color: $dropdown-link-hover-color !important;
             background-color: $dropdown-link-hover-bg;
             text-decoration: none;
         }
