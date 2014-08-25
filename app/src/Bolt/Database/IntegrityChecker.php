@@ -616,8 +616,6 @@ class IntegrityChecker
                         break;
                     default:
                         $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
-                        // FIXME is it used for debug or what?
-                        // $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
                 }
 
                 if (isset($values['index']) && $values['index'] == 'true') {
