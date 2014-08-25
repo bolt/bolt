@@ -23,23 +23,6 @@ class LowlevelChecks
     }
 
     /**
-     * Checks that the supplied directory has a loadable autoload.php file.
-     * This works outside any other config and throws an immediate error if not available.
-     */
-    public function autoloadCheck($basedir)
-    {
-        $test = $basedir."/vendor/autoload.php";
-        if (!is_readable($test)) {
-            throw new LowlevelException(
-                "The file <code>vendor/autoload.php</code> doesn't exist. Make sure " .
-                "you've installed the required components with Composer."
-            );
-        }
-
-        return $test;
-    }
-
-    /**
      * Perform the checks.
      */
     public function doChecks()
