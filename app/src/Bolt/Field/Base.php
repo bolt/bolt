@@ -24,4 +24,14 @@ class Base implements FieldInterface
     {
         return $this->template;
     }
+    
+    public function getStorageType()
+    {
+        return 'text';
+    }
+    
+    public function getStorageOptions()
+    {
+        return array();
+    }
 }

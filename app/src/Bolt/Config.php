@@ -539,6 +539,16 @@ class Config
             }
         }
     }
+    
+    /**
+     * A getter to access the fields manager
+     *
+     * @return Field\Manager
+     **/
+    public function getFields()
+    {
+        return $this->fields;
+    }
 
     /**
      * Assume sensible defaults for a number of options.
