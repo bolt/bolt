@@ -137,9 +137,8 @@
         text-indent: 0;
         font-size: 120%;
         padding-left: 4px;
-        margin-top: 2px;
         color: darken($sidebarlink, 50);
-        line-height: initial;
+        line-height: $nav-secondary-icon-size;
     }
 
     &:hover > a {
@@ -189,7 +188,7 @@
             padding: 4px 8px;
         }
 
-        kbd {
+        i.icon {
             background: none;
             color: $sidebarlink;
         }
@@ -199,27 +198,19 @@
         }
     }
 
-    kbd {
-        padding: 2px;
-        display: inline-block;
-        background: $sidebarlink;
-        border-radius: 5px;
-        font-size: 14px;
-        width: $nav-secondary-icon-size;
-        height: $nav-secondary-icon-size;
+    i.icon {
         display: inline-block;
         margin-right: $nav-secondary-icon-margin;
+        width: $nav-secondary-icon-size;
+        height: $nav-secondary-icon-size;
+        line-height: $nav-secondary-icon-size;
+        text-align: center;
+        vertical-align: baseline;
         text-indent: 0;
+        background: $sidebarlink;
+        border-radius: 5px;
+        font-size: ($nav-secondary-icon-size - 8px);
         color: #333;
-        line-height: initial;
-        box-shadow: none;
-
-        i {
-            display: inline-block;
-            width: 1.28571429em;
-            height: 1.28571429em;
-            text-align: center;
-        }
     }
 
     .popover.right {
@@ -286,7 +277,7 @@
     @include nav-secondary-divider();
     @include hide();
 
-    kbd {
+    i.icon {
         background: none !important;
         color: $sidebarlink !important;
     }
