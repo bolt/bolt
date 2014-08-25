@@ -615,7 +615,7 @@ class IntegrityChecker
                         // These are the default columns. Don't try to add these.
                         break;
                     default:
-                        $mytable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
+                        $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
                         // FIXME is it used for debug or what?
                         // $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
                 }
