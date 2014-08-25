@@ -1,6 +1,7 @@
 <?php
 namespace Bolt;
 
+use Bolt\Configuration\LowlevelException;
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(
   function () {
@@ -15,8 +16,11 @@ return call_user_func(
       //   <load-invoker>.php (usually entry point), load.php, bootstrap.php
       // Second to last entry must be load.php
       $isLoadChainOk = $includeCount >= 3 && $includes[$includeCount - 2] == $loaderPath;
+
+      require_once __DIR__ . '/src/Bolt/Configuration/LowlevelException.php';
+
       if (!$isLoadChainOk) {
-          throw new \RuntimeException('Include load.php, not bootstrap.php');
+          throw new LowlevelException('Include load.php, not bootstrap.php');
       }
 
 
@@ -51,9 +55,11 @@ return call_user_func(
 
       // None of the mappings matched, error
       if (!isset($config)) {
-          throw new \RuntimeException(
-            'Configuration autodetection failed because the autoloader could not be located.'
-          );
+            throw new LowlevelException(
+                "Configuration autodetection failed because The file ".
+                "<code>vendor/autoload.php</code> doesn't exist. Make sure " .
+                "you've installed the required components with Composer."
+            );
       }
 
       /** @var $config Configuration\ResourceManager */
