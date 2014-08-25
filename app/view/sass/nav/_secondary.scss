@@ -161,8 +161,6 @@
 
     &.active {
         background-color: $sidebarbackgroundactive;
-        border-top: 1px solid darken($sidebarbackgroundactive, 8);
-        border-bottom: 1px solid darken($sidebarbackgroundactive, 8);
         color: #fff;
     }
 
