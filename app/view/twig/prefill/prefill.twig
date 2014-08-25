@@ -17,12 +17,16 @@
                             {{ app.translator.trans('prefill.short_help', {}, 'infos')|raw }}
                         </div>
 
-                        <div id="form_contenttypes">
+                        <div id="form_contenttypes" style="border-bottom: 1px solid #eee; margin-bottom: 10px; width: 50%">
                             {% for key,ctype in context.contenttypes %}
-                                <label>
-                                    <input type="checkbox" id="form_contenttypes_{{ loop.index0 }}" name="form[contenttypes][]" value="{{ key }}">
-                                    {{ ctype }}
-                                </label>
+                                <div>
+                                    <label>
+                                        <input type="checkbox"
+                                               id="form_contenttypes_{{ loop.index0 }}"
+                                               name="form[contenttypes][]"
+                                               value="{{ key }}">{{ ctype }}
+                                    </label>
+                                </div>
                             {% endfor %}
                         </div>
                     </div>
@@ -30,9 +34,11 @@
 
                 {{ form_widget(context.form._token) }}
 
+                <div>
                 <button type="button" class="btn" id="check-all"><i class="fa fa-check"></i> {{ __('Select all') }}</button>
                 <button type="button" class="btn" id="uncheck-all"><i class="fa fa-check-empty"></i> {{ __('Deselect all') }}</button> &nbsp;
                 <button type="submit" class="btn btn-primary"><i class="fa fa-wrench"></i> {{ __('Prefill database') }}</button>
+                </div>
             </form>
 
         </div>
