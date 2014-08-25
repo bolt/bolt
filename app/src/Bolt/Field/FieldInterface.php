@@ -24,5 +24,19 @@ interface FieldInterface
      * @return string The template name
      */
     public function getTemplate();
+    
+    /**
+     * Returns the storage type.
+     *
+     * @return string A Valid Storage Type
+     */
+    public function getStorageType();
+    
+    /**
+     * Returns additional options to be passed to the storage field.
+     *
+     * @return array An array of options
+     */
+    public function getStorageOptions();
 
 }

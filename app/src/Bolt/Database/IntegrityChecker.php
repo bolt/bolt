@@ -565,6 +565,8 @@ class IntegrityChecker
                     $this->app['session']->getFlashBag()->set('error', $error);
                     continue;
                 }
+                
+                $handler = $this->app['config']->getFields()->getField($values['type']);
 
                 switch ($values['type']) {
                     case 'text':
@@ -613,8 +615,7 @@ class IntegrityChecker
                         // These are the default columns. Don't try to add these.
                         break;
                     default:
-                        // FIXME is it used for debug or what?
-                        // $output[] = "Type <tt>" . $values['type'] . "</tt> is not a correct field type for field <tt>$field</tt> in table <tt>$tablename</tt>.";
+                        $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
                 }
 
                 if (isset($values['index']) && $values['index'] == 'true') {
