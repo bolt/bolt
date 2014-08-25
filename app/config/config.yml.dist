@@ -75,11 +75,6 @@ listing_sort: datepublish DESC
 search_results_template: listing.twig
 search_results_records: 10
 
-# The list of enabled extensions. For Example:
-# GoogleAnalytics, FacebookLike, TwitterButton, FacebookComments, Disqus, RSSFeed, SimpleForms.
-# Read each 'readme.md' from the Bolt Extensions screen, to see what they do.
-enabled_extensions: [  ]
-
 # Add jQuery to the rendered HTML, whether or not it's added by an extension.
 add_jquery: false
 
