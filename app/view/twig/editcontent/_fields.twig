@@ -2,9 +2,7 @@
 
 {% for key, field in context.contenttype.fields %}
 
-    <div class="tabgrouping" data-tab="{{field.group|default('ungrouped') }}">
-
-        <div class="form-group">
+    <div class="tabgrouping form-group" data-tab="{{field.group|default('ungrouped') }}">
 
         {# --------------- prefix --------------- #}
         {% if field.prefix is defined and field.prefix is not empty %}
@@ -31,12 +29,10 @@
             </div>
         {% endif %}
 
-        </div><!-- end of 'formgroup' -->
+    </div><!-- end of 'formgroup' -->
 
-        {% if field.separator is defined and field.separator == true %}
-            <hr>
-        {% endif %}
-
-    </div>
+    {% if field.separator is defined and field.separator == true %}
+        <hr>
+    {% endif %}
 
 {% endfor %}
