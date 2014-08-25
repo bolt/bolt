@@ -810,6 +810,7 @@ var Sidebar = Backbone.Model.extend({
         sidebar.closePopOvers();
         // Check if the class is actually visible. If not, we're not on mobile, and we should just
         // redirect to the first link, to prevent confusion.
+        // Does not work, see #1590
         if ($('html').hasClass('no-touch')) {
             window.location.href = $('#navpage-secondary .submenu-'+name).find('a').first().attr('href');
         } else {
@@ -822,29 +823,28 @@ var Sidebar = Backbone.Model.extend({
         }
     },
 
+    /**
+     * Collapse secondary navigation to icon only design
+     */
     collapse: function() {
-        console.log('sidebar::collapse()');
         sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
         $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
     },
 
+    /**
+     * Expand secondary navigation to icon full width design
+     */
     expand: function() {
-        console.log('sidebar::expand()');
         sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened');
         $.removeCookie('sidebar', { path: '/' });
     },
 
+    /**
+     * Show/hide secondary navigation
+     */
     toogle: function() {
-        // Set the top position of the secondary navigation
-        //var primary = $('#navpage-primary');
-        //var bottom = primary.position().top + primary.height();
-
-        //$('#navpage-secondary').css('top', bottom);
-
-        // Show/hide navigation
-        console.log('sidebar::toogle()');
         var wrapper = $('#navpage-wrapper');
         if (wrapper.hasClass('nav-secondary-opened')) {
             wrapper.removeClass('nav-secondary-opened nav-secondary-collapsed');
