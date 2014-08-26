@@ -538,7 +538,10 @@ function bindFileUpload(key) {
     // Since jQuery File Upload's 'paramName' option seems to be ignored,
     // it requires the name of the upload input to be "images[]". Which clashes
     // with the non-fancy fallback, so we hackishly set it here. :-/
-    $('#fileupload-' + key).attr('name', 'files[]')
+    $('#fileupload-' + key).attr({
+            'name': 'files[]',
+            'multiple': 'multiple'
+        })
         .fileupload({
             dataType: 'json',
             dropZone: $('#dropzone-' + key),
@@ -1198,7 +1201,10 @@ var FilelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + contentkey).attr('name', 'files[]')
+        $('#fileupload-' + contentkey).attr({
+                'name': 'files[]',
+                'multiple': 'multiple'
+            })
             .fileupload({
                 dataType: 'json',
                 dropZone: $holder,
@@ -1350,7 +1356,10 @@ var ImagelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + contentkey).attr('name', 'files[]')
+        $('#fileupload-' + contentkey).attr({
+                'name': 'files[]',
+                'multiple': 'multiple'
+            })
             .fileupload({
                 dataType: 'json',
                 dropZone: $holder,
