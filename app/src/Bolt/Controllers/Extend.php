@@ -212,8 +212,16 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             $app->abort(404, 'You must be logged in to use this.');
         }
 
+        // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
+        if (!$app['users']->isAllowed('extensions')) {
+            $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to view that page.'));
+
+            return redirect('dashboard');
+        }
+
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.backend.before');
+
     }
 
     public function boot(Silex\Application $app)
