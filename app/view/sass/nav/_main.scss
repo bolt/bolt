@@ -12,7 +12,7 @@ $nav-secondary-divider-padding: 6px;
 $nav-secondary-icon-size: 24px;
 $nav-secondary-icon-margin: 8px;
 $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin);
-$nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 20);
+$nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 @mixin in-large-mode() {
     @media (min-width: $nav-secondary-breakpoint) {
