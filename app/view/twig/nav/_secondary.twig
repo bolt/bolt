@@ -28,11 +28,13 @@
 
             {% include 'nav/_secondary-translations.twig' %}
 
-            {{ nav.link('cog', __('Extend Bolt'), 'extend', (page_nav == 'ExtendBolt'), false) }}
+            {# Link to Extend Bolt #}
+            {% if isallowed('extensions') %}
+                {{ nav.link('cog', __('Extend Bolt'), 'extend', (page_nav == 'ExtendBolt'), false) }}
+            {% endif %}
 
         {% endif %}
 
-        {# Link to Extend Bolt #}
 
         {{ nav.collapse() }}
 
