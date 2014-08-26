@@ -17,7 +17,7 @@
 
 {% block page_plain %}
 
-    <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed"{% endif %}>
+    <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
         <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation">
             {% include 'nav/_primary.twig' %}
         </nav>
