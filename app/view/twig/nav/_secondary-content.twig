@@ -30,7 +30,7 @@
             {% endfor %}
 
             {% set active = (page_nav == 'Content/*' and context.contenttype.slug|default == slug) %}
-            {{ nav.submenu(contenttype.icon|default('files-o'), contenttype.name, sub, active, true) }}
+            {{ nav.submenu(contenttype.icon|default(''), contenttype.name, sub, active, true) }}
 
         {# Contenttypes, where show_in_menu is set false #}
         {% else %}

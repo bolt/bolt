@@ -4,7 +4,7 @@
 {% macro heading(title) %}
     {% from _self import label %}
     <li class="divider">
-        <em>{{ label('', title) }}</em>
+        <em>{{ label('-', title) }}</em>
     </li>
 {% endmacro %}
 
@@ -114,7 +114,9 @@
  # Sidebar-menu label
  #}
 {% macro label(icon, label) %}
-    {% if icon is not empty %}
+    {% if icon is empty %}
+        <i class="icon"><b>{{ label|slice(0,1) }}</b></i>
+    {% elseif icon != '-' %}
         {#<kbd><i class="fa fa-{{ icon }}"></i></kbd>#}
         <i class="icon fa fa-{{ icon }}"></i>
     {% endif %}

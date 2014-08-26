@@ -99,6 +99,10 @@
             }
         }
 
+    }
+
+    #navpage-wrapper.nav-secondary-collapsed-hoverable {
+
         #navpage-secondary:hover {
             width: $nav-secondary-large-width;
             overflow: visible;
@@ -110,9 +114,9 @@
                     color: $sidebarlink;
                 }
             }
-
         }
     }
+
 }
 
 /* --------------- */
@@ -207,6 +211,7 @@
         text-align: center;
         vertical-align: baseline;
         text-indent: 0;
+        font-style: normal;
         background: $sidebarlink;
         border-radius: 5px;
         font-size: ($nav-secondary-icon-size - 8px);

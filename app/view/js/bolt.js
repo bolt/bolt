@@ -832,6 +832,11 @@ var Sidebar = Backbone.Model.extend({
     collapse: function() {
         sidebar.closePopOvers();
         $('#navpage-wrapper').removeClass('nav-secondary-opened').addClass('nav-secondary-collapsed');
+        // We add the '-hoverable' class to make sure the sidebar _first_ collapses, and only _then_
+        // can be opened by hovering on it. 
+        setTimeout(function(){ 
+            $('#navpage-wrapper').addClass('nav-secondary-collapsed-hoverable'); 
+        }, 300);
         $.cookie('sidebar', 'collapsed', { expires: 21, path: '/' });
     },
 
@@ -840,7 +845,7 @@ var Sidebar = Backbone.Model.extend({
      */
     expand: function() {
         sidebar.closePopOvers();
-        $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened');
+        $('#navpage-wrapper').removeClass('nav-secondary-collapsed nav-secondary-opened nav-secondary-collapsed-hoverable');
         $.removeCookie('sidebar', { path: '/' });
     },
 
