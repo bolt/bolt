@@ -19,24 +19,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $this->app = $app;
 
-        $baseinfo = array(
-            'name' => "-",
-            'description' => "-",
-            'author' => "-",
-            'link' => "-",
-            'version' => "0.0",
-            'required_bolt_version' => "1.0 RC",
-            'highest_bolt_version' => "1.0 RC",
-            'type' => "Boilerplate",
-            'first_releasedate' => "2013-01-26",
-            'latest_releasedate' => "2013-01-26",
-            'dependencies' => array(),
-            'priority' => 10,
-            'tags' => array()
-        );
-
-        $this->info = array_merge($baseinfo, $this->info());
-
         $this->setBasepath();
 
         // Don't load config just yet. Let 'Extensions' handle this when
