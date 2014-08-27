@@ -158,10 +158,9 @@
     & > em {
         font-weight: bold;
         font-style: normal;
-        color: $sidebarbackgroundactive;
         color: lighten($sidebarbackgroundactive, 20);
 
-        kbd {
+        i.icon {
             background: none;
             color: lighten($sidebarbackgroundactive, 20);
         }

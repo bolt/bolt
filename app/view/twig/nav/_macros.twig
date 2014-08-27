@@ -1,10 +1,10 @@
 {##
  # Sidebar-menu heading
  #}
-{% macro heading(title) %}
+{% macro heading(title, icon) %}
     {% from _self import label %}
     <li class="divider">
-        <em>{{ label('-', title) }}</em>
+        <em>{{ label(icon, title) }}</em>
     </li>
 {% endmacro %}
 
