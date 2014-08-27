@@ -14,6 +14,7 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\TableDiff;
+use Bolt\Field\Unknown;
 
 class IntegrityChecker
 {
@@ -565,7 +566,7 @@ class IntegrityChecker
                     $this->app['session']->getFlashBag()->set('error', $error);
                     continue;
                 }
-                
+
                 $handler = $this->app['config']->getFields()->getField($values['type']);
 
                 switch ($values['type']) {
@@ -615,6 +616,14 @@ class IntegrityChecker
                         // These are the default columns. Don't try to add these.
                         break;
                     default:
+                        if ($handler instanceof Unknown) {
+                            $column = $this->getTableCol($tablename, $field);
+                            if (!$column) {
+                                break;
+                            }
+                            $handler->setByColumn($column);
+                            $handler->setStorageOptions($this->getStorageOption($tablename, $field));
+                        }
                         $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
                 }
 
@@ -642,5 +651,25 @@ class IntegrityChecker
         $tablename = sprintf("%s%s", $this->prefix, $name);
 
         return $tablename;
+    }
+
+    protected function getTableCol($tablename, $fieldname) {
+        $tables = $this->getTableObjects();
+        /* @var $table \Doctrine\DBAL\Schema\Table */
+        $table = $tables[$tablename];
+        if (!isset($table)) {
+            return false;
+        }
+        return $table->getColumn($fieldname);
+    }
+
+    protected function getStorageOption($tablename, $fieldname) {
+        $tables = $this->getTableObjects();
+        /* @var $table \Doctrine\DBAL\Schema\Table */
+        $table = $tables[$tablename];
+        if (!isset($table)) {
+            return array();
+        }
+        return $table->getOptions();
     }
 }
