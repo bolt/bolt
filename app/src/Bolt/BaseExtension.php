@@ -199,19 +199,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Boilerplate for init(). Deprecated, use initialize instead.
-     */
-    public function init()
-    {
-    }
-
-    /**
      * Boilerplate for initialize()
      */
     public function initialize()
     {
-        // call deprecated function
-        return $this->init();
     }
 
     /**
