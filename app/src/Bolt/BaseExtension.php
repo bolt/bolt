@@ -413,7 +413,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->app['extensions']->insertWidget($type, $location, $callback, $this->namespace, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
+        $this->app['extensions']->insertWidget($type, $location, $callback, $this->getName(), $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
     }
 
     /**
