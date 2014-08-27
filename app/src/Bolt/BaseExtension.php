@@ -78,13 +78,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $configfiles = array();
 
-        $configfiles[] = $this->basepath . '/config.yml';
-        $configfiles[] = $this->basepath . '/config_local.yml';
-
-        if (BOLT_COMPOSER_INSTALLED) {
-            $configfiles[] = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
-            $configfiles[] = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '_local.yml';
-        }
+        $configfiles[] = $this->app['resources']->getPath('config') . '/' . $this->getName() . '.yml';
+        $configfiles[] = $this->app['resources']->getPath('config') . '/' . $this->getName() . '_local.yml';
 
         return $configfiles;
     }
@@ -122,7 +117,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
     private function loadConfigFile($configfile)
     {
-        $configdistfile = "$configfile.dist";
+        $configdistfile = $this->basepath. "/config.yml.dist";
         $yamlparser = new \Symfony\Component\Yaml\Parser();
 
         if (is_readable($configfile)) {
