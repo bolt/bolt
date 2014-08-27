@@ -62,7 +62,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->basepath = dirname($reflection->getFileName());
         $this->namespace = basename(dirname($reflection->getFileName()));
     }
-    
+
     public function getBaseUrl()
     {
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
@@ -282,14 +282,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     public function addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
         $this->app['extensions']->insertSnippet($name, $callback, $this->namespace, $var1, $var2, $var3);
-    }
-
-    /**
-     * Insert a snippet into the generated HTML. Deprecated, use addSnippet() instead.
-     */
-    public function insertSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
-    {
-        $this->addSnippet($name, $callback, $var1, $var2, $var3);
     }
 
     /**
