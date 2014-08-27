@@ -305,7 +305,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
-            $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
+            $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.", 2);
         }
     }
 
@@ -326,7 +326,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
-            $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
+            $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.", 2);
         }
     }
 
