@@ -23,7 +23,7 @@ class Config
         'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'html',
         'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
     );
-    
+
     public $fields;
 
     static private $yamlParser;
@@ -356,9 +356,9 @@ class Config
                     }
                 }
 
-                // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn 
+                // If the field has a 'group', make sure it's added to the 'groups' array, so we can turn
                 // them into tabs while rendering. This also makes sure that once you started with a group,
-                // all others have a group too. 
+                // all others have a group too.
                 if (!empty($temp['fields'][$key]['group'])) {
                     $currentgroup = $temp['fields'][$key]['group'];
                     $temp['groups'][] = $currentgroup;
@@ -481,6 +481,7 @@ class Config
                          $field['type'])
                     );
                     $this->app['session']->getFlashBag()->set('error', $error);
+                    $wrongctype = true && $this->app['users']->getCurrentUsername();
                 }
             }
 
@@ -498,7 +499,7 @@ class Config
         }
 
         // Check DB-tables integrity
-        if ($this->app['integritychecker']->needsCheck() &&
+        if (!$wrongctype && $this->app['integritychecker']->needsCheck() &&
            (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) &&
             $this->app['users']->getCurrentUsername()) {
             $msg = __(
@@ -539,7 +540,7 @@ class Config
             }
         }
     }
-    
+
     /**
      * A getter to access the fields manager
      *
