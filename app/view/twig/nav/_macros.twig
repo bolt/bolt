@@ -119,9 +119,8 @@
  #}
 {% macro label(icon, label) %}
     {% if icon is empty %}
-        <i class="icon"><b>{{ label|slice(0,1) }}</b></i>
+        <i class="icon">{{ label|slice(0, 1) }}</i>
     {% elseif icon != '-' %}
-        {#<kbd><i class="fa fa-{{ icon }}"></i></kbd>#}
         <i class="icon fa fa-{{ icon }}"></i>
     {% endif %}
     {{ label }}

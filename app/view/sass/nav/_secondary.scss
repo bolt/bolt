@@ -217,10 +217,15 @@
         vertical-align: baseline;
         text-indent: 0;
         font-style: normal;
+        font-weight: bold;
         background: $sidebarlink;
         border-radius: 5px;
         font-size: ($nav-secondary-icon-size - 8px);
         color: #333;
+
+        &:before {
+            font-weight: normal;
+        }
     }
 
     .popover.right {
