@@ -417,14 +417,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Deprecated function to Insert a Widget (for instance, on the dashboard). Use addWidget() instead.
-     */
-    public function insertWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
-    {
-        $this->addWidget($type, $location, $callback, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
-    }
-
-    /**
      * Deprecated
      *
      * @see: requireUserRole()
