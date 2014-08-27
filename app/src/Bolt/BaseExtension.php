@@ -199,36 +199,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Get information about the current extension, as an array. Some of these are
-     * set by the author of the extension, others are set here.
-     *
-     * @return array
-     */
-    public function getInfo()
-    {
-        if (file_exists($this->basepath . "/readme.md")) {
-            $this->info['readme'] = $this->basepath . "/readme.md";
-        } else {
-            $this->info['readme'] = false;
-        }
-
-        foreach ($this->getConfigFiles() as $configFile) {
-            if (file_exists($configFile)) {
-                $this->info['config'][] = array(
-                    'file' => $configFile,
-                    'writable' => is_writable($configFile)
-                );
-            }
-        }
-
-        $this->info['version_ok'] = checkVersion($this->app['bolt_version'], $this->info['required_bolt_version']);
-        $this->info['namespace'] = $this->namespace;
-        $this->info['basepath'] = $this->basepath;
-
-        return $this->info;
-    }
-
-    /**
      * Boilerplate for init(). Deprecated, use initialize instead.
      */
     public function init()
