@@ -811,10 +811,9 @@ var Sidebar = Backbone.Model.extend({
      */
     showSidebarItems: function(name) {
         sidebar.closePopOvers();
-        // Check if the class is actually visible. If not, we're not on mobile, and we should just
-        // redirect to the first link, to prevent confusion.
-        // Does not work, see #1590
-        if ($('html').hasClass('no-touch')) {
+        // Check if the "hamburger menu" is actually visible. If not, we're not on mobile
+        // or tablet, and we should just redirect to the first link, to prevent confusion.
+        if (!$('.navbar-toggle').is(':visible')) {
             window.location.href = $('#navpage-secondary .submenu-'+name).find('a').first().attr('href');
         } else {
             if ($('#navpage-secondary .submenu-'+name).hasClass('show')) {
@@ -852,7 +851,7 @@ var Sidebar = Backbone.Model.extend({
     /**
      * Show/hide secondary navigation
      */
-    toogle: function() {
+    toggle: function() {
         var wrapper = $('#navpage-wrapper');
         if (wrapper.hasClass('nav-secondary-opened')) {
             wrapper.removeClass('nav-secondary-opened nav-secondary-collapsed');
