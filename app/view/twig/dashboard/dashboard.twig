@@ -6,10 +6,15 @@
 
 {% block page_title __('Dashboard') %}
 
+{# clear default messages, because we use them in a different spot, in this template #}
+{% block messages "" %}
+
 {% block page_main %}
 
     <div class="row">
         <div class="col-md-8">
+
+            {% include '_sub/_messages.twig' %}
 
             {% if context.suggestloripsum %}
                 {% include 'dashboard/_suggestloripsum.twig' %}

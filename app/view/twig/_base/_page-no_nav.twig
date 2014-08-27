@@ -31,9 +31,7 @@
                 </div>
 
                 <div class="panel-body">
-                    {% if app.session.flashBag.keys()|length() %}
-                        {% include '_sub/_messages.twig' %}
-                    {% endif %}
+                    {% include '_sub/_messages.twig' %}
                     {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
                 </div>
             </div>

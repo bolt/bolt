@@ -6,6 +6,9 @@
 
 {% block page_title __('Extend Bolt') %}
 
+{# clear default messages, because we use them in a different spot, in this template #}
+{% block messages "" %}
+
 {% block page_main %}
 
     <script src="{{ paths.app }}view/js/bolt-extend.js"></script>
@@ -23,6 +26,9 @@
 
     <div class="row extend-bolt-container">
         <div class="col-md-8">
+
+            {% include '_sub/_messages.twig' %}
+
             <div class="update-container hide-block">
                 <h3>{{ __('Updates') }}</h3>
                 <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)') }}..</pre>

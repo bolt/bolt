@@ -11,11 +11,18 @@
 
 {% block page_subtitle context.contenttype.name %}
 
+{# clear default messages, because we use them in a different spot, in this template #}
+{% block messages "" %}
+
 {% block page_main %}
 
     <div class="row">
         <div class="col-md-9">
+
+            {% include '_sub/_messages.twig' %}
+
             {{ list(context.contenttype, context.contenttype, context.multiplecontent, 'table table-striped') }}
+            
         </div>
 
         <aside class="col-md-3">
