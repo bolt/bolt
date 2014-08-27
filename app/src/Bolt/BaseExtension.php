@@ -281,7 +281,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->app['extensions']->insertSnippet($name, $callback, $this->namespace, $var1, $var2, $var3);
+        $this->app['extensions']->insertSnippet($name, $callback, $this->getName(), $var1, $var2, $var3);
     }
 
     /**
