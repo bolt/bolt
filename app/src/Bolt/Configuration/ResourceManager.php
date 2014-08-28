@@ -52,6 +52,7 @@ class ResourceManager
         $this->setPath("apppath", $this->root."/app");
 
         $this->setUrl("extensions", "/extensions/");
+        $this->setPath("extensionsconfig", $this->root."/app/config/extensions");
         $this->setPath("extensionspath", $this->root."/extensions");
 
         $this->setUrl("files", "/files/");
@@ -276,7 +277,7 @@ class ResourceManager
     {
         if (! static::$_app) {
             $message = sprintf(
-                "The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", 
+                "The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>",
                 htmlspecialchars(debug_backtrace(), ENT_QUOTES)
             );
             throw new LowlevelException($message);

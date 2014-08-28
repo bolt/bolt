@@ -19,24 +19,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     {
         $this->app = $app;
 
-        $baseinfo = array(
-            'name' => "-",
-            'description' => "-",
-            'author' => "-",
-            'link' => "-",
-            'version' => "0.0",
-            'required_bolt_version' => "1.0 RC",
-            'highest_bolt_version' => "1.0 RC",
-            'type' => "Boilerplate",
-            'first_releasedate' => "2013-01-26",
-            'latest_releasedate' => "2013-01-26",
-            'dependencies' => array(),
-            'priority' => 10,
-            'tags' => array()
-        );
-
-        $this->info = array_merge($baseinfo, $this->info());
-
         $this->setBasepath();
 
         // Don't load config just yet. Let 'Extensions' handle this when
@@ -62,31 +44,11 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->basepath = dirname($reflection->getFileName());
         $this->namespace = basename(dirname($reflection->getFileName()));
     }
-    
+
     public function getBaseUrl()
     {
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
         return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
-    }
-
-    /**
-     * Get location of config files
-     *
-     * @return array
-     */
-    private function getConfigFiles()
-    {
-        $configfiles = array();
-
-        $configfiles[] = $this->basepath . '/config.yml';
-        $configfiles[] = $this->basepath . '/config_local.yml';
-
-        if (BOLT_COMPOSER_INSTALLED) {
-            $configfiles[] = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '.yml';
-            $configfiles[] = BOLT_CONFIG_DIR . DIRECTORY_SEPARATOR . $this->namespace . '_local.yml';
-        }
-
-        return $configfiles;
     }
 
     /**
@@ -112,48 +74,94 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         }
 
         $this->config = $this->getDefaultConfig();
-        foreach ($this->getConfigFiles() as $filename) {
-            $this->loadConfigFile($filename);
+
+        $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $this->getName();
+
+        // Load main config
+        if ($this->isConfigValid($basefile.'.yml', true)) {
+            $this->loadConfigFile($basefile.'.yml');
         }
+
+        // Load local config
+        if ($this->isConfigValid($basefile.'_local.yml', false)) {
+            $this->loadConfigFile($basefile.'.yml');
+        }
+
         $this->configLoaded = true;
 
         return $this->config;
     }
 
-    private function loadConfigFile($configfile)
-    {
-        $configdistfile = "$configfile.dist";
-        $yamlparser = new \Symfony\Component\Yaml\Parser();
-
-        if (is_readable($configfile)) {
-            // If it's readable, we're cool
-            $new_config = $yamlparser->parse(file_get_contents($configfile) . "\n");
-
-            // Don't error on empty config files
-            if (is_array($new_config)) {
-                $this->config = array_merge($this->config, $new_config);
-            }
-        } elseif (is_readable($configdistfile)) {
-            // Otherwise, check if there's a config.yml.dist
-            $new_config = $yamlparser->parse(file_get_contents($configdistfile) . "\n");
-
-            // If config.yml.dist exists, attempt to copy it to config.yml.
-            if (copy($configdistfile, $configfile)) {
-                // Success!
-                $this->app['log']->add(
-                    "Copied $configdistfile to $configfile",
-                    2
-                );
-                $this->config = array_merge($this->config, $new_config);
+    /**
+     * Test if a given config file is valid (exists and is readable) and create
+     * if required.
+     *
+     * @param string $configfile
+     *                  Fully qualified file path
+     * @param boolean $create
+     *                  True - create file is non-existant
+     *                  False - Only test for file existance
+     * @return boolean
+     */
+    private function isConfigValid($configfile, $create) {
+        //
+        if (file_exists($configfile)){
+            if (is_readable($configfile)) {
+                return true;
             } else {
-                // Failure!!
+                // Config file exists but is not readable
                 $configdir = dirname($configfile);
-                $message = "Couldn't copy $configdistfile to $configfile: " .
-                    "File is not writable. Create the file manually, or make " .
-                    " the $configdir directory writable.";
+                $message = "Couldn't read $configfile. Please correct file " .
+                           "permissions and ensure the $configdir directory readable.";
                 $this->app['log']->add($message, 3);
                 $this->app['session']->getFlashBag()->set('error', $message);
+                return false;
             }
+        } elseif ($create) {
+            $configdistfile = $this->basepath. "/config.yml.dist";
+
+            // If config.yml.dist exists, attempt to copy it to config.yml.
+            if (is_readable($configdistfile)) {
+                if (copy($configdistfile, $configfile)) {
+                    // Success!
+                    $this->app['log']->add(
+                        "Copied $configdistfile to $configfile",
+                        2
+                    );
+
+                    return true;
+                } else {
+                    // Failure!!
+                    $configdir = dirname($configfile);
+                    $message = "Couldn't copy $configdistfile to $configfile: " .
+                               "File is not writable. Create the file manually, " .
+                               "or make the $configdir directory writable.";
+                    $this->app['log']->add($message, 3);
+                    $this->app['session']->getFlashBag()->set('error', $message);
+
+                    return false;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * Load and process a give config file
+     *
+     * @param string $configfile
+     *                  Fully qualified file path
+     */
+    private function loadConfigFile($configfile)
+    {
+        $yamlparser = new \Symfony\Component\Yaml\Parser();
+
+        $new_config = $yamlparser->parse(file_get_contents($configfile) . "\n");
+
+        // Don't error on empty config files
+        if (is_array($new_config)) {
+            $this->config = array_merge($this->config, $new_config);
         }
     }
 
@@ -163,59 +171,10 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Placeholder for the info function.
-     *
-     * @return array
-     */
-    public function info()
-    {
-        return array();
-    }
-
-    /**
-     * Get information about the current extension, as an array. Some of these are
-     * set by the author of the extension, others are set here.
-     *
-     * @return array
-     */
-    public function getInfo()
-    {
-        if (file_exists($this->basepath . "/readme.md")) {
-            $this->info['readme'] = $this->basepath . "/readme.md";
-        } else {
-            $this->info['readme'] = false;
-        }
-
-        foreach ($this->getConfigFiles() as $configFile) {
-            if (file_exists($configFile)) {
-                $this->info['config'][] = array(
-                    'file' => $configFile,
-                    'writable' => is_writable($configFile)
-                );
-            }
-        }
-
-        $this->info['version_ok'] = checkVersion($this->app['bolt_version'], $this->info['required_bolt_version']);
-        $this->info['namespace'] = $this->namespace;
-        $this->info['basepath'] = $this->basepath;
-
-        return $this->info;
-    }
-
-    /**
-     * Boilerplate for init(). Deprecated, use initialize instead.
-     */
-    public function init()
-    {
-    }
-
-    /**
      * Boilerplate for initialize()
      */
     public function initialize()
     {
-        // call deprecated function
-        return $this->init();
     }
 
     /**
@@ -281,15 +240,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->app['extensions']->insertSnippet($name, $callback, $this->namespace, $var1, $var2, $var3);
-    }
-
-    /**
-     * Insert a snippet into the generated HTML. Deprecated, use addSnippet() instead.
-     */
-    public function insertSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
-    {
-        $this->addSnippet($name, $callback, $var1, $var2, $var3);
+        $this->app['extensions']->insertSnippet($name, $callback, $this->getName(), $var1, $var2, $var3);
     }
 
     /**
@@ -326,7 +277,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
-            $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
+            $this->app['log']->add("Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.", 2);
         }
     }
 
@@ -347,7 +298,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late);
         } else {
             // Nope, can't add the CSS..
-            $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in 'extensions/".$this->namespace."'.", 2);
+            $this->app['log']->add("Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.", 2);
         }
     }
 
@@ -421,15 +372,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      */
     public function addWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
     {
-        $this->app['extensions']->insertWidget($type, $location, $callback, $this->namespace, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
-    }
-
-    /**
-     * Deprecated function to Insert a Widget (for instance, on the dashboard). Use addWidget() instead.
-     */
-    public function insertWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
-    {
-        $this->addWidget($type, $location, $callback, $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
+        $this->app['extensions']->insertWidget($type, $location, $callback, $this->getName(), $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
     }
 
     /**

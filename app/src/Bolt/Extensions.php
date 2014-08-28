@@ -168,7 +168,6 @@ class Extensions
             $this->getSnippets($name);
 
             if ($extension instanceof \Twig_Extension) {
-                $info = $extension->info();
                 $this->app['twig']->addExtension($extension);
                 if (!empty($info['allow_in_user_content'])) {
                     $this->app['safe_twig']->addExtension($extension);
