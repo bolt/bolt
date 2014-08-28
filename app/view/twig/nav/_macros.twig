@@ -51,7 +51,9 @@
                         {% if item == '-' %}
                             <hr>
                         {% elseif isallowed(item.isallowed|default('dashboard')) %}
-                            <a href='{{ item.link }}'><i class='fa fa-fw fa-{{ item.icon }}'> </i>{{ item.label }}</a>
+                            <a href='{{ item.link }}'>
+                                <i class='fa fa-fw fa-{{ item.icon }}'> </i>{{ item.label|default(__("(no content…)")) }}
+                            </a>
                         {% endif %}
                     {% endfor %}
                 {% endspaceless %}">
@@ -64,7 +66,9 @@
                         {% set divider = true %}
                     {% elseif isallowed(item.isallowed|default('dashboard')) %}
                         <li{% if divider %} class="subdivider"{% endif %}>
-                            <a href="{{ item.link }}"><i class="fa fa-{{ item.icon }} fa-fw"> </i>{{ item.label }}</a>
+                            <a href="{{ item.link }}">
+                                <i class="fa fa-{{ item.icon }} fa-fw"> </i>{{ item.label|default(__("(no content…)")) }}
+                            </a>
                         </li>
                         {% set divider = false %}
                     {% endif %}
