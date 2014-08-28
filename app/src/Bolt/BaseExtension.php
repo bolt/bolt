@@ -75,7 +75,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
 
         $this->config = $this->getDefaultConfig();
 
-        $basefile = $this->app['resources']->getPath('config') . '/' . $this->getName();
+        $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $this->getName();
 
         // Load main config
         if ($this->isConfigValid($basefile.'.yml', true)) {
