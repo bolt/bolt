@@ -115,7 +115,8 @@ class TwigExtension extends \Twig_Extension
     public function getTests()
     {
         return array(
-            new \Twig_SimpleTest('json', array($this, 'testJson'))
+            new \Twig_SimpleTest('json', array($this, 'testJson')),
+            new \Twig_SimpleTest('available', array($this, 'available'))
         );
     }
 
@@ -1445,4 +1446,65 @@ class TwigExtension extends \Twig_Extension
     {
         return json_decode($string);
     }
+
+
+    /**
+     * Check if the passed string is an available twig function, filter or test.
+     *
+     * @param string $something The string to check
+     * @return array Boolean result
+     */
+    public function available($something)
+    {
+        if (empty($this->availablethings)) {
+            $this->collectAvailableThings();
+        }
+
+        return (in_array($something, $this->availablethings));
+    }
+
+    /**
+     * Helper function to collect the list of available Twig Filters, Tests
+     * and Functions from all available Twig Extensions. We store the
+     * results, so we only have to do this once.
+     */
+    private function collectAvailableThings() 
+    {        
+        $this->availablethings = array();
+
+        foreach ($this->app['twig']->getExtensions() as $extensionName => $extension) {
+            
+            foreach ($extension->getFilters() as $filterName => $filter) {
+                if ($filter instanceof \Twig_FilterInterface) {
+                    $call = $filter->compile();
+                    if (is_array($call) && is_callable($call)) {
+                        $call = 'Method '.$call[1].' of an object '.get_class($call[0]);
+                    }
+                } else {
+                    $call = $filter->getName();
+                }
+                $this->availablethings[] = $call;
+            }
+
+            foreach ($extension->getTests() as $testName => $test) {
+                if ($test instanceof \Twig_TestInterface) {
+                    $call = $test->compile();
+                } else {
+                    $call = $test->getName();
+                }
+                $this->availablethings[] = $call;
+            }
+
+            foreach ($extension->getFunctions() as $functionName => $function) {
+                if ($function instanceof \Twig_FunctionInterface) {
+                    $call = $function->compile();
+                } else {
+                    $call = $function->getName();
+                }
+                $this->availablethings[] = $call;
+            }
+
+        }
+    }
+
 }
