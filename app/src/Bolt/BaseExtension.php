@@ -171,16 +171,6 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     }
 
     /**
-     * Placeholder for the info function.
-     *
-     * @return array
-     */
-    public function info()
-    {
-        return array();
-    }
-
-    /**
      * Boilerplate for initialize()
      */
     public function initialize()
