@@ -1,20 +1,4 @@
-{% if 'filter' in app.request.query.all|keys %}
-    {% set filter = 'filter=' ~ app.request.query.all.filter ~ '&' %}
-{% elseif 'search' in app.request.query.all|keys %}
-    {% set filter = 'search=' ~ app.request.query.all.search ~ '&' %}
-{% elseif 'q' in app.request.query.all|keys %}
-    {% set filter = 'q=' ~ app.request.query.all.q ~ '&' %}
-{% else %}
-    {% set filter = '' %}
-{% endif %}
-
-{% if 'order' in app.request.query.all|keys %}
-    {% set order = 'order=' ~ app.request.query.all.order ~ '&' %}
-{% else %}
-    {% set order = '' %}
-{% endif %}
-
-{% set link = '?' ~ filter ~ order ~ 'page=' %}
+{% set link = context.pager.makelink() %}
 
 {% if context.pager.totalpages|default(0) > 1 %}
     <div style="text-align: center">
