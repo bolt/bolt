@@ -35,6 +35,8 @@ class ResourceManager
 
     protected $verifier = false;
 
+    protected $classLoader;
+
     /**
      * Constructor initialises on the app root path.
      *
@@ -42,6 +44,7 @@ class ResourceManager
      */
     public function __construct($loader, Request $request = null, $verifier = null)
     {
+        $this->classLoader = $loader;
         $app = dirname($loader->findFile('Bolt\\Application'));
 
         $this->root = realpath($app . '/../../../');
@@ -277,6 +280,11 @@ class ResourceManager
             $this->verifier = new LowlevelChecks($this);
         }
         return $this->verifier;
+    }
+
+    public function getClassLoader()
+    {
+        return $this->classLoader;
     }
 
     public static function getApp()
