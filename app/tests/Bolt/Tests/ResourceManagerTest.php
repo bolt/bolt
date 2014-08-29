@@ -18,8 +18,8 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        global $CLOADER;
-        $this->loader = $CLOADER;
+        global $CLASSLOADER;
+        $this->loader = $CLASSLOADER;
     }
 
     public function tearDown()

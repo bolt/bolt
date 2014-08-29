@@ -19,8 +19,13 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
 {
 
 
+    protected $loader;
+
     public function setup()
     {
+        global $CLASSLOADER;
+
+        $this->loader = $CLASSLOADER;
         @mkdir(__DIR__."/files", 0777, true);
     }
 
@@ -120,7 +125,9 @@ class UploadControllerTest extends \PHPUnit_Framework_TestCase
         ->setConstructorArgs(array(new MockFileSessionStorage()))
         ->getMock();
 
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new Config\ResourceManager($this->loader);
+        $config->compat();
+
         $bolt = new Application(array('resources'=>$config));
         $bolt['config']->set('general/database', array(
             'driver'=>'sqlite',
