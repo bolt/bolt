@@ -6,11 +6,9 @@ use Bolt\Configuration\LowlevelException;
 return call_user_func(function ()
 {
 
-    $dirSep = DIRECTORY_SEPARATOR;
-
     // First ensure load.php was called right before bootstrap.php
     $includes = get_included_files();
-    $loaderPath = __DIR__ . $dirSep . 'load.php';
+    $loaderPath = __DIR__ . '/load.php';
     $includeCount = count($includes);
     // Should be at least 3 includes at this point:
     // <load-invoker>.php (usually entry point), load.php, bootstrap.php
@@ -33,21 +31,21 @@ return call_user_func(function ()
     mb_http_output('UTF-8');
 
     // Resolve Bolt-root
-    $boltRootPath = realpath(__DIR__ . $dirSep . '..');
+    $boltRootPath = realpath(__DIR__ . '/..');
 
     // Look for the autoloader in known positions relative to the Bolt-root,
     // and autodetect an appropriate configuration class based on this
     // information. (autoload.php path maps to a configuration class)
     $autodetectionMappings = array(
-        $boltRootPath . $dirSep . 'vendor' . $dirSep . 'autoload.php' => 'Standard',
-        $boltRootPath . $dirSep . '..' . $dirSep . '..' . $dirSep . 'autoload.php' => 'Composer'
+        $boltRootPath . '/vendor/autoload.php' => 'Standard',
+        $boltRootPath . '/../../autoload.php' => 'Composer'
     );
 
     foreach ($autodetectionMappings as $autoloadPath => $configType) {
         if (file_exists($autoloadPath)) {
-            require_once $autoloadPath;
+            $loader = require_once $autoloadPath;
             $configClass = '\\Bolt\\Configuration\\' . $configType;
-            $config = new $configClass($boltRootPath);
+            $config = new $configClass($loader);
             break;
         }
     }

@@ -12,17 +12,11 @@ class Composer extends Standard
      *
      * @param string $path
      */
-    public function __construct($root, Request $request = null)
+    public function __construct($loader, Request $request = null)
     {
-        parent::__construct($root, $request);
+        parent::__construct($loader, $request);
+
         $this->setPath("composer", $this->root);
-        $this->setPath("apppath", $this->getPath('composer') . "/app");
-        $this->setPath("extensionspath", $this->root . "/extensions");
-        $this->setPath("cache", $this->getPath("apppath") . "/cache");
-        $this->setPath("config", $this->getPath("apppath") . "/config");
-        $this->setPath("database", $this->getPath("apppath") . "/database");
-        $this->setPath("themebase", $this->root . "/theme");
-        $this->setPath("extensionsconfig", $this->root."/app/config/extensions");
 
         $this->setUrl("app", "/bolt-public/");
     }

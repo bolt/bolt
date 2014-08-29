@@ -4,6 +4,7 @@ namespace Bolt\Configuration;
 
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Composer\Autoload\ClassLoader;
 
 /**
  * A Base Class to handle resource management of paths and urls within a Bolt App.
@@ -36,9 +37,12 @@ class ResourceManager
      *
      * @param string $path
      */
-    public function __construct($root, Request $request = null, $verifier = null)
+    public function __construct($loader, Request $request = null, $verifier = null)
     {
-        $this->root = realpath($root);
+        $app = dirname($loader->findFile('Bolt\\Application'));
+
+        $this->root = realpath($app . '/../../../');
+
         $this->requestObject = $request;
 
         if (null !== $verifier) {
@@ -49,7 +53,7 @@ class ResourceManager
         $this->setPath("rootpath", $this->root);
 
         $this->setUrl("app", "/app/");
-        $this->setPath("apppath", $this->root."/app");
+        $this->setPath("apppath", $this->root . '/app');
 
         $this->setUrl("extensions", "/extensions/");
         $this->setPath("extensionsconfig", $this->root."/app/config/extensions");
