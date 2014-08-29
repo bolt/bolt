@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Extensions\BaseExtensionInterface;
+use Symfony\Component\Console\Command\Command;
 
 abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInterface
 {
@@ -422,5 +423,15 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         } else {
             return false;
         }
+    }
+
+    /**
+     * Add a console command
+     *
+     * @param Command $command
+     */
+    public function addConsoleCommand(Command $command)
+    {
+        $this->app['console']->add($command);
     }
 }

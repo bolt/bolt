@@ -20,7 +20,7 @@ class CommandRunner
         $this->basedir = $app['resources']->getPath('extensions');
         $this->packageRepo = $packageRepo;
         $this->packageFile = $app['resources']->getPath('root').'/extensions/composer.json';
-        putenv("COMPOSER_HOME=".sys_get_temp_dir());
+        putenv("COMPOSER_HOME=".$app['resources']->getPath('cache').'/composer');
 
         $this->wrapper = \evidev\composer\Wrapper::create();
 
