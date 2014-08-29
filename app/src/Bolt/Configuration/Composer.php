@@ -22,6 +22,7 @@ class Composer extends Standard
         $this->setPath("config", $this->getPath("apppath") . "/config");
         $this->setPath("database", $this->getPath("apppath") . "/database");
         $this->setPath("themebase", $this->root . "/theme");
+        $this->setPath("extensionsconfig", $this->root."/app/config/extensions");
 
         $this->setUrl("app", "/bolt-public/");
     }
