@@ -412,6 +412,8 @@ class Config
     {
         $slugs = array();
 
+        $wrongctype = false;
+
         foreach ($this->data['contenttypes'] as $key => $ct) {
             // Make sure any field that has a 'uses' parameter actually points to a field that exists.
             // For example, this will show a notice:
