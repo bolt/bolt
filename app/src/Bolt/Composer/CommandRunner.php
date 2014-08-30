@@ -238,7 +238,7 @@ class CommandRunner
 
         // For Bolt, we also need to know if the extension has a 'README' and a 'config.yml' file.
         $paths = $this->app['resources']->getPaths();
-        if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['names'] . '/README.md' )) {
+        if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md' )) {
             $pack['readme'] = $pack['names'] . '/README.md';
         }
 
