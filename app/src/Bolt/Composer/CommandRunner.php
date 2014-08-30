@@ -240,6 +240,8 @@ class CommandRunner
         $paths = $this->app['resources']->getPaths();
         if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md' )) {
             $pack['readme'] = $pack['names'] . '/README.md';
+        } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md' )) {
+            $pack['readme'] = $pack['names'] . '/readme.md';
         }
 
         $configfile = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
