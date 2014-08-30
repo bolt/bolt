@@ -21,6 +21,8 @@ class Manager extends MountManager
         $this->mountFilesystem('files', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
         $this->mountFilesystem('config', new Filesystem(new FilesystemAdapter($app['resources']->getPath('config'))));
         $this->mountFilesystem('theme', new Filesystem(new FilesystemAdapter($app['resources']->getPath('themebase'))));
+        $this->mountFilesystem('extensions', new Filesystem(new FilesystemAdapter($app['resources']->getPath('extensionspath').'/vendor')));
+
         $this->initManagers();
     }
 
@@ -33,8 +35,8 @@ class Manager extends MountManager
 
     public function initManager($namespace, $manager)
     {
-        $manager->addPlugin(new SearchPlugin);
-        $manager->addPlugin(new BrowsePlugin);
+        $manager->addPlugin(new SearchPlugin());
+        $manager->addPlugin(new BrowsePlugin());
         $manager->addPlugin(new PublicUrlPlugin($this->app, $namespace));
         $manager->addPlugin(new ThumbnailUrlPlugin($this->app, $namespace));
     }

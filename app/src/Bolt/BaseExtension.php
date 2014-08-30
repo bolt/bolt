@@ -46,9 +46,20 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->namespace = basename(dirname($reflection->getFileName()));
     }
 
+    /**
+     * Getter function to return an extension's base path
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->basepath;
+    }
+
     public function getBaseUrl()
     {
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
+
         return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
     }
 
@@ -97,16 +108,15 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * Test if a given config file is valid (exists and is readable) and create
      * if required.
      *
-     * @param string $configfile
-     *                  Fully qualified file path
-     * @param boolean $create
-     *                  True - create file is non-existant
-     *                  False - Only test for file existance
+     * @param  string  $configfile Fully qualified file path
+     * @param  boolean $create     True - create file is non-existant
+     *                             False - Only test for file existance
      * @return boolean
      */
-    private function isConfigValid($configfile, $create) {
+    private function isConfigValid($configfile, $create)
+    {
         //
-        if (file_exists($configfile)){
+        if (file_exists($configfile)) {
             if (is_readable($configfile)) {
                 return true;
             } else {
@@ -116,6 +126,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
                            "permissions and ensure the $configdir directory readable.";
                 $this->app['log']->add($message, 3);
                 $this->app['session']->getFlashBag()->set('error', $message);
+
                 return false;
             }
         } elseif ($create) {
@@ -151,8 +162,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
     /**
      * Load and process a give config file
      *
-     * @param string $configfile
-     *                  Fully qualified file path
+     * @param string $configfile Fully qualified file path
      */
     private function loadConfigFile($configfile)
     {
@@ -192,7 +202,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $name
      * @param string $callback
-     * @param array $options
+     * @param array  $options
      */
     public function addTwigFunction($name, $callback, $options = array())
     {
@@ -213,7 +223,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @param string $name
      * @param string $callback
-     * @param array $options
+     * @param array  $options
      */
     public function addTwigFilter($name, $callback, $options = array())
     {
@@ -265,7 +275,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * Add a javascript file to the rendered HTML.
      *
      * @param string $filename
-     * @param bool $late
+     * @param bool   $late
      */
     public function addJavascript($filename, $late = false)
     {
@@ -286,7 +296,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * Add a CSS file to the rendered HTML.
      *
      * @param string $filename
-     * @param bool $late
+     * @param bool   $late
      */
     public function addCSS($filename, $late = false)
     {
@@ -381,7 +391,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      *
      * @see: requireUserRole()
      *
-     * @param string $permission
+     * @param  string $permission
      * @return bool
      */
     public function requireUserLevel($permission = 'dashboard')
@@ -393,8 +403,8 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
      * Check if a user is logged in, and has the proper required permission. If
      * not, we redirect the user to the dashboard.
      *
-     * @param string $permission
-     * @return bool True if permission allowed
+     * @param  string $permission
+     * @return bool   True if permission allowed
      */
     public function requireUserPermission($permission = 'dashboard')
     {

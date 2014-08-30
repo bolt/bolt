@@ -279,6 +279,7 @@ class ResourceManager
         if (! $this->verifier) {
             $this->verifier = new LowlevelChecks($this);
         }
+
         return $this->verifier;
     }
 
@@ -293,6 +294,7 @@ class ResourceManager
             $message = sprintf("The Bolt 'Application' object isn't initialized yet so the container can't be accessed here: <code>%s</code>", htmlspecialchars(debug_backtrace(), ENT_QUOTES));
             throw new LowlevelException($message);
         }
+
         return static::$_app;
     }
 }

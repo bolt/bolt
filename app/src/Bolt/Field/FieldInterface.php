@@ -10,28 +10,27 @@ namespace Bolt\Field;
 interface FieldInterface
 {
 
-
     /**
      * Returns the name of the field.
      *
      * @return string The field name
      */
     public function getName();
-    
+
     /**
      * Returns the path to the template.
      *
      * @return string The template name
      */
     public function getTemplate();
-    
+
     /**
      * Returns the storage type.
      *
      * @return string A Valid Storage Type
      */
     public function getStorageType();
-    
+
     /**
      * Returns additional options to be passed to the storage field.
      *

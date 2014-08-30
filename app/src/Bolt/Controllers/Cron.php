@@ -136,7 +136,6 @@ class Cron extends Event
         $this->tablename = $this->prefix . "cron";
     }
 
-
     /**
      * Query table for last run time of each interim
      */
@@ -163,7 +162,6 @@ class Cron extends Event
             }
         }
     }
-
 
     /**
      * Update table for last run time of each interim

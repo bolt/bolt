@@ -196,7 +196,7 @@ class LowlevelChecks
             return; // Okidoki..
         }
 
-        if(file_exists($ymlname) && !is_readable($ymlname)) {
+        if (file_exists($ymlname) && !is_readable($ymlname)) {
             $error = sprintf(
                 "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the webserver is using.",
                 htmlspecialchars($name . ".yml", ENT_QUOTES),

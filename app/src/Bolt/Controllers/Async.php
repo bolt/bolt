@@ -217,7 +217,6 @@ class Async implements ControllerProviderInterface
         return $uri;
     }
 
-
     public function tags(Silex\Application $app, $taxonomytype)
     {
         $prefix = $app['config']->get('general/database/prefix', "bolt_");
@@ -240,7 +239,6 @@ class Async implements ControllerProviderInterface
         $query = "select `slug` , count(`slug`) as `count` from  `%staxonomy` where `taxonomytype` = ? group by  `slug` order by `count` desc limit %s";
         $query = sprintf($query, $prefix, intval($limit));
         $query = $app['db']->executeQuery($query, array($taxonomytype));
-
 
         $results = $query->fetchAll();
 
@@ -367,7 +365,7 @@ class Async implements ControllerProviderInterface
      * @param $namespace
      * @param $path
      * @param  Silex\Application $app
-     * @param  Request $request
+     * @param  Request           $request
      * @return mixed
      */
     public function browse($namespace, $path, Silex\Application $app, Request $request)
@@ -450,10 +448,10 @@ class Async implements ControllerProviderInterface
     /**
      * Rename a file within the files directory tree.
      *
-     * @param  Silex\Application $app     The Silex Application Container
-     * @param  Request          $request The HTTP Request Object containing the GET Params
+     * @param Silex\Application $app     The Silex Application Container
+     * @param Request           $request The HTTP Request Object containing the GET Params
      *
-     * @return Boolean                   Whether the renaming action was successful
+     * @return Boolean Whether the renaming action was successful
      */
     public function renamefile(Silex\Application $app, Request $request)
     {
@@ -474,13 +472,14 @@ class Async implements ControllerProviderInterface
                       . DIRECTORY_SEPARATOR
                       . $newName;
 
-        $fileSystemHelper = new Filesystem;
+        $fileSystemHelper = new Filesystem();
 
         try {
             $fileSystemHelper->rename($oldPath, $newPath, false /* Don't rename if target exists already! */);
         } catch (IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */
+
             return false;
         }
 
@@ -541,10 +540,10 @@ class Async implements ControllerProviderInterface
     /**
      * Rename a folder within the files directory tree.
      *
-     * @param  Silex\Application $app     The Silex Application Container
-     * @param  Request          $request The HTTP Request Object containing the GET Params
+     * @param Silex\Application $app     The Silex Application Container
+     * @param Request           $request The HTTP Request Object containing the GET Params
      *
-     * @return Boolean                   Whether the renaming action was successful
+     * @return Boolean Whether the renaming action was successful
      */
     public function renamefolder(Silex\Application $app, Request $request)
     {
@@ -564,7 +563,7 @@ class Async implements ControllerProviderInterface
                       . $parentPath
                       . $newName;
 
-        $fileSystemHelper = new Filesystem;
+        $fileSystemHelper = new Filesystem();
 
         try {
             $fileSystemHelper->rename(
@@ -575,6 +574,7 @@ class Async implements ControllerProviderInterface
         } catch (IOException $exception) {
 
             /* Thrown if target already exists or renaming failed. */
+
             return false;
         }
 
@@ -584,15 +584,14 @@ class Async implements ControllerProviderInterface
     /**
      * Delete a folder recursively if writeable.
      *
-     * @param  Silex\Application $app     The Silex Application Container
-     * @param  Request          $request The HTTP Request Object containing the GET Params
+     * @param Silex\Application $app     The Silex Application Container
+     * @param Request           $request The HTTP Request Object containing the GET Params
      *
-     * @return Boolean                   Whether the renaming action was successful
+     * @return Boolean Whether the renaming action was successful
      */
     public function removefolder(Silex\Application $app, Request $request)
     {
         $namespace = $request->request->get('namespace', 'files');
-
 
         $parentPath = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
@@ -611,10 +610,10 @@ class Async implements ControllerProviderInterface
     /**
      * Create a new folder.
      *
-     * @param  Silex\Application $app     The Silex Application Container
-     * @param  Request          $request he HTTP Request Object containing the GET Params
+     * @param Silex\Application $app     The Silex Application Container
+     * @param Request           $request he HTTP Request Object containing the GET Params
      *
-     * @return Boolean                   Whether the creation was successful
+     * @return Boolean Whether the creation was successful
      */
     public function createfolder(Silex\Application $app, Request $request)
     {
@@ -635,8 +634,6 @@ class Async implements ControllerProviderInterface
 
         return false;
     }
-
-
 
     /**
      * Middleware function to do some tasks that should be done for all aynchronous

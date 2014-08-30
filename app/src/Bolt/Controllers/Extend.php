@@ -6,7 +6,6 @@ use Silex;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,7 +40,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get('', array($this, 'overview'))
             ->before(array($this, 'before'))
             ->bind('extend');
-            
 
         $ctr->get('/check', array($this, 'check'))
             ->before(array($this, 'before'))
@@ -66,19 +64,19 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get('/installAll', array($this, 'installAll'))
             ->before(array($this, 'before'))
             ->bind('installAll');
-        
+
         $ctr->get('/installPackage', array($this, 'installPackage'))
             ->before(array($this, 'before'))
             ->bind('installPackage');
-            
+
         $ctr->get('/installInfo', array($this, 'installInfo'))
             ->before(array($this, 'before'))
             ->bind('installInfo');
-        
+
         $ctr->get('/packageInfo', array($this, 'packageInfo'))
             ->before(array($this, 'before'))
             ->bind('packageInfo');
-            
+
         $ctr->get('/generateTheme', array($this, 'generateTheme'))
             ->before(array($this, 'before'))
             ->bind('generateTheme');
@@ -96,7 +94,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             )
         );
     }
-    
 
     public function installPackage(Silex\Application $app, Request $request)
     {
@@ -108,7 +105,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             )
         );
     }
-    
+
     public function installInfo(Silex\Application $app, Request $request)
     {
         $package = $request->get('package');
@@ -116,20 +113,22 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         try {
             $url = $app['extend.site']."info.json?package=".$package."&bolt=".$app['bolt_version'];
             $info = json_decode(file_get_contents($url));
-            foreach($info->version as $version) {
+            foreach ($info->version as $version) {
                 $versions[$version->stability][]=$version;
             }
         } catch (\Exception $e) {
-            
+
         }
+
         return new JsonResponse($versions);
-        
+
     }
-    
+
     public function packageInfo(Silex\Application $app, Request $request)
     {
         $package = $request->get('package');
         $version = $request->get('version');
+
         return new JsonResponse($app['extend.runner']->info($package, $version));
     }
 
@@ -175,8 +174,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     {
         return new Response($app['extend.runner']->installAll());
     }
-    
-    
+
     public function generateTheme(Silex\Application $app, Request $request)
     {
         $theme = $request->get('theme');
@@ -185,21 +183,21 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         if (! $newName) {
             $newName = basename($theme);
         }
-        
+
         $source = $app['resources']->getPath('extensions').'/vendor/'.$theme;
         $destination = $app['resources']->getPath('themebase').'/'.$newName;
         if (is_dir($source)) {
             try {
-                $filesystem = new Filesystem;
+                $filesystem = new Filesystem();
                 $filesystem->mkdir($destination);
                 $filesystem->mirror($source, $destination);
+
                 return new Response($app['translator']->trans('Theme successfully generated. You can now edit it directly from your theme folder.'));
             } catch (\Exception $e) {
-               return new Response($app['translator']->trans('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.')); 
-            }   
-        }        
+               return new Response($app['translator']->trans('We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.'));
+            }
+        }
     }
-    
 
     /**
      * Middleware function to check whether a user is logged on.

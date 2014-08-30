@@ -25,7 +25,7 @@
     {% endif %}
 
     <div class="row extend-bolt-container">
-        <div class="col-md-8">
+        <div class="col-md-9">
 
             {% include '_sub/_messages.twig' %}
 
@@ -93,7 +93,7 @@
             </section>
         </div>
 
-        <aside class="col-md-4">
+        <aside class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
                 <div class="panel-body">
@@ -142,6 +142,8 @@
             boltExt.setMessage('installAll', '{{__('Running install of all packages...')}}');
             boltExt.setMessage('noStable', '{{__('No Stable Versions Available')}}');
             boltExt.setMessage('noTest', '{{__('No Test Versions Available')}}');
+            boltExt.setPath('extensionsconfigpath', '{{ paths.extensionsconfigpath }}');
+            boltExt.setPath('extensionspath', '{{ paths.extensionspath }}');
         });
     </script>
 

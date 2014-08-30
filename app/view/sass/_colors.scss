@@ -16,16 +16,6 @@ $linkmain: lighten(saturate($boltblue, 100), 4);
 $linkvisited: $linkmain;
 $linkactive: lighten(saturate($boltblue, 100), 10);
 
-$sidebarbackground: #333; 
-$sidebartextcolour: #DDD;
-$sidebartextcolourcollapsed: #AAA;
-
-$sidebarlink: #EEE;
-$sidebarlinkhover: #FFF;
-$sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
-$sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 4);
-
-
 // The color of <hr> lines.
 $hr-border: #CCC;
 
@@ -50,6 +40,9 @@ $btn-default-color: #666;
 $btn-default-bg: #E0E0E0;
 $btn-default-border: darken($btn-default-bg, 5);
 
+$btn-danger-color: #FFF;
+$btn-danger-bg: #CC3333;
+$btn-danger-border: darken($btn-danger-bg, 5);
 
 // Special BOLT button
 $btn-bolt-color: #FFF;

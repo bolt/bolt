@@ -11,18 +11,15 @@ class BrowsePlugin implements PluginInterface
 
     public $filesystem;
 
-
     public function getMethod()
     {
         return 'browse';
     }
 
-
     public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
     }
-
 
     public function handle($path, Application $app)
     {
@@ -86,7 +83,6 @@ class BrowsePlugin implements PluginInterface
 
                     $files[$entry['path']]['permissions'] = \utilphp\util::full_permissions($fullfilename);
                 }
-
 
             }
 

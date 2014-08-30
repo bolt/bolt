@@ -10,7 +10,7 @@
         link: path('fileedit', {'namespace': 'app', 'file': 'config/config.yml'}),
         isallowed: 'files:config'
     }, {
-        icon: 'hdd-o',
+        icon: 'paint-brush',
         label: __('Contenttypes'),
         link: path('fileedit', {'namespace': 'app', 'file': 'config/contenttypes.yml'}),
         isallowed: 'files:config'
@@ -44,12 +44,12 @@
         link: path('dbcheck'),
         isallowed: 'dbupdate'
     }, {
-        icon: 'magic',
+        icon: 'eraser',
         label: __('Clear the cache'),
         link: path('clearcache'),
         isallowed: 'clearcache'
     }, {
-        icon: 'file',
+        icon: 'archive',
         label: __('Activity log'),
         link: path('activitylog'),
         isallowed: 'activitylog'

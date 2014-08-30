@@ -20,7 +20,6 @@ class BoltDataCollector extends DataCollector
         $this->app = $app;
     }
 
-
     public function getName()
     {
         return 'bolt';
@@ -29,8 +28,8 @@ class BoltDataCollector extends DataCollector
     /**
      * Collect the date for the Toolbar item.
      *
-     * @param Request $request
-     * @param Response $response
+     * @param Request    $request
+     * @param Response   $response
      * @param \Exception $exception
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
@@ -91,7 +90,6 @@ class BoltDataCollector extends DataCollector
         return $this->data['name'];
     }
 
-
     /**
      * Getter for branding
      *
@@ -112,7 +110,6 @@ class BoltDataCollector extends DataCollector
         return $this->data['payoff'];
     }
 
-
     /**
      * Getter for aboutlink
      *
@@ -123,7 +120,6 @@ class BoltDataCollector extends DataCollector
         return $this->data['aboutlink'];
     }
 
-
     /**
      * Getter for editlink
      *
@@ -133,7 +129,6 @@ class BoltDataCollector extends DataCollector
     {
         return $this->data['editlink'];
     }
-
 
     /**
      * Getter for aboutlink
