@@ -163,13 +163,23 @@ var BoltExtender = Object.extend(Object, {
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        html = "<tr><td class='ext-list'><strong class='title'>" + ext["name"] + 
+                        var html = "<tr><td class='ext-list'><strong class='title'>" + ext["name"] + 
                             "</strong></td><td>" + ext["version"] + "</td><td> " + ext["type"] + 
-                            "</td><td> " + ext["descrip"] + "</td><td align='right'> " + 
-                            "<a class='btn btn-sm btn-tertiary' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-quote-right'></i> Readme</a> " + 
-                            "<a class='btn btn-sm btn-tertiary' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-cog'></i> Config</a> " + 
-                            "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'>Uninstall</a>" + 
-                            "</td></tr>";
+                            "</td><td> " + ext["descrip"] + "</td><td align='right'> ";
+
+                        if (ext["readme"]) {
+                            html += "<a data-action='package-readme' data-readme='" + ext["readme"] + 
+                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-quote-right'></i> Readme</a> ";
+                        }
+
+                        if (ext["config"]) {
+                        html += "<a data-action='package-config' data-config='" + ext["config"] + 
+                            "' class='btn btn-sm btn-tertiary' href=''><i class='fa fa-cog'></i> Config</a> ";
+                        }
+
+                        html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + 
+                            "uninstall?package=" + ext["name"] + "'>Uninstall</a>" + "</td></tr>";
+                        console.log(ext);
                         target.find('.installed-list-items').append(html);
                     } 
                 } else {
@@ -293,6 +303,20 @@ var BoltExtender = Object.extend(Object, {
         e.preventDefault();
     },
     
+    packageReadme: function(e) {
+        var controller = this;
+
+        alert("Show README for: " + jQuery(e.target).data("readme") );
+
+    },
+
+    packageConfig: function(e) {
+        var controller = this;
+
+        alert("Edit config for: " + jQuery(e.target).data("config") );
+
+    },
+
     uninstall: function(e) {
         var controller = this;
         var t = this.find('.installed-container .console').html(controller.messages['removing']);
@@ -367,6 +391,8 @@ var BoltExtender = Object.extend(Object, {
                 case "prefill-package"  : controller.prefill(e.originalEvent); break;
                 case "install-run"      : controller.installRun(e.originalEvent); break;
                 case "generate-theme"   : controller.generateTheme(e.originalEvent); break;
+                case "package-readme"   : controller.packageReadme(e.originalEvent); break;
+                case "package-config"   : controller.packageConfig(e.originalEvent); break;
             }
         }
 
