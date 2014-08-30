@@ -33,8 +33,8 @@ class Manager extends MountManager
 
     public function initManager($namespace, $manager)
     {
-        $manager->addPlugin(new SearchPlugin);
-        $manager->addPlugin(new BrowsePlugin);
+        $manager->addPlugin(new SearchPlugin());
+        $manager->addPlugin(new BrowsePlugin());
         $manager->addPlugin(new PublicUrlPlugin($this->app, $namespace));
         $manager->addPlugin(new ThumbnailUrlPlugin($this->app, $namespace));
     }

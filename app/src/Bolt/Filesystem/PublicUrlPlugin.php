@@ -2,19 +2,13 @@
 
 namespace Bolt\Filesystem;
 
-use League\Flysystem\PluginInterface;
-use League\Flysystem\FilesystemInterface;
-use Bolt\Application;
-
 class PublicUrlPlugin extends AdapterPlugin
 {
-
 
     public function getMethod()
     {
         return 'url';
     }
-
 
     public function getLocalUrl($path)
     {
