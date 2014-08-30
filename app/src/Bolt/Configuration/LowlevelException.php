@@ -3,7 +3,7 @@ namespace Bolt\Configuration;
 
 class LowlevelException extends \Exception
 {
-    
+
     public static $html = <<< EOM
 <!DOCTYPE html>
 <html lang="en">
