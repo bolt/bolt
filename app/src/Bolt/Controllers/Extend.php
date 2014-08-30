@@ -41,6 +41,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $ctr->get('', array($this, 'overview'))
             ->before(array($this, 'before'))
             ->bind('extend');
+            
 
         $ctr->get('/check', array($this, 'check'))
             ->before(array($this, 'before'))
@@ -96,6 +97,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         );
     }
     
+
     public function installPackage(Silex\Application $app, Request $request)
     {
         return $app['render']->render(
@@ -175,7 +177,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
     }
     
     
-   public function generateTheme(Silex\Application $app, Request $request)
+    public function generateTheme(Silex\Application $app, Request $request)
     {
         $theme = $request->get('theme');
         $newName = $request->get('name');

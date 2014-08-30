@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\BaseExtensionInterface;
+use Bolt\Configuration\LowlevelException;
 
 class Extensions
 {
@@ -118,11 +119,35 @@ class Extensions
         if (is_readable($filepath)) {
             $files = include $filepath;
             foreach ($files as $file) {
-                if (is_readable($file)) {
-                    include $file;
+                try {
+                    $this->errorCatcher($file);
+                    if (is_readable($file)) {
+                        require $file;
+                    }
+                } catch (\Exception $e) {
+                    $app->redirect($app["url_generator"]->generate("repair", array('path'=>$current)));
                 }
+                
             }
         }
+    }
+    
+   public function errorCatcher($file)
+    {
+        $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
+        ob_start(function($buffer) use($current){
+            $error=error_get_last();
+            if ($error['type'] == E_ERROR || $error['type']== E_PARSE ) {
+                $html = LowlevelException::$html;
+                $message = "<code>".$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line']."</code><br><br>";
+                $message .= $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
+                if ($current) {
+                    $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions".$current);
+                }
+                return str_replace('%error%', $message, $html);
+            }
+            return $buffer;
+        });
     }
 
     /**
@@ -157,12 +182,17 @@ class Extensions
     {
         $this->autoload($this->app);
         foreach ($this->enabled as $name => $extension) {
+            
+            try {
+                $extension->getConfig();
+                $extension->initialize();
+                $this->initialized[$name] = $extension;
+            } catch (\Exception $e) {
+                $path = str_replace($app['resources']->getPath('extensions'), '', $file);
+                $app->redirect($app["url_generator"]->generate("repair", array('package'=>$name)));
+            }
 
-
-            $this->initialized[$name] = $extension;
-
-            $extension->getConfig();
-            $extension->initialize();
+            
 
             // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
             $this->getSnippets($name);
