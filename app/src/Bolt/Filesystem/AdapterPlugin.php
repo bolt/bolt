@@ -27,12 +27,10 @@ abstract class AdapterPlugin implements PluginInterface
     {
     }
 
-
     public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
     }
-
 
     public function handle($path)
     {
@@ -48,7 +46,6 @@ abstract class AdapterPlugin implements PluginInterface
 
         return false;
     }
-
 
     protected function adapterType()
     {
