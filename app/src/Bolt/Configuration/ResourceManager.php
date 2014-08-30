@@ -42,7 +42,7 @@ class ResourceManager
      *
      * @param string $path
      */
-    public function __construct($loader, Request $request = null, $verifier = null)
+    public function __construct(ClassLoader $loader, Request $request = null, $verifier = null)
     {
         $this->classLoader = $loader;
         $app = dirname($loader->findFile('Bolt\\Application'));
