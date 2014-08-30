@@ -120,19 +120,7 @@ class Extensions
             $files = include $filepath;
             foreach ($files as $file) {
                 try {
-                    $current = str_replace($app['resources']->getPath('extensions'), '', $file);
-                    ob_start(function($buffer) use($current){
-                        $error=error_get_last();
-                        if ($error['type'] == 1) {
-                            $html = LowlevelException::$html;
-                            $message = $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
-                            if ($current) {
-                                $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions".$current);
-                            }
-                            return str_replace('%error%', $message, $html);
-                        }
-                        return $buffer;
-                    });
+                    $this->errorCatcher($file);
                     if (is_readable($file)) {
                         require $file;
                     }
@@ -142,6 +130,23 @@ class Extensions
                 
             }
         }
+    }
+    
+    public function errorCatcher($file)
+    {
+        $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
+        ob_start(function($buffer) use($current){
+            $error=error_get_last();
+            if ($error['type'] == 1) {
+                $html = LowlevelException::$html;
+                $message = $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
+                if ($current) {
+                    $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions".$current);
+                }
+                return str_replace('%error%', $message, $html);
+            }
+            return $buffer;
+        });
     }
 
     /**
