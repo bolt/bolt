@@ -23,9 +23,15 @@ class Application extends Silex\Application
 
         // Initialize the config. Note that we do this here, on 'construct'.
         // All other initialisation is triggered from bootstrap.php
+        // Warning!
+        // One of a valid ResourceManager ['resources'] or ClassLoader ['classloader']
+        // must be defined for working properly
         if (!isset($this['resources'])) {
-            $this['resources'] = new Configuration\ResourceManager(getcwd());
+            $this['resources'] = new Configuration\ResourceManager($this['classloader']);
             $this['resources']->compat();
+        }
+        else {
+            $this['classloader'] = $this['resources']->getClassLoader();
         }
 
         $this['resources']->setApp($this);

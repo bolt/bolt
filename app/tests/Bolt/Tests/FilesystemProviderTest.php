@@ -20,8 +20,12 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
 {
 
 
+    protected $loader;
+
     public function setup()
     {
+        global $CLASSLOADER;
+        $this->loader = $CLASSLOADER;
     }
 
     public function tearDown()
@@ -31,7 +35,8 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testAppRegistries()
     {
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new Config\ResourceManager($this->loader);
+        $config->compat();
         $bolt = $this->getApp();
 
         $this->assertNotNull($bolt['filesystem']);
@@ -40,7 +45,8 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultManagers()
     {
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new Config\ResourceManager($this->loader);
+        $config->compat();
         $bolt = $this->getApp();
 
         $manager = $bolt['filesystem']->getManager();
@@ -55,7 +61,7 @@ class FilesystemProviderTest extends \PHPUnit_Framework_TestCase
         ->setConstructorArgs(array(new MockFileSessionStorage()))
         ->getMock();
 
-        $config = new Config\ResourceManager(TEST_ROOT);
+        $config = new Config\ResourceManager($this->loader);
         $bolt = new Application(array('resources'=>$config));
 
         $bolt['config']->set('general/database', array(
