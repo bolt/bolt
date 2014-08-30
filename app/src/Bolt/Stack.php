@@ -48,7 +48,7 @@ class Stack
     /**
      * Add a certain item to the stack.
      *
-     * @param string $filename
+     * @param  string $filename
      * @return bool
      */
     public function add($filename)
@@ -82,7 +82,7 @@ class Stack
     /**
      * Check if a given filename is present on the stack.
      *
-     * @param string $filename
+     * @param  string $filename
      * @return bool
      */
     public function isOnStack($filename)
@@ -102,7 +102,7 @@ class Stack
     /**
      * Check if a given filename is stackable.
      *
-     * @param string $filename
+     * @param  string $filename
      * @return bool
      */
     public function isStackable($filename)
@@ -116,8 +116,8 @@ class Stack
      * Return a list with the current stacked items. Add some relevant info to each item,
      * and also check if the item is present and readable.
      *
-     * @param int $count
-     * @param string $typefilter
+     * @param  int    $count
+     * @param  string $typefilter
      * @return array
      */
     public function listitems($count = 100, $typefilter = "")
@@ -149,15 +149,15 @@ class Stack
                 continue;
             }
 
-            // Figure out the full path, based on the two possible locations. 
+            // Figure out the full path, based on the two possible locations.
             $fullpath = '';
             if (is_readable(str_replace("files/files/", "files/", $filespath . "/" . $item))) {
                 $fullpath = str_replace("files/files/", "files/", $filespath . "/" . $item);
-            } else if (is_readable($themepath . "/" . $item)){
+            } elseif (is_readable($themepath . "/" . $item)) {
                 $fullpath = $themepath . "/" . $item;
             }
 
-            // No dice! skip this one. 
+            // No dice! skip this one.
             if (empty($fullpath)) {
                 continue;
             }
@@ -186,13 +186,11 @@ class Stack
                 $thisitem['permissions']
             );
 
-
             if ($type == "image") {
                 $size = getimagesize($fullpath);
                 $thisitem['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                 $thisitem['info'] .= sprintf("<br>%s: %s × %s px", __("Size"), $size[0], $size[1]);
             }
-
 
             //add it to our list..
             $list[] = $thisitem;

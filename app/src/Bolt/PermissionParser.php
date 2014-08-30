@@ -239,8 +239,8 @@ class PermissionParser
      * Assert that the given $token's 'type' key is in the list of $expected
      * token types.
      *
-     * @param array $expected List of token types (T_XXXX constants).
-     * @param array $token A lexer token, associative array.
+     * @param  array                     $expected List of token types (T_XXXX constants).
+     * @param  array                     $token    A lexer token, associative array.
      * @throws PermissionParserException
      */
     private static function expect($expected, $token)
@@ -264,8 +264,8 @@ class PermissionParser
     /**
      * Parse a stream of lexer tokens ('lexemes') into a permission query AST.
      *
-     * @param array $tokens An array or iterable of lexer tokens. The output of
-     *                      `lex()` is suitable here.
+     * @param  array $tokens An array or iterable of lexer tokens. The output of
+     *                       `lex()` is suitable here.
      * @return array A nested associative array representing the resulting
      *               parse tree.
      */
