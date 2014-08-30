@@ -57,6 +57,12 @@
     @include button-variant($btn-bolt-color, $btn-bolt-bg, $btn-bolt-border);
 }
 
+// Danger, danger! 
+.btn-danger {
+    @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+    color: $btn-danger-color !important;
+}
+
 // Buttons that behave as a link, and specifically in a dropdown-menu.
 .dropdown-menu .btn-link {
     color: $dropdown-link-color;
