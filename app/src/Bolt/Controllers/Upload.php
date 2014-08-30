@@ -6,19 +6,14 @@ use Silex;
 use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
 
-
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Sirius\Upload\Handler as UploadHandler;
-use Sirius\Upload\Container\Local;
 use Sirius\Upload\Result\File;
 use Sirius\Upload\Result\Collection;
 
 use Bolt\Filesystem\FlysystemContainer;
-
-
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -88,8 +83,7 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
 
                     return array($namespace, $prefix);
                 };
-                
-                
+
                 // This block hanles the more advanced functionality where multiple upload
                 // handlers are provided. Only the first one is returned as a result, the result
                 // of this first upload is then attempted to copy to the remaining handlers.
@@ -156,7 +150,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
             }
         }
 
-
         $result = $app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
@@ -193,8 +186,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
         }
     }
 
-
-
     /**
      * Middleware function to check whether a user is logged on.
      */
@@ -202,7 +193,6 @@ class Upload implements ControllerProviderInterface, ServiceProviderInterface
     {
         // Start the 'stopwatch' for the profiler.
         $app['stopwatch']->start('bolt.backend.before');
-
 
         // If there's no active session, don't do anything..
         if (!$app['users']->isValidSession()) {
