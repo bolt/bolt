@@ -179,7 +179,7 @@ class Extensions
         $json = new JsonFile($extension->getBasepath() . '/composer.json');
         $composerjson = $json->read();
 
-        $this->app['extensions']->composer[$composerjson['name']] = array(
+        $this->app['extensions']->composer[ strtolower($composerjson['name']) ] = array(
             'name' => $extension->getName(),
             'json' => $composerjson
         );
