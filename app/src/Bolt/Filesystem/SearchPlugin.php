@@ -10,18 +10,15 @@ class SearchPlugin implements PluginInterface
 
     public $filesystem;
 
-
     public function getMethod()
     {
         return 'search';
     }
 
-
     public function setFilesystem(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
     }
-
 
     public function handle($term, $extensions = 'jpg,jpeg,gif,png')
     {
