@@ -13,6 +13,7 @@
     "require": {
         "bolt/dumper": ">=0.7",
         "bolt/thumbs": "1.7.*@dev",
+        "composer/composer": "1.0.*@dev",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown": "1.*",
         "eviweb/composer-wrapper" : "1.*",
