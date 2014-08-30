@@ -158,10 +158,9 @@
     & > em {
         font-weight: bold;
         font-style: normal;
-        color: $sidebarbackgroundactive;
         color: lighten($sidebarbackgroundactive, 20);
 
-        kbd {
+        i.icon {
             background: none;
             color: lighten($sidebarbackgroundactive, 20);
         }
@@ -217,10 +216,15 @@
         vertical-align: baseline;
         text-indent: 0;
         font-style: normal;
+        font-weight: bold;
         background: $sidebarlink;
         border-radius: 5px;
         font-size: ($nav-secondary-icon-size - 8px);
         color: #333;
+
+        &:before {
+            font-weight: normal;
+        }
     }
 
     .popover.right {
