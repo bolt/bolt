@@ -160,7 +160,6 @@ class Frontend
         return $app['render']->render($template);
     }
 
-
     public static function preview(Request $request, Silex\Application $app, $contenttypeslug)
     {
         $contenttype = $app['storage']->getContentType($contenttypeslug);
