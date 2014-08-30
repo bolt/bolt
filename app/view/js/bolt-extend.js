@@ -163,7 +163,14 @@ var BoltExtender = Object.extend(Object, {
                     target.find('.installed-list-items').html('');
                     for(var e in data) {
                         ext = data[e];
-                        target.find('.installed-list-items').append("<tr><td class='ext-list'><strong class='title'>"+ext["name"]+"</strong></td><td>"+ext["version"]+"</td><td> "+ext["type"]+"</td><td> "+ext["descrip"]+"</td><td> <a data-action='uninstall-package' class='btn btn-sm btn-danger' href='"+baseurl+"uninstall?package="+ext["name"]+"'>Uninstall</a></td></tr>");
+                        html = "<tr><td class='ext-list'><strong class='title'>" + ext["name"] + 
+                            "</strong></td><td>" + ext["version"] + "</td><td> " + ext["type"] + 
+                            "</td><td> " + ext["descrip"] + "</td><td align='right'> " + 
+                            "<a class='btn btn-sm btn-tertiary' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-quote-right'></i> Readme</a> " + 
+                            "<a class='btn btn-sm btn-tertiary' href='" + baseurl + "uninstall?package=" + ext["name"] + "'><i class='fa fa-cog'></i> Config</a> " + 
+                            "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + "uninstall?package=" + ext["name"] + "'>Uninstall</a>" + 
+                            "</td></tr>";
+                        target.find('.installed-list-items').append(html);
                     } 
                 } else {
                     target.find('.installed-list-items').html("<tr><td colspan='4'><strong>No Bolt Extensions installed.</strong></td></tr>");
