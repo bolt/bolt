@@ -152,17 +152,17 @@
 
     &:hover > a {
         color: $sidebarlinkhover;
-        background: lighten($sidebarbackgroundhover, 5);
+        background: $sidebarbackgroundhover;
     }
 
     & > em {
         font-weight: bold;
         font-style: normal;
-        color: lighten($sidebarbackgroundactive, 20);
+        color: lighten($sidebarbackgroundactive, 40);
 
         i.icon {
             background: none;
-            color: lighten($sidebarbackgroundactive, 20);
+            color: lighten($sidebarbackgroundactive, 40);
         }
     }
 
