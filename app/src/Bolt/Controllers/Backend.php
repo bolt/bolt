@@ -266,8 +266,8 @@ class Backend implements ControllerProviderInterface
      * Reset the password. This controller is normally only reached when the user
      * clicks a "password reset" link in the email.
      *
-     * @param Silex\Application $app
-     * @param Request $request
+     * @param  Silex\Application $app
+     * @param  Request           $request
      * @return string
      */
     public function resetPassword(Silex\Application $app, Request $request)
@@ -935,7 +935,7 @@ class Backend implements ControllerProviderInterface
             $group = $content->group[slug]; // maybe needed in UpdateQuery?
 
             // @todo UpdateQuery for new sortorders
-            //if(saved){
+            //if (saved) {
                 //$changedContent[] = $id;
             //}
         }
