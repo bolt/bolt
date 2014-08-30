@@ -18,12 +18,10 @@ class FlysystemContainer implements ContainerInterface
         return true;
     }
 
-
     public function has($file)
     {
         return $this->filesystem->has($file);
     }
-
 
     public function save($file, $content)
     {
@@ -34,7 +32,6 @@ class FlysystemContainer implements ContainerInterface
     {
         return $this->filesystem->delete($file);
     }
-
 
     public function moveUploadedFile($localFile, $destination)
     {
