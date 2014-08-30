@@ -132,14 +132,15 @@ class Extensions
         }
     }
     
-    public function errorCatcher($file)
+   public function errorCatcher($file)
     {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
         ob_start(function($buffer) use($current){
             $error=error_get_last();
-            if ($error['type'] == 1) {
+            if ($error['type'] == E_ERROR || $error['type']== E_PARSE ) {
                 $html = LowlevelException::$html;
-                $message = $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
+                $message = "<code>".$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line']."</code><br><br>";
+                $message .= $this->app['translator']->trans("There is a fatal error in one of the extensions loaded on your Bolt Installation.");
                 if ($current) {
                     $message .= $this->app['translator']->trans(" You will only be able to continue by manually deleting the extension that was initialized at: extensions".$current);
                 }
