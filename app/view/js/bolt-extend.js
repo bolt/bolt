@@ -178,7 +178,7 @@ var BoltExtender = Object.extend(Object, {
                         }
 
                         html += "<a data-action='uninstall-package' class='btn btn-sm btn-danger' href='" + baseurl + 
-                            "uninstall?package=" + ext["name"] + "'>Uninstall</a>" + "</td></tr>";
+                            "uninstall?package=" + ext["name"] + "'><i class='fa fa-trash'></i> Uninstall</a>" + "</td></tr>";
                         console.log(ext);
                         target.find('.installed-list-items').append(html);
                     } 
