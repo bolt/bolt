@@ -236,16 +236,16 @@ class CommandRunner
             $pack['descrip'] = 'Not yet installed';
         }
 
-        // For Bolt, we also need to know if the extension has a 'README' and a 'config.yml' file. 
+        // For Bolt, we also need to know if the extension has a 'README' and a 'config.yml' file.
         $paths = $this->app['resources']->getPaths();
         if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['names'] . '/README.md' )) {
             $pack['readme'] = $pack['names'] . '/README.md';
         }
 
-        // @TODO: The "Hello World.yml" should be the actual filename instead.
-        if (is_readable($paths['extensionsconfig'] . '/Hello World.yml' )) {
-            $pack['config'] = 'Hello World.yml';
-        }        
+        $configfile = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
+        if (is_readable($configfile)) {
+            $pack['config'] = $configfile;
+        }
         return $pack;
     }
 }
