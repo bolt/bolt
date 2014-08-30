@@ -50,14 +50,12 @@ class CronEvent extends Event
         }
     }
 
-
     /**
      * Hourly jobs
      */
     private function cronHourly()
     {
     }
-
 
     /**
      * Daily jobs
@@ -66,7 +64,6 @@ class CronEvent extends Event
     {
         // Check for Bolt updates
     }
-
 
     /**
      * Weekly jobs
@@ -82,7 +79,6 @@ class CronEvent extends Event
         $this->notify("Trimming logs");
     }
 
-
     /**
      * Monthly jobs
      */
@@ -90,14 +86,12 @@ class CronEvent extends Event
     {
     }
 
-
     /**
      * Yearly jobs
      */
     private function cronYearly()
     {
     }
-
 
     /**
      * If we're passed an OutputInterface, we're called from Nut and can notify

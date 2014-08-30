@@ -26,7 +26,7 @@ class Config
 
     public $fields;
 
-    static private $yamlParser;
+    private static $yamlParser;
 
     /**
      * @param Application $app
@@ -51,9 +51,10 @@ class Config
     /**
      * @param  string $basename
      * @param  array  $default
-     * @param  mixed $defaultConfigPath TRUE: use default config path; FALSE:
-     *    just use the raw basename; string: use the given string as config
-     *    file path
+     * @param  mixed  $defaultConfigPath TRUE: use default config path
+     *                                   FALSE: just use the raw basename
+     *                                   string: use the given string as config
+     *                                   file path
      * @return array
      */
     private function parseConfigYaml($basename, $default = array(), $defaultConfigPath = true)
@@ -87,7 +88,7 @@ class Config
      * $app['config']->set('general/branding/name', 'Bolt');
      *
      * @param  string $path
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return bool
      */
     public function set($path, $value)
@@ -714,7 +715,6 @@ class Config
 
             // Trigger the config loaded event on the resource manager
             $this->app['resources']->initializeConfig($this->data);
-
 
             // Yup, all seems to be right.
             return true;

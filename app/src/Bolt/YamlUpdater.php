@@ -62,7 +62,7 @@ class YamlUpdater
     /**
      * Get a value from the yml. return an array with info
      *
-     * @param  string $key
+     * @param  string     $key
      * @return bool|array
      */
     public function get($key)
@@ -86,8 +86,8 @@ class YamlUpdater
     /**
      * Find a specific part of the key, starting from $this->pointer
      *
-     * @param $keypart
-     * @param  int $indent
+     * @param  string   $keypart
+     * @param  int      $indent
      * @return bool|int
      */
     private function find($keypart, $indent = 0)
@@ -171,7 +171,6 @@ class YamlUpdater
         return $value;
     }
 
-
     /**
      * Verify if the modified yaml is still a valid .yml file, and if we
      * are actually allowed to write and update the current file.
@@ -183,7 +182,7 @@ class YamlUpdater
 
     /**
      * Save our modified .yml file.
-     * @param bool $makebackup
+     * @param  bool $makebackup
      * @return bool true if save was successful
      */
     public function save($makebackup = true)

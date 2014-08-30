@@ -26,7 +26,7 @@ class Render
      * Set up the object.
      *
      * @param \Bolt\Application|\Silex\Application $app
-     * @param bool $safe
+     * @param bool                                 $safe
      */
     public function __construct(Application $app, $safe = false)
     {
@@ -40,11 +40,10 @@ class Render
     }
 
     /**
-     *
      * Render a template, possibly store it in cache. Or, if applicable, return the cached result
      *
      * @param $template
-     * @param array $vars
+     * @param  array $vars
      * @return mixed
      */
     public function render($template, $vars = array())
@@ -63,7 +62,7 @@ class Render
     /**
      * Postprocess the rendered HTML: insert the snippets, and stuff.
      *
-     * @param Response $response
+     * @param  Response $response
      * @return string
      */
     public function postProcess(Response $response)
@@ -135,8 +134,8 @@ class Render
     /**
      * Check if the current conditions are suitable for caching.
      *
-     * @param string $type
-     * @param bool $checkoverride
+     * @param  string $type
+     * @param  bool   $checkoverride
      * @return bool
      */
     public function checkCacheConditions($type = 'template', $checkoverride = false)

@@ -27,6 +27,7 @@ var BoltExtender = Object.extend(Object, {
 
     selector: ".extend-bolt-container",
     messages:  {},
+    paths:  {},
 
     constructor: function(){
         jQuery(this.selector).on("change", this, this.events.change);
@@ -54,6 +55,11 @@ var BoltExtender = Object.extend(Object, {
     setMessage: function(key, value) {
         this.messages[key]=value;
     },
+
+    
+    setPath: function(key, value) {
+        this.paths[key]=value;
+    },    
     
     installReset: function() {
         var controller = this;
