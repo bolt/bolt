@@ -6,6 +6,7 @@ use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Extensions\BaseExtensionInterface;
 use Bolt\Configuration\LowlevelException;
+use Composer\Json\JsonFile;
 
 class Extensions
 {
@@ -127,7 +128,6 @@ class Extensions
                 } catch (\Exception $e) {
                     $app->redirect($app["url_generator"]->generate("repair", array('path'=>$current)));
                 }
-
             }
         }
     }
@@ -155,13 +155,34 @@ class Extensions
     /**
      * Extension register method. Allows any extension to register itself onto the enabled stack.
      *
+     * @param BaseExtensionInterface $extension
      * @return void
-     **/
+     */
     public function register(BaseExtensionInterface $extension)
     {
         $name = $extension->getName();
         $this->app['extensions.'.$name] = $extension;
         $this->enabled[$name] = $this->app['extensions.'.$name];
+
+        // Store the composer part of the extensions config
+        $this->registerComposerJson($extension);
+    }
+
+    /**
+     * Register the extensions Composer JSON and a matching Bolt name.
+     * This allows reverse lookup of Bolt name to Composer name
+     *
+     * @param BaseExtensionInterface $extension
+     */
+    private function registerComposerJson(BaseExtensionInterface $extension)
+    {
+        $json = new JsonFile($extension->getBasepath() . '/composer.json');
+        $composerjson = $json->read();
+
+        $this->app['extensions']->composer[$composerjson['name']] = array(
+            'name' => $extension->getName(),
+            'json' => $composerjson
+        );
     }
 
     /**

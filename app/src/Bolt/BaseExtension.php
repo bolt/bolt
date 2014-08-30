@@ -46,6 +46,16 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
         $this->namespace = basename(dirname($reflection->getFileName()));
     }
 
+    /**
+     * Getter function to return an extension's base path
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->basepath;
+    }
+
     public function getBaseUrl()
     {
         $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
