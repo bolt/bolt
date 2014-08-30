@@ -23,7 +23,6 @@ class DatabaseDataCollector extends DataCollector
         $this->logger = $logger;
     }
 
-
     public function getName()
     {
         return 'db';
