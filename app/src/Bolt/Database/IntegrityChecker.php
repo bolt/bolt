@@ -340,7 +340,7 @@ class IntegrityChecker
     /**
      * This method allows extensions to register their own tables.
      * @param Callable $generator A generator function that takes the Schema
-     *         instance and returns a table or an array of tables.
+     *                            instance and returns a table or an array of tables.
      */
     public function registerExtensionTable($generator)
     {
@@ -565,7 +565,7 @@ class IntegrityChecker
                     $this->app['session']->getFlashBag()->set('error', $error);
                     continue;
                 }
-                
+
                 $handler = $this->app['config']->getFields()->getField($values['type']);
 
                 switch ($values['type']) {
