@@ -12,7 +12,8 @@ class ExtensionsDisable extends BaseCommand
     {
         $this
             ->setName('extensions:disable')
-            ->setDescription('Disables an extension.')
+            ->setAliases(array('extensions:uninstall'))
+            ->setDescription('Uninstalls an extension.')
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the extension to uninstall');
     }
 
