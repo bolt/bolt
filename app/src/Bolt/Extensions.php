@@ -78,6 +78,14 @@ class Extensions
      * @var array
      */
     private $initialized;
+    
+    /**
+     * Contains json of loaded extensions.
+     *
+     * @var array
+     */
+    private $composer;
+    
 
     public function __construct(Application $app)
     {
