@@ -20,6 +20,7 @@ class Extensions extends BaseCommand
         $json = $result->getContent();
         
         foreach(json_decode($json) as $ext) {
+            print_r($ext); exit;
             $rows[]= array($ext->name, $ext->version, $ext->desc);
         }
         
