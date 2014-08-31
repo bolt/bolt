@@ -138,7 +138,9 @@ class Extensions
         // Flush output buffer before starting a new buffer or $current will contain
         // the first file read rather than the acutal current file.
         // @see GitHub #1661
-        ob_end_flush();
+        if (ob_get_length()) {
+            ob_end_flush();
+        }
         ob_start(function ($buffer) use ($current) {
             $error = error_get_last();
             if ($error['type'] == E_ERROR || $error['type']== E_PARSE) {
