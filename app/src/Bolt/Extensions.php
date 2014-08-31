@@ -126,6 +126,7 @@ class Extensions
                         require $file;
                     }
                 } catch (\Exception $e) {
+                    $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
                     $app->redirect($app["url_generator"]->generate("repair", array('path'=>$current)));
                 }
             }
