@@ -879,7 +879,8 @@ class Content implements \ArrayAccess
             $field => $operator .$this->values[$field],
             'limit' => 1,
             'order' => $field . $order,
-            'returnsingle' => true
+            'returnsingle' => true,
+            'hydrate' => false
         );
 
         $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
@@ -903,7 +904,8 @@ class Content implements \ArrayAccess
             $field => $operator .$this->values[$field],
             'limit' => 1,
             'order' => $field . $order,
-            'returnsingle' => true
+            'returnsingle' => true,
+            'hydrate' => false            
         );
 
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
