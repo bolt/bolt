@@ -78,7 +78,7 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
-        $ctl->get("/content/{action}/{contenttypeslug}/{id}", array($this, 'contentaction'))
+        $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
             ->before(array($this, 'before'))
             ->method('POST')
             ->bind('contentaction');
@@ -161,7 +161,7 @@ class Backend implements ControllerProviderInterface
         // get the 'latest' from each of the content types.
         foreach ($app['config']->get('contenttypes') as $key => $contenttype) {
             if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] == true) {
-                $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
+                $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC', 'hydrate' => false));
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
                 }
@@ -507,7 +507,7 @@ class Backend implements ControllerProviderInterface
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $app['storage']->getContentType($contenttype);
             if ($contentid) {
-                $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
+                $content = $app['storage']->getContent($contenttype, array('id' => $contentid, 'hydrate' => false));
                 $options['contentid'] = $contentid;
             }
             // Getting a slice of data and the total count
@@ -840,6 +840,7 @@ class Backend implements ControllerProviderInterface
 
         return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
+
 
     /**
      * Show a list of all available users.
