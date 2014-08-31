@@ -135,6 +135,9 @@ class Extensions
    {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
 
+        // Flush output buffer before starting a new buffer or $current will contain
+        // the first file read rather than the acutal current file.
+        // @see GitHub #1661
         ob_end_flush();
         ob_start(function ($buffer) use ($current) {
             $error = error_get_last();
