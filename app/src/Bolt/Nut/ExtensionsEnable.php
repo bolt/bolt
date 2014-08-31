@@ -31,13 +31,9 @@ class ExtensionsEnable extends BaseCommand
         }
         
         $result = $this->app['extend.runner']->install($name, $version);
-        if (is_array($result)) {
-            $output->writeln($result);
-            $output->write(" <info>[Done]</info>");
-        } else {
-            $output->writeln("<error>".$result."<error>");
-        }
 
-        
+        $output->write(" <info>[Done]</info> ");
+        $output->writeln($result);
+
     }
 }
