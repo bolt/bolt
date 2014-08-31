@@ -20,7 +20,7 @@ class Extensions extends BaseCommand
         $json = $result->getContent();
         
         foreach(json_decode($json) as $ext) {
-            $rows[]= $ext;
+            $rows[]= array($ext->name, $ext->version, $ext->type, $ext->descrip);
         }
         
         $table = $this->getHelper('table');
