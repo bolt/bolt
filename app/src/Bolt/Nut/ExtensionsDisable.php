@@ -20,6 +20,6 @@ class ExtensionsDisable extends BaseCommand
     {
         $name = $input->getArgument('name');
         $result = $this->app['extend.runner']->uninstall($name);
-        $output->writeln($result);
+        $output->writeln("<info>".$result."</info>");
     }
 }
