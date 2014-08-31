@@ -135,8 +135,10 @@ class Extensions
    public function errorCatcher($file)
    {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
+
+        ob_end_flush();
         ob_start(function ($buffer) use ($current) {
-            $error=error_get_last();
+            $error = error_get_last();
             if ($error['type'] == E_ERROR || $error['type']== E_PARSE) {
                 $html = LowlevelException::$html;
                 $message = "<code>".$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line']."</code><br><br>";
