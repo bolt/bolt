@@ -133,7 +133,7 @@ class Extensions
     }
 
    public function errorCatcher($file)
-    {
+   {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
         ob_start(function ($buffer) use ($current) {
             $error=error_get_last();
