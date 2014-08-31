@@ -864,7 +864,7 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the previous record. In this case 'next' is defined as 'latest one published before
+     * Get the previous record. In this case 'previous' is defined as 'latest one published before
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
      * the column to sort on.
      */
