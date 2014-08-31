@@ -1425,6 +1425,7 @@ class Backend implements ControllerProviderInterface
         if (!$request->query->has('CKEditor')) {
             $twig = 'files/files.twig';
         } else {
+            $app['debugbar'] = false;            
             $twig = 'files_ck/files_ck.twig';
         }
 

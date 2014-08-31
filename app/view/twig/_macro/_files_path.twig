@@ -1,12 +1,13 @@
-{% macro files_path(pathsegments, namespace, pathopts) %}
-    {% set namespace_path = path('files', pathopts) %}
+{% macro files_path(pathsegments, namespace, pathoptions) %}
+    {% set namespace_path = path('files', pathoptions) %}
     <p>
         {{ __('Path:') }}
         <a href="{{ namespace_path }}">{{ namespace }}</a>
 
         {% for path, segment in pathsegments %}
             /
-            <a href="{{ path('files', { 'path': path, 'namespace': namespace }) }}">{{ segment }}</a>
+            {% set pathoptions = pathoptions|merge({ 'path': path, 'namespace': namespace }) %}
+            <a href="{{ path('files', pathoptions) }}">{{ segment }}</a>
         {% endfor %}
     </p>
 {% endmacro %}

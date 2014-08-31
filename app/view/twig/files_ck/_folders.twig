@@ -9,9 +9,10 @@
     <tbody>
         {% for folder in context.folders %}
             <tr>
-                <td>
+                <td style="height: 30px;">
+                    <i class="fa fa-fw fa-folder-open-o"></i>
+
                     <a href="{{ path('files', { 'path': folder.newpath, 'namespace': context.namespace, 'CKEditor': app.request.query.get('CKEditor'), 'CKEditorFuncNum': app.request.query.get('CKEditorFuncNum'), 'langCode': app.request.query.get('langCode')}) }}">
-                        <i class="icon-folder-open"></i>
                         <b>{{ folder.foldername }}/</b>
                     </a>
                 </td>
