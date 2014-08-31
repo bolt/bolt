@@ -20,13 +20,12 @@ class Extensions extends BaseCommand
         $json = $result->getContent();
         
         foreach(json_decode($json) as $ext) {
-            print_r($ext); exit;
-            $rows[]= array($ext->name, $ext->version, $ext->desc);
+            $rows[]= $ext;
         }
         
         $table = $this->getHelper('table');
         $table
-            ->setHeaders(array('Name', 'Version', 'Description'))
+            ->setHeaders(array('Name', 'Version', 'Type',  'Description'))
             ->setRows($rows);
         $table->render($output);
         
