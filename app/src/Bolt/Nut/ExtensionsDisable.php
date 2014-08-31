@@ -18,7 +18,7 @@ class ExtensionsDisable extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        
+        $name = $input->getArgument('name');
         $result = $this->app['extend.runner']->uninstall($name);
         $output->writeln($result);
     }
