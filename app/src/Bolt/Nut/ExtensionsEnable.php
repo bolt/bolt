@@ -33,7 +33,7 @@ class ExtensionsEnable extends BaseCommand
         
         $result = $this->app['extend.runner']->install($name, $version);
 
-        $output->write("<info>[Done]</info> ");
+        $output->writeln("<info>[Done]</info> ");
         $output->writeln($result, OutputInterface::OUTPUT_PLAIN);
 
     }
