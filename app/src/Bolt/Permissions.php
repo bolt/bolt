@@ -449,7 +449,7 @@ class Permissions
                     if (is_array($contenttype)) {
                         $contenttype = $contenttype['slug'];
                     }
-                    $content = $this->app['storage']->getContent("$contenttype/$contentid");
+                    $content = $this->app['storage']->getContent("$contenttype/$contentid", array('hydrate' => false));
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {
                         $userRoles[] = Permissions::ROLE_OWNER;

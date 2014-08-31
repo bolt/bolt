@@ -84,13 +84,6 @@ class Backend implements ControllerProviderInterface
             ->before(array($this, 'before'))
             ->bind('deletecontent');
 
-        /* FIXME Temporarily commented out until decide whether it needed
-
-        $ctl->get('/content/sortcontent/{contenttypeslug}', array($this, 'sortcontent'))
-            ->before(array($this, 'before'))
-            ->bind('sortcontent');
-        */
-
         $ctl->get('/content/{action}/{contenttypeslug}/{id}', array($this, 'contentAction'))
             ->before(array($this, 'before'))
             ->method('POST')
@@ -183,7 +176,7 @@ class Backend implements ControllerProviderInterface
         // get the 'latest' from each of the content types.
         foreach ($app['config']->get('contenttypes') as $key => $contenttype) {
             if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] == true) {
-                $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC'));
+                $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC', 'hydrate' => false));
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
                 }
@@ -454,7 +447,7 @@ class Backend implements ControllerProviderInterface
 
         $multiplecontent = $app['storage']->getContent(
             $contenttype['slug'],
-            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter, 'paging' => true)
+            array('limit' => $limit, 'order' => $order, 'page' => $page, 'filter' => $filter, 'paging' => true, 'hydrate' => true)
         );
 
         // @todo Do we need pager here?
@@ -580,7 +573,7 @@ class Backend implements ControllerProviderInterface
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $app['storage']->getContentType($contenttype);
             if ($contentid) {
-                $content = $app['storage']->getContent($contenttype, array('id' => $contentid));
+                $content = $app['storage']->getContent($contenttype, array('id' => $contentid, 'hydrate' => false));
                 $options['contentid'] = $contentid;
             }
             // Getting a slice of data and the total count
@@ -919,38 +912,6 @@ class Backend implements ControllerProviderInterface
         return redirect('overview', array('contenttypeslug' => $contenttype['slug']));
     }
 
-    /**
-     * Change sorting (called by ajax request).
-     */
-    // FIXME Is it necessary along with its router entry above?
-    /*
-    public function sortcontent(Silex\Application $app, $contenttypeslug, Request $request)
-    {
-        $contenttype = $app['storage']->getContentType($contenttypeslug); // maybe needed in UpdateQuery?
-        $groupingtaxonomy = $app['storage']->getContentTypeGrouping($contenttypeslug); // maybe needed in UpdateQuery?
-
-        $sortingarray = $request->get('item');
-        foreach ($sortingarray as $sortorder => $id) {
-            $content = $app['storage']->getContent($contenttypeslug . '/' . $id);
-            $group = $content->group[slug]; // maybe needed in UpdateQuery?
-
-            // @todo UpdateQuery for new sortorders
-            //if (saved) {
-                //$changedContent[] = $id;
-            //}
-        }
-
-        if ($changedContent) {
-            $app['session']->getFlashBag()->set('info', __('Sortorder has been changed'));
-
-            return true;
-        } else {
-            $app['session']->getFlashBag()->set('error', __('Sortorder could not be changed.'));
-
-            return false;
-        }
-    }
-    */
 
     /**
      * Show a list of all available users.
