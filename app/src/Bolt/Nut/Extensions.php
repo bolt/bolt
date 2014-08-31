@@ -18,9 +18,16 @@ class Extensions extends BaseCommand
     {
         $result = $this->app['extend.runner']->installed();
         $json = $result->getContent();
+        
         foreach(json_decode($json) as $ext) {
-            $output->writeln($ext->name." - ".$ext->version." <info>[Installed]</info>");
+            $rows[]= array($ext->name, $ext->version, $ext->description);
         }
+        
+        $table = $this->getHelper('table');
+        $table
+            ->setHeaders(array('Name', 'Version', 'Description'))
+            ->setRows($rows);
+        $table->render($output);
         
     }
 }
