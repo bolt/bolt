@@ -18,7 +18,7 @@
         {# Contenttypes, where show_in_menu is set true #}
         {% if contenttype.show_in_menu %}
 
-            {% setcontent records = slug limit 4 %}
+            {% setcontent records = slug limit 4 nohydrate %}
             {% for record in records %}
                 {% set sub = sub|merge([
                     {
