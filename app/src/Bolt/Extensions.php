@@ -84,7 +84,7 @@ class Extensions
      *
      * @var array
      */
-    private $composer;
+    public $composer;
     
 
     public function __construct(Application $app)
