@@ -244,10 +244,14 @@ class CommandRunner
             $pack['readme'] = $pack['names'] . '/readme.md';
         }
 
-        $configfile = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
-        if (is_readable($configfile)) {
-            $pack['config'] = $configfile;
+        // Check if we hve a config file, and if it's readable. (yet)
+        if (isset($this->app['extensions']->composer[$name]['name'])) {
+            $configfile = $paths['extensionsconfig'] . '/' . $this->app['extensions']->composer[$name]['name'] . '.yml';
+            if (is_readable($configfile)) {
+                $pack['config'] = $configfile;
+            }
         }
+
         return $pack;
     }
 }
