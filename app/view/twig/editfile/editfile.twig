@@ -40,7 +40,7 @@
                     </a>
 
                   <div class="relatedfiles">
-                    Note, this file has related files: 
+                    {{ __("Note, this file has related files:") }} 
                     {% for related in context.filegroup %}
                       {% if related != context.basename %}
                         <a class="btn btn-tertiary btn-small" href="{{ path('fileedit', { 'file': '../app/config/' ~ related } )  }}">{{ related }}</a>
