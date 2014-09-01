@@ -10,8 +10,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CronEvent extends Event
 {
+    /**
+     * @var Application
+     */
     private $app;
-    private $output;
+
+    /**
+     * @var Symfony\Component\Console\Output\OutputInterface
+     */
+    public $output;
 
     /**
      *
