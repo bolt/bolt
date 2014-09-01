@@ -3,6 +3,7 @@ namespace Bolt\Configuration;
 
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Composer\Autoload\ClassLoader;
 
 class Composer extends Standard
 {
@@ -12,7 +13,7 @@ class Composer extends Standard
      *
      * @param string $path
      */
-    public function __construct($loader, Request $request = null)
+    public function __construct(ClassLoader $loader, Request $request = null)
     {
         parent::__construct($loader, $request);
 
