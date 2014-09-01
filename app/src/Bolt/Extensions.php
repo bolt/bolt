@@ -134,17 +134,23 @@ class Extensions
                         require $file;
                     }
                 } catch (\Exception $e) {
-                    $app->redirect($app["url_generator"]->generate("repair", array('path'=>$current)));
                 }
             }
         }
     }
 
    public function errorCatcher($file)
-    {
+   {
         $current = str_replace($this->app['resources']->getPath('extensions'), '', $file);
+
+        // Flush output buffer before starting a new buffer or $current will contain
+        // the first file read rather than the acutal current file.
+        // @see GitHub #1661
+        if (ob_get_length()) {
+            ob_end_flush();
+        }
         ob_start(function ($buffer) use ($current) {
-            $error=error_get_last();
+            $error = error_get_last();
             if ($error['type'] == E_ERROR || $error['type']== E_PARSE) {
                 $html = LowlevelException::$html;
                 $message = "<code>".$error['message']."<br>File ".$error['file']."<br>Line: ".$error['line']."</code><br><br>";
