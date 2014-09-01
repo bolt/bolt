@@ -40,7 +40,9 @@ class ResourceManager
     /**
      * Constructor initialises on the app root path.
      *
-     * @param string $path
+     * @param string $loader ClassLoader | string
+     * Classloader instance will use introspection to find root path
+     * String will be treated as an existing directory.
      */
     public function __construct($loader, Request $request = null, $verifier = null)
     {
