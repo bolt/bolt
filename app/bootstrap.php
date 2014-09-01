@@ -8,7 +8,7 @@ return call_user_func(function ()
 
     // First ensure load.php was called right before bootstrap.php
     $includes = get_included_files();
-    $loaderPath = __DIR__ . '/load.php';
+    $loaderPath = __DIR__ . DIRECTORY_SEPARATOR . 'load.php';
     $includeCount = count($includes);
     // Should be at least 3 includes at this point:
     // <load-invoker>.php (usually entry point), load.php, bootstrap.php
