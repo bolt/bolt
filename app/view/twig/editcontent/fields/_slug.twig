@@ -50,9 +50,11 @@ $(function() {
 
     $('.slugedit').bind('click', function() {
         newslug = prompt("Set the slug to:", $('#show-{{ key }}').text());
-        $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
-        stopMakeUri({{ option.uses|json_encode|raw }});
-        makeUriAjax(newslug, '{{ context.content.contenttype.slug }}', '{{ context.content.id }}', '{{ key }}', false);
+        if(newslug) {
+            $('.sluglocker i').addClass('fa-lock').removeClass('fa-unlock');
+            stopMakeUri({{ option.uses|json_encode|raw }});
+            makeUriAjax(newslug, '{{ context.content.contenttype.slug }}', '{{ context.content.id }}', '{{ key }}', false);
+        }
     });
 
     {% if context.content.get(key) is empty %}
