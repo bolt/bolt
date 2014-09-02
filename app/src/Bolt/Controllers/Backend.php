@@ -732,8 +732,6 @@ class Backend implements ControllerProviderInterface
             $content->setFromPost($request_all, $contenttype);
             $newStatus = $content['status'];
 
-            $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
-
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
                 $app['session']->getFlashBag()->set('error', "Don't try to spoof the id!");
@@ -741,18 +739,23 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $comment = $request->request->get('changelog-comment');
-
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
+            $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
             if ($statusOK) {
+                // Get the associate record change comment
+                $comment = $request->request->get('changelog-comment');
+
+                // Save the record
                 $id = $app['storage']->saveContent($content, $comment);
+
+                // Log the change
+                $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 if (!empty($id)) {
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 } else {
                     $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 }
-                $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
                 // If 'returnto is set', we return to the edit page, with the correct anchor.
                 if ($app['request']->get('returnto')) {
