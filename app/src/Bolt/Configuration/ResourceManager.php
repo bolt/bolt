@@ -44,7 +44,7 @@ class ResourceManager
      * Classloader instance will use introspection to find root path
      * String will be treated as an existing directory.
      */
-    public function __construct(ClassLoader $loader, Request $request = null, $verifier = null)
+    public function __construct($loader, Request $request = null, $verifier = null)
     {
         
         if ($loader instanceof ClassLoader) {
