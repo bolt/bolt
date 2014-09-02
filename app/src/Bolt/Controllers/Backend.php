@@ -759,19 +759,20 @@ class Backend implements ControllerProviderInterface
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 }
 
-                // If 'returnto is set', we return to the edit page, with the correct anchor.
+                /*
+                 * Bolt 2:
+                 * We now only get a returnto parameter if we are saving a new
+                 * record and staying on the same page, i.e. "Save {contenttype}"
+                 *
+                 * As of 2014-09-01 sidebarsavecontinuebutton is the used returnto
+                 */
                 if ($app['request']->get('returnto')) {
-
-                    if ($app['request']->get('returnto') == "new") {
-                        // We must 'return to' the edit "New record" page.
-                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0));
-                    } else {
-                        // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
-                        $id = $app['storage']->getLatestId($contenttype['slug']);
-
+                    if ($app['request']->get('returnto') == "sidebarsavecontinuebutton") {
                         return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
+                    } else {
+                        // Yeah, not expecting this...
+                        return redirect('dashboard');
                     }
-
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
