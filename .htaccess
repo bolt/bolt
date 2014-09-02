@@ -20,7 +20,7 @@ Options -Indexes
   RewriteRule cache/ - [F]
 
   # Some servers require the RewriteBase to be set. If so, set to the correct folder.
-  RewriteBase /
+  # RewriteBase /
 
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
