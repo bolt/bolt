@@ -246,6 +246,7 @@ class CommandRunner
             } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md' )) {
                 $pack['readme'] = $pack['names'] . '/readme.md';
             }
+        }
 
         // Check if we hve a config file, and if it's readable. (yet)
         if (isset($this->app['extensions']->composer[$name]['name'])) {
