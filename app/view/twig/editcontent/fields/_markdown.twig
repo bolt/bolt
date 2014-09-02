@@ -25,13 +25,11 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="markdown">
-
     <div class="col-sm-12">
         <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
         <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(key)|default('') }}</textarea>
         <textarea{{ macro.attr(attr_catchpaste) }}></textarea>
     </div>
-
 </fieldset>
 
 {#=== SCRIPT =========================================================================================================#}

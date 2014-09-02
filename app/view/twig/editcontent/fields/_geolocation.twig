@@ -10,19 +10,19 @@
 {% set geolocation = context.content.get(key) %}
 
 {% set attr_lat = {
-    class:  'form-control pull-left',
+    class:  'form-control',
     id:     key~'-latitude',
     name:   key~'[latitude]',
-    style:  'width: 28%;',
+    style:  '',
     type:   'text',
     value:  geolocation.latitude|default(''),
 }%}
 
 {% set attr_lon = {
-    class:  'form-control pull-left',
+    class:  'form-control',
     id:     key~'-longitude',
     name:   key~'[longitude]',
-    style:  'width: 28%;',
+    style:  '',
     type:   'text',
     value:  geolocation.longitude|default(''),
 }%}
@@ -47,45 +47,39 @@
 
 <fieldset class="geolocation">
 
+    <label class="control-label col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
     <div class="col-sm-8">
-
-        <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-
         <div class="form-group">
-
             <div class="col-sm-12">
-                <label>{{ __('Address lookup:') }}</label>
+                <label>{{ __('Address lookup') }}</label>
                 <input{{ macro.attr(attr_address) }}>
             </div>
-
         </div>
-
         <div class="form-group">
-            <div class="col-sm-12">
-                <span class="pull-left" style="margin: 6px 8px 0 0;">{{ __('Latitude:') }}</span>
+            <div class="col-xs-6">
+                <label>{{ __('Latitude') }}</label>
                 <input{{ macro.attr(attr_lat) }}>
-                <span class="pull-left" style="margin: 6px 8px 0;">- {{ __('Longitude:') }}</span>
+            </div>
+            <div class="col-xs-6">
+                <label>{{ __('Longitude') }}</label>
                 <input{{ macro.attr(attr_lon) }}>
             </div>
-
         </div>
         <div class="form-group">
             <div class="col-sm-12">
-                <p>{{ __('Matched address:') }}
-                    <span id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</span>
-                </p>
+                <span><b>{{ __('Matched address') }}</b></span>
+                <p id="{{ key }}-reversegeo"> {{ geolocation.formatted_address|default('') }}</p>
                 <input{{ macro.attr(attr_formatted) }}>
             </div>
         </div>
-
     </div>
 
-    <div class="col-sm-4" style="padding-left: 0;">
-        <div class="mapholder" id="map-{{ key }}" style="width: 204px;">
-            <img src="{{ geo.map|default('') }}" width="200" height="200">
+    <div class="col-sm-4">
+        <label>{{ __('Marker placement') }}</label>
+        <div class="mapholder" id="map-{{ key }}">
+            <img src="{{ geo.map|default('') }}" width="100%" height="100%">
         </div>
     </div>
-
 </fieldset>
 
 {#=== SCRIPT =========================================================================================================#}

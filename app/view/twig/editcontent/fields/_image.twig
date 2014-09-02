@@ -12,8 +12,8 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set preview_w = 120 %}
-{% set preview_h = 120 %}
+{% set preview_w = 200 %}
+{% set preview_h = 150 %}
 
 {# Convert from old stored image format that is used until re-saved #}
 {% set image = (context.content.get(key) is iterable) ? context.content.get(key) : {'file': context.content.get(key)} %}
@@ -34,10 +34,13 @@
 
 {% macro imagepath(labelkey, option, image, attr_inp) %}
     {% import '_macro/_macro.twig' as macro %}
-
+{#     
+    sbonardt: put this label as any other field in it's own place outside the div wrapper. More fine grained control over positioning and alignment
     <label class="control-label" style="min-width: 180px;">{{ macro.infopop(labelkey, option.info) }}</label>
-    {# note: the 'min-width: 180px;' is a bit of a nasty hack. if omitted, Chrome renders the
-    span 1px too small, making the 'info' popup go to the next line. #}
+    note: the 'min-width: 180px;' is a bit of a nasty hack. if omitted, Chrome renders the
+    span 1px too small, making the 'info' popup go to the next line. 
+#}
+    <label>{{ __('Image path') }}</label>
     <input{{ macro.attr(attr_inp) }}>
     <p class="filetypes">{{ __("Allowed filetypes are:") }} <code>{{ option.extensions|join('</code>, <code>')|raw }}</code>.</p>
 {% endmacro %}
@@ -47,12 +50,22 @@
         {# We are only interested in the 'title' attribute right now, but this will allow easy extension #}
         {% for attrib in option.attrib %}
             {% if attrib == 'title' %}
-                <div class="form-group" style="margin-top: 8px;">
-                    <div class="col-sm-4">
-                        <label class="control-label" for="{{ key }}[title]">{{ __('Title/Alt Text:') }}</label>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label for="{{ key }}[title]">{{ __('Title') }}</label>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="text" name="{{ key }}[title]" id="{{ key }}-title" value='{{ image.title|default('') }}' class="form-control">
+                    </div>
+                </div>
+            {% endif %}
+            {% if attrib == 'Alt text' %}
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label for="{{ key }}[alt]">{{ __('Alt') }}</label>
+                    </div>
+                    <div class="col-sm-10">
+                        <input type="text" name="{{ key }}[alt]" id="{{ key }}-alt" value='{{ image.title|default('') }}' class="form-control">
                     </div>
                 </div>
             {% endif %}
@@ -68,7 +81,7 @@
             <input id="fileupload-{{ key }}" type="file" name="fileupload-{{ key }}[]" data-url="{{ url('upload',{'handler':option.handler}) }}">
         </span>
 
-        <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal" style="margin: auto 4px auto 8px;">
+        <a data-target="#selectModal-{{ key }}" href="{{ paths.async }}browse/files?key={{ key }}" class="btn btn-tertiary" data-toggle="modal">
             <i class="fa fa-download"></i>
             {{ __('Select from server') }}
         </a>
@@ -79,10 +92,8 @@
         <div class="btn-group">
             <a class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-paperclip"></i>
-                {{ __('Select from stack') }}
-                <span class="caret"></span>
+                {{ __('Select from stack') }}<span class="caret"></span>
             </a>
-
             <ul class="dropdown-menu" id="stack-{{ key }}">
                 {% for item in items %}
                     <li>
@@ -112,30 +123,32 @@
 {#=== FIELDSET =======================================================================================================#}
 
 <fieldset class="image">
-
     <div class="dropzone clearfix" id="dropzone-{{ key }}">
-        <div class="col-sm-9">
-            {{ block.imagepath(labelkey, option, image, attr_inp) }}
-            {{ block.attributes(key, option, image) }}
-            <div style="margin-bottom: 10px; margin-top: 10px">
-                {{ block.buttons(key, paths, option) }}
-                {{ block.stack(key, stackitems(7, 'image')) }}
-            </div>
-            {{ block.progress(key) }}
-            {{ block.serverselect(key, __('Cancel')) }}
+    <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
+    <div class="col-sm-8">
+        {{ block.imagepath(labelkey, option, image, attr_inp) }}
+        {{ block.attributes(key, option, image) }}
+        <div class="button-wrap">
+            {{ block.buttons(key, paths, option) }}
+            {{ block.stack(key, stackitems(7, 'image')) }}
         </div>
+        {{ block.progress(key) }}
+        {{ block.serverselect(key, __('Cancel')) }}
+    </div>
 
-        <div class="col-sm-3">
-            <div class="imageholder" id="thumbnail-{{ key }}">
-                {% if context.content.get(key) != '' %}
-                    {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
-                {% else %}
-                    {% set preview_path = app.paths.app~'view/img/default_empty.png' %}
-                {% endif %}
-                <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview">
-            </div>
+    <div class="col-sm-4">
+        <label>{{ __('Preview') }}</label>
+        <div class="content-preview imageholder" id="thumbnail-{{ key }}">
+            {% if context.content.get(key) != '' %}
+                {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
+            {% else %}
+                {% set preview_path = app.paths.app~'view/img/default_empty.png' %}
+            {% endif %}
+            {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
+            <img src="{{ preview_path }}" alt="Preview">
         </div>
     </div>
+</div>
 
 </fieldset>
 
