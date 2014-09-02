@@ -51,14 +51,16 @@ input[type="checkbox"] {
     margin: 4px 8px 0px 0;
 }
 
-.prefix {
+.prefix, .postfix {
     padding-bottom:4px;
     color:#666;
+    padding-left:20px;
+    padding-right:20px;
 }
 
 .postfix {
-    color:#666;
     padding-top:5px;
+    padding-bottom:0;
 }
 
 fieldset.checkbox {
