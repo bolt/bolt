@@ -743,7 +743,9 @@ class Backend implements ControllerProviderInterface
             $comment = $request->request->get('changelog-comment');
 
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
-            if ($statusOK && $app['storage']->saveContent($content, $comment)) {
+            if ($statusOK) {
+                $id = $app['storage']->saveContent($content, $comment);
+
                 if (!empty($id)) {
                     $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 } else {
@@ -1425,7 +1427,7 @@ class Backend implements ControllerProviderInterface
         if (!$request->query->has('CKEditor')) {
             $twig = 'files/files.twig';
         } else {
-            $app['debugbar'] = false;            
+            $app['debugbar'] = false;
             $twig = 'files_ck/files_ck.twig';
         }
 
