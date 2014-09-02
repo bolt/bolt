@@ -660,8 +660,10 @@ class Backend implements ControllerProviderInterface
         // for Editors.
         if (empty($id)) {
             $perm = "contenttype:$contenttypeslug:create";
+            $new = true;
         } else {
             $perm = "contenttype:$contenttypeslug:edit:$id";
+            $new = false;
         }
         if (!$app['users']->isAllowed($perm)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
@@ -751,10 +753,10 @@ class Backend implements ControllerProviderInterface
                 // Log the change
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
-                if (!empty($id)) {
-                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
-                } else {
+                if ($new) {
                     $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.', array('%contenttype%' => $contenttype['singular_name'])));
+                } else {
+                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
                 }
 
                 // If 'returnto is set', we return to the edit page, with the correct anchor.
