@@ -801,21 +801,12 @@ class Storage
 
         $content['datechanged'] = date('Y-m-d H:i:s');
 
-        // Keep datecreated around, for when we might need to 'insert' instead of 'update' after all
-        $datecreated = $content['datecreated'];
-        unset($content['datecreated']);
-
+        // Call update() and get the number of rows affected
         $res = $this->app['db']->update($tablename, $content, array('id' => $content['id']));
 
-        if ($res == true) {
+        if ($res > 0) {
+            // More than one row was changed, log the update
             $this->logUpdate($contenttype, $content['id'], $content, $oldContent, $comment);
-
-            return true;
-        } else {
-            // Attempt to _insert_ it, instead of updating..
-            $content['datecreated'] = $datecreated;
-
-            return $this->app['db']->insert($tablename, $content);
         }
     }
 
