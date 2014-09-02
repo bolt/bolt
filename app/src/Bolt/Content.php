@@ -115,8 +115,7 @@ class Content implements \ArrayAccess
 
         if (!isset($this->values['datecreated']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datecreated'])) {
-            // Not all DB-engines can handle a date like '0000-00-00', so we pick a safe date, that's far enough in the past.
-            $this->values['datecreated'] = "1970-01-01 00:00:00";
+            $this->values['datecreated'] = $now;
         }
 
         if (!isset($this->values['datepublish']) || ($this->values['datepublish'] < "1971-01-01 01:01:01") ||
@@ -905,7 +904,7 @@ class Content implements \ArrayAccess
             'limit' => 1,
             'order' => $field . $order,
             'returnsingle' => true,
-            'hydrate' => false            
+            'hydrate' => false
         );
 
         $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $dummy, $where);
