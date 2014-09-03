@@ -14,8 +14,8 @@ class ComposerChecks extends LowlevelChecks
     </strong></p><p>When using Bolt as a Composer package ensure you have taken the following steps:</p>
     <ol>
         <li>Create a local, writable config directory: <code>mkdir -p app/config && chmod -R 0777 app/config</code></li>
-        <li>Create a local, writable cache directory: <code>mkdir -p app/cache && chmod -R 0777 app/cache</code></li>
         <li>For a default SQLite install, create a local, writable directory: <code>mkdir -p app/database && chmod -R 0777 app/database</code></li>
+        <li>Create a local, writable cache directory: <code>mkdir -p app/cache && chmod -R 0777 app/cache</code></li>
         <li>Create a local, writable extensions directory: <code>mkdir -p extensions && chmod -R 0777 extensions</code></li>
     </ol><strong>
 EOM;
