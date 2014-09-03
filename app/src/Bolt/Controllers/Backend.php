@@ -773,6 +773,13 @@ class Backend implements ControllerProviderInterface
                         // Yeah, not expecting this...
                         return redirect('dashboard');
                     }
+                } else {
+                    /* We're being handled by AJAX
+                     *
+                     * @TODO: Get our record after POST_SAVE hooks are dealt with and return the JSON, e.g.
+                     *     $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+                     *     $response = $app->json($content->values);
+                     */
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
