@@ -188,6 +188,26 @@
                                 $("#statusselect option:selected").text()
                             );
 
+                            // Update anything changed by POST_SAVE handlers
+                            if ($.type(data) == 'object') {
+
+                                $.each(data, function(index, item) {
+
+                                    // Things like images are stored in JSON arrays
+                                    if ($.type(item) == 'object') {
+                                        $.each(item, function(subindex, subitem) {
+                                            $(":input[name='" + index + "[" + subindex + "]']").val(subitem);
+                                        });
+                                    } else {
+                                        $(":input[name='" + index + "']").val(item);
+                                    }
+
+                                });
+                            }
+
+                            // Reset the changes to the form from any updates we got from POST_SAVE changes
+                            $('form').watchChanges();
+
                         })
                         .fail(function(){
                             $('p.lastsaved').text('{{ __('Could not save %contenttype%.', { '%contenttype%': context.contenttype.singular_name }) }}');
