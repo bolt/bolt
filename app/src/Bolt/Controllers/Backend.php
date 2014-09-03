@@ -764,7 +764,7 @@ class Backend implements ControllerProviderInterface
                  * We now only get a returnto parameter if we are saving a new
                  * record and staying on the same page, i.e. "Save {contenttype}"
                  *
-                 * As of 2014-09-01 sidebarsavecontinuebutton is the used returnto
+                 * sidebarsavecontinuebutton is now used as returnto
                  */
                 if ($app['request']->get('returnto')) {
                     if ($app['request']->get('returnto') == "sidebarsavecontinuebutton") {
@@ -777,8 +777,13 @@ class Backend implements ControllerProviderInterface
                     /* We're being handled by AJAX
                      *
                      * @TODO: Get our record after POST_SAVE hooks are dealt with and return the JSON, e.g.
+                     *     // Get the updated content post save hooks
                      *     $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
-                     *     $response = $app->json($content->values);
+                     *     return new JsonResponse($content->values);
+                     *
+                     * Currently this error due to a 404 exception being generated in \Bolt\Storage::saveContent() dispatchers:
+                     *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+                     *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
                      */
                 }
 
