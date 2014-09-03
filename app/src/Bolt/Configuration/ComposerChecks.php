@@ -33,9 +33,9 @@ class ComposerChecks extends LowlevelChecks
                 $message . "The default folder <code>" . $this->config->getPath('config') . 
                 "</code> doesn't exist. Make sure it's " .
                 "present and writable to the user that the webserver is using.");
-        } elseif (!is_writable($this->config->getPath('cache'))) {
+        } elseif (!is_writable($this->config->getPath('config'))) {
             throw new LowlevelException(
-                $message . "The default folder <code>" . $this->config->getPath('cache') . 
+                $message . "The default folder <code>" . $this->config->getPath('config') . 
                 "</code> isn't writable. Make sure it's writable to the user that the webserver is using."
             );
         }
