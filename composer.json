@@ -15,7 +15,7 @@
         "bolt/thumbs": "1.7.*@dev",
         "composer/composer": "1.0.*@dev",
         "doctrine/dbal": "~2.4",
-        "erusev/parsedown": "1.*",
+        "erusev/parsedown-extra": "~0.2",
         "eviweb/composer-wrapper" : "1.*",
         "filp/whoops": "1.*",
         "guzzle/guzzle": "3.3.*",
