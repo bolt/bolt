@@ -20,6 +20,7 @@ class ComposerChecks extends LowlevelChecks
     public function __construct($config = null)
     {
         parent::__construct($config);
+        $this->addCheck('app', true);
         $this->addCheck('config', true);
     }
     

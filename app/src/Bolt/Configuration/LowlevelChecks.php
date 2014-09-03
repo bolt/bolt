@@ -12,11 +12,11 @@ class LowlevelChecks
     public $disableApacheChecks = false;
     
     public $checks = array(
-        'MagicQuotes',
-        'SafeMode',
-        'Cache',
-        'Extensions',
-        'Apache'
+        'magicQuotes',
+        'safeMode',
+        'cache',
+        'extensions',
+        'apache'
     );
 
     /**
@@ -55,7 +55,7 @@ class LowlevelChecks
     {
 
         foreach($this->checks as $check) {
-            $method = "check".$check;
+            $method = "check".ucfirst($check);
             $this->$method();
         }
  
