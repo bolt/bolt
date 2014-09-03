@@ -13,6 +13,7 @@
     "require": {
         "bolt/dumper": ">=0.7",
         "bolt/thumbs": "1.7.*@dev",
+        "brandonwamboldt/utilphp": "1.0.*"
         "composer/composer": "1.0.*@dev",
         "doctrine/dbal": "~2.4",
         "erusev/parsedown-extra": "~0.2",
@@ -41,7 +42,6 @@
         "symfony/yaml": "2.5.x-dev",
         "tdammers/htmlmaid": ">=0.5.2",
         "twig/twig": ">=1.8,<2.0-dev",
-        "brandonwamboldt/utilphp": "1.0.*"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "1.2.*@dev",
