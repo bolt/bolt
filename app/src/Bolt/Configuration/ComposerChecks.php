@@ -9,6 +9,15 @@ namespace Bolt\Configuration;
 
 class ComposerChecks extends LowlevelChecks
 {
+    
+    public $composerSuffix = <<< EOM
+    </strong></p><p>When using Bolt as a Composer package your install will to take the following steps:</p>
+    <ol>
+        <li>Create a local, writable config directory eg: <code>mkdir -p app/config && chmod -R 0777 app/config</code></li>
+        <li>For a default SQLite install, create a local, writable directory eg: <code>mkdir -p app/database && chmod -R 0777 app/database</code></li>
+        <li>Create a local, writable extensions directory eg: <code>mkdir -p extensions && chmod -R 0777 extensions</code></li>
+    </ol><strong>
+EOM;
 
 
     /**
@@ -26,18 +35,16 @@ class ComposerChecks extends LowlevelChecks
     
     
     public function checkConfig()
-    {
-        $message =  "Bolt needs a local config directory to store site-specific configuration. ";             
-                    
+    {                    
         if (!is_dir($this->config->getPath('config'))) {
             throw new LowlevelException(
-                $message . "The default folder <code>" . $this->config->getPath('config') . 
+                "The default folder <code>" . $this->config->getPath('config') . 
                 "</code> doesn't exist. Make sure it's " .
-                "present and writable to the user that the webserver is using.");
+                "present and writable to the user that the webserver is using.". $this->composerSuffix);
         } elseif (!is_writable($this->config->getPath('config'))) {
             throw new LowlevelException(
-                $message . "The default folder <code>" . $this->config->getPath('config') . 
-                "</code> isn't writable. Make sure it's writable to the user that the webserver is using."
+                "The default folder <code>" . $this->config->getPath('config') . 
+                "</code> isn't writable. Make sure it's writable to the user that the webserver is using.".$this->composerSuffix
             );
         }
     }
