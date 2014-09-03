@@ -800,6 +800,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        // We're doing a GET
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
