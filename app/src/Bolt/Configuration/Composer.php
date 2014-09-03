@@ -26,6 +26,15 @@ class Composer extends Standard
         }
         parent::compat();
     }
+    
+    public function getVerifier()
+    {
+        if (! $this->verifier) {
+            $this->verifier = new ComposerChecks($this);
+        }
+
+        return $this->verifier;
+    }
 
     /**
      * This currently gets special treatment because of the processing order.
