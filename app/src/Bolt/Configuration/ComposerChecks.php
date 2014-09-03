@@ -30,8 +30,9 @@ EOM;
     public function __construct($config = null)
     {
         parent::__construct($config);
-        $this->addCheck('config', true);
+        $this->addCheck('extensions', true);
         $this->addCheck('database', true);
+        $this->addCheck('config', true);
     }
     
     
@@ -49,6 +50,11 @@ EOM;
     public function checkDatabase()
     {                    
         $this->checkDir($this->config->getPath('database'));
+    }
+    
+    public function checkExtensions()
+    {                    
+        $this->checkDir($this->config->getPath('extensions'));
     }
     
     
