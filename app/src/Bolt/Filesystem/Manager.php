@@ -21,7 +21,7 @@ class Manager extends MountManager
         $this->mountFilesystem('files', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
         $this->mountFilesystem('config', new Filesystem(new FilesystemAdapter($app['resources']->getPath('config'))));
         $this->mountFilesystem('theme', new Filesystem(new FilesystemAdapter($app['resources']->getPath('themebase'))));
-        if (is_writable($app['resources']->getPath('extensionspath').'/vendor')) {
+        if (is_dir($app['resources']->getPath('extensionspath').'/vendor')) {
             $this->mountFilesystem('extensions', new Filesystem(new FilesystemAdapter($app['resources']->getPath('extensionspath').'/vendor')));
         }
         $this->initManagers();
