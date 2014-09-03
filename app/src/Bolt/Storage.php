@@ -769,7 +769,13 @@ class Storage
         // id is set to autoincrement, so let the DB handle it
         unset($content['id']);
 
-        $id = $this->app['db']->insert($tablename, $content);
+        $res = $this->app['db']->insert($tablename, $content);
+
+        $seq = null;
+        if ($this->app['db']->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+            $seq = $tablename . '_id_seq';
+        }
+        $id = $this->app['db']->lastInsertId($seq);
 
         $this->logInsert($contenttype, $id, $content, $comment);
 
