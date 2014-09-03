@@ -778,7 +778,9 @@ class Backend implements ControllerProviderInterface
                          *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
                          *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
                          */
-                        ob_end_clean();
+                        if (ob_get_length()) {
+                            ob_end_clean();
+                        }
 
                         // Get our record after POST_SAVE hooks are dealt with and return the JSON
                         $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
