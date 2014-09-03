@@ -174,7 +174,9 @@
                     // Reset the changes to the form.
                     $('form').watchChanges();
 
-                    $.post("", $( "#editcontent" ).serialize() )
+                    // Let the controller know we're calling AJAX and expecting to be returned JSON
+                    var ajaxaction = "?returnto=ajax";
+                    $.post(ajaxaction, $( "#editcontent" ).serialize() )
                         .done(function(data) {
                             // var message = "{{ __('The changes to this %contenttype% have been saved.', {'%contenttype%': context.contenttype.singular_name}) }}";
                             $('p.lastsaved').html('{{ __('Saved on:') }} <strong></strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>');

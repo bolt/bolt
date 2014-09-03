@@ -767,22 +767,24 @@ class Backend implements ControllerProviderInterface
                 if ($app['request']->get('returnto')) {
                     if ($app['request']->get('returnto') == "new") {
                         return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
+                    } elseif ($app['request']->get('returnto') == "ajax") {
+                        /* We're being handled by AJAX
+                         *
+                         * @TODO: Get our record after POST_SAVE hooks are dealt with and return the JSON, e.g.
+                         *     // Get the updated content post save hooks
+                         *     $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+                         *     return new JsonResponse($content->values);
+                         *
+                         * Currently this error due to a 404 exception being generated in \Bolt\Storage::saveContent() dispatchers:
+                         *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+                         *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
+                         */
                     } else {
                         // Yeah, not expecting this...
                         return redirect('dashboard');
                     }
                 } else {
-                    /* We're being handled by AJAX
-                     *
-                     * @TODO: Get our record after POST_SAVE hooks are dealt with and return the JSON, e.g.
-                     *     // Get the updated content post save hooks
-                     *     $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
-                     *     return new JsonResponse($content->values);
-                     *
-                     * Currently this error due to a 404 exception being generated in \Bolt\Storage::saveContent() dispatchers:
-                     *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
-                     *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
-                     */
+
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
