@@ -205,7 +205,7 @@ class Async implements ControllerProviderInterface
         $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML
-        $html = \Parsedown::instance()->parse($readme);
+        $html = \ParsedownExtra::instance()->parse($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
     }
@@ -372,7 +372,7 @@ class Async implements ControllerProviderInterface
     {
         // No trailing slashes in the path.
         $path = stripTrailingSlash($path);
-        
+
         $filesystem = $app['filesystem']->getManager($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
