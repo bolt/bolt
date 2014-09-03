@@ -166,7 +166,7 @@
                     $('form').watchChanges();
 
                     // New record. Do a regular post, and expect to be redirected back to this page.
-                    var newaction = "?returnto=" + $(this).attr('id');
+                    var newaction = "?returnto=new";
                     $('#editcontent').attr('action', newaction).submit();
                 } else {
                     // Existing record. Do an 'ajaxy' post to update the record.

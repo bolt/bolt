@@ -763,11 +763,9 @@ class Backend implements ControllerProviderInterface
                  * Bolt 2:
                  * We now only get a returnto parameter if we are saving a new
                  * record and staying on the same page, i.e. "Save {contenttype}"
-                 *
-                 * sidebarsavecontinuebutton is now used as returnto
                  */
                 if ($app['request']->get('returnto')) {
-                    if ($app['request']->get('returnto') == "sidebarsavecontinuebutton") {
+                    if ($app['request']->get('returnto') == "new") {
                         return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
                     } else {
                         // Yeah, not expecting this...
