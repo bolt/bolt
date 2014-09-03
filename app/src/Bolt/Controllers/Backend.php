@@ -779,12 +779,10 @@ class Backend implements ControllerProviderInterface
                          *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
                          *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
                          */
-                    } else {
-                        // Yeah, not expecting this...
+
+                        // Placeholer return
                         return redirect('dashboard');
                     }
-                } else {
-
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
