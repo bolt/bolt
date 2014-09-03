@@ -16,6 +16,14 @@ class Composer extends Standard
     {
         parent::__construct($loader, $request);
         $this->setPath("composer", $this->root);
+        $this->setPath("config", $this->root . '/config');
+        $this->setPath("cache", $this->root . '/cache');
+        $this->setPath("database", $this->root . '/database');
+        $this->setPath("extensions", $this->root . '/extensions');
+        $this->setPath("apppath", $this->getPath('root') . '/vendor/bolt/bolt/app');
+        $this->setPath("themebase", $this->getPath('app') . '/../theme');
+        $this->setPath("extensionsconfig", $this->getPath('config') . "/extensions");
+
         $this->setUrl("app", "/bolt-public/");
     }
 
@@ -35,21 +43,4 @@ class Composer extends Standard
 
         return $this->verifier;
     }
-
-    /**
-     * This currently gets special treatment because of the processing order.
-     * The theme path is needed before the app has constructed, so this is a shortcut to
-     * allow the Application constructor to pre-provide a theme path.
-     *
-     * @return void
-     *
-     */
-/*    public function setThemePath($generalConfig)
-    {
-        $theme = isset($generalConfig['theme']) ? $generalConfig['theme'] : '';
-        $theme_path = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : '/theme';
-        $theme_url = isset($generalConfig['theme_path']) ? $generalConfig['theme_path'] : $this->getUrl('root') . 'theme';
-        $this->setPath("themepath", sprintf('%s%s/%s', $this->getPath("composer"), $theme_path, $theme));
-        $this->setUrl("theme", sprintf('%s/%s/', $theme_url, $theme));
-    }*/
 }
