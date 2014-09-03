@@ -26,6 +26,13 @@ class Storage
      */
     private $checkedfortimed = array();
 
+    /**
+     * Test to indicate if we're inside a dispatcher
+     *
+     * @var bool
+     */
+    private $inDispatcher = false;
+
     protected static $pager = array();
 
     public function __construct(Bolt\Application $app)
@@ -594,9 +601,15 @@ class Storage
             return false;
         }
 
-        if ($this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
+        if (! $this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::PRE_SAVE)) {
+            // Block dispatcher loops
+            $this->inDispatcher = true;
+
             $event = new StorageEvent($content);
             $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+
+            // Re-enable the dispather
+            $this->inDispatcher = false;
         }
 
         if (!isset($fieldvalues['slug'])) {
@@ -705,9 +718,15 @@ class Storage
         $this->updateTaxonomy($contenttype, $id, $content->taxonomy);
         $this->updateRelation($contenttype, $id, $content->relation);
 
-        if ($this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
+        if (!$this->inDispatcher && $this->app['dispatcher']->hasListeners(StorageEvents::POST_SAVE)) {
+            // Block loops
+            $this->inDispatcher = true;
+
             $event = new StorageEvent($content);
             $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
+
+            // Re-enable the dispather
+            $this->inDispatcher = false;
         }
 
         return $id;
