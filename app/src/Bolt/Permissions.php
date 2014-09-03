@@ -324,7 +324,6 @@ class Permissions
             $this->app['cache']->save($cacheKey, json_encode($rule));
         }
 
->>>>>>> Stashed changes
         $userRoles = $this->getEffectiveRolesForUser($user);
 
         if ($contenttype) {
