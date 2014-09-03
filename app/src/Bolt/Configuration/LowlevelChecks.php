@@ -38,10 +38,12 @@ class LowlevelChecks
         }
     }
     
-    public function addCheck($check)
+    public function addCheck($check, $top = false)
     {
         if (!in_array($check, $this->checks)) {
-            $this->checks[] = $check;  
+            if ($top) {
+                array_unshift($this->checks, $check);
+            }
         }
     }
 
