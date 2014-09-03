@@ -11,11 +11,11 @@ class ComposerChecks extends LowlevelChecks
 {
     
     public $composerSuffix = <<< EOM
-    </strong></p><p>When using Bolt as a Composer package your install will to take the following steps:</p>
+    </strong></p><p>When using Bolt as a Composer package ensure you have taken the following steps:</p>
     <ol>
-        <li>Create a local, writable config directory eg: <code>mkdir -p app/config && chmod -R 0777 app/config</code></li>
-        <li>For a default SQLite install, create a local, writable directory eg: <code>mkdir -p app/database && chmod -R 0777 app/database</code></li>
-        <li>Create a local, writable extensions directory eg: <code>mkdir -p extensions && chmod -R 0777 extensions</code></li>
+        <li>Create a local, writable config directory: <code>mkdir -p app/config && chmod -R 0777 app/config</code></li>
+        <li>For a default SQLite install, create a local, writable directory: <code>mkdir -p app/database && chmod -R 0777 app/database</code></li>
+        <li>Create a local, writable extensions directory: <code>mkdir -p extensions && chmod -R 0777 extensions</code></li>
     </ol><strong>
 EOM;
 
