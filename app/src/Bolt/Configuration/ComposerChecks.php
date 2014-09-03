@@ -31,6 +31,7 @@ EOM;
     {
         parent::__construct($config);
         $this->addCheck('config', true);
+        $this->addCheck('database', true);
     }
     
     
@@ -43,6 +44,11 @@ EOM;
     public function checkCache()
     {                    
         $this->checkDir($this->config->getPath('cache'));
+    }
+    
+    public function checkDatabase()
+    {                    
+        $this->checkDir($this->config->getPath('database'));
     }
     
     
