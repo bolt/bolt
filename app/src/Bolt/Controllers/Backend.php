@@ -5,6 +5,7 @@ namespace Bolt\Controllers;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -660,8 +661,10 @@ class Backend implements ControllerProviderInterface
         // for Editors.
         if (empty($id)) {
             $perm = "contenttype:$contenttypeslug:create";
+            $new = true;
         } else {
             $perm = "contenttype:$contenttypeslug:edit:$id";
+            $new = false;
         }
         if (!$app['users']->isAllowed($perm)) {
             $app['session']->getFlashBag()->set('error', __('You do not have the right privileges to edit that record.'));
@@ -697,6 +700,7 @@ class Backend implements ControllerProviderInterface
                 }
             }
 
+            // If we have an ID now, this is an existing record
             if ($id) {
                 $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
                 $oldStatus = $content['status'];
@@ -731,8 +735,6 @@ class Backend implements ControllerProviderInterface
             $content->setFromPost($request_all, $contenttype);
             $newStatus = $content['status'];
 
-            $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
-
             // Don't try to spoof the $id..
             if (!empty($content['id']) && $id != $content['id']) {
                 $app['session']->getFlashBag()->set('error', "Don't try to spoof the id!");
@@ -740,30 +742,50 @@ class Backend implements ControllerProviderInterface
                 return redirect('dashboard');
             }
 
-            $comment = $request->request->get('changelog-comment');
-
             // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
-            if ($statusOK && $app['storage']->saveContent($content, $comment)) {
-                if (!empty($id)) {
-                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
-                } else {
-                    $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.', array('%contenttype%' => $contenttype['singular_name'])));
-                }
+            $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
+            if ($statusOK) {
+                // Get the associate record change comment
+                $comment = $request->request->get('changelog-comment');
+
+                // Save the record
+                $id = $app['storage']->saveContent($content, $comment);
+
+                // Log the change
                 $app['log']->add($content->getTitle(), 3, $content, 'save content');
 
-                // If 'returnto is set', we return to the edit page, with the correct anchor.
+                if ($new) {
+                    $app['session']->getFlashBag()->set('success', __('The new %contenttype% has been saved.', array('%contenttype%' => $contenttype['singular_name'])));
+                } else {
+                    $app['session']->getFlashBag()->set('success', __('The changes to this %contenttype% have been saved.', array('%contenttype%' => $contenttype['singular_name'])));
+                }
+
+                /*
+                 * Bolt 2:
+                 * We now only get a returnto parameter if we are saving a new
+                 * record and staying on the same page, i.e. "Save {contenttype}"
+                 */
                 if ($app['request']->get('returnto')) {
-
                     if ($app['request']->get('returnto') == "new") {
-                        // We must 'return to' the edit "New record" page.
-                        return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0));
-                    } else {
-                        // We must 'return to' the edit page. In which case we must know the Id, so let's fetch it.
-                        $id = $app['storage']->getLatestId($contenttype['slug']);
-
                         return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
-                    }
+                    } elseif ($app['request']->get('returnto') == "ajax") {
+                        /*
+                         * Flush any buffers from saveConent() dispatcher hooks
+                         * and make sure our JSON output is clean.
+                         *
+                         * Currently occurs due to a 404 exception being generated
+                         * in \Bolt\Storage::saveContent() dispatchers:
+                         *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+                         *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
+                         */
+                        if (ob_get_length()) {
+                            ob_end_clean();
+                        }
 
+                        // Get our record after POST_SAVE hooks are dealt with and return the JSON
+                        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+                        return new JsonResponse($content->values);
+                    }
                 }
 
                 // No returnto, so we go back to the 'overview' for this contenttype.
@@ -781,6 +803,7 @@ class Backend implements ControllerProviderInterface
             }
         }
 
+        // We're doing a GET
         if (!empty($id)) {
             $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id));
 
@@ -1425,7 +1448,7 @@ class Backend implements ControllerProviderInterface
         if (!$request->query->has('CKEditor')) {
             $twig = 'files/files.twig';
         } else {
-            $app['debugbar'] = false;            
+            $app['debugbar'] = false;
             $twig = 'files_ck/files_ck.twig';
         }
 
