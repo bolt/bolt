@@ -5,6 +5,7 @@ namespace Bolt\Controllers;
 use Silex;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -768,20 +769,20 @@ class Backend implements ControllerProviderInterface
                     if ($app['request']->get('returnto') == "new") {
                         return redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), "#".$app['request']->get('returnto'));
                     } elseif ($app['request']->get('returnto') == "ajax") {
-                        /* We're being handled by AJAX
+                        /*
+                         * Flush any buffers from saveConent() dispatcher hooks
+                         * and make sure our JSON output is clean.
                          *
-                         * @TODO: Get our record after POST_SAVE hooks are dealt with and return the JSON, e.g.
-                         *     // Get the updated content post save hooks
-                         *     $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
-                         *     return new JsonResponse($content->values);
-                         *
-                         * Currently this error due to a 404 exception being generated in \Bolt\Storage::saveContent() dispatchers:
+                         * Currently occurs due to a 404 exception being generated
+                         * in \Bolt\Storage::saveContent() dispatchers:
                          *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
                          *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
                          */
+                        ob_end_clean();
 
-                        // Placeholer return
-                        return redirect('dashboard');
+                        // Get our record after POST_SAVE hooks are dealt with and return the JSON
+                        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+                        return new JsonResponse($content->values);
                     }
                 }
 
