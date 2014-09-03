@@ -10,6 +10,14 @@ class LowlevelChecks
 {
     public $config;
     public $disableApacheChecks = false;
+    
+    public $checks = array(
+        'MagicQuotes',
+        'SafeMode',
+        'Cache',
+        'Extensions',
+        'Apache'
+    );
 
     /**
      * The constructor requires a resource manager object to perform checks against.
@@ -25,7 +33,28 @@ class LowlevelChecks
     /**
      * Perform the checks.
      */
+    
     public function doChecks()
+    {
+
+        foreach($this->checks as $check) {
+            $method = "check".$check;
+            $this->$method();
+        }
+ 
+
+        // If the config folder is OK, but the config files are missing, attempt to fix it.
+        $this->lowlevelConfigFix('config');
+        $this->lowlevelConfigFix('menu');
+        $this->lowlevelConfigFix('contenttypes');
+        $this->lowlevelConfigFix('taxonomy');
+        $this->lowlevelConfigFix('routing');
+        $this->lowlevelConfigFix('permissions');
+
+        // throw new LowlevelException("Done");
+    }
+    
+    public function checkMagicQuotes()
     {
         if (get_magic_quotes_gpc()) {
             throw new LowlevelException(
@@ -36,7 +65,10 @@ class LowlevelChecks
                 "`.htaccess`-file: <pre>php_value magic_quotes_gpc off</pre>"
             );
         }
-
+    }
+    
+    public function checkSafeMode()
+    {
         if (ini_get('safe_mode')) {
             throw new LowlevelException(
                 "Bolt requires 'Safe mode' to be <b>off</b>. Please send your hoster to " .
@@ -44,7 +76,10 @@ class LowlevelChecks
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that safe_mode is <u>DEPRECATED</u>. Seriously."
             );
         }
-
+    }
+    
+    public function checkCache()
+    {
         // Check if the cache dir is present and writable
         if (!is_dir($this->config->getPath('cache'))) {
             throw new LowlevelException(
@@ -57,7 +92,10 @@ class LowlevelChecks
                 "present and writable to the user that the webserver is using."
             );
         }
-
+    }
+    
+    public function checkExtensions()
+    {
         // Check if there is a writable extension path
         if (!is_dir($this->config->getPath('extensions'))) {
             throw new LowlevelException(
@@ -71,14 +109,19 @@ class LowlevelChecks
             );
         }
 
-        /**
-         * This check looks for the presence of the .htaccess file inside the web directory.
-         * It is here only as a convenience check for users that install the basic version of Bolt.
-         *
-         * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks();
-         * inside your bootstrap.php file, just before the call to $config->verify().
-         **/
-        if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') && false === $this->disableApacheChecks) {
+    }
+    
+    /**
+     * This check looks for the presence of the .htaccess file inside the web directory.
+     * It is here only as a convenience check for users that install the basic version of Bolt.
+     *
+     * If you see this error and want to disable it, call $config->getVerifier()->disableApacheChecks();
+     * inside your bootstrap.php file, just before the call to $config->verify().
+     **/
+    public function checkApache()
+    {
+        
+        if (isset($_SERVER['SERVER_SOFTWARE']) && false !== strpos($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
             if (!is_readable($this->config->getPath('web').'/.htaccess')) {
                 throw new LowlevelException(
                     "The file <code>" . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . "/.htaccess".
@@ -87,16 +130,6 @@ class LowlevelChecks
                 );
             }
         }
-
-        // If the config folder is OK, but the config files are missing, attempt to fix it.
-        $this->lowlevelConfigFix('config');
-        $this->lowlevelConfigFix('menu');
-        $this->lowlevelConfigFix('contenttypes');
-        $this->lowlevelConfigFix('taxonomy');
-        $this->lowlevelConfigFix('routing');
-        $this->lowlevelConfigFix('permissions');
-
-        // throw new LowlevelException("Done");
     }
 
     /**
