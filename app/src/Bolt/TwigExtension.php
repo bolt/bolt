@@ -410,7 +410,7 @@ class TwigExtension extends \Twig_Extension
     public function markdown($content)
     {
         // Parse the field as Markdown, return HTML
-        $output = \ParsedownExtra::instance()->parse($content);
+        $output = \ParsedownExtra::instance()->text($content);
 
         // Sanitize/clean the HTML.
         $maid = new \Maid\Maid(

@@ -572,7 +572,7 @@ class Content implements \ArrayAccess
                     $value = $this->preParse($this->values[$name], $allowtwig);
 
                     // Parse the field as Markdown, return HTML
-                    $value = \ParsedownExtra::instance()->parse($value);
+                    $value = \ParsedownExtra::instance()->text($value);
 
                     // Sanitize/clean the HTML.
                     $maid = new \Maid\Maid(

@@ -205,7 +205,7 @@ class Async implements ControllerProviderInterface
         $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML
-        $html = \ParsedownExtra::instance()->parse($readme);
+        $html = \ParsedownExtra::instance()->text($readme);
 
         return new Response($html, 200, array('Cache-Control' => 's-maxage=180, public'));
     }
