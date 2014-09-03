@@ -29,6 +29,21 @@ class LowlevelChecks
     {
         $this->config = $config;
     }
+    
+    
+    public function removeCheck($check)
+    {
+        if (in_array($check, $this->checks)) {
+            $this->checks = array_diff($this->checks, array($check));  
+        }
+    }
+    
+    public function addCheck($check)
+    {
+        if (!in_array($check, $this->checks)) {
+            $this->checks[] = $check;  
+        }
+    }
 
     /**
      * Perform the checks.
