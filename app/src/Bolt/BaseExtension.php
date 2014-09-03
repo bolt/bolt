@@ -133,7 +133,7 @@ abstract class BaseExtension extends \Twig_Extension implements BaseExtensionInt
             $configdistfile = $this->basepath. "/config.yml.dist";
 
             // If config.yml.dist exists, attempt to copy it to config.yml.
-            if (is_readable($configdistfile) && is_writable($configfile)) {
+            if (is_readable($configdistfile)) {
 
                 if (copy($configdistfile, $configfile)) {
                     // Success!
