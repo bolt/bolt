@@ -33,22 +33,32 @@ EOM;
     }
     
     
+    
     public function checkConfig()
     {                    
-        if (!is_dir($this->config->getPath('config'))) {
+        $this->checkDir($this->config->getPath('config'));
+    }
+    
+    public function checkCache()
+    {                    
+        $this->checkDir($this->config->getPath('cache'));
+    }
+    
+    
+    protected function checkDir($location)
+    {
+        if (!is_dir($location)) {
             throw new LowlevelException(
-                "The default folder <code>" . $this->config->getPath('config') . 
+                "The default folder <code>" . $location . 
                 "</code> doesn't exist. Make sure it's " .
                 "present and writable to the user that the webserver is using.". $this->composerSuffix);
-        } elseif (!is_writable($this->config->getPath('config'))) {
+        } elseif (!is_writable($location)) {
             throw new LowlevelException(
-                "The default folder <code>" . $this->config->getPath('config') . 
+                "The default folder <code>" . $location . 
                 "</code> isn't writable. Make sure it's writable to the user that the webserver is using.".$this->composerSuffix
             );
         }
     }
-    
-    
 
 
 }
