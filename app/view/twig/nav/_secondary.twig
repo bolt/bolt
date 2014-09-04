@@ -30,7 +30,7 @@
 
             {# Link to Extend Bolt #}
             {% if isallowed('extensions') %}
-                {{ nav.link('cubes', __('Extend '~app.config.get('general/branding/name')), 'extend', (page_nav == 'ExtendBolt'), false) }}
+                {% include 'nav/_secondary-extensions.twig' %}
             {% endif %}
 
         {% endif %}
