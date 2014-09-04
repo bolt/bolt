@@ -122,6 +122,36 @@ class Cron extends Event
     }
 
     /**
+     * Test whether or not to call dispatcher
+     *
+     * @param string $name The cron event name
+     * @return boolean True  - Dispatch event
+     *                 False - Passover event
+     */
+    private function isExecutable($name)
+    {
+        if ($this->param['single'] && $this->param['name'] == $name) {
+            return true;
+        } elseif ($this->app['dispatcher']->hasListeners($name)) {
+            if ($name == CronEvents::CRON_HOURLY && $this->interims['hourly'] < strtotime("-1 hour")) {
+                return true;
+            } elseif (time() > $this->threshold) {
+                if ($name == CronEvents::CRON_DAILY && $this->interims['hourly'] < strtotime("-1 day")) {
+                    return true;
+                } elseif ($name == CronEvents::CRON_WEEKLY && $this->interims['hourly'] < strtotime("-1 week")) {
+                    return true;
+                } elseif ($name == CronEvents::CRON_MONTHLY && $this->interims['hourly'] < strtotime("-1 month")) {
+                    return true;
+                } elseif ($name == CronEvents::CRON_YEARLY && $this->interims['hourly'] < strtotime("-1 year")) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get our configured hour and convert it to UNIX time
      */
     private function getScheduleThreshold()
