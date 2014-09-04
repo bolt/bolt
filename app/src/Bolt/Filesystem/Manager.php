@@ -17,13 +17,11 @@ class Manager extends MountManager
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->mountFilesystem('default', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
-        $this->mountFilesystem('files', new Filesystem(new FilesystemAdapter($app['resources']->getPath('files'))));
-        $this->mountFilesystem('config', new Filesystem(new FilesystemAdapter($app['resources']->getPath('config'))));
-        $this->mountFilesystem('theme', new Filesystem(new FilesystemAdapter($app['resources']->getPath('themebase'))));
-        if (is_dir($app['resources']->getPath('extensionspath').'/vendor')) {
-            $this->mountFilesystem('extensions', new Filesystem(new FilesystemAdapter($app['resources']->getPath('extensionspath').'/vendor')));
-        }
+        $this->mountFilesystem('default', $app['resources']->getPath('files'));
+        $this->mountFilesystem('files', $app['resources']->getPath('files'));
+        $this->mountFilesystem('config', $app['resources']->getPath('config'));
+        $this->mountFilesystem('theme', $app['resources']->getPath('themebase'));
+        $this->mountFilesystem('extensions', $app['resources']->getPath('extensionspath').'/vendor');
         $this->initManagers();
     }
 
@@ -55,6 +53,20 @@ class Manager extends MountManager
     {
         $this->mountFilesystem($namespace, $manager);
         $this->initManager($namespace, $manager);
+    }
+    
+    
+    /**
+     * Mainly passes through to parent class, but before it does this method
+     * checks that the passed in directory exists.
+     *
+     * @return void
+     **/
+    public function mountFilesystem($prefix, $location)
+    {
+        if (is_dir($location)) {
+           return parent::mountFilesystem($prefix, new Filesystem(new FilesystemAdapter($location))); 
+        }
     }
 
     /**
