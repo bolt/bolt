@@ -63,61 +63,58 @@ class Cron extends Event
         $event = new CronEvent($this->app, $this->output);
 
         // Process event listeners
-        if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_HOURLY) && $this->interims['hourly'] < strtotime("-1 hour")) {
+        if (isExecutable(CronEvents::CRON_HOURLY)) {
             $this->notify("Running Cron Hourly Jobs");
             $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $event);
             $this->setLastRun('hourly');
         }
 
-        // Only check the running of these if we've passed our threshold hour today
-        if (time() > $this->threshold) {
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->interims['daily'] < strtotime("-1 day")) {
-                $this->notify("Running Cron Daily Jobs");
+        if (isExecutable(CronEvents::CRON_DAILY)) {
+            $this->notify("Running Cron Daily Jobs");
 
-                try {
-                    $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event);
-                } catch (\Exception $e) {
-                    $this->handleError($e, CronEvents::CRON_DAILY);
-                }
-
-                $this->setLastRun('daily');
+            try {
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event);
+            } catch (\Exception $e) {
+                $this->handleError($e, CronEvents::CRON_DAILY);
             }
 
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->interims['weekly'] < strtotime("-1 week")) {
-                $this->notify("Running Cron Weekly Jobs");
+            $this->setLastRun('daily');
+        }
 
-                try {
-                    $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event);
-                } catch (\Exception $e) {
-                    $this->handleError($e, CronEvents::CRON_WEEKLY);
-                }
+        if (isExecutable(CronEvents::CRON_WEEKLY)) {
+            $this->notify("Running Cron Weekly Jobs");
 
-                $this->setLastRun('weekly');
+            try {
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event);
+            } catch (\Exception $e) {
+                $this->handleError($e, CronEvents::CRON_WEEKLY);
             }
 
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->interims['monthly'] < strtotime("-1 month")) {
-                $this->notify("Running Cron Monthly Jobs");
+            $this->setLastRun('weekly');
+        }
 
-                try {
-                    $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event);
-                } catch (\Exception $e) {
-                    $this->handleError($e, CronEvents::CRON_MONTHLY);
-                }
+        if (isExecutable(CronEvents::CRON_MONTHLY)) {
+            $this->notify("Running Cron Monthly Jobs");
 
-                $this->setLastRun('monthly');
+            try {
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event);
+            } catch (\Exception $e) {
+                $this->handleError($e, CronEvents::CRON_MONTHLY);
             }
 
-            if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->interims['yearly'] < strtotime("-1 year")) {
-                $this->notify("Running Cron Yearly Jobs");
+            $this->setLastRun('monthly');
+        }
 
-                try {
-                    $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event);
-                } catch (\Exception $e) {
-                    $this->handleError($e, CronEvents::CRON_YEARLY);
-                }
+        if (isExecutable(CronEvents::CRON_YEARLY)) {
+            $this->notify("Running Cron Yearly Jobs");
 
-                $this->setLastRun('yearly');
+            try {
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event);
+            } catch (\Exception $e) {
+                $this->handleError($e, CronEvents::CRON_YEARLY);
             }
+
+            $this->setLastRun('yearly');
         }
     }
 
@@ -136,6 +133,7 @@ class Cron extends Event
             if ($name == CronEvents::CRON_HOURLY && $this->interims['hourly'] < strtotime("-1 hour")) {
                 return true;
             } elseif (time() > $this->threshold) {
+                // Only check the running of these if we've passed our threshold hour today
                 if ($name == CronEvents::CRON_DAILY && $this->interims['hourly'] < strtotime("-1 day")) {
                     return true;
                 } elseif ($name == CronEvents::CRON_WEEKLY && $this->interims['hourly'] < strtotime("-1 week")) {
