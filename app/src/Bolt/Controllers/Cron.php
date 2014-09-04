@@ -229,25 +229,18 @@ class Cron extends Event
      */
     private function setLastRun($interim)
     {
-        // Get appropriate query string
-        if ($this->insert[$interim] === true) {
-            $query = "INSERT INTO {$this->tablename} " .
-            "(interim, lastrun) " .
-            "VALUES (:interim, :lastrun)";
-        } else {
-            $query = "UPDATE {$this->tablename} " .
-            "SET lastrun = :lastrun, lastrun = :lastrun " .
-            "WHERE interim = :interim ";
-        }
-
         // Define the mapping
         $map = array(
-            ':interim'  => $interim,
-            ':lastrun'   => $this->runtime,
+            'interim'  => $interim,
+            'lastrun'   => $this->runtime,
         );
 
-        // Write to db
-        $this->app['db']->executeUpdate($query, $map);
+        // Insert or update as required
+        if ($this->insert[$interim] === true) {
+            $this->app['db']->insert($this->tablename, $map);
+        } else {
+            $this->app['db']->update($this->tablename, $map, array('interim' => $interim));
+        }
     }
 
     /**
