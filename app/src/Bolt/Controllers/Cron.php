@@ -144,6 +144,8 @@ class Cron extends Event
         if ($this->output !== false) {
             $this->output->writeln("<info>{$msg}</info>");
         }
+
+        $this->app['log']->add($msg, 0, false, '');
     }
 
     /**
