@@ -220,5 +220,8 @@ class Cron extends Event
         $this->output->writeln('<error>    ' . $e->getMessage() . '</error>');
         $this->output->writeln('<error>Trace:</error>');
         $this->output->writeln('<error>' . $e->getTraceAsString() . '</error>');
+
+        // Application log
+        $this->app['log']->add('A ' . $interim . ' job failed', 2, false, substr($e->getTraceAsString(), 0, 1024));
     }
 }
