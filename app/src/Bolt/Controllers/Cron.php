@@ -133,7 +133,7 @@ class Cron extends Event
      */
     private function isExecutable($name)
     {
-        if ($this->param['single'] && $this->param['name'] == $name) {
+        if ($this->param['run'] && $this->param['event'] == $name) {
             return true;
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
             if ($name == CronEvents::CRON_HOURLY && $this->interims['hourly'] < strtotime("-1 hour")) {
