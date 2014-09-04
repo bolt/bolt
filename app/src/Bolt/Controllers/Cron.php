@@ -30,6 +30,7 @@ class Cron extends Event
 {
     private $app;
     private $output;
+    private $param;
     private $interims;
     private $insert;
     private $prefix;
@@ -38,10 +39,11 @@ class Cron extends Event
 
     public $lastruns = array();
 
-    public function __construct(Silex\Application $app, OutputInterface $output = null)
+    public function __construct(Silex\Application $app, OutputInterface $output = null, $param = false)
     {
         $this->app = $app;
         $this->output = $output;
+        $this->param = $param;
         $this->runtime = date("Y-m-d H:i:s", time());
         $this->interims = array('hourly' => 0, 'daily' => 0, 'weekly' => 0, 'monthly' => 0, 'yearly' => 0);
         $this->setTableName();

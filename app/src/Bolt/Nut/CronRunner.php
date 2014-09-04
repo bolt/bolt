@@ -21,6 +21,8 @@ class CronRunner extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $param = array();
+
         if ($input->getOption('single')) {
             $param['single'] = true;
         } else {
@@ -32,8 +34,7 @@ class CronRunner extends BaseCommand
             $param['name'] = $name;
         }
 
-        //$result = $this->app['cron']->execute($param);
-        $result = new Cron($this->app, $output);
+        $result = new Cron($this->app, $output, $param);
 
         if ($result) {
             $output->writeln("<info>Cron run!</info>");
