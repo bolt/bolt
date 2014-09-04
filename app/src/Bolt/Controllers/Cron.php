@@ -213,6 +213,12 @@ class Cron extends Event
         $this->app['db']->executeUpdate($query, $map);
     }
 
+    /**
+     * Provide feedback on exceptions in cron jobs
+     *
+     * @param \Exception $e       The passed exception
+     * @param string     $interim The cron handler name
+     */
     private function handleError(\Exception $e, $interim)
     {
         // Console feedback
