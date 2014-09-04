@@ -45,7 +45,7 @@ class BrowsePlugin implements PluginInterface
 
                 try {
                     $url = $this->filesystem->url($entry['path']);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $url = $entry['path'];
                 }
                 
