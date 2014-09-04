@@ -63,7 +63,7 @@ class Cron extends Event
         $event = new CronEvent($this->app, $this->output);
 
         // Process event listeners
-        if (isExecutable(CronEvents::CRON_HOURLY)) {
+        if ($this->isExecutable(CronEvents::CRON_HOURLY)) {
             $this->notify("Running Cron Hourly Jobs");
 
             try {
@@ -75,7 +75,7 @@ class Cron extends Event
             $this->setLastRun('hourly');
         }
 
-        if (isExecutable(CronEvents::CRON_DAILY)) {
+        if ($this->isExecutable(CronEvents::CRON_DAILY)) {
             $this->notify("Running Cron Daily Jobs");
 
             try {
@@ -87,7 +87,7 @@ class Cron extends Event
             $this->setLastRun('daily');
         }
 
-        if (isExecutable(CronEvents::CRON_WEEKLY)) {
+        if ($this->isExecutable(CronEvents::CRON_WEEKLY)) {
             $this->notify("Running Cron Weekly Jobs");
 
             try {
@@ -99,7 +99,7 @@ class Cron extends Event
             $this->setLastRun('weekly');
         }
 
-        if (isExecutable(CronEvents::CRON_MONTHLY)) {
+        if ($this->isExecutable(CronEvents::CRON_MONTHLY)) {
             $this->notify("Running Cron Monthly Jobs");
 
             try {
@@ -111,7 +111,7 @@ class Cron extends Event
             $this->setLastRun('monthly');
         }
 
-        if (isExecutable(CronEvents::CRON_YEARLY)) {
+        if ($this->isExecutable(CronEvents::CRON_YEARLY)) {
             $this->notify("Running Cron Yearly Jobs");
 
             try {
