@@ -1,0 +1,16 @@
+{% set sub = [
+    {
+        icon: 'cubes',
+        label: __('View / Install Extensions'),
+        link: url('extend', {}),
+        isallowed: 'extensions'
+    },
+    {
+        icon: 'cog',
+        label: __('Configure Extensions'),
+        link: url('files', {'namespace': 'config', 'path': 'extensions'}),
+        isallowed: 'extensions:config'
+    }
+] %}
+
+{{ nav.submenu('cubes', __('Extend '~app.config.get('general/branding/name')), sub, (page_nav == 'Settings/ExtendBolt')) }}
