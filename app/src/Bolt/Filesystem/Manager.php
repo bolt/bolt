@@ -17,11 +17,11 @@ class Manager extends MountManager
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->mountFilesystem('default', $app['resources']->getPath('files'));
-        $this->mountFilesystem('files', $app['resources']->getPath('files'));
-        $this->mountFilesystem('config', $app['resources']->getPath('config'));
-        $this->mountFilesystem('theme', $app['resources']->getPath('themebase'));
-        $this->mountFilesystem('extensions', $app['resources']->getPath('extensionspath').'/vendor');
+        $this->mount('default', $app['resources']->getPath('files'));
+        $this->mount('files', $app['resources']->getPath('files'));
+        $this->mount('config', $app['resources']->getPath('config'));
+        $this->mount('theme', $app['resources']->getPath('themebase'));
+        $this->mount('extensions', $app['resources']->getPath('extensionspath').'/vendor');
         $this->initManagers();
     }
 
@@ -62,7 +62,7 @@ class Manager extends MountManager
      *
      * @return void
      **/
-    public function mountFilesystem($prefix, $location)
+    public function mount($prefix, $location)
     {
         if (is_dir($location)) {
            return parent::mountFilesystem($prefix, new Filesystem(new FilesystemAdapter($location))); 
