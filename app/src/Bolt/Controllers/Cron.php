@@ -65,7 +65,13 @@ class Cron extends Event
         // Process event listeners
         if (isExecutable(CronEvents::CRON_HOURLY)) {
             $this->notify("Running Cron Hourly Jobs");
-            $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $event);
+
+            try {
+                $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $event);
+            } catch (\Exception $e) {
+                $this->handleError($e, CronEvents::CRON_HOURLY);
+            }
+
             $this->setLastRun('hourly');
         }
 
