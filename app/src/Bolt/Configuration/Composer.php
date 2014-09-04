@@ -3,6 +3,7 @@ namespace Bolt\Configuration;
 
 use Bolt\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Composer\Autoload\ClassLoader;
 
 class Composer extends Standard
 {
@@ -42,5 +43,12 @@ class Composer extends Standard
         }
 
         return $this->verifier;
+    }
+
+    public function useLoader(ClassLoader $loader)
+    {
+        $this->classLoader = $loader;
+        $app = dirname($loader->findFile('Bolt\\Application'));
+        $this->root = realpath($app . '/../../../../../../');
     }
 }
