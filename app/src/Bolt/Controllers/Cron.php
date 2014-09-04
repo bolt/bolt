@@ -226,7 +226,7 @@ class Cron extends Event
         // Console feedback
         $this->output->writeln('<error>A ' . $interim . ' job failed. The exception returned was:</error>');
         $this->output->writeln('<error>    ' . $e->getMessage() . '</error>');
-        $this->output->writeln('<error>Trace:</error>');
+        $this->output->writeln('<error>Backtrace:</error>');
         $this->output->writeln('<error>' . $e->getTraceAsString() . '</error>');
 
         // Application log
