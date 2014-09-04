@@ -207,11 +207,10 @@ class Cron extends Event
             $query =
                 "SELECT lastrun " .
                 "FROM {$this->tablename} " .
-                "WHERE interim = '{$interim}' " .
-                "ORDER BY lastrun DESC " .
-                "LIMIT 1 ";
+                "WHERE interim = :interim " .
+                "ORDER BY lastrun DESC";
 
-            $result = $this->app['db']->fetchAll($query);
+            $result = $this->app['db']->fetchAssoc($query, array('interim' => $interim));
 
             // If we get an empty result for the interim, set it to the current
             // run time and notify the update method to do an INSERT rather than
@@ -219,7 +218,7 @@ class Cron extends Event
             if (empty($result)) {
                 $this->insert[$interim] = true;
             } else {
-                $this->interims[$interim] = strtotime($result[0]['lastrun']);
+                $this->interims[$interim] = strtotime($result['lastrun']);
                 $this->insert[$interim] = false;
             }
         }
