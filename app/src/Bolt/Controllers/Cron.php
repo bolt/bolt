@@ -215,6 +215,10 @@ class Cron extends Event
 
     private function handleError(\Exception $e, $interim)
     {
-        $this->output->writeln('<error>' . $e->getMessage() . '</error>');
+        // Console feedback
+        $this->output->writeln('<error>A ' . $interim . ' job failed. The exception returned was:</error>');
+        $this->output->writeln('<error>    ' . $e->getMessage() . '</error>');
+        $this->output->writeln('<error>Trace:</error>');
+        $this->output->writeln('<error>' . $e->getTraceAsString() . '</error>');
     }
 }
