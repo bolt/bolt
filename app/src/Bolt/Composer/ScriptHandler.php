@@ -39,6 +39,21 @@ class ScriptHandler
             $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');
         }
     }
+     
+    
+    public static function extensions($event) {
+        $installedPackage = $event->getOperation()->getPackage();
+        $root = $event->getComposer();
+        $extra = $installedPackage->getExtra();
+        $type = $installedPackage->getType();
+        print_r($installedPackage);
+        print_r($root);
+        print_r($event);
+        if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
+            $assetdir = $extra['bolt-assets'];
+            
+        }
+    }
 
     protected static function getOptions($event)
     {
