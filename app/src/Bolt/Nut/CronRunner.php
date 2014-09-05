@@ -12,29 +12,28 @@ class CronRunner extends BaseCommand
 {
     protected function configure()
     {
+        $interims = array('  - cron.Hourly', '  - cron.Daily', '  - cron.Weekly', '  - cron.Monthly', '  - cron.Yearly');
         $this
             ->setName('cron')
             ->setDescription('Cron virtual daemon')
-            ->addOption('single', null, InputOption::VALUE_NONE, 'If set, tell Bolt cron to run a single task')
-            ->addArgument('name', InputArgument::OPTIONAL, 'Name of task to run');
+            ->addOption('run', null, InputOption::VALUE_REQUIRED, "Run a particular interim's jobs:\n" . implode("\n", $interims));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('single')) {
-            $param['single'] = true;
+        if ($input->getOption('run')) {
+            $param = array(
+                'run' => true,
+                'event' => $input->getOption('run')
+            );
         } else {
-            $param['single'] = false;
+            $param = array(
+                'run' => false,
+                'event' => ''
+            );
         }
 
-        $name = $input->getArgument('name');
-        if ($name) {
-            $param['name'] = $name;
-        }
-
-        //$result = $this->app['cron']->execute($param);
-        $result = new Cron($this->app, $output);
-
+        $result = new Cron($this->app, $output, $param);
         if ($result) {
             $output->writeln("<info>Cron run!</info>");
         }
