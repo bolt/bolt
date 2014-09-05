@@ -52,7 +52,6 @@ class ScriptHandler
             // Get the path from extensions base through to public
             $parts = array(getcwd(),$pathToPublic,"extensions",'vendor',$installedPackage->getName());
             $path = join(DIRECTORY_SEPARATOR, $parts);
-            echo $path; exit;
             if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
                 $fromParts = array(getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']);
                 $fromPath = join(DIRECTORY_SEPARATOR, $fromParts);
