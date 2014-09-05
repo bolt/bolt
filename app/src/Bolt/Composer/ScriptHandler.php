@@ -49,6 +49,7 @@ class ScriptHandler
         print_r($installedPackage);
         print_r($root);
         print_r($event);
+        exit;
         if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
             $assetdir = $extra['bolt-assets'];
             
