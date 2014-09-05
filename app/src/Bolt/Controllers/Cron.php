@@ -71,25 +71,49 @@ class Cron extends Event
         if (time() > $this->threshold) {
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_DAILY) && $this->interims['daily'] < strtotime("-1 day")) {
                 $this->notify("Running Cron Daily Jobs");
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event);
+
+                try {
+                    $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event);
+                } catch (\Exception $e) {
+                    $this->handleError($e, CronEvents::CRON_DAILY);
+                }
+
                 $this->setLastRun('daily');
             }
 
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_WEEKLY) && $this->interims['weekly'] < strtotime("-1 week")) {
                 $this->notify("Running Cron Weekly Jobs");
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event);
+
+                try {
+                    $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event);
+                } catch (\Exception $e) {
+                    $this->handleError($e, CronEvents::CRON_WEEKLY);
+                }
+
                 $this->setLastRun('weekly');
             }
 
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_MONTHLY) && $this->interims['monthly'] < strtotime("-1 month")) {
                 $this->notify("Running Cron Monthly Jobs");
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event);
+
+                try {
+                    $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event);
+                } catch (\Exception $e) {
+                    $this->handleError($e, CronEvents::CRON_MONTHLY);
+                }
+
                 $this->setLastRun('monthly');
             }
 
             if ($this->app['dispatcher']->hasListeners(CronEvents::CRON_YEARLY) && $this->interims['yearly'] < strtotime("-1 year")) {
                 $this->notify("Running Cron Yearly Jobs");
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event);
+
+                try {
+                    $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event);
+                } catch (\Exception $e) {
+                    $this->handleError($e, CronEvents::CRON_YEARLY);
+                }
+
                 $this->setLastRun('yearly');
             }
         }
@@ -120,6 +144,8 @@ class Cron extends Event
         if ($this->output !== false) {
             $this->output->writeln("<info>{$msg}</info>");
         }
+
+        $this->app['log']->add($msg, 0, false, '');
     }
 
     /**
@@ -187,5 +213,23 @@ class Cron extends Event
 
         // Write to db
         $this->app['db']->executeUpdate($query, $map);
+    }
+
+    /**
+     * Provide feedback on exceptions in cron jobs
+     *
+     * @param \Exception $e       The passed exception
+     * @param string     $interim The cron handler name
+     */
+    private function handleError(\Exception $e, $interim)
+    {
+        // Console feedback
+        $this->output->writeln('<error>A ' . $interim . ' job failed. The exception returned was:</error>');
+        $this->output->writeln('<error>    ' . $e->getMessage() . '</error>');
+        $this->output->writeln('<error>Backtrace:</error>');
+        $this->output->writeln('<error>' . $e->getTraceAsString() . '</error>');
+
+        // Application log
+        $this->app['log']->add('A ' . $interim . ' job failed', 2, false, substr($e->getTraceAsString(), 0, 1024));
     }
 }

@@ -107,7 +107,7 @@ class CronEvent extends Event
     private function notify($msg)
     {
         if ($this->output !== false) {
-            $this->output->writeln("<info>    {$msg}</info>");
+            $this->output->writeln("<comment>    {$msg}</comment>");
         }
     }
 }
