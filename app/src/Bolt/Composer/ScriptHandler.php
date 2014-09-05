@@ -43,13 +43,16 @@ class ScriptHandler
     
     public static function extensions($event) {
         $installedPackage = $event->getOperation()->getPackage();
-        $root = $event->getComposer();
+        $rootExtra = $event->getComposer()->getExtra();
         $extra = $installedPackage->getExtra();
         $type = $installedPackage->getType();
-        print_r($installedPackage);
-        print_r($root);
-        print_r($event);
-        exit;
+        $pathToPublic = $rootExtra['bolt-web-path'];
+        print_r($installedPackage); exit;
+        
+        // Get the path from extensions base through to public
+        $parts = array(getcwd(),$pathToPublic,"extensions",'vendor');
+        $path = join(DIRECTORY_SEPARATOR, $parts);
+        
         if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
             $assetdir = $extra['bolt-assets'];
             
