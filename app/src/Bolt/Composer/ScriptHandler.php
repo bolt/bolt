@@ -55,6 +55,13 @@ class ScriptHandler
             $filesystem->mkdir($webDir . '/extensions/', $dirMode);
         }
         
+        // Now we handle the app directory creation
+        $appDir = $options['bolt-app-dir'];
+        if (!$filesystem->exists($appDir)) {
+            $filesystem->mkdir($appDir, $dirMode);
+        }      
+
+        
         
         
     }
@@ -85,6 +92,7 @@ class ScriptHandler
         $options = array_merge(
             array(
                 'bolt-web-dir' => 'web',
+                'bolt-app-dir' => 'app',
                 'bolt-dir-mode' => 0777
             ),
             $event->getComposer()->getPackage()->getExtra()
