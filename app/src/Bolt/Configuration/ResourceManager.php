@@ -329,21 +329,24 @@ class ResourceManager
     
         // Find how far the path is the same
         while ( isset($from[$i]) && isset($to[$i]) ) {
-            if ( $from[$i] != $to[$i] ) break;
-                $i++;
+            if ( $from[$i] != $to[$i] ) {
+                break;
             }
-            $j = count($from) - 1;
-            
-            // Add '..' until the path is the same
-            while ( $i <= $j ) {
-                if ( !empty($from[$j]) ) {
-                    $relpath .= '..'.DIRECTORY_SEPARATOR;
-                }
-                $j--;
-            }
+            $i++;
+        }
         
-            // Go to folder from where it starts differing
-            while ( isset($to[$i]) ) {
+        $j = count($from) - 1;
+            
+        // Add '..' until the path is the same
+        while ( $i <= $j ) {
+            if ( !empty($from[$j]) ) {
+                $relpath .= '..'.DIRECTORY_SEPARATOR;
+            }
+            $j--;
+        }
+        
+        // Go to folder from where it starts differing
+        while ( isset($to[$i]) ) {
             if ( !empty($to[$i]) ) {
                 $relpath .= $to[$i].DIRECTORY_SEPARATOR;
             }
