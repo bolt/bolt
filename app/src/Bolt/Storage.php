@@ -612,7 +612,7 @@ class Storage
             // Block dispatcher loops
             $this->inDispatcher = true;
 
-            $event = new StorageEvent($content);
+            $event = new StorageEvent($content, $create);
             $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
 
             // Re-enable the dispather
@@ -729,7 +729,7 @@ class Storage
             // Block loops
             $this->inDispatcher = true;
 
-            $event = new StorageEvent($content);
+            $event = new StorageEvent($content, $create);
             $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
 
             // Re-enable the dispather
