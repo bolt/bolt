@@ -11,13 +11,16 @@ class ComposerChecks extends LowlevelChecks
 {
     
     public $composerSuffix = <<< EOM
-    </strong></p><p>When using Bolt as a Composer package ensure you have taken the following steps:</p>
+    </strong></p><p>When using Bolt as a Composer package it will need to have access to the following folders:</p>
     <ol>
-        <li>Create a local, writable config directory: <code>mkdir -p app/config && chmod -R 0777 app/config</code></li>
-        <li>For a default SQLite install, create a local, writable directory: <code>mkdir -p app/database && chmod -R 0777 app/database</code></li>
-        <li>Create a local, writable cache directory: <code>mkdir -p app/cache && chmod -R 0777 app/cache</code></li>
-        <li>Create a local, writable extensions directory: <code>mkdir -p extensions && chmod -R 0777 extensions</code></li>
-    </ol><strong>
+        <li class="status-%s">A writable config directory at: <code>%s</code></li>
+        <li class="status-%s">For a default SQLite install, a writable directory at: <code>%s</code></li>
+        <li class="status-%s">A writable cache directory at: <code>%s</code></li>
+        <li class="status-%s">A writable extensions directory at: <code>%s</code></li>
+        <li class="status-%s">A writable extensions assets directory at: <code>%s</code></li>
+    </ol>
+    <p>If any of the above are failing, create the folder and make it writable to the web server.</p>
+    <strong>
 EOM;
 
 
@@ -31,6 +34,7 @@ EOM;
     {
         parent::__construct($config);
         $this->addCheck('extensions', true);
+        $this->addCheck('publicAssets', true);
         $this->addCheck('database', true);
         $this->addCheck('config', true);
     }
@@ -57,6 +61,34 @@ EOM;
         $this->checkDir($this->config->getPath('extensions'));
     }
     
+    public function checkPublicAssets()
+    {                    
+        $this->checkDir($this->config->getPath('public')."/extensions");
+    }
+    
+    protected function checkSummary()
+    {
+        $status = array();
+        $checks = array(
+            $this->config->getPath('config'),
+            $this->config->getPath('database'),
+            $this->config->getPath('cache'),
+            $this->config->getPath('extensions'),
+            $this->config->getPath('public')."/extensions"
+        );
+        foreach($checks as $check) {
+            $dir = $this->config->getPath($check);
+            if(is_readable($dir) && is_writable($dir)) {
+                $status[] = 'ok';
+                $status[] = $dir;
+            } else {
+                $status[] = 'error';
+                $status[] = $dir;
+            }
+        }
+        return sprintf($this->composerSuffix,$status);        
+    }
+    
     
     protected function checkDir($location)
     {
@@ -64,11 +96,11 @@ EOM;
             throw new LowlevelException(
                 "The default folder <code>" . $location . 
                 "</code> doesn't exist. Make sure it's " .
-                "present and writable to the user that the webserver is using.". $this->composerSuffix);
+                "present and writable to the user that the webserver is using.". $this->checkSummary());
         } elseif (!is_writable($location)) {
             throw new LowlevelException(
                 "The default folder <code>" . $location . 
-                "</code> isn't writable. Make sure it's writable to the user that the webserver is using.".$this->composerSuffix
+                "</code> isn't writable. Make sure it's writable to the user that the webserver is using.".$this->checkSummary()
             );
         }
     }

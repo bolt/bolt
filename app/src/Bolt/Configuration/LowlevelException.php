@@ -21,6 +21,8 @@ class LowlevelException extends \Exception
         ul, ol {padding: 0px;margin: 0px 0px 10px 25px;}
         hr{margin:20px 0;border:0;border-top:1px solid #eeeeee;border-bottom:1px solid #ffffff;}
         .hide{display:none;}
+        .status-ok {background-color:#3C763D;color:white}
+        .status-error {background-color:#A94442;color:white;}
     </style>
 </head>
 <body style="padding: 20px;">
