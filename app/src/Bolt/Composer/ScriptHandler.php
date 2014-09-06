@@ -38,6 +38,14 @@ class ScriptHandler
         if (!$filesystem->exists($webDir . '/files/')) {
             $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');
         }
+        
+        if (!$filesystem->exists($webDir . '/extensions/')) {
+            $filesystem->mkdir($webDir . '/extensions/', $dirMode);
+        }
+        
+        if (!$filesystem->exists($webDir . '/theme/')) {
+            $filesystem->mkdir($webDir . '/theme/', $dirMode);
+        }
     }
      
     
