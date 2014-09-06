@@ -69,6 +69,7 @@ EOM;
     protected function checkSummary()
     {
         $status = array();
+        $status[] = $this->composerSuffix;
         $checks = array(
             $this->config->getPath('config'),
             $this->config->getPath('database'),
@@ -85,7 +86,7 @@ EOM;
                 $status[] = $check;
             }
         }
-        return sprintf($this->composerSuffix,$status);        
+        return call_user_func_array('sprintf', $status);
     }
     
     
