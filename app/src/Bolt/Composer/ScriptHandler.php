@@ -39,13 +39,22 @@ class ScriptHandler
             $filesystem->mirror(__DIR__ . '/../../../../files', $webDir . '/files');
         }
         
+        if (!$filesystem->exists($webDir . '/theme/')) {
+            $filesystem->mkdir($webDir . '/theme/', $dirMode);
+        }
+        
+        // The first check handles the case where the bolt-web-dir is different to the root.
+        // If thie first works, then the second won't need to run 
+        if (!$filesystem->exists(getcwd() . '/extensions/')) {
+            $filesystem->mkdir(getcwd() . '/extensions/', $dirMode);
+        }
+        
         if (!$filesystem->exists($webDir . '/extensions/')) {
             $filesystem->mkdir($webDir . '/extensions/', $dirMode);
         }
         
-        if (!$filesystem->exists($webDir . '/theme/')) {
-            $filesystem->mkdir($webDir . '/theme/', $dirMode);
-        }
+        
+        
     }
      
     
