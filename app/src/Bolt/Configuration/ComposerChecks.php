@@ -92,6 +92,11 @@ EOM;
     
     protected function checkDir($location)
     {
+        // As a last resort we can try to create the directory here:
+        if(!is_dir($location)) {
+            @mkdir($location, 0777, true);
+        }
+        
         if (!is_dir($location)) {
             throw new LowlevelException(
                 "The default folder <code>" . $location . 
