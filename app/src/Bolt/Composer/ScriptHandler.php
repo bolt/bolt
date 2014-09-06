@@ -30,7 +30,7 @@ class ScriptHandler
         $filesystem = new Filesystem();
         $filesystem->remove($targetDir);
         $filesystem->mkdir($targetDir, $dirMode);
-        //$filesystem->mkdir($targetDir, $dirMode);
+
         foreach (array('css', 'fonts', 'img', 'js', 'lib') as $dir) {
             $filesystem->mirror(__DIR__ . '/../../../view/' . $dir, $targetDir . '/view/' . $dir);
         }
