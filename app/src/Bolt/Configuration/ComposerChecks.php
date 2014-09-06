@@ -77,13 +77,12 @@ EOM;
             $this->config->getPath('web')."/extensions"
         );
         foreach($checks as $check) {
-            $dir = $this->config->getPath($check);
-            if(is_readable($dir) && is_writable($dir)) {
+            if(is_readable($check) && is_writable($check)) {
                 $status[] = 'ok';
-                $status[] = $dir;
+                $status[] = $check;
             } else {
                 $status[] = 'error';
-                $status[] = $dir;
+                $status[] = $check;
             }
         }
         return sprintf($this->composerSuffix,$status);        
