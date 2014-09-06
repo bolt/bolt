@@ -63,7 +63,7 @@ EOM;
     
     public function checkPublicAssets()
     {                    
-        $this->checkDir($this->config->getPath('public')."/extensions");
+        $this->checkDir($this->config->getPath('web')."/extensions");
     }
     
     protected function checkSummary()
@@ -74,7 +74,7 @@ EOM;
             $this->config->getPath('database'),
             $this->config->getPath('cache'),
             $this->config->getPath('extensions'),
-            $this->config->getPath('public')."/extensions"
+            $this->config->getPath('web')."/extensions"
         );
         foreach($checks as $check) {
             $dir = $this->config->getPath($check);
