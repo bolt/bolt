@@ -14,7 +14,7 @@ class ScriptHandler
     {
         $options = self::getOptions($event);
         $webDir = $options['bolt-web-dir'];
-        $dirMode = isset($options['bolt-dir-mode']) ? $options['bolt-dir-mode'] : 0777 ;
+        $dirMode = $options['bolt-dir-mode'];
         if (is_string($dirMode)) {
             $dirMode = octdec($dirMode);
         }
