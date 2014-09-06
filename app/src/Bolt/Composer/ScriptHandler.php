@@ -18,6 +18,8 @@ class ScriptHandler
         if (is_string($dirMode)) {
             $dirMode = octdec($dirMode);
         }
+        
+        umask(0777 - $dirMode);
 
         if (!is_dir($webDir)) {
             echo 'The bolt-web-dir (' . $webDir . ') specified in composer.json was not found in ' . getcwd() . ', can not install assets.' . PHP_EOL;
