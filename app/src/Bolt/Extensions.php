@@ -78,14 +78,14 @@ class Extensions
      * @var array
      */
     private $initialized;
-    
+
     /**
      * Contains json of loaded extensions.
      *
      * @var array
      */
     public $composer;
-    
+
 
     public function __construct(Application $app)
     {
@@ -224,8 +224,6 @@ class Extensions
                 $extension->initialize();
                 $this->initialized[$name] = $extension;
             } catch (\Exception $e) {
-                $path = str_replace($app['resources']->getPath('extensions'), '', $file);
-                $app->redirect($app["url_generator"]->generate("repair", array('package'=>$name)));
             }
 
             // Check if (instead, or on top of) initialize, the extension has a 'getSnippets' method
