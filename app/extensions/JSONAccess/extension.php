@@ -10,7 +10,7 @@ namespace JSONAccess;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Extension extends \Bolt\BaseExtension
+class Extension extends \Bolt\AbstractExtension
 {
     public function info()
     {

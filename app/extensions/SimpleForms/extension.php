@@ -10,7 +10,7 @@ namespace SimpleForms;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Filesystem\Filesystem;
 
-class Extension extends \Bolt\BaseExtension
+class Extension extends \Bolt\AbstractExtension
 {
     private $global_fields;
     private $text_labels;

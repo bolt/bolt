@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Bolt\Controllers\Cron;
 
-class CronRunner extends BaseCommand
+class CronRunner extends AbstractCommand
 {
     protected function configure()
     {

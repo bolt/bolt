@@ -2,7 +2,7 @@
 
 namespace Bolt\Filesystem;
 
-class PublicUrlPlugin extends AdapterPlugin
+class PublicUrlPlugin extends AbstractAdapterPlugin
 {
 
     public function getMethod()

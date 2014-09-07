@@ -5,7 +5,7 @@ namespace Bolt\Nut;
 use Bolt\Application;
 use Symfony\Component\Console\Command\Command;
 
-abstract class BaseCommand extends Command
+abstract class AbstractCommand extends Command
 {
     protected $app;
 

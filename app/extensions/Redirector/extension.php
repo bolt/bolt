@@ -7,11 +7,11 @@
 
 namespace Redirector;
 
-use Bolt\BaseExtension;
+use Bolt\AbstractExtension;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-class Extension extends BaseExtension
+class Extension extends AbstractExtension
 {
     public $wildcards = array(
         'all' => '.*',

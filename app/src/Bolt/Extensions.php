@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
-use Bolt\Extensions\BaseExtensionInterface;
+use Bolt\Extensions\ExtensionInterface;
 use Bolt\Configuration\LowlevelException;
 
 class Extensions
@@ -155,7 +155,7 @@ class Extensions
      *
      * @return void
      **/
-    public function register(BaseExtensionInterface $extension)
+    public function register(ExtensionInterface $extension)
     {
         $name = $extension->getName();
         $this->app['extensions.'.$name] = $extension;

@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Dumper as YamlDumper,
     Symfony\Component\Yaml\Exception\ParseException;
 
 class MenuEditorException extends \Exception {};
-class Extension extends \Bolt\BaseExtension
+class Extension extends \Bolt\AbstractExtension
 {
     private $authorized = false;
     private $backupDir;

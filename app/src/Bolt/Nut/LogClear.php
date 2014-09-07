@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class LogClear extends BaseCommand
+class LogClear extends AbstractCommand
 {
     protected function configure()
     {

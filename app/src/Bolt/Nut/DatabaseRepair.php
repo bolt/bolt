@@ -5,7 +5,7 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DatabaseRepair extends BaseCommand
+class DatabaseRepair extends AbstractCommand
 {
     protected function configure()
     {

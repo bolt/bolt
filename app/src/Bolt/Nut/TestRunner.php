@@ -5,7 +5,7 @@ namespace Bolt\Nut;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TestRunner extends BaseCommand
+class TestRunner extends AbstractCommand
 {
     protected function configure()
     {
