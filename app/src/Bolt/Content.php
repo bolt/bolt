@@ -257,7 +257,7 @@ class Content implements \ArrayAccess
         // to do this.
         if (isset($values['ownerid'])) {
             if ($this['ownerid'] != $values['ownerid']) {
-                if (!$this->app['users']->isAllowed("contenttype:$contenttype:change-ownership:{$this->id}")) {
+                if (!$this->app['users']->isAllowed("contenttype:{$contenttype['slug']}:change-ownership:{$this->id}")) {
                     throw new \Exception("Changing ownership is not allowed.");
                 }
                 $this['ownerid'] = intval($values['ownerid']);
