@@ -63,6 +63,9 @@ return call_user_func(function ()
     $config->verify();
     $config->compat();
 
+    // Class aliases for backwards compatibility
+    class_alias('Bolt\AbstractExtension', 'Bolt\BaseExtension');
+
     // Create the 'Bolt application'
     $app = new Application(array(
         'resources' => $config
