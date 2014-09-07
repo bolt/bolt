@@ -1528,9 +1528,6 @@ class Backend implements ControllerProviderInterface
         if (is_readable($basename . '.yml')) {
             $filegroup[] = basename($basename . '.yml');
         }
-        if (is_readable($basename . '.yml.dist')) {
-            $filegroup[] = basename($basename . '.yml.dist');
-        }
         if (is_readable($basename . '_local.yml')) {
             $filegroup[] = basename($basename . '_local.yml');
         }
