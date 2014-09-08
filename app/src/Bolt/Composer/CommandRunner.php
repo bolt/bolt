@@ -242,9 +242,9 @@ class CommandRunner
         if (isset($this->app['extensions']->composer[$name])) {
             $paths = $this->app['resources']->getPaths();
             if (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/README.md' )) {
-                $pack['readme'] = $pack['names'] . '/README.md';
+                $pack['readme'] = $pack['name'] . '/README.md';
             } elseif (is_readable($paths['extensionspath'] . '/vendor/' . $pack['name'] . '/readme.md' )) {
-                $pack['readme'] = $pack['names'] . '/readme.md';
+                $pack['readme'] = $pack['name'] . '/readme.md';
             }
         }
 
