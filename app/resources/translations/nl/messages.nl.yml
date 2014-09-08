@@ -24,7 +24,6 @@
 "Please confirm that you wish to restore the menu":  #
 "Please make sure that the MenuEditor/backups folder is writeable by your webserver or disable the backup-feature in config.yml":  #
 "Please make sure that there is a MenuEditor/backups folder or disable the backup-feature in config.yml":  #
-"Remove from menu":  #
 "Restore %filename%":  #
 "Select an item to add":  #
 "Something went wrong":  #
