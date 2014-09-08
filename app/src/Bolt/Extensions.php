@@ -805,7 +805,7 @@ class Extensions
      * Add a menu option to the 'settings' menu. Note that the item is only added if the current user
      * meets the required permission.
      *
-     * @see \Bolt\BaseExtension\addMenuOption()
+     * @see \Bolt\AbstractExtension\addMenuOption()
      *
      * @param string $label
      * @param string $path
